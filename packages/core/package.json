@@ -1,0 +1,42 @@
+{
+  "name": "@kamod-ui/core",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "lint": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "preact": "^10.26.0"
+  },
+  "dependencies": {
+    "@preact/signals": "^2.0.1",
+    "clsx": "^2.1.1",
+    "embla-carousel": "^8.6.0",
+    "embla-carousel-autoplay": "^8.6.0",
+    "tailwind-merge": "^3.3.1",
+    "tailwind-variants": "^3.1.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.8.0",
+    "@testing-library/preact": "^3.2.4",
+    "jsdom": "^26.1.0",
+    "tailwindcss": "^4.1.11",
+    "tsup": "^8.5.0",
+    "vitest": "^3.2.4"
+  }
+}

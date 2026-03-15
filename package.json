@@ -1,0 +1,23 @@
+{
+  "name": "kamod-ui",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "pnpm -r build",
+    "test": "pnpm --filter @kamod-ui/core test",
+    "test:e2e": "pnpm --filter demo test:e2e",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "pnpm -r lint",
+    "dev": "pnpm --filter demo dev",
+    "qa:themes": "pnpm --filter demo qa:themes",
+    "mc:sync-inbox": "node scripts/mission-control-sync-inbox.mjs",
+    "mc:sync-inbox:no-cloud-agent": "KAMOD_CURSOR_CLOUD_AGENT=0 node scripts/mission-control-sync-inbox.mjs",
+    "mc:sync-inbox:cli-agent": "KAMOD_CURSOR_CLI_AGENT=1 KAMOD_CURSOR_CLOUD_AGENT=0 node scripts/mission-control-sync-inbox.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "typescript": "^5.9.2"
+  },
+  "packageManager": "pnpm@10.12.4"
+}

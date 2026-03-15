@@ -1,0 +1,31 @@
+import { Dialog } from "./Dialog";
+import { DialogClose } from "./DialogClose";
+import { DialogContent } from "./DialogContent";
+import { DialogDescription } from "./DialogDescription";
+import { DialogFooter } from "./DialogFooter";
+import { DialogHeader } from "./DialogHeader";
+import { DialogTitle } from "./DialogTitle";
+import { DialogTrigger } from "./DialogTrigger";
+
+export {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+};
+export type { DialogContentPresentation } from "./DialogContent";
+
+export default {
+  Root: Dialog,
+  Trigger: DialogTrigger,
+  Content: DialogContent,
+  Header: DialogHeader,
+  Footer: DialogFooter,
+  Title: DialogTitle,
+  Description: DialogDescription,
+  Close: DialogClose
+};

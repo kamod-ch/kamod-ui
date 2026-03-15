@@ -1,0 +1,15 @@
+node_modules
+dist
+.DS_Store
+.idea
+.vscode
+coverage
+*.log
+/tmp
+.autopilot
+.cursor
+proofshot-artifacts/
+data_old/
+inbox/
+scripts_old/
+.github/
