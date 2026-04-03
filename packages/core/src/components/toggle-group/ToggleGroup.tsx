@@ -24,7 +24,7 @@ export const useToggleGroup = () => {
 };
 
 const toggleGroup = tv({
-  base: "inline-flex items-center justify-center gap-1",
+  base: "inline-flex items-center justify-center",
   variants: {
     orientation: {
       horizontal: "flex-row items-center",
@@ -32,9 +32,9 @@ const toggleGroup = tv({
     },
     spacing: {
       none: "gap-0",
-      sm: "gap-1",
-      default: "gap-1.5",
-      lg: "gap-2"
+      sm: "gap-0.5",
+      default: "gap-1",
+      lg: "gap-1.5"
     }
   },
   defaultVariants: {

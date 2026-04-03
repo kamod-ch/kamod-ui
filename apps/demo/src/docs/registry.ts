@@ -41,7 +41,6 @@ import { popoverDocPage } from "./pages/popover-doc";
 import { progressDocPage } from "./pages/progress-doc";
 import { proseDocPage } from "./pages/prose-doc";
 import { radioGroupDocPage } from "./pages/radio-group-doc";
-import { resizableDocPage } from "./pages/resizable-doc";
 import { scrollAreaDocPage } from "./pages/scroll-area-doc";
 import { selectDocPage } from "./pages/select-doc";
 import { sonnerDocPage } from "./pages/sonner-doc";
@@ -110,7 +109,6 @@ export const docsPages: DocPageModule[] = [
   progressDocPage,
   proseDocPage,
   radioGroupDocPage,
-  resizableDocPage,
   scrollAreaDocPage,
   selectDocPage,
   sonnerDocPage,
@@ -202,7 +200,6 @@ export const componentOverviewItems: ComponentOverviewItem[] = [
   { label: "Prose", slug: "prose" },
   { label: "Progress", slug: "progress" },
   { label: "Radio Group", slug: "radio-group" },
-  { label: "Resizable", slug: "resizable" },
   { label: "Scroll Area", slug: "scroll-area" },
   { label: "Select", slug: "select" },
   { label: "Sonner", slug: "sonner" },

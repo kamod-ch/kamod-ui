@@ -22,6 +22,8 @@ type GenericDocPageConfig = {
     renderPreview: () => ComponentChildren;
   };
   usageText: string;
+  /** Merged onto every Preview tab shell (e.g. overflow for focus rings). */
+  previewChromeClass?: string;
   exampleSections: Array<{
     id: string;
     title: string;
@@ -48,6 +50,8 @@ export const createGenericDocPage = (config: GenericDocPageConfig): DocPageModul
     return acc;
   }, {});
 
+  const previewTabClass = ["data-[chromeless=true]:h-auto", config.previewChromeClass].filter(Boolean).join(" ");
+
   const renderSectionExtraContent = (
     sectionId: string,
     renderPreviewAndCodeTabs: (args: {
@@ -60,7 +64,7 @@ export const createGenericDocPage = (config: GenericDocPageConfig): DocPageModul
       return renderPreviewAndCodeTabs({
         preview: config.installationExample.renderPreview(),
         codeSnippet: config.installationExample.code,
-        previewClass: "data-[chromeless=true]:h-auto"
+        previewClass: previewTabClass
       });
     }
 
@@ -68,7 +72,7 @@ export const createGenericDocPage = (config: GenericDocPageConfig): DocPageModul
       return renderPreviewAndCodeTabs({
         preview: examplePreviewBySection[sectionId]?.() ?? null,
         codeSnippet: exampleCodeBySection[sectionId],
-        previewClass: "data-[chromeless=true]:h-auto"
+        previewClass: previewTabClass
       });
     }
 
@@ -107,7 +111,7 @@ export const createGenericDocPage = (config: GenericDocPageConfig): DocPageModul
         {context.renderPreviewAndCodeTabs({
           preview: examplePreviewBySection[config.exampleSections[0]?.id]?.() ?? null,
           codeSnippet: heroCodeSnippet,
-          previewClass: "data-[chromeless=true]:h-auto"
+          previewClass: previewTabClass
         })}
         {context.sections.map((docSection) => (
           <section key={docSection.id} id={docSection.id} class="docs-section">

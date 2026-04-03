@@ -487,6 +487,8 @@ const HearAboutUsChips = () => {
         return (
           <label
             key={id}
+            data-slot="kitchen-hear-about-chip"
+            data-state={checked ? "checked" : "unchecked"}
             class={`inline-flex cursor-pointer items-center gap-1 rounded-full border px-2 py-0.5 text-xs font-medium transition-colors select-none ${
               checked ? "border-border bg-muted text-foreground" : "border-border/60 bg-background text-foreground"
             }`}
@@ -500,6 +502,7 @@ const HearAboutUsChips = () => {
             />
             {checked ? (
               <span
+                data-slot="kitchen-hear-about-chip-indicator"
                 class="flex size-3 shrink-0 items-center justify-center rounded-full bg-foreground text-background"
                 aria-hidden="true"
               >
@@ -905,19 +908,6 @@ export const KitchenSinkPage = () => (
         <ThemeToggle class="docs-topbar-theme-toggle">
           <SunMoon />
         </ThemeToggle>
-      </>
-    }
-    leftSidebar={
-      <>
-        <h2>Components</h2>
-        <nav aria-label="Docs navigation">
-          {sortedDocPages.map((doc) => (
-            <a key={doc.slug} href={docFirstSectionHref(doc.slug)} class="docs-nav-button">
-              {doc.title}
-              {docsUpdatedComponentSlugs.has(doc.slug) ? <Badge variant="success">updated</Badge> : null}
-            </a>
-          ))}
-        </nav>
       </>
     }
     mainContent={

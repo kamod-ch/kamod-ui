@@ -1,0 +1,656 @@
+/**
+ * Watson design tokens (Tailwind v4 @theme + preset)
+ * Reference palette aligned with Terra Nova / uison-style tokens.
+ */
+
+/* nunito-sans-latin-wght-normal */
+@font-face {
+  font-family: "Nunito Sans";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 200 1000;
+  src: url(https://cdn.jsdelivr.net/npm/@fontsource-variable/nunito-sans/files/nunito-sans-latin-wght-normal.woff2)
+    format("woff2-variations");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* onest-latin-wght-normal */
+@font-face {
+  font-family: Onest;
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url(https://cdn.jsdelivr.net/npm/@fontsource-variable/onest/files/onest-latin-wght-normal.woff2)
+    format("woff2-variations");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@theme {
+  /* Watson primary */
+  --color-watson_pink-100: #f40f97;
+  --color-watson_pink-70: #ef4eae;
+  --color-watson_pink-50: #ec7abe;
+  --color-watson_pink-20: #e8bad5;
+
+  --color-watson_blue-100: #00c6ff;
+  --color-watson_blue-70: #4cd7ff;
+  --color-watson_blue-50: #80e2ff;
+  --color-watson_blue-20: #ccf4ff;
+
+  --color-watson_base: #f40f97;
+  --color-watson_base_hover: #8e0456;
+  --color-watson_black: #1d1e20;
+  --color-watson_red: #ff0f00;
+
+  /* Default scale (Watson naming) */
+  --color-black-100: #000000;
+  --color-black-90: #1a1a1a;
+  --color-black-80: #333333;
+  --color-black-70: #4d4d4d;
+
+  --color-grey-100: #545454;
+  --color-grey-80: #8a8a8a;
+  --color-grey-50: #a9a9a9;
+  --color-grey-20: #cccccc;
+  --color-grey-10: #ececec;
+
+  --color-graphite-100: #524b5d;
+  --color-graphite-80: #756f7d;
+  --color-graphite-50: #a8a5ae;
+  --color-graphite-20: #dcdbdf;
+
+  --color-white-100: #ffffff;
+  --color-transparent: transparent;
+
+  /* Secondary */
+  --color-mauve-100: #825d76;
+  --color-mauve-70: #a88e9f;
+  --color-mauve-50: #c0aeba;
+  --color-mauve-20: #e6dfe4;
+
+  --color-candy-100: #ec7abe;
+  --color-candy-70: #f2a2d1;
+  --color-candy-50: #f5bcde;
+  --color-candy-20: #fbe4f2;
+
+  --color-aubergine-100: #8e0456;
+  --color-aubergine-70: #b04f89;
+  --color-aubergine-50: #c681aa;
+  --color-aubergine-20: #e8cddd;
+
+  --color-lavender-100: #8b51d4;
+  --color-lavender-70: #ae85e1;
+  --color-lavender-50: #c5a8e9;
+  --color-lavender-20: #e8dcf6;
+
+  /* Tertiary */
+  --color-tangerine-100: #f55823;
+  --color-tangerine-70: #f7754a;
+  --color-tangerine-50: #f29676;
+  --color-tangerine-20: #f8c4b2;
+
+  --color-lemon-100: #f5d30f;
+  --color-lemon-70: #f6de54;
+  --color-lemon-50: #f2de69;
+  --color-lemon-20: #fff5bb;
+
+  --color-lapis-100: #0f6cf5;
+  --color-lapis-70: #3e8cff;
+  --color-lapis-50: #65a3ff;
+  --color-lapis-20: #c4dcff;
+
+  --color-jade-100: #3b787a;
+  --color-jade-70: #5c8d8e;
+  --color-jade-50: #7ba7a8;
+  --color-jade-20: #c2e2e3;
+
+  --color-mint-100: #27f590;
+  --color-mint-70: #76f6b7;
+  --color-mint-50: #a0f9cd;
+  --color-mint-20: #c9ffe5;
+
+  /* Type scale (pixel) */
+  --font-size-5xl: 49px;
+  --font-size-4xl: 37px;
+  --font-size-3xl: 31px;
+  --font-size-2xl: 25px;
+  --font-size-xl: 21px;
+  --font-size-lg: 19px;
+  --font-size-base: 17px;
+  --font-size-sm: 15px;
+  --font-size-xs: 13px;
+  --font-size-xxs: 11px;
+  --font-size-xxxs: 9px;
+
+  --line-height-5xl: 1;
+  --line-height-4xl: 2.5rem;
+  --line-height-3xl: 2.25rem;
+  --line-height-2xl: 2rem;
+  --line-height-xl: 1.75rem;
+  --line-height-lg: 1.75rem;
+  --line-height-base: 1.5rem;
+  --line-height-sm: 1.25rem;
+  --line-height-xs: 1rem;
+  --line-height-xxs: 1rem;
+  --line-height-xxxs: 1.25;
+  --line-height-extra-tight: 1.125;
+
+  --font-family-NunitoSans: "Nunito Sans", "Adjusted Verdana Fallback", sans-serif;
+  --font-family-Onest: Onest, "Adjusted Verdana Fallback", sans-serif;
+  --font-NunitoSans: "Nunito Sans", "Adjusted Verdana Fallback", sans-serif;
+  --font-Onest: Onest, "Adjusted Verdana Fallback", sans-serif;
+
+  /* 7-column widths */
+  --width-1-7: 14.2857143%;
+  --width-2-7: 28.5714286%;
+  --width-3-7: 42.8571429%;
+  --width-4-7: 57.1428571%;
+  --width-5-7: 71.4285714%;
+  --width-6-7: 85.7142857%;
+}
+
+/* Tailwind v3-style text opacity */
+@utility text-opacity-0 {
+  color: rgb(from currentColor r g b / 0);
+}
+
+@utility text-opacity-5 {
+  color: rgb(from currentColor r g b / 0.05);
+}
+
+@utility text-opacity-10 {
+  color: rgb(from currentColor r g b / 0.1);
+}
+
+@utility text-opacity-20 {
+  color: rgb(from currentColor r g b / 0.2);
+}
+
+@utility text-opacity-25 {
+  color: rgb(from currentColor r g b / 0.25);
+}
+
+@utility text-opacity-30 {
+  color: rgb(from currentColor r g b / 0.3);
+}
+
+@utility text-opacity-40 {
+  color: rgb(from currentColor r g b / 0.4);
+}
+
+@utility text-opacity-50 {
+  color: rgb(from currentColor r g b / 0.5);
+}
+
+@utility text-opacity-60 {
+  color: rgb(from currentColor r g b / 0.6);
+}
+
+@utility text-opacity-70 {
+  color: rgb(from currentColor r g b / 0.7);
+}
+
+@utility text-opacity-75 {
+  color: rgb(from currentColor r g b / 0.75);
+}
+
+@utility text-opacity-80 {
+  color: rgb(from currentColor r g b / 0.8);
+}
+
+@utility text-opacity-90 {
+  color: rgb(from currentColor r g b / 0.9);
+}
+
+@utility text-opacity-95 {
+  color: rgb(from currentColor r g b / 0.95);
+}
+
+@utility text-opacity-100 {
+  color: rgb(from currentColor r g b / 1);
+}
+
+/* Tailwind v3-style background opacity */
+@utility bg-opacity-0 {
+  background-color: rgb(from currentColor r g b / 0);
+}
+
+@utility bg-opacity-5 {
+  background-color: rgb(from currentColor r g b / 0.05);
+}
+
+@utility bg-opacity-10 {
+  background-color: rgb(from currentColor r g b / 0.1);
+}
+
+@utility bg-opacity-20 {
+  background-color: rgb(from currentColor r g b / 0.2);
+}
+
+@utility bg-opacity-25 {
+  background-color: rgb(from currentColor r g b / 0.25);
+}
+
+@utility bg-opacity-30 {
+  background-color: rgb(from currentColor r g b / 0.3);
+}
+
+@utility bg-opacity-40 {
+  background-color: rgb(from currentColor r g b / 0.4);
+}
+
+@utility bg-opacity-50 {
+  background-color: rgb(from currentColor r g b / 0.5);
+}
+
+@utility bg-opacity-60 {
+  background-color: rgb(from currentColor r g b / 0.6);
+}
+
+@utility bg-opacity-70 {
+  background-color: rgb(from currentColor r g b / 0.7);
+}
+
+@utility bg-opacity-75 {
+  background-color: rgb(from currentColor r g b / 0.75);
+}
+
+@utility bg-opacity-80 {
+  background-color: rgb(from currentColor r g b / 0.8);
+}
+
+@utility bg-opacity-90 {
+  background-color: rgb(from currentColor r g b / 0.9);
+}
+
+@utility bg-opacity-95 {
+  background-color: rgb(from currentColor r g b / 0.95);
+}
+
+@utility bg-opacity-100 {
+  background-color: rgb(from currentColor r g b / 1);
+}
+
+@utility font-NunitoSans {
+  font-family: var(--font-NunitoSans);
+}
+
+@utility font-Onest {
+  font-family: var(--font-Onest);
+}
+
+/* Demo preset: semantic tokens → Kamod UI variables */
+:root[data-theme="watson"] {
+  --font-sans:
+    "Nunito Sans", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", "Noto Color Emoji";
+  --font-mono:
+    "Fira Code Variable", "Fira Code", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+  --default-font-family:
+    "Nunito Sans", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", "Noto Color Emoji";
+  --font-primary:
+    "Nunito Sans", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", "Noto Color Emoji";
+  --font-display:
+    Onest, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", "Noto Color Emoji";
+  --font-mono-custom:
+    "Fira Code Variable", "Fira Code", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+
+  --background: var(--color-white-100);
+  --foreground: var(--color-watson_black);
+  --card: var(--color-white-100);
+  --card-foreground: var(--color-watson_black);
+  --popover: var(--color-white-100);
+  --popover-foreground: var(--color-watson_black);
+  --primary: var(--color-watson_base);
+  --primary-foreground: var(--color-white-100);
+  --primary-accent: var(--color-watson_base_hover);
+  --secondary: color-mix(in srgb, var(--primary) 8%, var(--color-watson_blue-100));
+  --secondary-foreground: var(--color-watson_black);
+  --secondary-accent: var(--color-watson_blue-70);
+  /* Pink-tinted bases so hover:bg-muted/* and hover:bg-accent/* read on-brand */
+  --muted: color-mix(in srgb, var(--primary) 11%, var(--color-grey-10));
+  --muted-foreground: var(--color-grey-100);
+  --accent: color-mix(in srgb, var(--primary) 20%, var(--color-grey-10));
+  --accent-foreground: var(--color-watson_black);
+  --info: var(--color-watson_blue-50);
+  --info-foreground: var(--color-watson_black);
+  --success: var(--color-mint-70);
+  --success-foreground: var(--color-watson_black);
+  --warning: var(--color-lemon-70);
+  --warning-foreground: var(--color-watson_black);
+  --error: var(--color-watson_red);
+  --error-foreground: var(--color-white-100);
+  --destructive: var(--color-watson_red);
+  --destructive-foreground: var(--color-white-100);
+  --border: var(--color-grey-20);
+  --input: var(--color-grey-20);
+  --ring: var(--color-watson_pink-100);
+  --outline: var(--color-watson_pink-70);
+
+  --sidebar-background: var(--color-grey-10);
+  --sidebar-foreground: var(--color-watson_black);
+  --sidebar-primary: var(--color-watson_base);
+  --sidebar-primary-foreground: var(--color-white-100);
+  --sidebar-accent: color-mix(in srgb, var(--primary) 16%, var(--color-grey-10));
+  --sidebar-accent-foreground: var(--color-watson_black);
+  --sidebar-border: var(--color-grey-20);
+  --sidebar-outline: var(--color-watson_pink-70);
+}
+
+.dark[data-theme="watson"] {
+  --font-sans:
+    "Nunito Sans", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", "Noto Color Emoji";
+  --font-mono:
+    "Fira Code Variable", "Fira Code", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+
+  --background: var(--color-watson_black);
+  --foreground: var(--color-grey-10);
+  --card: var(--color-black-90);
+  --card-foreground: var(--color-grey-10);
+  --popover: var(--color-black-90);
+  --popover-foreground: var(--color-grey-10);
+  --primary: var(--color-watson_pink-70);
+  --primary-foreground: var(--color-watson_black);
+  --primary-accent: var(--color-watson_pink-50);
+  --secondary: color-mix(in srgb, var(--primary) 12%, var(--color-watson_blue-70));
+  --secondary-foreground: var(--color-watson_black);
+  --secondary-accent: var(--color-watson_blue-50);
+  --muted: color-mix(in srgb, var(--primary) 14%, var(--color-black-80));
+  --muted-foreground: var(--color-grey-50);
+  --accent: color-mix(in srgb, var(--primary) 24%, var(--color-black-90));
+  --accent-foreground: var(--color-grey-10);
+  --info: var(--color-watson_blue-50);
+  --info-foreground: var(--color-watson_black);
+  --success: var(--color-mint-70);
+  --success-foreground: var(--color-watson_black);
+  --warning: var(--color-lemon-70);
+  --warning-foreground: var(--color-watson_black);
+  --error: var(--color-watson_red);
+  --error-foreground: var(--color-white-100);
+  --destructive: var(--color-watson_red);
+  --destructive-foreground: var(--color-white-100);
+  --border: --alpha(var(--color-grey-10) / 12%);
+  --input: --alpha(var(--color-grey-10) / 15%);
+  --ring: var(--color-watson_pink-50);
+  --outline: var(--color-watson_pink-70);
+
+  --sidebar-background: var(--color-black-90);
+  --sidebar-foreground: var(--color-grey-10);
+  --sidebar-primary: var(--color-watson_pink-70);
+  --sidebar-primary-foreground: var(--color-watson_black);
+  --sidebar-accent: color-mix(in srgb, var(--primary) 18%, var(--color-black-80));
+  --sidebar-accent-foreground: var(--color-grey-10);
+  --sidebar-border: var(--color-black-80);
+  --sidebar-outline: var(--color-watson_pink-50);
+}
+
+/* Sharp corners: zero theme radii (avoids negative calc when --radius is 0) + override utilities */
+html[data-theme="watson"] {
+  --radius: 0;
+  --radius-xs: 0;
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-xl: 0;
+  --radius-2xl: 0;
+  --radius-3xl: 0;
+  --radius-4xl: 0;
+}
+
+html[data-theme="watson"],
+html[data-theme="watson"] *,
+html[data-theme="watson"] *::before,
+html[data-theme="watson"] *::after {
+  border-radius: 0 !important;
+}
+
+/*
+ * Buttons default to fg-on-bg in core; badges default match. For Watson, force pink
+ * across variants (utilities win without !important on bg/color).
+ */
+:root[data-theme="watson"] [data-slot="button"][data-variant="default"]:hover,
+.dark[data-theme="watson"] [data-slot="button"][data-variant="default"]:hover,
+:root[data-theme="watson"] [data-slot="button"][data-variant="secondary"]:hover,
+.dark[data-theme="watson"] [data-slot="button"][data-variant="secondary"]:hover,
+:root[data-theme="watson"] [data-slot="button"][data-variant="destructive"]:hover,
+.dark[data-theme="watson"] [data-slot="button"][data-variant="destructive"]:hover {
+  background-color: var(--primary-accent) !important;
+}
+
+:root[data-theme="watson"] [data-slot="button"][data-variant="default"],
+.dark[data-theme="watson"] [data-slot="button"][data-variant="default"],
+:root[data-theme="watson"] [data-slot="button"][data-variant="secondary"],
+.dark[data-theme="watson"] [data-slot="button"][data-variant="secondary"],
+:root[data-theme="watson"] [data-slot="button"][data-variant="destructive"],
+.dark[data-theme="watson"] [data-slot="button"][data-variant="destructive"] {
+  border-color: transparent !important;
+  background-color: var(--primary) !important;
+  color: var(--primary-foreground) !important;
+}
+
+:root[data-theme="watson"] [data-slot="button"][data-variant="outline"],
+.dark[data-theme="watson"] [data-slot="button"][data-variant="outline"] {
+  border-color: var(--primary) !important;
+  background-color: var(--background) !important;
+  color: var(--primary) !important;
+}
+
+:root[data-theme="watson"] [data-slot="button"][data-variant="outline"]:hover,
+.dark[data-theme="watson"] [data-slot="button"][data-variant="outline"]:hover {
+  background-color: color-mix(in srgb, var(--primary) 12%, var(--background)) !important;
+  color: var(--primary) !important;
+}
+
+:root[data-theme="watson"] [data-slot="button"][data-variant="ghost"],
+.dark[data-theme="watson"] [data-slot="button"][data-variant="ghost"] {
+  color: var(--primary) !important;
+}
+
+:root[data-theme="watson"] [data-slot="button"][data-variant="ghost"]:hover,
+.dark[data-theme="watson"] [data-slot="button"][data-variant="ghost"]:hover {
+  background-color: color-mix(in srgb, var(--primary) 16%, var(--background)) !important;
+  color: var(--primary) !important;
+}
+
+:root[data-theme="watson"] [data-slot="button"][data-variant="link"],
+.dark[data-theme="watson"] [data-slot="button"][data-variant="link"] {
+  color: var(--primary) !important;
+}
+
+/* Badges: all filled variants → primary pink */
+:root[data-theme="watson"] [data-slot="badge"][data-variant="default"],
+.dark[data-theme="watson"] [data-slot="badge"][data-variant="default"],
+:root[data-theme="watson"] [data-slot="badge"][data-variant="primary"],
+.dark[data-theme="watson"] [data-slot="badge"][data-variant="primary"],
+:root[data-theme="watson"] [data-slot="badge"][data-variant="secondary"],
+.dark[data-theme="watson"] [data-slot="badge"][data-variant="secondary"],
+:root[data-theme="watson"] [data-slot="badge"][data-variant="destructive"],
+.dark[data-theme="watson"] [data-slot="badge"][data-variant="destructive"],
+:root[data-theme="watson"] [data-slot="badge"][data-variant="info"],
+.dark[data-theme="watson"] [data-slot="badge"][data-variant="info"],
+:root[data-theme="watson"] [data-slot="badge"][data-variant="success"],
+.dark[data-theme="watson"] [data-slot="badge"][data-variant="success"],
+:root[data-theme="watson"] [data-slot="badge"][data-variant="warning"],
+.dark[data-theme="watson"] [data-slot="badge"][data-variant="warning"],
+:root[data-theme="watson"] [data-slot="badge"][data-variant="error"],
+.dark[data-theme="watson"] [data-slot="badge"][data-variant="error"] {
+  border-color: transparent !important;
+  background-color: var(--primary) !important;
+  color: var(--primary-foreground) !important;
+}
+
+:root[data-theme="watson"] [data-slot="badge"][data-variant="default"]:hover,
+.dark[data-theme="watson"] [data-slot="badge"][data-variant="default"]:hover,
+:root[data-theme="watson"] [data-slot="badge"][data-variant="primary"]:hover,
+.dark[data-theme="watson"] [data-slot="badge"][data-variant="primary"]:hover,
+:root[data-theme="watson"] [data-slot="badge"][data-variant="secondary"]:hover,
+.dark[data-theme="watson"] [data-slot="badge"][data-variant="secondary"]:hover,
+:root[data-theme="watson"] [data-slot="badge"][data-variant="destructive"]:hover,
+.dark[data-theme="watson"] [data-slot="badge"][data-variant="destructive"]:hover,
+:root[data-theme="watson"] [data-slot="badge"][data-variant="info"]:hover,
+.dark[data-theme="watson"] [data-slot="badge"][data-variant="info"]:hover,
+:root[data-theme="watson"] [data-slot="badge"][data-variant="success"]:hover,
+.dark[data-theme="watson"] [data-slot="badge"][data-variant="success"]:hover,
+:root[data-theme="watson"] [data-slot="badge"][data-variant="warning"]:hover,
+.dark[data-theme="watson"] [data-slot="badge"][data-variant="warning"]:hover,
+:root[data-theme="watson"] [data-slot="badge"][data-variant="error"]:hover,
+.dark[data-theme="watson"] [data-slot="badge"][data-variant="error"]:hover {
+  background-color: var(--primary-accent) !important;
+}
+
+:root[data-theme="watson"] [data-slot="badge"][data-variant="outline"],
+.dark[data-theme="watson"] [data-slot="badge"][data-variant="outline"] {
+  border-color: var(--primary) !important;
+  background-color: var(--background) !important;
+  color: var(--primary) !important;
+}
+
+:root[data-theme="watson"] [data-slot="badge"][data-variant="outline"]:hover,
+.dark[data-theme="watson"] [data-slot="badge"][data-variant="outline"]:hover {
+  background-color: color-mix(in srgb, var(--primary) 12%, var(--background)) !important;
+}
+
+:root[data-theme="watson"] [data-slot="badge"][data-variant="ghost"],
+.dark[data-theme="watson"] [data-slot="badge"][data-variant="ghost"] {
+  color: var(--primary) !important;
+}
+
+:root[data-theme="watson"] [data-slot="badge"][data-variant="ghost"]:hover,
+.dark[data-theme="watson"] [data-slot="badge"][data-variant="ghost"]:hover {
+  background-color: color-mix(in srgb, var(--primary) 16%, var(--background)) !important;
+  color: var(--primary) !important;
+}
+
+:root[data-theme="watson"] [data-slot="badge"][data-variant="link"],
+.dark[data-theme="watson"] [data-slot="badge"][data-variant="link"] {
+  color: var(--primary) !important;
+}
+
+/* Checkbox: core uses bg-foreground when checked — Watson uses brand pink */
+html[data-theme="watson"] [data-slot="checkbox"][data-state="checked"] > span[aria-hidden="true"],
+html[data-theme="watson"] [data-slot="checkbox"][data-state="indeterminate"] > span[aria-hidden="true"] {
+  border-color: var(--primary) !important;
+  background-color: var(--primary) !important;
+  color: var(--primary-foreground) !important;
+}
+
+/*
+ * Slider — full Watson theme: muted track → pink-tinted; range stays primary; thumbs/tracks
+ * are native pseudo-elements (not covered by html * { border-radius: 0 }).
+ */
+html[data-theme="watson"] [data-slot="slider-track"] {
+  background-color: color-mix(in srgb, var(--primary) 20%, var(--muted)) !important;
+  border-radius: 0 !important;
+}
+
+html[data-theme="watson"] [data-slot="slider-range"] {
+  background-color: var(--primary) !important;
+  border-radius: 0 !important;
+}
+
+html[data-theme="watson"] input[data-slot="slider-thumb"]::-webkit-slider-runnable-track {
+  border-radius: 0 !important;
+}
+
+html[data-theme="watson"] input[data-slot="slider-thumb"]::-webkit-slider-thumb {
+  border-color: var(--primary) !important;
+  border-radius: 0 !important;
+}
+
+html[data-theme="watson"] input[data-slot="slider-thumb"]::-moz-range-track {
+  border-radius: 0 !important;
+}
+
+html[data-theme="watson"] input[data-slot="slider-thumb"]::-moz-range-progress {
+  border-radius: 0 !important;
+}
+
+html[data-theme="watson"] input[data-slot="slider-thumb"]::-moz-range-thumb {
+  border-color: var(--primary) !important;
+  border-radius: 0 !important;
+}
+
+/* Switch checked track: some builds / variants use bg-foreground — Watson uses brand pink */
+html[data-theme="watson"] [data-slot="switch"][data-state="checked"] {
+  background-color: var(--primary) !important;
+}
+
+/* SelectableCard (RadioGroup): checked state uses neutral + black indicator — Watson pink */
+html[data-theme="watson"] [data-slot="selectable-card"][data-state="checked"] > div {
+  border-color: var(--primary) !important;
+  background-color: color-mix(in srgb, var(--primary) 14%, var(--background)) !important;
+}
+
+html[data-theme="watson"] [data-slot="selectable-card-indicator"] {
+  border-color: var(--primary) !important;
+  background-color: var(--background) !important;
+  box-shadow: 0 1px 4px color-mix(in srgb, var(--primary) 35%, transparent) !important;
+}
+
+html[data-theme="watson"] [data-slot="selectable-card-indicator"] > span {
+  background-color: var(--primary) !important;
+}
+
+/* Spinner: tone=muted uses text-muted-foreground (reads grey/black) — Watson brand pink */
+html[data-theme="watson"] [data-slot="spinner"].text-muted-foreground {
+  color: var(--primary) !important;
+}
+
+/*
+ * AvatarGroup: overlap ring uses ring-2 ring-background (page-colored gap).
+ * box-shadow wins reliably over Tailwind ring token wiring in v4.
+ */
+html[data-theme="watson"] [data-slot="avatar-group"] > span:has([data-slot="avatar"]) {
+  --tw-ring-color: var(--primary) !important;
+  box-shadow: 0 0 0 2px var(--primary) !important;
+}
+
+/* Kitchen sink: “How did you hear about us” chips (demo-only data-slot) */
+html[data-theme="watson"] [data-slot="kitchen-hear-about-chip"][data-state="checked"] {
+  border-color: var(--primary) !important;
+  background-color: color-mix(in srgb, var(--primary) 16%, var(--background)) !important;
+}
+
+html[data-theme="watson"] [data-slot="kitchen-hear-about-chip"][data-state="unchecked"] {
+  border-color: color-mix(in srgb, var(--primary) 45%, var(--border)) !important;
+}
+
+html[data-theme="watson"] [data-slot="kitchen-hear-about-chip"][data-state="unchecked"]:hover {
+  border-color: var(--primary) !important;
+  background-color: color-mix(in srgb, var(--primary) 10%, var(--background)) !important;
+}
+
+html[data-theme="watson"] [data-slot="kitchen-hear-about-chip-indicator"] {
+  background-color: var(--primary) !important;
+  color: var(--primary-foreground) !important;
+}
+
+/* Toggles (outline): dark:hover:bg-input/50 is not accent/muted — pink hover */
+html.dark[data-theme="watson"] [data-slot="toggle"][data-variant="outline"]:hover,
+html.dark[data-theme="watson"] [data-slot="toggle-group-item"][data-variant="outline"]:hover {
+  background-color: color-mix(in srgb, var(--primary) 24%, var(--card)) !important;
+}
+
+/* Menu destructive row: hover:bg-destructive/10 → Watson pink wash */
+html[data-theme="watson"] [data-slot="dropdown-item"][data-variant="destructive"]:hover,
+html[data-theme="watson"] [data-slot="dropdown-item"][data-variant="destructive"]:focus-visible {
+  background-color: color-mix(in srgb, var(--primary) 18%, transparent) !important;
+  color: var(--primary) !important;
+}
+
+html[data-theme="watson"] [data-slot="context-menu-item"][data-variant="destructive"]:focus-visible,
+html[data-theme="watson"] [data-slot="menubar-item"][data-variant="destructive"]:focus-visible {
+  background-color: color-mix(in srgb, var(--primary) 18%, transparent) !important;
+  color: var(--primary) !important;
+}

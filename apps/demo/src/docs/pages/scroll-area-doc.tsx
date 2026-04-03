@@ -1,12 +1,14 @@
-import { ScrollArea, ScrollBar } from "@kamod-ui/core";
+import { ScrollArea, ScrollAreaCorner, ScrollBar } from "@kamod-ui/core";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const scrollAreaDocPage = createGenericDocPage({
   slug: "scroll-area",
   title: "Scroll Area",
   usageLabel: "Scroll Area adds a modern, subtle scrollbar track with a dynamic thumb for long content regions.",
-  installationText: "Import ScrollArea and ScrollBar from `@/components/kamod-ui/scroll-area`.",
-  usageText: "Set fixed bounds, place overflow content inside `ScrollArea`, and add `ScrollBar` (vertical or horizontal) when needed.",
+  installationText:
+    "Import `ScrollArea`, `ScrollBar`, and optionally `ScrollAreaCorner` from `@/components/kamod-ui/scroll-area`.",
+  usageText:
+    "The root gets your size and border classes; scrolling happens in an inner viewport with native scrollbars hidden. Add `ScrollBar` for a draggable thumb (vertical default or `orientation=\"horizontal\"`). When both axes scroll, add `ScrollAreaCorner` after the bars to mask the junction. The viewport exposes `data-has-overflow-*`, `data-overflow-*-start|end`, `data-scrolling`, and CSS variables such as `--scroll-area-overflow-y-start` for edge fades (set `inherit` on pseudo-elements if needed, per Base UI).",
   exampleSections: [
     {
       id: "vertical-feed",
@@ -184,11 +186,47 @@ export const Example = () => (
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
       )
+    },
+    {
+      id: "both-axes",
+      title: "Vertical, horizontal, and corner",
+      text: "Use two scrollbars plus `ScrollAreaCorner` when content overflows on both axes (shadcn / Base UI pattern).",
+      code: `import { ScrollArea, ScrollAreaCorner, ScrollBar } from "@/components/kamod-ui/scroll-area";
+
+export const Example = () => (
+  <ScrollArea class="h-48 w-64 rounded-xl border bg-card">
+    <div class="min-h-[120%] min-w-[140%] space-y-3 p-4">
+      {Array.from({ length: 24 }).map((_, i) => (
+        <p key={i} class="text-sm text-muted-foreground">
+          Line {i + 1} — wide and tall content so both scrollbars appear.
+        </p>
+      ))}
+    </div>
+    <ScrollBar />
+    <ScrollBar orientation="horizontal" />
+    <ScrollAreaCorner />
+  </ScrollArea>
+);`,
+      renderPreview: () => (
+        <ScrollArea class="h-48 w-full max-w-xs rounded-xl border bg-card sm:max-w-sm">
+          <div class="min-h-[120%] min-w-[140%] space-y-3 p-4">
+            {Array.from({ length: 24 }).map((_, i) => (
+              <p key={i} class="text-sm text-muted-foreground">
+                Line {i + 1} — wide and tall content so both scrollbars appear.
+              </p>
+            ))}
+          </div>
+          <ScrollBar />
+          <ScrollBar orientation="horizontal" />
+          <ScrollAreaCorner />
+        </ScrollArea>
+      )
     }
   ],
   apiRows: [
-    { prop: "class", type: "string", defaultValue: "undefined" },
-    { prop: "orientation", type: '"vertical" | "horizontal"', defaultValue: '"vertical"' }
+    { prop: "class (ScrollArea)", type: "string", defaultValue: "undefined" },
+    { prop: "orientation (ScrollBar)", type: '"vertical" | "horizontal"', defaultValue: '"vertical"' },
+    { prop: "class (ScrollAreaCorner)", type: "string", defaultValue: "undefined" }
   ],
   accessibilityText:
     "Keep focusable controls reachable in scrollable panels and ensure scroll regions have enough contrast and size for touch + pointer input."

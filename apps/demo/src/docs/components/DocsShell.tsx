@@ -52,6 +52,8 @@ const groupTocSections = (sections: DocSection[]): TocSectionGroups => {
   return groups;
 };
 
+const PRO_FEEDBACK_FORM_DEFAULT = "https://tally.so/r/ODYbWK";
+
 export const DocsShell = ({
   isComponentsOverview,
   activeDoc,
@@ -69,9 +71,29 @@ export const DocsShell = ({
   const exampleSections = tocSections?.examples ?? [];
   const apiReferenceSection = tocSections?.apiReference ?? null;
   const hasActiveExampleSection = tocSections?.examples.some((section) => section.id === activeSection) ?? false;
-  const proFeedbackFormUrl = (import.meta.env.VITE_PRO_FEEDBACK_FORM_URL ?? "").trim();
+  const proFeedbackFormUrl = (import.meta.env.VITE_PRO_FEEDBACK_FORM_URL ?? "").trim() || PRO_FEEDBACK_FORM_DEFAULT;
   const showToc = Boolean(!isComponentsOverview && activeDoc);
   const showRightSidebar = showToc || isComponentsOverview;
+
+  const docsPrimaryNavEntries = useMemo(
+    () => [
+      {
+        key: "__overview",
+        label: "Components overview",
+        active: isComponentsOverview,
+        onSelect: onNavigateComponentsOverview,
+        showUpdatedBadge: false as const
+      },
+      ...sortedDocs.map((doc) => ({
+        key: doc.slug,
+        label: doc.title,
+        active: doc.slug === activeDoc?.slug,
+        onSelect: () => onNavigateDoc(doc.slug),
+        showUpdatedBadge: docsUpdatedComponentSlugs.has(doc.slug) as boolean
+      }))
+    ],
+    [activeDoc?.slug, isComponentsOverview, onNavigateComponentsOverview, onNavigateDoc, sortedDocs]
+  );
 
   return (
     <DemoShell
@@ -88,25 +110,36 @@ export const DocsShell = ({
               <h2>Components</h2>
             </div>
             <nav aria-label="Mobile docs navigation" class="docs-mobile-sheet-nav">
-              <SheetClose
-                class={`docs-nav-button ${isComponentsOverview ? "is-active" : ""}`}
-                onClick={onNavigateComponentsOverview}
-              >
-                <span>Components overview</span>
-              </SheetClose>
-              {sortedDocs.map((doc) => (
+              {docsPrimaryNavEntries.map((entry) => (
                 <SheetClose
-                  key={doc.slug}
-                  class={`docs-nav-button ${doc.slug === activeDoc?.slug ? "is-active" : ""}`}
-                  onClick={() => onNavigateDoc(doc.slug)}
+                  key={entry.key}
+                  class={`docs-nav-button ${entry.active ? "is-active" : ""}`}
+                  onClick={entry.onSelect}
                 >
-                  <span>{doc.title}</span>
-                  {docsUpdatedComponentSlugs.has(doc.slug) ? <Badge variant="success">updated</Badge> : null}
+                  <span>{entry.label}</span>
+                  {entry.showUpdatedBadge ? <Badge variant="success">updated</Badge> : null}
                 </SheetClose>
               ))}
             </nav>
           </SheetContent>
         </Sheet>
+      }
+      leftSidebar={
+        <>
+          <h2>Components</h2>
+          <nav aria-label="Docs components" class="docs-sidebar-nav">
+            {docsPrimaryNavEntries.map((entry) => (
+              <button
+                key={entry.key}
+                type="button"
+                class={`docs-nav-button ${entry.active ? "is-active" : ""}`}
+                onClick={entry.onSelect}
+              >
+                <span>{entry.label}</span>
+              </button>
+            ))}
+          </nav>
+        </>
       }
       topbarActions={
         <>
@@ -114,22 +147,6 @@ export const DocsShell = ({
           <ThemeToggle class="docs-topbar-theme-toggle">
             <SunMoon />
           </ThemeToggle>
-        </>
-      }
-      leftSidebar={
-        <>
-          <h2>Components</h2>
-          <nav aria-label="Docs navigation">
-            {sortedDocs.map((doc) => (
-              <button
-                key={doc.slug}
-                class={`docs-nav-button ${doc.slug === activeDoc?.slug ? "is-active" : ""}`}
-                onClick={() => onNavigateDoc(doc.slug)}
-              >
-                {doc.title}
-              </button>
-            ))}
-          </nav>
         </>
       }
       mainContent={mainContent}
@@ -186,15 +203,9 @@ export const DocsShell = ({
                 </CardDescription>
               </CardHeader>
               <CardContent class="grid gap-2.5">
-                {proFeedbackFormUrl ? (
-                  <Button href={proFeedbackFormUrl} target="_blank" rel="noopener noreferrer" size="sm" variant="default" class="w-full">
-                    2 Minuten Feedback
-                  </Button>
-                ) : (
-                  <Button type="button" size="sm" variant="default" class="w-full" disabled title="VITE_PRO_FEEDBACK_FORM_URL in .env setzen">
-                    2 Minuten Feedback
-                  </Button>
-                )}
+                <Button href={proFeedbackFormUrl} target="_blank" rel="noopener noreferrer" size="sm" variant="default" class="w-full">
+                  2 Minuten Feedback
+                </Button>
               </CardContent>
             </Card>
           </>

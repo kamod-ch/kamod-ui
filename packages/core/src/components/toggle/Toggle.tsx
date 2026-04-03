@@ -5,27 +5,26 @@ import { cn } from "../../lib/utils";
 
 const toggle = tv({
   base: [
-    "inline-flex shrink-0 items-center justify-center gap-1.5 rounded-md text-sm font-medium whitespace-nowrap",
-    "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
-    "data-[size=sm]:[&_svg:not([class*='size-'])]:size-3.5",
-    "data-[size=lg]:[&_svg:not([class*='size-'])]:size-4.5",
+    "inline-flex shrink-0 items-center justify-center gap-1 rounded-sm text-xs font-medium whitespace-nowrap",
+    "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-3.5",
+    "data-[size=sm]:[&_svg:not([class*='size-'])]:size-3",
+    "data-[size=lg]:[&_svg:not([class*='size-'])]:size-4",
     "select-none transition-all outline-none",
-    "focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50",
+    "focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/45",
     "disabled:pointer-events-none disabled:opacity-50",
-    "data-[state=on]:bg-accent data-[state=on]:text-accent-foreground data-[state=on]:shadow-xs",
-    "[&_svg]:pointer-events-none [&_svg]:shrink-0"
+    "data-[state=on]:bg-accent data-[state=on]:text-accent-foreground data-[state=on]:shadow-xs"
   ],
   variants: {
     variant: {
       default: "bg-transparent hover:bg-muted hover:text-muted-foreground",
       outline:
-        "border border-input bg-transparent shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50"
+        "border border-input/80 bg-transparent shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/25 dark:border-input/80 dark:hover:bg-input/45"
     },
     size: {
-      sm: "h-8 min-w-8 px-2 text-xs",
-      default: "h-9 min-w-9 px-2.5",
-      lg: "h-10 min-w-10 px-3.5 text-base",
-      icon: "size-9 p-0"
+      sm: "h-7 min-w-7 px-1.5 text-[11px] leading-none",
+      default: "h-8 min-w-8 px-2",
+      lg: "h-9 min-w-9 px-2.5 text-sm",
+      icon: "size-8 p-0"
     }
   },
   defaultVariants: {

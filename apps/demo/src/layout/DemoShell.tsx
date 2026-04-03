@@ -39,6 +39,7 @@ export const DemoShell = ({
   rightSidebar,
   rootClassName
 }: DemoShellProps) => {
+  const layoutClass = ["docs-layout", leftSidebar == null ? "docs-layout--no-left" : ""].filter(Boolean).join(" ");
   return (
     <div class={`${rootClassName ?? ""}`.trim()}>
       <header class="docs-topbar">
@@ -61,8 +62,8 @@ export const DemoShell = ({
         </div>
       </header>
 
-      <div class="docs-layout">
-        <aside class="docs-sidebar">{leftSidebar}</aside>
+      <div class={layoutClass}>
+        {leftSidebar != null ? <aside class="docs-sidebar">{leftSidebar}</aside> : null}
         <main class="docs-content">{mainContent}</main>
         <aside class="docs-rightbar">{rightSidebar}</aside>
       </div>

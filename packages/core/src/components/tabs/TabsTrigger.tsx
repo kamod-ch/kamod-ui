@@ -16,12 +16,16 @@ export const TabsTrigger = ({ value, class: className, children, onClick, onKeyD
       type="button"
       role="tab"
       class={cn(
-        "relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 rounded-sm border border-transparent px-3 py-1.5 text-sm font-medium whitespace-nowrap text-foreground/70 transition-[color,box-shadow,background-color]",
+        "relative inline-flex h-full min-h-0 flex-1 items-center justify-center gap-1.5 border border-transparent px-3 py-1 text-sm whitespace-nowrap text-muted-foreground transition-[color,box-shadow,background-color,font-weight] duration-200 ease-out",
+        "group-data-[orientation=horizontal]/tabs:rounded-full group-data-[orientation=vertical]/tabs:rounded-md",
         "group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start",
         "hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-        "disabled:pointer-events-none disabled:opacity-50 dark:text-muted-foreground dark:hover:text-foreground",
-        "group-data-[variant=default]/tabs-list:data-[state=active]:bg-background group-data-[variant=default]/tabs-list:data-[state=active]:text-foreground group-data-[variant=default]/tabs-list:data-[state=active]:shadow-sm",
-        "group-data-[variant=line]/tabs-list:rounded-none group-data-[variant=line]/tabs-list:px-0 group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none",
+        "disabled:pointer-events-none disabled:opacity-50 dark:hover:text-foreground",
+        "group-data-[variant=default]/tabs-list:data-[state=inactive]:font-medium",
+        "group-data-[variant=default]/tabs-list:data-[state=active]:bg-background group-data-[variant=default]/tabs-list:data-[state=active]:font-semibold group-data-[variant=default]/tabs-list:data-[state=active]:text-foreground",
+        "group-data-[variant=default]/tabs-list:data-[state=active]:shadow-[0_1px_2px_-0.5px_rgb(0_0_0/0.06),0_1px_3px_-1px_rgb(0_0_0/0.08)]",
+        "dark:group-data-[variant=default]/tabs-list:data-[state=active]:shadow-[0_1px_2px_-0.5px_rgb(0_0_0/0.35)] dark:group-data-[variant=default]/tabs-list:data-[state=active]:ring-1 dark:group-data-[variant=default]/tabs-list:data-[state=active]:ring-white/[0.08]",
+        "group-data-[variant=line]/tabs-list:rounded-none group-data-[variant=line]/tabs-list:px-0 group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:group-data-[variant=line]/tabs-list:data-[state=active]:ring-0",
         "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         "group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:text-foreground",
         "dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent",

@@ -3,7 +3,7 @@ import { ScrollArea } from "./ScrollArea";
 import { ScrollBar } from "./ScrollBar";
 
 describe("ScrollArea", () => {
-  it("renders a scrollable root with hidden native scrollbars", () => {
+  it("renders root, viewport with hidden native scrollbars, and content wrapper", () => {
     render(
       <ScrollArea data-testid="scroll-area">
         <p>Content</p>
@@ -12,7 +12,13 @@ describe("ScrollArea", () => {
 
     const root = screen.getByTestId("scroll-area");
     expect(root).toHaveAttribute("data-slot", "scroll-area");
-    expect(root.className).toContain("[scrollbar-width:none]");
+    expect(root.className).toContain("overflow-hidden");
+
+    const viewport = root.querySelector("[data-slot='scroll-area-viewport']");
+    expect(viewport).not.toBeNull();
+    expect(viewport?.className).toContain("[scrollbar-width:none]");
+
+    expect(root.querySelector("[data-slot='scroll-area-content']")).not.toBeNull();
   });
 });
 

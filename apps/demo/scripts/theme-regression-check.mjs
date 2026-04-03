@@ -3,13 +3,16 @@ import { resolve } from "node:path";
 
 const repoRoot = resolve(new URL("../../../", import.meta.url).pathname);
 const foundationPath = resolve(repoRoot, "apps/demo/src/styles/foundation.css");
-const foundationCss = readFileSync(foundationPath, "utf8");
+const watsonThemePath = resolve(repoRoot, "apps/demo/src/styles/watson-theme.css");
+const foundationCss =
+  readFileSync(foundationPath, "utf8") + "\n" + readFileSync(watsonThemePath, "utf8");
 
 const presetChecks = {
   kamod: "minimal",
   shadcn: "font",
   ocean: "full",
-  sunset: "full"
+  sunset: "full",
+  watson: "full"
 };
 
 const requiredColorTokens = [

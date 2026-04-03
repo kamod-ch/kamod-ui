@@ -265,7 +265,7 @@ export {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle
 } from "./components/navigation-menu";
-export { ScrollArea, ScrollBar } from "./components/scroll-area";
+export { ScrollArea, ScrollAreaCorner, ScrollBar } from "./components/scroll-area";
 export {
   Drawer,
   DrawerClose,
@@ -358,8 +358,6 @@ export {
 export { DataTable } from "./components/data-table";
 export { Chart } from "./components/chart";
 export { Sonner, dismissSonner, sonner } from "./components/sonner";
-export { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "./components/resizable";
-export type { ResizableHandleProps, ResizablePanelGroupProps, ResizablePanelProps } from "./components/resizable";
 
 export { cn } from "./lib/utils";
 export { createControllableSignal } from "./lib/signals";

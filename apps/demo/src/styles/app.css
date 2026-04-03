@@ -271,7 +271,6 @@ html.dark .docs-topbar-brand-logo {
   margin-bottom: 0.6rem;
 }
 
-[data-slot="tabs-list"]:not([data-variant="line"]) [data-slot="tabs-trigger"],
 [data-slot="accordion-trigger"],
 [data-slot="collapsible-trigger"],
 /* Icon-sized dropdown triggers (e.g. breadcrumb ellipsis) use component styles only — a border here looked like an unwanted gray frame. */
@@ -622,6 +621,14 @@ html.dark .docs-topbar-brand-logo {
     padding-bottom: max(3rem, calc(0.5rem + env(safe-area-inset-bottom, 0px)));
   }
 
+  .docs-layout--no-left {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .docs-layout--no-left .docs-content {
+    width: min(960px, 100%);
+  }
+
   .docs-sidebar {
     display: block;
     position: sticky;
@@ -647,6 +654,22 @@ html.dark .docs-topbar-brand-logo {
     background: transparent;
   }
 
+  .docs-sidebar nav.docs-sidebar-nav .docs-nav-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    font: inherit;
+  }
+
+  .docs-sidebar nav.docs-sidebar-nav .docs-nav-button:hover,
+  .docs-sidebar nav.docs-sidebar-nav .docs-nav-button.is-active {
+    background: rgb(255 255 255 / 7%);
+  }
+
   .docs-content {
     width: min(760px, 100%);
   }
@@ -667,6 +690,10 @@ html.dark .docs-topbar-brand-logo {
     padding-right: 1rem;
     padding-left: 1rem;
     padding-bottom: max(3rem, calc(0.5rem + env(safe-area-inset-bottom, 0px)));
+  }
+
+  .docs-layout--no-left {
+    grid-template-columns: minmax(0, 1fr) minmax(220px, 260px);
   }
 
   .docs-rightbar {

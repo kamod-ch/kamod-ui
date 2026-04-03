@@ -10,6 +10,7 @@ The demo now supports **theme presets** in addition to light/dark mode:
 - `shadcn`
 - `ocean`
 - `sunset`
+- `watson` (Watson tokens and `data-theme="watson"` overrides in [watson-theme.css](apps/demo/src/styles/watson-theme.css))
 
 Preset state is stored in `localStorage` (`theme-preset`) and applied via `data-theme` on `<html>`.
 

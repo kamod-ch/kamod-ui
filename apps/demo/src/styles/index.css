@@ -5,6 +5,7 @@
 @source "../../../../packages/core/src/**/*.{ts,tsx}";
 
 @import "./tailwind.css";
+@import "./watson-theme.css";
 @import "./foundation.css";
 @import "./app.css";
 @import "./pages.css";

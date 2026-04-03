@@ -3,14 +3,17 @@ import { tv, type VariantProps } from "tailwind-variants";
 
 export const nativeSelectWrapper = tv({
   base: [
-    "group/native-select relative w-fit has-[select:disabled]:opacity-50"
+    /* min-w-0 + no w-fit: column flex + w-full on <select> must resolve to parent width (w-fit breaks that). */
+    "group/native-select relative isolate min-w-0 max-w-full has-[select:disabled]:opacity-50"
   ]
 });
 
 export const nativeSelect = tv({
   base: [
-    "border-input dark:bg-input/30 text-foreground ring-offset-background w-full rounded-md border bg-transparent shadow-xs",
+    "border-input dark:bg-input/30 text-foreground ring-offset-background min-h-0 min-w-0 w-full rounded-md border bg-transparent shadow-xs",
+    "invalid:text-foreground/85",
     "placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground appearance-none bg-none select-none",
+    "[&_option]:text-foreground",
     "hover:border-foreground/20 transition-[color,box-shadow,border-color] outline-none",
     "focus-visible:border-outline focus-visible:ring-outline/50 focus-visible:ring-3",
     "disabled:pointer-events-none disabled:cursor-not-allowed",
@@ -18,9 +21,9 @@ export const nativeSelect = tv({
   ],
   variants: {
     size: {
-      sm: "h-7 pe-8 ps-2.5 text-sm",
-      md: "h-8 pe-9 ps-3 text-sm",
-      lg: "h-9 pe-10 ps-3.5 text-base"
+      sm: "min-h-8 py-1 pe-9 ps-2.5 text-sm leading-5",
+      md: "min-h-9 py-1.5 pe-10 ps-3 text-sm leading-5",
+      lg: "min-h-11 py-2 pe-11 ps-3.5 text-base leading-6"
     }
   },
   defaultVariants: {
@@ -32,9 +35,9 @@ export const nativeSelectIcon = tv({
   base: ["text-muted-foreground pointer-events-none absolute top-1/2 -translate-y-1/2"],
   variants: {
     size: {
-      sm: "end-2 size-3.5",
+      sm: "end-2.5 size-3.5",
       md: "end-3 size-4",
-      lg: "end-4 size-5"
+      lg: "end-3.5 size-5"
     }
   },
   defaultVariants: {

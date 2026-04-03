@@ -5,12 +5,12 @@ import { useToggleGroup } from "./ToggleGroup";
 
 const toggleGroupItem = tv({
   base: [
-    "inline-flex items-center justify-center rounded-md text-sm font-medium whitespace-nowrap",
-    "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
-    "data-[size=sm]:[&_svg:not([class*='size-'])]:size-3.5",
-    "data-[size=lg]:[&_svg:not([class*='size-'])]:size-4.5",
+    "inline-flex items-center justify-center rounded-sm text-xs font-medium whitespace-nowrap",
+    "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-3.5",
+    "data-[size=sm]:[&_svg:not([class*='size-'])]:size-3",
+    "data-[size=lg]:[&_svg:not([class*='size-'])]:size-4",
     "select-none transition-all outline-none",
-    "focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50",
+    "focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/45",
     "disabled:pointer-events-none disabled:opacity-50",
     "data-[state=on]:bg-accent data-[state=on]:text-accent-foreground data-[state=on]:shadow-xs"
   ],
@@ -18,13 +18,13 @@ const toggleGroupItem = tv({
     variant: {
       default: "bg-transparent hover:bg-muted hover:text-muted-foreground",
       outline:
-        "border border-input bg-transparent shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
-      pill: "rounded-full border border-transparent bg-muted/70 hover:bg-muted"
+        "border border-input/80 bg-transparent shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/25 dark:border-input/80 dark:hover:bg-input/45",
+      pill: "rounded-full border border-transparent bg-muted/60 hover:bg-muted"
     },
     size: {
-      sm: "h-8 min-w-8 gap-1 px-2 text-xs",
-      default: "h-9 min-w-9 gap-1.5 px-2.5",
-      lg: "h-10 min-w-10 gap-2 px-3.5 text-base"
+      sm: "h-7 min-w-7 gap-0.5 px-1.5 text-[11px] leading-none",
+      default: "h-8 min-w-8 gap-1 px-2",
+      lg: "h-9 min-w-9 gap-1.5 px-2.5 text-sm"
     }
   },
   defaultVariants: {

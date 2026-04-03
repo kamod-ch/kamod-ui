@@ -9,6 +9,7 @@ import { createGenericDocPage } from "./create-generic-doc-page";
 export const nativeSelectDocPage = createGenericDocPage({
   slug: "native-select",
   title: "Native Select",
+  previewChromeClass: "min-w-0 overflow-x-auto py-4 sm:py-6",
   usageLabel:
     "Browser-native `<select>` with Kamod styling, chevron affordance, sizes, validation states, and RTL-friendly layout — aligned with Starwind UI patterns.",
   installationText: "Import NativeSelect, NativeSelectOption, and optionally NativeSelectOptGroup from `@/components/kamod-ui/native-select`.",
@@ -18,30 +19,33 @@ export const nativeSelectDocPage = createGenericDocPage({
     {
       id: "native-select-default",
       title: "Default",
-      text: "Fruit picker with a disabled placeholder option — mirrors the primary Starwind example.",
-      code: `import { NativeSelect, NativeSelectOption } from "@/components/kamod-ui/native-select";
+      text: "Pair with Label and `id` / `for` for a visible field name. Use `required` with an empty first option so the placeholder uses theme colors (`invalid:text-muted-foreground`) instead of faint browser styling for disabled options.",
+      code: `import { Label } from "@/components/kamod-ui/label";
+import { NativeSelect, NativeSelectOption } from "@/components/kamod-ui/native-select";
 
 export const Example = () => (
-  <NativeSelect class="w-[240px]" defaultValue="">
-    <NativeSelectOption value="" disabled>
-      Select a fruit
-    </NativeSelectOption>
-    <NativeSelectOption value="apple">Apple</NativeSelectOption>
-    <NativeSelectOption value="banana">Banana</NativeSelectOption>
-    <NativeSelectOption value="blueberry">Blueberry</NativeSelectOption>
-    <NativeSelectOption value="pineapple">Pineapple</NativeSelectOption>
-  </NativeSelect>
+  <div class="flex w-full min-w-0 max-w-[240px] flex-col gap-2">
+    <Label for="native-select-fruit">Fruit</Label>
+    <NativeSelect id="native-select-fruit" class="w-full" required defaultValue="">
+      <NativeSelectOption value="">Select a fruit</NativeSelectOption>
+      <NativeSelectOption value="apple">Apple</NativeSelectOption>
+      <NativeSelectOption value="banana">Banana</NativeSelectOption>
+      <NativeSelectOption value="blueberry">Blueberry</NativeSelectOption>
+      <NativeSelectOption value="pineapple">Pineapple</NativeSelectOption>
+    </NativeSelect>
+  </div>
 );`,
       renderPreview: () => (
-        <NativeSelect class="w-[240px]" defaultValue="">
-          <NativeSelectOption value="" disabled>
-            Select a fruit
-          </NativeSelectOption>
-          <NativeSelectOption value="apple">Apple</NativeSelectOption>
-          <NativeSelectOption value="banana">Banana</NativeSelectOption>
-          <NativeSelectOption value="blueberry">Blueberry</NativeSelectOption>
-          <NativeSelectOption value="pineapple">Pineapple</NativeSelectOption>
-        </NativeSelect>
+        <div class="flex w-full min-w-0 max-w-[240px] flex-col gap-2">
+          <Label for="native-select-fruit">Fruit</Label>
+          <NativeSelect id="native-select-fruit" class="w-full" required defaultValue="">
+            <NativeSelectOption value="">Select a fruit</NativeSelectOption>
+            <NativeSelectOption value="apple">Apple</NativeSelectOption>
+            <NativeSelectOption value="banana">Banana</NativeSelectOption>
+            <NativeSelectOption value="blueberry">Blueberry</NativeSelectOption>
+            <NativeSelectOption value="pineapple">Pineapple</NativeSelectOption>
+          </NativeSelect>
+        </div>
       )
     },
     {
@@ -51,10 +55,8 @@ export const Example = () => (
       code: `import { NativeSelect, NativeSelectOptGroup, NativeSelectOption } from "@/components/kamod-ui/native-select";
 
 export const Example = () => (
-  <NativeSelect class="w-[260px]" defaultValue="">
-    <NativeSelectOption value="" disabled>
-      Select an option
-    </NativeSelectOption>
+  <NativeSelect class="w-[260px]" required defaultValue="">
+    <NativeSelectOption value="">Select an option</NativeSelectOption>
     <NativeSelectOptGroup label="Fruits">
       <NativeSelectOption value="apple">Apple</NativeSelectOption>
       <NativeSelectOption value="banana">Banana</NativeSelectOption>
@@ -66,10 +68,8 @@ export const Example = () => (
   </NativeSelect>
 );`,
       renderPreview: () => (
-        <NativeSelect class="w-[260px]" defaultValue="">
-          <NativeSelectOption value="" disabled>
-            Select an option
-          </NativeSelectOption>
+        <NativeSelect class="w-[260px]" required defaultValue="">
+          <NativeSelectOption value="">Select an option</NativeSelectOption>
           <NativeSelectOptGroup label="Fruits">
             <NativeSelectOption value="apple">Apple</NativeSelectOption>
             <NativeSelectOption value="banana">Banana</NativeSelectOption>
@@ -132,12 +132,10 @@ export const Example = () => (
 import { NativeSelect, NativeSelectOption } from "@/components/kamod-ui/native-select";
 
 export const Example = () => (
-  <div class="grid w-full max-w-sm gap-2">
+  <div class="grid w-full min-w-0 max-w-sm gap-2">
     <Label for="native-select-invalid">Framework</Label>
-    <NativeSelect id="native-select-invalid" class="w-full" aria-invalid defaultValue="">
-      <NativeSelectOption value="" disabled>
-        Select a framework
-      </NativeSelectOption>
+    <NativeSelect id="native-select-invalid" class="w-full" aria-invalid required defaultValue="">
+      <NativeSelectOption value="">Select a framework</NativeSelectOption>
       <NativeSelectOption value="astro">Astro</NativeSelectOption>
       <NativeSelectOption value="next">Next.js</NativeSelectOption>
       <NativeSelectOption value="svelte">SvelteKit</NativeSelectOption>
@@ -146,12 +144,10 @@ export const Example = () => (
   </div>
 );`,
       renderPreview: () => (
-        <div class="grid w-full max-w-sm gap-2">
+        <div class="grid w-full min-w-0 max-w-sm gap-2">
           <Label for="native-select-invalid">Framework</Label>
-          <NativeSelect id="native-select-invalid" class="w-full" aria-invalid defaultValue="">
-            <NativeSelectOption value="" disabled>
-              Select a framework
-            </NativeSelectOption>
+          <NativeSelect id="native-select-invalid" class="w-full" aria-invalid required defaultValue="">
+            <NativeSelectOption value="">Select a framework</NativeSelectOption>
             <NativeSelectOption value="astro">Astro</NativeSelectOption>
             <NativeSelectOption value="next">Next.js</NativeSelectOption>
             <NativeSelectOption value="svelte">SvelteKit</NativeSelectOption>
@@ -168,24 +164,18 @@ export const Example = () => (
 
 export const Example = () => (
   <div class="flex flex-col gap-4 sm:flex-row sm:items-end">
-    <NativeSelect size="sm" class="w-[180px]" defaultValue="">
-      <NativeSelectOption value="" disabled>
-        Small
-      </NativeSelectOption>
+    <NativeSelect size="sm" class="w-[180px]" required defaultValue="">
+      <NativeSelectOption value="">Small</NativeSelectOption>
       <NativeSelectOption value="one">Option 1</NativeSelectOption>
       <NativeSelectOption value="two">Option 2</NativeSelectOption>
     </NativeSelect>
-    <NativeSelect size="md" class="w-[180px]" defaultValue="">
-      <NativeSelectOption value="" disabled>
-        Medium
-      </NativeSelectOption>
+    <NativeSelect size="md" class="w-[180px]" required defaultValue="">
+      <NativeSelectOption value="">Medium</NativeSelectOption>
       <NativeSelectOption value="one">Option 1</NativeSelectOption>
       <NativeSelectOption value="two">Option 2</NativeSelectOption>
     </NativeSelect>
-    <NativeSelect size="lg" class="w-[180px]" defaultValue="">
-      <NativeSelectOption value="" disabled>
-        Large
-      </NativeSelectOption>
+    <NativeSelect size="lg" class="w-[180px]" required defaultValue="">
+      <NativeSelectOption value="">Large</NativeSelectOption>
       <NativeSelectOption value="one">Option 1</NativeSelectOption>
       <NativeSelectOption value="two">Option 2</NativeSelectOption>
     </NativeSelect>
@@ -193,24 +183,18 @@ export const Example = () => (
 );`,
       renderPreview: () => (
         <div class="flex flex-col gap-4 sm:flex-row sm:items-end">
-          <NativeSelect size="sm" class="w-[180px]" defaultValue="">
-            <NativeSelectOption value="" disabled>
-              Small
-            </NativeSelectOption>
+          <NativeSelect size="sm" class="w-[180px]" required defaultValue="">
+            <NativeSelectOption value="">Small</NativeSelectOption>
             <NativeSelectOption value="one">Option 1</NativeSelectOption>
             <NativeSelectOption value="two">Option 2</NativeSelectOption>
           </NativeSelect>
-          <NativeSelect size="md" class="w-[180px]" defaultValue="">
-            <NativeSelectOption value="" disabled>
-              Medium
-            </NativeSelectOption>
+          <NativeSelect size="md" class="w-[180px]" required defaultValue="">
+            <NativeSelectOption value="">Medium</NativeSelectOption>
             <NativeSelectOption value="one">Option 1</NativeSelectOption>
             <NativeSelectOption value="two">Option 2</NativeSelectOption>
           </NativeSelect>
-          <NativeSelect size="lg" class="w-[180px]" defaultValue="">
-            <NativeSelectOption value="" disabled>
-              Large
-            </NativeSelectOption>
+          <NativeSelect size="lg" class="w-[180px]" required defaultValue="">
+            <NativeSelectOption value="">Large</NativeSelectOption>
             <NativeSelectOption value="one">Option 1</NativeSelectOption>
             <NativeSelectOption value="two">Option 2</NativeSelectOption>
           </NativeSelect>
@@ -250,10 +234,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 
 export const Example = () => (
   <div dir="rtl">
-    <NativeSelect class="w-[240px]" defaultValue="">
-      <NativeSelectOption value="" disabled>
-        Select a fruit
-      </NativeSelectOption>
+    <NativeSelect class="w-[240px]" required defaultValue="">
+      <NativeSelectOption value="">Select a fruit</NativeSelectOption>
       <NativeSelectOption value="apple">Apple</NativeSelectOption>
       <NativeSelectOption value="banana">Banana</NativeSelectOption>
       <NativeSelectOption value="grape">Grape</NativeSelectOption>
@@ -262,10 +244,8 @@ export const Example = () => (
 );`,
       renderPreview: () => (
         <div dir="rtl">
-          <NativeSelect class="w-[240px]" defaultValue="">
-            <NativeSelectOption value="" disabled>
-              Select a fruit
-            </NativeSelectOption>
+          <NativeSelect class="w-[240px]" required defaultValue="">
+            <NativeSelectOption value="">Select a fruit</NativeSelectOption>
             <NativeSelectOption value="apple">Apple</NativeSelectOption>
             <NativeSelectOption value="banana">Banana</NativeSelectOption>
             <NativeSelectOption value="grape">Grape</NativeSelectOption>
@@ -286,5 +266,5 @@ export const Example = () => (
     { prop: "…", type: "native <select> attributes", defaultValue: "—" }
   ],
   accessibilityText:
-    "Associate selects with Label using `id` / `for`. Use a disabled first option as a visible placeholder when no value is selected. Announce errors with nearby text and `aria-invalid` on the select."
+    "Associate selects with Label using `id` / `for`. For placeholders, prefer `required` with an empty first option so `:invalid` maps to readable `text-foreground/85` on the control; use a disabled first option only when you must block re-selecting the placeholder. Announce errors with nearby text and `aria-invalid` on the select."
 });
