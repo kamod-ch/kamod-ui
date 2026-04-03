@@ -131,11 +131,11 @@ const tabsCodeBySectionId: Record<TabsSectionId, () => string> = {
 };
 
 function TabsCodeInstallation(): string {
-  return `import { Tabs, TabsContent, TabsList, TabsTrigger } from "@kamod-ui/core";`;
+  return `import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/kamod-ui/tabs";`;
 }
 
 function TabsCodeSyncedTabs(): string {
-  return `import { Tabs, TabsContent, TabsList, TabsTrigger } from "@kamod-ui/core";
+  return `import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/kamod-ui/tabs";
 
 export const Example = () => (
   <div class="grid w-full max-w-xl gap-4">
@@ -176,7 +176,7 @@ export const Example = () => (
 }
 
 function TabsCodeDisabledTriggers(): string {
-  return `import { Tabs, TabsContent, TabsList, TabsTrigger } from "@kamod-ui/core";
+  return `import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/kamod-ui/tabs";
 
 export const Example = () => (
   <Tabs defaultValue="active" class="w-full max-w-xl">
@@ -201,7 +201,7 @@ export const Example = () => (
 }
 
 function TabsCodeNestedTabs(): string {
-  return `import { Tabs, TabsContent, TabsList, TabsTrigger } from "@kamod-ui/core";
+  return `import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/kamod-ui/tabs";
 
 export const Example = () => (
   <Tabs defaultValue="outer-1" class="w-full max-w-xl">
@@ -234,7 +234,7 @@ export const Example = () => (
 }
 
 function TabsCodeApiReference(): string {
-  return `import { Tabs, TabsContent, TabsList, TabsTrigger } from "@kamod-ui/core";
+  return `import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/kamod-ui/tabs";
 
 export const Example = () => (
   <Tabs defaultValue="account" class="w-full max-w-xl">
@@ -351,7 +351,7 @@ export const tabsDocPage: DocPageModule = {
     {
       id: "installation",
       title: "Installation",
-      text: "Install the package and import Tabs, TabsList, TabsTrigger and TabsContent from @kamod-ui/core."
+      text: "Install the package and import Tabs, TabsList, TabsTrigger and TabsContent from `@/components/kamod-ui/tabs`."
     },
     {
       id: "synced-tabs",
@@ -428,21 +428,11 @@ export const tabsDocPage: DocPageModule = {
             </TabsContent>
           </Tabs>
         ),
-        codeSnippet: `import {
-  Button,
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-  Input,
-  Label,
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger
-} from "@kamod-ui/core";
+        codeSnippet: `import { Button } from "@/components/kamod-ui/button"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/kamod-ui/card"
+import { Input } from "@/components/kamod-ui/input"
+import { Label } from "@/components/kamod-ui/label"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/kamod-ui/tabs";
 
 export const Example = () => (
   <Tabs defaultValue="account" class="w-full max-w-xl">

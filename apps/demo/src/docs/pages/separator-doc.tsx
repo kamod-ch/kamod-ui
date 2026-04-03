@@ -5,14 +5,14 @@ export const separatorDocPage = createGenericDocPage({
   slug: "separator",
   title: "Separator",
   usageLabel: "Separator trennt Inhalte visuell oder semantisch in modernen Layouts.",
-  installationText: "Import Separator from @kamod-ui/core.",
+  installationText: "Import Separator from `@/components/kamod-ui/separator`.",
   usageText: "Nutze horizontale Separatoren fuer gestapelte Bereiche und vertikale Separatoren fuer Inline-Gruppen oder Menues.",
   exampleSections: [
     {
       id: "horizontal-separator",
       title: "Horizontal Separator",
       text: "Klassische Trennung zwischen Content-Bloecken in einer vertikalen Sektion.",
-      code: `import { Separator } from "@kamod-ui/core";
+      code: `import { Separator } from "@/components/kamod-ui/separator";
 
 export const Example = () => (
   <div class="w-full max-w-md space-y-2">
@@ -45,7 +45,7 @@ export const Example = () => (
       id: "vertical-separator",
       title: "Vertical Separator",
       text: "Nutze `orientation=\"vertical\"` fuer kompakte Inline-Navigation.",
-      code: `import { Separator } from "@kamod-ui/core";
+      code: `import { Separator } from "@/components/kamod-ui/separator";
 
 export const Example = () => (
   <div class="flex h-5 items-center space-x-4 text-sm">
@@ -70,7 +70,7 @@ export const Example = () => (
       id: "menu-separator",
       title: "Menu",
       text: "Vertikale Separatoren zwischen Menuepunkten mit zusaetzlichen Beschreibungen.",
-      code: `import { Separator } from "@kamod-ui/core";
+      code: `import { Separator } from "@/components/kamod-ui/separator";
 
 export const Example = () => (
   <div class="docs-separator-menu">
@@ -113,7 +113,7 @@ export const Example = () => (
       id: "list-separator",
       title: "List",
       text: "Horizontale Trenner zwischen Zeilen in einer kompakten Liste.",
-      code: `import { Separator } from "@kamod-ui/core";
+      code: `import { Separator } from "@/components/kamod-ui/separator";
 
 export const Example = () => (
   <div class="docs-separator-list">

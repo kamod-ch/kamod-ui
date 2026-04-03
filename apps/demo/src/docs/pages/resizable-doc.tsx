@@ -6,7 +6,7 @@ export const resizableDocPage = createGenericDocPage({
   title: "Resizable",
   usageLabel: "shadcn-style resizable panel primitives for modern split layouts.",
   installationText:
-    "Resizable is part of `@kamod-ui/core` (no extra install step beyond the package). Import `ResizablePanelGroup`, `ResizablePanel`, and `ResizableHandle` from `@kamod-ui/core`.",
+    "Resizable is part of `@kamod-ui/core` (no extra install step beyond the package). Import `ResizablePanelGroup`, `ResizablePanel`, and `ResizableHandle` from `@/components/kamod-ui/resizable`.",
   usageText:
     "Use `direction` on `ResizablePanelGroup` to switch between horizontal and vertical layouts. Place `ResizableHandle` between adjacent panels. For a more visible grab affordance, pass `withHandle` on the handle.",
   exampleSections: [
@@ -14,7 +14,7 @@ export const resizableDocPage = createGenericDocPage({
       id: "horizontal-panels",
       title: "Horizontal Panels",
       text: "Default setup for editor/sidebar layouts.",
-      code: `import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@kamod-ui/core";
+      code: `import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/kamod-ui/resizable";
 
 export const Example = () => (
   <ResizablePanelGroup direction="horizontal" class="min-h-56">
@@ -43,7 +43,7 @@ export const Example = () => (
       id: "vertical-panels",
       title: "Vertical Panels",
       text: "Stacked split view for logs or inspector layouts.",
-      code: `import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@kamod-ui/core";
+      code: `import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/kamod-ui/resizable";
 
 export const Example = () => (
   <ResizablePanelGroup direction="vertical" class="min-h-64">
@@ -72,7 +72,7 @@ export const Example = () => (
       id: "three-column",
       title: "Three Columns",
       text: "A common pattern for navigation + sidebar + main content.",
-      code: `import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@kamod-ui/core";
+      code: `import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/kamod-ui/resizable";
 
 export const Example = () => (
   <ResizablePanelGroup direction="horizontal" class="min-h-56">
@@ -109,7 +109,7 @@ export const Example = () => (
       id: "handle-with-handle",
       title: "Handle",
       text: "Use `withHandle` to render a visible grab affordance.",
-      code: `import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@kamod-ui/core";
+      code: `import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/kamod-ui/resizable";
 
 export const Example = () => (
   <ResizablePanelGroup direction="horizontal" class="min-h-56">

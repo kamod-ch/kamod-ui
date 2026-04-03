@@ -21,6 +21,12 @@ import { ApiReference } from "../components/ApiReference";
 import { CodeBlock } from "../components/CodeBlock";
 import type { DocPageModule } from "../types";
 
+const breadcrumbDropdownTriggerClass =
+  "text-muted-foreground hover:text-foreground hover:bg-muted/60 -mx-1 flex items-center gap-1 rounded-md px-1.5 py-0.5 text-sm transition-[color,background-color] duration-150 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2";
+
+const breadcrumbEllipsisTriggerClass =
+  "rounded-md border-0 focus-visible:border-transparent bg-background shadow-none hover:bg-muted/70 aria-expanded:bg-muted dark:bg-background dark:hover:bg-muted/50";
+
 function BreadcrumbHeroDemo() {
   return (
     <Breadcrumb>
@@ -34,8 +40,8 @@ function BreadcrumbHeroDemo() {
         <BreadcrumbItem>
           <Dropdown>
             <DropdownTrigger asChild>
-              <Button size="icon-sm" variant="ghost" aria-label="Toggle menu">
-                <BreadcrumbEllipsis />
+              <Button size="icon-sm" variant="ghost" class={breadcrumbEllipsisTriggerClass} aria-label="Toggle menu">
+                <BreadcrumbEllipsis class="flex size-7 items-center justify-center [&_svg]:size-3.5" />
               </Button>
             </DropdownTrigger>
             <DropdownContent align="start">
@@ -136,9 +142,9 @@ function BreadcrumbRtlDemo() {
             <BreadcrumbItem>
               <Dropdown>
                 <DropdownTrigger asChild>
-                  <button type="button" class="text-muted-foreground hover:text-foreground flex items-center gap-1 transition-colors">
+                  <button type="button" class={breadcrumbDropdownTriggerClass}>
                     {t.components}
-                    <ChevronDown class="size-3.5 shrink-0" />
+                    <ChevronDown class="size-3.5 shrink-0 opacity-70" />
                   </button>
                 </DropdownTrigger>
                 <DropdownContent align="start">
@@ -163,21 +169,12 @@ function BreadcrumbRtlDemo() {
   );
 }
 
-const heroCode = `import {
-  Breadcrumb,
-  BreadcrumbEllipsis,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-  Button,
-  Dropdown,
-  DropdownContent,
-  DropdownGroup,
-  DropdownItem,
-  DropdownTrigger,
-} from "@kamod-ui/core";
+const heroCode = `import { Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/kamod-ui/breadcrumb"
+import { Button } from "@/components/kamod-ui/button"
+import { Dropdown, DropdownContent, DropdownGroup, DropdownItem, DropdownTrigger } from "@/components/kamod-ui/dropdown";
+
+const ellipsisBtnClass =
+  "rounded-md border-0 focus-visible:border-transparent bg-background shadow-none hover:bg-muted/70 aria-expanded:bg-muted dark:bg-background dark:hover:bg-muted/50";
 
 export const Example = () => (
   <Breadcrumb>
@@ -191,11 +188,17 @@ export const Example = () => (
       <BreadcrumbItem>
         <Dropdown>
           <DropdownTrigger asChild>
-            <Button size="icon-sm" variant="ghost" aria-label="Toggle menu">
-              <BreadcrumbEllipsis />
+            <Button size="icon-sm" variant="ghost" class={ellipsisBtnClass} aria-label="Toggle menu">
+              <BreadcrumbEllipsis class="flex size-7 items-center justify-center [&_svg]:size-3.5" />
             </Button>
           </DropdownTrigger>
-          <DropdownContent align="start">…</DropdownContent>
+          <DropdownContent align="start">
+            <DropdownGroup>
+              <DropdownItem>Documentation</DropdownItem>
+              <DropdownItem>Themes</DropdownItem>
+              <DropdownItem>GitHub</DropdownItem>
+            </DropdownGroup>
+          </DropdownContent>
         </Dropdown>
       </BreadcrumbItem>
       …
@@ -222,14 +225,7 @@ const sectionBlocks: Record<string, { preview: () => ComponentChildren; code: st
         </BreadcrumbList>
       </Breadcrumb>
     ),
-    code: `import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@kamod-ui/core";
+    code: `import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/kamod-ui/breadcrumb";
 
 export const Example = () => (
   <Breadcrumb>
@@ -276,14 +272,7 @@ export const Example = () => (
       </Breadcrumb>
     ),
     code: `import { Dot } from "lucide-preact";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@kamod-ui/core";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/kamod-ui/breadcrumb";
 
 export const Example = () => (
   <Breadcrumb>
@@ -312,9 +301,9 @@ export const Example = () => (
           <BreadcrumbItem>
             <Dropdown>
               <DropdownTrigger asChild>
-                <button type="button" class="text-muted-foreground hover:text-foreground flex items-center gap-1 transition-colors">
+                <button type="button" class={breadcrumbDropdownTriggerClass}>
                   Components
-                  <ChevronDown class="size-3.5 shrink-0" />
+                  <ChevronDown class="size-3.5 shrink-0 opacity-70" />
                 </button>
               </DropdownTrigger>
               <DropdownContent align="start">
@@ -336,19 +325,11 @@ export const Example = () => (
       </Breadcrumb>
     ),
     code: `import { ChevronDown, Dot } from "lucide-preact";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-  Dropdown,
-  DropdownContent,
-  DropdownGroup,
-  DropdownItem,
-  DropdownTrigger,
-} from "@kamod-ui/core";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/kamod-ui/breadcrumb"
+import { Dropdown, DropdownContent, DropdownGroup, DropdownItem, DropdownTrigger } from "@/components/kamod-ui/dropdown";
+
+const triggerClass =
+  "text-muted-foreground hover:text-foreground hover:bg-muted/60 -mx-1 flex items-center gap-1 rounded-md px-1.5 py-0.5 text-sm transition-[color,background-color] duration-150 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2";
 
 export const Example = () => (
   <Breadcrumb>
@@ -360,12 +341,18 @@ export const Example = () => (
       <BreadcrumbItem>
         <Dropdown>
           <DropdownTrigger asChild>
-            <button type="button" class="flex items-center gap-1">
+            <button type="button" class={triggerClass}>
               Components
-              <ChevronDown class="size-3.5" />
+              <ChevronDown class="size-3.5 shrink-0 opacity-70" />
             </button>
           </DropdownTrigger>
-          <DropdownContent align="start">…</DropdownContent>
+          <DropdownContent align="start">
+            <DropdownGroup>
+              <DropdownItem>Documentation</DropdownItem>
+              <DropdownItem>Themes</DropdownItem>
+              <DropdownItem>GitHub</DropdownItem>
+            </DropdownGroup>
+          </DropdownContent>
         </Dropdown>
       </BreadcrumbItem>
       …
@@ -399,15 +386,7 @@ export const Example = () => (
         </BreadcrumbList>
       </Breadcrumb>
     ),
-    code: `import {
-  Breadcrumb,
-  BreadcrumbEllipsis,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@kamod-ui/core";
+    code: `import { Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/kamod-ui/breadcrumb";
 
 export const Example = () => (
   <Breadcrumb>
@@ -453,14 +432,7 @@ export const Example = () => (
         </BreadcrumbList>
       </Breadcrumb>
     ),
-    code: `import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@kamod-ui/core";
+    code: `import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/kamod-ui/breadcrumb";
 
 export const Example = () => (
   <Breadcrumb>
@@ -486,7 +458,7 @@ export const Example = () => (
   },
   rtl: {
     preview: () => <BreadcrumbRtlDemo />,
-    code: `import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, DirectionProvider, Dropdown, … } from "@kamod-ui/core";
+    code: `import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, DirectionProvider, Dropdown, … } from "@/components/kamod-ui/breadcrumb";
 import { ChevronDown, Dot } from "lucide-preact";
 // Set dir on Breadcrumb; use Dot separators and a dropdown trigger row for the middle segment.`
   }
@@ -541,7 +513,7 @@ export const breadcrumbDocPage: DocPageModule = {
     {
       id: "installation",
       title: "Installation",
-      text: "Import Breadcrumb primitives from @kamod-ui/core."
+      text: "Import Breadcrumb primitives from `@/components/kamod-ui/breadcrumb`."
     },
     {
       id: "usage",
@@ -588,15 +560,7 @@ export const breadcrumbDocPage: DocPageModule = {
         return (
           <div class="grid gap-3">
             <CodeBlock
-              code={`import {
-  Breadcrumb,
-  BreadcrumbEllipsis,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@kamod-ui/core";`}
+              code={`import { Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/kamod-ui/breadcrumb";`}
               language="tsx"
             />
           </div>

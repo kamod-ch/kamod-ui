@@ -101,7 +101,7 @@ export const navigationMenuDocPage = createGenericDocPage({
   slug: "navigation-menu",
   title: "Navigation Menu",
   usageLabel: "Hierarchical top-level navigation with hover and click, aligned with shadcn/ui patterns.",
-  installationText: "Import NavigationMenu primitives and optional `navigationMenuTriggerStyle` from @kamod-ui/core.",
+  installationText: "Import NavigationMenu primitives and optional `navigationMenuTriggerStyle` from `@/components/kamod-ui/navigation-menu`.",
   usageText:
     "Wrap each branch in NavigationMenuItem. Pair NavigationMenuTrigger with NavigationMenuContent for flyouts; use NavigationMenuLink with `navigationMenuTriggerStyle()` for a top-level link that matches trigger styling. Submenus share one open panel with delay and skip-delay behavior similar to Radix.",
   exampleSections: [
@@ -120,14 +120,7 @@ export const navigationMenuDocPage = createGenericDocPage({
       id: "basic",
       title: "Basic",
       text: "Minimal trigger and content pair inside a list.",
-      code: `import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger
-} from "@kamod-ui/core";
+      code: `import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "@/components/kamod-ui/navigation-menu";
 
 export const Example = () => (
   <NavigationMenu>
@@ -160,13 +153,7 @@ export const Example = () => (
       id: "link-as-trigger-style",
       title: "Link with trigger style",
       text: "Use `navigationMenuTriggerStyle()` on NavigationMenuLink so a plain anchor matches submenu triggers (shadcn Link composition pattern).",
-      code: `import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  navigationMenuTriggerStyle
-} from "@kamod-ui/core";
+      code: `import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, navigationMenuTriggerStyle } from "@/components/kamod-ui/navigation-menu";
 
 export const Example = () => (
   <NavigationMenu>
@@ -197,15 +184,7 @@ export const Example = () => (
       id: "rtl",
       title: "RTL",
       text: "Set `dir=\"rtl\"` on NavigationMenu for right-to-left layouts; chevron rotation follows logical start/end.",
-      code: `import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  navigationMenuTriggerStyle
-} from "@kamod-ui/core";
+      code: `import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle } from "@/components/kamod-ui/navigation-menu";
 
 export const Example = () => (
   <NavigationMenu dir="rtl">
@@ -262,14 +241,7 @@ export const Example = () => (
       id: "delays",
       title: "Delay tuning",
       text: "Adjust hover open delay and rapid-switch skip window (defaults 200ms / 300ms, Radix-like).",
-      code: `import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger
-} from "@kamod-ui/core";
+      code: `import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "@/components/kamod-ui/navigation-menu";
 
 export const Example = () => (
   <NavigationMenu delayDuration={400} skipDelayDuration={500}>

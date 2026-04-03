@@ -20,14 +20,14 @@ export const tableDocPage = createGenericDocPage({
   slug: "table",
   title: "Table",
   usageLabel: "A responsive, modern table primitive for structured data with semantic markup.",
-  installationText: "Import Table primitives from @kamod-ui/core.",
+  installationText: "Import Table primitives from `@/components/kamod-ui/table`.",
   usageText: "Use TableHeader/TableBody/TableFooter and align numeric data to the right for better scanability.",
   exampleSections: [
     {
       id: "invoice-table",
       title: "Invoice Table",
       text: "A modern invoice table with status, payment method, and right-aligned amounts.",
-      code: `import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@kamod-ui/core";
+      code: `import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/kamod-ui/table";
 
 export const Example = () => (
   <Table class="w-full max-w-2xl">
@@ -85,7 +85,7 @@ export const Example = () => (
       id: "table-footer",
       title: "Table Footer",
       text: "Use a footer row for totals and quick financial summaries.",
-      code: `import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHeader, TableHead, TableRow } from "@kamod-ui/core";
+      code: `import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHeader, TableHead, TableRow } from "@/components/kamod-ui/table";
 
 export const Example = () => (
   <Table class="w-full max-w-2xl">
@@ -159,20 +159,8 @@ export const Example = () => (
       id: "table-actions",
       title: "Table Actions",
       text: "Add contextual row actions with a compact dropdown menu.",
-      code: `import {
-  Dropdown,
-  DropdownContent,
-  DropdownItem,
-  DropdownLabel,
-  DropdownSeparator,
-  DropdownTrigger,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow
-} from "@kamod-ui/core";
+      code: `import { Dropdown, DropdownContent, DropdownItem, DropdownLabel, DropdownSeparator, DropdownTrigger } from "@/components/kamod-ui/dropdown"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/kamod-ui/table";
 
 export const Example = () => (
   <Table class="w-full max-w-2xl">

@@ -8,7 +8,8 @@ const SIDES = ["left", "top", "bottom", "right"] as const;
 export const hoverCardDocPage = createGenericDocPage({
   slug: "hover-card",
   title: "Hover Card",
-  previewCode: `import { Button, HoverCard, HoverCardContent, HoverCardTrigger } from "@kamod-ui/core";
+  previewCode: `import { Button } from "@/components/kamod-ui/button"
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/kamod-ui/hover-card";
 
 export const Example = () => (
   <HoverCard openDelay={10} closeDelay={100}>
@@ -24,7 +25,7 @@ export const Example = () => (
 );`,
   usageLabel:
     "Rich preview on hover or focus — delays, asChild trigger, side/align positioning, shadcn-aligned examples.",
-  installationText: "Import HoverCard, HoverCardTrigger and HoverCardContent from @kamod-ui/core.",
+  installationText: "Import HoverCard, HoverCardTrigger and HoverCardContent from `@/components/kamod-ui/hover-card`.",
   usageText:
     "Wrap a trigger and content. Use openDelay and closeDelay on HoverCard to avoid accidental opens. Use HoverCardTrigger asChild to use a Button or link. Position content with side and align on HoverCardContent.",
   exampleSections: [
@@ -32,7 +33,8 @@ export const Example = () => (
       id: "hover-demo",
       title: "Demo",
       text: "Link-style Button trigger and structured body (shadcn HoverCardDemo).",
-      code: `import { Button, HoverCard, HoverCardContent, HoverCardTrigger } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/kamod-ui/hover-card";
 
 export const Example = () => (
   <HoverCard openDelay={10} closeDelay={100}>
@@ -63,7 +65,7 @@ export const Example = () => (
       id: "hover-usage",
       title: "Usage",
       text: "Minimal unstyled trigger (default button chrome).",
-      code: `import { HoverCard, HoverCardContent, HoverCardTrigger } from "@kamod-ui/core";
+      code: `import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/kamod-ui/hover-card";
 
 export const Example = () => (
   <HoverCard>
@@ -84,7 +86,7 @@ export const Example = () => (
       id: "hover-delays",
       title: "Trigger delays",
       text: "openDelay and closeDelay on HoverCard (shadcn Trigger Delays).",
-      code: `import { HoverCard, HoverCardContent, HoverCardTrigger } from "@kamod-ui/core";
+      code: `import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/kamod-ui/hover-card";
 
 export const Example = () => (
   <HoverCard openDelay={100} closeDelay={200}>
@@ -103,7 +105,7 @@ export const Example = () => (
       id: "hover-positioning",
       title: "Positioning",
       text: "side and align on HoverCardContent (shadcn Positioning).",
-      code: `import { HoverCard, HoverCardContent, HoverCardTrigger } from "@kamod-ui/core";
+      code: `import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/kamod-ui/hover-card";
 
 export const Example = () => (
   <HoverCard openDelay={80} closeDelay={80}>
@@ -126,7 +128,8 @@ export const Example = () => (
       id: "hover-sides",
       title: "Sides",
       text: "All four sides (shadcn Sides).",
-      code: `import { Button, HoverCard, HoverCardContent, HoverCardTrigger } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/kamod-ui/hover-card";
 
 const SIDES = ["left", "top", "bottom", "right"] as const;
 
@@ -173,7 +176,8 @@ export const Example = () => (
       id: "hover-rtl",
       title: "RTL",
       text: "dir=\"rtl\" on content for mirrored layout (shadcn RTL).",
-      code: `import { Button, HoverCard, HoverCardContent, HoverCardTrigger } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/kamod-ui/hover-card";
 
 export const Example = () => (
   <div class="flex flex-wrap justify-center gap-2" dir="rtl">

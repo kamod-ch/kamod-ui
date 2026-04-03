@@ -56,7 +56,7 @@ const cursorCssSnippet = `@layer base {
 }`;
 
 const heroCode = `import { ArrowUp } from "lucide-preact";
-import { Button } from "@kamod-ui/core";
+import { Button } from "@/components/kamod-ui/button";
 
 export const Example = () => (
   <div class="flex flex-wrap items-center gap-2 md:flex-row">
@@ -104,7 +104,7 @@ const sectionBlocks: Record<string, { preview: () => ComponentChildren; code: st
       </div>
     ),
     code: `import { ArrowUpRight } from "lucide-preact";
-import { Button } from "@kamod-ui/core";
+import { Button } from "@/components/kamod-ui/button";
 
 export const Example = () => (
   <div class="flex flex-col items-start gap-8 sm:flex-row">
@@ -129,37 +129,37 @@ export const Example = () => (
   },
   default: {
     preview: () => <Button>Button</Button>,
-    code: `import { Button } from "@kamod-ui/core";
+    code: `import { Button } from "@/components/kamod-ui/button";
 
 export const Example = () => <Button>Button</Button>;`
   },
   outline: {
     preview: () => <Button variant="outline">Outline</Button>,
-    code: `import { Button } from "@kamod-ui/core";
+    code: `import { Button } from "@/components/kamod-ui/button";
 
 export const Example = () => <Button variant="outline">Outline</Button>;`
   },
   secondary: {
     preview: () => <Button variant="secondary">Secondary</Button>,
-    code: `import { Button } from "@kamod-ui/core";
+    code: `import { Button } from "@/components/kamod-ui/button";
 
 export const Example = () => <Button variant="secondary">Secondary</Button>;`
   },
   ghost: {
     preview: () => <Button variant="ghost">Ghost</Button>,
-    code: `import { Button } from "@kamod-ui/core";
+    code: `import { Button } from "@/components/kamod-ui/button";
 
 export const Example = () => <Button variant="ghost">Ghost</Button>;`
   },
   destructive: {
     preview: () => <Button variant="destructive">Destructive</Button>,
-    code: `import { Button } from "@kamod-ui/core";
+    code: `import { Button } from "@/components/kamod-ui/button";
 
 export const Example = () => <Button variant="destructive">Destructive</Button>;`
   },
   link: {
     preview: () => <Button variant="link">Link</Button>,
-    code: `import { Button } from "@kamod-ui/core";
+    code: `import { Button } from "@/components/kamod-ui/button";
 
 export const Example = () => <Button variant="link">Link</Button>;`
   },
@@ -170,7 +170,7 @@ export const Example = () => <Button variant="link">Link</Button>;`
       </Button>
     ),
     code: `import { ArrowUp } from "lucide-preact";
-import { Button } from "@kamod-ui/core";
+import { Button } from "@/components/kamod-ui/button";
 
 export const Example = () => (
   <Button variant="outline" size="icon" aria-label="Submit">
@@ -186,7 +186,7 @@ export const Example = () => (
       </Button>
     ),
     code: `import { GitBranch } from "lucide-preact";
-import { Button } from "@kamod-ui/core";
+import { Button } from "@/components/kamod-ui/button";
 
 export const Example = () => (
   <Button variant="outline" size="sm">
@@ -204,7 +204,7 @@ export const Example = () => (
       </div>
     ),
     code: `import { ArrowUp } from "lucide-preact";
-import { Button } from "@kamod-ui/core";
+import { Button } from "@/components/kamod-ui/button";
 
 export const Example = () => (
   <Button variant="outline" size="icon" class="rounded-full" aria-label="Submit">
@@ -225,7 +225,8 @@ export const Example = () => (
         </Button>
       </div>
     ),
-    code: `import { Button, Spinner } from "@kamod-ui/core";
+    code: `import { Button } from "@/components/kamod-ui/button"
+import { Spinner } from "@/components/kamod-ui/spinner";
 
 export const Example = () => (
   <div class="flex gap-2">
@@ -248,7 +249,8 @@ export const Example = () => (
         <Button variant="outline">Snooze</Button>
       </ButtonGroup>
     ),
-    code: `import { Button, ButtonGroup } from "@kamod-ui/core";
+    code: `import { Button } from "@/components/kamod-ui/button"
+import { ButtonGroup } from "@/components/kamod-ui/button-group";
 
 export const Example = () => (
   <ButtonGroup>
@@ -264,7 +266,7 @@ export const Example = () => (
         <a href="#login">Login</a>
       </Button>
     ),
-    code: `import { Button } from "@kamod-ui/core";
+    code: `import { Button } from "@/components/kamod-ui/button";
 
 export const Example = () => (
   <Button asChild>
@@ -274,7 +276,10 @@ export const Example = () => (
   },
   rtl: {
     preview: () => <ButtonRtlDemo />,
-    code: `import { ArrowRight, Button, DirectionProvider, Plus, Spinner } from "@kamod-ui/core";
+    code: `import { ArrowRight, Plus } from "lucide-preact";
+import { Button } from "@/components/kamod-ui/button";
+import { DirectionProvider } from "@/components/kamod-ui/direction";
+import { Spinner } from "@/components/kamod-ui/spinner";
 // Wrap row in DirectionProvider; mirror directional icons with rotate-180 in RTL.`
   }
 };
@@ -307,7 +312,7 @@ export const buttonDocPage: DocPageModule = {
     {
       id: "installation",
       title: "Installation",
-      text: "Import Button from @kamod-ui/core. Use variant and size props; optional asChild to merge styles onto a child element (for example an anchor)."
+      text: "Import Button from `@/components/kamod-ui/button`. Use variant and size props; optional asChild to merge styles onto a child element (for example an anchor)."
     },
     {
       id: "cursor",
@@ -375,7 +380,7 @@ export const buttonDocPage: DocPageModule = {
       if (sectionId === "installation") {
         return (
           <div class="grid gap-3">
-            <CodeBlock code={`import { Button } from "@kamod-ui/core";`} language="tsx" />
+            <CodeBlock code={`import { Button } from "@/components/kamod-ui/button";`} language="tsx" />
             <CodeBlock code={`<Button variant="outline">Button</Button>`} language="tsx" />
           </div>
         );

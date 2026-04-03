@@ -11,7 +11,7 @@ export const nativeSelectDocPage = createGenericDocPage({
   title: "Native Select",
   usageLabel:
     "Browser-native `<select>` with Kamod styling, chevron affordance, sizes, validation states, and RTL-friendly layout — aligned with Starwind UI patterns.",
-  installationText: "Import NativeSelect, NativeSelectOption, and optionally NativeSelectOptGroup from @kamod-ui/core.",
+  installationText: "Import NativeSelect, NativeSelectOption, and optionally NativeSelectOptGroup from `@/components/kamod-ui/native-select`.",
   usageText:
     "Use NativeSelect for forms that should use the platform picker on mobile. Pair with Label and `aria-invalid` for accessible validation. Prefer the custom Select when you need search, portals, or rich option content.",
   exampleSections: [
@@ -19,7 +19,7 @@ export const nativeSelectDocPage = createGenericDocPage({
       id: "native-select-default",
       title: "Default",
       text: "Fruit picker with a disabled placeholder option — mirrors the primary Starwind example.",
-      code: `import { NativeSelect, NativeSelectOption } from "@kamod-ui/core";
+      code: `import { NativeSelect, NativeSelectOption } from "@/components/kamod-ui/native-select";
 
 export const Example = () => (
   <NativeSelect class="w-[240px]" defaultValue="">
@@ -48,7 +48,7 @@ export const Example = () => (
       id: "native-select-groups",
       title: "Groups",
       text: "Use NativeSelectOptGroup to organize options into categories.",
-      code: `import { NativeSelect, NativeSelectOptGroup, NativeSelectOption } from "@kamod-ui/core";
+      code: `import { NativeSelect, NativeSelectOptGroup, NativeSelectOption } from "@/components/kamod-ui/native-select";
 
 export const Example = () => (
   <NativeSelect class="w-[260px]" defaultValue="">
@@ -85,7 +85,7 @@ export const Example = () => (
       id: "native-select-disabled",
       title: "Disabled",
       text: "Disable the whole control or individual options.",
-      code: `import { NativeSelect, NativeSelectOption } from "@kamod-ui/core";
+      code: `import { NativeSelect, NativeSelectOption } from "@/components/kamod-ui/native-select";
 
 export const Example = () => (
   <div class="flex flex-col gap-4">
@@ -128,7 +128,8 @@ export const Example = () => (
       id: "native-select-invalid",
       title: "Invalid",
       text: "Use `aria-invalid` with a visible error message for validation feedback.",
-      code: `import { Label, NativeSelect, NativeSelectOption } from "@kamod-ui/core";
+      code: `import { Label } from "@/components/kamod-ui/label"
+import { NativeSelect, NativeSelectOption } from "@/components/kamod-ui/native-select";
 
 export const Example = () => (
   <div class="grid w-full max-w-sm gap-2">
@@ -163,7 +164,7 @@ export const Example = () => (
       id: "native-select-size",
       title: "Size",
       text: "Use the `size` prop for compact or larger touch targets.",
-      code: `import { NativeSelect, NativeSelectOption } from "@kamod-ui/core";
+      code: `import { NativeSelect, NativeSelectOption } from "@/components/kamod-ui/native-select";
 
 export const Example = () => (
   <div class="flex flex-col gap-4 sm:flex-row sm:items-end">
@@ -221,10 +222,10 @@ export const Example = () => (
       title: "Native Select vs Select",
       text: "Choose NativeSelect for platform-native pickers and simple forms. Use the custom Select component when you need search, grouped virtualized lists, or rich option UI.",
       code: `// NativeSelect — mobile-friendly, zero JS overlay, full form semantics.
-import { NativeSelect, NativeSelectOption } from "@kamod-ui/core";
+import { NativeSelect, NativeSelectOption } from "@/components/kamod-ui/native-select";
 
 // Select — popover, keyboard nav, and advanced patterns (see Select docs).
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@kamod-ui/core";`,
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/kamod-ui/select";`,
       renderPreview: () => (
         <div class="bg-muted/50 text-muted-foreground rounded-lg border p-4 text-sm leading-relaxed">
           <p class="text-foreground mb-2 font-medium">When to use which</p>
@@ -245,7 +246,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
       id: "native-select-rtl",
       title: "RTL",
       text: "Set `dir=\"rtl\"` on a wrapper; padding and chevron use logical properties so the control mirrors correctly.",
-      code: `import { NativeSelect, NativeSelectOption } from "@kamod-ui/core";
+      code: `import { NativeSelect, NativeSelectOption } from "@/components/kamod-ui/native-select";
 
 export const Example = () => (
   <div dir="rtl">

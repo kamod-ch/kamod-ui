@@ -449,7 +449,7 @@ const CommandRtlPreview = () => {
 export const commandDocPage = createGenericDocPage({
   slug: "command",
   title: "Command",
-  previewCode: `import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator, CommandShortcut } from "@kamod-ui/core";
+  previewCode: `import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator, CommandShortcut } from "@/components/kamod-ui/command";
 
 export const Example = () => (
   <Command class="max-w-sm rounded-lg border">

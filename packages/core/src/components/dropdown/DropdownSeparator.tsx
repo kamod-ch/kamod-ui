@@ -7,7 +7,7 @@ export const DropdownSeparator = ({ class: className, ...rest }: DropdownSeparat
   <div
     role="separator"
     data-slot="dropdown-separator"
-    class={cn("bg-border -mx-1 my-1 h-px", className)}
+    class={cn("bg-border -mx-px my-px h-px", className)}
     {...rest}
   />
 );

@@ -24,10 +24,11 @@ const alignByAxis = {
 
 export const dropdownContent = tv({
   base: [
-    "bg-popover text-popover-foreground z-50 flex min-w-32 flex-col gap-0.5 overflow-hidden rounded-md border p-1 shadow-md outline-none",
-    "data-[state=open]:animate-in fade-in zoom-in-95",
-    "data-[state=closed]:animate-out data-[state=closed]:fill-mode-forwards fade-out zoom-out-95",
-    "absolute isolate max-h-96 overflow-y-auto"
+    "bg-white text-popover-foreground z-50 flex min-w-[7rem] flex-col gap-0 overflow-x-hidden overflow-y-auto rounded-lg p-px shadow-md outline-none ring-1 ring-foreground/10 dark:bg-popover",
+    "dark:ring-foreground/15",
+    "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=open]:duration-100",
+    "data-[state=closed]:animate-out data-[state=closed]:fill-mode-forwards data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=closed]:duration-100",
+    "absolute isolate max-h-96"
   ],
   variants: {
     side: {

@@ -5,14 +5,15 @@ export const scrollAreaDocPage = createGenericDocPage({
   slug: "scroll-area",
   title: "Scroll Area",
   usageLabel: "Scroll Area adds a modern, subtle scrollbar track with a dynamic thumb for long content regions.",
-  installationText: "Import ScrollArea and ScrollBar from @kamod-ui/core.",
+  installationText: "Import ScrollArea and ScrollBar from `@/components/kamod-ui/scroll-area`.",
   usageText: "Set fixed bounds, place overflow content inside `ScrollArea`, and add `ScrollBar` (vertical or horizontal) when needed.",
   exampleSections: [
     {
       id: "vertical-feed",
       title: "Vertical Feed",
       text: "A modern release feed with soft surface styling and a synced vertical thumb.",
-      code: `import { ScrollArea, ScrollBar } from "@kamod-ui/core";
+      code: `import { ScrollBar } from "lucide-preact"
+import { ScrollArea } from "@/components/kamod-ui/scroll-area";
 
 export const Example = () => (
   <ScrollArea class="h-56 rounded-xl border bg-card p-4">
@@ -49,7 +50,8 @@ export const Example = () => (
       id: "horizontal-gallery",
       title: "Horizontal Gallery",
       text: "A shadcn-like horizontal strip with visual cards and explicit horizontal scrollbar.",
-      code: `import { ScrollArea, ScrollBar } from "@kamod-ui/core";
+      code: `import { ScrollBar } from "lucide-preact"
+import { ScrollArea } from "@/components/kamod-ui/scroll-area";
 
 const items = [
   { title: "Aurora", accent: "from-cyan-500/25 to-sky-500/10" },
@@ -105,7 +107,8 @@ export const Example = () => (
       id: "reading-container",
       title: "Reading Container",
       text: "Use ScrollArea for dense documentation snippets while keeping the layout compact.",
-      code: `import { ScrollArea, ScrollBar } from "@kamod-ui/core";
+      code: `import { ScrollBar } from "lucide-preact"
+import { ScrollArea } from "@/components/kamod-ui/scroll-area";
 
 export const Example = () => (
   <ScrollArea class="h-44 rounded-xl border bg-muted/30 p-4">
@@ -136,7 +139,8 @@ export const Example = () => (
       id: "compact-chips",
       title: "Compact Chips",
       text: "Horizontal chips and tags stay tidy with an explicit bottom scrollbar.",
-      code: `import { ScrollArea, ScrollBar } from "@kamod-ui/core";
+      code: `import { ScrollBar } from "lucide-preact"
+import { ScrollArea } from "@/components/kamod-ui/scroll-area";
 
 const tags = [
   "Design System",

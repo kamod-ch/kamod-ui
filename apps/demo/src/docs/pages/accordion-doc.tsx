@@ -43,7 +43,7 @@ function AccordionHero() {
   );
 }
 
-const heroCode = `import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@kamod-ui/core";
+const heroCode = `import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/kamod-ui/accordion";
 
 <Accordion type="single" collapsible defaultValue="shipping" class="max-w-lg">
   <AccordionItem value="shipping">
@@ -249,7 +249,7 @@ const sectionBlocks: Record<string, { preview: () => ComponentChildren; code: st
         </CardContent>
       </Card>
     ),
-    code: `import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@kamod-ui/core";
+    code: `import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/kamod-ui/card";
 
 <Card class="w-full max-w-sm">
   <CardHeader>…</CardHeader>
@@ -260,7 +260,7 @@ const sectionBlocks: Record<string, { preview: () => ComponentChildren; code: st
   },
   rtl: {
     preview: () => <AccordionRtlDemo />,
-    code: `import { Accordion, …, DirectionProvider } from "@kamod-ui/core";
+    code: `import { Accordion, …, DirectionProvider } from "@/components/kamod-ui/accordion";
 
 // Set dir on Accordion or an ancestor; trigger label uses text-start for logical alignment.`
   }
@@ -414,12 +414,7 @@ export const accordionDocPage: DocPageModule = {
       if (sectionId === "installation") {
         return (
           <CodeBlock
-            code={`import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@kamod-ui/core";`}
+            code={`import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/kamod-ui/accordion";`}
             language="tsx"
           />
         );

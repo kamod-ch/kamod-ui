@@ -20,7 +20,8 @@ import { createGenericDocPage } from "./create-generic-doc-page";
 export const emptyDocPage = createGenericDocPage({
   slug: "empty",
   title: "Empty",
-  previewCode: `import { Button, Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@kamod-ui/core";
+  previewCode: `import { Button } from "@/components/kamod-ui/button"
+import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/kamod-ui/empty";
 import { ArrowUpRight, Folder } from "lucide-preact";
 
 export const Example = () => (
@@ -48,7 +49,7 @@ export const Example = () => (
   usageLabel:
     "Empty states for no data — composable EmptyHeader, EmptyMedia, EmptyTitle, EmptyDescription, EmptyContent (shadcn-aligned). Legacy title/description props still work.",
   installationText:
-    "Import Empty and subcomponents from @kamod-ui/core (EmptyHeader, EmptyMedia, EmptyTitle, EmptyDescription, EmptyContent).",
+    "Import Empty and subcomponents from `@/components/kamod-ui/empty` (EmptyHeader, EmptyMedia, EmptyTitle, EmptyDescription, EmptyContent).",
   usageText:
     "Compose media, title, and description in EmptyHeader; primary actions in EmptyContent. Add border or background via class on Empty. Legacy API: pass title and description props for quick dashed cards.",
   exampleSections: [
@@ -56,7 +57,8 @@ export const Example = () => (
       id: "empty-demo",
       title: "Demo",
       text: "Icon, title, description, actions, and footer link (shadcn EmptyDemo).",
-      code: `import { Button, Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/kamod-ui/empty";
 import { ArrowUpRight, Folder } from "lucide-preact";
 
 export const Example = () => (
@@ -108,7 +110,8 @@ export const Example = () => (
       id: "empty-usage",
       title: "Usage",
       text: "Minimal structure.",
-      code: `import { Button, Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/kamod-ui/empty";
 
 export const Example = () => (
   <Empty>
@@ -141,7 +144,7 @@ export const Example = () => (
       id: "empty-legacy",
       title: "Legacy props",
       text: "title + description + children (dashed border) for quick screens.",
-      code: `import { Empty } from "@kamod-ui/core";
+      code: `import { Empty } from "@/components/kamod-ui/empty";
 
 export const Example = () => (
   <Empty title="No projects yet" description="Create your first project to get started." />
@@ -154,7 +157,8 @@ export const Example = () => (
       id: "empty-legacy-action",
       title: "Legacy + action",
       text: "Children render below description.",
-      code: `import { Button, Empty } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Empty } from "@/components/kamod-ui/empty";
 
 export const Example = () => (
   <Empty title="No invoices" description="Create an invoice to start billing customers.">
@@ -171,7 +175,8 @@ export const Example = () => (
       id: "empty-outline",
       title: "Outline",
       text: "border border-dashed on Empty (shadcn Outline).",
-      code: `import { Button, Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/kamod-ui/empty";
 import { Cloud } from "lucide-preact";
 
 export const Example = () => (
@@ -211,7 +216,8 @@ export const Example = () => (
       id: "empty-background",
       title: "Background",
       text: "Muted panel height (shadcn Background).",
-      code: `import { Button, Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/kamod-ui/empty";
 import { Bell, RefreshCw } from "lucide-preact";
 
 export const Example = () => (
@@ -257,7 +263,9 @@ export const Example = () => (
       id: "empty-avatar",
       title: "Avatar",
       text: "EmptyMedia variant default for larger media (shadcn Avatar).",
-      code: `import { Avatar, AvatarFallback, AvatarImage, Button, Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@kamod-ui/core";
+      code: `import { Avatar, AvatarFallback, AvatarImage } from "@/components/kamod-ui/avatar"
+import { Button } from "@/components/kamod-ui/button"
+import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/kamod-ui/empty";
 
 export const Example = () => (
   <Empty>
@@ -298,7 +306,9 @@ export const Example = () => (
       id: "empty-avatar-group",
       title: "Avatar group",
       text: "Stacked avatars in EmptyMedia (shadcn Avatar Group).",
-      code: `import { Avatar, AvatarFallback, AvatarImage, Button, Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@kamod-ui/core";
+      code: `import { Avatar, AvatarFallback, AvatarImage } from "@/components/kamod-ui/avatar"
+import { Button } from "@/components/kamod-ui/button"
+import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/kamod-ui/empty";
 import { Plus } from "lucide-preact";
 
 export const Example = () => (
@@ -366,7 +376,9 @@ export const Example = () => (
       id: "empty-input-group",
       title: "Input group",
       text: "Search UI inside EmptyContent (shadcn InputGroup).",
-      code: `import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyTitle, InputGroup, InputGroupAddon, InputGroupInput, Kbd } from "@kamod-ui/core";
+      code: `import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/kamod-ui/empty"
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/kamod-ui/input-group"
+import { Kbd } from "@/components/kamod-ui/kbd";
 import { Search } from "lucide-preact";
 
 export const Example = () => (
@@ -420,7 +432,8 @@ export const Example = () => (
       id: "empty-rtl",
       title: "RTL",
       text: "dir=\"rtl\" on Empty for mirrored layout.",
-      code: `import { Button, Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/kamod-ui/empty";
 import { ArrowUpRight, Folder } from "lucide-preact";
 
 export const Example = () => (

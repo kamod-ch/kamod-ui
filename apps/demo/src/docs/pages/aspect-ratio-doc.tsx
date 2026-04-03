@@ -21,7 +21,8 @@ function AspectHero() {
   );
 }
 
-const heroCode = `import { AspectRatio, Image } from "@kamod-ui/core";
+const heroCode = `import { AspectRatio } from "@/components/kamod-ui/aspect-ratio"
+import { Image } from "@/components/kamod-ui/image";
 
 export const Example = () => (
   <div class="w-full max-w-sm">
@@ -54,7 +55,8 @@ const sectionBlocks: Record<
         </AspectRatio>
       </div>
     ),
-    code: `import { AspectRatio, Image } from "@kamod-ui/core";
+    code: `import { AspectRatio } from "@/components/kamod-ui/aspect-ratio"
+import { Image } from "@/components/kamod-ui/image";
 
 export const Example = () => (
   <div class="w-full max-w-sm">
@@ -80,7 +82,8 @@ export const Example = () => (
         </AspectRatio>
       </div>
     ),
-    code: `import { AspectRatio, Image } from "@kamod-ui/core";
+    code: `import { AspectRatio } from "@/components/kamod-ui/aspect-ratio"
+import { Image } from "@/components/kamod-ui/image";
 
 export const Example = () => (
   <div class="w-full max-w-48">
@@ -106,7 +109,8 @@ export const Example = () => (
         </AspectRatio>
       </div>
     ),
-    code: `import { AspectRatio, Image } from "@kamod-ui/core";
+    code: `import { AspectRatio } from "@/components/kamod-ui/aspect-ratio"
+import { Image } from "@/components/kamod-ui/image";
 
 export const Example = () => (
   <div class="w-full max-w-40">
@@ -122,7 +126,9 @@ export const Example = () => (
   },
   rtl: {
     preview: () => <AspectRatioRtlDemo />,
-    code: `import { AspectRatio, DirectionProvider, Image } from "@kamod-ui/core";
+    code: `import { AspectRatio } from "@/components/kamod-ui/aspect-ratio"
+import { DirectionProvider } from "@/components/kamod-ui/direction"
+import { Image } from "@/components/kamod-ui/image";
 
 const captions = { en: "Beautiful landscape", ar: "منظر طبيعي جميل", he: "נוף יפה" };
 
@@ -204,7 +210,7 @@ export const aspectRatioDocPage: DocPageModule = {
   usageLabel:
     "Keeps embedded media in a fixed width-to-height ratio using CSS aspect-ratio (shadcn-style API; no Radix dependency).",
   sections: [
-    { id: "installation", title: "Installation", text: "Import AspectRatio from @kamod-ui/core." },
+    { id: "installation", title: "Installation", text: "Import AspectRatio from `@/components/kamod-ui/aspect-ratio`." },
     {
       id: "usage",
       title: "Usage",
@@ -234,7 +240,8 @@ export const aspectRatioDocPage: DocPageModule = {
         return <ApiReference sections={apiSections} />;
       }
       if (sectionId === "installation") {
-        return <CodeBlock code={`import { AspectRatio, Image } from "@kamod-ui/core";`} language="tsx" />;
+        return <CodeBlock code={`import { AspectRatio } from "@/components/kamod-ui/aspect-ratio"
+import { Image } from "@/components/kamod-ui/image";`} language="tsx" />;
       }
       if (sectionId === "usage") {
         return context.renderPreviewAndCodeTabs({
@@ -249,7 +256,8 @@ export const aspectRatioDocPage: DocPageModule = {
               </AspectRatio>
             </div>
           ),
-          codeSnippet: `import { AspectRatio, Image } from "@kamod-ui/core";
+          codeSnippet: `import { AspectRatio } from "@/components/kamod-ui/aspect-ratio"
+import { Image } from "@/components/kamod-ui/image";
 
 export const Example = () => (
   <AspectRatio ratio={16 / 9}>

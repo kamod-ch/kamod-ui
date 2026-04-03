@@ -160,13 +160,13 @@ html.dark .docs-topbar-brand-logo {
 .docs-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 1rem;
+  gap: 0.75rem;
   max-width: 1360px;
   margin: 0 auto;
-  padding-top: 1rem;
-  padding-right: 1rem;
-  padding-left: 1rem;
-  padding-bottom: max(1.75rem, calc(0.25rem + env(safe-area-inset-bottom, 0px)));
+  padding-top: 0.75rem;
+  padding-right: 0.75rem;
+  padding-left: 0.75rem;
+  padding-bottom: max(1.25rem, calc(0.25rem + env(safe-area-inset-bottom, 0px)));
 }
 
 .docs-sidebar {
@@ -274,7 +274,8 @@ html.dark .docs-topbar-brand-logo {
 [data-slot="tabs-list"]:not([data-variant="line"]) [data-slot="tabs-trigger"],
 [data-slot="accordion-trigger"],
 [data-slot="collapsible-trigger"],
-[data-slot="dropdown-trigger"] {
+/* Icon-sized dropdown triggers (e.g. breadcrumb ellipsis) use component styles only — a border here looked like an unwanted gray frame. */
+[data-slot="dropdown-trigger"]:not([data-size^="icon"]) {
   padding: 0.55rem 0.8rem;
   border-radius: var(--radius-md);
   border: 1px solid var(--border);
@@ -290,14 +291,15 @@ html.dark .docs-topbar-brand-logo {
 /* Select uses component Tailwind (shadcn-style trigger + popover); do not override here — old rules caused thick padding and “floating” item hovers. */
 
 [data-slot="tabs-content"],
-[data-slot="tooltip-content"],
-[data-slot="dropdown-content"] {
+[data-slot="tooltip-content"] {
   margin-top: 0.55rem;
   padding: 0.75rem;
   border-radius: var(--radius-md);
   border: 1px solid var(--border);
   background: color-mix(in oklab, var(--muted) 60%, var(--card));
 }
+
+/* Dropdown: surface from @kamod-ui/core (white / ring); avoid muted overlay from old preview chrome. */
 
 [data-slot="tooltip"] [data-slot="tooltip-content"] {
   margin-top: 0;
@@ -560,10 +562,10 @@ html.dark .docs-topbar-brand-logo {
 
 @media (min-width: 640px) {
   .docs-layout {
-    padding-top: 1.25rem;
-    padding-right: 1.25rem;
-    padding-left: 1.25rem;
-    padding-bottom: max(2rem, calc(0.25rem + env(safe-area-inset-bottom, 0px)));
+    padding-top: 0.875rem;
+    padding-right: 0.875rem;
+    padding-left: 0.875rem;
+    padding-bottom: max(1.5rem, calc(0.25rem + env(safe-area-inset-bottom, 0px)));
   }
 }
 
@@ -613,11 +615,11 @@ html.dark .docs-topbar-brand-logo {
 @media (min-width: 980px) {
   .docs-layout {
     grid-template-columns: minmax(210px, 250px) minmax(0, 1fr);
-    gap: 1.5rem;
-    padding-top: 1.5rem;
-    padding-right: 1.25rem;
-    padding-left: 1.25rem;
-    padding-bottom: max(4rem, calc(0.5rem + env(safe-area-inset-bottom, 0px)));
+    gap: 1.25rem;
+    padding-top: 1.25rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    padding-bottom: max(3rem, calc(0.5rem + env(safe-area-inset-bottom, 0px)));
   }
 
   .docs-sidebar {
@@ -659,12 +661,12 @@ html.dark .docs-topbar-brand-logo {
 @media (min-width: 1260px) {
   .docs-layout {
     grid-template-columns: minmax(220px, 260px) minmax(0, 1fr) minmax(220px, 260px);
-    gap: 2rem;
+    gap: 1.5rem;
     align-items: start;
-    padding-top: 1.5rem;
-    padding-right: 1.25rem;
-    padding-left: 1.25rem;
-    padding-bottom: max(4rem, calc(0.5rem + env(safe-area-inset-bottom, 0px)));
+    padding-top: 1.25rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    padding-bottom: max(3rem, calc(0.5rem + env(safe-area-inset-bottom, 0px)));
   }
 
   .docs-rightbar {

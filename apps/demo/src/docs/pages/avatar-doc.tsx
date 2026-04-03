@@ -52,14 +52,7 @@ function AvatarHeroDemo() {
   );
 }
 
-const heroCode = `import {
-  Avatar,
-  AvatarBadge,
-  AvatarFallback,
-  AvatarGroup,
-  AvatarGroupCount,
-  AvatarImage,
-} from "@kamod-ui/core";
+const heroCode = `import { Avatar, AvatarBadge, AvatarFallback, AvatarGroup, AvatarGroupCount, AvatarImage } from "@/components/kamod-ui/avatar";
 
 export const Example = () => (
   <div class="flex flex-row flex-wrap items-center gap-6 md:gap-12">
@@ -130,7 +123,7 @@ const sectionBlocks: Record<string, { preview: () => ComponentChildren; code: st
         <AvatarFallback>CN</AvatarFallback>
       </Avatar>
     ),
-    code: `import { Avatar, AvatarFallback, AvatarImage } from "@kamod-ui/core";
+    code: `import { Avatar, AvatarFallback, AvatarImage } from "@/components/kamod-ui/avatar";
 
 export const Example = () => (
   <Avatar>
@@ -147,7 +140,7 @@ export const Example = () => (
         <AvatarBadge class="bg-green-600 dark:bg-green-800" />
       </Avatar>
     ),
-    code: `import { Avatar, AvatarBadge, AvatarFallback, AvatarImage } from "@kamod-ui/core";
+    code: `import { Avatar, AvatarBadge, AvatarFallback, AvatarImage } from "@/components/kamod-ui/avatar";
 
 export const Example = () => (
   <Avatar>
@@ -167,7 +160,7 @@ export const Example = () => (
         </AvatarBadge>
       </Avatar>
     ),
-    code: `import { Avatar, AvatarBadge, AvatarFallback, AvatarImage } from "@kamod-ui/core";
+    code: `import { Avatar, AvatarBadge, AvatarFallback, AvatarImage } from "@/components/kamod-ui/avatar";
 import { Plus } from "lucide-preact";
 
 export const Example = () => (
@@ -197,7 +190,7 @@ export const Example = () => (
         </Avatar>
       </AvatarGroup>
     ),
-    code: `import { Avatar, AvatarFallback, AvatarGroup, AvatarImage } from "@kamod-ui/core";
+    code: `import { Avatar, AvatarFallback, AvatarGroup, AvatarImage } from "@/components/kamod-ui/avatar";
 
 export const Example = () => (
   <AvatarGroup class="grayscale">
@@ -225,7 +218,7 @@ export const Example = () => (
         <AvatarGroupCount>+3</AvatarGroupCount>
       </AvatarGroup>
     ),
-    code: `import { Avatar, AvatarFallback, AvatarGroup, AvatarGroupCount, AvatarImage } from "@kamod-ui/core";
+    code: `import { Avatar, AvatarFallback, AvatarGroup, AvatarGroupCount, AvatarImage } from "@/components/kamod-ui/avatar";
 
 export const Example = () => (
   <AvatarGroup class="grayscale">
@@ -254,7 +247,7 @@ export const Example = () => (
         </AvatarGroupCount>
       </AvatarGroup>
     ),
-    code: `import { Avatar, AvatarFallback, AvatarGroup, AvatarGroupCount, AvatarImage } from "@kamod-ui/core";
+    code: `import { Avatar, AvatarFallback, AvatarGroup, AvatarGroupCount, AvatarImage } from "@/components/kamod-ui/avatar";
 import { Plus } from "lucide-preact";
 
 export const Example = () => (
@@ -283,7 +276,7 @@ export const Example = () => (
         </Avatar>
       </div>
     ),
-    code: `import { Avatar, AvatarFallback, AvatarImage } from "@kamod-ui/core";
+    code: `import { Avatar, AvatarFallback, AvatarImage } from "@/components/kamod-ui/avatar";
 
 export const Example = () => (
   <div class="flex flex-wrap gap-2 grayscale">
@@ -317,7 +310,9 @@ export const Example = () => (
         </DropdownContent>
       </Dropdown>
     ),
-    code: `import { Avatar, AvatarFallback, AvatarImage, Button, Dropdown, DropdownContent, DropdownGroup, DropdownItem, DropdownSeparator, DropdownTrigger } from "@kamod-ui/core";
+    code: `import { Avatar, AvatarFallback, AvatarImage } from "@/components/kamod-ui/avatar"
+import { Button } from "@/components/kamod-ui/button"
+import { Dropdown, DropdownContent, DropdownGroup, DropdownItem, DropdownSeparator, DropdownTrigger } from "@/components/kamod-ui/dropdown";
 
 export const Example = () => (
   <Dropdown>
@@ -335,8 +330,9 @@ export const Example = () => (
   },
   rtl: {
     preview: () => <AvatarRtlDemo />,
-    code: `import { Avatar, AvatarGroup, AvatarGroupCount, DirectionProvider } from "@kamod-ui/core";
-// Set dir on the flex row; translate AvatarGroupCount for locale (e.g. +٣).`
+    code: `import { Avatar, AvatarGroup, AvatarGroupCount } from "@/components/kamod-ui/avatar"
+import { DirectionProvider } from "@/components/kamod-ui/direction";
+// Set dir on the flex row; localize AvatarGroupCount (e.g. +٣).`
   }
 };
 
@@ -382,14 +378,18 @@ export const avatarDocPage: DocPageModule = {
   usageLabel:
     "Profile image with initials fallback, status badge, overlapping groups, count chip, sizes, and dropdown trigger (shadcn Avatar pattern; no Radix dependency).",
   sections: [
-    { id: "installation", title: "Installation", text: "Import Avatar primitives from @kamod-ui/core." },
+    { id: "installation", title: "Installation", text: "Import Avatar primitives from `@/components/kamod-ui/avatar`." },
     {
       id: "usage",
       title: "Usage",
       text: "Place AvatarImage and AvatarFallback inside Avatar. The fallback stays visible until the image fires load; on error it shows again."
     },
     { id: "basic", title: "Basic", text: "Image plus fallback initials." },
-    { id: "badge", title: "Badge", text: "AvatarBadge sits at the bottom-inline-end corner (logical end)." },
+    {
+      id: "badge",
+      title: "Badge",
+      text: "AvatarBadge sits at the bottom-inline-end (logical end), overlaps the photo, and uses a thick white ring so the status dot reads clearly—same stacking as typical chat “online” indicators."
+    },
     { id: "badge-icon", title: "Badge with icon", text: "Put an icon inside the badge; small avatars hide inner SVG to save space." },
     { id: "group", title: "Avatar group", text: "Overlap avatars with ring separation using AvatarGroup." },
     { id: "group-count", title: "Avatar group count", text: "Append AvatarGroupCount for overflow (+N)." },
@@ -407,14 +407,7 @@ export const avatarDocPage: DocPageModule = {
       if (sectionId === "installation") {
         return (
           <CodeBlock
-            code={`import {
-  Avatar,
-  AvatarBadge,
-  AvatarFallback,
-  AvatarGroup,
-  AvatarGroupCount,
-  AvatarImage,
-} from "@kamod-ui/core";`}
+            code={`import { Avatar, AvatarBadge, AvatarFallback, AvatarGroup, AvatarGroupCount, AvatarImage } from "@/components/kamod-ui/avatar";`}
             language="tsx"
           />
         );
@@ -427,7 +420,7 @@ export const avatarDocPage: DocPageModule = {
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
           ),
-          codeSnippet: `import { Avatar, AvatarFallback, AvatarImage } from "@kamod-ui/core";
+          codeSnippet: `import { Avatar, AvatarFallback, AvatarImage } from "@/components/kamod-ui/avatar";
 
 export const Example = () => (
   <Avatar>

@@ -86,7 +86,7 @@ function BadgeRtlDemo() {
   );
 }
 
-const heroCode = `import { Badge } from "@kamod-ui/core";
+const heroCode = `import { Badge } from "@/components/kamod-ui/badge";
 
 export const Example = () => (
   <div class="flex w-full flex-wrap justify-center gap-2">
@@ -120,7 +120,7 @@ const sectionBlocks: Record<string, { preview: () => ComponentChildren; code: st
         </div>
       </div>
     ),
-    code: `import { Badge } from "@kamod-ui/core";
+    code: `import { Badge } from "@/components/kamod-ui/badge";
 
 export const Example = () => (
   <>
@@ -154,7 +154,7 @@ export const Example = () => (
         </Badge>
       </div>
     ),
-    code: `import { Badge } from "@kamod-ui/core";
+    code: `import { Badge } from "@/components/kamod-ui/badge";
 import { BadgeCheck, Bookmark } from "lucide-preact";
 
 export const Example = () => (
@@ -183,7 +183,8 @@ export const Example = () => (
         </Badge>
       </div>
     ),
-    code: `import { Badge, Spinner } from "@kamod-ui/core";
+    code: `import { Badge } from "@/components/kamod-ui/badge"
+import { Spinner } from "@/components/kamod-ui/spinner";
 
 export const Example = () => (
   <div class="flex flex-wrap gap-2">
@@ -206,7 +207,7 @@ export const Example = () => (
         </a>
       </Badge>
     ),
-    code: `import { Badge } from "@kamod-ui/core";
+    code: `import { Badge } from "@/components/kamod-ui/badge";
 import { ArrowUpRight } from "lucide-preact";
 
 export const Example = () => (
@@ -227,7 +228,7 @@ export const Example = () => (
         <Badge class="bg-red-50 text-red-700 dark:bg-red-950 dark:text-red-300">Red</Badge>
       </div>
     ),
-    code: `import { Badge } from "@kamod-ui/core";
+    code: `import { Badge } from "@/components/kamod-ui/badge";
 
 export const Example = () => (
   <div class="flex flex-wrap gap-2">
@@ -249,7 +250,7 @@ export const Example = () => (
         <Badge size="lg">Large</Badge>
       </div>
     ),
-    code: `import { Badge } from "@kamod-ui/core";
+    code: `import { Badge } from "@/components/kamod-ui/badge";
 
 export const Example = () => (
   <div class="flex flex-wrap gap-2">
@@ -263,7 +264,8 @@ export const Example = () => (
   },
   rtl: {
     preview: () => <BadgeRtlDemo />,
-    code: `import { Badge, DirectionProvider } from "@kamod-ui/core";
+    code: `import { Badge } from "@/components/kamod-ui/badge"
+import { DirectionProvider } from "@/components/kamod-ui/direction";
 import { BadgeCheck, Bookmark } from "lucide-preact";
 // Wrap row with DirectionProvider and dir on the flex container.`
   }
@@ -291,7 +293,7 @@ export const badgeDocPage: DocPageModule = {
     {
       id: "installation",
       title: "Installation",
-      text: "Import Badge from @kamod-ui/core."
+      text: "Import Badge from `@/components/kamod-ui/badge`."
     },
     {
       id: "usage",
@@ -355,7 +357,7 @@ export const badgeDocPage: DocPageModule = {
         );
       }
       if (sectionId === "installation") {
-        return <CodeBlock code={`import { Badge } from "@kamod-ui/core";`} language="tsx" />;
+        return <CodeBlock code={`import { Badge } from "@/components/kamod-ui/badge";`} language="tsx" />;
       }
       if (sectionId === "usage") {
         return context.renderPreviewAndCodeTabs({
@@ -365,7 +367,7 @@ export const badgeDocPage: DocPageModule = {
               <Badge variant="outline">Outline</Badge>
             </div>
           ),
-          codeSnippet: `import { Badge } from "@kamod-ui/core";
+          codeSnippet: `import { Badge } from "@/components/kamod-ui/badge";
 
 export const Example = () => (
   <Badge variant="outline">Badge</Badge>

@@ -16,7 +16,7 @@ export const popoverDocPage = createGenericDocPage({
   slug: "popover",
   title: "Popover",
   usageLabel: "A modern popup that floats next to a trigger for lightweight actions, forms, and contextual content.",
-  installationText: "Import Popover, PopoverTrigger, PopoverContent and optional sub-components from @kamod-ui/core.",
+  installationText: "Import Popover, PopoverTrigger, PopoverContent and optional sub-components from `@/components/kamod-ui/popover`.",
   usageText:
     "Use PopoverTrigger with asChild when the trigger is a Button so you avoid nested buttons. Use popovers for secondary actions, inline forms, and contextual help; keep content focused and close on outside click.",
   exampleSections: [
@@ -24,7 +24,8 @@ export const popoverDocPage = createGenericDocPage({
       id: "basic-popover",
       title: "Basic",
       text: "A simple popover with title and description, triggered by a button.",
-      code: `import { Button, Popover, PopoverContent, PopoverDescription, PopoverHeader, PopoverTitle, PopoverTrigger } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Popover, PopoverContent, PopoverDescription, PopoverHeader, PopoverTitle, PopoverTrigger } from "@/components/kamod-ui/popover";
 
 export const Example = () => (
   <Popover>
@@ -57,7 +58,10 @@ export const Example = () => (
       id: "popover-form",
       title: "With Form",
       text: "Embed a compact settings form inside the popover. This mirrors the classic shadcn/ui dimensions example.",
-      code: `import { Button, Input, Label, Popover, PopoverContent, PopoverDescription, PopoverHeader, PopoverTitle, PopoverTrigger } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Input } from "@/components/kamod-ui/input"
+import { Label } from "@/components/kamod-ui/label"
+import { Popover, PopoverContent, PopoverDescription, PopoverHeader, PopoverTitle, PopoverTrigger } from "@/components/kamod-ui/popover";
 
 export const Example = () => (
   <Popover>
@@ -126,7 +130,8 @@ export const Example = () => (
       id: "popover-placement",
       title: "Placement",
       text: "Control which side the popover appears on using the side prop.",
-      code: `import { Button, Popover, PopoverContent, PopoverTitle, PopoverTrigger } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Popover, PopoverContent, PopoverTitle, PopoverTrigger } from "@/components/kamod-ui/popover";
 
 const sides = ["top", "right", "bottom", "left"] as const;
 
@@ -165,7 +170,8 @@ export const Example = () => (
       id: "popover-alignment",
       title: "Align",
       text: "Use the align prop on PopoverContent to control alignment along the cross axis (mirrors shadcn/ui).",
-      code: `import { Button, Popover, PopoverContent, PopoverTrigger } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/kamod-ui/popover";
 
 export const Example = () => (
   <div class="flex flex-wrap gap-6">
@@ -234,7 +240,10 @@ export const Example = () => (
       id: "popover-form-compact",
       title: "With Form (compact)",
       text: "Narrow popover with horizontal label and field rows, matching the newer shadcn/ui dimensions example layout.",
-      code: `import { Button, Input, Label, Popover, PopoverContent, PopoverDescription, PopoverHeader, PopoverTitle, PopoverTrigger } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Input } from "@/components/kamod-ui/input"
+import { Label } from "@/components/kamod-ui/label"
+import { Popover, PopoverContent, PopoverDescription, PopoverHeader, PopoverTitle, PopoverTrigger } from "@/components/kamod-ui/popover";
 
 export const Example = () => (
   <Popover>
@@ -291,7 +300,8 @@ export const Example = () => (
       id: "popover-rtl",
       title: "RTL",
       text: "Set dir on PopoverContent (and your page root) for right-to-left layouts. Uses physical side values like the shadcn/ui RTL example.",
-      code: `import { Button, Popover, PopoverContent, PopoverDescription, PopoverHeader, PopoverTitle, PopoverTrigger } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Popover, PopoverContent, PopoverDescription, PopoverHeader, PopoverTitle, PopoverTrigger } from "@/components/kamod-ui/popover";
 
 const sides = ["left", "top", "bottom", "right"] as const;
 const labels: Record<(typeof sides)[number], string> = {
@@ -343,7 +353,8 @@ export const Example = () => (
       id: "popover-close",
       title: "With Close Button",
       text: "Use PopoverClose to add an explicit dismiss control inside the content.",
-      code: `import { Button, Popover, PopoverClose, PopoverContent, PopoverDescription, PopoverHeader, PopoverTitle, PopoverTrigger } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Popover, PopoverClose, PopoverContent, PopoverDescription, PopoverHeader, PopoverTitle, PopoverTrigger } from "@/components/kamod-ui/popover";
 
 export const Example = () => (
   <Popover>
@@ -406,7 +417,7 @@ export const Example = () => (
       id: "popover-default-open",
       title: "Default Open",
       text: "Render the popover in its open state by default.",
-      code: `import { Popover, PopoverContent, PopoverDescription, PopoverHeader, PopoverTitle, PopoverTrigger } from "@kamod-ui/core";
+      code: `import { Popover, PopoverContent, PopoverDescription, PopoverHeader, PopoverTitle, PopoverTrigger } from "@/components/kamod-ui/popover";
 
 export const Example = () => (
   <Popover defaultOpen>
@@ -439,7 +450,10 @@ export const Example = () => (
       id: "popover-settings",
       title: "Settings Panel",
       text: "A rich settings popover combining switches and fields for inline configuration.",
-      code: `import { Button, Input, Label, Popover, PopoverClose, PopoverContent, PopoverDescription, PopoverHeader, PopoverTitle, PopoverTrigger } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Input } from "@/components/kamod-ui/input"
+import { Label } from "@/components/kamod-ui/label"
+import { Popover, PopoverClose, PopoverContent, PopoverDescription, PopoverHeader, PopoverTitle, PopoverTrigger } from "@/components/kamod-ui/popover";
 import { Settings } from "lucide-preact";
 
 export const Example = () => (

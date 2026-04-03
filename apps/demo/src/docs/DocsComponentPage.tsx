@@ -17,6 +17,7 @@ import type { ComponentChildren } from "preact";
 import { useLocation, useRoute } from "preact-iso";
 import { useEffect, useMemo, useRef, useState } from "preact/hooks";
 import { buildComponentDocMarkdown } from "./build-component-doc-markdown";
+import { docImportFrom, rewriteKamodCoreImportsInDocString } from "./doc-snippet-imports";
 import { CodeBlock } from "./components/CodeBlock";
 import { DocsShell } from "./components/DocsShell";
 import { docsBySlug, docsPages } from "./registry";
@@ -204,14 +205,15 @@ export const DocsComponentPage = () => {
       const isButtonGroupDoc = activeDoc.slug === "button-group";
       const isTabsDoc = activeDoc.slug === "tabs";
       const isAlertDialogDoc = activeDoc.slug === "alert-dialog";
-      const importSnippet = isButtonDoc
-        ? `import { Button, Spinner } from "@kamod-ui/core";`
-        : isButtonGroupDoc
-          ? `import { Button, ButtonGroup } from "@kamod-ui/core";`
-          : isTabsDoc
-            ? `import { Tabs, TabsContent, TabsList, TabsTrigger } from "@kamod-ui/core";`
-            : isAlertDialogDoc
-              ? `import {
+      const importSnippet = rewriteKamodCoreImportsInDocString(
+        isButtonDoc
+          ? `import { Button, Spinner } from "@kamod-ui/core";`
+          : isButtonGroupDoc
+            ? `import { Button, ButtonGroup } from "@kamod-ui/core";`
+            : isTabsDoc
+              ? `import { Tabs, TabsContent, TabsList, TabsTrigger } from "@kamod-ui/core";`
+              : isAlertDialogDoc
+                ? `import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -222,7 +224,9 @@ export const DocsComponentPage = () => {
   AlertDialogTitle,
   AlertDialogTrigger
 } from "@kamod-ui/core";`
-            : `import { ${componentName} } from "@kamod-ui/core";`;
+                : `import { ${componentName} } from "@kamod-ui/core";`,
+        activeDoc.slug
+      );
       const usageSnippet = isButtonDoc
         ? `<Button disabled>\n  <Spinner size="sm" data-icon="inline-start" />\n  Generating\n</Button>`
         : isButtonGroupDoc
@@ -306,13 +310,21 @@ export const DocsComponentPage = () => {
     [activeDoc.title, activeDoc.command, docSections]
   );
 
+  const componentSourcePath = docImportFrom(activeDoc.slug);
+
   const renderTitleRow = () => (
     <div class="docs-title-row">
-      <h1>{activeDoc.title}</h1>
-      <Dialog>
-        <Button variant="outline" size="sm" asChild>
-          <DialogTrigger>View Markdown</DialogTrigger>
-        </Button>
+      <div class="docs-title-stack">
+        <h1>{activeDoc.title}</h1>
+        <p class="docs-component-path">
+          <code>{componentSourcePath}</code>
+        </p>
+      </div>
+      <div class="docs-title-row-actions">
+        <Dialog>
+          <Button variant="outline" size="sm" asChild>
+            <DialogTrigger>View Markdown</DialogTrigger>
+          </Button>
         {/* presentation="slot": custom fullscreen overlay — default "modal" would stack a second backdrop + centered shell */}
         <DialogContent
           presentation="slot"
@@ -327,7 +339,8 @@ export const DocsComponentPage = () => {
             </div>
           </div>
         </DialogContent>
-      </Dialog>
+        </Dialog>
+      </div>
     </div>
   );
 

@@ -7,6 +7,9 @@ export type DateRange = { from?: Date; to?: Date };
 
 export type CalendarMode = "single" | "range";
 
+/** `sm`: denser padding, smaller day cells, lighter caption controls (dropdown + nav). */
+export type CalendarSize = "default" | "sm";
+
 export type CalendarDisabledProp = ((date: Date) => boolean) | Date[];
 
 const atNoon = (d: Date) => new Date(d.getFullYear(), d.getMonth(), d.getDate(), 12, 0, 0);
@@ -159,6 +162,14 @@ export type CalendarProps = Omit<JSX.HTMLAttributes<HTMLDivElement>, "onSelect">
   timeZone?: string;
   /** Extra label under the day number (e.g. prices). Omit or return `undefined` for outside days if desired. */
   dayAddon?: (date: Date, outside: boolean) => ComponentChildren | undefined;
+  /** Extra classes for the visible month/year caption text (single-month buttons layout and dual-month titles). */
+  captionTitleClass?: string;
+  /** If set (length 7, Sunday-first), overrides locale-derived weekday headers. */
+  weekdayLabels?: string[];
+  /** Decorative left border on the first weekday column (e.g. Su). @default false */
+  showWeekdayLeadBorder?: boolean;
+  /** Visual density; `sm` fits popovers and tight layouts. @default "default" */
+  size?: CalendarSize;
 };
 
 type MonthCaptionProps = {
@@ -167,6 +178,8 @@ type MonthCaptionProps = {
   dir: "ltr" | "rtl";
   locale?: string;
   timeZone?: string;
+  captionTitleClass?: string;
+  size: CalendarSize;
   onPrev: () => void;
   onNext: () => void;
   onPickMonthYear: (year: number, monthIndex: number) => void;
@@ -181,10 +194,13 @@ const MonthCaption = ({
   dir,
   locale,
   timeZone,
+  captionTitleClass,
+  size,
   onPrev,
   onNext,
   onPickMonthYear
 }: MonthCaptionProps) => {
+  const sm = size === "sm";
   const y = displayMonth.getFullYear();
   const m = displayMonth.getMonth();
   const yearStart = y - 100;
@@ -199,16 +215,32 @@ const MonthCaption = ({
 
   if (captionLayout === "dropdown") {
     /** Month/year selects centered, prev/next ghost icons — matches shadcn “Month and Year Selector” chrome. */
-    const selectClass =
-      "border-input bg-background text-foreground focus-visible:ring-ring/50 h-8 min-w-0 shrink-0 rounded-md border px-2 pe-8 text-sm shadow-xs outline-none focus-visible:ring-[3px]";
+    /** Avoid `min-w-0` on selects: in a flex row it lets them shrink and clip month labels (e.g. de-DE “Mär”). */
+    const selectBaseClass = sm
+      ? "border-input bg-background text-foreground focus-visible:ring-ring/50 box-border h-7 min-h-7 shrink-0 rounded-md border px-2 pe-7 text-xs leading-4 shadow-xs outline-none focus-visible:ring-2"
+      : "border-input bg-background text-foreground focus-visible:ring-ring/50 box-border h-8 min-h-8 shrink-0 rounded-md border px-2.5 pe-8 text-xs leading-4 shadow-xs outline-none focus-visible:ring-2";
+    const monthSelectClass = cn(selectBaseClass, sm ? "min-w-[5rem] max-w-full" : "min-w-[5.25rem] max-w-full");
+    const yearSelectClass = cn(selectBaseClass, sm ? "min-w-[3.75rem] max-w-full" : "min-w-[4.25rem] max-w-full");
     return (
-      <div class="mb-2 flex w-full items-center justify-between gap-1" dir={dir}>
-        <Button type="button" variant="ghost" size="icon" aria-label="Previous month" onClick={onPrev}>
+      <div class={cn("flex w-full items-center justify-between", sm ? "mb-1 gap-0.5" : "mb-1.5 gap-1")} dir={dir}>
+        <Button
+          type="button"
+          variant="ghost"
+          size={sm ? "icon-xs" : "icon-sm"}
+          aria-label="Previous month"
+          onClick={onPrev}
+        >
           <ChevronLeft class={dir === "rtl" ? "rotate-180" : undefined} />
         </Button>
-        <div class="text-foreground flex min-w-0 flex-1 items-center justify-center gap-1.5 text-sm font-medium">
+        <div
+          class={cn(
+            "text-foreground flex min-w-0 flex-1 items-center justify-center font-medium",
+            sm ? "gap-1 text-xs" : "gap-1.5 text-xs",
+            captionTitleClass
+          )}
+        >
           <select
-            class={selectClass}
+            class={monthSelectClass}
             value={String(m)}
             aria-label="Month"
             onChange={(e) => {
@@ -226,7 +258,7 @@ const MonthCaption = ({
             ))}
           </select>
           <select
-            class={selectClass}
+            class={yearSelectClass}
             value={String(y)}
             aria-label="Year"
             onChange={(e) => {
@@ -241,7 +273,13 @@ const MonthCaption = ({
             ))}
           </select>
         </div>
-        <Button type="button" variant="ghost" size="icon" aria-label="Next month" onClick={onNext}>
+        <Button
+          type="button"
+          variant="ghost"
+          size={sm ? "icon-xs" : "icon-sm"}
+          aria-label="Next month"
+          onClick={onNext}
+        >
           <ChevronRight class={dir === "rtl" ? "rotate-180" : undefined} />
         </Button>
       </div>
@@ -249,18 +287,18 @@ const MonthCaption = ({
   }
 
   return (
-    <div class="mb-2 flex items-center justify-between gap-2" dir={dir}>
-      <Button type="button" variant="ghost" size="icon" aria-label="Previous month" onClick={onPrev}>
+    <div class={cn("flex items-center justify-between", sm ? "mb-1 gap-1" : "mb-1.5 gap-1.5")} dir={dir}>
+      <Button type="button" variant="ghost" size={sm ? "icon-xs" : "icon-sm"} aria-label="Previous month" onClick={onPrev}>
         <ChevronLeft class={dir === "rtl" ? "rotate-180" : undefined} />
       </Button>
-      <div class="text-sm font-medium">
+      <div class={cn(sm ? "text-xs font-medium" : "text-sm font-medium", captionTitleClass)}>
         {displayMonth.toLocaleString(fmt?.locale ?? undefined, {
           month: "long",
           year: "numeric",
           ...(fmt && "timeZone" in fmt && fmt.timeZone ? { timeZone: fmt.timeZone } : {})
         })}
       </div>
-      <Button type="button" variant="ghost" size="icon" aria-label="Next month" onClick={onNext}>
+      <Button type="button" variant="ghost" size={sm ? "icon-xs" : "icon-sm"} aria-label="Next month" onClick={onNext}>
         <ChevronRight class={dir === "rtl" ? "rotate-180" : undefined} />
       </Button>
     </div>
@@ -273,26 +311,51 @@ type DualMonthCaptionProps = {
   dir: "ltr" | "rtl";
   locale?: string;
   timeZone?: string;
+  captionTitleClass?: string;
+  size: CalendarSize;
   onPrev: () => void;
   onNext: () => void;
 };
 
-const DualMonthCaption = ({ firstMonth, secondMonth, dir, locale, timeZone, onPrev, onNext }: DualMonthCaptionProps) => {
+const DualMonthCaption = ({
+  firstMonth,
+  secondMonth,
+  dir,
+  locale,
+  timeZone,
+  captionTitleClass,
+  size,
+  onPrev,
+  onNext
+}: DualMonthCaptionProps) => {
   const fmt = intlOpts(locale, timeZone);
+  const sm = size === "sm";
   return (
-    <div class="mb-2 flex items-center justify-between gap-2" dir={dir}>
-      <Button type="button" variant="ghost" size="icon" class="shrink-0" aria-label="Previous month" onClick={onPrev}>
+    <div class={cn("flex items-center justify-between", sm ? "mb-1 gap-1" : "mb-1.5 gap-1.5")} dir={dir}>
+      <Button
+        type="button"
+        variant="ghost"
+        size={sm ? "icon-xs" : "icon-sm"}
+        class="shrink-0"
+        aria-label="Previous month"
+        onClick={onPrev}
+      >
         <ChevronLeft class={dir === "rtl" ? "rotate-180" : undefined} />
       </Button>
-      <div class="flex min-w-0 flex-1 justify-center gap-4 text-center text-sm font-medium sm:gap-8">
-        <span class="truncate">
+      <div
+        class={cn(
+          "flex min-w-0 flex-1 justify-center text-center font-medium",
+          sm ? "gap-2 text-xs sm:gap-4" : "gap-4 text-sm sm:gap-6"
+        )}
+      >
+        <span class={cn("truncate", captionTitleClass)}>
           {firstMonth.toLocaleString(fmt?.locale ?? undefined, {
             month: "long",
             year: "numeric",
             ...(fmt && "timeZone" in fmt && fmt.timeZone ? { timeZone: fmt.timeZone } : {})
           })}
         </span>
-        <span class="truncate">
+        <span class={cn("truncate", captionTitleClass)}>
           {secondMonth.toLocaleString(fmt?.locale ?? undefined, {
             month: "long",
             year: "numeric",
@@ -300,7 +363,14 @@ const DualMonthCaption = ({ firstMonth, secondMonth, dir, locale, timeZone, onPr
           })}
         </span>
       </div>
-      <Button type="button" variant="ghost" size="icon" class="shrink-0" aria-label="Next month" onClick={onNext}>
+      <Button
+        type="button"
+        variant="ghost"
+        size={sm ? "icon-xs" : "icon-sm"}
+        class="shrink-0"
+        aria-label="Next month"
+        onClick={onNext}
+      >
         <ChevronRight class={dir === "rtl" ? "rotate-180" : undefined} />
       </Button>
     </div>
@@ -314,6 +384,8 @@ type MonthGridProps = {
   singleSelected?: Date;
   range?: DateRange;
   locale?: string;
+  weekdayLabels?: string[];
+  showWeekdayLeadBorder?: boolean;
   showOutsideDays: boolean;
   fixedWeeks: boolean;
   showWeekNumber: boolean;
@@ -321,6 +393,7 @@ type MonthGridProps = {
   modifierClassesFor: (d: Date) => string;
   dayAddon?: (date: Date, outside: boolean) => ComponentChildren | undefined;
   hasDayAddon: boolean;
+  size: CalendarSize;
   onDayClick: (d: Date, outside: boolean) => void;
 };
 
@@ -331,6 +404,8 @@ const MonthGrid = ({
   singleSelected,
   range,
   locale,
+  weekdayLabels: weekdayLabelsProp,
+  showWeekdayLeadBorder,
   showOutsideDays,
   fixedWeeks,
   showWeekNumber,
@@ -338,8 +413,11 @@ const MonthGrid = ({
   modifierClassesFor,
   dayAddon,
   hasDayAddon,
+  size,
   onDayClick
 }: MonthGridProps) => {
+  const sm = size === "sm";
+  const gridGap = sm ? "gap-0.5" : "gap-1";
   const rows = useMemo(
     () => buildCalendarRows(year, month, showOutsideDays, fixedWeeks),
     [year, month, showOutsideDays, fixedWeeks]
@@ -348,17 +426,17 @@ const MonthGrid = ({
   const today = useMemo(() => atNoon(new Date()), []);
 
   /** Jan 7 2024 = Sunday; columns Su–Sa. */
-  const weekdayLabels = useMemo(
-    () =>
-      Array.from({ length: 7 }, (_, i) =>
-        new Date(2024, 0, 7 + i).toLocaleDateString(locale, { weekday: "short" })
-      ),
-    [locale]
-  );
+  const weekdayLabels = useMemo(() => {
+    if (weekdayLabelsProp?.length === 7) return weekdayLabelsProp;
+    return Array.from({ length: 7 }, (_, i) =>
+      new Date(2024, 0, 7 + i).toLocaleDateString(locale, { weekday: "short" })
+    );
+  }, [locale, weekdayLabelsProp]);
 
   const dayClass = (d: Date, outside: boolean) => {
     let cls = cn(
-      "inline-flex size-[length:var(--cell-size,2rem)] min-h-[length:var(--cell-size,2rem)] min-w-[length:var(--cell-size,2rem)] items-center justify-center rounded-md text-sm leading-none font-normal transition-colors focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 dark:hover:text-accent-foreground",
+      "inline-flex size-[length:var(--cell-size,2rem)] min-h-[length:var(--cell-size,2rem)] min-w-[length:var(--cell-size,2rem)] items-center justify-center rounded-md leading-none font-normal transition-colors focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 dark:hover:text-accent-foreground",
+      sm ? "text-xs" : "text-sm",
       hasDayAddon && "flex-col gap-0.5"
     );
 
@@ -398,20 +476,31 @@ const MonthGrid = ({
   return (
     <div class="min-w-0 flex-1">
       <div
-        class={cn("grid gap-1 text-center text-xs text-muted-foreground", showWeekNumber ? "grid-cols-8" : "grid-cols-7")}
+        class={cn(
+          "grid text-center text-muted-foreground",
+          gridGap,
+          sm ? "text-[0.65rem] leading-none" : "text-xs",
+          showWeekNumber ? "grid-cols-8" : "grid-cols-7"
+        )}
       >
         {showWeekNumber ? <div class="flex size-[length:var(--cell-size,2rem)] items-center justify-center font-normal" /> : null}
         {weekdayLabels.map((day, wi) => (
-          <div key={`w-${wi}`} class="flex size-[length:var(--cell-size,2rem)] items-center justify-center font-normal">
+          <div
+            key={`w-${wi}`}
+            class={cn(
+              "flex size-[length:var(--cell-size,2rem)] items-center justify-center font-normal",
+              showWeekdayLeadBorder && wi === 0 && "relative ms-0.5 border-s border-border ps-2"
+            )}
+          >
             {day}
           </div>
         ))}
       </div>
-      <div class="mt-2 flex flex-col gap-1">
+      <div class={cn("flex flex-col", gridGap, sm ? "mt-1" : "mt-1.5")}>
         {rows.map((row, ri) => (
           <div
             key={ri}
-            class={cn("grid gap-1", showWeekNumber ? "grid-cols-8" : "grid-cols-7")}
+            class={cn("grid", gridGap, showWeekNumber ? "grid-cols-8" : "grid-cols-7")}
           >
             {showWeekNumber ? (
               <div
@@ -479,8 +568,13 @@ export const Calendar = ({
   locale,
   timeZone,
   dayAddon,
+  captionTitleClass,
+  weekdayLabels,
+  showWeekdayLeadBorder,
+  size = "default",
   ...rest
 }: CalendarProps) => {
+  const calSize: CalendarSize = size;
   const singleSelected =
     mode === "single" ? ((selected as Date | undefined) ?? value) : undefined;
   const rangeSelected = mode === "range" ? (selected as DateRange | undefined) : undefined;
@@ -559,9 +653,13 @@ export const Calendar = ({
   return (
     <div
       data-slot="calendar"
+      data-calendar-size={calSize}
       dir={dir}
       class={cn(
-        "bg-background group/calendar relative w-fit min-w-72 rounded-md border p-3 [--cell-size:2rem] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent",
+        "bg-background group/calendar relative w-fit rounded-md border [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent",
+        calSize === "sm"
+          ? "min-w-[15rem] p-2 [--cell-size:1.5625rem]"
+          : "min-w-[16.75rem] p-2.5 [--cell-size:1.75rem]",
         numberOfMonths === 2 && "max-w-full",
         className
       )}
@@ -574,6 +672,8 @@ export const Calendar = ({
           dir={dir}
           locale={locale}
           timeZone={timeZone}
+          captionTitleClass={captionTitleClass}
+          size={calSize}
           onPrev={() => shiftMonth(-1)}
           onNext={() => shiftMonth(1)}
         />
@@ -584,6 +684,8 @@ export const Calendar = ({
           dir={dir}
           locale={locale}
           timeZone={timeZone}
+          captionTitleClass={captionTitleClass}
+          size={calSize}
           onPrev={() => shiftMonth(-1)}
           onNext={() => shiftMonth(1)}
           onPickMonthYear={(yy, monthIndex) => {
@@ -593,8 +695,10 @@ export const Calendar = ({
       )}
       <div
         class={cn(
-          "relative flex flex-col gap-4",
-          numberOfMonths === 2 && "md:flex-row md:items-start md:justify-between md:gap-6"
+          "relative flex flex-col",
+          calSize === "sm" ? "gap-2.5" : "gap-3",
+          numberOfMonths === 2 && "md:flex-row md:items-start md:justify-between",
+          numberOfMonths === 2 && (calSize === "sm" ? "md:gap-4" : "md:gap-6")
         )}
       >
         {monthsToRender.map((offset) => {
@@ -610,6 +714,8 @@ export const Calendar = ({
               singleSelected={singleSelected}
               range={rangeSelected}
               locale={locale}
+              weekdayLabels={weekdayLabels}
+              showWeekdayLeadBorder={showWeekdayLeadBorder}
               showOutsideDays={showOutsideDays}
               fixedWeeks={fixedWeeks}
               showWeekNumber={showWeekNumber}
@@ -617,6 +723,7 @@ export const Calendar = ({
               modifierClassesFor={modifierClassesFor}
               dayAddon={dayAddon}
               hasDayAddon={Boolean(dayAddon)}
+              size={calSize}
               onDayClick={handleDayClick}
             />
           );

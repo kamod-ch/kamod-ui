@@ -68,7 +68,7 @@ export const itemDocPage = createGenericDocPage({
   usageLabel:
     "Item composes media, title, description, and actions in a flexible row — aligned with shadcn/ui item patterns.",
   installationText:
-    "Import Item and subcomponents (ItemMedia, ItemContent, ItemTitle, ItemDescription, ItemActions, ItemGroup, …) from @kamod-ui/core.",
+    "Import Item and subcomponents (ItemMedia, ItemContent, ItemTitle, ItemDescription, ItemActions, ItemGroup, …) from `@/components/kamod-ui/item`.",
   usageText:
     "Use variant (default, outline, muted) and size (default, sm, xs). Use asChild to render a link or other host with item styles. Prefer Field when the row wraps a form control (input, checkbox, select); use Item for read-only rows, lists, and actions.",
   exampleSections: [
@@ -76,7 +76,8 @@ export const itemDocPage = createGenericDocPage({
       id: "item-demo",
       title: "Basic patterns",
       text: "Outline items with actions, and a compact row rendered as a link via asChild.",
-      code: `import { Button, Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from "@/components/kamod-ui/item";
 import { BadgeCheck, ChevronRight } from "lucide-preact";
 
 export const Example = () => (
@@ -138,7 +139,8 @@ export const Example = () => (
       id: "item-usage",
       title: "Usage",
       text: "Standard layout: icon media, title + description, and an action — matches the shadcn usage snippet.",
-      code: `import { Button, Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from "@/components/kamod-ui/item";
 import { Inbox } from "lucide-preact";
 
 export const Example = () => (
@@ -174,7 +176,7 @@ export const Example = () => (
       id: "item-variants",
       title: "Variants",
       text: "Default is transparent; outline adds a border; muted uses a soft background.",
-      code: `import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from "@kamod-ui/core";
+      code: `import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from "@/components/kamod-ui/item";
 import { Inbox } from "lucide-preact";
 
 export const Example = () => (
@@ -244,7 +246,7 @@ export const Example = () => (
       id: "item-sizes",
       title: "Sizes",
       text: "Use size sm or xs for denser stacks; padding and gaps scale down.",
-      code: `import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from "@kamod-ui/core";
+      code: `import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from "@/components/kamod-ui/item";
 import { Inbox } from "lucide-preact";
 
 export const Example = () => (
@@ -314,7 +316,8 @@ export const Example = () => (
       id: "item-icon",
       title: "Icon media",
       text: "ItemMedia variant icon wraps the glyph in a muted tile with consistent dimensions.",
-      code: `import { Button, Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from "@/components/kamod-ui/item";
 import { ShieldAlert } from "lucide-preact";
 
 export const Example = () => (
@@ -352,7 +355,9 @@ export const Example = () => (
       id: "item-avatar",
       title: "Avatar media",
       text: "Use the default ItemMedia variant to pass through Avatar or custom stacks.",
-      code: `import { Avatar, AvatarFallback, AvatarImage, Button, Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from "@kamod-ui/core";
+      code: `import { Avatar, AvatarFallback, AvatarImage } from "@/components/kamod-ui/avatar"
+import { Button } from "@/components/kamod-ui/button"
+import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from "@/components/kamod-ui/item";
 import { Plus } from "lucide-preact";
 
 export const Example = () => (
@@ -429,7 +434,7 @@ export const Example = () => (
       id: "item-image",
       title: "Image media",
       text: "variant image clamps cover artwork; pair with ItemGroup and asChild links for lists.",
-      code: `import { Item, ItemContent, ItemDescription, ItemGroup, ItemMedia, ItemTitle } from "@kamod-ui/core";
+      code: `import { Item, ItemContent, ItemDescription, ItemGroup, ItemMedia, ItemTitle } from "@/components/kamod-ui/item";
 
 const tracks = [{ title: "Song A", artist: "Artist", album: "Album", duration: "3:45" }];
 
@@ -494,7 +499,9 @@ export const Example = () => (
       id: "item-group",
       title: "Group",
       text: "ItemGroup uses role list; stack outline rows with optional separators.",
-      code: `import { Avatar, AvatarFallback, AvatarImage, Button, Item, ItemActions, ItemContent, ItemDescription, ItemGroup, ItemMedia, ItemTitle } from "@kamod-ui/core";
+      code: `import { Avatar, AvatarFallback, AvatarImage } from "@/components/kamod-ui/avatar"
+import { Button } from "@/components/kamod-ui/button"
+import { Item, ItemActions, ItemContent, ItemDescription, ItemGroup, ItemMedia, ItemTitle } from "@/components/kamod-ui/item";
 
 export const Example = () => (
   <ItemGroup class="max-w-sm">
@@ -529,7 +536,7 @@ export const Example = () => (
       id: "item-header-footer",
       title: "Header and footer",
       text: "ItemHeader spans the full row width above content; ItemFooter does the same below.",
-      code: `import { Item, ItemContent, ItemDescription, ItemFooter, ItemHeader, ItemTitle } from "@kamod-ui/core";
+      code: `import { Item, ItemContent, ItemDescription, ItemFooter, ItemHeader, ItemTitle } from "@/components/kamod-ui/item";
 
 export const Example = () => (
   <Item variant="outline" class="max-w-xl">
@@ -577,7 +584,7 @@ export const Example = () => (
       id: "item-link",
       title: "Link (asChild)",
       text: "Hover and focus rings apply to the anchor when Item uses asChild.",
-      code: `import { Item, ItemActions, ItemContent, ItemDescription, ItemTitle } from "@kamod-ui/core";
+      code: `import { Item, ItemActions, ItemContent, ItemDescription, ItemTitle } from "@/components/kamod-ui/item";
 import { ChevronRight, ExternalLink } from "lucide-preact";
 
 export const Example = () => (
@@ -637,7 +644,7 @@ export const Example = () => (
       id: "item-separator",
       title: "Separator",
       text: "ItemSeparator renders a horizontal rule tuned for stacked ItemGroup layouts.",
-      code: `import { Item, ItemContent, ItemGroup, ItemSeparator, ItemTitle } from "@kamod-ui/core";
+      code: `import { Item, ItemContent, ItemGroup, ItemSeparator, ItemTitle } from "@/components/kamod-ui/item";
 
 export const Example = () => (
   <ItemGroup class="max-w-sm">
@@ -674,7 +681,10 @@ export const Example = () => (
       id: "item-dropdown",
       title: "Inside dropdown",
       text: "Extra-small items fit menu rows; keep Item width full inside DropdownItem.",
-      code: `import { Avatar, AvatarFallback, AvatarImage, Button, Dropdown, DropdownContent, DropdownItem, DropdownTrigger, Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from "@kamod-ui/core";
+      code: `import { Avatar, AvatarFallback, AvatarImage } from "@/components/kamod-ui/avatar"
+import { Button } from "@/components/kamod-ui/button"
+import { Dropdown, DropdownContent, DropdownItem, DropdownTrigger } from "@/components/kamod-ui/dropdown"
+import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from "@/components/kamod-ui/item";
 import { ChevronDown } from "lucide-preact";
 
 export const Example = () => (
@@ -721,7 +731,7 @@ export const Example = () => (
       id: "item-rtl",
       title: "RTL",
       text: "Set dir=\"rtl\" on a wrapper; logical spacing and asChild links follow start/end.",
-      code: `import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from "@kamod-ui/core";
+      code: `import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from "@/components/kamod-ui/item";
 import { Inbox } from "lucide-preact";
 
 export const Example = () => (

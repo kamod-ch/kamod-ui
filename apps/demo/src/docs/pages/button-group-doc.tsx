@@ -437,20 +437,9 @@ const heroCode = `import {
   Tag,
   Trash2,
 } from "lucide-preact";
-import { Button, ButtonGroup } from "@kamod-ui/core";
-import {
-  Dropdown,
-  DropdownContent,
-  DropdownGroup,
-  DropdownItem,
-  DropdownRadioGroup,
-  DropdownRadioItem,
-  DropdownSeparator,
-  DropdownSub,
-  DropdownSubContent,
-  DropdownSubTrigger,
-  DropdownTrigger,
-} from "@kamod-ui/core";
+import { Button } from "@/components/kamod-ui/button"
+import { ButtonGroup } from "@/components/kamod-ui/button-group";
+import { Dropdown, DropdownContent, DropdownGroup, DropdownItem, DropdownRadioGroup, DropdownRadioItem, DropdownSeparator, DropdownSub, DropdownSubContent, DropdownSubTrigger, DropdownTrigger } from "@/components/kamod-ui/dropdown";
 
 export const Example = () => {
   const [label, setLabel] = useState("personal");
@@ -472,7 +461,8 @@ const sectionBlocks: Record<
         <Button>Button 2</Button>
       </ButtonGroup>
     ),
-    code: `import { Button, ButtonGroup, ButtonGroupSeparator, ButtonGroupText } from "@kamod-ui/core";
+    code: `import { Button } from "@/components/kamod-ui/button"
+import { ButtonGroup, ButtonGroupSeparator, ButtonGroupText } from "@/components/kamod-ui/button-group";
 
 export const Example = () => (
   <ButtonGroup>
@@ -492,7 +482,8 @@ export const Example = () => (
         </Button>
       </ButtonGroup>
     ),
-    code: `import { Button, ButtonGroup } from "@kamod-ui/core";
+    code: `import { Button } from "@/components/kamod-ui/button"
+import { ButtonGroup } from "@/components/kamod-ui/button-group";
 
 export const Example = () => (
   <ButtonGroup aria-label="Pagination controls">
@@ -514,7 +505,8 @@ export const Example = () => (
         </ButtonGroup>
       </div>
     ),
-    code: `import { Button, ButtonGroup } from "@kamod-ui/core";
+    code: `import { Button } from "@/components/kamod-ui/button"
+import { ButtonGroup } from "@/components/kamod-ui/button-group";
 import { Minus, Plus } from "lucide-preact";
 
 export const Example = () => (
@@ -526,7 +518,8 @@ export const Example = () => (
   },
   size: {
     preview: () => <SizeDemo />,
-    code: `import { Button, ButtonGroup } from "@kamod-ui/core";
+    code: `import { Button } from "@/components/kamod-ui/button"
+import { ButtonGroup } from "@/components/kamod-ui/button-group";
 import { Plus } from "lucide-preact";
 
 export const Example = () => (
@@ -542,7 +535,10 @@ export const Example = () => (
   },
   nested: {
     preview: () => <NestedDemo />,
-    code: `import { Button, ButtonGroup, InputGroup, InputGroupInput, InputGroupAddon, Tooltip, TooltipContent, TooltipTrigger } from "@kamod-ui/core";
+    code: `import { Button } from "@/components/kamod-ui/button"
+import { ButtonGroup } from "@/components/kamod-ui/button-group"
+import { InputGroup, InputGroupInput, InputGroupAddon } from "@/components/kamod-ui/input-group"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/kamod-ui/tooltip";
 import { AudioLines, Plus } from "lucide-preact";
 
 export const Example = () => (
@@ -576,7 +572,8 @@ export const Example = () => (
         </Button>
       </ButtonGroup>
     ),
-    code: `import { Button, ButtonGroup, ButtonGroupSeparator } from "@kamod-ui/core";
+    code: `import { Button } from "@/components/kamod-ui/button"
+import { ButtonGroup, ButtonGroupSeparator } from "@/components/kamod-ui/button-group";
 
 export const Example = () => (
   <ButtonGroup>
@@ -598,7 +595,8 @@ export const Example = () => (
         </Button>
       </ButtonGroup>
     ),
-    code: `import { Button, ButtonGroup, ButtonGroupSeparator } from "@kamod-ui/core";
+    code: `import { Button } from "@/components/kamod-ui/button"
+import { ButtonGroup, ButtonGroupSeparator } from "@/components/kamod-ui/button-group";
 import { Plus } from "lucide-preact";
 
 export const Example = () => (
@@ -618,7 +616,9 @@ export const Example = () => (
         </Button>
       </ButtonGroup>
     ),
-    code: `import { Button, ButtonGroup, Input } from "@kamod-ui/core";
+    code: `import { Button } from "@/components/kamod-ui/button"
+import { ButtonGroup } from "@/components/kamod-ui/button-group"
+import { Input } from "@/components/kamod-ui/input";
 import { Search } from "lucide-preact";
 
 export const Example = () => (
@@ -634,7 +634,9 @@ export const Example = () => (
   },
   dropdown: {
     preview: () => <DropdownSplitDemo />,
-    code: `import { Button, ButtonGroup, Dropdown, DropdownContent, DropdownItem, DropdownGroup, DropdownSeparator, DropdownTrigger } from "@kamod-ui/core";
+    code: `import { Button } from "@/components/kamod-ui/button"
+import { ButtonGroup } from "@/components/kamod-ui/button-group"
+import { Dropdown, DropdownContent, DropdownItem, DropdownGroup, DropdownSeparator, DropdownTrigger } from "@/components/kamod-ui/dropdown";
 import { ChevronDown } from "lucide-preact";
 
 export const Example = () => (
@@ -651,7 +653,10 @@ export const Example = () => (
   },
   select: {
     preview: () => <SelectAmountDemo />,
-    code: `import { Button, ButtonGroup, Input, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger } from "@kamod-ui/core";
+    code: `import { Button } from "@/components/kamod-ui/button"
+import { ButtonGroup } from "@/components/kamod-ui/button-group"
+import { Input } from "@/components/kamod-ui/input"
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger } from "@/components/kamod-ui/select";
 import { ArrowRight } from "lucide-preact";
 
 export const Example = () => (
@@ -669,7 +674,11 @@ export const Example = () => (
   popover: {
     preview: () => <PopoverCopilotDemo />,
     code: `import { Bot, ChevronDown } from "lucide-preact";
-import { Button, ButtonGroup, Field, FieldDescription, FieldLabel, Popover, PopoverContent, PopoverDescription, PopoverHeader, PopoverTitle, PopoverTrigger, Textarea } from "@kamod-ui/core";
+import { Button } from "@/components/kamod-ui/button"
+import { ButtonGroup } from "@/components/kamod-ui/button-group"
+import { Field, FieldDescription, FieldLabel } from "@/components/kamod-ui/field"
+import { Popover, PopoverContent, PopoverDescription, PopoverHeader, PopoverTitle, PopoverTrigger } from "@/components/kamod-ui/popover"
+import { Textarea } from "@/components/kamod-ui/textarea";
 
 export const Example = () => (
   <ButtonGroup>
@@ -685,7 +694,10 @@ export const Example = () => (
   },
   rtl: {
     preview: () => <RtlToolbarDemo />,
-    code: `import { Button, ButtonGroup, DirectionProvider, Dropdown, DropdownContent, DropdownItem, DropdownTrigger } from "@kamod-ui/core";
+    code: `import { Button } from "@/components/kamod-ui/button"
+import { ButtonGroup } from "@/components/kamod-ui/button-group"
+import { DirectionProvider } from "@/components/kamod-ui/direction"
+import { Dropdown, DropdownContent, DropdownItem, DropdownTrigger } from "@/components/kamod-ui/dropdown";
 // Wrap toolbar in DirectionProvider + dir; mirror back icon with rotate-180 in RTL.`
   },
   "group-text": {
@@ -705,7 +717,10 @@ export const Example = () => (
         </ButtonGroup>
       </div>
     ),
-    code: `import { Button, ButtonGroup, ButtonGroupText, Input, Label } from "@kamod-ui/core";
+    code: `import { Button } from "@/components/kamod-ui/button"
+import { ButtonGroup, ButtonGroupText } from "@/components/kamod-ui/button-group"
+import { Input } from "@/components/kamod-ui/input"
+import { Label } from "@/components/kamod-ui/label";
 
 export const Example = () => (
   <>
@@ -749,7 +764,7 @@ export const buttonGroupDocPage: DocPageModule = {
     {
       id: "installation",
       title: "Installation",
-      text: "Import ButtonGroup, ButtonGroupSeparator, and ButtonGroupText from @kamod-ui/core."
+      text: "Import ButtonGroup, ButtonGroupSeparator, and ButtonGroupText from `@/components/kamod-ui/button-group`."
     },
     {
       id: "accessibility",

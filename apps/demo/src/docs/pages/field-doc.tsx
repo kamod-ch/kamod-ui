@@ -51,14 +51,8 @@ const FieldSliderPreview = () => {
 export const fieldDocPage = createGenericDocPage({
   slug: "field",
   title: "Field",
-  previewCode: `import {
-  Field,
-  FieldDescription,
-  FieldGroup,
-  FieldLabel,
-  FieldSet,
-} from "@kamod-ui/core";
-import { Input } from "@kamod-ui/core";
+  previewCode: `import { Field, FieldDescription, FieldGroup, FieldLabel, FieldSet } from "@/components/kamod-ui/field";
+import { Input } from "@/components/kamod-ui/input";
 
 export const Example = () => (
   <FieldSet class="w-full max-w-xs">
@@ -79,7 +73,7 @@ export const Example = () => (
   usageLabel:
     "Composable form layout — FieldSet, FieldGroup, FieldLabel, FieldDescription, FieldError, FieldTitle, FieldContent, FieldSeparator (shadcn-aligned). Legacy label/description/error props on Field remain supported.",
   installationText:
-    "Import Field and subcomponents from @kamod-ui/core (FieldSet, FieldGroup, FieldLabel, FieldDescription, FieldError, …).",
+    "Import Field and subcomponents from `@/components/kamod-ui/field` (FieldSet, FieldGroup, FieldLabel, FieldDescription, FieldError, …).",
   usageText:
     "Compose Field around controls. Use FieldSet + FieldLegend for semantics. Field orientation horizontal for checkbox/radio + label rows. FieldLabel can wrap a Field for choice cards. Field still accepts label, description, and error props for quick stacks (legacy).",
   exampleSections: [
@@ -87,16 +81,8 @@ export const Example = () => (
       id: "field-anatomy",
       title: "Anatomy",
       text: "FieldSet, FieldGroup, label, control, description, error (shadcn Usage).",
-      code: `import {
-  Field,
-  FieldDescription,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-  FieldLegend,
-  FieldSet,
-} from "@kamod-ui/core";
-import { Input } from "@kamod-ui/core";
+      code: `import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel, FieldLegend, FieldSet } from "@/components/kamod-ui/field";
+import { Input } from "@/components/kamod-ui/input";
 
 export const Example = () => (
   <FieldSet class="w-full max-w-xs">
@@ -147,7 +133,8 @@ export const Example = () => (
       id: "field-legacy",
       title: "Legacy props",
       text: "Field with label, description, and error props (backward compatible).",
-      code: `import { Field, Input } from "@kamod-ui/core";
+      code: `import { Field } from "@/components/kamod-ui/field"
+import { Input } from "@/components/kamod-ui/input";
 
 export const Example = () => (
   <Field label="Project name" description="Shown in the dashboard header">
@@ -164,8 +151,8 @@ export const Example = () => (
       id: "field-input",
       title: "Input",
       text: "Username and password fields (shadcn Field Input).",
-      code: `import { Field, FieldDescription, FieldGroup, FieldLabel, FieldSet } from "@kamod-ui/core";
-import { Input } from "@kamod-ui/core";
+      code: `import { Field, FieldDescription, FieldGroup, FieldLabel, FieldSet } from "@/components/kamod-ui/field";
+import { Input } from "@/components/kamod-ui/input";
 
 export const Example = () => (
   <FieldSet class="w-full max-w-xs">
@@ -204,8 +191,8 @@ export const Example = () => (
       id: "field-textarea",
       title: "Textarea",
       text: "shadcn Field Textarea.",
-      code: `import { Field, FieldDescription, FieldGroup, FieldLabel, FieldSet } from "@kamod-ui/core";
-import { Textarea } from "@kamod-ui/core";
+      code: `import { Field, FieldDescription, FieldGroup, FieldLabel, FieldSet } from "@/components/kamod-ui/field";
+import { Textarea } from "@/components/kamod-ui/textarea";
 
 export const Example = () => (
   <FieldSet class="w-full max-w-xs">
@@ -234,8 +221,8 @@ export const Example = () => (
       id: "field-select",
       title: "Select",
       text: "shadcn Field Select.",
-      code: `import { Field, FieldDescription, FieldLabel } from "@kamod-ui/core";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@kamod-ui/core";
+      code: `import { Field, FieldDescription, FieldLabel } from "@/components/kamod-ui/field";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/kamod-ui/select";
 
 export const Example = () => (
   <Field class="w-full max-w-xs">
@@ -276,7 +263,8 @@ export const Example = () => (
       id: "field-slider",
       title: "Slider",
       text: "FieldTitle + FieldDescription + Slider (shadcn Field Slider, single value).",
-      code: `import { Field, FieldDescription, FieldTitle, Slider } from "@kamod-ui/core";
+      code: `import { Field, FieldDescription, FieldTitle } from "@/components/kamod-ui/field"
+import { Slider } from "@/components/kamod-ui/slider";
 import { useState } from "preact/hooks";
 
 export const Example = () => {
@@ -295,8 +283,8 @@ export const Example = () => {
       id: "field-fieldset",
       title: "Fieldset",
       text: "Legend, description, grid of inputs (shadcn Fieldset).",
-      code: `import { Field, FieldDescription, FieldGroup, FieldLabel, FieldLegend, FieldSet } from "@kamod-ui/core";
-import { Input } from "@kamod-ui/core";
+      code: `import { Field, FieldDescription, FieldGroup, FieldLabel, FieldLegend, FieldSet } from "@/components/kamod-ui/field";
+import { Input } from "@/components/kamod-ui/input";
 
 export const Example = () => (
   <FieldSet class="w-full max-w-sm">
@@ -347,7 +335,8 @@ export const Example = () => (
       id: "field-checkbox",
       title: "Checkbox",
       text: "Horizontal Field rows + FieldContent (shadcn Field Checkbox).",
-      code: `import { Checkbox, Field, FieldContent, FieldDescription, FieldGroup, FieldLabel, FieldLegend, FieldSeparator, FieldSet } from "@kamod-ui/core";
+      code: `import { Checkbox } from "@/components/kamod-ui/checkbox"
+import { Field, FieldContent, FieldDescription, FieldGroup, FieldLabel, FieldLegend, FieldSeparator, FieldSet } from "@/components/kamod-ui/field";
 
 export const Example = () => (
   <FieldGroup class="w-full max-w-xs">
@@ -414,8 +403,8 @@ export const Example = () => (
       id: "field-radio",
       title: "Radio",
       text: "RadioGroup inside FieldSet (shadcn Field Radio).",
-      code: `import { Field, FieldDescription, FieldLabel, FieldLegend, FieldSet } from "@kamod-ui/core";
-import { RadioGroup, RadioGroupItem } from "@kamod-ui/core";
+      code: `import { Field, FieldDescription, FieldLabel, FieldLegend, FieldSet } from "@/components/kamod-ui/field";
+import { RadioGroup, RadioGroupItem } from "@/components/kamod-ui/radio-group";
 
 export const Example = () => (
   <FieldSet class="w-full max-w-xs">
@@ -462,8 +451,8 @@ export const Example = () => (
       id: "field-switch",
       title: "Switch",
       text: "Label + Switch horizontal (shadcn Field Switch).",
-      code: `import { Field, FieldLabel } from "@kamod-ui/core";
-import { Switch } from "@kamod-ui/core";
+      code: `import { Field, FieldLabel } from "@/components/kamod-ui/field";
+import { Switch } from "@/components/kamod-ui/switch";
 
 export const Example = () => (
   <Field orientation="horizontal" class="w-fit">
@@ -482,17 +471,8 @@ export const Example = () => (
       id: "field-choice-card",
       title: "Choice card",
       text: "FieldLabel wraps Field + Radio (shadcn Choice Card).",
-      code: `import {
-  Field,
-  FieldContent,
-  FieldDescription,
-  FieldGroup,
-  FieldLabel,
-  FieldLegend,
-  FieldSet,
-  FieldTitle,
-} from "@kamod-ui/core";
-import { RadioGroup, RadioGroupItem } from "@kamod-ui/core";
+      code: `import { Field, FieldContent, FieldDescription, FieldGroup, FieldLabel, FieldLegend, FieldSet, FieldTitle } from "@/components/kamod-ui/field";
+import { RadioGroup, RadioGroupItem } from "@/components/kamod-ui/radio-group";
 
 export const Example = () => (
   <FieldGroup class="w-full max-w-xs">
@@ -555,7 +535,8 @@ export const Example = () => (
       id: "field-group-sep",
       title: "Field group + separator",
       text: "Stacked FieldSets with FieldSeparator (shadcn Field Group).",
-      code: `import { Checkbox, Field, FieldDescription, FieldGroup, FieldLabel, FieldSeparator, FieldSet } from "@kamod-ui/core";
+      code: `import { Checkbox } from "@/components/kamod-ui/checkbox"
+import { Field, FieldDescription, FieldGroup, FieldLabel, FieldSeparator, FieldSet } from "@/components/kamod-ui/field";
 
 export const Example = () => (
   <FieldGroup class="w-full max-w-xs">
@@ -632,8 +613,8 @@ export const Example = () => (
       id: "field-error-array",
       title: "FieldError (errors array)",
       text: "FieldError can derive text from an errors array (forms integration).",
-      code: `import { Field, FieldError, FieldLabel } from "@kamod-ui/core";
-import { Input } from "@kamod-ui/core";
+      code: `import { Field, FieldError, FieldLabel } from "@/components/kamod-ui/field";
+import { Input } from "@/components/kamod-ui/input";
 
 export const Example = () => (
   <Field class="w-full max-w-xs">
@@ -654,8 +635,8 @@ export const Example = () => (
       id: "field-responsive",
       title: "Responsive orientation",
       text: "Field orientation responsive stacks until @md inside @container FieldGroup.",
-      code: `import { Field, FieldDescription, FieldGroup, FieldLabel } from "@kamod-ui/core";
-import { Input } from "@kamod-ui/core";
+      code: `import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/kamod-ui/field";
+import { Input } from "@/components/kamod-ui/input";
 
 export const Example = () => (
   <FieldGroup class="w-full max-w-md">
@@ -680,8 +661,8 @@ export const Example = () => (
       id: "field-rtl",
       title: "RTL",
       text: "dir=\"rtl\" on FieldSet for mirrored flow.",
-      code: `import { Field, FieldDescription, FieldGroup, FieldLabel, FieldLegend, FieldSet } from "@kamod-ui/core";
-import { Input } from "@kamod-ui/core";
+      code: `import { Field, FieldDescription, FieldGroup, FieldLabel, FieldLegend, FieldSet } from "@/components/kamod-ui/field";
+import { Input } from "@/components/kamod-ui/input";
 
 export const Example = () => (
   <FieldSet dir="rtl" class="w-full max-w-xs">
@@ -712,7 +693,8 @@ export const Example = () => (
       id: "field-legacy-error",
       title: "Legacy error",
       text: "Validation with legacy error prop.",
-      code: `import { Field, Input } from "@kamod-ui/core";
+      code: `import { Field } from "@/components/kamod-ui/field"
+import { Input } from "@/components/kamod-ui/input";
 
 export const Example = () => (
   <Field label="Email" error="Please provide a valid email address">

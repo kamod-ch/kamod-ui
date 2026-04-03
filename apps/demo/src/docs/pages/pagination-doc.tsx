@@ -21,7 +21,7 @@ export const paginationDocPage = createGenericDocPage({
   title: "Pagination",
   usageLabel:
     "Pagination surfaces page navigation with optional chevrons, ellipsis, and compact table-style layouts — aligned with shadcn/ui patterns.",
-  installationText: "Import Pagination primitives from @kamod-ui/core.",
+  installationText: "Import Pagination primitives from `@/components/kamod-ui/pagination`.",
   usageText:
     "Compose Pagination with PaginationContent and PaginationItem wrappers. Use PaginationLink for numeric pages (outline when active, ghost otherwise). PaginationPrevious and PaginationNext add chevrons and hide link text on small screens; pass `text` for localization.",
   exampleSections: [
@@ -29,15 +29,7 @@ export const paginationDocPage = createGenericDocPage({
       id: "pagination-demo",
       title: "Demo",
       text: "Full navigation: previous, page numbers with an active state, ellipsis, and next — matching the primary shadcn/ui example.",
-      code: `import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@kamod-ui/core";
+      code: `import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/kamod-ui/pagination";
 
 export const Example = () => (
   <Pagination>
@@ -96,12 +88,7 @@ export const Example = () => (
       id: "pagination-simple",
       title: "Simple",
       text: "Numeric pages only — useful when previous/next live elsewhere or the range is small.",
-      code: `import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-} from "@kamod-ui/core";
+      code: `import { Pagination, PaginationContent, PaginationItem, PaginationLink } from "@/components/kamod-ui/pagination";
 
 export const Example = () => (
   <Pagination>
@@ -154,20 +141,9 @@ export const Example = () => (
       id: "pagination-icons-only",
       title: "Icons only (with rows per page)",
       text: "Previous and next without page numbers, beside a rows-per-page select — typical for data tables.",
-      code: `import {
-  Label,
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationNext,
-  PaginationPrevious,
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@kamod-ui/core";
+      code: `import { Label } from "@/components/kamod-ui/label"
+import { Pagination, PaginationContent, PaginationItem, PaginationNext, PaginationPrevious } from "@/components/kamod-ui/pagination"
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/kamod-ui/select";
 
 export const Example = () => (
   <div class="flex w-full max-w-xl flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -238,15 +214,7 @@ export const Example = () => (
       id: "pagination-rtl",
       title: "RTL labels",
       text: "Set `dir=\"rtl\"` on the nav and use the `text` prop on previous/next for translated strings (shadcn-style i18n hook optional).",
-      code: `import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@kamod-ui/core";
+      code: `import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/kamod-ui/pagination";
 
 export const Example = () => (
   <Pagination dir="rtl">

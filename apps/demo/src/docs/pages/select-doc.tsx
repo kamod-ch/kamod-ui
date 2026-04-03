@@ -15,14 +15,14 @@ export const selectDocPage = createGenericDocPage({
   slug: "select",
   title: "Select",
   usageLabel: "Select provides a modern Radix-style single-choice picker.",
-  installationText: "Import Select primitives from @kamod-ui/core.",
+  installationText: "Import Select primitives from `@/components/kamod-ui/select`.",
   usageText: "Compose trigger, value, groups and content items to build accessible single-select dropdowns.",
   exampleSections: [
     {
       id: "basic-select",
       title: "Basic Select",
       text: "Select one option from a compact modern dropdown list.",
-      code: `import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@kamod-ui/core";
+      code: `import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/kamod-ui/select";
 
 export const Example = () => (
   <Select defaultValue="preact" class="w-full max-w-sm">
@@ -53,16 +53,7 @@ export const Example = () => (
       id: "select-groups",
       title: "Groups and Separators",
       text: "Use labels and separators to organize larger option sets.",
-      code: `import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectSeparator,
-  SelectTrigger,
-  SelectValue
-} from "@kamod-ui/core";
+      code: `import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectSeparator, SelectTrigger, SelectValue } from "@/components/kamod-ui/select";
 
 export const Example = () => (
   <Select defaultValue="berlin" class="w-full max-w-sm">
@@ -109,7 +100,7 @@ export const Example = () => (
       id: "select-disabled",
       title: "Disabled Items",
       text: "Disable unavailable entries while keeping the same list structure.",
-      code: `import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@kamod-ui/core";
+      code: `import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/kamod-ui/select";
 
 export const Example = () => (
   <Select class="w-full max-w-sm">
@@ -146,7 +137,7 @@ export const Example = () => (
       id: "select-scrollable",
       title: "Scrollable Content",
       text: "Use the default max-height content to keep long lists usable.",
-      code: `import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@kamod-ui/core";
+      code: `import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/kamod-ui/select";
 
 const timezones = [
   "UTC",
@@ -197,7 +188,8 @@ export const Example = () => (
       id: "select-invalid",
       title: "Invalid State",
       text: "Combine with Field and ARIA invalid attributes for error presentation.",
-      code: `import { Field, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@kamod-ui/core";
+      code: `import { Field } from "@/components/kamod-ui/field"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/kamod-ui/select";
 
 export const Example = () => (
   <Field label="Environment" error="Please choose a deployment environment." data-invalid>

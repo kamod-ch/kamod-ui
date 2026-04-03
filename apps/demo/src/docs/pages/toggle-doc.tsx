@@ -6,14 +6,14 @@ export const toggleDocPage = createGenericDocPage({
   slug: "toggle",
   title: "Toggle",
   usageLabel: "Toggle controls a binary pressed/unpressed state with modern Radix-style variants and sizes.",
-  installationText: "Import Toggle from @kamod-ui/core.",
+  installationText: "Import Toggle from `@/components/kamod-ui/toggle`.",
   usageText: "Use `variant`, `size`, and controlled state props to match toolbar and settings use-cases.",
   exampleSections: [
     {
       id: "basic-toggle",
       title: "Basic Toggle",
       text: "A compact default toggle with an initial pressed state.",
-      code: `import { Toggle } from "@kamod-ui/core";
+      code: `import { Toggle } from "@/components/kamod-ui/toggle";
 import { Bold } from "lucide-preact";
 
 export const Example = () => (
@@ -33,7 +33,7 @@ export const Example = () => (
       id: "toggle-options",
       title: "Toolbar Actions",
       text: "Render grouped actions in a compact, modern formatting toolbar.",
-      code: `import { Toggle } from "@kamod-ui/core";
+      code: `import { Toggle } from "@/components/kamod-ui/toggle";
 import { Bold, Italic, Underline } from "lucide-preact";
 
 export const Example = () => (
@@ -67,7 +67,7 @@ export const Example = () => (
       id: "variants-and-sizes",
       title: "Variants and Sizes",
       text: "Use `outline` for elevated surfaces and `icon` size for compact controls.",
-      code: `import { Toggle } from "@kamod-ui/core";
+      code: `import { Toggle } from "@/components/kamod-ui/toggle";
 import { Bold, Underline } from "lucide-preact";
 
 export const Example = () => (

@@ -243,16 +243,10 @@ export const carouselDocPage = createGenericDocPage({
   slug: "carousel",
   title: "Carousel",
   usageLabel: "Carousel displays swipeable or button-driven slide content (Embla Carousel).",
-  installationText: "Depends on `embla-carousel` and optional `embla-carousel-autoplay` (used when `autoplay` is set). Import primitives from @kamod-ui/core.",
+  installationText: "Depends on `embla-carousel` and optional `embla-carousel-autoplay` (used when `autoplay` is set). Import primitives from `@/components/kamod-ui/carousel`.",
   usageText:
     "Wrap slides in CarouselContent; each slide is a CarouselItem. Place CarouselPrevious and CarouselNext as siblings of CarouselContent inside Carousel. Use opts for Embla options (align, loop, direction). Use setApi to read scrollSnapList, selectedScrollSnap, and events.",
-  previewCode: `import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@kamod-ui/core";
+  previewCode: `import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/kamod-ui/carousel";
 
 export const Example = () => (
   <div class="mx-auto w-full max-w-xs px-12">

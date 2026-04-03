@@ -330,7 +330,7 @@ export const menubarDocPage = createGenericDocPage({
   title: "Menubar",
   usageLabel: "Desktop-style menu bar: one open root menu at a time, submenus, shortcuts, checkboxes, and radio groups.",
   installationText:
-    "Import Menubar, MenubarMenu, MenubarTrigger, MenubarContent, and optional primitives (Group, Shortcut, Sub, CheckboxItem, RadioGroup, …) from @kamod-ui/core.",
+    "Import Menubar, MenubarMenu, MenubarTrigger, MenubarContent, and optional primitives (Group, Shortcut, Sub, CheckboxItem, RadioGroup, …) from `@/components/kamod-ui/menubar`.",
   usageText:
     "Each MenubarMenu is a top-level branch. Only one menu panel is open at a time; choosing another trigger switches panels. MenubarItem closes the bar on activate; checkbox and radio items keep it open. Submenus open on hover or click.",
   exampleSections: [
@@ -349,16 +349,7 @@ export const menubarDocPage = createGenericDocPage({
       id: "usage",
       title: "Usage",
       text: "Minimal pattern with Group and Shortcut.",
-      code: `import {
-  Menubar,
-  MenubarContent,
-  MenubarGroup,
-  MenubarItem,
-  MenubarMenu,
-  MenubarSeparator,
-  MenubarShortcut,
-  MenubarTrigger
-} from "@kamod-ui/core";
+      code: `import { Menubar, MenubarContent, MenubarGroup, MenubarItem, MenubarMenu, MenubarSeparator, MenubarShortcut, MenubarTrigger } from "@/components/kamod-ui/menubar";
 
 export const Example = () => (
   <Menubar>
@@ -407,16 +398,7 @@ export const Example = () => (
       id: "checkbox",
       title: "Checkbox",
       text: "MenubarCheckboxItem for toggles; optional checked / onCheckedChange for controlled usage.",
-      code: `import {
-  Menubar,
-  MenubarCheckboxItem,
-  MenubarContent,
-  MenubarItem,
-  MenubarMenu,
-  MenubarSeparator,
-  MenubarShortcut,
-  MenubarTrigger
-} from "@kamod-ui/core";
+      code: `import { Menubar, MenubarCheckboxItem, MenubarContent, MenubarItem, MenubarMenu, MenubarSeparator, MenubarShortcut, MenubarTrigger } from "@/components/kamod-ui/menubar";
 
 export const Example = () => (
   <Menubar class="w-72">
@@ -444,16 +426,7 @@ export const Example = () => (
       title: "Radio",
       text: "MenubarRadioGroup with value and onValueChange for controlled selection.",
       code: `import { useState } from "preact/hooks";
-import {
-  Menubar,
-  MenubarContent,
-  MenubarItem,
-  MenubarMenu,
-  MenubarRadioGroup,
-  MenubarRadioItem,
-  MenubarSeparator,
-  MenubarTrigger
-} from "@kamod-ui/core";
+import { Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarRadioGroup, MenubarRadioItem, MenubarSeparator, MenubarTrigger } from "@/components/kamod-ui/menubar";
 
 export const Example = () => {
   const [theme, setTheme] = useState("system");
@@ -482,18 +455,7 @@ export const Example = () => {
       id: "submenu",
       title: "Submenu",
       text: "MenubarSub, MenubarSubTrigger, and MenubarSubContent for nested panels.",
-      code: `import {
-  Menubar,
-  MenubarContent,
-  MenubarItem,
-  MenubarMenu,
-  MenubarSeparator,
-  MenubarShortcut,
-  MenubarSub,
-  MenubarSubContent,
-  MenubarSubTrigger,
-  MenubarTrigger
-} from "@kamod-ui/core";
+      code: `import { Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarSeparator, MenubarShortcut, MenubarSub, MenubarSubContent, MenubarSubTrigger, MenubarTrigger } from "@/components/kamod-ui/menubar";
 
 export const Example = () => (
   <Menubar>
@@ -526,7 +488,7 @@ export const Example = () => (
       title: "With icons",
       text: "Place icons before label text; destructive variant on MenubarItem.",
       code: `import { FileText, Trash2 } from "lucide-preact";
-import { Menubar, MenubarContent, MenubarGroup, MenubarItem, MenubarMenu, MenubarSeparator, MenubarShortcut, MenubarTrigger } from "@kamod-ui/core";
+import { Menubar, MenubarContent, MenubarGroup, MenubarItem, MenubarMenu, MenubarSeparator, MenubarShortcut, MenubarTrigger } from "@/components/kamod-ui/menubar";
 
 export const Example = () => (
   <Menubar>
@@ -558,20 +520,7 @@ export const Example = () => (
       id: "rtl",
       title: "RTL",
       text: "Set dir=\"rtl\" on Menubar; submenus use logical start/end (e.g. MenubarSubContent start-full).",
-      code: `import {
-  Menubar,
-  MenubarCheckboxItem,
-  MenubarContent,
-  MenubarGroup,
-  MenubarItem,
-  MenubarMenu,
-  MenubarSeparator,
-  MenubarShortcut,
-  MenubarSub,
-  MenubarSubContent,
-  MenubarSubTrigger,
-  MenubarTrigger
-} from "@kamod-ui/core";
+      code: `import { Menubar, MenubarCheckboxItem, MenubarContent, MenubarGroup, MenubarItem, MenubarMenu, MenubarSeparator, MenubarShortcut, MenubarSub, MenubarSubContent, MenubarSubTrigger, MenubarTrigger } from "@/components/kamod-ui/menubar";
 
 export const Example = () => (
   <Menubar dir="rtl" class="w-72">

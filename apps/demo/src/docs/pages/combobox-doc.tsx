@@ -433,17 +433,7 @@ const ComboboxRtlPreview = () => {
 export const comboboxDocPage = createGenericDocPage({
   slug: "combobox",
   title: "Combobox",
-  previewCode: `import {
-  Combobox,
-  ComboboxCommand,
-  ComboboxContent,
-  ComboboxEmpty,
-  ComboboxInput,
-  ComboboxItem,
-  ComboboxList,
-  ComboboxTrigger,
-  ComboboxValue,
-} from "@kamod-ui/core";
+  previewCode: `import { Combobox, ComboboxCommand, ComboboxContent, ComboboxEmpty, ComboboxInput, ComboboxItem, ComboboxList, ComboboxTrigger, ComboboxValue } from "@/components/kamod-ui/combobox";
 
 const frameworks = ["Next.js", "SvelteKit", "Nuxt.js"];
 
@@ -469,7 +459,7 @@ export const Example = () => (
 );`,
   usageLabel:
     "Searchable select built from `Popover` + `Command` — API shaped like the shadcn combobox docs, without `@base-ui/react`. Use composable primitives or the `ComboboxSelect` preset for `{ label, value }[]`.",
-  installationText: "Import combobox primitives (and optionally `ComboboxSelect`) from `@kamod-ui/core`.",
+  installationText: "Import combobox primitives (and optionally `ComboboxSelect`) from `@/components/kamod-ui/combobox`.",
   usageText:
     "`Combobox` supports single or `multiple` selection (`value` / `onValueChange` as `string` or `string[]`). `liftedFilter` shares the filter string between `ComboboxInlineInput` or `ComboboxChipsInput` and the list (`Command` stays mounted via `forceMount` on content). Set `autoHighlight` on the root (or `ComboboxCommand`) for first-match highlight plus ArrowUp/Down and Enter — works in `ComboboxInput`, `ComboboxInlineInput`, and `ComboboxChipsInput` via `commandNavRef`. `showClear` + `ComboboxClear` clears selection and filter. Multi-select: `ComboboxChips` + `ComboboxChip` + `ComboboxChipsInput` (implies `liftedFilter`). `ComboboxSelect` maps props to these patterns (`liftedFilter`, `multiple`, `showClear`, `autoHighlight`).",
   exampleSections: [

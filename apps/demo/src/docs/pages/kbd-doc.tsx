@@ -17,7 +17,7 @@ export const kbdDocPage = createGenericDocPage({
   slug: "kbd",
   title: "Kbd",
   usageLabel: "Keyboard keys and shortcuts — shadcn-style grouping, button hints, tooltips, and input addons.",
-  installationText: "Import Kbd and optionally KbdGroup from @kamod-ui/core.",
+  installationText: "Import Kbd and optionally KbdGroup from `@/components/kamod-ui/kbd`.",
   usageText:
     "Use Kbd for single keys. Wrap related keys in KbdGroup with gap-1. Use size=\"sm\" for denser UI. On buttons, set data-icon=\"inline-end\" on Kbd for slight nudge (matches Button inline-end icon pattern).",
   exampleSections: [
@@ -25,7 +25,7 @@ export const kbdDocPage = createGenericDocPage({
       id: "kbd-demo",
       title: "Demo",
       text: "Modifier row and Ctrl + B style sequence (shadcn KbdDemo).",
-      code: `import { Kbd, KbdGroup } from "@kamod-ui/core";
+      code: `import { Kbd, KbdGroup } from "@/components/kamod-ui/kbd";
 
 export const Example = () => (
   <div class="flex flex-col items-center gap-4">
@@ -62,7 +62,7 @@ export const Example = () => (
       id: "kbd-usage",
       title: "Usage",
       text: "Single key element.",
-      code: `import { Kbd } from "@kamod-ui/core";
+      code: `import { Kbd } from "@/components/kamod-ui/kbd";
 
 export const Example = () => <Kbd>Ctrl</Kbd>;`,
       renderPreview: () => <Kbd>Ctrl</Kbd>
@@ -71,7 +71,7 @@ export const Example = () => <Kbd>Ctrl</Kbd>;`,
       id: "kbd-group",
       title: "Group",
       text: "KbdGroup clusters keys in prose (shadcn Group example).",
-      code: `import { Kbd, KbdGroup } from "@kamod-ui/core";
+      code: `import { Kbd, KbdGroup } from "@/components/kamod-ui/kbd";
 
 export const Example = () => (
   <p class="text-muted-foreground text-sm">
@@ -98,7 +98,8 @@ export const Example = () => (
       id: "kbd-button",
       title: "Button",
       text: "Shortcut inside Button; data-icon=\"inline-end\" aligns like trailing icons.",
-      code: `import { Button, Kbd } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Kbd } from "@/components/kamod-ui/kbd";
 
 export const Example = () => (
   <Button variant="outline">
@@ -121,7 +122,10 @@ export const Example = () => (
       id: "kbd-tooltip",
       title: "Tooltip",
       text: "Kbd inside TooltipContent for discoverability.",
-      code: `import { Button, ButtonGroup, Kbd, KbdGroup, Tooltip, TooltipContent, TooltipTrigger } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { ButtonGroup } from "@/components/kamod-ui/button-group"
+import { Kbd, KbdGroup } from "@/components/kamod-ui/kbd"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/kamod-ui/tooltip";
 
 export const Example = () => (
   <ButtonGroup>
@@ -178,7 +182,8 @@ export const Example = () => (
       id: "kbd-input-group",
       title: "Input group",
       text: "Shortcut hints in InputGroupAddon (inline-end), with search icon.",
-      code: `import { InputGroup, InputGroupAddon, InputGroupInput, Kbd } from "@kamod-ui/core";
+      code: `import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/kamod-ui/input-group"
+import { Kbd } from "@/components/kamod-ui/kbd";
 import { Search } from "lucide-preact";
 
 export const Example = () => (
@@ -212,7 +217,7 @@ export const Example = () => (
       id: "kbd-sizes",
       title: "Sizes",
       text: "sm (h-5) vs md (h-6) for dense toolbars or default body.",
-      code: `import { Kbd } from "@kamod-ui/core";
+      code: `import { Kbd } from "@/components/kamod-ui/kbd";
 
 export const Example = () => (
   <div class="flex items-center gap-2">
@@ -231,7 +236,7 @@ export const Example = () => (
       id: "kbd-rtl",
       title: "RTL",
       text: "Direction inherits from dir on an ancestor.",
-      code: `import { Kbd, KbdGroup } from "@kamod-ui/core";
+      code: `import { Kbd, KbdGroup } from "@/components/kamod-ui/kbd";
 
 export const Example = () => (
   <div class="flex flex-col items-center gap-4" dir="rtl">

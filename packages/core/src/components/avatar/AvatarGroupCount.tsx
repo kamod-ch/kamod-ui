@@ -9,7 +9,7 @@ export const AvatarGroupCount = ({ class: className, children, ...rest }: Avatar
   <div
     data-slot="avatar-group-count"
     class={cn(
-      "bg-muted text-muted-foreground relative -ms-2 flex size-10 shrink-0 items-center justify-center rounded-full text-xs font-medium ring-2 ring-background rtl:-ms-0 rtl:-me-2",
+      "bg-muted text-muted-foreground relative z-[100] -ms-2 inline-flex size-10 shrink-0 items-center justify-center rounded-full text-center text-xs font-medium tabular-nums leading-none ring-2 ring-background rtl:-ms-0 rtl:-me-2",
       className
     )}
     {...rest}

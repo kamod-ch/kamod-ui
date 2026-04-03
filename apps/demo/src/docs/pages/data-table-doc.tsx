@@ -60,7 +60,7 @@ export const Example = () => <PaymentsDataTableDemo />;`,
   usageLabel:
     "Data tables pair `Table` primitives with app state (sorting, filters, pagination). `DataTable` adds the bordered shell from shadcn; full grids are composed in your app or demo.",
   installationText:
-    "Use `Table`, `TableHeader`, `TableBody`, `TableRow`, `TableHead`, and `TableCell` from `@kamod-ui/core`. Optional: `DataTable` wraps the table in `overflow-hidden rounded-md border`. The official shadcn guide uses `@tanstack/react-table` (React); this Preact demo implements the same UX with local state — you can adopt TanStack in a React app following https://ui.shadcn.com/docs/components/radix/data-table",
+    "Use `Table`, `TableHeader`, `TableBody`, `TableRow`, `TableHead`, and `TableCell` from `@/components/kamod-ui/data-table`. Optional: `DataTable` wraps the table in `overflow-hidden rounded-md border`. The official shadcn guide uses `@tanstack/react-table` (React); this Preact demo implements the same UX with local state — you can adopt TanStack in a React app following https://ui.shadcn.com/docs/components/radix/data-table",
   usageText:
     "`PaymentsDataTableDemo` (below) matches the documented flow: column toolbar (email filter + column visibility), sortable email header, currency amount, row actions `Dropdown`, checkboxes with header indeterminate state, selected count, and prev/next pagination. Set `chrome={false}` on `DataTable` if you provide your own border.",
   exampleSections: [
@@ -77,7 +77,8 @@ export const Example = () => <PaymentsDataTableDemo />;`,
       id: "basic-table",
       title: "Basic table",
       text: "Static headers and mapped rows — starting point before adding sorting and filters.",
-      code: `import { DataTable, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@kamod-ui/core";
+      code: `import { DataTable } from "@/components/kamod-ui/data-table"
+import { TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/kamod-ui/table";
 import { paymentRows } from "./data-table-payments-demo";
 
 export const Example = () => (
@@ -108,7 +109,8 @@ export const Example = () => (
       id: "empty-state",
       title: "Empty state",
       text: "Single body row with `colSpan` when there are no records.",
-      code: `import { DataTable, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@kamod-ui/core";
+      code: `import { DataTable } from "@/components/kamod-ui/data-table"
+import { TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/kamod-ui/table";
 
 export const Example = () => (
   <DataTable chrome>

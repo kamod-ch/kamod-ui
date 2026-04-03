@@ -5,7 +5,7 @@ export const labelDocPage = createGenericDocPage({
   slug: "label",
   title: "Label",
   usageLabel: "Accessible captions for form controls — Radix/shadcn-aligned typography and disabled-state pairing.",
-  installationText: "Import Label from @kamod-ui/core.",
+  installationText: "Import Label from `@/components/kamod-ui/label`.",
   usageText:
     "Associate controls with htmlFor/id. Put the control **before** the label when you rely on Tailwind `peer-disabled` styling on the label. For full forms with legends and errors, prefer a Field pattern when your app provides it.",
   exampleSections: [
@@ -13,7 +13,8 @@ export const labelDocPage = createGenericDocPage({
       id: "label-demo",
       title: "Demo",
       text: "Checkbox before label so peer-disabled styles apply when the input is disabled.",
-      code: `import { Checkbox, Label } from "@kamod-ui/core";
+      code: `import { Checkbox } from "@/components/kamod-ui/checkbox"
+import { Label } from "@/components/kamod-ui/label";
 
 export const Example = () => (
   <div class="flex items-center gap-2">
@@ -32,7 +33,7 @@ export const Example = () => (
       id: "label-usage",
       title: "Usage",
       text: "Minimal htmlFor association (shadcn usage block).",
-      code: `import { Label } from "@kamod-ui/core";
+      code: `import { Label } from "@/components/kamod-ui/label";
 
 export const Example = () => (
   <Label htmlFor="email">Your email address</Label>
@@ -48,7 +49,8 @@ export const Example = () => (
       id: "label-with-checkbox",
       title: "Label with checkbox",
       text: "Pair checkbox and label; use disabled on the checkbox to dim the label via peer.",
-      code: `import { Checkbox, Label } from "@kamod-ui/core";
+      code: `import { Checkbox } from "@/components/kamod-ui/checkbox"
+import { Label } from "@/components/kamod-ui/label";
 
 export const Example = () => (
   <div class="flex flex-col gap-3">
@@ -79,7 +81,8 @@ export const Example = () => (
       id: "label-with-input",
       title: "Label with input",
       text: "Stack label above the field (shadcn input-with-label).",
-      code: `import { Input, Label } from "@kamod-ui/core";
+      code: `import { Input } from "@/components/kamod-ui/input"
+import { Label } from "@/components/kamod-ui/label";
 
 export const Example = () => (
   <div class="grid w-full max-w-sm items-center gap-3">
@@ -98,7 +101,8 @@ export const Example = () => (
       id: "label-with-textarea",
       title: "Label with textarea",
       text: "Label + multiline control.",
-      code: `import { Label, Textarea } from "@kamod-ui/core";
+      code: `import { Label } from "@/components/kamod-ui/label"
+import { Textarea } from "@/components/kamod-ui/textarea";
 
 export const Example = () => (
   <div class="grid w-full gap-3">
@@ -117,7 +121,8 @@ export const Example = () => (
       id: "label-field-hint",
       title: "Label in a form stack",
       text: "Without a dedicated Field primitive, stack Label, Input, and helper text with muted typography.",
-      code: `import { Input, Label } from "@kamod-ui/core";
+      code: `import { Input } from "@/components/kamod-ui/input"
+import { Label } from "@/components/kamod-ui/label";
 
 export const Example = () => (
   <div class="grid w-full max-w-sm gap-2">
@@ -138,7 +143,7 @@ export const Example = () => (
       id: "label-sizes",
       title: "Sizes",
       text: "Optional size variants for typography scale.",
-      code: `import { Label } from "@kamod-ui/core";
+      code: `import { Label } from "@/components/kamod-ui/label";
 
 export const Example = () => (
   <div class="grid gap-2">
@@ -159,7 +164,8 @@ export const Example = () => (
       id: "label-rtl",
       title: "RTL",
       text: "Set dir on the row; keep checkbox before label for peer styling.",
-      code: `import { Checkbox, Label } from "@kamod-ui/core";
+      code: `import { Checkbox } from "@/components/kamod-ui/checkbox"
+import { Label } from "@/components/kamod-ui/label";
 
 export const Example = () => (
   <div class="flex gap-2" dir="rtl">

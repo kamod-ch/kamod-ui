@@ -11,7 +11,7 @@ export const themingDocPage = createGenericDocPage({
     "Use ThemePresetSelect in app chrome and map tokens in foundation.css via :root[data-theme=\"...\"] and .dark[data-theme=\"...\"].",
   usageText:
     "Theme presets are persisted in localStorage and applied to <html data-theme=\"...\">. Keep component styling token-driven.",
-  previewCode: `import { ThemeToggle } from "@kamod-ui/core";
+  previewCode: `import { ThemeToggle } from "@/components/kamod-ui/theme-toggle";
 import { ThemePresetSelect } from "../theme/ThemePresetSelect";
 
 export const ThemingControls = () => (
@@ -25,7 +25,7 @@ export const ThemingControls = () => (
       id: "preset-controls",
       title: "Preset Controls",
       text: "Place preset select and light/dark toggle together in your topbar.",
-      code: `import { ThemeToggle } from "@kamod-ui/core";
+      code: `import { ThemeToggle } from "@/components/kamod-ui/theme-toggle";
 import { ThemePresetSelect } from "../theme/ThemePresetSelect";
 
 export const Example = () => (

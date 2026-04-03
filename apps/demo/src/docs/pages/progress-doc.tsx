@@ -33,7 +33,7 @@ export const progressDocPage = createGenericDocPage({
   slug: "progress",
   title: "Progress",
   usageLabel: "Progress shows how far a task has advanced — aligned with Radix-style bars and shadcn/ui patterns.",
-  installationText: "Import Progress from @kamod-ui/core.",
+  installationText: "Import Progress from `@/components/kamod-ui/progress`.",
   usageText:
     "Pass value and optional max for determinate progress. Use value={null} or indeterminate for loading when completion is unknown — the indeterminate animation is injected once with the component (no extra Tailwind keyframes). Pair with labels, or drive value from a Slider for interactive demos.",
   exampleSections: [
@@ -41,7 +41,7 @@ export const progressDocPage = createGenericDocPage({
       id: "basic-progress",
       title: "Basic",
       text: "Minimal bar with theme tokens and smooth motion, similar to the default on the shadcn/ui Progress docs.",
-      code: `import { Progress } from "@kamod-ui/core";
+      code: `import { Progress } from "@/components/kamod-ui/progress";
 
 export const Example = () => <Progress value={33} class="w-full max-w-md" />;`,
       renderPreview: () => (
@@ -58,7 +58,7 @@ export const Example = () => <Progress value={33} class="w-full max-w-md" />;`,
       id: "progress-with-label",
       title: "Label",
       text: "Pair the bar with a title and numeric readout so status stays clear at a glance.",
-      code: `import { Progress } from "@kamod-ui/core";
+      code: `import { Progress } from "@/components/kamod-ui/progress";
 
 export const Example = () => (
   <div class="docs-slider-demo w-full max-w-md">
@@ -83,7 +83,8 @@ export const Example = () => (
       id: "controlled-progress",
       title: "Controlled",
       text: "Bind progress to a Slider so users can scrub the value — the same interaction model as the shadcn/ui controlled example.",
-      code: `import { Progress, Slider } from "@kamod-ui/core";
+      code: `import { Progress } from "@/components/kamod-ui/progress"
+import { Slider } from "@/components/kamod-ui/slider";
 import { useState } from "preact/hooks";
 
 export const Example = () => {
@@ -114,7 +115,7 @@ export const Example = () => {
       id: "progress-indeterminate",
       title: "Indeterminate",
       text: "When completion cannot be measured, use null or the indeterminate flag — same idea as Radix Progress with an unknown value.",
-      code: `import { Progress } from "@kamod-ui/core";
+      code: `import { Progress } from "@/components/kamod-ui/progress";
 
 export const Example = () => (
   <div class="docs-slider-demo w-full max-w-md">
@@ -139,7 +140,7 @@ export const Example = () => (
       id: "custom-max",
       title: "Custom max",
       text: "Use max when progress is not a percentage — steps, file counts, or queue length.",
-      code: `import { Progress } from "@kamod-ui/core";
+      code: `import { Progress } from "@/components/kamod-ui/progress";
 
 export const Example = () => (
   <div class="docs-slider-demo w-full max-w-md">

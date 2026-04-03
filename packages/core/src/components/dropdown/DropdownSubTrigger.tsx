@@ -13,7 +13,7 @@ const ChevronRight = ({ class: className }: { class?: string }) => (
     stroke-width="2"
     stroke-linecap="round"
     stroke-linejoin="round"
-    class={cn("size-4 shrink-0 rtl:rotate-180", className)}
+    class={cn("size-3.5 shrink-0 rtl:rotate-180", className)}
     aria-hidden
   >
     <path d="m9 18 6-6-6-6" />
@@ -43,8 +43,8 @@ export const DropdownSubTrigger = ({
       aria-expanded={open}
       aria-haspopup="menu"
       class={cn(
-        "flex w-full cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-start text-sm outline-none",
-        "focus:bg-accent focus:text-accent-foreground",
+        "flex w-full cursor-default select-none items-center gap-1 rounded-sm px-1 py-0.5 text-start text-sm outline-none transition-colors duration-100",
+        "hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
         "data-[state=open]:bg-accent data-[state=open]:text-accent-foreground",
         "[&_svg]:shrink-0",
         className

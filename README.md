@@ -23,6 +23,16 @@ Preset state is stored in `localStorage` (`theme-preset`) and applied via `data-
 4. Run `pnpm -r typecheck`.
 5. Run `pnpm qa:themes` to generate/update the regression checklist in `tmp/theme-regression-checklist.md`.
 
+### Docs: rewrite `@kamod-ui/core` in snippet strings
+
+The demo rewrites doc code samples from `from "@kamod-ui/core"` to `@/components/kamod-ui/<slug>` at render time (`doc-snippet-imports.ts`). To **bulk-rewrite** string literals and template chunks under `apps/demo/src/docs`, run:
+
+```bash
+pnpm doc:rewrite-imports
+```
+
+The script transpiles `doc-snippet-rewrite.ts` (no Preact/registry load) and derives slug ordering from `apps/demo/src/docs/pages/*-doc.tsx`. Unit coverage lives in `apps/demo/src/docs/doc-snippet-rewrite.test.ts` (`pnpm test:demo`).
+
 ### DialogContent: `presentation="modal"` vs `presentation="slot"`
 
 - **Default (`modal`):** `DialogContent` renders a dimmed backdrop plus a centered panel (shadcn-style). Override width with classes like `sm:max-w-sm` only.

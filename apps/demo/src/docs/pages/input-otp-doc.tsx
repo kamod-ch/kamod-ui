@@ -56,7 +56,7 @@ export const inputOtpDocPage = createGenericDocPage({
   usageLabel:
     "One-time passcodes with per-character slots, overlay input, patterns (digits / alphanumeric), and shadcn-parity examples.",
   installationText:
-    "Import InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator and optional REGEXP_ONLY_DIGITS from @kamod-ui/core.",
+    "Import InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator and optional REGEXP_ONLY_DIGITS from `@/components/kamod-ui/input-otp`.",
   usageText:
     "Render one InputOTPSlot per index (0 … maxLength−1). Typing updates all slots from a single transparent input. Use pattern with REGEXP_ONLY_DIGITS or REGEXP_ONLY_DIGITS_AND_CHARS. onChange and onValueChange both receive the string.",
   exampleSections: [
@@ -64,7 +64,7 @@ export const inputOtpDocPage = createGenericDocPage({
       id: "otp-demo",
       title: "Demo",
       text: "Six slots with defaultValue (shadcn InputOTPDemo).",
-      code: `import { InputOTP, InputOTPGroup, InputOTPSlot } from "@kamod-ui/core";
+      code: `import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/kamod-ui/input-otp";
 
 const slots = [0, 1, 2, 3, 4, 5] as const;
 
@@ -87,7 +87,7 @@ export const Example = () => (
       id: "otp-usage",
       title: "Usage",
       text: "Group + separator pattern for 3+3 codes.",
-      code: `import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "@kamod-ui/core";
+      code: `import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "@/components/kamod-ui/input-otp";
 
 const slots = [0, 1, 2, 3, 4, 5] as const;
 
@@ -128,13 +128,9 @@ export const Example = () => (
       id: "otp-pattern",
       title: "Pattern",
       text: "Digits-only or alphanumeric filtering via exported RegExp constants.",
-      code: `import {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSlot,
-  Label,
-  REGEXP_ONLY_DIGITS
-} from "@kamod-ui/core";
+      code: `import { REGEXP_ONLY_DIGITS } from "lucide-preact"
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/kamod-ui/input-otp"
+import { Label } from "@/components/kamod-ui/label";
 
 export const Example = () => (
   <div class="grid w-fit gap-2">
@@ -191,7 +187,7 @@ export const Example = () => (
       id: "otp-disabled",
       title: "Disabled",
       text: "disabled + value shows a filled, non-editable code.",
-      code: `import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "@kamod-ui/core";
+      code: `import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "@/components/kamod-ui/input-otp";
 
 export const Example = () => (
   <InputOTP id="disabled" maxLength={6} disabled value="123456">
@@ -231,7 +227,7 @@ export const Example = () => (
       title: "Controlled",
       text: "value + onChange (or onValueChange) with live hint text.",
       code: `import { useState } from "preact/hooks";
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "@kamod-ui/core";
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/kamod-ui/input-otp";
 
 export const Example = () => {
   const [value, setValue] = useState("");
@@ -282,7 +278,8 @@ export const Example = () => {
       id: "otp-four",
       title: "Four digits",
       text: "PIN length 4 with digits pattern.",
-      code: `import { InputOTP, InputOTPGroup, InputOTPSlot, REGEXP_ONLY_DIGITS } from "@kamod-ui/core";
+      code: `import { REGEXP_ONLY_DIGITS } from "lucide-preact"
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/kamod-ui/input-otp";
 
 export const Example = () => (
   <InputOTP maxLength={4} pattern={REGEXP_ONLY_DIGITS}>
@@ -311,13 +308,8 @@ export const Example = () => (
       id: "otp-alphanumeric",
       title: "Alphanumeric",
       text: "REGEXP_ONLY_DIGITS_AND_CHARS for mixed codes.",
-      code: `import {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSeparator,
-  InputOTPSlot,
-  REGEXP_ONLY_DIGITS_AND_CHARS
-} from "@kamod-ui/core";
+      code: `import { REGEXP_ONLY_DIGITS_AND_CHARS } from "lucide-preact"
+import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "@/components/kamod-ui/input-otp";
 
 export const Example = () => (
   <InputOTP maxLength={6} pattern={REGEXP_ONLY_DIGITS_AND_CHARS}>
@@ -406,7 +398,8 @@ export const Example = () => (
       id: "otp-rtl",
       title: "RTL",
       text: "Set dir=\"rtl\" on InputOTP for right-to-left entry.",
-      code: `import { InputOTP, InputOTPGroup, InputOTPSlot, Label } from "@kamod-ui/core";
+      code: `import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/kamod-ui/input-otp"
+import { Label } from "@/components/kamod-ui/label";
 
 export const Example = () => (
   <div class="grid w-fit gap-2">

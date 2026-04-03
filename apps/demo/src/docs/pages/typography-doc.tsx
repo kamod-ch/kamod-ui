@@ -5,14 +5,14 @@ export const typographyDocPage = createGenericDocPage({
   slug: "typography",
   title: "Typography",
   usageLabel: "Typography centralizes modern text styles with semantic variants.",
-  installationText: "Import Typography from @kamod-ui/core.",
+  installationText: "Import Typography from `@/components/kamod-ui/typography`.",
   usageText: "Use semantic elements via `as` and apply the matching visual variant for consistent hierarchy.",
   exampleSections: [
     {
       id: "full-example",
       title: "Full Typography Example",
       text: "Complete example matching shadcn's Typography showcase content.",
-      code: `import { Typography } from "@kamod-ui/core";
+      code: `import { Typography } from "@/components/kamod-ui/typography";
 
 export const Example = () => (
   <div class="max-w-3xl space-y-4">
@@ -63,7 +63,7 @@ export const Example = () => (
       id: "h1",
       title: "h1",
       text: "Top-level page heading style.",
-      code: `import { Typography } from "@kamod-ui/core";
+      code: `import { Typography } from "@/components/kamod-ui/typography";
 
 export const Example = () => (
   <Typography as="h1" variant="h1">Taxing Laughter: The Joke Tax Chronicles</Typography>
@@ -76,7 +76,7 @@ export const Example = () => (
       id: "h2",
       title: "h2",
       text: "Second-level heading with divider.",
-      code: `import { Typography } from "@kamod-ui/core";
+      code: `import { Typography } from "@/components/kamod-ui/typography";
 
 export const Example = () => (
   <Typography as="h2" variant="h2">The People's Rebellion</Typography>
@@ -89,7 +89,7 @@ export const Example = () => (
       id: "h3",
       title: "h3",
       text: "Third-level section heading.",
-      code: `import { Typography } from "@kamod-ui/core";
+      code: `import { Typography } from "@/components/kamod-ui/typography";
 
 export const Example = () => (
   <Typography as="h3" variant="h3">The Joke Tax</Typography>
@@ -102,7 +102,7 @@ export const Example = () => (
       id: "h4",
       title: "h4",
       text: "Fourth-level heading for local sub-sections.",
-      code: `import { Typography } from "@kamod-ui/core";
+      code: `import { Typography } from "@/components/kamod-ui/typography";
 
 export const Example = () => (
   <Typography as="h4" variant="h4">People stopped telling jokes</Typography>
@@ -115,7 +115,7 @@ export const Example = () => (
       id: "paragraph",
       title: "p",
       text: "Default body copy for long-form content.",
-      code: `import { Typography } from "@kamod-ui/core";
+      code: `import { Typography } from "@/components/kamod-ui/typography";
 
 export const Example = () => (
   <Typography as="p" variant="p">
@@ -132,7 +132,7 @@ export const Example = () => (
       id: "blockquote",
       title: "blockquote",
       text: "Use for important quoted callouts.",
-      code: `import { Typography } from "@kamod-ui/core";
+      code: `import { Typography } from "@/components/kamod-ui/typography";
 
 export const Example = () => (
   <Typography as="blockquote" variant="blockquote">
@@ -149,7 +149,7 @@ export const Example = () => (
       id: "table",
       title: "table",
       text: "Responsive table wrapper with Typography table variant.",
-      code: `import { Typography } from "@kamod-ui/core";
+      code: `import { Typography } from "@/components/kamod-ui/typography";
 
 export const Example = () => (
   <Typography as="div" variant="table">
@@ -190,7 +190,7 @@ export const Example = () => (
       id: "list",
       title: "list",
       text: "Bulleted list with consistent spacing.",
-      code: `import { Typography } from "@kamod-ui/core";
+      code: `import { Typography } from "@/components/kamod-ui/typography";
 
 export const Example = () => (
   <Typography as="ul" variant="list">
@@ -211,7 +211,7 @@ export const Example = () => (
       id: "inline-code",
       title: "Inline code",
       text: "Use inline code style for package names and tokens.",
-      code: `import { Typography } from "@kamod-ui/core";
+      code: `import { Typography } from "@/components/kamod-ui/typography";
 
 export const Example = () => (
   <Typography as="code" variant="inlineCode">@radix-ui/react-alert-dialog</Typography>
@@ -224,7 +224,7 @@ export const Example = () => (
       id: "lead",
       title: "Lead",
       text: "Lead copy for section intros.",
-      code: `import { Typography } from "@kamod-ui/core";
+      code: `import { Typography } from "@/components/kamod-ui/typography";
 
 export const Example = () => (
   <Typography as="p" variant="lead">
@@ -241,7 +241,7 @@ export const Example = () => (
       id: "large",
       title: "Large",
       text: "Emphasized short text with large style.",
-      code: `import { Typography } from "@kamod-ui/core";
+      code: `import { Typography } from "@/components/kamod-ui/typography";
 
 export const Example = () => (
   <Typography as="div" variant="large">Are you absolutely sure?</Typography>
@@ -254,7 +254,7 @@ export const Example = () => (
       id: "small",
       title: "Small",
       text: "Small helper label text.",
-      code: `import { Typography } from "@kamod-ui/core";
+      code: `import { Typography } from "@/components/kamod-ui/typography";
 
 export const Example = () => (
   <Typography as="small" variant="small">Email address</Typography>
@@ -267,7 +267,7 @@ export const Example = () => (
       id: "muted",
       title: "Muted",
       text: "Secondary text for subtle context.",
-      code: `import { Typography } from "@kamod-ui/core";
+      code: `import { Typography } from "@/components/kamod-ui/typography";
 
 export const Example = () => (
   <Typography as="p" variant="muted">Enter your email address.</Typography>

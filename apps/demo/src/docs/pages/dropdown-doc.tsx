@@ -36,7 +36,7 @@ export const dropdownDocPage = createGenericDocPage({
   title: "Dropdown",
   usageLabel:
     "Context menu from a trigger — dismiss layer, positioning, asChild trigger, submenus, shortcuts, checkbox and radio items (shadcn Dropdown Menu pattern).",
-  installationText: "Import Dropdown primitives from @kamod-ui/core.",
+  installationText: "Import Dropdown primitives from `@/components/kamod-ui/dropdown`.",
   usageText:
     "Use DropdownTrigger to toggle, DropdownContent for the panel (side, align, sideOffset). Optional DropdownSub / DropdownSubTrigger / DropdownSubContent for nested menus. Checkbox and radio items do not use DropdownItem’s auto-close behavior where noted.",
   exampleSections: [
@@ -44,7 +44,7 @@ export const dropdownDocPage = createGenericDocPage({
       id: "basic-dropdown",
       title: "Basic",
       text: "Default trigger styling and menu items.",
-      code: `import { Dropdown, DropdownContent, DropdownItem, DropdownTrigger } from "@kamod-ui/core";
+      code: `import { Dropdown, DropdownContent, DropdownItem, DropdownTrigger } from "@/components/kamod-ui/dropdown";
 
 export const Example = () => (
   <Dropdown>
@@ -69,7 +69,8 @@ export const Example = () => (
       id: "as-child",
       title: "Trigger asChild",
       text: "Use a Button (or other element) as the trigger.",
-      code: `import { Button, Dropdown, DropdownContent, DropdownItem, DropdownTrigger } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Dropdown, DropdownContent, DropdownItem, DropdownTrigger } from "@/components/kamod-ui/dropdown";
 
 export const Example = () => (
   <Dropdown>
@@ -96,10 +97,7 @@ export const Example = () => (
       id: "grouped-shortcuts-icons",
       title: "Groups, shortcuts, icons",
       text: "Labels, separators, keyboard hints, and leading icons.",
-      code: `import {
-  Dropdown, DropdownContent, DropdownGroup, DropdownItem, DropdownLabel,
-  DropdownSeparator, DropdownShortcut, DropdownTrigger
-} from "@kamod-ui/core";
+      code: `import { Dropdown, DropdownContent, DropdownGroup, DropdownItem, DropdownLabel, DropdownSeparator, DropdownShortcut, DropdownTrigger } from "@/components/kamod-ui/dropdown";
 
 export const Example = () => (
   <Dropdown>
@@ -140,10 +138,7 @@ export const Example = () => (
       id: "submenu",
       title: "Submenu",
       text: "Nested menu; open via hover or click on the sub trigger.",
-      code: `import {
-  Dropdown, DropdownContent, DropdownItem, DropdownSub, DropdownSubContent,
-  DropdownSubTrigger, DropdownTrigger
-} from "@kamod-ui/core";
+      code: `import { Dropdown, DropdownContent, DropdownItem, DropdownSub, DropdownSubContent, DropdownSubTrigger, DropdownTrigger } from "@/components/kamod-ui/dropdown";
 
 export const Example = () => (
   <Dropdown>
@@ -180,9 +175,7 @@ export const Example = () => (
       id: "checkbox-items",
       title: "Checkbox items",
       text: "Toggle state without closing the root menu.",
-      code: `import {
-  Dropdown, DropdownCheckboxItem, DropdownContent, DropdownLabel, DropdownSeparator, DropdownTrigger
-} from "@kamod-ui/core";
+      code: `import { Dropdown, DropdownCheckboxItem, DropdownContent, DropdownLabel, DropdownSeparator, DropdownTrigger } from "@/components/kamod-ui/dropdown";
 
 export const Example = () => (
   <Dropdown>
@@ -213,9 +206,7 @@ export const Example = () => (
       id: "radio-items",
       title: "Radio group",
       text: "Single selection; menu closes after choosing (DropdownRadioItem).",
-      code: `import {
-  Dropdown, DropdownContent, DropdownLabel, DropdownRadioGroup, DropdownRadioItem, DropdownTrigger
-} from "@kamod-ui/core";
+      code: `import { Dropdown, DropdownContent, DropdownLabel, DropdownRadioGroup, DropdownRadioItem, DropdownTrigger } from "@/components/kamod-ui/dropdown";
 
 export const Example = () => (
   <Dropdown>
@@ -248,7 +239,7 @@ export const Example = () => (
       id: "positioning",
       title: "Positioning",
       text: "side, align, and sideOffset on DropdownContent.",
-      code: `import { Dropdown, DropdownContent, DropdownItem, DropdownTrigger } from "@kamod-ui/core";
+      code: `import { Dropdown, DropdownContent, DropdownItem, DropdownTrigger } from "@/components/kamod-ui/dropdown";
 
 export const Example = () => (
   <Dropdown>

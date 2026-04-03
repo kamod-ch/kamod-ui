@@ -55,10 +55,15 @@ import { switchDocPage } from "./pages/switch-doc";
 import { tableDocPage } from "./pages/table-doc";
 import { tabsDocPage } from "./pages/tabs-doc";
 import { textareaDocPage } from "./pages/textarea-doc";
+import { themeToggleDocPage } from "./pages/theme-toggle-doc";
+import { themingDocPage } from "./pages/theming-doc";
+import { toastDocPage } from "./pages/toast-doc";
 import { toggleDocPage } from "./pages/toggle-doc";
 import { toggleGroupDocPage } from "./pages/toggle-group-doc";
 import { typographyDocPage } from "./pages/typography-doc";
 import { tooltipDocPage } from "./pages/tooltip-doc";
+import { videoDocPage } from "./pages/video-doc";
+import { buildDocsPageSlugsLongestFirst } from "./doc-snippet-rewrite";
 import type { ComponentOverviewItem, DocPageModule } from "./types";
 
 export const docsPages: DocPageModule[] = [
@@ -119,18 +124,28 @@ export const docsPages: DocPageModule[] = [
   tableDocPage,
   tabsDocPage,
   textareaDocPage,
+  themeToggleDocPage,
+  themingDocPage,
+  toastDocPage,
   toggleDocPage,
   toggleGroupDocPage,
   typographyDocPage,
-  tooltipDocPage
+  tooltipDocPage,
+  videoDocPage
 ];
+
+/** Longest first so e.g. `navigation-menu` wins over shorter prefixes in import rewriting. */
+export const docsPageSlugsLongestFirst: readonly string[] = buildDocsPageSlugsLongestFirst(docsPages.map((p) => p.slug));
 
 export const docsBySlug = docsPages.reduce<Record<string, DocPageModule>>((acc, page) => {
   acc[page.slug] = page;
   return acc;
 }, {});
 
-/** Shown with an "updated" badge in docs and kitchen sink nav (keep in sync with Docs UX). */
+/**
+ * Shown with an "updated" badge in docs and kitchen sink nav.
+ * Remove slugs here once the refresh is reflected in release notes so the badge stays meaningful.
+ */
 export const docsUpdatedComponentSlugs = new Set([
   "popover",
   "tooltip",
@@ -193,7 +208,7 @@ export const componentOverviewItems: ComponentOverviewItem[] = [
   { label: "Sonner", slug: "sonner" },
   { label: "Separator", slug: "separator" },
   { label: "Sheet", slug: "sheet" },
-//  { label: "Sidebar", slug: "sidebar" },
+  { label: "Sidebar", slug: "sidebar" },
   { label: "Skeleton", slug: "skeleton" },
   { label: "Slider", slug: "slider" },
   { label: "Spinner", slug: "spinner" },
@@ -201,12 +216,12 @@ export const componentOverviewItems: ComponentOverviewItem[] = [
   { label: "Table", slug: "table" },
   { label: "Tabs", slug: "tabs" },
   { label: "Textarea", slug: "textarea" },
-//  { label: "Theme Toggle", slug: "theme-toggle" },
-//  { label: "Theming", slug: "theming" },
-//  { label: "Toast", slug: "toast" },
+  { label: "Theme Toggle", slug: "theme-toggle" },
+  { label: "Theming", slug: "theming" },
+  { label: "Toast", slug: "toast" },
   { label: "Toggle", slug: "toggle" },
   { label: "Toggle Group", slug: "toggle-group" },
   { label: "Tooltip", slug: "tooltip" },
   { label: "Typography", slug: "typography" },
-//  { label: "Video", slug: "video" }
+  { label: "Video", slug: "video" }
 ];

@@ -382,7 +382,7 @@ const NaturalLanguagePreview = () => {
 export const datePickerDocPage = createGenericDocPage({
   slug: "date-picker",
   title: "Date Picker",
-  previewCode: `import { DatePicker } from "@kamod-ui/core";
+  previewCode: `import { DatePicker } from "@/components/kamod-ui/date-picker";
 
 export const Example = () => <DatePicker placeholder="Pick a date" />;`,
   usageLabel:
@@ -403,7 +403,7 @@ export const Example = () => <DatePicker placeholder="Pick a date" />;`,
       id: "date-picker-convenience",
       title: "DatePicker component",
       text: "Shortcut with `triggerIcon` (`chevron` | `calendar` | `none`), `align`, and `format`.",
-      code: `import { DatePicker } from "@kamod-ui/core";
+      code: `import { DatePicker } from "@/components/kamod-ui/date-picker";
 
 export const Example = () => (
   <>
@@ -436,8 +436,8 @@ export const Example = () => (
       id: "range-picker",
       title: "Range picker",
       text: "`Calendar` with `mode=\"range\"` and `numberOfMonths={2}`.",
-      code: `import { Calendar } from "@kamod-ui/core";
-import type { DateRange } from "@kamod-ui/core";
+      code: `import { Calendar } from "@/components/kamod-ui/calendar";
+import type { DateRange } from "@/components/kamod-ui/calendar";
 // Popover + range Calendar — see date-picker-doc.tsx`,
       renderPreview: () => <RangePickerPreview />
     },

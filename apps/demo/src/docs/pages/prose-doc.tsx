@@ -5,14 +5,14 @@ export const proseDocPage = createGenericDocPage({
   slug: "prose",
   title: "Prose",
   usageLabel: "Prose applies typographic defaults for rich text content.",
-  installationText: "Import Prose from @kamod-ui/core.",
+  installationText: "Import Prose from `@/components/kamod-ui/prose`.",
   usageText: "Wrap markdown or article-like HTML in Prose for readable typography.",
   exampleSections: [
     {
       id: "article-prose",
       title: "Article Prose",
       text: "Render headings, paragraphs and lists with prose styles.",
-      code: `import { Prose } from "@kamod-ui/core";
+      code: `import { Prose } from "@/components/kamod-ui/prose";
 
 export const Example = () => (
   <Prose class="max-w-2xl">
@@ -33,7 +33,7 @@ export const Example = () => (
       id: "narrow-prose",
       title: "Narrow Prose",
       text: "Constrain width for long-form readability.",
-      code: `import { Prose } from "@kamod-ui/core";
+      code: `import { Prose } from "@/components/kamod-ui/prose";
 
 export const Example = () => (
   <Prose class="max-w-xl">

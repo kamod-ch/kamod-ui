@@ -5,14 +5,14 @@ export const sidebarDocPage = createGenericDocPage({
   slug: "sidebar",
   title: "Sidebar",
   usageLabel: "Sidebar provides a collapsible navigation rail for app layouts.",
-  installationText: "Import SidebarProvider and sidebar primitives from @kamod-ui/core.",
+  installationText: "Import SidebarProvider and sidebar primitives from `@/components/kamod-ui/sidebar`.",
   usageText: "Wrap sidebar regions in SidebarProvider and toggle visibility with SidebarTrigger.",
   exampleSections: [
     {
       id: "basic-sidebar",
       title: "Basic Sidebar",
       text: "Render a basic sidebar with header and content sections.",
-      code: `import { Sidebar, SidebarContent, SidebarHeader, SidebarProvider, SidebarTrigger } from "@kamod-ui/core";
+      code: `import { Sidebar, SidebarContent, SidebarHeader, SidebarProvider, SidebarTrigger } from "@/components/kamod-ui/sidebar";
 
 export const Example = () => (
   <SidebarProvider defaultOpen>
@@ -41,7 +41,7 @@ export const Example = () => (
       id: "sidebar-with-inset",
       title: "Sidebar With Inset",
       text: "Use SidebarInset for content area adjacent to sidebar.",
-      code: `import { Sidebar, SidebarContent, SidebarInset, SidebarProvider, SidebarTrigger } from "@kamod-ui/core";
+      code: `import { Sidebar, SidebarContent, SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/kamod-ui/sidebar";
 
 export const Example = () => (
   <SidebarProvider defaultOpen>

@@ -5,14 +5,15 @@ export const sonnerDocPage = createGenericDocPage({
   slug: "sonner",
   title: "Sonner",
   usageLabel: "Sonner provides toast-like notifications with imperative helpers.",
-  installationText: "Import Sonner and helper functions from @kamod-ui/core.",
+  installationText: "Import Sonner and helper functions from `@/components/kamod-ui/sonner`.",
   usageText: "Mount Sonner once near app root, then trigger notifications from events.",
   exampleSections: [
     {
       id: "basic-toast",
       title: "Basic Toast",
       text: "Display a short success message after an action.",
-      code: `import { Button, Sonner, sonner } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Sonner, sonner } from "@/components/kamod-ui/sonner";
 
 export const Example = () => (
   <>
@@ -31,7 +32,9 @@ export const Example = () => (
       id: "dismissible-toast",
       title: "Dismissible Toast",
       text: "Close notifications programmatically if workflow changes.",
-      code: `import { Button, Sonner, dismissSonner, sonner } from "@kamod-ui/core";
+      code: `import { dismissSonner } from "lucide-preact"
+import { Button } from "@/components/kamod-ui/button"
+import { Sonner, sonner } from "@/components/kamod-ui/sonner";
 
 export const Example = () => (
   <>

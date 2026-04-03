@@ -23,7 +23,8 @@ const p = "input-doc";
 export const inputDocPage = createGenericDocPage({
   slug: "input",
   title: "Input",
-  previewCode: `import { Field, Input } from "@kamod-ui/core";
+  previewCode: `import { Field } from "@/components/kamod-ui/field"
+import { Input } from "@/components/kamod-ui/input";
 
 export const Example = () => (
   <Field
@@ -35,7 +36,7 @@ export const Example = () => (
 );`,
   usageLabel:
     "Single-line text control — shadcn-aligned styling, sizes, Field composition, file type, and groups.",
-  installationText: "Import Input from @kamod-ui/core.",
+  installationText: "Import Input from `@/components/kamod-ui/input`.",
   usageText:
     "Pair with Field for label and description. Use orientation=\"horizontal\" on Field for search + button rows. Use InputGroup for prefixed text and icons; ButtonGroup to attach a button flush to the input.",
   exampleSections: [
@@ -43,7 +44,8 @@ export const Example = () => (
       id: "input-demo",
       title: "Demo",
       text: "Password field with label and helper text (shadcn InputDemo).",
-      code: `import { Field, Input } from "@kamod-ui/core";
+      code: `import { Field } from "@/components/kamod-ui/field"
+import { Input } from "@/components/kamod-ui/input";
 
 export const Example = () => (
   <Field
@@ -66,7 +68,7 @@ export const Example = () => (
       id: "input-basic",
       title: "Basic",
       text: "Minimal placeholder (shadcn Basic).",
-      code: `import { Input } from "@kamod-ui/core";
+      code: `import { Input } from "@/components/kamod-ui/input";
 
 export const Example = () => <Input placeholder="Enter text" class="max-w-md" />;`,
       renderPreview: () => <Input placeholder="Enter text" class="max-w-md" />
@@ -75,7 +77,8 @@ export const Example = () => <Input placeholder="Enter text" class="max-w-md" />
       id: "input-field",
       title: "Field",
       text: "Label and description via Field props.",
-      code: `import { Field, Input } from "@kamod-ui/core";
+      code: `import { Field } from "@/components/kamod-ui/field"
+import { Input } from "@/components/kamod-ui/input";
 
 export const Example = () => (
   <Field
@@ -98,7 +101,9 @@ export const Example = () => (
       id: "input-field-group",
       title: "Field group",
       text: "Stack multiple Field blocks and a horizontal action row (shadcn Field Group).",
-      code: `import { Button, Field, Input } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Field } from "@/components/kamod-ui/field"
+import { Input } from "@/components/kamod-ui/input";
 
 export const Example = () => (
   <div class="flex w-full max-w-md flex-col gap-6">
@@ -140,7 +145,8 @@ export const Example = () => (
       id: "input-disabled",
       title: "Disabled",
       text: "disabled on Input and Field.disabled for group tone (shadcn Disabled).",
-      code: `import { Field, Input } from "@kamod-ui/core";
+      code: `import { Field } from "@/components/kamod-ui/field"
+import { Input } from "@/components/kamod-ui/input";
 
 export const Example = () => (
   <Field label="Email" disabled description="This field is currently disabled.">
@@ -157,7 +163,8 @@ export const Example = () => (
       id: "input-invalid",
       title: "Invalid",
       text: "aria-invalid on Input and Field.invalid (shadcn Invalid).",
-      code: `import { Field, Input } from "@kamod-ui/core";
+      code: `import { Field } from "@/components/kamod-ui/field"
+import { Input } from "@/components/kamod-ui/input";
 
 export const Example = () => (
   <Field
@@ -182,7 +189,8 @@ export const Example = () => (
       id: "input-file",
       title: "File",
       text: "type=\"file\" with file:* styling on Input (shadcn File).",
-      code: `import { Field, Input } from "@kamod-ui/core";
+      code: `import { Field } from "@/components/kamod-ui/field"
+import { Input } from "@/components/kamod-ui/input";
 
 export const Example = () => (
   <Field label="Picture" description="Select a picture to upload.">
@@ -199,7 +207,9 @@ export const Example = () => (
       id: "input-inline",
       title: "Inline",
       text: "Search field and button in one horizontal Field (shadcn Inline).",
-      code: `import { Button, Field, Input } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Field } from "@/components/kamod-ui/field"
+import { Input } from "@/components/kamod-ui/input";
 
 export const Example = () => (
   <Field orientation="horizontal" class="max-w-md">
@@ -218,7 +228,8 @@ export const Example = () => (
       id: "input-grid",
       title: "Grid",
       text: "Two columns with CSS grid (shadcn Grid).",
-      code: `import { Field, Input } from "@kamod-ui/core";
+      code: `import { Field } from "@/components/kamod-ui/field"
+import { Input } from "@/components/kamod-ui/input";
 
 export const Example = () => (
   <div class="grid max-w-sm grid-cols-2 gap-4">
@@ -245,7 +256,8 @@ export const Example = () => (
       id: "input-required",
       title: "Required",
       text: "Field.required shows an asterisk (shadcn Required).",
-      code: `import { Field, Input } from "@kamod-ui/core";
+      code: `import { Field } from "@/components/kamod-ui/field"
+import { Input } from "@/components/kamod-ui/input";
 
 export const Example = () => (
   <Field
@@ -266,7 +278,9 @@ export const Example = () => (
       id: "input-badge",
       title: "Badge",
       text: "Badge in the label row (shadcn Badge).",
-      code: `import { Badge, Field, Input } from "@kamod-ui/core";
+      code: `import { Badge } from "@/components/kamod-ui/badge"
+import { Field } from "@/components/kamod-ui/field"
+import { Input } from "@/components/kamod-ui/input";
 
 export const Example = () => (
   <Field
@@ -302,7 +316,8 @@ export const Example = () => (
       title: "Input group",
       text: "Prefix text and trailing icon via InputGroup (shadcn Input Group).",
       code: `import { Info } from "lucide-preact";
-import { Field, InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "@kamod-ui/core";
+import { Field } from "@/components/kamod-ui/field"
+import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "@/components/kamod-ui/input-group";
 
 export const Example = () => (
   <Field label="Website URL">
@@ -335,7 +350,10 @@ export const Example = () => (
       id: "input-button-group",
       title: "Button group",
       text: "Flush input + button via ButtonGroup (shadcn Button Group).",
-      code: `import { Button, ButtonGroup, Field, Input } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { ButtonGroup } from "@/components/kamod-ui/button-group"
+import { Field } from "@/components/kamod-ui/field"
+import { Input } from "@/components/kamod-ui/input";
 
 export const Example = () => (
   <Field label="Search">
@@ -366,7 +384,11 @@ export const Example = () => (
       id: "input-form",
       title: "Form",
       text: "Full form with Select (shadcn Form). Country uses Label + id on SelectTrigger.",
-      code: `import { Button, Field, Input, Label, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Field } from "@/components/kamod-ui/field"
+import { Input } from "@/components/kamod-ui/input"
+import { Label } from "@/components/kamod-ui/label"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/kamod-ui/select";
 
 export const Example = () => (
   <form class="flex w-full max-w-sm flex-col gap-6" onSubmit={(e) => e.preventDefault()}>
@@ -447,7 +469,7 @@ export const Example = () => (
       id: "input-sizes",
       title: "Sizes",
       text: "sm / md / lg height and typography.",
-      code: `import { Input } from "@kamod-ui/core";
+      code: `import { Input } from "@/components/kamod-ui/input";
 
 export const Example = () => (
   <div class="grid w-full max-w-md gap-3">
@@ -468,7 +490,8 @@ export const Example = () => (
       id: "input-rtl",
       title: "RTL",
       text: "dir=\"rtl\" on Field and Input for Arabic-style layout (shadcn RTL).",
-      code: `import { Field, Input } from "@kamod-ui/core";
+      code: `import { Field } from "@/components/kamod-ui/field"
+import { Input } from "@/components/kamod-ui/input";
 
 export const Example = () => (
   <Field

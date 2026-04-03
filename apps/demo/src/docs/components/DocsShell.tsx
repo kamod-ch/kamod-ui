@@ -3,6 +3,7 @@ import { Menu, SunMoon } from "lucide-preact";
 import { DemoShell, demoTopNavItems } from "../../layout/DemoShell";
 import { ThemePresetSelect } from "../../theme/ThemePresetSelect";
 import type { ComponentChildren } from "preact";
+import { useMemo } from "preact/hooks";
 import { docsUpdatedComponentSlugs } from "../registry";
 import type { DocPageModule, DocSection } from "../types";
 
@@ -62,12 +63,15 @@ export const DocsShell = ({
   mainContent
 }: DocsShellProps) => {
   const tocSections = activeDoc ? groupTocSections(activeDoc.sections) : null;
-  const sortedDocs = [...docs].sort((a, b) => a.title.localeCompare(b.title));
+  const sortedDocs = useMemo(() => [...docs].sort((a, b) => a.title.localeCompare(b.title)), [docs]);
   const installationSection = tocSections?.installation ?? null;
   const usageSection = tocSections?.usage ?? null;
   const exampleSections = tocSections?.examples ?? [];
   const apiReferenceSection = tocSections?.apiReference ?? null;
   const hasActiveExampleSection = tocSections?.examples.some((section) => section.id === activeSection) ?? false;
+  const proFeedbackFormUrl = (import.meta.env.VITE_PRO_FEEDBACK_FORM_URL ?? "").trim();
+  const showToc = Boolean(!isComponentsOverview && activeDoc);
+  const showRightSidebar = showToc || isComponentsOverview;
 
   return (
     <DemoShell
@@ -123,7 +127,6 @@ export const DocsShell = ({
                 onClick={() => onNavigateDoc(doc.slug)}
               >
                 {doc.title}
-                {docsUpdatedComponentSlugs.has(doc.slug) ? <Badge variant="success">updated</Badge> : null}
               </button>
             ))}
           </nav>
@@ -131,52 +134,67 @@ export const DocsShell = ({
       }
       mainContent={mainContent}
       rightSidebar={
-        isComponentsOverview || !activeDoc ? null : (
+        !showRightSidebar ? null : (
           <>
-            <h3>On this page</h3>
-            <nav aria-label="On this page">
-              {installationSection ? (
-                <button class={`docs-toc-link ${activeSection === installationSection.id ? "is-active" : ""}`} onClick={() => onNavigateSection(installationSection.id)}>
-                  {installationSection.title}
-                </button>
-              ) : null}
-              {usageSection ? (
-                <button class={`docs-toc-link ${activeSection === usageSection.id ? "is-active" : ""}`} onClick={() => onNavigateSection(usageSection.id)}>
-                  {usageSection.title}
-                </button>
-              ) : null}
-              {exampleSections.length ? (
-                <div class="docs-toc-group">
-                  <span class={`docs-toc-group-label ${hasActiveExampleSection ? "is-active" : ""}`}>Examples</span>
-                  <div class="docs-toc-children">
-                    {exampleSections.map((section) => (
-                      <button
-                        key={section.id}
-                        class={`docs-toc-link docs-toc-link-child ${activeSection === section.id ? "is-active" : ""}`}
-                        onClick={() => onNavigateSection(section.id)}
-                      >
-                        {section.title}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              ) : null}
-              {apiReferenceSection ? (
-                <button class={`docs-toc-link ${activeSection === apiReferenceSection.id ? "is-active" : ""}`} onClick={() => onNavigateSection(apiReferenceSection.id)}>
-                  {apiReferenceSection.title}
-                </button>
-              ) : null}
-            </nav>
+            {showToc ? (
+              <>
+                <h3>On this page</h3>
+                <nav aria-label="On this page">
+                  {installationSection ? (
+                    <button class={`docs-toc-link ${activeSection === installationSection.id ? "is-active" : ""}`} onClick={() => onNavigateSection(installationSection.id)}>
+                      {installationSection.title}
+                    </button>
+                  ) : null}
+                  {usageSection ? (
+                    <button class={`docs-toc-link ${activeSection === usageSection.id ? "is-active" : ""}`} onClick={() => onNavigateSection(usageSection.id)}>
+                      {usageSection.title}
+                    </button>
+                  ) : null}
+                  {exampleSections.length ? (
+                    <div class="docs-toc-group">
+                      <span class={`docs-toc-group-label ${hasActiveExampleSection ? "is-active" : ""}`}>Examples</span>
+                      <div class="docs-toc-children">
+                        {exampleSections.map((section) => (
+                          <button
+                            key={section.id}
+                            class={`docs-toc-link docs-toc-link-child ${activeSection === section.id ? "is-active" : ""}`}
+                            onClick={() => onNavigateSection(section.id)}
+                          >
+                            {section.title}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  ) : null}
+                  {apiReferenceSection ? (
+                    <button class={`docs-toc-link ${activeSection === apiReferenceSection.id ? "is-active" : ""}`} onClick={() => onNavigateSection(apiReferenceSection.id)}>
+                      {apiReferenceSection.title}
+                    </button>
+                  ) : null}
+                </nav>
+              </>
+            ) : null}
 
             <Card class="docs-promo">
-              <CardHeader>
-                <CardTitle>Kamod Pro</CardTitle>
-                <CardDescription>Production-ready blocks and premium UI kits.</CardDescription>
+              <CardHeader class="gap-1.5">
+                <CardTitle class="text-base leading-snug">Kurz und ehrlich</CardTitle>
+                <CardDescription class="grid gap-2.5 text-sm leading-snug">
+                  <span class="text-foreground/90">
+                    Wir planen eine Pro-Variante mit einzeln freischaltbaren Komponenten.
+                  </span>
+                  <span class="font-medium text-foreground">Ist das für euch relevant?</span>
+                </CardDescription>
               </CardHeader>
-              <CardContent>
-                <Button size="sm" variant="default">
-                  Browse Free Blocks
-                </Button>
+              <CardContent class="grid gap-2.5">
+                {proFeedbackFormUrl ? (
+                  <Button href={proFeedbackFormUrl} target="_blank" rel="noopener noreferrer" size="sm" variant="default" class="w-full">
+                    2 Minuten Feedback
+                  </Button>
+                ) : (
+                  <Button type="button" size="sm" variant="default" class="w-full" disabled title="VITE_PRO_FEEDBACK_FORM_URL in .env setzen">
+                    2 Minuten Feedback
+                  </Button>
+                )}
               </CardContent>
             </Card>
           </>

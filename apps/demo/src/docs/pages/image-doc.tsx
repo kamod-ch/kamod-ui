@@ -5,14 +5,14 @@ export const imageDocPage = createGenericDocPage({
   slug: "image",
   title: "Image",
   usageLabel: "Image renders responsive media with consistent styling.",
-  installationText: "Import Image from @kamod-ui/core.",
+  installationText: "Import Image from `@/components/kamod-ui/image`.",
   usageText: "Use alt text for accessibility and className for shape/size control.",
   exampleSections: [
     {
       id: "basic-image",
       title: "Basic Image",
       text: "Display an image with rounded corners.",
-      code: `import { Image } from "@kamod-ui/core";
+      code: `import { Image } from "@/components/kamod-ui/image";
 
 export const Example = () => (
   <Image
@@ -33,7 +33,7 @@ export const Example = () => (
       id: "image-thumbnail",
       title: "Image Thumbnail",
       text: "Use compact image previews in lists or cards.",
-      code: `import { Image } from "@kamod-ui/core";
+      code: `import { Image } from "@/components/kamod-ui/image";
 
 export const Example = () => (
   <Image

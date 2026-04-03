@@ -44,7 +44,7 @@ const ControlledRangePreview = () => {
   );
 };
 
-const SLIDER_INSTALLATION_PREVIEW_CODE = `import { Slider } from "@kamod-ui/core";
+const SLIDER_INSTALLATION_PREVIEW_CODE = `import { Slider } from "@/components/kamod-ui/slider";
 
 export const Example = () => (
   <div class="docs-slider-demo !p-3 w-full max-w-md">
@@ -60,7 +60,7 @@ const SliderInstallationPreview = () => (
   </div>
 );
 
-const BASIC_SLIDER_CODE = `import { Slider } from "@kamod-ui/core";
+const BASIC_SLIDER_CODE = `import { Slider } from "@/components/kamod-ui/slider";
 
 export const Example = () => (
   <div class="docs-slider-demo !p-3 w-full max-w-md">
@@ -74,7 +74,7 @@ export const sliderDocPage = createGenericDocPage({
   title: "Slider",
   usageLabel: "Slider lets users pick numeric values from a range with modern visual feedback.",
   installationText:
-    "Import Slider from @kamod-ui/core. The live preview below matches the kitchen sink default (single thumb, shadcn-style array defaultValue).",
+    "Import Slider from `@/components/kamod-ui/slider`. The live preview below matches the kitchen sink default (single thumb, shadcn-style array defaultValue).",
   installationExample: {
     code: SLIDER_INSTALLATION_PREVIEW_CODE,
     renderPreview: () => <SliderInstallationPreview />
@@ -102,7 +102,7 @@ export const sliderDocPage = createGenericDocPage({
       id: "range-slider",
       title: "Range",
       text: "Two values produce a range slider with a filled track between the thumbs.",
-      code: `import { Slider } from "@kamod-ui/core";
+      code: `import { Slider } from "@/components/kamod-ui/slider";
 
 export const Example = () => (
   <div class="docs-slider-demo !p-3 w-full max-w-md">
@@ -125,7 +125,7 @@ export const Example = () => (
       id: "multiple-thumbs",
       title: "Multiple thumbs",
       text: "Use three or more values for multiple thumbs along the same track.",
-      code: `import { Slider } from "@kamod-ui/core";
+      code: `import { Slider } from "@/components/kamod-ui/slider";
 
 export const Example = () => (
   <div class="docs-slider-demo !p-3 w-full max-w-md">
@@ -148,7 +148,7 @@ export const Example = () => (
       id: "stepped-slider",
       title: "Stepped",
       text: "Use step values for discrete increments.",
-      code: `import { Slider } from "@kamod-ui/core";
+      code: `import { Slider } from "@/components/kamod-ui/slider";
 
 export const Example = () => (
   <div class="docs-slider-demo !p-3 w-full max-w-md">
@@ -171,7 +171,7 @@ export const Example = () => (
       id: "controlled-slider",
       title: "Controlled (single)",
       text: "Store the value in state; `onValueChange` receives a number array (length 1 for a single thumb).",
-      code: `import { Slider } from "@kamod-ui/core";
+      code: `import { Slider } from "@/components/kamod-ui/slider";
 import { useState } from "preact/hooks";
 
 export const Example = () => {
@@ -199,7 +199,7 @@ export const Example = () => {
       id: "controlled-range-slider",
       title: "Controlled (range)",
       text: "Controlled range on a fractional scale, similar to the shadcn docs demo.",
-      code: `import { Slider } from "@kamod-ui/core";
+      code: `import { Slider } from "@/components/kamod-ui/slider";
 import { useState } from "preact/hooks";
 
 export const Example = () => {
@@ -222,7 +222,7 @@ export const Example = () => {
       id: "disabled-slider",
       title: "Disabled",
       text: "Disable interaction for single or range sliders.",
-      code: `import { Slider } from "@kamod-ui/core";
+      code: `import { Slider } from "@/components/kamod-ui/slider";
 
 export const Example = () => (
   <div class="grid w-full max-w-md gap-4">

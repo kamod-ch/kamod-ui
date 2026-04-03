@@ -5,14 +5,14 @@ export const dropzoneDocPage = createGenericDocPage({
   slug: "dropzone",
   title: "Dropzone",
   usageLabel: "Dropzone enables drag-and-drop file upload interactions.",
-  installationText: "Import Dropzone and optional indicators from @kamod-ui/core.",
+  installationText: "Import Dropzone and optional indicators from `@/components/kamod-ui/dropzone`.",
   usageText: "Handle onFilesChange to process selected or dropped files.",
   exampleSections: [
     {
       id: "basic-dropzone",
       title: "Basic Dropzone",
       text: "Drop files or click to open the file picker.",
-      code: `import { Dropzone } from "@kamod-ui/core";
+      code: `import { Dropzone } from "@/components/kamod-ui/dropzone";
 
 export const Example = () => (
   <Dropzone class="w-full max-w-xl">
@@ -29,7 +29,7 @@ export const Example = () => (
       id: "dropzone-indicators",
       title: "Dropzone Indicators",
       text: "Use helper indicators to communicate upload state.",
-      code: `import { Dropzone, DropzoneLoadingIndicator, DropzoneUploadIndicator } from "@kamod-ui/core";
+      code: `import { Dropzone, DropzoneLoadingIndicator, DropzoneUploadIndicator } from "@/components/kamod-ui/dropzone";
 
 export const Example = () => (
   <Dropzone class="w-full max-w-xl">

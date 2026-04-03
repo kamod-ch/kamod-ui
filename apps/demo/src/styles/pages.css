@@ -94,14 +94,38 @@ html.dark .docs-mobile-sheet {
   justify-content: flex-start;
   flex-wrap: wrap;
   gap: 1rem;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 1rem;
+}
+
+.docs-title-stack {
+  flex: 1;
+  min-width: min(100%, 12rem);
+}
+
+.docs-title-row-actions {
+  flex-shrink: 0;
+  margin-left: auto;
+  align-self: center;
 }
 
 .docs-title-row h1 {
   margin: 0;
   font-size: 2rem;
   line-height: 1.15;
+}
+
+.docs-component-path {
+  margin: 0.4rem 0 0;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: var(--muted-foreground);
+}
+
+.docs-component-path code {
+  font-family: var(--font-mono-custom);
+  font-size: 0.8125rem;
+  word-break: break-all;
 }
 
 .docs-components-overview h1 {

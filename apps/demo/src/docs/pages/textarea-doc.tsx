@@ -88,14 +88,14 @@ export const textareaDocPage = createGenericDocPage({
   slug: "textarea",
   title: "Textarea",
   usageLabel: "Textarea captures longer multi-line user input.",
-  installationText: "Import Textarea from @kamod-ui/core.",
+  installationText: "Import Textarea from `@/components/kamod-ui/textarea`.",
   usageText: "Use Textarea with Field for labels, descriptions, errors, and more modern form layouts.",
   exampleSections: [
     {
       id: "basic-textarea",
       title: "Basic Textarea",
       text: "A clean default surface for short notes and feedback.",
-      code: `import { Textarea } from "@kamod-ui/core";
+      code: `import { Textarea } from "@/components/kamod-ui/textarea";
 
 export const Example = () => <Textarea placeholder="Write your feedback..." class="max-w-lg" />;`,
       renderPreview: () => (
@@ -109,7 +109,8 @@ export const Example = () => <Textarea placeholder="Write your feedback..." clas
       id: "textarea-field",
       title: "Field + Description",
       text: "Wrap Textarea with Field for semantic labels and helper text.",
-      code: `import { Field, Textarea } from "@kamod-ui/core";
+      code: `import { Field } from "@/components/kamod-ui/field"
+import { Textarea } from "@/components/kamod-ui/textarea";
 
 export const Example = () => (
   <Field
@@ -138,7 +139,8 @@ export const Example = () => (
       id: "textarea-disabled-invalid",
       title: "Disabled + Invalid",
       text: "Support disabled and invalid states with clear visual feedback.",
-      code: `import { Field, Textarea } from "@kamod-ui/core";
+      code: `import { Field } from "@/components/kamod-ui/field"
+import { Textarea } from "@/components/kamod-ui/textarea";
 
 export const Example = () => (
   <div class="grid gap-4 w-full max-w-lg">
@@ -167,7 +169,7 @@ export const Example = () => (
       id: "textarea-sizes",
       title: "Textarea Sizes",
       text: "Render size variants for compact and roomy layouts.",
-      code: `import { Textarea } from "@kamod-ui/core";
+      code: `import { Textarea } from "@/components/kamod-ui/textarea";
 
 export const Example = () => (
   <div class="grid gap-3 w-full max-w-lg">
@@ -188,7 +190,8 @@ export const Example = () => (
       id: "textarea-counter",
       title: "Character Counter",
       text: "Track input length in real time for message limits and form guidance.",
-      code: `import { Field, Textarea } from "@kamod-ui/core";
+      code: `import { Field } from "@/components/kamod-ui/field"
+import { Textarea } from "@/components/kamod-ui/textarea";
 import { useState } from "preact/hooks";
 
 export const Example = () => {
@@ -212,7 +215,8 @@ export const Example = () => {
       id: "textarea-autoresize",
       title: "Auto-resize",
       text: "Auto-grow textarea height on input for longer, distraction-free writing.",
-      code: `import { Field, Textarea } from "@kamod-ui/core";
+      code: `import { Field } from "@/components/kamod-ui/field"
+import { Textarea } from "@/components/kamod-ui/textarea";
 import type { JSX } from "preact";
 import { useState } from "preact/hooks";
 
@@ -238,7 +242,8 @@ export const Example = () => {
       id: "textarea-production-field",
       title: "Production Field Pattern",
       text: "Combine label, hint, validation error and live character count in one practical form pattern.",
-      code: `import { Field, Textarea } from "@kamod-ui/core";
+      code: `import { Field } from "@/components/kamod-ui/field"
+import { Textarea } from "@/components/kamod-ui/textarea";
 import { useState } from "preact/hooks";
 
 export const Example = () => {
@@ -272,7 +277,8 @@ export const Example = () => {
       id: "textarea-with-action",
       title: "Textarea + Action",
       text: "Pair the input with a trailing action for modern message flows.",
-      code: `import { Button, Textarea } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Textarea } from "@/components/kamod-ui/textarea";
 
 export const Example = () => (
   <div class="grid gap-3 w-full max-w-lg">

@@ -105,17 +105,8 @@ const DialogRtlPreview = () => {
   );
 };
 
-const INSTALLATION_FULLSCREEN_CODE = `import {
-  Button,
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@kamod-ui/core";
+const INSTALLATION_FULLSCREEN_CODE = `import { Button } from "@/components/kamod-ui/button"
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/kamod-ui/dialog";
 
 export const Example = () => (
   <Dialog>
@@ -178,7 +169,8 @@ const DialogInstallationFullscreenPreview = () => (
 export const dialogDocPage = createGenericDocPage({
   slug: "dialog",
   title: "Dialog",
-  previewCode: `import { Button, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@kamod-ui/core";
+  previewCode: `import { Button } from "@/components/kamod-ui/button"
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/kamod-ui/dialog";
 
 export const Example = () => (
   <Dialog>
@@ -213,7 +205,8 @@ export const Example = () => (
       id: "presentation-slot",
       title: "Custom layout: presentation=\"slot\"",
       text: "Use when you own the full-screen overlay (fixed inset-0, dimmed backdrop, flex center). Without slot, the default modal adds its own overlay + panel on top.",
-      code: `import { Button, Dialog, DialogClose, DialogContent, DialogTrigger } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Dialog, DialogClose, DialogContent, DialogTrigger } from "@/components/kamod-ui/dialog";
 
 export const Example = () => (
   <Dialog>
@@ -257,10 +250,10 @@ export const Example = () => (
       id: "dialog-demo",
       title: "Demo",
       text: "Form in a dialog with FieldGroup — matches shadcn DialogDemo structure.",
-      code: `import {
-  Button, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger,
-  Field, FieldGroup, FieldLabel, Input
-} from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/kamod-ui/dialog"
+import { Field, FieldGroup, FieldLabel } from "@/components/kamod-ui/field"
+import { Input } from "@/components/kamod-ui/input";
 
 // See dialog-doc.tsx DialogDemoPreview`,
       renderPreview: () => (
@@ -303,7 +296,7 @@ export const Example = () => (
       id: "basic-dialog",
       title: "Basic",
       text: "Minimal title and description.",
-      code: `import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@kamod-ui/core";
+      code: `import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/kamod-ui/dialog";
 
 export const Example = () => (
   <Dialog>
@@ -336,7 +329,10 @@ export const Example = () => (
       id: "custom-close",
       title: "Custom close",
       text: "Primary dismiss control in the footer; `showCloseButton={false}` removes the corner X.",
-      code: `import { Button, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, Input, Label } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/kamod-ui/dialog"
+import { Input } from "@/components/kamod-ui/input"
+import { Label } from "@/components/kamod-ui/label";
 
 export const Example = () => (
   <Dialog>
@@ -393,7 +389,8 @@ export const Example = () => (
       id: "no-close-button",
       title: "No close button",
       text: "`showCloseButton={false}` hides the corner control — provide another way to dismiss.",
-      code: `import { Button, Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/kamod-ui/dialog";
 
 export const Example = () => (
   <Dialog>
@@ -426,7 +423,8 @@ export const Example = () => (
       id: "sticky-footer",
       title: "Sticky footer",
       text: "Scroll the body; footer stays in the dialog layout.",
-      code: `import { Button, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/kamod-ui/dialog";
 
 export const Example = () => (
   <Dialog>
@@ -483,7 +481,8 @@ export const Example = () => (
       id: "scrollable-content",
       title: "Scrollable content",
       text: "Long content in a scroll region; header stays above.",
-      code: `import { Button, Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/kamod-ui/dialog";
 
 export const Example = () => (
   <Dialog>
@@ -528,7 +527,8 @@ export const Example = () => (
       id: "dialog-rtl",
       title: "RTL",
       text: "Set `dir` on `DialogContent` for localized layouts (EN / AR / HE toggle).",
-      code: `import { Dialog, DialogContent, DialogTrigger, Button } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Dialog, DialogContent, DialogTrigger } from "@/components/kamod-ui/dialog";
 
 // See dialog-doc.tsx DialogRtlPreview`,
       renderPreview: () => <DialogRtlPreview />
@@ -537,7 +537,8 @@ export const Example = () => (
       id: "dialog-actions",
       title: "Destructive actions",
       text: "Footer with cancel and destructive confirm.",
-      code: `import { Button, Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/kamod-ui/dialog";
 
 export const Example = () => (
   <Dialog>

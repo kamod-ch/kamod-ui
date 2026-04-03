@@ -7,7 +7,7 @@ export const radioGroupDocPage = createGenericDocPage({
   slug: "radio-group",
   title: "Radio Group",
   usageLabel: "A set of mutually exclusive options styled like modern radio controls.",
-  installationText: "Import RadioGroup and RadioGroupItem from @kamod-ui/core. Label pairs cleanly via id and htmlFor.",
+  installationText: "Import RadioGroup and RadioGroupItem from `@/components/kamod-ui/radio-group`. Label pairs cleanly via id and htmlFor.",
   usageText:
     "Use defaultValue for uncontrolled groups, or value with onValueChange when the parent owns state. Omit name to get a stable generated group name. Pair each item with Label for accessible names; use size=\"sm\" for dense layouts. disabled and aria-invalid on items match form and validation patterns.",
   exampleSections: [
@@ -15,8 +15,8 @@ export const radioGroupDocPage = createGenericDocPage({
       id: "radio-default-labels",
       title: "Default",
       text: "Classic row layout with visible focus rings and clear typography, similar to shadcn/ui.",
-      code: `import { Label } from "@kamod-ui/core";
-import { RadioGroup, RadioGroupItem } from "@kamod-ui/core";
+      code: `import { Label } from "@/components/kamod-ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/kamod-ui/radio-group";
 
 export const Example = () => (
   <RadioGroup defaultValue="option-one" class="grid gap-3">
@@ -55,7 +55,7 @@ export const Example = () => (
       id: "radio-description",
       title: "Description",
       text: "Stack a title and helper line beside each control for settings-style lists.",
-      code: `import { RadioGroup, RadioGroupItem } from "@kamod-ui/core";
+      code: `import { RadioGroup, RadioGroupItem } from "@/components/kamod-ui/radio-group";
 
 export const Example = () => (
   <RadioGroup defaultValue="standard" class="grid max-w-md gap-4">
@@ -102,7 +102,7 @@ export const Example = () => (
       id: "radio-choice-card",
       title: "Choice card",
       text: "Clickable cards with the control aligned to the primary label.",
-      code: `import { RadioGroup, RadioGroupItem } from "@kamod-ui/core";
+      code: `import { RadioGroup, RadioGroupItem } from "@/components/kamod-ui/radio-group";
 
 export const Example = () => (
   <RadioGroup defaultValue="pro" class="grid max-w-md gap-3">
@@ -189,8 +189,8 @@ export const Example = () => (
       id: "radio-fieldset-field",
       title: "Field group",
       text: "Use Field for a group heading, description, and stacked options.",
-      code: `import { Field } from "@kamod-ui/core";
-import { RadioGroup, RadioGroupItem } from "@kamod-ui/core";
+      code: `import { Field } from "@/components/kamod-ui/field";
+import { RadioGroup, RadioGroupItem } from "@/components/kamod-ui/radio-group";
 
 export const Example = () => (
   <Field
@@ -223,7 +223,7 @@ export const Example = () => (
       id: "radio-disabled-invalid",
       title: "Disabled & invalid",
       text: "Per-item disabled state and aria-invalid for validation feedback.",
-      code: `import { RadioGroup, RadioGroupItem } from "@kamod-ui/core";
+      code: `import { RadioGroup, RadioGroupItem } from "@/components/kamod-ui/radio-group";
 
 export const Example = () => (
   <div class="grid max-w-md gap-6">
@@ -282,7 +282,7 @@ export const Example = () => (
       id: "radio-inline-sm",
       title: "Inline & small",
       text: "Horizontal groups and compact indicators for toolbars.",
-      code: `import { RadioGroup, RadioGroupItem } from "@kamod-ui/core";
+      code: `import { RadioGroup, RadioGroupItem } from "@/components/kamod-ui/radio-group";
 
 export const Example = () => (
   <RadioGroup name="theme-inline" defaultValue="system" class="flex flex-wrap items-center gap-6">

@@ -17,15 +17,7 @@ import { createGenericDocPage } from "./create-generic-doc-page";
 
 const p = "card-doc";
 
-const USAGE_SNIPPET = `import {
-  Card,
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle
-} from "@kamod-ui/core";
+const USAGE_SNIPPET = `import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/kamod-ui/card";
 
 export const Example = () => (
   <Card>
@@ -43,18 +35,10 @@ export const Example = () => (
   </Card>
 );`;
 
-const LOGIN_DEMO_CODE = `import { Button } from "@kamod-ui/core";
-import {
-  Card,
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle
-} from "@kamod-ui/core";
-import { Input } from "@kamod-ui/core";
-import { Label } from "@kamod-ui/core";
+const LOGIN_DEMO_CODE = `import { Button } from "@/components/kamod-ui/button";
+import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/kamod-ui/card";
+import { Input } from "@/components/kamod-ui/input";
+import { Label } from "@/components/kamod-ui/label";
 
 export const Example = () => (
   <Card class="w-full max-w-sm">
@@ -335,7 +319,7 @@ export const cardDocPage = createGenericDocPage({
   previewCode: LOGIN_DEMO_CODE,
   usageLabel:
     "Surface for grouped content and actions — shadcn-aligned slots, `size=\"sm\"`, header grid with `CardAction`, image hero, and RTL.",
-  installationText: "Import Card and subcomponents from `@kamod-ui/core`.",
+  installationText: "Import Card and subcomponents from `@/components/kamod-ui/card`.",
   installationExample: {
     code: USAGE_SNIPPET,
     renderPreview: () => <InstallationUsagePreview />
@@ -354,15 +338,8 @@ export const cardDocPage = createGenericDocPage({
       id: "card-size",
       title: "Size",
       text: "Use `size=\"sm\"` for reduced vertical padding and smaller type scale on the card.",
-      code: `import { Button } from "@kamod-ui/core";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle
-} from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/kamod-ui/card";
 
 export const Example = () => (
   <Card size="sm" class="mx-auto w-full max-w-sm">
@@ -391,16 +368,9 @@ export const Example = () => (
       id: "card-image",
       title: "Image",
       text: "Hero image with overlay, badge action in the header, and a full-width primary button (shadcn CardImage).",
-      code: `import { Badge } from "@kamod-ui/core";
-import { Button } from "@kamod-ui/core";
-import {
-  Card,
-  CardAction,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle
-} from "@kamod-ui/core";
+      code: `import { Badge } from "@/components/kamod-ui/badge";
+import { Button } from "@/components/kamod-ui/button";
+import { Card, CardAction, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/kamod-ui/card";
 
 export const Example = () => (
   <Card class="relative mx-auto w-full max-w-sm pt-0">
@@ -432,7 +402,11 @@ export const Example = () => (
       title: "RTL",
       text: "English, Arabic, and Hebrew samples with `DirectionProvider` and logical `ms-auto` on the forgot-password link (shadcn RTL guide).",
       code: `import { useState } from "preact/hooks";
-import { Button, Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, DirectionProvider, Input, Label } from "@kamod-ui/core";
+import { Button } from "@/components/kamod-ui/button"
+import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/kamod-ui/card"
+import { DirectionProvider } from "@/components/kamod-ui/direction"
+import { Input } from "@/components/kamod-ui/input"
+import { Label } from "@/components/kamod-ui/label";
 
 /* …translations en / ar / he… */
 

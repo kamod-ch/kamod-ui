@@ -117,7 +117,7 @@ export const inputGroupDocPage = createGenericDocPage({
   title: "Input Group",
   usageLabel: "Compose inputs with addons, icons, text, buttons, dropdowns, spinners — aligned with shadcn input-group docs.",
   installationText:
-    "Import InputGroup, InputGroupInput or InputGroupTextarea, InputGroupAddon, InputGroupText, InputGroupButton from @kamod-ui/core.",
+    "Import InputGroup, InputGroupInput or InputGroupTextarea, InputGroupAddon, InputGroupText, InputGroupButton from `@/components/kamod-ui/input-group`.",
   usageText:
     "Place InputGroupInput or InputGroupTextarea first in the DOM; use InputGroupAddon align=inline-start | inline-end | block-start | block-end to position visually (shadcn recommendation).",
   exampleSections: [
@@ -125,7 +125,7 @@ export const inputGroupDocPage = createGenericDocPage({
       id: "ig-demo",
       title: "Demo",
       text: "Search field with trailing icon and result count (shadcn InputGroupDemo).",
-      code: `import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "@kamod-ui/core";
+      code: `import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "@/components/kamod-ui/input-group";
 import { Search } from "lucide-preact";
 
 export const Example = () => (
@@ -149,7 +149,7 @@ export const Example = () => (
       id: "ig-usage",
       title: "Usage",
       text: "Minimal search + icon addon.",
-      code: `import { InputGroup, InputGroupAddon, InputGroupInput } from "@kamod-ui/core";
+      code: `import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/kamod-ui/input-group";
 import { Search } from "lucide-preact";
 
 export const Example = () => (
@@ -173,7 +173,7 @@ export const Example = () => (
       id: "url-input-group",
       title: "URL",
       text: "Protocol prefix and Go button.",
-      code: `import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput, InputGroupText } from "@kamod-ui/core";
+      code: `import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput, InputGroupText } from "@/components/kamod-ui/input-group";
 
 export const Example = () => (
   <InputGroup class="max-w-md">
@@ -202,7 +202,7 @@ export const Example = () => (
       id: "username-input-group",
       title: "Username",
       text: "@ prefix for handles.",
-      code: `import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "@kamod-ui/core";
+      code: `import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "@/components/kamod-ui/input-group";
 
 export const Example = () => (
   <InputGroup class="w-full max-w-md">
@@ -225,7 +225,7 @@ export const Example = () => (
       id: "ig-inline-start",
       title: "Align: inline-start",
       text: "Icon before the field; control stays first in DOM.",
-      code: `import { InputGroup, InputGroupAddon, InputGroupInput } from "@kamod-ui/core";
+      code: `import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/kamod-ui/input-group";
 import { Search } from "lucide-preact";
 
 export const Example = () => (
@@ -257,7 +257,7 @@ export const Example = () => (
       id: "ig-inline-end",
       title: "Align: inline-end",
       text: "Trailing icon (e.g. password visibility affordance).",
-      code: `import { InputGroup, InputGroupAddon, InputGroupInput } from "@kamod-ui/core";
+      code: `import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/kamod-ui/input-group";
 import { EyeOff } from "lucide-preact";
 
 export const Example = () => (
@@ -287,7 +287,7 @@ export const Example = () => (
       id: "ig-block-start",
       title: "Align: block-start",
       text: "Addon row above input or textarea.",
-      code: `import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput, InputGroupText, InputGroupTextarea } from "@kamod-ui/core";
+      code: `import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput, InputGroupText, InputGroupTextarea } from "@/components/kamod-ui/input-group";
 import { Copy, FileCode } from "lucide-preact";
 
 export const Example = () => (
@@ -347,7 +347,7 @@ export const Example = () => (
       id: "ig-block-end",
       title: "Align: block-end",
       text: "Footer row with suffix or actions.",
-      code: `import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput, InputGroupText, InputGroupTextarea } from "@kamod-ui/core";
+      code: `import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput, InputGroupText, InputGroupTextarea } from "@/components/kamod-ui/input-group";
 
 export const Example = () => (
   <div class="grid max-w-sm gap-4">
@@ -430,7 +430,7 @@ export const Example = () => (
       id: "ig-text",
       title: "Text addons",
       text: "Currency, URL, domain suffix, character hint.",
-      code: `import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText, InputGroupTextarea } from "@kamod-ui/core";
+      code: `import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText, InputGroupTextarea } from "@/components/kamod-ui/input-group";
 
 export const Example = () => (
   <div class="grid max-w-sm gap-4">
@@ -523,7 +523,8 @@ export const Example = () => (
       id: "ig-kbd",
       title: "Kbd",
       text: "Shortcut hint in inline-end addon.",
-      code: `import { InputGroup, InputGroupAddon, InputGroupInput, Kbd } from "@kamod-ui/core";
+      code: `import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/kamod-ui/input-group"
+import { Kbd } from "@/components/kamod-ui/kbd";
 import { Search } from "lucide-preact";
 
 export const Example = () => (
@@ -583,7 +584,8 @@ export const Example = () => (
       id: "ig-spinner",
       title: "Spinner",
       text: "Loading indicators in addons.",
-      code: `import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText, Spinner } from "@kamod-ui/core";
+      code: `import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "@/components/kamod-ui/input-group"
+import { Spinner } from "@/components/kamod-ui/spinner";
 import { Loader2 } from "lucide-preact";
 
 export const Example = () => (
@@ -655,7 +657,7 @@ export const Example = () => (
       id: "ig-textarea-code",
       title: "Textarea (code)",
       text: "Block-start and block-end toolbars around a monospace textarea.",
-      code: `import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupText, InputGroupTextarea } from "@kamod-ui/core";
+      code: `import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupText, InputGroupTextarea } from "@/components/kamod-ui/input-group";
 import { CornerDownLeft } from "lucide-preact";
 
 export const Example = () => (
@@ -699,7 +701,7 @@ export const Example = () => (
       id: "ig-rtl",
       title: "RTL",
       text: "Set dir=\"rtl\" on a wrapper; logical align props still apply.",
-      code: `import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "@kamod-ui/core";
+      code: `import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "@/components/kamod-ui/input-group";
 
 export const Example = () => (
   <div dir="rtl" class="max-w-sm">

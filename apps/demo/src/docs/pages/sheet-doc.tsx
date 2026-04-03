@@ -5,7 +5,7 @@ export const sheetDocPage = createGenericDocPage({
   slug: "sheet",
   title: "Sheet",
   usageLabel: "Sheet extends Dialog to render content from a viewport edge.",
-  installationText: "Import Sheet primitives from @kamod-ui/core.",
+  installationText: "Import Sheet primitives from `@/components/kamod-ui/sheet`.",
   usageText:
     "Use SheetTrigger to open and SheetContent with side=\"top\" | \"right\" | \"bottom\" | \"left\". Left and right panels accept max-width utilities; top and bottom span the viewport width. Bottom/top padding includes safe-area insets for notched devices.",
   exampleSections: [
@@ -13,7 +13,7 @@ export const sheetDocPage = createGenericDocPage({
       id: "basic-sheet",
       title: "Basic",
       text: "Open a Sheet and present focused context with title and description.",
-      code: `import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@kamod-ui/core";
+      code: `import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/kamod-ui/sheet";
 
 export const Example = () => (
   <Sheet>
@@ -60,7 +60,8 @@ export const Example = () => (
       id: "sheet-side",
       title: "Side",
       text: "Set side on SheetContent to top, right, bottom, or left. Top and bottom sheets span the full viewport width; use max-width classes only for left and right.",
-      code: `import { Button, Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/kamod-ui/sheet";
 
 const sides = ["top", "right", "bottom", "left"] as const;
 
@@ -101,7 +102,7 @@ export const Example = () => (
       id: "sheet-no-close-button",
       title: "No Close Button",
       text: "Disable the built-in close button with showCloseButton={false}.",
-      code: `import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@kamod-ui/core";
+      code: `import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/kamod-ui/sheet";
 
 export const Example = () => (
   <Sheet>

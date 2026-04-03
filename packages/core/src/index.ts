@@ -277,8 +277,14 @@ export {
   DrawerTrigger
 } from "./components/drawer";
 export type { DrawerDirection } from "./components/drawer";
-export type { CalendarDisabledProp, CalendarMode, DateRange } from "./components/calendar";
-export { Calendar } from "./components/calendar";
+export type {
+  CalendarDateTimePanelProps,
+  CalendarDisabledProp,
+  CalendarMode,
+  CalendarSize,
+  DateRange
+} from "./components/calendar";
+export { Calendar, CalendarDateTimePanel } from "./components/calendar";
 export { DatePicker, formatDatePickerDisplay } from "./components/date-picker";
 export {
   Command,

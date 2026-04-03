@@ -158,7 +158,8 @@ const ResponsiveProfilePreview = () => {
 export const drawerDocPage = createGenericDocPage({
   slug: "drawer",
   title: "Drawer",
-  previewCode: `import { Button, Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "@kamod-ui/core";
+  previewCode: `import { Button } from "@/components/kamod-ui/button"
+import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/kamod-ui/drawer";
 
 export const Example = () => (
   <Drawer>
@@ -181,7 +182,7 @@ export const Example = () => (
 );`,
   usageLabel:
     "Mobile-first panel built on Sheet/Dialog — default bottom `direction`, drag handle, `data-vaul-drawer-direction` for shadcn-style utilities, optional `open`/`onOpenChange`, `DrawerTrigger`/`DrawerClose` with `asChild`.",
-  installationText: "Import Drawer primitives from @kamod-ui/core (same surface as shadcn drawer; no Vaul runtime).",
+  installationText: "Import Drawer primitives from `@/components/kamod-ui/drawer` (same surface as shadcn drawer; no Vaul runtime).",
   usageText:
     "Set `direction` on `Drawer` (`top` | `right` | `bottom` | `left`). `DrawerContent` defaults `showCloseButton` to false (use footer actions). Use `showHandle={false}` to hide the top/bottom affordance bar.",
   exampleSections: [
@@ -196,7 +197,7 @@ export const Example = () => (
       id: "basic-example",
       title: "Basic",
       text: "Trigger opens a bottom drawer with title and description.",
-      code: `import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "@kamod-ui/core";
+      code: `import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/kamod-ui/drawer";
 
 export const Example = () => (
   <Drawer>
@@ -225,7 +226,8 @@ export const Example = () => (
       id: "footer-actions",
       title: "Footer actions",
       text: "Submit and cancel via DrawerClose asChild.",
-      code: `import { Button, Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerTrigger } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerTrigger } from "@/components/kamod-ui/drawer";
 
 export const Example = () => (
   <Drawer>
@@ -258,9 +260,8 @@ export const Example = () => (
       id: "scrollable",
       title: "Scrollable content",
       text: "Right drawer with scroll region; footer stays in the sheet layout (shadcn Scrollable Content).",
-      code: `import {
-  Button, Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger
-} from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/kamod-ui/drawer";
 
 export const Example = () => (
   <Drawer direction="right">
@@ -319,9 +320,8 @@ export const Example = () => (
       id: "sides",
       title: "Sides",
       text: "Each `direction` opens from that edge (shadcn Sides).",
-      code: `import {
-  Button, Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger
-} from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/kamod-ui/drawer";
 
 const SIDES = ["top", "right", "bottom", "left"] as const;
 
@@ -393,7 +393,7 @@ export const Example = () => (
       id: "rtl-drawer",
       title: "RTL",
       text: "Set dir=\"rtl\" on DrawerContent when the page is RTL.",
-      code: `import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@kamod-ui/core";
+      code: `import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/kamod-ui/drawer";
 
 export const Example = () => (
   <Drawer>

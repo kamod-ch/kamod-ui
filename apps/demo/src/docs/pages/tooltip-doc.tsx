@@ -5,14 +5,15 @@ export const tooltipDocPage = createGenericDocPage({
   slug: "tooltip",
   title: "Tooltip",
   usageLabel: "A modern popup label that appears on hover or keyboard focus.",
-  installationText: "Import TooltipProvider, Tooltip, TooltipTrigger and TooltipContent from @kamod-ui/core.",
+  installationText: "Import TooltipProvider, Tooltip, TooltipTrigger and TooltipContent from `@/components/kamod-ui/tooltip`.",
   usageText: "Keep tooltip copy short, support keyboard focus, and never hide critical actions behind only tooltip text.",
   exampleSections: [
     {
       id: "basic-tooltip",
       title: "Basic",
       text: "Standard hover and focus tooltip.",
-      code: `import { Button, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/kamod-ui/tooltip";
 
 export const Example = () => (
   <TooltipProvider>
@@ -39,7 +40,8 @@ export const Example = () => (
       id: "side-tooltip",
       title: "Side",
       text: "Choose top, right, bottom, or left placement.",
-      code: `import { Button, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/kamod-ui/tooltip";
 
 const sides = ["top", "right", "bottom", "left"] as const;
 
@@ -80,7 +82,8 @@ export const Example = () => (
       id: "align-tooltip",
       title: "Align and offset",
       text: "Fine-tune edge alignment and nudge the position.",
-      code: `import { Button, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/kamod-ui/tooltip";
 
 export const Example = () => (
   <TooltipProvider>
@@ -127,7 +130,8 @@ export const Example = () => (
       id: "provider-delay-tooltip",
       title: "Provider delay",
       text: "Set shared open/close timing once for a whole area.",
-      code: `import { Button, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/kamod-ui/tooltip";
 
 export const Example = () => (
   <TooltipProvider delayDuration={350} closeDelayDuration={100}>
@@ -154,7 +158,8 @@ export const Example = () => (
       id: "non-hoverable-content-tooltip",
       title: "Disable hoverable content",
       text: "Close immediately when leaving trigger, even if pointer enters content.",
-      code: `import { Button, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/kamod-ui/tooltip";
 
 export const Example = () => (
   <TooltipProvider disableHoverableContent>
@@ -181,7 +186,8 @@ export const Example = () => (
       id: "shortcut-tooltip",
       title: "With keyboard shortcut",
       text: "Provide compact command hints in the tooltip body.",
-      code: `import { Button, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/kamod-ui/tooltip";
 
 export const Example = () => (
   <TooltipProvider>
@@ -212,7 +218,8 @@ export const Example = () => (
       id: "disabled-button-tooltip",
       title: "Disabled button",
       text: "Wrap disabled controls so tooltip still gets hover and focus events.",
-      code: `import { Button, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/kamod-ui/tooltip";
 
 export const Example = () => (
   <TooltipProvider>

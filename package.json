@@ -6,6 +6,8 @@
   "scripts": {
     "build": "pnpm -r build",
     "test": "pnpm --filter @kamod-ui/core test",
+    "test:demo": "pnpm --filter demo test",
+    "doc:rewrite-imports": "node scripts/rewrite-kamod-doc-imports.mjs",
     "test:e2e": "pnpm --filter demo test:e2e",
     "typecheck": "pnpm -r typecheck",
     "lint": "pnpm -r lint",

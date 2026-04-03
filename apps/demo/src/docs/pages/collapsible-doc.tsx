@@ -316,7 +316,8 @@ export const collapsibleDocPage = createGenericDocPage({
   slug: "collapsible",
   title: "Collapsible",
   previewCode: `import { useState } from "preact/hooks";
-import { Button, Collapsible, CollapsibleContent, CollapsibleTrigger } from "@kamod-ui/core";
+import { Button } from "@/components/kamod-ui/button"
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/kamod-ui/collapsible";
 import { ChevronsUpDown } from "lucide-preact";
 
 export const Example = () => {
@@ -338,7 +339,7 @@ export const Example = () => {
 };`,
   usageLabel:
     "Progressive disclosure with open/onOpenChange, asChild triggers, height animation (accordion-style), shadcn-aligned examples.",
-  installationText: "Import Collapsible, CollapsibleTrigger and CollapsibleContent from @kamod-ui/core.",
+  installationText: "Import Collapsible, CollapsibleTrigger and CollapsibleContent from `@/components/kamod-ui/collapsible`.",
   usageText:
     "Wrap trigger and content. Use open and onOpenChange for controlled state. Use CollapsibleTrigger asChild with Button for icon toggles. CollapsibleContent animates height (respects prefers-reduced-motion).",
   exampleSections: [
@@ -353,7 +354,7 @@ export const Example = () => {
       id: "collapsible-usage",
       title: "Usage",
       text: "Minimal default button trigger and unstyled content.",
-      code: `import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@kamod-ui/core";
+      code: `import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/kamod-ui/collapsible";
 
 export const Example = () => (
   <Collapsible>
@@ -377,7 +378,7 @@ export const Example = () => (
       title: "Controlled state",
       text: "Use open and onOpenChange to control visibility from outside.",
       code: `import { useState } from "preact/hooks";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@kamod-ui/core";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/kamod-ui/collapsible";
 
 export const Example = () => {
   const [open, setOpen] = useState(false);
@@ -394,7 +395,9 @@ export const Example = () => {
       id: "collapsible-basic",
       title: "Basic",
       text: "Card with full-width ghost trigger and rotating chevron (shadcn Basic).",
-      code: `import { Button, Card, CardContent, Collapsible, CollapsibleContent, CollapsibleTrigger } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Card, CardContent } from "@/components/kamod-ui/card"
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/kamod-ui/collapsible";
 import { ChevronDown } from "lucide-preact";`,
       renderPreview: () => <CollapsibleBasicPreview />
     },
@@ -416,7 +419,8 @@ import { ChevronDown } from "lucide-preact";`,
       id: "collapsible-rtl",
       title: "RTL",
       text: "DirectionProvider + dir on Collapsible for EN / AR / HE (shadcn RTL).",
-      code: `import { Collapsible, CollapsibleContent, CollapsibleTrigger, DirectionProvider } from "@kamod-ui/core";`,
+      code: `import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/kamod-ui/collapsible"
+import { DirectionProvider } from "@/components/kamod-ui/direction";`,
       renderPreview: () => <CollapsibleRtlPreview />
     }
   ],

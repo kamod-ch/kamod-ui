@@ -127,7 +127,7 @@ const CardRtlPreview = () => {
 export const directionDocPage = createGenericDocPage({
   slug: "direction",
   title: "Direction",
-  previewCode: `import { DirectionProvider } from "@kamod-ui/core";
+  previewCode: `import { DirectionProvider } from "@/components/kamod-ui/direction";
 
 export const Example = () => (
   <DirectionProvider direction="rtl">
@@ -136,7 +136,7 @@ export const Example = () => (
 );`,
   usageLabel:
     "Text direction context for RTL/LTR — `DirectionProvider` (shadcn API) plus legacy `Direction` with `dir`, and `useDirection()` hook.",
-  installationText: "Import DirectionProvider, Direction, and useDirection from @kamod-ui/core (no Radix package required).",
+  installationText: "Import DirectionProvider, Direction, and useDirection from `@/components/kamod-ui/direction` (no Radix package required).",
   usageText:
     "Wrap subtrees that need explicit direction. Combine with `dir` on `<html>` for full-page RTL. Use logical Tailwind utilities (`ms-*`, `me-*`, `ps-*`, `pe-*`) so layouts flip automatically.",
   exampleSections: [
@@ -144,10 +144,11 @@ export const Example = () => (
       id: "card-rtl",
       title: "Card (RTL preview)",
       text: "Login card with EN / AR / HE toggle — mirrors the shadcn Direction doc preview (Card + ms-auto link).",
-      code: `import {
-  Button, Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle,
-  DirectionProvider, Input, Label
-} from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/kamod-ui/card"
+import { DirectionProvider } from "@/components/kamod-ui/direction"
+import { Input } from "@/components/kamod-ui/input"
+import { Label } from "@/components/kamod-ui/label";
 
 // See direction-doc.tsx — translations + DirectionProvider direction={t.dir}`,
       renderPreview: () => <CardRtlPreview />
@@ -156,7 +157,7 @@ export const Example = () => (
       id: "direction-provider",
       title: "DirectionProvider",
       text: "shadcn-style API: `direction` prop sets context and wraps children in a `div` with `dir`.",
-      code: `import { DirectionProvider } from "@kamod-ui/core";
+      code: `import { DirectionProvider } from "@/components/kamod-ui/direction";
 
 export const Example = () => (
   <DirectionProvider direction="rtl">
@@ -173,7 +174,7 @@ export const Example = () => (
       id: "direction-legacy",
       title: "Direction (dir)",
       text: "Legacy Kamod API — same behavior using the `dir` prop.",
-      code: `import { Direction } from "@kamod-ui/core";
+      code: `import { Direction } from "@/components/kamod-ui/direction";
 
 export const Example = () => (
   <Direction dir="rtl">
@@ -190,7 +191,8 @@ export const Example = () => (
       id: "hook-usage",
       title: "useDirection",
       text: "Read the current direction inside any descendant.",
-      code: `import { DirectionProvider, useDirection } from "@kamod-ui/core";
+      code: `import { useDirection } from "lucide-preact"
+import { DirectionProvider } from "@/components/kamod-ui/direction";
 
 const Child = () => {
   const direction = useDirection();
@@ -220,7 +222,7 @@ export const Example = () => (
 </html>
 
 // app root
-import { DirectionProvider } from "@kamod-ui/core";
+import { DirectionProvider } from "@/components/kamod-ui/direction";
 
 export const App = () => (
   <DirectionProvider direction="rtl">{/* routes */}</DirectionProvider>

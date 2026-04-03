@@ -5,14 +5,14 @@ export const skeletonDocPage = createGenericDocPage({
   slug: "skeleton",
   title: "Skeleton",
   usageLabel: "Skeleton placeholders indicate loading content structure.",
-  installationText: "Import Skeleton from @kamod-ui/core.",
+  installationText: "Import Skeleton from `@/components/kamod-ui/skeleton`.",
   usageText: "Build placeholders that mirror final UI structure (avatar, text, form, table) for a more polished loading experience.",
   exampleSections: [
     {
       id: "pulse-skeleton",
       title: "Pulse Variant (Default)",
       text: "Use the default pulse variant for clean, minimal loading placeholders.",
-      code: `import { Skeleton } from "@kamod-ui/core";
+      code: `import { Skeleton } from "@/components/kamod-ui/skeleton";
 
 export const Example = () => (
   <div class="w-full max-w-md space-y-3">
@@ -33,7 +33,7 @@ export const Example = () => (
       id: "shimmer-skeleton",
       title: "Shimmer Variant",
       text: "Use the shimmer variant for a more premium loading feel.",
-      code: `import { Skeleton } from "@kamod-ui/core";
+      code: `import { Skeleton } from "@/components/kamod-ui/skeleton";
 
 export const Example = () => (
   <div class="w-full max-w-md space-y-3">
@@ -54,7 +54,7 @@ export const Example = () => (
       id: "glass-skeleton",
       title: "Glass Variant",
       text: "Use the glass variant for soft, subtle placeholders in dark and mixed surfaces.",
-      code: `import { Skeleton } from "@kamod-ui/core";
+      code: `import { Skeleton } from "@/components/kamod-ui/skeleton";
 
 export const Example = () => (
   <div class="w-full max-w-md rounded-xl border p-4 space-y-3">
@@ -75,7 +75,7 @@ export const Example = () => (
       id: "avatar-skeleton",
       title: "Avatar Skeleton",
       text: "Use circle + text lines to represent profile loading states.",
-      code: `import { Skeleton } from "@kamod-ui/core";
+      code: `import { Skeleton } from "@/components/kamod-ui/skeleton";
 
 export const Example = () => (
   <div class="flex items-center gap-4">
@@ -100,7 +100,7 @@ export const Example = () => (
       id: "text-skeleton",
       title: "Text Skeleton",
       text: "Create varying text line widths to mimic natural paragraph rhythm.",
-      code: `import { Skeleton } from "@kamod-ui/core";
+      code: `import { Skeleton } from "@/components/kamod-ui/skeleton";
 
 export const Example = () => (
   <div class="w-full max-w-md space-y-3">
@@ -121,7 +121,7 @@ export const Example = () => (
       id: "card-skeleton",
       title: "Card Skeleton",
       text: "Layer avatar, title, metadata, and content placeholders in card form.",
-      code: `import { Skeleton } from "@kamod-ui/core";
+      code: `import { Skeleton } from "@/components/kamod-ui/skeleton";
 
 export function SkeletonCard() {
   return (
@@ -162,7 +162,7 @@ export function SkeletonCard() {
       id: "form-skeleton",
       title: "Form Skeleton",
       text: "Mirror label/input/button spacing to prevent layout shift while forms load.",
-      code: `import { Skeleton } from "@kamod-ui/core";
+      code: `import { Skeleton } from "@/components/kamod-ui/skeleton";
 
 export function SkeletonForm() {
   return (
@@ -197,7 +197,7 @@ export function SkeletonForm() {
       id: "table-skeleton",
       title: "Table Skeleton",
       text: "Keep row height and column rhythm consistent with the final data table.",
-      code: `import { Skeleton } from "@kamod-ui/core";
+      code: `import { Skeleton } from "@/components/kamod-ui/skeleton";
 
 export function SkeletonTable() {
   return (

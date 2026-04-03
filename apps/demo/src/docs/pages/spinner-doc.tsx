@@ -5,14 +5,14 @@ export const spinnerDocPage = createGenericDocPage({
   slug: "spinner",
   title: "Spinner",
   usageLabel: "Spinner communicates async progress without blocking context.",
-  installationText: "Import Spinner from @kamod-ui/core.",
+  installationText: "Import Spinner from `@/components/kamod-ui/spinner`.",
   usageText: "Use Spinner for loading buttons, surfaces, and inline status updates with short descriptive copy.",
   exampleSections: [
     {
       id: "basic-spinner",
       title: "Default",
       text: "A compact circular spinner for lightweight loading states.",
-      code: `import { Spinner } from "@kamod-ui/core";
+      code: `import { Spinner } from "@/components/kamod-ui/spinner";
 
 export const Example = () => (
   <div class="docs-spinner-center">
@@ -29,7 +29,7 @@ export const Example = () => (
       id: "spinner-sizes",
       title: "Sizes",
       text: "Choose a size that matches surrounding typography and controls.",
-      code: `import { Spinner } from "@kamod-ui/core";
+      code: `import { Spinner } from "@/components/kamod-ui/spinner";
 
 export const Example = () => (
   <div class="docs-spinner-row">
@@ -69,7 +69,7 @@ export const Example = () => (
       id: "spinner-tones",
       title: "Tones",
       text: "Adjust tone to blend with subtle UI or emphasize active work.",
-      code: `import { Spinner } from "@kamod-ui/core";
+      code: `import { Spinner } from "@/components/kamod-ui/spinner";
 
 export const Example = () => (
   <div class="docs-spinner-row">
@@ -99,7 +99,8 @@ export const Example = () => (
       id: "spinner-in-buttons",
       title: "Buttons",
       text: "Combine spinner and disabled button state for async actions.",
-      code: `import { Button, Spinner } from "@kamod-ui/core";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Spinner } from "@/components/kamod-ui/spinner";
 
 export const Example = () => (
   <div class="flex flex-wrap items-center gap-3">
@@ -130,7 +131,7 @@ export const Example = () => (
       id: "spinner-loading-surface",
       title: "Loading Surface",
       text: "Use a modern status surface for longer network or processing work.",
-      code: `import { Spinner } from "@kamod-ui/core";
+      code: `import { Spinner } from "@/components/kamod-ui/spinner";
 
 export const Example = () => (
   <div class="flex min-h-28 w-full max-w-md items-start gap-3 rounded-xl border border-border/70 bg-card p-4 shadow-sm">
@@ -155,7 +156,7 @@ export const Example = () => (
       id: "spinner-overlay",
       title: "Loading Overlay",
       text: "For blocking transitions, combine spinner with a subtle backdrop.",
-      code: `import { Spinner } from "@kamod-ui/core";
+      code: `import { Spinner } from "@/components/kamod-ui/spinner";
 
 export const Example = () => (
   <div class="docs-spinner-overlay relative grid min-h-36 w-full max-w-md place-items-center overflow-hidden rounded-xl border border-border">

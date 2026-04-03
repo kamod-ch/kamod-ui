@@ -306,7 +306,8 @@ const CheckboxIndeterminatePreview = () => {
 export const checkboxDocPage = createGenericDocPage({
   slug: "checkbox",
   title: "Checkbox",
-  previewCode: `import { Checkbox, Field, FieldContent, FieldDescription, FieldGroup, FieldLabel, FieldTitle } from "@kamod-ui/core";
+  previewCode: `import { Checkbox } from "@/components/kamod-ui/checkbox"
+import { Field, FieldContent, FieldDescription, FieldGroup, FieldLabel, FieldTitle } from "@/components/kamod-ui/field";
 
 export const Example = () => (
   <FieldGroup class="w-full max-w-sm">
@@ -319,7 +320,7 @@ export const Example = () => (
 );`,
   usageLabel:
     "Native checkbox with custom indicator, checked / indeterminate, onCheckedChange, Field integration — shadcn-aligned examples.",
-  installationText: "Import Checkbox from @kamod-ui/core.",
+  installationText: "Import Checkbox from `@/components/kamod-ui/checkbox`.",
   usageText:
     "Use defaultChecked or checked with onCheckedChange. Pair with Field, FieldLabel, and data-disabled / data-invalid on Field for states. checked may be true, false, or \"indeterminate\" (minus icon, aria-checked=mixed).",
   exampleSections: [
@@ -334,7 +335,7 @@ export const Example = () => (
       id: "checkbox-usage",
       title: "Usage",
       text: "Minimal standalone checkbox.",
-      code: `import { Checkbox } from "@kamod-ui/core";
+      code: `import { Checkbox } from "@/components/kamod-ui/checkbox";
 
 export const Example = () => <Checkbox aria-label="Accept" />;`,
       renderPreview: () => <Checkbox aria-label="Accept" />
@@ -344,7 +345,7 @@ export const Example = () => <Checkbox aria-label="Accept" />;`,
       title: "Checked state",
       text: "Controlled checked with onCheckedChange (boolean).",
       code: `import { useState } from "preact/hooks";
-import { Checkbox } from "@kamod-ui/core";
+import { Checkbox } from "@/components/kamod-ui/checkbox";
 
 export const Example = () => {
   const [checked, setChecked] = useState(false);
@@ -357,7 +358,7 @@ export const Example = () => {
       title: "Indeterminate",
       text: "Tri-state: pass checked=\"indeterminate\" or toggle from mixed to checked via click.",
       code: `import { useState } from "preact/hooks";
-import { Checkbox } from "@kamod-ui/core";
+import { Checkbox } from "@/components/kamod-ui/checkbox";
 
 export const Example = () => {
   const [v, setV] = useState<boolean | "indeterminate">("indeterminate");
@@ -369,7 +370,8 @@ export const Example = () => {
       id: "checkbox-invalid",
       title: "Invalid",
       text: "Field data-invalid and Checkbox aria-invalid (shadcn Invalid).",
-      code: `import { Checkbox, Field, FieldGroup, FieldLabel } from "@kamod-ui/core";
+      code: `import { Checkbox } from "@/components/kamod-ui/checkbox"
+import { Field, FieldGroup, FieldLabel } from "@/components/kamod-ui/field";
 
 export const Example = () => (
   <FieldGroup class="w-56">
@@ -420,7 +422,7 @@ export const Example = () => (
       id: "checkbox-rtl",
       title: "RTL",
       text: "DirectionProvider and dir on FieldGroup — EN / AR / HE.",
-      code: `import { Checkbox, DirectionProvider, FieldGroup, … } from "@kamod-ui/core";`,
+      code: `import { Checkbox, DirectionProvider, FieldGroup, … } from "@/components/kamod-ui/checkbox";`,
       renderPreview: () => <CheckboxRtlPreview />
     }
   ],

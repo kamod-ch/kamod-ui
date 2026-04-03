@@ -37,8 +37,8 @@ export const DropdownCheckboxItem = ({
       data-slot="dropdown-checkbox-item"
       aria-checked={checked}
       class={cn(
-        "relative flex w-full cursor-default select-none items-center gap-2 rounded-sm py-1.5 ps-8 pe-2 text-sm outline-none",
-        "focus:bg-accent focus:text-accent-foreground",
+        "relative flex w-full cursor-default select-none items-center gap-1 rounded-sm py-0.5 ps-7 pe-1.5 text-sm outline-none transition-colors duration-100",
+        "hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
         "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
         className
       )}
@@ -53,7 +53,7 @@ export const DropdownCheckboxItem = ({
       }}
       {...rest}
     >
-      <span class="pointer-events-none absolute start-2 flex size-3.5 items-center justify-center" aria-hidden>
+      <span class="pointer-events-none absolute start-1.5 flex size-3 items-center justify-center" aria-hidden>
         {checked ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -65,7 +65,7 @@ export const DropdownCheckboxItem = ({
             stroke-width="2"
             stroke-linecap="round"
             stroke-linejoin="round"
-            class="size-4"
+            class="size-3.5"
           >
             <path d="M20 6 9 17l-5-5" />
           </svg>

@@ -5,7 +5,7 @@ export const switchDocPage = createGenericDocPage({
   slug: "switch",
   title: "Switch",
   usageLabel: "A compact control for on/off settings.",
-  installationText: "Import Switch from @kamod-ui/core.",
+  installationText: "Import Switch from `@/components/kamod-ui/switch`.",
   usageText:
     "Use defaultChecked for local state, or checked with onCheckedChange for controlled usage. The size prop supports compact layouts, while aria-invalid and disabled help communicate state clearly.",
   exampleSections: [
@@ -13,7 +13,7 @@ export const switchDocPage = createGenericDocPage({
       id: "switch-description",
       title: "Description",
       text: "A modern settings row with concise helper text and a trailing switch.",
-      code: `import { Switch } from "@kamod-ui/core";
+      code: `import { Switch } from "@/components/kamod-ui/switch";
 
 export const Example = () => (
   <div class="flex w-full max-w-md items-start justify-between gap-4 rounded-xl border border-border bg-card p-4">
@@ -42,7 +42,7 @@ export const Example = () => (
       id: "switch-choice-card",
       title: "Choice Card",
       text: "Card-like options with clear labels and independent switches.",
-      code: `import { Switch } from "@kamod-ui/core";
+      code: `import { Switch } from "@/components/kamod-ui/switch";
 
 export const Example = () => (
   <div class="grid w-full max-w-md gap-3">
@@ -93,7 +93,7 @@ export const Example = () => (
       id: "switch-disabled-invalid",
       title: "Disabled & Invalid",
       text: "Show disabled and validation states to communicate constraints quickly.",
-      code: `import { Switch } from "@kamod-ui/core";
+      code: `import { Switch } from "@/components/kamod-ui/switch";
 
 export const Example = () => (
   <div class="grid w-full max-w-md gap-3">
@@ -124,7 +124,7 @@ export const Example = () => (
       id: "switch-size",
       title: "Size",
       text: "Use structured setting rows to compare compact and default controls.",
-      code: `import { Switch } from "@kamod-ui/core";
+      code: `import { Switch } from "@/components/kamod-ui/switch";
 
 export const Example = () => (
   <div class="grid w-full max-w-md gap-3">

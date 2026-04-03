@@ -435,7 +435,7 @@ const ContextMenuRtlPreview = () => {
 export const contextMenuDocPage = createGenericDocPage({
   slug: "context-menu",
   title: "Context Menu",
-  previewCode: `import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from "@kamod-ui/core";
+  previewCode: `import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from "@/components/kamod-ui/context-menu";
 
 export const Example = () => (
   <ContextMenu>
@@ -448,7 +448,7 @@ export const Example = () => (
 );`,
   usageLabel:
     "Context menu opens at the pointer on right-click (fine pointer) or long-press ~500ms (touch). Content is portaled with fixed positioning, outside-click / Escape dismiss, and submenu hover/click like shadcn.",
-  installationText: "Import primitives from `@kamod-ui/core`. Compose `ContextMenu`, `ContextMenuTrigger`, and `ContextMenuContent`; add `ContextMenuGroup`, `ContextMenuItem`, `ContextMenuShortcut`, `ContextMenuSeparator`, `ContextMenuSub*`, checkbox and radio items as needed.",
+  installationText: "Import primitives from `@/components/kamod-ui/context-menu`. Compose `ContextMenu`, `ContextMenuTrigger`, and `ContextMenuContent`; add `ContextMenuGroup`, `ContextMenuItem`, `ContextMenuShortcut`, `ContextMenuSeparator`, `ContextMenuSub*`, checkbox and radio items as needed.",
   usageText:
     "Optional controlled root: `open`, `defaultOpen`, `onOpenChange`. `ContextMenuItem` closes the menu on activate; checkbox/radio/sub-triggers do not. Use `pointer-fine:` / `pointer-coarse:` on the trigger hint text (see examples). Subpanels use `absolute` placement with RTL chevron flip.",
   exampleSections: [

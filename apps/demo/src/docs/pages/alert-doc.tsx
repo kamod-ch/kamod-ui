@@ -27,7 +27,7 @@ function AlertHero() {
   );
 }
 
-const heroCode = `import { Alert, AlertDescription, AlertTitle } from "@kamod-ui/core";
+const heroCode = `import { Alert, AlertDescription, AlertTitle } from "@/components/kamod-ui/alert";
 import { CheckCircle2, Info } from "lucide-preact";
 
 export const Example = () => (
@@ -56,7 +56,7 @@ const sectionBlocks: Record<string, { preview: () => ComponentChildren; code: st
         </AlertDescription>
       </Alert>
     ),
-    code: `import { Alert, AlertDescription, AlertTitle } from "@kamod-ui/core";
+    code: `import { Alert, AlertDescription, AlertTitle } from "@/components/kamod-ui/alert";
 import { CheckCircle2 } from "lucide-preact";
 
 <Alert class="max-w-md">
@@ -75,7 +75,7 @@ import { CheckCircle2 } from "lucide-preact";
         </AlertDescription>
       </Alert>
     ),
-    code: `import { Alert, AlertDescription, AlertTitle } from "@kamod-ui/core";
+    code: `import { Alert, AlertDescription, AlertTitle } from "@/components/kamod-ui/alert";
 import { AlertCircle } from "lucide-preact";
 
 <Alert variant="destructive" class="max-w-md">
@@ -96,7 +96,8 @@ import { AlertCircle } from "lucide-preact";
         </AlertAction>
       </Alert>
     ),
-    code: `import { Alert, AlertAction, AlertDescription, AlertTitle, Button } from "@kamod-ui/core";
+    code: `import { Alert, AlertAction, AlertDescription, AlertTitle } from "@/components/kamod-ui/alert"
+import { Button } from "@/components/kamod-ui/button";
 
 <Alert class="max-w-md">
   <AlertTitle>Dark mode is now available</AlertTitle>
@@ -124,7 +125,8 @@ import { AlertCircle } from "lucide-preact";
   },
   rtl: {
     preview: () => <AlertRtlDemo />,
-    code: `import { Alert, AlertDescription, AlertTitle, DirectionProvider } from "@kamod-ui/core";
+    code: `import { Alert, AlertDescription, AlertTitle } from "@/components/kamod-ui/alert"
+import { DirectionProvider } from "@/components/kamod-ui/direction";
 import { CheckCircle2, Info } from "lucide-preact";
 
 // Wrap grid with dir={dir}; optional DirectionProvider for logical components below.`
@@ -240,7 +242,7 @@ export const alertDocPage: DocPageModule = {
   usageLabel:
     "Inline callouts with optional leading icon, title, description, destructive variant, action slot, and custom colors (shadcn Alert pattern).",
   sections: [
-    { id: "installation", title: "Installation", text: "Import Alert parts from @kamod-ui/core." },
+    { id: "installation", title: "Installation", text: "Import Alert parts from `@/components/kamod-ui/alert`." },
     {
       id: "usage",
       title: "Usage",
@@ -273,12 +275,7 @@ export const alertDocPage: DocPageModule = {
       if (sectionId === "installation") {
         return (
           <CodeBlock
-            code={`import {
-  Alert,
-  AlertAction,
-  AlertDescription,
-  AlertTitle,
-} from "@kamod-ui/core";`}
+            code={`import { Alert, AlertAction, AlertDescription, AlertTitle } from "@/components/kamod-ui/alert";`}
             language="tsx"
           />
         );
@@ -286,7 +283,8 @@ export const alertDocPage: DocPageModule = {
       if (sectionId === "usage") {
         return (
           <CodeBlock
-            code={`import { Alert, AlertAction, AlertDescription, AlertTitle, Button } from "@kamod-ui/core";
+            code={`import { Alert, AlertAction, AlertDescription, AlertTitle } from "@/components/kamod-ui/alert"
+import { Button } from "@/components/kamod-ui/button";
 import { Info } from "lucide-preact";
 
 <Alert>

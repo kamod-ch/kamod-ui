@@ -6,7 +6,7 @@ export type DropdownGroupProps = JSX.HTMLAttributes<HTMLDivElement> & {
 };
 
 export const DropdownGroup = ({ class: className, children, ...rest }: DropdownGroupProps) => (
-  <div role="group" data-slot="dropdown-group" class={cn("p-0", className)} {...rest}>
+  <div role="group" data-slot="dropdown-group" class={cn("p-1", className)} {...rest}>
     {children}
   </div>
 );

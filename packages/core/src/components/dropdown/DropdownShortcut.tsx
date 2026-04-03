@@ -8,7 +8,7 @@ export type DropdownShortcutProps = JSX.HTMLAttributes<HTMLSpanElement> & {
 export const DropdownShortcut = ({ class: className, children, ...rest }: DropdownShortcutProps) => (
   <span
     data-slot="dropdown-shortcut"
-    class={cn("text-muted-foreground ms-auto text-xs tracking-widest", className)}
+    class={cn("text-muted-foreground ms-auto text-xs tracking-widest opacity-70", className)}
     {...rest}
   >
     {children}

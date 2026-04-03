@@ -17,7 +17,7 @@ export const DropdownSubContent = ({ class: className, children, onPointerEnter,
       data-slot="dropdown-sub-content"
       data-state="open"
       class={cn(
-        "absolute start-full top-0 z-50 min-w-40 rounded-md border border-border bg-popover p-1 text-popover-foreground shadow-md outline-none ms-1 rtl:me-1 rtl:ms-0",
+        "absolute start-full top-0 z-50 min-w-[7rem] overflow-x-hidden overflow-y-auto rounded-lg bg-white p-px text-popover-foreground shadow-md outline-none ring-1 ring-foreground/10 ms-0.5 rtl:me-0.5 rtl:ms-0 dark:bg-popover dark:ring-foreground/15",
         className
       )}
       onPointerEnter={(e) => {

@@ -1,6 +1,7 @@
 import {
   Button,
   Calendar,
+  CalendarDateTimePanel,
   Card,
   CardContent,
   CardFooter,
@@ -82,7 +83,7 @@ const PresetsPreview = () => {
           month={currentMonth}
           onMonthChange={setCurrentMonth}
           fixedWeeks
-          class="p-0 [--cell-size:2.375rem]"
+          class="border-0 p-0 shadow-none [--cell-size:2.375rem]"
         />
       </CardContent>
       <CardFooter class="flex flex-wrap gap-2 border-t">
@@ -113,49 +114,20 @@ const PresetsPreview = () => {
 };
 
 const DateTimePickerPreview = () => {
-  const [date, setDate] = useState<Date | undefined>(
-    () => new Date(new Date().getFullYear(), new Date().getMonth(), 12)
-  );
+  const [date, setDate] = useState<Date | undefined>(() => new Date(2026, 3, 12));
+  const [start, setStart] = useState("10:30:00");
+  const [end, setEnd] = useState("12:30:00");
   return (
-    <Card size="sm" class="mx-auto w-fit rounded-lg border">
-      <CardContent>
-        <Calendar mode="single" selected={date} onSelect={(d) => setDate(d as Date)} class="p-0" />
-      </CardContent>
-      <CardFooter class="border-t bg-card">
-        <FieldGroup>
-          <Field>
-            <FieldLabel htmlFor="cal-time-from">Start Time</FieldLabel>
-            <InputGroup>
-              <InputGroupInput
-                id="cal-time-from"
-                type="time"
-                step="1"
-                defaultValue="10:30:00"
-                class="appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
-              />
-              <InputGroupAddon>
-                <Clock class="text-muted-foreground size-4" />
-              </InputGroupAddon>
-            </InputGroup>
-          </Field>
-          <Field>
-            <FieldLabel htmlFor="cal-time-to">End Time</FieldLabel>
-            <InputGroup>
-              <InputGroupInput
-                id="cal-time-to"
-                type="time"
-                step="1"
-                defaultValue="12:30:00"
-                class="appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
-              />
-              <InputGroupAddon>
-                <Clock class="text-muted-foreground size-4" />
-              </InputGroupAddon>
-            </InputGroup>
-          </Field>
-        </FieldGroup>
-      </CardFooter>
-    </Card>
+    <CalendarDateTimePanel
+      class="mx-auto"
+      selected={date}
+      onSelect={setDate}
+      defaultMonth={new Date(2026, 3, 1)}
+      startTime={start}
+      endTime={end}
+      onStartTimeChange={setStart}
+      onEndTimeChange={setEnd}
+    />
   );
 };
 
@@ -246,30 +218,6 @@ const TimezonePreview = () => {
   );
 };
 
-const PersianNotePreview = () => (
-  <div class="border-border bg-card text-card-foreground max-w-xl rounded-lg border p-4 text-sm leading-relaxed">
-    <p class="mb-2 font-medium">Persian / Hijri / Jalali</p>
-    <p class="text-muted-foreground mb-2">
-      On{" "}
-      <a
-        class="text-primary font-medium underline-offset-4 hover:underline"
-        href="https://ui.shadcn.com/docs/components/radix/calendar"
-        rel="noreferrer"
-        target="_blank"
-      >
-        ui.shadcn.com
-      </a>
-      , you switch the DayPicker import to <code class="bg-muted rounded px-1 py-0.5 text-xs">react-day-picker/persian</code>.
-      Kamod Calendar is a self-contained grid (no react-day-picker); use a Jalali date library or replace the day matrix
-      if you need Persian dates in production.
-    </p>
-    <pre class="bg-muted overflow-x-auto rounded-md p-3 text-xs">
-      {`- import { DayPicker } from "react-day-picker"
-+ import { DayPicker } from "react-day-picker/persian"`}
-    </pre>
-  </div>
-);
-
 type Lang = "en" | "ar" | "he";
 
 const RtlPreview = () => {
@@ -310,7 +258,7 @@ const RtlPreview = () => {
 
 const DEMO_CODE = `"use client"
 
-import { Calendar } from "@kamod-ui/core"
+import { Calendar } from "@/components/kamod-ui/calendar"
 import { useState } from "preact/hooks"
 
 export function CalendarDemo() {
@@ -327,7 +275,7 @@ export function CalendarDemo() {
   )
 }`;
 
-const TIMEZONE_CODE = `import { Calendar } from "@kamod-ui/core"
+const TIMEZONE_CODE = `import { Calendar } from "@/components/kamod-ui/calendar"
 import { useEffect, useState } from "preact/hooks"
 
 export function CalendarWithTimezone() {
@@ -352,7 +300,7 @@ export function CalendarWithTimezone() {
 
 const BASIC_CODE = `"use client"
 
-import { Calendar } from "@kamod-ui/core"
+import { Calendar } from "@/components/kamod-ui/calendar"
 
 export function CalendarBasic() {
   return <Calendar mode="single" class="rounded-lg border" />
@@ -360,8 +308,9 @@ export function CalendarBasic() {
 
 const RANGE_CODE = `"use client"
 
-import { Calendar, Card, CardContent } from "@kamod-ui/core"
-import type { DateRange } from "@kamod-ui/core"
+import { Calendar } from "@/components/kamod-ui/calendar"
+import { Card, CardContent } from "@/components/kamod-ui/card"
+import type { DateRange } from "@/components/kamod-ui/calendar"
 import { useState } from "preact/hooks"
 
 const addDays = (d: Date, n: number) => {
@@ -396,7 +345,7 @@ export function CalendarRange() {
 
 const CAPTION_CODE = `"use client"
 
-import { Calendar } from "@kamod-ui/core"
+import { Calendar } from "@/components/kamod-ui/calendar"
 
 export function CalendarCaption() {
   return (
@@ -410,7 +359,9 @@ export function CalendarCaption() {
 
 const PRESETS_CODE = `"use client"
 
-import { Button, Calendar, Card, CardContent, CardFooter } from "@kamod-ui/core"
+import { Button } from "@/components/kamod-ui/button"
+import { Calendar } from "@/components/kamod-ui/calendar"
+import { Card, CardContent, CardFooter } from "@/components/kamod-ui/card"
 import { useState } from "preact/hooks"
 
 const addDays = (d: Date, n: number) => {
@@ -437,7 +388,7 @@ export function CalendarWithPresets() {
           month={currentMonth}
           onMonthChange={setCurrentMonth}
           fixedWeeks
-          class="p-0 [--cell-size:2.375rem]"
+          class="border-0 p-0 shadow-none [--cell-size:2.375rem]"
         />
       </CardContent>
       <CardFooter class="flex flex-wrap gap-2 border-t">
@@ -469,8 +420,10 @@ export function CalendarWithPresets() {
 
 const DATETIME_CODE = `"use client"
 
-import { Calendar, Card, CardContent, CardFooter, Field, FieldGroup, FieldLabel } from "@kamod-ui/core"
-import { InputGroup, InputGroupAddon, InputGroupInput } from "@kamod-ui/core"
+import { Calendar } from "@/components/kamod-ui/calendar"
+import { Card, CardContent, CardFooter } from "@/components/kamod-ui/card"
+import { Field, FieldGroup, FieldLabel } from "@/components/kamod-ui/field"
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/kamod-ui/input-group"
 import { Clock } from "lucide-preact"
 import { useState } from "preact/hooks"
 
@@ -512,7 +465,8 @@ export function CalendarWithTime() {
 
 const BOOKED_CODE = `"use client"
 
-import { Calendar, Card, CardContent } from "@kamod-ui/core"
+import { Calendar } from "@/components/kamod-ui/calendar"
+import { Card, CardContent } from "@/components/kamod-ui/card"
 import { useState } from "preact/hooks"
 
 export function CalendarBookedDates() {
@@ -540,8 +494,9 @@ export function CalendarBookedDates() {
 
 const CUSTOM_CELL_CODE = `"use client"
 
-import { Calendar, Card, CardContent } from "@kamod-ui/core"
-import type { DateRange } from "@kamod-ui/core"
+import { Calendar } from "@/components/kamod-ui/calendar"
+import { Card, CardContent } from "@/components/kamod-ui/card"
+import type { DateRange } from "@/components/kamod-ui/calendar"
 import { useState } from "preact/hooks"
 
 const addDays = (d: Date, n: number) => {
@@ -587,7 +542,8 @@ export function CalendarCustomDays() {
 
 const WEEK_NUM_CODE = `"use client"
 
-import { Calendar, Card, CardContent } from "@kamod-ui/core"
+import { Calendar } from "@/components/kamod-ui/calendar"
+import { Card, CardContent } from "@/components/kamod-ui/card"
 import { useState } from "preact/hooks"
 
 export function CalendarWeekNumbers() {
@@ -612,7 +568,9 @@ export function CalendarWeekNumbers() {
 
 const RTL_CODE = `"use client"
 
-import { Button, Calendar, DirectionProvider } from "@kamod-ui/core"
+import { Button } from "@/components/kamod-ui/button"
+import { Calendar } from "@/components/kamod-ui/calendar"
+import { DirectionProvider } from "@/components/kamod-ui/direction"
 import { useState } from "preact/hooks"
 
 type Lang = "en" | "ar" | "he"
@@ -662,7 +620,7 @@ export const calendarDocPage = createGenericDocPage({
   installationText:
     "Add `@kamod-ui/core` to your app and import `Calendar`. This implementation mirrors the shadcn/ui Calendar **API surface** (modes, captions, disabled, modifiers, week numbers, RTL) without bundling `react-day-picker`; see [React DayPicker](https://react-day-picker.js.org/) for the upstream reference behaviour.",
   usageText:
-    "Import Calendar from @kamod-ui/core, then control selected/onSelect in mode=\"single\" or pass a DateRange in mode=\"range\". The shadcn Calendar wraps React DayPicker; Kamod provides a lightweight grid with a parallel prop surface for demos and composition. Build a date picker with Popover and Button (see /docs/date-picker/installation in this app). If the highlighted day shifts vs your timezone, pass timeZone from Intl.DateTimeFormat().resolvedOptions().timeZone on the client (useEffect), as documented on ui.shadcn.com.",
+    "Import Calendar from `@/components/kamod-ui/calendar`, then control selected/onSelect in mode=\"single\" or pass a DateRange in mode=\"range\". The shadcn Calendar wraps React DayPicker; Kamod provides a lightweight grid with a parallel prop surface for demos and composition. Build a date picker with Popover and Button (see /docs/date-picker/installation in this app). If the highlighted day shifts vs your timezone, pass timeZone from Intl.DateTimeFormat().resolvedOptions().timeZone on the client (useEffect), as documented on ui.shadcn.com. For a tighter layout (e.g. narrow popovers), pass `size=\"sm\"`.",
   exampleSections: [
     {
       id: "demo",
@@ -735,16 +693,6 @@ export const calendarDocPage = createGenericDocPage({
       renderPreview: () => <WeekNumbersPreview />
     },
     {
-      id: "persian-hijri",
-      title: "Persian / Hijri / Jalali Calendar",
-      text: "shadcn swaps to `react-day-picker/persian`. Kamod’s grid is Gregorian; see the note and diff below for a product-level approach.",
-      code: `// ui.shadcn.com — replace the DayPicker import:
-
-- import { DayPicker } from "react-day-picker"
-+ import { DayPicker } from "react-day-picker/persian"`,
-      renderPreview: () => <PersianNotePreview />
-    },
-    {
       id: "rtl",
       title: "RTL",
       text: "Use `dir` + `locale` (e.g. `ar-SA`) with `DirectionProvider`, following the RTL guidance on ui.shadcn.com.",
@@ -761,6 +709,7 @@ export const calendarDocPage = createGenericDocPage({
     { prop: "month / onMonthChange", type: "Date + callback", defaultValue: "optional controlled month" },
     { prop: "numberOfMonths", type: "1 | 2", defaultValue: "1" },
     { prop: "captionLayout", type: '"buttons" | "dropdown"', defaultValue: '"buttons"' },
+    { prop: "size", type: '"default" | "sm"', defaultValue: '"default"' },
     { prop: "dir", type: '"ltr" | "rtl"', defaultValue: '"ltr"' },
     { prop: "showOutsideDays", type: "boolean", defaultValue: "true" },
     { prop: "fixedWeeks", type: "boolean", defaultValue: "false" },
@@ -776,7 +725,7 @@ export const calendarDocPage = createGenericDocPage({
   accessibilityText:
     "Day cells are `<button>` elements; prev/next use the shared `Button` ghost icon pattern. Dropdown captions expose `aria-label` on selects. Pair with visible labels in forms.",
   installationExample: {
-    code: `import { Calendar } from "@kamod-ui/core"
+    code: `import { Calendar } from "@/components/kamod-ui/calendar"
 
 export const Example = () => (
   <Calendar mode="single" captionLayout="dropdown" class="rounded-lg border" />

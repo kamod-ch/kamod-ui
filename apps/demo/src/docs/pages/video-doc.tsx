@@ -5,14 +5,14 @@ export const videoDocPage = createGenericDocPage({
   slug: "video",
   title: "Video",
   usageLabel: "Video displays embedded media with browser-native controls.",
-  installationText: "Import Video from @kamod-ui/core.",
+  installationText: "Import Video from `@/components/kamod-ui/video`.",
   usageText: "Use controls for playback affordance and provide fallback text where needed.",
   exampleSections: [
     {
       id: "video-with-source",
       title: "Video With Source",
       text: "Provide a source file and keep controls enabled.",
-      code: `import { Video } from "@kamod-ui/core";
+      code: `import { Video } from "@/components/kamod-ui/video";
 
 export const Example = () => (
   <Video class="max-w-xl">
@@ -29,7 +29,7 @@ export const Example = () => (
       id: "muted-preview",
       title: "Muted Preview",
       text: "Use muted autoplay previews in media galleries.",
-      code: `import { Video } from "@kamod-ui/core";
+      code: `import { Video } from "@/components/kamod-ui/video";
 
 export const Example = () => (
   <Video class="max-w-sm" muted loop autoPlay>

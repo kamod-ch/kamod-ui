@@ -41,18 +41,8 @@ function BasicHero() {
   );
 }
 
-const heroCode = `import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-  Button,
-} from "@kamod-ui/core";
+const heroCode = `import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/kamod-ui/alert-dialog"
+import { Button } from "@/components/kamod-ui/button";
 
 export const Example = () => (
   <AlertDialog>
@@ -99,7 +89,8 @@ const sectionBlocks: Record<string, { preview: () => ComponentChildren; code: st
         </AlertDialogContent>
       </AlertDialog>
     ),
-    code: `import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger, Button } from "@kamod-ui/core";
+    code: `import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/kamod-ui/alert-dialog"
+import { Button } from "@/components/kamod-ui/button";
 
 export const Example = () => (
   <AlertDialog>
@@ -142,7 +133,8 @@ export const Example = () => (
         </AlertDialogContent>
       </AlertDialog>
     ),
-    code: `import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogMedia, AlertDialogTitle, AlertDialogTrigger, Button } from "@kamod-ui/core";
+    code: `import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogMedia, AlertDialogTitle, AlertDialogTrigger } from "@/components/kamod-ui/alert-dialog"
+import { Button } from "@/components/kamod-ui/button";
 import { CircleFadingPlus } from "lucide-preact";
 
 export const Example = () => (
@@ -189,7 +181,7 @@ export const Example = () => (
         </AlertDialogContent>
       </AlertDialog>
     ),
-    code: `import { AlertDialog, …, AlertDialogMedia, … } from "@kamod-ui/core";
+    code: `import { AlertDialog, …, AlertDialogMedia, … } from "@/components/kamod-ui/alert-dialog";
 import { Bluetooth } from "lucide-preact";
 
 <AlertDialogContent size="sm">
@@ -228,7 +220,8 @@ import { Bluetooth } from "lucide-preact";
         </AlertDialogContent>
       </AlertDialog>
     ),
-    code: `import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogMedia, AlertDialogTitle, AlertDialogTrigger, Button } from "@kamod-ui/core";
+    code: `import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogMedia, AlertDialogTitle, AlertDialogTrigger } from "@/components/kamod-ui/alert-dialog"
+import { Button } from "@/components/kamod-ui/button";
 import { Trash2 } from "lucide-preact";
 
 <AlertDialogContent size="sm">
@@ -247,7 +240,7 @@ import { Trash2 } from "lucide-preact";
   },
   rtl: {
     preview: () => <AlertDialogRtlDemo />,
-    code: `import { AlertDialog, …, DirectionProvider, Button } from "@kamod-ui/core";
+    code: `import { AlertDialog, …, DirectionProvider, Button } from "@/components/kamod-ui/alert-dialog";
 import { Bluetooth } from "lucide-preact";
 
 // Toggle dir; pass dir + data-lang on AlertDialogContent for RTL overlays.`
@@ -430,7 +423,7 @@ export const alertDialogDocPage: DocPageModule = {
   usageLabel:
     "Modal confirmation pattern: explicit continue/cancel, optional media slot, compact size, destructive actions. Content uses Dialog presentation=\"slot\" (custom overlay).",
   sections: [
-    { id: "installation", title: "Installation", text: "Import alert dialog primitives from @kamod-ui/core." },
+    { id: "installation", title: "Installation", text: "Import alert dialog primitives from `@/components/kamod-ui/alert-dialog`." },
     {
       id: "usage",
       title: "Usage",
@@ -464,18 +457,7 @@ export const alertDialogDocPage: DocPageModule = {
       if (sectionId === "installation") {
         return (
           <CodeBlock
-            code={`import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogMedia,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@kamod-ui/core";`}
+            code={`import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogMedia, AlertDialogTitle, AlertDialogTrigger } from "@/components/kamod-ui/alert-dialog";`}
             language="tsx"
           />
         );

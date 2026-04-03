@@ -5,14 +5,14 @@ export const chartDocPage = createGenericDocPage({
   slug: "chart",
   title: "Chart",
   usageLabel: "Chart wraps charting primitives with Kamod design tokens.",
-  installationText: "Import Chart from @kamod-ui/core and pass series plus config.",
+  installationText: "Import Chart from `@/components/kamod-ui/chart` and pass series plus config.",
   usageText: "Use semantic labels and concise legends to keep visualizations understandable.",
   exampleSections: [
     {
       id: "line-chart",
       title: "Line Chart",
       text: "Render trend data with a line configuration.",
-      code: `import { Chart } from "@kamod-ui/core";
+      code: `import { Chart } from "@/components/kamod-ui/chart";
 
 const points = [
   { month: "Jan", value: 18 },
@@ -31,7 +31,7 @@ export const Example = () => <Chart type="line" data={points} xKey="month" yKey=
       id: "bar-chart",
       title: "Bar Chart",
       text: "Use bars for direct category comparison.",
-      code: `import { Chart } from "@kamod-ui/core";
+      code: `import { Chart } from "@/components/kamod-ui/chart";
 
 const rows = [
   { name: "A", sessions: 120 },

@@ -116,14 +116,15 @@ export const toastDocPage = createGenericDocPage({
   slug: "toast",
   title: "Toast",
   usageLabel: "Toast displays transient notifications with Sonner-inspired variants and placement.",
-  installationText: "Import Toaster and useToast from @kamod-ui/core and mount Toaster once near your app root.",
+  installationText: "Import Toaster and useToast from `@/components/kamod-ui/toast` and mount Toaster once near your app root.",
   usageText: "Trigger toasts with useToast and choose variant, duration and optional actionLabel. Use Toaster position to control placement.",
   exampleSections: [
     {
       id: "basic-toast",
       title: "Basic Toast",
       text: "Trigger a toast with title and optional description.",
-      code: `import { Button, Toaster, useToast } from "@kamod-ui/core";
+      code: `import { Toaster, useToast } from "lucide-preact"
+import { Button } from "@/components/kamod-ui/button";
 
 export const Example = () => {
   const { toast } = useToast();
@@ -142,7 +143,8 @@ export const Example = () => {
       id: "toast-dismiss",
       title: "Toast Dismiss",
       text: "Dismiss notifications programmatically when workflow changes.",
-      code: `import { Button, Toaster, useToast } from "@kamod-ui/core";
+      code: `import { Toaster, useToast } from "lucide-preact"
+import { Button } from "@/components/kamod-ui/button";
 
 export const Example = () => {
   const { toast, dismiss } = useToast();
@@ -163,7 +165,8 @@ export const Example = () => {
       id: "toast-types",
       title: "Toast Types",
       text: "Show the available Sonner-style variants: default, success, info, warning and error.",
-      code: `import { Button, Toaster, useToast } from "@kamod-ui/core";
+      code: `import { Toaster, useToast } from "lucide-preact"
+import { Button } from "@/components/kamod-ui/button";
 
 export const Example = () => {
   const { toast } = useToast();
@@ -184,7 +187,8 @@ export const Example = () => {
       id: "toast-position",
       title: "Toast Position",
       text: "Switch between all supported Toaster positions and trigger a notification.",
-      code: `import { Button, Toaster, useToast } from "@kamod-ui/core";
+      code: `import { Toaster, useToast } from "lucide-preact"
+import { Button } from "@/components/kamod-ui/button";
 import { useState } from "preact/hooks";
 
 export const Example = () => {
