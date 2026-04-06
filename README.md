@@ -3,7 +3,7 @@
   <img src="docs/images/logo-kamod-ui-light.svg#gh-dark-mode-only" alt="Kamod UI" width="162" />
 </p>
 
-# Kamod UI
+<h1 align="center">Kamod UI</h1>
 
 A set of beautifully designed components that you can customize, extend, and build on. **Built for Preact.** Open Source. Open Code.
 
