@@ -14,8 +14,9 @@ export const button = tv({
   ],
   variants: {
     variant: {
-      default: "bg-foreground text-background hover:bg-foreground/90 focus-visible:ring-outline/50",
+      default: "bg-primary text-background hover:bg-foreground/90 focus-visible:ring-outline/50",
       secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/90 focus-visible:ring-secondary/50",
+      inverse: "bg-foreground text-background hover:opacity-[0.85] focus-visible:ring-outline/50",
       outline:
         "border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 border",
       ghost: "hover:bg-muted hover:text-foreground focus-visible:ring-outline/50",

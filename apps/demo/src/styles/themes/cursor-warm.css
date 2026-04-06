@@ -1,0 +1,168 @@
+/* Cursor marketing / DESIGN.md — warm cream page, white cards, orange accent, Lato + Source Serif 4
+   (Google Fonts: ../theme-fonts.css, first import in index.css) */
+:root[data-theme="cursor-warm"] {
+  --background: #f2f1ed;
+  --foreground: #26251e;
+  --card: var(--color-white);
+  --card-foreground: #26251e;
+  --popover: var(--color-white);
+  --popover-foreground: #26251e;
+  --primary: #f54e00;
+  --primary-foreground: var(--color-white);
+  --primary-accent: #d94400;
+  --secondary: #ebeae5;
+  --secondary-foreground: #26251e;
+  --secondary-accent: #cf2d56;
+  --muted: #ebeae5;
+  --muted-foreground: rgba(38, 37, 30, 0.55);
+  --accent: #e6e5e0;
+  --accent-foreground: #26251e;
+  --info: #9fbbe0;
+  --info-foreground: #26251e;
+  --success: #1f8a65;
+  --success-foreground: var(--color-white);
+  --warning: #c08532;
+  --warning-foreground: #26251e;
+  --error: #cf2d56;
+  --error-foreground: var(--color-white);
+  --destructive: #cf2d56;
+  --destructive-foreground: var(--color-white);
+  --border: rgba(38, 37, 30, 0.1);
+  --input: rgba(38, 37, 30, 0.12);
+  --outline: rgba(38, 37, 30, 0.45);
+  --ring: #f54e00;
+  --radius: 0.5rem;
+  --sidebar-background: #ebeae5;
+  --sidebar-foreground: #26251e;
+  --sidebar-primary: #f54e00;
+  --sidebar-primary-foreground: var(--color-white);
+  --sidebar-accent: #e6e5e0;
+  --sidebar-accent-foreground: #26251e;
+  --sidebar-border: rgba(38, 37, 30, 0.1);
+  --sidebar-outline: rgba(38, 37, 30, 0.35);
+
+  --font-sans:
+    "Lato", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-serif:
+    "Source Serif 4", "Iowan Old Style", "Palatino Linotype", ui-serif, Georgia, Cambria, "Times New Roman",
+    Times, serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --default-font-family: var(--font-sans);
+  --font-primary: var(--font-sans);
+  --font-display: var(--font-sans);
+  --font-mono-custom: var(--font-mono);
+
+  /* Extended palette (DESIGN.md preview) — marketing blocks, timeline chips, etc. */
+  --cursor-surface-100: #f7f7f4;
+  --cursor-surface-200: #f2f1ed;
+  --cursor-surface-300: #ebeae5;
+  --cursor-surface-400: #e6e5e0;
+  --cursor-surface-500: #e1e0db;
+  --cursor-ai-thinking: #dfa88f;
+  --cursor-ai-grep: #9fc9a2;
+  --cursor-ai-read: #9fbbe0;
+  --cursor-ai-edit: #c0a8dd;
+  --cursor-text-secondary: rgba(38, 37, 30, 0.55);
+  --cursor-text-tertiary: rgba(38, 37, 30, 0.4);
+  --cursor-border-medium: rgba(38, 37, 30, 0.2);
+  --cursor-border-strong: rgba(38, 37, 30, 0.55);
+  --cursor-shadow-card:
+    rgba(0, 0, 0, 0.14) 0px 28px 70px 0px, rgba(0, 0, 0, 0.1) 0px 14px 32px 0px,
+    rgba(38, 37, 30, 0.1) 0px 0px 0px 1px;
+  --cursor-shadow-ambient: rgba(0, 0, 0, 0.02) 0px 0px 16px 0px, rgba(0, 0, 0, 0.008) 0px 0px 8px 0px;
+  --cursor-shadow-focus: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+.dark[data-theme="cursor-warm"] {
+  --background: #1a1916;
+  --foreground: #f2f1ed;
+  --card: #22211e;
+  --card-foreground: #f2f1ed;
+  --popover: #22211e;
+  --popover-foreground: #f2f1ed;
+  --primary: #f54e00;
+  --primary-foreground: var(--color-white);
+  --primary-accent: #ff7a3d;
+  --secondary: #2a2925;
+  --secondary-foreground: #f2f1ed;
+  --secondary-accent: #e04d6f;
+  --muted: #2a2925;
+  --muted-foreground: rgba(242, 241, 237, 0.65);
+  --accent: #2f2e2a;
+  --accent-foreground: #f2f1ed;
+  --info: #7a9fd4;
+  --info-foreground: #0f1720;
+  --success: #2ea57d;
+  --success-foreground: #062019;
+  --warning: #d4a04a;
+  --warning-foreground: #1a1916;
+  --error: #e04d6f;
+  --error-foreground: var(--color-white);
+  --destructive: #e04d6f;
+  --destructive-foreground: var(--color-white);
+  --border: rgba(242, 241, 237, 0.12);
+  --input: rgba(242, 241, 237, 0.15);
+  --outline: rgba(242, 241, 237, 0.45);
+  --ring: #f54e00;
+  --sidebar-background: #22211e;
+  --sidebar-foreground: #f2f1ed;
+  --sidebar-primary: #f54e00;
+  --sidebar-primary-foreground: var(--color-white);
+  --sidebar-accent: #2a2925;
+  --sidebar-accent-foreground: #f2f1ed;
+  --sidebar-border: rgba(242, 241, 237, 0.12);
+  --sidebar-outline: rgba(242, 241, 237, 0.35);
+
+  --font-sans:
+    "Lato", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-serif:
+    "Source Serif 4", "Iowan Old Style", "Palatino Linotype", ui-serif, Georgia, Cambria, "Times New Roman",
+    Times, serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --default-font-family: var(--font-sans);
+  --font-primary: var(--font-sans);
+  --font-display: var(--font-sans);
+  --font-mono-custom: var(--font-mono);
+
+  --cursor-surface-100: #2a2925;
+  --cursor-surface-200: #22211e;
+  --cursor-surface-300: #2f2e2a;
+  --cursor-surface-400: #3a3935;
+  --cursor-surface-500: #454440;
+  --cursor-ai-thinking: #c49a82;
+  --cursor-ai-grep: #7fb383;
+  --cursor-ai-read: #7a9fd4;
+  --cursor-ai-edit: #a08bc4;
+  --cursor-text-secondary: rgba(242, 241, 237, 0.65);
+  --cursor-text-tertiary: rgba(242, 241, 237, 0.45);
+  --cursor-border-medium: rgba(242, 241, 237, 0.18);
+  --cursor-border-strong: rgba(242, 241, 237, 0.55);
+  --cursor-shadow-card:
+    rgba(0, 0, 0, 0.45) 0px 28px 70px 0px, rgba(0, 0, 0, 0.3) 0px 14px 32px 0px,
+    rgba(242, 241, 237, 0.12) 0px 0px 0px 1px;
+  --cursor-shadow-ambient: rgba(0, 0, 0, 0.25) 0px 0px 24px 0px;
+  --cursor-shadow-focus: rgba(0, 0, 0, 0.35) 0px 4px 12px;
+}
+
+/* Ensure UI inherits marketing sans; Source Serif is opt-in via font-serif / .font-cursor-serif */
+:root[data-theme="cursor-warm"] body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Core fields use transparent / muted surfaces; on the cream page they should read as white cards */
+:root[data-theme="cursor-warm"] [data-slot="input"],
+:root[data-theme="cursor-warm"] [data-slot="input-group-control"],
+:root[data-theme="cursor-warm"] [data-slot="textarea"],
+:root[data-theme="cursor-warm"] [data-slot="native-select"],
+:root[data-theme="cursor-warm"] [data-slot="select-trigger"],
+:root[data-theme="cursor-warm"] [data-slot="combobox-inline-input"],
+:root[data-theme="cursor-warm"] [data-slot="combobox-chips"],
+:root[data-theme="cursor-warm"] [data-slot="combobox-chips-input"],
+:root[data-theme="cursor-warm"] [data-slot="command-input"] {
+  background-color: var(--color-white);
+}

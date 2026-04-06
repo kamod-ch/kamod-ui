@@ -6,7 +6,10 @@ export const THEME_PRESETS = [
   { id: "shadcn", label: "shadcn (Geist)" },
   { id: "ocean", label: "Ocean" },
   { id: "sunset", label: "Sunset" },
-  { id: "watson", label: "Watson" }
+  { id: "cursor-warm", label: "Cursor warm" },
+  { id: "voltage", label: "Voltage" },
+  { id: "watson", label: "Watson" },
+  { id: "professional", label: "Professional (Electronics)" }
 ] as const;
 
 export type ThemePresetId = (typeof THEME_PRESETS)[number]["id"];

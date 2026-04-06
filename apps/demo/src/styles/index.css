@@ -1,11 +1,11 @@
+@import "./theme-fonts.css";
 @import "tailwindcss";
 @import "tw-animate-css";
 @plugin "@tailwindcss/forms";
 @custom-variant dark (&:where(.dark, .dark *));
 @source "../../../../packages/core/src/**/*.{ts,tsx}";
 
-@import "./tailwind.css";
-@import "./watson-theme.css";
 @import "./foundation.css";
+@import "./themes.css";
 @import "./app.css";
 @import "./pages.css";

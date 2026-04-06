@@ -145,6 +145,12 @@ export const Example = () => <Button variant="outline">Outline</Button>;`
 
 export const Example = () => <Button variant="secondary">Secondary</Button>;`
   },
+  inverse: {
+    preview: () => <Button variant="inverse">Inverse</Button>,
+    code: `import { Button } from "@/components/kamod-ui/button";
+
+export const Example = () => <Button variant="inverse">Inverse</Button>;`
+  },
   ghost: {
     preview: () => <Button variant="ghost">Ghost</Button>,
     code: `import { Button } from "@/components/kamod-ui/button";
@@ -287,7 +293,7 @@ import { Spinner } from "@/components/kamod-ui/spinner";
 const buttonApiRows: Array<{ prop: string; type: string; defaultValue: string }> = [
   {
     prop: "variant",
-    type: '"default" | "outline" | "ghost" | "destructive" | "secondary" | "link"',
+    type: '"default" | "outline" | "ghost" | "destructive" | "secondary" | "inverse" | "link"',
     defaultValue: '"default"'
   },
   {
@@ -327,6 +333,11 @@ export const buttonDocPage: DocPageModule = {
     { id: "default", title: "Default", text: "Primary emphasis — default variant." },
     { id: "outline", title: "Outline", text: "Bordered surface; works well in dense toolbars." },
     { id: "secondary", title: "Secondary", text: "Supporting actions with muted fill." },
+    {
+      id: "inverse",
+      title: "Inverse",
+      text: "High-contrast filled control using foreground on background (for example Cursor marketing dark CTA in light mode; flips in dark mode)."
+    },
     { id: "ghost", title: "Ghost", text: "Minimal chrome until hover." },
     { id: "destructive", title: "Destructive", text: "Dangerous or irreversible actions." },
     { id: "link", title: "Link", text: "Underline-style control while keeping button semantics." },

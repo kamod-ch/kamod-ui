@@ -196,7 +196,10 @@ const AiPromptSourcesMenu = () => {
               </Avatar>
               shadcn
             </DropdownSubTrigger>
-            <DropdownSubContent class="landing-ai-sources-submenu w-[min(14.5rem,calc(100vw-2rem))] rounded-lg border border-border/55 bg-popover p-1.5 text-xs shadow-md">
+            <DropdownSubContent
+              side="inline-start"
+              class="landing-ai-sources-submenu w-[min(14.5rem,calc(100vw-2rem))] rounded-lg border border-border/55 bg-popover p-1.5 text-xs shadow-md"
+            >
               <InputGroup class="mb-1.5 rounded-full border border-border/45 bg-muted/35 shadow-none">
                 <InputGroupText class="pl-2 text-muted-foreground">
                   <Search class="size-3 shrink-0 opacity-70" strokeWidth={1.75} />
@@ -355,7 +358,7 @@ const KitchenSinkAiPromptComposer = () => {
             type="button"
             size="icon-xs"
             variant="ghost"
-            class="h-6 w-6 shrink-0 text-muted-foreground hover:bg-muted/40 hover:text-foreground"
+            class="h-6 w-6 shrink-0 border border-border/70 text-muted-foreground hover:bg-muted/40 hover:text-foreground"
             aria-label="Attach file"
           >
             <Paperclip class="size-3.5" strokeWidth={1.75} />
@@ -503,7 +506,7 @@ const HearAboutUsChips = () => {
             {checked ? (
               <span
                 data-slot="kitchen-hear-about-chip-indicator"
-                class="flex size-3 shrink-0 items-center justify-center rounded-full bg-foreground text-background"
+                class="flex size-3 shrink-0 items-center justify-center rounded-full bg-foreground text-background dark:bg-background dark:text-foreground"
                 aria-hidden="true"
               >
                 <Check class="size-2" strokeWidth={2.5} />
@@ -635,10 +638,12 @@ const KitchenSinkShowcase = () => (
               />
               <AvatarFallback class="text-xs">B</AvatarFallback>
             </Avatar>
-            <Avatar size="sm" class="bg-foreground text-background">
-              <AvatarFallback class="text-sm leading-none" title="Team icon">
-                🐰
-              </AvatarFallback>
+            <Avatar size="sm">
+              <AvatarImage
+                src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&q=80"
+                alt=""
+              />
+              <AvatarFallback class="text-xs">C</AvatarFallback>
             </Avatar>
           </AvatarGroup>
           <h3 class="landing-empty-state-heading">No Team Members</h3>

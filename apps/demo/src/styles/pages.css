@@ -1145,6 +1145,10 @@ html.dark .landing-shadcn-brand-logo {
   grid-template-columns: minmax(0, 1fr);
 }
 
+.landing-showcase-grid--4 {
+  background: var(--background);
+}
+
 .landing-gpu-stepper {
   display: inline-flex;
   align-items: center;
@@ -1577,18 +1581,27 @@ html.dark .landing-shadcn-brand-logo {
 .landing-ai-prompt {
   display: flex;
   flex-direction: column;
-  border-radius: calc(var(--radius-lg) - 2px);
-  border: 1px solid color-mix(in oklab, var(--border) 88%, transparent);
-  background: var(--background);
-  padding: 0.45rem 0.55rem 0.4rem;
+  border-radius: 0;
+  border: none;
+  background: transparent;
+  /* Match .landing-chat-composer: padding lives on the field, not the shell */
+  padding: 0;
   overflow: visible;
+}
+
+/* @ Add context: flush left; shrink-to-content so it does not sit centered in a stretched row */
+.landing-ai-prompt > :first-child {
+  align-self: flex-start;
+  margin: 0.5rem 0 0.35rem;
 }
 
 .landing-ai-prompt-textarea {
   min-height: 2.75rem;
-  border: 0 !important;
+  border: 1px solid color-mix(in oklab, var(--border) 85%, transparent) !important;
+  border-radius: var(--radius-md);
   box-shadow: none !important;
-  padding: 0.28rem 0 0.32rem !important;
+  /* Same as .landing-chat-composer-field, but bottom padding for below-toolbar layout (not 2.1rem overlay) */
+  padding: 0.5rem 0.625rem 0.5rem !important;
   background: transparent;
 }
 

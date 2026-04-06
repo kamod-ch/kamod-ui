@@ -3,16 +3,32 @@ import { resolve } from "node:path";
 
 const repoRoot = resolve(new URL("../../../", import.meta.url).pathname);
 const foundationPath = resolve(repoRoot, "apps/demo/src/styles/foundation.css");
-const watsonThemePath = resolve(repoRoot, "apps/demo/src/styles/watson-theme.css");
+const stylesDir = resolve(repoRoot, "apps/demo/src/styles");
+const themeFiles = [
+  "themes/kamod.css",
+  "themes/shadcn.css",
+  "themes/ocean.css",
+  "themes/sunset.css",
+  "themes/cursor-warm.css",
+  "themes/voltage.css",
+  "themes/watson.css",
+  "themes/professional.css"
+];
+
 const foundationCss =
-  readFileSync(foundationPath, "utf8") + "\n" + readFileSync(watsonThemePath, "utf8");
+  readFileSync(foundationPath, "utf8") +
+  "\n" +
+  themeFiles.map((rel) => readFileSync(resolve(stylesDir, rel), "utf8")).join("\n");
 
 const presetChecks = {
   kamod: "minimal",
   shadcn: "font",
   ocean: "full",
   sunset: "full",
-  watson: "full"
+  "cursor-warm": "full",
+  voltage: "full",
+  watson: "full",
+  professional: "full"
 };
 
 const requiredColorTokens = [

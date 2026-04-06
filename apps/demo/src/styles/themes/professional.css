@@ -1,0 +1,131 @@
+/**
+ * Professional — electronics shop preset (Poppins + IBM Plex Mono, brand yellow + black).
+ * Tokens aligned with professional-SKILL.md foundations.
+ */
+
+:root[data-theme="professional"] {
+  --font-sans:
+    Poppins, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", "Noto Color Emoji";
+  --font-mono:
+    "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+  --default-font-family: var(--font-sans);
+  --font-primary: var(--font-sans);
+  --font-display: var(--font-sans);
+  --font-mono-custom: var(--font-mono);
+
+  --background: #ffffff;
+  --foreground: #111827;
+  --card: #ffffff;
+  --card-foreground: #111827;
+  --popover: #ffffff;
+  --popover-foreground: #111827;
+
+  --primary: #fece14;
+  --primary-foreground: #000000;
+  --primary-accent: #e6b800;
+
+  --secondary: #000000;
+  --secondary-foreground: #ffffff;
+  --secondary-accent: #1f2937;
+
+  --muted: #f3f4f6;
+  --muted-foreground: #6b7280;
+
+  --accent: #f3f4f6;
+  --accent-foreground: #111827;
+
+  --info: #0ea5e9;
+  --info-foreground: #ffffff;
+
+  --success: #16a34a;
+  --success-foreground: #ffffff;
+
+  --warning: #d97706;
+  --warning-foreground: #ffffff;
+
+  --error: #dc2626;
+  --error-foreground: #ffffff;
+
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+
+  --border: #e5e7eb;
+  --input: #e5e7eb;
+  --ring: #fece14;
+  --outline: #9ca3af;
+  --radius: 0.5rem;
+
+  --sidebar-background: #f9fafb;
+  --sidebar-foreground: #111827;
+  --sidebar-primary: #fece14;
+  --sidebar-primary-foreground: #000000;
+  --sidebar-accent: #f3f4f6;
+  --sidebar-accent-foreground: #111827;
+  --sidebar-border: #e5e7eb;
+  --sidebar-outline: #6b7280;
+}
+
+.dark[data-theme="professional"] {
+  --font-sans:
+    Poppins, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", "Noto Color Emoji";
+  --font-mono:
+    "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+  --default-font-family: var(--font-sans);
+  --font-primary: var(--font-sans);
+  --font-display: var(--font-sans);
+  --font-mono-custom: var(--font-mono);
+
+  --background: #0b0f14;
+  --foreground: #f9fafb;
+  --card: #111827;
+  --card-foreground: #f9fafb;
+  --popover: #111827;
+  --popover-foreground: #f9fafb;
+
+  --primary: #fece14;
+  --primary-foreground: #000000;
+  --primary-accent: #ffd54a;
+
+  --secondary: #e5e7eb;
+  --secondary-foreground: #111827;
+  --secondary-accent: #f3f4f6;
+
+  --muted: #1f2937;
+  --muted-foreground: #9ca3af;
+
+  --accent: #1f2937;
+  --accent-foreground: #f9fafb;
+
+  --info: #38bdf8;
+  --info-foreground: #0b0f14;
+
+  --success: #22c55e;
+  --success-foreground: #052e16;
+
+  --warning: #f59e0b;
+  --warning-foreground: #1a1408;
+
+  --error: #ef4444;
+  --error-foreground: #ffffff;
+
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+
+  --border: #374151;
+  --input: #374151;
+  --ring: #fece14;
+  --outline: #9ca3af;
+
+  --sidebar-background: #111827;
+  --sidebar-foreground: #f9fafb;
+  --sidebar-primary: #fece14;
+  --sidebar-primary-foreground: #000000;
+  --sidebar-accent: #1f2937;
+  --sidebar-accent-foreground: #f9fafb;
+  --sidebar-border: #374151;
+  --sidebar-outline: #9ca3af;
+}

@@ -38,7 +38,7 @@ export const dropdownDocPage = createGenericDocPage({
     "Context menu from a trigger — dismiss layer, positioning, asChild trigger, submenus, shortcuts, checkbox and radio items (shadcn Dropdown Menu pattern).",
   installationText: "Import Dropdown primitives from `@/components/kamod-ui/dropdown`.",
   usageText:
-    "Use DropdownTrigger to toggle, DropdownContent for the panel (side, align, sideOffset). Optional DropdownSub / DropdownSubTrigger / DropdownSubContent for nested menus. Checkbox and radio items do not use DropdownItem’s auto-close behavior where noted.",
+    "Use DropdownTrigger to toggle, DropdownContent for the panel (side, align, sideOffset). Optional DropdownSub / DropdownSubTrigger / DropdownSubContent for nested menus; DropdownSubContent supports side=\"inline-end\" (default) or side=\"inline-start\" to open toward the inline end or start (use inline-start when the trigger is near the viewport edge to avoid horizontal page scroll). Checkbox and radio items do not use DropdownItem’s auto-close behavior where noted.",
   exampleSections: [
     {
       id: "basic-dropdown",
