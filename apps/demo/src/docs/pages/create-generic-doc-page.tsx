@@ -36,21 +36,27 @@ type GenericDocPageConfig = {
 };
 
 export const createGenericDocPage = (config: GenericDocPageConfig): DocPageModule => {
-  const heroCodeSnippet =
-    config.previewCode ?? config.exampleSections[0]?.code ?? "";
+  const heroCodeSnippet = config.previewCode ?? config.exampleSections[0]?.code ?? "";
 
   const heroExampleSectionId = config.exampleSections[0]?.id;
 
-  const exampleCodeBySection = config.exampleSections.reduce<Record<string, string>>((acc, item) => {
-    acc[item.id] = item.code;
-    return acc;
-  }, {});
-  const examplePreviewBySection = config.exampleSections.reduce<Record<string, () => ComponentChildren>>((acc, item) => {
+  const exampleCodeBySection = config.exampleSections.reduce<Record<string, string>>(
+    (acc, item) => {
+      acc[item.id] = item.code;
+      return acc;
+    },
+    {},
+  );
+  const examplePreviewBySection = config.exampleSections.reduce<
+    Record<string, () => ComponentChildren>
+  >((acc, item) => {
     acc[item.id] = item.renderPreview;
     return acc;
   }, {});
 
-  const previewTabClass = ["data-[chromeless=true]:h-auto", config.previewChromeClass].filter(Boolean).join(" ");
+  const previewTabClass = ["data-[chromeless=true]:h-auto", config.previewChromeClass]
+    .filter(Boolean)
+    .join(" ");
 
   const renderSectionExtraContent = (
     sectionId: string,
@@ -58,13 +64,13 @@ export const createGenericDocPage = (config: GenericDocPageConfig): DocPageModul
       preview: ComponentChildren;
       codeSnippet: string;
       previewClass?: string;
-    }) => ComponentChildren
+    }) => ComponentChildren,
   ): ComponentChildren => {
     if (sectionId === "installation" && config.installationExample) {
       return renderPreviewAndCodeTabs({
         preview: config.installationExample.renderPreview(),
         codeSnippet: config.installationExample.code,
-        previewClass: previewTabClass
+        previewClass: previewTabClass,
       });
     }
 
@@ -72,7 +78,7 @@ export const createGenericDocPage = (config: GenericDocPageConfig): DocPageModul
       return renderPreviewAndCodeTabs({
         preview: examplePreviewBySection[sectionId]?.() ?? null,
         codeSnippet: exampleCodeBySection[sectionId],
-        previewClass: previewTabClass
+        previewClass: previewTabClass,
       });
     }
 
@@ -83,8 +89,8 @@ export const createGenericDocPage = (config: GenericDocPageConfig): DocPageModul
             {
               title: config.title,
               description: `${config.title} component props and accepted values.`,
-              rows: config.apiRows
-            }
+              rows: config.apiRows,
+            },
           ]}
         />
       );
@@ -101,9 +107,17 @@ export const createGenericDocPage = (config: GenericDocPageConfig): DocPageModul
     sections: [
       { id: "installation", title: "Installation", text: config.installationText },
       { id: "usage", title: "Usage", text: config.usageText },
-      ...config.exampleSections.map((item) => ({ id: item.id, title: item.title, text: item.text })),
-      { id: "api-reference", title: "API Reference", text: "Props, slots and variants for this component." },
-      { id: "accessibility", title: "Accessibility Notes", text: config.accessibilityText }
+      ...config.exampleSections.map((item) => ({
+        id: item.id,
+        title: item.title,
+        text: item.text,
+      })),
+      {
+        id: "api-reference",
+        title: "API Reference",
+        text: "Props, slots and variants for this component.",
+      },
+      { id: "accessibility", title: "Accessibility Notes", text: config.accessibilityText },
     ],
     renderMain: (context) => (
       <>
@@ -111,7 +125,7 @@ export const createGenericDocPage = (config: GenericDocPageConfig): DocPageModul
         {context.renderPreviewAndCodeTabs({
           preview: examplePreviewBySection[config.exampleSections[0]?.id]?.() ?? null,
           codeSnippet: heroCodeSnippet,
-          previewClass: previewTabClass
+          previewClass: previewTabClass,
         })}
         {context.sections.map((docSection) => (
           <section key={docSection.id} id={docSection.id} class="docs-section">
@@ -124,6 +138,6 @@ export const createGenericDocPage = (config: GenericDocPageConfig): DocPageModul
           </section>
         ))}
       </>
-    )
+    ),
   };
 };

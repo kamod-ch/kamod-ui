@@ -9,14 +9,15 @@ export const THEME_PRESETS = [
   { id: "cursor-warm", label: "Cursor warm" },
   { id: "voltage", label: "Voltage" },
   { id: "watson", label: "Watson" },
-  { id: "professional", label: "Professional (Electronics)" }
+  { id: "professional", label: "Professional (Electronics)" },
 ] as const;
 
 export type ThemePresetId = (typeof THEME_PRESETS)[number]["id"];
 
 const THEME_PRESET_IDS = new Set<string>(THEME_PRESETS.map((preset) => preset.id));
 
-export const isThemePresetId = (value: string): value is ThemePresetId => THEME_PRESET_IDS.has(value);
+export const isThemePresetId = (value: string): value is ThemePresetId =>
+  THEME_PRESET_IDS.has(value);
 
 export const resolveInitialThemePreset = (): ThemePresetId => {
   if (typeof window === "undefined") return DEFAULT_THEME_PRESET;

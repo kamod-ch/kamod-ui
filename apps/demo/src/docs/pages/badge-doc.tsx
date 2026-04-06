@@ -29,7 +29,7 @@ const rtlCopy: Record<
     destructive: "Destructive",
     outline: "Outline",
     verified: "Verified",
-    bookmark: "Bookmark"
+    bookmark: "Bookmark",
   },
   ar: {
     dir: "rtl",
@@ -39,7 +39,7 @@ const rtlCopy: Record<
     destructive: "مدمر",
     outline: "مخطط",
     verified: "متحقق",
-    bookmark: "إشارة مرجعية"
+    bookmark: "إشارة مرجعية",
   },
   he: {
     dir: "rtl",
@@ -49,8 +49,8 @@ const rtlCopy: Record<
     destructive: "הרסני",
     outline: "קווי מתאר",
     verified: "מאומת",
-    bookmark: "סימנייה"
-  }
+    bookmark: "סימנייה",
+  },
 };
 
 function BadgeRtlDemo() {
@@ -61,7 +61,13 @@ function BadgeRtlDemo() {
     <div class="flex w-full max-w-2xl flex-col gap-3">
       <div class="flex flex-wrap gap-2">
         {(["en", "ar", "he"] as const).map((key) => (
-          <Button key={key} variant={lang === key ? "default" : "outline"} size="sm" type="button" onClick={() => setLang(key)}>
+          <Button
+            key={key}
+            variant={lang === key ? "default" : "outline"}
+            size="sm"
+            type="button"
+            onClick={() => setLang(key)}
+          >
             {rtlCopy[key].label}
           </Button>
         ))}
@@ -109,7 +115,8 @@ const sectionBlocks: Record<string, { preview: () => ComponentChildren; code: st
           <Badge variant="ghost">Ghost</Badge>
         </div>
         <p class="text-muted-foreground max-w-xl text-sm">
-          Kamod also ships semantic variants for dashboards and status chips: primary, info, success, warning, and error.
+          Kamod also ships semantic variants for dashboards and status chips: primary, info,
+          success, warning, and error.
         </p>
         <div class="flex flex-wrap gap-2">
           <Badge variant="primary">Primary</Badge>
@@ -139,7 +146,7 @@ export const Example = () => (
       <Badge variant="error">Error</Badge>
     </div>
   </>
-);`
+);`,
   },
   "with-icon": {
     preview: () => (
@@ -168,7 +175,7 @@ export const Example = () => (
       <Bookmark data-icon="inline-end" />
     </Badge>
   </div>
-);`
+);`,
   },
   "with-spinner": {
     preview: () => (
@@ -197,7 +204,7 @@ export const Example = () => (
       <Spinner data-icon="inline-end" size="sm" tone="muted" />
     </Badge>
   </div>
-);`
+);`,
   },
   link: {
     preview: () => (
@@ -216,15 +223,19 @@ export const Example = () => (
       Open link <ArrowUpRight data-icon="inline-end" />
     </a>
   </Badge>
-);`
+);`,
   },
   "custom-colors": {
     preview: () => (
       <div class="flex flex-wrap gap-2">
         <Badge class="bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300">Blue</Badge>
-        <Badge class="bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-300">Green</Badge>
+        <Badge class="bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-300">
+          Green
+        </Badge>
         <Badge class="bg-sky-50 text-sky-700 dark:bg-sky-950 dark:text-sky-300">Sky</Badge>
-        <Badge class="bg-purple-50 text-purple-700 dark:bg-purple-950 dark:text-purple-300">Purple</Badge>
+        <Badge class="bg-purple-50 text-purple-700 dark:bg-purple-950 dark:text-purple-300">
+          Purple
+        </Badge>
         <Badge class="bg-red-50 text-red-700 dark:bg-red-950 dark:text-red-300">Red</Badge>
       </div>
     ),
@@ -238,7 +249,7 @@ export const Example = () => (
     <Badge class="bg-purple-50 text-purple-700 dark:bg-purple-950 dark:text-purple-300">Purple</Badge>
     <Badge class="bg-red-50 text-red-700 dark:bg-red-950 dark:text-red-300">Red</Badge>
   </div>
-);`
+);`,
   },
   sizes: {
     preview: () => (
@@ -260,27 +271,27 @@ export const Example = () => (
     <Badge size="md">Medium</Badge>
     <Badge size="lg">Large</Badge>
   </div>
-);`
+);`,
   },
   rtl: {
     preview: () => <BadgeRtlDemo />,
     code: `import { Badge } from "@/components/kamod-ui/badge"
 import { DirectionProvider } from "@/components/kamod-ui/direction";
 import { BadgeCheck, Bookmark } from "lucide-preact";
-// Wrap row with DirectionProvider and dir on the flex container.`
-  }
+// Wrap row with DirectionProvider and dir on the flex container.`,
+  },
 };
 
 const badgeApiRows: Array<{ prop: string; type: string; defaultValue: string }> = [
   {
     prop: "variant",
     type: '"default" | "primary" | "secondary" | "destructive" | "outline" | "ghost" | "link" | "info" | "success" | "warning" | "error"',
-    defaultValue: '"default"'
+    defaultValue: '"default"',
   },
   { prop: "size", type: '"xxs" | "xs" | "sm" | "md" | "lg"', defaultValue: '"md"' },
   { prop: "asChild", type: "boolean", defaultValue: "false" },
   { prop: "href", type: "string", defaultValue: "-" },
-  { prop: "class", type: "string", defaultValue: "-" }
+  { prop: "class", type: "string", defaultValue: "-" },
 ];
 
 export const badgeDocPage: DocPageModule = {
@@ -293,53 +304,53 @@ export const badgeDocPage: DocPageModule = {
     {
       id: "installation",
       title: "Installation",
-      text: "Import Badge from `@/components/kamod-ui/badge`."
+      text: "Import Badge from `@/components/kamod-ui/badge`.",
     },
     {
       id: "usage",
       title: "Usage",
-      text: "Pick a variant for emphasis; default renders a filled neutral chip. Use BreadcrumbPage or Button for navigation—Badge is for status and metadata."
+      text: "Pick a variant for emphasis; default renders a filled neutral chip. Use BreadcrumbPage or Button for navigation—Badge is for status and metadata.",
     },
     {
       id: "variants",
       title: "Variants",
-      text: "Shadcn-compatible set plus additional semantic colors for product UI."
+      text: "Shadcn-compatible set plus additional semantic colors for product UI.",
     },
     {
       id: "with-icon",
       title: "With icon",
-      text: "Set data-icon=\"inline-start\" or data-icon=\"inline-end\" on the icon so padding stays balanced."
+      text: 'Set data-icon="inline-start" or data-icon="inline-end" on the icon so padding stays balanced.',
     },
     {
       id: "with-spinner",
       title: "With spinner",
-      text: "Short-lived states: pair Spinner with the same data-icon attributes."
+      text: "Short-lived states: pair Spinner with the same data-icon attributes.",
     },
     {
       id: "link",
       title: "Link",
-      text: "Use asChild so an anchor (or router Link) receives badge styling. You can still pass href without asChild to render a native anchor."
+      text: "Use asChild so an anchor (or router Link) receives badge styling. You can still pass href without asChild to render a native anchor.",
     },
     {
       id: "custom-colors",
       title: "Custom colors",
-      text: "Override with utility classes for brand-specific chips (including dark mode pairs)."
+      text: "Override with utility classes for brand-specific chips (including dark mode pairs).",
     },
     {
       id: "sizes",
       title: "Sizes",
-      text: "Kamod-specific density scale from xxs through lg."
+      text: "Kamod-specific density scale from xxs through lg.",
     },
     {
       id: "rtl",
       title: "RTL",
-      text: "Wrap with DirectionProvider and set dir on the row; icons follow inline start/end."
+      text: "Wrap with DirectionProvider and set dir on the row; icons follow inline start/end.",
     },
     {
       id: "api-reference",
       title: "API Reference",
-      text: "Badge props and accepted values."
-    }
+      text: "Badge props and accepted values.",
+    },
   ],
   renderMain: (context) => {
     const renderSectionBody = (sectionId: string) => {
@@ -349,15 +360,18 @@ export const badgeDocPage: DocPageModule = {
             sections={[
               {
                 title: "Badge",
-                description: "Renders as span by default; href renders anchor; asChild merges onto a single child.",
-                rows: badgeApiRows
-              }
+                description:
+                  "Renders as span by default; href renders anchor; asChild merges onto a single child.",
+                rows: badgeApiRows,
+              },
             ]}
           />
         );
       }
       if (sectionId === "installation") {
-        return <CodeBlock code={`import { Badge } from "@/components/kamod-ui/badge";`} language="tsx" />;
+        return (
+          <CodeBlock code={`import { Badge } from "@/components/kamod-ui/badge";`} language="tsx" />
+        );
       }
       if (sectionId === "usage") {
         return context.renderPreviewAndCodeTabs({
@@ -371,7 +385,7 @@ export const badgeDocPage: DocPageModule = {
 
 export const Example = () => (
   <Badge variant="outline">Badge</Badge>
-);`
+);`,
         });
       }
       const block = sectionBlocks[sectionId];
@@ -380,7 +394,7 @@ export const Example = () => (
       }
       return context.renderPreviewAndCodeTabs({
         preview: block.preview(),
-        codeSnippet: block.code
+        codeSnippet: block.code,
       });
     };
 
@@ -396,7 +410,7 @@ export const Example = () => (
               <Badge variant="outline">Outline</Badge>
             </div>
           ),
-          codeSnippet: heroCode
+          codeSnippet: heroCode,
         })}
         {context.sections.map((docSection) => (
           <section key={docSection.id} id={docSection.id} class="docs-section">
@@ -408,5 +422,5 @@ export const Example = () => (
         ))}
       </>
     );
-  }
+  },
 };

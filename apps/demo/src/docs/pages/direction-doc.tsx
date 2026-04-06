@@ -12,7 +12,7 @@ import {
   DirectionProvider,
   Input,
   Label,
-  useDirection
+  useDirection,
 } from "@kamod-ui/core";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
@@ -25,7 +25,18 @@ type Lang = "en" | "ar" | "he";
 
 const copy: Record<
   Lang,
-  { dir: "ltr" | "rtl"; label: string; title: string; description: string; signUp: string; email: string; password: string; forgot: string; login: string; google: string }
+  {
+    dir: "ltr" | "rtl";
+    label: string;
+    title: string;
+    description: string;
+    signUp: string;
+    email: string;
+    password: string;
+    forgot: string;
+    login: string;
+    google: string;
+  }
 > = {
   en: {
     dir: "ltr",
@@ -37,7 +48,7 @@ const copy: Record<
     password: "Password",
     forgot: "Forgot password?",
     login: "Login",
-    google: "Login with Google"
+    google: "Login with Google",
   },
   ar: {
     dir: "rtl",
@@ -49,7 +60,7 @@ const copy: Record<
     password: "كلمة المرور",
     forgot: "نسيت كلمة المرور؟",
     login: "تسجيل الدخول",
-    google: "تسجيل الدخول باستخدام Google"
+    google: "تسجيل الدخول باستخدام Google",
   },
   he: {
     dir: "rtl",
@@ -61,8 +72,8 @@ const copy: Record<
     password: "סיסמה",
     forgot: "שכחת את הסיסמה?",
     login: "התחבר",
-    google: "התחבר עם Google"
-  }
+    google: "התחבר עם Google",
+  },
 };
 
 const CardRtlPreview = () => {
@@ -73,7 +84,12 @@ const CardRtlPreview = () => {
     <div class="flex w-full max-w-sm flex-col gap-3">
       <div class="flex flex-wrap gap-2">
         {(["en", "ar", "he"] as const).map((key) => (
-          <Button key={key} variant={lang === key ? "default" : "outline"} size="sm" onClick={() => setLang(key)}>
+          <Button
+            key={key}
+            variant={lang === key ? "default" : "outline"}
+            size="sm"
+            onClick={() => setLang(key)}
+          >
             {copy[key].label}
           </Button>
         ))}
@@ -96,12 +112,20 @@ const CardRtlPreview = () => {
               <div class="flex flex-col gap-6">
                 <div class="grid gap-2">
                   <Label htmlFor={`dir-doc-email-${lang}`}>{t.email}</Label>
-                  <Input id={`dir-doc-email-${lang}`} type="email" placeholder="m@example.com" required />
+                  <Input
+                    id={`dir-doc-email-${lang}`}
+                    type="email"
+                    placeholder="m@example.com"
+                    required
+                  />
                 </div>
                 <div class="grid gap-2">
                   <div class="flex items-center gap-2">
                     <Label htmlFor={`dir-doc-password-${lang}`}>{t.password}</Label>
-                    <a href="#direction" class="text-primary ms-auto inline-block text-sm underline-offset-4 hover:underline">
+                    <a
+                      href="#direction"
+                      class="text-primary ms-auto inline-block text-sm underline-offset-4 hover:underline"
+                    >
                       {t.forgot}
                     </a>
                   </div>
@@ -136,7 +160,8 @@ export const Example = () => (
 );`,
   usageLabel:
     "Text direction context for RTL/LTR — `DirectionProvider` (shadcn API) plus legacy `Direction` with `dir`, and `useDirection()` hook.",
-  installationText: "Import DirectionProvider, Direction, and useDirection from `@/components/kamod-ui/direction` (no Radix package required).",
+  installationText:
+    "Import DirectionProvider, Direction, and useDirection from `@/components/kamod-ui/direction` (no Radix package required).",
   usageText:
     "Wrap subtrees that need explicit direction. Combine with `dir` on `<html>` for full-page RTL. Use logical Tailwind utilities (`ms-*`, `me-*`, `ps-*`, `pe-*`) so layouts flip automatically.",
   exampleSections: [
@@ -151,7 +176,7 @@ import { Input } from "@/components/kamod-ui/input"
 import { Label } from "@/components/kamod-ui/label";
 
 // See direction-doc.tsx — translations + DirectionProvider direction={t.dir}`,
-      renderPreview: () => <CardRtlPreview />
+      renderPreview: () => <CardRtlPreview />,
     },
     {
       id: "direction-provider",
@@ -166,9 +191,11 @@ export const Example = () => (
 );`,
       renderPreview: () => (
         <DirectionProvider direction="rtl">
-          <div class="rounded border p-4">This subtree uses DirectionProvider direction=&quot;rtl&quot;.</div>
+          <div class="rounded border p-4">
+            This subtree uses DirectionProvider direction=&quot;rtl&quot;.
+          </div>
         </DirectionProvider>
-      )
+      ),
     },
     {
       id: "direction-legacy",
@@ -185,7 +212,7 @@ export const Example = () => (
         <Direction dir="rtl">
           <div class="rounded border p-4">RTL via &lt;Direction dir=&quot;rtl&quot;&gt;.</div>
         </Direction>
-      )
+      ),
     },
     {
       id: "hook-usage",
@@ -208,7 +235,7 @@ export const Example = () => (
         <DirectionProvider direction="ltr" class="rounded border p-4">
           <DirectionValuePreview />
         </DirectionProvider>
-      )
+      ),
     },
     {
       id: "html-note",
@@ -230,18 +257,22 @@ export const App = () => (
       renderPreview: () => (
         <p class="text-muted-foreground max-w-prose text-sm leading-relaxed">
           Set <code class="bg-muted rounded px-1 py-0.5 text-xs">dir</code> on{" "}
-          <code class="bg-muted rounded px-1 py-0.5 text-xs">html</code> for document-wide defaults; keep{" "}
-          <code class="bg-muted rounded px-1 py-0.5 text-xs">DirectionProvider</code> aligned so{" "}
-          <code class="bg-muted rounded px-1 py-0.5 text-xs">useDirection()</code> matches.
+          <code class="bg-muted rounded px-1 py-0.5 text-xs">html</code> for document-wide defaults;
+          keep <code class="bg-muted rounded px-1 py-0.5 text-xs">DirectionProvider</code> aligned
+          so <code class="bg-muted rounded px-1 py-0.5 text-xs">useDirection()</code> matches.
         </p>
-      )
-    }
+      ),
+    },
   ],
   apiRows: [
     { prop: "DirectionProvider direction", type: '"ltr" | "rtl"', defaultValue: '"ltr"' },
     { prop: "Direction dir", type: '"ltr" | "rtl"', defaultValue: '"ltr"' },
-    { prop: "useDirection()", type: "DirectionValue", defaultValue: '"ltr" (fallback if no provider)' }
+    {
+      prop: "useDirection()",
+      type: "DirectionValue",
+      defaultValue: '"ltr" (fallback if no provider)',
+    },
   ],
   accessibilityText:
-    "Match `dir` to the active locale so reading order, tab order, and screen reader traversal follow user expectations. Prefer logical CSS over hard-coded left/right margins."
+    "Match `dir` to the active locale so reading order, tab order, and screen reader traversal follow user expectations. Prefer logical CSS over hard-coded left/right margins.",
 });

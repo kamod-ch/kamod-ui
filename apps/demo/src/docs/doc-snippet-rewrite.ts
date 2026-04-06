@@ -10,7 +10,7 @@ export function buildDocsPageSlugsLongestFirst(slugs: readonly string[]): string
 
 const SYMBOL_SLUG_OVERRIDES: Record<string, string> = {
   DateRange: "calendar",
-  Theme: "typography"
+  Theme: "typography",
 };
 
 export function pascalCaseToKebab(name: string): string {
@@ -21,10 +21,18 @@ export function pascalCaseToKebab(name: string): string {
 }
 
 function stripImportAlias(part: string): string {
-  return part.trim().split(/\s+as\s+/i)[0]?.trim() ?? "";
+  return (
+    part
+      .trim()
+      .split(/\s+as\s+/i)[0]
+      ?.trim() ?? ""
+  );
 }
 
-export function symbolToKamodSlug(symbol: string, docSlugsLongestFirst: readonly string[]): string | null {
+export function symbolToKamodSlug(
+  symbol: string,
+  docSlugsLongestFirst: readonly string[],
+): string | null {
   const base = stripImportAlias(symbol);
   if (!base || base === "…" || base === "...") return null;
   if (SYMBOL_SLUG_OVERRIDES[base]) return SYMBOL_SLUG_OVERRIDES[base];
@@ -53,7 +61,9 @@ function splitImportSymbols(body: string): string[] {
   return parts.map((p) => p.trim()).filter(Boolean);
 }
 
-function emitKamodImports(bySlug: Map<string, { isTypeImport: boolean; names: string[] }>): string[] {
+function emitKamodImports(
+  bySlug: Map<string, { isTypeImport: boolean; names: string[] }>,
+): string[] {
   const lines: string[] = [];
   const slugs = [...bySlug.keys()].sort();
   for (const slug of slugs) {
@@ -65,7 +75,11 @@ function emitKamodImports(bySlug: Map<string, { isTypeImport: boolean; names: st
   return lines;
 }
 
-function rewriteImportStatements(source: string, fallbackSlug: string, docSlugsLongestFirst: readonly string[]): string {
+function rewriteImportStatements(
+  source: string,
+  fallbackSlug: string,
+  docSlugsLongestFirst: readonly string[],
+): string {
   let out = source;
   const importRe = /import\s+(type\s+)?\{([^}]*)\}\s+from\s+"@kamod-ui\/core"/g;
   const replacements: Array<{ start: number; end: number; text: string }> = [];
@@ -82,7 +96,7 @@ function rewriteImportStatements(source: string, fallbackSlug: string, docSlugsL
       replacements.push({
         start,
         end,
-        text: `import { ${body.trim()} } from "@/components/kamod-ui/${fallbackSlug}"`
+        text: `import { ${body.trim()} } from "@/components/kamod-ui/${fallbackSlug}"`,
       });
       continue;
     }
@@ -144,7 +158,7 @@ function rewriteProseRefs(source: string, fallbackSlug: string): string {
 export function rewriteKamodCoreImportsInDocString(
   source: string,
   fallbackSlug: string,
-  docSlugsLongestFirst: readonly string[]
+  docSlugsLongestFirst: readonly string[],
 ): string {
   if (source.trim() === "pnpm add @kamod-ui/core") return source;
   let out = rewriteImportStatements(source, fallbackSlug, docSlugsLongestFirst);

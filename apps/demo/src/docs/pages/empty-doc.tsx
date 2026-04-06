@@ -12,7 +12,7 @@ import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
-  Kbd
+  Kbd,
 } from "@kamod-ui/core";
 import { ArrowUpRight, Bell, Cloud, Folder, Plus, RefreshCw, Search } from "lucide-preact";
 import { createGenericDocPage } from "./create-generic-doc-page";
@@ -104,7 +104,7 @@ export const Example = () => (
             </a>
           </Button>
         </Empty>
-      )
+      ),
     },
     {
       id: "empty-usage",
@@ -138,7 +138,7 @@ export const Example = () => (
             <Button>Add data</Button>
           </EmptyContent>
         </Empty>
-      )
+      ),
     },
     {
       id: "empty-legacy",
@@ -151,7 +151,7 @@ export const Example = () => (
 );`,
       renderPreview: () => (
         <Empty title="No projects yet" description="Create your first project to get started." />
-      )
+      ),
     },
     {
       id: "empty-legacy-action",
@@ -169,7 +169,7 @@ export const Example = () => (
         <Empty title="No invoices" description="Create an invoice to start billing customers.">
           <Button>Create invoice</Button>
         </Empty>
-      )
+      ),
     },
     {
       id: "empty-outline",
@@ -202,7 +202,9 @@ export const Example = () => (
               <Cloud aria-hidden />
             </EmptyMedia>
             <EmptyTitle>Cloud Storage Empty</EmptyTitle>
-            <EmptyDescription>Upload files to your cloud storage to access them anywhere.</EmptyDescription>
+            <EmptyDescription>
+              Upload files to your cloud storage to access them anywhere.
+            </EmptyDescription>
           </EmptyHeader>
           <EmptyContent>
             <Button variant="outline" size="sm">
@@ -210,7 +212,7 @@ export const Example = () => (
             </Button>
           </EmptyContent>
         </Empty>
-      )
+      ),
     },
     {
       id: "empty-background",
@@ -257,7 +259,7 @@ export const Example = () => (
             </Button>
           </EmptyContent>
         </Empty>
-      )
+      ),
     },
     {
       id: "empty-avatar",
@@ -300,7 +302,7 @@ export const Example = () => (
             <Button size="sm">Leave Message</Button>
           </EmptyContent>
         </Empty>
-      )
+      ),
     },
     {
       id: "empty-avatar-group",
@@ -370,7 +372,7 @@ export const Example = () => (
             </Button>
           </EmptyContent>
         </Empty>
-      )
+      ),
     },
     {
       id: "empty-input-group",
@@ -407,7 +409,9 @@ export const Example = () => (
         <Empty>
           <EmptyHeader>
             <EmptyTitle>404 - Not Found</EmptyTitle>
-            <EmptyDescription>The page you're looking for doesn't exist. Try searching below.</EmptyDescription>
+            <EmptyDescription>
+              The page you're looking for doesn't exist. Try searching below.
+            </EmptyDescription>
           </EmptyHeader>
           <EmptyContent>
             <InputGroup class="w-full max-w-md sm:w-3/4">
@@ -420,18 +424,19 @@ export const Example = () => (
               </InputGroupAddon>
             </InputGroup>
             <EmptyDescription>
-              Need help? <a href="#empty-support" class="text-primary underline">
+              Need help?{" "}
+              <a href="#empty-support" class="text-primary underline">
                 Contact support
               </a>
             </EmptyDescription>
           </EmptyContent>
         </Empty>
-      )
+      ),
     },
     {
       id: "empty-rtl",
       title: "RTL",
-      text: "dir=\"rtl\" on Empty for mirrored layout.",
+      text: 'dir="rtl" on Empty for mirrored layout.',
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/kamod-ui/empty";
 import { ArrowUpRight, Folder } from "lucide-preact";
@@ -463,7 +468,9 @@ export const Example = () => (
               <Folder aria-hidden />
             </EmptyMedia>
             <EmptyTitle>لا توجد مشاريع بعد</EmptyTitle>
-            <EmptyDescription>لم تقم بإنشاء أي مشاريع بعد. ابدأ بإنشاء مشروعك الأول.</EmptyDescription>
+            <EmptyDescription>
+              لم تقم بإنشاء أي مشاريع بعد. ابدأ بإنشاء مشروعك الأول.
+            </EmptyDescription>
           </EmptyHeader>
           <EmptyContent class="flex-row flex-wrap justify-center gap-2">
             <Button>إنشاء مشروع</Button>
@@ -471,18 +478,19 @@ export const Example = () => (
           </EmptyContent>
           <Button variant="link" asChild class="text-muted-foreground" size="sm">
             <a href="#empty-rtl-more">
-              تعرف على المزيد <ArrowUpRight class="size-4 rtl:rotate-270" aria-hidden data-icon="inline-end" />
+              تعرف على المزيد{" "}
+              <ArrowUpRight class="size-4 rtl:rotate-270" aria-hidden data-icon="inline-end" />
             </a>
           </Button>
         </Empty>
-      )
-    }
+      ),
+    },
   ],
   apiRows: [
     { prop: "title / description", type: "ComponentChildren", defaultValue: "legacy only" },
     { prop: "EmptyMedia variant", type: '"default" | "icon"', defaultValue: '"default"' },
-    { prop: "class", type: "string", defaultValue: "outline/background via utilities" }
+    { prop: "class", type: "string", defaultValue: "outline/background via utilities" },
   ],
   accessibilityText:
-    "Use EmptyTitle as a heading; keep actions labeled. For icon-only media, set aria-hidden on decorative SVGs and provide meaningful title/description text."
+    "Use EmptyTitle as a heading; keep actions labeled. For icon-only media, set aria-hidden on decorative SVGs and provide meaningful title/description text.",
 });

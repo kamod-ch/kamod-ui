@@ -11,7 +11,7 @@ import {
   FieldLabel,
   InputGroup,
   InputGroupAddon,
-  InputGroupInput
+  InputGroupInput,
 } from "@kamod-ui/core";
 import type { DateRange } from "@kamod-ui/core";
 import { Clock } from "lucide-preact";
@@ -45,7 +45,7 @@ const RangeCalendarPreview = () => {
   const y = new Date().getFullYear();
   const [dateRange, setDateRange] = useState<DateRange | undefined>({
     from: new Date(y, 0, 12),
-    to: addDays(new Date(y, 0, 12), 30)
+    to: addDays(new Date(y, 0, 12), 30),
   });
   return (
     <Card class="mx-auto w-fit p-0">
@@ -71,7 +71,7 @@ const MonthYearSelectorPreview = () => (
 const PresetsPreview = () => {
   const [date, setDate] = useState<Date | undefined>(new Date(new Date().getFullYear(), 1, 12));
   const [currentMonth, setCurrentMonth] = useState<Date>(
-    () => new Date(new Date().getFullYear(), new Date().getMonth(), 1)
+    () => new Date(new Date().getFullYear(), new Date().getMonth(), 1),
   );
   return (
     <Card class="mx-auto w-fit max-w-[300px]" size="sm">
@@ -92,7 +92,7 @@ const PresetsPreview = () => {
           { label: "Tomorrow", value: 1 },
           { label: "In 3 days", value: 3 },
           { label: "In a week", value: 7 },
-          { label: "In 2 weeks", value: 14 }
+          { label: "In 2 weeks", value: 14 },
         ].map((preset) => (
           <Button
             key={preset.value}
@@ -157,7 +157,7 @@ const CustomCellSizePreview = () => {
   const y = new Date().getFullYear();
   const [range, setRange] = useState<DateRange | undefined>({
     from: new Date(y, 11, 8),
-    to: addDays(new Date(y, 11, 8), 10)
+    to: addDays(new Date(y, 11, 8), 10),
   });
   return (
     <Card class="mx-auto w-fit p-0">
@@ -229,14 +229,19 @@ const RtlPreview = () => {
   const labels: Record<Lang, string> = {
     en: "English",
     ar: "Arabic (العربية)",
-    he: "Hebrew (עברית)"
+    he: "Hebrew (עברית)",
   };
 
   return (
     <div class="flex flex-col gap-3">
       <div class="flex flex-wrap gap-2">
         {(["en", "ar", "he"] as const).map((key) => (
-          <Button key={key} size="sm" variant={lang === key ? "default" : "outline"} onClick={() => setLang(key)}>
+          <Button
+            key={key}
+            size="sm"
+            variant={lang === key ? "default" : "outline"}
+            onClick={() => setLang(key)}
+          >
             {labels[key]}
           </Button>
         ))}
@@ -620,93 +625,105 @@ export const calendarDocPage = createGenericDocPage({
   installationText:
     "Add `@kamod-ui/core` to your app and import `Calendar`. This implementation mirrors the shadcn/ui Calendar **API surface** (modes, captions, disabled, modifiers, week numbers, RTL) without bundling `react-day-picker`; see [React DayPicker](https://react-day-picker.js.org/) for the upstream reference behaviour.",
   usageText:
-    "Import Calendar from `@/components/kamod-ui/calendar`, then control selected/onSelect in mode=\"single\" or pass a DateRange in mode=\"range\". The shadcn Calendar wraps React DayPicker; Kamod provides a lightweight grid with a parallel prop surface for demos and composition. Build a date picker with Popover and Button (see /docs/date-picker/installation in this app). If the highlighted day shifts vs your timezone, pass timeZone from Intl.DateTimeFormat().resolvedOptions().timeZone on the client (useEffect), as documented on ui.shadcn.com. For a tighter layout (e.g. narrow popovers), pass `size=\"sm\"`.",
+    'Import Calendar from `@/components/kamod-ui/calendar`, then control selected/onSelect in mode="single" or pass a DateRange in mode="range". The shadcn Calendar wraps React DayPicker; Kamod provides a lightweight grid with a parallel prop surface for demos and composition. Build a date picker with Popover and Button (see /docs/date-picker/installation in this app). If the highlighted day shifts vs your timezone, pass timeZone from Intl.DateTimeFormat().resolvedOptions().timeZone on the client (useEffect), as documented on ui.shadcn.com. For a tighter layout (e.g. narrow popovers), pass `size="sm"`.',
   exampleSections: [
     {
       id: "demo",
       title: "Demo",
-      text: "Top-of-page example with `captionLayout=\"dropdown\"` — same role as the live preview on ui.shadcn.com.",
+      text: 'Top-of-page example with `captionLayout="dropdown"` — same role as the live preview on ui.shadcn.com.',
       code: DEMO_CODE,
-      renderPreview: () => <CalendarDemoPreview />
+      renderPreview: () => <CalendarDemoPreview />,
     },
     {
       id: "timezone",
       title: "Selected Date (With TimeZone)",
       text: "Pass `timeZone` so captions align with the user’s zone; detect it client-side to avoid SSR hydration mismatches (see shadcn note on the same page).",
       code: TIMEZONE_CODE,
-      renderPreview: () => <TimezonePreview />
+      renderPreview: () => <TimezonePreview />,
     },
     {
       id: "basic",
       title: "Basic",
-      text: "A basic calendar. We use `class=\"rounded-lg border\"` like the shadcn examples.",
+      text: 'A basic calendar. We use `class="rounded-lg border"` like the shadcn examples.',
       code: BASIC_CODE,
-      renderPreview: () => <BasicCalendarPreview />
+      renderPreview: () => <BasicCalendarPreview />,
     },
     {
       id: "range-calendar",
       title: "Range Calendar",
-      text: "Use `mode=\"range\"` with two months and an optional `disabled` predicate — matches the Range Calendar + disabled snippet on ui.shadcn.com.",
+      text: 'Use `mode="range"` with two months and an optional `disabled` predicate — matches the Range Calendar + disabled snippet on ui.shadcn.com.',
       code: RANGE_CODE,
-      renderPreview: () => <RangeCalendarPreview />
+      renderPreview: () => <RangeCalendarPreview />,
     },
     {
       id: "month-year-selector",
       title: "Month and Year Selector",
-      text: "Use `captionLayout=\"dropdown\"` for month and year `<select>` controls, with ghost prev/next icons on the sides (same chrome as ui.shadcn.com). Month labels follow `locale` (e.g. März → Mär in de-DE).",
+      text: 'Use `captionLayout="dropdown"` for month and year `<select>` controls, with ghost prev/next icons on the sides (same chrome as ui.shadcn.com). Month labels follow `locale` (e.g. März → Mär in de-DE).',
       code: CAPTION_CODE,
-      renderPreview: () => <MonthYearSelectorPreview />
+      renderPreview: () => <MonthYearSelectorPreview />,
     },
     {
       id: "presets",
       title: "Presets",
       text: "Controlled `month` / `onMonthChange` with preset buttons and `fixedWeeks` for a stable six-row grid.",
       code: PRESETS_CODE,
-      renderPreview: () => <PresetsPreview />
+      renderPreview: () => <PresetsPreview />,
     },
     {
       id: "date-time-picker",
       title: "Date and Time Picker",
       text: "Calendar plus time fields in the card footer (composition pattern from ui.shadcn.com).",
       code: DATETIME_CODE,
-      renderPreview: () => <DateTimePickerPreview />
+      renderPreview: () => <DateTimePickerPreview />,
     },
     {
       id: "booked-dates",
       title: "Booked dates",
       text: "`disabled` with `modifiers` and `modifiersClassNames` for strike-through booked days.",
       code: BOOKED_CODE,
-      renderPreview: () => <BookedDatesPreview />
+      renderPreview: () => <BookedDatesPreview />,
     },
     {
       id: "custom-cell-size",
       title: "Custom Cell Size",
       text: "Responsive `[--cell-size:…]` and `dayAddon` for secondary labels (e.g. prices). The code tab also shows fixed `rem` / spacing-token variants from the shadcn page.",
       code: CUSTOM_CELL_CODE,
-      renderPreview: () => <CustomCellSizePreview />
+      renderPreview: () => <CustomCellSizePreview />,
     },
     {
       id: "week-numbers",
       title: "Week Numbers",
       text: "Use `showWeekNumber` to show ISO week indices (zero-padded), in line with the shadcn example.",
       code: WEEK_NUM_CODE,
-      renderPreview: () => <WeekNumbersPreview />
+      renderPreview: () => <WeekNumbersPreview />,
     },
     {
       id: "rtl",
       title: "RTL",
       text: "Use `dir` + `locale` (e.g. `ar-SA`) with `DirectionProvider`, following the RTL guidance on ui.shadcn.com.",
       code: RTL_CODE,
-      renderPreview: () => <RtlPreview />
-    }
+      renderPreview: () => <RtlPreview />,
+    },
   ],
   apiRows: [
     { prop: "mode", type: '"single" | "range"', defaultValue: '"single"' },
     { prop: "selected", type: "Date | DateRange | undefined", defaultValue: "undefined" },
-    { prop: "onSelect", type: "(value: Date | DateRange | undefined) => void", defaultValue: "undefined" },
-    { prop: "value / onValueChange", type: "Date + callback", defaultValue: "deprecated; use selected/onSelect" },
+    {
+      prop: "onSelect",
+      type: "(value: Date | DateRange | undefined) => void",
+      defaultValue: "undefined",
+    },
+    {
+      prop: "value / onValueChange",
+      type: "Date + callback",
+      defaultValue: "deprecated; use selected/onSelect",
+    },
     { prop: "defaultMonth", type: "Date", defaultValue: "from selected or today" },
-    { prop: "month / onMonthChange", type: "Date + callback", defaultValue: "optional controlled month" },
+    {
+      prop: "month / onMonthChange",
+      type: "Date + callback",
+      defaultValue: "optional controlled month",
+    },
     { prop: "numberOfMonths", type: "1 | 2", defaultValue: "1" },
     { prop: "captionLayout", type: '"buttons" | "dropdown"', defaultValue: '"buttons"' },
     { prop: "size", type: '"default" | "sm"', defaultValue: '"default"' },
@@ -719,8 +736,12 @@ export const calendarDocPage = createGenericDocPage({
     { prop: "modifiersClassNames", type: "Record<string, string>", defaultValue: "undefined" },
     { prop: "locale", type: "string (BCP 47)", defaultValue: "undefined" },
     { prop: "timeZone", type: "string", defaultValue: "undefined" },
-    { prop: "dayAddon", type: "(date, outside) => children | undefined", defaultValue: "undefined" },
-    { prop: "class", type: "string", defaultValue: "undefined" }
+    {
+      prop: "dayAddon",
+      type: "(date, outside) => children | undefined",
+      defaultValue: "undefined",
+    },
+    { prop: "class", type: "string", defaultValue: "undefined" },
   ],
   accessibilityText:
     "Day cells are `<button>` elements; prev/next use the shared `Button` ghost icon pattern. Dropdown captions expose `aria-label` on selects. Pair with visible labels in forms.",
@@ -730,6 +751,6 @@ export const calendarDocPage = createGenericDocPage({
 export const Example = () => (
   <Calendar mode="single" captionLayout="dropdown" class="rounded-lg border" />
 )`,
-    renderPreview: () => <CalendarDemoPreview />
-  }
+    renderPreview: () => <CalendarDemoPreview />,
+  },
 });

@@ -14,7 +14,7 @@ import {
   InputGroupInput,
   Popover,
   PopoverContent,
-  PopoverTrigger
+  PopoverTrigger,
 } from "@kamod-ui/core";
 import type { DateRange } from "@kamod-ui/core";
 import { parseDate } from "chrono-node";
@@ -33,7 +33,7 @@ type Lang = "en" | "ar" | "he";
 const rtlCopy: Record<Lang, { dir: "ltr" | "rtl"; placeholder: string; label: string }> = {
   en: { dir: "ltr", placeholder: "Pick a date", label: "EN" },
   ar: { dir: "rtl", placeholder: "اختر تاريخًا", label: "AR" },
-  he: { dir: "rtl", placeholder: "בחר תאריך", label: "HE" }
+  he: { dir: "rtl", placeholder: "בחר תאריך", label: "HE" },
 };
 
 const DatePickerRtlPreview = () => {
@@ -46,7 +46,12 @@ const DatePickerRtlPreview = () => {
     <div class="flex flex-col gap-3">
       <div class="flex flex-wrap gap-2">
         {(["en", "ar", "he"] as const).map((key) => (
-          <Button key={key} size="sm" variant={lang === key ? "default" : "outline"} onClick={() => setLang(key)}>
+          <Button
+            key={key}
+            size="sm"
+            variant={lang === key ? "default" : "outline"}
+            onClick={() => setLang(key)}
+          >
             {rtlCopy[key].label}
           </Button>
         ))}
@@ -64,7 +69,13 @@ const DatePickerRtlPreview = () => {
           </Button>
         </PopoverTrigger>
         <PopoverContent class="w-auto overflow-hidden p-0" align="start" dir={t.dir}>
-          <Calendar mode="single" selected={date} defaultMonth={date} dir={t.dir} onSelect={(d) => setDate(d as Date)} />
+          <Calendar
+            mode="single"
+            selected={date}
+            defaultMonth={date}
+            dir={t.dir}
+            onSelect={(d) => setDate(d as Date)}
+          />
         </PopoverContent>
       </Popover>
     </div>
@@ -86,7 +97,12 @@ const DatePickerDemoComposedPreview = () => {
         </Button>
       </PopoverTrigger>
       <PopoverContent class="w-auto overflow-hidden p-0" align="start">
-        <Calendar mode="single" selected={date} defaultMonth={date} onSelect={(d) => setDate(d as Date)} />
+        <Calendar
+          mode="single"
+          selected={date}
+          defaultMonth={date}
+          onSelect={(d) => setDate(d as Date)}
+        />
       </PopoverContent>
     </Popover>
   );
@@ -107,7 +123,12 @@ const DatePickerWithCalendarIconPreview = () => {
         </Button>
       </PopoverTrigger>
       <PopoverContent class="w-auto overflow-hidden p-0">
-        <Calendar mode="single" selected={date} defaultMonth={date} onSelect={(d) => setDate(d as Date)} />
+        <Calendar
+          mode="single"
+          selected={date}
+          defaultMonth={date}
+          onSelect={(d) => setDate(d as Date)}
+        />
       </PopoverContent>
     </Popover>
   );
@@ -153,7 +174,11 @@ const RangePickerPreview = () => {
     range?.from && range?.to
       ? `${range.from.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })} — ${range.to.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}`
       : range?.from
-        ? range.from.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
+        ? range.from.toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+          })
         : "Pick a date";
 
   return (
@@ -161,7 +186,11 @@ const RangePickerPreview = () => {
       <FieldLabel htmlFor="date-picker-range">Date range</FieldLabel>
       <Popover>
         <PopoverTrigger asChild>
-          <Button id="date-picker-range" variant="outline" class="w-full justify-start gap-2 px-2.5 font-normal">
+          <Button
+            id="date-picker-range"
+            variant="outline"
+            class="w-full justify-start gap-2 px-2.5 font-normal"
+          >
             <CalendarIcon class="size-4 opacity-60" />
             <span class="truncate">{label}</span>
           </Button>
@@ -188,7 +217,12 @@ const DateOfBirthPreview = () => {
       <FieldLabel htmlFor="date-dob">Date of birth</FieldLabel>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <Button id="date-dob" variant="outline" class="w-full justify-start font-normal" data-empty={date ? undefined : "true"}>
+          <Button
+            id="date-dob"
+            variant="outline"
+            class="w-full justify-start font-normal"
+            data-empty={date ? undefined : "true"}
+          >
             {date ? date.toLocaleDateString() : "Select date"}
           </Button>
         </PopoverTrigger>
@@ -243,7 +277,12 @@ const InputPickerPreview = () => {
         <InputGroupAddon align="inline-end">
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
-              <InputGroupButton id="date-picker-ig" variant="ghost" size="icon-xs" aria-label="Select date">
+              <InputGroupButton
+                id="date-picker-ig"
+                variant="ghost"
+                size="icon-xs"
+                aria-label="Select date"
+              >
                 <CalendarIcon class="size-4" />
                 <span class="sr-only">Select date</span>
               </InputGroupButton>
@@ -373,7 +412,8 @@ const NaturalLanguagePreview = () => {
         </InputGroupAddon>
       </InputGroup>
       <p class="text-muted-foreground px-1 text-sm">
-        Your post will be published on <span class="font-medium text-foreground">{formatMdY(date) || "—"}</span>.
+        Your post will be published on{" "}
+        <span class="font-medium text-foreground">{formatMdY(date) || "—"}</span>.
       </p>
     </Field>
   );
@@ -390,14 +430,14 @@ export const Example = () => <DatePicker placeholder="Pick a date" />;`,
   installationText:
     "Requires `@kamod-ui/core` (includes Popover and Calendar). Optional: `lucide-preact` for icons in demos, `chrono-node` for natural-language parsing in the demo below.",
   usageText:
-    "`DatePicker` wraps a styled outline `Button`, `Popover`, and single-mode `Calendar` with `closeOnSelect`. For range, dropdown month/year captions, input-adjacent pickers, or RTL, compose primitives — see Examples. `Popover` supports `open` / `onOpenChange` for closing after select. `Calendar` supports `mode=\"single\" | \"range\"`, `numberOfMonths={2}`, and `captionLayout=\"dropdown\"`.",
+    '`DatePicker` wraps a styled outline `Button`, `Popover`, and single-mode `Calendar` with `closeOnSelect`. For range, dropdown month/year captions, input-adjacent pickers, or RTL, compose primitives — see Examples. `Popover` supports `open` / `onOpenChange` for closing after select. `Calendar` supports `mode="single" | "range"`, `numberOfMonths={2}`, and `captionLayout="dropdown"`.',
   exampleSections: [
     {
       id: "demo-composed",
       title: "Demo",
       text: "Composed Popover + Button + Calendar with chevron — matches the shadcn overview snippet.",
       code: `// See date-picker-doc.tsx — Popover + Button + Calendar + ChevronDown`,
-      renderPreview: () => <DatePickerDemoComposedPreview />
+      renderPreview: () => <DatePickerDemoComposedPreview />,
     },
     {
       id: "date-picker-convenience",
@@ -416,51 +456,51 @@ export const Example = () => (
           <DatePicker placeholder="Pick a date" />
           <DatePicker triggerIcon="calendar" placeholder="Pick a date" />
         </div>
-      )
+      ),
     },
     {
       id: "calendar-icon-composed",
       title: "Calendar icon trigger",
       text: "Leading calendar icon with left-aligned label (composed).",
       code: `// PopoverTrigger asChild + Button with CalendarIcon — see date-picker-doc.tsx`,
-      renderPreview: () => <DatePickerWithCalendarIconPreview />
+      renderPreview: () => <DatePickerWithCalendarIconPreview />,
     },
     {
       id: "basic-field",
       title: "Basic",
       text: "Label + full-width trigger inside `Field`.",
       code: `// Field + FieldLabel + Popover + Button + Calendar — see date-picker-doc.tsx`,
-      renderPreview: () => <BasicFieldPreview />
+      renderPreview: () => <BasicFieldPreview />,
     },
     {
       id: "range-picker",
       title: "Range picker",
-      text: "`Calendar` with `mode=\"range\"` and `numberOfMonths={2}`.",
+      text: '`Calendar` with `mode="range"` and `numberOfMonths={2}`.',
       code: `import { Calendar } from "@/components/kamod-ui/calendar";
 import type { DateRange } from "@/components/kamod-ui/calendar";
 // Popover + range Calendar — see date-picker-doc.tsx`,
-      renderPreview: () => <RangePickerPreview />
+      renderPreview: () => <RangePickerPreview />,
     },
     {
       id: "date-of-birth",
       title: "Date of birth",
       text: "Dropdown month/year caption and popover closes after a day is chosen (`open` state).",
       code: `// captionLayout="dropdown" + controlled Popover — see date-picker-doc.tsx`,
-      renderPreview: () => <DateOfBirthPreview />
+      renderPreview: () => <DateOfBirthPreview />,
     },
     {
       id: "input-picker",
       title: "With input",
       text: "Typed date string plus `InputGroup` calendar button; Arrow Down opens the popover.",
       code: `// InputGroup + controlled Calendar month — see date-picker-doc.tsx`,
-      renderPreview: () => <InputPickerPreview />
+      renderPreview: () => <InputPickerPreview />,
     },
     {
       id: "time-picker",
       title: "Date and time",
-      text: "Date field next to native `Input type=\"time\"` (shadcn-style layout).",
+      text: 'Date field next to native `Input type="time"` (shadcn-style layout).',
       code: `// FieldGroup + Calendar dropdown caption + Input time — see date-picker-doc.tsx`,
-      renderPreview: () => <TimePickerPreview />
+      renderPreview: () => <TimePickerPreview />,
     },
     {
       id: "natural-language",
@@ -468,15 +508,15 @@ import type { DateRange } from "@/components/kamod-ui/calendar";
       text: "Uses `chrono-node` in the demo app to parse phrases like “In 2 days”.",
       code: `import { parseDate } from "chrono-node";
 // InputGroup + parseDate — see date-picker-doc.tsx`,
-      renderPreview: () => <NaturalLanguagePreview />
+      renderPreview: () => <NaturalLanguagePreview />,
     },
     {
       id: "rtl",
       title: "RTL",
       text: "`dir` on trigger, content, and calendar; localized placeholder and `formatDatePickerDisplay` with locale.",
       code: `// EN / AR / HE toggles — see date-picker-doc.tsx DatePickerRtlPreview`,
-      renderPreview: () => <DatePickerRtlPreview />
-    }
+      renderPreview: () => <DatePickerRtlPreview />,
+    },
   ],
   apiRows: [
     { prop: "value", type: "Date | undefined", defaultValue: "undefined" },
@@ -487,8 +527,8 @@ import type { DateRange } from "@/components/kamod-ui/calendar";
     { prop: "align", type: '"start" | "center" | "end"', defaultValue: '"start"' },
     { prop: "triggerIcon", type: '"chevron" | "calendar" | "none"', defaultValue: '"chevron"' },
     { prop: "format", type: "(date: Date) => string", defaultValue: "formatDatePickerDisplay" },
-    { prop: "children", type: "ComponentChildren", defaultValue: "default Button trigger" }
+    { prop: "children", type: "ComponentChildren", defaultValue: "default Button trigger" },
   ],
   accessibilityText:
-    "Keep placeholder and button text meaningful; associate labels with `FieldLabel` + trigger `id`. Calendar grid uses buttons for days; popover closes on Escape. For input hybrids, expose Arrow Down to open the calendar."
+    "Keep placeholder and button text meaningful; associate labels with `FieldLabel` + trigger `id`. Calendar grid uses buttons for days; popover closes on Escape. For input hybrids, expose Arrow Down to open the calendar.",
 });

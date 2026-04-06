@@ -77,7 +77,7 @@ export const sliderDocPage = createGenericDocPage({
     "Import Slider from `@/components/kamod-ui/slider`. The live preview below matches the kitchen sink default (single thumb, shadcn-style array defaultValue).",
   installationExample: {
     code: SLIDER_INSTALLATION_PREVIEW_CODE,
-    renderPreview: () => <SliderInstallationPreview />
+    renderPreview: () => <SliderInstallationPreview />,
   },
   usageText:
     "Pass `defaultValue` or `value` as a number or array (one thumb per entry). Use `onValueChange` for controlled updates.",
@@ -96,7 +96,7 @@ export const sliderDocPage = createGenericDocPage({
             <span>100</span>
           </div>
         </div>
-      )
+      ),
     },
     {
       id: "range-slider",
@@ -119,7 +119,7 @@ export const Example = () => (
             <span>100</span>
           </div>
         </div>
-      )
+      ),
     },
     {
       id: "multiple-thumbs",
@@ -142,7 +142,7 @@ export const Example = () => (
             <span>100</span>
           </div>
         </div>
-      )
+      ),
     },
     {
       id: "stepped-slider",
@@ -165,7 +165,7 @@ export const Example = () => (
             <span>100</span>
           </div>
         </div>
-      )
+      ),
     },
     {
       id: "controlled-slider",
@@ -193,7 +193,7 @@ export const Example = () => {
     </div>
   );
 };`,
-      renderPreview: () => <ControlledSliderPreview />
+      renderPreview: () => <ControlledSliderPreview />,
     },
     {
       id: "controlled-range-slider",
@@ -216,7 +216,7 @@ export const Example = () => {
     </div>
   );
 };`,
-      renderPreview: () => <ControlledRangePreview />
+      renderPreview: () => <ControlledRangePreview />,
     },
     {
       id: "disabled-slider",
@@ -247,20 +247,20 @@ export const Example = () => (
             <Slider defaultValue={[20, 80]} disabled class="w-full" />
           </div>
         </div>
-      )
-    }
+      ),
+    },
   ],
   apiRows: [
     { prop: "defaultValue", type: "number | number[]", defaultValue: "50 (single)" },
     { prop: "value", type: "number | number[]", defaultValue: "undefined" },
     { prop: "onValueChange", type: "(value: number[]) => void", defaultValue: "undefined" },
     { prop: "onValueCommit", type: "(value: number[]) => void", defaultValue: "undefined" },
-    { prop: "orientation", type: "\"horizontal\" | \"vertical\"", defaultValue: "\"horizontal\"" },
+    { prop: "orientation", type: '"horizontal" | "vertical"', defaultValue: '"horizontal"' },
     { prop: "min / max / step", type: "number", defaultValue: "0 / 100 / 1" },
     { prop: "disabled", type: "boolean", defaultValue: "false" },
     { prop: "onInput", type: "(event) => void", defaultValue: "undefined" },
-    { prop: "class", type: "string", defaultValue: "undefined" }
+    { prop: "class", type: "string", defaultValue: "undefined" },
   ],
   accessibilityText:
-    "Provide a visible label or `aria-label`. For multi-thumb sliders, each thumb exposes a short default label; override via props spread to the first thumb where needed."
+    "Provide a visible label or `aria-label`. For multi-thumb sliders, each thumb exposes a short default label; override via props spread to the first thumb where needed.",
 });

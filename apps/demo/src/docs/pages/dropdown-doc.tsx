@@ -13,19 +13,37 @@ import {
   DropdownSub,
   DropdownSubContent,
   DropdownSubTrigger,
-  DropdownTrigger
+  DropdownTrigger,
 } from "@kamod-ui/core";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 const UserIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    aria-hidden
+  >
     <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
     <circle cx="12" cy="7" r="4" />
   </svg>
 );
 
 const SettingsIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    aria-hidden
+  >
     <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
     <circle cx="12" cy="12" r="3" />
   </svg>
@@ -38,7 +56,7 @@ export const dropdownDocPage = createGenericDocPage({
     "Context menu from a trigger — dismiss layer, positioning, asChild trigger, submenus, shortcuts, checkbox and radio items (shadcn Dropdown Menu pattern).",
   installationText: "Import Dropdown primitives from `@/components/kamod-ui/dropdown`.",
   usageText:
-    "Use DropdownTrigger to toggle, DropdownContent for the panel (side, align, sideOffset). Optional DropdownSub / DropdownSubTrigger / DropdownSubContent for nested menus; DropdownSubContent supports side=\"inline-end\" (default) or side=\"inline-start\" to open toward the inline end or start (use inline-start when the trigger is near the viewport edge to avoid horizontal page scroll). Checkbox and radio items do not use DropdownItem’s auto-close behavior where noted.",
+    'Use DropdownTrigger to toggle, DropdownContent for the panel (side, align, sideOffset). Optional DropdownSub / DropdownSubTrigger / DropdownSubContent for nested menus; DropdownSubContent supports side="inline-end" (default) or side="inline-start" to open toward the inline end or start (use inline-start when the trigger is near the viewport edge to avoid horizontal page scroll). Checkbox and radio items do not use DropdownItem’s auto-close behavior where noted.',
   exampleSections: [
     {
       id: "basic-dropdown",
@@ -63,7 +81,7 @@ export const Example = () => (
             <DropdownItem>Settings</DropdownItem>
           </DropdownContent>
         </Dropdown>
-      )
+      ),
     },
     {
       id: "as-child",
@@ -91,7 +109,7 @@ export const Example = () => (
             <DropdownItem>Item</DropdownItem>
           </DropdownContent>
         </Dropdown>
-      )
+      ),
     },
     {
       id: "grouped-shortcuts-icons",
@@ -132,7 +150,7 @@ export const Example = () => (
             <DropdownItem variant="destructive">Sign out</DropdownItem>
           </DropdownContent>
         </Dropdown>
-      )
+      ),
     },
     {
       id: "submenu",
@@ -169,7 +187,7 @@ export const Example = () => (
             </DropdownSub>
           </DropdownContent>
         </Dropdown>
-      )
+      ),
     },
     {
       id: "checkbox-items",
@@ -200,7 +218,7 @@ export const Example = () => (
             <DropdownCheckboxItem defaultChecked>Compact</DropdownCheckboxItem>
           </DropdownContent>
         </Dropdown>
-      )
+      ),
     },
     {
       id: "radio-items",
@@ -233,7 +251,7 @@ export const Example = () => (
             </DropdownRadioGroup>
           </DropdownContent>
         </Dropdown>
-      )
+      ),
     },
     {
       id: "positioning",
@@ -257,20 +275,24 @@ export const Example = () => (
             <DropdownItem>Two</DropdownItem>
           </DropdownContent>
         </Dropdown>
-      )
-    }
+      ),
+    },
   ],
   apiRows: [
     { prop: "defaultOpen", type: "boolean", defaultValue: "false" },
     { prop: "DropdownTrigger asChild", type: "boolean", defaultValue: "false" },
     { prop: "DropdownContent forceMount", type: "boolean", defaultValue: "false" },
-    { prop: "DropdownContent side", type: '"top" | "bottom" | "left" | "right"', defaultValue: '"bottom"' },
+    {
+      prop: "DropdownContent side",
+      type: '"top" | "bottom" | "left" | "right"',
+      defaultValue: '"bottom"',
+    },
     { prop: "DropdownContent align", type: '"start" | "center" | "end"', defaultValue: '"start"' },
     { prop: "DropdownContent sideOffset", type: "number", defaultValue: "4" },
     { prop: "DropdownItem variant", type: '"default" | "destructive"', defaultValue: '"default"' },
     { prop: "DropdownItem inset", type: "boolean", defaultValue: "false" },
-    { prop: "DropdownLabel inset", type: "boolean", defaultValue: "false" }
+    { prop: "DropdownLabel inset", type: "boolean", defaultValue: "false" },
   ],
   accessibilityText:
-    "Trigger exposes aria-haspopup=\"menu\", aria-expanded, and aria-controls. Content is role=\"menu\" with role=\"menuitem\" (and menuitemcheckbox / menuitemradio where used). Escape closes the menu and returns focus to the trigger."
+    'Trigger exposes aria-haspopup="menu", aria-expanded, and aria-controls. Content is role="menu" with role="menuitem" (and menuitemcheckbox / menuitemradio where used). Escape closes the menu and returns focus to the trigger.',
 });

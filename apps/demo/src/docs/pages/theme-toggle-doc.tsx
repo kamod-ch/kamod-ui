@@ -15,7 +15,7 @@ export const themeToggleDocPage = createGenericDocPage({
       code: `import { ThemeToggle } from "@/components/kamod-ui/theme-toggle";
 
 export const Example = () => <ThemeToggle />;`,
-      renderPreview: () => <ThemeToggle />
+      renderPreview: () => <ThemeToggle />,
     },
     {
       id: "custom-toggle-label",
@@ -24,13 +24,14 @@ export const Example = () => <ThemeToggle />;`,
       code: `import { ThemeToggle } from "@/components/kamod-ui/theme-toggle";
 
 export const Example = () => <ThemeToggle>Toggle theme</ThemeToggle>;`,
-      renderPreview: () => <ThemeToggle>Toggle theme</ThemeToggle>
-    }
+      renderPreview: () => <ThemeToggle>Toggle theme</ThemeToggle>,
+    },
   ],
   apiRows: [
     { prop: "children", type: "ComponentChildren", defaultValue: "auto label" },
     { prop: "onClick", type: "(event) => void", defaultValue: "undefined" },
-    { prop: "class", type: "string", defaultValue: "undefined" }
+    { prop: "class", type: "string", defaultValue: "undefined" },
   ],
-  accessibilityText: "Ensure toggle purpose is explicit and the label remains understandable without relying on icon-only affordance."
+  accessibilityText:
+    "Ensure toggle purpose is explicit and the label remains understandable without relying on icon-only affordance.",
 });

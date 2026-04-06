@@ -18,7 +18,15 @@ const escapeHtml = (value: string) =>
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#39;");
 
-export const CodeBlock = ({ code, language, className }: { code: string; language: CodeLanguage; className?: string }) => {
+export const CodeBlock = ({
+  code,
+  language,
+  className,
+}: {
+  code: string;
+  language: CodeLanguage;
+  className?: string;
+}) => {
   const [isCopied, setIsCopied] = useState(false);
   const highlightedCode = useMemo(() => {
     const grammar = Prism.languages[language];
@@ -45,12 +53,20 @@ export const CodeBlock = ({ code, language, className }: { code: string; languag
 
   return (
     <div class="docs-code-wrap">
-      <button type="button" class={`docs-copy-code-button ${isCopied ? "is-copied" : ""}`} aria-label={isCopied ? "Code copied" : "Copy code"} onClick={() => void copyCode()}>
+      <button
+        type="button"
+        class={`docs-copy-code-button ${isCopied ? "is-copied" : ""}`}
+        aria-label={isCopied ? "Code copied" : "Copy code"}
+        onClick={() => void copyCode()}
+      >
         <Copy size={16} />
         <span>{isCopied ? "Copied" : "Copy"}</span>
       </button>
       <pre class={`docs-code ${className ?? ""}`.trim()} data-language={language}>
-        <code class={`language-${language}`} dangerouslySetInnerHTML={{ __html: highlightedCode }} />
+        <code
+          class={`language-${language}`}
+          dangerouslySetInnerHTML={{ __html: highlightedCode }}
+        />
       </pre>
     </div>
   );

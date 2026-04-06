@@ -11,11 +11,12 @@ import {
   Tabs,
   TabsContent,
   TabsList,
-  TabsTrigger
+  TabsTrigger,
 } from "@kamod-ui/core";
 import type { ComponentChildren } from "preact";
 import { useLocation, useRoute } from "preact-iso";
 import { useEffect, useMemo, useRef, useState } from "preact/hooks";
+import { withBasePath } from "../base-path";
 import { buildComponentDocMarkdown } from "./build-component-doc-markdown";
 import { docImportFrom, rewriteKamodCoreImportsInDocString } from "./doc-snippet-imports";
 import { CodeBlock } from "./components/CodeBlock";
@@ -45,13 +46,17 @@ export const DocsComponentPage = () => {
       const usageSection: DocSection = {
         id: usageSectionId,
         title: "Usage",
-        text: activeDoc.usageLabel
+        text: activeDoc.usageLabel,
       };
       const installationIndex = sections.findIndex((item) => item.id === "installation");
       sections =
         installationIndex < 0
           ? [usageSection, ...sections]
-          : [...sections.slice(0, installationIndex + 1), usageSection, ...sections.slice(installationIndex + 1)];
+          : [
+              ...sections.slice(0, installationIndex + 1),
+              usageSection,
+              ...sections.slice(installationIndex + 1),
+            ];
     }
 
     if (!sections.some((item) => item.id === apiReferenceSectionId)) {
@@ -60,8 +65,8 @@ export const DocsComponentPage = () => {
         {
           id: apiReferenceSectionId,
           title: "API Reference",
-          text: `${activeDoc.title} API surface and supported options.`
-        }
+          text: `${activeDoc.title} API surface and supported options.`,
+        },
       ];
     }
 
@@ -71,14 +76,17 @@ export const DocsComponentPage = () => {
         {
           id: accessibilitySectionId,
           title: "Accessibility Notes",
-          text: `Use ${activeDoc.title} with clear labels, keyboard-friendly interactions and semantic structure.`
-        }
+          text: `Use ${activeDoc.title} with clear labels, keyboard-friendly interactions and semantic structure.`,
+        },
       ];
     }
 
     return sections.filter((item) => !isRtlSection(item));
   }, [activeDoc.sections, activeDoc.title, activeDoc.usageLabel]);
-  const activeDocView = useMemo(() => ({ ...activeDoc, sections: docSections }), [activeDoc, docSections]);
+  const activeDocView = useMemo(
+    () => ({ ...activeDoc, sections: docSections }),
+    [activeDoc, docSections],
+  );
 
   const scrollToSection = (sectionId: string, behavior: ScrollBehavior, attempt = 0) => {
     const sectionElement = document.getElementById(sectionId);
@@ -90,7 +98,7 @@ export const DocsComponentPage = () => {
 
       window.scrollTo({
         top: Math.max(0, targetTop),
-        behavior
+        behavior,
       });
       return;
     }
@@ -106,12 +114,15 @@ export const DocsComponentPage = () => {
 
   useEffect(() => {
     if (!slug || !docsBySlug[slug]) {
-      route(`/docs/${fallbackDoc.slug}/${fallbackDoc.sections[0]?.id ?? "installation"}`, true);
+      route(
+        withBasePath(`/docs/${fallbackDoc.slug}/${fallbackDoc.sections[0]?.id ?? "installation"}`),
+        true,
+      );
       return;
     }
     const firstSectionId = docSections[0]?.id ?? "installation";
     if (!section || !docSections.some((item) => item.id === section)) {
-      route(`/docs/${activeDoc.slug}/${firstSectionId}`, true);
+      route(withBasePath(`/docs/${activeDoc.slug}/${firstSectionId}`), true);
       return;
     }
     setActiveSection(section);
@@ -149,8 +160,8 @@ export const DocsComponentPage = () => {
       },
       {
         rootMargin: "-20% 0px -55% 0px",
-        threshold: [0.2, 0.4, 0.7]
-      }
+        threshold: [0.2, 0.4, 0.7],
+      },
     );
 
     elements.forEach((element) => observer.observe(element));
@@ -159,7 +170,7 @@ export const DocsComponentPage = () => {
 
   const navigateToDoc = (nextSlug: string) => {
     const targetDoc = docsBySlug[nextSlug] ?? fallbackDoc;
-    route(`/docs/${targetDoc.slug}/${targetDoc.sections[0]?.id ?? "installation"}`);
+    route(withBasePath(`/docs/${targetDoc.slug}/${targetDoc.sections[0]?.id ?? "installation"}`));
   };
   const installationCommands = useMemo(() => {
     const pnpm = activeDoc.command;
@@ -177,16 +188,16 @@ export const DocsComponentPage = () => {
 
     pendingScrollTargetRef.current = sectionId;
     pendingScrollBehaviorRef.current = "smooth";
-    route(`/docs/${activeDoc.slug}/${sectionId}`);
+    route(withBasePath(`/docs/${activeDoc.slug}/${sectionId}`));
   };
 
   const sectionExtraContentById: Record<string, () => ComponentChildren> = {
     installation: () => (
       <Tabs defaultValue="pnpm" class="docs-tabs">
         <TabsList class="docs-tabs-list" variant="line">
-            <TabsTrigger value="pnpm">pnpm</TabsTrigger>
-            <TabsTrigger value="npm">npm</TabsTrigger>
-            <TabsTrigger value="yarn">yarn</TabsTrigger>
+          <TabsTrigger value="pnpm">pnpm</TabsTrigger>
+          <TabsTrigger value="npm">npm</TabsTrigger>
+          <TabsTrigger value="yarn">yarn</TabsTrigger>
         </TabsList>
         <TabsContent value="pnpm">
           <CodeBlock code={installationCommands.pnpm} language="bash" className="docs-tab-code" />
@@ -225,7 +236,7 @@ export const DocsComponentPage = () => {
   AlertDialogTrigger
 } from "@kamod-ui/core";`
                 : `import { ${componentName} } from "@kamod-ui/core";`,
-        activeDoc.slug
+        activeDoc.slug,
       );
       const usageSnippet = isButtonDoc
         ? `<Button disabled>\n  <Spinner size="sm" data-icon="inline-start" />\n  Generating\n</Button>`
@@ -235,7 +246,7 @@ export const DocsComponentPage = () => {
             ? `<Tabs defaultValue="overview">\n  <TabsList>\n    <TabsTrigger value="overview">Overview</TabsTrigger>\n    <TabsTrigger value="details">Details</TabsTrigger>\n  </TabsList>\n  <TabsContent value="overview">Overview content</TabsContent>\n  <TabsContent value="details">Details content</TabsContent>\n</Tabs>`
             : isAlertDialogDoc
               ? `<AlertDialog>\n  <AlertDialogTrigger>Delete account</AlertDialogTrigger>\n  <AlertDialogContent>\n    <AlertDialogHeader>\n      <AlertDialogTitle>Delete account?</AlertDialogTitle>\n      <AlertDialogDescription>\n        This action is permanent.\n      </AlertDialogDescription>\n    </AlertDialogHeader>\n    <AlertDialogFooter>\n      <AlertDialogCancel>Cancel</AlertDialogCancel>\n      <AlertDialogAction>Continue</AlertDialogAction>\n    </AlertDialogFooter>\n  </AlertDialogContent>\n</AlertDialog>`
-            : `<${componentName} />`;
+              : `<${componentName} />`;
 
       return (
         <div class="grid gap-3">
@@ -269,14 +280,15 @@ export const DocsComponentPage = () => {
           ) : isAlertDialogDoc ? null : null}
         </div>
       );
-    }
+    },
   };
 
-  const renderSectionExtraContent = (sectionId: string) => sectionExtraContentById[sectionId]?.() ?? null;
+  const renderSectionExtraContent = (sectionId: string) =>
+    sectionExtraContentById[sectionId]?.() ?? null;
   const renderPreviewAndCodeTabs = ({
     preview,
     codeSnippet,
-    previewClass
+    previewClass,
   }: {
     preview: ComponentChildren;
     codeSnippet: string;
@@ -291,7 +303,7 @@ export const DocsComponentPage = () => {
         <div
           class={[
             "preview relative flex min-h-40 w-full items-start justify-center p-3 sm:min-h-56 sm:p-6 lg:min-h-72 lg:p-10 data-[align=center]:items-center data-[align=end]:items-end data-[align=start]:items-start data-[chromeless=true]:h-auto data-[chromeless=true]:p-0",
-            previewClass
+            previewClass,
           ]
             .filter(Boolean)
             .join(" ")}
@@ -307,7 +319,7 @@ export const DocsComponentPage = () => {
 
   const markdownExport = useMemo(
     () => buildComponentDocMarkdown(activeDoc.title, activeDoc.command, docSections),
-    [activeDoc.title, activeDoc.command, docSections]
+    [activeDoc.title, activeDoc.command, docSections],
   );
 
   const componentSourcePath = docImportFrom(activeDoc.slug);
@@ -325,20 +337,24 @@ export const DocsComponentPage = () => {
           <Button variant="outline" size="sm" asChild>
             <DialogTrigger>View Markdown</DialogTrigger>
           </Button>
-        {/* presentation="slot": custom fullscreen overlay — default "modal" would stack a second backdrop + centered shell */}
-        <DialogContent
-          presentation="slot"
-          class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-3 sm:p-6"
-        >
-          <div class="flex max-h-[min(80vh,720px)] w-full max-w-2xl flex-col gap-0 overflow-hidden rounded-xl border border-border bg-background p-0 shadow-lg">
-            <DialogHeader class="shrink-0 border-b border-border px-6 py-4 text-left">
-              <DialogTitle>Markdown for {activeDoc.title}</DialogTitle>
-            </DialogHeader>
-            <div class="min-h-0 flex-1 overflow-y-auto px-2 pb-4 pt-2">
-              <CodeBlock code={markdownExport} language="markdown" className="docs-tab-code !max-h-none" />
+          {/* presentation="slot": custom fullscreen overlay — default "modal" would stack a second backdrop + centered shell */}
+          <DialogContent
+            presentation="slot"
+            class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-3 sm:p-6"
+          >
+            <div class="flex max-h-[min(80vh,720px)] w-full max-w-2xl flex-col gap-0 overflow-hidden rounded-xl border border-border bg-background p-0 shadow-lg">
+              <DialogHeader class="shrink-0 border-b border-border px-6 py-4 text-left">
+                <DialogTitle>Markdown for {activeDoc.title}</DialogTitle>
+              </DialogHeader>
+              <div class="min-h-0 flex-1 overflow-y-auto px-2 pb-4 pt-2">
+                <CodeBlock
+                  code={markdownExport}
+                  language="markdown"
+                  className="docs-tab-code !max-h-none"
+                />
+              </div>
             </div>
-          </div>
-        </DialogContent>
+          </DialogContent>
         </Dialog>
       </div>
     </div>
@@ -349,7 +365,7 @@ export const DocsComponentPage = () => {
     sections: docSections,
     renderTitleRow,
     renderPreviewAndCodeTabs,
-    renderSectionExtraContent
+    renderSectionExtraContent,
   };
 
   return (
@@ -359,7 +375,7 @@ export const DocsComponentPage = () => {
       activeSection={activeSection}
       docs={docsPages}
       onNavigateDoc={navigateToDoc}
-      onNavigateComponentsOverview={() => route("/docs/components")}
+      onNavigateComponentsOverview={() => route(withBasePath("/docs/components"))}
       onNavigateSection={navigateToSection}
       mainContent={activeDoc.renderMain(renderMainContext)}
     />

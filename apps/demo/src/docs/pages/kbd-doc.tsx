@@ -8,7 +8,7 @@ import {
   KbdGroup,
   Tooltip,
   TooltipContent,
-  TooltipTrigger
+  TooltipTrigger,
 } from "@kamod-ui/core";
 import { Search } from "lucide-preact";
 import { createGenericDocPage } from "./create-generic-doc-page";
@@ -16,10 +16,11 @@ import { createGenericDocPage } from "./create-generic-doc-page";
 export const kbdDocPage = createGenericDocPage({
   slug: "kbd",
   title: "Kbd",
-  usageLabel: "Keyboard keys and shortcuts — shadcn-style grouping, button hints, tooltips, and input addons.",
+  usageLabel:
+    "Keyboard keys and shortcuts — shadcn-style grouping, button hints, tooltips, and input addons.",
   installationText: "Import Kbd and optionally KbdGroup from `@/components/kamod-ui/kbd`.",
   usageText:
-    "Use Kbd for single keys. Wrap related keys in KbdGroup with gap-1. Use size=\"sm\" for denser UI. On buttons, set data-icon=\"inline-end\" on Kbd for slight nudge (matches Button inline-end icon pattern).",
+    'Use Kbd for single keys. Wrap related keys in KbdGroup with gap-1. Use size="sm" for denser UI. On buttons, set data-icon="inline-end" on Kbd for slight nudge (matches Button inline-end icon pattern).',
   exampleSections: [
     {
       id: "kbd-demo",
@@ -56,7 +57,7 @@ export const Example = () => (
             <Kbd>B</Kbd>
           </KbdGroup>
         </div>
-      )
+      ),
     },
     {
       id: "kbd-usage",
@@ -65,7 +66,7 @@ export const Example = () => (
       code: `import { Kbd } from "@/components/kamod-ui/kbd";
 
 export const Example = () => <Kbd>Ctrl</Kbd>;`,
-      renderPreview: () => <Kbd>Ctrl</Kbd>
+      renderPreview: () => <Kbd>Ctrl</Kbd>,
     },
     {
       id: "kbd-group",
@@ -92,12 +93,12 @@ export const Example = () => (
           </KbdGroup>{" "}
           to open the command palette
         </p>
-      )
+      ),
     },
     {
       id: "kbd-button",
       title: "Button",
-      text: "Shortcut inside Button; data-icon=\"inline-end\" aligns like trailing icons.",
+      text: 'Shortcut inside Button; data-icon="inline-end" aligns like trailing icons.',
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Kbd } from "@/components/kamod-ui/kbd";
 
@@ -116,7 +117,7 @@ export const Example = () => (
             ⏎
           </Kbd>
         </Button>
-      )
+      ),
     },
     {
       id: "kbd-tooltip",
@@ -176,7 +177,7 @@ export const Example = () => (
             </Tooltip>
           </ButtonGroup>
         </div>
-      )
+      ),
     },
     {
       id: "kbd-input-group",
@@ -211,7 +212,7 @@ export const Example = () => (
             </InputGroupAddon>
           </InputGroup>
         </div>
-      )
+      ),
     },
     {
       id: "kbd-sizes",
@@ -230,7 +231,7 @@ export const Example = () => (
           <Kbd size="sm">Esc</Kbd>
           <Kbd size="md">Esc</Kbd>
         </div>
-      )
+      ),
     },
     {
       id: "kbd-rtl",
@@ -253,14 +254,14 @@ export const Example = () => (
             <Kbd>B</Kbd>
           </KbdGroup>
         </div>
-      )
-    }
+      ),
+    },
   ],
   apiRows: [
     { prop: "size", type: '"sm" | "md"', defaultValue: '"md"' },
     { prop: "data-icon", type: '"inline-end"', defaultValue: "—" },
-    { prop: "children", type: "ComponentChildren", defaultValue: "required" }
+    { prop: "children", type: "ComponentChildren", defaultValue: "required" },
   ],
   accessibilityText:
-    "Kbd is often decorative context; ensure shortcuts are described in visible text or aria-label where needed. Do not rely on Kbd alone for critical instructions."
+    "Kbd is often decorative context; ensure shortcuts are described in visible text or aria-label where needed. Do not rely on Kbd alone for critical instructions.",
 });

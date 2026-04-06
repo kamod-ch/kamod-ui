@@ -6,7 +6,8 @@ export const skeletonDocPage = createGenericDocPage({
   title: "Skeleton",
   usageLabel: "Skeleton placeholders indicate loading content structure.",
   installationText: "Import Skeleton from `@/components/kamod-ui/skeleton`.",
-  usageText: "Build placeholders that mirror final UI structure (avatar, text, form, table) for a more polished loading experience.",
+  usageText:
+    "Build placeholders that mirror final UI structure (avatar, text, form, table) for a more polished loading experience.",
   exampleSections: [
     {
       id: "pulse-skeleton",
@@ -27,7 +28,7 @@ export const Example = () => (
           <Skeleton class="h-4 w-[84%]" />
           <Skeleton class="h-4 w-[76%]" />
         </div>
-      )
+      ),
     },
     {
       id: "shimmer-skeleton",
@@ -48,7 +49,7 @@ export const Example = () => (
           <Skeleton variant="shimmer" class="h-4 w-[84%]" />
           <Skeleton variant="shimmer" class="h-4 w-[76%]" />
         </div>
-      )
+      ),
     },
     {
       id: "glass-skeleton",
@@ -69,7 +70,7 @@ export const Example = () => (
           <Skeleton variant="glass" class="h-4 w-[92%]" />
           <Skeleton variant="glass" class="h-4 w-[78%]" />
         </div>
-      )
+      ),
     },
     {
       id: "avatar-skeleton",
@@ -94,7 +95,7 @@ export const Example = () => (
             <Skeleton class="h-4 w-[180px]" />
           </div>
         </div>
-      )
+      ),
     },
     {
       id: "text-skeleton",
@@ -115,7 +116,7 @@ export const Example = () => (
           <Skeleton class="h-4 w-[88%]" />
           <Skeleton class="h-4 w-[75%]" />
         </div>
-      )
+      ),
     },
     {
       id: "card-skeleton",
@@ -156,7 +157,7 @@ export function SkeletonCard() {
             <Skeleton class="h-4 w-[78%]" />
           </div>
         </div>
-      )
+      ),
     },
     {
       id: "form-skeleton",
@@ -191,7 +192,7 @@ export function SkeletonForm() {
           </div>
           <Skeleton class="h-10 w-28" />
         </div>
-      )
+      ),
     },
     {
       id: "table-skeleton",
@@ -232,15 +233,15 @@ export function SkeletonTable() {
             ))}
           </div>
         </div>
-      )
-    }
+      ),
+    },
   ],
   apiRows: [
     { prop: "class", type: "string", defaultValue: "undefined" },
     { prop: "variant", type: '"pulse" | "shimmer" | "glass"', defaultValue: '"pulse"' },
     { prop: "data-slot", type: '"skeleton"', defaultValue: '"skeleton"' },
-    { prop: "children", type: "not used", defaultValue: "n/a" }
+    { prop: "children", type: "not used", defaultValue: "n/a" },
   ],
   accessibilityText:
-    "Skeletons are visual-only loading placeholders. Add a nearby live status like 'Loading content...' for assistive technologies and replace placeholders promptly when data arrives."
+    "Skeletons are visual-only loading placeholders. Add a nearby live status like 'Loading content...' for assistive technologies and replace placeholders promptly when data arrives.",
 });

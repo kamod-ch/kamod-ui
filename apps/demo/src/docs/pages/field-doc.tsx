@@ -21,7 +21,7 @@ import {
   SelectValue,
   Slider,
   Switch,
-  Textarea
+  Textarea,
 } from "@kamod-ui/core";
 import { useState } from "preact/hooks";
 import { createGenericDocPage } from "./create-generic-doc-page";
@@ -127,7 +127,7 @@ export const Example = () => (
             </Field>
           </FieldGroup>
         </FieldSet>
-      )
+      ),
     },
     {
       id: "field-legacy",
@@ -145,7 +145,7 @@ export const Example = () => (
         <Field label="Project name" description="Shown in the dashboard header">
           <Input placeholder="Kamod UI" />
         </Field>
-      )
+      ),
     },
     {
       id: "field-input",
@@ -185,7 +185,7 @@ export const Example = () => (
             </Field>
           </FieldGroup>
         </FieldSet>
-      )
+      ),
     },
     {
       id: "field-textarea",
@@ -215,7 +215,7 @@ export const Example = () => (
             </Field>
           </FieldGroup>
         </FieldSet>
-      )
+      ),
     },
     {
       id: "field-select",
@@ -257,7 +257,7 @@ export const Example = () => (
           </Select>
           <FieldDescription>Select your department or area of work.</FieldDescription>
         </Field>
-      )
+      ),
     },
     {
       id: "field-slider",
@@ -277,7 +277,7 @@ export const Example = () => {
     </Field>
   );
 };`,
-      renderPreview: () => <FieldSliderPreview />
+      renderPreview: () => <FieldSliderPreview />,
     },
     {
       id: "field-fieldset",
@@ -329,7 +329,7 @@ export const Example = () => (
             </div>
           </FieldGroup>
         </FieldSet>
-      )
+      ),
     },
     {
       id: "field-checkbox",
@@ -393,11 +393,13 @@ export const Example = () => (
             <Checkbox id={`${p}-c3`} defaultChecked />
             <FieldContent>
               <FieldLabel htmlFor={`${p}-c3`}>Sync folders</FieldLabel>
-              <FieldDescription>Your Desktop & Documents are synced with cloud storage.</FieldDescription>
+              <FieldDescription>
+                Your Desktop & Documents are synced with cloud storage.
+              </FieldDescription>
             </FieldContent>
           </Field>
         </FieldGroup>
-      )
+      ),
     },
     {
       id: "field-radio",
@@ -445,7 +447,7 @@ export const Example = () => (
             </Field>
           </RadioGroup>
         </FieldSet>
-      )
+      ),
     },
     {
       id: "field-switch",
@@ -465,7 +467,7 @@ export const Example = () => (
           <FieldLabel htmlFor={`${p}-2fa`}>Multi-factor authentication</FieldLabel>
           <Switch id={`${p}-2fa`} />
         </Field>
-      )
+      ),
     },
     {
       id: "field-choice-card",
@@ -529,7 +531,7 @@ export const Example = () => (
             </RadioGroup>
           </FieldSet>
         </FieldGroup>
-      )
+      ),
     },
     {
       id: "field-group-sep",
@@ -607,7 +609,7 @@ export const Example = () => (
             </FieldGroup>
           </FieldSet>
         </FieldGroup>
-      )
+      ),
     },
     {
       id: "field-error-array",
@@ -629,7 +631,7 @@ export const Example = () => (
           <Input id={`${p}-code`} aria-invalid />
           <FieldError errors={[{ message: "Too short" }, { message: "Must contain a number" }]} />
         </Field>
-      )
+      ),
     },
     {
       id: "field-responsive",
@@ -655,12 +657,12 @@ export const Example = () => (
             <FieldDescription>Resize the viewport to see layout change.</FieldDescription>
           </Field>
         </FieldGroup>
-      )
+      ),
     },
     {
       id: "field-rtl",
       title: "RTL",
-      text: "dir=\"rtl\" on FieldSet for mirrored flow.",
+      text: 'dir="rtl" on FieldSet for mirrored flow.',
       code: `import { Field, FieldDescription, FieldGroup, FieldLabel, FieldLegend, FieldSet } from "@/components/kamod-ui/field";
 import { Input } from "@/components/kamod-ui/input";
 
@@ -687,7 +689,7 @@ export const Example = () => (
             </Field>
           </FieldGroup>
         </FieldSet>
-      )
+      ),
     },
     {
       id: "field-legacy-error",
@@ -705,17 +707,21 @@ export const Example = () => (
         <Field label="Email" error="Please provide a valid email address">
           <Input aria-invalid placeholder="name@example.com" />
         </Field>
-      )
-    }
+      ),
+    },
   ],
   apiRows: [
-    { prop: "orientation", type: '"vertical" | "horizontal" | "responsive"', defaultValue: '"vertical"' },
+    {
+      prop: "orientation",
+      type: '"vertical" | "horizontal" | "responsive"',
+      defaultValue: '"vertical"',
+    },
     { prop: "disabled", type: "boolean", defaultValue: "false" },
     { prop: "invalid", type: "boolean", defaultValue: "false" },
     { prop: "label / description / error", type: "ComponentChildren", defaultValue: "legacy only" },
     { prop: "FieldLabel htmlFor", type: "string", defaultValue: "—" },
-    { prop: "FieldError errors", type: "{ message?: string }[]", defaultValue: "undefined" }
+    { prop: "FieldError errors", type: "{ message?: string }[]", defaultValue: "undefined" },
   ],
   accessibilityText:
-    "Use FieldLabel with htmlFor matching control id. Surface validation with aria-invalid on the control and FieldError or error prop. FieldSet and FieldLegend group related inputs for assistive tech."
+    "Use FieldLabel with htmlFor matching control id. Surface validation with aria-invalid on the control and FieldError or error prop. FieldSet and FieldLegend group related inputs for assistive tech.",
 });

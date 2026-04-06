@@ -1,5 +1,12 @@
 import type { ComponentChildren } from "preact";
-import { Alert, AlertAction, AlertDescription, AlertTitle, Button, DirectionProvider } from "@kamod-ui/core";
+import {
+  Alert,
+  AlertAction,
+  AlertDescription,
+  AlertTitle,
+  Button,
+  DirectionProvider,
+} from "@kamod-ui/core";
 import { AlertCircle, AlertTriangle, CheckCircle2, Info } from "lucide-preact";
 import { useState } from "preact/hooks";
 import { ApiReference } from "../components/ApiReference";
@@ -63,7 +70,7 @@ import { CheckCircle2 } from "lucide-preact";
   <CheckCircle2 />
   <AlertTitle>Account updated successfully</AlertTitle>
   <AlertDescription>…</AlertDescription>
-</Alert>`
+</Alert>`,
   },
   destructive: {
     preview: () => (
@@ -82,7 +89,7 @@ import { AlertCircle } from "lucide-preact";
   <AlertCircle />
   <AlertTitle>Payment failed</AlertTitle>
   <AlertDescription>…</AlertDescription>
-</Alert>`
+</Alert>`,
   },
   action: {
     preview: () => (
@@ -105,7 +112,7 @@ import { Button } from "@/components/kamod-ui/button";
   <AlertAction>
     <Button size="xs" variant="default">Enable</Button>
   </AlertAction>
-</Alert>`
+</Alert>`,
   },
   colors: {
     preview: () => (
@@ -113,7 +120,8 @@ import { Button } from "@/components/kamod-ui/button";
         <AlertTriangle />
         <AlertTitle>Your subscription will expire in 3 days.</AlertTitle>
         <AlertDescription>
-          Renew now to avoid service interruption or upgrade to a paid plan to continue using the service.
+          Renew now to avoid service interruption or upgrade to a paid plan to continue using the
+          service.
         </AlertDescription>
       </Alert>
     ),
@@ -121,7 +129,7 @@ import { Button } from "@/components/kamod-ui/button";
   <AlertTriangle />
   <AlertTitle>…</AlertTitle>
   <AlertDescription>…</AlertDescription>
-</Alert>`
+</Alert>`,
   },
   rtl: {
     preview: () => <AlertRtlDemo />,
@@ -129,8 +137,8 @@ import { Button } from "@/components/kamod-ui/button";
 import { DirectionProvider } from "@/components/kamod-ui/direction";
 import { CheckCircle2, Info } from "lucide-preact";
 
-// Wrap grid with dir={dir}; optional DirectionProvider for logical components below.`
-  }
+// Wrap grid with dir={dir}; optional DirectionProvider for logical components below.`,
+  },
 };
 
 type Lang = "en" | "ar" | "he";
@@ -153,7 +161,8 @@ const rtlCopy: Record<
     paymentDescription:
       "Your payment of $29.99 has been processed. A receipt has been sent to your email address.",
     featureTitle: "New feature available",
-    featureDescription: "We've added dark mode support. You can enable it in your account settings."
+    featureDescription:
+      "We've added dark mode support. You can enable it in your account settings.",
   },
   ar: {
     dir: "rtl",
@@ -162,7 +171,7 @@ const rtlCopy: Record<
     paymentDescription:
       "تمت معالجة دفعتك البالغة 29.99 دولارًا. تم إرسال إيصال إلى عنوان بريدك الإلكتروني.",
     featureTitle: "ميزة جديدة متاحة",
-    featureDescription: "لقد أضفنا دعم الوضع الداكن. يمكنك تفعيله في إعدادات حسابك."
+    featureDescription: "لقد أضفنا دعم الوضع الداكن. يمكنك تفعيله في إعدادات حسابك.",
   },
   he: {
     dir: "rtl",
@@ -170,8 +179,8 @@ const rtlCopy: Record<
     paymentTitle: "התשלום בוצע בהצלחה",
     paymentDescription: "התשלום שלך בסך 29.99 דולר עובד. קבלה נשלחה לכתובת האימייל שלך.",
     featureTitle: "תכונה חדשה זמינה",
-    featureDescription: "הוספנו תמיכה במצב כהה. אתה יכול להפעיל אותו בהגדרות החשבון שלך."
-  }
+    featureDescription: "הוספנו תמיכה במצב כהה. אתה יכול להפעיל אותו בהגדרות החשבון שלך.",
+  },
 };
 
 function AlertRtlDemo() {
@@ -182,7 +191,13 @@ function AlertRtlDemo() {
     <div class="flex w-full max-w-lg flex-col gap-3">
       <div class="flex flex-wrap gap-2" role="group" aria-label="Language">
         {(Object.keys(rtlCopy) as Lang[]).map((key) => (
-          <Button key={key} variant={lang === key ? "default" : "outline"} size="sm" type="button" onClick={() => setLang(key)}>
+          <Button
+            key={key}
+            variant={lang === key ? "default" : "outline"}
+            size="sm"
+            type="button"
+            onClick={() => setLang(key)}
+          >
             {rtlCopy[key].label}
           </Button>
         ))}
@@ -214,25 +229,25 @@ const apiSections = [
       {
         prop: "variant",
         type: '"default" | "destructive" | "primary" | "secondary" | "info" | "success" | "warning" | "error"',
-        defaultValue: '"default"'
+        defaultValue: '"default"',
       },
       { prop: "class", type: "string", defaultValue: "-" },
-      { prop: "children", type: "ComponentChildren", defaultValue: "-" }
-    ]
+      { prop: "children", type: "ComponentChildren", defaultValue: "-" },
+    ],
   },
   {
     title: "AlertTitle",
-    rows: [{ prop: "class", type: "string", defaultValue: "-" }]
+    rows: [{ prop: "class", type: "string", defaultValue: "-" }],
   },
   {
     title: "AlertDescription",
-    rows: [{ prop: "class", type: "string", defaultValue: "-" }]
+    rows: [{ prop: "class", type: "string", defaultValue: "-" }],
   },
   {
     title: "AlertAction",
     description: "Absolutely positioned at top-end; reserve space with parent padding.",
-    rows: [{ prop: "class", type: "string", defaultValue: "-" }]
-  }
+    rows: [{ prop: "class", type: "string", defaultValue: "-" }],
+  },
 ] as const;
 
 export const alertDocPage: DocPageModule = {
@@ -242,30 +257,38 @@ export const alertDocPage: DocPageModule = {
   usageLabel:
     "Inline callouts with optional leading icon, title, description, destructive variant, action slot, and custom colors (shadcn Alert pattern).",
   sections: [
-    { id: "installation", title: "Installation", text: "Import Alert parts from `@/components/kamod-ui/alert`." },
+    {
+      id: "installation",
+      title: "Installation",
+      text: "Import Alert parts from `@/components/kamod-ui/alert`.",
+    },
     {
       id: "usage",
       title: "Usage",
-      text: "Put an optional Lucide icon first, then AlertTitle and AlertDescription. Use AlertAction for a corner control."
+      text: "Put an optional Lucide icon first, then AlertTitle and AlertDescription. Use AlertAction for a corner control.",
     },
     { id: "basic", title: "Basic", text: "Icon, title, and description in a max-width column." },
-    { id: "destructive", title: "Destructive", text: "Use variant=\"destructive\" for errors and irreversible failures." },
+    {
+      id: "destructive",
+      title: "Destructive",
+      text: 'Use variant="destructive" for errors and irreversible failures.',
+    },
     {
       id: "action",
       title: "Action",
-      text: "AlertAction pins a button (or group) to the top-inline-end; the root adds padding so text does not overlap."
+      text: "AlertAction pins a button (or group) to the top-inline-end; the root adds padding so text does not overlap.",
     },
     {
       id: "colors",
       title: "Custom colors",
-      text: "Override surface and border with utilities (e.g. amber) for marketing or billing warnings."
+      text: "Override surface and border with utilities (e.g. amber) for marketing or billing warnings.",
     },
     {
       id: "rtl",
       title: "RTL",
-      text: "Set dir on the stack; icons and AlertAction use logical end positioning."
+      text: "Set dir on the stack; icons and AlertAction use logical end positioning.",
     },
-    { id: "api-reference", title: "API Reference", text: "Props overview." }
+    { id: "api-reference", title: "API Reference", text: "Props overview." },
   ],
   renderMain: (context) => {
     const renderSectionBody = (sectionId: string) => {
@@ -306,7 +329,7 @@ import { Info } from "lucide-preact";
       return context.renderPreviewAndCodeTabs({
         preview: block.preview(),
         codeSnippet: block.code,
-        previewClass: "overflow-x-auto"
+        previewClass: "overflow-x-auto",
       });
     };
 
@@ -316,7 +339,7 @@ import { Info } from "lucide-preact";
         {context.renderPreviewAndCodeTabs({
           preview: <AlertHero />,
           codeSnippet: heroCode,
-          previewClass: "overflow-x-auto"
+          previewClass: "overflow-x-auto",
         })}
         {context.sections.map((docSection) => (
           <section key={docSection.id} id={docSection.id} class="docs-section">
@@ -328,5 +351,5 @@ import { Info } from "lucide-preact";
         ))}
       </>
     );
-  }
+  },
 };

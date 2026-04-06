@@ -12,7 +12,7 @@ const themeFiles = [
   "themes/cursor-warm.css",
   "themes/voltage.css",
   "themes/watson.css",
-  "themes/professional.css"
+  "themes/professional.css",
 ];
 
 const foundationCss =
@@ -28,7 +28,7 @@ const presetChecks = {
   "cursor-warm": "full",
   voltage: "full",
   watson: "full",
-  professional: "full"
+  professional: "full",
 };
 
 const requiredColorTokens = [
@@ -39,7 +39,7 @@ const requiredColorTokens = [
   "--muted",
   "--border",
   "--input",
-  "--outline"
+  "--outline",
 ];
 const requiredFontTokens = ["--font-sans", "--font-mono"];
 
@@ -68,13 +68,14 @@ const validatePreset = (preset, mode) => {
     hasLight: Boolean(lightBlock.trim()),
     hasDark: requiresDarkBlock ? Boolean(darkBlock.trim()) : true,
     missingLight,
-    missingDark
+    missingDark,
   };
 };
 
 const results = Object.entries(presetChecks).map(([preset, mode]) => validatePreset(preset, mode));
 const hasErrors = results.some(
-  (item) => !item.hasLight || !item.hasDark || item.missingLight.length > 0 || item.missingDark.length > 0
+  (item) =>
+    !item.hasLight || !item.hasDark || item.missingLight.length > 0 || item.missingDark.length > 0,
 );
 
 const checklist = `# Theme Regression Checklist

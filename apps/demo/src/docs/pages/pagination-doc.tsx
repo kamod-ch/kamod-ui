@@ -12,7 +12,7 @@ import {
   SelectGroup,
   SelectItem,
   SelectTrigger,
-  SelectValue
+  SelectValue,
 } from "@kamod-ui/core";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
@@ -82,7 +82,7 @@ export const Example = () => (
             </PaginationItem>
           </PaginationContent>
         </Pagination>
-      )
+      ),
     },
     {
       id: "pagination-simple",
@@ -135,7 +135,7 @@ export const Example = () => (
             </PaginationItem>
           </PaginationContent>
         </Pagination>
-      )
+      ),
     },
     {
       id: "pagination-icons-only",
@@ -208,12 +208,12 @@ export const Example = () => (
             </PaginationContent>
           </Pagination>
         </div>
-      )
+      ),
     },
     {
       id: "pagination-rtl",
       title: "RTL labels",
-      text: "Set `dir=\"rtl\"` on the nav and use the `text` prop on previous/next for translated strings (shadcn-style i18n hook optional).",
+      text: 'Set `dir="rtl"` on the nav and use the `text` prop on previous/next for translated strings (shadcn-style i18n hook optional).',
       code: `import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/kamod-ui/pagination";
 
 export const Example = () => (
@@ -267,20 +267,28 @@ export const Example = () => (
             </PaginationItem>
           </PaginationContent>
         </Pagination>
-      )
-    }
+      ),
+    },
   ],
   apiRows: [
     { prop: "PaginationLink isActive", type: "boolean", defaultValue: "false" },
     { prop: "PaginationLink size", type: "Button size token", defaultValue: '"default"' },
-    { prop: "PaginationPrevious / PaginationNext text", type: "string", defaultValue: '"Previous" / "Next"' },
+    {
+      prop: "PaginationPrevious / PaginationNext text",
+      type: "string",
+      defaultValue: '"Previous" / "Next"',
+    },
     {
       prop: "PaginationPrevious / PaginationNext children",
       type: "ComponentChildren",
-      defaultValue: "chevron + hidden sm:text (or custom)"
+      defaultValue: "chevron + hidden sm:text (or custom)",
     },
-    { prop: "Pagination class", type: "string", defaultValue: '"mx-auto flex w-full justify-center"' }
+    {
+      prop: "Pagination class",
+      type: "string",
+      defaultValue: '"mx-auto flex w-full justify-center"',
+    },
   ],
   accessibilityText:
-    "Active page uses `aria-current=\"page\"`. Previous and next expose `aria-label`. Ellipsis is decorative with `aria-hidden` and a screen-reader-only “More pages” label."
+    'Active page uses `aria-current="page"`. Previous and next expose `aria-label`. Ellipsis is decorative with `aria-hidden` and a screen-reader-only “More pages” label.',
 });

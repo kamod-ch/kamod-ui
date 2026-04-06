@@ -8,7 +8,7 @@ import {
   CarouselNext,
   CarouselPrevious,
   DirectionProvider,
-  type CarouselApi
+  type CarouselApi,
 } from "@kamod-ui/core";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
@@ -191,7 +191,7 @@ type Lang = "en" | "ar" | "he";
 const rtlCopy: Record<Lang, { dir: "ltr" | "rtl"; label: string }> = {
   en: { dir: "ltr", label: "English (LTR)" },
   ar: { dir: "rtl", label: "العربية (RTL)" },
-  he: { dir: "rtl", label: "עברית (RTL)" }
+  he: { dir: "rtl", label: "עברית (RTL)" },
 };
 
 const CarouselRtlPreview = () => {
@@ -243,7 +243,8 @@ export const carouselDocPage = createGenericDocPage({
   slug: "carousel",
   title: "Carousel",
   usageLabel: "Carousel displays swipeable or button-driven slide content (Embla Carousel).",
-  installationText: "Depends on `embla-carousel` and optional `embla-carousel-autoplay` (used when `autoplay` is set). Import primitives from `@/components/kamod-ui/carousel`.",
+  installationText:
+    "Depends on `embla-carousel` and optional `embla-carousel-autoplay` (used when `autoplay` is set). Import primitives from `@/components/kamod-ui/carousel`.",
   usageText:
     "Wrap slides in CarouselContent; each slide is a CarouselItem. Place CarouselPrevious and CarouselNext as siblings of CarouselContent inside Carousel. Use opts for Embla options (align, loop, direction). Use setApi to read scrollSnapList, selectedScrollSnap, and events.",
   previewCode: `import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/kamod-ui/carousel";
@@ -269,12 +270,12 @@ export const Example = () => (
       title: "Demo",
       text: "Card slides with previous and next controls (shadcn-style layout).",
       code: `// See previewCode hero — CarouselContent + Items + Prev/Next.`,
-      renderPreview: () => <CarouselDemoPreview />
+      renderPreview: () => <CarouselDemoPreview />,
     },
     {
       id: "carousel-sizes",
       title: "Sizes",
-      text: "Use basis utilities on CarouselItem; align slides with opts.align \"start\".",
+      text: 'Use basis utilities on CarouselItem; align slides with opts.align "start".',
       code: `<Carousel opts={{ align: "start" }} class="w-full max-w-sm">
   <CarouselContent>
     {items.map((n) => (
@@ -284,7 +285,7 @@ export const Example = () => (
   <CarouselPrevious />
   <CarouselNext />
 </Carousel>`,
-      renderPreview: () => <CarouselSizesPreview />
+      renderPreview: () => <CarouselSizesPreview />,
     },
     {
       id: "carousel-spacing",
@@ -293,7 +294,7 @@ export const Example = () => (
       code: `<CarouselContent class="-ml-1">
   <CarouselItem class="basis-1/2 pl-1 lg:basis-1/3">…</CarouselItem>
 </CarouselContent>`,
-      renderPreview: () => <CarouselSpacingPreview />
+      renderPreview: () => <CarouselSpacingPreview />,
     },
     {
       id: "carousel-orientation",
@@ -308,14 +309,14 @@ export const Example = () => (
     <CarouselNext />
   </Carousel>
 </div>`,
-      renderPreview: () => <CarouselOrientationPreview />
+      renderPreview: () => <CarouselOrientationPreview />,
     },
     {
       id: "carousel-opts",
       title: "Options",
       text: "opts forwards to Embla (e.g. loop). axis and direction are merged from orientation and dir.",
       code: `<Carousel opts={{ align: "start", loop: true }}>…</Carousel>`,
-      renderPreview: () => <CarouselOptsPreview />
+      renderPreview: () => <CarouselOptsPreview />,
     },
     {
       id: "carousel-api",
@@ -324,32 +325,32 @@ export const Example = () => (
       code: `const [api, setApi] = useState<CarouselApi | null>(null);
 // useEffect: api.scrollSnapList().length, api.selectedScrollSnap(), api.on("select", …)
 <Carousel setApi={setApi}>…</Carousel>`,
-      renderPreview: () => <CarouselApiPreview />
+      renderPreview: () => <CarouselApiPreview />,
     },
     {
       id: "carousel-autoplay",
       title: "Autoplay",
       text: "Use autoplay prop or pass plugins when you need full Embla plugin control (see core Carousel).",
       code: `<Carousel autoplay={{ delay: 2000, stopOnInteraction: true }}>…</Carousel>`,
-      renderPreview: () => <CarouselAutoplayPreview />
+      renderPreview: () => <CarouselAutoplayPreview />,
     },
     {
       id: "carousel-rtl",
       title: "RTL",
       text: "Set dir on Carousel and direction in opts to match DirectionProvider (logical prev/next + chevron rotation).",
       code: `<Carousel dir={dir} opts={{ direction: dir }}>…</Carousel>`,
-      renderPreview: () => <CarouselRtlPreview />
-    }
+      renderPreview: () => <CarouselRtlPreview />,
+    },
   ],
   apiRows: [
     { prop: "opts", type: "EmblaOptionsType", defaultValue: "undefined" },
-    { prop: "orientation", type: "\"horizontal\" | \"vertical\"", defaultValue: "\"horizontal\"" },
+    { prop: "orientation", type: '"horizontal" | "vertical"', defaultValue: '"horizontal"' },
     { prop: "setApi", type: "(api: CarouselApi | null) => void", defaultValue: "undefined" },
     { prop: "plugins", type: "EmblaPluginType[]", defaultValue: "undefined" },
     { prop: "autoplay", type: "boolean | { delay?, stopOnInteraction? }", defaultValue: "false" },
-    { prop: "dir", type: "\"ltr\" | \"rtl\"", defaultValue: "undefined" },
-    { prop: "children", type: "CarouselContent, items, controls", defaultValue: "required" }
+    { prop: "dir", type: '"ltr" | "rtl"', defaultValue: "undefined" },
+    { prop: "children", type: "CarouselContent, items, controls", defaultValue: "required" },
   ],
   accessibilityText:
-    "Region is marked as carousel; items use group/slide roles. Provide pausable autoplay when motion may distract; match reading direction with dir and opts.direction."
+    "Region is marked as carousel; items use group/slide roles. Provide pausable autoplay when motion may distract; match reading direction with dir and opts.direction.",
 });

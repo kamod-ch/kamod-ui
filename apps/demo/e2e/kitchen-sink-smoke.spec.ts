@@ -21,12 +21,18 @@ test.describe("kitchen sink (demo home) smoke", () => {
   test("top nav exposes docs entry points", async ({ page }, testInfo) => {
     test.skip(
       testInfo.project.name === "iphone",
-      "Horizontal nav is hidden below md; mobile header is covered by kitchen-sink visual tests."
+      "Horizontal nav is hidden below md; mobile header is covered by kitchen-sink visual tests.",
     );
     const nav = page.getByTestId("kitchen-sink-nav");
     await expect(nav).toBeVisible();
-    await expect(nav.getByRole("link", { name: "Docs" })).toHaveAttribute("href", "/docs/button/installation");
-    await expect(nav.getByRole("link", { name: "Components" })).toHaveAttribute("href", "/docs/components");
+    await expect(nav.getByRole("link", { name: "Docs" })).toHaveAttribute(
+      "href",
+      "/docs/button/installation",
+    );
+    await expect(nav.getByRole("link", { name: "Components" })).toHaveAttribute(
+      "href",
+      "/docs/components",
+    );
   });
 
   test("component showcase mounts payment + team panels", async ({ page }) => {
@@ -96,7 +102,10 @@ test.describe("kitchen sink (demo home) smoke", () => {
     await expect(search).toBeAttached();
     await expect.poll(async () => social.isChecked()).toBe(true);
     await expect.poll(async () => search.isChecked()).toBe(true);
-    await showcase.getByRole("group", { name: /how did you hear about us/i }).getByText("Search Engine", { exact: true }).click();
+    await showcase
+      .getByRole("group", { name: /how did you hear about us/i })
+      .getByText("Search Engine", { exact: true })
+      .click();
     await expect.poll(async () => search.isChecked()).toBe(false);
     await expect.poll(async () => social.isChecked()).toBe(true);
   });

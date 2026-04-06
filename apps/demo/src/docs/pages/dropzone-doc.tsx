@@ -5,7 +5,8 @@ export const dropzoneDocPage = createGenericDocPage({
   slug: "dropzone",
   title: "Dropzone",
   usageLabel: "Dropzone enables drag-and-drop file upload interactions.",
-  installationText: "Import Dropzone and optional indicators from `@/components/kamod-ui/dropzone`.",
+  installationText:
+    "Import Dropzone and optional indicators from `@/components/kamod-ui/dropzone`.",
   usageText: "Handle onFilesChange to process selected or dropped files.",
   exampleSections: [
     {
@@ -23,7 +24,7 @@ export const Example = () => (
         <Dropzone class="w-full max-w-xl">
           <p class="text-sm">Drop files here or click to upload.</p>
         </Dropzone>
-      )
+      ),
     },
     {
       id: "dropzone-indicators",
@@ -48,13 +49,14 @@ export const Example = () => (
             <span>Upload files</span>
           </div>
         </Dropzone>
-      )
-    }
+      ),
+    },
   ],
   apiRows: [
     { prop: "accept", type: "string", defaultValue: "undefined" },
     { prop: "multiple", type: "boolean", defaultValue: "true" },
-    { prop: "onFilesChange", type: "(files: File[]) => void", defaultValue: "undefined" }
+    { prop: "onFilesChange", type: "(files: File[]) => void", defaultValue: "undefined" },
   ],
-  accessibilityText: "Provide clear accepted file type guidance and ensure upload progress or error feedback is visible."
+  accessibilityText:
+    "Provide clear accepted file type guidance and ensure upload progress or error feedback is visible.",
 });

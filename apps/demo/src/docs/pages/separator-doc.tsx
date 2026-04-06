@@ -6,7 +6,8 @@ export const separatorDocPage = createGenericDocPage({
   title: "Separator",
   usageLabel: "Separator trennt Inhalte visuell oder semantisch in modernen Layouts.",
   installationText: "Import Separator from `@/components/kamod-ui/separator`.",
-  usageText: "Nutze horizontale Separatoren fuer gestapelte Bereiche und vertikale Separatoren fuer Inline-Gruppen oder Menues.",
+  usageText:
+    "Nutze horizontale Separatoren fuer gestapelte Bereiche und vertikale Separatoren fuer Inline-Gruppen oder Menues.",
   exampleSections: [
     {
       id: "horizontal-separator",
@@ -39,12 +40,12 @@ export const Example = () => (
             Browse setup guides, API references, and usage examples.
           </p>
         </div>
-      )
+      ),
     },
     {
       id: "vertical-separator",
       title: "Vertical Separator",
-      text: "Nutze `orientation=\"vertical\"` fuer kompakte Inline-Navigation.",
+      text: 'Nutze `orientation="vertical"` fuer kompakte Inline-Navigation.',
       code: `import { Separator } from "@/components/kamod-ui/separator";
 
 export const Example = () => (
@@ -64,7 +65,7 @@ export const Example = () => (
           <Separator orientation="vertical" />
           <span>Source</span>
         </div>
-      )
+      ),
     },
     {
       id: "menu-separator",
@@ -107,7 +108,7 @@ export const Example = () => (
             <p class="docs-separator-menu-copy">Support and docs</p>
           </div>
         </div>
-      )
+      ),
     },
     {
       id: "list-separator",
@@ -150,15 +151,19 @@ export const Example = () => (
             <span>Value 3</span>
           </div>
         </div>
-      )
-    }
+      ),
+    },
   ],
   apiRows: [
     { prop: "orientation", type: '"horizontal" | "vertical"', defaultValue: '"horizontal"' },
     { prop: "decorative", type: "boolean", defaultValue: "false" },
     { prop: "class", type: "string", defaultValue: "undefined" },
-    { prop: "aria-orientation", type: "managed by component", defaultValue: "auto (unless decorative)" }
+    {
+      prop: "aria-orientation",
+      type: "managed by component",
+      defaultValue: "auto (unless decorative)",
+    },
   ],
   accessibilityText:
-    "Setze `decorative` fuer rein visuelle Trennung. Wenn die Trennung semantische Bedeutung hat, nutze die Standard-Variante mit `role=\"separator\"`."
+    'Setze `decorative` fuer rein visuelle Trennung. Wenn die Trennung semantische Bedeutung hat, nutze die Standard-Variante mit `role="separator"`.',
 });

@@ -154,7 +154,9 @@ html.dark .docs-mobile-sheet {
   color: var(--foreground);
   text-decoration: none;
   padding: 0.25rem 0.45rem;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 a.docs-component-item:hover {
@@ -304,7 +306,9 @@ html.dark .docs-code {
   display: block;
   width: max-content;
   min-width: 100%;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+    monospace;
   line-height: 1.55;
 }
 
@@ -456,7 +460,10 @@ html.dark .docs-code .token.variable {
   font-size: 0.75rem;
   line-height: 1;
   cursor: pointer;
-  transition: background-color 140ms ease, border-color 140ms ease, transform 140ms ease;
+  transition:
+    background-color 140ms ease,
+    border-color 140ms ease,
+    transform 140ms ease;
 }
 
 .docs-copy-code-button:hover {
@@ -755,7 +762,9 @@ html.dark .docs-copy-feedback.is-error {
 }
 
 .docs-api-table code {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+    monospace;
   font-size: 0.83rem;
   color: var(--foreground);
 }

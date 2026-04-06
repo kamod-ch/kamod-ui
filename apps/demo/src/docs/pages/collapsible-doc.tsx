@@ -17,15 +17,27 @@ import {
   Input,
   Tabs,
   TabsList,
-  TabsTrigger
+  TabsTrigger,
 } from "@kamod-ui/core";
-import { ChevronsUpDown, ChevronDown, ChevronRight, File, Folder, Maximize2, Minimize2 } from "lucide-preact";
+import {
+  ChevronsUpDown,
+  ChevronDown,
+  ChevronRight,
+  File,
+  Folder,
+  Maximize2,
+  Minimize2,
+} from "lucide-preact";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 const CollapsibleDemoPreview = () => {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <Collapsible open={isOpen} onOpenChange={setIsOpen} class="flex w-full max-w-[350px] flex-col gap-2">
+    <Collapsible
+      open={isOpen}
+      onOpenChange={setIsOpen}
+      class="flex w-full max-w-[350px] flex-col gap-2"
+    >
       <div class="flex items-center justify-between gap-4 px-4">
         <h4 class="text-sm font-semibold">Order #4189</h4>
         <CollapsibleTrigger asChild>
@@ -58,7 +70,10 @@ const CollapsibleBasicPreview = () => (
     <CardContent>
       <Collapsible class="rounded-md data-[state=open]:bg-muted/60">
         <CollapsibleTrigger asChild>
-          <Button variant="ghost" class="group h-auto w-full justify-between gap-2 py-2 font-normal">
+          <Button
+            variant="ghost"
+            class="group h-auto w-full justify-between gap-2 py-2 font-normal"
+          >
             <span>Product details</span>
             <ChevronDown class="size-4 shrink-0 transition-transform group-data-[state=open]:rotate-180" />
           </Button>
@@ -111,7 +126,12 @@ const CollapsibleSettingsPreview = () => {
             </CollapsibleContent>
           </FieldGroup>
           <CollapsibleTrigger asChild>
-            <Button variant="outline" size="icon" class="shrink-0" aria-label={isOpen ? "Collapse" : "Expand"}>
+            <Button
+              variant="outline"
+              size="icon"
+              class="shrink-0"
+              aria-label={isOpen ? "Collapse" : "Expand"}
+            >
               {isOpen ? <Minimize2 class="size-4" /> : <Maximize2 class="size-4" />}
             </Button>
           </CollapsibleTrigger>
@@ -135,23 +155,27 @@ const fileTree: FileTreeItem[] = [
           { name: "dialog.tsx" },
           { name: "input.tsx" },
           { name: "select.tsx" },
-          { name: "table.tsx" }
-        ]
+          { name: "table.tsx" },
+        ],
       },
       { name: "login-form.tsx" },
-      { name: "register-form.tsx" }
-    ]
+      { name: "register-form.tsx" },
+    ],
   },
   {
     name: "lib",
-    items: [{ name: "utils.ts" }, { name: "cn.ts" }, { name: "api.ts" }]
+    items: [{ name: "utils.ts" }, { name: "cn.ts" }, { name: "api.ts" }],
   },
   {
     name: "hooks",
-    items: [{ name: "use-media-query.ts" }, { name: "use-debounce.ts" }, { name: "use-local-storage.ts" }]
+    items: [
+      { name: "use-media-query.ts" },
+      { name: "use-debounce.ts" },
+      { name: "use-local-storage.ts" },
+    ],
   },
   { name: "app.tsx" },
-  { name: "package.json" }
+  { name: "package.json" },
 ];
 
 const CollapsibleFileTreePreview = () => {
@@ -177,7 +201,12 @@ const CollapsibleFileTreePreview = () => {
       );
     }
     return (
-      <Button key={`${fileItem.name}-${depth}`} variant="link" size="sm" class="h-auto w-full justify-start gap-2 text-foreground">
+      <Button
+        key={`${fileItem.name}-${depth}`}
+        variant="link"
+        size="sm"
+        class="h-auto w-full justify-start gap-2 text-foreground"
+      >
         <File class="size-4 shrink-0" />
         <span>{fileItem.name}</span>
       </Button>
@@ -226,7 +255,7 @@ const rtlCopy: Record<
     shippingAddress: "Shipping address",
     address: "100 Market St, San Francisco",
     items: "Items",
-    itemsDescription: "2x Studio Headphones"
+    itemsDescription: "2x Studio Headphones",
   },
   ar: {
     dir: "rtl",
@@ -237,7 +266,7 @@ const rtlCopy: Record<
     shippingAddress: "عنوان الشحن",
     address: "100 Market St, San Francisco",
     items: "العناصر",
-    itemsDescription: "2x سماعات الاستوديو"
+    itemsDescription: "2x سماعات الاستوديو",
   },
   he: {
     dir: "rtl",
@@ -248,8 +277,8 @@ const rtlCopy: Record<
     shippingAddress: "כתובת משלוח",
     address: "100 Market St, San Francisco",
     items: "פריטים",
-    itemsDescription: "2x אוזניות סטודיו"
-  }
+    itemsDescription: "2x אוזניות סטודיו",
+  },
 };
 
 const CollapsibleRtlPreview = () => {
@@ -261,7 +290,12 @@ const CollapsibleRtlPreview = () => {
     <div class="flex w-full max-w-md flex-col gap-3">
       <div class="flex flex-wrap gap-2">
         {(["en", "ar", "he"] as const).map((key) => (
-          <Button key={key} variant={lang === key ? "default" : "outline"} size="sm" onClick={() => setLang(key)}>
+          <Button
+            key={key}
+            variant={lang === key ? "default" : "outline"}
+            size="sm"
+            onClick={() => setLang(key)}
+          >
             {rtlCopy[key].label}
           </Button>
         ))}
@@ -339,7 +373,8 @@ export const Example = () => {
 };`,
   usageLabel:
     "Progressive disclosure with open/onOpenChange, asChild triggers, height animation (accordion-style), shadcn-aligned examples.",
-  installationText: "Import Collapsible, CollapsibleTrigger and CollapsibleContent from `@/components/kamod-ui/collapsible`.",
+  installationText:
+    "Import Collapsible, CollapsibleTrigger and CollapsibleContent from `@/components/kamod-ui/collapsible`.",
   usageText:
     "Wrap trigger and content. Use open and onOpenChange for controlled state. Use CollapsibleTrigger asChild with Button for icon toggles. CollapsibleContent animates height (respects prefers-reduced-motion).",
   exampleSections: [
@@ -348,7 +383,7 @@ export const Example = () => {
       title: "Demo",
       text: "Controlled order card with ghost icon trigger (shadcn CollapsibleDemo).",
       code: `// See previewCode hero — open + onOpenChange, asChild Button, ChevronsUpDown.`,
-      renderPreview: () => <CollapsibleDemoPreview />
+      renderPreview: () => <CollapsibleDemoPreview />,
     },
     {
       id: "collapsible-usage",
@@ -371,7 +406,7 @@ export const Example = () => (
             Yes. Free to use for personal and commercial projects. No attribution required.
           </CollapsibleContent>
         </Collapsible>
-      )
+      ),
     },
     {
       id: "collapsible-controlled",
@@ -389,7 +424,7 @@ export const Example = () => {
     </Collapsible>
   );
 };`,
-      renderPreview: () => <CollapsibleControlledPreview />
+      renderPreview: () => <CollapsibleControlledPreview />,
     },
     {
       id: "collapsible-basic",
@@ -399,21 +434,21 @@ export const Example = () => {
 import { Card, CardContent } from "@/components/kamod-ui/card"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/kamod-ui/collapsible";
 import { ChevronDown } from "lucide-preact";`,
-      renderPreview: () => <CollapsibleBasicPreview />
+      renderPreview: () => <CollapsibleBasicPreview />,
     },
     {
       id: "collapsible-settings",
       title: "Settings panel",
       text: "Extra fields in a subgrid with maximize/minimize trigger (shadcn Settings).",
       code: `// Collapsible + FieldGroup grid-cols-2, CollapsibleContent col-span-full grid-cols-subgrid`,
-      renderPreview: () => <CollapsibleSettingsPreview />
+      renderPreview: () => <CollapsibleSettingsPreview />,
     },
     {
       id: "collapsible-file-tree",
       title: "File tree",
       text: "Nested collapsibles with folder chevrons and Tabs header (shadcn File Tree).",
       code: `// Recursive Collapsible per folder; ChevronRight rotates when open.`,
-      renderPreview: () => <CollapsibleFileTreePreview />
+      renderPreview: () => <CollapsibleFileTreePreview />,
     },
     {
       id: "collapsible-rtl",
@@ -421,8 +456,8 @@ import { ChevronDown } from "lucide-preact";`,
       text: "DirectionProvider + dir on Collapsible for EN / AR / HE (shadcn RTL).",
       code: `import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/kamod-ui/collapsible"
 import { DirectionProvider } from "@/components/kamod-ui/direction";`,
-      renderPreview: () => <CollapsibleRtlPreview />
-    }
+      renderPreview: () => <CollapsibleRtlPreview />,
+    },
   ],
   apiRows: [
     { prop: "defaultOpen", type: "boolean", defaultValue: "false" },
@@ -430,8 +465,12 @@ import { DirectionProvider } from "@/components/kamod-ui/direction";`,
     { prop: "onOpenChange", type: "(open: boolean) => void", defaultValue: "—" },
     { prop: "CollapsibleTrigger asChild", type: "boolean", defaultValue: "false" },
     { prop: "CollapsibleContent forceMount", type: "boolean", defaultValue: "false" },
-    { prop: "CollapsibleContent duration / timingFunction", type: "string", defaultValue: "320ms / cubic-bezier…" }
+    {
+      prop: "CollapsibleContent duration / timingFunction",
+      type: "string",
+      defaultValue: "320ms / cubic-bezier…",
+    },
   ],
   accessibilityText:
-    "Trigger exposes aria-expanded; content is aria-hidden and inert when closed. Provide sr-only labels on icon-only triggers."
+    "Trigger exposes aria-expanded; content is aria-hidden and inert when closed. Provide sr-only labels on icon-only triggers.",
 });

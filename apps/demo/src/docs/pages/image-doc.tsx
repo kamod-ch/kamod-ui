@@ -27,7 +27,7 @@ export const Example = () => (
           alt="Mountain landscape"
           class="h-40 w-full max-w-lg object-cover"
         />
-      )
+      ),
     },
     {
       id: "image-thumbnail",
@@ -48,13 +48,14 @@ export const Example = () => (
           alt="Forest thumbnail"
           class="h-20 w-28 object-cover"
         />
-      )
-    }
+      ),
+    },
   ],
   apiRows: [
     { prop: "src", type: "string", defaultValue: "required" },
     { prop: "alt", type: "string", defaultValue: '""' },
-    { prop: "class", type: "string", defaultValue: "undefined" }
+    { prop: "class", type: "string", defaultValue: "undefined" },
   ],
-  accessibilityText: "Provide descriptive alt text for informative images and empty alt text for purely decorative imagery."
+  accessibilityText:
+    "Provide descriptive alt text for informative images and empty alt text for purely decorative imagery.",
 });

@@ -12,7 +12,7 @@ import {
   InputGroupTextarea,
   Kbd,
   Label,
-  Spinner
+  Spinner,
 } from "@kamod-ui/core";
 import {
   Check,
@@ -27,7 +27,7 @@ import {
   Mail,
   MoreHorizontal,
   Search,
-  Star
+  Star,
 } from "lucide-preact";
 import { useState } from "preact/hooks";
 import { createGenericDocPage } from "./create-generic-doc-page";
@@ -75,14 +75,24 @@ function InputGroupFavoriteRow() {
   return (
     <InputGroup class="rounded-full [--radius:9999px]">
       <InputGroupAddon align="inline-start" class="ps-1.5">
-        <InputGroupButton variant="secondary" size="icon-xs" type="button" aria-label="Security info">
+        <InputGroupButton
+          variant="secondary"
+          size="icon-xs"
+          type="button"
+          aria-label="Security info"
+        >
           <Info class="size-4" />
         </InputGroupButton>
       </InputGroupAddon>
       <InputGroupAddon class="text-muted-foreground">https://</InputGroupAddon>
       <InputGroupInput id="secure-ig-doc" placeholder="example.com" />
       <InputGroupAddon align="inline-end">
-        <InputGroupButton size="icon-xs" type="button" aria-label="Favorite" onClick={() => setFav(!fav)}>
+        <InputGroupButton
+          size="icon-xs"
+          type="button"
+          aria-label="Favorite"
+          onClick={() => setFav(!fav)}
+        >
           <Star class={`size-4 ${fav ? "fill-blue-600 stroke-blue-600" : ""}`} />
         </InputGroupButton>
       </InputGroupAddon>
@@ -115,7 +125,8 @@ function InputGroupDropdownRow() {
 export const inputGroupDocPage = createGenericDocPage({
   slug: "input-group",
   title: "Input Group",
-  usageLabel: "Compose inputs with addons, icons, text, buttons, dropdowns, spinners — aligned with shadcn input-group docs.",
+  usageLabel:
+    "Compose inputs with addons, icons, text, buttons, dropdowns, spinners — aligned with shadcn input-group docs.",
   installationText:
     "Import InputGroup, InputGroupInput or InputGroupTextarea, InputGroupAddon, InputGroupText, InputGroupButton from `@/components/kamod-ui/input-group`.",
   usageText:
@@ -143,7 +154,7 @@ export const Example = () => (
         <div class="flex justify-center py-2">
           <InputGroupDemo />
         </div>
-      )
+      ),
     },
     {
       id: "ig-usage",
@@ -167,7 +178,7 @@ export const Example = () => (
             <Search class="size-4 text-muted-foreground" />
           </InputGroupAddon>
         </InputGroup>
-      )
+      ),
     },
     {
       id: "url-input-group",
@@ -196,7 +207,7 @@ export const Example = () => (
             <InputGroupButton>Go</InputGroupButton>
           </InputGroupAddon>
         </InputGroup>
-      )
+      ),
     },
     {
       id: "username-input-group",
@@ -219,7 +230,7 @@ export const Example = () => (
           </InputGroupAddon>
           <InputGroupInput placeholder="username" />
         </InputGroup>
-      )
+      ),
     },
     {
       id: "ig-inline-start",
@@ -251,7 +262,7 @@ export const Example = () => (
           </InputGroup>
           <p class="text-muted-foreground text-sm">Icon at the start (visual).</p>
         </div>
-      )
+      ),
     },
     {
       id: "ig-inline-end",
@@ -281,7 +292,7 @@ export const Example = () => (
             </InputGroupAddon>
           </InputGroup>
         </div>
-      )
+      ),
     },
     {
       id: "ig-block-start",
@@ -330,7 +341,11 @@ export const Example = () => (
           <div class="grid gap-2">
             <Label htmlFor="bs-ta-doc">Script</Label>
             <InputGroup>
-              <InputGroupTextarea id="bs-ta-doc" placeholder={"console.log('hello');"} class="font-mono text-sm" />
+              <InputGroupTextarea
+                id="bs-ta-doc"
+                placeholder={"console.log('hello');"}
+                class="font-mono text-sm"
+              />
               <InputGroupAddon align="block-start">
                 <FileCode class="text-muted-foreground" />
                 <InputGroupText class="font-mono">script.js</InputGroupText>
@@ -341,7 +356,7 @@ export const Example = () => (
             </InputGroup>
           </div>
         </div>
-      )
+      ),
     },
     {
       id: "ig-block-end",
@@ -386,7 +401,7 @@ export const Example = () => (
             </InputGroupAddon>
           </InputGroup>
         </div>
-      )
+      ),
     },
     {
       id: "ig-icons",
@@ -424,7 +439,7 @@ export const Example = () => (
             </InputGroupAddon>
           </InputGroup>
         </div>
-      )
+      ),
     },
     {
       id: "ig-text",
@@ -495,11 +510,13 @@ export const Example = () => (
           <InputGroup>
             <InputGroupTextarea placeholder="Enter your message" />
             <InputGroupAddon align="block-end">
-              <InputGroupText class="text-xs text-muted-foreground">120 characters left</InputGroupText>
+              <InputGroupText class="text-xs text-muted-foreground">
+                120 characters left
+              </InputGroupText>
             </InputGroupAddon>
           </InputGroup>
         </div>
-      )
+      ),
     },
     {
       id: "ig-button",
@@ -517,7 +534,7 @@ export const Example = () => (
             </InputGroupAddon>
           </InputGroup>
         </div>
-      )
+      ),
     },
     {
       id: "ig-kbd",
@@ -550,7 +567,7 @@ export const Example = () => (
             <Kbd size="sm">K</Kbd>
           </InputGroupAddon>
         </InputGroup>
-      )
+      ),
     },
     {
       id: "ig-dropdown",
@@ -578,7 +595,7 @@ export const Example = () => (
             </InputGroupAddon>
           </InputGroup>
         </div>
-      )
+      ),
     },
     {
       id: "ig-spinner",
@@ -651,7 +668,7 @@ export const Example = () => (
             </InputGroupAddon>
           </InputGroup>
         </div>
-      )
+      ),
     },
     {
       id: "ig-textarea-code",
@@ -695,12 +712,12 @@ export const Example = () => (
             <InputGroupText class="font-mono font-medium">script.js</InputGroupText>
           </InputGroupAddon>
         </InputGroup>
-      )
+      ),
     },
     {
       id: "ig-rtl",
       title: "RTL",
-      text: "Set dir=\"rtl\" on a wrapper; logical align props still apply.",
+      text: 'Set dir="rtl" on a wrapper; logical align props still apply.',
       code: `import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "@/components/kamod-ui/input-group";
 
 export const Example = () => (
@@ -722,14 +739,22 @@ export const Example = () => (
             <InputGroupInput placeholder="domain" />
           </InputGroup>
         </div>
-      )
-    }
+      ),
+    },
   ],
   apiRows: [
-    { prop: "InputGroupAddon align", type: '"inline-start" | "inline-end" | "block-start" | "block-end"', defaultValue: '"inline-start"' },
+    {
+      prop: "InputGroupAddon align",
+      type: '"inline-start" | "inline-end" | "block-start" | "block-end"',
+      defaultValue: '"inline-start"',
+    },
     { prop: "InputGroupButton size", type: '"sm" | "icon-xs" | "icon-sm"', defaultValue: '"sm"' },
-    { prop: "InputGroupInput / Textarea", type: "control (data-slot=input-group-control)", defaultValue: "—" }
+    {
+      prop: "InputGroupInput / Textarea",
+      type: "control (data-slot=input-group-control)",
+      defaultValue: "—",
+    },
   ],
   accessibilityText:
-    "Label inputs clearly; use aria-label on icon-only InputGroupButton. Add-ons that open menus should expose aria-expanded via the dropdown trigger pattern."
+    "Label inputs clearly; use aria-label on icon-only InputGroupButton. Add-ons that open menus should expose aria-expanded via the dropdown trigger pattern.",
 });

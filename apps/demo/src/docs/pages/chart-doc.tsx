@@ -25,7 +25,7 @@ export const Example = () => <Chart type="line" data={points} xKey="month" yKey=
         <Chart title="Monthly trend" description="Sample line-series style container.">
           <div class="text-sm text-muted-foreground">Jan: 18, Feb: 27, Mar: 23</div>
         </Chart>
-      )
+      ),
     },
     {
       id: "bar-chart",
@@ -43,13 +43,14 @@ export const Example = () => <Chart type="bar" data={rows} xKey="name" yKey="ses
         <Chart title="Category compare" description="Sample bar-series style container.">
           <div class="text-sm text-muted-foreground">A: 120, B: 92</div>
         </Chart>
-      )
-    }
+      ),
+    },
   ],
   apiRows: [
     { prop: "title", type: "string", defaultValue: "undefined" },
     { prop: "description", type: "string", defaultValue: "undefined" },
-    { prop: "children", type: "ComponentChildren", defaultValue: "undefined" }
+    { prop: "children", type: "ComponentChildren", defaultValue: "undefined" },
   ],
-  accessibilityText: "Provide textual summaries for trends and ensure color is not the only channel for series distinction."
+  accessibilityText:
+    "Provide textual summaries for trends and ensure color is not the only channel for series distinction.",
 });

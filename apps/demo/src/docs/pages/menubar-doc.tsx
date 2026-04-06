@@ -12,7 +12,7 @@ import {
   MenubarSub,
   MenubarSubContent,
   MenubarSubTrigger,
-  MenubarTrigger
+  MenubarTrigger,
 } from "@kamod-ui/core";
 import { FileText, FolderOpen, HelpCircle, Save, Settings, Trash2 } from "lucide-preact";
 import { useState } from "preact/hooks";
@@ -328,7 +328,8 @@ function MenubarRtlExample() {
 export const menubarDocPage = createGenericDocPage({
   slug: "menubar",
   title: "Menubar",
-  usageLabel: "Desktop-style menu bar: one open root menu at a time, submenus, shortcuts, checkboxes, and radio groups.",
+  usageLabel:
+    "Desktop-style menu bar: one open root menu at a time, submenus, shortcuts, checkboxes, and radio groups.",
   installationText:
     "Import Menubar, MenubarMenu, MenubarTrigger, MenubarContent, and optional primitives (Group, Shortcut, Sub, CheckboxItem, RadioGroup, …) from `@/components/kamod-ui/menubar`.",
   usageText:
@@ -343,7 +344,7 @@ export const menubarDocPage = createGenericDocPage({
         <div class="flex w-full justify-center py-2">
           <MenubarDemo />
         </div>
-      )
+      ),
     },
     {
       id: "usage",
@@ -392,7 +393,7 @@ export const Example = () => (
             </MenubarMenu>
           </Menubar>
         </div>
-      )
+      ),
     },
     {
       id: "checkbox",
@@ -419,7 +420,7 @@ export const Example = () => (
         <div class="flex justify-center py-2">
           <MenubarCheckboxExample />
         </div>
-      )
+      ),
     },
     {
       id: "radio",
@@ -449,7 +450,7 @@ export const Example = () => {
         <div class="flex justify-center py-2">
           <MenubarRadioExample />
         </div>
-      )
+      ),
     },
     {
       id: "submenu",
@@ -481,7 +482,7 @@ export const Example = () => (
         <div class="flex justify-center py-2">
           <MenubarSubmenuExample />
         </div>
-      )
+      ),
     },
     {
       id: "icons",
@@ -514,12 +515,12 @@ export const Example = () => (
         <div class="flex justify-center py-2">
           <MenubarIconsExample />
         </div>
-      )
+      ),
     },
     {
       id: "rtl",
       title: "RTL",
-      text: "Set dir=\"rtl\" on Menubar; submenus use logical start/end (e.g. MenubarSubContent start-full).",
+      text: 'Set dir="rtl" on Menubar; submenus use logical start/end (e.g. MenubarSubContent start-full).',
       code: `import { Menubar, MenubarCheckboxItem, MenubarContent, MenubarGroup, MenubarItem, MenubarMenu, MenubarSeparator, MenubarShortcut, MenubarSub, MenubarSubContent, MenubarSubTrigger, MenubarTrigger } from "@/components/kamod-ui/menubar";
 
 export const Example = () => (
@@ -540,8 +541,8 @@ export const Example = () => (
         <div class="flex justify-center py-2">
           <MenubarRtlExample />
         </div>
-      )
-    }
+      ),
+    },
   ],
   apiRows: [
     { prop: "dir (Menubar)", type: '"ltr" | "rtl"', defaultValue: "—" },
@@ -549,8 +550,8 @@ export const Example = () => (
     { prop: "inset (Item)", type: "boolean", defaultValue: "false" },
     { prop: "variant (Item)", type: '"default" | "destructive"', defaultValue: '"default"' },
     { prop: "checked (CheckboxItem)", type: "boolean", defaultValue: "—" },
-    { prop: "value / onValueChange (RadioGroup)", type: "string / fn", defaultValue: "—" }
+    { prop: "value / onValueChange (RadioGroup)", type: "string / fn", defaultValue: "—" },
   ],
   accessibilityText:
-    "Menubar uses role=menubar; triggers expose aria-expanded. Items use menuitem / menuitemcheckbox / menuitemradio. Escape and outside click close the open menu."
+    "Menubar uses role=menubar; triggers expose aria-expanded. Items use menuitem / menuitemcheckbox / menuitemradio. Escape and outside click close the open menu.",
 });

@@ -5,9 +5,11 @@ import { createGenericDocPage } from "./create-generic-doc-page";
 export const toggleDocPage = createGenericDocPage({
   slug: "toggle",
   title: "Toggle",
-  usageLabel: "Toggle controls a binary pressed/unpressed state with modern Radix-style variants and sizes.",
+  usageLabel:
+    "Toggle controls a binary pressed/unpressed state with modern Radix-style variants and sizes.",
   installationText: "Import Toggle from `@/components/kamod-ui/toggle`.",
-  usageText: "Use `variant`, `size`, and controlled state props to match toolbar and settings use-cases.",
+  usageText:
+    "Use `variant`, `size`, and controlled state props to match toolbar and settings use-cases.",
   exampleSections: [
     {
       id: "basic-toggle",
@@ -27,7 +29,7 @@ export const Example = () => (
             <Bold class="size-4" />
           </Toggle>
         </div>
-      )
+      ),
     },
     {
       id: "toggle-options",
@@ -61,7 +63,7 @@ export const Example = () => (
             <Underline class="size-4" />
           </Toggle>
         </div>
-      )
+      ),
     },
     {
       id: "variants-and-sizes",
@@ -101,15 +103,16 @@ export const Example = () => (
             <Underline class="size-4" />
           </Toggle>
         </div>
-      )
-    }
+      ),
+    },
   ],
   apiRows: [
     { prop: "defaultPressed", type: "boolean", defaultValue: "false" },
     { prop: "pressed", type: "boolean", defaultValue: "uncontrolled" },
     { prop: "onPressedChange", type: "(next: boolean) => void", defaultValue: "undefined" },
     { prop: "variant", type: '"default" | "outline"', defaultValue: '"default"' },
-    { prop: "size", type: '"sm" | "default" | "lg" | "icon"', defaultValue: '"default"' }
+    { prop: "size", type: '"sm" | "default" | "lg" | "icon"', defaultValue: '"default"' },
   ],
-  accessibilityText: "Ensure pressed state is visually distinct and use concise labels for screen reader clarity."
+  accessibilityText:
+    "Ensure pressed state is visually distinct and use concise labels for screen reader clarity.",
 });

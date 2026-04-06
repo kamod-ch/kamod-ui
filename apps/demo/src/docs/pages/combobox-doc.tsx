@@ -17,7 +17,7 @@ import {
   Item,
   ItemContent,
   ItemDescription,
-  ItemTitle
+  ItemTitle,
 } from "@kamod-ui/core";
 import { Check, ChevronDown } from "lucide-preact";
 import { createGenericDocPage } from "./create-generic-doc-page";
@@ -27,22 +27,43 @@ const frameworks = ["Next.js", "SvelteKit", "Nuxt.js", "Remix", "Astro"] as cons
 const frameworkOptions = [
   { label: "Next.js", value: "next" },
   { label: "Nuxt", value: "nuxt" },
-  { label: "SvelteKit", value: "sveltekit" }
+  { label: "SvelteKit", value: "sveltekit" },
 ];
 
 const timezones = [
   {
     value: "Americas",
-    items: ["(GMT-5) New York", "(GMT-8) Los Angeles", "(GMT-6) Chicago", "(GMT-5) Toronto", "(GMT-8) Vancouver", "(GMT-3) São Paulo"]
+    items: [
+      "(GMT-5) New York",
+      "(GMT-8) Los Angeles",
+      "(GMT-6) Chicago",
+      "(GMT-5) Toronto",
+      "(GMT-8) Vancouver",
+      "(GMT-3) São Paulo",
+    ],
   },
   {
     value: "Europe",
-    items: ["(GMT+0) London", "(GMT+1) Paris", "(GMT+1) Berlin", "(GMT+1) Rome", "(GMT+1) Madrid", "(GMT+1) Amsterdam"]
+    items: [
+      "(GMT+0) London",
+      "(GMT+1) Paris",
+      "(GMT+1) Berlin",
+      "(GMT+1) Rome",
+      "(GMT+1) Madrid",
+      "(GMT+1) Amsterdam",
+    ],
   },
   {
     value: "Asia/Pacific",
-    items: ["(GMT+9) Tokyo", "(GMT+8) Shanghai", "(GMT+8) Singapore", "(GMT+4) Dubai", "(GMT+11) Sydney", "(GMT+9) Seoul"]
-  }
+    items: [
+      "(GMT+9) Tokyo",
+      "(GMT+8) Shanghai",
+      "(GMT+8) Singapore",
+      "(GMT+4) Dubai",
+      "(GMT+11) Sydney",
+      "(GMT+9) Seoul",
+    ],
+  },
 ] as const;
 
 type Country = {
@@ -61,7 +82,7 @@ const countries: Country[] = [
   { code: "de", value: "germany", label: "Germany", continent: "Europe" },
   { code: "fr", value: "france", label: "France", continent: "Europe" },
   { code: "jp", value: "japan", label: "Japan", continent: "Asia" },
-  { code: "us", value: "united-states", label: "United States", continent: "North America" }
+  { code: "us", value: "united-states", label: "United States", continent: "North America" },
 ];
 
 const ComboboxBasicPreview = () => (
@@ -87,11 +108,21 @@ const ComboboxBasicPreview = () => (
 );
 
 const ComboboxSelectPresetPreview = () => (
-  <ComboboxSelect options={frameworkOptions} value="next" placeholder="Select framework" searchPlaceholder="Search…" />
+  <ComboboxSelect
+    options={frameworkOptions}
+    value="next"
+    placeholder="Select framework"
+    searchPlaceholder="Search…"
+  />
 );
 
 const ComboboxAutoHighlightPreview = () => (
-  <Combobox items={[...frameworks]} defaultValue={frameworks[0]} autoHighlight placeholder="Framework">
+  <Combobox
+    items={[...frameworks]}
+    defaultValue={frameworks[0]}
+    autoHighlight
+    placeholder="Framework"
+  >
     <ComboboxTrigger>
       <ComboboxValue placeholder="Select framework" />
       <ChevronDown class="size-4 shrink-0 opacity-50" aria-hidden />
@@ -157,7 +188,7 @@ const ComboboxControlledPreview = () => {
   const langs = [
     { label: "English", value: "en" },
     { label: "German", value: "de" },
-    { label: "French", value: "fr" }
+    { label: "French", value: "fr" },
   ];
   return (
     <div class="flex flex-col gap-2">
@@ -182,7 +213,10 @@ const ComboboxControlledPreview = () => {
                 const o = opt as (typeof langs)[number];
                 return (
                   <ComboboxItem key={o.value} item={o}>
-                    <Check class={value === o.value ? "size-4 opacity-100" : "size-4 opacity-0"} aria-hidden />
+                    <Check
+                      class={value === o.value ? "size-4 opacity-100" : "size-4 opacity-0"}
+                      aria-hidden
+                    />
                     {o.label}
                   </ComboboxItem>
                 );
@@ -250,7 +284,11 @@ const ComboboxCustomItemsPreview = () => (
             const country = c as Country;
             return (
               <ComboboxItem key={country.code} item={country}>
-                <Item size="xs" variant="default" class="border-0 p-0 shadow-none hover:bg-transparent">
+                <Item
+                  size="xs"
+                  variant="default"
+                  class="border-0 p-0 shadow-none hover:bg-transparent"
+                >
                   <ItemContent>
                     <ItemTitle class="whitespace-nowrap">{country.label}</ItemTitle>
                     <ItemDescription>
@@ -357,7 +395,7 @@ const rtlCopy = {
     empty: "No results.",
     next: "Next.js",
     svelte: "SvelteKit",
-    nuxt: "Nuxt.js"
+    nuxt: "Nuxt.js",
   },
   ar: {
     dir: "rtl" as const,
@@ -366,7 +404,7 @@ const rtlCopy = {
     empty: "لا توجد نتائج.",
     next: "Next.js",
     svelte: "SvelteKit",
-    nuxt: "Nuxt.js"
+    nuxt: "Nuxt.js",
   },
   he: {
     dir: "rtl" as const,
@@ -375,8 +413,8 @@ const rtlCopy = {
     empty: "אין תוצאות.",
     next: "Next.js",
     svelte: "SvelteKit",
-    nuxt: "Nuxt.js"
-  }
+    nuxt: "Nuxt.js",
+  },
 };
 
 const ComboboxRtlPreview = () => {
@@ -385,13 +423,18 @@ const ComboboxRtlPreview = () => {
   const items = [
     { label: t.next, value: "next" },
     { label: t.svelte, value: "svelte" },
-    { label: t.nuxt, value: "nuxt" }
+    { label: t.nuxt, value: "nuxt" },
   ];
   return (
     <div class="flex flex-col gap-3">
       <div class="flex flex-wrap gap-2">
         {(["en", "ar", "he"] as const).map((key) => (
-          <Button key={key} size="sm" variant={lang === key ? "default" : "outline"} onClick={() => setLang(key)}>
+          <Button
+            key={key}
+            size="sm"
+            variant={lang === key ? "default" : "outline"}
+            onClick={() => setLang(key)}
+          >
             {key.toUpperCase()}
           </Button>
         ))}
@@ -459,7 +502,8 @@ export const Example = () => (
 );`,
   usageLabel:
     "Searchable select built from `Popover` + `Command` — API shaped like the shadcn combobox docs, without `@base-ui/react`. Use composable primitives or the `ComboboxSelect` preset for `{ label, value }[]`.",
-  installationText: "Import combobox primitives (and optionally `ComboboxSelect`) from `@/components/kamod-ui/combobox`.",
+  installationText:
+    "Import combobox primitives (and optionally `ComboboxSelect`) from `@/components/kamod-ui/combobox`.",
   usageText:
     "`Combobox` supports single or `multiple` selection (`value` / `onValueChange` as `string` or `string[]`). `liftedFilter` shares the filter string between `ComboboxInlineInput` or `ComboboxChipsInput` and the list (`Command` stays mounted via `forceMount` on content). Set `autoHighlight` on the root (or `ComboboxCommand`) for first-match highlight plus ArrowUp/Down and Enter — works in `ComboboxInput`, `ComboboxInlineInput`, and `ComboboxChipsInput` via `commandNavRef`. `showClear` + `ComboboxClear` clears selection and filter. Multi-select: `ComboboxChips` + `ComboboxChip` + `ComboboxChipsInput` (implies `liftedFilter`). `ComboboxSelect` maps props to these patterns (`liftedFilter`, `multiple`, `showClear`, `autoHighlight`).",
   exampleSections: [
@@ -468,102 +512,114 @@ export const Example = () => (
       title: "Basic",
       text: "String list, default selection, chevron on the trigger.",
       code: "// combobox-doc.tsx — ComboboxBasicPreview",
-      renderPreview: () => <ComboboxBasicPreview />
+      renderPreview: () => <ComboboxBasicPreview />,
     },
     {
       id: "preset-select",
       title: "Preset: ComboboxSelect",
       text: "Shortcut for `options: { label, value }[]` — replaces the legacy single-file combobox.",
       code: "// ComboboxSelect with options + searchPlaceholder",
-      renderPreview: () => <ComboboxSelectPresetPreview />
+      renderPreview: () => <ComboboxSelectPresetPreview />,
     },
     {
       id: "controlled",
       title: "Controlled",
       text: "`value` + `onValueChange`; optional checkmark for the active row.",
       code: "// ComboboxControlledPreview",
-      renderPreview: () => <ComboboxControlledPreview />
+      renderPreview: () => <ComboboxControlledPreview />,
     },
     {
       id: "popup-button",
       title: "Popup (Button trigger)",
-      text: "`ComboboxTrigger asChild` with `Button variant=\"outline\"` — search field lives in the content panel (shadcn popup pattern).",
+      text: '`ComboboxTrigger asChild` with `Button variant="outline"` — search field lives in the content panel (shadcn popup pattern).',
       code: "// ComboboxPopupPreview",
-      renderPreview: () => <ComboboxPopupPreview />
+      renderPreview: () => <ComboboxPopupPreview />,
     },
     {
       id: "custom-items",
       title: "Custom row content",
       text: "`Item` + `ItemTitle` / `ItemDescription` inside `ComboboxItem` (shadcn custom items).",
       code: "// ComboboxCustomItemsPreview",
-      renderPreview: () => <ComboboxCustomItemsPreview />
+      renderPreview: () => <ComboboxCustomItemsPreview />,
     },
     {
       id: "groups",
       title: "Groups + separator",
       text: "Grouped timezones with `ComboboxGroup` and `ComboboxSeparator` between sections.",
       code: "// ComboboxGroupsPreview",
-      renderPreview: () => <ComboboxGroupsPreview />
+      renderPreview: () => <ComboboxGroupsPreview />,
     },
     {
       id: "invalid",
       title: "Invalid",
       text: "`aria-invalid` on the trigger for error styling (pairs with Field invalid state).",
       code: "// ComboboxInvalidPreview",
-      renderPreview: () => <ComboboxInvalidPreview />
+      renderPreview: () => <ComboboxInvalidPreview />,
     },
     {
       id: "disabled",
       title: "Disabled",
       text: "`disabled` on `Combobox` disables the trigger.",
       code: "// ComboboxDisabledPreview",
-      renderPreview: () => <ComboboxDisabledPreview />
+      renderPreview: () => <ComboboxDisabledPreview />,
     },
     {
       id: "auto-highlight",
       title: "Auto-highlight + keyboard",
       text: "`autoHighlight` on `Combobox`: first visible row is highlighted on filter; ArrowUp/Down moves; Enter activates (via `Command`).",
       code: "// ComboboxAutoHighlightPreview",
-      renderPreview: () => <ComboboxAutoHighlightPreview />
+      renderPreview: () => <ComboboxAutoHighlightPreview />,
     },
     {
       id: "clear-button",
       title: "Clear button (preset)",
       text: "`ComboboxSelect` with `showClear` — `ComboboxClear` resets selection (and filter when lifted).",
       code: "// ComboboxSelect showClear",
-      renderPreview: () => <ComboboxClearPresetPreview />
+      renderPreview: () => <ComboboxClearPresetPreview />,
     },
     {
       id: "inline-input",
       title: "Inline input trigger (Base UI style)",
       text: "`ComboboxSelect` with `liftedFilter` + `autoHighlight`: visible field is the filter; list opens below; optional `showClear`.",
       code: "// ComboboxSelect liftedFilter",
-      renderPreview: () => <ComboboxInlineInputPresetPreview />
+      renderPreview: () => <ComboboxInlineInputPresetPreview />,
     },
     {
       id: "multi-chips",
       title: "Multi-select + chips",
       text: "`ComboboxSelect` with `multiple`: chip row + `ComboboxChipsInput`; `onValueChange` receives `string[]`.",
       code: "// ComboboxMultiChipsPreview",
-      renderPreview: () => <ComboboxMultiChipsPreview />
+      renderPreview: () => <ComboboxMultiChipsPreview />,
     },
     {
       id: "rtl",
       title: "RTL",
       text: "`dir` on `Combobox` and `ComboboxInput`; EN / AR / HE toggles.",
       code: "// ComboboxRtlPreview",
-      renderPreview: () => <ComboboxRtlPreview />
-    }
+      renderPreview: () => <ComboboxRtlPreview />,
+    },
   ],
   apiRows: [
     { prop: "Combobox items", type: "readonly unknown[]", defaultValue: "[]" },
-    { prop: "Combobox multiple / liftedFilter / autoHighlight / showClear", type: "boolean", defaultValue: "false" },
-    { prop: "Combobox value / defaultValue / onValueChange", type: "string | string[]", defaultValue: "—" },
+    {
+      prop: "Combobox multiple / liftedFilter / autoHighlight / showClear",
+      type: "boolean",
+      defaultValue: "false",
+    },
+    {
+      prop: "Combobox value / defaultValue / onValueChange",
+      type: "string | string[]",
+      defaultValue: "—",
+    },
     { prop: "ComboboxItem item", type: "unknown (row payload)", defaultValue: "required" },
     { prop: "ComboboxList children", type: "(item, index) => vnode", defaultValue: "—" },
-    { prop: "ComboboxSelect", type: "liftedFilter, multiple, showClear, autoHighlight", defaultValue: "—" },
-    { prop: "Command autoHighlight", type: "boolean", defaultValue: "false" }
+    {
+      prop: "ComboboxSelect",
+      type: "liftedFilter, multiple, showClear, autoHighlight",
+      defaultValue: "—",
+    },
+    { prop: "Command autoHighlight", type: "boolean", defaultValue: "false" },
   ],
   accessibilityText:
-    "Associate a visible `Label` with the trigger id when used in forms. The filter input inside the popover should have a clear placeholder; announce errors via `aria-invalid` on the trigger when validation fails."
+    "Associate a visible `Label` with the trigger id when used in forms. The filter input inside the popover should have a clear placeholder; announce errors via `aria-invalid` on the trigger when validation fails.",
 });

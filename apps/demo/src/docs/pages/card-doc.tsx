@@ -11,7 +11,7 @@ import {
   CardTitle,
   DirectionProvider,
   Input,
-  Label
+  Label,
 } from "@kamod-ui/core";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
@@ -112,7 +112,10 @@ const CardDemoPreview = () => (
           <div class="grid gap-2">
             <div class="flex items-center gap-2">
               <Label htmlFor={`${p}-password`}>Password</Label>
-              <a href="#card" class="text-primary ms-auto inline-block text-sm underline-offset-4 hover:underline">
+              <a
+                href="#card"
+                class="text-primary ms-auto inline-block text-sm underline-offset-4 hover:underline"
+              >
                 Forgot your password?
               </a>
             </div>
@@ -140,7 +143,8 @@ const CardSmallPreview = () => (
     </CardHeader>
     <CardContent>
       <p class="text-sm">
-        The card component supports a size prop that can be set to &quot;sm&quot; for a more compact appearance.
+        The card component supports a size prop that can be set to &quot;sm&quot; for a more compact
+        appearance.
       </p>
     </CardContent>
     <CardFooter>
@@ -201,7 +205,7 @@ const rtlCopy: Record<
     password: "Password",
     forgot: "Forgot your password?",
     login: "Login",
-    google: "Login with Google"
+    google: "Login with Google",
   },
   ar: {
     dir: "rtl",
@@ -213,7 +217,7 @@ const rtlCopy: Record<
     password: "كلمة المرور",
     forgot: "نسيت كلمة المرور؟",
     login: "تسجيل الدخول",
-    google: "تسجيل الدخول باستخدام Google"
+    google: "تسجيل الدخول باستخدام Google",
   },
   he: {
     dir: "rtl",
@@ -225,8 +229,8 @@ const rtlCopy: Record<
     password: "סיסמה",
     forgot: "שכחת את הסיסמה?",
     login: "התחבר",
-    google: "התחבר עם Google"
-  }
+    google: "התחבר עם Google",
+  },
 };
 
 const CardRtlPreview = () => {
@@ -237,7 +241,12 @@ const CardRtlPreview = () => {
     <div class="flex w-full max-w-sm flex-col gap-3">
       <div class="flex flex-wrap gap-2">
         {(["en", "ar", "he"] as const).map((key) => (
-          <Button key={key} variant={lang === key ? "default" : "outline"} size="sm" onClick={() => setLang(key)}>
+          <Button
+            key={key}
+            variant={lang === key ? "default" : "outline"}
+            size="sm"
+            onClick={() => setLang(key)}
+          >
             {rtlCopy[key].label}
           </Button>
         ))}
@@ -270,7 +279,10 @@ const CardRtlPreview = () => {
                 <div class="grid gap-2">
                   <div class="flex items-center gap-2">
                     <Label htmlFor={`${p}-rtl-password-${lang}`}>{t.password}</Label>
-                    <a href="#card" class="text-primary ms-auto inline-block text-sm underline-offset-4 hover:underline">
+                    <a
+                      href="#card"
+                      class="text-primary ms-auto inline-block text-sm underline-offset-4 hover:underline"
+                    >
                       {t.forgot}
                     </a>
                   </div>
@@ -318,26 +330,26 @@ export const cardDocPage = createGenericDocPage({
   title: "Card",
   previewCode: LOGIN_DEMO_CODE,
   usageLabel:
-    "Surface for grouped content and actions — shadcn-aligned slots, `size=\"sm\"`, header grid with `CardAction`, image hero, and RTL.",
+    'Surface for grouped content and actions — shadcn-aligned slots, `size="sm"`, header grid with `CardAction`, image hero, and RTL.',
   installationText: "Import Card and subcomponents from `@/components/kamod-ui/card`.",
   installationExample: {
     code: USAGE_SNIPPET,
-    renderPreview: () => <InstallationUsagePreview />
+    renderPreview: () => <InstallationUsagePreview />,
   },
   usageText:
-    "Compose `CardHeader` (title, description, optional `CardAction`), `CardContent`, and `CardFooter`. Set `size=\"sm\"` on `Card` for tighter padding. For cover images, use `class=\"pt-0\"` on the card and place the image as the first block; pair with `DirectionProvider` for RTL layouts.",
+    'Compose `CardHeader` (title, description, optional `CardAction`), `CardContent`, and `CardFooter`. Set `size="sm"` on `Card` for tighter padding. For cover images, use `class="pt-0"` on the card and place the image as the first block; pair with `DirectionProvider` for RTL layouts.',
   exampleSections: [
     {
       id: "card-demo",
       title: "Demo",
       text: "Login-style layout with header action, form fields, and stacked footer buttons (shadcn CardDemo).",
       code: LOGIN_DEMO_CODE,
-      renderPreview: () => <CardDemoPreview />
+      renderPreview: () => <CardDemoPreview />,
     },
     {
       id: "card-size",
       title: "Size",
-      text: "Use `size=\"sm\"` for reduced vertical padding and smaller type scale on the card.",
+      text: 'Use `size="sm"` for reduced vertical padding and smaller type scale on the card.',
       code: `import { Button } from "@/components/kamod-ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/kamod-ui/card";
 
@@ -362,7 +374,7 @@ export const Example = () => (
     </CardFooter>
   </Card>
 );`,
-      renderPreview: () => <CardSmallPreview />
+      renderPreview: () => <CardSmallPreview />,
     },
     {
       id: "card-image",
@@ -395,7 +407,7 @@ export const Example = () => (
     </CardFooter>
   </Card>
 );`,
-      renderPreview: () => <CardImagePreview />
+      renderPreview: () => <CardImagePreview />,
     },
     {
       id: "card-rtl",
@@ -429,19 +441,19 @@ export const Example = () => {
     </DirectionProvider>
   );
 };`,
-      renderPreview: () => <CardRtlPreview />
-    }
+      renderPreview: () => <CardRtlPreview />,
+    },
   ],
   apiRows: [
-    { prop: "Card `size`", type: "`\"default\"` | `\"sm\"`", defaultValue: "`\"default\"`" },
+    { prop: "Card `size`", type: '`"default"` | `"sm"`', defaultValue: '`"default"`' },
     { prop: "Card `class`", type: "string", defaultValue: "undefined" },
     { prop: "CardHeader `class`", type: "string", defaultValue: "undefined" },
     { prop: "CardTitle `class`", type: "string", defaultValue: "undefined" },
     { prop: "CardDescription `class`", type: "string", defaultValue: "undefined" },
     { prop: "CardAction `class`", type: "string", defaultValue: "undefined" },
     { prop: "CardContent `class`", type: "string", defaultValue: "undefined" },
-    { prop: "CardFooter `class`", type: "string", defaultValue: "undefined" }
+    { prop: "CardFooter `class`", type: "string", defaultValue: "undefined" },
   ],
   accessibilityText:
-    "Keep headings concise; ensure `CardAction` controls have visible labels. When using image cards, provide meaningful `alt` text. For RTL, set `dir` on the card and wrap with `DirectionProvider` so spacing utilities resolve correctly."
+    "Keep headings concise; ensure `CardAction` controls have visible labels. When using image cards, provide meaningful `alt` text. For RTL, set `dir` on the card and wrap with `DirectionProvider` so spacing utilities resolve correctly.",
 });

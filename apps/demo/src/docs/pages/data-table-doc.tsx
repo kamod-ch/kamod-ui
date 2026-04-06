@@ -1,11 +1,4 @@
-import {
-  DataTable,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow
-} from "@kamod-ui/core";
+import { DataTable, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@kamod-ui/core";
 import { createGenericDocPage } from "./create-generic-doc-page";
 import { PaymentsDataTableDemo, paymentRows, type Payment } from "./data-table-payments-demo";
 
@@ -24,7 +17,9 @@ const BasicPaymentsTablePreview = () => (
           <TableCell class="capitalize">{p.status}</TableCell>
           <TableCell class="lowercase">{p.email}</TableCell>
           <TableCell class="text-end font-medium tabular-nums">
-            {new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(p.amount)}
+            {new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(
+              p.amount,
+            )}
           </TableCell>
         </TableRow>
       ))}
@@ -71,7 +66,7 @@ export const Example = () => <PaymentsDataTableDemo />;`,
       code: `import { PaymentsDataTableDemo } from "./data-table-payments-demo";
 
 export const Example = () => <PaymentsDataTableDemo />;`,
-      renderPreview: () => <PaymentsDataTableDemo />
+      renderPreview: () => <PaymentsDataTableDemo />,
     },
     {
       id: "basic-table",
@@ -103,7 +98,7 @@ export const Example = () => (
     </TableBody>
   </DataTable>
 );`,
-      renderPreview: () => <BasicPaymentsTablePreview />
+      renderPreview: () => <BasicPaymentsTablePreview />,
     },
     {
       id: "empty-state",
@@ -124,15 +119,15 @@ export const Example = () => (
     </TableBody>
   </DataTable>
 );`,
-      renderPreview: () => <EmptyTablePreview />
-    }
+      renderPreview: () => <EmptyTablePreview />,
+    },
   ],
   apiRows: [
     { prop: "chrome", type: "boolean", defaultValue: "true" },
     { prop: "class", type: "string", defaultValue: "undefined" },
     { prop: "children", type: "Table sections", defaultValue: "required" },
-    { prop: "data-slot", type: '"data-table"', defaultValue: '"data-table"' }
+    { prop: "data-slot", type: '"data-table"', defaultValue: '"data-table"' },
   ],
   accessibilityText:
-    "Use `<th scope=\"col\">` via `TableHead` for headers, keep row actions reachable by keyboard (Dropdown trigger), and expose selection with `aria-label` on checkboxes. Announce filter/pagination changes when wiring live regions in product code."
+    'Use `<th scope="col">` via `TableHead` for headers, keep row actions reachable by keyboard (Dropdown trigger), and expose selection with `aria-label` on checkboxes. Announce filter/pagination changes when wiring live regions in product code.',
 });

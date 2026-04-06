@@ -13,7 +13,7 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue
+  SelectValue,
 } from "@kamod-ui/core";
 import { Info } from "lucide-preact";
 import { createGenericDocPage } from "./create-generic-doc-page";
@@ -38,7 +38,7 @@ export const Example = () => (
     "Single-line text control — shadcn-aligned styling, sizes, Field composition, file type, and groups.",
   installationText: "Import Input from `@/components/kamod-ui/input`.",
   usageText:
-    "Pair with Field for label and description. Use orientation=\"horizontal\" on Field for search + button rows. Use InputGroup for prefixed text and icons; ButtonGroup to attach a button flush to the input.",
+    'Pair with Field for label and description. Use orientation="horizontal" on Field for search + button rows. Use InputGroup for prefixed text and icons; ButtonGroup to attach a button flush to the input.',
   exampleSections: [
     {
       id: "input-demo",
@@ -56,13 +56,10 @@ export const Example = () => (
   </Field>
 );`,
       renderPreview: () => (
-        <Field
-          label="API Key"
-          description="Your API key is encrypted and stored securely."
-        >
+        <Field label="API Key" description="Your API key is encrypted and stored securely.">
           <Input id={`${p}-demo-api`} type="password" placeholder="sk-..." class="max-w-md" />
         </Field>
-      )
+      ),
     },
     {
       id: "input-basic",
@@ -71,7 +68,7 @@ export const Example = () => (
       code: `import { Input } from "@/components/kamod-ui/input";
 
 export const Example = () => <Input placeholder="Enter text" class="max-w-md" />;`,
-      renderPreview: () => <Input placeholder="Enter text" class="max-w-md" />
+      renderPreview: () => <Input placeholder="Enter text" class="max-w-md" />,
     },
     {
       id: "input-field",
@@ -89,13 +86,15 @@ export const Example = () => (
   </Field>
 );`,
       renderPreview: () => (
-        <Field
-          label="Username"
-          description="Choose a unique username for your account."
-        >
-          <Input id={`${p}-username`} type="text" placeholder="Enter your username" class="max-w-md" />
+        <Field label="Username" description="Choose a unique username for your account.">
+          <Input
+            id={`${p}-username`}
+            type="text"
+            placeholder="Enter your username"
+            class="max-w-md"
+          />
         </Field>
-      )
+      ),
     },
     {
       id: "input-field-group",
@@ -139,7 +138,7 @@ export const Example = () => (
             <Button type="submit">Submit</Button>
           </Field>
         </div>
-      )
+      ),
     },
     {
       id: "input-disabled",
@@ -157,7 +156,7 @@ export const Example = () => (
         <Field label="Email" disabled description="This field is currently disabled.">
           <Input id={`${p}-dis-email`} type="email" placeholder="Email" disabled class="max-w-md" />
         </Field>
-      )
+      ),
     },
     {
       id: "input-invalid",
@@ -176,19 +175,15 @@ export const Example = () => (
   </Field>
 );`,
       renderPreview: () => (
-        <Field
-          label="Invalid Input"
-          invalid
-          description="This field contains validation errors."
-        >
+        <Field label="Invalid Input" invalid description="This field contains validation errors.">
           <Input id={`${p}-inv`} placeholder="Error" aria-invalid class="max-w-md" />
         </Field>
-      )
+      ),
     },
     {
       id: "input-file",
       title: "File",
-      text: "type=\"file\" with file:* styling on Input (shadcn File).",
+      text: 'type="file" with file:* styling on Input (shadcn File).',
       code: `import { Field } from "@/components/kamod-ui/field"
 import { Input } from "@/components/kamod-ui/input";
 
@@ -201,7 +196,7 @@ export const Example = () => (
         <Field label="Picture" description="Select a picture to upload.">
           <Input id={`${p}-pic`} type="file" class="max-w-md" />
         </Field>
-      )
+      ),
     },
     {
       id: "input-inline",
@@ -222,7 +217,7 @@ export const Example = () => (
           <Input type="search" placeholder="Search..." class="min-w-0 flex-1" />
           <Button>Search</Button>
         </Field>
-      )
+      ),
     },
     {
       id: "input-grid",
@@ -250,7 +245,7 @@ export const Example = () => (
             <Input id={`${p}-ln`} placeholder="Lee" />
           </Field>
         </div>
-      )
+      ),
     },
     {
       id: "input-required",
@@ -272,7 +267,7 @@ export const Example = () => (
         <Field required label="Required Field" description="This field must be filled out.">
           <Input id={`${p}-req`} placeholder="This field is required" required class="max-w-md" />
         </Field>
-      )
+      ),
     },
     {
       id: "input-badge",
@@ -307,9 +302,14 @@ export const Example = () => (
             </span>
           }
         >
-          <Input id={`${p}-wh`} type="url" placeholder="https://api.example.com/webhook" class="max-w-md" />
+          <Input
+            id={`${p}-wh`}
+            type="url"
+            placeholder="https://api.example.com/webhook"
+            class="max-w-md"
+          />
         </Field>
-      )
+      ),
     },
     {
       id: "input-input-group",
@@ -344,7 +344,7 @@ export const Example = () => (
             </InputGroupAddon>
           </InputGroup>
         </Field>
-      )
+      ),
     },
     {
       id: "input-button-group",
@@ -378,7 +378,7 @@ export const Example = () => (
             </Button>
           </ButtonGroup>
         </Field>
-      )
+      ),
     },
     {
       id: "input-form",
@@ -463,7 +463,7 @@ export const Example = () => (
             <Button type="submit">Submit</Button>
           </Field>
         </form>
-      )
+      ),
     },
     {
       id: "input-sizes",
@@ -484,12 +484,12 @@ export const Example = () => (
           <Input size="md" placeholder="Default (md)" />
           <Input size="lg" placeholder="Large input" />
         </div>
-      )
+      ),
     },
     {
       id: "input-rtl",
       title: "RTL",
-      text: "dir=\"rtl\" on Field and Input for Arabic-style layout (shadcn RTL).",
+      text: 'dir="rtl" on Field and Input for Arabic-style layout (shadcn RTL).',
       code: `import { Field } from "@/components/kamod-ui/field"
 import { Input } from "@/components/kamod-ui/input";
 
@@ -503,15 +503,17 @@ export const Example = () => (
   </Field>
 );`,
       renderPreview: () => (
-        <Field
-          dir="rtl"
-          label="مفتاح API"
-          description="مفتاح API الخاص بك مشفر ومخزن بأمان."
-        >
-          <Input id={`${p}-rtl-api`} type="password" placeholder="sk-..." dir="rtl" class="max-w-md" />
+        <Field dir="rtl" label="مفتاح API" description="مفتاح API الخاص بك مشفر ومخزن بأمان.">
+          <Input
+            id={`${p}-rtl-api`}
+            type="password"
+            placeholder="sk-..."
+            dir="rtl"
+            class="max-w-md"
+          />
         </Field>
-      )
-    }
+      ),
+    },
   ],
   apiRows: [
     { prop: "size", type: '"sm" | "md" | "lg"', defaultValue: '"md"' },
@@ -519,8 +521,8 @@ export const Example = () => (
     { prop: "placeholder", type: "string", defaultValue: "undefined" },
     { prop: "disabled", type: "boolean", defaultValue: "false" },
     { prop: "aria-invalid", type: "boolean", defaultValue: "false" },
-    { prop: "class", type: "string", defaultValue: "undefined" }
+    { prop: "class", type: "string", defaultValue: "undefined" },
   ],
   accessibilityText:
-    "Associate inputs with visible labels (Field, or Label with htmlFor). Use semantic types (email, tel, search, password). Mark validation with aria-invalid and describe errors in Field.error or description."
+    "Associate inputs with visible labels (Field, or Label with htmlFor). Use semantic types (email, tel, search, password). Mark validation with aria-invalid and describe errors in Field.error or description.",
 });

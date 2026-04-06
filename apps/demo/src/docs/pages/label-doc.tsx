@@ -4,7 +4,8 @@ import { createGenericDocPage } from "./create-generic-doc-page";
 export const labelDocPage = createGenericDocPage({
   slug: "label",
   title: "Label",
-  usageLabel: "Accessible captions for form controls — Radix/shadcn-aligned typography and disabled-state pairing.",
+  usageLabel:
+    "Accessible captions for form controls — Radix/shadcn-aligned typography and disabled-state pairing.",
   installationText: "Import Label from `@/components/kamod-ui/label`.",
   usageText:
     "Associate controls with htmlFor/id. Put the control **before** the label when you rely on Tailwind `peer-disabled` styling on the label. For full forms with legends and errors, prefer a Field pattern when your app provides it.",
@@ -27,7 +28,7 @@ export const Example = () => (
           <Checkbox id="terms-label-demo-main" />
           <Label htmlFor="terms-label-demo-main">Accept terms and conditions</Label>
         </div>
-      )
+      ),
     },
     {
       id: "label-usage",
@@ -41,9 +42,14 @@ export const Example = () => (
       renderPreview: () => (
         <div class="grid max-w-xs gap-1">
           <Label htmlFor="email-label-usage-only">Your email address</Label>
-          <input id="email-label-usage-only" type="email" class="rounded-md border border-input px-2 py-1 text-sm" placeholder="you@example.com" />
+          <input
+            id="email-label-usage-only"
+            type="email"
+            class="rounded-md border border-input px-2 py-1 text-sm"
+            placeholder="you@example.com"
+          />
         </div>
-      )
+      ),
     },
     {
       id: "label-with-checkbox",
@@ -75,7 +81,7 @@ export const Example = () => (
             <Label htmlFor="terms-label-doc-2d">Unavailable option</Label>
           </div>
         </div>
-      )
+      ),
     },
     {
       id: "label-with-input",
@@ -95,7 +101,7 @@ export const Example = () => (
           <Label htmlFor="email-label-doc">Email</Label>
           <Input id="email-label-doc" type="email" placeholder="Email" />
         </div>
-      )
+      ),
     },
     {
       id: "label-with-textarea",
@@ -115,7 +121,7 @@ export const Example = () => (
           <Label htmlFor="message-label-doc">Your message</Label>
           <Textarea id="message-label-doc" placeholder="Type your message here." />
         </div>
-      )
+      ),
     },
     {
       id: "label-field-hint",
@@ -137,7 +143,7 @@ export const Example = () => (
           <Input id="card-label-doc" placeholder="1234 5678 9012 3456" />
           <p class="text-muted-foreground text-sm">Enter your 16-digit card number</p>
         </div>
-      )
+      ),
     },
     {
       id: "label-sizes",
@@ -158,7 +164,7 @@ export const Example = () => (
           <Label size="md">Medium label</Label>
           <Label size="lg">Large label</Label>
         </div>
-      )
+      ),
     },
     {
       id: "label-rtl",
@@ -178,14 +184,14 @@ export const Example = () => (
           <Checkbox id="terms-label-rtl" />
           <Label htmlFor="terms-label-rtl">قبول الشروط والأحكام</Label>
         </div>
-      )
-    }
+      ),
+    },
   ],
   apiRows: [
     { prop: "size", type: '"sm" | "md" | "lg"', defaultValue: '"sm"' },
     { prop: "htmlFor", type: "string", defaultValue: "undefined" },
-    { prop: "children", type: "ComponentChildren", defaultValue: "required" }
+    { prop: "children", type: "ComponentChildren", defaultValue: "required" },
   ],
   accessibilityText:
-    "Associate labels with controls via htmlFor/id or wrap the control inside the label. Ensure disabled controls use the native disabled attribute so peer-disabled label styles apply."
+    "Associate labels with controls via htmlFor/id or wrap the control inside the label. Ensure disabled controls use the native disabled attribute so peer-disabled label styles apply.",
 });

@@ -5,8 +5,10 @@ export const tooltipDocPage = createGenericDocPage({
   slug: "tooltip",
   title: "Tooltip",
   usageLabel: "A modern popup label that appears on hover or keyboard focus.",
-  installationText: "Import TooltipProvider, Tooltip, TooltipTrigger and TooltipContent from `@/components/kamod-ui/tooltip`.",
-  usageText: "Keep tooltip copy short, support keyboard focus, and never hide critical actions behind only tooltip text.",
+  installationText:
+    "Import TooltipProvider, Tooltip, TooltipTrigger and TooltipContent from `@/components/kamod-ui/tooltip`.",
+  usageText:
+    "Keep tooltip copy short, support keyboard focus, and never hide critical actions behind only tooltip text.",
   exampleSections: [
     {
       id: "basic-tooltip",
@@ -34,7 +36,7 @@ export const Example = () => (
             <TooltipContent>Add to library</TooltipContent>
           </Tooltip>
         </TooltipProvider>
-      )
+      ),
     },
     {
       id: "side-tooltip",
@@ -76,7 +78,7 @@ export const Example = () => (
             ))}
           </div>
         </TooltipProvider>
-      )
+      ),
     },
     {
       id: "align-tooltip",
@@ -124,7 +126,7 @@ export const Example = () => (
             </Tooltip>
           </div>
         </TooltipProvider>
-      )
+      ),
     },
     {
       id: "provider-delay-tooltip",
@@ -152,7 +154,7 @@ export const Example = () => (
             <TooltipContent>Shared provider timing</TooltipContent>
           </Tooltip>
         </TooltipProvider>
-      )
+      ),
     },
     {
       id: "non-hoverable-content-tooltip",
@@ -180,7 +182,7 @@ export const Example = () => (
             <TooltipContent>This tooltip does not stay open on content hover.</TooltipContent>
           </Tooltip>
         </TooltipProvider>
-      )
+      ),
     },
     {
       id: "shortcut-tooltip",
@@ -212,7 +214,7 @@ export const Example = () => (
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
-      )
+      ),
     },
     {
       id: "disabled-button-tooltip",
@@ -244,8 +246,8 @@ export const Example = () => (
             <TooltipContent>You need write access to continue.</TooltipContent>
           </Tooltip>
         </TooltipProvider>
-      )
-    }
+      ),
+    },
   ],
   apiRows: [
     { prop: "defaultOpen", type: "boolean", defaultValue: "false" },
@@ -259,13 +261,17 @@ export const Example = () => (
     { prop: "TooltipProvider disableHoverableContent", type: "boolean", defaultValue: "false" },
     { prop: "TooltipTrigger asChild", type: "boolean", defaultValue: "false" },
     { prop: "TooltipContent asChild", type: "boolean", defaultValue: "false" },
-    { prop: "TooltipContent side", type: '"top" | "right" | "bottom" | "left"', defaultValue: '"top"' },
+    {
+      prop: "TooltipContent side",
+      type: '"top" | "right" | "bottom" | "left"',
+      defaultValue: '"top"',
+    },
     { prop: "TooltipContent align", type: '"start" | "center" | "end"', defaultValue: '"center"' },
     { prop: "TooltipContent alignOffset", type: "number", defaultValue: "0" },
     { prop: "TooltipContent collisionPadding", type: "number", defaultValue: "8" },
     { prop: "TooltipContent forceMount", type: "boolean", defaultValue: "false" },
-    { prop: "TooltipTrigger", type: "focus/hover target", defaultValue: "required" }
+    { prop: "TooltipTrigger", type: "focus/hover target", defaultValue: "required" },
   ],
   accessibilityText:
-    "Tooltips are supplemental only: keep essential instructions visible in the UI and expose help text via focus for keyboard users."
+    "Tooltips are supplemental only: keep essential instructions visible in the UI and expose help text via focus for keyboard users.",
 });

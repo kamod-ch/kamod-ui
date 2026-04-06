@@ -514,7 +514,9 @@ html[data-theme="watson"] *::after {
 
 /* Checkbox: core uses bg-foreground when checked — Watson uses brand pink */
 html[data-theme="watson"] [data-slot="checkbox"][data-state="checked"] > span[aria-hidden="true"],
-html[data-theme="watson"] [data-slot="checkbox"][data-state="indeterminate"] > span[aria-hidden="true"] {
+html[data-theme="watson"]
+  [data-slot="checkbox"][data-state="indeterminate"]
+  > span[aria-hidden="true"] {
   border-color: var(--primary) !important;
   background-color: var(--primary) !important;
   color: var(--primary-foreground) !important;

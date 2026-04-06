@@ -13,7 +13,7 @@ import {
   DropdownGroup,
   DropdownItem,
   DropdownSeparator,
-  DropdownTrigger
+  DropdownTrigger,
 } from "@kamod-ui/core";
 import { Plus } from "lucide-preact";
 import { useState } from "preact/hooks";
@@ -67,7 +67,7 @@ type Lang = "en" | "ar" | "he";
 const rtlCopy: Record<Lang, { dir: "ltr" | "rtl"; label: string; moreUsers: string }> = {
   en: { dir: "ltr", label: "English (LTR)", moreUsers: "+3" },
   ar: { dir: "rtl", label: "العربية (RTL)", moreUsers: "+٣" },
-  he: { dir: "rtl", label: "עברית (RTL)", moreUsers: "+3" }
+  he: { dir: "rtl", label: "עברית (RTL)", moreUsers: "+3" },
 };
 
 function AvatarRtlDemo() {
@@ -78,7 +78,13 @@ function AvatarRtlDemo() {
     <div class="flex w-full max-w-3xl flex-col gap-3">
       <div class="flex flex-wrap gap-2">
         {(["en", "ar", "he"] as const).map((key) => (
-          <Button key={key} variant={lang === key ? "default" : "outline"} size="sm" type="button" onClick={() => setLang(key)}>
+          <Button
+            key={key}
+            variant={lang === key ? "default" : "outline"}
+            size="sm"
+            type="button"
+            onClick={() => setLang(key)}
+          >
             {rtlCopy[key].label}
           </Button>
         ))}
@@ -130,7 +136,7 @@ export const Example = () => (
     <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" class="grayscale" />
     <AvatarFallback>CN</AvatarFallback>
   </Avatar>
-);`
+);`,
   },
   badge: {
     preview: () => (
@@ -148,7 +154,7 @@ export const Example = () => (
     <AvatarFallback>CN</AvatarFallback>
     <AvatarBadge class="bg-green-600 dark:bg-green-800" />
   </Avatar>
-);`
+);`,
   },
   "badge-icon": {
     preview: () => (
@@ -171,7 +177,7 @@ export const Example = () => (
       <Plus />
     </AvatarBadge>
   </Avatar>
-);`
+);`,
   },
   group: {
     preview: () => (
@@ -198,7 +204,7 @@ export const Example = () => (
     <Avatar>…</Avatar>
     <Avatar>…</Avatar>
   </AvatarGroup>
-);`
+);`,
   },
   "group-count": {
     preview: () => (
@@ -225,7 +231,7 @@ export const Example = () => (
     …
     <AvatarGroupCount>+3</AvatarGroupCount>
   </AvatarGroup>
-);`
+);`,
   },
   "group-count-icon": {
     preview: () => (
@@ -257,7 +263,7 @@ export const Example = () => (
       <Plus />
     </AvatarGroupCount>
   </AvatarGroup>
-);`
+);`,
   },
   sizes: {
     preview: () => (
@@ -284,7 +290,7 @@ export const Example = () => (
     <Avatar>…</Avatar>
     <Avatar size="lg">…</Avatar>
   </div>
-);`
+);`,
   },
   dropdown: {
     preview: () => (
@@ -326,14 +332,14 @@ export const Example = () => (
     </DropdownTrigger>
     <DropdownContent class="w-40">…</DropdownContent>
   </Dropdown>
-);`
+);`,
   },
   rtl: {
     preview: () => <AvatarRtlDemo />,
     code: `import { Avatar, AvatarGroup, AvatarGroupCount } from "@/components/kamod-ui/avatar"
 import { DirectionProvider } from "@/components/kamod-ui/direction";
-// Set dir on the flex row; localize AvatarGroupCount (e.g. +٣).`
-  }
+// Set dir on the flex row; localize AvatarGroupCount (e.g. +٣).`,
+  },
 };
 
 const apiSections = [
@@ -342,33 +348,33 @@ const apiSections = [
     description: "Root container; size maps to data-size for badge scaling.",
     rows: [
       { prop: "size", type: '"sm" | "default" | "lg"', defaultValue: '"default"' },
-      { prop: "class", type: "string", defaultValue: "-" }
-    ]
+      { prop: "class", type: "string", defaultValue: "-" },
+    ],
   },
   {
     title: "AvatarImage",
     rows: [
       { prop: "src", type: "string", defaultValue: "-" },
       { prop: "alt", type: "string", defaultValue: '""' },
-      { prop: "class", type: "string", defaultValue: "-" }
-    ]
+      { prop: "class", type: "string", defaultValue: "-" },
+    ],
   },
   {
     title: "AvatarFallback",
-    rows: [{ prop: "class", type: "string", defaultValue: "-" }]
+    rows: [{ prop: "class", type: "string", defaultValue: "-" }],
   },
   {
     title: "AvatarBadge",
-    rows: [{ prop: "class", type: "string", defaultValue: "-" }]
+    rows: [{ prop: "class", type: "string", defaultValue: "-" }],
   },
   {
     title: "AvatarGroup",
-    rows: [{ prop: "class", type: "string", defaultValue: "-" }]
+    rows: [{ prop: "class", type: "string", defaultValue: "-" }],
   },
   {
     title: "AvatarGroupCount",
-    rows: [{ prop: "class", type: "string", defaultValue: "-" }]
-  }
+    rows: [{ prop: "class", type: "string", defaultValue: "-" }],
+  },
 ] as const;
 
 export const avatarDocPage: DocPageModule = {
@@ -378,26 +384,54 @@ export const avatarDocPage: DocPageModule = {
   usageLabel:
     "Profile image with initials fallback, status badge, overlapping groups, count chip, sizes, and dropdown trigger (shadcn Avatar pattern; no Radix dependency).",
   sections: [
-    { id: "installation", title: "Installation", text: "Import Avatar primitives from `@/components/kamod-ui/avatar`." },
+    {
+      id: "installation",
+      title: "Installation",
+      text: "Import Avatar primitives from `@/components/kamod-ui/avatar`.",
+    },
     {
       id: "usage",
       title: "Usage",
-      text: "Place AvatarImage and AvatarFallback inside Avatar. The fallback stays visible until the image fires load; on error it shows again."
+      text: "Place AvatarImage and AvatarFallback inside Avatar. The fallback stays visible until the image fires load; on error it shows again.",
     },
     { id: "basic", title: "Basic", text: "Image plus fallback initials." },
     {
       id: "badge",
       title: "Badge",
-      text: "AvatarBadge sits at the bottom-inline-end (logical end), overlaps the photo, and uses a thick white ring so the status dot reads clearly—same stacking as typical chat “online” indicators."
+      text: "AvatarBadge sits at the bottom-inline-end (logical end), overlaps the photo, and uses a thick white ring so the status dot reads clearly—same stacking as typical chat “online” indicators.",
     },
-    { id: "badge-icon", title: "Badge with icon", text: "Put an icon inside the badge; small avatars hide inner SVG to save space." },
-    { id: "group", title: "Avatar group", text: "Overlap avatars with ring separation using AvatarGroup." },
-    { id: "group-count", title: "Avatar group count", text: "Append AvatarGroupCount for overflow (+N)." },
-    { id: "group-count-icon", title: "Group count with icon", text: "Use an icon inside the count bubble (e.g. plus)." },
+    {
+      id: "badge-icon",
+      title: "Badge with icon",
+      text: "Put an icon inside the badge; small avatars hide inner SVG to save space.",
+    },
+    {
+      id: "group",
+      title: "Avatar group",
+      text: "Overlap avatars with ring separation using AvatarGroup.",
+    },
+    {
+      id: "group-count",
+      title: "Avatar group count",
+      text: "Append AvatarGroupCount for overflow (+N).",
+    },
+    {
+      id: "group-count-icon",
+      title: "Group count with icon",
+      text: "Use an icon inside the count bubble (e.g. plus).",
+    },
     { id: "sizes", title: "Sizes", text: "Use the size prop on Avatar (sm, default, lg)." },
-    { id: "dropdown", title: "Dropdown", text: "Use a ghost icon button as the dropdown trigger wrapping Avatar." },
-    { id: "rtl", title: "RTL", text: "Set dir on the row; badge position uses logical end/bottom." },
-    { id: "api-reference", title: "API Reference", text: "Component overview." }
+    {
+      id: "dropdown",
+      title: "Dropdown",
+      text: "Use a ghost icon button as the dropdown trigger wrapping Avatar.",
+    },
+    {
+      id: "rtl",
+      title: "RTL",
+      text: "Set dir on the row; badge position uses logical end/bottom.",
+    },
+    { id: "api-reference", title: "API Reference", text: "Component overview." },
   ],
   renderMain: (context) => {
     const renderSectionBody = (sectionId: string) => {
@@ -427,7 +461,7 @@ export const Example = () => (
     <AvatarImage src="https://github.com/shadcn.png" />
     <AvatarFallback>CN</AvatarFallback>
   </Avatar>
-);`
+);`,
         });
       }
       const block = sectionBlocks[sectionId];
@@ -436,7 +470,7 @@ export const Example = () => (
       }
       return context.renderPreviewAndCodeTabs({
         preview: block.preview(),
-        codeSnippet: block.code
+        codeSnippet: block.code,
       });
     };
 
@@ -446,7 +480,7 @@ export const Example = () => (
         {context.renderPreviewAndCodeTabs({
           preview: <AvatarHeroDemo />,
           codeSnippet: heroCode,
-          previewClass: "overflow-x-auto"
+          previewClass: "overflow-x-auto",
         })}
         {context.sections.map((docSection) => (
           <section key={docSection.id} id={docSection.id} class="docs-section">
@@ -458,5 +492,5 @@ export const Example = () => (
         ))}
       </>
     );
-  }
+  },
 };

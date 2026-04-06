@@ -1,40 +1,62 @@
-name: Build and Deploy Preact to All-Inkl
+name: Deploy demo to GitHub Pages
 
 on:
   push:
     branches:
       - main
 
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
     steps:
-      - name: 🚚 Checkout Code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: 📌 Setup pnpm
+      - name: Setup pnpm
         uses: pnpm/action-setup@v4
 
-      - name: 🟢 Setup Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          cache: 'pnpm'
+          node-version: 22
+          cache: pnpm
 
-      - name: 📦 Install dependencies
+      - name: Install dependencies
         run: pnpm install
 
-      - name: 🏗️ Build Preact App
-        run: pnpm run build
+      - name: Check demo formatting (oxfmt)
+        run: pnpm --filter demo run fmt:check
 
-      - name: 📂 Sync Dist to Server
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      - name: Build workspace (demo with Pages base path)
+        run: pnpm run build
+        env:
+          # https://<user>.github.io/<repo>/
+          VITE_BASE_PATH: /${{ github.event.repository.name }}/
+
+      - name: SPA fallback (deep links on GitHub Pages)
+        run: cp apps/demo/dist/index.html apps/demo/dist/404.html
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./apps/demo/dist/
-          server-dir: /www/htdocs/w014120b/ui.kamod.ch/
-          delete-remote-files: true
-          # Only add this if you experience timeout issues
-          # port: 21
+          path: apps/demo/dist
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

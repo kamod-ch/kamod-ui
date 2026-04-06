@@ -42,13 +42,14 @@
   --sidebar-outline: rgba(38, 37, 30, 0.35);
 
   --font-sans:
-    "Lato", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    "Lato", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --font-serif:
-    "Source Serif 4", "Iowan Old Style", "Palatino Linotype", ui-serif, Georgia, Cambria, "Times New Roman",
-    Times, serif;
+    "Source Serif 4", "Iowan Old Style", "Palatino Linotype", ui-serif, Georgia, Cambria,
+    "Times New Roman", Times, serif;
   --font-mono:
-    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+    monospace;
   --default-font-family: var(--font-sans);
   --font-primary: var(--font-sans);
   --font-display: var(--font-sans);
@@ -71,7 +72,8 @@
   --cursor-shadow-card:
     rgba(0, 0, 0, 0.14) 0px 28px 70px 0px, rgba(0, 0, 0, 0.1) 0px 14px 32px 0px,
     rgba(38, 37, 30, 0.1) 0px 0px 0px 1px;
-  --cursor-shadow-ambient: rgba(0, 0, 0, 0.02) 0px 0px 16px 0px, rgba(0, 0, 0, 0.008) 0px 0px 8px 0px;
+  --cursor-shadow-ambient:
+    rgba(0, 0, 0, 0.02) 0px 0px 16px 0px, rgba(0, 0, 0, 0.008) 0px 0px 8px 0px;
   --cursor-shadow-focus: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
 
@@ -116,13 +118,14 @@
   --sidebar-outline: rgba(242, 241, 237, 0.35);
 
   --font-sans:
-    "Lato", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    "Lato", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --font-serif:
-    "Source Serif 4", "Iowan Old Style", "Palatino Linotype", ui-serif, Georgia, Cambria, "Times New Roman",
-    Times, serif;
+    "Source Serif 4", "Iowan Old Style", "Palatino Linotype", ui-serif, Georgia, Cambria,
+    "Times New Roman", Times, serif;
   --font-mono:
-    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+    monospace;
   --default-font-family: var(--font-sans);
   --font-primary: var(--font-sans);
   --font-display: var(--font-sans);

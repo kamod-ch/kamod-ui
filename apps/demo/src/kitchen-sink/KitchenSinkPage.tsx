@@ -53,7 +53,7 @@ import {
   ThemeToggle,
   Tooltip,
   TooltipContent,
-  TooltipTrigger
+  TooltipTrigger,
 } from "@kamod-ui/core";
 import {
   ArrowUp,
@@ -77,8 +77,9 @@ import {
   SunMoon,
   Target,
   Users,
-  Wallet
+  Wallet,
 } from "lucide-preact";
+import { withBasePath } from "../base-path";
 import { docsBySlug, docsPages, docsUpdatedComponentSlugs } from "../docs/registry";
 import { DemoShell, demoTopNavItems } from "../layout/DemoShell";
 import { ThemePresetSelect } from "../theme/ThemePresetSelect";
@@ -87,7 +88,7 @@ const sortedDocPages = [...docsPages].sort((a, b) => a.title.localeCompare(b.tit
 
 const docFirstSectionHref = (slug: string) => {
   const first = docsBySlug[slug]?.sections[0]?.id ?? "installation";
-  return `/docs/${slug}/${first}`;
+  return withBasePath(`/docs/${slug}/${first}`);
 };
 
 const PRICE_RANGE_MIN = 0;
@@ -96,14 +97,13 @@ const PRICE_RANGE_STEP = 10;
 const PRICE_RANGE_SPAN = PRICE_RANGE_MAX - PRICE_RANGE_MIN;
 
 const snapPriceStep = (value: number) =>
-  PRICE_RANGE_MIN +
-  Math.round((value - PRICE_RANGE_MIN) / PRICE_RANGE_STEP) * PRICE_RANGE_STEP;
+  PRICE_RANGE_MIN + Math.round((value - PRICE_RANGE_MIN) / PRICE_RANGE_STEP) * PRICE_RANGE_STEP;
 
 /** Dual-thumb price range slider demo for the live kitchen sink. */
 const KitchenSinkSliderShowcase = () => {
   const [budget, setBudget] = useState(() => [
     snapPriceStep(PRICE_RANGE_MIN + 0.26 * PRICE_RANGE_SPAN),
-    snapPriceStep(PRICE_RANGE_MIN + 0.74 * PRICE_RANGE_SPAN)
+    snapPriceStep(PRICE_RANGE_MIN + 0.74 * PRICE_RANGE_SPAN),
   ]);
 
   return (
@@ -135,8 +135,10 @@ const AiPromptSourcesMenu = () => {
   const [webSearch, setWebSearch] = useState(true);
   const [appsIntegrations, setAppsIntegrations] = useState(true);
 
-  const row = "flex cursor-default select-none items-center gap-1.5 rounded-md px-1.5 py-1 text-xs font-normal leading-tight outline-none";
-  const item = "gap-1.5 py-1 text-xs font-normal leading-tight [&_svg:not([class*='size-'])]:size-3";
+  const row =
+    "flex cursor-default select-none items-center gap-1.5 rounded-md px-1.5 py-1 text-xs font-normal leading-tight outline-none";
+  const item =
+    "gap-1.5 py-1 text-xs font-normal leading-tight [&_svg:not([class*='size-'])]:size-3";
 
   return (
     <Dropdown>
@@ -265,7 +267,7 @@ const ADD_CONTEXT_PAGES = [
   { id: "docs", label: "Documentation", Icon: BookOpen },
   { id: "goals", label: "Goals & Objectives", Icon: Target },
   { id: "budget", label: "Budget Planning", Icon: Wallet },
-  { id: "team", label: "Team Directory", Icon: Users }
+  { id: "team", label: "Team Directory", Icon: Users },
 ] as const;
 
 /** @ Add context — compact overlay: search + Pages list (Notion-style). */
@@ -314,7 +316,9 @@ const AiPromptAddContextMenu = () => {
         </p>
         <div class="max-h-[min(14rem,42dvh)] overflow-y-auto overscroll-contain">
           {filtered.length === 0 ? (
-            <p class="px-2 py-2 text-center text-[10px] leading-snug text-muted-foreground">No pages match</p>
+            <p class="px-2 py-2 text-center text-[10px] leading-snug text-muted-foreground">
+              No pages match
+            </p>
           ) : (
             <div class="flex flex-col gap-px">
               {filtered.map((page) => {
@@ -464,7 +468,7 @@ const HEAR_ABOUT_OPTIONS = [
   { id: "social", label: "Social Media" },
   { id: "search", label: "Search Engine" },
   { id: "referral", label: "Referral" },
-  { id: "other", label: "Other" }
+  { id: "other", label: "Other" },
 ] as const;
 
 type HearAboutId = (typeof HEAR_ABOUT_OPTIONS)[number]["id"];
@@ -475,7 +479,7 @@ const HearAboutUsChips = () => {
     social: true,
     search: true,
     referral: false,
-    other: false
+    other: false,
   });
 
   return (
@@ -493,7 +497,9 @@ const HearAboutUsChips = () => {
             data-slot="kitchen-hear-about-chip"
             data-state={checked ? "checked" : "unchecked"}
             class={`inline-flex cursor-pointer items-center gap-1 rounded-full border px-2 py-0.5 text-xs font-medium transition-colors select-none ${
-              checked ? "border-border bg-muted text-foreground" : "border-border/60 bg-background text-foreground"
+              checked
+                ? "border-border bg-muted text-foreground"
+                : "border-border/60 bg-background text-foreground"
             }`}
           >
             <input
@@ -529,7 +535,10 @@ const KitchenSinkShowcase = () => (
   >
     <div class="landing-showcase-grid--4">
       {/* —— Column 1: Payment form (shadcn-style sections) —— */}
-      <div class="landing-showcase-panel landing-payment-panel" data-testid="kitchen-sink-payment-panel">
+      <div
+        class="landing-showcase-panel landing-payment-panel"
+        data-testid="kitchen-sink-payment-panel"
+      >
         {/* Section: Payment Method */}
         <div class="landing-payment-block">
           <h3 class="landing-payment-title">Payment Method</h3>
@@ -647,7 +656,9 @@ const KitchenSinkShowcase = () => (
             </Avatar>
           </AvatarGroup>
           <h3 class="landing-empty-state-heading">No Team Members</h3>
-          <p class="muted landing-empty-state-copy">Invite your team to collaborate on this project.</p>
+          <p class="muted landing-empty-state-copy">
+            Invite your team to collaborate on this project.
+          </p>
           <Button type="button" size="sm" class="landing-invite-members-btn rounded-full">
             <Plus class="size-3.5" strokeWidth={2.5} />
             Invite Members
@@ -670,14 +681,25 @@ const KitchenSinkShowcase = () => (
         </div>
 
         <div class="landing-message-bar">
-          <Button type="button" size="icon" variant="outline" class="rounded-full shrink-0 shadow-xs" aria-label="Add">
+          <Button
+            type="button"
+            size="icon"
+            variant="outline"
+            class="rounded-full shrink-0 shadow-xs"
+            aria-label="Add"
+          >
             <Plus class="size-4" strokeWidth={2} />
           </Button>
           <InputGroup class="min-w-0 flex-1 rounded-full shadow-xs">
             <InputGroupInput placeholder="Send a message..." class="text-sm" />
             <Tooltip>
               <TooltipTrigger asChild>
-                <InputGroupButton type="button" size="icon-sm" variant="ghost" aria-label="Voice input">
+                <InputGroupButton
+                  type="button"
+                  size="icon-sm"
+                  variant="ghost"
+                  aria-label="Voice input"
+                >
                   <Mic class="size-4 opacity-60" strokeWidth={2} />
                 </InputGroupButton>
               </TooltipTrigger>
@@ -693,15 +715,25 @@ const KitchenSinkShowcase = () => (
             <Search class="size-4 shrink-0 opacity-70" strokeWidth={2} />
           </InputGroupText>
           <InputGroupInput placeholder="Search..." class="text-sm" />
-          <InputGroupText class="pr-3 text-xs text-muted-foreground tabular-nums">12 results</InputGroupText>
+          <InputGroupText class="pr-3 text-xs text-muted-foreground tabular-nums">
+            12 results
+          </InputGroupText>
         </InputGroup>
 
         <InputGroup class="rounded-full shadow-xs">
-          <InputGroupText class="select-none pl-3 text-sm text-muted-foreground">https://</InputGroupText>
+          <InputGroupText class="select-none pl-3 text-sm text-muted-foreground">
+            https://
+          </InputGroupText>
           <InputGroupInput class="text-sm text-foreground" defaultValue="example.com" />
           <Tooltip>
             <TooltipTrigger asChild>
-              <InputGroupButton type="button" size="icon-sm" variant="ghost" class="text-muted-foreground" aria-label="Info">
+              <InputGroupButton
+                type="button"
+                size="icon-sm"
+                variant="ghost"
+                class="text-muted-foreground"
+                aria-label="Info"
+              >
                 <Info class="size-4 opacity-80" strokeWidth={2} />
               </InputGroupButton>
             </TooltipTrigger>
@@ -774,7 +806,9 @@ const KitchenSinkShowcase = () => (
         </div>
         <Separator />
         <p class="muted mb-1.5">Compute Environment</p>
-        <p class="text-xs text-muted-foreground mb-2">Select the compute environment for your cluster.</p>
+        <p class="text-xs text-muted-foreground mb-2">
+          Select the compute environment for your cluster.
+        </p>
         <RadioGroup defaultValue="k8s" class="landing-showcase-radio-stack">
           <SelectableCard value="k8s">
             <span class="grid gap-0.5 text-left">
@@ -827,7 +861,9 @@ const KitchenSinkShowcase = () => (
         </div>
         <label class="flex cursor-pointer items-start gap-2 text-sm">
           <Checkbox defaultChecked class="mt-0.5 shrink-0" aria-label="Agree to terms" />
-          <span class="text-muted-foreground leading-snug">I agree to the terms and conditions</span>
+          <span class="text-muted-foreground leading-snug">
+            I agree to the terms and conditions
+          </span>
         </label>
         <Pagination class="kitchen-sink-pagination-h8 justify-start">
           <PaginationContent>
@@ -866,7 +902,9 @@ const KitchenSinkShowcase = () => (
         <div class="rounded-lg border border-border bg-muted/20 px-4 py-6 text-center">
           <Spinner class="mx-auto mb-3" size="md" tone="primary" />
           <p class="text-sm font-medium">Processing your request</p>
-          <p class="muted mt-1 mb-3">Please wait while we process your request. Do not refresh the page.</p>
+          <p class="muted mt-1 mb-3">
+            Please wait while we process your request. Do not refresh the page.
+          </p>
           <Button variant="outline">Cancel</Button>
         </div>
       </div>
@@ -891,7 +929,7 @@ export const KitchenSinkPage = () => (
           </div>
           <nav aria-label="Mobile docs navigation" class="docs-mobile-sheet-nav">
             <SheetClose asChild>
-              <a href="/docs/components" class="docs-nav-button">
+              <a href={withBasePath("/docs/components")} class="docs-nav-button">
                 <span>Components overview</span>
               </a>
             </SheetClose>
@@ -899,7 +937,9 @@ export const KitchenSinkPage = () => (
               <SheetClose key={doc.slug} asChild>
                 <a href={docFirstSectionHref(doc.slug)} class="docs-nav-button">
                   <span>{doc.title}</span>
-                  {docsUpdatedComponentSlugs.has(doc.slug) ? <Badge variant="success">updated</Badge> : null}
+                  {docsUpdatedComponentSlugs.has(doc.slug) ? (
+                    <Badge variant="success">updated</Badge>
+                  ) : null}
                 </a>
               </SheetClose>
             ))}
@@ -922,11 +962,12 @@ export const KitchenSinkPage = () => (
             <p class="landing-shadcn-intro-eyebrow">Kitchen Sink</p>
             <h1 id="kitchen-sink-title">Own your UI. Built for Preact.</h1>
             <p class="landing-shadcn-intro-lead">
-              A set of beautifully designed components that you can customize, extend, and build on. Open Source. Open Code.
+              A set of beautifully designed components that you can customize, extend, and build on.
+              Open Source. Open Code.
             </p>
             <div class="landing-shadcn-intro-ctas">
-              <Button href="/docs/button/installation">Get Started</Button>
-              <Button href="/docs/components" variant="outline">
+              <Button href={withBasePath("/docs/button/installation")}>Get Started</Button>
+              <Button href={withBasePath("/docs/components")} variant="outline">
                 View Components
               </Button>
             </div>
@@ -937,8 +978,8 @@ export const KitchenSinkPage = () => (
         <KitchenSinkShowcase />
 
         <p class="landing-shadcn-footer-note">
-          This route is the{" "}
-          <span class="font-medium text-foreground">demo kitchen sink</span>. Layout inspired by{" "}
+          This route is the <span class="font-medium text-foreground">demo kitchen sink</span>.
+          Layout inspired by{" "}
           <a href="https://ui.shadcn.com/" target="_blank" rel="noreferrer">
             ui.shadcn.com
           </a>{" "}

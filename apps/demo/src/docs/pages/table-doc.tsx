@@ -12,7 +12,7 @@ import {
   TableFooter,
   TableHead,
   TableHeader,
-  TableRow
+  TableRow,
 } from "@kamod-ui/core";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
@@ -21,7 +21,8 @@ export const tableDocPage = createGenericDocPage({
   title: "Table",
   usageLabel: "A responsive, modern table primitive for structured data with semantic markup.",
   installationText: "Import Table primitives from `@/components/kamod-ui/table`.",
-  usageText: "Use TableHeader/TableBody/TableFooter and align numeric data to the right for better scanability.",
+  usageText:
+    "Use TableHeader/TableBody/TableFooter and align numeric data to the right for better scanability.",
   exampleSections: [
     {
       id: "invoice-table",
@@ -79,7 +80,7 @@ export const Example = () => (
             </TableRow>
           </TableBody>
         </Table>
-      )
+      ),
     },
     {
       id: "table-footer",
@@ -153,7 +154,7 @@ export const Example = () => (
             </TableRow>
           </TableFooter>
         </Table>
-      )
+      ),
     },
     {
       id: "table-actions",
@@ -259,15 +260,19 @@ export const Example = () => (
             </TableRow>
           </TableBody>
         </Table>
-      )
-    }
+      ),
+    },
   ],
   apiRows: [
-    { prop: "Table children", type: "TableHeader/TableBody/... primitives", defaultValue: "required" },
+    {
+      prop: "Table children",
+      type: "TableHeader/TableBody/... primitives",
+      defaultValue: "required",
+    },
     { prop: "TableCaption", type: "caption element", defaultValue: "optional" },
     { prop: "TableFooter", type: "footer section", defaultValue: "optional" },
-    { prop: "class", type: "string", defaultValue: "undefined" }
+    { prop: "class", type: "string", defaultValue: "undefined" },
   ],
   accessibilityText:
-    "Use concise header labels, preserve semantic table structure, and keep meaningful caption/footer content so assistive technologies can map row and column relationships."
+    "Use concise header labels, preserve semantic table structure, and keep meaningful caption/footer content so assistive technologies can map row and column relationships.",
 });

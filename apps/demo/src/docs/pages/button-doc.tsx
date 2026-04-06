@@ -8,10 +8,41 @@ import type { DocPageModule } from "../types";
 
 type Lang = "en" | "ar" | "he";
 
-const rtlCopy: Record<Lang, { dir: "ltr" | "rtl"; label: string; button: string; submit: string; delete: string; loading: string }> = {
-  en: { dir: "ltr", label: "English (LTR)", button: "Button", submit: "Submit", delete: "Delete", loading: "Loading" },
-  ar: { dir: "rtl", label: "العربية (RTL)", button: "زر", submit: "إرسال", delete: "حذف", loading: "جاري التحميل" },
-  he: { dir: "rtl", label: "עברית (RTL)", button: "כפתור", submit: "שלח", delete: "מחק", loading: "טוען" }
+const rtlCopy: Record<
+  Lang,
+  {
+    dir: "ltr" | "rtl";
+    label: string;
+    button: string;
+    submit: string;
+    delete: string;
+    loading: string;
+  }
+> = {
+  en: {
+    dir: "ltr",
+    label: "English (LTR)",
+    button: "Button",
+    submit: "Submit",
+    delete: "Delete",
+    loading: "Loading",
+  },
+  ar: {
+    dir: "rtl",
+    label: "العربية (RTL)",
+    button: "زر",
+    submit: "إرسال",
+    delete: "حذف",
+    loading: "جاري التحميل",
+  },
+  he: {
+    dir: "rtl",
+    label: "עברית (RTL)",
+    button: "כפתור",
+    submit: "שלח",
+    delete: "מחק",
+    loading: "טוען",
+  },
 };
 
 function ButtonRtlDemo() {
@@ -22,7 +53,13 @@ function ButtonRtlDemo() {
     <div class="flex w-full max-w-2xl flex-col gap-3">
       <div class="flex flex-wrap gap-2">
         {(["en", "ar", "he"] as const).map((key) => (
-          <Button key={key} variant={lang === key ? "default" : "outline"} size="sm" type="button" onClick={() => setLang(key)}>
+          <Button
+            key={key}
+            variant={lang === key ? "default" : "outline"}
+            size="sm"
+            type="button"
+            onClick={() => setLang(key)}
+          >
             {rtlCopy[key].label}
           </Button>
         ))}
@@ -125,49 +162,49 @@ export const Example = () => (
       <Button size="icon-lg" aria-label="Submit" variant="outline"><ArrowUpRight /></Button>
     </div>
   </div>
-);`
+);`,
   },
   default: {
     preview: () => <Button>Button</Button>,
     code: `import { Button } from "@/components/kamod-ui/button";
 
-export const Example = () => <Button>Button</Button>;`
+export const Example = () => <Button>Button</Button>;`,
   },
   outline: {
     preview: () => <Button variant="outline">Outline</Button>,
     code: `import { Button } from "@/components/kamod-ui/button";
 
-export const Example = () => <Button variant="outline">Outline</Button>;`
+export const Example = () => <Button variant="outline">Outline</Button>;`,
   },
   secondary: {
     preview: () => <Button variant="secondary">Secondary</Button>,
     code: `import { Button } from "@/components/kamod-ui/button";
 
-export const Example = () => <Button variant="secondary">Secondary</Button>;`
+export const Example = () => <Button variant="secondary">Secondary</Button>;`,
   },
   inverse: {
     preview: () => <Button variant="inverse">Inverse</Button>,
     code: `import { Button } from "@/components/kamod-ui/button";
 
-export const Example = () => <Button variant="inverse">Inverse</Button>;`
+export const Example = () => <Button variant="inverse">Inverse</Button>;`,
   },
   ghost: {
     preview: () => <Button variant="ghost">Ghost</Button>,
     code: `import { Button } from "@/components/kamod-ui/button";
 
-export const Example = () => <Button variant="ghost">Ghost</Button>;`
+export const Example = () => <Button variant="ghost">Ghost</Button>;`,
   },
   destructive: {
     preview: () => <Button variant="destructive">Destructive</Button>,
     code: `import { Button } from "@/components/kamod-ui/button";
 
-export const Example = () => <Button variant="destructive">Destructive</Button>;`
+export const Example = () => <Button variant="destructive">Destructive</Button>;`,
   },
   link: {
     preview: () => <Button variant="link">Link</Button>,
     code: `import { Button } from "@/components/kamod-ui/button";
 
-export const Example = () => <Button variant="link">Link</Button>;`
+export const Example = () => <Button variant="link">Link</Button>;`,
   },
   icon: {
     preview: () => (
@@ -182,7 +219,7 @@ export const Example = () => (
   <Button variant="outline" size="icon" aria-label="Submit">
     <ArrowUp />
   </Button>
-);`
+);`,
   },
   "with-icon": {
     preview: () => (
@@ -199,7 +236,7 @@ export const Example = () => (
     <GitBranch data-icon="inline-start" />
     New branch
   </Button>
-);`
+);`,
   },
   rounded: {
     preview: () => (
@@ -216,7 +253,7 @@ export const Example = () => (
   <Button variant="outline" size="icon" class="rounded-full" aria-label="Submit">
     <ArrowUp />
   </Button>
-);`
+);`,
   },
   spinner: {
     preview: () => (
@@ -245,7 +282,7 @@ export const Example = () => (
       <Spinner data-icon="inline-end" size="sm" tone="muted" />
     </Button>
   </div>
-);`
+);`,
   },
   "button-group": {
     preview: () => (
@@ -264,7 +301,7 @@ export const Example = () => (
     <Button variant="outline">Report</Button>
     <Button variant="outline">Snooze</Button>
   </ButtonGroup>
-);`
+);`,
   },
   "as-child": {
     preview: () => (
@@ -278,7 +315,7 @@ export const Example = () => (
   <Button asChild>
     <a href="/login">Login</a>
   </Button>
-);`
+);`,
   },
   rtl: {
     preview: () => <ButtonRtlDemo />,
@@ -286,26 +323,26 @@ export const Example = () => (
 import { Button } from "@/components/kamod-ui/button";
 import { DirectionProvider } from "@/components/kamod-ui/direction";
 import { Spinner } from "@/components/kamod-ui/spinner";
-// Wrap row in DirectionProvider; mirror directional icons with rotate-180 in RTL.`
-  }
+// Wrap row in DirectionProvider; mirror directional icons with rotate-180 in RTL.`,
+  },
 };
 
 const buttonApiRows: Array<{ prop: string; type: string; defaultValue: string }> = [
   {
     prop: "variant",
     type: '"default" | "outline" | "ghost" | "destructive" | "secondary" | "inverse" | "link"',
-    defaultValue: '"default"'
+    defaultValue: '"default"',
   },
   {
     prop: "size",
     type: '"default" | "xxs" | "xs" | "sm" | "lg" | "icon" | "icon-xs" | "icon-sm" | "icon-lg"',
-    defaultValue: '"default"'
+    defaultValue: '"default"',
   },
   {
     prop: "asChild",
     type: "boolean",
-    defaultValue: "false"
-  }
+    defaultValue: "false",
+  },
 ];
 
 export const buttonDocPage: DocPageModule = {
@@ -318,17 +355,17 @@ export const buttonDocPage: DocPageModule = {
     {
       id: "installation",
       title: "Installation",
-      text: "Import Button from `@/components/kamod-ui/button`. Use variant and size props; optional asChild to merge styles onto a child element (for example an anchor)."
+      text: "Import Button from `@/components/kamod-ui/button`. Use variant and size props; optional asChild to merge styles onto a child element (for example an anchor).",
     },
     {
       id: "cursor",
       title: "Cursor",
-      text: "Tailwind v4 defaults buttons to cursor: default. Kamod Button sets cursor-pointer (and disabled:cursor-not-allowed). If you use native buttons outside this component, you can mirror shadcn’s base layer snippet:"
+      text: "Tailwind v4 defaults buttons to cursor: default. Kamod Button sets cursor-pointer (and disabled:cursor-not-allowed). If you use native buttons outside this component, you can mirror shadcn’s base layer snippet:",
     },
     {
       id: "size",
       title: "Size",
-      text: "Use the size prop to change height and padding. Icon sizes pair with text sizes (xs → icon-xs, and so on). Kamod also supports size=\"xxs\" for ultra-compact UI (not shown in the grid below)."
+      text: 'Use the size prop to change height and padding. Icon sizes pair with text sizes (xs → icon-xs, and so on). Kamod also supports size="xxs" for ultra-compact UI (not shown in the grid below).',
     },
     { id: "default", title: "Default", text: "Primary emphasis — default variant." },
     { id: "outline", title: "Outline", text: "Bordered surface; works well in dense toolbars." },
@@ -336,7 +373,7 @@ export const buttonDocPage: DocPageModule = {
     {
       id: "inverse",
       title: "Inverse",
-      text: "High-contrast filled control using foreground on background (for example Cursor marketing dark CTA in light mode; flips in dark mode)."
+      text: "High-contrast filled control using foreground on background (for example Cursor marketing dark CTA in light mode; flips in dark mode).",
     },
     { id: "ghost", title: "Ghost", text: "Minimal chrome until hover." },
     { id: "destructive", title: "Destructive", text: "Dangerous or irreversible actions." },
@@ -345,30 +382,34 @@ export const buttonDocPage: DocPageModule = {
     {
       id: "with-icon",
       title: "With icon",
-      text: "Add data-icon=\"inline-start\" or data-icon=\"inline-end\" on the icon so horizontal padding stays balanced."
+      text: 'Add data-icon="inline-start" or data-icon="inline-end" on the icon so horizontal padding stays balanced.',
     },
-    { id: "rounded", title: "Rounded", text: "Use rounded-full (or other radius utilities) for pill or circular buttons." },
+    {
+      id: "rounded",
+      title: "Rounded",
+      text: "Use rounded-full (or other radius utilities) for pill or circular buttons.",
+    },
     {
       id: "spinner",
       title: "Spinner",
-      text: "Show loading state with Spinner plus data-icon placement (start vs end)."
+      text: "Show loading state with Spinner plus data-icon placement (start vs end).",
     },
     {
       id: "button-group",
       title: "Button group",
-      text: "Group related actions with ButtonGroup for shared borders and spacing. See the Button Group page for nested groups, separators, and dropdown patterns."
+      text: "Group related actions with ButtonGroup for shared borders and spacing. See the Button Group page for nested groups, separators, and dropdown patterns.",
     },
     {
       id: "as-child",
       title: "As child",
-      text: "Merge button styles onto another element — common for links that should look like buttons."
+      text: "Merge button styles onto another element — common for links that should look like buttons.",
     },
     {
       id: "rtl",
       title: "RTL",
-      text: "Use DirectionProvider for dir; flip directional icons (for example ArrowRight) with rotate-180 in RTL."
+      text: "Use DirectionProvider for dir; flip directional icons (for example ArrowRight) with rotate-180 in RTL.",
     },
-    { id: "api-reference", title: "API Reference", text: "Button props and accepted values." }
+    { id: "api-reference", title: "API Reference", text: "Button props and accepted values." },
   ],
   renderMain: (context) => {
     const renderSectionBody = (sectionId: string) => {
@@ -378,9 +419,10 @@ export const buttonDocPage: DocPageModule = {
             sections={[
               {
                 title: "Button",
-                description: "Wrapper around button (or anchor with href) that applies variant and size tokens.",
-                rows: buttonApiRows
-              }
+                description:
+                  "Wrapper around button (or anchor with href) that applies variant and size tokens.",
+                rows: buttonApiRows,
+              },
             ]}
           />
         );
@@ -391,7 +433,10 @@ export const buttonDocPage: DocPageModule = {
       if (sectionId === "installation") {
         return (
           <div class="grid gap-3">
-            <CodeBlock code={`import { Button } from "@/components/kamod-ui/button";`} language="tsx" />
+            <CodeBlock
+              code={`import { Button } from "@/components/kamod-ui/button";`}
+              language="tsx"
+            />
             <CodeBlock code={`<Button variant="outline">Button</Button>`} language="tsx" />
           </div>
         );
@@ -402,7 +447,7 @@ export const buttonDocPage: DocPageModule = {
       }
       return context.renderPreviewAndCodeTabs({
         preview: block.preview(),
-        codeSnippet: block.code
+        codeSnippet: block.code,
       });
     };
 
@@ -418,7 +463,7 @@ export const buttonDocPage: DocPageModule = {
               </Button>
             </div>
           ),
-          codeSnippet: heroCode
+          codeSnippet: heroCode,
         })}
         {context.sections.map((docSection) => (
           <section key={docSection.id} id={docSection.id} class="docs-section">
@@ -430,5 +475,5 @@ export const buttonDocPage: DocPageModule = {
         ))}
       </>
     );
-  }
+  },
 };

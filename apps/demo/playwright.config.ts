@@ -17,40 +17,40 @@ export default defineConfig({
     toHaveScreenshot: {
       maxDiffPixels: 150,
       threshold: 0.25,
-      animations: "disabled"
-    }
+      animations: "disabled",
+    },
   },
   use: {
     baseURL: "http://127.0.0.1:4173",
     trace: "on-first-retry",
-    screenshot: "only-on-failure"
+    screenshot: "only-on-failure",
   },
   webServer: {
     command: "pnpm dev --host 127.0.0.1 --port 4173",
     url: "http://127.0.0.1:4173",
     reuseExistingServer: !process.env.CI,
-    timeout: 120_000
+    timeout: 120_000,
   },
   projects: [
     {
       name: "chromium",
       use: {
         ...devices["Desktop Chrome"],
-        viewport: { width: 1440, height: 900 }
-      }
+        viewport: { width: 1440, height: 900 },
+      },
     },
     {
       name: "webkit",
       testMatch: /kitchen-sink.*\.spec\.ts/,
       use: {
         ...devices["Desktop Safari"],
-        viewport: { width: 1440, height: 900 }
-      }
+        viewport: { width: 1440, height: 900 },
+      },
     },
     {
       name: "iphone",
       testMatch: /kitchen-sink.*\.spec\.ts/,
-      use: { ...devices["iPhone 13"] }
-    }
-  ]
+      use: { ...devices["iPhone 13"] },
+    },
+  ],
 });

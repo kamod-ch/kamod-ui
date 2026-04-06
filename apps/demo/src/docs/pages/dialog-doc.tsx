@@ -13,7 +13,7 @@ import {
   FieldGroup,
   FieldLabel,
   Input,
-  Label
+  Label,
 } from "@kamod-ui/core";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
@@ -21,7 +21,16 @@ type Lang = "en" | "ar" | "he";
 
 const rtlCopy: Record<
   Lang,
-  { dir: "ltr" | "rtl"; btn: string; title: string; description: string; name: string; username: string; cancel: string; save: string }
+  {
+    dir: "ltr" | "rtl";
+    btn: string;
+    title: string;
+    description: string;
+    name: string;
+    username: string;
+    cancel: string;
+    save: string;
+  }
 > = {
   en: {
     dir: "ltr",
@@ -31,7 +40,7 @@ const rtlCopy: Record<
     name: "Name",
     username: "Username",
     cancel: "Cancel",
-    save: "Save changes"
+    save: "Save changes",
   },
   ar: {
     dir: "rtl",
@@ -41,7 +50,7 @@ const rtlCopy: Record<
     name: "الاسم",
     username: "اسم المستخدم",
     cancel: "إلغاء",
-    save: "حفظ التغييرات"
+    save: "حفظ التغييرات",
   },
   he: {
     dir: "rtl",
@@ -51,8 +60,8 @@ const rtlCopy: Record<
     name: "שם",
     username: "שם משתמש",
     cancel: "בטל",
-    save: "שמור שינויים"
-  }
+    save: "שמור שינויים",
+  },
 };
 
 const DialogRtlPreview = () => {
@@ -63,7 +72,12 @@ const DialogRtlPreview = () => {
     <div class="flex flex-col gap-3">
       <div class="flex flex-wrap gap-2">
         {(["en", "ar", "he"] as const).map((key) => (
-          <Button key={key} size="sm" variant={lang === key ? "default" : "outline"} onClick={() => setLang(key)}>
+          <Button
+            key={key}
+            size="sm"
+            variant={lang === key ? "default" : "outline"}
+            onClick={() => setLang(key)}
+          >
             {key.toUpperCase()}
           </Button>
         ))}
@@ -191,19 +205,19 @@ export const Example = () => (
   </Dialog>
 );`,
   usageLabel:
-    "Modal dialog with backdrop, centered panel, default close control, Escape + focus return, `presentation=\"slot\"` for custom layouts (Alert Dialog, full-screen previews).",
+    'Modal dialog with backdrop, centered panel, default close control, Escape + focus return, `presentation="slot"` for custom layouts (Alert Dialog, full-screen previews).',
   installationText:
-    "Install `@kamod-ui/core`, then compose `Dialog`, `DialogTrigger`, and `DialogContent` as in the snippet below. The default modal is centered; for immersive full-viewport layouts use `presentation=\"slot\"` and apply overlay + panel classes on `DialogContent` yourself (see Usage).",
+    'Install `@kamod-ui/core`, then compose `Dialog`, `DialogTrigger`, and `DialogContent` as in the snippet below. The default modal is centered; for immersive full-viewport layouts use `presentation="slot"` and apply overlay + panel classes on `DialogContent` yourself (see Usage).',
   installationExample: {
     code: INSTALLATION_FULLSCREEN_CODE,
-    renderPreview: () => <DialogInstallationFullscreenPreview />
+    renderPreview: () => <DialogInstallationFullscreenPreview />,
   },
   usageText:
-    "Default `DialogContent` is `presentation=\"modal\"` (backdrop + centered panel). If your code used to put **`fixed inset-0`**, **`flex items-center justify-center`**, and **`bg-black/50`** on `DialogContent` itself, you must set **`presentation=\"slot\"`** — otherwise you get two backdrops and a nested centered shell. Same pattern as `AlertDialogContent` and the docs “View Markdown” dialog. Width-only classes like `sm:max-w-md` on modal are fine without slot. `lockBodyScroll` defaults to true on `Dialog`.",
+    'Default `DialogContent` is `presentation="modal"` (backdrop + centered panel). If your code used to put **`fixed inset-0`**, **`flex items-center justify-center`**, and **`bg-black/50`** on `DialogContent` itself, you must set **`presentation="slot"`** — otherwise you get two backdrops and a nested centered shell. Same pattern as `AlertDialogContent` and the docs “View Markdown” dialog. Width-only classes like `sm:max-w-md` on modal are fine without slot. `lockBodyScroll` defaults to true on `Dialog`.',
   exampleSections: [
     {
       id: "presentation-slot",
-      title: "Custom layout: presentation=\"slot\"",
+      title: 'Custom layout: presentation="slot"',
       text: "Use when you own the full-screen overlay (fixed inset-0, dimmed backdrop, flex center). Without slot, the default modal adds its own overlay + panel on top.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Dialog, DialogClose, DialogContent, DialogTrigger } from "@/components/kamod-ui/dialog";
@@ -233,7 +247,10 @@ export const Example = () => (
           <DialogTrigger asChild>
             <Button variant="outline">Custom overlay</Button>
           </DialogTrigger>
-          <DialogContent presentation="slot" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <DialogContent
+            presentation="slot"
+            class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+          >
             <div class="max-w-sm rounded-lg border bg-background p-6 shadow-lg">
               <p class="text-sm">Your panel markup only — single portaled root.</p>
               <DialogClose asChild>
@@ -244,7 +261,7 @@ export const Example = () => (
             </div>
           </DialogContent>
         </Dialog>
-      )
+      ),
     },
     {
       id: "dialog-demo",
@@ -269,7 +286,9 @@ import { Input } from "@/components/kamod-ui/input";
             <DialogContent class="sm:max-w-sm">
               <DialogHeader>
                 <DialogTitle>Edit profile</DialogTitle>
-                <DialogDescription>Make changes to your profile here. Click save when you&apos;re done.</DialogDescription>
+                <DialogDescription>
+                  Make changes to your profile here. Click save when you&apos;re done.
+                </DialogDescription>
               </DialogHeader>
               <FieldGroup>
                 <Field>
@@ -290,7 +309,7 @@ import { Input } from "@/components/kamod-ui/input";
             </DialogContent>
           </form>
         </Dialog>
-      )
+      ),
     },
     {
       id: "basic-dialog",
@@ -323,7 +342,7 @@ export const Example = () => (
             </DialogHeader>
           </DialogContent>
         </Dialog>
-      )
+      ),
     },
     {
       id: "custom-close",
@@ -366,14 +385,20 @@ export const Example = () => (
           <DialogContent class="sm:max-w-md" showCloseButton={false}>
             <DialogHeader>
               <DialogTitle>Share link</DialogTitle>
-              <DialogDescription>Anyone who has this link will be able to view this.</DialogDescription>
+              <DialogDescription>
+                Anyone who has this link will be able to view this.
+              </DialogDescription>
             </DialogHeader>
             <div class="flex items-center gap-2">
               <div class="grid flex-1 gap-2">
                 <Label htmlFor="dialog-doc-link" class="sr-only">
                   Link
                 </Label>
-                <Input id="dialog-doc-link" readOnly defaultValue="https://ui.shadcn.com/docs/installation" />
+                <Input
+                  id="dialog-doc-link"
+                  readOnly
+                  defaultValue="https://ui.shadcn.com/docs/installation"
+                />
               </div>
             </div>
             <DialogFooter class="sm:justify-start">
@@ -383,7 +408,7 @@ export const Example = () => (
             </DialogFooter>
           </DialogContent>
         </Dialog>
-      )
+      ),
     },
     {
       id: "no-close-button",
@@ -417,7 +442,7 @@ export const Example = () => (
             </DialogHeader>
           </DialogContent>
         </Dialog>
-      )
+      ),
     },
     {
       id: "sticky-footer",
@@ -464,7 +489,8 @@ export const Example = () => (
             <div class="-mx-6 max-h-[50vh] overflow-y-auto px-6 text-sm leading-normal">
               {Array.from({ length: 10 }).map((_, i) => (
                 <p key={i} class="mb-4">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
+                  incididunt ut labore et dolore magna aliqua.
                 </p>
               ))}
             </div>
@@ -475,7 +501,7 @@ export const Example = () => (
             </DialogFooter>
           </DialogContent>
         </Dialog>
-      )
+      ),
     },
     {
       id: "scrollable-content",
@@ -515,13 +541,14 @@ export const Example = () => (
             <div class="-mx-6 max-h-[50vh] overflow-y-auto px-6 text-sm leading-normal">
               {Array.from({ length: 10 }).map((_, i) => (
                 <p key={i} class="mb-4">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
+                  incididunt ut labore et dolore magna aliqua.
                 </p>
               ))}
             </div>
           </DialogContent>
         </Dialog>
-      )
+      ),
     },
     {
       id: "dialog-rtl",
@@ -531,7 +558,7 @@ export const Example = () => (
 import { Dialog, DialogContent, DialogTrigger } from "@/components/kamod-ui/dialog";
 
 // See dialog-doc.tsx DialogRtlPreview`,
-      renderPreview: () => <DialogRtlPreview />
+      renderPreview: () => <DialogRtlPreview />,
     },
     {
       id: "dialog-actions",
@@ -567,8 +594,8 @@ export const Example = () => (
             </DialogFooter>
           </DialogContent>
         </Dialog>
-      )
-    }
+      ),
+    },
   ],
   apiRows: [
     { prop: "Dialog lockBodyScroll", type: "boolean", defaultValue: "true" },
@@ -577,12 +604,12 @@ export const Example = () => (
     {
       prop: "DialogContent presentation",
       type: '"modal" | "slot"',
-      defaultValue: '"modal" — use "slot" if DialogContent has fixed inset-0 overlay'
+      defaultValue: '"modal" — use "slot" if DialogContent has fixed inset-0 overlay',
     },
     { prop: "DialogContent showCloseButton", type: "boolean", defaultValue: "true (modal only)" },
     { prop: "DialogContent forceMount", type: "boolean", defaultValue: "false" },
-    { prop: "DialogTrigger / DialogClose asChild", type: "boolean", defaultValue: "false" }
+    { prop: "DialogTrigger / DialogClose asChild", type: "boolean", defaultValue: "false" },
   ],
   accessibilityText:
-    "The modal panel is focusable (tabIndex -1), closes on Escape, and returns focus to the trigger. Provide DialogTitle and DialogDescription for context. Hide the default close control only when another explicit dismiss action exists. For custom fullscreen overlays, use presentation=\"slot\" so assistive tech and focus stay on one dialog surface (no duplicate modal shells)."
+    'The modal panel is focusable (tabIndex -1), closes on Escape, and returns focus to the trigger. Provide DialogTitle and DialogDescription for context. Hide the default close control only when another explicit dismiss action exists. For custom fullscreen overlays, use presentation="slot" so assistive tech and focus stay on one dialog surface (no duplicate modal shells).',
 });

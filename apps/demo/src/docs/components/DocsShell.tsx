@@ -1,4 +1,17 @@
-import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Sheet, SheetClose, SheetContent, SheetTrigger, ThemeToggle } from "@kamod-ui/core";
+import {
+  Badge,
+  Button,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetTrigger,
+  ThemeToggle,
+} from "@kamod-ui/core";
 import { Menu, SunMoon } from "lucide-preact";
 import { DemoShell, demoTopNavItems } from "../../layout/DemoShell";
 import { ThemePresetSelect } from "../../theme/ThemePresetSelect";
@@ -30,7 +43,7 @@ const groupTocSections = (sections: DocSection[]): TocSectionGroups => {
     installation: null,
     usage: null,
     examples: [],
-    apiReference: null
+    apiReference: null,
   };
 
   sections.forEach((section) => {
@@ -62,16 +75,21 @@ export const DocsShell = ({
   onNavigateDoc,
   onNavigateComponentsOverview,
   onNavigateSection,
-  mainContent
+  mainContent,
 }: DocsShellProps) => {
   const tocSections = activeDoc ? groupTocSections(activeDoc.sections) : null;
-  const sortedDocs = useMemo(() => [...docs].sort((a, b) => a.title.localeCompare(b.title)), [docs]);
+  const sortedDocs = useMemo(
+    () => [...docs].sort((a, b) => a.title.localeCompare(b.title)),
+    [docs],
+  );
   const installationSection = tocSections?.installation ?? null;
   const usageSection = tocSections?.usage ?? null;
   const exampleSections = tocSections?.examples ?? [];
   const apiReferenceSection = tocSections?.apiReference ?? null;
-  const hasActiveExampleSection = tocSections?.examples.some((section) => section.id === activeSection) ?? false;
-  const proFeedbackFormUrl = (import.meta.env.VITE_PRO_FEEDBACK_FORM_URL ?? "").trim() || PRO_FEEDBACK_FORM_DEFAULT;
+  const hasActiveExampleSection =
+    tocSections?.examples.some((section) => section.id === activeSection) ?? false;
+  const proFeedbackFormUrl =
+    (import.meta.env.VITE_PRO_FEEDBACK_FORM_URL ?? "").trim() || PRO_FEEDBACK_FORM_DEFAULT;
   const showToc = Boolean(!isComponentsOverview && activeDoc);
   const showRightSidebar = showToc || isComponentsOverview;
 
@@ -82,17 +100,23 @@ export const DocsShell = ({
         label: "Components overview",
         active: isComponentsOverview,
         onSelect: onNavigateComponentsOverview,
-        showUpdatedBadge: false as const
+        showUpdatedBadge: false as const,
       },
       ...sortedDocs.map((doc) => ({
         key: doc.slug,
         label: doc.title,
         active: doc.slug === activeDoc?.slug,
         onSelect: () => onNavigateDoc(doc.slug),
-        showUpdatedBadge: docsUpdatedComponentSlugs.has(doc.slug) as boolean
-      }))
+        showUpdatedBadge: docsUpdatedComponentSlugs.has(doc.slug) as boolean,
+      })),
     ],
-    [activeDoc?.slug, isComponentsOverview, onNavigateComponentsOverview, onNavigateDoc, sortedDocs]
+    [
+      activeDoc?.slug,
+      isComponentsOverview,
+      onNavigateComponentsOverview,
+      onNavigateDoc,
+      sortedDocs,
+    ],
   );
 
   return (
@@ -158,18 +182,28 @@ export const DocsShell = ({
                 <h3>On this page</h3>
                 <nav aria-label="On this page">
                   {installationSection ? (
-                    <button class={`docs-toc-link ${activeSection === installationSection.id ? "is-active" : ""}`} onClick={() => onNavigateSection(installationSection.id)}>
+                    <button
+                      class={`docs-toc-link ${activeSection === installationSection.id ? "is-active" : ""}`}
+                      onClick={() => onNavigateSection(installationSection.id)}
+                    >
                       {installationSection.title}
                     </button>
                   ) : null}
                   {usageSection ? (
-                    <button class={`docs-toc-link ${activeSection === usageSection.id ? "is-active" : ""}`} onClick={() => onNavigateSection(usageSection.id)}>
+                    <button
+                      class={`docs-toc-link ${activeSection === usageSection.id ? "is-active" : ""}`}
+                      onClick={() => onNavigateSection(usageSection.id)}
+                    >
                       {usageSection.title}
                     </button>
                   ) : null}
                   {exampleSections.length ? (
                     <div class="docs-toc-group">
-                      <span class={`docs-toc-group-label ${hasActiveExampleSection ? "is-active" : ""}`}>Examples</span>
+                      <span
+                        class={`docs-toc-group-label ${hasActiveExampleSection ? "is-active" : ""}`}
+                      >
+                        Examples
+                      </span>
                       <div class="docs-toc-children">
                         {exampleSections.map((section) => (
                           <button
@@ -184,7 +218,10 @@ export const DocsShell = ({
                     </div>
                   ) : null}
                   {apiReferenceSection ? (
-                    <button class={`docs-toc-link ${activeSection === apiReferenceSection.id ? "is-active" : ""}`} onClick={() => onNavigateSection(apiReferenceSection.id)}>
+                    <button
+                      class={`docs-toc-link ${activeSection === apiReferenceSection.id ? "is-active" : ""}`}
+                      onClick={() => onNavigateSection(apiReferenceSection.id)}
+                    >
                       {apiReferenceSection.title}
                     </button>
                   ) : null}
@@ -203,7 +240,14 @@ export const DocsShell = ({
                 </CardDescription>
               </CardHeader>
               <CardContent class="grid gap-2.5">
-                <Button href={proFeedbackFormUrl} target="_blank" rel="noopener noreferrer" size="sm" variant="default" class="w-full">
+                <Button
+                  href={proFeedbackFormUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  size="sm"
+                  variant="default"
+                  class="w-full"
+                >
                   2 Minuten Feedback
                 </Button>
               </CardContent>

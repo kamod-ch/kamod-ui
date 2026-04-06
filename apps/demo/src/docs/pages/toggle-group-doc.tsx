@@ -26,9 +26,12 @@ const ControlledToggleGroupPreview = () => {
 export const toggleGroupDocPage = createGenericDocPage({
   slug: "toggle-group",
   title: "Toggle Group",
-  usageLabel: "Toggle Group manages modern single- or multi-select controls with a segmented, toolbar-friendly style.",
-  installationText: "Import ToggleGroup and ToggleGroupItem from `@/components/kamod-ui/toggle-group`.",
-  usageText: "Use `type`, `variant`, `size`, `spacing`, and `orientation` to build compact, modern segmented controls.",
+  usageLabel:
+    "Toggle Group manages modern single- or multi-select controls with a segmented, toolbar-friendly style.",
+  installationText:
+    "Import ToggleGroup and ToggleGroupItem from `@/components/kamod-ui/toggle-group`.",
+  usageText:
+    "Use `type`, `variant`, `size`, `spacing`, and `orientation` to build compact, modern segmented controls.",
   exampleSections: [
     {
       id: "single-selection",
@@ -64,7 +67,7 @@ export const Example = () => (
             </ToggleGroupItem>
           </ToggleGroup>
         </div>
-      )
+      ),
     },
     {
       id: "sizes",
@@ -96,7 +99,7 @@ export const Example = () => (
             <ToggleGroupItem value="missed">Missed</ToggleGroupItem>
           </ToggleGroup>
         </div>
-      )
+      ),
     },
     {
       id: "spacing",
@@ -121,7 +124,7 @@ export const Example = () => (
             <ToggleGroupItem value="right">Right</ToggleGroupItem>
           </ToggleGroup>
         </div>
-      )
+      ),
     },
     {
       id: "vertical",
@@ -144,7 +147,7 @@ export const Example = () => (
             <ToggleGroupItem value="cards">Cards</ToggleGroupItem>
           </ToggleGroup>
         </div>
-      )
+      ),
     },
     {
       id: "disabled",
@@ -180,7 +183,7 @@ export const Example = () => (
             <ToggleGroupItem value="push">Push</ToggleGroupItem>
           </ToggleGroup>
         </div>
-      )
+      ),
     },
     {
       id: "custom-font-weight",
@@ -211,7 +214,7 @@ export const Example = () => (
             Aa Bold
           </ToggleGroupItem>
         </ToggleGroup>
-      )
+      ),
     },
     {
       id: "icon-only",
@@ -245,7 +248,7 @@ export const Example = () => (
             <Underline class="size-4" />
           </ToggleGroupItem>
         </ToggleGroup>
-      )
+      ),
     },
     {
       id: "multi-selection",
@@ -281,12 +284,12 @@ export const Example = () => (
             </ToggleGroupItem>
           </ToggleGroup>
         </div>
-      )
+      ),
     },
     {
       id: "pill-style",
       title: "Pill Style",
-      text: "Use `variant=\"pill\"` for a modern, chip-like segmented control.",
+      text: 'Use `variant="pill"` for a modern, chip-like segmented control.',
       code: `import { ToggleGroup, ToggleGroupItem } from "@/components/kamod-ui/toggle-group";
 
 export const Example = () => (
@@ -302,7 +305,7 @@ export const Example = () => (
           <ToggleGroupItem value="week">Week</ToggleGroupItem>
           <ToggleGroupItem value="month">Month</ToggleGroupItem>
         </ToggleGroup>
-      )
+      ),
     },
     {
       id: "controlled",
@@ -328,12 +331,12 @@ export const Example = () => {
     </>
   );
 };`,
-      renderPreview: () => <ControlledToggleGroupPreview />
+      renderPreview: () => <ControlledToggleGroupPreview />,
     },
     {
       id: "rtl",
       title: "RTL",
-      text: "Use `dir=\"rtl\"` to display Toggle Group correctly in right-to-left layouts.",
+      text: 'Use `dir="rtl"` to display Toggle Group correctly in right-to-left layouts.',
       code: `import { ToggleGroup, ToggleGroupItem } from "@/components/kamod-ui/toggle-group";
 
 export const Example = () => (
@@ -353,18 +356,23 @@ export const Example = () => (
             <ToggleGroupItem value="cards">Cards</ToggleGroupItem>
           </ToggleGroup>
         </div>
-      )
-    }
+      ),
+    },
   ],
   apiRows: [
     { prop: "type", type: '"single" | "multiple"', defaultValue: '"single"' },
     { prop: "value / defaultValue", type: "string | string[]", defaultValue: "undefined" },
-    { prop: "onValueChange", type: "(value: string | string[]) => void", defaultValue: "undefined" },
+    {
+      prop: "onValueChange",
+      type: "(value: string | string[]) => void",
+      defaultValue: "undefined",
+    },
     { prop: "variant", type: '"default" | "outline" | "pill"', defaultValue: '"default"' },
     { prop: "size", type: '"sm" | "default" | "lg"', defaultValue: '"default"' },
     { prop: "spacing", type: '"none" | "sm" | "default" | "lg"', defaultValue: '"sm"' },
     { prop: "orientation", type: '"horizontal" | "vertical"', defaultValue: '"horizontal"' },
-    { prop: "disabled", type: "boolean", defaultValue: "false" }
+    { prop: "disabled", type: "boolean", defaultValue: "false" },
   ],
-  accessibilityText: "Use clear labels for each option and ensure selected state is perceivable with more than color alone."
+  accessibilityText:
+    "Use clear labels for each option and ensure selected state is perceivable with more than color alone.",
 });

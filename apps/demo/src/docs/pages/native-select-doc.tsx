@@ -1,9 +1,4 @@
-import {
-  Label,
-  NativeSelect,
-  NativeSelectOptGroup,
-  NativeSelectOption
-} from "@kamod-ui/core";
+import { Label, NativeSelect, NativeSelectOptGroup, NativeSelectOption } from "@kamod-ui/core";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const nativeSelectDocPage = createGenericDocPage({
@@ -12,7 +7,8 @@ export const nativeSelectDocPage = createGenericDocPage({
   previewChromeClass: "min-w-0 overflow-x-auto py-4 sm:py-6",
   usageLabel:
     "Browser-native `<select>` with Kamod styling, chevron affordance, sizes, validation states, and RTL-friendly layout — aligned with Starwind UI patterns.",
-  installationText: "Import NativeSelect, NativeSelectOption, and optionally NativeSelectOptGroup from `@/components/kamod-ui/native-select`.",
+  installationText:
+    "Import NativeSelect, NativeSelectOption, and optionally NativeSelectOptGroup from `@/components/kamod-ui/native-select`.",
   usageText:
     "Use NativeSelect for forms that should use the platform picker on mobile. Pair with Label and `aria-invalid` for accessible validation. Prefer the custom Select when you need search, portals, or rich option content.",
   exampleSections: [
@@ -46,7 +42,7 @@ export const Example = () => (
             <NativeSelectOption value="pineapple">Pineapple</NativeSelectOption>
           </NativeSelect>
         </div>
-      )
+      ),
     },
     {
       id: "native-select-groups",
@@ -79,7 +75,7 @@ export const Example = () => (
             <NativeSelectOption value="spinach">Spinach</NativeSelectOption>
           </NativeSelectOptGroup>
         </NativeSelect>
-      )
+      ),
     },
     {
       id: "native-select-disabled",
@@ -122,7 +118,7 @@ export const Example = () => (
             <NativeSelectOption value="svelte">SvelteKit</NativeSelectOption>
           </NativeSelect>
         </div>
-      )
+      ),
     },
     {
       id: "native-select-invalid",
@@ -146,7 +142,13 @@ export const Example = () => (
       renderPreview: () => (
         <div class="grid w-full min-w-0 max-w-sm gap-2">
           <Label for="native-select-invalid">Framework</Label>
-          <NativeSelect id="native-select-invalid" class="w-full" aria-invalid required defaultValue="">
+          <NativeSelect
+            id="native-select-invalid"
+            class="w-full"
+            aria-invalid
+            required
+            defaultValue=""
+          >
             <NativeSelectOption value="">Select a framework</NativeSelectOption>
             <NativeSelectOption value="astro">Astro</NativeSelectOption>
             <NativeSelectOption value="next">Next.js</NativeSelectOption>
@@ -154,7 +156,7 @@ export const Example = () => (
           </NativeSelect>
           <p class="text-destructive text-sm">Please select a framework.</p>
         </div>
-      )
+      ),
     },
     {
       id: "native-select-size",
@@ -199,7 +201,7 @@ export const Example = () => (
             <NativeSelectOption value="two">Option 2</NativeSelectOption>
           </NativeSelect>
         </div>
-      )
+      ),
     },
     {
       id: "native-select-vs-select",
@@ -215,21 +217,21 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
           <p class="text-foreground mb-2 font-medium">When to use which</p>
           <ul class="list-inside list-disc space-y-1">
             <li>
-              <span class="text-foreground font-medium">NativeSelect</span> — straightforward controls, native mobile
-              sheets, minimal bundle cost.
+              <span class="text-foreground font-medium">NativeSelect</span> — straightforward
+              controls, native mobile sheets, minimal bundle cost.
             </li>
             <li>
-              <span class="text-foreground font-medium">Select</span> — searchable options, custom styling inside the
-              list, or alignment with other overlay primitives.
+              <span class="text-foreground font-medium">Select</span> — searchable options, custom
+              styling inside the list, or alignment with other overlay primitives.
             </li>
           </ul>
         </div>
-      )
+      ),
     },
     {
       id: "native-select-rtl",
       title: "RTL",
-      text: "Set `dir=\"rtl\"` on a wrapper; padding and chevron use logical properties so the control mirrors correctly.",
+      text: 'Set `dir="rtl"` on a wrapper; padding and chevron use logical properties so the control mirrors correctly.',
       code: `import { NativeSelect, NativeSelectOption } from "@/components/kamod-ui/native-select";
 
 export const Example = () => (
@@ -251,8 +253,8 @@ export const Example = () => (
             <NativeSelectOption value="grape">Grape</NativeSelectOption>
           </NativeSelect>
         </div>
-      )
-    }
+      ),
+    },
   ],
   apiRows: [
     { prop: "size", type: '"sm" | "md" | "lg"', defaultValue: '"md"' },
@@ -263,8 +265,8 @@ export const Example = () => (
     { prop: "aria-invalid", type: "boolean", defaultValue: "false" },
     { prop: "icon", type: "ComponentChildren", defaultValue: "chevron SVG" },
     { prop: "class", type: "string", defaultValue: "undefined" },
-    { prop: "…", type: "native <select> attributes", defaultValue: "—" }
+    { prop: "…", type: "native <select> attributes", defaultValue: "—" },
   ],
   accessibilityText:
-    "Associate selects with Label using `id` / `for`. For placeholders, prefer `required` with an empty first option so `:invalid` maps to readable `text-foreground/85` on the control; use a disabled first option only when you must block re-selecting the placeholder. Announce errors with nearby text and `aria-invalid` on the select."
+    "Associate selects with Label using `id` / `for`. For placeholders, prefer `required` with an empty first option so `:invalid` maps to readable `text-foreground/85` on the control; use a disabled first option only when you must block re-selecting the placeholder. Announce errors with nearby text and `aria-invalid` on the select.",
 });

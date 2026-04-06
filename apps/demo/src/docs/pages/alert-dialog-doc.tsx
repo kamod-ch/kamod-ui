@@ -11,7 +11,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
   Button,
-  DirectionProvider
+  DirectionProvider,
 } from "@kamod-ui/core";
 import { Bluetooth, CircleFadingPlus, Trash2 } from "lucide-preact";
 import { useState } from "preact/hooks";
@@ -29,7 +29,8 @@ function BasicHero() {
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your account from our servers.
+            This action cannot be undone. This will permanently delete your account from our
+            servers.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -67,7 +68,7 @@ export const Example = () => (
 const sectionBlocks: Record<string, { preview: () => ComponentChildren; code: string }> = {
   basic: {
     preview: () => <BasicHero />,
-    code: heroCode
+    code: heroCode,
   },
   small: {
     preview: () => (
@@ -108,7 +109,7 @@ export const Example = () => (
       </AlertDialogFooter>
     </AlertDialogContent>
   </AlertDialog>
-);`
+);`,
   },
   media: {
     preview: () => (
@@ -156,7 +157,7 @@ export const Example = () => (
       </AlertDialogFooter>
     </AlertDialogContent>
   </AlertDialog>
-);`
+);`,
   },
   "small-media": {
     preview: () => (
@@ -191,7 +192,7 @@ import { Bluetooth } from "lucide-preact";
     </AlertDialogMedia>
     …
   </AlertDialogHeader>
-</AlertDialogContent>`
+</AlertDialogContent>`,
   },
   destructive: {
     preview: () => (
@@ -207,7 +208,10 @@ import { Bluetooth } from "lucide-preact";
             <AlertDialogTitle>Delete chat?</AlertDialogTitle>
             <AlertDialogDescription>
               This will permanently delete this chat conversation. View{" "}
-              <a href="#" class="font-medium text-primary underline underline-offset-4 hover:no-underline">
+              <a
+                href="#"
+                class="font-medium text-primary underline underline-offset-4 hover:no-underline"
+              >
                 Settings
               </a>{" "}
               to delete any memories saved during this chat.
@@ -236,22 +240,35 @@ import { Trash2 } from "lucide-preact";
     <AlertDialogCancel variant="outline">Cancel</AlertDialogCancel>
     <AlertDialogAction variant="destructive">Delete</AlertDialogAction>
   </AlertDialogFooter>
-</AlertDialogContent>`
+</AlertDialogContent>`,
   },
   rtl: {
     preview: () => <AlertDialogRtlDemo />,
     code: `import { AlertDialog, …, DirectionProvider, Button } from "@/components/kamod-ui/alert-dialog";
 import { Bluetooth } from "lucide-preact";
 
-// Toggle dir; pass dir + data-lang on AlertDialogContent for RTL overlays.`
-  }
+// Toggle dir; pass dir + data-lang on AlertDialogContent for RTL overlays.`,
+  },
 };
 
 type Lang = "en" | "ar" | "he";
 
 const rtlStrings: Record<
   Lang,
-  { dir: "ltr" | "rtl"; label: string; showDialog: string; showDialogSm: string; title: string; description: string; cancel: string; continue: string; smallTitle: string; smallDescription: string; dontAllow: string; allow: string }
+  {
+    dir: "ltr" | "rtl";
+    label: string;
+    showDialog: string;
+    showDialogSm: string;
+    title: string;
+    description: string;
+    cancel: string;
+    continue: string;
+    smallTitle: string;
+    smallDescription: string;
+    dontAllow: string;
+    allow: string;
+  }
 > = {
   en: {
     dir: "ltr",
@@ -259,13 +276,14 @@ const rtlStrings: Record<
     showDialog: "Show Dialog",
     showDialogSm: "Show Dialog (sm)",
     title: "Are you absolutely sure?",
-    description: "This action cannot be undone. This will permanently delete your account from our servers.",
+    description:
+      "This action cannot be undone. This will permanently delete your account from our servers.",
     cancel: "Cancel",
     continue: "Continue",
     smallTitle: "Allow accessory to connect?",
     smallDescription: "Do you want to allow the USB accessory to connect to this device?",
     dontAllow: "Don't allow",
-    allow: "Allow"
+    allow: "Allow",
   },
   ar: {
     dir: "rtl",
@@ -279,7 +297,7 @@ const rtlStrings: Record<
     smallTitle: "السماح للملحق بالاتصال؟",
     smallDescription: "هل تريد السماح لملحق USB بالاتصال بهذا الجهاز؟",
     dontAllow: "عدم السماح",
-    allow: "السماح"
+    allow: "السماح",
   },
   he: {
     dir: "rtl",
@@ -293,8 +311,8 @@ const rtlStrings: Record<
     smallTitle: "לאפשר להתקן להתחבר?",
     smallDescription: "האם אתה רוצה לאפשר להתקן USB להתחבר למכשיר זה?",
     dontAllow: "אל תאפשר",
-    allow: "אפשר"
-  }
+    allow: "אפשר",
+  },
 };
 
 function AlertDialogRtlDemo() {
@@ -305,7 +323,13 @@ function AlertDialogRtlDemo() {
     <div class="flex w-full max-w-4xl flex-col gap-4">
       <div class="flex flex-wrap gap-2" role="group" aria-label="Language">
         {(Object.keys(rtlStrings) as Lang[]).map((key) => (
-          <Button key={key} variant={lang === key ? "default" : "outline"} size="sm" type="button" onClick={() => setLang(key)}>
+          <Button
+            key={key}
+            variant={lang === key ? "default" : "outline"}
+            size="sm"
+            type="button"
+            onClick={() => setLang(key)}
+          >
             {rtlStrings[key].label}
           </Button>
         ))}
@@ -331,7 +355,11 @@ function AlertDialogRtlDemo() {
             <AlertDialogTrigger asChild>
               <Button variant="outline">{t.showDialogSm}</Button>
             </AlertDialogTrigger>
-            <AlertDialogContent size="sm" dir={t.dir} data-lang={t.dir === "rtl" ? lang : undefined}>
+            <AlertDialogContent
+              size="sm"
+              dir={t.dir}
+              data-lang={t.dir === "rtl" ? lang : undefined}
+            >
               <AlertDialogHeader>
                 <AlertDialogMedia>
                   <Bluetooth />
@@ -359,61 +387,61 @@ const apiSections = [
       { prop: "defaultOpen", type: "boolean", defaultValue: "false" },
       { prop: "open", type: "boolean", defaultValue: "-" },
       { prop: "onOpenChange", type: "(open: boolean) => void", defaultValue: "-" },
-      { prop: "class", type: "string", defaultValue: "-" }
-    ]
+      { prop: "class", type: "string", defaultValue: "-" },
+    ],
   },
   {
     title: "AlertDialogTrigger",
     rows: [
       { prop: "asChild", type: "boolean", defaultValue: "false" },
-      { prop: "class", type: "string", defaultValue: "-" }
-    ]
+      { prop: "class", type: "string", defaultValue: "-" },
+    ],
   },
   {
     title: "AlertDialogContent",
     rows: [
       { prop: "size", type: '"default" | "sm"', defaultValue: '"default"' },
       { prop: "forceMount", type: "boolean", defaultValue: "false" },
-      { prop: "class", type: "string", defaultValue: "-" }
-    ]
+      { prop: "class", type: "string", defaultValue: "-" },
+    ],
   },
   {
     title: "AlertDialogHeader",
-    rows: [{ prop: "class", type: "string", defaultValue: "-" }]
+    rows: [{ prop: "class", type: "string", defaultValue: "-" }],
   },
   {
     title: "AlertDialogMedia",
     description: "Circular muted icon slot above title.",
-    rows: [{ prop: "class", type: "string", defaultValue: "-" }]
+    rows: [{ prop: "class", type: "string", defaultValue: "-" }],
   },
   {
     title: "AlertDialogTitle",
-    rows: [{ prop: "class", type: "string", defaultValue: "-" }]
+    rows: [{ prop: "class", type: "string", defaultValue: "-" }],
   },
   {
     title: "AlertDialogDescription",
-    rows: [{ prop: "class", type: "string", defaultValue: "-" }]
+    rows: [{ prop: "class", type: "string", defaultValue: "-" }],
   },
   {
     title: "AlertDialogFooter",
-    rows: [{ prop: "class", type: "string", defaultValue: "-" }]
+    rows: [{ prop: "class", type: "string", defaultValue: "-" }],
   },
   {
     title: "AlertDialogCancel",
     rows: [
       { prop: "variant", type: "Button variant", defaultValue: '"outline"' },
       { prop: "asChild", type: "boolean", defaultValue: "false" },
-      { prop: "class", type: "string", defaultValue: "-" }
-    ]
+      { prop: "class", type: "string", defaultValue: "-" },
+    ],
   },
   {
     title: "AlertDialogAction",
     rows: [
       { prop: "variant", type: "Button variant", defaultValue: '"default"' },
       { prop: "asChild", type: "boolean", defaultValue: "false" },
-      { prop: "class", type: "string", defaultValue: "-" }
-    ]
-  }
+      { prop: "class", type: "string", defaultValue: "-" },
+    ],
+  },
 ] as const;
 
 export const alertDialogDocPage: DocPageModule = {
@@ -421,33 +449,49 @@ export const alertDialogDocPage: DocPageModule = {
   title: "Alert Dialog",
   command: "pnpm add @kamod-ui/core",
   usageLabel:
-    "Modal confirmation pattern: explicit continue/cancel, optional media slot, compact size, destructive actions. Content uses Dialog presentation=\"slot\" (custom overlay).",
+    'Modal confirmation pattern: explicit continue/cancel, optional media slot, compact size, destructive actions. Content uses Dialog presentation="slot" (custom overlay).',
   sections: [
-    { id: "installation", title: "Installation", text: "Import alert dialog primitives from `@/components/kamod-ui/alert-dialog`." },
+    {
+      id: "installation",
+      title: "Installation",
+      text: "Import alert dialog primitives from `@/components/kamod-ui/alert-dialog`.",
+    },
     {
       id: "usage",
       title: "Usage",
-      text: "Compose Trigger (often asChild + Button), Content, Header (title + description), and Footer (Cancel + Action). Cancel and Action close the dialog on click."
+      text: "Compose Trigger (often asChild + Button), Content, Header (title + description), and Footer (Cancel + Action). Cancel and Action close the dialog on click.",
     },
-    { id: "basic", title: "Basic", text: "Title, description, cancel and continue — matches the shadcn demo." },
-    { id: "small", title: "Small", text: "Use size=\"sm\" on AlertDialogContent for a narrower panel." },
-    { id: "media", title: "Media", text: "AlertDialogMedia centers an icon or graphic above the title." },
+    {
+      id: "basic",
+      title: "Basic",
+      text: "Title, description, cancel and continue — matches the shadcn demo.",
+    },
+    {
+      id: "small",
+      title: "Small",
+      text: 'Use size="sm" on AlertDialogContent for a narrower panel.',
+    },
+    {
+      id: "media",
+      title: "Media",
+      text: "AlertDialogMedia centers an icon or graphic above the title.",
+    },
     {
       id: "small-media",
       title: "Small with media",
-      text: "Combine size=\"sm\" with AlertDialogMedia for compact hardware-style prompts."
+      text: 'Combine size="sm" with AlertDialogMedia for compact hardware-style prompts.',
     },
     {
       id: "destructive",
       title: "Destructive",
-      text: "Style media with destructive tokens; use variant=\"destructive\" on AlertDialogAction and variant=\"outline\" on Cancel."
+      text: 'Style media with destructive tokens; use variant="destructive" on AlertDialogAction and variant="outline" on Cancel.',
     },
     {
       id: "rtl",
       title: "RTL",
-      text: "Set dir on the overlay via AlertDialogContent and wrap with DirectionProvider for logical layout."
+      text: "Set dir on the overlay via AlertDialogContent and wrap with DirectionProvider for logical layout.",
     },
-    { id: "api-reference", title: "API Reference", text: "Props overview." }
+    { id: "api-reference", title: "API Reference", text: "Props overview." },
   ],
   renderMain: (context) => {
     const renderSectionBody = (sectionId: string) => {
@@ -491,7 +535,7 @@ export const alertDialogDocPage: DocPageModule = {
       return context.renderPreviewAndCodeTabs({
         preview: block.preview(),
         codeSnippet: block.code,
-        previewClass: "overflow-x-auto"
+        previewClass: "overflow-x-auto",
       });
     };
 
@@ -501,7 +545,7 @@ export const alertDialogDocPage: DocPageModule = {
         {context.renderPreviewAndCodeTabs({
           preview: <BasicHero />,
           codeSnippet: heroCode,
-          previewClass: "overflow-x-auto"
+          previewClass: "overflow-x-auto",
         })}
         {context.sections.map((docSection) => (
           <section key={docSection.id} id={docSection.id} class="docs-section">
@@ -513,5 +557,5 @@ export const alertDialogDocPage: DocPageModule = {
         ))}
       </>
     );
-  }
+  },
 };

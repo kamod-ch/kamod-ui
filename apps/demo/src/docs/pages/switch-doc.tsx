@@ -36,7 +36,7 @@ export const Example = () => (
           </div>
           <Switch defaultChecked aria-label="Share across devices" />
         </div>
-      )
+      ),
     },
     {
       id: "switch-choice-card",
@@ -87,7 +87,7 @@ export const Example = () => (
             <Switch aria-label="Marketing updates" />
           </label>
         </div>
-      )
+      ),
     },
     {
       id: "switch-disabled-invalid",
@@ -118,7 +118,7 @@ export const Example = () => (
             <Switch aria-invalid defaultChecked aria-label="Accept terms" />
           </div>
         </div>
-      )
+      ),
     },
     {
       id: "switch-size",
@@ -161,8 +161,8 @@ export const Example = () => (
             <Switch defaultChecked aria-label="Default switch" />
           </div>
         </div>
-      )
-    }
+      ),
+    },
   ],
   apiRows: [
     { prop: "size", type: `"default" | "sm"`, defaultValue: `"default"` },
@@ -170,8 +170,8 @@ export const Example = () => (
     { prop: "checked", type: "boolean", defaultValue: "uncontrolled" },
     { prop: "onCheckedChange", type: "(next: boolean) => void", defaultValue: "undefined" },
     { prop: "disabled", type: "boolean", defaultValue: "false" },
-    { prop: "aria-invalid", type: "boolean", defaultValue: "false" }
+    { prop: "aria-invalid", type: "boolean", defaultValue: "false" },
   ],
   accessibilityText:
-    "Provide a clear label with visible text or aria-label. Use switch for immediate on/off settings and use checkbox semantics when the value is part of form submission."
+    "Provide a clear label with visible text or aria-label. Use switch for immediate on/off settings and use checkbox semantics when the value is part of form submission.",
 });

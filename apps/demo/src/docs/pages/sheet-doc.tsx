@@ -1,4 +1,15 @@
-import { Button, Input, Label, Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "@kamod-ui/core";
+import {
+  Button,
+  Input,
+  Label,
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@kamod-ui/core";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const sheetDocPage = createGenericDocPage({
@@ -7,7 +18,7 @@ export const sheetDocPage = createGenericDocPage({
   usageLabel: "Sheet extends Dialog to render content from a viewport edge.",
   installationText: "Import Sheet primitives from `@/components/kamod-ui/sheet`.",
   usageText:
-    "Use SheetTrigger to open and SheetContent with side=\"top\" | \"right\" | \"bottom\" | \"left\". Left and right panels accept max-width utilities; top and bottom span the viewport width. Bottom/top padding includes safe-area insets for notched devices.",
+    'Use SheetTrigger to open and SheetContent with side="top" | "right" | "bottom" | "left". Left and right panels accept max-width utilities; top and bottom span the viewport width. Bottom/top padding includes safe-area insets for notched devices.',
   exampleSections: [
     {
       id: "basic-sheet",
@@ -54,7 +65,7 @@ export const Example = () => (
             </SheetFooter>
           </SheetContent>
         </Sheet>
-      )
+      ),
     },
     {
       id: "sheet-side",
@@ -87,7 +98,10 @@ export const Example = () => (
           {(["top", "right", "bottom", "left"] as const).map((side) => (
             <Sheet key={side}>
               <SheetTrigger>{side}</SheetTrigger>
-              <SheetContent side={side} class={side === "top" || side === "bottom" ? undefined : "max-w-md"}>
+              <SheetContent
+                side={side}
+                class={side === "top" || side === "bottom" ? undefined : "max-w-md"}
+              >
                 <SheetHeader>
                   <SheetTitle>{side} sheet</SheetTitle>
                   <SheetDescription>This Sheet opens from the {side} edge.</SheetDescription>
@@ -96,7 +110,7 @@ export const Example = () => (
             </Sheet>
           ))}
         </div>
-      )
+      ),
     },
     {
       id: "sheet-no-close-button",
@@ -129,14 +143,19 @@ export const Example = () => (
             </SheetHeader>
           </SheetContent>
         </Sheet>
-      )
-    }
+      ),
+    },
   ],
   apiRows: [
     { prop: "defaultOpen", type: "boolean", defaultValue: "false" },
-    { prop: "SheetContent side", type: '"left" | "right" | "top" | "bottom"', defaultValue: '"right"' },
+    {
+      prop: "SheetContent side",
+      type: '"left" | "right" | "top" | "bottom"',
+      defaultValue: '"right"',
+    },
     { prop: "SheetContent showCloseButton", type: "boolean", defaultValue: "true" },
-    { prop: "SheetContent forceMount", type: "boolean", defaultValue: "false" }
+    { prop: "SheetContent forceMount", type: "boolean", defaultValue: "false" },
   ],
-  accessibilityText: "Always provide a descriptive title/description and ensure users can close the sheet via keyboard or explicit actions."
+  accessibilityText:
+    "Always provide a descriptive title/description and ensure users can close the sheet via keyboard or explicit actions.",
 });

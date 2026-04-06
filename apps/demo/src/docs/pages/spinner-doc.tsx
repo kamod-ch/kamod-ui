@@ -6,7 +6,8 @@ export const spinnerDocPage = createGenericDocPage({
   title: "Spinner",
   usageLabel: "Spinner communicates async progress without blocking context.",
   installationText: "Import Spinner from `@/components/kamod-ui/spinner`.",
-  usageText: "Use Spinner for loading buttons, surfaces, and inline status updates with short descriptive copy.",
+  usageText:
+    "Use Spinner for loading buttons, surfaces, and inline status updates with short descriptive copy.",
   exampleSections: [
     {
       id: "basic-spinner",
@@ -23,7 +24,7 @@ export const Example = () => (
         <div class="docs-spinner-center">
           <Spinner />
         </div>
-      )
+      ),
     },
     {
       id: "spinner-sizes",
@@ -63,7 +64,7 @@ export const Example = () => (
             xl
           </div>
         </div>
-      )
+      ),
     },
     {
       id: "spinner-tones",
@@ -93,7 +94,7 @@ export const Example = () => (
             primary
           </div>
         </div>
-      )
+      ),
     },
     {
       id: "spinner-in-buttons",
@@ -125,7 +126,7 @@ export const Example = () => (
             <Spinner size="sm" data-icon="inline-end" />
           </Button>
         </div>
-      )
+      ),
     },
     {
       id: "spinner-loading-surface",
@@ -147,10 +148,12 @@ export const Example = () => (
           <Spinner size="md" tone="primary" class="mt-0.5" />
           <div class="space-y-1">
             <p class="text-sm font-medium">Deploy in progress</p>
-            <p class="text-xs text-muted-foreground">Packaging assets and publishing your latest release.</p>
+            <p class="text-xs text-muted-foreground">
+              Packaging assets and publishing your latest release.
+            </p>
           </div>
         </div>
-      )
+      ),
     },
     {
       id: "spinner-overlay",
@@ -181,15 +184,15 @@ export const Example = () => (
             </div>
           </div>
         </div>
-      )
-    }
+      ),
+    },
   ],
   apiRows: [
     { prop: "size", type: '"xs" | "sm" | "md" | "lg" | "xl"', defaultValue: '"sm"' },
     { prop: "tone", type: '"default" | "muted" | "primary"', defaultValue: '"default"' },
     { prop: "aria-label", type: "string", defaultValue: '"Loading"' },
-    { prop: "class", type: "string", defaultValue: "undefined" }
+    { prop: "class", type: "string", defaultValue: "undefined" },
   ],
   accessibilityText:
-    "Pair spinner visuals with meaningful status text, announce longer async updates in aria-live regions, and always provide recovery paths for stalled operations."
+    "Pair spinner visuals with meaningful status text, announce longer async updates in aria-live regions, and always provide recovery paths for stalled operations.",
 });

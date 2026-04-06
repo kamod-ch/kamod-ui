@@ -21,9 +21,12 @@ export const Example = () => (
 );`,
       renderPreview: () => (
         <Video class="max-w-xl">
-          <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4" />
+          <source
+            src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+            type="video/mp4"
+          />
         </Video>
-      )
+      ),
     },
     {
       id: "muted-preview",
@@ -38,15 +41,19 @@ export const Example = () => (
 );`,
       renderPreview: () => (
         <Video class="max-w-sm" muted loop autoPlay>
-          <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4" />
+          <source
+            src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+            type="video/mp4"
+          />
         </Video>
-      )
-    }
+      ),
+    },
   ],
   apiRows: [
     { prop: "controls", type: "boolean", defaultValue: "true" },
     { prop: "muted / autoPlay / loop", type: "boolean", defaultValue: "false" },
-    { prop: "children", type: "source tracks and fallback", defaultValue: "undefined" }
+    { prop: "children", type: "source tracks and fallback", defaultValue: "undefined" },
   ],
-  accessibilityText: "Provide captions/subtitles when possible and avoid autoplay with sound to reduce accessibility friction."
+  accessibilityText:
+    "Provide captions/subtitles when possible and avoid autoplay with sound to reduce accessibility friction.",
 });

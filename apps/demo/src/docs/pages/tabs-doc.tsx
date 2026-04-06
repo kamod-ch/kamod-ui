@@ -1,5 +1,19 @@
 import type { ComponentChildren } from "preact";
-import { Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Input, Label, Tabs, TabsContent, TabsList, TabsTrigger } from "@kamod-ui/core";
+import {
+  Button,
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+  Input,
+  Label,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@kamod-ui/core";
 import { ApiReference } from "../components/ApiReference";
 import { CodeBlock } from "../components/CodeBlock";
 import type { DocPageModule } from "../types";
@@ -9,7 +23,7 @@ const TabsSectionType = {
   SYNCED_TABS: "synced-tabs",
   DISABLED_TRIGGERS: "disabled-triggers",
   NESTED_TABS: "nested-tabs",
-  API_REFERENCE: "api-reference"
+  API_REFERENCE: "api-reference",
 } as const;
 
 type TabsSectionId = (typeof TabsSectionType)[keyof typeof TabsSectionType];
@@ -119,7 +133,7 @@ const tabsExamplePreviewBySectionId: Record<TabsSectionId, () => ComponentChildr
       </TabsContent>
     </Tabs>
   ),
-  [TabsSectionType.API_REFERENCE]: () => null
+  [TabsSectionType.API_REFERENCE]: () => null,
 };
 
 const tabsCodeBySectionId: Record<TabsSectionId, () => string> = {
@@ -127,7 +141,7 @@ const tabsCodeBySectionId: Record<TabsSectionId, () => string> = {
   [TabsSectionType.SYNCED_TABS]: TabsCodeSyncedTabs,
   [TabsSectionType.DISABLED_TRIGGERS]: TabsCodeDisabledTriggers,
   [TabsSectionType.NESTED_TABS]: TabsCodeNestedTabs,
-  [TabsSectionType.API_REFERENCE]: TabsCodeApiReference
+  [TabsSectionType.API_REFERENCE]: TabsCodeApiReference,
 };
 
 function TabsCodeInstallation(): string {
@@ -291,33 +305,42 @@ export const Example = () => (
 const tabsExampleBySectionId: Record<TabsSectionId, () => ComponentChildren> = {
   [TabsSectionType.INSTALLATION]: () => null,
   [TabsSectionType.SYNCED_TABS]: () =>
-    renderTabsExampleTabs(tabsExamplePreviewBySectionId[TabsSectionType.SYNCED_TABS](), tabsCodeBySectionId[TabsSectionType.SYNCED_TABS]()),
+    renderTabsExampleTabs(
+      tabsExamplePreviewBySectionId[TabsSectionType.SYNCED_TABS](),
+      tabsCodeBySectionId[TabsSectionType.SYNCED_TABS](),
+    ),
   [TabsSectionType.DISABLED_TRIGGERS]: () =>
     renderTabsExampleTabs(
       tabsExamplePreviewBySectionId[TabsSectionType.DISABLED_TRIGGERS](),
-      tabsCodeBySectionId[TabsSectionType.DISABLED_TRIGGERS]()
+      tabsCodeBySectionId[TabsSectionType.DISABLED_TRIGGERS](),
     ),
   [TabsSectionType.NESTED_TABS]: () =>
-    renderTabsExampleTabs(tabsExamplePreviewBySectionId[TabsSectionType.NESTED_TABS](), tabsCodeBySectionId[TabsSectionType.NESTED_TABS]()),
+    renderTabsExampleTabs(
+      tabsExamplePreviewBySectionId[TabsSectionType.NESTED_TABS](),
+      tabsCodeBySectionId[TabsSectionType.NESTED_TABS](),
+    ),
   [TabsSectionType.API_REFERENCE]: () =>
-    renderTabsExampleTabs(tabsExamplePreviewBySectionId[TabsSectionType.API_REFERENCE](), tabsCodeBySectionId[TabsSectionType.API_REFERENCE]())
+    renderTabsExampleTabs(
+      tabsExamplePreviewBySectionId[TabsSectionType.API_REFERENCE](),
+      tabsCodeBySectionId[TabsSectionType.API_REFERENCE](),
+    ),
 };
 
 const tabsApiRows = {
   Tabs: [
     { prop: "defaultValue", type: "string", defaultValue: "-" },
     { prop: "syncKey", type: "string", defaultValue: "-" },
-    { prop: "orientation", type: '"horizontal" | "vertical"', defaultValue: '"horizontal"' }
+    { prop: "orientation", type: '"horizontal" | "vertical"', defaultValue: '"horizontal"' },
   ],
   TabsList: [{ prop: "variant", type: '"default" | "line"', defaultValue: '"default"' }],
   TabsTrigger: [
     { prop: "value", type: "string", defaultValue: "required" },
-    { prop: "disabled", type: "boolean", defaultValue: "false" }
+    { prop: "disabled", type: "boolean", defaultValue: "false" },
   ],
   TabsContent: [
     { prop: "value", type: "string", defaultValue: "required" },
-    { prop: "forceMount", type: "boolean", defaultValue: "false" }
-  ]
+    { prop: "forceMount", type: "boolean", defaultValue: "false" },
+  ],
 } as const;
 
 const tabsSectionOutroById: Record<string, () => ComponentChildren> = {
@@ -327,13 +350,14 @@ const tabsSectionOutroById: Record<string, () => ComponentChildren> = {
         { title: "Tabs", rows: tabsApiRows.Tabs },
         { title: "Tabs List", rows: tabsApiRows.TabsList },
         { title: "Tabs Trigger", rows: tabsApiRows.TabsTrigger },
-        { title: "Tabs Content", rows: tabsApiRows.TabsContent }
+        { title: "Tabs Content", rows: tabsApiRows.TabsContent },
       ]}
     />
-  )
+  ),
 };
 
-const renderTabsExample = (sectionId: string) => tabsExampleBySectionId[sectionId as TabsSectionId]?.() ?? null;
+const renderTabsExample = (sectionId: string) =>
+  tabsExampleBySectionId[sectionId as TabsSectionId]?.() ?? null;
 
 const renderTabsSection = (sectionId: string) => (
   <>
@@ -346,33 +370,34 @@ export const tabsDocPage: DocPageModule = {
   slug: "tabs",
   title: "Tabs",
   command: "pnpm add @kamod-ui/core",
-  usageLabel: "Tabs organize content into focusable views and support synchronized groups via the `syncKey` prop.",
+  usageLabel:
+    "Tabs organize content into focusable views and support synchronized groups via the `syncKey` prop.",
   sections: [
     {
       id: "installation",
       title: "Installation",
-      text: "Install the package and import Tabs, TabsList, TabsTrigger and TabsContent from `@/components/kamod-ui/tabs`."
+      text: "Install the package and import Tabs, TabsList, TabsTrigger and TabsContent from `@/components/kamod-ui/tabs`.",
     },
     {
       id: "synced-tabs",
       title: "Synced Tabs",
-      text: "Use the syncKey prop to synchronize multiple groups with one shared state."
+      text: "Use the syncKey prop to synchronize multiple groups with one shared state.",
     },
     {
       id: "disabled-triggers",
       title: "Disabled Triggers",
-      text: "Use the disabled prop on TabsTrigger to prevent a tab from being selected."
+      text: "Use the disabled prop on TabsTrigger to prevent a tab from being selected.",
     },
     {
       id: "nested-tabs",
       title: "Nested Tabs",
-      text: "Nest tabs inside content panels for layered, app-like navigation patterns."
+      text: "Nest tabs inside content panels for layered, app-like navigation patterns.",
     },
     {
       id: "api-reference",
       title: "API Reference",
-      text: "Tabs component props and accepted values."
-    }
+      text: "Tabs component props and accepted values.",
+    },
   ],
   renderMain: (context) => (
     <>
@@ -483,7 +508,7 @@ export const Example = () => (
       </Card>
     </TabsContent>
   </Tabs>
-);`
+);`,
       })}
       {context.sections.map((docSection) => (
         <section key={docSection.id} id={docSection.id} class="docs-section">
@@ -494,5 +519,5 @@ export const Example = () => (
         </section>
       ))}
     </>
-  )
+  ),
 };

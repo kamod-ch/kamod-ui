@@ -21,7 +21,7 @@ import {
   Share2,
   Tag,
   Trash2,
-  Volume2
+  Volume2,
 } from "lucide-preact";
 import { useState } from "preact/hooks";
 import {
@@ -64,7 +64,7 @@ import {
   Textarea,
   Tooltip,
   TooltipContent,
-  TooltipTrigger
+  TooltipTrigger,
 } from "@kamod-ui/core";
 import { ApiReference } from "../components/ApiReference";
 import type { DocPageModule } from "../types";
@@ -304,7 +304,7 @@ function DropdownSplitDemo() {
 const CURRENCIES = [
   { value: "$", label: "US Dollar" },
   { value: "€", label: "Euro" },
-  { value: "£", label: "British Pound" }
+  { value: "£", label: "British Pound" },
 ] as const;
 
 function SelectAmountDemo() {
@@ -314,9 +314,7 @@ function SelectAmountDemo() {
     <ButtonGroup class="w-full max-w-md">
       <ButtonGroup class="min-w-0 flex-1">
         <Select class="w-fit shrink-0" value={currency} onValueChange={setCurrency}>
-          <SelectTrigger class="font-mono">
-            {currency}
-          </SelectTrigger>
+          <SelectTrigger class="font-mono">{currency}</SelectTrigger>
           <SelectContent class="min-w-36">
             <SelectGroup>
               {CURRENCIES.map((c) => (
@@ -372,10 +370,41 @@ function PopoverCopilotDemo() {
 
 type Lang = "en" | "ar" | "he";
 
-const rtlCopy: Record<Lang, { dir: "ltr" | "rtl"; label: string; archive: string; report: string; snooze: string; more: string }> = {
-  en: { dir: "ltr", label: "English (LTR)", archive: "Archive", report: "Report", snooze: "Snooze", more: "More options" },
-  ar: { dir: "rtl", label: "العربية (RTL)", archive: "أرشفة", report: "تقرير", snooze: "تأجيل", more: "المزيد" },
-  he: { dir: "rtl", label: "עברית (RTL)", archive: "ארכיון", report: "דוח", snooze: "דחה", more: "עוד" }
+const rtlCopy: Record<
+  Lang,
+  {
+    dir: "ltr" | "rtl";
+    label: string;
+    archive: string;
+    report: string;
+    snooze: string;
+    more: string;
+  }
+> = {
+  en: {
+    dir: "ltr",
+    label: "English (LTR)",
+    archive: "Archive",
+    report: "Report",
+    snooze: "Snooze",
+    more: "More options",
+  },
+  ar: {
+    dir: "rtl",
+    label: "العربية (RTL)",
+    archive: "أرشفة",
+    report: "تقرير",
+    snooze: "تأجيل",
+    more: "المزيد",
+  },
+  he: {
+    dir: "rtl",
+    label: "עברית (RTL)",
+    archive: "ארכיון",
+    report: "דוח",
+    snooze: "דחה",
+    more: "עוד",
+  },
 };
 
 function RtlToolbarDemo() {
@@ -386,7 +415,13 @@ function RtlToolbarDemo() {
     <div class="flex w-full max-w-2xl flex-col gap-3">
       <div class="flex flex-wrap gap-2">
         {(["en", "ar", "he"] as const).map((key) => (
-          <Button key={key} variant={lang === key ? "default" : "outline"} size="sm" type="button" onClick={() => setLang(key)}>
+          <Button
+            key={key}
+            variant={lang === key ? "default" : "outline"}
+            size="sm"
+            type="button"
+            onClick={() => setLang(key)}
+          >
             {rtlCopy[key].label}
           </Button>
         ))}
@@ -450,10 +485,7 @@ export const Example = () => {
   );
 };`;
 
-const sectionBlocks: Record<
-  string,
-  { preview: () => ComponentChildren; code: string }
-> = {
+const sectionBlocks: Record<string, { preview: () => ComponentChildren; code: string }> = {
   installation: {
     preview: () => (
       <ButtonGroup aria-label="Example group">
@@ -469,7 +501,7 @@ export const Example = () => (
     <Button>Button 1</Button>
     <Button>Button 2</Button>
   </ButtonGroup>
-);`
+);`,
   },
   accessibility: {
     preview: () => (
@@ -490,7 +522,7 @@ export const Example = () => (
     <Button variant="outline" size="sm">Prev</Button>
     <Button variant="outline" size="sm">Next</Button>
   </ButtonGroup>
-);`
+);`,
   },
   orientation: {
     preview: () => (
@@ -514,7 +546,7 @@ export const Example = () => (
     <Button variant="outline" size="icon" aria-label="Increase"><Plus /></Button>
     <Button variant="outline" size="icon" aria-label="Decrease"><Minus /></Button>
   </ButtonGroup>
-);`
+);`,
   },
   size: {
     preview: () => <SizeDemo />,
@@ -531,7 +563,7 @@ export const Example = () => (
     </ButtonGroup>
     {/* default + lg rows */}
   </div>
-);`
+);`,
   },
   nested: {
     preview: () => <NestedDemo />,
@@ -558,7 +590,7 @@ export const Example = () => (
       </InputGroup>
     </ButtonGroup>
   </ButtonGroup>
-);`
+);`,
   },
   separator: {
     preview: () => (
@@ -581,7 +613,7 @@ export const Example = () => (
     <ButtonGroupSeparator />
     <Button variant="secondary" size="sm">Paste</Button>
   </ButtonGroup>
-);`
+);`,
   },
   split: {
     preview: () => (
@@ -605,7 +637,7 @@ export const Example = () => (
     <ButtonGroupSeparator />
     <Button variant="secondary" size="icon" aria-label="Add"><Plus /></Button>
   </ButtonGroup>
-);`
+);`,
   },
   input: {
     preview: () => (
@@ -626,11 +658,11 @@ export const Example = () => (
     <Input placeholder="Search…" class="h-8" />
     <Button variant="outline" size="icon" aria-label="Search"><Search /></Button>
   </ButtonGroup>
-);`
+);`,
   },
   "input-group": {
     preview: () => <InputGroupVoiceDemo />,
-    code: `// Rounded pill group + InputGroup + voice toggle — see InputGroupVoiceDemo in button-group-doc.tsx`
+    code: `// Rounded pill group + InputGroup + voice toggle — see InputGroupVoiceDemo in button-group-doc.tsx`,
   },
   dropdown: {
     preview: () => <DropdownSplitDemo />,
@@ -649,7 +681,7 @@ export const Example = () => (
       <DropdownContent side="bottom" align="end">…</DropdownContent>
     </Dropdown>
   </ButtonGroup>
-);`
+);`,
   },
   select: {
     preview: () => <SelectAmountDemo />,
@@ -669,7 +701,7 @@ export const Example = () => (
       <Button variant="outline" size="icon" aria-label="Send"><ArrowRight /></Button>
     </ButtonGroup>
   </ButtonGroup>
-);`
+);`,
   },
   popover: {
     preview: () => <PopoverCopilotDemo />,
@@ -690,7 +722,7 @@ export const Example = () => (
       <PopoverContent side="bottom" align="end" class="w-80 rounded-xl">…</PopoverContent>
     </Popover>
   </ButtonGroup>
-);`
+);`,
   },
   rtl: {
     preview: () => <RtlToolbarDemo />,
@@ -698,7 +730,7 @@ export const Example = () => (
 import { ButtonGroup } from "@/components/kamod-ui/button-group"
 import { DirectionProvider } from "@/components/kamod-ui/direction"
 import { Dropdown, DropdownContent, DropdownItem, DropdownTrigger } from "@/components/kamod-ui/dropdown";
-// Wrap toolbar in DirectionProvider + dir; mirror back icon with rotate-180 in RTL.`
+// Wrap toolbar in DirectionProvider + dir; mirror back icon with rotate-180 in RTL.`,
   },
   "group-text": {
     preview: () => (
@@ -735,23 +767,23 @@ export const Example = () => (
       <Input id="name" placeholder="Type something…" />
     </ButtonGroup>
   </>
-);`
-  }
+);`,
+  },
 };
 
 const apiRows: Array<{ prop: string; type: string; defaultValue: string }> = [
   { prop: "orientation", type: '"horizontal" | "vertical"', defaultValue: '"horizontal"' },
-  { prop: "class", type: "string", defaultValue: "-" }
+  { prop: "class", type: "string", defaultValue: "-" },
 ];
 
 const separatorApiRows: Array<{ prop: string; type: string; defaultValue: string }> = [
   { prop: "orientation", type: '"horizontal" | "vertical"', defaultValue: '"vertical"' },
-  { prop: "class", type: "string", defaultValue: "-" }
+  { prop: "class", type: "string", defaultValue: "-" },
 ];
 
 const textApiRows: Array<{ prop: string; type: string; defaultValue: string }> = [
   { prop: "asChild", type: "boolean", defaultValue: "false" },
-  { prop: "class", type: "string", defaultValue: "-" }
+  { prop: "class", type: "string", defaultValue: "-" },
 ];
 
 export const buttonGroupDocPage: DocPageModule = {
@@ -764,83 +796,83 @@ export const buttonGroupDocPage: DocPageModule = {
     {
       id: "installation",
       title: "Installation",
-      text: "Import ButtonGroup, ButtonGroupSeparator, and ButtonGroupText from `@/components/kamod-ui/button-group`."
+      text: "Import ButtonGroup, ButtonGroupSeparator, and ButtonGroupText from `@/components/kamod-ui/button-group`.",
     },
     {
       id: "accessibility",
       title: "Accessibility",
-      text: "The group uses role=\"group\". Prefer aria-label or aria-labelledby so assistive tech knows what the control set does. Tab moves between focusable controls inside."
+      text: 'The group uses role="group". Prefer aria-label or aria-labelledby so assistive tech knows what the control set does. Tab moves between focusable controls inside.',
     },
     {
       id: "toggle-group",
       title: "Button group vs toggle group",
-      text: "Use ButtonGroup for actions (submit, navigate, open menus). Use a toggle group pattern when buttons represent exclusive or multi selection state — Kamod exposes separate primitives for that use case."
+      text: "Use ButtonGroup for actions (submit, navigate, open menus). Use a toggle group pattern when buttons represent exclusive or multi selection state — Kamod exposes separate primitives for that use case.",
     },
     {
       id: "group-text",
       title: "Group text",
-      text: "Optional label text before actions, or ButtonGroupText asChild with Label for form fields."
+      text: "Optional label text before actions, or ButtonGroupText asChild with Label for form fields.",
     },
     {
       id: "orientation",
       title: "Orientation",
-      text: "Set orientation=\"vertical\" for stacked controls (for example media + / −)."
+      text: 'Set orientation="vertical" for stacked controls (for example media + / −).',
     },
     {
       id: "size",
       title: "Size",
-      text: "Control density with each Button’s size prop (sm, default, lg, icon variants)."
+      text: "Control density with each Button’s size prop (sm, default, lg, icon variants).",
     },
     {
       id: "nested",
       title: "Nested",
-      text: "Nest ButtonGroup components to add gap between clusters while keeping flush joins inside each cluster."
+      text: "Nest ButtonGroup components to add gap between clusters while keeping flush joins inside each cluster.",
     },
     {
       id: "separator",
       title: "Separator",
-      text: "Use ButtonGroupSeparator between solid (non-outline) buttons so the hierarchy stays clear. Outline buttons usually do not need a separator."
+      text: "Use ButtonGroupSeparator between solid (non-outline) buttons so the hierarchy stays clear. Outline buttons usually do not need a separator.",
     },
     {
       id: "split",
       title: "Split",
-      text: "Primary action plus a compact icon action, separated by ButtonGroupSeparator."
+      text: "Primary action plus a compact icon action, separated by ButtonGroupSeparator.",
     },
     {
       id: "input",
       title: "Input",
-      text: "Place a full-width Input beside a button; the group applies flex-1 to direct input children."
+      text: "Place a full-width Input beside a button; the group applies flex-1 to direct input children.",
     },
     {
       id: "input-group",
       title: "Input group",
-      text: "Pill-shaped bar with nested groups: icon button + InputGroup with addons (voice toggle example)."
+      text: "Pill-shaped bar with nested groups: icon button + InputGroup with addons (voice toggle example).",
     },
     {
       id: "dropdown",
       title: "Dropdown",
-      text: "Split row: text button plus dropdown trigger sharing one continuous outline."
+      text: "Split row: text button plus dropdown trigger sharing one continuous outline.",
     },
     {
       id: "select",
       title: "Select",
-      text: "Currency (or similar) Select next to an amount field and a send button."
+      text: "Currency (or similar) Select next to an amount field and a send button.",
     },
     {
       id: "popover",
       title: "Popover",
-      text: "Split control with a popover panel on the trailing chevron button."
+      text: "Split control with a popover panel on the trailing chevron button.",
     },
     {
       id: "rtl",
       title: "RTL",
-      text: "Wrap with DirectionProvider and set dir on the document subtree; mirror directional icons (e.g. back arrow) in RTL."
+      text: "Wrap with DirectionProvider and set dir on the document subtree; mirror directional icons (e.g. back arrow) in RTL.",
     },
     {
       id: "api-reference",
       title: "API Reference",
-      text: "Props for ButtonGroup, ButtonGroupSeparator, and ButtonGroupText."
-    }
+      text: "Props for ButtonGroup, ButtonGroupSeparator, and ButtonGroupText.",
+    },
   ],
   renderMain: (context) => {
     const renderSectionBody = (sectionId: string) => {
@@ -850,7 +882,7 @@ export const buttonGroupDocPage: DocPageModule = {
             sections={[
               { title: "Button Group", rows: apiRows },
               { title: "Button Group Separator", rows: separatorApiRows },
-              { title: "Button Group Text", rows: textApiRows }
+              { title: "Button Group Text", rows: textApiRows },
             ]}
           />
         );
@@ -864,7 +896,7 @@ export const buttonGroupDocPage: DocPageModule = {
       }
       return context.renderPreviewAndCodeTabs({
         preview: block.preview(),
-        codeSnippet: block.code
+        codeSnippet: block.code,
       });
     };
 
@@ -874,7 +906,7 @@ export const buttonGroupDocPage: DocPageModule = {
         {context.renderPreviewAndCodeTabs({
           preview: <ToolbarDemo />,
           codeSnippet: heroCode,
-          previewClass: "overflow-x-auto"
+          previewClass: "overflow-x-auto",
         })}
         {context.sections.map((docSection) => (
           <section key={docSection.id} id={docSection.id} class="docs-section">
@@ -886,5 +918,5 @@ export const buttonGroupDocPage: DocPageModule = {
         ))}
       </>
     );
-  }
+  },
 };

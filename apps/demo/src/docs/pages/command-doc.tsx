@@ -9,7 +9,7 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-  CommandShortcut
+  CommandShortcut,
 } from "@kamod-ui/core";
 import {
   Bell,
@@ -35,7 +35,7 @@ import {
   Trash2,
   User,
   ZoomIn,
-  ZoomOut
+  ZoomOut,
 } from "lucide-preact";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
@@ -362,7 +362,7 @@ const rtlCopy: Record<
     calculator: "Calculator",
     profile: "Profile",
     billing: "Billing",
-    settingsLabel: "Settings"
+    settingsLabel: "Settings",
   },
   ar: {
     dir: "rtl",
@@ -375,7 +375,7 @@ const rtlCopy: Record<
     calculator: "الآلة الحاسبة",
     profile: "الملف الشخصي",
     billing: "الفوترة",
-    settingsLabel: "الإعدادات"
+    settingsLabel: "الإعدادات",
   },
   he: {
     dir: "rtl",
@@ -388,8 +388,8 @@ const rtlCopy: Record<
     calculator: "מחשבון",
     profile: "פרופיל",
     billing: "חיוב",
-    settingsLabel: "הגדרות"
-  }
+    settingsLabel: "הגדרות",
+  },
 };
 
 const CommandRtlPreview = () => {
@@ -399,7 +399,12 @@ const CommandRtlPreview = () => {
     <div class="flex flex-col gap-3">
       <div class="flex flex-wrap gap-2">
         {(["en", "ar", "he"] as const).map((key) => (
-          <Button key={key} size="sm" variant={lang === key ? "default" : "outline"} onClick={() => setLang(key)}>
+          <Button
+            key={key}
+            size="sm"
+            variant={lang === key ? "default" : "outline"}
+            onClick={() => setLang(key)}
+          >
             {key.toUpperCase()}
           </Button>
         ))}
@@ -467,58 +472,58 @@ export const Example = () => (
   installationText:
     "Use `@kamod-ui/core` — no `cmdk` dependency. For modal palettes, wrap with `CommandDialog` (`Dialog` + padded `DialogContent`).",
   usageText:
-    "`CommandItem` requires a `value` string used for filtering (case-insensitive substring). Use `onSelect` or `onClick` for actions. `CommandEmpty` appears only when the query is non-empty and no item matches. `CommandList` measures matches after layout. Inside `CommandDialog`, drop the inner `Command` border: `class=\"rounded-none border-0 shadow-none\"`.",
+    '`CommandItem` requires a `value` string used for filtering (case-insensitive substring). Use `onSelect` or `onClick` for actions. `CommandEmpty` appears only when the query is non-empty and no item matches. `CommandList` measures matches after layout. Inside `CommandDialog`, drop the inner `Command` border: `class="rounded-none border-0 shadow-none"`.',
   exampleSections: [
     {
       id: "demo-inline",
       title: "Inline demo",
       text: "Groups, separator, shortcuts, icons, and disabled row — aligned with the shadcn overview example.",
       code: "// command-doc.tsx — CommandDemoPreview",
-      renderPreview: () => <CommandDemoPreview />
+      renderPreview: () => <CommandDemoPreview />,
     },
     {
       id: "dialog-basic",
       title: "Dialog: basic",
       text: "`CommandDialog` + controlled `open` / `onOpenChange`.",
       code: "// CommandBasicDialogPreview",
-      renderPreview: () => <CommandBasicDialogPreview />
+      renderPreview: () => <CommandBasicDialogPreview />,
     },
     {
       id: "dialog-shortcuts",
       title: "Dialog: shortcuts",
       text: "Settings group with `CommandShortcut` trailing hints.",
       code: "// CommandShortcutsDialogPreview",
-      renderPreview: () => <CommandShortcutsDialogPreview />
+      renderPreview: () => <CommandShortcutsDialogPreview />,
     },
     {
       id: "dialog-groups",
       title: "Dialog: groups",
       text: "Suggestions + Settings with `CommandSeparator`.",
       code: "// CommandGroupsDialogPreview",
-      renderPreview: () => <CommandGroupsDialogPreview />
+      renderPreview: () => <CommandGroupsDialogPreview />,
     },
     {
       id: "dialog-scrollable",
       title: "Dialog: scrollable",
       text: "Many items; `CommandList` uses `max-h-80` for scroll.",
       code: "// CommandScrollableDialogPreview",
-      renderPreview: () => <CommandScrollableDialogPreview />
+      renderPreview: () => <CommandScrollableDialogPreview />,
     },
     {
       id: "rtl",
       title: "RTL",
       text: "`dir` on `Command` and `CommandInput`; localized strings EN/AR/HE.",
       code: "// CommandRtlPreview",
-      renderPreview: () => <CommandRtlPreview />
-    }
+      renderPreview: () => <CommandRtlPreview />,
+    },
   ],
   apiRows: [
     { prop: "CommandItem value", type: "string", defaultValue: "required (filter key)" },
     { prop: "CommandItem onSelect", type: "(value: string) => void", defaultValue: "undefined" },
     { prop: "CommandGroup heading", type: "string", defaultValue: "undefined" },
     { prop: "CommandDialog open / onOpenChange", type: "boolean + callback", defaultValue: "—" },
-    { prop: "CommandDialog contentClass", type: "string", defaultValue: "p-0 gap-0 sm:max-w-lg" }
+    { prop: "CommandDialog contentClass", type: "string", defaultValue: "p-0 gap-0 sm:max-w-lg" },
   ],
   accessibilityText:
-    "Provide a visible label or `aria-label` on the input; keep shortcut text as supplementary. For production, consider roving `tabindex` / arrow-key navigation (cmdk parity) — current focus is click and type-to-filter."
+    "Provide a visible label or `aria-label` on the input; keep shortcut text as supplementary. For production, consider roving `tabindex` / arrow-key navigation (cmdk parity) — current focus is click and type-to-filter.",
 });

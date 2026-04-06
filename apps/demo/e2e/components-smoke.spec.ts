@@ -6,10 +6,15 @@ test.describe("core component docs smoke", () => {
     await page.goto("/docs/tooltip/basic-tooltip");
     await expect(page.locator("h1", { hasText: "Tooltip" })).toBeVisible();
 
-    const trigger = page.locator("[data-slot='tooltip-trigger']").filter({ hasText: "Hover" }).first();
+    const trigger = page
+      .locator("[data-slot='tooltip-trigger']")
+      .filter({ hasText: "Hover" })
+      .first();
     await trigger.hover();
 
-    const tooltip = page.locator("[data-slot='tooltip-content']").filter({ hasText: "Add to library" });
+    const tooltip = page
+      .locator("[data-slot='tooltip-content']")
+      .filter({ hasText: "Add to library" });
     await expect(tooltip).toBeVisible();
 
     await trigger.hover();
@@ -53,13 +58,21 @@ test.describe("core component docs smoke", () => {
     await page.goto("/docs/typography/full-example");
     await expect(page.locator("h1", { hasText: "Typography" })).toBeVisible();
 
-    await expect(page.locator("section#h1").getByText("Taxing Laughter: The Joke Tax Chronicles")).toBeVisible();
+    await expect(
+      page.locator("section#h1").getByText("Taxing Laughter: The Joke Tax Chronicles"),
+    ).toBeVisible();
     await expect(page.locator("section#h2").getByText("The People's Rebellion")).toBeVisible();
-    await expect(page.locator("section#h4").getByText("People stopped telling jokes")).toBeVisible();
+    await expect(
+      page.locator("section#h4").getByText("People stopped telling jokes"),
+    ).toBeVisible();
 
     await page.goto("/docs/typography/inline-code");
-    await expect(page.locator("section#inline-code").getByRole("code")).toContainText(/@radix-ui\/react-alert-dialog/);
-    await expect(page.locator("section#list").getByText("1st level of puns: 5 gold coins")).toBeVisible();
+    await expect(page.locator("section#inline-code").getByRole("code")).toContainText(
+      /@radix-ui\/react-alert-dialog/,
+    );
+    await expect(
+      page.locator("section#list").getByText("1st level of puns: 5 gold coins"),
+    ).toBeVisible();
     await expect(page.locator("section#table").getByText("King's Treasury")).toBeVisible();
   });
 
@@ -86,33 +99,27 @@ test.describe("core component docs smoke", () => {
     await expect(textarea).not.toHaveAttribute("aria-invalid", "true");
   });
 
-  test("A11y checks pass for tooltip, toggle, toggle group and typography docs", async ({ page }) => {
+  test("A11y checks pass for tooltip, toggle, toggle group and typography docs", async ({
+    page,
+  }) => {
     await page.goto("/docs/tooltip/basic-tooltip");
     await page.locator("#basic-tooltip").waitFor({ state: "attached" });
-    const tooltipA11y = await new AxeBuilder({ page })
-      .include("#basic-tooltip")
-      .analyze();
+    const tooltipA11y = await new AxeBuilder({ page }).include("#basic-tooltip").analyze();
     expect(tooltipA11y.violations).toEqual([]);
 
     await page.goto("/docs/toggle/toggle-options");
     await page.locator("#toggle-options").waitFor({ state: "attached" });
-    const toggleA11y = await new AxeBuilder({ page })
-      .include("#toggle-options")
-      .analyze();
+    const toggleA11y = await new AxeBuilder({ page }).include("#toggle-options").analyze();
     expect(toggleA11y.violations).toEqual([]);
 
     await page.goto("/docs/toggle-group/single-selection");
     await page.locator("#single-selection").waitFor({ state: "attached" });
-    const toggleGroupA11y = await new AxeBuilder({ page })
-      .include("#single-selection")
-      .analyze();
+    const toggleGroupA11y = await new AxeBuilder({ page }).include("#single-selection").analyze();
     expect(toggleGroupA11y.violations).toEqual([]);
 
     await page.goto("/docs/typography/h1");
     await page.locator("#h1").waitFor({ state: "attached" });
-    const typographyA11y = await new AxeBuilder({ page })
-      .include("#h1")
-      .analyze();
+    const typographyA11y = await new AxeBuilder({ page }).include("#h1").analyze();
     expect(typographyA11y.violations).toEqual([]);
 
     await page.goto("/docs/textarea/textarea-production-field");
@@ -128,7 +135,9 @@ test.describe("core component docs smoke", () => {
     expect(sheetA11y.violations).toEqual([]);
   });
 
-  test("Visual snapshots stay stable for tooltip, toggle, toggle group and typography", async ({ page }) => {
+  test("Visual snapshots stay stable for tooltip, toggle, toggle group and typography", async ({
+    page,
+  }) => {
     await page.goto("/docs/tooltip/basic-tooltip");
     await expect(page).toHaveScreenshot("tooltip-doc.png", { fullPage: false });
 

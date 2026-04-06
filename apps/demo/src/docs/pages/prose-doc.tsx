@@ -25,9 +25,12 @@ export const Example = () => (
         <Prose class="max-w-2xl">
           <h2>Documentation heading</h2>
           <p>Readable paragraph styles with sensible defaults.</p>
-          <ul><li>First point</li><li>Second point</li></ul>
+          <ul>
+            <li>First point</li>
+            <li>Second point</li>
+          </ul>
         </Prose>
-      )
+      ),
     },
     {
       id: "narrow-prose",
@@ -44,13 +47,14 @@ export const Example = () => (
         <Prose class="max-w-xl">
           <p>Constrained line length improves reading comfort and scanability.</p>
         </Prose>
-      )
-    }
+      ),
+    },
   ],
   apiRows: [
     { prop: "class", type: "string", defaultValue: "undefined" },
     { prop: "children", type: "rich text content", defaultValue: "required" },
-    { prop: "data-slot", type: '"prose"', defaultValue: '"prose"' }
+    { prop: "data-slot", type: '"prose"', defaultValue: '"prose"' },
   ],
-  accessibilityText: "Ensure semantic heading order is maintained and links remain distinguishable from body text."
+  accessibilityText:
+    "Ensure semantic heading order is maintained and links remain distinguishable from body text.",
 });

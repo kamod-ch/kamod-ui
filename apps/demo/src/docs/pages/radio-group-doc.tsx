@@ -7,9 +7,10 @@ export const radioGroupDocPage = createGenericDocPage({
   slug: "radio-group",
   title: "Radio Group",
   usageLabel: "A set of mutually exclusive options styled like modern radio controls.",
-  installationText: "Import RadioGroup and RadioGroupItem from `@/components/kamod-ui/radio-group`. Label pairs cleanly via id and htmlFor.",
+  installationText:
+    "Import RadioGroup and RadioGroupItem from `@/components/kamod-ui/radio-group`. Label pairs cleanly via id and htmlFor.",
   usageText:
-    "Use defaultValue for uncontrolled groups, or value with onValueChange when the parent owns state. Omit name to get a stable generated group name. Pair each item with Label for accessible names; use size=\"sm\" for dense layouts. disabled and aria-invalid on items match form and validation patterns.",
+    'Use defaultValue for uncontrolled groups, or value with onValueChange when the parent owns state. Omit name to get a stable generated group name. Pair each item with Label for accessible names; use size="sm" for dense layouts. disabled and aria-invalid on items match form and validation patterns.',
   exampleSections: [
     {
       id: "radio-default-labels",
@@ -49,7 +50,7 @@ export const Example = () => (
             </Label>
           </div>
         </RadioGroup>
-      )
+      ),
     },
     {
       id: "radio-description",
@@ -80,7 +81,11 @@ export const Example = () => (
       renderPreview: () => (
         <RadioGroup defaultValue="standard" class="grid max-w-md gap-4">
           <div class="rounded-xl border border-border bg-card transition-colors hover:border-primary/40">
-            <RadioGroupItem value="standard" class="items-start gap-3 p-4" aria-label="Standard density">
+            <RadioGroupItem
+              value="standard"
+              class="items-start gap-3 p-4"
+              aria-label="Standard density"
+            >
               <div class="grid gap-1">
                 <p class="text-sm font-medium leading-none">Standard</p>
                 <p class="text-xs text-muted-foreground">Balanced spacing for most interfaces.</p>
@@ -88,7 +93,11 @@ export const Example = () => (
             </RadioGroupItem>
           </div>
           <div class="rounded-xl border border-border bg-card transition-colors hover:border-primary/40">
-            <RadioGroupItem value="compact" class="items-start gap-3 p-4" aria-label="Compact density">
+            <RadioGroupItem
+              value="compact"
+              class="items-start gap-3 p-4"
+              aria-label="Compact density"
+            >
               <div class="grid gap-1">
                 <p class="text-sm font-medium leading-none">Compact</p>
                 <p class="text-xs text-muted-foreground">Tighter rows for dense dashboards.</p>
@@ -96,7 +105,7 @@ export const Example = () => (
             </RadioGroupItem>
           </div>
         </RadioGroup>
-      )
+      ),
     },
     {
       id: "radio-choice-card",
@@ -183,7 +192,7 @@ export const Example = () => (
             </RadioGroupItem>
           </div>
         </RadioGroup>
-      )
+      ),
     },
     {
       id: "radio-fieldset-field",
@@ -217,7 +226,7 @@ export const Example = () => (
             <RadioGroupItem value="lifetime">Lifetime ($299.99)</RadioGroupItem>
           </RadioGroup>
         </Field>
-      )
+      ),
     },
     {
       id: "radio-disabled-invalid",
@@ -262,7 +271,9 @@ export const Example = () => (
           </RadioGroup>
           <div class="rounded-xl border border-destructive/40 bg-card p-4">
             <p class="mb-3 text-sm font-medium text-destructive">Notification preferences</p>
-            <p class="mb-3 text-xs text-muted-foreground">Choose how you want to receive notifications.</p>
+            <p class="mb-3 text-xs text-muted-foreground">
+              Choose how you want to receive notifications.
+            </p>
             <RadioGroup defaultValue="email" class="grid gap-3">
               <RadioGroupItem value="email" aria-invalid>
                 Email only
@@ -276,7 +287,7 @@ export const Example = () => (
             </RadioGroup>
           </div>
         </div>
-      )
+      ),
     },
     {
       id: "radio-inline-sm",
@@ -298,7 +309,11 @@ export const Example = () => (
   </RadioGroup>
 );`,
       renderPreview: () => (
-        <RadioGroup name="theme-inline" defaultValue="system" class="flex flex-wrap items-center gap-6">
+        <RadioGroup
+          name="theme-inline"
+          defaultValue="system"
+          class="flex flex-wrap items-center gap-6"
+        >
           <RadioGroupItem value="light" size="sm">
             Light
           </RadioGroupItem>
@@ -309,8 +324,8 @@ export const Example = () => (
             System
           </RadioGroupItem>
         </RadioGroup>
-      )
-    }
+      ),
+    },
   ],
   apiRows: [
     { prop: "name", type: "string | undefined", defaultValue: "auto" },
@@ -318,10 +333,10 @@ export const Example = () => (
     { prop: "value", type: "string | undefined", defaultValue: "undefined (uncontrolled)" },
     { prop: "onValueChange", type: "(value: string) => void", defaultValue: "undefined" },
     { prop: "RadioGroupItem value", type: "string", defaultValue: "required" },
-    { prop: "RadioGroupItem size", type: "\"default\" | \"sm\"", defaultValue: "\"default\"" },
+    { prop: "RadioGroupItem size", type: '"default" | "sm"', defaultValue: '"default"' },
     { prop: "RadioGroupItem disabled", type: "boolean", defaultValue: "false" },
-    { prop: "RadioGroupItem aria-invalid", type: "boolean", defaultValue: "false" }
+    { prop: "RadioGroupItem aria-invalid", type: "boolean", defaultValue: "false" },
   ],
   accessibilityText:
-    "Prefer explicit labels via Label htmlFor and id, or aria-label on RadioGroupItem when the label is decorative. Keep one focusable radio per option; the root exposes role=\"radiogroup\"."
+    'Prefer explicit labels via Label htmlFor and id, or aria-label on RadioGroupItem when the label is decorative. Keep one focusable radio per option; the root exposes role="radiogroup".',
 });

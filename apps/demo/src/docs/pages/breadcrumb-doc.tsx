@@ -13,7 +13,7 @@ import {
   DropdownContent,
   DropdownGroup,
   DropdownItem,
-  DropdownTrigger
+  DropdownTrigger,
 } from "@kamod-ui/core";
 import { ChevronDown, Dot } from "lucide-preact";
 import { useState } from "preact/hooks";
@@ -40,7 +40,12 @@ function BreadcrumbHeroDemo() {
         <BreadcrumbItem>
           <Dropdown>
             <DropdownTrigger asChild>
-              <Button size="icon-sm" variant="ghost" class={breadcrumbEllipsisTriggerClass} aria-label="Toggle menu">
+              <Button
+                size="icon-sm"
+                variant="ghost"
+                class={breadcrumbEllipsisTriggerClass}
+                aria-label="Toggle menu"
+              >
                 <BreadcrumbEllipsis class="flex size-7 items-center justify-center [&_svg]:size-3.5" />
               </Button>
             </DropdownTrigger>
@@ -91,7 +96,7 @@ const rtlCopy: Record<
     documentation: "Documentation",
     themes: "Themes",
     github: "GitHub",
-    breadcrumb: "Breadcrumb"
+    breadcrumb: "Breadcrumb",
   },
   ar: {
     dir: "rtl",
@@ -101,7 +106,7 @@ const rtlCopy: Record<
     documentation: "التوثيق",
     themes: "السمات",
     github: "جيت هاب",
-    breadcrumb: "مسار التنقل"
+    breadcrumb: "مسار التنقل",
   },
   he: {
     dir: "rtl",
@@ -111,8 +116,8 @@ const rtlCopy: Record<
     documentation: "תיעוד",
     themes: "ערכות נושא",
     github: "גיטהאב",
-    breadcrumb: "פירורי לחם"
-  }
+    breadcrumb: "פירורי לחם",
+  },
 };
 
 function BreadcrumbRtlDemo() {
@@ -123,7 +128,13 @@ function BreadcrumbRtlDemo() {
     <div class="flex w-full max-w-2xl flex-col gap-3">
       <div class="flex flex-wrap gap-2">
         {(["en", "ar", "he"] as const).map((key) => (
-          <Button key={key} variant={lang === key ? "default" : "outline"} size="sm" type="button" onClick={() => setLang(key)}>
+          <Button
+            key={key}
+            variant={lang === key ? "default" : "outline"}
+            size="sm"
+            type="button"
+            onClick={() => setLang(key)}
+          >
             {rtlCopy[key].label}
           </Button>
         ))}
@@ -243,7 +254,7 @@ export const Example = () => (
       </BreadcrumbItem>
     </BreadcrumbList>
   </Breadcrumb>
-);`
+);`,
   },
   "custom-separator": {
     preview: () => (
@@ -284,7 +295,7 @@ export const Example = () => (
       …
     </BreadcrumbList>
   </Breadcrumb>
-);`
+);`,
   },
   dropdown: {
     preview: () => (
@@ -358,7 +369,7 @@ export const Example = () => (
       …
     </BreadcrumbList>
   </Breadcrumb>
-);`
+);`,
   },
   collapsed: {
     preview: () => (
@@ -408,7 +419,7 @@ export const Example = () => (
       </BreadcrumbItem>
     </BreadcrumbList>
   </Breadcrumb>
-);`
+);`,
   },
   "link-component": {
     preview: () => (
@@ -454,29 +465,29 @@ export const Example = () => (
       </BreadcrumbItem>
     </BreadcrumbList>
   </Breadcrumb>
-);`
+);`,
   },
   rtl: {
     preview: () => <BreadcrumbRtlDemo />,
     code: `import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, DirectionProvider, Dropdown, … } from "@/components/kamod-ui/breadcrumb";
 import { ChevronDown, Dot } from "lucide-preact";
-// Set dir on Breadcrumb; use Dot separators and a dropdown trigger row for the middle segment.`
-  }
+// Set dir on Breadcrumb; use Dot separators and a dropdown trigger row for the middle segment.`,
+  },
 };
 
 const apiSections = [
   {
     title: "Breadcrumb",
     description: "Root nav landmark; pass dir for RTL.",
-    rows: [{ prop: "class", type: "string", defaultValue: "-" }]
+    rows: [{ prop: "class", type: "string", defaultValue: "-" }],
   },
   {
     title: "BreadcrumbList",
-    rows: [{ prop: "class", type: "string", defaultValue: "-" }]
+    rows: [{ prop: "class", type: "string", defaultValue: "-" }],
   },
   {
     title: "BreadcrumbItem",
-    rows: [{ prop: "class", type: "string", defaultValue: "-" }]
+    rows: [{ prop: "class", type: "string", defaultValue: "-" }],
   },
   {
     title: "BreadcrumbLink",
@@ -484,23 +495,23 @@ const apiSections = [
     rows: [
       { prop: "asChild", type: "boolean", defaultValue: "false" },
       { prop: "href", type: "string", defaultValue: "-" },
-      { prop: "class", type: "string", defaultValue: "-" }
-    ]
+      { prop: "class", type: "string", defaultValue: "-" },
+    ],
   },
   {
     title: "BreadcrumbPage",
     description: "Current page; renders with aria-current and aria-disabled.",
-    rows: [{ prop: "class", type: "string", defaultValue: "-" }]
+    rows: [{ prop: "class", type: "string", defaultValue: "-" }],
   },
   {
     title: "BreadcrumbSeparator",
     description: "Optional children override the default chevron.",
-    rows: [{ prop: "class", type: "string", defaultValue: "-" }]
+    rows: [{ prop: "class", type: "string", defaultValue: "-" }],
   },
   {
     title: "BreadcrumbEllipsis",
-    rows: [{ prop: "class", type: "string", defaultValue: "-" }]
-  }
+    rows: [{ prop: "class", type: "string", defaultValue: "-" }],
+  },
 ] as const;
 
 export const breadcrumbDocPage: DocPageModule = {
@@ -513,43 +524,43 @@ export const breadcrumbDocPage: DocPageModule = {
     {
       id: "installation",
       title: "Installation",
-      text: "Import Breadcrumb primitives from `@/components/kamod-ui/breadcrumb`."
+      text: "Import Breadcrumb primitives from `@/components/kamod-ui/breadcrumb`.",
     },
     {
       id: "usage",
       title: "Usage",
-      text: "Compose BreadcrumbList with BreadcrumbItem cells: BreadcrumbLink for ancestors, BreadcrumbPage for the active segment, BreadcrumbSeparator between items."
+      text: "Compose BreadcrumbList with BreadcrumbItem cells: BreadcrumbLink for ancestors, BreadcrumbPage for the active segment, BreadcrumbSeparator between items.",
     },
     {
       id: "custom-separator",
       title: "Custom separator",
-      text: "Pass any node as children of BreadcrumbSeparator (for example a dot icon)."
+      text: "Pass any node as children of BreadcrumbSeparator (for example a dot icon).",
     },
     {
       id: "dropdown",
       title: "Dropdown",
-      text: "Place a Dropdown in a BreadcrumbItem to expose sibling routes without cluttering the trail."
+      text: "Place a Dropdown in a BreadcrumbItem to expose sibling routes without cluttering the trail.",
     },
     {
       id: "collapsed",
       title: "Collapsed",
-      text: "BreadcrumbEllipsis marks omitted intermediate segments; pair with a dropdown on the hero example for an interactive menu."
+      text: "BreadcrumbEllipsis marks omitted intermediate segments; pair with a dropdown on the hero example for an interactive menu.",
     },
     {
       id: "link-component",
       title: "Link component",
-      text: "Use BreadcrumbLink asChild so your framework Link or anchor receives breadcrumb styles and data-slot."
+      text: "Use BreadcrumbLink asChild so your framework Link or anchor receives breadcrumb styles and data-slot.",
     },
     {
       id: "rtl",
       title: "RTL",
-      text: "Set dir on Breadcrumb (or wrap with DirectionProvider). Default chevron separator flips in RTL; keep icon separators neutral or mirror explicitly if needed."
+      text: "Set dir on Breadcrumb (or wrap with DirectionProvider). Default chevron separator flips in RTL; keep icon separators neutral or mirror explicitly if needed.",
     },
     {
       id: "api-reference",
       title: "API Reference",
-      text: "Props overview for each part."
-    }
+      text: "Props overview for each part.",
+    },
   ],
   renderMain: (context) => {
     const renderSectionBody = (sectionId: string) => {
@@ -572,7 +583,7 @@ export const breadcrumbDocPage: DocPageModule = {
       }
       return context.renderPreviewAndCodeTabs({
         preview: block.preview(),
-        codeSnippet: block.code
+        codeSnippet: block.code,
       });
     };
 
@@ -582,7 +593,7 @@ export const breadcrumbDocPage: DocPageModule = {
         {context.renderPreviewAndCodeTabs({
           preview: <BreadcrumbHeroDemo />,
           codeSnippet: heroCode,
-          previewClass: "overflow-x-auto"
+          previewClass: "overflow-x-auto",
         })}
         {context.sections.map((docSection) => (
           <section key={docSection.id} id={docSection.id} class="docs-section">
@@ -594,5 +605,5 @@ export const breadcrumbDocPage: DocPageModule = {
         ))}
       </>
     );
-  }
+  },
 };

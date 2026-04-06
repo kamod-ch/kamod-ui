@@ -1,7 +1,7 @@
 {
   "name": "demo",
-  "private": true,
   "version": "0.0.0",
+  "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -14,7 +14,9 @@
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
     "lint": "tsc --noEmit",
-    "qa:themes": "node ./scripts/theme-regression-check.mjs"
+    "qa:themes": "node ./scripts/theme-regression-check.mjs",
+    "fmt": "oxfmt .",
+    "fmt:check": "oxfmt --check ."
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.2.6",
@@ -29,12 +31,13 @@
   "devDependencies": {
     "@axe-core/playwright": "^4.10.2",
     "@playwright/test": "^1.54.2",
-    "@preact/preset-vite": "^2.10.2",
-    "@tailwindcss/vite": "^4.1.17",
+    "@preact/preset-vite": "^2.10.5",
+    "@tailwindcss/vite": "^4.2.2",
     "@types/prismjs": "^1.26.6",
-    "tailwindcss": "^4.1.17",
+    "oxfmt": "^0.43.0",
+    "tailwindcss": "^4.2.2",
     "tw-animate-css": "^1.3.8",
-    "vite": "^7.1.3",
-    "vitest": "^3.2.4"
+    "vite": "^8.0.5",
+    "vitest": "^4.1.2"
   }
 }

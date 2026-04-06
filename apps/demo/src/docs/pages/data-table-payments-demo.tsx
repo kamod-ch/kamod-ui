@@ -16,7 +16,7 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow
+  TableRow,
 } from "@kamod-ui/core";
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-preact";
 
@@ -32,7 +32,7 @@ export const paymentRows: Payment[] = [
   { id: "3u1reuv4", amount: 242, status: "success", email: "Abe45@example.com" },
   { id: "derv1ws0", amount: 837, status: "processing", email: "Monserrat44@example.com" },
   { id: "5kma53ae", amount: 874, status: "success", email: "Silas22@example.com" },
-  { id: "bhqecj4p", amount: 721, status: "failed", email: "carmella@example.com" }
+  { id: "bhqecj4p", amount: 721, status: "failed", email: "carmella@example.com" },
 ];
 
 type SortDir = "none" | "asc" | "desc";
@@ -45,7 +45,7 @@ const formatUsd = (n: number) =>
 const HeaderSelectCheckbox = ({
   checked,
   indeterminate,
-  onChange
+  onChange,
 }: {
   checked: boolean;
   indeterminate: boolean;
@@ -77,7 +77,7 @@ export const PaymentsDataTableDemo = () => {
   const [visible, setVisible] = useState<Record<ColKey, boolean>>({
     status: true,
     email: true,
-    amount: true
+    amount: true,
   });
   const [selection, setSelection] = useState<Record<string, boolean>>({});
   const [pageIndex, setPageIndex] = useState(0);
@@ -119,7 +119,8 @@ export const PaymentsDataTableDemo = () => {
   };
 
   const selectedCount = sorted.filter((r) => selection[r.id]).length;
-  const visibleCount = 1 + (visible.status ? 1 : 0) + (visible.email ? 1 : 0) + (visible.amount ? 1 : 0) + 1;
+  const visibleCount =
+    1 + (visible.status ? 1 : 0) + (visible.email ? 1 : 0) + (visible.amount ? 1 : 0) + 1;
 
   const setCol = (key: ColKey, v: boolean) => setVisible((prev) => ({ ...prev, [key]: v }));
 
@@ -144,13 +145,22 @@ export const PaymentsDataTableDemo = () => {
           </DropdownTrigger>
           <DropdownContent align="end" class="min-w-40">
             <DropdownGroup>
-              <DropdownCheckboxItem checked={visible.status} onCheckedChange={(v) => setCol("status", v)}>
+              <DropdownCheckboxItem
+                checked={visible.status}
+                onCheckedChange={(v) => setCol("status", v)}
+              >
                 status
               </DropdownCheckboxItem>
-              <DropdownCheckboxItem checked={visible.email} onCheckedChange={(v) => setCol("email", v)}>
+              <DropdownCheckboxItem
+                checked={visible.email}
+                onCheckedChange={(v) => setCol("email", v)}
+              >
                 email
               </DropdownCheckboxItem>
-              <DropdownCheckboxItem checked={visible.amount} onCheckedChange={(v) => setCol("amount", v)}>
+              <DropdownCheckboxItem
+                checked={visible.amount}
+                onCheckedChange={(v) => setCol("amount", v)}
+              >
                 amount
               </DropdownCheckboxItem>
             </DropdownGroup>
@@ -190,7 +200,11 @@ export const PaymentsDataTableDemo = () => {
         <TableBody>
           {pageRows.length ? (
             pageRows.map((row) => (
-              <TableRow key={row.id} data-state={selection[row.id] ? "selected" : undefined} class="data-[state=selected]:bg-muted/50">
+              <TableRow
+                key={row.id}
+                data-state={selection[row.id] ? "selected" : undefined}
+                class="data-[state=selected]:bg-muted/50"
+              >
                 <TableCell>
                   <Checkbox
                     checked={Boolean(selection[row.id])}
@@ -217,7 +231,9 @@ export const PaymentsDataTableDemo = () => {
                   </TableCell>
                 ) : null}
                 {visible.amount ? (
-                  <TableCell class="text-end font-medium tabular-nums">{formatUsd(row.amount)}</TableCell>
+                  <TableCell class="text-end font-medium tabular-nums">
+                    {formatUsd(row.amount)}
+                  </TableCell>
                 ) : null}
                 <TableCell class="text-end">
                   <Dropdown>
@@ -263,7 +279,12 @@ export const PaymentsDataTableDemo = () => {
           {selectedCount} of {sorted.length} row(s) selected.
         </p>
         <div class="flex gap-2">
-          <Button variant="outline" size="sm" disabled={safePage <= 0} onClick={() => setPageIndex(safePage - 1)}>
+          <Button
+            variant="outline"
+            size="sm"
+            disabled={safePage <= 0}
+            onClick={() => setPageIndex(safePage - 1)}
+          >
             Previous
           </Button>
           <Button

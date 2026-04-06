@@ -26,7 +26,7 @@ export const Example = () => (
           <Button onClick={() => sonner({ title: "Changes saved" })}>Show toast</Button>
           <Sonner />
         </>
-      )
+      ),
     },
     {
       id: "dismissible-toast",
@@ -45,19 +45,30 @@ export const Example = () => (
 );`,
       renderPreview: () => (
         <>
-          <Button onClick={() => sonner({ title: "Uploading...", description: "Your file is being processed." })}>Start upload</Button>
+          <Button
+            onClick={() =>
+              sonner({ title: "Uploading...", description: "Your file is being processed." })
+            }
+          >
+            Start upload
+          </Button>
           <Button variant="outline" onClick={() => dismissSonner("all")}>
             Dismiss all
           </Button>
           <Sonner />
         </>
-      )
-    }
+      ),
+    },
   ],
   apiRows: [
-    { prop: "sonner", type: "(args: { title: string; description?: string }) => string", defaultValue: "function" },
+    {
+      prop: "sonner",
+      type: "(args: { title: string; description?: string }) => string",
+      defaultValue: "function",
+    },
     { prop: "dismissSonner", type: "(id: string) => void", defaultValue: "function" },
-    { prop: "Sonner", type: "Notification outlet component", defaultValue: "mounted" }
+    { prop: "Sonner", type: "Notification outlet component", defaultValue: "mounted" },
   ],
-  accessibilityText: "Ensure toast messages stay short, avoid critical-only notifications, and keep important outcomes visible in page content."
+  accessibilityText:
+    "Ensure toast messages stay short, avoid critical-only notifications, and keep important outcomes visible in page content.",
 });

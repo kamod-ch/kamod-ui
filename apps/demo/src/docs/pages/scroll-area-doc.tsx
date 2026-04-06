@@ -4,11 +4,12 @@ import { createGenericDocPage } from "./create-generic-doc-page";
 export const scrollAreaDocPage = createGenericDocPage({
   slug: "scroll-area",
   title: "Scroll Area",
-  usageLabel: "Scroll Area adds a modern, subtle scrollbar track with a dynamic thumb for long content regions.",
+  usageLabel:
+    "Scroll Area adds a modern, subtle scrollbar track with a dynamic thumb for long content regions.",
   installationText:
     "Import `ScrollArea`, `ScrollBar`, and optionally `ScrollAreaCorner` from `@/components/kamod-ui/scroll-area`.",
   usageText:
-    "The root gets your size and border classes; scrolling happens in an inner viewport with native scrollbars hidden. Add `ScrollBar` for a draggable thumb (vertical default or `orientation=\"horizontal\"`). When both axes scroll, add `ScrollAreaCorner` after the bars to mask the junction. The viewport exposes `data-has-overflow-*`, `data-overflow-*-start|end`, `data-scrolling`, and CSS variables such as `--scroll-area-overflow-y-start` for edge fades (set `inherit` on pseudo-elements if needed, per Base UI).",
+    'The root gets your size and border classes; scrolling happens in an inner viewport with native scrollbars hidden. Add `ScrollBar` for a draggable thumb (vertical default or `orientation="horizontal"`). When both axes scroll, add `ScrollAreaCorner` after the bars to mask the junction. The viewport exposes `data-has-overflow-*`, `data-overflow-*-start|end`, `data-scrolling`, and CSS variables such as `--scroll-area-overflow-y-start` for edge fades (set `inherit` on pseudo-elements if needed, per Base UI).',
   exampleSections: [
     {
       id: "vertical-feed",
@@ -46,7 +47,7 @@ export const Example = () => (
           </div>
           <ScrollBar />
         </ScrollArea>
-      )
+      ),
     },
     {
       id: "horizontal-gallery",
@@ -84,7 +85,7 @@ export const Example = () => (
           { title: "Cinder", accent: "from-orange-500/25 to-rose-500/10" },
           { title: "Forest", accent: "from-emerald-500/25 to-lime-500/10" },
           { title: "Midnight", accent: "from-indigo-500/25 to-violet-500/10" },
-          { title: "Ash", accent: "from-slate-500/25 to-zinc-500/10" }
+          { title: "Ash", accent: "from-slate-500/25 to-zinc-500/10" },
         ];
 
         return (
@@ -103,7 +104,7 @@ export const Example = () => (
             <ScrollBar orientation="horizontal" />
           </ScrollArea>
         );
-      }
+      },
     },
     {
       id: "reading-container",
@@ -129,13 +130,14 @@ export const Example = () => (
           <div class="space-y-3 pr-3 text-sm leading-6 text-muted-foreground">
             {Array.from({ length: 8 }).map((_, index) => (
               <p key={index}>
-                Scroll areas are useful for constrained panels where content length can vary significantly.
+                Scroll areas are useful for constrained panels where content length can vary
+                significantly.
               </p>
             ))}
           </div>
           <ScrollBar />
         </ScrollArea>
-      )
+      ),
     },
     {
       id: "compact-chips",
@@ -176,7 +178,7 @@ export const Example = () => (
               "Composable API",
               "Theme Tokens",
               "Keyboard UX",
-              "Docs"
+              "Docs",
             ].map((tag) => (
               <span key={tag} class="rounded-full border bg-muted px-3 py-1 text-xs">
                 {tag}
@@ -185,7 +187,7 @@ export const Example = () => (
           </div>
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
-      )
+      ),
     },
     {
       id: "both-axes",
@@ -220,14 +222,18 @@ export const Example = () => (
           <ScrollBar orientation="horizontal" />
           <ScrollAreaCorner />
         </ScrollArea>
-      )
-    }
+      ),
+    },
   ],
   apiRows: [
     { prop: "class (ScrollArea)", type: "string", defaultValue: "undefined" },
-    { prop: "orientation (ScrollBar)", type: '"vertical" | "horizontal"', defaultValue: '"vertical"' },
-    { prop: "class (ScrollAreaCorner)", type: "string", defaultValue: "undefined" }
+    {
+      prop: "orientation (ScrollBar)",
+      type: '"vertical" | "horizontal"',
+      defaultValue: '"vertical"',
+    },
+    { prop: "class (ScrollAreaCorner)", type: "string", defaultValue: "undefined" },
   ],
   accessibilityText:
-    "Keep focusable controls reachable in scrollable panels and ensure scroll regions have enough contrast and size for touch + pointer input."
+    "Keep focusable controls reachable in scrollable panels and ensure scroll regions have enough contrast and size for touch + pointer input.",
 });

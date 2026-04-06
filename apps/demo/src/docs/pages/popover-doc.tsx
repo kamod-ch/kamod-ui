@@ -8,15 +8,17 @@ import {
   PopoverDescription,
   PopoverHeader,
   PopoverTitle,
-  PopoverTrigger
+  PopoverTrigger,
 } from "@kamod-ui/core";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const popoverDocPage = createGenericDocPage({
   slug: "popover",
   title: "Popover",
-  usageLabel: "A modern popup that floats next to a trigger for lightweight actions, forms, and contextual content.",
-  installationText: "Import Popover, PopoverTrigger, PopoverContent and optional sub-components from `@/components/kamod-ui/popover`.",
+  usageLabel:
+    "A modern popup that floats next to a trigger for lightweight actions, forms, and contextual content.",
+  installationText:
+    "Import Popover, PopoverTrigger, PopoverContent and optional sub-components from `@/components/kamod-ui/popover`.",
   usageText:
     "Use PopoverTrigger with asChild when the trigger is a Button so you avoid nested buttons. Use popovers for secondary actions, inline forms, and contextual help; keep content focused and close on outside click.",
   exampleSections: [
@@ -52,7 +54,7 @@ export const Example = () => (
             </PopoverHeader>
           </PopoverContent>
         </Popover>
-      )
+      ),
     },
     {
       id: "popover-form",
@@ -124,7 +126,7 @@ export const Example = () => (
             </div>
           </PopoverContent>
         </Popover>
-      )
+      ),
     },
     {
       id: "popover-placement",
@@ -164,7 +166,7 @@ export const Example = () => (
             </Popover>
           ))}
         </div>
-      )
+      ),
     },
     {
       id: "popover-alignment",
@@ -234,7 +236,7 @@ export const Example = () => (
             </PopoverContent>
           </Popover>
         </div>
-      )
+      ),
     },
     {
       id: "popover-form-compact",
@@ -294,7 +296,7 @@ export const Example = () => (
             </div>
           </PopoverContent>
         </Popover>
-      )
+      ),
     },
     {
       id: "popover-rtl",
@@ -347,7 +349,7 @@ export const Example = () => (
             );
           })}
         </div>
-      )
+      ),
     },
     {
       id: "popover-close",
@@ -411,7 +413,7 @@ export const Example = () => (
             </div>
           </PopoverContent>
         </Popover>
-      )
+      ),
     },
     {
       id: "popover-default-open",
@@ -444,7 +446,7 @@ export const Example = () => (
             </PopoverHeader>
           </PopoverContent>
         </Popover>
-      )
+      ),
     },
     {
       id: "popover-settings",
@@ -485,7 +487,17 @@ export const Example = () => (
 );`,
       renderPreview: () => {
         const SettingsIcon = () => (
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
             <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
             <circle cx="12" cy="12" r="3" />
           </svg>
@@ -512,24 +524,35 @@ export const Example = () => (
                   <Label>Email</Label>
                   <Input defaultValue="pedro@example.com" class="h-8" />
                 </div>
-                <Button size="sm" class="w-full">Save changes</Button>
+                <Button size="sm" class="w-full">
+                  Save changes
+                </Button>
               </div>
             </PopoverContent>
           </Popover>
         );
-      }
-    }
+      },
+    },
   ],
   apiRows: [
     { prop: "defaultOpen", type: "boolean", defaultValue: "false" },
-    { prop: "PopoverTrigger asChild", type: "boolean", defaultValue: "false — merge trigger props into the child element (e.g. Button) instead of wrapping a button" },
+    {
+      prop: "PopoverTrigger asChild",
+      type: "boolean",
+      defaultValue:
+        "false — merge trigger props into the child element (e.g. Button) instead of wrapping a button",
+    },
     { prop: "PopoverTrigger", type: "interactive opener", defaultValue: "required" },
-    { prop: "PopoverContent side", type: '"top" | "right" | "bottom" | "left"', defaultValue: '"bottom"' },
+    {
+      prop: "PopoverContent side",
+      type: '"top" | "right" | "bottom" | "left"',
+      defaultValue: '"bottom"',
+    },
     { prop: "PopoverContent align", type: '"start" | "center" | "end"', defaultValue: '"center"' },
     { prop: "PopoverContent sideOffset", type: "number", defaultValue: "4" },
     { prop: "PopoverContent forceMount", type: "boolean", defaultValue: "false" },
-    { prop: "PopoverClose", type: "dismiss button", defaultValue: "renders X icon" }
+    { prop: "PopoverClose", type: "dismiss button", defaultValue: "renders X icon" },
   ],
   accessibilityText:
-    "Popover content receives role=\"dialog\" and is linked to its trigger via aria-controls. Pressing Escape closes the popover and returns focus to the trigger. Ensure trigger labels are descriptive; avoid placing critical information only inside popovers."
+    'Popover content receives role="dialog" and is linked to its trigger via aria-controls. Pressing Escape closes the popover and returns focus to the trigger. Ensure trigger labels are descriptive; avoid placing critical information only inside popovers.',
 });

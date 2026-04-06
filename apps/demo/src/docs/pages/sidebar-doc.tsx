@@ -1,11 +1,19 @@
-import { Sidebar, SidebarContent, SidebarHeader, SidebarInset, SidebarProvider, SidebarTrigger } from "@kamod-ui/core";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarHeader,
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@kamod-ui/core";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const sidebarDocPage = createGenericDocPage({
   slug: "sidebar",
   title: "Sidebar",
   usageLabel: "Sidebar provides a collapsible navigation rail for app layouts.",
-  installationText: "Import SidebarProvider and sidebar primitives from `@/components/kamod-ui/sidebar`.",
+  installationText:
+    "Import SidebarProvider and sidebar primitives from `@/components/kamod-ui/sidebar`.",
   usageText: "Wrap sidebar regions in SidebarProvider and toggle visibility with SidebarTrigger.",
   exampleSections: [
     {
@@ -35,7 +43,7 @@ export const Example = () => (
             </Sidebar>
           </div>
         </SidebarProvider>
-      )
+      ),
     },
     {
       id: "sidebar-with-inset",
@@ -68,13 +76,14 @@ export const Example = () => (
             </div>
           </div>
         </SidebarProvider>
-      )
-    }
+      ),
+    },
   ],
   apiRows: [
     { prop: "SidebarProvider defaultOpen", type: "boolean", defaultValue: "true" },
     { prop: "SidebarTrigger", type: "toggle button", defaultValue: "optional but recommended" },
-    { prop: "Sidebar state", type: "open | closed", defaultValue: "derived from provider" }
+    { prop: "Sidebar state", type: "open | closed", defaultValue: "derived from provider" },
   ],
-  accessibilityText: "Ensure sidebar navigation remains keyboard reachable and provide a clear toggle label on smaller screens."
+  accessibilityText:
+    "Ensure sidebar navigation remains keyboard reachable and provide a clear toggle label on smaller screens.",
 });

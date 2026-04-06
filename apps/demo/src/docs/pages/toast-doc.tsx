@@ -12,7 +12,7 @@ const ToastPreview = () => {
             title: "Event has been created",
             description: "Your settings have been updated.",
             variant: "success",
-            actionLabel: "Undo"
+            actionLabel: "Undo",
           })
         }
       >
@@ -35,7 +35,7 @@ const ToastPreviewPersistent = () => {
               title: "Upload started",
               description: "We are processing your file.",
               variant: "warning",
-              duration: 0
+              duration: 0,
             });
             setLastId(id);
           }}
@@ -56,13 +56,60 @@ const ToastPreviewTypes = () => {
   return (
     <div class="grid gap-2">
       <div class="docs-button-row">
-        <Button onClick={() => toast({ title: "Default toast", description: "This is the default notification style." })}>Default</Button>
-        <Button onClick={() => toast({ title: "Event has been created", description: "Everything worked as expected.", variant: "success" })}>
+        <Button
+          onClick={() =>
+            toast({
+              title: "Default toast",
+              description: "This is the default notification style.",
+            })
+          }
+        >
+          Default
+        </Button>
+        <Button
+          onClick={() =>
+            toast({
+              title: "Event has been created",
+              description: "Everything worked as expected.",
+              variant: "success",
+            })
+          }
+        >
           Success
         </Button>
-        <Button onClick={() => toast({ title: "Heads up", description: "A newer version is available.", variant: "info" })}>Info</Button>
-        <Button onClick={() => toast({ title: "Storage almost full", description: "Only 10% free space left.", variant: "warning" })}>Warning</Button>
-        <Button onClick={() => toast({ title: "Something went wrong", description: "Please retry in a moment.", variant: "error" })}>Error</Button>
+        <Button
+          onClick={() =>
+            toast({
+              title: "Heads up",
+              description: "A newer version is available.",
+              variant: "info",
+            })
+          }
+        >
+          Info
+        </Button>
+        <Button
+          onClick={() =>
+            toast({
+              title: "Storage almost full",
+              description: "Only 10% free space left.",
+              variant: "warning",
+            })
+          }
+        >
+          Warning
+        </Button>
+        <Button
+          onClick={() =>
+            toast({
+              title: "Something went wrong",
+              description: "Please retry in a moment.",
+              variant: "error",
+            })
+          }
+        >
+          Error
+        </Button>
       </div>
       <Toaster />
     </div>
@@ -77,22 +124,40 @@ const ToastPreviewPosition = () => {
   return (
     <div class="grid gap-2">
       <div class="docs-button-row">
-        <Button variant={position === "top-left" ? "default" : "outline"} onClick={() => setPosition("top-left")}>
+        <Button
+          variant={position === "top-left" ? "default" : "outline"}
+          onClick={() => setPosition("top-left")}
+        >
           Top Left
         </Button>
-        <Button variant={position === "top-center" ? "default" : "outline"} onClick={() => setPosition("top-center")}>
+        <Button
+          variant={position === "top-center" ? "default" : "outline"}
+          onClick={() => setPosition("top-center")}
+        >
           Top Center
         </Button>
-        <Button variant={position === "top-right" ? "default" : "outline"} onClick={() => setPosition("top-right")}>
+        <Button
+          variant={position === "top-right" ? "default" : "outline"}
+          onClick={() => setPosition("top-right")}
+        >
           Top Right
         </Button>
-        <Button variant={position === "bottom-left" ? "default" : "outline"} onClick={() => setPosition("bottom-left")}>
+        <Button
+          variant={position === "bottom-left" ? "default" : "outline"}
+          onClick={() => setPosition("bottom-left")}
+        >
           Bottom Left
         </Button>
-        <Button variant={position === "bottom-center" ? "default" : "outline"} onClick={() => setPosition("bottom-center")}>
+        <Button
+          variant={position === "bottom-center" ? "default" : "outline"}
+          onClick={() => setPosition("bottom-center")}
+        >
           Bottom Center
         </Button>
-        <Button variant={position === "bottom-right" ? "default" : "outline"} onClick={() => setPosition("bottom-right")}>
+        <Button
+          variant={position === "bottom-right" ? "default" : "outline"}
+          onClick={() => setPosition("bottom-right")}
+        >
           Bottom Right
         </Button>
       </div>
@@ -101,7 +166,7 @@ const ToastPreviewPosition = () => {
           toast({
             title: "Position demo",
             description: `This toast appears at ${position}.`,
-            variant: "info"
+            variant: "info",
           })
         }
       >
@@ -116,8 +181,10 @@ export const toastDocPage = createGenericDocPage({
   slug: "toast",
   title: "Toast",
   usageLabel: "Toast displays transient notifications with Sonner-inspired variants and placement.",
-  installationText: "Import Toaster and useToast from `@/components/kamod-ui/toast` and mount Toaster once near your app root.",
-  usageText: "Trigger toasts with useToast and choose variant, duration and optional actionLabel. Use Toaster position to control placement.",
+  installationText:
+    "Import Toaster and useToast from `@/components/kamod-ui/toast` and mount Toaster once near your app root.",
+  usageText:
+    "Trigger toasts with useToast and choose variant, duration and optional actionLabel. Use Toaster position to control placement.",
   exampleSections: [
     {
       id: "basic-toast",
@@ -137,7 +204,7 @@ export const Example = () => {
     </>
   );
 };`,
-      renderPreview: () => <ToastPreview />
+      renderPreview: () => <ToastPreview />,
     },
     {
       id: "toast-dismiss",
@@ -159,7 +226,7 @@ export const Example = () => {
     </>
   );
 };`,
-      renderPreview: () => <ToastPreviewPersistent />
+      renderPreview: () => <ToastPreviewPersistent />,
     },
     {
       id: "toast-types",
@@ -181,7 +248,7 @@ export const Example = () => {
     </>
   );
 };`,
-      renderPreview: () => <ToastPreviewTypes />
+      renderPreview: () => <ToastPreviewTypes />,
     },
     {
       id: "toast-position",
@@ -210,22 +277,23 @@ export const Example = () => {
     </>
   );
 };`,
-      renderPreview: () => <ToastPreviewPosition />
-    }
+      renderPreview: () => <ToastPreviewPosition />,
+    },
   ],
   apiRows: [
     {
       prop: "toast",
       type: "(args: { title: string; description?: string; variant?: 'default' | 'success' | 'info' | 'warning' | 'error' | 'destructive'; actionLabel?: string; onAction?: () => void; duration?: number }) => string",
-      defaultValue: "hook function"
+      defaultValue: "hook function",
     },
     { prop: "dismiss", type: "(id: string) => void", defaultValue: "hook function" },
     { prop: "Toaster", type: "notification outlet component", defaultValue: "mounted once" },
     {
       prop: "Toaster.position",
       type: "'top-left' | 'top-center' | 'top-right' | 'bottom-left' | 'bottom-center' | 'bottom-right'",
-      defaultValue: "'bottom-right'"
-    }
+      defaultValue: "'bottom-right'",
+    },
   ],
-  accessibilityText: "Ensure critical outcomes are not communicated by toast-only messaging; keep important status visible in page content."
+  accessibilityText:
+    "Ensure critical outcomes are not communicated by toast-only messaging; keep important status visible in page content.",
 });

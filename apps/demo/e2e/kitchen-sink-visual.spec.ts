@@ -9,7 +9,7 @@ test.describe("kitchen sink visual regression", () => {
   test("full kitchen sink page", async ({ page }) => {
     await expect(page).toHaveScreenshot("kitchen-sink-full.png", {
       fullPage: true,
-      caret: "hide"
+      caret: "hide",
     });
   });
 

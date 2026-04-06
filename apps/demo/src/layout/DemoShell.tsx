@@ -1,4 +1,5 @@
 import type { ComponentChildren } from "preact";
+import { withBasePath } from "../base-path";
 import kamodUiLogo from "../assets/kamod-ui.svg";
 
 export type DemoTopNavItem = {
@@ -7,8 +8,8 @@ export type DemoTopNavItem = {
 };
 
 export const demoTopNavItems: DemoTopNavItem[] = [
- // { label: "Docs", href: "/docs/button/installation" },
-  { label: "Components", href: "/docs/components" },
+  // { label: "Docs", href: "/docs/button/installation" },
+  { label: "Components", href: withBasePath("/docs/components") },
   // { label: "Blocks", href: "/docs/card/usage" },
   // { label: "Theme Designer", href: "/docs/badge/usage" }
 ];
@@ -29,7 +30,7 @@ type DemoShellProps = {
 
 export const DemoShell = ({
   brand,
-  brandHref = "/",
+  brandHref = withBasePath("/"),
   topNavItems,
   topNavLinksTestId,
   topbarLeading,
@@ -37,9 +38,11 @@ export const DemoShell = ({
   leftSidebar,
   mainContent,
   rightSidebar,
-  rootClassName
+  rootClassName,
 }: DemoShellProps) => {
-  const layoutClass = ["docs-layout", leftSidebar == null ? "docs-layout--no-left" : ""].filter(Boolean).join(" ");
+  const layoutClass = ["docs-layout", leftSidebar == null ? "docs-layout--no-left" : ""]
+    .filter(Boolean)
+    .join(" ");
   return (
     <div class={`${rootClassName ?? ""}`.trim()}>
       <header class="docs-topbar">

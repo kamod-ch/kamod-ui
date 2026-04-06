@@ -14,7 +14,7 @@ import {
   ContextMenuSub,
   ContextMenuSubContent,
   ContextMenuSubTrigger,
-  ContextMenuTrigger
+  ContextMenuTrigger,
 } from "@kamod-ui/core";
 import {
   ArrowLeft,
@@ -25,7 +25,7 @@ import {
   RotateCw,
   Scissors,
   Share2,
-  Trash2
+  Trash2,
 } from "lucide-preact";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
@@ -348,7 +348,15 @@ type Lang = "en" | "ar" | "he";
 
 const rtl: Record<
   Lang,
-  { dir: "ltr" | "rtl"; rightClick: string; longPress: string; navigation: string; back: string; forward: string; reload: string }
+  {
+    dir: "ltr" | "rtl";
+    rightClick: string;
+    longPress: string;
+    navigation: string;
+    back: string;
+    forward: string;
+    reload: string;
+  }
 > = {
   en: {
     dir: "ltr",
@@ -357,7 +365,7 @@ const rtl: Record<
     navigation: "Navigation",
     back: "Back",
     forward: "Forward",
-    reload: "Reload"
+    reload: "Reload",
   },
   ar: {
     dir: "rtl",
@@ -366,7 +374,7 @@ const rtl: Record<
     navigation: "التنقل",
     back: "رجوع",
     forward: "تقدم",
-    reload: "إعادة تحميل"
+    reload: "إعادة تحميل",
   },
   he: {
     dir: "rtl",
@@ -375,8 +383,8 @@ const rtl: Record<
     navigation: "ניווט",
     back: "חזור",
     forward: "קדימה",
-    reload: "רענן"
-  }
+    reload: "רענן",
+  },
 };
 
 const ContextMenuRtlPreview = () => {
@@ -386,7 +394,12 @@ const ContextMenuRtlPreview = () => {
     <div class="flex flex-col gap-3">
       <div class="flex flex-wrap gap-2">
         {(["en", "ar", "he"] as const).map((key) => (
-          <Button key={key} size="sm" variant={lang === key ? "default" : "outline"} onClick={() => setLang(key)}>
+          <Button
+            key={key}
+            size="sm"
+            variant={lang === key ? "default" : "outline"}
+            onClick={() => setLang(key)}
+          >
             {key.toUpperCase()}
           </Button>
         ))}
@@ -448,7 +461,8 @@ export const Example = () => (
 );`,
   usageLabel:
     "Context menu opens at the pointer on right-click (fine pointer) or long-press ~500ms (touch). Content is portaled with fixed positioning, outside-click / Escape dismiss, and submenu hover/click like shadcn.",
-  installationText: "Import primitives from `@/components/kamod-ui/context-menu`. Compose `ContextMenu`, `ContextMenuTrigger`, and `ContextMenuContent`; add `ContextMenuGroup`, `ContextMenuItem`, `ContextMenuShortcut`, `ContextMenuSeparator`, `ContextMenuSub*`, checkbox and radio items as needed.",
+  installationText:
+    "Import primitives from `@/components/kamod-ui/context-menu`. Compose `ContextMenu`, `ContextMenuTrigger`, and `ContextMenuContent`; add `ContextMenuGroup`, `ContextMenuItem`, `ContextMenuShortcut`, `ContextMenuSeparator`, `ContextMenuSub*`, checkbox and radio items as needed.",
   usageText:
     "Optional controlled root: `open`, `defaultOpen`, `onOpenChange`. `ContextMenuItem` closes the menu on activate; checkbox/radio/sub-triggers do not. Use `pointer-fine:` / `pointer-coarse:` on the trigger hint text (see examples). Subpanels use `absolute` placement with RTL chevron flip.",
   exampleSections: [
@@ -457,80 +471,92 @@ export const Example = () => (
       title: "Combined demo",
       text: "Shortcuts, submenu, checkboxes, and radio group in one menu — matches the overview example on ui.shadcn.com.",
       code: "// See context-menu-doc.tsx — ContextMenuFullDemoPreview",
-      renderPreview: () => <ContextMenuFullDemoPreview />
+      renderPreview: () => <ContextMenuFullDemoPreview />,
     },
     {
       id: "basic-example",
       title: "Basic",
       text: "Small action list inside a group.",
       code: "// ContextMenuBasicPreview in context-menu-doc.tsx",
-      renderPreview: () => <ContextMenuBasicPreview />
+      renderPreview: () => <ContextMenuBasicPreview />,
     },
     {
       id: "submenu-example",
       title: "Submenu",
       text: "`ContextMenuSub`, `ContextMenuSubTrigger`, and `ContextMenuSubContent` for nested actions.",
       code: "// ContextMenuSubmenuPreview in context-menu-doc.tsx",
-      renderPreview: () => <ContextMenuSubmenuPreview />
+      renderPreview: () => <ContextMenuSubmenuPreview />,
     },
     {
       id: "shortcuts-example",
       title: "Shortcuts",
       text: "`ContextMenuShortcut` for trailing keyboard hints.",
       code: "// ContextMenuShortcutsPreview",
-      renderPreview: () => <ContextMenuShortcutsPreview />
+      renderPreview: () => <ContextMenuShortcutsPreview />,
     },
     {
       id: "groups-example",
       title: "Groups",
       text: "`ContextMenuLabel` + `ContextMenuSeparator` to structure sections.",
       code: "// ContextMenuGroupsPreview",
-      renderPreview: () => <ContextMenuGroupsPreview />
+      renderPreview: () => <ContextMenuGroupsPreview />,
     },
     {
       id: "icons-example",
       title: "Icons",
       text: "Leading icons (lucide-preact) with destructive row.",
       code: "// ContextMenuIconsPreview",
-      renderPreview: () => <ContextMenuIconsPreview />
+      renderPreview: () => <ContextMenuIconsPreview />,
     },
     {
       id: "checkboxes-example",
       title: "Checkboxes",
       text: "`ContextMenuCheckboxItem` with `checked` / `defaultChecked` / `onCheckedChange`.",
       code: "// ContextMenuCheckboxesPreview",
-      renderPreview: () => <ContextMenuCheckboxesPreview />
+      renderPreview: () => <ContextMenuCheckboxesPreview />,
     },
     {
       id: "radio-example",
       title: "Radio",
       text: "Controlled `ContextMenuRadioGroup` with `value` and `onValueChange`.",
       code: "// ContextMenuRadioPreview",
-      renderPreview: () => <ContextMenuRadioPreview />
+      renderPreview: () => <ContextMenuRadioPreview />,
     },
     {
       id: "destructive-example",
       title: "Destructive",
-      text: "`ContextMenuItem variant=\"destructive\"` for dangerous actions.",
+      text: '`ContextMenuItem variant="destructive"` for dangerous actions.',
       code: "// ContextMenuDestructivePreview",
-      renderPreview: () => <ContextMenuDestructivePreview />
+      renderPreview: () => <ContextMenuDestructivePreview />,
     },
     {
       id: "rtl-example",
       title: "RTL",
       text: "`dir` on trigger and content; localized trigger hints EN/AR/HE.",
       code: "// ContextMenuRtlPreview",
-      renderPreview: () => <ContextMenuRtlPreview />
-    }
+      renderPreview: () => <ContextMenuRtlPreview />,
+    },
   ],
   apiRows: [
-    { prop: "open / defaultOpen / onOpenChange", type: "boolean + callback", defaultValue: "uncontrolled" },
+    {
+      prop: "open / defaultOpen / onOpenChange",
+      type: "boolean + callback",
+      defaultValue: "uncontrolled",
+    },
     { prop: "ContextMenuTrigger", type: "div", defaultValue: "right-click + long-press (touch)" },
-    { prop: "ContextMenuItem variant", type: '"default" | "destructive"', defaultValue: '"default"' },
+    {
+      prop: "ContextMenuItem variant",
+      type: '"default" | "destructive"',
+      defaultValue: '"default"',
+    },
     { prop: "ContextMenuItem inset", type: "boolean", defaultValue: "false" },
     { prop: "ContextMenuCheckboxItem", type: "checked / onCheckedChange", defaultValue: "—" },
-    { prop: "ContextMenuRadioGroup", type: "value / onValueChange / defaultValue", defaultValue: "—" }
+    {
+      prop: "ContextMenuRadioGroup",
+      type: "value / onValueChange / defaultValue",
+      defaultValue: "—",
+    },
   ],
   accessibilityText:
-    "Prefer not to hide the only path to an action behind the context menu alone. Menu uses `role=\"menu\"` and items `role=\"menuitem\"` / `menuitemcheckbox` / `menuitemradio`. Escape closes the root menu."
+    'Prefer not to hide the only path to an action behind the context menu alone. Menu uses `role="menu"` and items `role="menuitem"` / `menuitemcheckbox` / `menuitemradio`. Escape closes the root menu.',
 });

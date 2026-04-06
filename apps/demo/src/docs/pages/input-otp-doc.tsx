@@ -12,7 +12,7 @@ import {
   InputOTPSlot,
   Label,
   REGEXP_ONLY_DIGITS,
-  REGEXP_ONLY_DIGITS_AND_CHARS
+  REGEXP_ONLY_DIGITS_AND_CHARS,
 } from "@kamod-ui/core";
 import { RefreshCw } from "lucide-preact";
 import { useState } from "preact/hooks";
@@ -81,7 +81,7 @@ export const Example = () => (
         <div class="flex justify-center py-2">
           <InputOTPDemo />
         </div>
-      )
+      ),
     },
     {
       id: "otp-usage",
@@ -122,7 +122,7 @@ export const Example = () => (
             </InputOTPGroup>
           </InputOTP>
         </div>
-      )
+      ),
     },
     {
       id: "otp-pattern",
@@ -155,7 +155,7 @@ export const Example = () => (
             </InputOTPGroup>
           </InputOTP>
         </div>
-      )
+      ),
     },
     {
       id: "otp-separator-multi",
@@ -181,7 +181,7 @@ export const Example = () => (
             </InputOTPGroup>
           </InputOTP>
         </div>
-      )
+      ),
     },
     {
       id: "otp-disabled",
@@ -220,7 +220,7 @@ export const Example = () => (
             </InputOTPGroup>
           </InputOTP>
         </div>
-      )
+      ),
     },
     {
       id: "otp-controlled",
@@ -246,7 +246,7 @@ export const Example = () => {
     </div>
   );
 };`,
-      renderPreview: () => <ControlledOtpPreview />
+      renderPreview: () => <ControlledOtpPreview />,
     },
     {
       id: "otp-invalid",
@@ -257,22 +257,46 @@ export const Example = () => {
         <div class="flex justify-center py-2">
           <InputOTP maxLength={6} value="000000" onChange={() => {}}>
             <InputOTPGroup>
-              <InputOTPSlot index={0} aria-invalid class="border-destructive aria-invalid:ring-destructive/40" />
-              <InputOTPSlot index={1} aria-invalid class="border-destructive aria-invalid:ring-destructive/40" />
+              <InputOTPSlot
+                index={0}
+                aria-invalid
+                class="border-destructive aria-invalid:ring-destructive/40"
+              />
+              <InputOTPSlot
+                index={1}
+                aria-invalid
+                class="border-destructive aria-invalid:ring-destructive/40"
+              />
             </InputOTPGroup>
             <InputOTPSeparator />
             <InputOTPGroup>
-              <InputOTPSlot index={2} aria-invalid class="border-destructive aria-invalid:ring-destructive/40" />
-              <InputOTPSlot index={3} aria-invalid class="border-destructive aria-invalid:ring-destructive/40" />
+              <InputOTPSlot
+                index={2}
+                aria-invalid
+                class="border-destructive aria-invalid:ring-destructive/40"
+              />
+              <InputOTPSlot
+                index={3}
+                aria-invalid
+                class="border-destructive aria-invalid:ring-destructive/40"
+              />
             </InputOTPGroup>
             <InputOTPSeparator />
             <InputOTPGroup>
-              <InputOTPSlot index={4} aria-invalid class="border-destructive aria-invalid:ring-destructive/40" />
-              <InputOTPSlot index={5} aria-invalid class="border-destructive aria-invalid:ring-destructive/40" />
+              <InputOTPSlot
+                index={4}
+                aria-invalid
+                class="border-destructive aria-invalid:ring-destructive/40"
+              />
+              <InputOTPSlot
+                index={5}
+                aria-invalid
+                class="border-destructive aria-invalid:ring-destructive/40"
+              />
             </InputOTPGroup>
           </InputOTP>
         </div>
-      )
+      ),
     },
     {
       id: "otp-four",
@@ -302,7 +326,7 @@ export const Example = () => (
             </InputOTPGroup>
           </InputOTP>
         </div>
-      )
+      ),
     },
     {
       id: "otp-alphanumeric",
@@ -342,7 +366,7 @@ export const Example = () => (
             </InputOTPGroup>
           </InputOTP>
         </div>
-      )
+      ),
     },
     {
       id: "otp-form",
@@ -392,12 +416,12 @@ export const Example = () => (
             </Button>
           </CardFooter>
         </Card>
-      )
+      ),
     },
     {
       id: "otp-rtl",
       title: "RTL",
-      text: "Set dir=\"rtl\" on InputOTP for right-to-left entry.",
+      text: 'Set dir="rtl" on InputOTP for right-to-left entry.',
       code: `import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/kamod-ui/input-otp"
 import { Label } from "@/components/kamod-ui/label";
 
@@ -424,8 +448,8 @@ export const Example = () => (
             </InputOTPGroup>
           </InputOTP>
         </div>
-      )
-    }
+      ),
+    },
   ],
   apiRows: [
     { prop: "maxLength", type: "number", defaultValue: "6" },
@@ -433,8 +457,12 @@ export const Example = () => (
     { prop: "onChange / onValueChange", type: "(v: string) => void", defaultValue: "—" },
     { prop: "pattern", type: "RegExp", defaultValue: "—" },
     { prop: "InputOTPSlot index", type: "number", defaultValue: "required" },
-    { prop: "REGEXP_ONLY_DIGITS / REGEXP_ONLY_DIGITS_AND_CHARS", type: "RegExp", defaultValue: "exported" }
+    {
+      prop: "REGEXP_ONLY_DIGITS / REGEXP_ONLY_DIGITS_AND_CHARS",
+      type: "RegExp",
+      defaultValue: "exported",
+    },
   ],
   accessibilityText:
-    "A single focusable input covers the slots; use a visible Label and htmlFor when possible. autoComplete defaults to one-time-code. Do not auto-submit before the user confirms the code."
+    "A single focusable input covers the slots; use a visible Label and htmlFor when possible. autoComplete defaults to one-time-code. Do not auto-submit before the user confirms the code.",
 });

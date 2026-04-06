@@ -5,7 +5,7 @@ import { describe, expect, it } from "vitest";
 import {
   buildDocsPageSlugsLongestFirst,
   rewriteKamodCoreImportsInDocString,
-  symbolToKamodSlug
+  symbolToKamodSlug,
 } from "./doc-snippet-rewrite";
 import { docsPageSlugsLongestFirst, docsPages } from "./registry";
 
@@ -13,7 +13,11 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 describe("doc-snippet-rewrite", () => {
   it("orders slugs longest-first", () => {
-    expect(buildDocsPageSlugsLongestFirst(["a", "long-slug", "long"])).toEqual(["long-slug", "long", "a"]);
+    expect(buildDocsPageSlugsLongestFirst(["a", "long-slug", "long"])).toEqual([
+      "long-slug",
+      "long",
+      "a",
+    ]);
   });
 
   it("maps symbols using slug list", () => {

@@ -25,7 +25,8 @@ export const Example = () => (
 );`,
   usageLabel:
     "Rich preview on hover or focus — delays, asChild trigger, side/align positioning, shadcn-aligned examples.",
-  installationText: "Import HoverCard, HoverCardTrigger and HoverCardContent from `@/components/kamod-ui/hover-card`.",
+  installationText:
+    "Import HoverCard, HoverCardTrigger and HoverCardContent from `@/components/kamod-ui/hover-card`.",
   usageText:
     "Wrap a trigger and content. Use openDelay and closeDelay on HoverCard to avoid accidental opens. Use HoverCardTrigger asChild to use a Button or link. Position content with side and align on HoverCardContent.",
   exampleSections: [
@@ -59,7 +60,7 @@ export const Example = () => (
             <div class="text-muted-foreground mt-1 text-xs">Joined December 2021</div>
           </HoverCardContent>
         </HoverCard>
-      )
+      ),
     },
     {
       id: "hover-usage",
@@ -80,7 +81,7 @@ export const Example = () => (
             The React Framework – created and maintained by @vercel.
           </HoverCardContent>
         </HoverCard>
-      )
+      ),
     },
     {
       id: "hover-delays",
@@ -97,9 +98,11 @@ export const Example = () => (
       renderPreview: () => (
         <HoverCard openDelay={100} closeDelay={200}>
           <HoverCardTrigger>Hover</HoverCardTrigger>
-          <HoverCardContent class="w-56">Content opens after 100ms and closes 200ms after leave.</HoverCardContent>
+          <HoverCardContent class="w-56">
+            Content opens after 100ms and closes 200ms after leave.
+          </HoverCardContent>
         </HoverCard>
-      )
+      ),
     },
     {
       id: "hover-positioning",
@@ -122,7 +125,7 @@ export const Example = () => (
             Top / start aligned
           </HoverCardContent>
         </HoverCard>
-      )
+      ),
     },
     {
       id: "hover-sides",
@@ -170,12 +173,12 @@ export const Example = () => (
             </HoverCard>
           ))}
         </div>
-      )
+      ),
     },
     {
       id: "hover-rtl",
       title: "RTL",
-      text: "dir=\"rtl\" on content for mirrored layout (shadcn RTL).",
+      text: 'dir="rtl" on content for mirrored layout (shadcn RTL).',
       code: `import { Button } from "@/components/kamod-ui/button"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/kamod-ui/hover-card";
 
@@ -200,7 +203,13 @@ export const Example = () => (
             <HoverCard key={`${p}-rtl-${side}`} openDelay={10} closeDelay={100}>
               <HoverCardTrigger asChild>
                 <Button variant="outline">
-                  {side === "left" ? "يسار" : side === "top" ? "أعلى" : side === "bottom" ? "أسفل" : "يمين"}
+                  {side === "left"
+                    ? "يسار"
+                    : side === "top"
+                      ? "أعلى"
+                      : side === "bottom"
+                        ? "أسفل"
+                        : "يمين"}
                 </Button>
               </HoverCardTrigger>
               <HoverCardContent side={side} dir="rtl" class="flex w-64 flex-col gap-1">
@@ -210,8 +219,8 @@ export const Example = () => (
             </HoverCard>
           ))}
         </div>
-      )
-    }
+      ),
+    },
   ],
   apiRows: [
     { prop: "openDelay", type: "number", defaultValue: "700" },
@@ -220,8 +229,8 @@ export const Example = () => (
     { prop: "side", type: '"top" | "bottom" | "left" | "right"', defaultValue: '"bottom"' },
     { prop: "align", type: '"start" | "center" | "end"', defaultValue: '"center"' },
     { prop: "sideOffset", type: "number", defaultValue: "8" },
-    { prop: "asChild", type: "boolean", defaultValue: "false" }
+    { prop: "asChild", type: "boolean", defaultValue: "false" },
   ],
   accessibilityText:
-    "Content is keyboard-dismissible with Escape. Triggers open on focus with the same delay as hover. Ensure critical actions are not only available inside the hover surface; provide redundant paths where needed."
+    "Content is keyboard-dismissible with Escape. Triggers open on focus with the same delay as hover. Ensure critical actions are not only available inside the hover surface; provide redundant paths where needed.",
 });

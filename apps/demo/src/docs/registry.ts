@@ -129,11 +129,13 @@ export const docsPages: DocPageModule[] = [
   toggleGroupDocPage,
   typographyDocPage,
   tooltipDocPage,
-  videoDocPage
+  videoDocPage,
 ];
 
 /** Longest first so e.g. `navigation-menu` wins over shorter prefixes in import rewriting. */
-export const docsPageSlugsLongestFirst: readonly string[] = buildDocsPageSlugsLongestFirst(docsPages.map((p) => p.slug));
+export const docsPageSlugsLongestFirst: readonly string[] = buildDocsPageSlugsLongestFirst(
+  docsPages.map((p) => p.slug),
+);
 
 export const docsBySlug = docsPages.reduce<Record<string, DocPageModule>>((acc, page) => {
   acc[page.slug] = page;
@@ -153,7 +155,7 @@ export const docsUpdatedComponentSlugs = new Set([
   "textarea",
   "spinner",
   "switch",
-  "tabs"
+  "tabs",
 ]);
 
 export const componentOverviewItems: ComponentOverviewItem[] = [
@@ -220,5 +222,5 @@ export const componentOverviewItems: ComponentOverviewItem[] = [
   { label: "Toggle Group", slug: "toggle-group" },
   { label: "Tooltip", slug: "tooltip" },
   { label: "Typography", slug: "typography" },
-  { label: "Video", slug: "video" }
+  { label: "Video", slug: "video" },
 ];

@@ -6,14 +6,18 @@ import {
   applyThemePreset,
   isThemePresetId,
   resolveInitialThemePreset,
-  type ThemePresetId
+  type ThemePresetId,
 } from "./theme-presets";
 
 export type ThemePresetSelectProps = Omit<JSX.HTMLAttributes<HTMLLabelElement>, "onInput"> & {
   selectClass?: string;
 };
 
-export const ThemePresetSelect = ({ class: className, selectClass, ...rest }: ThemePresetSelectProps) => {
+export const ThemePresetSelect = ({
+  class: className,
+  selectClass,
+  ...rest
+}: ThemePresetSelectProps) => {
   const [preset, setPreset] = useState<ThemePresetId>(resolveInitialThemePreset);
   const selectId = "theme-preset-select";
 
@@ -39,7 +43,9 @@ export const ThemePresetSelect = ({ class: className, selectClass, ...rest }: Th
 
   return (
     <label class={className} {...rest}>
-      <span class="sr-only" id={`${selectId}-label`}>Color theme preset</span>
+      <span class="sr-only" id={`${selectId}-label`}>
+        Color theme preset
+      </span>
       <select
         id={selectId}
         name="theme-preset"

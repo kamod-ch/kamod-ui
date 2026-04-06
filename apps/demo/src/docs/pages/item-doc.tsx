@@ -30,15 +30,33 @@ import {
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 const music = [
-  { title: "Midnight City Lights", artist: "Neon Dreams", album: "Electric Nights", duration: "3:45" },
-  { title: "Coffee Shop Conversations", artist: "The Morning Brew", album: "Urban Stories", duration: "4:05" },
+  {
+    title: "Midnight City Lights",
+    artist: "Neon Dreams",
+    album: "Electric Nights",
+    duration: "3:45",
+  },
+  {
+    title: "Coffee Shop Conversations",
+    artist: "The Morning Brew",
+    album: "Urban Stories",
+    duration: "4:05",
+  },
   { title: "Digital Rain", artist: "Cyber Symphony", album: "Binary Beats", duration: "3:30" },
 ];
 
 const people = [
   { username: "shadcn", avatar: "https://github.com/shadcn.png", email: "shadcn@vercel.com" },
-  { username: "maxleiter", avatar: "https://github.com/maxleiter.png", email: "maxleiter@vercel.com" },
-  { username: "evilrabbit", avatar: "https://github.com/evilrabbit.png", email: "evilrabbit@vercel.com" },
+  {
+    username: "maxleiter",
+    avatar: "https://github.com/maxleiter.png",
+    email: "maxleiter@vercel.com",
+  },
+  {
+    username: "evilrabbit",
+    avatar: "https://github.com/evilrabbit.png",
+    email: "evilrabbit@vercel.com",
+  },
 ];
 
 const models = [
@@ -730,7 +748,7 @@ export const Example = () => (
     {
       id: "item-rtl",
       title: "RTL",
-      text: "Set dir=\"rtl\" on a wrapper; logical spacing and asChild links follow start/end.",
+      text: 'Set dir="rtl" on a wrapper; logical spacing and asChild links follow start/end.',
       code: `import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from "@/components/kamod-ui/item";
 import { Inbox } from "lucide-preact";
 
@@ -769,7 +787,11 @@ export const Example = () => (
     { prop: "ItemMedia variant", type: '"default" | "icon" | "image"', defaultValue: '"default"' },
     { prop: "ItemGroup", type: "container (role=list)", defaultValue: "—" },
     { prop: "ItemSeparator", type: "horizontal Separator", defaultValue: "—" },
-    { prop: "ItemContent / ItemTitle / ItemDescription / ItemActions", type: "layout slots", defaultValue: "optional" },
+    {
+      prop: "ItemContent / ItemTitle / ItemDescription / ItemActions",
+      type: "layout slots",
+      defaultValue: "optional",
+    },
     { prop: "ItemHeader / ItemFooter", type: "full-width rows", defaultValue: "optional" },
   ],
   accessibilityText:

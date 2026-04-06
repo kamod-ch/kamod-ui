@@ -89,7 +89,8 @@ export const textareaDocPage = createGenericDocPage({
   title: "Textarea",
   usageLabel: "Textarea captures longer multi-line user input.",
   installationText: "Import Textarea from `@/components/kamod-ui/textarea`.",
-  usageText: "Use Textarea with Field for labels, descriptions, errors, and more modern form layouts.",
+  usageText:
+    "Use Textarea with Field for labels, descriptions, errors, and more modern form layouts.",
   exampleSections: [
     {
       id: "basic-textarea",
@@ -100,10 +101,12 @@ export const textareaDocPage = createGenericDocPage({
 export const Example = () => <Textarea placeholder="Write your feedback..." class="max-w-lg" />;`,
       renderPreview: () => (
         <div class="docs-form-surface w-full max-w-xl">
-          <div class="mb-3 text-xs font-medium tracking-wide text-muted-foreground uppercase">Quick Feedback</div>
+          <div class="mb-3 text-xs font-medium tracking-wide text-muted-foreground uppercase">
+            Quick Feedback
+          </div>
           <Textarea placeholder="Write your feedback..." class="w-full" />
         </div>
-      )
+      ),
     },
     {
       id: "textarea-field",
@@ -124,16 +127,11 @@ export const Example = () => (
 );`,
       renderPreview: () => (
         <div class="docs-form-surface w-full max-w-xl">
-          <Field
-            class="w-full"
-            label="Message"
-            description="Enter your message below."
-            required
-          >
+          <Field class="w-full" label="Message" description="Enter your message below." required>
             <Textarea placeholder="Type your message..." />
           </Field>
         </div>
-      )
+      ),
     },
     {
       id: "textarea-disabled-invalid",
@@ -163,7 +161,7 @@ export const Example = () => (
             </Field>
           </div>
         </div>
-      )
+      ),
     },
     {
       id: "textarea-sizes",
@@ -184,7 +182,7 @@ export const Example = () => (
             <Textarea size="lg" placeholder="Large textarea" />
           </div>
         </div>
-      )
+      ),
     },
     {
       id: "textarea-counter",
@@ -209,7 +207,7 @@ export const Example = () => {
     </Field>
   );
 };`,
-      renderPreview: () => <TextareaCounterPreview />
+      renderPreview: () => <TextareaCounterPreview />,
     },
     {
       id: "textarea-autoresize",
@@ -236,7 +234,7 @@ export const Example = () => {
     </Field>
   );
 };`,
-      renderPreview: () => <TextareaAutosizePreview />
+      renderPreview: () => <TextareaAutosizePreview />,
     },
     {
       id: "textarea-production-field",
@@ -271,7 +269,7 @@ export const Example = () => {
     </Field>
   );
 };`,
-      renderPreview: () => <TextareaProductionFieldPreview />
+      renderPreview: () => <TextareaProductionFieldPreview />,
     },
     {
       id: "textarea-with-action",
@@ -297,15 +295,15 @@ export const Example = () => (
             </div>
           </div>
         </div>
-      )
-    }
+      ),
+    },
   ],
   apiRows: [
     { prop: "size", type: '"sm" | "md" | "lg"', defaultValue: '"md"' },
     { prop: "aria-invalid", type: '"true" | "false"', defaultValue: "undefined" },
     { prop: "placeholder", type: "string", defaultValue: "undefined" },
-    { prop: "disabled", type: "boolean", defaultValue: "false" }
+    { prop: "disabled", type: "boolean", defaultValue: "false" },
   ],
   accessibilityText:
-    "Pair Textarea with a visible label (for example via Field), expose validation through aria-invalid, and keep placeholder text supplementary rather than instructional."
+    "Pair Textarea with a visible label (for example via Field), expose validation through aria-invalid, and keep placeholder text supplementary rather than instructional.",
 });

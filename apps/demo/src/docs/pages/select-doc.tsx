@@ -7,7 +7,7 @@ import {
   SelectLabel,
   SelectSeparator,
   SelectTrigger,
-  SelectValue
+  SelectValue,
 } from "@kamod-ui/core";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
@@ -16,7 +16,8 @@ export const selectDocPage = createGenericDocPage({
   title: "Select",
   usageLabel: "Select provides a modern Radix-style single-choice picker.",
   installationText: "Import Select primitives from `@/components/kamod-ui/select`.",
-  usageText: "Compose trigger, value, groups and content items to build accessible single-select dropdowns.",
+  usageText:
+    "Compose trigger, value, groups and content items to build accessible single-select dropdowns.",
   exampleSections: [
     {
       id: "basic-select",
@@ -47,7 +48,7 @@ export const Example = () => (
             <SelectItem value="svelte">Svelte</SelectItem>
           </SelectContent>
         </Select>
-      )
+      ),
     },
     {
       id: "select-groups",
@@ -94,7 +95,7 @@ export const Example = () => (
             </SelectGroup>
           </SelectContent>
         </Select>
-      )
+      ),
     },
     {
       id: "select-disabled",
@@ -131,7 +132,7 @@ export const Example = () => (
             <SelectItem value="sin1">Singapore (SIN1)</SelectItem>
           </SelectContent>
         </Select>
-      )
+      ),
     },
     {
       id: "select-scrollable",
@@ -182,7 +183,7 @@ export const Example = () => (
             <SelectItem value="Pacific/Auckland">Pacific/Auckland</SelectItem>
           </SelectContent>
         </Select>
-      )
+      ),
     },
     {
       id: "select-invalid",
@@ -206,7 +207,12 @@ export const Example = () => (
   </Field>
 );`,
       renderPreview: () => (
-        <Field label="Environment" error="Please choose a deployment environment." data-invalid class="w-full max-w-sm">
+        <Field
+          label="Environment"
+          error="Please choose a deployment environment."
+          data-invalid
+          class="w-full max-w-sm"
+        >
           <Select>
             <SelectTrigger aria-invalid>
               <SelectValue placeholder="Select environment" />
@@ -218,8 +224,8 @@ export const Example = () => (
             </SelectContent>
           </Select>
         </Field>
-      )
-    }
+      ),
+    },
   ],
   apiRows: [
     { prop: "defaultValue", type: "string", defaultValue: "undefined" },
@@ -227,8 +233,8 @@ export const Example = () => (
     { prop: "onValueChange", type: "(value: string) => void", defaultValue: "undefined" },
     { prop: "SelectItem value", type: "string", defaultValue: "required" },
     { prop: "SelectItem disabled", type: "boolean", defaultValue: "false" },
-    { prop: "SelectContent forceMount", type: "boolean", defaultValue: "false" }
+    { prop: "SelectContent forceMount", type: "boolean", defaultValue: "false" },
   ],
   accessibilityText:
-    "Provide clear option labels, mark invalid triggers with aria-invalid, and keep placeholder text distinct from valid selections."
+    "Provide clear option labels, mark invalid triggers with aria-invalid, and keep placeholder text distinct from valid selections.",
 });

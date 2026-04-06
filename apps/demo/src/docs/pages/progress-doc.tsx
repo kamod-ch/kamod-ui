@@ -32,7 +32,8 @@ const ControlledProgressPreview = () => {
 export const progressDocPage = createGenericDocPage({
   slug: "progress",
   title: "Progress",
-  usageLabel: "Progress shows how far a task has advanced — aligned with Radix-style bars and shadcn/ui patterns.",
+  usageLabel:
+    "Progress shows how far a task has advanced — aligned with Radix-style bars and shadcn/ui patterns.",
   installationText: "Import Progress from `@/components/kamod-ui/progress`.",
   usageText:
     "Pass value and optional max for determinate progress. Use value={null} or indeterminate for loading when completion is unknown — the indeterminate animation is injected once with the component (no extra Tailwind keyframes). Pair with labels, or drive value from a Slider for interactive demos.",
@@ -52,7 +53,7 @@ export const Example = () => <Progress value={33} class="w-full max-w-md" />;`,
             <span>100%</span>
           </div>
         </div>
-      )
+      ),
     },
     {
       id: "progress-with-label",
@@ -77,7 +78,7 @@ export const Example = () => (
           </div>
           <Progress value={66} class="w-full" />
         </div>
-      )
+      ),
     },
     {
       id: "controlled-progress",
@@ -109,7 +110,7 @@ export const Example = () => {
     </div>
   );
 };`,
-      renderPreview: () => <ControlledProgressPreview />
+      renderPreview: () => <ControlledProgressPreview />,
     },
     {
       id: "progress-indeterminate",
@@ -134,7 +135,7 @@ export const Example = () => (
           </div>
           <Progress value={null} class="w-full" aria-label="Loading workspace" />
         </div>
-      )
+      ),
     },
     {
       id: "custom-max",
@@ -159,16 +160,16 @@ export const Example = () => (
           </div>
           <Progress value={3} max={5} class="w-full" />
         </div>
-      )
-    }
+      ),
+    },
   ],
   apiRows: [
     { prop: "value", type: "number | null", defaultValue: "0" },
     { prop: "max", type: "number", defaultValue: "100" },
     { prop: "indeterminate", type: "boolean", defaultValue: "undefined" },
     { prop: "class", type: "string", defaultValue: "undefined" },
-    { prop: "indicatorClass", type: "string", defaultValue: "undefined" }
+    { prop: "indicatorClass", type: "string", defaultValue: "undefined" },
   ],
   accessibilityText:
-    "For determinate bars, pair with a visible label or aria-label. Indeterminate mode omits aria-valuenow and sets aria-valuetext (override via props). Prefer reduced-motion: animation stops when the user requests it."
+    "For determinate bars, pair with a visible label or aria-label. Indeterminate mode omits aria-valuenow and sets aria-valuetext (override via props). Prefer reduced-motion: animation stops when the user requests it.",
 });
