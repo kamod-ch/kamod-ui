@@ -1,0 +1,44 @@
+name: Build and Deploy Preact to All-Inkl
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🚚 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 📌 Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: 'pnpm'
+
+      - name: 📦 Install dependencies
+        run: pnpm install
+
+      - name: 🏗️ Build Preact App
+        run: pnpm run build
+
+      - name: 📂 Sync Dist to Server
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          # Vite-Output der Demo-App (apps/demo)
+          local-dir: ./apps/demo/dist/
+          # Der Zielordner auf deinem All-Inkl Webspace:
+          server-dir: /www/htdocs/w014120b/ui.kamod.ch/
+          # Optional: Löscht Dateien auf dem Server, die lokal nicht mehr existieren
+          delete-remote-files: true
