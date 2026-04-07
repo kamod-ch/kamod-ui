@@ -12,6 +12,8 @@
     "typecheck": "pnpm -r typecheck",
     "lint": "pnpm -r lint",
     "dev": "pnpm --filter demo dev",
+    "build:pages": "sh -c 'VITE_BASE_PATH=${VITE_BASE_PATH:-/kamod-ui/} pnpm run build'",
+    "preview:pages": "pnpm run build:pages && pnpm --filter demo preview",
     "qa:themes": "pnpm --filter demo qa:themes",
     "mc:sync-inbox": "node scripts/mission-control-sync-inbox.mjs",
     "mc:sync-inbox:no-cloud-agent": "KAMOD_CURSOR_CLOUD_AGENT=0 node scripts/mission-control-sync-inbox.mjs",
