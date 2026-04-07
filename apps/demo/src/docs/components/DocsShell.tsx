@@ -231,12 +231,12 @@ export const DocsShell = ({
 
             <Card class="docs-promo">
               <CardHeader class="gap-1.5">
-                <CardTitle class="text-base leading-snug">Kurz und ehrlich</CardTitle>
+                <CardTitle class="text-base leading-snug">Straight talk</CardTitle>
                 <CardDescription class="grid gap-2.5 text-sm leading-snug">
                   <span class="text-foreground/90">
-                    Wir planen eine Pro-Variante mit einzeln freischaltbaren Komponenten.
+                    We&apos;re planning a Pro tier with individually unlockable components.
                   </span>
-                  <span class="font-medium text-foreground">Ist das für euch relevant?</span>
+                  <span class="font-medium text-foreground">Would that matter to you?</span>
                 </CardDescription>
               </CardHeader>
               <CardContent class="grid gap-2.5">
@@ -248,7 +248,7 @@ export const DocsShell = ({
                   variant="default"
                   class="w-full"
                 >
-                  2 Minuten Feedback
+                  2-minute feedback
                 </Button>
               </CardContent>
             </Card>
