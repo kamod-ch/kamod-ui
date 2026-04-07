@@ -28,6 +28,8 @@ pnpm run preview:pages
 
 Then open the URL printed in the terminal. For a fork, set `VITE_BASE_PATH` to `/<your-repo-name>/` before building (see `preview:pages` in the root `package.json`).
 
+The demo app includes a Matomo image tracker in `apps/demo/index.html` for usage statistics on the deployed site. It is **not** shipped with the `@kamod-ui/core` npm package (that package only publishes `packages/core/dist`).
+
 ## Documentation
 
 Run the demo app from the repo root:
