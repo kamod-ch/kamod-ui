@@ -82,6 +82,7 @@ export const DialogTrigger = ({
         dialog.triggerRef.current = node;
         callRef(outerRef, node);
       }}
+      {...rest}
       type="button"
       data-slot={dataSlot}
       aria-expanded={dialog.open.value}
@@ -95,7 +96,6 @@ export const DialogTrigger = ({
         openDialog();
         onClick?.(event);
       }}
-      {...rest}
     >
       {children}
     </button>

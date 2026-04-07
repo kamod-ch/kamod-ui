@@ -5,30 +5,35 @@
 
 <h1 align="center">Kamod UI</h1>
 
-A set of beautifully designed components that you can customize, extend, and build on. **Built for Preact.** Open Source. Open Code.
+Lightweight UI components for **Preact** and **Tailwind**: composable primitives you can customize, extend, and ship without a heavy runtime. Open source; source is meant to be read and adapted.
+
+- **Live demo:** [kamod-ch.github.io/kamod-ui](https://kamod-ch.github.io/kamod-ui/)
+- **Repository:** [github.com/kamod-ch/kamod-ui](https://github.com/kamod-ch/kamod-ui/)
 
 ![hero](docs/images/kitchen-sink.png)
+
+## Why Kamod UI?
+
+Many UI kits are heavier than necessary, overly opinionated, or tied to React. Kamod UI targets a smaller stack instead:
+
+- **Preact-first** — tiny runtime and familiar patterns if you already use React-like APIs.
+- **Tailwind-native** — style with utilities instead of a separate theme layer.
+- **Composable** — build UIs from small pieces without extra abstraction.
+- **Practical** — ship only what you need; the codebase stays easy to follow.
+
+## Comparison
+
+| Feature | Kamod UI | Radix UI | shadcn/ui |
+| --- | :---: | :---: | :---: |
+| Preact support | ✅ | ❌ | ❌ |
+| Tailwind-first | ✅ | ⚠️ | ✅ |
+| Lightweight | ✅ | ⚠️ | ⚠️ |
 
 ## Live demo (GitHub Pages)
 
 The deployed kitchen sink and docs live at the **repository root URL** of GitHub Pages, not under `apps/demo` (that path exists only in this monorepo):
 
 **[https://kamod-ch.github.io/kamod-ui/](https://kamod-ch.github.io/kamod-ui/)**
-
-If the site looks wrong (unstyled page or README-like content):
-
-1. In the GitHub repo, open **Settings → Pages** and set **Source** to **GitHub Actions**, not “Deploy from a branch”. The workflow [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) publishes the contents of `apps/demo/dist` after a production build with the correct `VITE_BASE_PATH`.
-2. Hard-refresh or use a private window to avoid a cached old deployment.
-
-To preview **locally** the same build GitHub uses (including base path), from the repo root:
-
-```bash
-pnpm run preview:pages
-```
-
-Then open the URL printed in the terminal. For a fork, set `VITE_BASE_PATH` to `/<your-repo-name>/` before building (see `preview:pages` in the root `package.json`).
-
-The demo app includes a Matomo image tracker in `apps/demo/index.html` for usage statistics on the deployed site. It is **not** shipped with the `@kamod-ui/core` npm package (that package only publishes `packages/core/dist`).
 
 ## Documentation
 
@@ -43,4 +48,13 @@ Then open the local URL printed in the terminal to browse the kitchen sink and c
 
 ## Contributing
 
-Pull requests and issues are welcome.
+- Open issues for bugs and ideas.
+- Suggest new components or patterns.
+- Improve docs and examples.
+
+## Support
+
+If you find Kamod UI useful:
+
+- Star the repository.
+- Share the project with others who use Preact or Tailwind.
