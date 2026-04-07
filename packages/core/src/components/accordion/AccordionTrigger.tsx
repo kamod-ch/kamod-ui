@@ -40,7 +40,8 @@ export const AccordionTrigger = ({
       disabled={disabled}
       data-state={isOpen ? "open" : "closed"}
       class={cn(
-        "flex w-full items-center justify-between gap-2 rounded-md py-4 text-left text-sm font-medium outline-none transition-all hover:underline focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50",
+        "flex w-full items-center justify-between gap-2 rounded-md py-4 text-left text-sm font-medium outline-none transition-colors focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50",
+        !isOpen && "hover:bg-muted/40",
         className
       )}
       onClick={(event) => {

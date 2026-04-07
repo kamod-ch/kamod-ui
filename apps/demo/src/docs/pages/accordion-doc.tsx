@@ -17,24 +17,32 @@ import { ApiReference } from "../components/ApiReference";
 import { CodeBlock } from "../components/CodeBlock";
 import type { DocPageModule } from "../types";
 
+const accordionPreviewItemClass =
+  "border-b border-border last:border-b-0 data-[state=open]:bg-muted/60";
+
 function AccordionHero() {
   return (
-    <Accordion type="single" collapsible defaultValue="shipping" class="max-w-lg">
-      <AccordionItem value="shipping">
+    <Accordion
+      type="single"
+      collapsible
+      defaultValue="shipping"
+      class="max-w-lg overflow-hidden rounded-lg border border-border bg-background"
+    >
+      <AccordionItem value="shipping" class={accordionPreviewItemClass}>
         <AccordionTrigger>What are your shipping options?</AccordionTrigger>
         <AccordionContent class="pt-0 pb-4 text-sm text-muted-foreground">
           We offer standard (5-7 days), express (2-3 days), and overnight shipping. Free shipping on
           international orders.
         </AccordionContent>
       </AccordionItem>
-      <AccordionItem value="returns">
+      <AccordionItem value="returns" class={accordionPreviewItemClass}>
         <AccordionTrigger>What is your return policy?</AccordionTrigger>
         <AccordionContent class="pt-0 pb-4 text-sm text-muted-foreground">
           Returns accepted within 30 days. Items must be unused and in original packaging. Refunds
           processed within 5-7 business days.
         </AccordionContent>
       </AccordionItem>
-      <AccordionItem value="support">
+      <AccordionItem value="support" class={accordionPreviewItemClass}>
         <AccordionTrigger>How can I contact customer support?</AccordionTrigger>
         <AccordionContent class="pt-0 pb-4 text-sm text-muted-foreground">
           Reach us via email, live chat, or phone. We respond within 24 hours during business days.
@@ -46,8 +54,16 @@ function AccordionHero() {
 
 const heroCode = `import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/kamod-ui/accordion";
 
-<Accordion type="single" collapsible defaultValue="shipping" class="max-w-lg">
-  <AccordionItem value="shipping">
+const itemClass =
+  "border-b border-border px-4 last:border-b-0 data-[state=open]:bg-muted/60";
+
+<Accordion
+  type="single"
+  collapsible
+  defaultValue="shipping"
+  class="max-w-lg overflow-hidden rounded-lg border border-border bg-background"
+>
+  <AccordionItem value="shipping" class={itemClass}>
     <AccordionTrigger>What are your shipping options?</AccordionTrigger>
     <AccordionContent class="pt-0 pb-4 text-sm text-muted-foreground">…</AccordionContent>
   </AccordionItem>
@@ -218,19 +234,23 @@ const sectionBlocks: Record<string, { preview: () => ComponentChildren; code: st
       <Accordion
         type="single"
         collapsible
-        class="max-w-lg rounded-lg border"
+        class="max-w-lg overflow-hidden rounded-lg border border-border bg-background"
         defaultValue="billing"
       >
         {borderItems.map((item) => (
-          <AccordionItem key={item.value} value={item.value} class="border-b px-4 last:border-b-0">
+          <AccordionItem
+            key={item.value}
+            value={item.value}
+            class="border-b border-border last:border-b-0 data-[state=open]:bg-muted/60"
+          >
             <AccordionTrigger>{item.trigger}</AccordionTrigger>
             <AccordionContent class={contentClass()}>{item.content}</AccordionContent>
           </AccordionItem>
         ))}
       </Accordion>
     ),
-    code: `<Accordion type="single" collapsible class="max-w-lg rounded-lg border" defaultValue="billing">
-  <AccordionItem value="…" class="border-b px-4 last:border-b-0">
+    code: `<Accordion type="single" collapsible class="max-w-lg overflow-hidden rounded-lg border border-border" defaultValue="billing">
+  <AccordionItem value="…" class="border-b border-border px-4 last:border-b-0 data-[state=open]:bg-muted/60">
     …
   </AccordionItem>
 </Accordion>`,
