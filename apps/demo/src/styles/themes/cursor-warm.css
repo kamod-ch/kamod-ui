@@ -156,16 +156,3 @@
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
 }
-
-/* Core fields use transparent / muted surfaces; on the cream page they should read as white cards */
-:root[data-theme="cursor-warm"] [data-slot="input"],
-:root[data-theme="cursor-warm"] [data-slot="input-group-control"],
-:root[data-theme="cursor-warm"] [data-slot="textarea"],
-:root[data-theme="cursor-warm"] [data-slot="native-select"],
-:root[data-theme="cursor-warm"] [data-slot="select-trigger"],
-:root[data-theme="cursor-warm"] [data-slot="combobox-inline-input"],
-:root[data-theme="cursor-warm"] [data-slot="combobox-chips"],
-:root[data-theme="cursor-warm"] [data-slot="combobox-chips-input"],
-:root[data-theme="cursor-warm"] [data-slot="command-input"] {
-  background-color: var(--color-white);
-}
