@@ -1,8 +1,24 @@
 {
   "name": "kamod-ui",
+  "description": "Lightweight UI components for Preact and Tailwind: composable primitives you can customize, extend, and ship without a heavy runtime. Open source; source is meant to be read and adapted.",
   "version": "0.1.0",
-  "private": true,
+  "author": "Klaus Zahiragic <watzak>",
+  "license": "MIT",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kamod-ch/kamod-ui.git"
+  },
+  "homepage": "https://kamod-ch.github.io/kamod-ui/",
+  "keywords": [
+    "ui",
+    "preact",
+    "css-framework",
+    "typescript",
+    "tailwind",
+    "tailwind-css",
+    "vite"
+  ],
   "scripts": {
     "build": "pnpm -r build",
     "test": "pnpm --filter @kamod-ui/core test",
