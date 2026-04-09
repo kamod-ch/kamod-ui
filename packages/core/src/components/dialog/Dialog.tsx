@@ -1,6 +1,5 @@
-import { signal } from "@preact/signals";
 import { createContext } from "preact";
-import { useContext, useEffect, useMemo, useRef } from "preact/hooks";
+import { useCallback, useContext, useEffect, useRef, useState } from "preact/hooks";
 import type { ComponentChildren, JSX } from "preact";
 import { createDismissableLayer } from "../../lib/interactive";
 
@@ -21,11 +20,7 @@ const lockDocumentScroll = () => {
     html.setAttribute(SCROLL_LOCK_HTML_OVERFLOW_ATTR, html.style.overflow);
     html.setAttribute(SCROLL_LOCK_HTML_SCROLLBAR_GUTTER_ATTR, html.style.scrollbarGutter);
 
-    // If the page uses `scrollbar-gutter: stable` (e.g. on html), that already reserves width.
-    // Adding padding-right for the scrollbar on top causes a double shift. Temporarily drop the
-    // gutter reservation, then measure and pad like Radix/shadcn.
     html.style.scrollbarGutter = "auto";
-    // Ensure layout after gutter change before measuring scrollbar width.
     void html.offsetHeight;
 
     const scrollbarWidth = Math.max(0, window.innerWidth - document.documentElement.clientWidth);
@@ -75,7 +70,7 @@ const lockDocumentScroll = () => {
 };
 
 export type DialogContextValue = {
-  open: ReturnType<typeof signal<boolean>>;
+  open: boolean;
   setOpen: (next: boolean) => void;
   triggerRef: { current: HTMLElement | null };
 };
@@ -105,48 +100,47 @@ export const Dialog = ({
   children,
   ...rest
 }: DialogProps) => {
-  const open = useMemo(() => signal(openProp !== undefined ? openProp : defaultOpen), []);
-  const onOpenChangeRef = useRef(onOpenChange);
-  onOpenChangeRef.current = onOpenChange;
+  const [internalOpen, setInternalOpen] = useState(defaultOpen);
   const openPropRef = useRef(openProp);
   openPropRef.current = openProp;
-  const triggerRef = useRef<HTMLElement | null>(null);
+  const onOpenChangeRef = useRef(onOpenChange);
+  onOpenChangeRef.current = onOpenChange;
 
-  useEffect(() => {
-    if (openProp !== undefined) {
-      open.value = openProp;
-    }
-  }, [openProp, open]);
+  const open = openProp !== undefined ? openProp : internalOpen;
 
-  const setOpen = (next: boolean) => {
+  const openRef = useRef(open);
+  openRef.current = open;
+
+  const setOpen = useCallback((next: boolean) => {
     if (openPropRef.current === undefined) {
-      open.value = next;
+      setInternalOpen(next);
     }
     onOpenChangeRef.current?.(next);
-  };
+  }, []);
 
+  const triggerRef = useRef<HTMLElement | null>(null);
   const rootRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const layer = createDismissableLayer({
       root: () => rootRef.current,
-      open: () => open.value,
+      open: () => openRef.current,
       onDismiss: () => {
         setOpen(false);
       }
     });
     return () => layer.dispose();
-  }, []);
+  }, [setOpen]);
 
   useEffect(() => {
     if (!lockBodyScroll || typeof document === "undefined") return;
-    if (!open.value) return;
+    if (!open) return;
     return lockDocumentScroll();
-  }, [lockBodyScroll, open.value]);
+  }, [lockBodyScroll, open]);
 
   return (
     <DialogContext.Provider value={{ open, setOpen, triggerRef }}>
-      <div ref={rootRef} data-slot="dialog" data-state={open.value ? "open" : "closed"} {...rest}>
+      <div ref={rootRef} data-slot="dialog" data-state={open ? "open" : "closed"} {...rest}>
         {children}
       </div>
     </DialogContext.Provider>

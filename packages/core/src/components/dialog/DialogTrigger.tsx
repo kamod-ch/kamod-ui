@@ -58,7 +58,7 @@ export const DialogTrigger = ({
     return cloneElement(children, {
       ...(childProps as Record<string, unknown>),
       ...(rest as Record<string, unknown>),
-      "aria-expanded": dialog.open.value,
+      "aria-expanded": dialog.open,
       "data-slot": dataSlot,
       onPointerDown: (event: JSX.TargetedPointerEvent<HTMLElement>) => {
         childProps.onPointerDown?.(event);
@@ -85,7 +85,7 @@ export const DialogTrigger = ({
       {...rest}
       type="button"
       data-slot={dataSlot}
-      aria-expanded={dialog.open.value}
+      aria-expanded={dialog.open}
       onPointerDown={(event) => {
         if (event.button === 0) {
           openDialog();

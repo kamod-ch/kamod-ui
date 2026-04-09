@@ -56,9 +56,9 @@ export const DialogContent = ({
   ...rest
 }: DialogContentProps) => {
   const dialog = useDialog();
-  if (!dialog.open.value && !forceMount) return null;
+  if (!dialog.open && !forceMount) return null;
 
-  const state = dialog.open.value ? "open" : "closed";
+  const state = dialog.open ? "open" : "closed";
 
   const handleKeyDown = (event: JSX.TargetedKeyboardEvent<HTMLDivElement>) => {
     if (event.key === "Escape") {
