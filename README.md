@@ -7,7 +7,7 @@
 
 Lightweight UI components for **Preact** and **Tailwind**: composable primitives you can customize, extend, and ship without a heavy runtime. Open source; source is meant to be read and adapted.
 
-- **Live demo:** [kamod-ch.github.io/kamod-ui](https://kamod-ch.github.io/kamod-ui/)
+- **Live demo:** [ui.kamod.ch](https://ui.kamod.ch/)
 - **Repository:** [github.com/kamod-ch/kamod-ui](https://github.com/kamod-ch/kamod-ui/)
 
 ![hero](docs/images/kitchen-sink.png)
