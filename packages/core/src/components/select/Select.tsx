@@ -176,9 +176,15 @@ export const Select = ({
       const next = [...itemsRef.current];
       next[index] = item;
       itemsRef.current = next;
-      return;
+    } else {
+      itemsRef.current = [...itemsRef.current, item];
     }
-    itemsRef.current = [...itemsRef.current, item];
+
+    if (open.value && activeItemId.value === null && !item.disabled && item.ref?.isConnected) {
+      if (selectedValue.value === item.value || selectedValue.value === null) {
+        activeItemId.value = item.id;
+      }
+    }
   };
 
   const unregisterItem = (id: string) => {

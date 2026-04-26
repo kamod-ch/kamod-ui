@@ -8,9 +8,9 @@ export const themingDocPage = createGenericDocPage({
   usageLabel:
     "Use theme presets for visual direction and keep components consistent through semantic CSS tokens.",
   installationText:
-    'Use ThemePresetSelect in app chrome and map tokens in foundation.css via :root[data-theme="..."] and .dark[data-theme="..."].',
+    "Install @kamod-ui/core, include its compiled files in Tailwind's source scan and map semantic tokens in your app CSS.",
   usageText:
-    'Theme presets are persisted in localStorage and applied to <html data-theme="...">. Keep component styling token-driven.',
+    'Theme presets are persisted in localStorage and applied to <html data-theme="...">. Keep component styling token-driven and avoid one-off component overrides.',
   previewCode: `import { ThemeToggle } from "@/components/kamod-ui/theme-toggle";
 import { ThemePresetSelect } from "../theme/ThemePresetSelect";
 
@@ -44,8 +44,18 @@ export const Example = () => (
     {
       id: "token-overrides",
       title: "Token Overrides",
-      text: "Override semantic tokens per preset instead of styling components directly.",
-      code: `:root[data-theme="ocean"] {
+      text: "Override semantic tokens per preset instead of styling components directly. Consumer apps should also scan @kamod-ui/core so Tailwind emits the component utilities.",
+      code: `@import "tailwindcss";
+@source "../node_modules/@kamod-ui/core/dist/**/*.{js,mjs}";
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-border: var(--border);
+}
+
+:root[data-theme="ocean"] {
   --background: var(--color-slate-50);
   --foreground: var(--color-slate-950);
   --primary: var(--color-cyan-700);

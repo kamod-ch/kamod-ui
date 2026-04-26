@@ -119,10 +119,14 @@ export const Dialog = ({
   }, [openProp, open]);
 
   const setOpen = (next: boolean) => {
+    const wasOpen = open.value;
     if (openPropRef.current === undefined) {
       open.value = next;
     }
     onOpenChangeRef.current?.(next);
+    if (wasOpen && !next) {
+      triggerRef.current?.focus();
+    }
   };
 
   const rootRef = useRef<HTMLDivElement | null>(null);

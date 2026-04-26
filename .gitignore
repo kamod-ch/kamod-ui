@@ -5,6 +5,7 @@ dist
 .vscode
 coverage
 *.log
+*.tgz
 /tmp
 .autopilot
 .cursor

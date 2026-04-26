@@ -90,7 +90,17 @@ export const DialogContent = ({
 
   const tree = (
     <>
-      <div aria-hidden="true" data-slot="dialog-overlay" data-state={state} class={modalOverlayClass} />
+      <div
+        aria-hidden="true"
+        data-slot="dialog-overlay"
+        data-state={state}
+        class={modalOverlayClass}
+        onPointerDown={(event) => {
+          if (event.target === event.currentTarget) {
+            dialog.setOpen(false);
+          }
+        }}
+      />
       <div
         role="dialog"
         aria-modal="true"
