@@ -65,9 +65,7 @@ export const Example = () => (
 }`,
       renderPreview: () => (
         <div class="stack">
-          <p class="docs-copy mb-0">
-            Override semantic token blocks to restyle all components.
-          </p>
+          <p class="docs-copy mb-0">Override semantic token blocks to restyle all components.</p>
         </div>
       ),
     },
