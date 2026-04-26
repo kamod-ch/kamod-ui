@@ -54,9 +54,38 @@ Install the component package in a Preact app:
 pnpm add @kamod-ui/core preact
 ```
 
-Kamod UI components ship JSX and Tailwind utility classes. Your app must compile those classes and provide the semantic CSS tokens used by the components.
+Kamod UI components ship JSX and Tailwind utility classes. Import the default theme once so Tailwind can compile the component classes and the components can read their semantic CSS tokens.
 
-For Tailwind CSS v4, include your app CSS plus the package source in the file where you import Tailwind:
+For Tailwind CSS v4, add this to the CSS file where you import Tailwind:
+
+```css
+@import "tailwindcss";
+@import "@kamod-ui/core/theme.css";
+```
+
+The theme import includes the required Tailwind source scan, dark variant and default semantic tokens.
+
+### Customize The Theme
+
+Override the semantic tokens after importing the default theme:
+
+```css
+@import "tailwindcss";
+@import "@kamod-ui/core/theme.css";
+
+:root {
+  --primary: var(--color-fuchsia-700);
+  --primary-foreground: var(--color-white);
+  --radius: 0.75rem;
+}
+
+.dark {
+  --primary: var(--color-fuchsia-400);
+  --primary-foreground: var(--color-neutral-950);
+}
+```
+
+If you want full control instead of the default theme, define the Tailwind mapping and token blocks yourself:
 
 ```css
 @import "tailwindcss";
@@ -135,7 +164,7 @@ For Tailwind CSS v4, include your app CSS plus the package source in the file wh
 }
 ```
 
-The demo app keeps the full token setup in `apps/demo/src/styles/foundation.css` and theme presets in `apps/demo/src/styles/themes.css`.
+The demo app keeps its extended token setup in `apps/demo/src/styles/foundation.css` and theme presets in `apps/demo/src/styles/themes.css`.
 
 ## Contributing
 

@@ -8,7 +8,7 @@ export const themingDocPage = createGenericDocPage({
   usageLabel:
     "Use theme presets for visual direction and keep components consistent through semantic CSS tokens.",
   installationText:
-    "Install @kamod-ui/core, include its compiled files in Tailwind's source scan and map semantic tokens in your app CSS.",
+    "Install @kamod-ui/core and import its default theme from the CSS file where you import Tailwind.",
   usageText:
     'Theme presets are persisted in localStorage and applied to <html data-theme="...">. Keep component styling token-driven and avoid one-off component overrides.',
   previewCode: `import { ThemeToggle } from "@/components/kamod-ui/theme-toggle";
@@ -44,16 +44,9 @@ export const Example = () => (
     {
       id: "token-overrides",
       title: "Token Overrides",
-      text: "Override semantic tokens per preset instead of styling components directly. Consumer apps should also scan @kamod-ui/core so Tailwind emits the component utilities.",
+      text: "Import the default theme, then override semantic tokens per preset instead of styling components directly.",
       code: `@import "tailwindcss";
-@source "../node_modules/@kamod-ui/core/dist/**/*.{js,mjs}";
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-primary: var(--primary);
-  --color-border: var(--border);
-}
+@import "@kamod-ui/core/theme.css";
 
 :root[data-theme="ocean"] {
   --background: var(--color-slate-50);
@@ -73,7 +66,7 @@ export const Example = () => (
       renderPreview: () => (
         <div class="stack">
           <p class="docs-copy mb-0">
-            Edit token blocks in <code>foundation.css</code> to restyle all components.
+            Override semantic token blocks to restyle all components.
           </p>
         </div>
       ),
