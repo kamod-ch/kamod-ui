@@ -1,7 +1,7 @@
 {
   "name": "kamod-ui",
   "description": "Lightweight UI components for Preact and Tailwind: composable primitives you can customize, extend, and ship without a heavy runtime. Open source; source is meant to be read and adapted.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Klaus Zahiragic <watzak>",
   "license": "MIT",
   "type": "module",
@@ -22,7 +22,7 @@
   "scripts": {
     "build": "pnpm -r build",
     "test": "pnpm --filter @kamod-ui/core test",
-    "test:ci": "pnpm test && pnpm test:demo",
+    "test:ci": "pnpm test && pnpm --filter @kamod-ui/core build && pnpm test:demo",
     "test:demo": "pnpm --filter demo test",
     "doc:rewrite-imports": "node scripts/rewrite-kamod-doc-imports.mjs",
     "test:e2e": "pnpm --filter demo test:e2e",
