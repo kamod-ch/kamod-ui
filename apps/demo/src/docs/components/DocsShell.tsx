@@ -14,6 +14,7 @@ import {
 } from "@kamod-ui/core";
 import { Menu, SunMoon } from "lucide-preact";
 import { DemoShell, demoTopNavItems } from "../../layout/DemoShell";
+import { GithubRepoLink } from "../../layout/GithubRepoLink";
 import { ThemePresetSelect } from "../../theme/ThemePresetSelect";
 import type { ComponentChildren } from "preact";
 import { useMemo } from "preact/hooks";
@@ -168,6 +169,7 @@ export const DocsShell = ({
       topbarActions={
         <>
           <ThemePresetSelect class="docs-theme-preset" selectClass="docs-theme-preset-select" />
+          <GithubRepoLink />
           <ThemeToggle class="docs-topbar-theme-toggle">
             <SunMoon />
           </ThemeToggle>

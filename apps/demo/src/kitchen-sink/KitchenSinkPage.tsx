@@ -82,6 +82,7 @@ import {
 import { withBasePath } from "../base-path";
 import { docsBySlug, docsPages, docsUpdatedComponentSlugs } from "../docs/registry";
 import { DemoShell, demoTopNavItems } from "../layout/DemoShell";
+import { GithubRepoLink } from "../layout/GithubRepoLink";
 import { ThemePresetSelect } from "../theme/ThemePresetSelect";
 
 const sortedDocPages = [...docsPages].sort((a, b) => a.title.localeCompare(b.title));
@@ -950,6 +951,7 @@ export const KitchenSinkPage = () => (
     topbarActions={
       <>
         <ThemePresetSelect class="docs-theme-preset" selectClass="docs-theme-preset-select" />
+        <GithubRepoLink />
         <ThemeToggle class="docs-topbar-theme-toggle">
           <SunMoon />
         </ThemeToggle>

@@ -96,6 +96,33 @@ html.dark .docs-topbar-brand-logo {
   margin-left: auto;
 }
 
+.docs-topbar-github {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* Match ThemeToggle `size="icon"` (size-8) in the top bar */
+  width: 2rem;
+  height: 2rem;
+  min-width: 2rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0.55rem;
+  background: color-mix(in oklab, var(--foreground) 6%, transparent);
+  color: var(--muted-foreground);
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.docs-topbar-github:hover {
+  color: var(--foreground);
+}
+
+.docs-topbar-github-mark {
+  width: 1.125rem;
+  height: 1.125rem;
+  display: block;
+}
+
 .docs-topbar-theme-toggle {
   flex-shrink: 0;
 }
@@ -631,6 +658,12 @@ html.dark .docs-topbar-brand-logo {
     height: 2.75rem;
     min-width: 2.75rem;
     padding: 0;
+  }
+
+  .docs-topbar-github {
+    width: 2.75rem;
+    height: 2.75rem;
+    min-width: 2.75rem;
   }
 }
 
