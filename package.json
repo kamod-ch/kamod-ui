@@ -44,7 +44,9 @@
   },
   "pnpm": {
     "overrides": {
-      "vitest": "4.1.2"
+      "vitest": "4.1.2",
+      "picomatch": "4.0.4",
+      "@rollup/pluginutils>picomatch": "2.3.2"
     }
   },
   "packageManager": "pnpm@10.12.4"
