@@ -25,7 +25,7 @@ const CustomOptionsPreview = () => {
         onValueChange={setValue}
         options={[
           { value: "en", label: "EN" },
-          { value: "fr", label: "FR" }
+          { value: "fr", label: "FR" },
         ]}
         aria-label="Language"
       />
@@ -39,8 +39,7 @@ export const localeSegmentGroupDocPage = createGenericDocPage({
   title: "Locale Segment Group",
   usageLabel:
     "Locale Segment Group is a compact two-or-more-option control for switching UI language or similar string codes.",
-  installationText:
-    "Import LocaleSegmentGroup from `@/components/kamod-ui/locale-segment-group`.",
+  installationText: "Import LocaleSegmentGroup from `@/components/kamod-ui/locale-segment-group`.",
   usageText:
     "Control `value` from your app state (for example editor `getLocale` / `setLocale`). Clicking the active segment does nothing; only changes call `onValueChange`.",
   exampleSections: [
@@ -55,7 +54,7 @@ export const Example = () => {
   const [value, setValue] = useState("de");
   return <LocaleSegmentGroup value={value} onValueChange={setValue} />;
 };`,
-      renderPreview: () => <BasicLocalePreview />
+      renderPreview: () => <BasicLocalePreview />,
     },
     {
       id: "custom-options",
@@ -77,8 +76,8 @@ export const Example = () => {
     />
   );
 };`,
-      renderPreview: () => <CustomOptionsPreview />
-    }
+      renderPreview: () => <CustomOptionsPreview />,
+    },
   ],
   apiRows: [
     { prop: "value", type: "string", defaultValue: "required" },
@@ -86,11 +85,11 @@ export const Example = () => {
     {
       prop: "options",
       type: "{ value: string; label: string }[]",
-      defaultValue: "DE / EN"
+      defaultValue: "DE / EN",
     },
     { prop: "class", type: "string", defaultValue: "undefined" },
-    { prop: "aria-label", type: "string", defaultValue: '"Language"' }
+    { prop: "aria-label", type: "string", defaultValue: '"Language"' },
   ],
   accessibilityText:
-    "The root uses role=\"group\" with a clear `aria-label`. Each segment is a button with `aria-pressed` reflecting selection."
+    'The root uses role="group" with a clear `aria-label`. Each segment is a button with `aria-pressed` reflecting selection.',
 });
