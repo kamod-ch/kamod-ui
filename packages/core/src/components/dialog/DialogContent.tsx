@@ -1,5 +1,6 @@
 import type { ComponentChildren, JSX } from "preact";
 import { createPortal } from "preact/compat";
+import { isPointerWithinModalDialogPanelSlop } from "../../lib/interactive";
 import { cn } from "../../lib/utils";
 import { DialogClose } from "./DialogClose";
 import { useDialog } from "./Dialog";
@@ -75,6 +76,7 @@ export const DialogContent = ({
         role="dialog"
         aria-modal="true"
         data-slot={dataSlot}
+        data-kamod-root-dismissible=""
         data-state={state}
         {...rest}
         onKeyDown={handleKeyDown}
@@ -96,9 +98,9 @@ export const DialogContent = ({
         data-state={state}
         class={modalOverlayClass}
         onPointerDown={(event) => {
-          if (event.target === event.currentTarget) {
-            dialog.setOpen(false);
-          }
+          if (event.target !== event.currentTarget) return;
+          if (isPointerWithinModalDialogPanelSlop(event)) return;
+          dialog.setOpen(false);
         }}
       />
       <div

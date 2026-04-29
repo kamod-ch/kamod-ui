@@ -86,6 +86,18 @@ describe("Dialog", () => {
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 
+  it("does not dismiss when pointer down hits the modal panel root (e.g. grid gap / padding chrome)", async () => {
+    renderDialog();
+
+    fireEvent.click(screen.getByRole("button", { name: "Open settings" }));
+    const dialog = screen.getByRole("dialog");
+    expect(dialog).toBeInTheDocument();
+    await waitFor(() => expect(document.documentElement).toHaveAttribute("data-kamod-scroll-lock"));
+
+    fireEvent.pointerDown(dialog);
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+  });
+
   it("locks document scroll while open and restores it after close", () => {
     renderDialog({ defaultOpen: true });
 

@@ -112,6 +112,11 @@ export {
 export { Toaster, useToast } from "./components/toast";
 export { ThemeToggle } from "./components/theme-toggle";
 export {
+  LocaleSegmentGroup,
+  type LocaleSegmentGroupProps,
+  type LocaleSegmentOption
+} from "./components/locale-segment-group";
+export {
   Avatar,
   AvatarBadge,
   AvatarFallback,
@@ -364,5 +369,7 @@ export { createControllableSignal } from "./lib/signals";
 export {
   createDismissableLayer,
   createIdFactory,
-  createRovingFocus
+  createRovingFocus,
+  isPointerWithinModalDialogPanelSlop,
+  MODAL_DIALOG_PANEL_OUTSIDE_SLOP_PX
 } from "./lib/interactive";

@@ -33,6 +33,7 @@ import { inputOtpDocPage } from "./pages/input-otp-doc";
 import { itemDocPage } from "./pages/item-doc";
 import { kbdDocPage } from "./pages/kbd-doc";
 import { labelDocPage } from "./pages/label-doc";
+import { localeSegmentGroupDocPage } from "./pages/locale-segment-group-doc";
 import { menubarDocPage } from "./pages/menubar-doc";
 import { navigationMenuDocPage } from "./pages/navigation-menu-doc";
 import { nativeSelectDocPage } from "./pages/native-select-doc";
@@ -101,6 +102,7 @@ export const docsPages: DocPageModule[] = [
   inputGroupDocPage,
   kbdDocPage,
   labelDocPage,
+  localeSegmentGroupDocPage,
   menubarDocPage,
   navigationMenuDocPage,
   nativeSelectDocPage,
@@ -194,6 +196,7 @@ export const componentOverviewItems: ComponentOverviewItem[] = [
   { label: "Item", slug: "item" },
   { label: "Kbd", slug: "kbd" },
   { label: "Label", slug: "label" },
+  { label: "Locale Segment Group", slug: "locale-segment-group" },
   { label: "Menubar", slug: "menubar" },
   { label: "Native Select", slug: "native-select" },
   { label: "Navigation Menu", slug: "navigation-menu" },

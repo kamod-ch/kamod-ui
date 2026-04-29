@@ -21,23 +21,29 @@ const lockDocumentScroll = () => {
     html.setAttribute(SCROLL_LOCK_HTML_OVERFLOW_ATTR, html.style.overflow);
     html.setAttribute(SCROLL_LOCK_HTML_SCROLLBAR_GUTTER_ATTR, html.style.scrollbarGutter);
 
-    // If the page uses `scrollbar-gutter: stable` (e.g. on html), that already reserves width.
-    // Adding padding-right for the scrollbar on top causes a double shift. Temporarily drop the
-    // gutter reservation, then measure and pad like Radix/shadcn.
-    html.style.scrollbarGutter = "auto";
-    // Ensure layout after gutter change before measuring scrollbar width.
-    void html.offsetHeight;
+    const gutter = getComputedStyle(html).scrollbarGutter;
+    const viewportUsesStableGutter = gutter === "stable" || gutter === "stable both-edges";
 
-    const scrollbarWidth = Math.max(0, window.innerWidth - document.documentElement.clientWidth);
+    if (viewportUsesStableGutter) {
+      // Stylesheet `html { scrollbar-gutter: stable }` already reserves scrollbar width; do not
+      // force `auto` or add body padding-right (that combo reintroduces the header “jump”).
+      html.style.setProperty("--kamod-scroll-lock-gutter", "0px");
+    } else {
+      // If the page does not use stable gutter, measure scrollbar width and pad like Radix/shadcn.
+      html.style.scrollbarGutter = "auto";
+      void html.offsetHeight;
+
+      const scrollbarWidth = Math.max(0, window.innerWidth - document.documentElement.clientWidth);
+      html.style.setProperty("--kamod-scroll-lock-gutter", `${scrollbarWidth}px`);
+
+      if (scrollbarWidth > 0) {
+        body.style.paddingRight = `${scrollbarWidth}px`;
+      }
+    }
 
     html.style.overflow = "hidden";
     body.style.overflow = "hidden";
     html.setAttribute("data-kamod-scroll-lock", "");
-    html.style.setProperty("--kamod-scroll-lock-gutter", `${scrollbarWidth}px`);
-
-    if (scrollbarWidth > 0) {
-      body.style.paddingRight = `${scrollbarWidth}px`;
-    }
   }
 
   body.setAttribute(SCROLL_LOCK_COUNT_ATTR, String(lockCount + 1));
