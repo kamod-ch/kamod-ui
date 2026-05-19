@@ -185,6 +185,43 @@ If you want full control instead of the default theme, define the Tailwind mappi
 
 The demo app keeps its extended token setup in `apps/demo/src/styles/foundation.css` and theme presets in `apps/demo/src/styles/themes.css`.
 
+## Publishing `@kamod-ui/core`
+
+For maintainers publishing the library to npm from the monorepo root.
+
+1. Bump the version in `packages/core/package.json` (and update `CHANGELOG.md` if you keep one).
+2. Authenticate with npm once per machine (or set `NODE_AUTH_TOKEN` for CI-style auth):
+
+```bash
+npm login
+# or: export NODE_AUTH_TOKEN=<your-npm-token>
+```
+
+3. Run the release script:
+
+```bash
+pnpm release
+```
+
+`pnpm release` runs, in order: `pnpm install` → full pre-publish checks (`test:ci`, `build`, `qa:publint`, `qa:attw`) → npm auth check → `pnpm publish` for `@kamod-ui/core` with `--access public --provenance --no-git-checks`.
+
+For a faster local run that skips tests and the full monorepo build (only builds core and runs publint/attw):
+
+```bash
+pnpm release:quick
+```
+
+You can also run individual steps:
+
+| Script | What it does |
+| --- | --- |
+| `release:check` | `test:ci` + `build` + `qa:publint` + `qa:attw` |
+| `release:check:package` | `qa:package` (core build + publint + attw) |
+| `release:auth` | Verifies `npm whoami` against the npm registry |
+| `release:publish` | Publishes `@kamod-ui/core` to npm |
+
+Tagged pushes (`v*`) also trigger [`.github/workflows/publish.yml`](.github/workflows/publish.yml) on GitHub Actions.
+
 ## Contributing
 
 - Open issues for bugs and ideas.
