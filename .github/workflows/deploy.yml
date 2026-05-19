@@ -55,7 +55,7 @@ jobs:
         run: cp apps/demo/dist/index.html apps/demo/dist/404.html
 
       - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: apps/demo/dist
 
