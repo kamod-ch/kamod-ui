@@ -6,6 +6,8 @@ export type VideoProps = JSX.VideoHTMLAttributes<HTMLVideoElement> & {
 };
 
 export const Video = ({ class: className, controls = true, children, ...rest }: VideoProps) => (
+  // Captions are the consumer's responsibility (passed as <track> via children).
+  // eslint-disable-next-line jsx-a11y/media-has-caption
   <video data-slot="video" class={cn("block w-full rounded-md border", className)} controls={controls} {...rest}>
     {children}
   </video>

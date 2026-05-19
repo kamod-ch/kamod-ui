@@ -1,11 +1,13 @@
 name: Publish to npm
 
 on:
-  release:
-    types: [created]
   push:
     tags:
       - "v*"
+
+concurrency:
+  group: publish-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   publish:
@@ -32,17 +34,23 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Lint
+        run: pnpm lint
+
       - name: Run tests
         run: pnpm test:ci
-
-      - name: Run linter
-        run: pnpm lint
 
       - name: Build project
         run: pnpm build
 
+      - name: Validate published package shape
+        run: pnpm qa:publint && pnpm qa:attw
+
       - name: Publish @kamod-ui/core to npm
         working-directory: packages/core
-        run: pnpm publish --access public
+        run: pnpm publish --access public --provenance --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

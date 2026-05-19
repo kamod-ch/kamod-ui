@@ -1,8 +1,9 @@
-import { signal } from "@preact/signals";
+import { type signal } from "@preact/signals";
 import { createContext } from "preact";
 import { useContext, useEffect, useMemo, useRef } from "preact/hooks";
 import type { ComponentChildren, JSX } from "preact";
 import { createDismissableLayer } from "../../lib/interactive";
+import { createControllableSignal } from "../../lib/signals";
 
 const SCROLL_LOCK_COUNT_ATTR = "data-kamod-scroll-lock-count";
 const SCROLL_LOCK_BODY_OVERFLOW_ATTR = "data-kamod-scroll-lock-body-overflow";
@@ -111,12 +112,20 @@ export const Dialog = ({
   children,
   ...rest
 }: DialogProps) => {
-  const open = useMemo(() => signal(openProp !== undefined ? openProp : defaultOpen), []);
   const onOpenChangeRef = useRef(onOpenChange);
   onOpenChangeRef.current = onOpenChange;
-  const openPropRef = useRef(openProp);
-  openPropRef.current = openProp;
   const triggerRef = useRef<HTMLElement | null>(null);
+
+  const controllable = useMemo(
+    () =>
+      createControllableSignal<boolean>({
+        value: openProp,
+        defaultValue: defaultOpen,
+        onChange: (next) => onOpenChangeRef.current?.(next)
+      }),
+    []
+  );
+  const open = controllable.state;
 
   // Controlled mode: keep the internal signal in sync before paint. If we only
   // sync in useEffect, the first commit can render DialogContent with open=false
@@ -127,10 +136,7 @@ export const Dialog = ({
 
   const setOpen = (next: boolean) => {
     const wasOpen = open.value;
-    if (openPropRef.current === undefined) {
-      open.value = next;
-    }
-    onOpenChangeRef.current?.(next);
+    controllable.setState(next);
     if (wasOpen && !next) {
       triggerRef.current?.focus();
     }

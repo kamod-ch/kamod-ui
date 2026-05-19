@@ -63,6 +63,16 @@ export const Button = ({ variant, size, asChild = false, class: className, child
 
   if (asChild) {
     if (!isValidElement(children)) {
+      const env = (globalThis as { process?: { env?: { NODE_ENV?: string } } }).process?.env?.NODE_ENV;
+      if (env !== "production") {
+         
+        console.warn(
+          "[kamod-ui] <Button asChild> expects a single valid element child. " +
+            "Received: " +
+            typeof children +
+            ". Falling back to rendering nothing."
+        );
+      }
       return null;
     }
 

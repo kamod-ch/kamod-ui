@@ -6,15 +6,8 @@ import {
   CardContent,
   CardFooter,
   DirectionProvider,
-  Field,
-  FieldGroup,
-  FieldLabel,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
 } from "@kamod-ui/core";
 import type { DateRange } from "@kamod-ui/core";
-import { Clock } from "lucide-preact";
 import { useEffect, useState } from "preact/hooks";
 import { createGenericDocPage } from "./create-generic-doc-page";
 

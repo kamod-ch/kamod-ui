@@ -166,7 +166,6 @@ export const ScrollBar = ({
       ? e.clientY - rect.top - TRACK_PADDING
       : e.clientX - rect.left - TRACK_PADDING;
 
-    const thumbCenter = thumb.offset + thumb.size / 2;
     const page = thumb.size + 4;
     let nextOffset = thumb.offset;
     if (clickAlong < thumb.offset) {

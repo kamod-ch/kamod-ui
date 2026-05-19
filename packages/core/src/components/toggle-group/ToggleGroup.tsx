@@ -43,6 +43,8 @@ const toggleGroup = tv({
   }
 });
 
+// Used for `typeof toggleGroupItem` type extraction below — runtime usage is intentional.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const toggleGroupItem = tv({
   variants: {
     variant: {
@@ -141,6 +143,7 @@ export const ToggleGroup = ({
     <ToggleGroupContext.Provider
       value={{ type, values, toggle, disabled, itemVariant: resolvedVariant, itemSize: resolvedSize }}
     >
+      {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props */}
       <div
         data-slot="toggle-group"
         data-orientation={orientation ?? "horizontal"}

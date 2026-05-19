@@ -1,4 +1,4 @@
-import { signal } from "@preact/signals";
+import { type signal } from "@preact/signals";
 import { createContext } from "preact";
 import { useContext } from "preact/hooks";
 

@@ -13,7 +13,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
-    "lint": "tsc --noEmit",
+    "lint": "eslint . --max-warnings=0",
     "qa:themes": "node ./scripts/theme-regression-check.mjs",
     "fmt": "oxfmt .",
     "fmt:check": "oxfmt --check ."

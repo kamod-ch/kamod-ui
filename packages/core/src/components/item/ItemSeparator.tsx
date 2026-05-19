@@ -1,4 +1,3 @@
-import type { JSX } from "preact";
 import { cn } from "../../lib/utils";
 import { Separator, type SeparatorProps } from "../separator/Separator";
 

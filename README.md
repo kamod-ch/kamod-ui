@@ -48,10 +48,18 @@ Then open the local URL printed in the terminal to browse the kitchen sink and c
 
 ## Using Kamod UI
 
-Install the component package in a Preact app:
+### Requirements
+
+- **Preact** `>= 10.26`
+- **`@preact/signals`** `>= 2.0` (peer dependency)
+- **Tailwind CSS v4** (v3 is not supported)
+- An ESM-friendly bundler (Vite, Rolldown, esbuild, Next.js, …). Kamod UI is **ESM-only** (`"type": "module"`); it does not ship a CommonJS build.
+- SSR: all client components guard `typeof document` / `window` access and re-render safely on the client. Importing components in a Node SSR context is fine.
+
+### Install
 
 ```bash
-pnpm add @kamod-ui/core preact
+pnpm add @kamod-ui/core preact @preact/signals
 ```
 
 Kamod UI components ship JSX and Tailwind utility classes. Import the default theme once so Tailwind can compile the component classes and the components can read their semantic CSS tokens.
@@ -64,6 +72,17 @@ For Tailwind CSS v4, add this to the CSS file where you import Tailwind:
 ```
 
 The theme import includes the required Tailwind source scan, dark variant and default semantic tokens.
+
+### Per-component imports (tree-shaking)
+
+Both styles below are supported. Use the per-component path if you want to be defensive about your bundle:
+
+```ts
+import { Button } from "@kamod-ui/core";          // root barrel
+import { Button } from "@kamod-ui/core/button";    // per-component subpath
+```
+
+The package is published with a minimal `sideEffects` list (progress indeterminate keyframes and CSS only), so modern bundlers tree-shake the root barrel reliably.
 
 ### Customize The Theme
 

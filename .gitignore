@@ -6,10 +6,15 @@ dist
 coverage
 *.log
 *.tgz
+*.tsbuildinfo
 /tmp
 .autopilot
+.autopilot.json
 .cursor
 proofshot-artifacts/
 data_old/
 inbox/
 scripts_old/
+playwright-report/
+test-results/
+.cursor 

@@ -3,7 +3,6 @@ import {
   ButtonGroup,
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,

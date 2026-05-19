@@ -22,6 +22,7 @@ export const SelectContent = ({
       id={select.contentId}
       role="listbox"
       aria-labelledby={select.triggerId}
+      tabIndex={-1}
       data-slot="select-content"
       data-state={select.open.value ? "open" : "closed"}
       aria-activedescendant={select.activeItemId.value ?? undefined}

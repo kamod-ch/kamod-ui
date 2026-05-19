@@ -1,4 +1,4 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren } from "preact";
 import { cn } from "../../lib/utils";
 import { SheetContent, type SheetContentProps } from "../sheet/SheetContent";
 import { useDrawerRoot } from "./drawer-context";

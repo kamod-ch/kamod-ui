@@ -1,4 +1,3 @@
-import type { JSX } from "preact";
 import { cn } from "../../lib/utils";
 import { CommandItem, type CommandItemProps } from "../command/CommandItem";
 import { usePopover } from "../popover/Popover";

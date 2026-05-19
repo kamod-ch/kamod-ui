@@ -4,6 +4,14 @@ on:
   push:
     branches:
       - main
+    paths:
+      - "apps/demo/**"
+      - "packages/core/**"
+      - ".github/workflows/deploy.yml"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "pnpm-workspace.yaml"
+      - "tsconfig.base.json"
   workflow_dispatch:
 
 permissions:

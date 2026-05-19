@@ -1,4 +1,4 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren } from "preact";
 import { PaginationChevronLeft } from "./pagination-icons";
 import { PaginationLink, type PaginationLinkProps } from "./PaginationLink";
 import { cn } from "../../lib/utils";

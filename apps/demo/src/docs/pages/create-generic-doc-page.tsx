@@ -1,6 +1,5 @@
 import type { ComponentChildren } from "preact";
 import { ApiReference } from "../components/ApiReference";
-import { CodeBlock } from "../components/CodeBlock";
 import type { DocPageModule } from "../types";
 
 type ApiRow = {

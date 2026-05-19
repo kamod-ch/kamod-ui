@@ -73,6 +73,7 @@ export const TooltipTrigger = ({ asChild = false, children, ...rest }: TooltipTr
 
   return (
     <span
+      // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
       tabIndex={0}
       {...commonProps}
       {...remainingProps}

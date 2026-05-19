@@ -1,4 +1,4 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren } from "preact";
 import { Dialog, type DialogProps } from "../dialog/Dialog";
 
 export type SheetProps = DialogProps & { children?: ComponentChildren };

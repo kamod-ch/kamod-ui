@@ -1,6 +1,5 @@
 import type { ComponentChildren, JSX } from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
-import { cn } from "../../lib/utils";
 import { useContextMenu } from "./ContextMenu";
 
 export const contextMenuItem = tv({
