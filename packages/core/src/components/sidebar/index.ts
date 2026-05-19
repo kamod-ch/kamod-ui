@@ -3,7 +3,7 @@ import { SidebarContent } from "./SidebarContent";
 import { SidebarFooter } from "./SidebarFooter";
 import { SidebarHeader } from "./SidebarHeader";
 import { SidebarInset } from "./SidebarInset";
-import { SidebarProvider } from "./SidebarProvider";
+import { SidebarProvider, useSidebar } from "./SidebarProvider";
 import { SidebarTrigger } from "./SidebarTrigger";
 
 export {
@@ -13,7 +13,8 @@ export {
   SidebarHeader,
   SidebarInset,
   SidebarProvider,
-  SidebarTrigger
+  SidebarTrigger,
+  useSidebar
 };
 
 export default {

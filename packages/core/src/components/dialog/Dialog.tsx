@@ -118,11 +118,12 @@ export const Dialog = ({
   openPropRef.current = openProp;
   const triggerRef = useRef<HTMLElement | null>(null);
 
-  useEffect(() => {
-    if (openProp !== undefined) {
-      open.value = openProp;
-    }
-  }, [openProp, open]);
+  // Controlled mode: keep the internal signal in sync before paint. If we only
+  // sync in useEffect, the first commit can render DialogContent with open=false
+  // while openProp is already true (portal stays unmounted / dismiss layer races).
+  if (openProp !== undefined && open.value !== openProp) {
+    open.value = openProp;
+  }
 
   const setOpen = (next: boolean) => {
     const wasOpen = open.value;

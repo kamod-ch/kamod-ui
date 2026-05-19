@@ -211,7 +211,8 @@ export {
   SidebarHeader,
   SidebarInset,
   SidebarProvider,
-  SidebarTrigger
+  SidebarTrigger,
+  useSidebar
 } from "./components/sidebar";
 export {
   Empty,
