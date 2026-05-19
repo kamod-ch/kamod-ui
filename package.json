@@ -1,7 +1,7 @@
 {
   "name": "kamod-ui",
   "description": "Lightweight UI components for Preact and Tailwind: composable primitives you can customize, extend, and ship without a heavy runtime. Open source; source is meant to be read and adapted.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "Klaus Zahiragic <watzak>",
   "license": "MIT",
   "private": true,
