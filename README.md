@@ -62,6 +62,8 @@ Then open the local URL printed in the terminal to browse the kitchen sink and c
 pnpm add @kamod-ui/core preact @preact/signals
 ```
 
+The published library on npm is **[`@kamod-ui/core`](https://www.npmjs.com/package/@kamod-ui/core)** only. This monorepo root (`kamod-ui`) and `apps/demo` are not published (`private` in the root `package.json`). If you find the legacy unscoped package [`kamod-ui`](https://www.npmjs.com/package/kamod-ui) on npm, do not use it — install `@kamod-ui/core` instead.
+
 Kamod UI components ship JSX and Tailwind utility classes. Import the default theme once so Tailwind can compile the component classes and the components can read their semantic CSS tokens.
 
 For Tailwind CSS v4, add this to the CSS file where you import Tailwind:
@@ -189,6 +191,8 @@ The demo app keeps its extended token setup in `apps/demo/src/styles/foundation.
 
 For maintainers publishing the library to npm from the monorepo root.
 
+Only **`packages/core`** (`@kamod-ui/core`) is published. The root workspace is `"private": true` so `npm publish` from the repo root cannot accidentally republish the unscoped `kamod-ui` name. Publishing requires the npm organization **`kamod-ui`** (scope `@kamod-ui`); the GitHub/npm org **`kamod-ch`** is separate and can host other packages (e.g. `@kamod-ch/...`).
+
 1. Bump the version in `packages/core/package.json` (and update `CHANGELOG.md` if you keep one).
 2. Authenticate with npm once per machine (or set `NODE_AUTH_TOKEN` for CI-style auth):
 
@@ -203,7 +207,7 @@ npm login
 pnpm release
 ```
 
-`pnpm release` runs, in order: `pnpm install` → full pre-publish checks (`test:ci`, `build`, `qa:publint`, `qa:attw`) → npm auth check → `pnpm publish` for `@kamod-ui/core` with `--access public --provenance --no-git-checks`.
+`pnpm release` runs, in order: `pnpm install` → full pre-publish checks (`test:ci`, `build`, `qa:publint`, `qa:attw`) → npm auth check → `pnpm publish` for `@kamod-ui/core` with `--access public --no-git-checks`. Supply-chain provenance (`--provenance`) is enabled only in [`.github/workflows/publish.yml`](.github/workflows/publish.yml) on tag pushes (requires GitHub Actions OIDC); local `pnpm release` does not pass `--provenance` because npm cannot detect a CI provider on your machine.
 
 For a faster local run that skips tests and the full monorepo build (only builds core and runs publint/attw):
 

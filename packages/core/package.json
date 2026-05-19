@@ -317,8 +317,7 @@
     "dist"
   ],
   "publishConfig": {
-    "access": "public",
-    "provenance": true
+    "access": "public"
   },
   "scripts": {
     "build": "tsup && cp src/theme.css dist/theme.css",
