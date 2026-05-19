@@ -4,7 +4,6 @@
   "version": "0.1.2",
   "author": "Klaus Zahiragic <watzak>",
   "license": "MIT",
-  "private": true,
   "type": "module",
   "repository": {
     "type": "git",
