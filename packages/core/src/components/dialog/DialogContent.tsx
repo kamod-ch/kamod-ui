@@ -65,7 +65,6 @@ export const DialogContent = ({
     if (event.key === "Escape") {
       event.preventDefault();
       dialog.setOpen(false);
-      dialog.triggerRef.current?.focus();
     }
     onKeyDown?.(event);
   };

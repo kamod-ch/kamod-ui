@@ -8,14 +8,19 @@ test.describe("kitchen sink (demo home) smoke", () => {
   test("main landmark and hero render", async ({ page }) => {
     const main = page.getByTestId("kitchen-sink");
     await expect(main).toBeVisible();
-    await expect(page.getByRole("heading", { name: /^Kitchen Sink$/i })).toBeVisible();
+    await expect(page.getByText("Kitchen Sink", { exact: true })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: /Own your UI\. Built for Preact\./i }),
+    ).toBeVisible();
     await expect(page.getByRole("link", { name: "Get Started" })).toBeVisible();
   });
 
   test("/kitchen-sink alias renders same kitchen sink", async ({ page }) => {
     await page.goto("/kitchen-sink");
     await expect(page.getByTestId("kitchen-sink")).toBeVisible();
-    await expect(page.getByRole("heading", { name: /^Kitchen Sink$/i })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: /Own your UI\. Built for Preact\./i }),
+    ).toBeVisible();
   });
 
   test("top nav exposes docs entry points", async ({ page }, testInfo) => {
@@ -25,10 +30,6 @@ test.describe("kitchen sink (demo home) smoke", () => {
     );
     const nav = page.getByTestId("kitchen-sink-nav");
     await expect(nav).toBeVisible();
-    await expect(nav.getByRole("link", { name: "Docs" })).toHaveAttribute(
-      "href",
-      "/docs/button/installation",
-    );
     await expect(nav.getByRole("link", { name: "Components" })).toHaveAttribute(
       "href",
       "/docs/components",

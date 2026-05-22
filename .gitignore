@@ -18,3 +18,5 @@ scripts_old/
 playwright-report/
 test-results/
 .cursor 
+/apps/demo/playwright-report/
+apps/demo/playwright-report/

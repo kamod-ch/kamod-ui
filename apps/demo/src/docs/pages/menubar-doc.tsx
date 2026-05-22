@@ -347,8 +347,8 @@ export const menubarDocPage = createGenericDocPage({
       ),
     },
     {
-      id: "usage",
-      title: "Usage",
+      id: "minimal",
+      title: "Minimal",
       text: "Minimal pattern with Group and Shortcut.",
       code: `import { Menubar, MenubarContent, MenubarGroup, MenubarItem, MenubarMenu, MenubarSeparator, MenubarShortcut, MenubarTrigger } from "@/components/kamod-ui/menubar";
 

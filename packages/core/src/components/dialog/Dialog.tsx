@@ -138,7 +138,10 @@ export const Dialog = ({
     const wasOpen = open.value;
     controllable.setState(next);
     if (wasOpen && !next) {
-      triggerRef.current?.focus();
+      const trigger = triggerRef.current;
+      if (trigger && typeof trigger.focus === "function") {
+        trigger.focus();
+      }
     }
   };
 
