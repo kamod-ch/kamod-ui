@@ -7,8 +7,16 @@
 
 Lightweight UI components for **Preact** and **Tailwind**: composable primitives you can customize, extend, and ship without a heavy runtime. Open source; source is meant to be read and adapted.
 
+<p align="center">
+  <a href="https://www.npmjs.com/package/@kamod-ui/core"><img src="https://img.shields.io/npm/v/@kamod-ui/core" alt="npm version" /></a>
+  <a href="https://github.com/kamod-ch/kamod-ui/stargazers"><img src="https://img.shields.io/github/stars/kamod-ch/kamod-ui?style=social" alt="GitHub stars" /></a>
+  <a href="https://github.com/kamod-ch/kamod-ui/blob/main/LICENSE.md"><img src="https://img.shields.io/github/license/kamod-ch/kamod-ui" alt="license" /></a>
+</p>
+
 - **Live demo:** [ui.kamod.ch](https://ui.kamod.ch/)
 - **Repository:** [github.com/kamod-ch/kamod-ui](https://github.com/kamod-ch/kamod-ui/)
+
+If Kamod UI saves you time, consider **[starring the repo](https://github.com/kamod-ch/kamod-ui)** — it helps others discover the project.
 
 ![hero](docs/images/kitchen-sink.png)
 
@@ -236,5 +244,6 @@ Tagged pushes (`v*`) also trigger [`.github/workflows/publish.yml`](.github/work
 
 If you find Kamod UI useful:
 
-- Star the repository.
+- **[Star the repository on GitHub](https://github.com/kamod-ch/kamod-ui)** — a quick way to support the project; stars improve visibility in search and community lists.
 - Share the project with others who use Preact or Tailwind.
+- Watch the repo for release notifications (optional).
