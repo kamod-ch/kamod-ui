@@ -1,6 +1,6 @@
+import type { RefObject } from "preact";
 import { createContext } from "preact";
 import { useContext } from "preact/hooks";
-import type { RefObject } from "preact";
 
 export type ScrollAreaContextValue = {
   viewportRef: RefObject<HTMLDivElement | null>;

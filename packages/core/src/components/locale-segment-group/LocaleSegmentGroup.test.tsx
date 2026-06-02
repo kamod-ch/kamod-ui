@@ -5,7 +5,7 @@ describe("LocaleSegmentGroup", () => {
   it("calls onValueChange when selecting a different locale", () => {
     const onValueChange = vi.fn();
     const { rerender } = render(
-      <LocaleSegmentGroup value="de" onValueChange={onValueChange} aria-label="Test language" />
+      <LocaleSegmentGroup value="de" onValueChange={onValueChange} aria-label="Test language" />,
     );
 
     fireEvent.click(screen.getByRole("button", { name: "EN" }));
@@ -13,7 +13,7 @@ describe("LocaleSegmentGroup", () => {
     expect(onValueChange).toHaveBeenCalledWith("en");
 
     rerender(
-      <LocaleSegmentGroup value="en" onValueChange={onValueChange} aria-label="Test language" />
+      <LocaleSegmentGroup value="en" onValueChange={onValueChange} aria-label="Test language" />,
     );
     fireEvent.click(screen.getByRole("button", { name: "DE" }));
     expect(onValueChange).toHaveBeenCalledTimes(2);

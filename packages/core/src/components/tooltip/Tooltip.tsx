@@ -1,7 +1,7 @@
 import { signal } from "@preact/signals";
+import type { ComponentChildren, JSX } from "preact";
 import { createContext } from "preact";
 import { useContext, useEffect, useMemo, useRef } from "preact/hooks";
-import type { ComponentChildren, JSX } from "preact";
 
 type TooltipProviderContextValue = {
   delayDuration: number;
@@ -51,9 +51,11 @@ export const TooltipProvider = ({
   delayDuration = 250,
   closeDelayDuration = 120,
   disableHoverableContent = false,
-  children
+  children,
 }: TooltipProviderProps) => (
-  <TooltipProviderContext.Provider value={{ delayDuration, closeDelayDuration, disableHoverableContent }}>
+  <TooltipProviderContext.Provider
+    value={{ delayDuration, closeDelayDuration, disableHoverableContent }}
+  >
     {children}
   </TooltipProviderContext.Provider>
 );
@@ -71,7 +73,8 @@ export const Tooltip = ({
   const provider = useContext(TooltipProviderContext);
   const resolvedDelayDuration = delayDuration ?? provider?.delayDuration ?? 250;
   const resolvedCloseDelayDuration = closeDelayDuration ?? provider?.closeDelayDuration ?? 120;
-  const resolvedDisableHoverableContent = disableHoverableContent ?? provider?.disableHoverableContent ?? false;
+  const resolvedDisableHoverableContent =
+    disableHoverableContent ?? provider?.disableHoverableContent ?? false;
   const open = useMemo(() => signal(defaultOpen), []);
   const contentId = useMemo(() => signal<string | undefined>(undefined), []);
   const openTimerRef = useRef<number | null>(null);
@@ -144,7 +147,7 @@ export const Tooltip = ({
   const mergedStyle: JSX.CSSProperties = {
     position: "relative",
     display: "inline-flex",
-    ...resolvedStyle
+    ...resolvedStyle,
   };
 
   return (
@@ -157,7 +160,7 @@ export const Tooltip = ({
         openWithDelay,
         closeWithDelay,
         setContentId,
-        cancelTimers
+        cancelTimers,
       }}
     >
       <div
@@ -178,4 +181,3 @@ export const Tooltip = ({
     </TooltipContext.Provider>
   );
 };
-

@@ -1,5 +1,5 @@
-import { useMemo, useState } from "preact/hooks";
 import type { ComponentChildren, JSX } from "preact";
+import { useMemo, useState } from "preact/hooks";
 import { cn } from "../../lib/utils";
 import { Button } from "../button/Button";
 
@@ -15,7 +15,9 @@ export type CalendarDisabledProp = ((date: Date) => boolean) | Date[];
 const atNoon = (d: Date) => new Date(d.getFullYear(), d.getMonth(), d.getDate(), 12, 0, 0);
 
 const isSameDay = (a: Date, b: Date) =>
-  a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+  a.getFullYear() === b.getFullYear() &&
+  a.getMonth() === b.getMonth() &&
+  a.getDate() === b.getDate();
 
 const isBetweenInclusive = (d: Date, a: Date, b: Date) => {
   const t = atNoon(d).getTime();
@@ -45,7 +47,7 @@ const buildCalendarRows = (
   year: number,
   month: number,
   showOutsideDays: boolean,
-  fixedWeeks: boolean
+  fixedWeeks: boolean,
 ): CalendarCell[][] => {
   const first = new Date(year, month, 1);
   const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -198,7 +200,7 @@ const MonthCaption = ({
   size,
   onPrev,
   onNext,
-  onPickMonthYear
+  onPickMonthYear,
 }: MonthCaptionProps) => {
   const sm = size === "sm";
   const y = displayMonth.getFullYear();
@@ -219,10 +221,19 @@ const MonthCaption = ({
     const selectBaseClass = sm
       ? "border-input bg-background text-foreground focus-visible:ring-ring/50 box-border h-7 min-h-7 shrink-0 rounded-md border px-2 pe-7 text-xs leading-4 shadow-xs outline-none focus-visible:ring-2"
       : "border-input bg-background text-foreground focus-visible:ring-ring/50 box-border h-8 min-h-8 shrink-0 rounded-md border px-2.5 pe-8 text-xs leading-4 shadow-xs outline-none focus-visible:ring-2";
-    const monthSelectClass = cn(selectBaseClass, sm ? "min-w-[5rem] max-w-full" : "min-w-[5.25rem] max-w-full");
-    const yearSelectClass = cn(selectBaseClass, sm ? "min-w-[3.75rem] max-w-full" : "min-w-[4.25rem] max-w-full");
+    const monthSelectClass = cn(
+      selectBaseClass,
+      sm ? "min-w-[5rem] max-w-full" : "min-w-[5.25rem] max-w-full",
+    );
+    const yearSelectClass = cn(
+      selectBaseClass,
+      sm ? "min-w-[3.75rem] max-w-full" : "min-w-[4.25rem] max-w-full",
+    );
     return (
-      <div class={cn("flex w-full items-center justify-between", sm ? "mb-1 gap-0.5" : "mb-1.5 gap-1")} dir={dir}>
+      <div
+        class={cn("flex w-full items-center justify-between", sm ? "mb-1 gap-0.5" : "mb-1.5 gap-1")}
+        dir={dir}
+      >
         <Button
           type="button"
           variant="ghost"
@@ -236,7 +247,7 @@ const MonthCaption = ({
           class={cn(
             "text-foreground flex min-w-0 flex-1 items-center justify-center font-medium",
             sm ? "gap-1 text-xs" : "gap-1.5 text-xs",
-            captionTitleClass
+            captionTitleClass,
           )}
         >
           <select
@@ -252,7 +263,7 @@ const MonthCaption = ({
               <option key={i} value={String(i)}>
                 {new Date(y, i, 1).toLocaleString(fmt?.locale ?? undefined, {
                   month: "short",
-                  ...(fmt && "timeZone" in fmt && fmt.timeZone ? { timeZone: fmt.timeZone } : {})
+                  ...(fmt && "timeZone" in fmt && fmt.timeZone ? { timeZone: fmt.timeZone } : {}),
                 })}
               </option>
             ))}
@@ -287,18 +298,33 @@ const MonthCaption = ({
   }
 
   return (
-    <div class={cn("flex items-center justify-between", sm ? "mb-1 gap-1" : "mb-1.5 gap-1.5")} dir={dir}>
-      <Button type="button" variant="ghost" size={sm ? "icon-xs" : "icon-sm"} aria-label="Previous month" onClick={onPrev}>
+    <div
+      class={cn("flex items-center justify-between", sm ? "mb-1 gap-1" : "mb-1.5 gap-1.5")}
+      dir={dir}
+    >
+      <Button
+        type="button"
+        variant="ghost"
+        size={sm ? "icon-xs" : "icon-sm"}
+        aria-label="Previous month"
+        onClick={onPrev}
+      >
         <ChevronLeft class={dir === "rtl" ? "rotate-180" : undefined} />
       </Button>
       <div class={cn(sm ? "text-xs font-medium" : "text-sm font-medium", captionTitleClass)}>
         {displayMonth.toLocaleString(fmt?.locale ?? undefined, {
           month: "long",
           year: "numeric",
-          ...(fmt && "timeZone" in fmt && fmt.timeZone ? { timeZone: fmt.timeZone } : {})
+          ...(fmt && "timeZone" in fmt && fmt.timeZone ? { timeZone: fmt.timeZone } : {}),
         })}
       </div>
-      <Button type="button" variant="ghost" size={sm ? "icon-xs" : "icon-sm"} aria-label="Next month" onClick={onNext}>
+      <Button
+        type="button"
+        variant="ghost"
+        size={sm ? "icon-xs" : "icon-sm"}
+        aria-label="Next month"
+        onClick={onNext}
+      >
         <ChevronRight class={dir === "rtl" ? "rotate-180" : undefined} />
       </Button>
     </div>
@@ -326,12 +352,15 @@ const DualMonthCaption = ({
   captionTitleClass,
   size,
   onPrev,
-  onNext
+  onNext,
 }: DualMonthCaptionProps) => {
   const fmt = intlOpts(locale, timeZone);
   const sm = size === "sm";
   return (
-    <div class={cn("flex items-center justify-between", sm ? "mb-1 gap-1" : "mb-1.5 gap-1.5")} dir={dir}>
+    <div
+      class={cn("flex items-center justify-between", sm ? "mb-1 gap-1" : "mb-1.5 gap-1.5")}
+      dir={dir}
+    >
       <Button
         type="button"
         variant="ghost"
@@ -345,21 +374,21 @@ const DualMonthCaption = ({
       <div
         class={cn(
           "flex min-w-0 flex-1 justify-center text-center font-medium",
-          sm ? "gap-2 text-xs sm:gap-4" : "gap-4 text-sm sm:gap-6"
+          sm ? "gap-2 text-xs sm:gap-4" : "gap-4 text-sm sm:gap-6",
         )}
       >
         <span class={cn("truncate", captionTitleClass)}>
           {firstMonth.toLocaleString(fmt?.locale ?? undefined, {
             month: "long",
             year: "numeric",
-            ...(fmt && "timeZone" in fmt && fmt.timeZone ? { timeZone: fmt.timeZone } : {})
+            ...(fmt && "timeZone" in fmt && fmt.timeZone ? { timeZone: fmt.timeZone } : {}),
           })}
         </span>
         <span class={cn("truncate", captionTitleClass)}>
           {secondMonth.toLocaleString(fmt?.locale ?? undefined, {
             month: "long",
             year: "numeric",
-            ...(fmt && "timeZone" in fmt && fmt.timeZone ? { timeZone: fmt.timeZone } : {})
+            ...(fmt && "timeZone" in fmt && fmt.timeZone ? { timeZone: fmt.timeZone } : {}),
           })}
         </span>
       </div>
@@ -414,13 +443,13 @@ const MonthGrid = ({
   dayAddon,
   hasDayAddon,
   size,
-  onDayClick
+  onDayClick,
 }: MonthGridProps) => {
   const sm = size === "sm";
   const gridGap = sm ? "gap-0.5" : "gap-1";
   const rows = useMemo(
     () => buildCalendarRows(year, month, showOutsideDays, fixedWeeks),
-    [year, month, showOutsideDays, fixedWeeks]
+    [year, month, showOutsideDays, fixedWeeks],
   );
 
   const today = useMemo(() => atNoon(new Date()), []);
@@ -429,7 +458,7 @@ const MonthGrid = ({
   const weekdayLabels = useMemo(() => {
     if (weekdayLabelsProp?.length === 7) return weekdayLabelsProp;
     return Array.from({ length: 7 }, (_, i) =>
-      new Date(2024, 0, 7 + i).toLocaleDateString(locale, { weekday: "short" })
+      new Date(2024, 0, 7 + i).toLocaleDateString(locale, { weekday: "short" }),
     );
   }, [locale, weekdayLabelsProp]);
 
@@ -437,7 +466,7 @@ const MonthGrid = ({
     let cls = cn(
       "inline-flex size-[length:var(--cell-size,2rem)] min-h-[length:var(--cell-size,2rem)] min-w-[length:var(--cell-size,2rem)] items-center justify-center rounded-md leading-none font-normal transition-colors focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 dark:hover:text-accent-foreground",
       sm ? "text-xs" : "text-sm",
-      hasDayAddon && "flex-col gap-0.5"
+      hasDayAddon && "flex-col gap-0.5",
     );
 
     if (outside) {
@@ -449,8 +478,7 @@ const MonthGrid = ({
     const from = range?.from;
     const to = range?.to;
     const rangeFromOnly = mode === "range" && from && !to && isSameDay(d, from);
-    const inFullRange =
-      mode === "range" && from && to && isBetweenInclusive(d, from, to);
+    const inFullRange = mode === "range" && from && to && isBetweenInclusive(d, from, to);
 
     if (singleSel || rangeFromOnly) {
       cls += " bg-primary text-primary-foreground hover:bg-primary/90";
@@ -458,9 +486,11 @@ const MonthGrid = ({
       if (isSameDay(from, to)) {
         cls += " bg-primary text-primary-foreground hover:bg-primary/90 rounded-md";
       } else if (isSameDay(d, from)) {
-        cls += " bg-primary text-primary-foreground hover:bg-primary/90 rounded-s-md rounded-e-none";
+        cls +=
+          " bg-primary text-primary-foreground hover:bg-primary/90 rounded-s-md rounded-e-none";
       } else if (isSameDay(d, to)) {
-        cls += " bg-primary text-primary-foreground hover:bg-primary/90 rounded-e-md rounded-s-none";
+        cls +=
+          " bg-primary text-primary-foreground hover:bg-primary/90 rounded-e-md rounded-s-none";
       } else {
         cls += " bg-accent text-accent-foreground hover:bg-accent/80 rounded-none";
       }
@@ -480,16 +510,18 @@ const MonthGrid = ({
           "grid text-center text-muted-foreground",
           gridGap,
           sm ? "text-[0.65rem] leading-none" : "text-xs",
-          showWeekNumber ? "grid-cols-8" : "grid-cols-7"
+          showWeekNumber ? "grid-cols-8" : "grid-cols-7",
         )}
       >
-        {showWeekNumber ? <div class="flex size-[length:var(--cell-size,2rem)] items-center justify-center font-normal" /> : null}
+        {showWeekNumber ? (
+          <div class="flex size-[length:var(--cell-size,2rem)] items-center justify-center font-normal" />
+        ) : null}
         {weekdayLabels.map((day, wi) => (
           <div
             key={`w-${wi}`}
             class={cn(
               "flex size-[length:var(--cell-size,2rem)] items-center justify-center font-normal",
-              showWeekdayLeadBorder && wi === 0 && "relative ms-0.5 border-s border-border ps-2"
+              showWeekdayLeadBorder && wi === 0 && "relative ms-0.5 border-s border-border ps-2",
             )}
           >
             {day}
@@ -498,10 +530,7 @@ const MonthGrid = ({
       </div>
       <div class={cn("flex flex-col", gridGap, sm ? "mt-1" : "mt-1.5")}>
         {rows.map((row, ri) => (
-          <div
-            key={ri}
-            class={cn("grid", gridGap, showWeekNumber ? "grid-cols-8" : "grid-cols-7")}
-          >
+          <div key={ri} class={cn("grid", gridGap, showWeekNumber ? "grid-cols-8" : "grid-cols-7")}>
             {showWeekNumber ? (
               <div
                 class="text-muted-foreground flex size-[length:var(--cell-size,2rem)] items-center justify-center text-[0.8rem] select-none"
@@ -531,13 +560,19 @@ const MonthGrid = ({
                     const extra = dayAddon(cell.date, cell.outside);
                     if (extra == null || extra === false) return null;
                     return (
-                      <span class="text-muted-foreground text-xs leading-none opacity-70">{extra}</span>
+                      <span class="text-muted-foreground text-xs leading-none opacity-70">
+                        {extra}
+                      </span>
                     );
                   })()}
                 </button>
               ) : (
-                <div key={`empty-${ri}-${ci}`} class="size-[length:var(--cell-size,2rem)]" aria-hidden="true" />
-              )
+                <div
+                  key={`empty-${ri}-${ci}`}
+                  class="size-[length:var(--cell-size,2rem)]"
+                  aria-hidden="true"
+                />
+              ),
             )}
           </div>
         ))}
@@ -575,8 +610,7 @@ export const Calendar = ({
   ...rest
 }: CalendarProps) => {
   const calSize: CalendarSize = size;
-  const singleSelected =
-    mode === "single" ? ((selected as Date | undefined) ?? value) : undefined;
+  const singleSelected = mode === "single" ? ((selected as Date | undefined) ?? value) : undefined;
   const rangeSelected = mode === "range" ? (selected as DateRange | undefined) : undefined;
 
   const initialMonth = useMemo(() => {
@@ -661,7 +695,7 @@ export const Calendar = ({
           ? "min-w-[15rem] p-2 [--cell-size:1.5625rem]"
           : "min-w-[16.75rem] p-2.5 [--cell-size:1.75rem]",
         numberOfMonths === 2 && "max-w-full",
-        className
+        className,
       )}
       {...rest}
     >
@@ -698,7 +732,7 @@ export const Calendar = ({
           "relative flex flex-col",
           calSize === "sm" ? "gap-2.5" : "gap-3",
           numberOfMonths === 2 && "md:flex-row md:items-start md:justify-between",
-          numberOfMonths === 2 && (calSize === "sm" ? "md:gap-4" : "md:gap-6")
+          numberOfMonths === 2 && (calSize === "sm" ? "md:gap-4" : "md:gap-6"),
         )}
       >
         {monthsToRender.map((offset) => {

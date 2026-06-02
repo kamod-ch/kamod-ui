@@ -6,8 +6,11 @@ export type InputGroupTextProps = JSX.HTMLAttributes<HTMLSpanElement> & {
 };
 
 export const InputGroupText = ({ class: className, children, ...rest }: InputGroupTextProps) => (
-  <span data-slot="input-group-text" class={cn("text-muted-foreground text-sm", className)} {...rest}>
+  <span
+    data-slot="input-group-text"
+    class={cn("text-muted-foreground text-sm", className)}
+    {...rest}
+  >
     {children}
   </span>
 );
-

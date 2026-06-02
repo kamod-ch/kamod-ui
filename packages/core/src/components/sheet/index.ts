@@ -15,7 +15,7 @@ export {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetTrigger
+  SheetTrigger,
 };
 
 export default {
@@ -26,5 +26,5 @@ export default {
   Footer: SheetFooter,
   Title: SheetTitle,
   Description: SheetDescription,
-  Close: SheetClose
+  Close: SheetClose,
 };

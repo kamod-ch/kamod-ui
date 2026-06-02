@@ -1,4 +1,4 @@
-import { cloneElement, isValidElement, type ComponentChildren, type JSX } from "preact";
+import { type ComponentChildren, cloneElement, isValidElement, type JSX } from "preact";
 import { cn } from "../../lib/utils";
 
 export type BreadcrumbLinkProps = JSX.AnchorHTMLAttributes<HTMLAnchorElement> & {
@@ -8,7 +8,12 @@ export type BreadcrumbLinkProps = JSX.AnchorHTMLAttributes<HTMLAnchorElement> & 
 
 const linkClass = "hover:text-foreground transition-colors";
 
-export const BreadcrumbLink = ({ asChild = false, class: className, children, ...rest }: BreadcrumbLinkProps) => {
+export const BreadcrumbLink = ({
+  asChild = false,
+  class: className,
+  children,
+  ...rest
+}: BreadcrumbLinkProps) => {
   const mergedClass = cn(linkClass, className);
 
   if (asChild) {
@@ -23,9 +28,9 @@ export const BreadcrumbLink = ({ asChild = false, class: className, children, ..
 
     return cloneElement(children, {
       ...(rest as JSX.HTMLAttributes<HTMLElement>),
-      ...(childProps ?? {}),
+      ...childProps,
       class: cn(mergedClass, childProps.class, childProps.className),
-      "data-slot": "breadcrumb-link"
+      "data-slot": "breadcrumb-link",
     });
   }
 

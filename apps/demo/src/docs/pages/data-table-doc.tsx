@@ -1,6 +1,6 @@
 import { DataTable, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@kamod-ui/core";
 import { createGenericDocPage } from "./create-generic-doc-page";
-import { PaymentsDataTableDemo, paymentRows, type Payment } from "./data-table-payments-demo";
+import { type Payment, PaymentsDataTableDemo, paymentRows } from "./data-table-payments-demo";
 
 const BasicPaymentsTablePreview = () => (
   <DataTable chrome>

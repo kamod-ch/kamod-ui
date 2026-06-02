@@ -1,7 +1,7 @@
 import { signal } from "@preact/signals";
+import type { ComponentChildren, JSX } from "preact";
 import { createContext } from "preact";
 import { useContext, useEffect, useMemo, useRef } from "preact/hooks";
-import type { ComponentChildren, JSX } from "preact";
 import { tv } from "tailwind-variants";
 import { createDismissableLayer, createIdFactory } from "../../lib/interactive";
 
@@ -25,7 +25,7 @@ export const usePopover = () => {
 };
 
 export const popover = tv({
-  base: "relative inline-flex"
+  base: "relative inline-flex",
 });
 
 export type PopoverProps = JSX.HTMLAttributes<HTMLDivElement> & {
@@ -72,7 +72,7 @@ export const Popover = ({
       open: () => open.value,
       onDismiss: () => {
         setOpenRef.current(false);
-      }
+      },
     });
     return () => layer.dispose();
   }, []);
@@ -86,7 +86,7 @@ export const Popover = ({
         contentId: `${instanceId}-content`,
         rootRef,
         triggerRef,
-        contentRef
+        contentRef,
       }}
     >
       <div
@@ -101,4 +101,3 @@ export const Popover = ({
     </PopoverContext.Provider>
   );
 };
-

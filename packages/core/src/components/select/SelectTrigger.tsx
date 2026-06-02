@@ -6,7 +6,14 @@ export type SelectTriggerProps = JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
   children?: ComponentChildren;
 };
 
-export const SelectTrigger = ({ children, onClick, onKeyDown, ref, class: className, ...rest }: SelectTriggerProps) => {
+export const SelectTrigger = ({
+  children,
+  onClick,
+  onKeyDown,
+  ref,
+  class: className,
+  ...rest
+}: SelectTriggerProps) => {
   const select = useSelect();
 
   const setRefs = (node: HTMLButtonElement | null) => {
@@ -36,7 +43,7 @@ export const SelectTrigger = ({ children, onClick, onKeyDown, ref, class: classN
         "focus-visible:border-outline focus-visible:ring-3 focus-visible:ring-outline/50",
         "data-[state=open]:border-outline data-[state=open]:ring-3 data-[state=open]:ring-outline/50",
         "disabled:cursor-not-allowed disabled:opacity-50",
-        className
+        className,
       )}
       onClick={(event) => {
         select.setOpen(!select.open.value);

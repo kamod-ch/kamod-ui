@@ -1,9 +1,12 @@
 import { signal } from "@preact/signals";
-import { useEffect, useMemo } from "preact/hooks";
 import type { ComponentChildren, JSX } from "preact";
+import { useEffect, useMemo } from "preact/hooks";
 import { cn } from "../../lib/utils";
 
-export type ContextMenuCheckboxItemProps = Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, "children"> & {
+export type ContextMenuCheckboxItemProps = Omit<
+  JSX.ButtonHTMLAttributes<HTMLButtonElement>,
+  "children"
+> & {
   checked?: boolean;
   defaultChecked?: boolean;
   onCheckedChange?: (checked: boolean) => void;
@@ -40,7 +43,7 @@ export const ContextMenuCheckboxItem = ({
         "relative flex w-full cursor-default select-none items-center gap-2 rounded-sm py-1.5 ps-8 pe-2 text-sm outline-none",
         "focus:bg-accent focus:text-accent-foreground",
         "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-        className
+        className,
       )}
       onClick={(event) => {
         onClick?.(event);
@@ -53,7 +56,10 @@ export const ContextMenuCheckboxItem = ({
       }}
       {...rest}
     >
-      <span class="pointer-events-none absolute start-2 flex size-3.5 items-center justify-center" aria-hidden>
+      <span
+        class="pointer-events-none absolute start-2 flex size-3.5 items-center justify-center"
+        aria-hidden
+      >
         {checked ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"

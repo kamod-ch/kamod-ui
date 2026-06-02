@@ -1,4 +1,3 @@
-import { useState } from "preact/hooks";
 import {
   Avatar,
   AvatarFallback,
@@ -13,6 +12,7 @@ import {
   CardTitle,
   Checkbox,
   Dropdown,
+  DropdownCheckboxItem,
   DropdownContent,
   DropdownGroup,
   DropdownItem,
@@ -35,19 +35,19 @@ import {
   PaginationNext,
   PaginationPrevious,
   RadioGroup,
-  SelectableCard,
   Select,
+  SelectableCard,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
   Separator,
-  Slider,
-  Spinner,
   Sheet,
   SheetClose,
   SheetContent,
   SheetTrigger,
+  Slider,
+  Spinner,
   Switch,
   Textarea,
   ThemeToggle,
@@ -79,6 +79,7 @@ import {
   Users,
   Wallet,
 } from "lucide-preact";
+import { useState } from "preact/hooks";
 import { withBasePath } from "../base-path";
 import { docsBySlug, docsPages, docsUpdatedComponentSlugs } from "../docs/registry";
 import { DemoShell, demoTopNavItems } from "../layout/DemoShell";
@@ -162,30 +163,44 @@ const AiPromptSourcesMenu = () => {
         class="landing-ai-sources-menu !max-h-none min-w-[15rem] w-[15rem] overflow-visible rounded-lg border border-border/55 bg-popover p-0 py-1 text-xs shadow-md"
       >
         <div class="flex flex-col gap-px px-0.5">
-          <div role="menuitem" class={row}>
-            <Globe class="size-3 shrink-0 text-muted-foreground" strokeWidth={1.75} />
+          <DropdownCheckboxItem
+            checked={webSearch}
+            onCheckedChange={setWebSearch}
+            class={`${row} ps-1.5 [&>span:first-child]:hidden`}
+          >
+            <Globe class="size-3 shrink-0 text-muted-foreground" strokeWidth={1.75} aria-hidden />
             <span class="min-w-0 flex-1 text-left">Web Search</span>
-            <Switch
-              checked={webSearch}
-              onCheckedChange={setWebSearch}
-              size="sm"
-              class="origin-right scale-90 shrink-0 data-[state=checked]:bg-foreground data-[state=checked]:saturate-100"
-              aria-label="Web Search"
-              onClick={(e) => e.stopPropagation()}
+            <span aria-hidden="true" class="origin-right scale-90 shrink-0">
+              <Switch
+                checked={webSearch}
+                size="sm"
+                disabled
+                tabIndex={-1}
+                class="pointer-events-none data-[state=checked]:bg-foreground data-[state=checked]:saturate-100"
+              />
+            </span>
+          </DropdownCheckboxItem>
+          <DropdownCheckboxItem
+            checked={appsIntegrations}
+            onCheckedChange={setAppsIntegrations}
+            class={`${row} ps-1.5 [&>span:first-child]:hidden`}
+          >
+            <LayoutGrid
+              class="size-3 shrink-0 text-muted-foreground"
+              strokeWidth={1.75}
+              aria-hidden
             />
-          </div>
-          <div role="menuitem" class={row}>
-            <LayoutGrid class="size-3 shrink-0 text-muted-foreground" strokeWidth={1.75} />
             <span class="min-w-0 flex-1 text-left">Apps and Integrations</span>
-            <Switch
-              checked={appsIntegrations}
-              onCheckedChange={setAppsIntegrations}
-              size="sm"
-              class="origin-right scale-90 shrink-0 data-[state=checked]:bg-foreground data-[state=checked]:saturate-100"
-              aria-label="Apps and Integrations"
-              onClick={(e) => e.stopPropagation()}
-            />
-          </div>
+            <span aria-hidden="true" class="origin-right scale-90 shrink-0">
+              <Switch
+                checked={appsIntegrations}
+                size="sm"
+                disabled
+                tabIndex={-1}
+                class="pointer-events-none data-[state=checked]:bg-foreground data-[state=checked]:saturate-100"
+              />
+            </span>
+          </DropdownCheckboxItem>
           <DropdownItem class={item}>
             <Crosshair class="size-3 text-muted-foreground" strokeWidth={1.75} />
             All Sources I can access

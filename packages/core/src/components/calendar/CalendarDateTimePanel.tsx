@@ -3,8 +3,8 @@ import { useId, useState } from "preact/hooks";
 import { cn } from "../../lib/utils";
 import { Field, FieldGroup, FieldLabel } from "../field";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "../input-group";
-import { Calendar } from "./Calendar";
 import type { CalendarProps } from "./Calendar";
+import { Calendar } from "./Calendar";
 
 const WEEKDAY_TWO_LETTER = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"] as const;
 
@@ -125,7 +125,7 @@ export const CalendarDateTimePanel = ({
       data-slot="calendar-datetime-panel"
       class={cn(
         "bg-background text-foreground w-full max-w-[min(100%,300px)] rounded-xl border border-[#e0e0e0] p-3.5 shadow-sm dark:border-border",
-        className
+        className,
       )}
       {...rest}
     >

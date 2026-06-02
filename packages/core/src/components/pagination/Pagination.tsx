@@ -15,4 +15,3 @@ export const Pagination = ({ class: className, children, ...rest }: PaginationPr
     {children}
   </nav>
 );
-

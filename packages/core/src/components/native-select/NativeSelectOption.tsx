@@ -4,5 +4,6 @@ export type NativeSelectOptionProps = JSX.OptionHTMLAttributes<HTMLOptionElement
   children?: ComponentChildren;
 };
 
-export const NativeSelectOption = ({ children, ...rest }: NativeSelectOptionProps) => <option {...rest}>{children}</option>;
-
+export const NativeSelectOption = ({ children, ...rest }: NativeSelectOptionProps) => (
+  <option {...rest}>{children}</option>
+);

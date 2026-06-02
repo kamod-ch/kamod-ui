@@ -1,7 +1,7 @@
 import type { ComponentChildren } from "preact";
-import { PaginationChevronLeft } from "./pagination-icons";
-import { PaginationLink, type PaginationLinkProps } from "./PaginationLink";
 import { cn } from "../../lib/utils";
+import { PaginationLink, type PaginationLinkProps } from "./PaginationLink";
+import { PaginationChevronLeft } from "./pagination-icons";
 
 export type PaginationPreviousProps = Omit<PaginationLinkProps, "children"> & {
   children?: ComponentChildren;

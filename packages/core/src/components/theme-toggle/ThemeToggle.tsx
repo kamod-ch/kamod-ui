@@ -1,5 +1,5 @@
-import { useEffect, useState } from "preact/hooks";
 import type { ComponentChildren, JSX } from "preact";
+import { useEffect, useState } from "preact/hooks";
 import { cn } from "../../lib/utils";
 import { Button } from "../button";
 
@@ -82,4 +82,3 @@ export const ThemeToggle = ({ children, onClick, ...rest }: ThemeToggleProps) =>
     </Button>
   );
 };
-

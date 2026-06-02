@@ -6,7 +6,12 @@ export type ButtonGroupProps = JSX.HTMLAttributes<HTMLDivElement> & {
   children?: ComponentChildren;
 };
 
-export const ButtonGroup = ({ class: className, orientation = "horizontal", children, ...rest }: ButtonGroupProps) => {
+export const ButtonGroup = ({
+  class: className,
+  orientation = "horizontal",
+  children,
+  ...rest
+}: ButtonGroupProps) => {
   const isVertical = orientation === "vertical";
 
   return (
@@ -20,7 +25,7 @@ export const ButtonGroup = ({ class: className, orientation = "horizontal", chil
         isVertical
           ? "flex-col [&>*:not(:first-child)]:rounded-t-none [&>*:not(:first-child)]:border-t-0 [&>*:not(:last-child)]:rounded-b-none"
           : "[&>*:not(:first-child)]:rounded-l-none [&>*:not(:first-child)]:border-l-0 [&>*:not(:last-child)]:rounded-r-none",
-        className
+        className,
       )}
       {...rest}
     >

@@ -20,7 +20,7 @@ export const Empty = ({ class: className, title, description, children, ...rest 
         data-slot="empty"
         class={cn(
           "flex min-h-40 flex-col items-center justify-center gap-2 rounded-lg border border-dashed p-6 text-center",
-          className
+          className,
         )}
       >
         {title != null ? (

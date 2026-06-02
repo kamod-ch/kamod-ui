@@ -9,5 +9,5 @@ export default {
   Root: Accordion,
   Item: AccordionItem,
   Trigger: AccordionTrigger,
-  Content: AccordionContent
+  Content: AccordionContent,
 };

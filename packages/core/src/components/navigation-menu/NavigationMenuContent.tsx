@@ -35,8 +35,10 @@ export const NavigationMenuContent = ({
       class={cn(
         "absolute start-0 top-full z-50 mt-1.5 w-max origin-top-start overflow-hidden rounded-md border border-border bg-popover p-2 text-popover-foreground shadow-md outline-none",
         "transition-[opacity,transform] duration-200",
-        open ? "pointer-events-auto visible opacity-100" : "pointer-events-none invisible opacity-0",
-        className
+        open
+          ? "pointer-events-auto visible opacity-100"
+          : "pointer-events-none invisible opacity-0",
+        className,
       )}
       onPointerEnter={handlePointerEnter}
       onPointerLeave={handlePointerLeave}

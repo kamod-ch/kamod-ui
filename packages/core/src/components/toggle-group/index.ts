@@ -5,6 +5,5 @@ export { ToggleGroup, ToggleGroupItem };
 
 export default {
   Root: ToggleGroup,
-  Item: ToggleGroupItem
+  Item: ToggleGroupItem,
 };
-

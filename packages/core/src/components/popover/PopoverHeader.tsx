@@ -8,8 +8,11 @@ export type PopoverHeaderProps = JSX.HTMLAttributes<HTMLDivElement> & {
 };
 
 export const PopoverHeader = ({ class: className, children, ...rest }: PopoverHeaderProps) => (
-  <div class={popoverHeader({ class: className as string | undefined })} data-slot="popover-header" {...rest}>
+  <div
+    class={popoverHeader({ class: className as string | undefined })}
+    data-slot="popover-header"
+    {...rest}
+  >
     {children}
   </div>
 );
-

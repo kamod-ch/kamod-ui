@@ -1,4 +1,4 @@
-import { signal, type Signal } from "@preact/signals";
+import { type Signal, signal } from "@preact/signals";
 
 type CreateControllableSignalOptions<T> = {
   value?: T;
@@ -15,7 +15,7 @@ export type ControllableSignal<T> = {
 export const createControllableSignal = <T>({
   value,
   defaultValue,
-  onChange
+  onChange,
 }: CreateControllableSignalOptions<T>): ControllableSignal<T> => {
   const isControlled = value !== undefined;
   const local = signal<T>((value ?? defaultValue) as T);
@@ -30,6 +30,6 @@ export const createControllableSignal = <T>({
   return {
     state: local,
     setState,
-    isControlled
+    isControlled,
   };
 };

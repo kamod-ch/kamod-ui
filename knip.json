@@ -1,0 +1,45 @@
+{
+	"$schema": "https://unpkg.com/knip@5/schema.json",
+	"tsup": false,
+	"vitest": false,
+	"ignoreExportsUsedInFile": {
+		"interface": true,
+		"type": true
+	},
+	"workspaces": {
+		"packages/core": {
+			"entry": [
+				"src/components/**/index.ts",
+				"src/**/*.test.ts",
+				"src/test/setup.ts"
+			],
+			"project": ["src/**/*.ts"],
+			"ignoreDependencies": [
+				"@testing-library/preact",
+				"embla-carousel",
+				"embla-carousel-autoplay"
+			],
+			"ignore": [
+				"src/components/dialog/useModalPanelA11y.ts",
+				"src/components/sonner/sonner-store.ts",
+				"src/components/avatar/types.ts"
+			]
+		},
+		"apps/demo": {
+			"entry": ["index.html", "e2e/**/*.ts", "scripts/**/*.{js,mjs}"],
+			"project": ["src/**/*.{ts,tsx}", "e2e/**/*.ts"],
+			"ignoreDependencies": [
+				"tailwindcss",
+				"tw-animate-css",
+				"@fontsource-variable/inter",
+				"@tailwindcss/forms"
+			],
+			"ignore": [
+				"src/docs/**",
+				"src/base-path.ts",
+				"src/theme/theme-presets.ts"
+			]
+		}
+	},
+	"ignoreDependencies": ["@vitest/coverage-v8", "preact"]
+}

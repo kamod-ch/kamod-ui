@@ -1,7 +1,7 @@
 import type { ComponentChildren, JSX } from "preact";
+import { cn } from "../../lib/utils";
 import { useAccordion } from "./Accordion";
 import { useAccordionItem } from "./AccordionItem";
-import { cn } from "../../lib/utils";
 
 export type AccordionTriggerProps = JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
   hideIndicator?: boolean;
@@ -42,7 +42,7 @@ export const AccordionTrigger = ({
       class={cn(
         "flex w-full items-center justify-between gap-2 rounded-md py-4 text-left text-sm font-medium outline-none transition-colors focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50",
         !isOpen && "hover:bg-muted/40",
-        className
+        className,
       )}
       onClick={(event) => {
         if (disabled) return;
@@ -60,7 +60,7 @@ export const AccordionTrigger = ({
           data-state={isOpen ? "open" : "closed"}
           class={cn(
             "shrink-0 text-muted-foreground transition-transform duration-200",
-            isOpen && "rotate-180"
+            isOpen && "rotate-180",
           )}
         >
           {indicator ?? <DefaultIndicator />}

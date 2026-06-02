@@ -14,7 +14,7 @@ describe("Typography", () => {
     render(
       <Typography as="h3" variant="h3">
         Section title
-      </Typography>
+      </Typography>,
     );
 
     const el = screen.getByRole("heading", { level: 3, name: "Section title" });
@@ -34,7 +34,7 @@ describe("Typography", () => {
         <Typography as="ul" variant="list">
           <li>Item</li>
         </Typography>
-      </div>
+      </div>,
     );
 
     expect(screen.getByText("Large copy").className).toContain("text-lg");
@@ -48,7 +48,7 @@ describe("Typography", () => {
     render(
       <Typography as="span" variant="muted" class="custom-utility">
         Helper text
-      </Typography>
+      </Typography>,
     );
 
     const el = screen.getByText("Helper text");
@@ -71,7 +71,7 @@ describe("Typography", () => {
       { text: "v-lead", as: "p", variant: "lead", classToken: "text-xl" },
       { text: "v-large", as: "p", variant: "large", classToken: "text-lg" },
       { text: "v-muted", as: "p", variant: "muted", classToken: "text-sm" },
-      { text: "v-small", as: "small", variant: "small", classToken: "leading-none" }
+      { text: "v-small", as: "small", variant: "small", classToken: "leading-none" },
     ] as const;
 
     render(
@@ -81,7 +81,7 @@ describe("Typography", () => {
             {testCase.variant === "list" ? <li>{testCase.text}</li> : testCase.text}
           </Typography>
         ))}
-      </div>
+      </div>,
     );
 
     for (const testCase of cases) {

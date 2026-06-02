@@ -29,7 +29,7 @@ export {
   DropdownSub,
   DropdownSubContent,
   DropdownSubTrigger,
-  DropdownTrigger
+  DropdownTrigger,
 };
 
 export default {
@@ -47,5 +47,5 @@ export default {
   Portal: DropdownPortal,
   CheckboxItem: DropdownCheckboxItem,
   RadioGroup: DropdownRadioGroup,
-  RadioItem: DropdownRadioItem
+  RadioItem: DropdownRadioItem,
 };

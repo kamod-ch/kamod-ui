@@ -15,11 +15,7 @@ export const ContextMenuLabel = ({
   <div
     data-slot="context-menu-label"
     data-inset={inset ? "true" : undefined}
-    class={cn(
-      "text-muted-foreground px-2 py-1.5 text-xs font-medium",
-      inset && "ps-8",
-      className
-    )}
+    class={cn("text-muted-foreground px-2 py-1.5 text-xs font-medium", inset && "ps-8", className)}
     {...rest}
   >
     {children}

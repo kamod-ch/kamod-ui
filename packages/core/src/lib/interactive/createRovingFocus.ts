@@ -26,6 +26,6 @@ export const createRovingFocus = (count: number, initialIndex = -1) => {
     },
     set: (index: number) => {
       activeIndex.value = clamp(index);
-    }
+    },
   };
 };

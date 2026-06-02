@@ -1,7 +1,7 @@
-import { expect, test, type Page } from "@playwright/test";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { expect, type Page, test } from "@playwright/test";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 /** Repo-root `tmp/` (this file lives in `apps/demo/e2e/`). */

@@ -1,7 +1,7 @@
-import { useLayoutEffect, useRef, useState } from "preact/hooks";
 import type { ComponentChildren, JSX } from "preact";
-import { useCollapsible } from "./Collapsible";
+import { useLayoutEffect, useRef, useState } from "preact/hooks";
 import { cn } from "../../lib/utils";
+import { useCollapsible } from "./Collapsible";
 
 export type CollapsibleContentProps = JSX.HTMLAttributes<HTMLDivElement> & {
   forceMount?: boolean;
@@ -42,7 +42,9 @@ export const CollapsibleContent = ({
 
   useLayoutEffect(() => {
     if (typeof window !== "undefined") {
-      prefersReducedMotionRef.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      prefersReducedMotionRef.current = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
     }
 
     const outer = outerRef.current;
@@ -249,7 +251,7 @@ export const CollapsibleContent = ({
       ? (style as JSX.CSSProperties)
       : {}),
     ["--kamodui-collapsible-duration" as string]: duration,
-    ["--kamodui-collapsible-timing-function" as string]: timingFunction
+    ["--kamodui-collapsible-timing-function" as string]: timingFunction,
   };
 
   return (
@@ -259,7 +261,10 @@ export const CollapsibleContent = ({
       data-state={open ? "open" : "closed"}
       onTransitionEnd={handleTransitionEnd}
       style={mergedStyle}
-      class={cn("min-h-0 overflow-hidden", (isAnimatingOpen || isAnimatingClose) && "will-change-[height]")}
+      class={cn(
+        "min-h-0 overflow-hidden",
+        (isAnimatingOpen || isAnimatingClose) && "will-change-[height]",
+      )}
       aria-hidden={!open && !isAnimatingClose}
       inert={!open || undefined}
       {...rest}

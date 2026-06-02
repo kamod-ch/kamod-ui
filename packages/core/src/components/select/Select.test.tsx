@@ -7,7 +7,11 @@ const renderSelect = (props?: {
   onValueChange?: (value: string) => void;
 }) =>
   render(
-    <Select value={props?.value} defaultValue={props?.defaultValue} onValueChange={props?.onValueChange}>
+    <Select
+      value={props?.value}
+      defaultValue={props?.defaultValue}
+      onValueChange={props?.onValueChange}
+    >
       <SelectTrigger aria-label="Framework">
         <SelectValue placeholder="Pick a framework" />
       </SelectTrigger>
@@ -18,7 +22,7 @@ const renderSelect = (props?: {
           Vue
         </SelectItem>
       </SelectContent>
-    </Select>
+    </Select>,
   );
 
 describe("Select", () => {
@@ -76,7 +80,7 @@ describe("Select", () => {
           <SelectItem value="preact">Preact</SelectItem>
           <SelectItem value="solid">Solid</SelectItem>
         </SelectContent>
-      </Select>
+      </Select>,
     );
 
     expect(screen.getByText("solid")).toBeInTheDocument();

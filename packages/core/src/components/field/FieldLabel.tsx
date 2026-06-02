@@ -9,7 +9,7 @@ export const FieldLabel = ({ class: className, ...rest }: FieldLabelProps) => (
     class={cn(
       labelStyles({ size: "sm" }),
       "group-data-[disabled]/field:pointer-events-none group-data-[disabled]/field:opacity-50",
-      className
+      className,
     )}
     data-slot="field-label"
     {...rest}

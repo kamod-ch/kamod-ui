@@ -1,2 +1,1 @@
 export { Prose } from "./Prose";
-

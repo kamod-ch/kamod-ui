@@ -1,5 +1,5 @@
-import { expect, test } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { expect, test } from "@playwright/test";
 
 test.describe("core component docs smoke", () => {
   test("Tooltip opens on hover and closes on mouse leave", async ({ page }) => {
@@ -133,6 +133,16 @@ test.describe("core component docs smoke", () => {
     await page.locator("#basic-sheet").waitFor({ state: "attached" });
     const sheetA11y = await new AxeBuilder({ page }).include("#basic-sheet").analyze();
     expect(sheetA11y.violations).toEqual([]);
+
+    await page.goto("/docs/dialog/basic-dialog");
+    await page.locator("#basic-dialog").waitFor({ state: "attached" });
+    const dialogA11y = await new AxeBuilder({ page }).include("#basic-dialog").analyze();
+    expect(dialogA11y.violations).toEqual([]);
+
+    await page.goto("/docs/tabs/synced-tabs");
+    await page.locator("#synced-tabs").waitFor({ state: "attached" });
+    const tabsA11y = await new AxeBuilder({ page }).include("#synced-tabs").analyze();
+    expect(tabsA11y.violations).toEqual([]);
   });
 
   test("Visual snapshots stay stable for tooltip, toggle, toggle group and typography", async ({

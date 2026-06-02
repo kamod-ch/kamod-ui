@@ -14,4 +14,3 @@ export const Chart = ({ class: className, title, description, children, ...rest 
     <div class="mt-3">{children}</div>
   </div>
 );
-

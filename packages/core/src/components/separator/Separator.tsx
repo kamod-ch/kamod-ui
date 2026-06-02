@@ -6,15 +6,18 @@ export const separator = tv({
   variants: {
     orientation: {
       horizontal: "h-[1px] w-full",
-      vertical: "h-full w-[1px]"
-    }
+      vertical: "h-full w-[1px]",
+    },
   },
   defaultVariants: {
-    orientation: "horizontal"
-  }
+    orientation: "horizontal",
+  },
 });
 
-export type SeparatorProps = Omit<JSX.HTMLAttributes<HTMLDivElement>, "role" | "aria-orientation"> & {
+export type SeparatorProps = Omit<
+  JSX.HTMLAttributes<HTMLDivElement>,
+  "role" | "aria-orientation"
+> & {
   orientation?: "horizontal" | "vertical";
   decorative?: boolean;
 };
@@ -34,4 +37,3 @@ export const Separator = ({
     {...rest}
   />
 );
-

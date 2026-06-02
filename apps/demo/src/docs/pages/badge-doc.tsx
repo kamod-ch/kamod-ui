@@ -1,6 +1,6 @@
-import type { ComponentChildren } from "preact";
 import { Badge, Button, DirectionProvider, Spinner } from "@kamod-ui/core";
 import { ArrowUpRight, BadgeCheck, Bookmark } from "lucide-preact";
+import type { ComponentChildren } from "preact";
 import { useState } from "preact/hooks";
 import { ApiReference } from "../components/ApiReference";
 import { CodeBlock } from "../components/CodeBlock";

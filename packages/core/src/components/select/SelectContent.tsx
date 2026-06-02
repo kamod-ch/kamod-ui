@@ -28,7 +28,7 @@ export const SelectContent = ({
       aria-activedescendant={select.activeItemId.value ?? undefined}
       class={cn(
         "bg-popover text-popover-foreground absolute left-0 right-0 top-full z-50 mt-1 flex max-h-72 flex-col overflow-hidden rounded-md border border-border p-1 shadow-md",
-        className
+        className,
       )}
       onKeyDown={(event) => {
         switch (event.key) {
@@ -56,7 +56,9 @@ export const SelectContent = ({
           case " ":
             event.preventDefault();
             if (select.activeItemId.value) {
-              const active = document.getElementById(select.activeItemId.value) as HTMLDivElement | null;
+              const active = document.getElementById(
+                select.activeItemId.value,
+              ) as HTMLDivElement | null;
               active?.click();
             }
             break;
@@ -80,7 +82,7 @@ export const SelectContent = ({
         class={cn(
           "flex min-h-0 min-w-0 flex-1 flex-col items-stretch overflow-x-hidden overflow-y-auto",
           /* Classic scrollbars steal inline-end width → uneven highlight vs. padding. Hide bar; list still scrolls (wheel, trackpad, touch, Arrow/Home/End). */
-          "[scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          "[scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden",
         )}
       >
         {children}

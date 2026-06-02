@@ -12,7 +12,7 @@ export const TableCell = ({ class: className, children, colSpan, ...rest }: Tabl
     data-slot="table-cell"
     class={cn(
       "p-2 align-middle [&:has([data-slot=checkbox])]:pr-0 [&:has([role=checkbox])]:pr-0",
-      className
+      className,
     )}
     colSpan={colSpan}
     {...rest}
@@ -20,4 +20,3 @@ export const TableCell = ({ class: className, children, colSpan, ...rest }: Tabl
     {children}
   </td>
 );
-

@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
 - Per-component subpath exports in `@kamod-ui/core`, e.g. `import { Button } from "@kamod-ui/core/button"`. The root barrel (`@kamod-ui/core`) keeps working and stays tree-shakeable thanks to the new `"sideEffects": false` flag.
 - Additional subpath exports for shared utilities: `@kamod-ui/core/lib/utils`, `@kamod-ui/core/lib/signals`, `@kamod-ui/core/lib/interactive`.
 - `pnpm test:coverage` script (Vitest + `@vitest/coverage-v8`).
@@ -18,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dev-only warning in `<Button asChild>` when an invalid child is provided.
 
 ### Changed
+
 - `@preact/signals` is now a **peer dependency** (and dev dependency for development) instead of a hard dependency, to avoid duplicate signal instances in consumer bundles.
 - `packages/core/package.json` now ships full package metadata (description, license, repository, homepage, bugs, keywords, engines, publishConfig).
 - `tsup` build emits one entry per component (`dist/components/<name>/index.js`) with code splitting and tree-shaking enabled, in addition to the root barrel.
@@ -25,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `publish.yml` publishes with `--provenance` and is triggered only by tag pushes (deduplicating the prior `release` + `tag` double trigger).
 
 ### Removed
+
 - Tracked-but-stale folders at the repo root (`data_old/`, `scripts_old/`, `inbox/`, `proofshot-artifacts/`, `kamod-ui-0.1.0.tgz`) — already gitignored and unused.
 
 ## [0.1.0] - Initial release

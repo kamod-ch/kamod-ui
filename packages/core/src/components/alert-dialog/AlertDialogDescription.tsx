@@ -6,8 +6,16 @@ export type AlertDialogDescriptionProps = JSX.HTMLAttributes<HTMLParagraphElemen
   children?: ComponentChildren;
 };
 
-export const AlertDialogDescription = ({ class: className, children, ...rest }: AlertDialogDescriptionProps) => (
-  <DialogDescription class={cn("text-muted-foreground text-sm leading-relaxed break-words", className)} data-slot="alert-dialog-description" {...rest}>
+export const AlertDialogDescription = ({
+  class: className,
+  children,
+  ...rest
+}: AlertDialogDescriptionProps) => (
+  <DialogDescription
+    class={cn("text-muted-foreground text-sm leading-relaxed break-words", className)}
+    data-slot="alert-dialog-description"
+    {...rest}
+  >
     {children}
   </DialogDescription>
 );

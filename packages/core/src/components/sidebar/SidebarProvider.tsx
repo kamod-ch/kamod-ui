@@ -1,7 +1,7 @@
 import { signal } from "@preact/signals";
+import type { ComponentChildren } from "preact";
 import { createContext } from "preact";
 import { useContext, useMemo } from "preact/hooks";
-import type { ComponentChildren } from "preact";
 
 type SidebarContextValue = {
   open: ReturnType<typeof signal<boolean>>;
@@ -29,4 +29,3 @@ export const SidebarProvider = ({ defaultOpen = true, children }: SidebarProvide
     </SidebarContext.Provider>
   );
 };
-

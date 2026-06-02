@@ -28,7 +28,8 @@ export const MenubarRadioItem = ({
   ...rest
 }: MenubarRadioItemProps) => {
   const radio = useMenubarRadio();
-  const current = radio.controlledValue !== undefined ? radio.controlledValue : radio.selected.value;
+  const current =
+    radio.controlledValue !== undefined ? radio.controlledValue : radio.selected.value;
   const checked = current === value;
 
   return (
@@ -42,7 +43,7 @@ export const MenubarRadioItem = ({
         "relative flex w-full cursor-default select-none items-center gap-2 rounded-sm py-1.5 ps-8 pe-2 text-start text-sm outline-none",
         "focus:bg-accent focus:text-accent-foreground",
         "disabled:pointer-events-none disabled:opacity-50",
-        className
+        className,
       )}
       onClick={(e) => {
         onClick?.(e);

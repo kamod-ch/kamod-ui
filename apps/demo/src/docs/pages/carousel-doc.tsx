@@ -1,15 +1,15 @@
-import { useEffect, useState } from "preact/hooks";
 import {
   Card,
   CardContent,
   Carousel,
+  type CarouselApi,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
   DirectionProvider,
-  type CarouselApi,
 } from "@kamod-ui/core";
+import { useEffect, useState } from "preact/hooks";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 const slides = [1, 2, 3, 4, 5];
@@ -352,5 +352,5 @@ export const Example = () => (
     { prop: "children", type: "CarouselContent, items, controls", defaultValue: "required" },
   ],
   accessibilityText:
-    "Region is marked as carousel; items use group/slide roles. Provide pausable autoplay when motion may distract; match reading direction with dir and opts.direction.",
+    "Region is marked as carousel; items use group/slide roles. Pass label or aria-label on Carousel for an accessible name. When autoplay is enabled, add CarouselAutoplayPause so users can stop motion. Match reading direction with dir and opts.direction.",
 });

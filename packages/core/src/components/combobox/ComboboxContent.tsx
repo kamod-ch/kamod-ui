@@ -1,6 +1,6 @@
-import { PopoverContent, type PopoverContentProps } from "../popover/PopoverContent";
-import { usePopover } from "../popover/Popover";
 import { cn } from "../../lib/utils";
+import { usePopover } from "../popover/Popover";
+import { PopoverContent, type PopoverContentProps } from "../popover/PopoverContent";
 import { useCombobox } from "./combobox-context";
 
 export const ComboboxContent = ({
@@ -19,7 +19,7 @@ export const ComboboxContent = ({
         ctx.liftedFilter &&
           !popover.open.value &&
           "pointer-events-none invisible max-h-0 min-h-0 border-0 p-0 opacity-0 shadow-none",
-        className
+        className,
       )}
       {...rest}
     />

@@ -1,7 +1,7 @@
-import { type signal } from "@preact/signals";
+import { type Signal, signal } from "@preact/signals";
+import type { ComponentChildren, JSX } from "preact";
 import { createContext } from "preact";
 import { useContext, useEffect, useMemo, useRef } from "preact/hooks";
-import type { ComponentChildren, JSX } from "preact";
 import { createDismissableLayer } from "../../lib/interactive";
 import { createControllableSignal } from "../../lib/signals";
 
@@ -61,7 +61,8 @@ const lockDocumentScroll = () => {
     const previousBodyOverflow = body.getAttribute(SCROLL_LOCK_BODY_OVERFLOW_ATTR) ?? "";
     const previousHtmlOverflow = html.getAttribute(SCROLL_LOCK_HTML_OVERFLOW_ATTR) ?? "";
     const previousBodyPaddingRight = body.getAttribute(SCROLL_LOCK_BODY_PADDING_RIGHT_ATTR) ?? "";
-    const previousHtmlScrollbarGutter = html.getAttribute(SCROLL_LOCK_HTML_SCROLLBAR_GUTTER_ATTR) ?? "";
+    const previousHtmlScrollbarGutter =
+      html.getAttribute(SCROLL_LOCK_HTML_SCROLLBAR_GUTTER_ATTR) ?? "";
 
     body.style.overflow = previousBodyOverflow;
     body.style.paddingRight = previousBodyPaddingRight;
@@ -85,6 +86,8 @@ export type DialogContextValue = {
   open: ReturnType<typeof signal<boolean>>;
   setOpen: (next: boolean) => void;
   triggerRef: { current: HTMLElement | null };
+  titleId: Signal<string | undefined>;
+  descriptionId: Signal<string | undefined>;
 };
 
 const DialogContext = createContext<DialogContextValue | null>(null);
@@ -115,15 +118,17 @@ export const Dialog = ({
   const onOpenChangeRef = useRef(onOpenChange);
   onOpenChangeRef.current = onOpenChange;
   const triggerRef = useRef<HTMLElement | null>(null);
+  const titleId = useMemo(() => signal<string | undefined>(undefined), []);
+  const descriptionId = useMemo(() => signal<string | undefined>(undefined), []);
 
   const controllable = useMemo(
     () =>
       createControllableSignal<boolean>({
         value: openProp,
         defaultValue: defaultOpen,
-        onChange: (next) => onOpenChangeRef.current?.(next)
+        onChange: (next) => onOpenChangeRef.current?.(next),
       }),
-    []
+    [],
   );
   const open = controllable.state;
 
@@ -153,7 +158,7 @@ export const Dialog = ({
       open: () => open.value,
       onDismiss: () => {
         setOpen(false);
-      }
+      },
     });
     return () => layer.dispose();
   }, []);
@@ -165,7 +170,7 @@ export const Dialog = ({
   }, [lockBodyScroll, open.value]);
 
   return (
-    <DialogContext.Provider value={{ open, setOpen, triggerRef }}>
+    <DialogContext.Provider value={{ open, setOpen, triggerRef, titleId, descriptionId }}>
       <div ref={rootRef} data-slot="dialog" data-state={open.value ? "open" : "closed"} {...rest}>
         {children}
       </div>

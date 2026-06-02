@@ -7,5 +7,5 @@ export { Collapsible, CollapsibleContent, CollapsibleTrigger };
 export default {
   Root: Collapsible,
   Trigger: CollapsibleTrigger,
-  Content: CollapsibleContent
+  Content: CollapsibleContent,
 };

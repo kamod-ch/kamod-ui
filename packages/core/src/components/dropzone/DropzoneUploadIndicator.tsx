@@ -10,8 +10,11 @@ export const DropzoneUploadIndicator = ({
   children = "Drop files here or click to upload",
   ...rest
 }: DropzoneUploadIndicatorProps) => (
-  <div data-slot="dropzone-upload-indicator" class={cn("text-muted-foreground text-sm", className)} {...rest}>
+  <div
+    data-slot="dropzone-upload-indicator"
+    class={cn("text-muted-foreground text-sm", className)}
+    {...rest}
+  >
     {children}
   </div>
 );
-

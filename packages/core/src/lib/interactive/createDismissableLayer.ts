@@ -11,13 +11,13 @@ export const MODAL_DIALOG_PANEL_OUTSIDE_SLOP_PX = 48;
  * Skips panels with zero layout size (e.g. JSDOM) so tests keep dismissing on overlay.
  */
 export const isPointerWithinModalDialogPanelSlop = (
-  event: Pick<PointerEvent, "clientX" | "clientY">
+  event: Pick<PointerEvent, "clientX" | "clientY">,
 ): boolean => {
   const { clientX: x, clientY: y } = event;
   const slop = MODAL_DIALOG_PANEL_OUTSIDE_SLOP_PX;
 
   for (const panel of document.querySelectorAll(
-    '[data-slot="dialog-content"][data-state="open"]:not([data-kamod-root-dismissible])'
+    '[data-slot="dialog-content"][data-state="open"]:not([data-kamod-root-dismissible])',
   )) {
     if (!(panel instanceof HTMLElement)) continue;
     const r = panel.getBoundingClientRect();
@@ -38,7 +38,7 @@ type CreateDismissableLayerOptions = {
 export const createDismissableLayer = ({
   root,
   open,
-  onDismiss
+  onDismiss,
 }: CreateDismissableLayerOptions) => {
   const enabled = signal(true);
   const portalLayerSelector =
@@ -101,6 +101,6 @@ export const createDismissableLayer = ({
 
   return {
     enabled,
-    dispose: () => stop()
+    dispose: () => stop(),
   };
 };

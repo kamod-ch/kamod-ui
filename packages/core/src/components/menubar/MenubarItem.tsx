@@ -32,8 +32,9 @@ export const MenubarItem = ({
         "focus:bg-accent focus:text-accent-foreground",
         "disabled:pointer-events-none disabled:opacity-50",
         inset && "ps-8",
-        variant === "destructive" && "text-destructive focus:bg-destructive/10 focus:text-destructive",
-        className
+        variant === "destructive" &&
+          "text-destructive focus:bg-destructive/10 focus:text-destructive",
+        className,
       )}
       onClick={(e) => {
         onClick?.(e);

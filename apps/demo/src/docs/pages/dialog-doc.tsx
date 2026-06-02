@@ -1,4 +1,3 @@
-import { useState } from "preact/hooks";
 import {
   Button,
   Dialog,
@@ -15,6 +14,7 @@ import {
   Input,
   Label,
 } from "@kamod-ui/core";
+import { useState } from "preact/hooks";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 type Lang = "en" | "ar" | "he";
@@ -611,5 +611,5 @@ export const Example = () => (
     { prop: "DialogTrigger / DialogClose asChild", type: "boolean", defaultValue: "false" },
   ],
   accessibilityText:
-    'The modal panel is focusable (tabIndex -1), closes on Escape, and returns focus to the trigger. Provide DialogTitle and DialogDescription for context. Hide the default close control only when another explicit dismiss action exists. For custom fullscreen overlays, use presentation="slot" so assistive tech and focus stay on one dialog surface (no duplicate modal shells).',
+    'The modal panel is focusable (tabIndex -1), traps focus while open, closes on Escape, and returns focus to the trigger. DialogTitle and DialogDescription wire aria-labelledby and aria-describedby automatically; override via props on DialogContent when needed. Hide the default close control only when another explicit dismiss action exists. For custom fullscreen overlays, use presentation="slot" so assistive tech and focus stay on one dialog surface (no duplicate modal shells).',
 });

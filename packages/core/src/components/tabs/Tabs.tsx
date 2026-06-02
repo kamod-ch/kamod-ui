@@ -1,14 +1,17 @@
 import { type Signal, useSignal } from "@preact/signals";
-import { createContext } from "preact";
-import { useEffect } from "preact/hooks";
-import { useContext } from "preact/hooks";
 import type { ComponentChildren, JSX } from "preact";
+import { createContext } from "preact";
+import { useContext, useEffect, useMemo } from "preact/hooks";
+import { createIdFactory } from "../../lib/interactive";
 import { cn } from "../../lib/utils";
 
 type TabsContextValue = {
   value: Signal<string>;
   setValue: (next: string) => void;
   orientation: "horizontal" | "vertical";
+  baseId: string;
+  triggerId: (tabValue: string) => string;
+  contentId: (tabValue: string) => string;
 };
 
 const TabsContext = createContext<TabsContextValue | null>(null);
@@ -43,14 +46,24 @@ const getOrCreateSyncEntry = (key: string, initialValue: string): SyncRegistryEn
   const created: SyncRegistryEntry = {
     value: initialValue,
     subscribers: new Set<SyncSubscriber>(),
-    instancesCount: 0
+    instancesCount: 0,
   };
   syncRegistry.set(key, created);
   return created;
 };
 
-export const Tabs = ({ defaultValue, syncKey, orientation = "horizontal", class: className, children, ...rest }: TabsProps) => {
+export const Tabs = ({
+  defaultValue,
+  syncKey,
+  orientation = "horizontal",
+  class: className,
+  children,
+  ...rest
+}: TabsProps) => {
   const value = useSignal(defaultValue);
+  const baseId = useMemo(() => createIdFactory("tabs")(), []);
+  const triggerId = useMemo(() => (tabValue: string) => `${baseId}-trigger-${tabValue}`, [baseId]);
+  const contentId = useMemo(() => (tabValue: string) => `${baseId}-content-${tabValue}`, [baseId]);
   const setValue = (next: string) => {
     if (!syncKey) {
       value.value = next;
@@ -88,11 +101,15 @@ export const Tabs = ({ defaultValue, syncKey, orientation = "horizontal", class:
   }, [defaultValue, syncKey, value]);
 
   return (
-    <TabsContext.Provider value={{ value, setValue, orientation }}>
-      <div class={cn("group/tabs", className)} data-slot="tabs" data-orientation={orientation} {...rest}>
+    <TabsContext.Provider value={{ value, setValue, orientation, baseId, triggerId, contentId }}>
+      <div
+        class={cn("group/tabs", className)}
+        data-slot="tabs"
+        data-orientation={orientation}
+        {...rest}
+      >
         {children}
       </div>
     </TabsContext.Provider>
   );
 };
-

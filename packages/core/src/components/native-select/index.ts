@@ -5,7 +5,7 @@ import { NativeSelectOption } from "./NativeSelectOption";
 const NativeSelectVariants = {
   nativeSelect,
   nativeSelectIcon,
-  nativeSelectWrapper
+  nativeSelectWrapper,
 };
 
 export { NativeSelect, NativeSelectOptGroup, NativeSelectOption, NativeSelectVariants };
@@ -13,6 +13,5 @@ export { NativeSelect, NativeSelectOptGroup, NativeSelectOption, NativeSelectVar
 export default {
   Root: NativeSelect,
   Option: NativeSelectOption,
-  OptGroup: NativeSelectOptGroup
+  OptGroup: NativeSelectOptGroup,
 };
-

@@ -1,4 +1,3 @@
-import { useEffect, useMemo, useRef, useState } from "preact/hooks";
 import {
   Button,
   Checkbox,
@@ -19,6 +18,7 @@ import {
   TableRow,
 } from "@kamod-ui/core";
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-preact";
+import { useEffect, useMemo, useRef, useState } from "preact/hooks";
 
 export type Payment = {
   id: string;

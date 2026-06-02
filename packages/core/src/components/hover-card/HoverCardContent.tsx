@@ -6,39 +6,39 @@ const positionBySide = {
   top: "bottom-full",
   bottom: "top-full",
   left: "right-full",
-  right: "left-full"
+  right: "left-full",
 } as const;
 
 const alignByAxis = {
   vertical: {
     start: "left-0",
     center: "left-1/2 -translate-x-1/2",
-    end: "right-0"
+    end: "right-0",
   },
   horizontal: {
     start: "top-0",
     center: "top-1/2 -translate-y-1/2",
-    end: "bottom-0"
-  }
+    end: "bottom-0",
+  },
 } as const;
 
 export const hoverCardContent = tv({
   base: [
     "bg-popover text-popover-foreground z-50 flex min-w-0 max-w-[calc(100vw-1.5rem)] flex-col gap-1 rounded-lg border p-3 text-sm shadow-md outline-none",
     "data-[state=open]:animate-in fade-in zoom-in-95",
-    "absolute isolate"
+    "absolute isolate",
   ],
   variants: {
     side: {
       bottom: "slide-in-from-top-2",
       top: "slide-in-from-bottom-2",
       right: "slide-in-from-left-2",
-      left: "slide-in-from-right-2"
-    }
+      left: "slide-in-from-right-2",
+    },
   },
   defaultVariants: {
-    side: "bottom"
-  }
+    side: "bottom",
+  },
 });
 
 export type HoverCardContentProps = JSX.HTMLAttributes<HTMLDivElement> &

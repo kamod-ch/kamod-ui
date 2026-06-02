@@ -1,6 +1,6 @@
 <p align="center">
-  <img src="docs/images/logo-kamod-ui-dark.svg#gh-light-mode-only" alt="Kamod UI" width="162" />
-  <img src="docs/images/logo-kamod-ui-light.svg#gh-dark-mode-only" alt="Kamod UI" width="162" />
+  <img src=".github/assets/logo-kamod-ui-dark.svg#gh-light-mode-only" alt="Kamod UI" width="162" />
+  <img src=".github/assets/logo-kamod-ui-light.svg#gh-dark-mode-only" alt="Kamod UI" width="162" />
 </p>
 
 <h1 align="center">Kamod UI</h1>
@@ -18,7 +18,7 @@ Lightweight UI components for **Preact** and **Tailwind**: composable primitives
 
 If Kamod UI saves you time, consider **[starring the repo](https://github.com/kamod-ch/kamod-ui)** — it helps others discover the project.
 
-![hero](docs/images/kitchen-sink.png)
+![hero](.github/assets/kitchen-sink.png)
 
 ## Why Kamod UI?
 
@@ -31,11 +31,11 @@ Many UI kits are heavier than necessary, overly opinionated, or tied to React. K
 
 ## Comparison
 
-| Feature | Kamod UI | Radix UI | shadcn/ui |
-| --- | :---: | :---: | :---: |
-| Preact support | ✅ | ❌ | ❌ |
-| Tailwind-first | ✅ | ⚠️ | ✅ |
-| Lightweight | ✅ | ⚠️ | ⚠️ |
+| Feature        | Kamod UI | Radix UI | shadcn/ui |
+| -------------- | :------: | :------: | :-------: |
+| Preact support |    ✅    |    ❌    |    ❌     |
+| Tailwind-first |    ✅    |    ⚠️    |    ✅     |
+| Lightweight    |    ✅    |    ⚠️    |    ⚠️     |
 
 ## Live demo (GitHub Pages)
 
@@ -88,8 +88,8 @@ The theme import includes the required Tailwind source scan, dark variant and de
 Both styles below are supported. Use the per-component path if you want to be defensive about your bundle:
 
 ```ts
-import { Button } from "@kamod-ui/core";          // root barrel
-import { Button } from "@kamod-ui/core/button";    // per-component subpath
+import { Button } from "@kamod-ui/core"; // root barrel
+import { Button } from "@kamod-ui/core/button"; // per-component subpath
 ```
 
 The package is published with a minimal `sideEffects` list (progress indeterminate keyframes and CSS only), so modern bundlers tree-shake the root barrel reliably.
@@ -225,12 +225,12 @@ pnpm release:quick
 
 You can also run individual steps:
 
-| Script | What it does |
-| --- | --- |
-| `release:check` | `test:ci` + `build` + `qa:publint` + `qa:attw` |
-| `release:check:package` | `qa:package` (core build + publint + attw) |
-| `release:auth` | Verifies `npm whoami` against the npm registry |
-| `release:publish` | Publishes `@kamod-ui/core` to npm |
+| Script                  | What it does                                   |
+| ----------------------- | ---------------------------------------------- |
+| `release:check`         | `test:ci` + `build` + `qa:publint` + `qa:attw` |
+| `release:check:package` | `qa:package` (core build + publint + attw)     |
+| `release:auth`          | Verifies `npm whoami` against the npm registry |
+| `release:publish`       | Publishes `@kamod-ui/core` to npm              |
 
 Tagged pushes (`v*`) also trigger [`.github/workflows/publish.yml`](.github/workflows/publish.yml) on GitHub Actions.
 

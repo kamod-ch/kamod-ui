@@ -1,3 +1,0 @@
-{
-  "ignorePatterns": ["dist/**", "playwright-report/**", "test-results/**", "coverage/**"]
-}

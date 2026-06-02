@@ -6,7 +6,12 @@ export type ItemGroupProps = JSX.HTMLAttributes<HTMLDivElement> & {
 };
 
 export const ItemGroup = ({ class: className, children, ...rest }: ItemGroupProps) => (
-  <div role="list" data-slot="item-group" class={cn("group/item-group flex flex-col", className)} {...rest}>
+  <div
+    role="list"
+    data-slot="item-group"
+    class={cn("group/item-group flex flex-col", className)}
+    {...rest}
+  >
     {children}
   </div>
 );

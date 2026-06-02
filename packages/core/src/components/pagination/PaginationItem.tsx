@@ -9,4 +9,3 @@ export const PaginationItem = ({ children, ...rest }: PaginationItemProps) => (
     {children}
   </li>
 );
-

@@ -1,5 +1,5 @@
-import { useLayoutEffect, useRef } from "preact/hooks";
 import type { ComponentChildren, JSX } from "preact";
+import { useLayoutEffect, useRef } from "preact/hooks";
 import { cn } from "../../lib/utils";
 import { useCommand } from "./Command";
 
@@ -20,11 +20,15 @@ export const CommandList = ({ class: className, children, onMount, ...rest }: Co
     const root = listRef.current;
     if (!root) return;
 
-    const nodes = [...root.querySelectorAll<HTMLElement>('[data-slot="command-item"][data-match="true"]')];
+    const nodes = [
+      ...root.querySelectorAll<HTMLElement>('[data-slot="command-item"][data-match="true"]'),
+    ];
     hasVisibleItems.value = nodes.length > 0;
 
     if (!autoHighlight) {
-      root.querySelectorAll('[data-slot="command-item"]').forEach((el) => el.removeAttribute("data-highlighted"));
+      root
+        .querySelectorAll('[data-slot="command-item"]')
+        .forEach((el) => el.removeAttribute("data-highlighted"));
       prevQueryRef.current = query.value;
       return;
     }
@@ -49,7 +53,9 @@ export const CommandList = ({ class: className, children, onMount, ...rest }: Co
       }
     }
 
-    root.querySelectorAll('[data-slot="command-item"]').forEach((el) => el.removeAttribute("data-highlighted"));
+    root
+      .querySelectorAll('[data-slot="command-item"]')
+      .forEach((el) => el.removeAttribute("data-highlighted"));
     if (idx >= 0 && nodes[idx]) {
       nodes[idx].setAttribute("data-highlighted", "true");
       nodes[idx].scrollIntoView({ block: "nearest" });

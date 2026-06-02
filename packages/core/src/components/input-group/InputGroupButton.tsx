@@ -8,12 +8,12 @@ export const inputGroupButton = tv({
     size: {
       sm: "h-8 px-2",
       "icon-xs": "size-6 rounded-full p-0 has-[>svg]:p-0",
-      "icon-sm": "size-8 rounded-full p-0 has-[>svg]:p-0"
-    }
+      "icon-sm": "size-8 rounded-full p-0 has-[>svg]:p-0",
+    },
   },
   defaultVariants: {
-    size: "sm"
-  }
+    size: "sm",
+  },
 });
 
 export type InputGroupButtonProps = JSX.ButtonHTMLAttributes<HTMLButtonElement> &
@@ -39,4 +39,3 @@ export const InputGroupButton = ({
     {children}
   </button>
 );
-

@@ -7,5 +7,5 @@ export { ScrollArea, ScrollAreaCorner, ScrollBar };
 export default {
   Root: ScrollArea,
   Bar: ScrollBar,
-  Corner: ScrollAreaCorner
+  Corner: ScrollAreaCorner,
 };

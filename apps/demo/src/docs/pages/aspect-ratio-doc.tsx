@@ -1,5 +1,5 @@
-import type { ComponentChildren } from "preact";
 import { AspectRatio, DirectionProvider, Image } from "@kamod-ui/core";
+import type { ComponentChildren } from "preact";
 import { useState } from "preact/hooks";
 import { ApiReference } from "../components/ApiReference";
 import { CodeBlock } from "../components/CodeBlock";

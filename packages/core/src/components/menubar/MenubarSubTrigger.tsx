@@ -24,7 +24,13 @@ export type MenubarSubTriggerProps = JSX.ButtonHTMLAttributes<HTMLButtonElement>
   children?: ComponentChildren;
 };
 
-export const MenubarSubTrigger = ({ class: className, children, onClick, onPointerEnter, ...rest }: MenubarSubTriggerProps) => {
+export const MenubarSubTrigger = ({
+  class: className,
+  children,
+  onClick,
+  onPointerEnter,
+  ...rest
+}: MenubarSubTriggerProps) => {
   const sub = useMenubarSub();
   const open = sub.open.value;
 
@@ -40,7 +46,7 @@ export const MenubarSubTrigger = ({ class: className, children, onClick, onPoint
         "flex w-full cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-start text-sm outline-none",
         "focus:bg-accent focus:text-accent-foreground",
         "data-[state=open]:bg-accent data-[state=open]:text-accent-foreground",
-        className
+        className,
       )}
       onPointerEnter={(e) => {
         onPointerEnter?.(e);

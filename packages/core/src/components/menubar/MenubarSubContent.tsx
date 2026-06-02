@@ -6,7 +6,12 @@ export type MenubarSubContentProps = JSX.HTMLAttributes<HTMLDivElement> & {
   children?: ComponentChildren;
 };
 
-export const MenubarSubContent = ({ class: className, children, onPointerEnter, ...rest }: MenubarSubContentProps) => {
+export const MenubarSubContent = ({
+  class: className,
+  children,
+  onPointerEnter,
+  ...rest
+}: MenubarSubContentProps) => {
   const sub = useMenubarSub();
 
   if (!sub.open.value) return null;
@@ -18,7 +23,7 @@ export const MenubarSubContent = ({ class: className, children, onPointerEnter, 
       data-state="open"
       class={cn(
         "absolute start-full top-0 z-50 min-w-40 rounded-md border border-border bg-popover p-0 text-popover-foreground shadow-md outline-none ms-1 rtl:me-1 rtl:ms-0",
-        className
+        className,
       )}
       onPointerEnter={(e) => {
         onPointerEnter?.(e);

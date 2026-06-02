@@ -1,4 +1,4 @@
-import { cloneElement, isValidElement, type ComponentChildren, type JSX } from "preact";
+import { type ComponentChildren, cloneElement, isValidElement, type JSX } from "preact";
 import { useCollapsible } from "./Collapsible";
 
 export type CollapsibleTriggerProps = JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -56,7 +56,7 @@ export const CollapsibleTrigger = ({
       ref: (node: HTMLElement | null) => {
         callRef(childProps.ref, node);
         callRef(outerRef, node);
-      }
+      },
     } as never);
   }
 

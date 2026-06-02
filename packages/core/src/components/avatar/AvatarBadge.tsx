@@ -20,7 +20,7 @@ export const AvatarBadge = ({ class: className, children, ...rest }: AvatarBadge
         "group-data-[size=sm]/avatar:[&_svg]:hidden",
         "group-data-[size=default]/avatar:size-2.5 group-data-[size=default]/avatar:[&_svg]:size-2",
         "group-data-[size=lg]/avatar:bottom-1 group-data-[size=lg]/avatar:end-1 group-data-[size=lg]/avatar:size-3 group-data-[size=lg]/avatar:[&_svg]:size-2",
-        className
+        className,
       )}
       {...rest}
     >

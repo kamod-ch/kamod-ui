@@ -1,1 +1,4 @@
-export { CommandEmpty as ComboboxEmpty, type CommandEmptyProps as ComboboxEmptyProps } from "../command/CommandEmpty";
+export {
+  CommandEmpty as ComboboxEmpty,
+  type CommandEmptyProps as ComboboxEmptyProps,
+} from "../command/CommandEmpty";

@@ -13,7 +13,7 @@ const componentEntries: Record<string, string> = Object.fromEntries(
         return false;
       }
     })
-    .map((name) => [`components/${name}/index`, `${componentsDir}/${name}/index.ts`])
+    .map((name) => [`components/${name}/index`, `${componentsDir}/${name}/index.ts`]),
 );
 
 export default defineConfig({
@@ -22,7 +22,7 @@ export default defineConfig({
     "lib/utils": "src/lib/utils.ts",
     "lib/signals/index": "src/lib/signals/index.ts",
     "lib/interactive/index": "src/lib/interactive/index.ts",
-    ...componentEntries
+    ...componentEntries,
   },
   format: ["esm"],
   dts: true,
@@ -31,5 +31,5 @@ export default defineConfig({
   splitting: true,
   treeshake: true,
   target: "esnext",
-  external: ["preact", "preact/hooks", "preact/jsx-runtime", "@preact/signals"]
+  external: ["preact", "preact/hooks", "preact/jsx-runtime", "@preact/signals"],
 });

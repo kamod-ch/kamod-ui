@@ -13,7 +13,7 @@ const PopoverVariants = {
   popoverDescription,
   popoverHeader,
   popoverTitle,
-  popoverTrigger
+  popoverTrigger,
 };
 
 export {
@@ -24,7 +24,7 @@ export {
   PopoverHeader,
   PopoverTitle,
   PopoverTrigger,
-  PopoverVariants
+  PopoverVariants,
 };
 
 export default {
@@ -34,5 +34,5 @@ export default {
   Content: PopoverContent,
   Header: PopoverHeader,
   Title: PopoverTitle,
-  Description: PopoverDescription
+  Description: PopoverDescription,
 };

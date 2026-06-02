@@ -19,4 +19,3 @@ export const sonner = (args: { title: string; description?: string }) => {
 export const dismissSonner = (id: string) => {
   sonnerToasts.value = sonnerToasts.value.filter((toast) => toast.id !== id);
 };
-

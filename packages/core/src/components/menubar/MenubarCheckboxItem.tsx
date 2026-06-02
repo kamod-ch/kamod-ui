@@ -1,6 +1,6 @@
-import { useMemo } from "preact/hooks";
 import { signal } from "@preact/signals";
 import type { ComponentChildren, JSX } from "preact";
+import { useMemo } from "preact/hooks";
 import { cn } from "../../lib/utils";
 
 export type MenubarCheckboxItemProps = JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -57,7 +57,7 @@ export const MenubarCheckboxItem = ({
         "relative flex w-full cursor-default select-none items-center gap-2 rounded-sm py-1.5 ps-8 pe-2 text-start text-sm outline-none",
         "focus:bg-accent focus:text-accent-foreground",
         "disabled:pointer-events-none disabled:opacity-50",
-        className
+        className,
       )}
       onClick={(e) => {
         onClick?.(e);

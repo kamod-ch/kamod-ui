@@ -1,13 +1,13 @@
-import { signal, type Signal } from "@preact/signals";
+import { type Signal, signal } from "@preact/signals";
+import type { ComponentChildren, JSX } from "preact";
 import { createContext } from "preact";
 import { useCallback, useContext, useLayoutEffect, useMemo, useRef, useState } from "preact/hooks";
-import type { ComponentChildren, JSX } from "preact";
 import { cn } from "../../lib/utils";
 import { Popover } from "../popover/Popover";
 import {
   defaultComboboxItemKey,
   defaultComboboxItemString,
-  flattenComboboxItems
+  flattenComboboxItems,
 } from "./combobox-utils";
 
 export type ComboboxCommandNav = {
@@ -15,7 +15,10 @@ export type ComboboxCommandNav = {
   activateHighlighted: () => void;
 };
 
-function normalizeInitialKeys(multiple: boolean, defaultValue: string | string[] | undefined): string[] {
+function normalizeInitialKeys(
+  multiple: boolean,
+  defaultValue: string | string[] | undefined,
+): string[] {
   if (defaultValue === undefined || defaultValue === "") return [];
   if (multiple) return Array.isArray(defaultValue) ? [...defaultValue] : [defaultValue];
   return typeof defaultValue === "string" ? [defaultValue] : [];
@@ -120,16 +123,18 @@ export const Combobox = ({
 
   const itemToString = useMemo(
     () => (item: unknown) => defaultComboboxItemString(item, itemToStringValue),
-    [itemToStringValue]
+    [itemToStringValue],
   );
   const itemKey = useMemo(
     () => (item: unknown) => (itemKeyProp ? itemKeyProp(item) : defaultComboboxItemKey(item)),
-    [itemKeyProp]
+    [itemKeyProp],
   );
   const leafItems = useMemo(() => flattenComboboxItems(items), [items]);
 
   const isValueControlled = valueProp !== undefined;
-  const [internalKeys, setInternalKeys] = useState<string[]>(() => normalizeInitialKeys(multiple, defaultValue));
+  const [internalKeys, setInternalKeys] = useState<string[]>(() =>
+    normalizeInitialKeys(multiple, defaultValue),
+  );
 
   const selectedKeys = isValueControlled ? keysFromValueProp(multiple, valueProp) : internalKeys;
   const selectedKey = selectedKeys[0] ?? "";
@@ -149,7 +154,7 @@ export const Combobox = ({
       if (multiple) onValueChange?.(next);
       else onValueChange?.(next[0] ?? "");
     },
-    [isValueControlled, multiple, onValueChange]
+    [isValueControlled, multiple, onValueChange],
   );
 
   const selectByItem = useCallback(
@@ -157,24 +162,26 @@ export const Combobox = ({
       const key = itemKey(item);
       emitKeys(key ? [key] : []);
     },
-    [itemKey, emitKeys]
+    [itemKey, emitKeys],
   );
 
   const toggleByItem = useCallback(
     (item: unknown) => {
       const key = itemKey(item);
       const exists = selectedKeysRef.current.includes(key);
-      const next = exists ? selectedKeysRef.current.filter((k) => k !== key) : [...selectedKeysRef.current, key];
+      const next = exists
+        ? selectedKeysRef.current.filter((k) => k !== key)
+        : [...selectedKeysRef.current, key];
       emitKeys(next);
     },
-    [itemKey, emitKeys]
+    [itemKey, emitKeys],
   );
 
   const removeKey = useCallback(
     (key: string) => {
       emitKeys(selectedKeysRef.current.filter((k) => k !== key));
     },
-    [emitKeys]
+    [emitKeys],
   );
 
   const clearSelection = useCallback(() => {
@@ -185,7 +192,7 @@ export const Combobox = ({
     (key: string) => {
       return selectedKeys.includes(key);
     },
-    [selectedKeys]
+    [selectedKeys],
   );
 
   const handleOpenChange = useCallback(
@@ -206,7 +213,7 @@ export const Combobox = ({
         }
       }
     },
-    [liftedFilter, filterQuery, onOpenChange, multiple, leafItems, itemKey, itemToString]
+    [liftedFilter, filterQuery, onOpenChange, multiple, leafItems, itemKey, itemToString],
   );
 
   useLayoutEffect(() => {
@@ -243,7 +250,7 @@ export const Combobox = ({
       showClear,
       closeOnSelect,
       comboboxListRef,
-      commandNavRef
+      commandNavRef,
     }),
     [
       items,
@@ -267,8 +274,8 @@ export const Combobox = ({
       showClear,
       closeOnSelect,
       comboboxListRef,
-      commandNavRef
-    ]
+      commandNavRef,
+    ],
   );
 
   return (

@@ -16,8 +16,8 @@ export default defineConfig({
         "src/test/**",
         "src/**/index.ts",
         "src/index.ts",
-        "**/*.d.ts"
-      ]
-    }
-  }
+        "**/*.d.ts",
+      ],
+    },
+  },
 });

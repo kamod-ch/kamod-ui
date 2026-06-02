@@ -8,7 +8,7 @@ describe("RadioGroup", () => {
       <RadioGroup name="plan" defaultValue="a">
         <RadioGroupItem value="a">A</RadioGroupItem>
         <RadioGroupItem value="b">B</RadioGroupItem>
-      </RadioGroup>
+      </RadioGroup>,
     );
 
     const a = screen.getByRole("radio", { name: "A" });
@@ -28,7 +28,7 @@ describe("RadioGroup", () => {
       <RadioGroup name="ctl" value="x" onValueChange={onValueChange}>
         <RadioGroupItem value="x">X</RadioGroupItem>
         <RadioGroupItem value="y">Y</RadioGroupItem>
-      </RadioGroup>
+      </RadioGroup>,
     );
 
     const y = screen.getByRole("radio", { name: "Y" });
@@ -40,7 +40,7 @@ describe("RadioGroup", () => {
       <RadioGroup name="ctl" value="y" onValueChange={onValueChange}>
         <RadioGroupItem value="x">X</RadioGroupItem>
         <RadioGroupItem value="y">Y</RadioGroupItem>
-      </RadioGroup>
+      </RadioGroup>,
     );
     expect(y).toBeChecked();
   });
@@ -50,12 +50,11 @@ describe("RadioGroup", () => {
       <RadioGroup defaultValue="on">
         <RadioGroupItem value="on">On</RadioGroupItem>
         <RadioGroupItem value="off">Off</RadioGroupItem>
-      </RadioGroup>
+      </RadioGroup>,
     );
 
-    expect(screen.getByRole("radio", { name: "On" }).closest("[data-slot='radio-group-item']")).toHaveAttribute(
-      "data-state",
-      "checked"
-    );
+    expect(
+      screen.getByRole("radio", { name: "On" }).closest("[data-slot='radio-group-item']"),
+    ).toHaveAttribute("data-state", "checked");
   });
 });

@@ -6,8 +6,11 @@ export type TableCaptionProps = JSX.HTMLAttributes<HTMLTableCaptionElement> & {
 };
 
 export const TableCaption = ({ class: className, children, ...rest }: TableCaptionProps) => (
-  <caption data-slot="table-caption" class={cn("text-muted-foreground mt-4 text-sm", className)} {...rest}>
+  <caption
+    data-slot="table-caption"
+    class={cn("text-muted-foreground mt-4 text-sm", className)}
+    {...rest}
+  >
     {children}
   </caption>
 );
-

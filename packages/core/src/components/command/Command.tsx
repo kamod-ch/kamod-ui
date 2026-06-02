@@ -1,7 +1,7 @@
-import { signal, type Signal } from "@preact/signals";
+import { type Signal, signal } from "@preact/signals";
+import type { ComponentChildren, JSX } from "preact";
 import { createContext } from "preact";
 import { useCallback, useContext, useMemo } from "preact/hooks";
-import type { ComponentChildren, JSX } from "preact";
 import { cn } from "../../lib/utils";
 
 export type CommandContextValue = {
@@ -51,21 +51,25 @@ export const Command = ({
     (delta: number) => {
       const root = listRef.current;
       if (!root || !autoHighlight) return;
-      const nodes = [...root.querySelectorAll<HTMLElement>('[data-slot="command-item"][data-match="true"]')];
+      const nodes = [
+        ...root.querySelectorAll<HTMLElement>('[data-slot="command-item"][data-match="true"]'),
+      ];
       if (nodes.length === 0) return;
       let idx = highlightedIndex.value;
       if (idx < 0) idx = delta > 0 ? 0 : nodes.length - 1;
       else idx = (idx + delta + nodes.length) % nodes.length;
       highlightedIndex.value = idx;
     },
-    [autoHighlight, highlightedIndex, listRef]
+    [autoHighlight, highlightedIndex, listRef],
   );
 
   const activateHighlighted = useCallback(() => {
     if (!autoHighlight) return;
     const root = listRef.current;
     if (!root) return;
-    const nodes = [...root.querySelectorAll<HTMLElement>('[data-slot="command-item"][data-match="true"]')];
+    const nodes = [
+      ...root.querySelectorAll<HTMLElement>('[data-slot="command-item"][data-match="true"]'),
+    ];
     if (nodes.length === 0) return;
     let idx = highlightedIndex.value;
     if (idx < 0 || idx >= nodes.length) idx = 0;
@@ -80,14 +84,26 @@ export const Command = ({
       highlightedIndex,
       listRef,
       moveHighlight,
-      activateHighlighted
+      activateHighlighted,
     }),
-    [query, hasVisibleItems, autoHighlight, highlightedIndex, listRef, moveHighlight, activateHighlighted]
+    [
+      query,
+      hasVisibleItems,
+      autoHighlight,
+      highlightedIndex,
+      listRef,
+      moveHighlight,
+      activateHighlighted,
+    ],
   );
 
   return (
     <CommandContext.Provider value={contextValue}>
-      <div data-slot="command" class={cn("w-full rounded-md border bg-popover text-popover-foreground", className)} {...rest}>
+      <div
+        data-slot="command"
+        class={cn("w-full rounded-md border bg-popover text-popover-foreground", className)}
+        {...rest}
+      >
         {children}
       </div>
     </CommandContext.Provider>

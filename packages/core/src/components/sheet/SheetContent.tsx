@@ -3,6 +3,7 @@ import { createPortal } from "preact/compat";
 import { cn } from "../../lib/utils";
 import { useDialog } from "../dialog/Dialog";
 import { dialogViewportBleedClass } from "../dialog/DialogContent";
+import { useModalPanelA11y } from "../dialog/useModalPanelA11y";
 import { SheetClose } from "./SheetClose";
 
 export type SheetContentProps = JSX.HTMLAttributes<HTMLDivElement> & {
@@ -16,12 +17,10 @@ export type SheetContentProps = JSX.HTMLAttributes<HTMLDivElement> & {
 const sidePanelClass: Record<NonNullable<SheetContentProps["side"]>, string> = {
   right:
     "inset-y-0 right-0 h-full w-full max-w-md border-l data-[state=open]:slide-in-from-right data-[state=closed]:slide-out-to-right",
-  left:
-    "inset-y-0 left-0 h-full w-full max-w-md border-r data-[state=open]:slide-in-from-left data-[state=closed]:slide-out-to-left",
-  top:
-    "inset-x-0 top-0 max-h-[85dvh] h-auto w-full min-w-0 border-b rounded-b-xl data-[state=open]:slide-in-from-top data-[state=closed]:slide-out-to-top",
+  left: "inset-y-0 left-0 h-full w-full max-w-md border-r data-[state=open]:slide-in-from-left data-[state=closed]:slide-out-to-left",
+  top: "inset-x-0 top-0 max-h-[85dvh] h-auto w-full min-w-0 border-b rounded-b-xl data-[state=open]:slide-in-from-top data-[state=closed]:slide-out-to-top",
   bottom:
-    "inset-x-0 bottom-0 max-h-[85dvh] h-auto w-full min-w-0 border-t rounded-t-xl data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom"
+    "inset-x-0 bottom-0 max-h-[85dvh] h-auto w-full min-w-0 border-t rounded-t-xl data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom",
 };
 
 export const SheetContent = ({
@@ -31,12 +30,16 @@ export const SheetContent = ({
   class: className,
   forceMount = false,
   "data-slot": dataSlot = "sheet-content",
+  "aria-labelledby": ariaLabelledBy,
+  "aria-describedby": ariaDescribedBy,
   ...rest
 }: SheetContentProps) => {
   const dialog = useDialog();
-  if (!dialog.open.value && !forceMount) return null;
+  const isOpen = dialog.open.value;
+  const { panelRef, labelledBy, describedBy } = useModalPanelA11y(isOpen || forceMount);
+  if (!isOpen && !forceMount) return null;
 
-  const state = dialog.open.value ? "open" : "closed";
+  const state = isOpen ? "open" : "closed";
   const isHorizontalEdge = side === "top" || side === "bottom";
   const edgePadding =
     side === "top"
@@ -44,6 +47,11 @@ export const SheetContent = ({
       : side === "bottom"
         ? "px-6 pt-6 pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))]"
         : "p-6";
+
+  const modalA11y = {
+    "aria-labelledby": ariaLabelledBy ?? labelledBy,
+    "aria-describedby": ariaDescribedBy ?? describedBy,
+  };
 
   const tree = (
     <>
@@ -54,13 +62,16 @@ export const SheetContent = ({
         class={cn(
           "fade-in fade-out",
           dialogViewportBleedClass,
-          "z-40 bg-black/50 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fill-mode-forwards"
+          "z-40 bg-black/50 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fill-mode-forwards",
         )}
       />
       <div
+        ref={panelRef}
         {...rest}
+        {...modalA11y}
         role="dialog"
         aria-modal="true"
+        tabIndex={-1}
         data-side={side}
         data-state={state}
         data-slot={dataSlot}
@@ -70,8 +81,7 @@ export const SheetContent = ({
           "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fill-mode-forwards duration-300",
           sidePanelClass[side],
           className,
-          // Top/bottom sheets must span the viewport width; a consumer `max-w-*` (e.g. from copy-pasted right-sheet examples) would otherwise narrow them.
-          isHorizontalEdge && "w-full !max-w-none"
+          isHorizontalEdge && "w-full !max-w-none",
         )}
       >
         {showCloseButton ? (
@@ -80,7 +90,7 @@ export const SheetContent = ({
             aria-label="Close sheet"
             class={cn(
               "absolute right-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none",
-              side === "top" ? "top-[calc(1rem+env(safe-area-inset-top,0px))]" : "top-4"
+              side === "top" ? "top-[calc(1rem+env(safe-area-inset-top,0px))]" : "top-4",
             )}
           >
             Close
@@ -94,4 +104,3 @@ export const SheetContent = ({
   if (typeof document === "undefined") return tree;
   return createPortal(tree, document.body);
 };
-

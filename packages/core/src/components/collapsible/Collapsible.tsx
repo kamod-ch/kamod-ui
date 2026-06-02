@@ -1,7 +1,7 @@
 import { signal } from "@preact/signals";
+import type { ComponentChildren, JSX } from "preact";
 import { createContext } from "preact";
 import { useContext, useMemo } from "preact/hooks";
-import type { ComponentChildren, JSX } from "preact";
 
 export type CollapsibleContextValue = {
   open: boolean;

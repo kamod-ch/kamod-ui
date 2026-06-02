@@ -13,11 +13,11 @@ import {
   ThemeToggle,
 } from "@kamod-ui/core";
 import { Menu, SunMoon } from "lucide-preact";
+import type { ComponentChildren } from "preact";
+import { useMemo } from "preact/hooks";
 import { DemoShell, demoTopNavItems } from "../../layout/DemoShell";
 import { GithubRepoLink } from "../../layout/GithubRepoLink";
 import { ThemePresetSelect } from "../../theme/ThemePresetSelect";
-import type { ComponentChildren } from "preact";
-import { useMemo } from "preact/hooks";
 import { docsUpdatedComponentSlugs } from "../registry";
 import type { DocPageModule, DocSection } from "../types";
 

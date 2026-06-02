@@ -3,8 +3,8 @@
  */
 
 import {
-  rewriteKamodCoreImportsInDocString as rewriteWithSlugs,
   docImportFrom as docImportFromPath,
+  rewriteKamodCoreImportsInDocString as rewriteWithSlugs,
 } from "./doc-snippet-rewrite";
 import { docsPageSlugsLongestFirst } from "./registry";
 

@@ -1,4 +1,3 @@
-import type { ComponentChildren } from "preact";
 import {
   Alert,
   AlertAction,
@@ -8,6 +7,7 @@ import {
   DirectionProvider,
 } from "@kamod-ui/core";
 import { AlertCircle, AlertTriangle, CheckCircle2, Info } from "lucide-preact";
+import type { ComponentChildren } from "preact";
 import { useState } from "preact/hooks";
 import { ApiReference } from "../components/ApiReference";
 import { CodeBlock } from "../components/CodeBlock";

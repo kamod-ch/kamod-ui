@@ -8,7 +8,16 @@ import { DrawerTitle } from "./DrawerTitle";
 import { DrawerTrigger } from "./DrawerTrigger";
 
 export type { DrawerDirection } from "./drawer-context";
-export { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger };
+export {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+};
 
 export default {
   Root: Drawer,
@@ -18,6 +27,5 @@ export default {
   Footer: DrawerFooter,
   Title: DrawerTitle,
   Description: DrawerDescription,
-  Close: DrawerClose
+  Close: DrawerClose,
 };
-

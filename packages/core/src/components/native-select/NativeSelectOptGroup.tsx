@@ -7,4 +7,3 @@ export type NativeSelectOptGroupProps = JSX.OptgroupHTMLAttributes<HTMLOptGroupE
 export const NativeSelectOptGroup = ({ children, ...rest }: NativeSelectOptGroupProps) => (
   <optgroup {...rest}>{children}</optgroup>
 );
-

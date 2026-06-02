@@ -23,7 +23,7 @@ export const ContextMenuSubContent = ({
       data-state="open"
       class={cn(
         "absolute start-full top-0 z-50 min-w-40 rounded-md border border-border bg-popover p-1 text-popover-foreground shadow-md outline-none ms-1 rtl:me-1 rtl:ms-0",
-        className
+        className,
       )}
       onPointerEnter={(e) => {
         onPointerEnter?.(e);

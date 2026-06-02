@@ -1,4 +1,3 @@
-import type { ComponentChildren } from "preact";
 import {
   Avatar,
   AvatarBadge,
@@ -16,6 +15,7 @@ import {
   DropdownTrigger,
 } from "@kamod-ui/core";
 import { Plus } from "lucide-preact";
+import type { ComponentChildren } from "preact";
 import { useState } from "preact/hooks";
 import { ApiReference } from "../components/ApiReference";
 import { CodeBlock } from "../components/CodeBlock";

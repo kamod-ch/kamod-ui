@@ -8,7 +8,7 @@ describe("ToggleGroup", () => {
       <ToggleGroup type="single" defaultValue="left">
         <ToggleGroupItem value="left">Left</ToggleGroupItem>
         <ToggleGroupItem value="center">Center</ToggleGroupItem>
-      </ToggleGroup>
+      </ToggleGroup>,
     );
 
     const left = screen.getByRole("button", { name: "Left" });
@@ -27,7 +27,7 @@ describe("ToggleGroup", () => {
       <ToggleGroup type="multiple" defaultValue={["bold"]}>
         <ToggleGroupItem value="bold">Bold</ToggleGroupItem>
         <ToggleGroupItem value="italic">Italic</ToggleGroupItem>
-      </ToggleGroup>
+      </ToggleGroup>,
     );
 
     const bold = screen.getByRole("button", { name: "Bold" });
@@ -46,7 +46,7 @@ describe("ToggleGroup", () => {
       <ToggleGroup type="single" disabled orientation="vertical" variant="outline" size="lg">
         <ToggleGroupItem value="one">One</ToggleGroupItem>
         <ToggleGroupItem value="two">Two</ToggleGroupItem>
-      </ToggleGroup>
+      </ToggleGroup>,
     );
 
     const group = screen.getByRole("group");

@@ -1,7 +1,7 @@
-import { useLayoutEffect, useRef, useState } from "preact/hooks";
 import type { ComponentChildren, JSX } from "preact";
-import { useAccordionItem } from "./AccordionItem";
+import { useLayoutEffect, useRef, useState } from "preact/hooks";
 import { cn } from "../../lib/utils";
+import { useAccordionItem } from "./AccordionItem";
 
 export type AccordionContentProps = JSX.HTMLAttributes<HTMLDivElement> & {
   forceMount?: boolean;
@@ -42,7 +42,9 @@ export const AccordionContent = ({
 
   useLayoutEffect(() => {
     if (typeof window !== "undefined") {
-      prefersReducedMotionRef.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      prefersReducedMotionRef.current = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
     }
 
     const outer = outerRef.current;
@@ -250,7 +252,7 @@ export const AccordionContent = ({
       ? (style as JSX.CSSProperties)
       : {}),
     ["--kamodui-accordion-duration" as string]: duration,
-    ["--kamodui-accordion-timing-function" as string]: timingFunction
+    ["--kamodui-accordion-timing-function" as string]: timingFunction,
   };
 
   return (
@@ -260,7 +262,10 @@ export const AccordionContent = ({
       data-state={isOpen ? "open" : "closed"}
       onTransitionEnd={handleTransitionEnd}
       style={mergedStyle}
-      class={cn("min-h-0 overflow-hidden", (isAnimatingOpen || isAnimatingClose) && "will-change-[height]")}
+      class={cn(
+        "min-h-0 overflow-hidden",
+        (isAnimatingOpen || isAnimatingClose) && "will-change-[height]",
+      )}
       aria-hidden={!isOpen && !isAnimatingClose}
       inert={!isOpen || undefined}
       {...rest}

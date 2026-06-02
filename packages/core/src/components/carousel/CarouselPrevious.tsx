@@ -39,7 +39,13 @@ export type CarouselPreviousProps = Omit<JSX.ButtonHTMLAttributes<HTMLButtonElem
   children?: ComponentChildren;
 };
 
-export const CarouselPrevious = ({ children, class: className, onClick, disabled, ...rest }: CarouselPreviousProps) => {
+export const CarouselPrevious = ({
+  children,
+  class: className,
+  onClick,
+  disabled,
+  ...rest
+}: CarouselPreviousProps) => {
   const ctx = useCarousel(false);
   const vertical = ctx?.orientation === "vertical";
   const canPrev = ctx?.canScrollPrev.value ?? false;
@@ -58,7 +64,7 @@ export const CarouselPrevious = ({ children, class: className, onClick, disabled
         vertical
           ? "-top-12 left-1/2 -translate-x-1/2"
           : "-start-12 top-1/2 -translate-y-1/2 rtl:-rotate-180",
-        className
+        className,
       )}
       onClick={(event) => {
         ctx?.scrollPrev();

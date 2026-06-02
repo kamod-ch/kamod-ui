@@ -12,7 +12,7 @@ describe("SelectableCard", () => {
         <SelectableCard value="b">
           <span>Bravo</span>
         </SelectableCard>
-      </RadioGroup>
+      </RadioGroup>,
     );
 
     const a = screen.getByRole("radio", { name: "Alpha" });

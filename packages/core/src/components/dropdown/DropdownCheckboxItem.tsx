@@ -3,7 +3,10 @@ import type { ComponentChildren, JSX } from "preact";
 import { useEffect, useMemo } from "preact/hooks";
 import { cn } from "../../lib/utils";
 
-export type DropdownCheckboxItemProps = Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, "children"> & {
+export type DropdownCheckboxItemProps = Omit<
+  JSX.ButtonHTMLAttributes<HTMLButtonElement>,
+  "children"
+> & {
   checked?: boolean;
   defaultChecked?: boolean;
   onCheckedChange?: (checked: boolean) => void;
@@ -40,7 +43,7 @@ export const DropdownCheckboxItem = ({
         "relative flex w-full cursor-default select-none items-center gap-1 rounded-sm py-0.5 ps-7 pe-1.5 text-sm outline-none transition-colors duration-100",
         "hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
         "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-        className
+        className,
       )}
       onClick={(event) => {
         onClick?.(event);
@@ -53,7 +56,10 @@ export const DropdownCheckboxItem = ({
       }}
       {...rest}
     >
-      <span class="pointer-events-none absolute start-1.5 flex size-3 items-center justify-center" aria-hidden>
+      <span
+        class="pointer-events-none absolute start-1.5 flex size-3 items-center justify-center"
+        aria-hidden
+      >
         {checked ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"

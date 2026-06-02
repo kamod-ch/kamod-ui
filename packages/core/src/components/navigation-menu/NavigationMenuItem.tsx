@@ -1,7 +1,7 @@
-import { useMemo } from "preact/hooks";
 import type { ComponentChildren, JSX } from "preact";
-import { cn } from "../../lib/utils";
+import { useMemo } from "preact/hooks";
 import { createIdFactory } from "../../lib/interactive";
+import { cn } from "../../lib/utils";
 import { NavigationMenuItemContext } from "./navigation-menu-context";
 
 const nextItemValue = createIdFactory("nm-item");
@@ -12,7 +12,12 @@ export type NavigationMenuItemProps = JSX.HTMLAttributes<HTMLLIElement> & {
   value?: string;
 };
 
-export const NavigationMenuItem = ({ class: className, children, value: valueProp, ...rest }: NavigationMenuItemProps) => {
+export const NavigationMenuItem = ({
+  class: className,
+  children,
+  value: valueProp,
+  ...rest
+}: NavigationMenuItemProps) => {
   const value = useMemo(() => nextItemValue(valueProp), [valueProp]);
 
   return (

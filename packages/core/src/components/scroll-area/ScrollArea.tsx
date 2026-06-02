@@ -1,10 +1,10 @@
 import type { ComponentChild, ComponentChildren, JSX } from "preact";
 import { isValidElement, toChildArray } from "preact";
-import { useLayoutEffect, useRef, useMemo } from "preact/hooks";
+import { useLayoutEffect, useMemo, useRef } from "preact/hooks";
 import { cn } from "../../lib/utils";
-import { ScrollAreaContext } from "./scroll-area-context";
 import { ScrollAreaCorner } from "./ScrollAreaCorner";
 import { ScrollBar } from "./ScrollBar";
+import { ScrollAreaContext } from "./scroll-area-context";
 
 const hideNativeScrollbar =
   "[scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden";

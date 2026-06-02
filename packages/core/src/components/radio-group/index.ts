@@ -5,5 +5,5 @@ export { RadioGroup, RadioGroupItem };
 
 export default {
   Root: RadioGroup,
-  Item: RadioGroupItem
+  Item: RadioGroupItem,
 };

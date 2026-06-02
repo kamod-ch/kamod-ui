@@ -1,8 +1,8 @@
 import { signal } from "@preact/signals";
-import { useEffect, useMemo, useRef } from "preact/hooks";
 import type { ComponentChildren, JSX } from "preact";
-import { cn } from "../../lib/utils";
+import { useEffect, useMemo, useRef } from "preact/hooks";
 import { createDismissableLayer } from "../../lib/interactive";
+import { cn } from "../../lib/utils";
 import { MenubarRootContext } from "./menubar-context";
 
 export type MenubarProps = JSX.HTMLAttributes<HTMLDivElement> & {
@@ -20,9 +20,9 @@ export const Menubar = ({ class: className, children, dir, ...rest }: MenubarPro
       setOpenMenuId: (id: string | null) => {
         openMenuId.value = id;
       },
-      rootRef
+      rootRef,
     }),
-    [openMenuId]
+    [openMenuId],
   );
 
   useEffect(() => {
@@ -31,7 +31,7 @@ export const Menubar = ({ class: className, children, dir, ...rest }: MenubarPro
       open: () => openMenuId.value != null,
       onDismiss: () => {
         openMenuId.value = null;
-      }
+      },
     });
     return () => layer.dispose();
   }, [openMenuId]);
@@ -45,7 +45,7 @@ export const Menubar = ({ class: className, children, dir, ...rest }: MenubarPro
         dir={dir}
         class={cn(
           "flex h-9 items-center gap-0 rounded-md border border-border bg-background p-1 shadow-xs",
-          className
+          className,
         )}
         {...rest}
       >

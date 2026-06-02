@@ -7,14 +7,26 @@ export type TabsTriggerProps = JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
   children?: ComponentChildren;
 };
 
-export const TabsTrigger = ({ value, class: className, children, onClick, onKeyDown, ...rest }: TabsTriggerProps) => {
+export const TabsTrigger = ({
+  value,
+  class: className,
+  children,
+  onClick,
+  onKeyDown,
+  id: idProp,
+  ...rest
+}: TabsTriggerProps) => {
   const tabs = useTabs();
   const active = tabs.value.value === value;
+  const id = idProp ?? tabs.triggerId(value);
+  const controlsId = tabs.contentId(value);
 
   return (
     <button
       type="button"
       role="tab"
+      id={id}
+      aria-controls={controlsId}
       class={cn(
         "relative inline-flex h-full min-h-0 flex-1 items-center justify-center gap-1.5 border border-transparent px-3 py-1 text-sm whitespace-nowrap text-muted-foreground transition-[color,box-shadow,background-color,font-weight] duration-200 ease-out",
         "group-data-[orientation=horizontal]/tabs:rounded-full group-data-[orientation=vertical]/tabs:rounded-md",
@@ -34,7 +46,7 @@ export const TabsTrigger = ({ value, class: className, children, onClick, onKeyD
         "group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5",
         "group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5",
         "group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100",
-        className
+        className,
       )}
       data-slot="tabs-trigger"
       data-state={active ? "active" : "inactive"}
@@ -50,12 +62,15 @@ export const TabsTrigger = ({ value, class: className, children, onClick, onKeyD
       onKeyDown={(event) => {
         onKeyDown?.(event);
         if (event.defaultPrevented) return;
-        if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End"].includes(event.key)) return;
+        if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End"].includes(event.key))
+          return;
 
         const tabList = event.currentTarget.closest('[role="tablist"]');
         if (!tabList) return;
 
-        const triggers = Array.from(tabList.querySelectorAll<HTMLButtonElement>('[role="tab"]:not([disabled])'));
+        const triggers = Array.from(
+          tabList.querySelectorAll<HTMLButtonElement>('[role="tab"]:not([disabled])'),
+        );
         const currentIndex = triggers.indexOf(event.currentTarget);
         if (currentIndex === -1 || triggers.length === 0) return;
 
@@ -64,10 +79,14 @@ export const TabsTrigger = ({ value, class: className, children, onClick, onKeyD
 
         if (event.key === "Home") nextIndex = 0;
         if (event.key === "End") nextIndex = triggers.length - 1;
-        if (event.key === "ArrowRight" && horizontal) nextIndex = (currentIndex + 1) % triggers.length;
-        if (event.key === "ArrowLeft" && horizontal) nextIndex = (currentIndex - 1 + triggers.length) % triggers.length;
-        if (event.key === "ArrowDown" && !horizontal) nextIndex = (currentIndex + 1) % triggers.length;
-        if (event.key === "ArrowUp" && !horizontal) nextIndex = (currentIndex - 1 + triggers.length) % triggers.length;
+        if (event.key === "ArrowRight" && horizontal)
+          nextIndex = (currentIndex + 1) % triggers.length;
+        if (event.key === "ArrowLeft" && horizontal)
+          nextIndex = (currentIndex - 1 + triggers.length) % triggers.length;
+        if (event.key === "ArrowDown" && !horizontal)
+          nextIndex = (currentIndex + 1) % triggers.length;
+        if (event.key === "ArrowUp" && !horizontal)
+          nextIndex = (currentIndex - 1 + triggers.length) % triggers.length;
 
         if (nextIndex === currentIndex) return;
         event.preventDefault();
@@ -82,4 +101,3 @@ export const TabsTrigger = ({ value, class: className, children, onClick, onKeyD
     </button>
   );
 };
-

@@ -1,6 +1,6 @@
 import type { ComponentChildren } from "preact";
-import { withBasePath } from "../base-path";
 import kamodUiLogo from "../assets/kamod-ui.svg";
+import { withBasePath } from "../base-path";
 
 export type DemoTopNavItem = {
   label: string;

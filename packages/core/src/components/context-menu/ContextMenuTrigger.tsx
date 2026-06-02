@@ -1,5 +1,5 @@
-import { useRef } from "preact/hooks";
 import type { ComponentChildren, JSX } from "preact";
+import { useRef } from "preact/hooks";
 import { cn } from "../../lib/utils";
 import { useContextMenu } from "./ContextMenu";
 

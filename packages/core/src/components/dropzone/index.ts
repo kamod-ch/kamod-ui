@@ -1,5 +1,4 @@
 export { Dropzone } from "./Dropzone";
-export { DropzoneUploadIndicator } from "./DropzoneUploadIndicator";
-export { DropzoneLoadingIndicator } from "./DropzoneLoadingIndicator";
 export { DropzoneFilesList } from "./DropzoneFilesList";
-
+export { DropzoneLoadingIndicator } from "./DropzoneLoadingIndicator";
+export { DropzoneUploadIndicator } from "./DropzoneUploadIndicator";

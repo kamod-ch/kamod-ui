@@ -1,6 +1,6 @@
 import type { ComponentChildren } from "preact";
 import { Sheet, type SheetProps } from "../sheet/Sheet";
-import { DrawerProvider, type DrawerDirection } from "./drawer-context";
+import { type DrawerDirection, DrawerProvider } from "./drawer-context";
 
 export type DrawerProps = SheetProps & {
   /** Edge the drawer opens from (shadcn/Vaul `direction`). Default `bottom`. */

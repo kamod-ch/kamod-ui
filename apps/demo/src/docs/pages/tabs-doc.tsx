@@ -1,4 +1,3 @@
-import type { ComponentChildren } from "preact";
 import {
   Button,
   Card,
@@ -14,6 +13,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@kamod-ui/core";
+import type { ComponentChildren } from "preact";
 import { ApiReference } from "../components/ApiReference";
 import { CodeBlock } from "../components/CodeBlock";
 import type { DocPageModule } from "../types";

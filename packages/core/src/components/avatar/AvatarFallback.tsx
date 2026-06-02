@@ -16,7 +16,7 @@ export const AvatarFallback = ({ class: className, children, ...rest }: AvatarFa
         "bg-muted text-muted-foreground absolute inset-0 z-0 inline-flex size-full items-center justify-center font-medium",
         "text-sm group-data-[size=sm]/avatar:text-xs group-data-[size=lg]/avatar:text-base",
         !showFallback && "hidden",
-        className
+        className,
       )}
       {...rest}
     >

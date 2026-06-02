@@ -13,7 +13,7 @@ export const ComboboxChips = ({ class: className, children, ...rest }: ComboboxC
       data-slot="combobox-chips"
       class={cn(
         "border-input bg-background flex min-h-8 w-full min-w-44 flex-wrap items-center gap-1 rounded-md border px-2 py-1 shadow-xs outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50",
-        className
+        className,
       )}
       {...rest}
     >

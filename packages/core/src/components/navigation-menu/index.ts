@@ -6,6 +6,12 @@ import { NavigationMenuList } from "./NavigationMenuList";
 import { NavigationMenuTrigger } from "./NavigationMenuTrigger";
 import { navigationMenuTriggerStyle } from "./navigationMenuTriggerStyle";
 
+export type { NavigationMenuProps } from "./NavigationMenu";
+export type { NavigationMenuContentProps } from "./NavigationMenuContent";
+export type { NavigationMenuItemProps } from "./NavigationMenuItem";
+export type { NavigationMenuLinkProps } from "./NavigationMenuLink";
+export type { NavigationMenuListProps } from "./NavigationMenuList";
+export type { NavigationMenuTriggerProps } from "./NavigationMenuTrigger";
 export {
   NavigationMenu,
   NavigationMenuContent,
@@ -13,15 +19,8 @@ export {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle
+  navigationMenuTriggerStyle,
 };
-
-export type { NavigationMenuProps } from "./NavigationMenu";
-export type { NavigationMenuContentProps } from "./NavigationMenuContent";
-export type { NavigationMenuItemProps } from "./NavigationMenuItem";
-export type { NavigationMenuLinkProps } from "./NavigationMenuLink";
-export type { NavigationMenuListProps } from "./NavigationMenuList";
-export type { NavigationMenuTriggerProps } from "./NavigationMenuTrigger";
 
 export default {
   Root: NavigationMenu,
@@ -29,5 +28,5 @@ export default {
   Item: NavigationMenuItem,
   Link: NavigationMenuLink,
   Trigger: NavigationMenuTrigger,
-  Content: NavigationMenuContent
+  Content: NavigationMenuContent,
 };

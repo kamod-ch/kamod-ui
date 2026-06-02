@@ -1,5 +1,5 @@
-import { useState } from "preact/hooks";
 import type { ComponentChildren, JSX } from "preact";
+import { useState } from "preact/hooks";
 import { cn } from "../../lib/utils";
 import { Button } from "../button/Button";
 import { Calendar } from "../calendar/Calendar";
@@ -9,7 +9,12 @@ import { PopoverTrigger } from "../popover/PopoverTrigger";
 
 /** Long date label (~`date-fns` `PPP`) without extra dependencies. */
 export const formatDatePickerDisplay = (date: Date, locale?: string) =>
-  date.toLocaleDateString(locale, { weekday: "long", month: "long", day: "numeric", year: "numeric" });
+  date.toLocaleDateString(locale, {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
 
 const CalendarGlyph = ({ class: className }: { class?: string }) => (
   <svg
@@ -93,7 +98,7 @@ export const DatePicker = ({
               class={cn(
                 "data-[empty=true]:text-muted-foreground w-[min(100%,280px)] text-start font-normal",
                 triggerIcon === "chevron" && "justify-between",
-                (triggerIcon === "calendar" || triggerIcon === "none") && "justify-start gap-2"
+                (triggerIcon === "calendar" || triggerIcon === "none") && "justify-start gap-2",
               )}
             >
               {triggerIcon === "calendar" ? iconEl : null}

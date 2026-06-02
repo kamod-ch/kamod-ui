@@ -1,5 +1,3 @@
-import { Fragment } from "preact";
-import { useState } from "preact/hooks";
 import {
   Button,
   Combobox,
@@ -20,6 +18,8 @@ import {
   ItemTitle,
 } from "@kamod-ui/core";
 import { Check, ChevronDown } from "lucide-preact";
+import { Fragment } from "preact";
+import { useState } from "preact/hooks";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 const frameworks = ["Next.js", "SvelteKit", "Nuxt.js", "Remix", "Astro"] as const;

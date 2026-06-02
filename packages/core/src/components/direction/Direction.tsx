@@ -1,6 +1,6 @@
+import type { ComponentChildren, JSX } from "preact";
 import { createContext } from "preact";
 import { useContext } from "preact/hooks";
-import type { ComponentChildren, JSX } from "preact";
 import { cn } from "../../lib/utils";
 
 export type DirectionValue = "ltr" | "rtl";

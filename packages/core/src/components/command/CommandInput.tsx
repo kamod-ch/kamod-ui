@@ -4,7 +4,12 @@ import { useCommand } from "./Command";
 
 export type CommandInputProps = JSX.InputHTMLAttributes<HTMLInputElement>;
 
-export const CommandInput = ({ class: className, onInput, onKeyDown, ...rest }: CommandInputProps) => {
+export const CommandInput = ({
+  class: className,
+  onInput,
+  onKeyDown,
+  ...rest
+}: CommandInputProps) => {
   const { query, autoHighlight, moveHighlight, activateHighlighted } = useCommand();
   void query.value;
   return (

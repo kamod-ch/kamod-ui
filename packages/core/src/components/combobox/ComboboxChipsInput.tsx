@@ -28,7 +28,7 @@ export const ComboboxChipsInput = ({
       data-slot="combobox-chips-input"
       class={cn(
         "placeholder:text-muted-foreground min-w-[6rem] flex-1 border-0 bg-transparent px-1 py-1 text-sm outline-none",
-        className
+        className,
       )}
       value={ctx.filterQuery.value}
       onInput={(event) => {

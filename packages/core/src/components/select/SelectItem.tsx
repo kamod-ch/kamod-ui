@@ -35,7 +35,7 @@ export const SelectItem = ({
       id: itemId,
       value,
       ref: itemRef.current,
-      disabled
+      disabled,
     });
     return () => {
       select.unregisterItem(itemId);
@@ -62,7 +62,7 @@ export const SelectItem = ({
         "data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50",
         "data-[highlighted=true]:bg-accent data-[highlighted=true]:text-accent-foreground",
         selected && "font-medium",
-        className
+        className,
       )}
       onFocus={(event) => {
         if (!disabled) select.setActiveItemId(itemId);

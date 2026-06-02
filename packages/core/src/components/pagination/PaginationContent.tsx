@@ -5,7 +5,11 @@ export type PaginationContentProps = JSX.HTMLAttributes<HTMLUListElement> & {
   children?: ComponentChildren;
 };
 
-export const PaginationContent = ({ class: className, children, ...rest }: PaginationContentProps) => (
+export const PaginationContent = ({
+  class: className,
+  children,
+  ...rest
+}: PaginationContentProps) => (
   <ul
     data-slot="pagination-content"
     class={cn("flex flex-row items-center gap-1 list-none", className)}
@@ -14,4 +18,3 @@ export const PaginationContent = ({ class: className, children, ...rest }: Pagin
     {children}
   </ul>
 );
-

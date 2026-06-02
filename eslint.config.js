@@ -1,7 +1,6 @@
-import js from "@eslint/js";
-import tseslint from "typescript-eslint";
 import jsxA11y from "eslint-plugin-jsx-a11y";
 import globals from "globals";
+import tseslint from "typescript-eslint";
 
 export default tseslint.config(
   {
@@ -18,10 +17,9 @@ export default tseslint.config(
       "**/inbox/**",
       "**/proofshot-artifacts/**",
       "**/*.tsbuildinfo",
-      "**/*.tgz"
-    ]
+      "**/*.tgz",
+    ],
   },
-  js.configs.recommended,
   ...tseslint.configs.recommended,
   {
     files: ["**/*.{ts,tsx,js,mjs,cjs}"],
@@ -30,11 +28,11 @@ export default tseslint.config(
       sourceType: "module",
       globals: {
         ...globals.browser,
-        ...globals.node
-      }
+        ...globals.node,
+      },
     },
     plugins: {
-      "jsx-a11y": jsxA11y
+      "jsx-a11y": jsxA11y,
     },
     rules: {
       ...jsxA11y.configs.recommended.rules,
@@ -44,36 +42,34 @@ export default tseslint.config(
           argsIgnorePattern: "^_",
           varsIgnorePattern: "^_",
           caughtErrorsIgnorePattern: "^_",
-          destructuredArrayIgnorePattern: "^_"
-        }
+          destructuredArrayIgnorePattern: "^_",
+        },
       ],
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/no-empty-object-type": "off",
       "@typescript-eslint/consistent-type-imports": [
         "warn",
-        { prefer: "type-imports", fixStyle: "inline-type-imports" }
+        { prefer: "type-imports", fixStyle: "inline-type-imports" },
       ],
-      "no-empty": ["warn", { allowEmptyCatch: true }],
-      "no-useless-escape": "warn",
       "jsx-a11y/no-static-element-interactions": "off",
       "jsx-a11y/click-events-have-key-events": "off",
       "jsx-a11y/no-noninteractive-element-interactions": "off",
       "jsx-a11y/no-autofocus": "off",
       "jsx-a11y/label-has-associated-control": "off",
-      "jsx-a11y/anchor-is-valid": "off"
-    }
+      "jsx-a11y/anchor-is-valid": "off",
+    },
   },
   {
     files: ["**/*.test.{ts,tsx}", "**/test/**", "**/e2e/**", "**/*.spec.{ts,tsx}"],
     rules: {
       "@typescript-eslint/no-unused-expressions": "off",
-      "@typescript-eslint/no-explicit-any": "off"
-    }
+      "@typescript-eslint/no-explicit-any": "off",
+    },
   },
   {
     files: ["**/scripts/**/*.{js,mjs,cjs,ts}"],
     rules: {
-      "no-console": "off"
-    }
-  }
+      "no-console": "off",
+    },
+  },
 );

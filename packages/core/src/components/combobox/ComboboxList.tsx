@@ -7,12 +7,19 @@ export type ComboboxListProps = Omit<CommandListProps, "children"> & {
   children: ComponentChildren | ((item: unknown, index: number) => ComponentChildren);
 };
 
-export const ComboboxList = ({ items: itemsProp, children, onMount, ...rest }: ComboboxListProps) => {
+export const ComboboxList = ({
+  items: itemsProp,
+  children,
+  onMount,
+  ...rest
+}: ComboboxListProps) => {
   const ctx = useCombobox();
   const list = itemsProp !== undefined ? itemsProp : ctx.items;
   const body =
     typeof children === "function"
-      ? list.map((item, index) => (children as (i: unknown, idx: number) => ComponentChildren)(item, index))
+      ? list.map((item, index) =>
+          (children as (i: unknown, idx: number) => ComponentChildren)(item, index),
+        )
       : children;
   return (
     <CommandList

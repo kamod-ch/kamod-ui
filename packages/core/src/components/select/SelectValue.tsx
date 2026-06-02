@@ -7,7 +7,12 @@ export type SelectValueProps = JSX.HTMLAttributes<HTMLSpanElement> & {
   children?: ComponentChildren;
 };
 
-export const SelectValue = ({ placeholder = "Select", children, class: className, ...rest }: SelectValueProps) => {
+export const SelectValue = ({
+  placeholder = "Select",
+  children,
+  class: className,
+  ...rest
+}: SelectValueProps) => {
   const select = useSelect();
   return (
     <span data-slot="select-value" class={cn("line-clamp-1 text-left", className)} {...rest}>
@@ -15,4 +20,3 @@ export const SelectValue = ({ placeholder = "Select", children, class: className
     </span>
   );
 };
-

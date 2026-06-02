@@ -1,4 +1,4 @@
-import { cloneElement, isValidElement, type ComponentChildren, type JSX } from "preact";
+import { type ComponentChildren, cloneElement, isValidElement, type JSX } from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
 import { cn } from "../../lib/utils";
 
@@ -10,7 +10,7 @@ export const badge = tv({
     "transition-all outline-none focus-visible:ring-3",
     "aria-invalid:border-destructive aria-invalid:focus-visible:ring-destructive/20",
     "dark:aria-invalid:border-destructive/50 dark:aria-invalid:focus-visible:ring-destructive/40",
-    "has-data-[icon=inline-end]:pe-1.5 has-data-[icon=inline-start]:ps-1.5"
+    "has-data-[icon=inline-end]:pe-1.5 has-data-[icon=inline-start]:ps-1.5",
   ],
   variants: {
     variant: {
@@ -25,16 +25,16 @@ export const badge = tv({
       info: "bg-info text-info-foreground focus-visible:ring-info/50",
       success: "bg-success text-success-foreground focus-visible:ring-success/50",
       warning: "bg-warning text-warning-foreground focus-visible:ring-warning/50",
-      error: "border border-error/60 bg-error/90 text-error-foreground focus-visible:ring-error/50"
+      error: "border border-error/60 bg-error/90 text-error-foreground focus-visible:ring-error/50",
     },
     size: {
       xxs: "px-2 py-0 text-[10px] leading-4 [&_svg:not([class*='size-'])]:size-2.5",
       xs: "px-2.5 py-0 text-xs leading-4 [&_svg:not([class*='size-'])]:size-3",
       sm: "px-2.5 py-0.5 text-xs [&_svg:not([class*='size-'])]:size-3",
       md: "px-3 py-0.5 text-sm [&_svg:not([class*='size-'])]:size-4",
-      lg: "px-4 py-1 text-base [&_svg:not([class*='size-'])]:size-4.5"
+      lg: "px-4 py-1 text-base [&_svg:not([class*='size-'])]:size-4.5",
     },
-    isLink: { true: "cursor-pointer", false: "" }
+    isLink: { true: "cursor-pointer", false: "" },
   },
   compoundVariants: [
     { isLink: true, variant: "default", className: "hover:bg-foreground/90" },
@@ -47,9 +47,9 @@ export const badge = tv({
     { isLink: true, variant: "info", className: "hover:bg-info/90" },
     { isLink: true, variant: "success", className: "hover:bg-success/90" },
     { isLink: true, variant: "warning", className: "hover:bg-warning/90" },
-    { isLink: true, variant: "error", className: "hover:bg-error" }
+    { isLink: true, variant: "error", className: "hover:bg-error" },
   ],
-  defaultVariants: { variant: "default", size: "md", isLink: false }
+  defaultVariants: { variant: "default", size: "md", isLink: false },
 });
 
 type BadgeCommon = VariantProps<typeof badge> & {
@@ -70,7 +70,14 @@ type BadgeAsAnchor = BadgeCommon &
 
 export type BadgeProps = BadgeAsSpan | BadgeAsAnchor;
 
-export const Badge = ({ variant, size, class: className, children, asChild = false, ...rest }: BadgeProps) => {
+export const Badge = ({
+  variant,
+  size,
+  class: className,
+  children,
+  asChild = false,
+  ...rest
+}: BadgeProps) => {
   const resolvedVariant = variant ?? "default";
   const resolvedSize = size ?? "md";
   const isHref = "href" in rest && typeof rest.href === "string";
@@ -80,7 +87,7 @@ export const Badge = ({ variant, size, class: className, children, asChild = fal
     variant: resolvedVariant,
     size: resolvedSize,
     isLink,
-    class: className
+    class: className,
   });
 
   if (asChild) {
@@ -98,15 +105,15 @@ export const Badge = ({ variant, size, class: className, children, asChild = fal
       variant: resolvedVariant,
       size: resolvedSize,
       isLink: childIsAnchor,
-      class: className
+      class: className,
     });
 
     return cloneElement(children, {
       ...(rest as JSX.HTMLAttributes<HTMLElement>),
-      ...(childProps ?? {}),
+      ...childProps,
       class: cn(asChildClass, childProps.class, childProps.className),
       "data-slot": "badge",
-      "data-variant": resolvedVariant
+      "data-variant": resolvedVariant,
     });
   }
 
@@ -124,7 +131,12 @@ export const Badge = ({ variant, size, class: className, children, asChild = fal
   }
 
   return (
-    <span class={resolvedClass} data-slot="badge" data-variant={resolvedVariant} {...(rest as JSX.HTMLAttributes<HTMLSpanElement>)}>
+    <span
+      class={resolvedClass}
+      data-slot="badge"
+      data-variant={resolvedVariant}
+      {...(rest as JSX.HTMLAttributes<HTMLSpanElement>)}
+    >
       {children}
     </span>
   );

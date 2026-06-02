@@ -10,7 +10,7 @@ const InputGroupVariants = {
   inputGroupAddon,
   inputGroupButton,
   inputGroupInput,
-  inputGroupTextarea
+  inputGroupTextarea,
 };
 
 export {
@@ -20,7 +20,7 @@ export {
   InputGroupInput,
   InputGroupText,
   InputGroupTextarea,
-  InputGroupVariants
+  InputGroupVariants,
 };
 
 export default {
@@ -29,6 +29,5 @@ export default {
   Button: InputGroupButton,
   Input: InputGroupInput,
   Text: InputGroupText,
-  Textarea: InputGroupTextarea
+  Textarea: InputGroupTextarea,
 };
-

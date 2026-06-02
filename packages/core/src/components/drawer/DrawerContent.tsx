@@ -27,7 +27,7 @@ export const DrawerContent = ({
       class={cn(
         "bg-muted mx-auto h-1.5 w-[100px] shrink-0 rounded-full",
         direction === "bottom" && "mb-2",
-        direction === "top" && "mt-4"
+        direction === "top" && "mt-4",
       )}
     />
   );

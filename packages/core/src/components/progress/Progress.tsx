@@ -15,21 +15,24 @@ const progressRootClass = [
   "relative h-2.5 w-full overflow-hidden rounded-full bg-muted",
   "ring-1 ring-inset ring-border/55 dark:ring-border/45",
   "shadow-[inset_0_1px_2px_color-mix(in_oklab,var(--foreground)_6%,transparent)]",
-  "dark:shadow-[inset_0_1px_2px_color-mix(in_oklab,black_28%,transparent)]"
+  "dark:shadow-[inset_0_1px_2px_color-mix(in_oklab,black_28%,transparent)]",
 ].join(" ");
 
 const progressIndicatorShared = [
   "rounded-full bg-primary",
-  "shadow-[inset_0_-1px_0_color-mix(in_oklab,var(--primary-foreground)_22%,transparent)]"
+  "shadow-[inset_0_-1px_0_color-mix(in_oklab,var(--primary-foreground)_22%,transparent)]",
 ].join(" ");
 
 const progressIndicatorDeterminateClass = [
   "h-full w-full flex-1",
   "transition-transform duration-300 ease-out motion-reduce:transition-none",
-  progressIndicatorShared
+  progressIndicatorShared,
 ].join(" ");
 
-const progressIndicatorIndeterminateClass = ["absolute inset-y-0 left-0 w-[38%]", progressIndicatorShared].join(" ");
+const progressIndicatorIndeterminateClass = [
+  "absolute inset-y-0 left-0 w-[38%]",
+  progressIndicatorShared,
+].join(" ");
 
 export const Progress = ({
   value = 0,
@@ -56,16 +59,19 @@ export const Progress = ({
             "aria-valuemax": safeMax,
             "aria-valuenow": current,
             "data-value": current,
-            "data-max": safeMax
+            "data-max": safeMax,
           }
         : {
-            "aria-valuetext": "Indeterminate"
+            "aria-valuetext": "Indeterminate",
           })}
       class={cn(progressRootClass, className)}
       {...rest}
     >
       {isIndeterminate ? (
-        <div data-slot="progress-indicator" class={cn(progressIndicatorIndeterminateClass, indicatorClass)} />
+        <div
+          data-slot="progress-indicator"
+          class={cn(progressIndicatorIndeterminateClass, indicatorClass)}
+        />
       ) : (
         <div
           data-slot="progress-indicator"

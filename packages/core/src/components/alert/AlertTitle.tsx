@@ -10,11 +10,10 @@ export const AlertTitle = ({ children, class: className, ...rest }: AlertTitlePr
     data-slot="alert-title"
     class={cn(
       "flex items-center gap-2 text-sm font-medium leading-snug [&_svg]:size-4 [&_svg]:shrink-0 [&_a]:underline [&_a]:underline-offset-3 [&_a]:hover:text-foreground",
-      className
+      className,
     )}
     {...rest}
   >
     {children}
   </h5>
 );
-

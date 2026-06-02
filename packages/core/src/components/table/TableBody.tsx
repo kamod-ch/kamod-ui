@@ -10,4 +10,3 @@ export const TableBody = ({ class: className, children, ...rest }: TableBodyProp
     {children}
   </tbody>
 );
-

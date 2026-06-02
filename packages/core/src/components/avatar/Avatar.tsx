@@ -12,21 +12,24 @@ export const avatarRoot = tv({
     size: {
       sm: "size-8",
       default: "size-10",
-      lg: "size-12"
-    }
+      lg: "size-12",
+    },
   },
-  defaultVariants: { size: "default" }
+  defaultVariants: { size: "default" },
 });
 
 /** Circular clip + border for image/fallback only. */
 const avatarMedia = tv({
   base: [
     "absolute inset-0 overflow-hidden rounded-full border border-border",
-    "after:pointer-events-none after:absolute after:inset-0 after:z-[5] after:rounded-full after:border after:border-border/50"
-  ]
+    "after:pointer-events-none after:absolute after:inset-0 after:z-[5] after:rounded-full after:border after:border-border/50",
+  ],
 });
 
-function partitionAvatarChildren(children: ComponentChildren): { media: ComponentChild[]; badges: VNode[] } {
+function partitionAvatarChildren(children: ComponentChildren): {
+  media: ComponentChild[];
+  badges: VNode[];
+} {
   const media: ComponentChild[] = [];
   const badges: VNode[] = [];
   for (const node of toChildArray(children)) {
@@ -70,9 +73,9 @@ export const Avatar = ({ size = "default", class: className, children, ...rest }
       notifyLoad,
       notifyError,
       resetImage,
-      showFallback
+      showFallback,
     }),
-    [notifyLoad, notifyError, resetImage, showFallback]
+    [notifyLoad, notifyError, resetImage, showFallback],
   );
 
   const dataSize = size === "default" ? "default" : size;

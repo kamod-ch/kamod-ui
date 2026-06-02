@@ -1,4 +1,4 @@
-import { cloneElement, isValidElement, type ComponentChildren, type JSX } from "preact";
+import { type ComponentChildren, cloneElement, isValidElement, type JSX } from "preact";
 import { tv } from "tailwind-variants";
 import { useDropdown } from "./Dropdown";
 
@@ -8,8 +8,8 @@ export const dropdownTrigger = tv({
     "focus-visible:ring-outline/50 transition-[color,box-shadow] outline-none focus-visible:ring-3",
     "disabled:pointer-events-none disabled:opacity-50",
     "border border-input bg-background shadow-xs hover:bg-accent hover:text-accent-foreground",
-    "h-9 px-4 py-2"
-  ]
+    "h-9 px-4 py-2",
+  ],
 });
 
 export type DropdownTriggerProps = JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -68,7 +68,7 @@ export const DropdownTrigger = ({
         dropdown.triggerRef.current = node;
         callRef(childProps.ref, node);
         callRef(outerRef, node);
-      }
+      },
     } as never);
   }
 

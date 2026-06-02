@@ -1,4 +1,3 @@
-import { useState } from "preact/hooks";
 import {
   Button,
   Command,
@@ -37,6 +36,7 @@ import {
   ZoomIn,
   ZoomOut,
 } from "lucide-preact";
+import { useState } from "preact/hooks";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 const commandChrome = "max-w-sm rounded-lg border shadow-sm";

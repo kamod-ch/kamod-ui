@@ -20,7 +20,7 @@ export const MenubarContent = ({ class: className, children, ...rest }: MenubarC
       data-state="open"
       class={cn(
         "absolute start-0 top-full z-50 mt-1 min-w-48 rounded-md border border-border bg-popover p-0 text-popover-foreground shadow-md outline-none",
-        className
+        className,
       )}
       {...rest}
     >

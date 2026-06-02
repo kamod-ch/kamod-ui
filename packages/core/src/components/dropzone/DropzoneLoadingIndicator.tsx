@@ -11,9 +11,12 @@ export const DropzoneLoadingIndicator = ({
   children = "Uploading...",
   ...rest
 }: DropzoneLoadingIndicatorProps) => (
-  <div data-slot="dropzone-loading-indicator" class={cn("inline-flex items-center gap-2 text-sm", className)} {...rest}>
+  <div
+    data-slot="dropzone-loading-indicator"
+    class={cn("inline-flex items-center gap-2 text-sm", className)}
+    {...rest}
+  >
     <Spinner size="sm" />
     <span>{children}</span>
   </div>
 );
-

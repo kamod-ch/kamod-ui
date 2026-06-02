@@ -13,7 +13,7 @@ const CardVariants = {
   cardDescription,
   cardFooter,
   cardHeader,
-  cardTitle
+  cardTitle,
 };
 
 export {
@@ -24,7 +24,7 @@ export {
   CardFooter,
   CardHeader,
   CardTitle,
-  CardVariants
+  CardVariants,
 };
 
 export default {
@@ -34,5 +34,5 @@ export default {
   Title: CardTitle,
   Description: CardDescription,
   Content: CardContent,
-  Action: CardAction
+  Action: CardAction,
 };

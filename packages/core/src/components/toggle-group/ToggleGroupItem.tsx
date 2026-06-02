@@ -12,25 +12,25 @@ const toggleGroupItem = tv({
     "select-none transition-all outline-none",
     "focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/45",
     "disabled:pointer-events-none disabled:opacity-50",
-    "data-[state=on]:bg-accent data-[state=on]:text-accent-foreground data-[state=on]:shadow-xs"
+    "data-[state=on]:bg-accent data-[state=on]:text-accent-foreground data-[state=on]:shadow-xs",
   ],
   variants: {
     variant: {
       default: "bg-transparent hover:bg-muted hover:text-muted-foreground",
       outline:
         "border border-input/80 bg-transparent shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/25 dark:border-input/80 dark:hover:bg-input/45",
-      pill: "rounded-full border border-transparent bg-muted/60 hover:bg-muted"
+      pill: "rounded-full border border-transparent bg-muted/60 hover:bg-muted",
     },
     size: {
       sm: "h-7 min-w-7 gap-0.5 px-1.5 text-[11px] leading-none",
       default: "h-8 min-w-8 gap-1 px-2",
-      lg: "h-9 min-w-9 gap-1.5 px-2.5 text-sm"
-    }
+      lg: "h-9 min-w-9 gap-1.5 px-2.5 text-sm",
+    },
   },
   defaultVariants: {
     variant: "default",
-    size: "default"
-  }
+    size: "default",
+  },
 });
 
 type ToggleGroupItemVariants = VariantProps<typeof toggleGroupItem>;
@@ -67,7 +67,9 @@ export const ToggleGroupItem = ({
       data-size={resolvedSize}
       aria-pressed={pressed}
       disabled={isDisabled}
-      class={cn(toggleGroupItem({ variant: resolvedVariant, size: resolvedSize, class: className }))}
+      class={cn(
+        toggleGroupItem({ variant: resolvedVariant, size: resolvedSize, class: className }),
+      )}
       onClick={(event) => {
         if (isDisabled) return;
         toggle(value);
@@ -79,4 +81,3 @@ export const ToggleGroupItem = ({
     </button>
   );
 };
-

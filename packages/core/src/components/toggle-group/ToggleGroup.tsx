@@ -1,6 +1,6 @@
+import type { ComponentChildren, JSX } from "preact";
 import { createContext } from "preact";
 import { useContext, useMemo, useState } from "preact/hooks";
-import type { ComponentChildren, JSX } from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
 import { cn } from "../../lib/utils";
 
@@ -28,19 +28,19 @@ const toggleGroup = tv({
   variants: {
     orientation: {
       horizontal: "flex-row items-center",
-      vertical: "flex-col items-start"
+      vertical: "flex-col items-start",
     },
     spacing: {
       none: "gap-0",
       sm: "gap-0.5",
       default: "gap-1",
-      lg: "gap-1.5"
-    }
+      lg: "gap-1.5",
+    },
   },
   defaultVariants: {
     orientation: "horizontal",
-    spacing: "sm"
-  }
+    spacing: "sm",
+  },
 });
 
 // Used for `typeof toggleGroupItem` type extraction below — runtime usage is intentional.
@@ -50,18 +50,18 @@ const toggleGroupItem = tv({
     variant: {
       default: undefined,
       outline: undefined,
-      pill: undefined
+      pill: undefined,
     },
     size: {
       sm: undefined,
       default: undefined,
-      lg: undefined
-    }
+      lg: undefined,
+    },
   },
   defaultVariants: {
     variant: "default",
-    size: "default"
-  }
+    size: "default",
+  },
 });
 
 type ToggleGroupItemVariants = VariantProps<typeof toggleGroupItem>;
@@ -121,7 +121,14 @@ export const ToggleGroup = ({
 
   const toggle = (value: string) => {
     const exists = values.includes(value);
-    const nextValues = type === "single" ? (exists ? [] : [value]) : exists ? values.filter((entry) => entry !== value) : [...values, value];
+    const nextValues =
+      type === "single"
+        ? exists
+          ? []
+          : [value]
+        : exists
+          ? values.filter((entry) => entry !== value)
+          : [...values, value];
 
     if (!isControlled) {
       setInternalValues(nextValues);
@@ -141,7 +148,14 @@ export const ToggleGroup = ({
 
   return (
     <ToggleGroupContext.Provider
-      value={{ type, values, toggle, disabled, itemVariant: resolvedVariant, itemSize: resolvedSize }}
+      value={{
+        type,
+        values,
+        toggle,
+        disabled,
+        itemVariant: resolvedVariant,
+        itemSize: resolvedSize,
+      }}
     >
       {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props */}
       <div
@@ -159,4 +173,3 @@ export const ToggleGroup = ({
     </ToggleGroupContext.Provider>
   );
 };
-

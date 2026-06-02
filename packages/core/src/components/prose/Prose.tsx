@@ -6,8 +6,11 @@ export type ProseProps = JSX.HTMLAttributes<HTMLDivElement> & {
 };
 
 export const Prose = ({ class: className, children, ...rest }: ProseProps) => (
-  <div data-slot="prose" class={cn("prose prose-neutral dark:prose-invert max-w-none", className)} {...rest}>
+  <div
+    data-slot="prose"
+    class={cn("prose prose-neutral dark:prose-invert max-w-none", className)}
+    {...rest}
+  >
     {children}
   </div>
 );
-

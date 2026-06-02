@@ -1,8 +1,7 @@
 import { type Signal, useSignal } from "@preact/signals";
-import { createContext } from "preact";
-import { useEffect, useId } from "preact/hooks";
-import { useContext } from "preact/hooks";
 import type { ComponentChildren, JSX } from "preact";
+import { createContext } from "preact";
+import { useContext, useEffect, useId } from "preact/hooks";
 import { cn } from "../../lib/utils";
 
 type RadioGroupContextValue = {
@@ -43,7 +42,7 @@ export const RadioGroup = ({
   const autoId = useId();
   const name = nameProp ?? `radio-group-${autoId}`;
   const internal = useSignal<string | null>(
-    valueProp !== undefined ? valueProp : (defaultValue ?? null)
+    valueProp !== undefined ? valueProp : (defaultValue ?? null),
   );
 
   useEffect(() => {

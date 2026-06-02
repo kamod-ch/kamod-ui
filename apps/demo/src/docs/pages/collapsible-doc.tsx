@@ -1,5 +1,3 @@
-import type { ComponentChildren } from "preact";
-import { useState } from "preact/hooks";
 import {
   Button,
   Card,
@@ -20,14 +18,16 @@ import {
   TabsTrigger,
 } from "@kamod-ui/core";
 import {
-  ChevronsUpDown,
   ChevronDown,
   ChevronRight,
+  ChevronsUpDown,
   File,
   Folder,
   Maximize2,
   Minimize2,
 } from "lucide-preact";
+import type { ComponentChildren } from "preact";
+import { useState } from "preact/hooks";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 const CollapsibleDemoPreview = () => {

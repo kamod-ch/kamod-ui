@@ -1,7 +1,7 @@
 import { signal } from "@preact/signals";
+import type { ComponentChildren } from "preact";
 import { createContext } from "preact";
 import { useContext, useMemo } from "preact/hooks";
-import type { ComponentChildren } from "preact";
 
 export type DropdownSubContextValue = {
   open: ReturnType<typeof signal<boolean>>;
@@ -12,7 +12,7 @@ const DropdownSubContext = createContext<DropdownSubContextValue | null>(null);
 
 export const DropdownSubProvider = ({
   children,
-  value
+  value,
 }: {
   children: ComponentChildren;
   value: DropdownSubContextValue;
@@ -31,6 +31,6 @@ export const useMemoDropdownSub = (): DropdownSubContextValue =>
       open,
       setOpen: (next) => {
         open.value = next;
-      }
+      },
     };
   }, []);

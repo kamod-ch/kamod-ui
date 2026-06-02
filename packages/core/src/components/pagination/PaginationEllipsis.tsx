@@ -15,4 +15,3 @@ export const PaginationEllipsis = ({ class: className, ...rest }: PaginationElli
     <span class="sr-only">More pages</span>
   </span>
 );
-

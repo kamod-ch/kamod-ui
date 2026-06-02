@@ -27,7 +27,11 @@ export const AvatarImage = ({
       data-slot="avatar-image"
       src={src}
       alt={alt}
-      class={cn("absolute inset-0 z-10 size-full object-cover", showFallback && "invisible", className)}
+      class={cn(
+        "absolute inset-0 z-10 size-full object-cover",
+        showFallback && "invisible",
+        className,
+      )}
       onLoad={(e) => {
         onLoad?.(e);
         notifyLoad();

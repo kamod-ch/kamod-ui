@@ -1,4 +1,3 @@
-import { useState } from "preact/hooks";
 import {
   Button,
   ContextMenu,
@@ -27,6 +26,7 @@ import {
   Share2,
   Trash2,
 } from "lucide-preact";
+import { useState } from "preact/hooks";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 const triggerClass =

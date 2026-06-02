@@ -1,4 +1,4 @@
-import { Button, Sonner, dismissSonner, sonner } from "@kamod-ui/core";
+import { Button, dismissSonner, Sonner, sonner } from "@kamod-ui/core";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const sonnerDocPage = createGenericDocPage({

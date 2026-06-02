@@ -15,7 +15,7 @@ export const CommandDialog = ({
   defaultOpen,
   onOpenChange,
   contentClass,
-  children
+  children,
 }: CommandDialogProps) => (
   <Dialog open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
     <DialogContent

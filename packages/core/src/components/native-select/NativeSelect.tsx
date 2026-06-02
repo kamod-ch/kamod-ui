@@ -4,8 +4,8 @@ import { tv, type VariantProps } from "tailwind-variants";
 export const nativeSelectWrapper = tv({
   base: [
     /* min-w-0 + no w-fit: column flex + w-full on <select> must resolve to parent width (w-fit breaks that). */
-    "group/native-select relative isolate min-w-0 max-w-full has-[select:disabled]:opacity-50"
-  ]
+    "group/native-select relative isolate min-w-0 max-w-full has-[select:disabled]:opacity-50",
+  ],
 });
 
 export const nativeSelect = tv({
@@ -17,18 +17,18 @@ export const nativeSelect = tv({
     "hover:border-foreground/20 transition-[color,box-shadow,border-color] outline-none",
     "focus-visible:border-outline focus-visible:ring-outline/50 focus-visible:ring-3",
     "disabled:pointer-events-none disabled:cursor-not-allowed",
-    "aria-invalid:border-error aria-invalid:focus-visible:ring-error/40 aria-invalid:focus-visible:ring-3"
+    "aria-invalid:border-error aria-invalid:focus-visible:ring-error/40 aria-invalid:focus-visible:ring-3",
   ],
   variants: {
     size: {
       sm: "min-h-8 py-1 pe-9 ps-2.5 text-sm leading-5",
       md: "min-h-9 py-1.5 pe-10 ps-3 text-sm leading-5",
-      lg: "min-h-11 py-2 pe-11 ps-3.5 text-base leading-6"
-    }
+      lg: "min-h-11 py-2 pe-11 ps-3.5 text-base leading-6",
+    },
   },
   defaultVariants: {
-    size: "md"
-  }
+    size: "md",
+  },
 });
 
 export const nativeSelectIcon = tv({
@@ -37,12 +37,12 @@ export const nativeSelectIcon = tv({
     size: {
       sm: "end-2.5 size-3.5",
       md: "end-3 size-4",
-      lg: "end-3.5 size-5"
-    }
+      lg: "end-3.5 size-5",
+    },
   },
   defaultVariants: {
-    size: "md"
-  }
+    size: "md",
+  },
 });
 
 export type NativeSelectProps = Omit<JSX.SelectHTMLAttributes<HTMLSelectElement>, "size"> &
@@ -51,9 +51,19 @@ export type NativeSelectProps = Omit<JSX.SelectHTMLAttributes<HTMLSelectElement>
     children?: ComponentChildren;
   };
 
-export const NativeSelect = ({ class: className, size, icon, children, ...rest }: NativeSelectProps) => (
+export const NativeSelect = ({
+  class: className,
+  size,
+  icon,
+  children,
+  ...rest
+}: NativeSelectProps) => (
   <div class={nativeSelectWrapper()} data-size={size} data-slot="native-select-wrapper">
-    <select class={nativeSelect({ size, class: className as string | undefined })} data-slot="native-select" {...rest}>
+    <select
+      class={nativeSelect({ size, class: className as string | undefined })}
+      data-slot="native-select"
+      {...rest}
+    >
       {children}
     </select>
     {icon ?? (
@@ -73,4 +83,3 @@ export const NativeSelect = ({ class: className, size, icon, children, ...rest }
     )}
   </div>
 );
-

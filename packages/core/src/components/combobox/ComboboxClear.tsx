@@ -16,7 +16,7 @@ export const ComboboxClear = ({ class: className, onClick, ...rest }: ComboboxCl
       aria-label="Clear selection"
       class={cn(
         "text-muted-foreground hover:text-foreground inline-flex size-7 shrink-0 items-center justify-center rounded-md outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
-        className
+        className,
       )}
       onClick={(event) => {
         onClick?.(event);

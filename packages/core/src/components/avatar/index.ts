@@ -1,12 +1,12 @@
-export { Avatar, avatarRoot } from "./Avatar";
 export type { AvatarProps } from "./Avatar";
-export { AvatarBadge } from "./AvatarBadge";
+export { Avatar, avatarRoot } from "./Avatar";
 export type { AvatarBadgeProps } from "./AvatarBadge";
-export { AvatarFallback } from "./AvatarFallback";
+export { AvatarBadge } from "./AvatarBadge";
 export type { AvatarFallbackProps } from "./AvatarFallback";
-export { AvatarGroup } from "./AvatarGroup";
+export { AvatarFallback } from "./AvatarFallback";
 export type { AvatarGroupProps } from "./AvatarGroup";
-export { AvatarGroupCount } from "./AvatarGroupCount";
+export { AvatarGroup } from "./AvatarGroup";
 export type { AvatarGroupCountProps } from "./AvatarGroupCount";
-export { AvatarImage } from "./AvatarImage";
+export { AvatarGroupCount } from "./AvatarGroupCount";
 export type { AvatarImageProps } from "./AvatarImage";
+export { AvatarImage } from "./AvatarImage";

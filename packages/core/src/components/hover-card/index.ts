@@ -7,6 +7,5 @@ export { HoverCard, HoverCardContent, HoverCardTrigger };
 export default {
   Root: HoverCard,
   Trigger: HoverCardTrigger,
-  Content: HoverCardContent
+  Content: HoverCardContent,
 };
-

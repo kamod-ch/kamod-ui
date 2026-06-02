@@ -1,5 +1,4 @@
 import { cn } from "../../lib/utils";
-import { Combobox, type ComboboxProps } from "./combobox-context";
 import { ComboboxChip } from "./ComboboxChip";
 import { ComboboxChips } from "./ComboboxChips";
 import { ComboboxChipsInput } from "./ComboboxChipsInput";
@@ -13,6 +12,7 @@ import { ComboboxItem } from "./ComboboxItem";
 import { ComboboxList } from "./ComboboxList";
 import { ComboboxTrigger } from "./ComboboxTrigger";
 import { ComboboxValue } from "./ComboboxValue";
+import { Combobox, type ComboboxProps } from "./combobox-context";
 
 export type ComboboxOption = { label: string; value: string };
 
@@ -32,7 +32,10 @@ const ChevronDownIcon = () => (
   </svg>
 );
 
-export type ComboboxSelectProps = Omit<ComboboxProps, "items" | "children" | "itemKey" | "itemToStringValue"> & {
+export type ComboboxSelectProps = Omit<
+  ComboboxProps,
+  "items" | "children" | "itemKey" | "itemToStringValue"
+> & {
   options: ComboboxOption[];
   searchPlaceholder?: string;
   emptyText?: string;
@@ -83,7 +86,9 @@ export const ComboboxSelect = ({
                   );
                 })}
                 {empty ? (
-                  <span class="text-muted-foreground px-1 py-0.5 text-sm">{placeholder ?? "Select…"}</span>
+                  <span class="text-muted-foreground px-1 py-0.5 text-sm">
+                    {placeholder ?? "Select…"}
+                  </span>
                 ) : null}
               </>
             )}
@@ -126,7 +131,9 @@ export const ComboboxSelect = ({
         <ComboboxTrigger asChild>
           <div class={cn("relative flex w-full min-w-44 items-center", triggerClass)}>
             <ComboboxInlineInput placeholder={searchPlaceholder} class="pe-16" />
-            {showClear ? <ComboboxClear class="absolute end-9 top-1/2 z-10 -translate-y-1/2" /> : null}
+            {showClear ? (
+              <ComboboxClear class="absolute end-9 top-1/2 z-10 -translate-y-1/2" />
+            ) : null}
             <span class="pointer-events-none absolute end-3 top-1/2 -translate-y-1/2">
               <ChevronDownIcon />
             </span>

@@ -19,7 +19,7 @@ export const InputOTPSlot = ({ index, class: className, ...rest }: InputOTPSlotP
         "relative flex size-10 items-center justify-center rounded-md border border-input bg-background font-mono text-sm tabular-nums shadow-xs transition-[box-shadow,border-color]",
         "data-[active=true]:z-10 data-[active=true]:border-ring data-[active=true]:ring-[3px] data-[active=true]:ring-ring/50",
         ctx.disabled && "opacity-50",
-        className
+        className,
       )}
       {...rest}
     >

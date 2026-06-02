@@ -1,4 +1,3 @@
-import type { ComponentChildren } from "preact";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -14,6 +13,7 @@ import {
   DirectionProvider,
 } from "@kamod-ui/core";
 import { Bluetooth, CircleFadingPlus, Trash2 } from "lucide-preact";
+import type { ComponentChildren } from "preact";
 import { useState } from "preact/hooks";
 import { ApiReference } from "../components/ApiReference";
 import { CodeBlock } from "../components/CodeBlock";

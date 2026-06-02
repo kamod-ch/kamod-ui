@@ -6,7 +6,11 @@ export type MenubarLabelProps = JSX.HTMLAttributes<HTMLDivElement> & {
 };
 
 export const MenubarLabel = ({ class: className, children, ...rest }: MenubarLabelProps) => (
-  <div data-slot="menubar-label" class={cn("px-2 py-1.5 text-sm font-medium text-muted-foreground", className)} {...rest}>
+  <div
+    data-slot="menubar-label"
+    class={cn("px-2 py-1.5 text-sm font-medium text-muted-foreground", className)}
+    {...rest}
+  >
     {children}
   </div>
 );

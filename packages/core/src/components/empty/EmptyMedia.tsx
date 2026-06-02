@@ -8,12 +8,7 @@ export type EmptyMediaProps = JSX.HTMLAttributes<HTMLDivElement> &
     children?: ComponentChildren;
   };
 
-export const EmptyMedia = ({
-  class: className,
-  variant,
-  children,
-  ...rest
-}: EmptyMediaProps) => (
+export const EmptyMedia = ({ class: className, variant, children, ...rest }: EmptyMediaProps) => (
   <div class={cn(emptyMedia({ variant }), className)} data-slot="empty-media" {...rest}>
     {children}
   </div>

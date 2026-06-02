@@ -5,7 +5,11 @@ export type InputOTPSeparatorProps = JSX.HTMLAttributes<HTMLSpanElement> & {
   children?: ComponentChildren;
 };
 
-export const InputOTPSeparator = ({ class: className, children, ...rest }: InputOTPSeparatorProps) => (
+export const InputOTPSeparator = ({
+  class: className,
+  children,
+  ...rest
+}: InputOTPSeparatorProps) => (
   <span
     role="presentation"
     data-slot="input-otp-separator"

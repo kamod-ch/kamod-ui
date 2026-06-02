@@ -20,7 +20,7 @@ export const addToast = (toast: Omit<ToastItemData, "id">) => {
     id,
     variant: toast.variant ?? "default",
     duration: toast.duration ?? 5000,
-    ...toast
+    ...toast,
   };
   toasts.value = [...toasts.value, nextToast];
 
@@ -38,7 +38,9 @@ export const removeToast = (id: string) => {
   if (!item) return;
   if (item.closing) return;
 
-  toasts.value = toasts.value.map((toast) => (toast.id === id ? { ...toast, closing: true } : toast));
+  toasts.value = toasts.value.map((toast) =>
+    toast.id === id ? { ...toast, closing: true } : toast,
+  );
 
   if (typeof window !== "undefined") {
     window.setTimeout(() => {

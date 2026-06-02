@@ -7,7 +7,7 @@ describe("ScrollArea", () => {
     render(
       <ScrollArea data-testid="scroll-area">
         <p>Content</p>
-      </ScrollArea>
+      </ScrollArea>,
     );
 
     const root = screen.getByTestId("scroll-area");
@@ -28,7 +28,7 @@ describe("ScrollBar", () => {
       <ScrollArea>
         <p>Content</p>
         <ScrollBar data-testid="scroll-bar" />
-      </ScrollArea>
+      </ScrollArea>,
     );
 
     const bar = screen.getByTestId("scroll-bar");

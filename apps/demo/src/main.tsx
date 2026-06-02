@@ -1,5 +1,5 @@
-import { LocationProvider } from "preact-iso";
 import { render } from "preact";
+import { LocationProvider } from "preact-iso";
 import { App } from "./App";
 import { basePrefix } from "./base-path";
 import { applyThemePreset, resolveInitialThemePreset } from "./theme/theme-presets";

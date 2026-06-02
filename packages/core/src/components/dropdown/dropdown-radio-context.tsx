@@ -20,7 +20,7 @@ export const useDropdownRadio = () => {
 export const useDropdownRadioRoot = (
   defaultValue: string,
   valueProp: string | undefined,
-  onValueChange: ((v: string) => void) | undefined
+  onValueChange: ((v: string) => void) | undefined,
 ): DropdownRadioContextValue => {
   const internal = useMemo(() => signal(valueProp ?? defaultValue), []);
   const controlledRef = useRef(false);
@@ -43,8 +43,8 @@ export const useDropdownRadioRoot = (
           internal.value = next;
         }
         onValueChangeRef.current?.(next);
-      }
+      },
     }),
-    [internal]
+    [internal],
   );
 };

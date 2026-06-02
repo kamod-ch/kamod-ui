@@ -38,7 +38,7 @@ export const ScrollBar = ({
     maxScroll: 0,
     maxThumbTravel: 0,
     viewportSize: 0,
-    scrollSize: 0
+    scrollSize: 0,
   });
   const dragRef = useRef<{ startPointer: number; startScroll: number } | null>(null);
   const [thumb, setThumb] = useState<ThumbState>({ size: 0, offset: 0, hidden: true });
@@ -62,7 +62,7 @@ export const ScrollBar = ({
           maxScroll: 0,
           maxThumbTravel: 0,
           viewportSize,
-          scrollSize
+          scrollSize,
         };
         setThumb({ size: 0, offset: 0, hidden: true });
         return;
@@ -79,7 +79,7 @@ export const ScrollBar = ({
         maxScroll,
         maxThumbTravel,
         viewportSize,
-        scrollSize
+        scrollSize,
       };
       setThumb({ size, offset, hidden: false });
     };
@@ -113,7 +113,7 @@ export const ScrollBar = ({
 
     dragRef.current = {
       startPointer: isVertical ? e.clientY : e.clientX,
-      startScroll: isVertical ? scrollEl.scrollTop : scrollEl.scrollLeft
+      startScroll: isVertical ? scrollEl.scrollTop : scrollEl.scrollLeft,
     };
 
     (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
@@ -194,7 +194,7 @@ export const ScrollBar = ({
         "absolute z-[1] rounded-full bg-border/45 p-0.5 transition-opacity select-none",
         orientation === "vertical" ? "right-1 top-1 bottom-1 w-2" : "right-1 left-1 bottom-1 h-2",
         thumb.hidden ? "pointer-events-none opacity-0" : "opacity-100",
-        className
+        className,
       )}
       {...rest}
       onPointerDown={(e) => {
@@ -207,7 +207,9 @@ export const ScrollBar = ({
         data-slot="scroll-bar-thumb"
         class={cn(
           "absolute touch-none rounded-full bg-foreground/35 ring-1 ring-border/40",
-          orientation === "vertical" ? "left-0 right-0 top-0 cursor-grab active:cursor-grabbing" : "bottom-0 left-0 top-0 h-full cursor-grab active:cursor-grabbing"
+          orientation === "vertical"
+            ? "left-0 right-0 top-0 cursor-grab active:cursor-grabbing"
+            : "bottom-0 left-0 top-0 h-full cursor-grab active:cursor-grabbing",
         )}
         style={
           orientation === "vertical"

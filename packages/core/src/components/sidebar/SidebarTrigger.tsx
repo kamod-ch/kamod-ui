@@ -5,7 +5,11 @@ export type SidebarTriggerProps = JSX.ButtonHTMLAttributes<HTMLButtonElement> & 
   children?: ComponentChildren;
 };
 
-export const SidebarTrigger = ({ children = "Toggle Sidebar", onClick, ...rest }: SidebarTriggerProps) => {
+export const SidebarTrigger = ({
+  children = "Toggle Sidebar",
+  onClick,
+  ...rest
+}: SidebarTriggerProps) => {
   const sidebar = useSidebar();
   return (
     <button
@@ -22,4 +26,3 @@ export const SidebarTrigger = ({ children = "Toggle Sidebar", onClick, ...rest }
     </button>
   );
 };
-

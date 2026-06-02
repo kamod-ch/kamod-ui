@@ -39,7 +39,13 @@ export type CarouselNextProps = Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>
   children?: ComponentChildren;
 };
 
-export const CarouselNext = ({ children, class: className, onClick, disabled, ...rest }: CarouselNextProps) => {
+export const CarouselNext = ({
+  children,
+  class: className,
+  onClick,
+  disabled,
+  ...rest
+}: CarouselNextProps) => {
   const ctx = useCarousel(false);
   const vertical = ctx?.orientation === "vertical";
   const canNext = ctx?.canScrollNext.value ?? false;
@@ -58,7 +64,7 @@ export const CarouselNext = ({ children, class: className, onClick, disabled, ..
         vertical
           ? "-bottom-12 left-1/2 -translate-x-1/2"
           : "-end-12 top-1/2 -translate-y-1/2 rtl:-rotate-180",
-        className
+        className,
       )}
       onClick={(event) => {
         ctx?.scrollNext();

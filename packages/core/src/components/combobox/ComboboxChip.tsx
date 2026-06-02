@@ -7,14 +7,19 @@ export type ComboboxChipProps = Omit<JSX.HTMLAttributes<HTMLSpanElement>, "child
   children?: ComponentChildren;
 };
 
-export const ComboboxChip = ({ itemKey: chipKey, children, class: className, ...rest }: ComboboxChipProps) => {
+export const ComboboxChip = ({
+  itemKey: chipKey,
+  children,
+  class: className,
+  ...rest
+}: ComboboxChipProps) => {
   const ctx = useCombobox();
   return (
     <span
       data-slot="combobox-chip"
       class={cn(
         "bg-secondary text-secondary-foreground inline-flex max-w-full items-center gap-0.5 rounded-md px-2 py-0.5 text-xs",
-        className
+        className,
       )}
       {...rest}
     >

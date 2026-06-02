@@ -1,4 +1,4 @@
-import { cloneElement, isValidElement, type ComponentChildren, type JSX } from "preact";
+import { type ComponentChildren, cloneElement, isValidElement, type JSX } from "preact";
 import { useDialog } from "./Dialog";
 
 export type DialogTriggerProps = JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -72,7 +72,7 @@ export const DialogTrigger = ({
         dialog.triggerRef.current = node;
         callRef(childProps.ref, node);
         callRef(outerRef, node);
-      }
+      },
     } as never);
   }
 

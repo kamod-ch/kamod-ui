@@ -1,6 +1,6 @@
-import { useEffect, useMemo } from "preact/hooks";
 import { signal } from "@preact/signals";
 import type { ComponentChildren, JSX } from "preact";
+import { useEffect, useMemo } from "preact/hooks";
 import { cn } from "../../lib/utils";
 import { MenubarRadioContext } from "./menubar-context";
 
@@ -32,9 +32,9 @@ export const MenubarRadioGroup = ({
       setValue: (next: string) => {
         if (controlledValue === undefined) selected.value = next;
         onValueChange?.(next);
-      }
+      },
     }),
-    [controlledValue, onValueChange, selected]
+    [controlledValue, onValueChange, selected],
   );
 
   return (

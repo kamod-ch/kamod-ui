@@ -1,29 +1,3 @@
-import type { ComponentChildren } from "preact";
-import {
-  AlertTriangle,
-  Archive,
-  ArrowLeft,
-  ArrowRight,
-  AudioLines,
-  Ban,
-  Bot,
-  CalendarPlus,
-  Check,
-  ChevronDown,
-  Clock,
-  Copy,
-  ListFilter,
-  MailCheck,
-  Minus,
-  MoreHorizontal,
-  Plus,
-  Search,
-  Share2,
-  Tag,
-  Trash2,
-  Volume2,
-} from "lucide-preact";
-import { useState } from "preact/hooks";
 import {
   Button,
   ButtonGroup,
@@ -66,6 +40,32 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@kamod-ui/core";
+import {
+  AlertTriangle,
+  Archive,
+  ArrowLeft,
+  ArrowRight,
+  AudioLines,
+  Ban,
+  Bot,
+  CalendarPlus,
+  Check,
+  ChevronDown,
+  Clock,
+  Copy,
+  ListFilter,
+  MailCheck,
+  Minus,
+  MoreHorizontal,
+  Plus,
+  Search,
+  Share2,
+  Tag,
+  Trash2,
+  Volume2,
+} from "lucide-preact";
+import type { ComponentChildren } from "preact";
+import { useState } from "preact/hooks";
 import { ApiReference } from "../components/ApiReference";
 import type { DocPageModule } from "../types";
 

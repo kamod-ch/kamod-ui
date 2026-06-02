@@ -23,7 +23,10 @@ export function defaultComboboxItemKey(item: unknown): string {
   return JSON.stringify(item);
 }
 
-export function defaultComboboxItemString(item: unknown, custom?: (item: unknown) => string): string {
+export function defaultComboboxItemString(
+  item: unknown,
+  custom?: (item: unknown) => string,
+): string {
   if (custom) return custom(item);
   if (typeof item === "string") return item;
   if (item && typeof item === "object" && "label" in item) {

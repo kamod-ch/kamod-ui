@@ -1,6 +1,6 @@
 import { signal } from "@preact/signals";
-import { useMemo } from "preact/hooks";
 import type { ComponentChildren, JSX } from "preact";
+import { useMemo } from "preact/hooks";
 import { cn } from "../../lib/utils";
 import { MenubarSubContext } from "./menubar-context";
 
@@ -16,9 +16,9 @@ export const MenubarSub = ({ class: className, children, ...rest }: MenubarSubPr
       open,
       setOpen: (next: boolean) => {
         open.value = next;
-      }
+      },
     }),
-    [open]
+    [open],
   );
 
   return (

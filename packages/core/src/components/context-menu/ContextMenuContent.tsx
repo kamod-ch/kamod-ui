@@ -1,8 +1,8 @@
+import type { ComponentChildren, JSX } from "preact";
 import { createPortal } from "preact/compat";
 import { useEffect, useLayoutEffect, useRef, useState } from "preact/hooks";
-import type { ComponentChildren, JSX } from "preact";
-import { cn } from "../../lib/utils";
 import { createDismissableLayer } from "../../lib/interactive";
+import { cn } from "../../lib/utils";
 import { useContextMenu } from "./ContextMenu";
 
 export type ContextMenuContentProps = JSX.HTMLAttributes<HTMLDivElement> & {
@@ -11,7 +11,12 @@ export type ContextMenuContentProps = JSX.HTMLAttributes<HTMLDivElement> & {
 
 const clamp = (v: number, min: number, max: number) => Math.min(Math.max(v, min), max);
 
-export const ContextMenuContent = ({ class: className, children, style, ...rest }: ContextMenuContentProps) => {
+export const ContextMenuContent = ({
+  class: className,
+  children,
+  style,
+  ...rest
+}: ContextMenuContentProps) => {
   const { open, setOpen, position, contentWrapperRef } = useContextMenu();
   const innerRef = useRef<HTMLDivElement | null>(null);
   const pt = position.value ?? { x: 0, y: 0 };
@@ -36,7 +41,7 @@ export const ContextMenuContent = ({ class: className, children, style, ...rest 
     const maxY = window.innerHeight - rect.height - margin;
     setFixedPos({
       left: clamp(px, margin, Math.max(margin, maxX)),
-      top: clamp(py, margin, Math.max(margin, maxY))
+      top: clamp(py, margin, Math.max(margin, maxY)),
     });
   }, [isOpen, px, py]);
 
@@ -46,7 +51,7 @@ export const ContextMenuContent = ({ class: className, children, style, ...rest 
     const layer = createDismissableLayer({
       root: () => contentWrapperRef.current,
       open: () => Boolean(open.value),
-      onDismiss: () => setOpenRef.current(false)
+      onDismiss: () => setOpenRef.current(false),
     });
     return () => layer.dispose();
   }, [open, setOpen, contentWrapperRef]);
@@ -56,7 +61,12 @@ export const ContextMenuContent = ({ class: className, children, style, ...rest 
   const inlineStyle =
     typeof style === "object" && style !== null
       ? { position: "fixed" as const, left: fixedPos.left, top: fixedPos.top, zIndex: 50, ...style }
-      : ({ position: "fixed" as const, left: fixedPos.left, top: fixedPos.top, zIndex: 50 } as const);
+      : ({
+          position: "fixed" as const,
+          left: fixedPos.left,
+          top: fixedPos.top,
+          zIndex: 50,
+        } as const);
 
   return createPortal(
     <div
@@ -74,6 +84,6 @@ export const ContextMenuContent = ({ class: className, children, style, ...rest 
         {children}
       </div>
     </div>,
-    document.body
+    document.body,
   );
 };

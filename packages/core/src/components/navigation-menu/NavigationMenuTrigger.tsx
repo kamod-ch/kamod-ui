@@ -15,7 +15,10 @@ const ChevronDownIcon = ({ class: className }: { class?: string }) => (
     stroke-linecap="round"
     stroke-linejoin="round"
     aria-hidden
-    class={cn("size-4 shrink-0 transition duration-200 group-data-[state=open]:rotate-180 rtl:-rotate-180 group-data-[state=open]:rtl:rotate-0", className)}
+    class={cn(
+      "size-4 shrink-0 transition duration-200 group-data-[state=open]:rotate-180 rtl:-rotate-180 group-data-[state=open]:rtl:rotate-0",
+      className,
+    )}
   >
     <path d="m6 9 6 6 6-6" />
   </svg>
@@ -25,7 +28,14 @@ export type NavigationMenuTriggerProps = JSX.ButtonHTMLAttributes<HTMLButtonElem
   children?: ComponentChildren;
 };
 
-export const NavigationMenuTrigger = ({ class: className, children, onClick, onPointerEnter, onPointerLeave, ...rest }: NavigationMenuTriggerProps) => {
+export const NavigationMenuTrigger = ({
+  class: className,
+  children,
+  onClick,
+  onPointerEnter,
+  onPointerLeave,
+  ...rest
+}: NavigationMenuTriggerProps) => {
   const root = useNavigationMenuRoot();
   const { value } = useNavigationMenuItemCtx();
   const open = root.openValue.value === value;

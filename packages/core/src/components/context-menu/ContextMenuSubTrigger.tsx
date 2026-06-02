@@ -47,7 +47,7 @@ export const ContextMenuSubTrigger = ({
         "focus:bg-accent focus:text-accent-foreground",
         "data-[state=open]:bg-accent data-[state=open]:text-accent-foreground",
         "[&_svg]:shrink-0",
-        className
+        className,
       )}
       onPointerEnter={(e) => {
         onPointerEnter?.(e);

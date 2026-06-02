@@ -12,4 +12,3 @@ export const Table = ({ class: className, children, ...rest }: TableProps) => (
     </table>
   </div>
 );
-

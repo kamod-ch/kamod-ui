@@ -1,5 +1,5 @@
-import { useLayoutEffect, useRef, useState } from "preact/hooks";
 import type { JSX } from "preact";
+import { useLayoutEffect, useRef, useState } from "preact/hooks";
 import { cn } from "../../lib/utils";
 
 export type CheckboxCheckedState = boolean | "indeterminate";
@@ -30,7 +30,14 @@ const CheckIcon = ({ class: className }: { class?: string }) => (
 );
 
 const MinusIcon = ({ class: className }: { class?: string }) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class={cn("size-3.5", className)} aria-hidden="true">
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    class={cn("size-3.5", className)}
+    aria-hidden="true"
+  >
     <path d="M5 12h14" stroke-linecap="round" />
   </svg>
 );
@@ -57,13 +64,17 @@ export const Checkbox = ({
     el.indeterminate = state === "indeterminate";
   }, [state]);
 
-  const dataState = state === true ? "checked" : state === "indeterminate" ? "indeterminate" : "unchecked";
+  const dataState =
+    state === true ? "checked" : state === "indeterminate" ? "indeterminate" : "unchecked";
 
   return (
     <span
       data-slot="checkbox"
       data-state={dataState}
-      class={cn("group relative inline-grid size-4 shrink-0 place-content-center align-middle", className)}
+      class={cn(
+        "group relative inline-grid size-4 shrink-0 place-content-center align-middle",
+        className,
+      )}
     >
       <input
         {...rest}
@@ -99,7 +110,7 @@ export const Checkbox = ({
           "group-data-[state=indeterminate]:border-foreground group-data-[state=indeterminate]:bg-foreground group-data-[state=indeterminate]:text-background",
           "peer-focus-visible:outline-none peer-focus-visible:border-ring peer-focus-visible:ring-[3px] peer-focus-visible:ring-ring/50",
           "peer-disabled:cursor-not-allowed peer-disabled:opacity-50",
-          "peer-aria-invalid:border-destructive peer-aria-invalid:ring-destructive/20 dark:peer-aria-invalid:ring-destructive/40"
+          "peer-aria-invalid:border-destructive peer-aria-invalid:ring-destructive/20 dark:peer-aria-invalid:ring-destructive/40",
         )}
         aria-hidden="true"
       >
@@ -107,10 +118,15 @@ export const Checkbox = ({
           class={cn(
             "transition-opacity",
             state === true ? "opacity-100" : "opacity-0",
-            state === "indeterminate" && "hidden"
+            state === "indeterminate" && "hidden",
           )}
         />
-        <MinusIcon class={cn("absolute transition-opacity", state === "indeterminate" ? "opacity-100" : "opacity-0")} />
+        <MinusIcon
+          class={cn(
+            "absolute transition-opacity",
+            state === "indeterminate" ? "opacity-100" : "opacity-0",
+          )}
+        />
       </span>
     </span>
   );
@@ -118,5 +134,5 @@ export const Checkbox = ({
 
 const peerInputClass = cn(
   "peer absolute inset-0 z-10 size-4 cursor-pointer appearance-none opacity-0",
-  "disabled:cursor-not-allowed"
+  "disabled:cursor-not-allowed",
 );

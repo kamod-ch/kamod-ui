@@ -1,13 +1,13 @@
+import { signal } from "@preact/signals";
 import EmblaCarousel, {
   type EmblaCarouselType,
   type EmblaOptionsType,
-  type EmblaPluginType
+  type EmblaPluginType,
 } from "embla-carousel";
 import Autoplay from "embla-carousel-autoplay";
-import { signal } from "@preact/signals";
+import type { ComponentChildren, JSX } from "preact";
 import { createContext } from "preact";
 import { useCallback, useContext, useLayoutEffect, useMemo, useRef, useState } from "preact/hooks";
-import type { ComponentChildren, JSX } from "preact";
 import { cn } from "../../lib/utils";
 
 export type CarouselApi = EmblaCarouselType;
@@ -22,6 +22,7 @@ type CarouselContextValue = {
   scrollPrev: () => void;
   scrollNext: () => void;
   orientation: CarouselOrientation;
+  autoplayPluginRef: { current: EmblaPluginType | null };
 };
 
 const CarouselContext = createContext<CarouselContextValue | null>(null);
@@ -39,6 +40,8 @@ export type CarouselProps = Omit<JSX.HTMLAttributes<HTMLDivElement>, "dir"> & {
   plugins?: EmblaPluginType[];
   /** When `plugins` is omitted, adds `embla-carousel-autoplay`. Ignored if `plugins` is set. */
   autoplay?: boolean | { delay?: number; stopOnInteraction?: boolean };
+  /** Accessible name for the carousel region. */
+  label?: string;
   dir?: "ltr" | "rtl";
   children?: ComponentChildren;
 };
@@ -49,9 +52,11 @@ export const Carousel = ({
   setApi,
   plugins,
   autoplay = false,
+  label,
   dir,
   class: className,
   children,
+  "aria-label": ariaLabel,
   ...rest
 }: CarouselProps) => {
   const [viewport, setViewport] = useState<HTMLDivElement | null>(null);
@@ -70,10 +75,11 @@ export const Carousel = ({
     signalsRef.current = {
       embla: signal<EmblaCarouselType | null>(null),
       canScrollPrev: signal(false),
-      canScrollNext: signal(false)
+      canScrollNext: signal(false),
     };
   }
   const { embla, canScrollPrev, canScrollNext } = signalsRef.current;
+  const autoplayPluginRef = useRef<EmblaPluginType | null>(null);
 
   const optsKey = JSON.stringify(opts ?? {});
 
@@ -83,17 +89,23 @@ export const Carousel = ({
       ...base,
       align: base.align ?? (orientation === "vertical" ? "start" : "center"),
       axis: orientation === "vertical" ? "y" : "x",
-      ...(dir ? { direction: dir } : {})
+      ...(dir ? { direction: dir } : {}),
     };
   }, [optsKey, orientation, dir]);
 
   const effectivePlugins = useMemo<EmblaPluginType[]>(() => {
+    autoplayPluginRef.current = null;
     if (plugins !== undefined) return plugins;
     if (!autoplay) return [];
-    return [Autoplay(typeof autoplay === "object" ? autoplay : {})];
+    const plugin = Autoplay(typeof autoplay === "object" ? autoplay : {});
+    autoplayPluginRef.current = plugin;
+    return [plugin];
   }, [plugins, autoplay]);
 
-  const pluginsKey = useMemo(() => effectivePlugins.map((p) => p.name).join(","), [effectivePlugins]);
+  const pluginsKey = useMemo(
+    () => effectivePlugins.map((p) => p.name).join(","),
+    [effectivePlugins],
+  );
 
   useLayoutEffect(() => {
     if (!viewport) return;
@@ -134,12 +146,14 @@ export const Carousel = ({
         canScrollNext,
         scrollPrev: () => embla.value?.scrollPrev(),
         scrollNext: () => embla.value?.scrollNext(),
-        orientation
+        orientation,
+        autoplayPluginRef,
       }}
     >
       <div
         role="region"
         aria-roledescription="carousel"
+        aria-label={label ?? ariaLabel}
         data-slot="carousel"
         data-carousel-orientation={orientation}
         class={cn("relative", className)}

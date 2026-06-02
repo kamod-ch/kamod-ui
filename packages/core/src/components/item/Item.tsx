@@ -1,4 +1,4 @@
-import { cloneElement, isValidElement, type ComponentChildren, type JSX } from "preact";
+import { type ComponentChildren, cloneElement, isValidElement, type JSX } from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
 import { cn } from "../../lib/utils";
 
@@ -59,7 +59,7 @@ export const Item = ({
     };
 
     return cloneElement(children, {
-      ...(childProps ?? {}),
+      ...childProps,
       ...(rest as JSX.HTMLAttributes<HTMLElement>),
       class: cn(childProps.class, childProps.className, resolvedClassName),
       "data-slot": "item",

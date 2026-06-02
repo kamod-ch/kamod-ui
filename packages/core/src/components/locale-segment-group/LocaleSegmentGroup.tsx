@@ -5,11 +5,10 @@ export type LocaleSegmentOption = { value: string; label: string };
 
 const defaultOptions: LocaleSegmentOption[] = [
   { value: "de", label: "DE" },
-  { value: "en", label: "EN" }
+  { value: "en", label: "EN" },
 ];
 
-const btnBase =
-  "rounded px-2 py-1 text-[13px] font-medium transition-colors";
+const btnBase = "rounded px-2 py-1 text-[13px] font-medium transition-colors";
 
 const btnActive = "bg-black text-white dark:bg-white dark:text-black";
 

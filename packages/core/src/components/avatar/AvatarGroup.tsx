@@ -17,7 +17,7 @@ export const AvatarGroup = ({ class: className, children, ...rest }: AvatarGroup
       data-slot="avatar-group"
       class={cn(
         "isolate flex flex-row flex-wrap items-center -space-x-2 rtl:space-x-reverse",
-        className
+        className,
       )}
       {...rest}
     >
@@ -26,7 +26,9 @@ export const AvatarGroup = ({ class: className, children, ...rest }: AvatarGroup
           const z = stackIndex;
           stackIndex += 1;
           const key =
-            typeof child.key === "string" || typeof child.key === "number" ? child.key : `avatar-group-${i}`;
+            typeof child.key === "string" || typeof child.key === "number"
+              ? child.key
+              : `avatar-group-${i}`;
           return (
             <span
               key={key}
@@ -39,7 +41,9 @@ export const AvatarGroup = ({ class: className, children, ...rest }: AvatarGroup
         }
         if (isValidElement(child) && child.type === AvatarGroupCount) {
           const key =
-            typeof child.key === "string" || typeof child.key === "number" ? child.key : `avatar-group-count-${i}`;
+            typeof child.key === "string" || typeof child.key === "number"
+              ? child.key
+              : `avatar-group-count-${i}`;
           return (
             <span key={key} class="relative z-[100] inline-flex shrink-0">
               {child}

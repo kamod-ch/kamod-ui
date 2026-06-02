@@ -34,7 +34,7 @@ const normalizeIncoming = (
   raw: SliderPrimitiveValue | undefined,
   fallbackSingle: number,
   min: number,
-  max: number
+  max: number,
 ): number[] => {
   if (raw === undefined) return [clamp(fallbackSingle, min, max)];
   let arr = Array.isArray(raw) ? raw : [raw];
@@ -91,7 +91,7 @@ const overlayThumbStyles = [
   "[&::-moz-range-thumb]:ring-1 [&::-moz-range-thumb]:ring-ring/50",
   "[&::-moz-range-thumb]:hover:ring-3 [&::-moz-range-thumb]:focus-visible:ring-3 [&::-moz-range-thumb]:active:ring-3",
   "group-data-[dragging]:[&::-moz-range-thumb]:hover:ring-1 group-data-[dragging]:[&::-moz-range-thumb]:focus-visible:ring-1 group-data-[dragging]:[&::-moz-range-thumb]:active:ring-1",
-  "[&::-moz-range-thumb]:focus-visible:outline-none"
+  "[&::-moz-range-thumb]:focus-visible:outline-none",
 ].join(" ");
 
 const overlayInputHorizontal = cn(
@@ -101,7 +101,7 @@ const overlayInputHorizontal = cn(
   "[&::-webkit-slider-runnable-track]:h-1 [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:bg-transparent",
   "[&::-moz-range-track]:h-1 [&::-moz-range-track]:rounded-full [&::-moz-range-track]:bg-transparent",
   "[&::-moz-range-progress]:h-1 [&::-moz-range-progress]:rounded-full [&::-moz-range-progress]:bg-transparent",
-  overlayThumbStyles
+  overlayThumbStyles,
 );
 
 /**
@@ -117,7 +117,7 @@ const overlayInputVertical = cn(
   "[&::-webkit-slider-thumb]:ml-[-4px]",
   "[&::-moz-range-track]:w-1 [&::-moz-range-track]:h-full [&::-moz-range-track]:rounded-full [&::-moz-range-track]:bg-transparent",
   "[&::-moz-range-progress]:w-1 [&::-moz-range-progress]:bg-transparent",
-  overlayThumbStyles
+  overlayThumbStyles,
 );
 
 const multiThumbInputHorizontal = overlayInputHorizontal;
@@ -170,10 +170,10 @@ export const Slider = ({
           normalizeIncoming(defaultValue, 50, minValue, maxValue),
           minValue,
           maxValue,
-          stepValue
-        )
+          stepValue,
+        ),
       ),
-    []
+    [],
   );
 
   const isControlled = controlledValue !== undefined;
@@ -182,7 +182,7 @@ export const Slider = ({
         normalizeIncoming(controlledValue, 50, minValue, maxValue),
         minValue,
         maxValue,
-        stepValue
+        stepValue,
       )
     : localValues.value;
 
@@ -270,7 +270,7 @@ export const Slider = ({
       }
       setTopIndex((prev) => (prev === closest ? prev : closest));
     },
-    [disabled, dragging, orientation, minValue, maxValue, values]
+    [disabled, dragging, orientation, minValue, maxValue, values],
   );
 
   if (values.length === 1) {
@@ -291,15 +291,15 @@ export const Slider = ({
           data-dragging={dragging ? "" : undefined}
           class={cn(
             "group relative inline-flex min-h-40 w-6 shrink-0 touch-none select-none justify-center data-[disabled]:opacity-50 data-[orientation=vertical]:min-h-40 data-[orientation=vertical]:w-auto data-[orientation=vertical]:flex-col",
-            className
+            className,
           )}
         >
-        <span
-          data-slot="slider-track"
-          data-orientation="vertical"
-          class="pointer-events-none absolute left-1/2 top-[0.375rem] bottom-[0.375rem] w-1 -translate-x-1/2 rounded-full bg-muted"
-          aria-hidden="true"
-        />
+          <span
+            data-slot="slider-track"
+            data-orientation="vertical"
+            class="pointer-events-none absolute left-1/2 top-[0.375rem] bottom-[0.375rem] w-1 -translate-x-1/2 rounded-full bg-muted"
+            aria-hidden="true"
+          />
           <span
             ref={singleRangeVerticalRef}
             data-slot="slider-range"
@@ -307,7 +307,7 @@ export const Slider = ({
             class="pointer-events-none absolute left-1/2 w-1 -translate-x-1/2 rounded-full bg-black select-none dark:bg-zinc-200"
             style={{
               bottom: SLIDER_THUMB_HALF,
-              height: `calc((100% - ${SLIDER_THUMB_FULL}) * ${fillPercent} / 100)`
+              height: `calc((100% - ${SLIDER_THUMB_FULL}) * ${fillPercent} / 100)`,
             }}
             aria-hidden="true"
           />
@@ -364,7 +364,7 @@ export const Slider = ({
         data-dragging={dragging ? "" : undefined}
         class={cn(
           "group relative flex h-6 w-full shrink-0 touch-none select-none items-center data-[disabled]:opacity-50",
-          className
+          className,
         )}
       >
         <span
@@ -380,7 +380,7 @@ export const Slider = ({
           class="pointer-events-none absolute top-1/2 h-1 -translate-y-1/2 rounded-full bg-black select-none dark:bg-zinc-200"
           style={{
             left: SLIDER_THUMB_HALF,
-            right: `calc(${SLIDER_THUMB_HALF} + (100% - ${SLIDER_THUMB_FULL}) * ${(100 - fillPercent) / 100})`
+            right: `calc(${SLIDER_THUMB_HALF} + (100% - ${SLIDER_THUMB_FULL}) * ${(100 - fillPercent) / 100})`,
           }}
           aria-hidden="true"
         />
@@ -471,7 +471,7 @@ export const Slider = ({
             class="pointer-events-none absolute left-1/2 w-1 -translate-x-1/2 rounded-full bg-black select-none dark:bg-zinc-200"
             style={{
               bottom: `calc(${SLIDER_THUMB_HALF} + (100% - ${SLIDER_THUMB_FULL}) * ${pLo} / 100)`,
-              height: `calc((100% - ${SLIDER_THUMB_FULL}) * ${Math.max(0, pHi - pLo)} / 100)`
+              height: `calc((100% - ${SLIDER_THUMB_FULL}) * ${Math.max(0, pHi - pLo)} / 100)`,
             }}
             aria-hidden="true"
           />
@@ -500,7 +500,7 @@ export const Slider = ({
             class="pointer-events-none absolute top-1/2 h-1 -translate-y-1/2 rounded-full bg-black select-none dark:bg-zinc-200"
             style={{
               left: `calc(${SLIDER_THUMB_HALF} + (100% - ${SLIDER_THUMB_FULL}) * ${pLo} / 100)`,
-              width: `calc((100% - ${SLIDER_THUMB_FULL}) * ${Math.max(0, pHi - pLo)} / 100)`
+              width: `calc((100% - ${SLIDER_THUMB_FULL}) * ${Math.max(0, pHi - pLo)} / 100)`,
             }}
             aria-hidden="true"
           />
@@ -514,7 +514,7 @@ export const Slider = ({
     isVertical
       ? "inline-flex min-h-40 w-6 shrink-0 justify-center data-[orientation=vertical]:min-h-40 data-[orientation=vertical]:w-auto data-[orientation=vertical]:flex-col"
       : "flex h-6 w-full shrink-0 items-center",
-    className
+    className,
   );
 
   const inputLayerClass = "absolute inset-0 min-h-0 min-w-0";
@@ -552,11 +552,13 @@ export const Slider = ({
             disabled={disabled}
             value={v}
             style={{
-              ...(typeof inputStyleProp === "object" && inputStyleProp !== null && !Array.isArray(inputStyleProp)
+              ...(typeof inputStyleProp === "object" &&
+              inputStyleProp !== null &&
+              !Array.isArray(inputStyleProp)
                 ? inputStyleProp
                 : {}),
               zIndex: topIndex === i ? 3 : 2,
-              pointerEvents: disabled ? undefined : topIndex === i ? "auto" : "none"
+              pointerEvents: disabled ? undefined : topIndex === i ? "auto" : "none",
             }}
             class={perInputClass()}
             onInput={(e) => onThumbInput(i, e)}

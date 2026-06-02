@@ -8,22 +8,22 @@ export const dropdownItem = tv({
     "text-popover-foreground hover:bg-accent hover:text-accent-foreground",
     "focus:bg-accent focus:text-accent-foreground",
     "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-    "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-3.5"
+    "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-3.5",
   ],
   variants: {
     variant: {
       default: "",
       destructive:
-        "text-destructive hover:bg-destructive/10 hover:text-destructive focus:bg-destructive/10 focus:text-destructive dark:focus:bg-destructive/20 [&_svg]:text-destructive"
+        "text-destructive hover:bg-destructive/10 hover:text-destructive focus:bg-destructive/10 focus:text-destructive dark:focus:bg-destructive/20 [&_svg]:text-destructive",
     },
     inset: {
-      true: "ps-6"
-    }
+      true: "ps-6",
+    },
   },
   defaultVariants: {
     variant: "default",
-    inset: false
-  }
+    inset: false,
+  },
 });
 
 export type DropdownItemProps = JSX.ButtonHTMLAttributes<HTMLButtonElement> &

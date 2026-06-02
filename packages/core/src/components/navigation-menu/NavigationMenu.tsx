@@ -1,9 +1,12 @@
 import { signal } from "@preact/signals";
-import { useEffect, useMemo, useRef } from "preact/hooks";
 import type { ComponentChildren, JSX } from "preact";
-import { cn } from "../../lib/utils";
+import { useEffect, useMemo, useRef } from "preact/hooks";
 import { createDismissableLayer } from "../../lib/interactive";
-import { NavigationMenuRootContext, type NavigationMenuRootContextValue } from "./navigation-menu-context";
+import { cn } from "../../lib/utils";
+import {
+  NavigationMenuRootContext,
+  type NavigationMenuRootContextValue,
+} from "./navigation-menu-context";
 
 export type NavigationMenuProps = JSX.HTMLAttributes<HTMLElement> & {
   children?: ComponentChildren;
@@ -75,7 +78,7 @@ export const NavigationMenu = ({
         clearTimers();
         openValue.value = openValue.value === itemValue ? null : itemValue;
         if (openValue.value) lastOpenAtRef.current = Date.now();
-      }
+      },
     };
   }, [openValue, delayDuration, skipDelayDuration]);
 
@@ -90,7 +93,7 @@ export const NavigationMenu = ({
       open: () => openValue.value != null,
       onDismiss: () => {
         openValue.value = null;
-      }
+      },
     });
     return () => layer.dispose();
   }, [openValue]);

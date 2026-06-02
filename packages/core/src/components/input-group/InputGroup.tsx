@@ -13,8 +13,8 @@ export const inputGroup = tv({
     "has-[>[data-align=block-end]]:[&>[data-slot=input-group-control]]:pt-3",
     "has-[>[data-align=block-start]]:[&>[data-slot=input-group-control]]:pb-3",
     "has-[>[data-align=inline-end]]:[&>[data-slot=input-group-control]]:pr-1.5",
-    "has-[>[data-align=inline-start]]:[&>[data-slot=input-group-control]]:pl-1.5"
-  ]
+    "has-[>[data-align=inline-start]]:[&>[data-slot=input-group-control]]:pl-1.5",
+  ],
 });
 
 export type InputGroupProps = JSX.HTMLAttributes<HTMLDivElement> & {
@@ -22,8 +22,12 @@ export type InputGroupProps = JSX.HTMLAttributes<HTMLDivElement> & {
 };
 
 export const InputGroup = ({ class: className, children, ...rest }: InputGroupProps) => (
-  <div role="group" class={inputGroup({ class: className as string | undefined })} data-slot="input-group" {...rest}>
+  <div
+    role="group"
+    class={inputGroup({ class: className as string | undefined })}
+    data-slot="input-group"
+    {...rest}
+  >
     {children}
   </div>
 );
-

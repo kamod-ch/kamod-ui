@@ -1,4 +1,4 @@
-import { cloneElement, isValidElement, type ComponentChildren, type JSX } from "preact";
+import { type ComponentChildren, cloneElement, isValidElement, type JSX } from "preact";
 import { useDialog } from "./Dialog";
 
 export type DialogCloseProps = JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -52,7 +52,7 @@ export const DialogClose = ({
       ref: (node: HTMLElement | null) => {
         callRef(childProps.ref, node);
         callRef(outerRef, node);
-      }
+      },
     } as never);
   }
 

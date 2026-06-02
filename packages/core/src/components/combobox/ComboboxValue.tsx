@@ -9,7 +9,12 @@ export type ComboboxValueProps = Omit<JSX.HTMLAttributes<HTMLSpanElement>, "chil
     | ComponentChildren;
 };
 
-export const ComboboxValue = ({ placeholder: placeholderProp, children, class: className, ...rest }: ComboboxValueProps) => {
+export const ComboboxValue = ({
+  placeholder: placeholderProp,
+  children,
+  class: className,
+  ...rest
+}: ComboboxValueProps) => {
   const ctx = useCombobox();
   const label = comboboxSelectionLabel(ctx);
   const empty = ctx.selectedKeys.length === 0;
@@ -24,7 +29,7 @@ export const ComboboxValue = ({ placeholder: placeholderProp, children, class: c
       class={cn("truncate", empty && "text-muted-foreground", className)}
       {...rest}
     >
-      {empty ? placeholderProp ?? ctx.placeholder : label}
+      {empty ? (placeholderProp ?? ctx.placeholder) : label}
     </span>
   );
 };

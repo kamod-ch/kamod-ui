@@ -14,24 +14,6 @@ import { MenubarSubContent } from "./MenubarSubContent";
 import { MenubarSubTrigger } from "./MenubarSubTrigger";
 import { MenubarTrigger } from "./MenubarTrigger";
 
-export {
-  Menubar,
-  MenubarCheckboxItem,
-  MenubarContent,
-  MenubarGroup,
-  MenubarItem,
-  MenubarLabel,
-  MenubarMenu,
-  MenubarRadioGroup,
-  MenubarRadioItem,
-  MenubarSeparator,
-  MenubarShortcut,
-  MenubarSub,
-  MenubarSubContent,
-  MenubarSubTrigger,
-  MenubarTrigger
-};
-
 export type { MenubarProps } from "./Menubar";
 export type { MenubarCheckboxItemProps } from "./MenubarCheckboxItem";
 export type { MenubarContentProps } from "./MenubarContent";
@@ -47,6 +29,23 @@ export type { MenubarSubProps } from "./MenubarSub";
 export type { MenubarSubContentProps } from "./MenubarSubContent";
 export type { MenubarSubTriggerProps } from "./MenubarSubTrigger";
 export type { MenubarTriggerProps } from "./MenubarTrigger";
+export {
+  Menubar,
+  MenubarCheckboxItem,
+  MenubarContent,
+  MenubarGroup,
+  MenubarItem,
+  MenubarLabel,
+  MenubarMenu,
+  MenubarRadioGroup,
+  MenubarRadioItem,
+  MenubarSeparator,
+  MenubarShortcut,
+  MenubarSub,
+  MenubarSubContent,
+  MenubarSubTrigger,
+  MenubarTrigger,
+};
 
 export default {
   Root: Menubar,
@@ -63,5 +62,5 @@ export default {
   RadioItem: MenubarRadioItem,
   Sub: MenubarSub,
   SubTrigger: MenubarSubTrigger,
-  SubContent: MenubarSubContent
+  SubContent: MenubarSubContent,
 };

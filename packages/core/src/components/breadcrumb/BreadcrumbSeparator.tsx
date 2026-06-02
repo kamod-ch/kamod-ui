@@ -5,8 +5,18 @@ export type BreadcrumbSeparatorProps = JSX.HTMLAttributes<HTMLLIElement> & {
   children?: ComponentChildren;
 };
 
-export const BreadcrumbSeparator = ({ class: className, children, ...rest }: BreadcrumbSeparatorProps) => (
-  <li data-slot="breadcrumb-separator" role="presentation" aria-hidden="true" class={cn("[&>svg]:size-3.5", className)} {...rest}>
+export const BreadcrumbSeparator = ({
+  class: className,
+  children,
+  ...rest
+}: BreadcrumbSeparatorProps) => (
+  <li
+    data-slot="breadcrumb-separator"
+    role="presentation"
+    aria-hidden="true"
+    class={cn("[&>svg]:size-3.5", className)}
+    {...rest}
+  >
     {children ?? (
       <svg
         viewBox="0 0 24 24"

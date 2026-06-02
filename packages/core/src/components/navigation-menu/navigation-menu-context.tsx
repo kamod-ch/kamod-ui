@@ -32,6 +32,9 @@ export const NavigationMenuItemContext = createContext<NavigationMenuItemContext
 
 export const useNavigationMenuItemCtx = () => {
   const ctx = useContext(NavigationMenuItemContext);
-  if (!ctx) throw new Error("NavigationMenuTrigger and NavigationMenuContent must be inside NavigationMenuItem");
+  if (!ctx)
+    throw new Error(
+      "NavigationMenuTrigger and NavigationMenuContent must be inside NavigationMenuItem",
+    );
   return ctx;
 };

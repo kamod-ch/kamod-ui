@@ -6,20 +6,20 @@ const positionBySide = {
   top: "bottom-full",
   bottom: "top-full",
   left: "right-full",
-  right: "left-full"
+  right: "left-full",
 } as const;
 
 const alignByAxis = {
   vertical: {
     start: "left-0",
     center: "left-1/2 -translate-x-1/2",
-    end: "right-0"
+    end: "right-0",
   },
   horizontal: {
     start: "top-0",
     center: "top-1/2 -translate-y-1/2",
-    end: "bottom-0"
-  }
+    end: "bottom-0",
+  },
 } as const;
 
 export const popoverContent = tv({
@@ -27,19 +27,19 @@ export const popoverContent = tv({
     "bg-popover text-popover-foreground z-50 flex min-w-0 w-80 max-w-[calc(100vw-1.5rem)] max-h-[calc(100dvh-2rem)] flex-col gap-3 overflow-x-hidden overflow-y-auto rounded-lg border p-4 shadow-md outline-none",
     "data-[state=open]:animate-in fade-in zoom-in-95",
     "data-[state=closed]:animate-out data-[state=closed]:fill-mode-forwards fade-out zoom-out-95",
-    "absolute isolate"
+    "absolute isolate",
   ],
   variants: {
     side: {
       bottom: "slide-in-from-top-2",
       top: "slide-in-from-bottom-2",
       right: "slide-in-from-left-2",
-      left: "slide-in-from-right-2"
-    }
+      left: "slide-in-from-right-2",
+    },
   },
   defaultVariants: {
-    side: "bottom"
-  }
+    side: "bottom",
+  },
 });
 
 export type PopoverContentProps = JSX.HTMLAttributes<HTMLDivElement> &
@@ -107,4 +107,3 @@ export const PopoverContent = ({
     </div>
   );
 };
-

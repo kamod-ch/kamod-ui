@@ -1,7 +1,7 @@
 import { signal } from "@preact/signals";
+import type { ComponentChildren, JSX } from "preact";
 import { createContext } from "preact";
 import { useCallback, useContext, useEffect, useMemo, useRef } from "preact/hooks";
-import type { ComponentChildren, JSX } from "preact";
 
 export type HoverCardContextValue = {
   open: ReturnType<typeof signal<boolean>>;
@@ -62,7 +62,7 @@ export const HoverCard = ({
       clearCloseTimer();
       open.value = next;
     },
-    [clearCloseTimer, clearOpenTimer, open]
+    [clearCloseTimer, clearOpenTimer, open],
   );
 
   const pinOpen = useCallback(() => {
@@ -94,7 +94,7 @@ export const HoverCard = ({
       clearOpenTimer();
       clearCloseTimer();
     },
-    [clearCloseTimer, clearOpenTimer]
+    [clearCloseTimer, clearOpenTimer],
   );
 
   const value = useMemo(
@@ -105,14 +105,19 @@ export const HoverCard = ({
       scheduleOpen,
       scheduleClose,
       pinOpen,
-      setOpenImmediate
+      setOpenImmediate,
     }),
-    [open, openDelay, closeDelay, scheduleOpen, scheduleClose, pinOpen, setOpenImmediate]
+    [open, openDelay, closeDelay, scheduleOpen, scheduleClose, pinOpen, setOpenImmediate],
   );
 
   return (
     <HoverCardContext.Provider value={value}>
-      <div data-slot="hover-card" data-state={open.value ? "open" : "closed"} class="relative inline-flex" {...rest}>
+      <div
+        data-slot="hover-card"
+        data-state={open.value ? "open" : "closed"}
+        class="relative inline-flex"
+        {...rest}
+      >
         {children}
       </div>
     </HoverCardContext.Provider>

@@ -1,6 +1,6 @@
+import type { ComponentChildren } from "preact";
 import { createContext } from "preact";
 import { useContext } from "preact/hooks";
-import type { ComponentChildren } from "preact";
 
 export type ContextMenuRadioContextValue = {
   value: string;
@@ -11,7 +11,7 @@ const ContextMenuRadioContext = createContext<ContextMenuRadioContextValue | nul
 
 export const ContextMenuRadioProvider = ({
   children,
-  value
+  value,
 }: {
   children: ComponentChildren;
   value: ContextMenuRadioContextValue;

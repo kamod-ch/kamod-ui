@@ -1,4 +1,4 @@
-import { cloneElement, isValidElement, type ComponentChildren, type JSX } from "preact";
+import { type ComponentChildren, cloneElement, isValidElement, type JSX } from "preact";
 import { useTooltip } from "./Tooltip";
 
 export type TooltipTriggerProps = JSX.HTMLAttributes<HTMLSpanElement> & {
@@ -51,7 +51,7 @@ export const TooltipTrigger = ({ asChild = false, children, ...rest }: TooltipTr
     onBlur: (event) => {
       tooltip.setOpen(false);
       onBlur?.(event as unknown as JSX.TargetedFocusEvent<HTMLElement>);
-    }
+    },
   };
 
   if (asChild) {
@@ -65,9 +65,9 @@ export const TooltipTrigger = ({ asChild = false, children, ...rest }: TooltipTr
     };
 
     return cloneElement(children, {
-      ...(childProps ?? {}),
+      ...childProps,
       ...commonProps,
-      ...remainingProps
+      ...remainingProps,
     });
   }
 
@@ -82,4 +82,3 @@ export const TooltipTrigger = ({ asChild = false, children, ...rest }: TooltipTr
     </span>
   );
 };
-

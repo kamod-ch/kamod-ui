@@ -1,4 +1,4 @@
-import { useState } from "preact/hooks";
+import type { DateRange } from "@kamod-ui/core";
 import {
   Button,
   Calendar,
@@ -16,9 +16,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@kamod-ui/core";
-import type { DateRange } from "@kamod-ui/core";
 import { parseDate } from "chrono-node";
 import { Calendar as CalendarIcon, ChevronDown } from "lucide-preact";
+import { useState } from "preact/hooks";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 const formatMdY = (date: Date | undefined) => {

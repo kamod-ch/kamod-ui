@@ -1,6 +1,6 @@
 import type { ComponentChildren, JSX } from "preact";
 import { cn } from "../../lib/utils";
-import { fieldRoot, type FieldRootVariants } from "./field-variants";
+import { type FieldRootVariants, fieldRoot } from "./field-variants";
 
 export type FieldProps = JSX.HTMLAttributes<HTMLDivElement> &
   FieldRootVariants & {
@@ -47,14 +47,18 @@ export const Field = ({
           isHorizontal && label != null && "flex flex-col gap-2",
           isHorizontal && label == null && fieldRoot({ orientation: "horizontal" }),
           disabled ? "opacity-80" : null,
-          className
+          className,
         )}
         {...(invalid ? { "data-invalid": "" } : {})}
       >
         {label != null ? (
           <label data-slot="field-label" class="text-sm leading-none font-medium">
             {label}
-            {resolvedRequired ? <span aria-hidden="true" class="ms-1 text-destructive">*</span> : null}
+            {resolvedRequired ? (
+              <span aria-hidden="true" class="ms-1 text-destructive">
+                *
+              </span>
+            ) : null}
           </label>
         ) : null}
         {isHorizontal && label != null ? (

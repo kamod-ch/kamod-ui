@@ -13,13 +13,13 @@ import {
   TabsTrigger,
 } from "@kamod-ui/core";
 import type { ComponentChildren } from "preact";
-import { useLocation, useRoute } from "preact-iso";
 import { useEffect, useMemo, useRef, useState } from "preact/hooks";
+import { useLocation, useRoute } from "preact-iso";
 import { withBasePath } from "../base-path";
 import { buildComponentDocMarkdown } from "./build-component-doc-markdown";
-import { docImportFrom, rewriteKamodCoreImportsInDocString } from "./doc-snippet-imports";
 import { CodeBlock } from "./components/CodeBlock";
 import { DocsShell } from "./components/DocsShell";
+import { docImportFrom, rewriteKamodCoreImportsInDocString } from "./doc-snippet-imports";
 import { docsBySlug, docsPages } from "./registry";
 import type { DocRenderMainContext, DocSection } from "./types";
 

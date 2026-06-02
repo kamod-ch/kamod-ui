@@ -42,7 +42,7 @@ export const ScrollAreaCorner = ({ class: className, ...rest }: ScrollAreaCorner
       aria-hidden="true"
       class={cn(
         "pointer-events-none absolute bottom-1 right-1 z-[1] size-2.5 rounded-sm bg-border/45",
-        className
+        className,
       )}
       {...rest}
     />

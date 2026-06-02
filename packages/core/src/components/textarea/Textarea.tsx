@@ -10,16 +10,16 @@ export const textarea = tv({
     "file:text-foreground file:border-0 file:bg-transparent file:text-sm file:font-medium",
     "disabled:cursor-not-allowed disabled:opacity-50",
     "aria-invalid:border-error aria-invalid:focus-visible:ring-error/40 aria-invalid:focus-visible:border-error",
-    "peer"
+    "peer",
   ],
   variants: {
     size: {
       sm: "min-h-16 px-2.5 py-1.5 text-sm",
       md: "min-h-16 px-3 py-2 text-base",
-      lg: "min-h-24 px-4 py-3 text-lg"
-    }
+      lg: "min-h-24 px-4 py-3 text-lg",
+    },
   },
-  defaultVariants: { size: "md" }
+  defaultVariants: { size: "md" },
 });
 
 export type TextareaProps = Omit<JSX.TextareaHTMLAttributes<HTMLTextAreaElement>, "size"> &
@@ -32,4 +32,3 @@ export const Textarea = ({ size, class: className, ...rest }: TextareaProps) => 
     {...rest}
   />
 );
-

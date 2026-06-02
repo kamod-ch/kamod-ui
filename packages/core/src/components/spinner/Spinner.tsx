@@ -12,21 +12,32 @@ const sizeClass: Record<NonNullable<SpinnerProps["size"]>, string> = {
   sm: "size-4",
   md: "size-6",
   lg: "size-8",
-  xl: "size-10"
+  xl: "size-10",
 };
 
 const toneClass: Record<NonNullable<SpinnerProps["tone"]>, string> = {
   default: "text-current",
   muted: "text-muted-foreground",
-  primary: "text-primary"
+  primary: "text-primary",
 };
 
-export const Spinner = ({ size = "sm", tone = "default", strokeWidth = 2.5, class: className, ...rest }: SpinnerProps) => (
+export const Spinner = ({
+  size = "sm",
+  tone = "default",
+  strokeWidth = 2.5,
+  class: className,
+  ...rest
+}: SpinnerProps) => (
   <span
     role="status"
     aria-label="Loading"
     data-slot="spinner"
-    class={cn("inline-grid shrink-0 place-items-center align-middle", sizeClass[size], toneClass[tone], className)}
+    class={cn(
+      "inline-grid shrink-0 place-items-center align-middle",
+      sizeClass[size],
+      toneClass[tone],
+      className,
+    )}
     {...rest}
   >
     <svg
@@ -43,4 +54,3 @@ export const Spinner = ({ size = "sm", tone = "default", strokeWidth = 2.5, clas
     </svg>
   </span>
 );
-

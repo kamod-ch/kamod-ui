@@ -1,4 +1,3 @@
-import { useState } from "preact/hooks";
 import {
   Badge,
   Button,
@@ -13,6 +12,7 @@ import {
   Input,
   Label,
 } from "@kamod-ui/core";
+import { useState } from "preact/hooks";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 const p = "card-doc";

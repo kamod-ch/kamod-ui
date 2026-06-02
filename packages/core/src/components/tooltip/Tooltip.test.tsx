@@ -11,10 +11,12 @@ describe("Tooltip", () => {
           </TooltipTrigger>
           <TooltipContent>Tooltip text</TooltipContent>
         </Tooltip>
-      </TooltipProvider>
+      </TooltipProvider>,
     );
 
-    const trigger = screen.getByText("Trigger").closest("[data-slot='tooltip-trigger']") as HTMLElement;
+    const trigger = screen
+      .getByText("Trigger")
+      .closest("[data-slot='tooltip-trigger']") as HTMLElement;
     expect(screen.queryByRole("tooltip")).not.toBeInTheDocument();
 
     fireEvent.focus(trigger);
@@ -35,10 +37,12 @@ describe("Tooltip", () => {
           <button type="button">Hover me</button>
         </TooltipTrigger>
         <TooltipContent>Delayed content</TooltipContent>
-      </Tooltip>
+      </Tooltip>,
     );
 
-    const trigger = screen.getByText("Hover me").closest("[data-slot='tooltip-trigger']") as HTMLElement;
+    const trigger = screen
+      .getByText("Hover me")
+      .closest("[data-slot='tooltip-trigger']") as HTMLElement;
     fireEvent.mouseEnter(trigger);
     await vi.advanceTimersByTimeAsync(99);
     expect(screen.queryByRole("tooltip")).not.toBeInTheDocument();

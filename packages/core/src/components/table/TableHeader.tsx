@@ -10,4 +10,3 @@ export const TableHeader = ({ class: className, children, ...rest }: TableHeader
     {children}
   </thead>
 );
-

@@ -21,7 +21,7 @@ describe("Toggle", () => {
   it("respects controlled mode and calls onPressedChange", () => {
     const onPressedChange = vi.fn();
     const { rerender } = render(
-      <Toggle aria-label="Toggle italic" pressed={false} onPressedChange={onPressedChange} />
+      <Toggle aria-label="Toggle italic" pressed={false} onPressedChange={onPressedChange} />,
     );
     const button = screen.getByRole("button", { name: "Toggle italic" });
 
@@ -38,7 +38,7 @@ describe("Toggle", () => {
     render(
       <Toggle aria-label="Toggle underline" variant="outline" size="lg">
         Underline
-      </Toggle>
+      </Toggle>,
     );
     const button = screen.getByRole("button", { name: "Toggle underline" });
 

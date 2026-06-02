@@ -1,11 +1,11 @@
 import type { JSX } from "preact";
 import { useEffect, useState } from "preact/hooks";
 import {
-  THEME_PRESETS,
-  THEME_PRESET_STORAGE_KEY,
   applyThemePreset,
   isThemePresetId,
   resolveInitialThemePreset,
+  THEME_PRESET_STORAGE_KEY,
+  THEME_PRESETS,
   type ThemePresetId,
 } from "./theme-presets";
 

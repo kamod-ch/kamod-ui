@@ -17,7 +17,7 @@ export {
   SelectSearch,
   SelectSeparator,
   SelectTrigger,
-  SelectValue
+  SelectValue,
 };
 
 export default {
@@ -29,5 +29,5 @@ export default {
   Label: SelectLabel,
   Search: SelectSearch,
   Separator: SelectSeparator,
-  Value: SelectValue
+  Value: SelectValue,
 };

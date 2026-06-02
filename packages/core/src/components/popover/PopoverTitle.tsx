@@ -8,8 +8,11 @@ export type PopoverTitleProps = JSX.HTMLAttributes<HTMLHeadingElement> & {
 };
 
 export const PopoverTitle = ({ class: className, children, ...rest }: PopoverTitleProps) => (
-  <h3 class={popoverTitle({ class: className as string | undefined })} data-slot="popover-title" {...rest}>
+  <h3
+    class={popoverTitle({ class: className as string | undefined })}
+    data-slot="popover-title"
+    {...rest}
+  >
     {children}
   </h3>
 );
-

@@ -5,17 +5,17 @@ export const kbd = tv({
   base: [
     "pointer-events-none inline-flex select-none items-center justify-center gap-1 whitespace-nowrap",
     "rounded-md border border-border bg-muted font-mono font-medium text-muted-foreground shadow-xs",
-    "data-[icon=inline-end]:translate-x-0.5"
+    "data-[icon=inline-end]:translate-x-0.5",
   ],
   variants: {
     size: {
       sm: "h-5 min-h-5 min-w-5 px-1.5 text-[11px] leading-none",
-      md: "h-6 min-h-6 min-w-6 px-2 text-xs leading-none"
-    }
+      md: "h-6 min-h-6 min-w-6 px-2 text-xs leading-none",
+    },
   },
   defaultVariants: {
-    size: "md"
-  }
+    size: "md",
+  },
 });
 
 export type KbdProps = Omit<JSX.HTMLAttributes<HTMLElement>, "size"> &

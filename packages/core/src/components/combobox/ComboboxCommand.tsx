@@ -1,6 +1,6 @@
 import { useLayoutEffect } from "preact/hooks";
-import { Command, type CommandProps, useCommand } from "../command/Command";
 import { cn } from "../../lib/utils";
+import { Command, type CommandProps, useCommand } from "../command/Command";
 import { useCombobox } from "./combobox-context";
 
 function CommandNavBridge() {
@@ -10,7 +10,7 @@ function CommandNavBridge() {
   useLayoutEffect(() => {
     navRef.current = {
       moveHighlight: cmd.moveHighlight,
-      activateHighlighted: cmd.activateHighlighted
+      activateHighlighted: cmd.activateHighlighted,
     };
     return () => {
       navRef.current = null;

@@ -7,6 +7,7 @@ import { DialogHeader } from "./DialogHeader";
 import { DialogTitle } from "./DialogTitle";
 import { DialogTrigger } from "./DialogTrigger";
 
+export type { DialogContentPresentation } from "./DialogContent";
 export {
   Dialog,
   DialogClose,
@@ -15,9 +16,8 @@ export {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger
+  DialogTrigger,
 };
-export type { DialogContentPresentation } from "./DialogContent";
 
 export default {
   Root: Dialog,
@@ -27,5 +27,5 @@ export default {
   Footer: DialogFooter,
   Title: DialogTitle,
   Description: DialogDescription,
-  Close: DialogClose
+  Close: DialogClose,
 };

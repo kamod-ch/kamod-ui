@@ -4,7 +4,6 @@ export const useToast = () => {
   return {
     toasts,
     toast: addToast,
-    dismiss: removeToast
+    dismiss: removeToast,
   };
 };
-

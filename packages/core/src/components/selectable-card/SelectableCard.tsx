@@ -34,8 +34,7 @@ export const SelectableCard = ({
   ...rest
 }: SelectableCardProps) => {
   const group = useRadioGroup();
-  const selected =
-    group.controlledValue !== undefined ? group.controlledValue : group.value.value;
+  const selected = group.controlledValue !== undefined ? group.controlledValue : group.value.value;
   const checked = selected === value;
 
   return (
@@ -45,7 +44,7 @@ export const SelectableCard = ({
       class={cn(
         "block cursor-pointer rounded-lg outline-none focus-within:outline-none focus-within:ring-0",
         "has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-50",
-        className
+        className,
       )}
     >
       <input
@@ -71,7 +70,7 @@ export const SelectableCard = ({
           "relative rounded-lg border-2 p-3 text-left transition-[border-color,background-color]",
           checked
             ? "border-neutral-300 bg-neutral-100 dark:border-neutral-600 dark:bg-neutral-800/70"
-            : "border-border/35 bg-background hover:border-border/60"
+            : "border-border/35 bg-background hover:border-border/60",
         )}
       >
         {checked ? (

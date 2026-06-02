@@ -39,11 +39,17 @@ jobs:
       - name: Typecheck
         run: pnpm typecheck
 
-      - name: Lint
+      - name: Format check
+        run: pnpm fmt:check
+
+      - name: Biome (imports, json, md)
+        run: pnpm biome:ci
+
+      - name: Lint (oxlint + eslint)
         run: pnpm lint
 
-      - name: Format check (demo)
-        run: pnpm fmt:check
+      - name: Dependency hygiene
+        run: pnpm qa:deps
 
       - name: Run tests
         run: pnpm test:ci
@@ -53,3 +59,10 @@ jobs:
 
       - name: Validate published package shape
         run: pnpm qa:publint && pnpm qa:attw
+
+  workflows:
+    name: Lint GitHub workflows
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: rhysd/actionlint@v1

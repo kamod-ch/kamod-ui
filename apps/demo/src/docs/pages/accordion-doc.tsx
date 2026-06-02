@@ -1,4 +1,3 @@
-import type { ComponentChildren } from "preact";
 import {
   Accordion,
   AccordionContent,
@@ -12,6 +11,7 @@ import {
   CardTitle,
   DirectionProvider,
 } from "@kamod-ui/core";
+import type { ComponentChildren } from "preact";
 import { useState } from "preact/hooks";
 import { ApiReference } from "../components/ApiReference";
 import { CodeBlock } from "../components/CodeBlock";

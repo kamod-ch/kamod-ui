@@ -16,4 +16,3 @@ export const Sidebar = ({ children, ...rest }: SidebarProps) => {
     </aside>
   );
 };
-

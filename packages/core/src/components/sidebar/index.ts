@@ -14,7 +14,7 @@ export {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
-  useSidebar
+  useSidebar,
 };
 
 export default {
@@ -24,5 +24,5 @@ export default {
   Header: SidebarHeader,
   Content: SidebarContent,
   Footer: SidebarFooter,
-  Inset: SidebarInset
+  Inset: SidebarInset,
 };

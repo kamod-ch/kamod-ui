@@ -1,4 +1,4 @@
-import { cloneElement, isValidElement, type ComponentChildren, type JSX } from "preact";
+import { type ComponentChildren, cloneElement, isValidElement, type JSX } from "preact";
 import { cn } from "../../lib/utils";
 import { useNavigationMenuItemCtx, useNavigationMenuRoot } from "./navigation-menu-context";
 
@@ -33,7 +33,7 @@ export const NavigationMenuLink = ({
     "block select-none rounded-sm px-3 py-2 text-sm no-underline outline-none transition-colors",
     "hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
     active ? "bg-accent text-accent-foreground" : "",
-    className
+    className,
   );
 
   const handleClick = (event: JSX.TargetedMouseEvent<HTMLElement>) => {
@@ -66,7 +66,7 @@ export const NavigationMenuLink = ({
       ref: (node: HTMLElement | null) => {
         callRef(childProps.ref, node);
         callRef(outerRef, node);
-      }
+      },
     } as never);
   }
 

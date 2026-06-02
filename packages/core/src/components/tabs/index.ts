@@ -9,5 +9,5 @@ export default {
   Root: Tabs,
   List: TabsList,
   Trigger: TabsTrigger,
-  Content: TabsContent
+  Content: TabsContent,
 };

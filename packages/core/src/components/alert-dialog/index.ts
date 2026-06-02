@@ -19,7 +19,7 @@ export {
   AlertDialogHeader,
   AlertDialogMedia,
   AlertDialogTitle,
-  AlertDialogTrigger
+  AlertDialogTrigger,
 };
 
 export default {
@@ -32,6 +32,5 @@ export default {
   Description: AlertDialogDescription,
   Media: AlertDialogMedia,
   Cancel: AlertDialogCancel,
-  Action: AlertDialogAction
+  Action: AlertDialogAction,
 };
-

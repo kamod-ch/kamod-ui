@@ -14,4 +14,3 @@ export const TableFooter = ({ class: className, children, ...rest }: TableFooter
     {children}
   </tfoot>
 );
-

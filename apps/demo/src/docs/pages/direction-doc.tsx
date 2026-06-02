@@ -1,4 +1,3 @@
-import { useState } from "preact/hooks";
 import {
   Button,
   Card,
@@ -14,6 +13,7 @@ import {
   Label,
   useDirection,
 } from "@kamod-ui/core";
+import { useState } from "preact/hooks";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 const DirectionValuePreview = () => {

@@ -1,6 +1,6 @@
+import type { ComponentChildren, JSX } from "preact";
 import { createContext } from "preact";
 import { useContext } from "preact/hooks";
-import type { ComponentChildren, JSX } from "preact";
 import { useAccordion } from "./Accordion";
 
 type AccordionItemContextValue = {
@@ -23,7 +23,12 @@ export type AccordionItemProps = JSX.HTMLAttributes<HTMLDivElement> & {
   children?: ComponentChildren;
 };
 
-export const AccordionItem = ({ value, disabled = false, children, ...rest }: AccordionItemProps) => {
+export const AccordionItem = ({
+  value,
+  disabled = false,
+  children,
+  ...rest
+}: AccordionItemProps) => {
   const { openValues } = useAccordion();
   const isOpen = openValues.value.has(value);
 
@@ -40,4 +45,3 @@ export const AccordionItem = ({ value, disabled = false, children, ...rest }: Ac
     </AccordionItemContext.Provider>
   );
 };
-

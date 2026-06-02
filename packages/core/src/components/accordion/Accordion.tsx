@@ -1,7 +1,7 @@
-import { signal, type Signal } from "@preact/signals";
+import { type Signal, signal } from "@preact/signals";
+import type { ComponentChildren, JSX } from "preact";
 import { createContext } from "preact";
 import { useContext, useMemo } from "preact/hooks";
-import type { ComponentChildren, JSX } from "preact";
 
 type AccordionType = "single" | "multiple";
 
@@ -36,7 +36,7 @@ export const Accordion = ({
 }: AccordionProps) => {
   const openValues = useMemo(() => {
     const initialSet = new Set<string>(
-      defaultValue ? (Array.isArray(defaultValue) ? defaultValue : [defaultValue]) : []
+      defaultValue ? (Array.isArray(defaultValue) ? defaultValue : [defaultValue]) : [],
     );
     return signal(initialSet);
   }, []);
@@ -61,7 +61,7 @@ export const Accordion = ({
       }
 
       openValues.value = next;
-    }
+    },
   };
 
   return (

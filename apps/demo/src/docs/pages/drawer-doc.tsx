@@ -1,4 +1,3 @@
-import { useEffect, useState } from "preact/hooks";
 import {
   Button,
   Dialog,
@@ -18,6 +17,7 @@ import {
   Input,
   Label,
 } from "@kamod-ui/core";
+import { useEffect, useState } from "preact/hooks";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 const DRAWER_SIDES = ["top", "right", "bottom", "left"] as const;

@@ -1,7 +1,7 @@
 import type { ComponentChildren, JSX } from "preact";
 import type { VariantProps } from "tailwind-variants";
-import { button } from "../button/Button";
 import { cn } from "../../lib/utils";
+import { button } from "../button/Button";
 
 export type PaginationLinkProps = Omit<JSX.AnchorHTMLAttributes<HTMLAnchorElement>, "size"> & {
   isActive?: boolean;
@@ -31,7 +31,7 @@ export const PaginationLink = ({
         button({ variant: isActive ? "outline" : "ghost", size }),
         "h-9 min-w-9 justify-center px-2.5 [&_svg]:size-4 [&_svg]:shrink-0",
         className,
-        restStyleClass
+        restStyleClass,
       )}
     >
       {children}

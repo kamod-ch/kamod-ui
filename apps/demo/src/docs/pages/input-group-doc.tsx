@@ -16,8 +16,8 @@ import {
 import {
   Check,
   ChevronDown,
-  CornerDownLeft,
   Copy,
+  CornerDownLeft,
   CreditCard,
   EyeOff,
   FileCode,

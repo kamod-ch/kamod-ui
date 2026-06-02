@@ -1,4 +1,4 @@
-import { cloneElement, isValidElement, type ComponentChildren, type JSX } from "preact";
+import { type ComponentChildren, cloneElement, isValidElement, type JSX } from "preact";
 import { tv } from "tailwind-variants";
 import { usePopover } from "./Popover";
 
@@ -6,8 +6,8 @@ export const popoverTrigger = tv({
   base: [
     "inline-flex items-center justify-center",
     "focus-visible:ring-outline/50 transition-[color,box-shadow] outline-none focus-visible:ring-3",
-    "disabled:pointer-events-none"
-  ]
+    "disabled:pointer-events-none",
+  ],
 });
 
 export type PopoverTriggerProps = JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -66,7 +66,7 @@ export const PopoverTrigger = ({
         popover.triggerRef.current = node;
         callRef(childProps.ref, node);
         callRef(outerRef, node);
-      }
+      },
     } as never);
   }
 

@@ -1,4 +1,3 @@
-import { useState } from "preact/hooks";
 import {
   Button,
   Checkbox,
@@ -18,6 +17,7 @@ import {
   TableHeader,
   TableRow,
 } from "@kamod-ui/core";
+import { useState } from "preact/hooks";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 const CheckboxDemoPreview = () => (

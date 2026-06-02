@@ -18,11 +18,7 @@ export const CarouselContent = ({ class: className, children, ...rest }: Carouse
       }}
       data-slot="carousel-viewport"
       data-carousel-axis={vertical ? "y" : "x"}
-      class={cn(
-        "overflow-hidden",
-        vertical && "min-h-0 touch-pan-y",
-        className
-      )}
+      class={cn("overflow-hidden", vertical && "min-h-0 touch-pan-y", className)}
       {...rest}
     >
       <div

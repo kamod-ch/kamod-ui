@@ -8,8 +8,15 @@ export type AspectRatioProps = JSX.HTMLAttributes<HTMLDivElement> & {
 };
 
 /** Fixed-ratio box for media (CSS `aspect-ratio`; no Radix dependency). Children should use `h-full w-full object-cover` to fill. */
-export const AspectRatio = ({ ratio, class: className, style, children, ...rest }: AspectRatioProps) => {
-  const styleObject = typeof style === "object" && style !== null && !Array.isArray(style) ? style : undefined;
+export const AspectRatio = ({
+  ratio,
+  class: className,
+  style,
+  children,
+  ...rest
+}: AspectRatioProps) => {
+  const styleObject =
+    typeof style === "object" && style !== null && !Array.isArray(style) ? style : undefined;
 
   return (
     <div
@@ -17,7 +24,7 @@ export const AspectRatio = ({ ratio, class: className, style, children, ...rest 
       class={cn("relative w-full min-h-0 overflow-hidden", className)}
       style={{
         ...styleObject,
-        aspectRatio: ratio
+        aspectRatio: ratio,
       }}
       {...rest}
     >
@@ -25,4 +32,3 @@ export const AspectRatio = ({ ratio, class: className, style, children, ...rest 
     </div>
   );
 };
-

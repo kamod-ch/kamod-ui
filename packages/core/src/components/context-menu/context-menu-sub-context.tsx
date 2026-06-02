@@ -1,7 +1,7 @@
 import { signal } from "@preact/signals";
+import type { ComponentChildren } from "preact";
 import { createContext } from "preact";
 import { useContext, useMemo } from "preact/hooks";
-import type { ComponentChildren } from "preact";
 
 export type ContextMenuSubContextValue = {
   open: ReturnType<typeof signal<boolean>>;
@@ -12,7 +12,7 @@ const ContextMenuSubContext = createContext<ContextMenuSubContextValue | null>(n
 
 export const ContextMenuSubProvider = ({
   children,
-  value
+  value,
 }: {
   children: ComponentChildren;
   value: ContextMenuSubContextValue;
@@ -31,6 +31,6 @@ export const useMemoContextMenuSub = (): ContextMenuSubContextValue =>
       open,
       setOpen: (next) => {
         open.value = next;
-      }
+      },
     };
   }, []);

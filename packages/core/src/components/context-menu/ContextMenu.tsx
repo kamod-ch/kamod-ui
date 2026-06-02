@@ -1,7 +1,7 @@
 import { signal } from "@preact/signals";
+import type { ComponentChildren, JSX } from "preact";
 import { createContext } from "preact";
 import { useContext, useEffect, useMemo, useRef } from "preact/hooks";
-import type { ComponentChildren, JSX } from "preact";
 import { cn } from "../../lib/utils";
 
 export type ContextMenuPoint = { x: number; y: number };
@@ -67,7 +67,7 @@ export const ContextMenu = ({
         setPosition: (p) => {
           position.value = p;
         },
-        contentWrapperRef
+        contentWrapperRef,
       }}
     >
       <div

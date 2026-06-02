@@ -1,9 +1,9 @@
 import { signal } from "@preact/signals";
+import type { ComponentChildren, JSX } from "preact";
 import { createContext } from "preact";
 import { useContext, useEffect, useMemo, useRef } from "preact/hooks";
-import type { ComponentChildren, JSX } from "preact";
+import { createDismissableLayer, createIdFactory } from "../../lib/interactive";
 import { cn } from "../../lib/utils";
-import { createIdFactory, createDismissableLayer } from "../../lib/interactive";
 
 type SelectItemRecord = {
   id: string;
@@ -78,7 +78,7 @@ export const Select = ({
       onDismiss: () => {
         open.value = false;
         activeItemId.value = null;
-      }
+      },
     });
     return () => layer.dispose();
   }, []);
@@ -87,7 +87,9 @@ export const Select = ({
     itemsRef.current.filter((item) => !item.disabled && item.ref && item.ref.isConnected);
 
   const focusActiveItem = () => {
-    const active = itemsRef.current.find((item) => item.id === activeItemId.value && !item.disabled);
+    const active = itemsRef.current.find(
+      (item) => item.id === activeItemId.value && !item.disabled,
+    );
     active?.ref?.focus();
   };
 
@@ -218,7 +220,7 @@ export const Select = ({
         focusActiveItem,
         setTriggerNode: (node) => {
           triggerRef.current = node;
-        }
+        },
       }}
     >
       <div

@@ -33,7 +33,7 @@ export const DropdownSubContent = ({
       class={cn(
         "absolute top-0 z-50 min-w-[7rem] max-h-[min(24rem,calc(100dvh-2rem))] overflow-x-hidden overflow-y-auto rounded-lg bg-white p-px text-popover-foreground shadow-md outline-none ring-1 ring-foreground/10 dark:bg-popover dark:ring-foreground/15",
         sidePosition,
-        className
+        className,
       )}
       onPointerEnter={(e) => {
         onPointerEnter?.(e);

@@ -4,7 +4,7 @@ import { tv, type VariantProps } from "tailwind-variants";
 export const inputGroupAddon = tv({
   base: [
     "text-muted-foreground flex cursor-text items-center justify-center gap-2 text-sm font-medium select-none",
-    "group-data-[disabled=true]/input-group:opacity-50 [&>kbd]:rounded-xs [&>svg:not([class*='size-'])]:size-4"
+    "group-data-[disabled=true]/input-group:opacity-50 [&>kbd]:rounded-xs [&>svg:not([class*='size-'])]:size-4",
   ],
   variants: {
     align: {
@@ -13,12 +13,12 @@ export const inputGroupAddon = tv({
       "block-start":
         "order-first w-full justify-start px-3 pt-2 group-has-[>input]/input-group:pt-2.5 [.border-b]:pb-2.5",
       "block-end":
-        "order-last w-full justify-start px-3 pb-2 group-has-[>input]/input-group:pb-2.5 [.border-t]:pt-2.5"
-    }
+        "order-last w-full justify-start px-3 pb-2 group-has-[>input]/input-group:pb-2.5 [.border-t]:pt-2.5",
+    },
   },
   defaultVariants: {
-    align: "inline-start"
-  }
+    align: "inline-start",
+  },
 });
 
 export type InputGroupAddonProps = JSX.HTMLAttributes<HTMLDivElement> &
@@ -46,7 +46,10 @@ export const InputGroupAddon = ({
       }
 
       const root = event.currentTarget.parentElement;
-      const control = root?.querySelector("input, textarea") as HTMLInputElement | HTMLTextAreaElement | null;
+      const control = root?.querySelector("input, textarea") as
+        | HTMLInputElement
+        | HTMLTextAreaElement
+        | null;
       control?.focus();
       onClick?.(event);
     }}
@@ -55,4 +58,3 @@ export const InputGroupAddon = ({
     {children}
   </div>
 );
-

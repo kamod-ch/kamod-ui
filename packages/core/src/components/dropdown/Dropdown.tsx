@@ -1,7 +1,7 @@
 import { signal } from "@preact/signals";
+import type { ComponentChildren, JSX } from "preact";
 import { createContext } from "preact";
 import { useContext, useEffect, useMemo, useRef } from "preact/hooks";
-import type { ComponentChildren, JSX } from "preact";
 import { tv } from "tailwind-variants";
 import { createDismissableLayer, createIdFactory } from "../../lib/interactive";
 
@@ -25,7 +25,7 @@ export const useDropdown = () => {
 };
 
 export const dropdownRoot = tv({
-  base: "relative inline-flex"
+  base: "relative inline-flex",
 });
 
 export type DropdownProps = JSX.HTMLAttributes<HTMLDivElement> & {
@@ -33,7 +33,12 @@ export type DropdownProps = JSX.HTMLAttributes<HTMLDivElement> & {
   children?: ComponentChildren;
 };
 
-export const Dropdown = ({ defaultOpen = false, class: className, children, ...rest }: DropdownProps) => {
+export const Dropdown = ({
+  defaultOpen = false,
+  class: className,
+  children,
+  ...rest
+}: DropdownProps) => {
   const open = useMemo(() => signal(defaultOpen), []);
   const rootRef = useRef<HTMLDivElement | null>(null);
   const triggerRef = useRef<HTMLElement | null>(null);
@@ -46,7 +51,7 @@ export const Dropdown = ({ defaultOpen = false, class: className, children, ...r
       open: () => open.value,
       onDismiss: () => {
         open.value = false;
-      }
+      },
     });
     return () => layer.dispose();
   }, []);
@@ -62,7 +67,7 @@ export const Dropdown = ({ defaultOpen = false, class: className, children, ...r
         contentId: `${instanceId}-content`,
         rootRef,
         triggerRef,
-        contentRef
+        contentRef,
       }}
     >
       <div

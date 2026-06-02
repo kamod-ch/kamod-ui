@@ -6,15 +6,15 @@ import { useRadioGroup } from "./RadioGroup";
 const itemRoot = tv({
   base: [
     "flex cursor-pointer items-center gap-3 text-sm leading-none font-medium text-foreground",
-    "has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-50"
+    "has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-50",
   ],
   variants: {
     size: {
       default: "",
-      sm: "gap-2 text-xs"
-    }
+      sm: "gap-2 text-xs",
+    },
   },
-  defaultVariants: { size: "default" }
+  defaultVariants: { size: "default" },
 });
 
 const indicatorBox = tv({
@@ -22,10 +22,10 @@ const indicatorBox = tv({
   variants: {
     size: {
       default: "size-4",
-      sm: "size-3.5"
-    }
+      sm: "size-3.5",
+    },
   },
-  defaultVariants: { size: "default" }
+  defaultVariants: { size: "default" },
 });
 
 const dotSize = tv({
@@ -33,10 +33,10 @@ const dotSize = tv({
   variants: {
     size: {
       default: "size-2.5",
-      sm: "size-2"
-    }
+      sm: "size-2",
+    },
   },
-  defaultVariants: { size: "default" }
+  defaultVariants: { size: "default" },
 });
 
 type ItemVariants = VariantProps<typeof itemRoot>;
@@ -61,8 +61,7 @@ export const RadioGroupItem = ({
   ...rest
 }: RadioGroupItemProps) => {
   const group = useRadioGroup();
-  const selected =
-    group.controlledValue !== undefined ? group.controlledValue : group.value.value;
+  const selected = group.controlledValue !== undefined ? group.controlledValue : group.value.value;
   const checked = selected === value;
 
   return (
@@ -98,7 +97,7 @@ export const RadioGroupItem = ({
             "peer-focus-visible:outline-none peer-focus-visible:ring-[3px] peer-focus-visible:ring-ring/50",
             "peer-disabled:opacity-50",
             "peer-checked:border-primary",
-            "peer-aria-invalid:border-destructive peer-aria-invalid:ring-destructive/20"
+            "peer-aria-invalid:border-destructive peer-aria-invalid:ring-destructive/20",
           )}
         />
         <span aria-hidden class={dotSize({ size })} />

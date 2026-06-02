@@ -6,7 +6,12 @@ export type CommandGroupProps = JSX.HTMLAttributes<HTMLDivElement> & {
   children?: ComponentChildren;
 };
 
-export const CommandGroup = ({ heading, class: className, children, ...rest }: CommandGroupProps) => (
+export const CommandGroup = ({
+  heading,
+  class: className,
+  children,
+  ...rest
+}: CommandGroupProps) => (
   <div
     data-slot="command-group"
     role="presentation"
@@ -14,7 +19,10 @@ export const CommandGroup = ({ heading, class: className, children, ...rest }: C
     {...rest}
   >
     {heading ? (
-      <div class="text-muted-foreground px-2 py-1.5 text-xs font-medium" data-slot="command-group-heading">
+      <div
+        class="text-muted-foreground px-2 py-1.5 text-xs font-medium"
+        data-slot="command-group-heading"
+      >
         {heading}
       </div>
     ) : null}

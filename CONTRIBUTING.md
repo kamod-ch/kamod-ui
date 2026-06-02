@@ -24,10 +24,10 @@ apps
 └── demo          # Vite + Preact kitchen sink and in-app documentation
 ```
 
-| Path | Description |
-| ---- | ----------- |
-| `packages/core` | Component library source, types, and unit tests. |
-| `apps/demo` | Local docs UI, examples, Vitest tests, and Playwright E2E. |
+| Path            | Description                                                |
+| --------------- | ---------------------------------------------------------- |
+| `packages/core` | Component library source, types, and unit tests.           |
+| `apps/demo`     | Local docs UI, examples, Vitest tests, and Playwright E2E. |
 
 Component documentation pages and registry wiring live under `apps/demo/src/docs/` (for example `docs/pages/*-doc.tsx` and `docs/registry.ts`).
 
@@ -80,14 +80,14 @@ pnpm --filter demo dev
 
 From the root:
 
-| Command | Purpose |
-| ------- | ------- |
-| `pnpm build` | Build all packages (recursive). |
-| `pnpm typecheck` | Typecheck all workspaces. |
-| `pnpm lint` | Lint/typecheck scripts per workspace. |
-| `pnpm test` | Run **@kamod-ui/core** unit tests (Vitest). |
-| `pnpm test:demo` | Run **demo** unit tests (Vitest). |
-| `pnpm test:e2e` | Run **demo** Playwright tests. |
+| Command          | Purpose                                     |
+| ---------------- | ------------------------------------------- |
+| `pnpm build`     | Build all packages (recursive).             |
+| `pnpm typecheck` | Typecheck all workspaces.                   |
+| `pnpm lint`      | Lint/typecheck scripts per workspace.       |
+| `pnpm test`      | Run **@kamod-ui/core** unit tests (Vitest). |
+| `pnpm test:demo` | Run **demo** unit tests (Vitest).           |
+| `pnpm test:e2e`  | Run **demo** Playwright tests.              |
 
 In `apps/demo` you can also run `pnpm qa:themes` for theme regression checks, and use `pnpm fmt` / `pnpm fmt:check` (oxfmt) for formatting when working in that app.
 

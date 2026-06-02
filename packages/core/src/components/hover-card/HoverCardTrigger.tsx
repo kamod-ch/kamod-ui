@@ -1,12 +1,12 @@
-import { cloneElement, isValidElement, type ComponentChildren, type JSX } from "preact";
+import { type ComponentChildren, cloneElement, isValidElement, type JSX } from "preact";
 import { tv } from "tailwind-variants";
 import { useHoverCard } from "./HoverCard";
 
 export const hoverCardTrigger = tv({
   base: [
     "border-input bg-background hover:bg-muted inline-flex items-center justify-center rounded-md border px-3 py-2 text-sm font-medium shadow-xs transition-colors",
-    "outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
-  ]
+    "outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
+  ],
 });
 
 export type HoverCardTriggerProps = JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -75,7 +75,7 @@ export const HoverCardTrigger = ({
       ref: (node: HTMLElement | null) => {
         callRef(childProps.ref, node);
         callRef(outerRef, node);
-      }
+      },
     } as never);
   }
 

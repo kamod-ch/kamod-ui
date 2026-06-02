@@ -5,19 +5,19 @@ import {
   DialogContent,
   DialogDescription,
   DialogTitle,
-  DialogTrigger
+  DialogTrigger,
 } from "./index";
 
 const renderDialog = (props?: { defaultOpen?: boolean; lockBodyScroll?: boolean }) =>
   render(
     <Dialog defaultOpen={props?.defaultOpen} lockBodyScroll={props?.lockBodyScroll}>
       <DialogTrigger>Open settings</DialogTrigger>
-      <DialogContent aria-labelledby="settings-title" aria-describedby="settings-description">
-        <DialogTitle id="settings-title">Settings</DialogTitle>
-        <DialogDescription id="settings-description">Manage your preferences.</DialogDescription>
+      <DialogContent>
+        <DialogTitle>Settings</DialogTitle>
+        <DialogDescription>Manage your preferences.</DialogDescription>
         <DialogClose>Done</DialogClose>
       </DialogContent>
-    </Dialog>
+    </Dialog>,
   );
 
 describe("Dialog", () => {
@@ -47,8 +47,29 @@ describe("Dialog", () => {
     const dialog = screen.getByRole("dialog", { name: "Settings" });
     expect(dialog).toHaveAttribute("aria-modal", "true");
     expect(dialog).toHaveAttribute("data-state", "open");
+    expect(dialog).toHaveAttribute("aria-describedby");
     expect(trigger).toHaveAttribute("aria-expanded", "true");
     expect(screen.getByText("Manage your preferences.")).toBeInTheDocument();
+  });
+
+  it("focuses the dialog panel when opened", async () => {
+    renderDialog();
+    fireEvent.click(screen.getByRole("button", { name: "Open settings" }));
+    const dialog = screen.getByRole("dialog", { name: "Settings" });
+    await waitFor(() => expect(dialog).toHaveFocus());
+  });
+
+  it("traps focus within the dialog on Tab", async () => {
+    renderDialog();
+    fireEvent.click(screen.getByRole("button", { name: "Open settings" }));
+    const dialog = screen.getByRole("dialog", { name: "Settings" });
+    await waitFor(() => expect(dialog).toHaveFocus());
+
+    fireEvent.keyDown(dialog, { key: "Tab" });
+    expect(dialog.contains(document.activeElement)).toBe(true);
+
+    fireEvent.keyDown(document.activeElement as Element, { key: "Tab" });
+    expect(dialog.contains(document.activeElement)).toBe(true);
   });
 
   it("closes with the close button and returns focus to the trigger", () => {

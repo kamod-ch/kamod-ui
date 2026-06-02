@@ -1,5 +1,5 @@
-export { ContextMenu } from "./ContextMenu";
 export type { ContextMenuPoint, ContextMenuProps } from "./ContextMenu";
+export { ContextMenu } from "./ContextMenu";
 export { ContextMenuCheckboxItem } from "./ContextMenuCheckboxItem";
 export { ContextMenuContent } from "./ContextMenuContent";
 export { ContextMenuGroup } from "./ContextMenuGroup";

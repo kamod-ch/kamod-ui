@@ -14,7 +14,11 @@ export const CommandEmpty = ({ children, class: className, ...rest }: CommandEmp
   if (hasVisibleItems.value) return null;
 
   return (
-    <div data-slot="command-empty" class={cn("p-2 text-sm text-muted-foreground", className)} {...rest}>
+    <div
+      data-slot="command-empty"
+      class={cn("p-2 text-sm text-muted-foreground", className)}
+      {...rest}
+    >
       {children}
     </div>
   );

@@ -54,7 +54,8 @@ export const InputOTP = ({
     requestAnimationFrame(() => {
       const el = inputRef.current;
       const len = displayValue.length;
-      caretStart.value = el != null && typeof el.selectionStart === "number" ? el.selectionStart : len;
+      caretStart.value =
+        el != null && typeof el.selectionStart === "number" ? el.selectionStart : len;
     });
   };
 
@@ -71,7 +72,12 @@ export const InputOTP = ({
     bumpCaret();
   };
 
-  const activeIndex = activeSlotIndex(focused.value, caretStart.value, displayValue.length, maxLength);
+  const activeIndex = activeSlotIndex(
+    focused.value,
+    caretStart.value,
+    displayValue.length,
+    maxLength,
+  );
 
   return (
     <InputOTPContext.Provider
@@ -81,7 +87,7 @@ export const InputOTP = ({
         disabled,
         focused: focused.value,
         activeIndex,
-        inputRef
+        inputRef,
       }}
     >
       <div data-slot="input-otp" dir={dir} class={cn("relative inline-flex", className)} {...rest}>
@@ -100,7 +106,7 @@ export const InputOTP = ({
             aria-label={ariaLabel ?? "One-time password"}
             class={cn(
               "absolute inset-0 z-20 h-full w-full cursor-default border-0 bg-transparent p-0 opacity-0 outline-none",
-              "focus-visible:outline-none"
+              "focus-visible:outline-none",
             )}
             style={{ caretColor: "transparent" }}
             onInput={handleInput}

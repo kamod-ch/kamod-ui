@@ -47,7 +47,7 @@ export const Dropzone = ({
       class={cn(
         "border-input bg-background hover:bg-muted/50 relative rounded-lg border border-dashed p-5 transition-colors",
         isDragging.value && "border-primary bg-primary/5",
-        className
+        className,
       )}
       onDragOver={onDragOver}
       onDragLeave={onDragLeave}
@@ -66,4 +66,3 @@ export const Dropzone = ({
     </div>
   );
 };
-

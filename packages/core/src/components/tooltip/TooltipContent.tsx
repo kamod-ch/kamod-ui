@@ -1,4 +1,4 @@
-import { cloneElement, isValidElement, type ComponentChildren, type JSX } from "preact";
+import { type ComponentChildren, cloneElement, isValidElement, type JSX } from "preact";
 import { useEffect, useId, useLayoutEffect, useRef, useState } from "preact/hooks";
 import { useTooltip } from "./Tooltip";
 
@@ -61,7 +61,7 @@ export const TooltipContent = ({
         flipTimerRef.current = null;
       }
     },
-    []
+    [],
   );
 
   useLayoutEffect(() => {
@@ -74,9 +74,11 @@ export const TooltipContent = ({
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
     const fitsTop = triggerRect.top >= contentRect.height + sideOffset + collisionPadding;
-    const fitsBottom = viewportHeight - triggerRect.bottom >= contentRect.height + sideOffset + collisionPadding;
+    const fitsBottom =
+      viewportHeight - triggerRect.bottom >= contentRect.height + sideOffset + collisionPadding;
     const fitsLeft = triggerRect.left >= contentRect.width + sideOffset + collisionPadding;
-    const fitsRight = viewportWidth - triggerRect.right >= contentRect.width + sideOffset + collisionPadding;
+    const fitsRight =
+      viewportWidth - triggerRect.right >= contentRect.width + sideOffset + collisionPadding;
 
     let nextSide = side;
     if (side === "top" && !fitsTop && fitsBottom) nextSide = "bottom";
@@ -148,7 +150,7 @@ export const TooltipContent = ({
     top: { bottom: `calc(100% + ${sideOffset}px)` },
     right: { left: `calc(100% + ${sideOffset}px)` },
     bottom: { top: `calc(100% + ${sideOffset}px)` },
-    left: { right: `calc(100% + ${sideOffset}px)` }
+    left: { right: `calc(100% + ${sideOffset}px)` },
   };
 
   const alignStyles: Record<NonNullable<TooltipContentProps["align"]>, JSX.CSSProperties> = {
@@ -163,7 +165,7 @@ export const TooltipContent = ({
     end:
       resolvedSide === "top" || resolvedSide === "bottom"
         ? { right: `${alignOffset}px` }
-        : { bottom: `${alignOffset}px` }
+        : { bottom: `${alignOffset}px` },
   };
 
   const resolvedStyle =
@@ -177,7 +179,7 @@ export const TooltipContent = ({
     ...alignStyles[align],
     ...dynamicClamp,
     ...arrowStyle,
-    ...resolvedStyle
+    ...resolvedStyle,
   };
 
   const commonProps: TooltipContentCommonProps = {
@@ -199,7 +201,7 @@ export const TooltipContent = ({
       tooltip.closeWithDelay();
       onMouseLeave?.(event);
     },
-    style: mergedStyle
+    style: mergedStyle,
   };
 
   if (asChild) {
@@ -216,10 +218,10 @@ export const TooltipContent = ({
     );
 
     return cloneElement(children, {
-      ...(childProps ?? {}),
+      ...childProps,
       ...commonProps,
       ...remainingProps,
-      children: nextChildren
+      children: nextChildren,
     });
   }
 
@@ -236,4 +238,3 @@ export const TooltipContent = ({
     </div>
   );
 };
-

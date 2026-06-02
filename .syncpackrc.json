@@ -1,0 +1,13 @@
+{
+	"sortFirst": ["name", "version", "private", "description"],
+	"semverGroups": [
+		{
+			"label": "use workspace protocol for internal packages",
+			"packages": ["*"],
+			"dependencies": ["@kamod-ui/**"],
+			"dependencyTypes": ["dev", "peer", "prod"],
+			"semverRange": "workspace:*",
+			"isIgnored": true
+		}
+	]
+}

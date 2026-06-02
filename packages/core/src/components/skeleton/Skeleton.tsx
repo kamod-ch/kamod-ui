@@ -9,12 +9,12 @@ export const skeleton = tv({
       shimmer:
         "animate-pulse bg-[linear-gradient(110deg,hsl(var(--muted)/0.68),hsl(var(--muted)/0.9),hsl(var(--muted)/0.68))] bg-[length:220%_100%]",
       glass:
-        "animate-pulse border border-border/40 bg-[linear-gradient(140deg,hsl(var(--muted)/0.34),hsl(var(--background)/0.78),hsl(var(--muted)/0.28))] backdrop-blur-[1px]"
-    }
+        "animate-pulse border border-border/40 bg-[linear-gradient(140deg,hsl(var(--muted)/0.34),hsl(var(--background)/0.78),hsl(var(--muted)/0.28))] backdrop-blur-[1px]",
+    },
   },
   defaultVariants: {
-    variant: "pulse"
-  }
+    variant: "pulse",
+  },
 });
 
 type SkeletonVariants = Parameters<typeof skeleton>[0];
@@ -25,6 +25,9 @@ export type SkeletonProps = JSX.HTMLAttributes<HTMLDivElement> & {
 };
 
 export const Skeleton = ({ class: className, variant, ...rest }: SkeletonProps) => (
-  <div class={skeleton({ class: className as string | undefined, variant })} data-slot="skeleton" {...rest} />
+  <div
+    class={skeleton({ class: className as string | undefined, variant })}
+    data-slot="skeleton"
+    {...rest}
+  />
 );
-

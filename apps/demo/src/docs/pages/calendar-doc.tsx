@@ -1,3 +1,4 @@
+import type { DateRange } from "@kamod-ui/core";
 import {
   Button,
   Calendar,
@@ -7,7 +8,6 @@ import {
   CardFooter,
   DirectionProvider,
 } from "@kamod-ui/core";
-import type { DateRange } from "@kamod-ui/core";
 import { useEffect, useState } from "preact/hooks";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
