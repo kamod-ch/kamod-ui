@@ -1,17 +1,17 @@
 {
-	"ignorePatterns": [
-		"dist/**",
-		"node_modules/**",
-		"coverage/**",
-		"playwright-report/**",
-		"test-results/**",
-		"**/.cursor/**",
-		"**/tmp/**",
-		"**/data_old/**",
-		"**/scripts_old/**",
-		"**/inbox/**",
-		"**/proofshot-artifacts/**",
-		"**/*.tsbuildinfo",
-		"**/*.tgz"
-	]
+  "ignorePatterns": [
+    "dist/**",
+    "node_modules/**",
+    "coverage/**",
+    "playwright-report/**",
+    "test-results/**",
+    "**/.cursor/**",
+    "**/tmp/**",
+    "**/data_old/**",
+    "**/scripts_old/**",
+    "**/inbox/**",
+    "**/proofshot-artifacts/**",
+    "**/*.tsbuildinfo",
+    "**/*.tgz"
+  ]
 }
