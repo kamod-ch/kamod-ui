@@ -322,7 +322,7 @@
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint . --max-warnings=0",
+    "lint": "oxlint .",
     "publint": "publint",
     "attw": "attw --pack . --profile esm-only --exclude-entrypoints ./theme.css"
   },

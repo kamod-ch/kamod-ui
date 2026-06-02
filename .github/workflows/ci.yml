@@ -45,7 +45,7 @@ jobs:
       - name: Biome (imports, json, md)
         run: pnpm biome:ci
 
-      - name: Lint (oxlint + eslint)
+      - name: Lint (oxlint)
         run: pnpm lint
 
       - name: Dependency hygiene

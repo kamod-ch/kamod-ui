@@ -32,8 +32,8 @@
     "test:e2e": "pnpm --filter demo test:e2e",
     "typecheck": "pnpm -r typecheck",
     "lint:fast": "oxlint .",
-    "lint": "oxlint . && eslint . --max-warnings=0",
-    "lint:fix": "oxlint --fix . && eslint . --fix",
+    "lint": "oxlint .",
+    "lint:fix": "oxlint --fix .",
     "format": "oxfmt .",
     "format:check": "oxfmt --check .",
     "biome": "biome check --write .",
@@ -61,16 +61,12 @@
     "@biomejs/biome": "^2.0.0",
     "@types/node": "^24.3.0",
     "commit-and-tag-version": "^12.7.3",
-    "eslint": "^9.18.0",
-    "eslint-plugin-jsx-a11y": "^6.10.2",
-    "globals": "^15.14.0",
     "knip": "^5.0.0",
     "lefthook": "^1.11.0",
     "oxfmt": "^0.43.0",
     "oxlint": "^1.0.0",
     "syncpack": "^13.0.0",
-    "typescript": "^5.9.2",
-    "typescript-eslint": "^8.20.0"
+    "typescript": "^5.9.2"
   },
   "packageManager": "pnpm@10.12.4",
   "pnpm": {

@@ -89,7 +89,7 @@ From the root:
 | `pnpm test:demo` | Run **demo** unit tests (Vitest).           |
 | `pnpm test:e2e`  | Run **demo** Playwright tests.              |
 
-In `apps/demo` you can also run `pnpm qa:themes` for theme regression checks, and use `pnpm fmt` / `pnpm fmt:check` (oxfmt) for formatting when working in that app.
+In `apps/demo` you can also run `pnpm qa:themes` for theme regression checks, and use `pnpm format` / `pnpm format:check` (oxfmt) for formatting when working in that app.
 
 Please ensure `pnpm typecheck`, `pnpm lint`, and relevant tests pass before opening a pull request.
 

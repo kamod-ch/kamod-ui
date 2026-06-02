@@ -20,13 +20,12 @@ updates:
           - "@tailwindcss/*"
           - "tailwind-*"
           - "tw-*"
-      eslint:
+      ox:
         patterns:
-          - "eslint"
-          - "@eslint/*"
-          - "eslint-*"
-          - "typescript-eslint"
-          - "globals"
+          - "oxlint"
+          - "oxfmt"
+          - "@oxlint/*"
+          - "@oxfmt/*"
       testing:
         patterns:
           - "vitest"
