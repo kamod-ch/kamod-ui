@@ -31,12 +31,12 @@ Many UI kits are heavier than necessary, overly opinionated, or tied to React. K
 
 ## When to use Kamod UI
 
-| | Kamod UI | Radix UI / shadcn | Heavy design systems |
-| --- | --- | --- | --- |
-| Preact | Yes | React only | Varies |
-| Tailwind-first | Yes | Partial / yes | Often custom tokens |
-| Bundle weight | Per-component, typically 0.4–10 KB gzip | Larger runtime | Platform overhead |
-| Best for | Preact + Tailwind apps you can read and adapt | React + Tailwind stacks | Org-wide token/CMS platforms |
+|                | Kamod UI                                      | Radix UI / shadcn       | Heavy design systems         |
+| -------------- | --------------------------------------------- | ----------------------- | ---------------------------- |
+| Preact         | Yes                                           | React only              | Varies                       |
+| Tailwind-first | Yes                                           | Partial / yes           | Often custom tokens          |
+| Bundle weight  | Per-component, typically 0.4–10 KB gzip       | Larger runtime          | Platform overhead            |
+| Best for       | Preact + Tailwind apps you can read and adapt | React + Tailwind stacks | Org-wide token/CMS platforms |
 
 **Choose Kamod UI when** you want Preact, Tailwind CSS v4, composable primitives, and source you can fork or extend without a heavy runtime.
 
@@ -97,11 +97,11 @@ Import the default theme once so Tailwind compiles component classes and semanti
 
 **Import signals yourself** when you use Kamod's lower-level helpers:
 
-| Use case | Import |
-| --- | --- |
-| Custom controlled primitives | `@kamod-ui/core/lib/signals` → `createControllableSignal` |
-| Overlay dismiss / roving focus | `@kamod-ui/core/lib/interactive` → `createDismissableLayer`, `createRovingFocus` |
-| Advanced toast / sonner integration | `@kamod-ui/core/toast` or `@kamod-ui/core/sonner` stores |
+| Use case                            | Import                                                                           |
+| ----------------------------------- | -------------------------------------------------------------------------------- |
+| Custom controlled primitives        | `@kamod-ui/core/lib/signals` → `createControllableSignal`                        |
+| Overlay dismiss / roving focus      | `@kamod-ui/core/lib/interactive` → `createDismissableLayer`, `createRovingFocus` |
+| Advanced toast / sonner integration | `@kamod-ui/core/toast` or `@kamod-ui/core/sonner` stores                         |
 
 See the [**Signals** column in the component reference](.docs/COMPONENTS.md) for which exports use signals internally (direct, indirect via Dialog/Popover, or none).
 
@@ -165,10 +165,10 @@ Open the URL printed in the terminal for the kitchen sink and component docs. Qu
 
 ## Contributing
 
-| Workspace | Path | Role |
-| --- | --- | --- |
+| Workspace        | Path             | Role                                     |
+| ---------------- | ---------------- | ---------------------------------------- |
 | `@kamod-ui/core` | `packages/core/` | Published library (65 component exports) |
-| `demo` | `apps/demo/` | Kitchen sink + interactive docs |
+| `demo`           | `apps/demo/`     | Kitchen sink + interactive docs          |
 
 - Open issues for bugs and ideas; PRs welcome for components, docs, and examples.
 - Key scripts: `pnpm dev`, `pnpm check`, `pnpm fmt`, `pnpm lint`, `pnpm docs:components`
