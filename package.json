@@ -34,8 +34,8 @@
 		"lint:fast": "oxlint .",
 		"lint": "oxlint . && eslint . --max-warnings=0",
 		"lint:fix": "oxlint --fix . && eslint . --fix",
-		"fmt": "oxfmt .",
-		"fmt:check": "oxfmt --check .",
+		"format": "oxfmt .",
+		"format:check": "oxfmt --check .",
 		"biome": "biome check --write .",
 		"biome:ci": "biome ci .",
 		"knip": "knip",
@@ -55,10 +55,7 @@
 		"release:auth": "npm whoami --registry=https://registry.npmjs.org || (echo 'Authenticate with: npm login (or set NODE_AUTH_TOKEN)' >&2; exit 1)",
 		"release:publish": "pnpm --filter @kamod-ui/core publish --access public --no-git-checks",
 		"release": "commit-and-tag-version && git push --follow-tags && pnpm release:publish",
-		"release:quick": "pnpm install && pnpm release:check:package && pnpm release:auth && pnpm release:publish",
-		"mc:sync-inbox": "node scripts/mission-control-sync-inbox.mjs",
-		"mc:sync-inbox:no-cloud-agent": "KAMOD_CURSOR_CLOUD_AGENT=0 node scripts/mission-control-sync-inbox.mjs",
-		"mc:sync-inbox:cli-agent": "KAMOD_CURSOR_CLI_AGENT=1 KAMOD_CURSOR_CLOUD_AGENT=0 node scripts/mission-control-sync-inbox.mjs"
+		"release:quick": "pnpm install && pnpm release:check:package && pnpm release:auth && pnpm release:publish"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.0.0",
