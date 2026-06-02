@@ -9,14 +9,14 @@ Lightweight UI components for **Preact** and **Tailwind**: composable primitives
 
 <p align="center">
   <a href="https://www.npmjs.com/package/@kamod-ui/core"><img src="https://img.shields.io/npm/v/@kamod-ui/core" alt="npm version" /></a>
+  <a href="https://github.com/kamod-ch/kamod-ui/actions/workflows/ci.yml"><img src="https://github.com/kamod-ch/kamod-ui/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
   <a href="https://github.com/kamod-ch/kamod-ui/stargazers"><img src="https://img.shields.io/github/stars/kamod-ch/kamod-ui?style=social" alt="GitHub stars" /></a>
   <a href="https://github.com/kamod-ch/kamod-ui/blob/main/LICENSE.md"><img src="https://img.shields.io/github/license/kamod-ch/kamod-ui" alt="license" /></a>
 </p>
 
-- **Live demo:** [ui.kamod.ch](https://ui.kamod.ch/)
-- **Repository:** [github.com/kamod-ch/kamod-ui](https://github.com/kamod-ch/kamod-ui/)
+**[Demo](https://ui.kamod.ch/)** · **[Component docs](https://ui.kamod.ch/docs/button)** · **[npm](https://www.npmjs.com/package/@kamod-ui/core)** · **[GitHub](https://github.com/kamod-ch/kamod-ui)** · **[Issues](https://github.com/kamod-ch/kamod-ui/issues)**
 
-If Kamod UI saves you time, consider **[starring the repo](https://github.com/kamod-ch/kamod-ui)** — it helps others discover the project.
+> If Kamod UI saves you time, **[star the repo](https://github.com/kamod-ch/kamod-ui)** — it helps others discover the project.
 
 ![hero](.github/assets/kitchen-sink.png)
 
@@ -29,40 +29,50 @@ Many UI kits are heavier than necessary, overly opinionated, or tied to React. K
 - **Composable** — build UIs from small pieces without extra abstraction.
 - **Practical** — ship only what you need; the codebase stays easy to follow.
 
-## Comparison
+## When to use Kamod UI
 
-| Feature        | Kamod UI | Radix UI | shadcn/ui |
-| -------------- | :------: | :------: | :-------: |
-| Preact support |    ✅    |    ❌    |    ❌     |
-| Tailwind-first |    ✅    |    ⚠️    |    ✅     |
-| Lightweight    |    ✅    |    ⚠️    |    ⚠️     |
+| | Kamod UI | Radix UI / shadcn | Heavy design systems |
+| --- | --- | --- | --- |
+| Preact | Yes | React only | Varies |
+| Tailwind-first | Yes | Partial / yes | Often custom tokens |
+| Bundle weight | Per-component, typically 0.4–10 KB gzip | Larger runtime | Platform overhead |
+| Best for | Preact + Tailwind apps you can read and adapt | React + Tailwind stacks | Org-wide token/CMS platforms |
 
-## Live demo (GitHub Pages)
+**Choose Kamod UI when** you want Preact, Tailwind CSS v4, composable primitives, and source you can fork or extend without a heavy runtime.
 
-The deployed kitchen sink and docs live at the **repository root URL** of GitHub Pages, not under `apps/demo` (that path exists only in this monorepo):
+**Choose something else when** you need React-only ecosystems (Radix/shadcn), no Tailwind, or a full design-system platform with CMS-driven tokens.
 
-**[https://kamod-ch.github.io/kamod-ui/](https://kamod-ch.github.io/kamod-ui/)**
-
-## Documentation
-
-Run the demo app from the repo root:
+## Quick start
 
 ```bash
-pnpm install
-pnpm dev
+pnpm add @kamod-ui/core preact @preact/signals tailwindcss
 ```
 
-Then open the local URL printed in the terminal to browse the kitchen sink and component docs.
+```css
+/* app.css */
+@import "tailwindcss";
+@import "@kamod-ui/core/theme.css";
+```
+
+```tsx
+import { Button } from "@kamod-ui/core";
+
+export function App() {
+  return <Button>Click me</Button>;
+}
+```
+
+Browse the [live component docs](https://ui.kamod.ch/docs/button) for variants, composition, and RTL examples.
 
 ## Using Kamod UI
 
 ### Requirements
 
 - **Preact** `>= 10.26`
-- **`@preact/signals`** `>= 2.0` (peer dependency)
+- **`@preact/signals`** `>= 2.0` (required peer dependency — see below)
 - **Tailwind CSS v4** (v3 is not supported)
-- An ESM-friendly bundler (Vite, Rolldown, esbuild, Next.js, …). Kamod UI is **ESM-only** (`"type": "module"`); it does not ship a CommonJS build.
-- SSR: all client components guard `typeof document` / `window` access and re-render safely on the client. Importing components in a Node SSR context is fine.
+- An ESM-friendly bundler (Vite, Rolldown, esbuild, Next.js, …). Kamod UI is **ESM-only**; it does not ship a CommonJS build.
+- SSR: client components guard `typeof document` / `window` access and re-render safely on the client.
 
 ### Install
 
@@ -70,33 +80,55 @@ Then open the local URL printed in the terminal to browse the kitchen sink and c
 pnpm add @kamod-ui/core preact @preact/signals
 ```
 
-The published library on npm is **[`@kamod-ui/core`](https://www.npmjs.com/package/@kamod-ui/core)** only. This monorepo root (`kamod-ui`) and `apps/demo` are not published (`private` in the root `package.json`). If you find the legacy unscoped package [`kamod-ui`](https://www.npmjs.com/package/kamod-ui) on npm, do not use it — install `@kamod-ui/core` instead.
+The published library on npm is **[`@kamod-ui/core`](https://www.npmjs.com/package/@kamod-ui/core)** only. This monorepo root and `apps/demo` are not published. Do not use the legacy unscoped [`kamod-ui`](https://www.npmjs.com/package/kamod-ui) package — install `@kamod-ui/core` instead.
 
-Kamod UI components ship JSX and Tailwind utility classes. Import the default theme once so Tailwind can compile the component classes and the components can read their semantic CSS tokens.
-
-For Tailwind CSS v4, add this to the CSS file where you import Tailwind:
+Import the default theme once so Tailwind compiles component classes and semantic CSS tokens:
 
 ```css
 @import "tailwindcss";
 @import "@kamod-ui/core/theme.css";
 ```
 
-The theme import includes the required Tailwind source scan, dark variant and default semantic tokens.
+### `@preact/signals`
+
+`@preact/signals` is a **required peer dependency** — install it in every app, even when you only use presentational components like `Button`. That keeps a single signal runtime and avoids duplicate instances when you add interactive components later.
+
+**In your app code**, you usually do **not** import signals yourself. Components manage open state, selection, and stores internally.
+
+**Import signals yourself** when you use Kamod's lower-level helpers:
+
+| Use case | Import |
+| --- | --- |
+| Custom controlled primitives | `@kamod-ui/core/lib/signals` → `createControllableSignal` |
+| Overlay dismiss / roving focus | `@kamod-ui/core/lib/interactive` → `createDismissableLayer`, `createRovingFocus` |
+| Advanced toast / sonner integration | `@kamod-ui/core/toast` or `@kamod-ui/core/sonner` stores |
+
+See the [**Signals** column in the component reference](.docs/COMPONENTS.md) for which exports use signals internally (direct, indirect via Dialog/Popover, or none).
 
 ### Per-component imports (tree-shaking)
 
-Both styles below are supported. Use the per-component path if you want to be defensive about your bundle:
+Both styles are supported:
 
 ```ts
 import { Button } from "@kamod-ui/core"; // root barrel
 import { Button } from "@kamod-ui/core/button"; // per-component subpath
 ```
 
-The package is published with a minimal `sideEffects` list (progress indeterminate keyframes and CSS only), so modern bundlers tree-shake the root barrel reliably.
+The package ships a minimal `sideEffects` list (progress indeterminate keyframes and CSS only), so modern bundlers tree-shake the root barrel reliably.
 
-### Customize The Theme
+### Component sizes
 
-Override the semantic tokens after importing the default theme:
+Each `@kamod-ui/core/<name>` subpath is a separate export. Typical gzip size is **0.4–10 KB** (Kamod JS only; excludes `preact`, `@preact/signals`, and CSS).
+
+See **[Component sizes & signals reference](.docs/COMPONENTS.md)** for all 65 exports with min/gzip sizes and signal usage. Regenerate after core changes:
+
+```bash
+pnpm docs:components
+```
+
+### Customize the theme
+
+Override semantic tokens after importing the default theme:
 
 ```css
 @import "tailwindcss";
@@ -114,136 +146,38 @@ Override the semantic tokens after importing the default theme:
 }
 ```
 
-If you want full control instead of the default theme, define the Tailwind mapping and token blocks yourself:
+For full control, copy from [`packages/core/src/theme.css`](packages/core/src/theme.css) or see the demo's [`foundation.css`](apps/demo/src/styles/foundation.css) and [`themes.css`](apps/demo/src/styles/themes.css).
 
-```css
-@import "tailwindcss";
-@source "../node_modules/@kamod-ui/core/dist/**/*.{js,mjs}";
+## Documentation
 
-@custom-variant dark (&:where(.dark, .dark *));
+**Live demo:** [ui.kamod.ch](https://ui.kamod.ch/) (custom domain; same deploy as [GitHub Pages](https://kamod-ch.github.io/kamod-ui/))
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-outline: var(--outline);
-}
+Interactive API docs live under `/docs/*` in the demo app (e.g. [`/docs/button`](https://ui.kamod.ch/docs/button)).
 
-:root {
-  --background: var(--color-white);
-  --foreground: var(--color-neutral-950);
-  --card: var(--color-white);
-  --card-foreground: var(--color-neutral-950);
-  --popover: var(--color-white);
-  --popover-foreground: var(--color-neutral-950);
-  --primary: var(--color-neutral-950);
-  --primary-foreground: var(--color-neutral-50);
-  --secondary: var(--color-neutral-100);
-  --secondary-foreground: var(--color-neutral-950);
-  --muted: var(--color-neutral-100);
-  --muted-foreground: var(--color-neutral-600);
-  --accent: var(--color-neutral-100);
-  --accent-foreground: var(--color-neutral-900);
-  --destructive: var(--color-red-700);
-  --destructive-foreground: var(--color-neutral-50);
-  --border: var(--color-neutral-200);
-  --input: var(--color-neutral-200);
-  --ring: var(--color-neutral-400);
-  --outline: var(--color-neutral-400);
-  --radius: 0.625rem;
-}
-
-.dark {
-  --background: var(--color-neutral-950);
-  --foreground: var(--color-neutral-50);
-  --card: var(--color-neutral-900);
-  --card-foreground: var(--color-neutral-50);
-  --popover: var(--color-neutral-800);
-  --popover-foreground: var(--color-neutral-50);
-  --primary: var(--color-neutral-50);
-  --primary-foreground: var(--color-neutral-950);
-  --secondary: var(--color-neutral-800);
-  --secondary-foreground: var(--color-neutral-50);
-  --muted: var(--color-neutral-800);
-  --muted-foreground: var(--color-neutral-400);
-  --accent: var(--color-neutral-800);
-  --accent-foreground: var(--color-neutral-50);
-  --destructive: var(--color-red-800);
-  --destructive-foreground: var(--color-neutral-50);
-  --border: --alpha(var(--color-neutral-50) / 10%);
-  --input: --alpha(var(--color-neutral-50) / 15%);
-  --ring: var(--color-neutral-500);
-  --outline: var(--color-neutral-500);
-}
-```
-
-The demo app keeps its extended token setup in `apps/demo/src/styles/foundation.css` and theme presets in `apps/demo/src/styles/themes.css`.
-
-## Publishing `@kamod-ui/core`
-
-For maintainers publishing the library to npm from the monorepo root.
-
-Only **`packages/core`** (`@kamod-ui/core`) is published. The root workspace is `"private": true` so `npm publish` from the repo root cannot accidentally republish the unscoped `kamod-ui` name. Publishing requires the npm organization **`kamod-ui`** (scope `@kamod-ui`); the GitHub/npm org **`kamod-ch`** is separate and can host other packages (e.g. `@kamod-ch/...`).
-
-1. Bump the version in `packages/core/package.json` (and update `CHANGELOG.md` if you keep one).
-2. Authenticate with npm once per machine (or set `NODE_AUTH_TOKEN` for CI-style auth):
+Run locally from the repo root:
 
 ```bash
-npm login
-# or: export NODE_AUTH_TOKEN=<your-npm-token>
+pnpm install
+pnpm dev
 ```
 
-3. Run the release script:
-
-```bash
-pnpm release
-```
-
-`pnpm release` runs, in order: `pnpm install` → full pre-publish checks (`test:ci`, `build`, `qa:publint`, `qa:attw`) → npm auth check → `pnpm publish` for `@kamod-ui/core` with `--access public --no-git-checks`. Supply-chain provenance (`--provenance`) is enabled only in [`.github/workflows/publish.yml`](.github/workflows/publish.yml) on tag pushes (requires GitHub Actions OIDC); local `pnpm release` does not pass `--provenance` because npm cannot detect a CI provider on your machine.
-
-For a faster local run that skips tests and the full monorepo build (only builds core and runs publint/attw):
-
-```bash
-pnpm release:quick
-```
-
-You can also run individual steps:
-
-| Script                  | What it does                                   |
-| ----------------------- | ---------------------------------------------- |
-| `release:check`         | `test:ci` + `build` + `qa:publint` + `qa:attw` |
-| `release:check:package` | `qa:package` (core build + publint + attw)     |
-| `release:auth`          | Verifies `npm whoami` against the npm registry |
-| `release:publish`       | Publishes `@kamod-ui/core` to npm              |
-
-Tagged pushes (`v*`) also trigger [`.github/workflows/publish.yml`](.github/workflows/publish.yml) on GitHub Actions.
+Open the URL printed in the terminal for the kitchen sink and component docs. Quality gates: `pnpm test`, `pnpm test:e2e`, `pnpm check`.
 
 ## Contributing
 
-- Open issues for bugs and ideas.
-- Suggest new components or patterns.
-- Improve docs and examples.
+| Workspace | Path | Role |
+| --- | --- | --- |
+| `@kamod-ui/core` | `packages/core/` | Published library (65 component exports) |
+| `demo` | `apps/demo/` | Kitchen sink + interactive docs |
+
+- Open issues for bugs and ideas; PRs welcome for components, docs, and examples.
+- Key scripts: `pnpm dev`, `pnpm check`, `pnpm fmt`, `pnpm lint`, `pnpm docs:components`
+- Tooling details: [`.docs/interna.md`](.docs/interna.md)
+
+Maintainers: see [`.docs/MAINTAINERS.md`](.docs/MAINTAINERS.md) for npm release workflow.
 
 ## Support
 
-If you find Kamod UI useful:
-
-- **[Star the repository on GitHub](https://github.com/kamod-ch/kamod-ui)** — a quick way to support the project; stars improve visibility in search and community lists.
+- **[Star the repository](https://github.com/kamod-ch/kamod-ui)** — improves visibility in search and community lists.
 - Share the project with others who use Preact or Tailwind.
 - Watch the repo for release notifications (optional).
