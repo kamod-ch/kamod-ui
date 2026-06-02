@@ -22,7 +22,7 @@
       ]
     },
     "apps/demo": {
-      "entry": ["index.html", "e2e/**/*.ts", "scripts/**/*.{js,mjs}"],
+      "entry": ["index.html", "src/docs/**/*.{ts,tsx}", "e2e/**/*.ts", "scripts/**/*.{js,mjs}"],
       "project": ["src/**/*.{ts,tsx}", "e2e/**/*.ts"],
       "ignoreDependencies": [
         "tailwindcss",
@@ -30,7 +30,7 @@
         "@fontsource-variable/inter",
         "@tailwindcss/forms"
       ],
-      "ignore": ["src/docs/**", "src/base-path.ts", "src/theme/theme-presets.ts"]
+      "ignore": ["src/base-path.ts", "src/theme/theme-presets.ts"]
     }
   },
   "ignoreDependencies": ["@vitest/coverage-v8", "preact"]
