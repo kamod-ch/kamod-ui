@@ -50,7 +50,7 @@ importers:
         version: 5.2.8
       '@kamod-ui/core':
         specifier: 0.1.4
-        version: 0.1.4(@preact/signals@2.8.2(preact@10.29.0))(preact@10.29.0)(tailwindcss@4.2.2)
+        version: 0.1.4(@preact/signals@2.9.1(preact@10.29.2))(preact@10.29.2)(tailwindcss@4.2.2)
       '@tailwindcss/forms':
         specifier: ^0.5.10
         version: 0.5.11(tailwindcss@4.2.2)
@@ -59,13 +59,13 @@ importers:
         version: 2.9.0
       lucide-preact:
         specifier: ^0.577.0
-        version: 0.577.0(preact@10.29.0)
+        version: 0.577.0(preact@10.29.2)
       preact:
         specifier: ^10.26.0
-        version: 10.29.0
+        version: 10.29.2
       preact-iso:
         specifier: ^2.11.1
-        version: 2.11.1(preact-render-to-string@6.6.6(preact@10.29.0))(preact@10.29.0)
+        version: 2.12.0(preact-render-to-string@6.6.6(preact@10.29.2))(preact@10.29.2)
       prismjs:
         specifier: ^1.30.0
         version: 1.30.0
@@ -78,7 +78,7 @@ importers:
         version: 1.58.2
       '@preact/preset-vite':
         specifier: ^2.10.5
-        version: 2.10.5(@babel/core@7.29.0)(preact@10.29.0)(rollup@4.59.0)(vite@8.0.5(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)(@types/node@24.12.0)(esbuild@0.27.4)(jiti@2.6.1)(yaml@2.9.0))
+        version: 2.10.5(@babel/core@7.29.0)(preact@10.29.2)(rollup@4.59.0)(vite@8.0.5(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)(@types/node@24.12.0)(esbuild@0.27.4)(jiti@2.6.1)(yaml@2.9.0))
       '@tailwindcss/vite':
         specifier: ^4.2.2
         version: 4.2.2(vite@8.0.5(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)(@types/node@24.12.0)(esbuild@0.27.4)(jiti@2.6.1)(yaml@2.9.0))
@@ -111,7 +111,7 @@ importers:
         version: 8.6.0(embla-carousel@8.6.0)
       preact:
         specifier: ^10.26.0
-        version: 10.29.0
+        version: 10.29.2
       tailwind-merge:
         specifier: ^3.3.1
         version: 3.5.0
@@ -124,13 +124,13 @@ importers:
         version: 0.18.2
       '@preact/signals':
         specifier: ^2.0.1
-        version: 2.8.2(preact@10.29.0)
+        version: 2.9.1(preact@10.29.2)
       '@testing-library/jest-dom':
         specifier: ^6.8.0
         version: 6.9.1
       '@testing-library/preact':
         specifier: ^3.2.4
-        version: 3.2.4(preact@10.29.0)
+        version: 3.2.4(preact@10.29.2)
       '@vitest/coverage-v8':
         specifier: ^4.1.2
         version: 4.1.6(vitest@4.1.2(@types/node@24.12.0)(jsdom@26.1.0)(vite@8.0.5(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)(@types/node@24.12.0)(esbuild@0.27.4)(jiti@2.6.1)(yaml@2.9.0)))
@@ -930,11 +930,11 @@ packages:
       '@babel/core': 7.x
       vite: 2.x || 3.x || 4.x || 5.x || 6.x || 7.x || 8.x
 
-  '@preact/signals-core@1.14.0':
-    resolution: {integrity: sha512-AowtCcCU/33lFlh1zRFf/u+12rfrhtNakj7UpaGEsmMwUKpKWMVvcktOGcwBBNiB4lWrZWc01LhiyyzVklJyaQ==}
+  '@preact/signals-core@1.14.2':
+    resolution: {integrity: sha512-RZHdBj9ZF4n40Rp4jS052EHHjBWf96P9oNdXPfhQTovCuWY9iQn3Gq+gOTJSgBO9A/JBuPfMOWsSX/lIU9Pc/A==}
 
-  '@preact/signals@2.8.2':
-    resolution: {integrity: sha512-gym5yoa64c+0w2kL7zRAAjY548qzWXbbuOfjsK9F1nWrEqooDwyWnih5SNdonjhQSp27zUqYh7UrxIRnkCyFCA==}
+  '@preact/signals@2.9.1':
+    resolution: {integrity: sha512-xVqN8mJjbSN5IB/8Ubmd9NN+Ew6zJswoRxrjZbH3YsgkMshFeO6d8zxEFpHRTq9GJZx7cnPs2CnCpFqtGXGNsw==}
     peerDependencies:
       preact: '>= 10.25.0 || >=11.0.0-0'
 
@@ -2874,8 +2874,8 @@ packages:
     resolution: {integrity: sha512-W62t/Se6rA0Az3DfCL0AqJwXuKwBeYg6nOaIgzP+xZ7N5BFCI7DYi1qs6ygUYT6rvfi6t9k65UMLJC+PHZpDAA==}
     engines: {node: ^10 || ^12 || >=14}
 
-  preact-iso@2.11.1:
-    resolution: {integrity: sha512-rLy0RmzP/hrDjnFdnEblxFgKtzUj4njkHrpGJBGS7S4QuYw1zv0lA38qsWpeAAB10JAz/hF2CsHrLen9ufCtbw==}
+  preact-iso@2.12.0:
+    resolution: {integrity: sha512-k0Y44UONBJ1zBXXCBhJRAa5O4ww8a5FHdLD6l21IxcnsTmDBto4n7KPQAH6xqegsKDMX4SuJ02qItiUlciIlZQ==}
     peerDependencies:
       preact: '>=10 || >= 11.0.0-0'
       preact-render-to-string: '>=6.4.0'
@@ -2885,8 +2885,8 @@ packages:
     peerDependencies:
       preact: '>=10 || >= 11.0.0-0'
 
-  preact@10.29.0:
-    resolution: {integrity: sha512-wSAGyk2bYR1c7t3SZ3jHcM6xy0lcBcDel6lODcs9ME6Th++Dx2KU+6D3HD8wMMKGA8Wpw7OMd3/4RGzYRpzwRg==}
+  preact@10.29.2:
+    resolution: {integrity: sha512-7tNmwg/7mzzAoB/8kSg6Hl37JraAZw3Z3A0JSY7VXlZwo82Xn0G7wKbNNs2qoF4ZEEsQGTwDAroNdqKs1ofJxQ==}
 
   pretty-format@27.5.1:
     resolution: {integrity: sha512-Qb1gy5OrP5+zDf2Bvnzdl3jsTf1qXVMazbvCoKhtKqVs4/YK4ozX4gKQJJVyNe+cajNPn0KoC0MC3FUmaHWEmQ==}
@@ -3953,13 +3953,13 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@kamod-ui/core@0.1.4(@preact/signals@2.8.2(preact@10.29.0))(preact@10.29.0)(tailwindcss@4.2.2)':
+  '@kamod-ui/core@0.1.4(@preact/signals@2.9.1(preact@10.29.2))(preact@10.29.2)(tailwindcss@4.2.2)':
     dependencies:
-      '@preact/signals': 2.8.2(preact@10.29.0)
+      '@preact/signals': 2.9.1(preact@10.29.2)
       clsx: 2.1.1
       embla-carousel: 8.6.0
       embla-carousel-autoplay: 8.6.0(embla-carousel@8.6.0)
-      preact: 10.29.0
+      preact: 10.29.2
       tailwind-merge: 3.5.0
       tailwind-variants: 3.2.2(tailwind-merge@3.5.0)(tailwindcss@4.2.2)
     transitivePeerDependencies:
@@ -4175,12 +4175,12 @@ snapshots:
     dependencies:
       playwright: 1.58.2
 
-  '@preact/preset-vite@2.10.5(@babel/core@7.29.0)(preact@10.29.0)(rollup@4.59.0)(vite@8.0.5(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)(@types/node@24.12.0)(esbuild@0.27.4)(jiti@2.6.1)(yaml@2.9.0))':
+  '@preact/preset-vite@2.10.5(@babel/core@7.29.0)(preact@10.29.2)(rollup@4.59.0)(vite@8.0.5(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)(@types/node@24.12.0)(esbuild@0.27.4)(jiti@2.6.1)(yaml@2.9.0))':
     dependencies:
       '@babel/core': 7.29.0
       '@babel/plugin-transform-react-jsx': 7.28.6(@babel/core@7.29.0)
       '@babel/plugin-transform-react-jsx-development': 7.27.1(@babel/core@7.29.0)
-      '@prefresh/vite': 2.4.12(preact@10.29.0)(vite@8.0.5(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)(@types/node@24.12.0)(esbuild@0.27.4)(jiti@2.6.1)(yaml@2.9.0))
+      '@prefresh/vite': 2.4.12(preact@10.29.2)(vite@8.0.5(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)(@types/node@24.12.0)(esbuild@0.27.4)(jiti@2.6.1)(yaml@2.9.0))
       '@rollup/pluginutils': 5.3.0(rollup@4.59.0)
       babel-plugin-transform-hook-names: 1.0.2(@babel/core@7.29.0)
       debug: 4.4.3
@@ -4194,29 +4194,29 @@ snapshots:
       - rollup
       - supports-color
 
-  '@preact/signals-core@1.14.0': {}
+  '@preact/signals-core@1.14.2': {}
 
-  '@preact/signals@2.8.2(preact@10.29.0)':
+  '@preact/signals@2.9.1(preact@10.29.2)':
     dependencies:
-      '@preact/signals-core': 1.14.0
-      preact: 10.29.0
+      '@preact/signals-core': 1.14.2
+      preact: 10.29.2
 
   '@prefresh/babel-plugin@0.5.3': {}
 
-  '@prefresh/core@1.5.9(preact@10.29.0)':
+  '@prefresh/core@1.5.9(preact@10.29.2)':
     dependencies:
-      preact: 10.29.0
+      preact: 10.29.2
 
   '@prefresh/utils@1.2.1': {}
 
-  '@prefresh/vite@2.4.12(preact@10.29.0)(vite@8.0.5(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)(@types/node@24.12.0)(esbuild@0.27.4)(jiti@2.6.1)(yaml@2.9.0))':
+  '@prefresh/vite@2.4.12(preact@10.29.2)(vite@8.0.5(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)(@types/node@24.12.0)(esbuild@0.27.4)(jiti@2.6.1)(yaml@2.9.0))':
     dependencies:
       '@babel/core': 7.29.0
       '@prefresh/babel-plugin': 0.5.3
-      '@prefresh/core': 1.5.9(preact@10.29.0)
+      '@prefresh/core': 1.5.9(preact@10.29.2)
       '@prefresh/utils': 1.2.1
       '@rollup/pluginutils': 4.2.1
-      preact: 10.29.0
+      preact: 10.29.2
       vite: 8.0.5(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)(@types/node@24.12.0)(esbuild@0.27.4)(jiti@2.6.1)(yaml@2.9.0)
     transitivePeerDependencies:
       - supports-color
@@ -4462,10 +4462,10 @@ snapshots:
       picocolors: 1.1.1
       redent: 3.0.0
 
-  '@testing-library/preact@3.2.4(preact@10.29.0)':
+  '@testing-library/preact@3.2.4(preact@10.29.2)':
     dependencies:
       '@testing-library/dom': 8.20.1
-      preact: 10.29.0
+      preact: 10.29.2
 
   '@tybys/wasm-util@0.10.1':
     dependencies:
@@ -5714,9 +5714,9 @@ snapshots:
     dependencies:
       yallist: 4.0.0
 
-  lucide-preact@0.577.0(preact@10.29.0):
+  lucide-preact@0.577.0(preact@10.29.2):
     dependencies:
-      preact: 10.29.0
+      preact: 10.29.2
 
   lz-string@1.5.0: {}
 
@@ -6090,16 +6090,16 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
-  preact-iso@2.11.1(preact-render-to-string@6.6.6(preact@10.29.0))(preact@10.29.0):
+  preact-iso@2.12.0(preact-render-to-string@6.6.6(preact@10.29.2))(preact@10.29.2):
     dependencies:
-      preact: 10.29.0
-      preact-render-to-string: 6.6.6(preact@10.29.0)
+      preact: 10.29.2
+      preact-render-to-string: 6.6.6(preact@10.29.2)
 
-  preact-render-to-string@6.6.6(preact@10.29.0):
+  preact-render-to-string@6.6.6(preact@10.29.2):
     dependencies:
-      preact: 10.29.0
+      preact: 10.29.2
 
-  preact@10.29.0: {}
+  preact@10.29.2: {}
 
   pretty-format@27.5.1:
     dependencies:
