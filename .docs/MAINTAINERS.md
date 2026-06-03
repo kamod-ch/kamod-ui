@@ -43,7 +43,11 @@ Do not use the legacy unscoped [`kamod-ui`](https://www.npmjs.com/package/kamod-
 
    `pnpm release` runs: `commit-and-tag-version` → `git push --follow-tags` → `pnpm release:publish`.
 
+   After each version bump, `postbump` runs `pnpm syncpack:fix` so `apps/demo` stays aligned with `@kamod-ui/core` (CI `pnpm qa:deps`).
+
    It does **not** run tests or `release:check` automatically — run those first.
+
+   If you already ran `pnpm release` and CI fails on syncpack only, fix with `pnpm syncpack:fix && pnpm install`, commit, and `git push` — do **not** run `pnpm release` again (that would bump to the next version).
 
 ### CI release (tag push)
 

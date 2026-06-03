@@ -49,8 +49,8 @@ importers:
         specifier: ^5.2.6
         version: 5.2.8
       '@kamod-ui/core':
-        specifier: 0.1.3
-        version: 0.1.3(@preact/signals@2.8.2(preact@10.29.0))(preact@10.29.0)(tailwindcss@4.2.2)
+        specifier: 0.1.4
+        version: 0.1.4(@preact/signals@2.8.2(preact@10.29.0))(preact@10.29.0)(tailwindcss@4.2.2)
       '@tailwindcss/forms':
         specifier: ^0.5.10
         version: 0.5.11(tailwindcss@4.2.2)
@@ -557,8 +557,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@kamod-ui/core@0.1.3':
-    resolution: {integrity: sha512-wD79Ch0fZWhvQdzGc0e3JRM9QJm63FYfiJ5T2qTrAzwxaxbsRWYWHHBi0U1l+zpdKeqg99JA4u98B+zlBkx9cQ==}
+  '@kamod-ui/core@0.1.4':
+    resolution: {integrity: sha512-UF+q/zb9pbF4R4IUsMzpDKjrt7T3w3Qp20zwYSox+4K9RdsYrSJNwdDuUQkenPhcsU1M1KzF7x23LpoNO5rdXA==}
     engines: {node: '>=20'}
     peerDependencies:
       '@preact/signals': ^2.0.1
@@ -3953,7 +3953,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@kamod-ui/core@0.1.3(@preact/signals@2.8.2(preact@10.29.0))(preact@10.29.0)(tailwindcss@4.2.2)':
+  '@kamod-ui/core@0.1.4(@preact/signals@2.8.2(preact@10.29.0))(preact@10.29.0)(tailwindcss@4.2.2)':
     dependencies:
       '@preact/signals': 2.8.2(preact@10.29.0)
       clsx: 2.1.1

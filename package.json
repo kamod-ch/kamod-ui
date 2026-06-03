@@ -79,5 +79,10 @@
       "postcss": ">=8.5.10",
       "fflate": "0.8.2"
     }
+  },
+  "commit-and-tag-version": {
+    "scripts": {
+      "postbump": "pnpm syncpack:fix && pnpm install --lockfile-only"
+    }
   }
 }
