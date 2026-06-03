@@ -29,6 +29,8 @@
     "test:demo": "pnpm --filter demo test",
     "doc:rewrite-imports": "node scripts/rewrite-kamod-doc-imports.mjs",
     "docs:components": "node scripts/generate-component-docs.mjs",
+    "docs:readme": "node scripts/sync-package-readme.mjs",
+    "docs:readme:check": "node scripts/sync-package-readme.mjs --check",
     "test:e2e": "pnpm --filter demo test:e2e",
     "typecheck": "pnpm -r typecheck",
     "lint:fast": "oxlint .",

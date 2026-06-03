@@ -10,3 +10,6 @@ pre-commit:
       glob: "*.{ts,tsx,js,mjs,cjs}"
       run: pnpm exec oxlint --fix {staged_files}
       stage_fixed: true
+    sync-readme:
+      glob: "README.md"
+      run: node scripts/sync-package-readme.mjs && git add packages/core/README.md

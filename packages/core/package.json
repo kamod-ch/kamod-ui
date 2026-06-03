@@ -317,6 +317,7 @@
     "access": "public"
   },
   "scripts": {
+    "prepublishOnly": "node ../../scripts/sync-package-readme.mjs",
     "build": "tsup && cp src/theme.css dist/theme.css",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",

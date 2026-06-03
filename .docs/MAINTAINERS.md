@@ -66,7 +66,7 @@ Local `pnpm release:publish` does not pass `--provenance` (npm cannot detect a C
 ## Documentation maintenance
 
 - **[`.docs/COMPONENTS.md`](COMPONENTS.md)** — auto-generated per-component bundle sizes and signals usage. Run `pnpm docs:components` after changing `packages/core` exports or build output.
-- **[`README.md`](../README.md)** — public-facing; links to COMPONENTS.md instead of duplicating the full table.
+- **[`README.md`](../README.md)** — public-facing; links to COMPONENTS.md instead of duplicating the full table. Run `pnpm docs:readme` after editing the root README (also runs via Lefthook when `README.md` is staged).
 
 ## See also
 

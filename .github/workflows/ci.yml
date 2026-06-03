@@ -45,6 +45,9 @@ jobs:
       - name: Biome (imports, json, md)
         run: pnpm biome:ci
 
+      - name: Package README sync
+        run: pnpm docs:readme:check
+
       - name: Lint (oxlint)
         run: pnpm lint
 
