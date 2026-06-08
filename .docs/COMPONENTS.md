@@ -12,80 +12,80 @@ Sizes measure the **Kamod-only JavaScript** pulled in by each `@kamod-ui/core/<n
 
 ## Signals legend
 
-| Value            | Meaning                                                                         |
-| ---------------- | ------------------------------------------------------------------------------- |
-| **Direct**       | Component source imports `@preact/signals` or `lib/signals` / `lib/interactive` |
-| **Indirect (…)** | Wraps another component that uses signals (e.g. Sheet → Dialog)                 |
-| **No**           | Presentational only — no internal signal usage                                  |
+| Value | Meaning |
+| ----- | ------- |
+| **Direct** | Component source imports `@preact/signals` or `lib/signals` / `lib/interactive` |
+| **Indirect (…)** | Wraps another component that uses signals (e.g. Sheet → Dialog) |
+| **No** | Presentational only — no internal signal usage |
 
 Install `@preact/signals` in every app regardless of the **Signals** column; it is a required peer dependency of `@kamod-ui/core`.
 
 ## Per-component table
 
-| Component              | Min (KB) | Gzip (KB) | Signals            |
-| ---------------------- | -------- | --------- | ------------------ |
-| `accordion`            | 13.0     | 3.1       | Direct             |
-| `alert`                | 3.3      | 1.1       | No                 |
-| `alert-dialog`         | 30.6     | 7.2       | Indirect (dialog)  |
-| `aspect-ratio`         | 1.0      | 0.5       | No                 |
-| `avatar`               | 7.1      | 2.0       | No                 |
-| `badge`                | 5.1      | 1.5       | No                 |
-| `breadcrumb`           | 3.8      | 1.1       | No                 |
-| `button`               | 4.6      | 1.5       | No                 |
-| `button-group`         | 2.7      | 1.0       | No                 |
-| `calendar`             | 47.8     | 10.3      | No                 |
-| `card`                 | 3.5      | 1.1       | No                 |
-| `carousel`             | 14.7     | 3.7       | Direct             |
-| `chart`                | 1.1      | 0.5       | No                 |
-| `checkbox`             | 5.1      | 1.5       | No                 |
-| `collapsible`          | 11.5     | 2.7       | Direct             |
-| `combobox`             | 43.8     | 9.2       | Direct             |
-| `command`              | 30.1     | 7.0       | Direct             |
-| `context-menu`         | 21.5     | 5.1       | Direct             |
-| `data-table`           | 1.7      | 0.6       | No                 |
-| `date-picker`          | 41.2     | 9.9       | Indirect (popover) |
-| `dialog`               | 22.5     | 5.6       | Direct             |
-| `direction`            | 1.4      | 0.5       | No                 |
-| `drawer`               | 28.3     | 6.5       | Indirect (sheet)   |
-| `dropdown`             | 24.3     | 5.9       | Direct             |
-| `dropzone`             | 4.6      | 1.5       | Direct             |
-| `empty`                | 3.4      | 1.0       | No                 |
-| `field`                | 9.0      | 2.3       | No                 |
-| `hover-card`           | 7.7      | 2.2       | Direct             |
-| `image`                | 0.7      | 0.4       | No                 |
-| `input`                | 1.6      | 0.7       | No                 |
-| `input-group`          | 12.1     | 3.0       | No                 |
-| `input-otp`            | 6.0      | 2.0       | Direct             |
-| `item`                 | 6.2      | 1.7       | No                 |
-| `kbd`                  | 1.5      | 0.6       | No                 |
-| `label`                | 1.2      | 0.5       | No                 |
-| `locale-segment-group` | 1.9      | 0.8       | No                 |
-| `menubar`              | 19.4     | 4.4       | Direct             |
-| `native-select`        | 3.3      | 1.2       | No                 |
-| `navigation-menu`      | 15.7     | 4.2       | Direct             |
-| `pagination`           | 8.6      | 2.4       | No                 |
-| `popover`              | 15.3     | 4.3       | Direct             |
-| `progress`             | 3.7      | 1.3       | No                 |
-| `prose`                | 0.8      | 0.4       | No                 |
-| `radio-group`          | 5.4      | 1.7       | Direct             |
-| `scroll-area`          | 12.6     | 3.2       | No                 |
-| `select`               | 21.2     | 5.3       | Direct             |
-| `selectable-card`      | 4.7      | 1.5       | No                 |
-| `separator`            | 1.3      | 0.5       | No                 |
-| `sheet`                | 25.9     | 6.0       | Indirect (dialog)  |
-| `sidebar`              | 2.6      | 0.8       | Direct             |
-| `skeleton`             | 1.2      | 0.5       | No                 |
-| `slider`               | 21.0     | 4.5       | Direct             |
-| `sonner`               | 1.6      | 0.7       | Direct             |
-| `spinner`              | 1.7      | 0.8       | No                 |
-| `switch`               | 3.1      | 1.1       | No                 |
-| `table`                | 3.0      | 0.8       | No                 |
-| `tabs`                 | 15.6     | 4.1       | Direct             |
-| `textarea`             | 1.8      | 0.7       | No                 |
-| `theme-toggle`         | 7.1      | 2.2       | No                 |
-| `toast`                | 7.1      | 1.9       | Direct             |
-| `toggle`               | 2.8      | 1.1       | No                 |
-| `toggle-group`         | 5.9      | 1.8       | No                 |
-| `tooltip`              | 12.8     | 3.0       | Direct             |
-| `typography`           | 2.0      | 0.8       | No                 |
-| `video`                | 1.0      | 0.5       | No                 |
+| Component | Min (KB) | Gzip (KB) | Signals |
+| --------- | -------- | --------- | ------- |
+| `accordion` | 13.0 | 3.1 | Direct |
+| `alert` | 3.3 | 1.1 | No |
+| `alert-dialog` | 30.6 | 7.2 | Indirect (dialog) |
+| `aspect-ratio` | 1.0 | 0.5 | No |
+| `avatar` | 7.1 | 2.0 | No |
+| `badge` | 5.1 | 1.5 | No |
+| `breadcrumb` | 3.8 | 1.1 | No |
+| `button` | 4.6 | 1.5 | No |
+| `button-group` | 2.7 | 1.0 | No |
+| `calendar` | 47.8 | 10.3 | No |
+| `card` | 3.5 | 1.1 | No |
+| `carousel` | 14.7 | 3.7 | Direct |
+| `chart` | 1.1 | 0.5 | No |
+| `checkbox` | 5.1 | 1.5 | No |
+| `collapsible` | 11.5 | 2.7 | Direct |
+| `combobox` | 43.8 | 9.2 | Direct |
+| `command` | 30.1 | 7.0 | Direct |
+| `context-menu` | 21.5 | 5.1 | Direct |
+| `data-table` | 1.7 | 0.6 | No |
+| `date-picker` | 41.2 | 9.9 | Indirect (popover) |
+| `dialog` | 22.5 | 5.6 | Direct |
+| `direction` | 1.4 | 0.5 | No |
+| `drawer` | 28.3 | 6.5 | Indirect (sheet) |
+| `dropdown` | 24.3 | 5.9 | Direct |
+| `dropzone` | 4.6 | 1.5 | Direct |
+| `empty` | 3.3 | 1.0 | No |
+| `field` | 9.0 | 2.3 | No |
+| `hover-card` | 7.7 | 2.2 | Direct |
+| `image` | 0.7 | 0.4 | No |
+| `input` | 1.6 | 0.7 | No |
+| `input-group` | 12.1 | 3.0 | No |
+| `input-otp` | 6.0 | 2.0 | Direct |
+| `item` | 6.2 | 1.7 | No |
+| `kbd` | 1.5 | 0.6 | No |
+| `label` | 1.2 | 0.5 | No |
+| `locale-segment-group` | 1.9 | 0.8 | No |
+| `menubar` | 19.4 | 4.4 | Direct |
+| `native-select` | 3.3 | 1.2 | No |
+| `navigation-menu` | 15.7 | 4.2 | Direct |
+| `pagination` | 8.6 | 2.4 | No |
+| `popover` | 15.3 | 4.3 | Direct |
+| `progress` | 3.7 | 1.3 | No |
+| `prose` | 0.8 | 0.4 | No |
+| `radio-group` | 5.4 | 1.7 | Direct |
+| `scroll-area` | 12.6 | 3.2 | No |
+| `select` | 21.2 | 5.3 | Direct |
+| `selectable-card` | 4.7 | 1.5 | No |
+| `separator` | 1.3 | 0.5 | No |
+| `sheet` | 25.9 | 6.0 | Indirect (dialog) |
+| `sidebar` | 2.6 | 0.8 | Direct |
+| `skeleton` | 1.2 | 0.5 | No |
+| `slider` | 21.0 | 4.5 | Direct |
+| `sonner` | 1.6 | 0.7 | Direct |
+| `spinner` | 1.7 | 0.8 | No |
+| `switch` | 3.1 | 1.1 | No |
+| `table` | 3.0 | 0.8 | No |
+| `tabs` | 15.6 | 4.1 | Direct |
+| `textarea` | 1.8 | 0.7 | No |
+| `theme-toggle` | 7.1 | 2.2 | No |
+| `toast` | 7.1 | 1.9 | Direct |
+| `toggle` | 2.8 | 1.1 | No |
+| `toggle-group` | 5.9 | 1.8 | No |
+| `tooltip` | 12.8 | 3.0 | Direct |
+| `typography` | 2.0 | 0.8 | No |
+| `video` | 1.0 | 0.5 | No |

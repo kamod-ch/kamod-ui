@@ -53,6 +53,17 @@ Do not use the legacy unscoped [`kamod-ui`](https://www.npmjs.com/package/kamod-
 
 Tagged pushes (`v*`) trigger [`.github/workflows/publish.yml`](../.github/workflows/publish.yml), which runs typecheck, lint, tests, build, publint, attw, then publishes with `--provenance` (requires GitHub Actions OIDC + `NPM_TOKEN` secret).
 
+#### GitHub Actions `NPM_TOKEN` secret
+
+CI publish fails with `ENEEDAUTH` when the secret is missing, empty, or invalid.
+
+1. In npm, open the **`kamod-ui`** org → **Access Tokens** (or your user tokens if you publish under a user scope).
+2. Create an **Automation** or **Granular** token with **publish** permission for `@kamod-ui/*`.
+3. In GitHub → **kamod-ui** repo → **Settings** → **Secrets and variables** → **Actions**, add repository secret **`NPM_TOKEN`** with that token value.
+4. Re-run the failed publish workflow or push the tag again after fixing the secret.
+
+The workflow writes a project `.npmrc` and runs `npm whoami` before publish so auth problems fail with a clear message instead of only at `pnpm publish`.
+
 ### Script reference
 
 | Script                  | What it does                                                      |
