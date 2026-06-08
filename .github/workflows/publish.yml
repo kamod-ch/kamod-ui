@@ -1,4 +1,4 @@
-name: Publish to npm
+name: Publish packages
 
 on:
   push:
@@ -11,10 +11,11 @@ concurrency:
 
 jobs:
   publish:
-    name: Publish to npm
+    name: Publish packages
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      packages: write
       id-token: write
 
     steps:
@@ -57,7 +58,6 @@ jobs:
             exit 1
           fi
           {
-            echo "@kamod-ui:registry=https://registry.npmjs.org/"
             echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}"
           } >> .npmrc
         env:
@@ -73,3 +73,21 @@ jobs:
         run: pnpm publish --access public --provenance --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Configure GitHub Packages authentication
+        run: |
+          {
+            echo "//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}"
+          } >> .npmrc
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Verify GitHub Packages authentication
+        run: npm whoami --registry=https://npm.pkg.github.com
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish @kamod-ch/core to GitHub Packages
+        run: node scripts/publish-github-packages.mjs
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
