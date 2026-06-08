@@ -68,7 +68,7 @@
     "oxfmt": "^0.53.0",
     "oxlint": "^1.0.0",
     "syncpack": "^13.0.0",
-    "typescript": "^5.9.2"
+    "typescript": "^6.0.3"
   },
   "packageManager": "pnpm@10.12.4",
   "pnpm": {
