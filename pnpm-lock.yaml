@@ -49,8 +49,8 @@ importers:
         specifier: ^5.2.8
         version: 5.2.8
       '@kamod-ui/core':
-        specifier: 0.1.4
-        version: 0.1.4(@preact/signals@2.9.1(preact@10.29.2))(preact@10.29.2)(tailwindcss@4.3.0)
+        specifier: 0.1.5
+        version: 0.1.5(@preact/signals@2.9.1(preact@10.29.2))(preact@10.29.2)(tailwindcss@4.3.0)
       '@tailwindcss/forms':
         specifier: ^0.5.11
         version: 0.5.11(tailwindcss@4.3.0)
@@ -590,12 +590,12 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@kamod-ui/core@0.1.4':
-    resolution: {integrity: sha512-UF+q/zb9pbF4R4IUsMzpDKjrt7T3w3Qp20zwYSox+4K9RdsYrSJNwdDuUQkenPhcsU1M1KzF7x23LpoNO5rdXA==}
+  '@kamod-ui/core@0.1.5':
+    resolution: {integrity: sha512-fhVEosjhwFFbDODVkwRI/a/SpQcxFl0w11RxbqWyjKjy3JdessfTwpE4qlZPtgyd4t1Isrmk88RCivHRcYSB/Q==}
     engines: {node: '>=20'}
     peerDependencies:
-      '@preact/signals': ^2.0.1
-      preact: ^10.26.0
+      '@preact/signals': ^2.9.1
+      preact: ^10.29.2
 
   '@loaderkit/resolve@1.0.6':
     resolution: {integrity: sha512-G8FdIoF5CypfwmD9rl8BXod5HDn8JqB0CCNBXDTaRZ+yRYhARrrSToX1zg1zy9jX3zLqigsELwhT4gNtkdQAUg==}
@@ -3145,9 +3145,6 @@ packages:
     engines: {node: '>=14.17.0'}
     hasBin: true
 
-  tailwind-merge@3.5.0:
-    resolution: {integrity: sha512-I8K9wewnVDkL1NTGoqWmVEIlUcB9gFriAEkXkfCjX5ib8ezGxtR3xD7iZIxrfArjEsH7F1CHD4RFUtxefdqV/A==}
-
   tailwind-merge@3.6.0:
     resolution: {integrity: sha512-uxL7qAVQriqRQPAyK3pj66VqskWqoZ37PW94jwOTwNfq/z9oyu1V+eqrZqtR2+fCiXdYOZe/Modt8GtvqNzu+w==}
 
@@ -3891,15 +3888,15 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@kamod-ui/core@0.1.4(@preact/signals@2.9.1(preact@10.29.2))(preact@10.29.2)(tailwindcss@4.3.0)':
+  '@kamod-ui/core@0.1.5(@preact/signals@2.9.1(preact@10.29.2))(preact@10.29.2)(tailwindcss@4.3.0)':
     dependencies:
       '@preact/signals': 2.9.1(preact@10.29.2)
       clsx: 2.1.1
       embla-carousel: 8.6.0
       embla-carousel-autoplay: 8.6.0(embla-carousel@8.6.0)
       preact: 10.29.2
-      tailwind-merge: 3.5.0
-      tailwind-variants: 3.2.2(tailwind-merge@3.5.0)(tailwindcss@4.3.0)
+      tailwind-merge: 3.6.0
+      tailwind-variants: 3.2.2(tailwind-merge@3.6.0)(tailwindcss@4.3.0)
     transitivePeerDependencies:
       - tailwindcss
 
@@ -6272,15 +6269,7 @@ snapshots:
       syncpack-windows-arm64: 15.3.1
       syncpack-windows-x64: 15.3.1
 
-  tailwind-merge@3.5.0: {}
-
   tailwind-merge@3.6.0: {}
-
-  tailwind-variants@3.2.2(tailwind-merge@3.5.0)(tailwindcss@4.3.0):
-    dependencies:
-      tailwindcss: 4.3.0
-    optionalDependencies:
-      tailwind-merge: 3.5.0
 
   tailwind-variants@3.2.2(tailwind-merge@3.6.0)(tailwindcss@4.3.0):
     dependencies:
