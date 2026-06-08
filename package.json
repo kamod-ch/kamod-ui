@@ -65,7 +65,7 @@
     "commit-and-tag-version": "^12.7.3",
     "knip": "^5.0.0",
     "lefthook": "^1.11.0",
-    "oxfmt": "^0.43.0",
+    "oxfmt": "^0.53.0",
     "oxlint": "^1.0.0",
     "syncpack": "^13.0.0",
     "typescript": "^5.9.2"
