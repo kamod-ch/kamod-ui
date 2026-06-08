@@ -1,12 +1,17 @@
 {
   "sortFirst": ["name", "version", "private", "description"],
+  "customTypes": {
+    "pnpmOverridesLegacy": {
+      "strategy": "versionsByName",
+      "path": "pnpm.overrides"
+    }
+  },
   "semverGroups": [
     {
       "label": "use workspace protocol for internal packages",
       "packages": ["*"],
       "dependencies": ["@kamod-ui/**"],
       "dependencyTypes": ["dev", "peer", "prod"],
-      "semverRange": "workspace:*",
       "isIgnored": true
     }
   ]

@@ -33,5 +33,5 @@
       "ignore": ["src/base-path.ts", "src/theme/theme-presets.ts"]
     }
   },
-  "ignoreDependencies": ["@vitest/coverage-v8", "preact"]
+  "ignoreDependencies": ["preact"]
 }
