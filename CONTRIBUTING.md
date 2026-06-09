@@ -35,17 +35,17 @@ Component documentation pages and registry wiring live under `apps/demo/src/docs
 
 ### Fork and clone
 
-Fork the repository, then clone your fork:
+Clone the repository:
 
 ```bash
-git clone https://github.com/<your-username>/kamod-ui.git
+git clone https://github.com/kamod-ch/kamod-ui.git
 cd kamod-ui
 ```
 
-Upstream remote (optional):
+For pull requests from a fork, [fork the repo on GitHub](https://github.com/kamod-ch/kamod-ui/fork) and add your fork as a remote:
 
 ```bash
-git remote add upstream https://github.com/kamod-ch/kamod-ui.git
+git remote add fork https://github.com/<your-username>/kamod-ui.git
 ```
 
 ### Branch
