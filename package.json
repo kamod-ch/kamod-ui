@@ -55,6 +55,7 @@
     "release:check": "pnpm test:ci && pnpm build && pnpm qa:publint && pnpm qa:attw",
     "release:check:package": "pnpm qa:package",
     "release:auth": "npm whoami --registry=https://registry.npmjs.org || (echo 'Authenticate with: npm login (or set NODE_AUTH_TOKEN)' >&2; exit 1)",
+    "release:deprecate-legacy": "pnpm release:auth && node scripts/deprecate-legacy-packages.mjs",
     "release:publish": "pnpm --filter @kamod-ch/ui publish --access public --no-git-checks",
     "release": "commit-and-tag-version && git push --follow-tags && pnpm release:publish",
     "release:quick": "pnpm install && pnpm release:check:package && pnpm release:auth && pnpm release:publish"

@@ -6,9 +6,29 @@ Internal notes for publishing and releasing `@kamod-ch/ui` from the kamod-ui mon
 
 Only **`packages/core`** (`@kamod-ch/ui`) is published to npm. The root workspace is `"private": true` so `npm publish` from the repo root cannot accidentally republish the unscoped `kamod-ui` name.
 
-Publishing requires the npm organization **`kamod-ch`** (scope `@kamod-ch`). The previous package **`@kamod-ui/core`** is deprecated — new installs should use `@kamod-ch/ui`.
+Publishing requires the npm organization **`kamod-ch`** (scope `@kamod-ch`). New installs should use **`@kamod-ch/ui`**.
 
-Do not use the legacy unscoped [`kamod-ui`](https://www.npmjs.com/package/kamod-ui) package on npm.
+### Legacy packages on npm
+
+| Package | Status | Action |
+| ------- | ------ | ------ |
+| `@kamod-ui/core` | Renamed → `@kamod-ch/ui` | **Deprecate** (do not unpublish — keeps old lockfiles working) |
+| `kamod-ui` (unscoped) | Already **unpublished** (2026-05-19) | Nothing to do |
+
+Prefer **deprecation** over `npm unpublish`: npm blocks unpublish after 72 hours or when dependents exist; deprecation shows a migration message on every install.
+
+One-time deprecation (requires `npm login` as an owner of `@kamod-ui/core`; confirm 2FA if prompted):
+
+```bash
+pnpm release:deprecate-legacy
+```
+
+Or manually:
+
+```bash
+npm deprecate '@kamod-ui/core@*' 'Renamed to @kamod-ch/ui — install with: pnpm add @kamod-ch/ui'
+npm view @kamod-ui/core deprecated
+```
 
 ## Release workflow
 
@@ -72,6 +92,7 @@ The workflow appends auth tokens to the committed [`.npmrc`](../.npmrc) (scope l
 | `release:check:package` | `qa:package` (core build + publint + attw only)               |
 | `release:auth`          | Verifies `npm whoami` against the npm registry                  |
 | `release:publish`       | Publishes `@kamod-ch/ui` with `--access public --no-git-checks` |
+| `release:deprecate-legacy` | Deprecates `@kamod-ui/core@*` on npm (one-time; needs 2FA)   |
 | `release:quick`         | `install` → package checks → auth → publish (no version bump)   |
 | `release`               | Version bump + push tags + `release:publish`                      |
 | `docs:components`       | Build core + regenerate [`.docs/COMPONENTS.md`](COMPONENTS.md)  |
