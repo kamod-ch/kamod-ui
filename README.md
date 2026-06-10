@@ -97,11 +97,11 @@ Import the default theme once so Tailwind compiles component classes and semanti
 
 **Import signals yourself** when you use Kamod's lower-level helpers:
 
-| Use case                            | Import                                                                           |
-| ----------------------------------- | -------------------------------------------------------------------------------- |
+| Use case                            | Import                                                                         |
+| ----------------------------------- | ------------------------------------------------------------------------------ |
 | Custom controlled primitives        | `@kamod-ch/ui/lib/signals` → `createControllableSignal`                        |
 | Overlay dismiss / roving focus      | `@kamod-ch/ui/lib/interactive` → `createDismissableLayer`, `createRovingFocus` |
-| Advanced toast / sonner integration | `@kamod-ch/ui/toast` or `@kamod-ch/ui/sonner` stores                         |
+| Advanced toast / sonner integration | `@kamod-ch/ui/toast` or `@kamod-ch/ui/sonner` stores                           |
 
 See the [**Signals** column in the component reference](.docs/COMPONENTS.md) for which exports use signals internally (direct, indirect via Dialog/Popover, or none).
 
@@ -165,10 +165,10 @@ Open the URL printed in the terminal for the kitchen sink and component docs. Qu
 
 ## Contributing
 
-| Workspace        | Path             | Role                                     |
-| ---------------- | ---------------- | ---------------------------------------- |
+| Workspace      | Path             | Role                                     |
+| -------------- | ---------------- | ---------------------------------------- |
 | `@kamod-ch/ui` | `packages/core/` | Published library (65 component exports) |
-| `demo`           | `apps/demo/`     | Kitchen sink + interactive docs          |
+| `demo`         | `apps/demo/`     | Kitchen sink + interactive docs          |
 
 - Open issues for bugs and ideas; PRs welcome for components, docs, and examples.
 - Key scripts: `pnpm dev`, `pnpm check`, `pnpm fmt`, `pnpm lint`, `pnpm docs:components`

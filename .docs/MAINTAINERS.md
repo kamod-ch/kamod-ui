@@ -10,10 +10,10 @@ Publishing requires the npm organization **`kamod-ch`** (scope `@kamod-ch`). New
 
 ### Legacy packages on npm
 
-| Package | Status | Action |
-| ------- | ------ | ------ |
-| `@kamod-ui/core` | Renamed → `@kamod-ch/ui` | **Deprecate** (do not unpublish — keeps old lockfiles working) |
-| `kamod-ui` (unscoped) | Already **unpublished** (2026-05-19) | Nothing to do |
+| Package               | Status                               | Action                                                         |
+| --------------------- | ------------------------------------ | -------------------------------------------------------------- |
+| `@kamod-ui/core`      | Renamed → `@kamod-ch/ui`             | **Deprecate** (do not unpublish — keeps old lockfiles working) |
+| `kamod-ui` (unscoped) | Already **unpublished** (2026-05-19) | Nothing to do                                                  |
 
 Prefer **deprecation** over `npm unpublish`: npm blocks unpublish after 72 hours or when dependents exist; deprecation shows a migration message on every install.
 
@@ -86,16 +86,16 @@ The workflow appends auth tokens to the committed [`.npmrc`](../.npmrc) (scope l
 
 ### Script reference
 
-| Script                  | What it does                                                    |
-| ----------------------- | --------------------------------------------------------------- |
-| `release:check`         | `test:ci` + `build` + `qa:publint` + `qa:attw`                  |
-| `release:check:package` | `qa:package` (core build + publint + attw only)               |
-| `release:auth`          | Verifies `npm whoami` against the npm registry                  |
-| `release:publish`       | Publishes `@kamod-ch/ui` with `--access public --no-git-checks` |
-| `release:deprecate-legacy` | Deprecates `@kamod-ui/core@*` on npm (one-time; needs 2FA)   |
-| `release:quick`         | `install` → package checks → auth → publish (no version bump)   |
-| `release`               | Version bump + push tags + `release:publish`                      |
-| `docs:components`       | Build core + regenerate [`.docs/COMPONENTS.md`](COMPONENTS.md)  |
+| Script                     | What it does                                                    |
+| -------------------------- | --------------------------------------------------------------- |
+| `release:check`            | `test:ci` + `build` + `qa:publint` + `qa:attw`                  |
+| `release:check:package`    | `qa:package` (core build + publint + attw only)                 |
+| `release:auth`             | Verifies `npm whoami` against the npm registry                  |
+| `release:publish`          | Publishes `@kamod-ch/ui` with `--access public --no-git-checks` |
+| `release:deprecate-legacy` | Deprecates `@kamod-ui/core@*` on npm (one-time; needs 2FA)      |
+| `release:quick`            | `install` → package checks → auth → publish (no version bump)   |
+| `release`                  | Version bump + push tags + `release:publish`                    |
+| `docs:components`          | Build core + regenerate [`.docs/COMPONENTS.md`](COMPONENTS.md)  |
 
 Local `pnpm release:publish` does not pass `--provenance` (npm cannot detect a CI provider on your machine). Provenance is enabled only in GitHub Actions.
 

@@ -80,14 +80,14 @@ pnpm --filter demo dev
 
 From the root:
 
-| Command          | Purpose                                     |
-| ---------------- | ------------------------------------------- |
-| `pnpm build`     | Build all packages (recursive).             |
-| `pnpm typecheck` | Typecheck all workspaces.                   |
-| `pnpm lint`      | Lint/typecheck scripts per workspace.       |
+| Command          | Purpose                                   |
+| ---------------- | ----------------------------------------- |
+| `pnpm build`     | Build all packages (recursive).           |
+| `pnpm typecheck` | Typecheck all workspaces.                 |
+| `pnpm lint`      | Lint/typecheck scripts per workspace.     |
 | `pnpm test`      | Run **@kamod-ch/ui** unit tests (Vitest). |
-| `pnpm test:demo` | Run **demo** unit tests (Vitest).           |
-| `pnpm test:e2e`  | Run **demo** Playwright tests.              |
+| `pnpm test:demo` | Run **demo** unit tests (Vitest).         |
+| `pnpm test:e2e`  | Run **demo** Playwright tests.            |
 
 In `apps/demo` you can also run `pnpm qa:themes` for theme regression checks, and use `pnpm format` / `pnpm format:check` (oxfmt) for formatting when working in that app.
 

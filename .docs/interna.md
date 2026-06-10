@@ -22,10 +22,10 @@ kamod-ui/
 
 Das Projekt ist ein **pnpm-Workspace** mit zwei Haupt-Workspaces:
 
-| Workspace        | Pfad             | Zweck                             |
-| ---------------- | ---------------- | --------------------------------- |
+| Workspace      | Pfad             | Zweck                             |
+| -------------- | ---------------- | --------------------------------- |
 | `@kamod-ch/ui` | `packages/core/` | Veröffentlichbare UI-Komponenten  |
-| `demo`           | `apps/demo/`     | Demo-App, Kitchen Sink, Live-Doku |
+| `demo`         | `apps/demo/`     | Demo-App, Kitchen Sink, Live-Doku |
 
 ---
 
