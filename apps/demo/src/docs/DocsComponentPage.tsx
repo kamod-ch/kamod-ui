@@ -11,7 +11,7 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "@kamod-ui/core";
+} from "@kamod-ch/ui";
 import type { ComponentChildren } from "preact";
 import { useEffect, useMemo, useRef, useState } from "preact/hooks";
 import { useLocation, useRoute } from "preact-iso";
@@ -217,11 +217,11 @@ export const DocsComponentPage = () => {
       const isAlertDialogDoc = activeDoc.slug === "alert-dialog";
       const importSnippet = rewriteKamodCoreImportsInDocString(
         isButtonDoc
-          ? `import { Button, Spinner } from "@kamod-ui/core";`
+          ? `import { Button, Spinner } from "@kamod-ch/ui";`
           : isButtonGroupDoc
-            ? `import { Button, ButtonGroup } from "@kamod-ui/core";`
+            ? `import { Button, ButtonGroup } from "@kamod-ch/ui";`
             : isTabsDoc
-              ? `import { Tabs, TabsContent, TabsList, TabsTrigger } from "@kamod-ui/core";`
+              ? `import { Tabs, TabsContent, TabsList, TabsTrigger } from "@kamod-ch/ui";`
               : isAlertDialogDoc
                 ? `import {
   AlertDialog,
@@ -233,8 +233,8 @@ export const DocsComponentPage = () => {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger
-} from "@kamod-ui/core";`
-                : `import { ${componentName} } from "@kamod-ui/core";`,
+} from "@kamod-ch/ui";`
+                : `import { ${componentName} } from "@kamod-ch/ui";`,
         activeDoc.slug,
       );
       const usageSnippet = isButtonDoc

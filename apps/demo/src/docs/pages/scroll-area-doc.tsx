@@ -1,4 +1,4 @@
-import { ScrollArea, ScrollAreaCorner, ScrollBar } from "@kamod-ui/core";
+import { ScrollArea, ScrollAreaCorner, ScrollBar } from "@kamod-ch/ui";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const scrollAreaDocPage = createGenericDocPage({

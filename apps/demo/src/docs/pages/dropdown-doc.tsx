@@ -14,7 +14,7 @@ import {
   DropdownSubContent,
   DropdownSubTrigger,
   DropdownTrigger,
-} from "@kamod-ui/core";
+} from "@kamod-ch/ui";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 const UserIcon = () => (

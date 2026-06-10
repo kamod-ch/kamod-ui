@@ -1,4 +1,4 @@
-import { Dropzone, DropzoneLoadingIndicator, DropzoneUploadIndicator } from "@kamod-ui/core";
+import { Dropzone, DropzoneLoadingIndicator, DropzoneUploadIndicator } from "@kamod-ch/ui";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const dropzoneDocPage = createGenericDocPage({

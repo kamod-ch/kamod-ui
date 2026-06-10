@@ -1,4 +1,4 @@
-import { ThemeToggle } from "@kamod-ui/core";
+import { ThemeToggle } from "@kamod-ch/ui";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const themeToggleDocPage = createGenericDocPage({

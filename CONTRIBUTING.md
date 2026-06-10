@@ -19,7 +19,7 @@ There is no Turborepo or Changesets setup in this repo; releases and tooling fol
 
 ```
 packages
-└── core          # @kamod-ui/core — published-style component library (tsup, Vitest)
+└── core          # @kamod-ch/ui — published-style component library (tsup, Vitest)
 apps
 └── demo          # Vite + Preact kitchen sink and in-app documentation
 ```
@@ -85,7 +85,7 @@ From the root:
 | `pnpm build`     | Build all packages (recursive).             |
 | `pnpm typecheck` | Typecheck all workspaces.                   |
 | `pnpm lint`      | Lint/typecheck scripts per workspace.       |
-| `pnpm test`      | Run **@kamod-ui/core** unit tests (Vitest). |
+| `pnpm test`      | Run **@kamod-ch/ui** unit tests (Vitest). |
 | `pnpm test:demo` | Run **demo** unit tests (Vitest).           |
 | `pnpm test:e2e`  | Run **demo** Playwright tests.              |
 

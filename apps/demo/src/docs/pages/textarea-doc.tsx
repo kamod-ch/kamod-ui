@@ -1,4 +1,4 @@
-import { Button, Field, Textarea } from "@kamod-ui/core";
+import { Button, Field, Textarea } from "@kamod-ch/ui";
 import type { JSX } from "preact";
 import { useState } from "preact/hooks";
 import { createGenericDocPage } from "./create-generic-doc-page";

@@ -1,4 +1,4 @@
-import { ThemeToggle } from "@kamod-ui/core";
+import { ThemeToggle } from "@kamod-ch/ui";
 import { ThemePresetSelect } from "../../theme/ThemePresetSelect";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
@@ -8,7 +8,7 @@ export const themingDocPage = createGenericDocPage({
   usageLabel:
     "Use theme presets for visual direction and keep components consistent through semantic CSS tokens.",
   installationText:
-    "Install @kamod-ui/core and import its default theme from the CSS file where you import Tailwind.",
+    "Install @kamod-ch/ui and import its default theme from the CSS file where you import Tailwind.",
   usageText:
     'Theme presets are persisted in localStorage and applied to <html data-theme="...">. Keep component styling token-driven and avoid one-off component overrides.',
   previewCode: `import { ThemeToggle } from "@/components/kamod-ui/theme-toggle";
@@ -46,7 +46,7 @@ export const Example = () => (
       title: "Token Overrides",
       text: "Import the default theme, then override semantic tokens per preset instead of styling components directly.",
       code: `@import "tailwindcss";
-@import "@kamod-ui/core/theme.css";
+@import "@kamod-ch/ui/theme.css";
 
 :root[data-theme="ocean"] {
   --background: var(--color-slate-50);

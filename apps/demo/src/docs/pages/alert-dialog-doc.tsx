@@ -11,7 +11,7 @@ import {
   AlertDialogTrigger,
   Button,
   DirectionProvider,
-} from "@kamod-ui/core";
+} from "@kamod-ch/ui";
 import { Bluetooth, CircleFadingPlus, Trash2 } from "lucide-preact";
 import type { ComponentChildren } from "preact";
 import { useState } from "preact/hooks";
@@ -447,7 +447,7 @@ const apiSections = [
 export const alertDialogDocPage: DocPageModule = {
   slug: "alert-dialog",
   title: "Alert Dialog",
-  command: "pnpm add @kamod-ui/core",
+  command: "pnpm add @kamod-ch/ui",
   usageLabel:
     'Modal confirmation pattern: explicit continue/cancel, optional media slot, compact size, destructive actions. Content uses Dialog presentation="slot" (custom overlay).',
   sections: [

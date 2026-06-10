@@ -16,7 +16,7 @@ import {
   DrawerTrigger,
   Input,
   Label,
-} from "@kamod-ui/core";
+} from "@kamod-ch/ui";
 import { useEffect, useState } from "preact/hooks";
 import { createGenericDocPage } from "./create-generic-doc-page";
 

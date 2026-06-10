@@ -10,7 +10,7 @@ import {
   CardHeader,
   CardTitle,
   DirectionProvider,
-} from "@kamod-ui/core";
+} from "@kamod-ch/ui";
 import type { ComponentChildren } from "preact";
 import { useState } from "preact/hooks";
 import { ApiReference } from "../components/ApiReference";
@@ -422,7 +422,7 @@ const apiSections = [
 export const accordionDocPage: DocPageModule = {
   slug: "accordion",
   title: "Accordion",
-  command: "pnpm add @kamod-ui/core",
+  command: "pnpm add @kamod-ch/ui",
   usageLabel:
     "Expandable sections with single or multiple open panels, optional non-collapsible single mode, disabled items, and height-based animation (no Radix dependency).",
   sections: [

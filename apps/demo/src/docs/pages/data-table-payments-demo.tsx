@@ -16,7 +16,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@kamod-ui/core";
+} from "@kamod-ch/ui";
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-preact";
 import { useEffect, useMemo, useRef, useState } from "preact/hooks";
 

@@ -13,7 +13,7 @@ import {
   InputGroupAddon,
   InputGroupInput,
   Kbd,
-} from "@kamod-ui/core";
+} from "@kamod-ch/ui";
 import { ArrowUpRight, Bell, Cloud, Folder, Plus, RefreshCw, Search } from "lucide-preact";
 import { createGenericDocPage } from "./create-generic-doc-page";
 

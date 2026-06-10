@@ -26,12 +26,12 @@ describe("doc-snippet-rewrite", () => {
   });
 
   it("leaves pnpm install snippet unchanged", () => {
-    const s = "pnpm add @kamod-ui/core";
+    const s = "pnpm add @kamod-ch/ui";
     expect(rewriteKamodCoreImportsInDocString(s, "button", docsPageSlugsLongestFirst)).toBe(s);
   });
 
   it("rewrites core import and sends unknown symbols to lucide", () => {
-    const src = 'import { Button, Menu } from "@kamod-ui/core"';
+    const src = 'import { Button, Menu } from "@kamod-ch/ui"';
     const out = rewriteKamodCoreImportsInDocString(src, "button", docsPageSlugsLongestFirst);
     expect(out).toContain("@/components/kamod-ui/button");
     expect(out).toContain("lucide-preact");

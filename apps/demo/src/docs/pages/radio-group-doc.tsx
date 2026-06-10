@@ -1,4 +1,4 @@
-import { Field, Label, RadioGroup, RadioGroupItem } from "@kamod-ui/core";
+import { Field, Label, RadioGroup, RadioGroupItem } from "@kamod-ch/ui";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const radioGroupDocPage = createGenericDocPage({

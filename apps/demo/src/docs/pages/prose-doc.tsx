@@ -1,4 +1,4 @@
-import { Prose } from "@kamod-ui/core";
+import { Prose } from "@kamod-ch/ui";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const proseDocPage = createGenericDocPage({

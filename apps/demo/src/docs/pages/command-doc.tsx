@@ -9,7 +9,7 @@ import {
   CommandList,
   CommandSeparator,
   CommandShortcut,
-} from "@kamod-ui/core";
+} from "@kamod-ch/ui";
 import {
   Bell,
   Calculator,
@@ -470,7 +470,7 @@ export const Example = () => (
   usageLabel:
     "Command palette surface: filterable list via `CommandInput` + `value` on each `CommandItem`. Official shadcn uses `cmdk` (React); Kamod implements the same UX with Preact signals and `data-match` visibility for `CommandEmpty`.",
   installationText:
-    "Use `@kamod-ui/core` — no `cmdk` dependency. For modal palettes, wrap with `CommandDialog` (`Dialog` + padded `DialogContent`).",
+    "Use `@kamod-ch/ui` — no `cmdk` dependency. For modal palettes, wrap with `CommandDialog` (`Dialog` + padded `DialogContent`).",
   usageText:
     '`CommandItem` requires a `value` string used for filtering (case-insensitive substring). Use `onSelect` or `onClick` for actions. `CommandEmpty` appears only when the query is non-empty and no item matches. `CommandList` measures matches after layout. Inside `CommandDialog`, drop the inner `Command` border: `class="rounded-none border-0 shadow-none"`.',
   exampleSections: [

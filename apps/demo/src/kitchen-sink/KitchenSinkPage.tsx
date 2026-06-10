@@ -54,7 +54,7 @@ import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@kamod-ui/core";
+} from "@kamod-ch/ui";
 import {
   ArrowUp,
   AtSign,

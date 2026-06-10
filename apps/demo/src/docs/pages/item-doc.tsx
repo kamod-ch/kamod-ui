@@ -17,7 +17,7 @@ import {
   ItemMedia,
   ItemSeparator,
   ItemTitle,
-} from "@kamod-ui/core";
+} from "@kamod-ch/ui";
 import {
   BadgeCheck,
   ChevronDown,

@@ -13,7 +13,7 @@ import {
   DropdownGroup,
   DropdownItem,
   DropdownTrigger,
-} from "@kamod-ui/core";
+} from "@kamod-ch/ui";
 import { ChevronDown, Dot } from "lucide-preact";
 import type { ComponentChildren } from "preact";
 import { useState } from "preact/hooks";
@@ -517,7 +517,7 @@ const apiSections = [
 export const breadcrumbDocPage: DocPageModule = {
   slug: "breadcrumb",
   title: "Breadcrumb",
-  command: "pnpm add @kamod-ui/core",
+  command: "pnpm add @kamod-ch/ui",
   usageLabel:
     "Hierarchical navigation with links, current page, custom separators, dropdown mid-trail, ellipsis (collapsed), and asChild for router links (shadcn Breadcrumb pattern).",
   sections: [

@@ -1,4 +1,4 @@
-import { LocaleSegmentGroup } from "@kamod-ui/core";
+import { LocaleSegmentGroup } from "@kamod-ch/ui";
 import { useState } from "preact/hooks";
 import { createGenericDocPage } from "./create-generic-doc-page";
 

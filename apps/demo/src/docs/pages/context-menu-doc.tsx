@@ -14,7 +14,7 @@ import {
   ContextMenuSubContent,
   ContextMenuSubTrigger,
   ContextMenuTrigger,
-} from "@kamod-ui/core";
+} from "@kamod-ch/ui";
 import {
   ArrowLeft,
   ArrowRight,

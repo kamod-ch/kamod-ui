@@ -101,7 +101,7 @@ export const createGenericDocPage = (config: GenericDocPageConfig): DocPageModul
   return {
     slug: config.slug,
     title: config.title,
-    command: "pnpm add @kamod-ui/core",
+    command: "pnpm add @kamod-ch/ui",
     usageLabel: config.usageLabel,
     sections: [
       { id: "installation", title: "Installation", text: config.installationText },

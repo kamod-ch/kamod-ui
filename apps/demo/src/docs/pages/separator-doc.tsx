@@ -1,4 +1,4 @@
-import { Separator } from "@kamod-ui/core";
+import { Separator } from "@kamod-ch/ui";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const separatorDocPage = createGenericDocPage({

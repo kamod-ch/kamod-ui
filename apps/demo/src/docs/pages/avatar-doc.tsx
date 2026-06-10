@@ -13,7 +13,7 @@ import {
   DropdownItem,
   DropdownSeparator,
   DropdownTrigger,
-} from "@kamod-ui/core";
+} from "@kamod-ch/ui";
 import { Plus } from "lucide-preact";
 import type { ComponentChildren } from "preact";
 import { useState } from "preact/hooks";
@@ -380,7 +380,7 @@ const apiSections = [
 export const avatarDocPage: DocPageModule = {
   slug: "avatar",
   title: "Avatar",
-  command: "pnpm add @kamod-ui/core",
+  command: "pnpm add @kamod-ch/ui",
   usageLabel:
     "Profile image with initials fallback, status badge, overlapping groups, count chip, sizes, and dropdown trigger (shadcn Avatar pattern; no Radix dependency).",
   sections: [

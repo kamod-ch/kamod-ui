@@ -1,4 +1,4 @@
-import { Label, NativeSelect, NativeSelectOptGroup, NativeSelectOption } from "@kamod-ui/core";
+import { Label, NativeSelect, NativeSelectOptGroup, NativeSelectOption } from "@kamod-ch/ui";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const nativeSelectDocPage = createGenericDocPage({

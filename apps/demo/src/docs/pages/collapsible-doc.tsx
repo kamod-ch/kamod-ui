@@ -16,7 +16,7 @@ import {
   Tabs,
   TabsList,
   TabsTrigger,
-} from "@kamod-ui/core";
+} from "@kamod-ch/ui";
 import {
   ChevronDown,
   ChevronRight,

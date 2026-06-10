@@ -1,4 +1,4 @@
-import { Video } from "@kamod-ui/core";
+import { Video } from "@kamod-ch/ui";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const videoDocPage = createGenericDocPage({

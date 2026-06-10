@@ -13,7 +13,7 @@ import {
   Label,
   REGEXP_ONLY_DIGITS,
   REGEXP_ONLY_DIGITS_AND_CHARS,
-} from "@kamod-ui/core";
+} from "@kamod-ch/ui";
 import { RefreshCw } from "lucide-preact";
 import { useState } from "preact/hooks";
 import { createGenericDocPage } from "./create-generic-doc-page";

@@ -1,12 +1,12 @@
 # Maintainers guide
 
-Internal notes for publishing and releasing `@kamod-ui/core` from the kamod-ui monorepo.
+Internal notes for publishing and releasing `@kamod-ch/ui` from the kamod-ui monorepo.
 
 ## What gets published
 
-Only **`packages/core`** (`@kamod-ui/core`) is published to npm. The root workspace is `"private": true` so `npm publish` from the repo root cannot accidentally republish the unscoped `kamod-ui` name.
+Only **`packages/core`** (`@kamod-ch/ui`) is published to npm. The root workspace is `"private": true` so `npm publish` from the repo root cannot accidentally republish the unscoped `kamod-ui` name.
 
-Publishing requires the npm organization **`kamod-ui`** (scope `@kamod-ui`). The GitHub org **`kamod-ch`** is separate; CI also mirrors releases to GitHub Packages as **`@kamod-ch/core`** (same tarball, scope required by [GitHub Packages npm rules](https://docs.github.com/packages/working-with-a-github-packages-registry/working-with-the-npm-registry)).
+Publishing requires the npm organization **`kamod-ch`** (scope `@kamod-ch`). The previous package **`@kamod-ui/core`** is deprecated — new installs should use `@kamod-ch/ui`.
 
 Do not use the legacy unscoped [`kamod-ui`](https://www.npmjs.com/package/kamod-ui) package on npm.
 
@@ -43,7 +43,7 @@ Do not use the legacy unscoped [`kamod-ui`](https://www.npmjs.com/package/kamod-
 
    `pnpm release` runs: `commit-and-tag-version` → `git push --follow-tags` → `pnpm release:publish`.
 
-   After each version bump, `postbump` runs `pnpm syncpack:fix` so `apps/demo` stays aligned with `@kamod-ui/core` (CI `pnpm qa:deps`).
+   After each version bump, `postbump` runs `pnpm syncpack:fix` so `apps/demo` stays aligned with `@kamod-ch/ui` (CI `pnpm qa:deps`).
 
    It does **not** run tests or `release:check` automatically — run those first.
 
@@ -51,51 +51,30 @@ Do not use the legacy unscoped [`kamod-ui`](https://www.npmjs.com/package/kamod-
 
 ### CI release (tag push)
 
-Tagged pushes (`v*`) trigger [`.github/workflows/publish.yml`](../.github/workflows/publish.yml), which runs typecheck, lint, tests, build, publint, attw, then:
-
-1. Publishes **`@kamod-ui/core`** to [npmjs.org](https://www.npmjs.com/package/@kamod-ui/core) with `--provenance` (requires GitHub Actions OIDC + `NPM_TOKEN` secret).
-2. Publishes **`@kamod-ch/core`** to [GitHub Packages](https://github.com/orgs/kamod-ch/packages) using the built-in `GITHUB_TOKEN` (`packages: write`). See [`.npmrc`](../.npmrc) for scope routing.
+Tagged pushes (`v*`) trigger [`.github/workflows/publish.yml`](../.github/workflows/publish.yml), which runs typecheck, lint, tests, build, publint, attw, then publishes **`@kamod-ch/ui`** to [npmjs.org](https://www.npmjs.com/package/@kamod-ch/ui) with `--provenance` (requires GitHub Actions OIDC + `NPM_TOKEN` secret).
 
 #### GitHub Actions `NPM_TOKEN` secret
 
 CI publish fails with `ENEEDAUTH` when the secret is missing, empty, or invalid.
 
-1. In npm, open the **`kamod-ui`** org → **Access Tokens** (or your user tokens if you publish under a user scope).
-2. Create an **Automation** or **Granular** token with **publish** permission for `@kamod-ui/*`.
+1. In npm, open the **`kamod-ch`** org → **Access Tokens** (or your user tokens if you publish under a user scope).
+2. Create an **Automation** or **Granular** token with **publish** permission for `@kamod-ch/*`.
 3. In GitHub → **kamod-ui** repo → **Settings** → **Secrets and variables** → **Actions**, add repository secret **`NPM_TOKEN`** with that token value.
 4. Re-run the failed publish workflow or push the tag again after fixing the secret.
 
-The workflow appends auth tokens to the committed [`.npmrc`](../.npmrc) (scope lines only; no secrets in git) and runs `npm whoami` before each publish so auth problems fail with a clear message instead of only at `pnpm publish`.
-
-#### GitHub Packages mirror (`@kamod-ch/core`)
-
-Public installs should keep using **`@kamod-ui/core`** from npm. The GitHub Packages copy is for org-internal use or workflows that already authenticate to `npm.pkg.github.com`.
-
-Install from GitHub Packages (requires a PAT with `read:packages`):
-
-```ini
-# .npmrc
-@kamod-ch:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN
-```
-
-```bash
-pnpm add @kamod-ch/core
-```
-
-CI uses [`scripts/publish-github-packages.mjs`](../scripts/publish-github-packages.mjs) to temporarily rename the package for the GitHub publish step, then restores `@kamod-ui/core` in the working tree.
+The workflow appends auth tokens to the committed [`.npmrc`](../.npmrc) (scope lines only; no secrets in git) and runs `npm whoami` before publish so auth problems fail with a clear message instead of only at `pnpm publish`.
 
 ### Script reference
 
-| Script                  | What it does                                                      |
-| ----------------------- | ----------------------------------------------------------------- |
-| `release:check`         | `test:ci` + `build` + `qa:publint` + `qa:attw`                    |
-| `release:check:package` | `qa:package` (core build + publint + attw only)                   |
-| `release:auth`          | Verifies `npm whoami` against the npm registry                    |
-| `release:publish`       | Publishes `@kamod-ui/core` with `--access public --no-git-checks` |
-| `release:quick`         | `install` → package checks → auth → publish (no version bump)     |
+| Script                  | What it does                                                    |
+| ----------------------- | --------------------------------------------------------------- |
+| `release:check`         | `test:ci` + `build` + `qa:publint` + `qa:attw`                  |
+| `release:check:package` | `qa:package` (core build + publint + attw only)               |
+| `release:auth`          | Verifies `npm whoami` against the npm registry                  |
+| `release:publish`       | Publishes `@kamod-ch/ui` with `--access public --no-git-checks` |
+| `release:quick`         | `install` → package checks → auth → publish (no version bump)   |
 | `release`               | Version bump + push tags + `release:publish`                      |
-| `docs:components`       | Build core + regenerate [`.docs/COMPONENTS.md`](COMPONENTS.md)    |
+| `docs:components`       | Build core + regenerate [`.docs/COMPONENTS.md`](COMPONENTS.md)  |
 
 Local `pnpm release:publish` does not pass `--provenance` (npm cannot detect a CI provider on your machine). Provenance is enabled only in GitHub Actions.
 
@@ -108,4 +87,4 @@ Local `pnpm release:publish` does not pass `--provenance` (npm cannot detect a C
 
 - [`.docs/interna.md`](interna.md) — monorepo layout, dev tooling (Biome, Knip, Lefthook)
 - [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) — CI pipeline
-- [`.github/workflows/publish.yml`](../.github/workflows/publish.yml) — npm + GitHub Packages publish on tags
+- [`.github/workflows/publish.yml`](../.github/workflows/publish.yml) — npm publish on tags

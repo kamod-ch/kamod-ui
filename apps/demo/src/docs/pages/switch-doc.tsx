@@ -1,4 +1,4 @@
-import { Switch } from "@kamod-ui/core";
+import { Switch } from "@kamod-ch/ui";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const switchDocPage = createGenericDocPage({

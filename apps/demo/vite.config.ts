@@ -18,7 +18,7 @@ export default defineConfig({
   resolve: {
     extensions: [".ts", ".tsx", ".mjs", ".js", ".jsx", ".json"],
     alias: {
-      "@kamod-ui/core": resolve(__dirname, "../../packages/core/src/index.ts"),
+      "@kamod-ch/ui": resolve(__dirname, "../../packages/core/src/index.ts"),
     },
   },
 });

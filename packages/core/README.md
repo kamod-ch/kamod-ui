@@ -8,13 +8,13 @@
 Lightweight UI components for **Preact** and **Tailwind**: composable primitives you can customize, extend, and ship without a heavy runtime. Open source; source is meant to be read and adapted.
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/@kamod-ui/core"><img src="https://img.shields.io/npm/v/@kamod-ui/core" alt="npm version" /></a>
+  <a href="https://www.npmjs.com/package/@kamod-ch/ui"><img src="https://img.shields.io/npm/v/@kamod-ch/ui" alt="npm version" /></a>
   <a href="https://github.com/kamod-ch/kamod-ui/actions/workflows/ci.yml"><img src="https://github.com/kamod-ch/kamod-ui/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
   <a href="https://github.com/kamod-ch/kamod-ui/stargazers"><img src="https://img.shields.io/github/stars/kamod-ch/kamod-ui?style=social" alt="GitHub stars" /></a>
   <a href="https://github.com/kamod-ch/kamod-ui/blob/main/LICENSE.md"><img src="https://img.shields.io/github/license/kamod-ch/kamod-ui" alt="license" /></a>
 </p>
 
-**[Demo](https://ui.kamod.ch/)** · **[Component docs](https://ui.kamod.ch/docs/button)** · **[npm](https://www.npmjs.com/package/@kamod-ui/core)** · **[GitHub](https://github.com/kamod-ch/kamod-ui)** · **[Issues](https://github.com/kamod-ch/kamod-ui/issues)**
+**[Demo](https://ui.kamod.ch/)** · **[Component docs](https://ui.kamod.ch/docs/button)** · **[npm](https://www.npmjs.com/package/@kamod-ch/ui)** · **[GitHub](https://github.com/kamod-ch/kamod-ui)** · **[Issues](https://github.com/kamod-ch/kamod-ui/issues)**
 
 > If Kamod UI saves you time, **[star the repo](https://github.com/kamod-ch/kamod-ui)** — it helps others discover the project.
 
@@ -45,17 +45,17 @@ Many UI kits are heavier than necessary, overly opinionated, or tied to React. K
 ## Quick start
 
 ```bash
-pnpm add @kamod-ui/core preact @preact/signals tailwindcss
+pnpm add @kamod-ch/ui preact @preact/signals tailwindcss
 ```
 
 ```css
 /* app.css */
 @import "tailwindcss";
-@import "@kamod-ui/core/theme.css";
+@import "@kamod-ch/ui/theme.css";
 ```
 
 ```tsx
-import { Button } from "@kamod-ui/core";
+import { Button } from "@kamod-ch/ui";
 
 export function App() {
   return <Button>Click me</Button>;
@@ -77,16 +77,16 @@ Browse the [live component docs](https://ui.kamod.ch/docs/button) for variants, 
 ### Install
 
 ```bash
-pnpm add @kamod-ui/core preact @preact/signals
+pnpm add @kamod-ch/ui preact @preact/signals
 ```
 
-The published library on npm is **[`@kamod-ui/core`](https://www.npmjs.com/package/@kamod-ui/core)** only. This monorepo root and `apps/demo` are not published. Do not use the legacy unscoped [`kamod-ui`](https://www.npmjs.com/package/kamod-ui) package — install `@kamod-ui/core` instead.
+The published library on npm is **[`@kamod-ch/ui`](https://www.npmjs.com/package/@kamod-ch/ui)**. This monorepo root and `apps/demo` are not published. The former package [`@kamod-ui/core`](https://www.npmjs.com/package/@kamod-ui/core) and the unscoped [`kamod-ui`](https://www.npmjs.com/package/kamod-ui) name are legacy — install `@kamod-ch/ui` instead.
 
 Import the default theme once so Tailwind compiles component classes and semantic CSS tokens:
 
 ```css
 @import "tailwindcss";
-@import "@kamod-ui/core/theme.css";
+@import "@kamod-ch/ui/theme.css";
 ```
 
 ### `@preact/signals`
@@ -99,9 +99,9 @@ Import the default theme once so Tailwind compiles component classes and semanti
 
 | Use case                            | Import                                                                           |
 | ----------------------------------- | -------------------------------------------------------------------------------- |
-| Custom controlled primitives        | `@kamod-ui/core/lib/signals` → `createControllableSignal`                        |
-| Overlay dismiss / roving focus      | `@kamod-ui/core/lib/interactive` → `createDismissableLayer`, `createRovingFocus` |
-| Advanced toast / sonner integration | `@kamod-ui/core/toast` or `@kamod-ui/core/sonner` stores                         |
+| Custom controlled primitives        | `@kamod-ch/ui/lib/signals` → `createControllableSignal`                        |
+| Overlay dismiss / roving focus      | `@kamod-ch/ui/lib/interactive` → `createDismissableLayer`, `createRovingFocus` |
+| Advanced toast / sonner integration | `@kamod-ch/ui/toast` or `@kamod-ch/ui/sonner` stores                         |
 
 See the [**Signals** column in the component reference](https://github.com/kamod-ch/kamod-ui/blob/main/.docs/COMPONENTS.md) for which exports use signals internally (direct, indirect via Dialog/Popover, or none).
 
@@ -110,15 +110,15 @@ See the [**Signals** column in the component reference](https://github.com/kamod
 Both styles are supported:
 
 ```ts
-import { Button } from "@kamod-ui/core"; // root barrel
-import { Button } from "@kamod-ui/core/button"; // per-component subpath
+import { Button } from "@kamod-ch/ui"; // root barrel
+import { Button } from "@kamod-ch/ui/button"; // per-component subpath
 ```
 
 The package ships a minimal `sideEffects` list (progress indeterminate keyframes and CSS only), so modern bundlers tree-shake the root barrel reliably.
 
 ### Component sizes
 
-Each `@kamod-ui/core/<name>` subpath is a separate export. Typical gzip size is **0.4–10 KB** (Kamod JS only; excludes `preact`, `@preact/signals`, and CSS).
+Each `@kamod-ch/ui/<name>` subpath is a separate export. Typical gzip size is **0.4–10 KB** (Kamod JS only; excludes `preact`, `@preact/signals`, and CSS).
 
 See **[Component sizes & signals reference](https://github.com/kamod-ch/kamod-ui/blob/main/.docs/COMPONENTS.md)** for all 65 exports with min/gzip sizes and signal usage. Regenerate after core changes:
 
@@ -132,7 +132,7 @@ Override semantic tokens after importing the default theme:
 
 ```css
 @import "tailwindcss";
-@import "@kamod-ui/core/theme.css";
+@import "@kamod-ch/ui/theme.css";
 
 :root {
   --primary: var(--color-fuchsia-700);
@@ -167,7 +167,7 @@ Open the URL printed in the terminal for the kitchen sink and component docs. Qu
 
 | Workspace        | Path             | Role                                     |
 | ---------------- | ---------------- | ---------------------------------------- |
-| `@kamod-ui/core` | `packages/core/` | Published library (65 component exports) |
+| `@kamod-ch/ui` | `packages/core/` | Published library (65 component exports) |
 | `demo`           | `apps/demo/`     | Kitchen sink + interactive docs          |
 
 - Open issues for bugs and ideas; PRs welcome for components, docs, and examples.

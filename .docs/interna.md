@@ -13,7 +13,7 @@ kamod-ui/
 │   └── workflows/ci.yml     # CI-Pipeline
 ├── apps/demo/               # Live-Demo + interaktive Komponenten-Doku
 │   └── src/docs/            # Quellcode der Doku-Seiten (/docs/button, …)
-├── packages/core/           # @kamod-ui/core — UI-Komponenten
+├── packages/core/           # @kamod-ch/ui — UI-Komponenten
 ├── biome.json               # Import-Sortierung, JSON-Format/Lint
 ├── knip.json                # Ungenutzte Dateien/Dependencies finden
 ├── lefthook.yml             # Git Pre-Commit-Hooks
@@ -24,7 +24,7 @@ Das Projekt ist ein **pnpm-Workspace** mit zwei Haupt-Workspaces:
 
 | Workspace        | Pfad             | Zweck                             |
 | ---------------- | ---------------- | --------------------------------- |
-| `@kamod-ui/core` | `packages/core/` | Veröffentlichbare UI-Komponenten  |
+| `@kamod-ch/ui` | `packages/core/` | Veröffentlichbare UI-Komponenten  |
 | `demo`           | `apps/demo/`     | Demo-App, Kitchen Sink, Live-Doku |
 
 ---

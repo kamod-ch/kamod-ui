@@ -1,4 +1,4 @@
-import { Button, Spinner } from "@kamod-ui/core";
+import { Button, Spinner } from "@kamod-ch/ui";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const spinnerDocPage = createGenericDocPage({

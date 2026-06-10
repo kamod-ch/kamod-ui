@@ -39,7 +39,7 @@ import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@kamod-ui/core";
+} from "@kamod-ch/ui";
 import {
   AlertTriangle,
   Archive,
@@ -789,7 +789,7 @@ const textApiRows: Array<{ prop: string; type: string; defaultValue: string }> =
 export const buttonGroupDocPage: DocPageModule = {
   slug: "button-group",
   title: "Button Group",
-  command: "pnpm add @kamod-ui/core",
+  command: "pnpm add @kamod-ch/ui",
   usageLabel:
     "Groups related actions with shared borders and focus rings; nest groups for spacing; pair with Input, InputGroup, Dropdown, Select, and Popover (shadcn Button Group pattern).",
   sections: [

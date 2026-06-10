@@ -1,4 +1,4 @@
-import { Checkbox, Input, Label, Textarea } from "@kamod-ui/core";
+import { Checkbox, Input, Label, Textarea } from "@kamod-ch/ui";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const labelDocPage = createGenericDocPage({

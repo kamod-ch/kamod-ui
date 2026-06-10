@@ -5,7 +5,7 @@ import {
   AlertTitle,
   Button,
   DirectionProvider,
-} from "@kamod-ui/core";
+} from "@kamod-ch/ui";
 import { AlertCircle, AlertTriangle, CheckCircle2, Info } from "lucide-preact";
 import type { ComponentChildren } from "preact";
 import { useState } from "preact/hooks";
@@ -253,7 +253,7 @@ const apiSections = [
 export const alertDocPage: DocPageModule = {
   slug: "alert",
   title: "Alert",
-  command: "pnpm add @kamod-ui/core",
+  command: "pnpm add @kamod-ch/ui",
   usageLabel:
     "Inline callouts with optional leading icon, title, description, destructive variant, action slot, and custom colors (shadcn Alert pattern).",
   sections: [

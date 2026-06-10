@@ -13,7 +13,7 @@ import {
   FieldLabel,
   Input,
   Label,
-} from "@kamod-ui/core";
+} from "@kamod-ch/ui";
 import { useState } from "preact/hooks";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
@@ -207,7 +207,7 @@ export const Example = () => (
   usageLabel:
     'Modal dialog with backdrop, centered panel, default close control, Escape + focus return, `presentation="slot"` for custom layouts (Alert Dialog, full-screen previews).',
   installationText:
-    'Install `@kamod-ui/core`, then compose `Dialog`, `DialogTrigger`, and `DialogContent` as in the snippet below. The default modal is centered; for immersive full-viewport layouts use `presentation="slot"` and apply overlay + panel classes on `DialogContent` yourself (see Usage).',
+    'Install `@kamod-ch/ui`, then compose `Dialog`, `DialogTrigger`, and `DialogContent` as in the snippet below. The default modal is centered; for immersive full-viewport layouts use `presentation="slot"` and apply overlay + panel classes on `DialogContent` yourself (see Usage).',
   installationExample: {
     code: INSTALLATION_FULLSCREEN_CODE,
     renderPreview: () => <DialogInstallationFullscreenPreview />,

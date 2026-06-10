@@ -12,7 +12,7 @@ import {
   Kbd,
   Label,
   Spinner,
-} from "@kamod-ui/core";
+} from "@kamod-ch/ui";
 import {
   Check,
   ChevronDown,

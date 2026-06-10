@@ -1,4 +1,4 @@
-import { Badge, Button, DirectionProvider, Spinner } from "@kamod-ui/core";
+import { Badge, Button, DirectionProvider, Spinner } from "@kamod-ch/ui";
 import { ArrowUpRight, BadgeCheck, Bookmark } from "lucide-preact";
 import type { ComponentChildren } from "preact";
 import { useState } from "preact/hooks";
@@ -297,7 +297,7 @@ const badgeApiRows: Array<{ prop: string; type: string; defaultValue: string }> 
 export const badgeDocPage: DocPageModule = {
   slug: "badge",
   title: "Badge",
-  command: "pnpm add @kamod-ui/core",
+  command: "pnpm add @kamod-ch/ui",
   usageLabel:
     "Compact labels with shadcn-aligned variants (destructive, ghost, outline), optional asChild link, icons via data-icon, Spinner states, and extra semantic variants.",
   sections: [

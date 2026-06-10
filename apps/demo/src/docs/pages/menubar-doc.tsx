@@ -13,7 +13,7 @@ import {
   MenubarSubContent,
   MenubarSubTrigger,
   MenubarTrigger,
-} from "@kamod-ui/core";
+} from "@kamod-ch/ui";
 import { FileText, FolderOpen, HelpCircle, Save, Settings, Trash2 } from "lucide-preact";
 import { useState } from "preact/hooks";
 import { createGenericDocPage } from "./create-generic-doc-page";

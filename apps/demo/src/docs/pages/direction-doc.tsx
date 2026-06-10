@@ -12,7 +12,7 @@ import {
   Input,
   Label,
   useDirection,
-} from "@kamod-ui/core";
+} from "@kamod-ch/ui";
 import { useState } from "preact/hooks";
 import { createGenericDocPage } from "./create-generic-doc-page";
 

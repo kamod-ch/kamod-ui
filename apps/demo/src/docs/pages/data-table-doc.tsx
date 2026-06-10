@@ -1,4 +1,4 @@
-import { DataTable, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@kamod-ui/core";
+import { DataTable, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@kamod-ch/ui";
 import { createGenericDocPage } from "./create-generic-doc-page";
 import { type Payment, PaymentsDataTableDemo, paymentRows } from "./data-table-payments-demo";
 

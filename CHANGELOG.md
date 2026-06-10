@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.2.0](https://github.com/kamod-ch/kamod-ui/compare/v0.1.5...v0.2.0) (2026-06-10)
+
+### ⚠ BREAKING CHANGES
+
+- The npm package was renamed from `@kamod-ui/core` to `@kamod-ch/ui`. Update all imports and CSS paths accordingly.
+
 ## [0.1.5](https://github.com/kamod-ch/kamod-ui/compare/v0.1.4...v0.1.5) (2026-06-08)
 
 ## [0.1.4](https://github.com/kamod-ch/kamod-ui/compare/v0.1.3...v0.1.4) (2026-06-03)
@@ -29,4 +35,4 @@ All notable changes to this project will be documented in this file. See [commit
 
 ## [0.1.0] - Initial release
 
-Initial public release of `@kamod-ui/core`.
+Initial public release of `@kamod-ui/core` (later renamed to `@kamod-ch/ui` in 0.2.0).

@@ -1,4 +1,4 @@
-import { Skeleton } from "@kamod-ui/core";
+import { Skeleton } from "@kamod-ch/ui";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const skeletonDocPage = createGenericDocPage({

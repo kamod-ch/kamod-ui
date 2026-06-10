@@ -1,4 +1,4 @@
-import { Button, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@kamod-ui/core";
+import { Button, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@kamod-ch/ui";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const tooltipDocPage = createGenericDocPage({

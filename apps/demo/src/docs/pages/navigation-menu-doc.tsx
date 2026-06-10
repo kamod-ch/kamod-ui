@@ -6,7 +6,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
-} from "@kamod-ui/core";
+} from "@kamod-ch/ui";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 const components: { title: string; href: string; description: string }[] = [

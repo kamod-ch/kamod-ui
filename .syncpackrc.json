@@ -10,7 +10,7 @@
     {
       "label": "use workspace protocol for internal packages",
       "packages": ["*"],
-      "dependencies": ["@kamod-ui/**"],
+      "dependencies": ["@kamod-ch/**"],
       "dependencyTypes": ["dev", "peer", "prod"],
       "isIgnored": true
     }

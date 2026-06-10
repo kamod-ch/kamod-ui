@@ -9,7 +9,7 @@ import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@kamod-ui/core";
+} from "@kamod-ch/ui";
 import { Search } from "lucide-preact";
 import { createGenericDocPage } from "./create-generic-doc-page";
 

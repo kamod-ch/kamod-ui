@@ -1,4 +1,4 @@
-import type { DateRange } from "@kamod-ui/core";
+import type { DateRange } from "@kamod-ch/ui";
 import {
   Button,
   Calendar,
@@ -7,7 +7,7 @@ import {
   CardContent,
   CardFooter,
   DirectionProvider,
-} from "@kamod-ui/core";
+} from "@kamod-ch/ui";
 import { useEffect, useState } from "preact/hooks";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
@@ -616,7 +616,7 @@ export const calendarDocPage = createGenericDocPage({
   usageLabel:
     "A calendar component that allows users to select a date or a range of dates — aligned with the structure and examples on ui.shadcn.com (Radix docs).",
   installationText:
-    "Add `@kamod-ui/core` to your app and import `Calendar`. This implementation mirrors the shadcn/ui Calendar **API surface** (modes, captions, disabled, modifiers, week numbers, RTL) without bundling `react-day-picker`; see [React DayPicker](https://react-day-picker.js.org/) for the upstream reference behaviour.",
+    "Add `@kamod-ch/ui` to your app and import `Calendar`. This implementation mirrors the shadcn/ui Calendar **API surface** (modes, captions, disabled, modifiers, week numbers, RTL) without bundling `react-day-picker`; see [React DayPicker](https://react-day-picker.js.org/) for the upstream reference behaviour.",
   usageText:
     'Import Calendar from `@/components/kamod-ui/calendar`, then control selected/onSelect in mode="single" or pass a DateRange in mode="range". The shadcn Calendar wraps React DayPicker; Kamod provides a lightweight grid with a parallel prop surface for demos and composition. Build a date picker with Popover and Button (see /docs/date-picker/installation in this app). If the highlighted day shifts vs your timezone, pass timeZone from Intl.DateTimeFormat().resolvedOptions().timeZone on the client (useEffect), as documented on ui.shadcn.com. For a tighter layout (e.g. narrow popovers), pass `size="sm"`.',
   exampleSections: [

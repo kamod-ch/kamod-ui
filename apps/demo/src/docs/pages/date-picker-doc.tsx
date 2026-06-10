@@ -1,4 +1,4 @@
-import type { DateRange } from "@kamod-ui/core";
+import type { DateRange } from "@kamod-ch/ui";
 import {
   Button,
   Calendar,
@@ -15,7 +15,7 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@kamod-ui/core";
+} from "@kamod-ch/ui";
 import { parseDate } from "chrono-node";
 import { Calendar as CalendarIcon, ChevronDown } from "lucide-preact";
 import { useState } from "preact/hooks";
@@ -428,7 +428,7 @@ export const Example = () => <DatePicker placeholder="Pick a date" />;`,
   usageLabel:
     "Date picker combines Popover + trigger + Calendar. Use the `DatePicker` shortcut or compose `Popover`, `Button`, and `Calendar` like shadcn/ui.",
   installationText:
-    "Requires `@kamod-ui/core` (includes Popover and Calendar). Optional: `lucide-preact` for icons in demos, `chrono-node` for natural-language parsing in the demo below.",
+    "Requires `@kamod-ch/ui` (includes Popover and Calendar). Optional: `lucide-preact` for icons in demos, `chrono-node` for natural-language parsing in the demo below.",
   usageText:
     '`DatePicker` wraps a styled outline `Button`, `Popover`, and single-mode `Calendar` with `closeOnSelect`. For range, dropdown month/year captions, input-adjacent pickers, or RTL, compose primitives — see Examples. `Popover` supports `open` / `onOpenChange` for closing after select. `Calendar` supports `mode="single" | "range"`, `numberOfMonths={2}`, and `captionLayout="dropdown"`.',
   exampleSections: [

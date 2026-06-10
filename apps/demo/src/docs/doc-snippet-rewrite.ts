@@ -1,6 +1,6 @@
 /**
- * Pure rewrite of `from "@kamod-ui/core"` into shadcn-style `@/components/kamod-ui/<slug>` paths.
- * Package install commands (`pnpm add @kamod-ui/core`) stay unchanged.
+ * Pure rewrite of `from "@kamod-ch/ui"` into shadcn-style `@/components/kamod-ui/<slug>` paths.
+ * Package install commands (`pnpm add @kamod-ch/ui`) stay unchanged.
  * Pass `docSlugsLongestFirst` from `docsPageSlugsLongestFirst` (registry) or collect from doc page files in tooling.
  */
 
@@ -81,7 +81,7 @@ function rewriteImportStatements(
   docSlugsLongestFirst: readonly string[],
 ): string {
   let out = source;
-  const importRe = /import\s+(type\s+)?\{([^}]*)\}\s+from\s+"@kamod-ui\/core"/g;
+  const importRe = /import\s+(type\s+)?\{([^}]*)\}\s+from\s+"@kamod-ch\/ui"/g;
   const replacements: Array<{ start: number; end: number; text: string }> = [];
   let m: RegExpExecArray | null;
 
@@ -138,11 +138,11 @@ function rewriteImportStatements(
 function rewriteProseRefs(source: string, fallbackSlug: string): string {
   let s = source;
   const path = `@/components/kamod-ui/${fallbackSlug}`;
-  s = s.replace(/from `@kamod-ui\/core`/g, `from \`${path}\``);
-  s = s.replace(/\bImport ([^.!?\n]+?) from @kamod-ui\/core\b/g, `Import $1 from \`${path}\``);
-  s = s.replace(/\bimport `([^`]+)` from @kamod-ui\/core\b/gi, `import \`$1\` from \`${path}\``);
-  s = s.replace(/\bfrom @kamod-ui\/core([.!,?])/g, `from \`${path}\`$1`);
-  s = s.replace(/@kamod-ui\/core/g, (match, offset, str) => {
+  s = s.replace(/from `@kamod-ch\/ui`/g, `from \`${path}\``);
+  s = s.replace(/\bImport ([^.!?\n]+?) from @kamod-ch\/ui\b/g, `Import $1 from \`${path}\``);
+  s = s.replace(/\bimport `([^`]+)` from @kamod-ch\/ui\b/gi, `import \`$1\` from \`${path}\``);
+  s = s.replace(/\bfrom @kamod-ch\/ui([.!,?])/g, `from \`${path}\`$1`);
+  s = s.replace(/@kamod-ch\/ui/g, (match, offset, str) => {
     if (str[offset - 1] === "`" || str[offset - 1] === "'") return match;
     const before = str.slice(Math.max(0, offset - 48), offset);
     if (/(pnpm|npm|yarn)\s+add\s+$/i.test(before)) return match;
@@ -152,15 +152,15 @@ function rewriteProseRefs(source: string, fallbackSlug: string): string {
 }
 
 /**
- * Rewrite `from "@kamod-ui/core"` inside a doc code / prose string.
- * `fallbackSlug` resolves ellipsis imports and bare `@kamod-ui/core` prose mentions.
+ * Rewrite `from "@kamod-ch/ui"` inside a doc code / prose string.
+ * `fallbackSlug` resolves ellipsis imports and bare `@kamod-ch/ui` prose mentions.
  */
 export function rewriteKamodCoreImportsInDocString(
   source: string,
   fallbackSlug: string,
   docSlugsLongestFirst: readonly string[],
 ): string {
-  if (source.trim() === "pnpm add @kamod-ui/core") return source;
+  if (source.trim() === "pnpm add @kamod-ch/ui") return source;
   let out = rewriteImportStatements(source, fallbackSlug, docSlugsLongestFirst);
   out = rewriteProseRefs(out, fallbackSlug);
   return out;

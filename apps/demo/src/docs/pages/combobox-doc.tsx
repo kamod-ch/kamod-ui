@@ -16,7 +16,7 @@ import {
   ItemContent,
   ItemDescription,
   ItemTitle,
-} from "@kamod-ui/core";
+} from "@kamod-ch/ui";
 import { Check, ChevronDown } from "lucide-preact";
 import { Fragment } from "preact";
 import { useState } from "preact/hooks";

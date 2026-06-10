@@ -1,4 +1,4 @@
-import { Button, Toaster, useToast } from "@kamod-ui/core";
+import { Button, Toaster, useToast } from "@kamod-ch/ui";
 import { useState } from "preact/hooks";
 import { createGenericDocPage } from "./create-generic-doc-page";
 

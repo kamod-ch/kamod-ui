@@ -1,4 +1,4 @@
-import { Typography } from "@kamod-ui/core";
+import { Typography } from "@kamod-ch/ui";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const typographyDocPage = createGenericDocPage({

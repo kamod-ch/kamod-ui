@@ -1,4 +1,4 @@
-import { AspectRatio, DirectionProvider, Image } from "@kamod-ui/core";
+import { AspectRatio, DirectionProvider, Image } from "@kamod-ch/ui";
 import type { ComponentChildren } from "preact";
 import { useState } from "preact/hooks";
 import { ApiReference } from "../components/ApiReference";
@@ -207,7 +207,7 @@ const apiSections = [
 export const aspectRatioDocPage: DocPageModule = {
   slug: "aspect-ratio",
   title: "Aspect Ratio",
-  command: "pnpm add @kamod-ui/core",
+  command: "pnpm add @kamod-ch/ui",
   usageLabel:
     "Keeps embedded media in a fixed width-to-height ratio using CSS aspect-ratio (shadcn-style API; no Radix dependency).",
   sections: [

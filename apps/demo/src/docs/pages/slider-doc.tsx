@@ -1,4 +1,4 @@
-import { Slider } from "@kamod-ui/core";
+import { Slider } from "@kamod-ch/ui";
 import { useState } from "preact/hooks";
 import { createGenericDocPage } from "./create-generic-doc-page";
 

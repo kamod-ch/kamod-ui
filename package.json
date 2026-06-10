@@ -1,6 +1,6 @@
 {
   "name": "kamod-ui",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "private": true,
   "description": "Lightweight UI components for Preact and Tailwind: composable primitives you can customize, extend, and ship without a heavy runtime. Open source; source is meant to be read and adapted.",
   "keywords": [
@@ -23,9 +23,9 @@
   "scripts": {
     "prepare": "lefthook install",
     "build": "pnpm -r build",
-    "test": "pnpm --filter @kamod-ui/core test",
-    "test:coverage": "pnpm --filter @kamod-ui/core test:coverage",
-    "test:ci": "pnpm test && pnpm --filter @kamod-ui/core build && pnpm test:demo",
+    "test": "pnpm --filter @kamod-ch/ui test",
+    "test:coverage": "pnpm --filter @kamod-ch/ui test:coverage",
+    "test:ci": "pnpm test && pnpm --filter @kamod-ch/ui build && pnpm test:demo",
     "test:demo": "pnpm --filter demo test",
     "doc:rewrite-imports": "node scripts/rewrite-kamod-doc-imports.mjs",
     "docs:components": "node scripts/generate-component-docs.mjs",
@@ -49,13 +49,13 @@
     "build:pages": "sh -c 'VITE_BASE_PATH=${VITE_BASE_PATH:-/kamod-ui/} pnpm run build'",
     "preview:pages": "pnpm run build:pages && pnpm --filter demo preview",
     "qa:themes": "pnpm --filter demo qa:themes",
-    "qa:publint": "pnpm --filter @kamod-ui/core publint",
-    "qa:attw": "pnpm --filter @kamod-ui/core attw",
-    "qa:package": "pnpm --filter @kamod-ui/core build && pnpm qa:publint && pnpm qa:attw",
+    "qa:publint": "pnpm --filter @kamod-ch/ui publint",
+    "qa:attw": "pnpm --filter @kamod-ch/ui attw",
+    "qa:package": "pnpm --filter @kamod-ch/ui build && pnpm qa:publint && pnpm qa:attw",
     "release:check": "pnpm test:ci && pnpm build && pnpm qa:publint && pnpm qa:attw",
     "release:check:package": "pnpm qa:package",
     "release:auth": "npm whoami --registry=https://registry.npmjs.org || (echo 'Authenticate with: npm login (or set NODE_AUTH_TOKEN)' >&2; exit 1)",
-    "release:publish": "pnpm --filter @kamod-ui/core publish --access public --no-git-checks",
+    "release:publish": "pnpm --filter @kamod-ch/ui publish --access public --no-git-checks",
     "release": "commit-and-tag-version && git push --follow-tags && pnpm release:publish",
     "release:quick": "pnpm install && pnpm release:check:package && pnpm release:auth && pnpm release:publish"
   },

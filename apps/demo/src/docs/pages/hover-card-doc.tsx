@@ -1,4 +1,4 @@
-import { Button, HoverCard, HoverCardContent, HoverCardTrigger } from "@kamod-ui/core";
+import { Button, HoverCard, HoverCardContent, HoverCardTrigger } from "@kamod-ch/ui";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 const p = "hcdoc";

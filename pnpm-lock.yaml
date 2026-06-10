@@ -48,9 +48,9 @@ importers:
       '@fontsource-variable/inter':
         specifier: ^5.2.8
         version: 5.2.8
-      '@kamod-ui/core':
-        specifier: 0.1.5
-        version: 0.1.5(@preact/signals@2.9.1(preact@10.29.2))(preact@10.29.2)(tailwindcss@4.3.0)
+      '@kamod-ch/ui':
+        specifier: workspace:*
+        version: link:../../packages/core
       '@tailwindcss/forms':
         specifier: ^0.5.11
         version: 0.5.11(tailwindcss@4.3.0)
@@ -589,13 +589,6 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
-
-  '@kamod-ui/core@0.1.5':
-    resolution: {integrity: sha512-fhVEosjhwFFbDODVkwRI/a/SpQcxFl0w11RxbqWyjKjy3JdessfTwpE4qlZPtgyd4t1Isrmk88RCivHRcYSB/Q==}
-    engines: {node: '>=20'}
-    peerDependencies:
-      '@preact/signals': ^2.9.1
-      preact: ^10.29.2
 
   '@loaderkit/resolve@1.0.6':
     resolution: {integrity: sha512-G8FdIoF5CypfwmD9rl8BXod5HDn8JqB0CCNBXDTaRZ+yRYhARrrSToX1zg1zy9jX3zLqigsELwhT4gNtkdQAUg==}
@@ -3887,18 +3880,6 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
-
-  '@kamod-ui/core@0.1.5(@preact/signals@2.9.1(preact@10.29.2))(preact@10.29.2)(tailwindcss@4.3.0)':
-    dependencies:
-      '@preact/signals': 2.9.1(preact@10.29.2)
-      clsx: 2.1.1
-      embla-carousel: 8.6.0
-      embla-carousel-autoplay: 8.6.0(embla-carousel@8.6.0)
-      preact: 10.29.2
-      tailwind-merge: 3.6.0
-      tailwind-variants: 3.2.2(tailwind-merge@3.6.0)(tailwindcss@4.3.0)
-    transitivePeerDependencies:
-      - tailwindcss
 
   '@loaderkit/resolve@1.0.6':
     dependencies:

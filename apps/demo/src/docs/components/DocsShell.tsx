@@ -11,7 +11,7 @@ import {
   SheetContent,
   SheetTrigger,
   ThemeToggle,
-} from "@kamod-ui/core";
+} from "@kamod-ch/ui";
 import { Menu, SunMoon } from "lucide-preact";
 import type { ComponentChildren } from "preact";
 import { useMemo } from "preact/hooks";

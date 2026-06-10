@@ -1,4 +1,4 @@
-import { Toggle } from "@kamod-ui/core";
+import { Toggle } from "@kamod-ch/ui";
 import { Bold, Italic, Underline } from "lucide-preact";
 import { createGenericDocPage } from "./create-generic-doc-page";
 

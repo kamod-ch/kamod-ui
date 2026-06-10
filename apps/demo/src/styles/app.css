@@ -325,7 +325,7 @@ html.dark .docs-topbar-brand-logo {
   background: color-mix(in oklab, var(--muted) 60%, var(--card));
 }
 
-/* Dropdown: surface from @kamod-ui/core (white / ring); avoid muted overlay from old preview chrome. */
+/* Dropdown: surface from @kamod-ch/ui (white / ring); avoid muted overlay from old preview chrome. */
 
 [data-slot="tooltip"] [data-slot="tooltip-content"] {
   margin-top: 0;

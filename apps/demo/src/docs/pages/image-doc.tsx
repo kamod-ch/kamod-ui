@@ -1,4 +1,4 @@
-import { Image } from "@kamod-ui/core";
+import { Image } from "@kamod-ch/ui";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const imageDocPage = createGenericDocPage({

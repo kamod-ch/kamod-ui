@@ -1,4 +1,4 @@
-import { Chart } from "@kamod-ui/core";
+import { Chart } from "@kamod-ch/ui";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const chartDocPage = createGenericDocPage({

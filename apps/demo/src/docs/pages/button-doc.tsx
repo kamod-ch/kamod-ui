@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, DirectionProvider, Spinner } from "@kamod-ui/core";
+import { Button, ButtonGroup, DirectionProvider, Spinner } from "@kamod-ch/ui";
 import { ArrowRight, ArrowUp, ArrowUpRight, GitBranch, Plus } from "lucide-preact";
 import type { ComponentChildren } from "preact";
 import { useState } from "preact/hooks";
@@ -348,7 +348,7 @@ const buttonApiRows: Array<{ prop: string; type: string; defaultValue: string }>
 export const buttonDocPage: DocPageModule = {
   slug: "button",
   title: "Button",
-  command: "pnpm add @kamod-ui/core",
+  command: "pnpm add @kamod-ch/ui",
   usageLabel:
     "Primary actions with variants and sizes; icons via data-icon; asChild for links; pairs with ButtonGroup and Spinner (shadcn Button pattern).",
   sections: [

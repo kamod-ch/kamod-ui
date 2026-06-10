@@ -12,7 +12,7 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "@kamod-ui/core";
+} from "@kamod-ch/ui";
 import type { ComponentChildren } from "preact";
 import { ApiReference } from "../components/ApiReference";
 import { CodeBlock } from "../components/CodeBlock";
@@ -369,7 +369,7 @@ const renderTabsSection = (sectionId: string) => (
 export const tabsDocPage: DocPageModule = {
   slug: "tabs",
   title: "Tabs",
-  command: "pnpm add @kamod-ui/core",
+  command: "pnpm add @kamod-ch/ui",
   usageLabel:
     "Tabs organize content into focusable views and support synchronized groups via the `syncKey` prop.",
   sections: [

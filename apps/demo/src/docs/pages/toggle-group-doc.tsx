@@ -1,4 +1,4 @@
-import { ToggleGroup, ToggleGroupItem } from "@kamod-ui/core";
+import { ToggleGroup, ToggleGroupItem } from "@kamod-ch/ui";
 import { AlignCenter, AlignLeft, AlignRight, Bold, Italic, Underline } from "lucide-preact";
 import { useState } from "preact/hooks";
 import { createGenericDocPage } from "./create-generic-doc-page";
