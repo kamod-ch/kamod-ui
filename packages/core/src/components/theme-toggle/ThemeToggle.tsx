@@ -1,5 +1,5 @@
 import type { ComponentChildren, JSX } from "preact";
-import { useEffect, useState } from "preact/hooks";
+import { useState } from "preact/hooks";
 import { cn } from "../../lib/utils";
 import { Button } from "../button";
 
@@ -46,23 +46,22 @@ const MoonIcon = ({ class: className }: { class?: string }) => (
   </svg>
 );
 
-const resolveInitialDarkMode = () => {
+const THEME_STORAGE_KEY = "theme";
+
+const readInitialDarkMode = () => {
   if (typeof window === "undefined") return false;
-  const stored = window.localStorage.getItem("theme");
-  if (stored === "dark") return true;
-  if (stored === "light") return false;
-  return window.matchMedia("(prefers-color-scheme: dark)").matches;
+  return document.documentElement.classList.contains("dark");
+};
+
+const persistTheme = (darkMode: boolean) => {
+  const value = darkMode ? "dark" : "light";
+  document.documentElement.classList.toggle("dark", darkMode);
+  window.localStorage.setItem(THEME_STORAGE_KEY, value);
+  document.cookie = `${THEME_STORAGE_KEY}=${value}; path=/; max-age=31536000; SameSite=Lax`;
 };
 
 export const ThemeToggle = ({ children, onClick, ...rest }: ThemeToggleProps) => {
-  const [darkMode, setDarkMode] = useState<boolean>(resolveInitialDarkMode);
-
-  useEffect(() => {
-    document.documentElement.classList.toggle("dark", darkMode);
-    if (typeof window !== "undefined") {
-      window.localStorage.setItem("theme", darkMode ? "dark" : "light");
-    }
-  }, [darkMode]);
+  const [darkMode, setDarkMode] = useState<boolean>(readInitialDarkMode);
 
   return (
     <Button
@@ -73,7 +72,11 @@ export const ThemeToggle = ({ children, onClick, ...rest }: ThemeToggleProps) =>
       data-state={darkMode ? "dark" : "light"}
       aria-label={children == null ? (darkMode ? "Light mode" : "Dark mode") : undefined}
       onClick={(event) => {
-        setDarkMode((current) => !current);
+        setDarkMode((current) => {
+          const next = !current;
+          persistTheme(next);
+          return next;
+        });
         onClick?.(event);
       }}
       {...rest}
