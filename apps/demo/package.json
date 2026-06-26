@@ -4,9 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "preview": "vite preview",
+    "docs:routes": "node ./scripts/generate-docs-route-manifest.mjs",
+    "dev": "pnpm docs:routes && node ./node_modules/@kamod-ch/preactpress/bin/preactpress.mjs dev",
+    "build": "pnpm docs:routes && node ./node_modules/@kamod-ch/preactpress/bin/preactpress.mjs build",
+    "preview": "pnpm docs:routes && node ./node_modules/@kamod-ch/preactpress/bin/preactpress.mjs preview",
+    "check": "pnpm docs:routes && node ./node_modules/@kamod-ch/preactpress/bin/preactpress.mjs check",
     "test:e2e": "playwright test",
     "test:e2e:update": "playwright test --update-snapshots",
     "test:e2e:ui": "playwright test --ui",
@@ -25,11 +27,11 @@
     "chrono-node": "^2.9.1",
     "lucide-preact": "^1.17.0",
     "preact": "^10.29.2",
-    "preact-iso": "^2.12.0",
     "prismjs": "^1.30.0"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.3",
+    "@kamod-ch/preactpress": "^1.0.0",
     "@playwright/test": "^1.60.0",
     "@preact/preset-vite": "^2.10.5",
     "@tailwindcss/vite": "^4.3.0",

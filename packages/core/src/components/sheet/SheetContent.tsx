@@ -1,5 +1,5 @@
 import type { ComponentChildren, JSX } from "preact";
-import { createPortal } from "preact/compat";
+import { createPortal } from "../../lib/createPortal";
 import { cn } from "../../lib/utils";
 import { useDialog } from "../dialog/Dialog";
 import { dialogViewportBleedClass } from "../dialog/DialogContent";

@@ -61,7 +61,7 @@ export const RadioGroupItem = ({
   ...rest
 }: RadioGroupItemProps) => {
   const group = useRadioGroup();
-  const selected = group.controlledValue !== undefined ? group.controlledValue : group.value.value;
+  const selected = group.controlledValue !== undefined ? group.controlledValue : group.value;
   const checked = selected === value;
 
   return (
@@ -85,7 +85,7 @@ export const RadioGroupItem = ({
             onChange?.(event);
             const el = event.currentTarget as HTMLInputElement;
             const selected =
-              group.controlledValue !== undefined ? group.controlledValue : group.value.value;
+              group.controlledValue !== undefined ? group.controlledValue : group.value;
             el.checked = selected === value;
           }}
           {...rest}

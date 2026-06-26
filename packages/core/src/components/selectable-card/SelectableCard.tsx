@@ -34,7 +34,7 @@ export const SelectableCard = ({
   ...rest
 }: SelectableCardProps) => {
   const group = useRadioGroup();
-  const selected = group.controlledValue !== undefined ? group.controlledValue : group.value.value;
+  const selected = group.controlledValue !== undefined ? group.controlledValue : group.value;
   const checked = selected === value;
 
   return (
@@ -60,7 +60,7 @@ export const SelectableCard = ({
           onChange?.(event);
           const el = event.currentTarget as HTMLInputElement;
           const nextSelected =
-            group.controlledValue !== undefined ? group.controlledValue : group.value.value;
+            group.controlledValue !== undefined ? group.controlledValue : group.value;
           el.checked = nextSelected === value;
         }}
         {...rest}

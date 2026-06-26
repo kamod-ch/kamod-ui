@@ -1,5 +1,5 @@
 import type { ComponentChildren, JSX } from "preact";
-import { createPortal } from "preact/compat";
+import { createPortal } from "../../lib/createPortal";
 import { isPointerWithinModalDialogPanelSlop } from "../../lib/interactive";
 import { cn } from "../../lib/utils";
 import { useDialog } from "./Dialog";

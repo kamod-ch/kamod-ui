@@ -26,10 +26,10 @@ type DocsShellProps = {
   activeDoc: DocPageModule | null;
   activeSection: string;
   docs: DocPageModule[];
-  onNavigateDoc: (slug: string) => void;
-  onNavigateComponentsOverview: () => void;
-  onNavigateSection: (sectionId: string) => void;
   mainContent: ComponentChildren;
+  getDocHref?: (slug: string) => string;
+  componentsOverviewHref?: string;
+  getSectionHref?: (sectionId: string) => string;
 };
 
 type TocSectionGroups = {
@@ -73,10 +73,10 @@ export const DocsShell = ({
   activeDoc,
   activeSection,
   docs,
-  onNavigateDoc,
-  onNavigateComponentsOverview,
-  onNavigateSection,
   mainContent,
+  getDocHref = (slug) => `/docs/${slug}/installation`,
+  componentsOverviewHref = "/docs/components",
+  getSectionHref,
 }: DocsShellProps) => {
   const tocSections = activeDoc ? groupTocSections(activeDoc.sections) : null;
   const sortedDocs = useMemo(
@@ -100,24 +100,18 @@ export const DocsShell = ({
         key: "__overview",
         label: "Components overview",
         active: isComponentsOverview,
-        onSelect: onNavigateComponentsOverview,
+        href: componentsOverviewHref,
         showUpdatedBadge: false as const,
       },
       ...sortedDocs.map((doc) => ({
         key: doc.slug,
         label: doc.title,
         active: doc.slug === activeDoc?.slug,
-        onSelect: () => onNavigateDoc(doc.slug),
+        href: getDocHref(doc.slug),
         showUpdatedBadge: docsUpdatedComponentSlugs.has(doc.slug) as boolean,
       })),
     ],
-    [
-      activeDoc?.slug,
-      isComponentsOverview,
-      onNavigateComponentsOverview,
-      onNavigateDoc,
-      sortedDocs,
-    ],
+    [activeDoc?.slug, componentsOverviewHref, getDocHref, isComponentsOverview, sortedDocs],
   );
 
   return (
@@ -136,13 +130,11 @@ export const DocsShell = ({
             </div>
             <nav aria-label="Mobile docs navigation" class="docs-mobile-sheet-nav">
               {docsPrimaryNavEntries.map((entry) => (
-                <SheetClose
-                  key={entry.key}
-                  class={`docs-nav-button ${entry.active ? "is-active" : ""}`}
-                  onClick={entry.onSelect}
-                >
-                  <span>{entry.label}</span>
-                  {entry.showUpdatedBadge ? <Badge variant="success">updated</Badge> : null}
+                <SheetClose asChild key={entry.key}>
+                  <a class={`docs-nav-button ${entry.active ? "is-active" : ""}`} href={entry.href}>
+                    <span>{entry.label}</span>
+                    {entry.showUpdatedBadge ? <Badge variant="success">updated</Badge> : null}
+                  </a>
                 </SheetClose>
               ))}
             </nav>
@@ -154,14 +146,13 @@ export const DocsShell = ({
           <h2>Components</h2>
           <nav aria-label="Docs components" class="docs-sidebar-nav">
             {docsPrimaryNavEntries.map((entry) => (
-              <button
+              <a
                 key={entry.key}
-                type="button"
                 class={`docs-nav-button ${entry.active ? "is-active" : ""}`}
-                onClick={entry.onSelect}
+                href={entry.href}
               >
                 <span>{entry.label}</span>
-              </button>
+              </a>
             ))}
           </nav>
         </>
@@ -184,20 +175,22 @@ export const DocsShell = ({
                 <h3>On this page</h3>
                 <nav aria-label="On this page">
                   {installationSection ? (
-                    <button
+                    <a
                       class={`docs-toc-link ${activeSection === installationSection.id ? "is-active" : ""}`}
-                      onClick={() => onNavigateSection(installationSection.id)}
+                      href={
+                        getSectionHref?.(installationSection.id) ?? `#${installationSection.id}`
+                      }
                     >
                       {installationSection.title}
-                    </button>
+                    </a>
                   ) : null}
                   {usageSection ? (
-                    <button
+                    <a
                       class={`docs-toc-link ${activeSection === usageSection.id ? "is-active" : ""}`}
-                      onClick={() => onNavigateSection(usageSection.id)}
+                      href={getSectionHref?.(usageSection.id) ?? `#${usageSection.id}`}
                     >
                       {usageSection.title}
-                    </button>
+                    </a>
                   ) : null}
                   {exampleSections.length ? (
                     <div class="docs-toc-group">
@@ -208,24 +201,26 @@ export const DocsShell = ({
                       </span>
                       <div class="docs-toc-children">
                         {exampleSections.map((section) => (
-                          <button
+                          <a
                             key={section.id}
                             class={`docs-toc-link docs-toc-link-child ${activeSection === section.id ? "is-active" : ""}`}
-                            onClick={() => onNavigateSection(section.id)}
+                            href={getSectionHref?.(section.id) ?? `#${section.id}`}
                           >
                             {section.title}
-                          </button>
+                          </a>
                         ))}
                       </div>
                     </div>
                   ) : null}
                   {apiReferenceSection ? (
-                    <button
+                    <a
                       class={`docs-toc-link ${activeSection === apiReferenceSection.id ? "is-active" : ""}`}
-                      onClick={() => onNavigateSection(apiReferenceSection.id)}
+                      href={
+                        getSectionHref?.(apiReferenceSection.id) ?? `#${apiReferenceSection.id}`
+                      }
                     >
                       {apiReferenceSection.title}
-                    </button>
+                    </a>
                   ) : null}
                 </nav>
               </>

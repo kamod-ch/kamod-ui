@@ -21,3 +21,7 @@ test-results/
 /apps/demo/playwright-report/
 apps/demo/playwright-report/
 docs/
+!apps/demo/docs/
+!apps/demo/docs/**
+!apps/demo/src/docs/
+!apps/demo/src/docs/generated-manifest.ts

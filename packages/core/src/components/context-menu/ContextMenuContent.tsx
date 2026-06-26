@@ -1,6 +1,6 @@
 import type { ComponentChildren, JSX } from "preact";
-import { createPortal } from "preact/compat";
 import { useEffect, useLayoutEffect, useRef, useState } from "preact/hooks";
+import { createPortal } from "../../lib/createPortal";
 import { createDismissableLayer } from "../../lib/interactive";
 import { cn } from "../../lib/utils";
 import { useContextMenu } from "./ContextMenu";

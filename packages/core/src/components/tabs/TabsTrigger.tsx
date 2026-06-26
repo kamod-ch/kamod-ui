@@ -17,7 +17,7 @@ export const TabsTrigger = ({
   ...rest
 }: TabsTriggerProps) => {
   const tabs = useTabs();
-  const active = tabs.value.value === value;
+  const active = tabs.value === value;
   const id = idProp ?? tabs.triggerId(value);
   const controlsId = tabs.contentId(value);
 

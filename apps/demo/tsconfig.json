@@ -5,8 +5,10 @@
     "noEmit": true,
     "baseUrl": ".",
     "paths": {
-      "@kamod-ch/ui": ["../../packages/core/src/index.ts"]
+      "@kamod-ch/ui": ["../../packages/core/src/index.ts"],
+      "@kamod-ch/preactpress/config": ["./node_modules/@kamod-ch/preactpress/dist/node/config-helpers.d.ts"],
+      "@kamod-ch/preactpress/client": ["./node_modules/@kamod-ch/preactpress/dist/client/index.d.ts"]
     }
   },
-  "include": ["src", "vite.config.ts", "vitest.config.ts"]
+  "include": ["src", ".preactpress/**/*.ts", ".preactpress/**/*.tsx", "vitest.config.ts"]
 }

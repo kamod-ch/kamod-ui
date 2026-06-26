@@ -149,7 +149,7 @@ function writeAuditMarkdown(opts: {
     `- Sidebar vs grid: expected \`${opts.expectedSidebarEntries}\` sidebar/mobile entries (overview + each grid slug).`,
   );
   lines.push(
-    `- Invalid slug \`/docs/__invalid_slug_xyz__/installation\` is handled by client redirect to the first registered doc (no 404 page).`,
+    "- Invalid slug `/docs/__invalid_slug_xyz__/installation` may either redirect to a valid docs page or return a static 404 page, depending on hosting/runtime mode.",
   );
   lines.push(
     `- Per doc: all \`section.docs-section[id]\` are counted on the installation view; deep links are exercised for \`usage\`, \`api-reference\` (when present), and one mid-list example. Each doc uses a **fresh tab** (\`context.newPage()\`) so client-router state cannot accumulate across slugs.`,
@@ -157,7 +157,7 @@ function writeAuditMarkdown(opts: {
   lines.push("");
   lines.push("## Recommendations", "");
   lines.push(
-    "- Unknown `/docs/{slug}/…` URLs redirect to the first registered doc instead of a 404 — consider an explicit “not found” page for clearer QA and SEO.",
+    "- Decide whether unknown `/docs/{slug}/…` URLs should redirect to a known docs page or surface an explicit 404 page; either can be valid, but the behavior should stay intentional and documented.",
   );
   lines.push(
     "- Re-run this audit after major docs or router changes: `pnpm exec playwright test e2e/docs-components-audit.spec.ts --config=playwright.docs-audit.config.ts` (dev server on `http://localhost:5174`).",
@@ -263,10 +263,10 @@ test("docs /docs/components full link audit (writes tmp report)", async ({ page,
     expectedSidebarEntries = slugsFromGrid.size + 1;
 
     await gotoDocsPath(page, overviewPath);
-    const sidebarButtons = page.locator(
-      'aside.docs-sidebar nav[aria-label="Docs components"] button',
+    const sidebarEntries = page.locator(
+      'aside.docs-sidebar nav[aria-label="Docs components"] :is(a,button)',
     );
-    const sidebarCount = await sidebarButtons.count();
+    const sidebarCount = await sidebarEntries.count();
     if (sidebarCount !== expectedSidebarEntries) {
       addFinding({
         severity: "warning",
@@ -282,7 +282,7 @@ test("docs /docs/components full link audit (writes tmp report)", async ({ page,
       '[aria-label="Docs navigation panel"] nav[aria-label="Mobile docs navigation"]',
     );
     await expect.soft(mobileNav).toBeVisible();
-    const mobileCount = await mobileNav.locator("button").count();
+    const mobileCount = await mobileNav.locator(":is(a,button)").count();
     if (mobileCount !== expectedSidebarEntries) {
       addFinding({
         severity: "warning",
@@ -302,18 +302,36 @@ test("docs /docs/components full link audit (writes tmp report)", async ({ page,
     await page.locator("a.docs-topbar-brand").click();
     await expect.soft(page.getByTestId("kitchen-sink")).toBeVisible({ timeout: 25_000 });
 
-    res = await gotoDocsPath(page, "/docs/__invalid_slug_xyz__/installation");
+    const invalidSlugPath = "/docs/__invalid_slug_xyz__/installation";
+    res = await page.goto(invalidSlugPath, { waitUntil: "domcontentloaded", timeout: 90_000 });
     const finalPath = new URL(page.url()).pathname;
-    if (finalPath.includes("__invalid_slug_xyz__")) {
+    const docsContent = page.locator("main.docs-content");
+
+    if (res?.ok()) {
+      await docsContent.waitFor({ state: "attached", timeout: 90_000 });
+      if (finalPath.includes("__invalid_slug_xyz__")) {
+        addFinding({
+          severity: "warning",
+          url: base + invalidSlugPath,
+          detail: "Invalid slug resolved without redirect and remained on invalid path",
+        });
+      } else {
+        addFinding({
+          severity: "info",
+          detail: `Invalid slug ${invalidSlugPath} redirected to ${finalPath} (silent recovery; no 404)`,
+        });
+      }
+    } else if (res?.status() === 404) {
       addFinding({
-        severity: "warning",
-        url: base + "/docs/__invalid_slug_xyz__/installation",
-        detail: "Invalid slug was not redirected (still on invalid path)",
+        severity: "info",
+        url: base + invalidSlugPath,
+        detail: "Invalid slug returned a static 404 page instead of client-side redirecting",
       });
     } else {
       addFinding({
-        severity: "info",
-        detail: `Invalid slug /docs/__invalid_slug_xyz__/installation redirected to ${finalPath} (silent recovery; no 404)`,
+        severity: "warning",
+        url: base + invalidSlugPath,
+        detail: `Invalid slug returned HTTP ${res?.status() ?? "no response"}`,
       });
     }
 
