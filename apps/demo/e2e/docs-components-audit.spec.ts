@@ -27,12 +27,18 @@ function slugFromDocsPath(pathname: string): string | null {
   return m?.[1] ?? null;
 }
 
-/** Third path segment for `/docs/{slug}/{section}`; null for overview. */
+/** Third path segment for `…/docs/{slug}/{section}`; null for overview. */
 function docsSectionIdFromPath(path: string): string | null {
   const segs = path.split("?")[0].split("/").filter(Boolean);
-  if (segs[0] !== "docs") return null;
-  if (segs[1] === "components") return null;
-  return segs[2] ?? null;
+  const docsIdx = segs.indexOf("docs");
+  if (docsIdx < 0) return null;
+  if (segs[docsIdx + 1] === "components") return null;
+  return segs[docsIdx + 2] ?? null;
+}
+
+/** Resolve a docs route relative to Playwright baseURL (respects GitHub Pages base path). */
+function docsRoute(...segments: string[]): string {
+  return `./${segments.filter(Boolean).join("/")}`;
 }
 
 async function collectSectionIds(page: Page): Promise<string[]> {
@@ -177,7 +183,7 @@ test("docs /docs/components full link audit (writes tmp report)", async ({ page,
   test.setTimeout(900_000);
   const startedAt = new Date().toISOString();
   const base = baseURL ?? "";
-  const overviewPath = "/docs/components";
+  const overviewPath = docsRoute("docs", "components");
   let gridHrefsClean: string[] = [];
   let slugsFromGrid = new Set<string>();
   let sectionUrlsVisited = 0;
@@ -281,7 +287,7 @@ test("docs /docs/components full link audit (writes tmp report)", async ({ page,
     const mobileNav = page.locator(
       '[aria-label="Docs navigation panel"] nav[aria-label="Mobile docs navigation"]',
     );
-    await expect.soft(mobileNav).toBeVisible();
+    await expect.soft(mobileNav).toBeVisible({ timeout: 15_000 });
     const mobileCount = await mobileNav.locator(":is(a,button)").count();
     if (mobileCount !== expectedSidebarEntries) {
       addFinding({
@@ -296,20 +302,32 @@ test("docs /docs/components full link audit (writes tmp report)", async ({ page,
     const componentsTop = page
       .locator(".docs-topbar-links")
       .getByRole("link", { name: "Components" });
-    await expect.soft(componentsTop).toHaveAttribute("href", "/docs/components");
+    await expect
+      .soft(componentsTop)
+      .toHaveAttribute("href", new URL("docs/components", `${base.replace(/\/?$/, "/")}`).pathname);
 
     await gotoDocsPath(page, overviewPath);
     await page.locator("a.docs-topbar-brand").click();
     await expect.soft(page.getByTestId("kitchen-sink")).toBeVisible({ timeout: 25_000 });
 
-    const invalidSlugPath = "/docs/__invalid_slug_xyz__/installation";
+    const invalidSlugPath = docsRoute("docs", "__invalid_slug_xyz__", "installation");
     res = await page.goto(invalidSlugPath, { waitUntil: "domcontentloaded", timeout: 90_000 });
     const finalPath = new URL(page.url()).pathname;
     const docsContent = page.locator("main.docs-content");
 
     if (res?.ok()) {
-      await docsContent.waitFor({ state: "attached", timeout: 90_000 });
-      if (finalPath.includes("__invalid_slug_xyz__")) {
+      const hasDocsContent = await docsContent
+        .waitFor({ state: "attached", timeout: 8_000 })
+        .then(() => true)
+        .catch(() => false);
+
+      if (!hasDocsContent) {
+        addFinding({
+          severity: "info",
+          url: base + invalidSlugPath,
+          detail: "Invalid slug returned a page without main.docs-content (not-found / static 404)",
+        });
+      } else if (finalPath.includes("__invalid_slug_xyz__")) {
         addFinding({
           severity: "warning",
           url: base + invalidSlugPath,
@@ -341,7 +359,7 @@ test("docs /docs/components full link audit (writes tmp report)", async ({ page,
     for (const slug of slugs) {
       const docPage = await page.context().newPage();
       try {
-        const installPath = `/docs/${slug}/installation`;
+        const installPath = docsRoute("docs", slug, "installation");
         const logical = base + installPath;
         res = await gotoDocsPath(docPage, installPath, 90_000);
         if (!res?.ok()) {
@@ -389,7 +407,7 @@ test("docs /docs/components full link audit (writes tmp report)", async ({ page,
 
         for (const sectionId of deepIds) {
           if (!uniqueIds.includes(sectionId)) continue;
-          const spath = `/docs/${slug}/${sectionId}`;
+          const spath = docsRoute("docs", slug, sectionId);
           const surl = base + spath;
           res = await gotoDocsPath(docPage, spath, 90_000);
           sectionUrlsVisited += 1;

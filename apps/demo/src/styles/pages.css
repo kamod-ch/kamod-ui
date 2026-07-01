@@ -901,13 +901,22 @@ html.dark .docs-copy-feedback.is-error {
 }
 
 .landing-shadcn-brand-logo {
-  width: 1.25rem;
-  height: 1.25rem;
+  display: block;
+  height: 1.75rem;
+  width: auto;
   object-fit: contain;
 }
 
-html.dark .landing-shadcn-brand-logo {
-  filter: brightness(0) invert(1);
+.landing-shadcn-brand-logo--dark-theme {
+  display: none;
+}
+
+html.dark .landing-shadcn-brand-logo--light-theme {
+  display: none;
+}
+
+html.dark .landing-shadcn-brand-logo--dark-theme {
+  display: block;
 }
 
 .landing-shadcn-topnav {
@@ -1203,8 +1212,7 @@ html.dark .landing-shadcn-brand-logo {
   }
 
   .landing-shadcn-brand-logo {
-    width: 1rem;
-    height: 1rem;
+    height: 1.35rem;
   }
 
   .landing-shadcn-header-actions {

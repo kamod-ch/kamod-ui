@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test";
 test("controlled slider updates when input event is dispatched programmatically", async ({
   page,
 }) => {
-  await page.goto("/docs/slider#controlled-slider");
+  await page.goto("./docs/slider#controlled-slider");
   await page.locator("#controlled-slider").waitFor({ state: "visible" });
   const valueLabel = page.locator("#controlled-slider .docs-slider-demo-value").first();
   const input = page.locator('#controlled-slider input[type="range"]').first();
@@ -17,7 +17,7 @@ test("controlled slider updates when input event is dispatched programmatically"
 });
 
 test("controlled slider responds to click on track (native range)", async ({ page }) => {
-  await page.goto("/docs/slider#controlled-slider");
+  await page.goto("./docs/slider#controlled-slider");
   await page.locator("#controlled-slider").waitFor({ state: "visible" });
   const valueLabel = page.locator("#controlled-slider .docs-slider-demo-value").first();
   const before = (await valueLabel.textContent())?.trim() ?? "";

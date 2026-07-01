@@ -1,6 +1,6 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/kamod-ch/kamod-ui/main/.github/assets/logo-kamod-ui-dark.svg#gh-light-mode-only" alt="Kamod UI" width="162" />
-  <img src="https://raw.githubusercontent.com/kamod-ch/kamod-ui/main/.github/assets/logo-kamod-ui-light.svg#gh-dark-mode-only" alt="Kamod UI" width="162" />
+  <img src="https://raw.githubusercontent.com/kamod-ch/kamod-ui/main/.github/assets/logo-kamod-ui-dark.svg#gh-light-mode-only" alt="kamod | UI" width="280" />
+  <img src="https://raw.githubusercontent.com/kamod-ch/kamod-ui/main/.github/assets/logo-kamod-ui-light.svg#gh-dark-mode-only" alt="kamod | UI" width="280" />
 </p>
 
 <h1 align="center">Kamod UI</h1>
@@ -15,6 +15,8 @@ Lightweight UI components for **Preact** and **Tailwind**: composable primitives
 </p>
 
 **[Demo](https://ui.kamod.ch/)** · **[Component docs](https://ui.kamod.ch/docs/button)** · **[npm](https://www.npmjs.com/package/@kamod-ch/ui)** · **[GitHub](https://github.com/kamod-ch/kamod-ui)** · **[Issues](https://github.com/kamod-ch/kamod-ui/issues)**
+
+> Demo snippets in this repo use local aliases like `@/components/kamod-ui/*`. In your app, install `@kamod-ch/ui` and import from the package.
 
 > If Kamod UI saves you time, **[star the repo](https://github.com/kamod-ch/kamod-ui)** — it helps others discover the project.
 
@@ -44,21 +46,100 @@ Many UI kits are heavier than necessary, overly opinionated, or tied to React. K
 
 ## Quick start
 
+### Vite + Preact + Tailwind v4 starter
+
 ```bash
-pnpm add @kamod-ch/ui preact @preact/signals tailwindcss
+pnpm create vite@latest my-app -- --template preact-ts
+cd my-app
+pnpm add @kamod-ch/ui @preact/signals
+pnpm add -D tailwindcss @tailwindcss/vite
+```
+
+```ts
+// vite.config.ts
+import { defineConfig } from "vite";
+import preact from "@preact/preset-vite";
+import tailwindcss from "@tailwindcss/vite";
+
+export default defineConfig({
+  plugins: [preact(), tailwindcss()],
+});
 ```
 
 ```css
-/* app.css */
+/* src/app.css */
+@import "tailwindcss";
+@import "@kamod-ch/ui/theme.css";
+
+:root {
+  font-family: Inter, system-ui, sans-serif;
+}
+```
+
+```tsx
+// src/main.tsx
+import { render } from "preact";
+import { App } from "./app";
+import "./app.css";
+
+render(<App />, document.getElementById("app")!);
+```
+
+```tsx
+// src/app.tsx
+import { Button } from "@kamod-ch/ui";
+
+export function App() {
+  return (
+    <main class="p-6">
+      <Button>Click me</Button>
+    </main>
+  );
+}
+```
+
+This is the smallest full setup. If you already have a Vite app, keep the `@kamod-ch/ui/theme.css` import and add `@kamod-ch/ui` + `@preact/signals`.
+
+Browse the [live component docs](https://ui.kamod.ch/docs/button) for variants, composition, and RTL examples.
+
+## Troubleshooting (Tailwind v4)
+
+### Components look unstyled
+Make sure your global CSS imports both files, in this order:
+
+```css
 @import "tailwindcss";
 @import "@kamod-ch/ui/theme.css";
 ```
 
-```tsx
-import { Button } from "@kamod-ch/ui";
+If `theme.css` is missing, Kamod's component classes and semantic tokens will not compile.
 
-export function App() {
-  return <Button>Click me</Button>;
+### Tailwind works in CSS but utility classes are missing in Vite
+If you're using Vite, make sure the Tailwind v4 plugin is installed and enabled:
+
+```ts
+import tailwindcss from "@tailwindcss/vite";
+
+export default defineConfig({
+  plugins: [tailwindcss()],
+});
+```
+
+Without the plugin, Vite may not process the Tailwind v4 import pipeline correctly.
+
+### You're on Tailwind v3
+Kamod UI requires Tailwind CSS v4. Tailwind v3 does not support the import-based setup used here.
+
+### Theme overrides do not apply
+Override CSS variables after importing `theme.css`, not before it:
+
+```css
+@import "tailwindcss";
+@import "@kamod-ch/ui/theme.css";
+
+:root {
+  --primary: var(--color-fuchsia-700);
+  --radius: 0.75rem;
 }
 ```
 
@@ -113,6 +194,8 @@ Both styles are supported:
 import { Button } from "@kamod-ch/ui"; // root barrel
 import { Button } from "@kamod-ch/ui/button"; // per-component subpath
 ```
+
+The demo docs in `apps/demo` rewrite the same examples to local aliases like `@/components/kamod-ui/button`. That alias only exists inside the demo app; in your app, install `@kamod-ch/ui` and import from the package.
 
 The package ships a minimal `sideEffects` list (progress indeterminate keyframes and CSS only), so modern bundlers tree-shake the root barrel reliably.
 
@@ -171,7 +254,7 @@ Open the URL printed in the terminal for the kitchen sink and component docs. Qu
 | `demo`         | `apps/demo/`     | Kitchen sink + interactive docs          |
 
 - Open issues for bugs and ideas; PRs welcome for components, docs, and examples.
-- Key scripts: `pnpm dev`, `pnpm check`, `pnpm fmt`, `pnpm lint`, `pnpm docs:components`
+- Key scripts: `pnpm dev`, `pnpm check`, `pnpm format`, `pnpm lint`, `pnpm docs:components`
 - Tooling details: [`.docs/interna.md`](https://github.com/kamod-ch/kamod-ui/blob/main/.docs/interna.md)
 
 Maintainers: see [`.docs/MAINTAINERS.md`](https://github.com/kamod-ch/kamod-ui/blob/main/.docs/MAINTAINERS.md) for npm release workflow.

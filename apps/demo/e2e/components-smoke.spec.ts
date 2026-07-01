@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test";
 
 test.describe("core component docs smoke", () => {
   test("Tooltip opens on hover and closes on mouse leave", async ({ page }) => {
-    await page.goto("/docs/tooltip/basic-tooltip");
+    await page.goto("./docs/tooltip/basic-tooltip");
     await expect(page.locator("h1", { hasText: "Tooltip" })).toBeVisible();
 
     const trigger = page
@@ -23,7 +23,7 @@ test.describe("core component docs smoke", () => {
   });
 
   test("Toggle changes aria-pressed state on click", async ({ page }) => {
-    await page.goto("/docs/toggle/toggle-options");
+    await page.goto("./docs/toggle/toggle-options");
     await expect(page.locator("h1", { hasText: "Toggle" })).toBeVisible();
 
     const italicToggle = page.locator("[data-slot='toggle'][aria-label='Toggle italic']").first();
@@ -34,7 +34,7 @@ test.describe("core component docs smoke", () => {
   });
 
   test("ToggleGroup single and multiple interactions work", async ({ page }) => {
-    await page.goto("/docs/toggle-group/single-selection");
+    await page.goto("./docs/toggle-group/single-selection");
     await expect(page.locator("h1", { hasText: "Toggle Group" })).toBeVisible();
 
     const left = page.getByRole("button", { name: "Align left" }).first();
@@ -55,7 +55,7 @@ test.describe("core component docs smoke", () => {
   });
 
   test("Typography docs render modernized variants", async ({ page }) => {
-    await page.goto("/docs/typography/full-example");
+    await page.goto("./docs/typography/full-example");
     await expect(page.locator("h1", { hasText: "Typography" })).toBeVisible();
 
     await expect(
@@ -66,7 +66,7 @@ test.describe("core component docs smoke", () => {
       page.locator("section#h4").getByText("People stopped telling jokes"),
     ).toBeVisible();
 
-    await page.goto("/docs/typography/inline-code");
+    await page.goto("./docs/typography/inline-code");
     await expect(page.locator("section#inline-code").getByRole("code")).toContainText(
       /@radix-ui\/react-alert-dialog/,
     );
@@ -77,7 +77,7 @@ test.describe("core component docs smoke", () => {
   });
 
   test("Textarea production field validates and updates character count", async ({ page }) => {
-    await page.goto("/docs/textarea/textarea-production-field");
+    await page.goto("./docs/textarea/textarea-production-field");
     await expect(page.locator("h1", { hasText: "Textarea" })).toBeVisible();
 
     const textarea = page.getByPlaceholder("What changed, and why does it matter?");
@@ -102,44 +102,44 @@ test.describe("core component docs smoke", () => {
   test("A11y checks pass for tooltip, toggle, toggle group and typography docs", async ({
     page,
   }) => {
-    await page.goto("/docs/tooltip/basic-tooltip");
+    await page.goto("./docs/tooltip/basic-tooltip");
     await page.locator("#basic-tooltip").waitFor({ state: "attached" });
     const tooltipA11y = await new AxeBuilder({ page }).include("#basic-tooltip").analyze();
     expect(tooltipA11y.violations).toEqual([]);
 
-    await page.goto("/docs/toggle/toggle-options");
+    await page.goto("./docs/toggle/toggle-options");
     await page.locator("#toggle-options").waitFor({ state: "attached" });
     const toggleA11y = await new AxeBuilder({ page }).include("#toggle-options").analyze();
     expect(toggleA11y.violations).toEqual([]);
 
-    await page.goto("/docs/toggle-group/single-selection");
+    await page.goto("./docs/toggle-group/single-selection");
     await page.locator("#single-selection").waitFor({ state: "attached" });
     const toggleGroupA11y = await new AxeBuilder({ page }).include("#single-selection").analyze();
     expect(toggleGroupA11y.violations).toEqual([]);
 
-    await page.goto("/docs/typography/h1");
+    await page.goto("./docs/typography/h1");
     await page.locator("#h1").waitFor({ state: "attached" });
     const typographyA11y = await new AxeBuilder({ page }).include("#h1").analyze();
     expect(typographyA11y.violations).toEqual([]);
 
-    await page.goto("/docs/textarea/textarea-production-field");
+    await page.goto("./docs/textarea/textarea-production-field");
     await page.locator("#textarea-production-field").waitFor({ state: "attached" });
     const textareaA11y = await new AxeBuilder({ page })
       .include("#textarea-production-field")
       .analyze();
     expect(textareaA11y.violations).toEqual([]);
 
-    await page.goto("/docs/sheet/basic-sheet");
+    await page.goto("./docs/sheet/basic-sheet");
     await page.locator("#basic-sheet").waitFor({ state: "attached" });
     const sheetA11y = await new AxeBuilder({ page }).include("#basic-sheet").analyze();
     expect(sheetA11y.violations).toEqual([]);
 
-    await page.goto("/docs/dialog/basic-dialog");
+    await page.goto("./docs/dialog/basic-dialog");
     await page.locator("#basic-dialog").waitFor({ state: "attached" });
     const dialogA11y = await new AxeBuilder({ page }).include("#basic-dialog").analyze();
     expect(dialogA11y.violations).toEqual([]);
 
-    await page.goto("/docs/tabs/synced-tabs");
+    await page.goto("./docs/tabs/synced-tabs");
     await page.locator("#synced-tabs").waitFor({ state: "attached" });
     const tabsA11y = await new AxeBuilder({ page }).include("#synced-tabs").analyze();
     expect(tabsA11y.violations).toEqual([]);
@@ -148,27 +148,112 @@ test.describe("core component docs smoke", () => {
   test("Visual snapshots stay stable for tooltip, toggle, toggle group and typography", async ({
     page,
   }) => {
-    await page.goto("/docs/tooltip/basic-tooltip");
+    await page.goto("./docs/tooltip/basic-tooltip");
     await expect(page).toHaveScreenshot("tooltip-doc.png", { fullPage: false });
 
-    await page.goto("/docs/toggle/toggle-options");
+    await page.goto("./docs/toggle/toggle-options");
     await expect(page).toHaveScreenshot("toggle-doc.png", { fullPage: false });
 
-    await page.goto("/docs/toggle-group/single-selection");
+    await page.goto("./docs/toggle-group/single-selection");
     await expect(page).toHaveScreenshot("toggle-group-doc.png", { fullPage: false });
 
-    await page.goto("/docs/typography/full-example");
+    await page.goto("./docs/typography/full-example");
     await expect(page).toHaveScreenshot("typography-doc.png", { fullPage: false });
   });
 
   test("Visual snapshot stays stable for textarea production field", async ({ page }) => {
-    await page.goto("/docs/textarea/textarea-production-field");
+    await page.goto("./docs/textarea/textarea-production-field");
     await expect(page).toHaveScreenshot("textarea-doc.png", { fullPage: false });
   });
 
   test("Visual snapshot stays stable for sheet basic example", async ({ page }) => {
-    await page.goto("/docs/sheet/basic-sheet");
+    await page.goto("./docs/sheet/basic-sheet");
     await expect(page.locator("h1", { hasText: "Sheet" })).toBeVisible();
     await expect(page).toHaveScreenshot("sheet-doc.png", { fullPage: false });
+  });
+
+  test("Dialog opens from basic example and closes on Escape", async ({ page }) => {
+    await page.goto("./docs/dialog/basic-dialog");
+    await page.locator("#basic-dialog").getByRole("button", { name: "Open dialog" }).click();
+    const dialog = page.getByRole("dialog");
+    await expect(dialog).toBeVisible();
+    await expect(dialog.getByRole("heading", { name: "Are you absolutely sure?" })).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect(dialog).toBeHidden();
+  });
+
+  test("Sheet opens from basic example", async ({ page }) => {
+    await page.goto("./docs/sheet/basic-sheet");
+    await page
+      .locator(".docs-preview-surface")
+      .first()
+      .getByRole("button", { name: "Open" })
+      .click();
+    const sheet = page.getByRole("dialog");
+    await expect(sheet).toBeVisible();
+    await expect(sheet.getByRole("heading", { name: "Edit profile" })).toBeVisible();
+  });
+
+  test("Context menu opens on right-click in basic example", async ({ page }) => {
+    await page.goto("./docs/context-menu/basic-example");
+    const trigger = page.locator("#basic-example").getByText("Right click here");
+    await trigger.click({ button: "right" });
+    const menu = page.getByRole("menu");
+    await expect(menu).toBeVisible();
+    await expect(menu.getByRole("menuitem", { name: "Back" })).toBeVisible();
+  });
+
+  test("Installation dialog opens on component doc pages", async ({ page }) => {
+    await page.goto("./docs/button/installation");
+    await page.getByRole("button", { name: "Installation" }).click();
+    const dialog = page.getByRole("dialog");
+    await expect(dialog).toBeVisible();
+    await expect(dialog.getByRole("heading", { name: "Install Button" })).toBeVisible();
+    await expect(dialog.getByRole("tab", { name: "pnpm", exact: true })).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
+    await dialog.getByRole("tab", { name: "npm", exact: true }).click();
+    await expect(dialog.getByRole("tab", { name: "npm", exact: true })).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
+  });
+
+  test("Synced tabs keep groups in sync", async ({ page }) => {
+    await page.goto("./docs/tabs/synced-tabs");
+    const preview = page.locator("#synced-tabs .preview");
+    const tabLists = preview.locator("[data-slot='tabs-list']");
+    await expect(tabLists).toHaveCount(2);
+    await tabLists.nth(0).getByRole("tab", { name: "Vue" }).click();
+    await expect(tabLists.nth(0).getByRole("tab", { name: "Vue" })).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
+    await expect(tabLists.nth(1).getByRole("tab", { name: "Vue" })).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
+  });
+
+  test("Radio group selection updates on click", async ({ page }) => {
+    await page.goto("./docs/radio-group/radio-default-labels");
+    const preview = page.locator(".docs-preview-surface").first();
+    const optionTwo = preview.getByLabel("Option two");
+    await optionTwo.click();
+    await expect(optionTwo).toBeChecked();
+    await expect(preview.getByLabel("Option one")).not.toBeChecked();
+  });
+
+  test("DatePicker opens calendar popover", async ({ page }) => {
+    await page.goto("./docs/date-picker/date-picker-convenience");
+    await page
+      .locator("#date-picker-convenience")
+      .getByRole("button", { name: "Pick a date" })
+      .first()
+      .click();
+    await expect(
+      page.locator("[data-slot='popover-content'] [data-slot='calendar']"),
+    ).toBeVisible();
   });
 });

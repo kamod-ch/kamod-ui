@@ -8,6 +8,7 @@
     "dev": "pnpm docs:routes && node ./node_modules/@kamod-ch/preactpress/bin/preactpress.mjs dev",
     "build": "pnpm docs:routes && node ./node_modules/@kamod-ch/preactpress/bin/preactpress.mjs build",
     "preview": "pnpm docs:routes && node ./node_modules/@kamod-ch/preactpress/bin/preactpress.mjs preview",
+    "preview:pages": "node ./scripts/preview-github-pages.mjs",
     "check": "pnpm docs:routes && node ./node_modules/@kamod-ch/preactpress/bin/preactpress.mjs check",
     "test:e2e": "playwright test",
     "test:e2e:update": "playwright test --update-snapshots",

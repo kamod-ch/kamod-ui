@@ -4,7 +4,7 @@ test.describe.configure({ mode: "serial" });
 
 test.describe("kitchen sink visual regression", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/");
+    await page.goto("./");
     await page.getByTestId("kitchen-sink").waitFor({ state: "visible" });
     await page.getByTestId("kitchen-sink-showcase").waitFor({ state: "visible" });
   });

@@ -15,6 +15,7 @@ import {
 import { Menu, SunMoon } from "lucide-preact";
 import type { ComponentChildren } from "preact";
 import { useMemo } from "preact/hooks";
+import { withBasePath } from "../../base-path";
 import { DemoShell, demoTopNavItems } from "../../layout/DemoShell";
 import { GithubRepoLink } from "../../layout/GithubRepoLink";
 import { ThemePresetSelect } from "../../theme/ThemePresetSelect";
@@ -74,8 +75,8 @@ export const DocsShell = ({
   activeSection,
   docs,
   mainContent,
-  getDocHref = (slug) => `/docs/${slug}/installation`,
-  componentsOverviewHref = "/docs/components",
+  getDocHref = (slug) => withBasePath(`/docs/${slug}/installation`),
+  componentsOverviewHref = withBasePath("/docs/components"),
   getSectionHref,
 }: DocsShellProps) => {
   const tocSections = activeDoc ? groupTocSections(activeDoc.sections) : null;

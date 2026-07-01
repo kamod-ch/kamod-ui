@@ -6,7 +6,12 @@ export function buildComponentDocMarkdown(
   command: string,
   sections: DocSection[],
 ): string {
-  const parts: string[] = [`# ${title}`, ""];
+  const parts: string[] = [
+    `# ${title}`,
+    "",
+    "> Demo snippets in this app use the local `@/components/kamod-ui/*` alias. For real app code, install `@kamod-ch/ui` and import from that package.",
+    "",
+  ];
 
   for (const section of sections) {
     parts.push(`## ${section.title}`, "");

@@ -767,6 +767,17 @@ export const docsRouteManifest = [
     ],
   },
   {
+    slug: "selectable-card",
+    sections: [
+      "installation",
+      "usage",
+      "selectable-card-demo",
+      "selectable-card-disabled",
+      "api-reference",
+      "accessibility",
+    ],
+  },
+  {
     slug: "separator",
     sections: [
       "installation",

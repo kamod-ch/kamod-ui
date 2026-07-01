@@ -45,6 +45,7 @@ import { proseDocPage } from "./pages/prose-doc";
 import { radioGroupDocPage } from "./pages/radio-group-doc";
 import { scrollAreaDocPage } from "./pages/scroll-area-doc";
 import { selectDocPage } from "./pages/select-doc";
+import { selectableCardDocPage } from "./pages/selectable-card-doc";
 import { separatorDocPage } from "./pages/separator-doc";
 import { sheetDocPage } from "./pages/sheet-doc";
 import { sidebarDocPage } from "./pages/sidebar-doc";
@@ -111,6 +112,7 @@ export const docsPages: DocPageModule[] = [
   progressDocPage,
   proseDocPage,
   radioGroupDocPage,
+  selectableCardDocPage,
   scrollAreaDocPage,
   selectDocPage,
   sonnerDocPage,
@@ -205,6 +207,7 @@ export const componentOverviewItems: ComponentOverviewItem[] = [
   { label: "Prose", slug: "prose" },
   { label: "Progress", slug: "progress" },
   { label: "Radio Group", slug: "radio-group" },
+  { label: "Selectable Card", slug: "selectable-card" },
   { label: "Scroll Area", slug: "scroll-area" },
   { label: "Select", slug: "select" },
   { label: "Sonner", slug: "sonner" },

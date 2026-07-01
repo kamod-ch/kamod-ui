@@ -7,6 +7,23 @@ const base = (process.env.VITE_BASE_PATH?.trim() || "/").replace(/\/?$/, "/");
 const matomoImageTracker =
   '<!-- Matomo Image Tracker--><img referrerpolicy="no-referrer-when-downgrade" src="https://matomo.kamod.ch/matomo.php?idsite=3&amp;rec=1" style="border:0" alt="" /><!-- End Matomo -->';
 
+const basePrefix = base === "/" ? "" : base.replace(/\/$/, "");
+
+/** Prefix root-absolute dev stylesheet URLs when deploying under a subpath (GitHub Pages). */
+function prefixSubpathAssetUrls(html: string): string {
+  if (!basePrefix) return html;
+  return html.replace(/(<link[^>]+href=")\/((?:src|@)[^"]*)"/g, `$1${basePrefix}/$2"`);
+}
+
+/** Vite dev SSR can emit a doubled repo segment in the html-proxy client entry under `base`. */
+function fixDevClientModule(html: string): string {
+  if (!basePrefix) return html;
+  const baseName = basePrefix.replace(/^\//, "").replace(/\/$/, "");
+  const doubled = `${basePrefix}/@id/__x00__/${baseName}/index.html`;
+  const fixed = `${basePrefix}/@id/__x00__/index.html`;
+  return html.replaceAll(doubled, fixed);
+}
+
 export default defineConfig({
   theme: "./theme/Layout.tsx",
   srcExclude: ["dist/**", "playwright-report/**", "test-results/**", "README.md"],
@@ -87,6 +104,7 @@ export default defineConfig({
     },
   },
   transformHtml(html) {
-    return html.replace("</body>", `  ${matomoImageTracker}\n  </body>`);
+    const withAssets = prefixSubpathAssetUrls(fixDevClientModule(html));
+    return withAssets.replace("</body>", `  ${matomoImageTracker}\n  </body>`);
   },
 });

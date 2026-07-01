@@ -257,6 +257,10 @@ export const DocsComponentContent = ({ slug, section }: { slug?: string; section
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Install {activeDoc.title}</DialogTitle>
+            <p class="docs-copy text-sm text-muted-foreground">
+              Demo snippets use the local `@/components/kamod-ui/*` alias. In your app, install
+              `@kamod-ch/ui` and import from that package.
+            </p>
           </DialogHeader>
           <Tabs defaultValue="pnpm">
             <TabsList variant="line">
@@ -287,13 +291,25 @@ export const DocsComponentContent = ({ slug, section }: { slug?: string; section
     renderSectionExtraContent,
   };
 
+  const mainContent = (
+    <>
+      <div class="docs-callout docs-callout-info">
+        <p>
+          Demo code blocks use the local `@/components/kamod-ui/*` alias. For app code, install
+          `@kamod-ch/ui` and import from that package.
+        </p>
+      </div>
+      {activeDoc.renderMain(renderContext)}
+    </>
+  );
+
   return (
     <DocsShell
       isComponentsOverview={false}
       activeDoc={activeDocView}
       activeSection={activeSection}
       docs={docsPages}
-      mainContent={activeDoc.renderMain(renderContext)}
+      mainContent={mainContent}
       getSectionHref={(sectionId) => withBasePath(`/docs/${activeDoc.slug}/${sectionId}`)}
     />
   );
