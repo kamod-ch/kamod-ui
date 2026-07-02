@@ -18,12 +18,12 @@ type PortalMountParent = {
 };
 
 type PortalProps = {
-  _vnode: VNode;
+  _vnode: any;
   _container: HTMLElement;
 };
 
 type PortalInstance = {
-  _vnode?: VNode;
+  _vnode?: any;
   _temp: PortalMountParent | null;
   _container: HTMLElement | null;
   context: Record<string, unknown>;
@@ -33,7 +33,7 @@ type PortalInstance = {
 
 function ContextProvider(this: {
   getChildContext: () => unknown;
-  props: { context: unknown; children: VNode };
+  props: { context: unknown; children: ComponentChildren };
 }) {
   this.getChildContext = () => this.props.context;
   return this.props.children;
@@ -55,7 +55,7 @@ function Portal(this: PortalInstance, props: PortalProps) {
   }
 
   if (!this._temp) {
-    let root: VNode | null | undefined = this._vnode;
+    let root: any = this._vnode;
     while (root != null && !root._mask && root._parent != null) {
       root = root._parent;
     }
@@ -81,16 +81,16 @@ function Portal(this: PortalInstance, props: PortalProps) {
   }
 
   render(
-    createElement(ContextProvider, { context: this.context }, props._vnode),
+    createElement(ContextProvider as any, { context: this.context }, props._vnode),
     this._temp as unknown as Element,
   );
 }
 
 export function createPortal(vnode: ComponentChildren, container: HTMLElement): VNode {
-  const el = createElement(Portal as unknown as (props: PortalProps) => null, {
-    _vnode: vnode as VNode,
+  const el = createElement(Portal as any, {
+    _vnode: vnode,
     _container: container,
-  });
+  }) as VNode;
   (el as VNode & { containerInfo?: HTMLElement }).containerInfo = container;
   return el;
 }
