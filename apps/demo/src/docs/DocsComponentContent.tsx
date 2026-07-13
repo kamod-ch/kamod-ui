@@ -1,10 +1,12 @@
 import {
   Button,
+  ButtonGroup,
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  Spinner,
   Tabs,
   TabsContent,
   TabsList,
@@ -186,37 +188,52 @@ export const DocsComponentContent = ({ slug, section }: { slug?: string; section
         activeDoc.slug,
       );
       const usageSnippet = isButtonDoc
-        ? `${importSnippet}\n\nexport function Example() {\n  return <Button>Save</Button>;\n}`
+        ? `<Button disabled>\n  <Spinner size="sm" data-icon="inline-start" />\n  Generating\n</Button>`
         : isButtonGroupDoc
-          ? `${importSnippet}\n\nexport function Example() {\n  return (\n    <ButtonGroup>\n      <Button variant="outline">Previous</Button>\n      <Button>Continue</Button>\n    </ButtonGroup>\n  );\n}`
+          ? `<ButtonGroup>\n  <Button>Button 1</Button>\n  <Button>Button 2</Button>\n</ButtonGroup>`
           : isTabsDoc
-            ? `${importSnippet}\n\nexport function Example() {\n  return (\n    <Tabs defaultValue="account">\n      <TabsList>\n        <TabsTrigger value="account">Account</TabsTrigger>\n        <TabsTrigger value="security">Security</TabsTrigger>\n      </TabsList>\n      <TabsContent value="account">Account settings</TabsContent>\n      <TabsContent value="security">Security settings</TabsContent>\n    </Tabs>\n  );\n}`
+            ? `<Tabs defaultValue="overview">\n  <TabsList>\n    <TabsTrigger value="overview">Overview</TabsTrigger>\n    <TabsTrigger value="details">Details</TabsTrigger>\n  </TabsList>\n  <TabsContent value="overview">Overview content</TabsContent>\n  <TabsContent value="details">Details content</TabsContent>\n</Tabs>`
             : isAlertDialogDoc
-              ? `${importSnippet}\n\nexport function Example() {\n  return (\n    <AlertDialog>\n      <AlertDialogTrigger>Delete project</AlertDialogTrigger>\n      <AlertDialogContent>\n        <AlertDialogHeader>\n          <AlertDialogTitle>Are you sure?</AlertDialogTitle>\n          <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>\n        </AlertDialogHeader>\n        <AlertDialogFooter>\n          <AlertDialogCancel>Cancel</AlertDialogCancel>\n          <AlertDialogAction>Delete</AlertDialogAction>\n        </AlertDialogFooter>\n      </AlertDialogContent>\n    </AlertDialog>\n  );\n}`
-              : `${importSnippet}\n\nexport function Example() {\n  return <${componentName} />;\n}`;
+              ? `<AlertDialog>\n  <AlertDialogTrigger>Delete account</AlertDialogTrigger>\n  <AlertDialogContent>\n    <AlertDialogHeader>\n      <AlertDialogTitle>Delete account?</AlertDialogTitle>\n      <AlertDialogDescription>\n        This action is permanent.\n      </AlertDialogDescription>\n    </AlertDialogHeader>\n    <AlertDialogFooter>\n      <AlertDialogCancel>Cancel</AlertDialogCancel>\n      <AlertDialogAction>Continue</AlertDialogAction>\n    </AlertDialogFooter>\n  </AlertDialogContent>\n</AlertDialog>`
+              : `<${componentName} />`;
 
-      return <CodeBlock code={usageSnippet} language="tsx" />;
+      return (
+        <div class="grid gap-3">
+          <CodeBlock code={importSnippet} language="tsx" />
+          <CodeBlock code={usageSnippet} language="tsx" />
+          {isButtonDoc ? (
+            <div class="docs-usage-row">
+              <Button disabled>
+                <Spinner size="sm" data-icon="inline-start" />
+                Generating
+              </Button>
+            </div>
+          ) : isButtonGroupDoc ? (
+            <div class="docs-usage-row">
+              <ButtonGroup>
+                <Button>Button 1</Button>
+                <Button>Button 2</Button>
+              </ButtonGroup>
+            </div>
+          ) : isTabsDoc ? (
+            <div class="docs-usage-row w-full max-w-xl">
+              <Tabs defaultValue="overview">
+                <TabsList>
+                  <TabsTrigger value="overview">Overview</TabsTrigger>
+                  <TabsTrigger value="details">Details</TabsTrigger>
+                </TabsList>
+                <TabsContent value="overview">Overview content</TabsContent>
+                <TabsContent value="details">Details content</TabsContent>
+              </Tabs>
+            </div>
+          ) : isAlertDialogDoc ? null : null}
+        </div>
+      );
     },
-    [apiReferenceSectionId]: () => {
-      const importSource = docImportFrom(activeDoc.slug);
-      const apiMarkdown = [
-        `> Import from ${importSource}`,
-        "",
-        buildComponentDocMarkdown(activeDocView.title, activeDoc.command, activeDocView.sections),
-      ].join("\n");
-      return <CodeBlock code={apiMarkdown} language="markdown" />;
-    },
-    [accessibilitySectionId]: () => (
-      <div class="docs-callout docs-callout-info">
-        <p>
-          Verify keyboard support, focus visibility, labels and semantic structure when composing
-          <strong> {activeDoc.title}</strong> into product UIs.
-        </p>
-      </div>
-    ),
   };
 
-  const renderSectionExtraContent = (sectionId: string) => sectionExtraContentById[sectionId]?.();
+  const renderSectionExtraContent = (sectionId: string) =>
+    sectionExtraContentById[sectionId]?.() ?? null;
 
   const renderPreviewAndCodeTabs = ({
     preview,
@@ -227,59 +244,68 @@ export const DocsComponentContent = ({ slug, section }: { slug?: string; section
     codeSnippet: string;
     previewClass?: string;
   }) => (
-    <Tabs defaultValue="preview" class="docs-preview-tabs">
+    <Tabs defaultValue="preview" class="docs-tabs">
       <TabsList class="docs-tabs-list" variant="line">
         <TabsTrigger value="preview">Preview</TabsTrigger>
         <TabsTrigger value="code">Code</TabsTrigger>
       </TabsList>
       <TabsContent value="preview">
-        <div class={`docs-preview-surface ${previewClass ?? ""}`.trim()}>{preview}</div>
+        <div
+          class={[
+            "preview relative flex min-h-40 w-full items-start justify-center p-3 sm:min-h-56 sm:p-6 lg:min-h-72 lg:p-10 data-[align=center]:items-center data-[align=end]:items-end data-[align=start]:items-start data-[chromeless=true]:h-auto data-[chromeless=true]:p-0",
+            previewClass,
+          ]
+            .filter(Boolean)
+            .join(" ")}
+        >
+          {preview}
+        </div>
       </TabsContent>
       <TabsContent value="code">
-        <CodeBlock code={codeSnippet} language="tsx" />
+        <CodeBlock code={codeSnippet} language="tsx" className="docs-tab-code" />
       </TabsContent>
     </Tabs>
   );
 
+  const markdownExport = useMemo(
+    () => buildComponentDocMarkdown(activeDoc.title, activeDoc.command, docSections),
+    [activeDoc.title, activeDoc.command, docSections],
+  );
+
+  const componentSourcePath = docImportFrom(activeDoc.slug);
+
   const renderTitleRow = () => (
     <div class="docs-title-row">
-      <div>
-        <p class="docs-eyebrow">Component</p>
+      <div class="docs-title-stack">
         <h1>{activeDoc.title}</h1>
-        <p class="docs-intro">{activeDoc.usageLabel}</p>
+        <p class="docs-component-path">
+          <code>{componentSourcePath}</code>
+        </p>
       </div>
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button variant="outline" size="sm">
-            Installation
+      <div class="docs-title-row-actions">
+        <Dialog>
+          <Button variant="outline" size="sm" asChild>
+            <DialogTrigger>View Markdown</DialogTrigger>
           </Button>
-        </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Install {activeDoc.title}</DialogTitle>
-            <p class="docs-copy text-sm text-muted-foreground">
-              Demo snippets use the local `@/components/kamod-ui/*` alias. In your app, install
-              `@kamod-ch/ui` and import from that package.
-            </p>
-          </DialogHeader>
-          <Tabs defaultValue="pnpm">
-            <TabsList variant="line">
-              <TabsTrigger value="pnpm">pnpm</TabsTrigger>
-              <TabsTrigger value="npm">npm</TabsTrigger>
-              <TabsTrigger value="yarn">yarn</TabsTrigger>
-            </TabsList>
-            <TabsContent value="pnpm">
-              <CodeBlock code={installationCommands.pnpm} language="bash" />
-            </TabsContent>
-            <TabsContent value="npm">
-              <CodeBlock code={installationCommands.npm} language="bash" />
-            </TabsContent>
-            <TabsContent value="yarn">
-              <CodeBlock code={installationCommands.yarn} language="bash" />
-            </TabsContent>
-          </Tabs>
-        </DialogContent>
-      </Dialog>
+          <DialogContent
+            presentation="slot"
+            class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-3 sm:p-6"
+          >
+            <div class="flex max-h-[min(80vh,720px)] w-full max-w-2xl flex-col gap-0 overflow-hidden rounded-xl border border-border bg-background p-0 shadow-lg">
+              <DialogHeader class="shrink-0 border-b border-border px-6 py-4 text-left">
+                <DialogTitle>Markdown for {activeDoc.title}</DialogTitle>
+              </DialogHeader>
+              <div class="min-h-0 flex-1 overflow-y-auto px-2 pb-4 pt-2">
+                <CodeBlock
+                  code={markdownExport}
+                  language="markdown"
+                  className="docs-tab-code !max-h-none"
+                />
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+      </div>
     </div>
   );
 
@@ -291,17 +317,7 @@ export const DocsComponentContent = ({ slug, section }: { slug?: string; section
     renderSectionExtraContent,
   };
 
-  const mainContent = (
-    <>
-      <div class="docs-callout docs-callout-info">
-        <p>
-          Demo code blocks use the local `@/components/kamod-ui/*` alias. For app code, install
-          `@kamod-ch/ui` and import from that package.
-        </p>
-      </div>
-      {activeDoc.renderMain(renderContext)}
-    </>
-  );
+  const mainContent = activeDoc.renderMain(renderContext);
 
   return (
     <DocsShell

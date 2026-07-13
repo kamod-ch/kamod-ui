@@ -575,7 +575,7 @@ html[data-theme="watson"] [data-slot="selectable-card-indicator"] {
   box-shadow: 0 1px 4px color-mix(in srgb, var(--primary) 35%, transparent) !important;
 }
 
-html[data-theme="watson"] [data-slot="selectable-card-indicator"] > span {
+html[data-theme="watson"] [data-slot="selectable-card-indicator-dot"] {
   background-color: var(--primary) !important;
 }
 

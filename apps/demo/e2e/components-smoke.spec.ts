@@ -184,11 +184,7 @@ test.describe("core component docs smoke", () => {
 
   test("Sheet opens from basic example", async ({ page }) => {
     await page.goto("./docs/sheet/basic-sheet");
-    await page
-      .locator(".docs-preview-surface")
-      .first()
-      .getByRole("button", { name: "Open" })
-      .click();
+    await page.locator(".preview").first().getByRole("button", { name: "Open" }).click();
     const sheet = page.getByRole("dialog");
     await expect(sheet).toBeVisible();
     await expect(sheet.getByRole("heading", { name: "Edit profile" })).toBeVisible();
@@ -203,21 +199,12 @@ test.describe("core component docs smoke", () => {
     await expect(menu.getByRole("menuitem", { name: "Back" })).toBeVisible();
   });
 
-  test("Installation dialog opens on component doc pages", async ({ page }) => {
+  test("View Markdown dialog opens on component doc pages", async ({ page }) => {
     await page.goto("./docs/button/installation");
-    await page.getByRole("button", { name: "Installation" }).click();
+    await page.getByRole("button", { name: "View Markdown" }).click();
     const dialog = page.getByRole("dialog");
     await expect(dialog).toBeVisible();
-    await expect(dialog.getByRole("heading", { name: "Install Button" })).toBeVisible();
-    await expect(dialog.getByRole("tab", { name: "pnpm", exact: true })).toHaveAttribute(
-      "aria-selected",
-      "true",
-    );
-    await dialog.getByRole("tab", { name: "npm", exact: true }).click();
-    await expect(dialog.getByRole("tab", { name: "npm", exact: true })).toHaveAttribute(
-      "aria-selected",
-      "true",
-    );
+    await expect(dialog.getByRole("heading", { name: "Markdown for Button" })).toBeVisible();
   });
 
   test("Synced tabs keep groups in sync", async ({ page }) => {
@@ -238,7 +225,7 @@ test.describe("core component docs smoke", () => {
 
   test("Radio group selection updates on click", async ({ page }) => {
     await page.goto("./docs/radio-group/radio-default-labels");
-    const preview = page.locator(".docs-preview-surface").first();
+    const preview = page.locator(".preview").first();
     const optionTwo = preview.getByLabel("Option two");
     await optionTwo.click();
     await expect(optionTwo).toBeChecked();

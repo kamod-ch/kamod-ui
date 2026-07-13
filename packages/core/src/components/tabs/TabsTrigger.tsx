@@ -39,13 +39,14 @@ export const TabsTrigger = ({
         "dark:group-data-[variant=default]/tabs-list:data-[state=active]:shadow-[0_1px_2px_-0.5px_rgb(0_0_0/0.35)] dark:group-data-[variant=default]/tabs-list:data-[state=active]:ring-1 dark:group-data-[variant=default]/tabs-list:data-[state=active]:ring-white/[0.08]",
         "group-data-[variant=line]/tabs-list:rounded-none group-data-[variant=line]/tabs-list:px-0 group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:group-data-[variant=line]/tabs-list:data-[state=active]:ring-0",
         "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
-        "group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:text-foreground",
+        "group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:font-semibold group-data-[variant=line]/tabs-list:data-[state=active]:text-foreground",
+        "group-data-[variant=line]/tabs-list:data-[state=inactive]:font-normal group-data-[variant=line]/tabs-list:data-[state=inactive]:text-muted-foreground",
         "dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent",
         "dark:group-data-[variant=default]/tabs-list:data-[state=active]:bg-input/30 dark:group-data-[variant=default]/tabs-list:data-[state=active]:text-foreground",
         "after:absolute after:bg-foreground after:opacity-0 after:transition-opacity",
         "group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5",
         "group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5",
-        "group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100",
+        "group-data-[variant=line]/tabs-list:data-[state=active]:after:h-[2px] group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100",
         className,
       )}
       data-slot="tabs-trigger"

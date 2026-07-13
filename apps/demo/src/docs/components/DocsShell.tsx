@@ -12,7 +12,7 @@ import {
   SheetTrigger,
   ThemeToggle,
 } from "@kamod-ch/ui";
-import { Command, Menu, Search, SunMoon } from "lucide-preact";
+import { Menu, SunMoon } from "lucide-preact";
 import type { ComponentChildren } from "preact";
 import { useMemo } from "preact/hooks";
 import { withBasePath } from "../../base-path";
@@ -69,89 +69,6 @@ const groupTocSections = (sections: DocSection[]): TocSectionGroups => {
 
 const PRO_FEEDBACK_FORM_DEFAULT = "https://tally.so/r/ODYbWK";
 
-const docGroupMatchers = [
-  {
-    title: "Getting Started",
-    slugs: new Set(["theming", "typography", "direction"]),
-  },
-  {
-    title: "UI",
-    slugs: new Set([
-      "avatar",
-      "badge",
-      "button",
-      "button-group",
-      "card",
-      "empty",
-      "image",
-      "item",
-      "kbd",
-      "progress",
-      "skeleton",
-      "spinner",
-      "video",
-    ]),
-  },
-  {
-    title: "Components",
-    slugs: new Set([
-      "accordion",
-      "alert",
-      "alert-dialog",
-      "aspect-ratio",
-      "breadcrumb",
-      "calendar",
-      "carousel",
-      "chart",
-      "collapsible",
-      "command",
-      "context-menu",
-      "data-table",
-      "dialog",
-      "drawer",
-      "dropdown",
-      "hover-card",
-      "menubar",
-      "navigation-menu",
-      "pagination",
-      "popover",
-      "scroll-area",
-      "separator",
-      "sheet",
-      "sidebar",
-      "sonner",
-      "table",
-      "tabs",
-      "toast",
-      "tooltip",
-    ]),
-  },
-  {
-    title: "Forms",
-    slugs: new Set([
-      "checkbox",
-      "combobox",
-      "date-picker",
-      "dropzone",
-      "field",
-      "input",
-      "input-group",
-      "input-otp",
-      "label",
-      "locale-segment-group",
-      "native-select",
-      "radio-group",
-      "select",
-      "selectable-card",
-      "slider",
-      "switch",
-      "textarea",
-      "toggle",
-      "toggle-group",
-    ]),
-  },
-];
-
 export const DocsShell = ({
   isComponentsOverview,
   activeDoc,
@@ -182,7 +99,6 @@ export const DocsShell = ({
     () => [
       {
         key: "__overview",
-        slug: "__overview",
         label: "Components overview",
         active: isComponentsOverview,
         href: componentsOverviewHref,
@@ -190,7 +106,6 @@ export const DocsShell = ({
       },
       ...sortedDocs.map((doc) => ({
         key: doc.slug,
-        slug: doc.slug,
         label: doc.title,
         active: doc.slug === activeDoc?.slug,
         href: getDocHref(doc.slug),
@@ -199,31 +114,6 @@ export const DocsShell = ({
     ],
     [activeDoc?.slug, componentsOverviewHref, getDocHref, isComponentsOverview, sortedDocs],
   );
-
-  const groupedDocsNavEntries = useMemo(() => {
-    const componentEntries = docsPrimaryNavEntries.filter((entry) => entry.slug !== "__overview");
-    const usedSlugs = new Set<string>();
-    const groups = docGroupMatchers
-      .map((group) => {
-        const items = componentEntries.filter((entry) => group.slugs.has(entry.slug));
-        items.forEach((entry) => usedSlugs.add(entry.slug));
-        return { title: group.title, items };
-      })
-      .filter((group) => group.items.length > 0);
-    const utilityItems = componentEntries.filter((entry) => !usedSlugs.has(entry.slug));
-
-    const overviewItems = docsPrimaryNavEntries.filter((entry) => entry.slug === "__overview");
-    const [gettingStartedGroup, ...remainingGroups] = groups;
-
-    return [
-      {
-        title: "Getting Started",
-        items: [...overviewItems, ...(gettingStartedGroup?.items ?? [])],
-      },
-      ...remainingGroups,
-      ...(utilityItems.length ? [{ title: "Utilities", items: utilityItems }] : []),
-    ];
-  }, [docsPrimaryNavEntries]);
 
   return (
     <DemoShell
@@ -237,25 +127,16 @@ export const DocsShell = ({
           </SheetTrigger>
           <SheetContent class="docs-mobile-sheet" side="left" aria-label="Docs navigation panel">
             <div class="docs-mobile-sheet-head">
-              <h2>Documentation</h2>
-              <p>Browse Kamod UI components and guides.</p>
+              <h2>Components</h2>
             </div>
             <nav aria-label="Mobile docs navigation" class="docs-mobile-sheet-nav">
-              {groupedDocsNavEntries.map((group) => (
-                <div class="docs-nav-group" key={group.title}>
-                  <p class="docs-nav-group-title">{group.title}</p>
-                  {group.items.map((entry) => (
-                    <SheetClose asChild key={entry.key}>
-                      <a
-                        class={`docs-nav-button ${entry.active ? "is-active" : ""}`}
-                        href={entry.href}
-                      >
-                        <span>{entry.label}</span>
-                        {entry.showUpdatedBadge ? <Badge variant="success">updated</Badge> : null}
-                      </a>
-                    </SheetClose>
-                  ))}
-                </div>
+              {docsPrimaryNavEntries.map((entry) => (
+                <SheetClose asChild key={entry.key}>
+                  <a class={`docs-nav-button ${entry.active ? "is-active" : ""}`} href={entry.href}>
+                    <span>{entry.label}</span>
+                    {entry.showUpdatedBadge ? <Badge variant="success">updated</Badge> : null}
+                  </a>
+                </SheetClose>
               ))}
             </nav>
           </SheetContent>
@@ -263,40 +144,22 @@ export const DocsShell = ({
       }
       leftSidebar={
         <>
-          <div class="docs-sidebar-head">
-            <h2>Documentation</h2>
-            <p>Components, forms and utilities for Kamod UI.</p>
-          </div>
+          <h2>Components</h2>
           <nav aria-label="Docs components" class="docs-sidebar-nav">
-            {groupedDocsNavEntries.map((group) => (
-              <div class="docs-nav-group" key={group.title}>
-                <p class="docs-nav-group-title">{group.title}</p>
-                {group.items.map((entry) => (
-                  <a
-                    key={entry.key}
-                    class={`docs-nav-button ${entry.active ? "is-active" : ""}`}
-                    href={entry.href}
-                  >
-                    <span>{entry.label}</span>
-                    {entry.showUpdatedBadge ? (
-                      <span class="docs-nav-dot" aria-label="updated" />
-                    ) : null}
-                  </a>
-                ))}
-              </div>
+            {docsPrimaryNavEntries.map((entry) => (
+              <a
+                key={entry.key}
+                class={`docs-nav-button ${entry.active ? "is-active" : ""}`}
+                href={entry.href}
+              >
+                <span>{entry.label}</span>
+              </a>
             ))}
           </nav>
         </>
       }
       topbarActions={
         <>
-          <div class="docs-search-hint" aria-label="Search documentation shortcut">
-            <Search size={15} />
-            <span>Search docs</span>
-            <kbd>
-              <Command size={11} />K
-            </kbd>
-          </div>
           <ThemePresetSelect class="docs-theme-preset" selectClass="docs-theme-preset-select" />
           <GithubRepoLink />
           <ThemeToggle class="docs-topbar-theme-toggle">

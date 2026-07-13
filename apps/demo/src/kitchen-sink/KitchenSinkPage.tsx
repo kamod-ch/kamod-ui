@@ -138,9 +138,11 @@ const AiPromptSourcesMenu = () => {
   const [appsIntegrations, setAppsIntegrations] = useState(true);
 
   const row =
-    "flex cursor-default select-none items-center gap-1.5 rounded-md px-1.5 py-1 text-xs font-normal leading-tight outline-none";
+    "group flex cursor-default select-none items-center gap-1.5 rounded-md px-1.5 py-1 text-xs font-normal leading-tight outline-none";
   const item =
     "gap-1.5 py-1 text-xs font-normal leading-tight [&_svg:not([class*='size-'])]:size-3";
+  const sourceSwitchClass =
+    "landing-ai-sources-switch pointer-events-none opacity-100 transition-colors data-[state=checked]:bg-foreground data-[state=checked]:saturate-100 data-[state=unchecked]:bg-muted-foreground/35 group-hover:data-[state=unchecked]:bg-muted-foreground/50 group-hover:data-[state=checked]:brightness-110";
 
   return (
     <Dropdown>
@@ -174,9 +176,9 @@ const AiPromptSourcesMenu = () => {
               <Switch
                 checked={webSearch}
                 size="sm"
-                disabled
                 tabIndex={-1}
-                class="pointer-events-none data-[state=checked]:bg-foreground data-[state=checked]:saturate-100"
+                aria-hidden
+                class={sourceSwitchClass}
               />
             </span>
           </DropdownCheckboxItem>
@@ -195,9 +197,9 @@ const AiPromptSourcesMenu = () => {
               <Switch
                 checked={appsIntegrations}
                 size="sm"
-                disabled
                 tabIndex={-1}
-                class="pointer-events-none data-[state=checked]:bg-foreground data-[state=checked]:saturate-100"
+                aria-hidden
+                class={sourceSwitchClass}
               />
             </span>
           </DropdownCheckboxItem>

@@ -15,12 +15,6 @@ export const DocsOverviewContent = () => (
           Browse all available Kamod UI components. Entries with a linked docs page open full usage,
           preview and code examples.
         </p>
-        <div class="docs-callout docs-callout-info">
-          <p>
-            Demo snippets use the local `@/components/kamod-ui/*` alias. For app code, install
-            `@kamod-ch/ui` and import from that package.
-          </p>
-        </div>
         <div class="docs-components-grid">
           {componentOverviewItems.map((component) =>
             component.slug ? (

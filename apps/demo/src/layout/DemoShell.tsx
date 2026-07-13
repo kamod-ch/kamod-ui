@@ -1,6 +1,6 @@
 import type { ComponentChildren } from "preact";
+import kamodUiLogo from "../assets/kamod-ui.svg";
 import { withBasePath } from "../base-path";
-import { KamodUiBrandLogo } from "./KamodUiBrandLogo";
 
 export type DemoTopNavItem = {
   label: string;
@@ -49,8 +49,9 @@ export const DemoShell = ({
         <div class="docs-topbar-inner">
           <div class="docs-topbar-leading">
             {topbarLeading}
-            <a class="docs-topbar-brand" href={brandHref} aria-label={`${brand} home`}>
-              <KamodUiBrandLogo />
+            <a class="docs-topbar-brand" href={brandHref}>
+              <img src={kamodUiLogo} alt="" aria-hidden="true" class="docs-topbar-brand-logo" />
+              <span class="docs-topbar-brand-text">{brand}</span>
             </a>
           </div>
           <div class="docs-topbar-links" data-testid={topNavLinksTestId}>
