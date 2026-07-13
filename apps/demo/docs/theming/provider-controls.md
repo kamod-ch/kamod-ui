@@ -1,9 +1,9 @@
 ---
 title: "theming"
-description: "theming / preset-controls"
+description: "theming / provider-controls"
 pageKind: component-doc
 slug: "theming"
-section: "preset-controls"
+section: "provider-controls"
 sidebar: false
 outline: false
 ---

@@ -1,0 +1,84 @@
+{
+  "name": "@kamod-ch/themes",
+  "version": "0.2.1",
+  "description": "Reusable Kamod UI theme tokens, brand presets, and Preact theme runtime.",
+  "keywords": [
+    "design-system",
+    "preact",
+    "tailwind",
+    "tailwindcss",
+    "themes",
+    "ui"
+  ],
+  "homepage": "https://kamod-ch.github.io/kamod-ui/",
+  "bugs": {
+    "url": "https://github.com/kamod-ch/kamod-ui/issues"
+  },
+  "license": "MIT",
+  "author": "Klaus Zahiragic <watzak>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kamod-ch/kamod-ui.git",
+    "directory": "packages/themes"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./theme.css": "./dist/theme.css",
+    "./tokens.css": "./dist/tokens.css",
+    "./brands.css": "./dist/brands.css",
+    "./tailwind-preset": {
+      "types": "./dist/tailwind-preset.d.ts",
+      "import": "./dist/tailwind-preset.js"
+    },
+    "./brands/kamod.css": "./dist/brands/kamod.css",
+    "./brands/shadcn.css": "./dist/brands/shadcn.css",
+    "./brands/ocean.css": "./dist/brands/ocean.css",
+    "./brands/sunset.css": "./dist/brands/sunset.css",
+    "./brands/cursor-warm.css": "./dist/brands/cursor-warm.css",
+    "./brands/voltage.css": "./dist/brands/voltage.css",
+    "./brands/watson.css": "./dist/brands/watson.css",
+    "./brands/professional.css": "./dist/brands/professional.css"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsup && cp src/*.css dist/ && mkdir -p dist/brands && cp src/brands/*.css dist/brands/.",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "publint": "publint",
+    "attw": "attw --pack . --profile esm-only --entrypoints . ./tailwind-preset"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.3",
+    "@preact/signals": "^2.9.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/preact": "^3.2.4",
+    "@types/node": "^25.9.2",
+    "jsdom": "^29.1.1",
+    "publint": "^0.3.21",
+    "tailwindcss": "^4.3.0",
+    "tsup": "^8.5.1",
+    "vitest": "^4.1.8"
+  },
+  "peerDependencies": {
+    "@preact/signals": "^2.9.1",
+    "preact": "^10.29.2"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

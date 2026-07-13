@@ -1,0 +1,9 @@
+/** Brand theme presets for html[data-theme]. Import after tokens.css. */
+@import "./brands/kamod.css";
+@import "./brands/shadcn.css";
+@import "./brands/ocean.css";
+@import "./brands/sunset.css";
+@import "./brands/cursor-warm.css";
+@import "./brands/voltage.css";
+@import "./brands/watson.css";
+@import "./brands/professional.css";

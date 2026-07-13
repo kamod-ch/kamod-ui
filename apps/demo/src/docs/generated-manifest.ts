@@ -942,9 +942,10 @@ export const docsRouteManifest = [
     sections: [
       "installation",
       "usage",
-      "preset-controls",
+      "css-setup",
+      "provider-controls",
       "token-overrides",
-      "dos-and-donts",
+      "tailwind-preset",
       "api-reference",
       "accessibility",
     ],

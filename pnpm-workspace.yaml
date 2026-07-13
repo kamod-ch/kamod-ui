@@ -4,3 +4,5 @@ packages:
 allowBuilds:
   esbuild: false
   lefthook: false
+minimumReleaseAgeExclude:
+  - '@kamod-ch/preactpress@2.1.0'

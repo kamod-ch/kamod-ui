@@ -2312,3 +2312,215 @@ html.dark .landing-shadcn-brand-logo--dark-theme {
     background: var(--card);
   }
 }
+
+/* Documentation content refresh. */
+.docs-callout {
+  margin: 0 0 1.35rem;
+  border: 1px solid color-mix(in oklab, var(--border) 82%, transparent);
+  border-radius: var(--radius-lg);
+  background: color-mix(in oklab, var(--card) 70%, transparent);
+  padding: 0.85rem 1rem;
+  box-shadow: inset 0 1px 0 color-mix(in oklab, var(--background) 42%, transparent);
+}
+
+.docs-callout p {
+  margin: 0;
+  color: color-mix(in oklab, var(--muted-foreground) 92%, var(--foreground));
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.docs-title-row {
+  margin-bottom: 1.35rem;
+  padding-bottom: 1.35rem;
+  border-bottom: 1px solid color-mix(in oklab, var(--border) 82%, transparent);
+}
+
+.docs-eyebrow {
+  margin: 0 0 0.5rem;
+  color: var(--primary);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.docs-title-row h1,
+.docs-components-overview h1 {
+  font-size: clamp(2rem, 5vw, 3.15rem);
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+}
+
+.docs-intro,
+.docs-components-intro {
+  margin: 0.75rem 0 0;
+  max-width: 62ch;
+  color: var(--muted-foreground);
+  font-size: clamp(1rem, 1.5vw, 1.08rem);
+  line-height: 1.72;
+  text-wrap: pretty;
+}
+
+.docs-preview-tabs {
+  margin: 1.1rem 0 1.75rem;
+  border: 1px solid color-mix(in oklab, var(--border) 82%, transparent);
+  border-radius: calc(var(--radius-lg) + 0.35rem);
+  background: color-mix(in oklab, var(--card) 72%, transparent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, var(--background) 50%, transparent),
+    0 18px 42px -30px color-mix(in oklab, var(--foreground) 28%, transparent);
+  overflow: hidden;
+}
+
+.docs-preview-tabs > [data-slot="tabs-list"] {
+  width: 100%;
+  margin: 0;
+  padding: 0.35rem 0.55rem 0;
+  border-bottom: 1px solid color-mix(in oklab, var(--border) 82%, transparent);
+  background: color-mix(in oklab, var(--muted) 20%, transparent);
+}
+
+.docs-preview-tabs > [data-slot="tabs-content"] {
+  margin: 0;
+}
+
+.docs-preview-surface {
+  min-height: 12rem;
+  display: grid;
+  place-items: center;
+  padding: clamp(1.25rem, 4vw, 2.5rem);
+  background:
+    linear-gradient(color-mix(in oklab, var(--border) 22%, transparent) 1px, transparent 1px),
+    linear-gradient(
+      90deg,
+      color-mix(in oklab, var(--border) 22%, transparent) 1px,
+      transparent 1px
+    ),
+    color-mix(in oklab, var(--background) 74%, var(--card));
+  background-size: 28px 28px;
+}
+
+.docs-preview-surface > * {
+  max-width: 100%;
+}
+
+.docs-section {
+  margin-top: 2.6rem;
+  padding-top: 0.15rem;
+}
+
+.docs-section h2 {
+  font-size: clamp(1.35rem, 2vw, 1.7rem);
+  letter-spacing: -0.025em;
+}
+
+.docs-copy {
+  color: color-mix(in oklab, var(--muted-foreground) 92%, var(--foreground));
+  font-size: 0.98rem;
+  line-height: 1.8;
+}
+
+.docs-code-wrap {
+  border-radius: var(--radius-lg);
+}
+
+.docs-code {
+  margin: 0;
+  padding: 1.05rem 1.1rem;
+  border-color: color-mix(in oklab, var(--border) 84%, transparent);
+  border-radius: var(--radius-lg);
+  background: color-mix(in oklab, var(--muted) 48%, var(--background));
+  box-shadow: inset 0 1px 0 color-mix(in oklab, var(--background) 46%, transparent);
+}
+
+.docs-preview-tabs .docs-code {
+  border: 0;
+  border-radius: 0;
+  background: color-mix(in oklab, var(--muted) 54%, var(--background));
+}
+
+.docs-copy-code-button {
+  border-color: color-mix(in oklab, var(--border) 78%, transparent);
+  background: color-mix(in oklab, var(--card) 82%, transparent);
+  box-shadow: 0 1px 2px color-mix(in oklab, var(--foreground) 8%, transparent);
+}
+
+.docs-components-overview {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.docs-components-grid {
+  gap: 0.75rem;
+}
+
+.docs-component-item {
+  min-height: 3.15rem;
+  border: 1px solid color-mix(in oklab, var(--border) 82%, transparent);
+  border-radius: var(--radius-lg);
+  background: color-mix(in oklab, var(--card) 68%, transparent);
+  padding: 0.75rem 0.9rem;
+  box-shadow: inset 0 1px 0 color-mix(in oklab, var(--background) 44%, transparent);
+}
+
+a.docs-component-item:hover {
+  background: color-mix(in oklab, var(--muted) 38%, var(--card));
+  border-color: color-mix(in oklab, var(--primary) 24%, var(--border));
+}
+
+.docs-api-table-wrap,
+.docs-section table {
+  border-color: color-mix(in oklab, var(--border) 84%, transparent);
+  background: color-mix(in oklab, var(--card) 68%, transparent);
+}
+
+html.dark .docs-callout,
+html.dark .docs-preview-tabs,
+html.dark .docs-component-item {
+  background: color-mix(in oklab, var(--card) 72%, transparent);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.045),
+    0 18px 42px -34px rgb(0 0 0 / 0.7);
+}
+
+html.dark .docs-preview-surface {
+  background:
+    linear-gradient(rgb(255 255 255 / 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 0.035) 1px, transparent 1px),
+    color-mix(in oklab, var(--background) 82%, var(--card));
+  background-size: 28px 28px;
+}
+
+html.dark .docs-code,
+html.dark .docs-preview-tabs .docs-code {
+  background: color-mix(in oklab, var(--background) 78%, black);
+  border-color: rgb(255 255 255 / 0.09);
+}
+
+@media (max-width: 639px) {
+  .docs-callout {
+    padding: 0.75rem 0.85rem;
+  }
+
+  .docs-title-row {
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .docs-title-row h1,
+  .docs-components-overview h1 {
+    font-size: 2rem;
+  }
+
+  .docs-preview-surface {
+    min-height: 9rem;
+    padding: 1rem;
+    background-size: 22px 22px;
+  }
+
+  .docs-section {
+    margin-top: 1.9rem;
+  }
+}

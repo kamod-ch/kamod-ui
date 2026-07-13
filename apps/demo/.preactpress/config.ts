@@ -1,13 +1,28 @@
-import { resolve } from "node:path";
+import fs from "node:fs/promises";
+import path, { resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { defineConfig } from "@kamod-ch/preactpress/config";
 import tailwindcss from "@tailwindcss/vite";
+import type { Connect } from "vite";
 
 const repoRoot = resolve(__dirname, "../../");
+const demoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const base = (process.env.VITE_BASE_PATH?.trim() || "/").replace(/\/?$/, "/");
+const faviconFiles = new Map([
+  ["/favicon.svg", { file: "favicon.svg", type: "image/svg+xml" }],
+  ["/favicon-32.png", { file: "favicon-32.png", type: "image/png" }],
+  ["/favicon.png", { file: "favicon.png", type: "image/png" }],
+]);
 const matomoImageTracker =
   '<!-- Matomo Image Tracker--><img referrerpolicy="no-referrer-when-downgrade" src="https://matomo.kamod.ch/matomo.php?idsite=3&amp;rec=1" style="border:0" alt="" /><!-- End Matomo -->';
 
 const basePrefix = base === "/" ? "" : base.replace(/\/$/, "");
+
+function publicUrl(assetPath: string): string {
+  const normalized = assetPath.startsWith("/") ? assetPath : `/${assetPath}`;
+  if (basePrefix === "") return normalized;
+  return `${basePrefix}${normalized}`;
+}
 
 /** Prefix root-absolute dev stylesheet URLs when deploying under a subpath (GitHub Pages). */
 function prefixSubpathAssetUrls(html: string): string {
@@ -39,7 +54,41 @@ export default defineConfig({
     emoji: true,
   },
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [
+      {
+        name: "kamod-ui-favicon-dev",
+        enforce: "pre",
+        configureServer(server) {
+          const serveKamodFavicon: Connect.NextHandleFunction = (req, res, next) => {
+            const pathname = req.url?.split("?")[0] ?? "";
+            const favicon = faviconFiles.get(pathname);
+
+            if (!favicon) {
+              next();
+              return;
+            }
+
+            void fs
+              .readFile(path.join(demoRoot, "public", favicon.file))
+              .then((body) => {
+                res.statusCode = 200;
+                res.setHeader("Content-Type", favicon.type);
+                res.setHeader("Cache-Control", "no-store, max-age=0");
+                res.end(body);
+              })
+              .catch(() => next());
+          };
+
+          const stack = server.middlewares.stack;
+          if (Array.isArray(stack)) {
+            stack.unshift({ route: "", handle: serveKamodFavicon });
+          } else {
+            server.middlewares.use(serveKamodFavicon);
+          }
+        },
+      },
+      tailwindcss(),
+    ],
     server: {
       watch: {
         ignored: [resolve(repoRoot, "tmp"), resolve(repoRoot, ".cursor"), "**/node_modules/**"],
@@ -107,4 +156,10 @@ export default defineConfig({
     const withAssets = prefixSubpathAssetUrls(fixDevClientModule(html));
     return withAssets.replace("</body>", `  ${matomoImageTracker}\n  </body>`);
   },
+  head: [
+    ["link", { rel: "icon", href: publicUrl("favicon.svg"), type: "image/svg+xml" }],
+    ["link", { rel: "icon", href: publicUrl("favicon-32.png"), type: "image/png", sizes: "32x32" }],
+    ["link", { rel: "apple-touch-icon", href: publicUrl("favicon.png") }],
+    ["link", { rel: "stylesheet", href: publicUrl("styles/logo.css") }],
+  ],
 });

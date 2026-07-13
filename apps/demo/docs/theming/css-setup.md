@@ -1,9 +1,9 @@
 ---
 title: "theming"
-description: "theming / dos-and-donts"
+description: "theming / css-setup"
 pageKind: component-doc
 slug: "theming"
-section: "dos-and-donts"
+section: "css-setup"
 sidebar: false
 outline: false
 ---

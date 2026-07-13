@@ -4,8 +4,9 @@
 @plugin "@tailwindcss/forms";
 @custom-variant dark (&:where(.dark, .dark *));
 @source "../../../../packages/core/src/**/*.{ts,tsx}";
+@source "../../../../packages/themes/src/**/*.{ts,tsx}";
 
-@import "./foundation.css";
-@import "./themes.css";
+@import "@kamod-ch/themes/theme.css";
+@import "./demo-foundation.css";
 @import "./app.css";
 @import "./pages.css";

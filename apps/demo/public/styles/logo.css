@@ -1,0 +1,35 @@
+.docs-topbar-brand .ku-logo {
+  display: block;
+  height: 2rem;
+  width: auto;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.ku-logo--dark-theme {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.dark):not([data-theme]) .ku-logo--light-theme {
+    display: none;
+  }
+
+  :root:not(.dark):not([data-theme]) .ku-logo--dark-theme {
+    display: block;
+  }
+}
+
+html.dark .ku-logo--light-theme {
+  display: none;
+}
+
+html.dark .ku-logo--dark-theme {
+  display: block;
+}
+
+@media (max-width: 639px) {
+  .docs-topbar-brand .ku-logo {
+    height: 2.1rem;
+  }
+}
