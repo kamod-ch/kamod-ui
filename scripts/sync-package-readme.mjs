@@ -26,7 +26,8 @@ function transformForPackage(markdown) {
 
   out = out.replace(/\]\(\.docs\/([^)]+)\)/g, `](${BLOB_BASE}/.docs/$1)`);
   out = out.replace(/\]\(packages\/core\/([^)]+)\)/g, `](${BLOB_BASE}/packages/core/$1)`);
-  out = out.replace(/\]\(apps\/demo\/([^)]+)\)/g, `](${BLOB_BASE}/apps/demo/$1)`);
+  out = out.replace(/\]\(packages\/docs\/([^)]+)\)/g, `](${BLOB_BASE}/packages/docs/$1)`);
+  out = out.replace(/\]\(apps\/demo\/([^)]+)\)/g, `](${BLOB_BASE}/packages/docs/$1)`);
 
   return out;
 }

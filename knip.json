@@ -21,7 +21,21 @@
         "src/components/avatar/types.ts"
       ]
     },
-    "apps/demo": {
+    "packages/openui": {
+      "entry": [
+        "src/index.ts",
+        "src/library/index.ts",
+        "src/presets/basic.ts",
+        "src/presets/forms.ts",
+        "src/prompts/index.ts",
+        "src/examples/fixtures.ts",
+        "src/**/*.test.tsx",
+        "src/test/setup.ts"
+      ],
+      "project": ["src/**/*.{ts,tsx}"],
+      "ignoreDependencies": ["@testing-library/preact", "preact-render-to-string"]
+    },
+    "packages/docs": {
       "entry": ["index.html", "src/docs/**/*.{ts,tsx}", "e2e/**/*.ts", "scripts/**/*.{js,mjs}"],
       "project": ["src/**/*.{ts,tsx}", "e2e/**/*.ts"],
       "ignoreDependencies": [

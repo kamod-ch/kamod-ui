@@ -140,4 +140,10 @@
   html {
     @apply bg-background text-foreground scheme-light dark:scheme-dark;
   }
+
+  html.theme-switching,
+  html.theme-switching * {
+    transition: none !important;
+    animation-duration: 0s !important;
+  }
 }

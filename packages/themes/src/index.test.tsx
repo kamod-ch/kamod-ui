@@ -1,15 +1,17 @@
 import { fireEvent, render, screen } from "@testing-library/preact";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   applyColorScheme,
   applyThemePreset,
   DEFAULT_THEME_PRESET,
   isThemePresetId,
+  readThemePresetFromDom,
   resolveInitialThemePreset,
   THEME_PRESET_STORAGE_KEY,
   THEME_PRESETS,
   ThemeProvider,
   useTheme,
+  useThemePreset,
 } from "./index";
 
 afterEach(() => {
@@ -34,6 +36,76 @@ describe("theme runtime", () => {
     expect(document.documentElement).toHaveClass("dark");
     applyColorScheme("light");
     expect(document.documentElement).not.toHaveClass("dark");
+  });
+
+  it("temporarily adds theme-switching while applying color scheme", () => {
+    const rafCallbacks: FrameRequestCallback[] = [];
+    vi.stubGlobal(
+      "requestAnimationFrame",
+      vi.fn((callback: FrameRequestCallback) => {
+        rafCallbacks.push(callback);
+        return rafCallbacks.length;
+      }),
+    );
+
+    applyColorScheme("dark");
+    expect(document.documentElement).toHaveClass("theme-switching");
+    expect(document.documentElement).toHaveClass("dark");
+    expect(rafCallbacks).toHaveLength(1);
+
+    rafCallbacks.shift()?.(0);
+    expect(document.documentElement).toHaveClass("theme-switching");
+    expect(rafCallbacks).toHaveLength(1);
+
+    rafCallbacks.shift()?.(0);
+    expect(document.documentElement).not.toHaveClass("theme-switching");
+
+    vi.unstubAllGlobals();
+  });
+
+  it("temporarily adds theme-switching while applying a theme preset", () => {
+    const rafCallbacks: FrameRequestCallback[] = [];
+    vi.stubGlobal(
+      "requestAnimationFrame",
+      vi.fn((callback: FrameRequestCallback) => {
+        rafCallbacks.push(callback);
+        return rafCallbacks.length;
+      }),
+    );
+
+    applyThemePreset("ocean");
+    expect(document.documentElement).toHaveAttribute("data-theme", "ocean");
+    expect(document.documentElement).toHaveClass("theme-switching");
+    expect(rafCallbacks).toHaveLength(1);
+
+    rafCallbacks.shift()?.(0);
+    expect(document.documentElement).toHaveClass("theme-switching");
+    expect(rafCallbacks).toHaveLength(1);
+
+    rafCallbacks.shift()?.(0);
+    expect(document.documentElement).not.toHaveClass("theme-switching");
+
+    vi.unstubAllGlobals();
+  });
+
+  it("reads the active preset from the document element", () => {
+    document.documentElement.setAttribute("data-theme", "watson");
+    expect(readThemePresetFromDom()).toBe("watson");
+    document.documentElement.setAttribute("data-theme", "invalid");
+    expect(readThemePresetFromDom()).toBeNull();
+  });
+
+  it("useThemePreset reflects localStorage and bootstrapped data-theme", () => {
+    window.localStorage.setItem(THEME_PRESET_STORAGE_KEY, "sunset");
+    document.documentElement.setAttribute("data-theme", "sunset");
+
+    const TestChild = () => {
+      const preset = useThemePreset();
+      return <span data-testid="preset">{preset}</span>;
+    };
+
+    render(<TestChild />);
+    expect(screen.getByTestId("preset")).toHaveTextContent("sunset");
   });
 
   it("resolves initial preset safely and honors valid storage values", () => {

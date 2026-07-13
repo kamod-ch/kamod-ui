@@ -1,6 +1,6 @@
 import { signal, effect as signalEffect } from "@preact/signals";
 import { type ComponentChildren, createContext } from "preact";
-import { useContext, useEffect, useMemo } from "preact/hooks";
+import { useContext, useEffect, useLayoutEffect, useMemo, useState } from "preact/hooks";
 
 export const THEME_STORAGE_KEY = "theme";
 export const THEME_PRESET_STORAGE_KEY = "theme-preset";
@@ -85,19 +85,43 @@ export const resolveInitialColorScheme = (
   return fallback;
 };
 
+export const readThemePresetFromDom = (
+  target: HTMLElement | null = getDefaultTarget(),
+): ThemePresetId | null => {
+  const value = target?.getAttribute("data-theme");
+  return value && isThemePresetId(value) ? value : null;
+};
+
 export const applyThemePreset = (
   preset: ThemePresetId,
   target: HTMLElement | null = getDefaultTarget(),
 ) => {
+  target?.classList.add("theme-switching");
   target?.setAttribute("data-theme", preset);
+  clearThemeSwitching(target);
+};
+
+const clearThemeSwitching = (target: HTMLElement | null) => {
+  if (!target) return;
+  if (typeof requestAnimationFrame === "function") {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        target.classList.remove("theme-switching");
+      });
+    });
+    return;
+  }
+  target.classList.remove("theme-switching");
 };
 
 export const applyColorScheme = (
   scheme: ColorScheme,
   target: HTMLElement | null = getDefaultTarget(),
 ): ResolvedColorScheme => {
+  target?.classList.add("theme-switching");
   const resolvedScheme = scheme === "system" ? readSystemScheme() : scheme;
   target?.classList.toggle("dark", resolvedScheme === "dark");
+  clearThemeSwitching(target);
   return resolvedScheme;
 };
 
@@ -158,6 +182,39 @@ export const syncThemeFromStorage = (
   colorSchemeSignal.value = scheme;
   applyThemePreset(preset, target);
   resolvedColorSchemeSignal.value = applyColorScheme(scheme, target);
+};
+
+const resolveThemePresetForClient = (
+  storage: ThemeStorage | null = getDefaultStorage(),
+  target: HTMLElement | null = getDefaultTarget(),
+  fallback: ThemePresetId = DEFAULT_THEME_PRESET,
+): ThemePresetId => readThemePresetFromDom(target) ?? resolveInitialThemePreset(storage, fallback);
+
+export const useThemePreset = (
+  storage: ThemeStorage | null = getDefaultStorage(),
+  target: HTMLElement | null = getDefaultTarget(),
+  defaultPreset: ThemePresetId = DEFAULT_THEME_PRESET,
+): ThemePresetId => {
+  const [revision, setRevision] = useState(0);
+
+  useLayoutEffect(() => {
+    syncThemeFromStorage(storage, target, defaultPreset);
+
+    const dispose = signalEffect(() => {
+      themePresetSignal.value;
+      setRevision((count) => count + 1);
+    });
+
+    return dispose;
+  }, [defaultPreset, storage, target]);
+
+  void revision;
+
+  if (typeof document === "undefined") {
+    return defaultPreset;
+  }
+
+  return resolveThemePresetForClient(storage, target, defaultPreset);
 };
 
 export const getThemeInitScript = ({

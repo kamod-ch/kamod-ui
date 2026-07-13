@@ -76,12 +76,14 @@ export const SelectableCard = ({
             : "border-border/35 bg-background hover:border-border/60",
         )}
       >
-        {checked ? (
-          <span class="pointer-events-none absolute end-2.5 top-1/2 -translate-y-1/2">
+        <span class="pointer-events-none absolute end-2.5 top-1/2 -translate-y-1/2">
+          {checked ? (
             <SelectableCardSelectedIndicator />
-          </span>
-        ) : null}
-        <div class={cn("min-w-0", checked && "pe-9")}>{children}</div>
+          ) : (
+            <span class="inline-block size-[22px] shrink-0" aria-hidden />
+          )}
+        </span>
+        <div class="min-w-0 pe-9">{children}</div>
       </div>
     </label>
   );

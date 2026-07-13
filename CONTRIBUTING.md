@@ -27,9 +27,9 @@ apps
 | Path            | Description                                                |
 | --------------- | ---------------------------------------------------------- |
 | `packages/core` | Component library source, types, and unit tests.           |
-| `apps/demo`     | Local docs UI, examples, Vitest tests, and Playwright E2E. |
+| `packages/docs`     | Local docs UI, examples, Vitest tests, and Playwright E2E. |
 
-Component documentation pages and registry wiring live under `apps/demo/src/docs/` (for example `docs/pages/*-doc.tsx` and `docs/registry.ts`).
+Component documentation pages and registry wiring live under `packages/docs/src/docs/` (for example `docs/pages/*-doc.tsx` and `docs/registry.ts`).
 
 ## Development
 
@@ -68,12 +68,12 @@ pnpm install
 pnpm dev
 ```
 
-This runs the `demo` workspace. Open the URL printed in the terminal.
+This runs the `@kamod-ch/ui-docs` workspace. Open the URL printed in the terminal.
 
 You can also target the workspace explicitly:
 
 ```bash
-pnpm --filter demo dev
+pnpm --filter @kamod-ch/ui-docs dev
 ```
 
 ### Build and quality checks
@@ -86,17 +86,17 @@ From the root:
 | `pnpm typecheck` | Typecheck all workspaces.                 |
 | `pnpm lint`      | Lint/typecheck scripts per workspace.     |
 | `pnpm test`      | Run **@kamod-ch/ui** unit tests (Vitest). |
-| `pnpm test:demo` | Run **demo** unit tests (Vitest).         |
-| `pnpm test:e2e`  | Run **demo** Playwright tests.            |
+| `pnpm test:docs` | Run **docs** unit tests (Vitest).         |
+| `pnpm test:e2e`  | Run **docs** Playwright tests.            |
 
-In `apps/demo` you can also run `pnpm qa:themes` for theme regression checks, and use `pnpm format` / `pnpm format:check` (oxfmt) for formatting when working in that app.
+In `packages/docs` you can also run `pnpm qa:themes` for theme regression checks, and use `pnpm format` / `pnpm format:check` (oxfmt) for formatting when working in that app.
 
 Please ensure `pnpm typecheck`, `pnpm lint`, and relevant tests pass before opening a pull request.
 
 ## Components and documentation
 
 - **Library code** belongs in `packages/core`. Match existing patterns for exports, styling, and accessibility.
-- **Docs and live examples** are maintained in `apps/demo` alongside the kitchen sink. When you add or change a component’s public API or behavior, update the corresponding doc page and registry entry under `apps/demo/src/docs/` as needed.
+- **Docs and live examples** are maintained in `packages/docs` alongside the kitchen sink. When you add or change a component’s public API or behavior, update the corresponding doc page and registry entry under `packages/docs/src/docs/` as needed.
 
 A practical order for larger contributions:
 
@@ -130,6 +130,6 @@ Open a GitHub issue (or discussion, if enabled) with the use case, expected API,
 ## Testing
 
 - **Core:** Vitest in `packages/core` (`pnpm test` from root).
-- **Demo:** Vitest and Playwright in `apps/demo` (`pnpm test:demo`, `pnpm test:e2e` from root).
+- **Docs:** Vitest and Playwright in `packages/docs` (`pnpm test:docs`, `pnpm test:e2e` from root).
 
 New behavior should include tests where it is practical (unit tests for logic and components; E2E or visual checks when the demo flow is critical).

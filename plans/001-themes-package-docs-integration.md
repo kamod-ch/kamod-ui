@@ -2,7 +2,7 @@
 
 > **Executor instructions**: Follow this plan step by step. Run every verification command and confirm the expected result before moving to the next step. If anything in the "STOP conditions" section occurs, stop and report — do not improvise. When done, update the status row for this plan in `plans/README.md`.
 >
-> **Drift check (run first)**: `git diff --stat 4fa1b22..HEAD -- package.json pnpm-workspace.yaml packages/core apps/demo/package.json apps/demo/src/theme apps/demo/src/styles apps/demo/src/docs packages/themes`
+> **Drift check (run first)**: `git diff --stat 4fa1b22..HEAD -- package.json pnpm-workspace.yaml packages/core packages/docs/package.json packages/docs/src/theme packages/docs/src/styles packages/docs/src/docs packages/themes`
 > If any in-scope file changed since this plan was written, compare the "Current state" excerpts against the live code before proceeding; on a mismatch, treat it as a STOP condition.
 >
 > **Working-tree safety check**: run `git status --short` before editing. This repo had unrelated local changes when the plan was written. Preserve any pre-existing changes that are not required by this plan.
@@ -18,19 +18,19 @@
 
 ## Why this matters
 
-Kamod UI currently has theme tokens in `packages/core/src/theme.css`, while richer brand presets and preset selection live only inside the demo app. That makes docs themeable, but it does not give consumers a reusable ThemeProvider, a package-level brand theme registry, or a documented Tailwind token/preset surface. A dedicated `packages/themes` workspace package can make theme tokens, Tailwind integration, brand themes, and runtime theme state reusable by both external apps and `apps/demo`.
+Kamod UI currently has theme tokens in `packages/core/src/theme.css`, while richer brand presets and preset selection live only inside the demo app. That makes docs themeable, but it does not give consumers a reusable ThemeProvider, a package-level brand theme registry, or a documented Tailwind token/preset surface. A dedicated `packages/themes` workspace package can make theme tokens, Tailwind integration, brand themes, and runtime theme state reusable by both external apps and `packages/docs`.
 
 ## Current state
 
 Relevant files and roles:
 
 - `packages/core/src/theme.css` — published as `@kamod-ch/ui/theme.css`; contains the minimal semantic token contract and Tailwind v4 `@theme inline` mapping.
-- `apps/demo/src/styles/foundation.css` — demo-only expanded token contract including `info`, `success`, `warning`, `error`, and sidebar tokens.
-- `apps/demo/src/styles/themes.css` and `apps/demo/src/styles/themes/*.css` — demo-only brand presets selected via `html[data-theme="..."]`.
-- `apps/demo/src/theme/theme-presets.ts` — demo-only registry and DOM applicator for preset ids.
-- `apps/demo/src/theme/ThemePresetSelect.tsx` — demo-only select UI for presets.
+- `packages/docs/src/styles/foundation.css` — demo-only expanded token contract including `info`, `success`, `warning`, `error`, and sidebar tokens.
+- `packages/docs/src/styles/themes.css` and `packages/docs/src/styles/themes/*.css` — demo-only brand presets selected via `html[data-theme="..."]`.
+- `packages/docs/src/theme/theme-presets.ts` — demo-only registry and DOM applicator for preset ids.
+- `packages/docs/src/theme/ThemePresetSelect.tsx` — demo-only select UI for presets.
 - `packages/core/src/components/theme-toggle/ThemeToggle.tsx` — currently owns light/dark persistence by toggling `.dark` and `localStorage.theme`.
-- `apps/demo/src/docs/pages/theming-doc.tsx` — existing theming docs, currently documenting the demo-only preset pattern.
+- `packages/docs/src/docs/pages/theming-doc.tsx` — existing theming docs, currently documenting the demo-only preset pattern.
 - `packages/core/tsup.config.ts` — package build pattern to mirror for the new package.
 
 Key excerpts to confirm before editing:
@@ -64,7 +64,7 @@ Key excerpts to confirm before editing:
 ```
 
 ```ts
-// apps/demo/src/theme/theme-presets.ts
+// packages/docs/src/theme/theme-presets.ts
 export const THEME_PRESET_STORAGE_KEY = "theme-preset";
 export const DEFAULT_THEME_PRESET = "kamod";
 
@@ -93,7 +93,7 @@ const persistTheme = (darkMode: boolean) => {
 ```
 
 ```css
-/* apps/demo/src/styles/index.css */
+/* packages/docs/src/styles/index.css */
 @import "./theme-fonts.css";
 @import "tailwindcss";
 @import "tw-animate-css";
@@ -109,7 +109,7 @@ const persistTheme = (darkMode: boolean) => {
 
 Repo conventions to match:
 
-- pnpm workspace; packages live under `packages/*` and apps under `apps/*`.
+- pnpm workspace; packages live under `packages/*`.
 - Preact components use `class` props, `ComponentChildren`, `JSX` types, and small utility helpers.
 - Build tooling for published packages uses `tsup`, ESM, `dts: true`, and explicit package exports.
 - CSS is Tailwind v4-first (`@theme`, `@theme inline`, `@custom-variant`, `@source`), but user-facing docs should explain that JS `tailwind.config` presets are optional/legacy compared to CSS imports in Tailwind v4.
@@ -121,8 +121,8 @@ Repo conventions to match:
 | Install/update lockfile | `pnpm install` | exit 0 |
 | Package build | `pnpm --filter @kamod-ch/themes build` | exit 0 and `packages/themes/dist` exists |
 | Themes tests | `pnpm --filter @kamod-ch/themes test` | all tests pass |
-| Demo typecheck | `pnpm --filter demo typecheck` | exit 0, no TypeScript errors |
-| Demo tests | `pnpm --filter demo test` | all tests pass |
+| Demo typecheck | `pnpm --filter @kamod-ch/ui-docs typecheck` | exit 0, no TypeScript errors |
+| Demo tests | `pnpm --filter @kamod-ch/ui-docs test` | all tests pass |
 | Full recursive typecheck | `pnpm typecheck` | exit 0 |
 | Full build | `pnpm build` | exit 0 |
 
@@ -133,8 +133,8 @@ Repo conventions to match:
 - Create `packages/themes/**`.
 - Update root `package.json` only if needed for shared dev dependencies/scripts.
 - Update `pnpm-lock.yaml` via `pnpm install`.
-- Update `apps/demo/package.json` to depend on the new workspace package.
-- Update `apps/demo/src/theme/**`, `apps/demo/src/styles/index.css`, `apps/demo/src/styles/themes.css`, and docs theming files to consume `@kamod-ch/themes`.
+- Update `packages/docs/package.json` to depend on the new workspace package.
+- Update `packages/docs/src/theme/**`, `packages/docs/src/styles/index.css`, `packages/docs/src/styles/themes.css`, and docs theming files to consume `@kamod-ch/themes`.
 - Add tests for `packages/themes` and adjust demo tests only when imports change.
 
 **Out of scope**:
@@ -172,7 +172,7 @@ Create `packages/themes/tsup.config.ts` mirroring `packages/core/tsup.config.ts`
 
 ### Step 2: Extract and formalize CSS variable tokens
 
-Create a token contract under `packages/themes/src/tokens.css` that starts from `packages/core/src/theme.css` and expands it to match demo needs from `apps/demo/src/styles/foundation.css`.
+Create a token contract under `packages/themes/src/tokens.css` that starts from `packages/core/src/theme.css` and expands it to match demo needs from `packages/docs/src/styles/foundation.css`.
 
 Minimum semantic token groups:
 
@@ -191,7 +191,7 @@ Create `packages/themes/src/theme.css` that imports tokens and brands in the cor
 
 ### Step 3: Move brand themes out of the demo and reduce component-specific overrides
 
-Move or copy the reusable brand CSS from `apps/demo/src/styles/themes/*.css` into `packages/themes/src/brands/*.css`.
+Move or copy the reusable brand CSS from `packages/docs/src/styles/themes/*.css` into `packages/themes/src/brands/*.css`.
 
 Rules:
 
@@ -199,7 +199,7 @@ Rules:
 - Preserve brand ids exactly: `kamod`, `shadcn`, `ocean`, `sunset`, `cursor-warm`, `voltage`, `watson`, `professional`.
 - Prefer semantic token assignments over component selectors.
 - If a current brand file contains many component-specific selectors (notably `watson.css`), keep only the minimal token-based subset in the published package unless the selector is necessary for brand identity. Document any retained component selector in a comment.
-- Leave demo-only decorative CSS in `apps/demo/src/styles` if it affects docs layout rather than theme tokens.
+- Leave demo-only decorative CSS in `packages/docs/src/styles` if it affects docs layout rather than theme tokens.
 
 **Verify**: `find packages/themes/src/brands -type f -name '*.css' | wc -l` → at least 8. `rg "data-theme=\"(kamod|shadcn|ocean|sunset|cursor-warm|voltage|watson|professional)\"" packages/themes/src/brands` → each id appears.
 
@@ -258,24 +258,24 @@ Add a lightweight token validation script or test that reads `packages/themes/sr
 
 ### Step 6: Wire the demo to consume `@kamod-ch/themes`
 
-Update `apps/demo/package.json` dependencies:
+Update `packages/docs/package.json` dependencies:
 
 - Add `@kamod-ch/themes: "workspace:*"`.
 
 Update CSS imports:
 
-- In `apps/demo/src/styles/index.css`, replace local `foundation.css` and `themes.css` imports with the package CSS import, unless demo-specific base utilities in `foundation.css` still need to remain. A safe target is:
+- In `packages/docs/src/styles/index.css`, replace local `foundation.css` and `themes.css` imports with the package CSS import, unless demo-specific base utilities in `foundation.css` still need to remain. A safe target is:
   - keep `theme-fonts.css`, `tailwindcss`, plugins, `@source` entries, `app.css`, `pages.css`;
   - import `@kamod-ch/themes/theme.css` before app/page CSS;
   - move demo-only utility classes from `foundation.css` into a new clearly named demo file only if they are not provided by the package.
 
 Update theme code:
 
-- Replace `apps/demo/src/theme/theme-presets.ts` imports/usages with exports from `@kamod-ch/themes`.
+- Replace `packages/docs/src/theme/theme-presets.ts` imports/usages with exports from `@kamod-ch/themes`.
 - Keep `ThemePresetSelect.tsx` as a demo UI component if it is docs-specific, but have it import `THEME_PRESETS`, `applyThemePreset`, `isThemePresetId`, `resolveInitialThemePreset`, and `THEME_PRESET_STORAGE_KEY` from `@kamod-ch/themes`.
 - Wrap the demo root or docs shell in `ThemeProvider` if the provider is needed to synchronize color scheme + preset state. If `ThemeToggle` remains from `@kamod-ch/ui`, verify it does not fight the provider over `.dark`.
 
-**Verify**: `pnpm install && pnpm --filter demo typecheck` → exit 0.
+**Verify**: `pnpm install && pnpm --filter @kamod-ch/ui-docs typecheck` → exit 0.
 
 ### Step 7: Decide how `@kamod-ch/ui` and `@kamod-ch/themes` interact
 
@@ -293,7 +293,7 @@ If you choose to import tokens from `@kamod-ch/themes` into `@kamod-ch/ui`, STOP
 
 ### Step 8: Update docs and examples
 
-Update `apps/demo/src/docs/pages/theming-doc.tsx` to document the new package:
+Update `packages/docs/src/docs/pages/theming-doc.tsx` to document the new package:
 
 - Installation:
   - `pnpm add @kamod-ch/ui @kamod-ch/themes @preact/signals`
@@ -308,9 +308,9 @@ Update `apps/demo/src/docs/pages/theming-doc.tsx` to document the new package:
 - Tailwind preset:
   - Explain that Tailwind v4 primarily uses CSS `@theme`; `@kamod-ch/themes/tailwind-preset` is optional for config-driven projects.
 
-Optionally add a new doc page/section named `brand-themes` only if the current theming page becomes too large. If adding a page, register it in `apps/demo/src/docs/registry.ts` and ensure the generated route manifest includes it via the existing docs route generator.
+Optionally add a new doc page/section named `brand-themes` only if the current theming page becomes too large. If adding a page, register it in `packages/docs/src/docs/registry.ts` and ensure the generated route manifest includes it via the existing docs route generator.
 
-**Verify**: `pnpm --filter demo check` → PreactPress reports routes and no issues.
+**Verify**: `pnpm --filter @kamod-ch/ui-docs check` → PreactPress reports routes and no issues.
 
 ### Step 9: Final verification and packaging checks
 
@@ -319,7 +319,7 @@ Run the broad checks that catch workspace/export issues:
 1. `pnpm typecheck` → exit 0.
 2. `pnpm --filter @kamod-ch/themes build` → exit 0.
 3. `pnpm --filter @kamod-ch/themes test` → exit 0.
-4. `pnpm --filter demo test` → exit 0.
+4. `pnpm --filter @kamod-ch/ui-docs test` → exit 0.
 5. `pnpm build` → exit 0.
 6. If `publint` and `attw` are configured for the new package, run them and fix export issues.
 
@@ -330,7 +330,7 @@ Run the broad checks that catch workspace/export issues:
 - New package unit tests under `packages/themes/src/**/*.test.tsx` or `packages/themes/src/__tests__/**`.
 - Token validation test that required brand ids and selectors exist.
 - Existing demo tests should continue to pass after import rewiring.
-- Manual visual smoke test via `pnpm --filter demo dev`: toggle light/dark, switch each brand, reload page, confirm persisted `data-theme` and `.dark` state.
+- Manual visual smoke test via `pnpm --filter @kamod-ch/ui-docs dev`: toggle light/dark, switch each brand, reload page, confirm persisted `data-theme` and `.dark` state.
 
 ## Done criteria
 
@@ -342,7 +342,7 @@ All must hold:
 - [ ] `ThemeProvider`, `useTheme`, preset constants, and DOM apply/resolve utilities are exported from `@kamod-ch/themes`.
 - [ ] Demo imports theme presets/runtime helpers from `@kamod-ch/themes`, not from a duplicated local registry.
 - [ ] The theming docs explain CSS variable tokens, Tailwind v4 CSS import, optional Tailwind preset, ThemeProvider, and brand themes.
-- [ ] `pnpm typecheck`, `pnpm --filter @kamod-ch/themes test`, `pnpm --filter demo test`, and `pnpm build` exit 0.
+- [ ] `pnpm typecheck`, `pnpm --filter @kamod-ch/themes test`, `pnpm --filter @kamod-ch/ui-docs test`, and `pnpm build` exit 0.
 - [ ] Existing `@kamod-ch/ui/theme.css` remains available and documented as the minimal default path.
 - [ ] `plans/README.md` status row updated.
 

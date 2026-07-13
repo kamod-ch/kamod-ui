@@ -161,7 +161,7 @@ Browse the [live component docs](https://ui.kamod.ch/docs/button) for variants, 
 pnpm add @kamod-ch/ui preact @preact/signals
 ```
 
-The published library on npm is **[`@kamod-ch/ui`](https://www.npmjs.com/package/@kamod-ch/ui)**. This monorepo root and `apps/demo` are not published. The former package [`@kamod-ui/core`](https://www.npmjs.com/package/@kamod-ui/core) and the unscoped [`kamod-ui`](https://www.npmjs.com/package/kamod-ui) name are legacy — install `@kamod-ch/ui` instead.
+The published library on npm is **[`@kamod-ch/ui`](https://www.npmjs.com/package/@kamod-ch/ui)**. This monorepo root and `packages/docs` are not published. The former package [`@kamod-ui/core`](https://www.npmjs.com/package/@kamod-ui/core) and the unscoped [`kamod-ui`](https://www.npmjs.com/package/kamod-ui) name are legacy — install `@kamod-ch/ui` instead.
 
 Import the default theme once so Tailwind compiles component classes and semantic CSS tokens:
 
@@ -195,7 +195,7 @@ import { Button } from "@kamod-ch/ui"; // root barrel
 import { Button } from "@kamod-ch/ui/button"; // per-component subpath
 ```
 
-The demo docs in `apps/demo` rewrite the same examples to local aliases like `@/components/kamod-ui/button`. That alias only exists inside the demo app; in your app, install `@kamod-ch/ui` and import from the package.
+The demo docs in `packages/docs` rewrite the same examples to local aliases like `@/components/kamod-ui/button`. That alias only exists inside the demo app; in your app, install `@kamod-ch/ui` and import from the package.
 
 The package ships a minimal `sideEffects` list (progress indeterminate keyframes and CSS only), so modern bundlers tree-shake the root barrel reliably.
 
@@ -229,7 +229,7 @@ Override semantic tokens after importing the default theme:
 }
 ```
 
-For full control, copy from [`packages/core/src/theme.css`](https://github.com/kamod-ch/kamod-ui/blob/main/packages/core/src/theme.css) or see the demo's [`foundation.css`](https://github.com/kamod-ch/kamod-ui/blob/main/apps/demo/src/styles/foundation.css) and [`themes.css`](https://github.com/kamod-ch/kamod-ui/blob/main/apps/demo/src/styles/themes.css).
+For full control, copy from [`packages/core/src/theme.css`](https://github.com/kamod-ch/kamod-ui/blob/main/packages/core/src/theme.css) or see the demo's [`foundation.css`](https://github.com/kamod-ch/kamod-ui/blob/main/packages/docs/src/styles/foundation.css) and [`themes.css`](https://github.com/kamod-ch/kamod-ui/blob/main/packages/docs/src/styles/themes.css).
 
 ## Documentation
 
@@ -251,7 +251,7 @@ Open the URL printed in the terminal for the kitchen sink and component docs. Qu
 | Workspace      | Path             | Role                                     |
 | -------------- | ---------------- | ---------------------------------------- |
 | `@kamod-ch/ui` | `packages/core/` | Published library (65 component exports) |
-| `demo`         | `apps/demo/`     | Kitchen sink + interactive docs          |
+| `@kamod-ch/ui-docs` | `packages/docs/` | Kitchen sink + interactive docs          |
 
 - Open issues for bugs and ideas; PRs welcome for components, docs, and examples.
 - Key scripts: `pnpm dev`, `pnpm check`, `pnpm format`, `pnpm lint`, `pnpm docs:components`

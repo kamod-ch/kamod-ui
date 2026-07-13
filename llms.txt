@@ -147,7 +147,7 @@ Kamod UI is not aimed at:
 ## Repository structure
 
 - `packages/core/` — published component library
-- `apps/demo/` — live demo, docs, and kitchen sink
+- `packages/docs/` — live demo, docs, and kitchen sink
 
 ## License
 

@@ -31,5 +31,5 @@ export default defineConfig({
   splitting: true,
   treeshake: true,
   target: "esnext",
-  external: ["preact", "preact/hooks", "preact/jsx-runtime", "@preact/signals"],
+  external: ["preact", "preact/hooks", "preact/jsx-runtime", "@preact/signals", "@kamod-ch/themes"],
 });

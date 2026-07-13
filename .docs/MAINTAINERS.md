@@ -63,7 +63,7 @@ npm view @kamod-ui/core deprecated
 
    `pnpm release` runs: `commit-and-tag-version` → `git push --follow-tags` → `pnpm release:publish`.
 
-   After each version bump, `postbump` runs `pnpm syncpack:fix` so `apps/demo` stays aligned with `@kamod-ch/ui` (CI `pnpm qa:deps`).
+   After each version bump, `postbump` runs `pnpm syncpack:fix` so `packages/docs` stays aligned with `@kamod-ch/ui` (CI `pnpm qa:deps`).
 
    It does **not** run tests or `release:check` automatically — run those first.
 

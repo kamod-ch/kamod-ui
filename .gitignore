@@ -18,10 +18,10 @@ scripts_old/
 playwright-report/
 test-results/
 .cursor 
-/apps/demo/playwright-report/
-apps/demo/playwright-report/
+/packages/docs/playwright-report/
+packages/docs/playwright-report/
 docs/
-!apps/demo/docs/
-!apps/demo/docs/**
-!apps/demo/src/docs/
-!apps/demo/src/docs/generated-manifest.ts
+!packages/docs/docs/
+!packages/docs/docs/**
+!packages/docs/src/docs/
+!packages/docs/src/docs/generated-manifest.ts
