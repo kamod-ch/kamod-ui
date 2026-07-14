@@ -105,8 +105,16 @@ export default defineConfig({
           replacement: resolve(openuiSrc, "examples/fixtures.ts"),
         },
         {
+          find: "@kamod-ch/openui/demo",
+          replacement: resolve(openuiSrc, "demo/index.ts"),
+        },
+        {
           find: "@kamod-ch/openui/prompts",
           replacement: resolve(openuiSrc, "prompts/index.ts"),
+        },
+        {
+          find: "@kamod-ch/openui/presets/dashboard",
+          replacement: resolve(openuiSrc, "presets/dashboard.ts"),
         },
         {
           find: "@kamod-ch/openui",

@@ -1,6 +1,6 @@
 {
   "name": "@kamod-ch/openui",
-  "version": "0.2.1",
+  "version": "0.6.0",
   "description": "Official OpenUI adapter for Kamod UI: a typed, secure component library for generative UI with Preact.",
   "keywords": [
     "generative-ui",
@@ -45,6 +45,10 @@
       "types": "./dist/presets/forms.d.ts",
       "import": "./dist/presets/forms.js"
     },
+    "./presets/dashboard": {
+      "types": "./dist/presets/dashboard.d.ts",
+      "import": "./dist/presets/dashboard.js"
+    },
     "./prompts": {
       "types": "./dist/prompts/index.d.ts",
       "import": "./dist/prompts/index.js"
@@ -52,6 +56,10 @@
     "./examples": {
       "types": "./dist/examples/fixtures.d.ts",
       "import": "./dist/examples/fixtures.js"
+    },
+    "./demo": {
+      "types": "./dist/demo/index.d.ts",
+      "import": "./dist/demo/index.js"
     }
   },
   "publishConfig": {
@@ -64,7 +72,7 @@
     "typecheck": "tsc --noEmit",
     "lint": "oxlint .",
     "publint": "publint",
-    "attw": "attw --pack . --profile esm-only --entrypoints . ./library ./presets/basic ./presets/forms ./prompts ./examples"
+    "attw": "attw --pack . --profile esm-only --entrypoints . ./library ./presets/basic ./presets/forms ./presets/dashboard ./prompts ./examples ./demo"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.3",

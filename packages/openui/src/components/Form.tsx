@@ -26,7 +26,17 @@ import {
   MAX_NAME_LENGTH,
 } from "../constants";
 import { alertComponent } from "./Alert";
+import { comboboxComponent } from "./Combobox";
+import { datePickerComponent } from "./DatePicker";
+import { inputGroupComponent } from "./InputGroup";
+import { inputOtpComponent } from "./InputOtp";
+import { radioGroupComponent } from "./RadioGroup";
+import { richSelectComponent } from "./RichSelect";
+import { selectableCardComponent } from "./SelectableCard";
+import { sliderComponent } from "./Slider";
 import { textComponent } from "./Text";
+import { toggleComponent } from "./Toggle";
+import { toggleGroupComponent } from "./ToggleGroup";
 
 const inputTypeSchema = z.enum(["text", "email", "password", "number"]).default("text");
 
@@ -305,6 +315,16 @@ export const fieldComponent = defineComponent({
           selectComponent.ref,
           checkboxComponent.ref,
           switchComponent.ref,
+          radioGroupComponent.ref,
+          inputOtpComponent.ref,
+          inputGroupComponent.ref,
+          selectableCardComponent.ref,
+          toggleComponent.ref,
+          toggleGroupComponent.ref,
+          datePickerComponent.ref,
+          comboboxComponent.ref,
+          richSelectComponent.ref,
+          sliderComponent.ref,
         ]),
       )
       .min(1)
@@ -374,6 +394,16 @@ export const formComponent = defineComponent({
           selectComponent.ref,
           checkboxComponent.ref,
           switchComponent.ref,
+          radioGroupComponent.ref,
+          inputOtpComponent.ref,
+          inputGroupComponent.ref,
+          selectableCardComponent.ref,
+          toggleComponent.ref,
+          toggleGroupComponent.ref,
+          datePickerComponent.ref,
+          comboboxComponent.ref,
+          richSelectComponent.ref,
+          sliderComponent.ref,
           submitButtonComponent.ref,
           textComponent.ref,
           alertComponent.ref,

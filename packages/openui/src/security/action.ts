@@ -54,3 +54,48 @@ export const optionalActionSchema = actionSchema.optional();
 
 export const shortString = (max = MAX_LABEL_LENGTH) => z.string().min(1).max(max);
 export const optionalShortString = (max = MAX_LABEL_LENGTH) => z.string().max(max).optional();
+
+type TriggerActionFn = (
+  humanReadableName: string,
+  formName?: string,
+  action?: { type: string; params?: Record<string, unknown> },
+) => void;
+
+/** Shared host-action dispatch used by OpenUI adapters with optionalActionSchema. */
+export function fireOpenUIAction(
+  triggerAction: TriggerActionFn,
+  label: string,
+  action: KamodOpenUIAction | undefined,
+  extraParams?: Record<string, unknown>,
+): void {
+  if (!action) {
+    if (extraParams) {
+      triggerAction(label, undefined, { type: "event", params: extraParams });
+      return;
+    }
+    triggerAction(label);
+    return;
+  }
+  if (action.type === "navigate") {
+    triggerAction(label, undefined, {
+      type: "open_url",
+      params: { url: action.target, ...extraParams },
+    });
+    return;
+  }
+  if (action.type === "submit") {
+    triggerAction(label, action.name, {
+      type: "submit",
+      params: { name: action.name, ...extraParams },
+    });
+    return;
+  }
+  const base =
+    action.payload && typeof action.payload === "object"
+      ? (action.payload as Record<string, unknown>)
+      : {};
+  triggerAction(label, undefined, {
+    type: action.name,
+    params: { ...base, ...extraParams },
+  });
+}

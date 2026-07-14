@@ -1,5 +1,10 @@
 import { KamodOpenUIRenderer } from "@kamod-ch/openui";
-import { CONTACT_FORM_LANG, SETTINGS_UI_LANG, STATUS_CARD_LANG } from "@kamod-ch/openui/examples";
+import {
+  CONTACT_FORM_LANG,
+  EMPTY_STATE_LANG,
+  SETTINGS_UI_LANG,
+  STATUS_CARD_LANG,
+} from "@kamod-ch/openui/examples";
 import { createKamodOpenUISystemPrompt } from "@kamod-ch/openui/prompts";
 import { Button } from "@kamod-ch/ui";
 import type { ComponentChildren } from "preact";
@@ -119,6 +124,13 @@ function renderSectionBody(sectionId: string): ComponentChildren {
           preview={<KamodOpenUIRenderer content={SETTINGS_UI_LANG} />}
         />
       );
+    case "empty-state":
+      return (
+        <LangPreviewBlock
+          lang={EMPTY_STATE_LANG}
+          preview={<KamodOpenUIRenderer content={EMPTY_STATE_LANG} />}
+        />
+      );
     case "actions":
       return (
         <div class="grid gap-4">
@@ -207,9 +219,14 @@ export const openuiDocPage: DocPageModule = {
       text: "Multi-tab settings with Alert, Switch, and save action — composed only from registered components.",
     },
     {
+      id: "empty-state",
+      title: "Empty state",
+      text: "Empty, Tooltip, and Avatar — Phase 1 content/feedback adapters for generative lists and status views.",
+    },
+    {
       id: "actions",
       title: "Actions & navigation",
-      text: "Models emit declarative actions only (event, submit, navigate). External navigation is blocked by default.",
+      text: "Models emit declarative actions only (event, submit, navigate). External navigation is blocked by default. Dropzone and Direction are intentionally not registered.",
     },
     {
       id: "system-prompts",
@@ -224,7 +241,7 @@ export const openuiDocPage: DocPageModule = {
     {
       id: "accessibility",
       title: "Security notes",
-      text: "Only registered components are allowed. Props are Zod-validated with semantic tokens instead of free CSS. Tree depth, children-per-node, and total node limits apply. Actions are declarative — the host executes them via onAction and onSubmit.",
+      text: "Only registered components are allowed. Props are Zod-validated with semantic tokens instead of free CSS. Tree depth, children-per-node, and total node limits apply. Actions are declarative — the host executes them via onAction and onSubmit. Media URLs use validateMediaUrl; Dropzone (file upload) and Direction are excluded from the adapter.",
     },
   ],
   renderMain: (context) => (

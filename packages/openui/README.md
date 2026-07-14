@@ -130,6 +130,7 @@ Rules:
 ```ts
 import { basicPreset } from "@kamod-ch/openui/presets/basic";
 import { formsPreset } from "@kamod-ch/openui/presets/forms";
+import { dashboardPreset } from "@kamod-ch/openui/presets/dashboard";
 ```
 
 ## Configurable library
@@ -172,26 +173,38 @@ const library = createKamodOpenUILibrary({
 - Client streaming: pass growing `content` and `isStreaming={true}` to `KamodOpenUIRenderer`
 - Streaming SSR is intentionally not abstracted in the MVP
 
-## Registered MVP components
+## Registered components
 
-| Group       | Components                                                                           |
-| ----------- | ------------------------------------------------------------------------------------ |
-| Layout      | `Stack`, `Inline`, `Grid`, `Card`                                                    |
-| Content     | `Heading`, `Text`, `Divider`                                                         |
-| Feedback    | `Alert`, `Badge`, `Progress`, `Skeleton`                                             |
-| Interaction | `Button`, `Link`, `Tabs`, `Accordion`                                                |
-| Forms       | `Form`, `Field`, `Input`, `Textarea`, `Select`, `Checkbox`, `Switch`, `SubmitButton` |
+| Group       | Components |
+| ----------- | ---------- |
+| Layout      | `Stack`, `Inline`, `Grid`, `Card`, `ScrollArea`, `AspectRatio` |
+| Content     | `Heading`, `Text`, `Divider`, `Label`, `Avatar`, `Empty`, `Image`, `Video`, `Item`, `Prose`, `Kbd` |
+| Feedback    | `Alert`, `Badge`, `Progress`, `Skeleton`, `Spinner`, `Tooltip`, `Toast`, `Sonner`, `Chart` |
+| Actions     | `Button`, `ButtonGroup`, `Link`, `Tabs`, `Accordion`, `Collapsible`, `Toggle`, `ToggleGroup`, `ThemeToggle` |
+| Overlays    | `Dialog`, `AlertDialog`, `Popover`, `HoverCard`, `Dropdown`, `Drawer`, `Sheet`, `Command`, `ContextMenu` |
+| Navigation  | `Breadcrumb`, `Pagination`, `Sidebar`, `NavigationMenu`, `Menubar`, `LocaleSegmentGroup` |
+| Data        | `Table`, `DataTable`, `Calendar` |
+| Forms       | `Form`, `Field`, `Input`, `Textarea`, `Select`, `RichSelect`, `Combobox`, `Checkbox`, `Switch`, `RadioGroup`, `Slider`, `DatePicker`, `InputOtp`, `InputGroup`, `SelectableCard`, `SubmitButton` |
 
 ### Adapter primitives (not core exports)
 
 `Stack`, `Inline`, `Grid`, `Form`, `Link`, and `SubmitButton` are adapter wrappers. They map to Kamod primitives (`Typography`, `Separator`, `Button`, `Field`, native `<form>`, etc.) and are documented as such — not silent fake re-exports from `@kamod-ch/ui`.
 
+### Explicitly excluded
+
+| Core | Reason |
+| ---- | ------ |
+| `Dropzone` | File uploads are a security risk for generative UI |
+| `Direction` | RTL/LTR provider is host-owned, not LLM-emitted |
+| Free `Typography` / `Separator` / `NativeSelect` / `Field` | Already covered by `Heading`/`Text`, `Divider`, `Select`, and OpenUI `Field` |
+
 ## Known limitations
 
-- Nested `Stack`/`Grid`/`Card` inside themselves is disallowed in the MVP to bound recursion
+- Nested `Stack`/`Grid`/`Card` inside themselves is disallowed to bound recursion
 - Tabs use Kamod’s uncontrolled `defaultValue` API
-- Select uses `NativeSelect` for a flat options API
-- No charts, dialogs, date pickers, command palette, or free HTML in MVP
+- Select uses `NativeSelect` for a flat options API; use `RichSelect` for the full Select surface
+- Prose accepts plain text only (no HTML / `dangerouslySetInnerHTML`)
+- Media URLs (`Image`, `Video`, `Avatar`) are validated via `validateMediaUrl`
 
 ## Public API
 
@@ -211,7 +224,7 @@ import type {
 } from "@kamod-ch/openui";
 ```
 
-Subpaths: `@kamod-ch/openui/library`, `@kamod-ch/openui/presets/basic`, `@kamod-ch/openui/presets/forms`, `@kamod-ch/openui/prompts`.
+Subpaths: `@kamod-ch/openui/library`, `@kamod-ch/openui/presets/basic`, `@kamod-ch/openui/presets/forms`, `@kamod-ch/openui/presets/dashboard`, `@kamod-ch/openui/prompts`.
 
 ## License
 

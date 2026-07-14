@@ -10,15 +10,30 @@ import {
 import { alignmentSchema, spacingSchema, widthSchema } from "../tokens/schemas";
 import { alignmentClass, spacingGapClass, widthClass } from "../tokens/variants";
 import { alertComponent } from "./Alert";
+import { avatarComponent } from "./Avatar";
 import { badgeComponent } from "./Badge";
 import { buttonComponent } from "./Button";
+import { chartComponent } from "./Chart";
+import { dataTableComponent } from "./DataTable";
 import { dividerComponent } from "./Divider";
+import { emptyComponent } from "./Empty";
 import { checkboxComponent, switchComponent } from "./Form";
 import { headingComponent } from "./Heading";
+import { imageComponent } from "./Image";
+import { itemComponent } from "./Item";
+import { kbdComponent } from "./Kbd";
+import { labelComponent } from "./Label";
 import { linkComponent } from "./Link";
+import { localeSegmentGroupComponent } from "./LocaleSegmentGroup";
 import { progressComponent } from "./Progress";
+import { proseComponent } from "./Prose";
 import { skeletonComponent } from "./Skeleton";
+import { spinnerComponent } from "./Spinner";
 import { textComponent } from "./Text";
+import { themeToggleComponent } from "./ThemeToggle";
+import { toastComponent } from "./Toast";
+import { tooltipComponent } from "./Tooltip";
+import { videoComponent } from "./Video";
 
 /** Leaf + feedback + actions allowed inside layout/card (no nested Stack/Grid/Card). */
 export const contentChildUnion = z.union([
@@ -29,6 +44,20 @@ export const contentChildUnion = z.union([
   alertComponent.ref,
   progressComponent.ref,
   skeletonComponent.ref,
+  spinnerComponent.ref,
+  emptyComponent.ref,
+  avatarComponent.ref,
+  labelComponent.ref,
+  tooltipComponent.ref,
+  imageComponent.ref,
+  videoComponent.ref,
+  itemComponent.ref,
+  kbdComponent.ref,
+  chartComponent.ref,
+  proseComponent.ref,
+  toastComponent.ref,
+  themeToggleComponent.ref,
+  localeSegmentGroupComponent.ref,
   buttonComponent.ref,
   linkComponent.ref,
   switchComponent.ref,
@@ -98,38 +127,14 @@ export const cardComponent = defineComponent({
   ),
 });
 
-const stackChildUnion = z.union([contentChildUnion, inlineComponent.ref, cardComponent.ref]);
-
-export const stackComponent = defineComponent({
-  name: "Stack",
-  description:
-    "Vertical flex layout. First arg is children. Prefer Stack as the root for page sections.",
-  props: z.object({
-    children: z.array(stackChildUnion).max(DEFAULT_MAX_CHILDREN_PER_NODE).default([]),
-    gap: spacingSchema,
-    align: alignmentSchema,
-    width: widthSchema,
-  }),
-  component: ({ props, renderNode }) => (
-    <div
-      class={cn(
-        "flex flex-col",
-        spacingGapClass[props.gap],
-        alignmentClass[props.align],
-        widthClass[props.width],
-      )}
-      data-slot="openui-stack"
-    >
-      {renderNode(props.children)}
-    </div>
-  ),
-});
+/** Leaves + surfaces for Grid cells (no nested Grid/Stack — keeps tree bounds). */
+const gridChildUnion = z.union([contentChildUnion, inlineComponent.ref, cardComponent.ref]);
 
 export const gridComponent = defineComponent({
   name: "Grid",
   description: "CSS grid layout. First arg is children, then columns (1–4).",
   props: z.object({
-    children: z.array(stackChildUnion).max(DEFAULT_MAX_CHILDREN_PER_NODE).default([]),
+    children: z.array(gridChildUnion).max(DEFAULT_MAX_CHILDREN_PER_NODE).default([]),
     columns: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]).default(2),
     gap: spacingSchema,
     width: widthSchema,
@@ -152,4 +157,38 @@ export const gridComponent = defineComponent({
       </div>
     );
   },
+});
+
+/** Stack may compose grids, data tables, and cards for dashboard-style pages. */
+const stackChildUnion = z.union([
+  contentChildUnion,
+  inlineComponent.ref,
+  cardComponent.ref,
+  gridComponent.ref,
+  dataTableComponent.ref,
+]);
+
+export const stackComponent = defineComponent({
+  name: "Stack",
+  description:
+    "Vertical flex layout. First arg is children. Prefer Stack as the root for page sections. May contain Grid, Card, Table, and leaf content — not nested Stack.",
+  props: z.object({
+    children: z.array(stackChildUnion).max(DEFAULT_MAX_CHILDREN_PER_NODE).default([]),
+    gap: spacingSchema,
+    align: alignmentSchema,
+    width: widthSchema,
+  }),
+  component: ({ props, renderNode }) => (
+    <div
+      class={cn(
+        "flex flex-col",
+        spacingGapClass[props.gap],
+        alignmentClass[props.align],
+        widthClass[props.width],
+      )}
+      data-slot="openui-stack"
+    >
+      {renderNode(props.children)}
+    </div>
+  ),
 });

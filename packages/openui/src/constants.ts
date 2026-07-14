@@ -1,5 +1,5 @@
 /** Adapter package version — independent of OpenUI Lang version. */
-export const KAMOD_OPENUI_ADAPTER_VERSION = "0.1.0";
+export const KAMOD_OPENUI_ADAPTER_VERSION = "0.5.0";
 
 export const DEFAULT_MAX_TREE_DEPTH = 12;
 export const DEFAULT_MAX_CHILDREN_PER_NODE = 50;

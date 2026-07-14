@@ -9,24 +9,31 @@
 - **Risk**: MED (Preact/`preact/compat` + React peer)
 - **Depends on**: `@kamod-ch/ui` 0.2.x
 - **Category**: direction
-- **Status**: DONE (MVP)
+- **Status**: DONE (Phases 1–4 expansion)
 
 ## Delivered
 
-- Workspace package `packages/openui` published as `@kamod-ch/openui`
+- Workspace package `packages/openui` published as `@kamod-ch/openui` (`0.6.0`)
 - Preact/compat spike validated (Vitest aliases + SSR via `preact-render-to-string`)
-- 23 MVP OpenUI components with Zod schemas and token mappings
-- `KamodOpenUIRenderer`, presets, prompts, security/navigation policies
-- Demo doc page `/openui` with three static fixtures + simulated streaming
+- Full OpenUI component set (60+ registered adapters) with Zod schemas and token mappings
+- `KamodOpenUIRenderer`, presets (`basic`, `forms`, `dashboard`), prompts, security/navigation/media policies
+- Demo doc page `/openui` with fixtures + simulated streaming
 - Root scripts: `test:openui`, `qa:openui`; CI `test:ci` / publint / attw include openui
 
 ## Adapter deviations (documented)
 
 - `Stack`, `Inline`, `Grid`, `Form`, `Link`, `SubmitButton` are adapter primitives
 - `Heading`/`Text` → `Typography`; `Divider` → `Separator`; `Select` → `NativeSelect`
-- No nested Stack/Grid/Card recursion in MVP
+- `RichSelect` maps to the full `@kamod-ch/ui/select` surface
+- No nested Stack/Grid/Card recursion (bounds tree depth)
+
+## Explicit exclusions
+
+- `Dropzone` — file upload risk; not exposed to the LLM
+- `Direction` — host-owned RTL/LTR provider
 
 ## Follow-ups
 
 - npm publish workflow (same gap as `@kamod-ch/themes`)
-- Dashboard preset, dialogs, controlled Tabs in core
+- Controlled Tabs in core (OpenUI still uses `defaultValue`)
+- Optional controlled nesting depth for Stack/Grid/Card (max 2)

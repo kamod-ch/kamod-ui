@@ -309,6 +309,10 @@ export const docsRouteManifest = [
     ],
   },
   {
+    slug: "dashboard-generator",
+    sections: ["installation", "usage", "generator", "byok", "accessibility", "api-reference"],
+  },
+  {
     slug: "data-table",
     sections: [
       "installation",

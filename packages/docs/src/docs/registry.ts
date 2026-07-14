@@ -17,6 +17,7 @@ import { collapsibleDocPage } from "./pages/collapsible-doc";
 import { comboboxDocPage } from "./pages/combobox-doc";
 import { commandDocPage } from "./pages/command-doc";
 import { contextMenuDocPage } from "./pages/context-menu-doc";
+import { dashboardGeneratorDocPage } from "./pages/dashboard-generator-doc";
 import { dataTableDocPage } from "./pages/data-table-doc";
 import { datePickerDocPage } from "./pages/date-picker-doc";
 import { dialogDocPage } from "./pages/dialog-doc";
@@ -86,6 +87,7 @@ export const docsPages: DocPageModule[] = [
   contextMenuDocPage,
   dataTableDocPage,
   datePickerDocPage,
+  dashboardGeneratorDocPage,
   dialogDocPage,
   directionDocPage,
   dropdownDocPage,
@@ -169,7 +171,7 @@ export const docsUpdatedComponentSlugs = new Set([
 ]);
 
 /** Shown with a "new" badge for package docs. */
-export const docsNewPackageSlugs = new Set<string>();
+export const docsNewPackageSlugs = new Set<string>(["dashboard-generator"]);
 
 export const packageOverviewItems: ComponentOverviewItem[] = [];
 

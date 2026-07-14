@@ -81,3 +81,21 @@ export function validateNavigationTarget(
 
   return { allowed: true, href: parsed.href, external: isExternal };
 }
+
+export type MediaUrlDecision = { allowed: true; href: string } | { allowed: false; reason: string };
+
+/**
+ * Validate image/video/avatar media URLs.
+ * Allows https/http absolute URLs and relative paths; blocks javascript/data/blob/vbscript.
+ */
+export function validateMediaUrl(target: string, policy: NavigationPolicy = {}): MediaUrlDecision {
+  const decision = validateNavigationTarget(target, {
+    allowExternal: policy.allowExternal ?? true,
+    allowedOrigins: policy.allowedOrigins,
+    allowedProtocols: policy.allowedProtocols ?? ["https:", "http:"],
+  });
+  if (!decision.allowed) {
+    return { allowed: false, reason: decision.reason };
+  }
+  return { allowed: true, href: decision.href };
+}

@@ -4,6 +4,8 @@ import { describe, expect, it, vi } from "vitest";
 import { KAMOD_OPENUI_ADAPTER_VERSION } from "../constants";
 import {
   CONTACT_FORM_LANG,
+  DASHBOARD_LANG,
+  EMPTY_STATE_LANG,
   SETTINGS_UI_LANG,
   SIMPLE_CARD_LANG,
   STATUS_CARD_LANG,
@@ -45,7 +47,7 @@ describe("security", () => {
 });
 
 describe("library", () => {
-  it("registers the MVP component set", () => {
+  it("registers the expanded component set", () => {
     const names = Object.keys(kamodOpenUILibrary.components);
     expect(names).toEqual(
       expect.arrayContaining([
@@ -60,10 +62,16 @@ describe("library", () => {
         "Badge",
         "Progress",
         "Skeleton",
+        "Spinner",
+        "Empty",
+        "Avatar",
+        "Label",
+        "Tooltip",
         "Button",
         "Link",
         "Tabs",
         "Accordion",
+        "Collapsible",
         "Form",
         "Field",
         "Input",
@@ -71,14 +79,54 @@ describe("library", () => {
         "Select",
         "Checkbox",
         "Switch",
+        "RadioGroup",
         "SubmitButton",
+        "Dialog",
+        "AlertDialog",
+        "DatePicker",
+        "Combobox",
+        "RichSelect",
+        "Slider",
+        "Table",
+        "DataTable",
+        "Pagination",
+        "Breadcrumb",
+        "Popover",
+        "HoverCard",
+        "Dropdown",
+        "Drawer",
+        "Sheet",
+        "ScrollArea",
+        "Image",
+        "Video",
+        "InputOtp",
+        "InputGroup",
+        "SelectableCard",
+        "Item",
+        "ButtonGroup",
+        "Toggle",
+        "ToggleGroup",
+        "Command",
+        "Calendar",
+        "Chart",
+        "Toast",
+        "Sonner",
+        "Sidebar",
+        "NavigationMenu",
+        "Menubar",
+        "ContextMenu",
+        "AspectRatio",
+        "Prose",
+        "ThemeToggle",
+        "Kbd",
+        "LocaleSegmentGroup",
       ]),
     );
-    expect(names.length).toBeGreaterThanOrEqual(12);
+    expect(names.length).toBeGreaterThanOrEqual(60);
   });
 
   it("exposes adapter version", () => {
-    expect(KAMOD_OPENUI_ADAPTER_VERSION).toBe("0.1.0");
+    expect(KAMOD_OPENUI_ADAPTER_VERSION).toBe("0.5.0");
   });
 });
 
@@ -108,6 +156,19 @@ describe("parser fixtures", () => {
   it("parses settings tabs example", () => {
     const result = parser.parse(SETTINGS_UI_LANG);
     expect(result.root?.typeName).toBe("Tabs");
+  });
+
+  it("parses empty state example", () => {
+    const result = parser.parse(EMPTY_STATE_LANG);
+    expect(result.root?.typeName).toBe("Stack");
+    expect(result.meta.errors.filter((e) => e.code === "unknown-component")).toHaveLength(0);
+  });
+
+  it("parses dashboard example", () => {
+    const result = parser.parse(DASHBOARD_LANG);
+    expect(result.root?.typeName).toBe("Stack");
+    const unknown = result.meta.errors.filter((e) => e.code === "unknown-component");
+    expect(unknown, JSON.stringify(unknown)).toHaveLength(0);
   });
 
   it("reports unknown components", () => {

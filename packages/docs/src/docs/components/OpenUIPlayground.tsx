@@ -1,6 +1,7 @@
 import { KamodOpenUIRenderer } from "@kamod-ch/openui";
 import {
   CONTACT_FORM_LANG,
+  EMPTY_STATE_LANG,
   SETTINGS_UI_LANG,
   SIMPLE_CARD_LANG,
   STATUS_CARD_LANG,
@@ -13,6 +14,7 @@ const FIXTURES = {
   "Status card": STATUS_CARD_LANG,
   "Contact form": CONTACT_FORM_LANG,
   "Settings tabs": SETTINGS_UI_LANG,
+  "Empty state": EMPTY_STATE_LANG,
 } as const;
 
 type FixtureKey = keyof typeof FIXTURES;

@@ -259,6 +259,164 @@ html.dark .docs-mobile-sheet {
   white-space: pre-wrap;
 }
 
+.dashboard-generator {
+  display: grid;
+  gap: 1rem;
+  width: 100%;
+  max-width: 100%;
+}
+
+.dashboard-generator-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.dashboard-generator-quick,
+.dashboard-generator-toolbar-actions,
+.dashboard-generator-chat-actions,
+.dashboard-generator-preview-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.dashboard-generator-settings {
+  display: grid;
+  gap: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  padding: 0.85rem 1rem;
+  background: color-mix(in oklab, var(--background) 94%, var(--foreground));
+}
+
+.dashboard-generator-settings-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dashboard-generator-settings-fields {
+  display: grid;
+  gap: 0.75rem;
+}
+
+@media (min-width: 720px) {
+  .dashboard-generator-settings-fields {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.dashboard-generator-settings-note,
+.dashboard-generator-footnote,
+.dashboard-generator-muted {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted-foreground);
+}
+
+.dashboard-generator-error {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--destructive, #b42318);
+}
+
+.dashboard-generator-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 960px) {
+  .dashboard-generator-grid {
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    align-items: start;
+  }
+}
+
+.dashboard-generator-label {
+  margin: 0 0 0.4rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted-foreground);
+}
+
+.dashboard-generator-turns {
+  display: grid;
+  gap: 0.5rem;
+  max-height: 14rem;
+  overflow: auto;
+  margin-bottom: 0.75rem;
+  padding: 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  background: var(--background);
+}
+
+.dashboard-generator-turn-role {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted-foreground);
+  margin-bottom: 0.2rem;
+}
+
+.dashboard-generator-turn-body {
+  margin: 0;
+  white-space: pre-wrap;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.dashboard-generator-preview-surface,
+.dashboard-generator-lang-editor {
+  width: 100%;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border);
+  background: var(--background);
+  padding: 1rem;
+  min-height: 14rem;
+}
+
+.dashboard-generator-textarea {
+  width: 100%;
+  min-height: 16rem;
+  resize: vertical;
+  margin-bottom: 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border);
+  background: color-mix(in oklab, var(--background) 92%, var(--foreground));
+  color: var(--foreground);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  padding: 0.75rem;
+}
+
+.dashboard-generator-log-output {
+  margin: 0;
+  min-height: 6rem;
+  max-height: 10rem;
+  overflow: auto;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border);
+  background: color-mix(in oklab, var(--background) 92%, var(--foreground));
+  color: var(--muted-foreground);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  padding: 0.75rem;
+  white-space: pre-wrap;
+}
+
 .openui-fixture-block {
   display: grid;
   gap: 0.75rem;
