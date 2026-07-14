@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - "packages/docs/**"
+      - "packages/docs/*"
       - "packages/core/**"
       - "packages/themes/**"
       - "packages/openui/**"
