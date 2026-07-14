@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["vite/client", "vitest"],
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@kamod-ch/ui": ["../core/src/index.ts"],
+      "@kamod-ch/preactpress/config": ["./node_modules/@kamod-ch/preactpress/dist/node/config-helpers.d.ts"],
+      "@kamod-ch/preactpress/client": ["./node_modules/@kamod-ch/preactpress/dist/client/index.d.ts"]
+    }
+  },
+  "include": ["src", ".preactpress/**/*.ts", ".preactpress/**/*.tsx", "vitest.config.ts"]
+}

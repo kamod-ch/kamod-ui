@@ -23,6 +23,7 @@
   "scripts": {
     "prepare": "lefthook install",
     "build": "pnpm -r build",
+    "build:docs": "pnpm --filter @kamod-ch/themes build && pnpm --filter @kamod-ch/ui build && pnpm --filter @kamod-ch/openui build && pnpm --filter @kamod-ch/ui-docs build",
     "test": "pnpm --filter @kamod-ch/ui test",
     "test:openui": "pnpm --filter @kamod-ch/openui test",
     "test:coverage": "pnpm --filter @kamod-ch/ui test:coverage",
@@ -50,7 +51,7 @@
     "dev": "pnpm --filter @kamod-ch/ui-docs dev",
     "dev:docs": "pnpm --filter @kamod-ch/ui-docs dev",
     "dev:demo": "pnpm --filter @kamod-ch/ui-docs dev",
-    "build:pages": "sh -c 'VITE_BASE_PATH=${VITE_BASE_PATH:-/kamod-ui/} pnpm run build'",
+    "build:pages": "sh -c 'VITE_BASE_PATH=${VITE_BASE_PATH:-/kamod-ui/} pnpm run build:docs'",
     "preview:pages": "pnpm run build:pages && pnpm --filter @kamod-ch/ui-docs preview",
     "qa:themes": "pnpm --filter @kamod-ch/ui-docs qa:themes",
     "qa:publint": "pnpm --filter @kamod-ch/ui publint && pnpm --filter @kamod-ch/openui publint",
