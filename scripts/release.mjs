@@ -56,10 +56,6 @@ function readCoreVersion() {
   return readCorePackage().version;
 }
 
-function assertNpmLogin() {
-  output("npm whoami --registry=https://registry.npmjs.org");
-}
-
 if (!allowed.has(bump)) {
   fail(`invalid release type: ${bump}. Use one of: patch, minor, major`);
 }
@@ -78,8 +74,6 @@ const corePackage = readCorePackage();
 const packageName = corePackage.name;
 const currentVersion = corePackage.version;
 console.log(`[release] Preparing ${packageName}@${currentVersion}${dryRun ? " (dry run)" : ""}`);
-
-assertNpmLogin();
 
 run("pnpm install --frozen-lockfile");
 run("pnpm run release:check");
@@ -103,12 +97,12 @@ run("git add packages/core/package.json pnpm-lock.yaml");
 run(`git commit -m "chore(core): release v${newVersion}"`);
 run(`git tag v${newVersion}`);
 
-console.log("\n[release] Publishing to npm from packages/core …");
-run("pnpm publish --access public --no-git-checks", { cwd: coreDir });
-
 run("git push origin main");
 run(`git push origin v${newVersion}`);
 
-console.log("\n[release] Release completed successfully.");
+console.log("\n[release] Release tag pushed successfully.");
+console.log(
+  "[release] GitHub Actions will publish to npm with provenance (see .github/workflows/publish.yml).",
+);
 console.log(`[release] npm: https://www.npmjs.com/package/${packageName}/v/${newVersion}`);
 console.log("[release] Push to main will deploy docs via GitHub Pages workflow.");

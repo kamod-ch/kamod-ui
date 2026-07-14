@@ -32,46 +32,40 @@ npm view @kamod-ui/core deprecated
 
 ## Release workflow
 
-### Recommended local release
+### Recommended release
 
 1. Update [`CHANGELOG.md`](../CHANGELOG.md) for the release (optional but recommended).
-2. Authenticate with npm (once per machine, or set `NODE_AUTH_TOKEN`):
-
-   ```bash
-   npm login
-   # or: export NODE_AUTH_TOKEN=<your-npm-token>
-   pnpm release:auth
-   ```
-
-3. Regenerate component size docs (optional but recommended before a release):
+2. Regenerate component size docs (optional but recommended before a release):
 
    ```bash
    pnpm docs:components
    ```
 
-4. Dry-run first (checks, build, tests, and `npm pack` without publishing):
+3. Dry-run first (checks, build, tests, and `npm pack` without publishing):
 
    ```bash
    pnpm release:dry
    ```
 
-5. Version, tag, push, and publish:
+4. Bump version, commit, tag, and push:
 
    ```bash
    pnpm release          # patch bump (default)
-   pnpm release:minor      # minor bump
-   pnpm release:major      # major bump
+   pnpm release:minor    # minor bump
+   pnpm release:major    # major bump
    ```
 
-   `pnpm release` runs [`scripts/release.mjs`](../scripts/release.mjs): pre-checks (`release:check`) → bump `packages/core/package.json` → `syncpack:fix` → commit + tag → `pnpm publish` → push `main` and tag.
+   `pnpm release` runs [`scripts/release.mjs`](../scripts/release.mjs): pre-checks (`release:check`) → bump `packages/core/package.json` → `syncpack:fix` → commit + tag → push `main` and tag.
 
-   Requires branch `main` and a clean working tree.
+   Requires branch `main` and a clean working tree. **npm publish happens in CI only** — no local `pnpm publish`.
+
+   After the tag push, watch [`.github/workflows/publish.yml`](../.github/workflows/publish.yml) on GitHub Actions for the npm publish step.
 
    If you already ran `pnpm release` and CI fails on syncpack only, fix with `pnpm syncpack:fix && pnpm install`, commit, and `git push` — do **not** run `pnpm release` again (that would bump to the next version).
 
-### CI release (tag push)
+### CI publish (tag push)
 
-Tagged pushes (`v*`) trigger [`.github/workflows/publish.yml`](../.github/workflows/publish.yml), which runs typecheck, lint, tests, build, publint, attw, then publishes **`@kamod-ch/ui`** to [npmjs.org](https://www.npmjs.com/package/@kamod-ch/ui) with `--provenance` (requires GitHub Actions OIDC + `NPM_TOKEN` secret).
+Tagged pushes (`v*`) trigger [`.github/workflows/publish.yml`](../.github/workflows/publish.yml), which runs typecheck, lint, tests, build, publint, attw, then publishes **`@kamod-ch/ui`** to [npmjs.org](https://www.npmjs.com/package/@kamod-ch/ui) with `--provenance` (requires GitHub Actions OIDC + `NPM_TOKEN` secret). This is the **only** path used by `pnpm release`.
 
 #### GitHub Actions `NPM_TOKEN` secret
 
@@ -94,13 +88,13 @@ The workflow appends auth tokens to the committed [`.npmrc`](../.npmrc) (scope l
 | `release:publish`          | Publishes `@kamod-ch/ui` with `--access public --no-git-checks` |
 | `release:deprecate-legacy` | Deprecates `@kamod-ui/core@*` on npm (one-time; needs 2FA)      |
 | `release:quick`            | `install` → package checks → auth → publish (no version bump)   |
-| `release`                  | Patch release via `scripts/release.mjs`                         |
+| `release`                  | Patch release: bump, commit, tag, push (CI publishes to npm)    |
 | `release:minor`            | Minor release via `scripts/release.mjs`                         |
 | `release:major`            | Major release via `scripts/release.mjs`                         |
 | `release:dry`              | Pre-checks + `npm pack` dry run (no bump, no publish)           |
 | `docs:components`          | Build core + regenerate [`.docs/COMPONENTS.md`](COMPONENTS.md)  |
 
-Local `pnpm release:publish` does not pass `--provenance` (npm cannot detect a CI provider on your machine). Provenance is enabled only in GitHub Actions.
+`pnpm release` does not publish locally. Use `release:quick` / `release:publish` only for manual republish edge cases (no `--provenance`).
 
 ## Documentation maintenance
 
