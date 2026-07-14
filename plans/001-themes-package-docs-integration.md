@@ -116,15 +116,15 @@ Repo conventions to match:
 
 ## Commands you will need
 
-| Purpose | Command | Expected on success |
-|---------|---------|---------------------|
-| Install/update lockfile | `pnpm install` | exit 0 |
-| Package build | `pnpm --filter @kamod-ch/themes build` | exit 0 and `packages/themes/dist` exists |
-| Themes tests | `pnpm --filter @kamod-ch/themes test` | all tests pass |
-| Demo typecheck | `pnpm --filter @kamod-ch/ui-docs typecheck` | exit 0, no TypeScript errors |
-| Demo tests | `pnpm --filter @kamod-ch/ui-docs test` | all tests pass |
-| Full recursive typecheck | `pnpm typecheck` | exit 0 |
-| Full build | `pnpm build` | exit 0 |
+| Purpose                  | Command                                     | Expected on success                      |
+| ------------------------ | ------------------------------------------- | ---------------------------------------- |
+| Install/update lockfile  | `pnpm install`                              | exit 0                                   |
+| Package build            | `pnpm --filter @kamod-ch/themes build`      | exit 0 and `packages/themes/dist` exists |
+| Themes tests             | `pnpm --filter @kamod-ch/themes test`       | all tests pass                           |
+| Demo typecheck           | `pnpm --filter @kamod-ch/ui-docs typecheck` | exit 0, no TypeScript errors             |
+| Demo tests               | `pnpm --filter @kamod-ch/ui-docs test`      | all tests pass                           |
+| Full recursive typecheck | `pnpm typecheck`                            | exit 0                                   |
+| Full build               | `pnpm build`                                | exit 0                                   |
 
 ## Scope
 

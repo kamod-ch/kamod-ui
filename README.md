@@ -105,6 +105,7 @@ Browse the [live component docs](https://ui.kamod.ch/docs/button) for variants, 
 ## Troubleshooting (Tailwind v4)
 
 ### Components look unstyled
+
 Make sure your global CSS imports both files, in this order:
 
 ```css
@@ -115,6 +116,7 @@ Make sure your global CSS imports both files, in this order:
 If `theme.css` is missing, Kamod's component classes and semantic tokens will not compile.
 
 ### Tailwind works in CSS but utility classes are missing in Vite
+
 If you're using Vite, make sure the Tailwind v4 plugin is installed and enabled:
 
 ```ts
@@ -128,9 +130,11 @@ export default defineConfig({
 Without the plugin, Vite may not process the Tailwind v4 import pipeline correctly.
 
 ### You're on Tailwind v3
+
 Kamod UI requires Tailwind CSS v4. Tailwind v3 does not support the import-based setup used here.
 
 ### Theme overrides do not apply
+
 Override CSS variables after importing `theme.css`, not before it:
 
 ```css
@@ -248,9 +252,9 @@ Open the URL printed in the terminal for the kitchen sink and component docs. Qu
 
 ## Contributing
 
-| Workspace      | Path             | Role                                     |
-| -------------- | ---------------- | ---------------------------------------- |
-| `@kamod-ch/ui` | `packages/core/` | Published library (65 component exports) |
+| Workspace           | Path             | Role                                     |
+| ------------------- | ---------------- | ---------------------------------------- |
+| `@kamod-ch/ui`      | `packages/core/` | Published library (65 component exports) |
 | `@kamod-ch/ui-docs` | `packages/docs/` | Kitchen sink + interactive docs          |
 
 - Open issues for bugs and ideas; PRs welcome for components, docs, and examples.

@@ -16,13 +16,13 @@ pnpm add @kamod-ch/openui @kamod-ch/ui @openuidev/react-lang zod preact @preact/
 
 ## Prerequisites
 
-| Dependency | Supported |
-|------------|-----------|
-| `@kamod-ch/ui` | `^0.2.1` |
-| `@openuidev/react-lang` | `^0.2.8` |
-| `preact` | `^10.29.2` |
-| `zod` | `^3.25.0 \|\| ^4.0.0` |
-| Node | `>=20` |
+| Dependency              | Supported             |
+| ----------------------- | --------------------- |
+| `@kamod-ch/ui`          | `^0.2.1`              |
+| `@openuidev/react-lang` | `^0.2.8`              |
+| `preact`                | `^10.29.2`            |
+| `zod`                   | `^3.25.0 \|\| ^4.0.0` |
+| Node                    | `>=20`                |
 
 Adapter version constant: `KAMOD_OPENUI_ADAPTER_VERSION` (`0.1.0`). OpenUI Lang version comes from upstream only.
 
@@ -47,10 +47,7 @@ Do not bundle a second React runtime beside Preact.
 ## Quick start
 
 ```tsx
-import {
-  KamodOpenUIRenderer,
-  kamodOpenUILibrary,
-} from "@kamod-ch/openui";
+import { KamodOpenUIRenderer, kamodOpenUILibrary } from "@kamod-ch/openui";
 
 export function GeneratedInterface({ content }: { content: string }) {
   return (
@@ -177,13 +174,13 @@ const library = createKamodOpenUILibrary({
 
 ## Registered MVP components
 
-| Group | Components |
-|-------|------------|
-| Layout | `Stack`, `Inline`, `Grid`, `Card` |
-| Content | `Heading`, `Text`, `Divider` |
-| Feedback | `Alert`, `Badge`, `Progress`, `Skeleton` |
-| Interaction | `Button`, `Link`, `Tabs`, `Accordion` |
-| Forms | `Form`, `Field`, `Input`, `Textarea`, `Select`, `Checkbox`, `Switch`, `SubmitButton` |
+| Group       | Components                                                                           |
+| ----------- | ------------------------------------------------------------------------------------ |
+| Layout      | `Stack`, `Inline`, `Grid`, `Card`                                                    |
+| Content     | `Heading`, `Text`, `Divider`                                                         |
+| Feedback    | `Alert`, `Badge`, `Progress`, `Skeleton`                                             |
+| Interaction | `Button`, `Link`, `Tabs`, `Accordion`                                                |
+| Forms       | `Form`, `Field`, `Input`, `Textarea`, `Select`, `Checkbox`, `Switch`, `SubmitButton` |
 
 ### Adapter primitives (not core exports)
 

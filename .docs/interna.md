@@ -22,9 +22,9 @@ kamod-ui/
 
 Das Projekt ist ein **pnpm-Workspace** mit zwei Haupt-Workspaces:
 
-| Workspace      | Pfad             | Zweck                             |
-| -------------- | ---------------- | --------------------------------- |
-| `@kamod-ch/ui` | `packages/core/` | Veröffentlichbare UI-Komponenten  |
+| Workspace           | Pfad             | Zweck                             |
+| ------------------- | ---------------- | --------------------------------- |
+| `@kamod-ch/ui`      | `packages/core/` | Veröffentlichbare UI-Komponenten  |
 | `@kamod-ch/ui-docs` | `packages/docs/` | Docs-App, Kitchen Sink, Live-Doku |
 
 ---
@@ -36,7 +36,7 @@ Der Name `docs` war im Repo irreführend — es gibt **zwei getrennte Konzepte**
 | Pfad                                       | Zweck                                                       | Konsument                                       |
 | ------------------------------------------ | ----------------------------------------------------------- | ----------------------------------------------- |
 | ~~`docs/images/`~~ → **`.github/assets/`** | Bilder für die **GitHub-README** (Logos, Kitchen-Sink-Hero) | GitHub rendert relative Pfade aus `README.md`   |
-| `packages/docs/src/docs/`                      | **Interaktive Komponenten-Dokumentation** der Demo-App      | Browser unter `/docs/button`, `/docs/dialog`, … |
+| `packages/docs/src/docs/`                  | **Interaktive Komponenten-Dokumentation** der Demo-App      | Browser unter `/docs/button`, `/docs/dialog`, … |
 
 Die Demo-App liest **keine** Dateien aus `.github/assets/`. Die README nutzt **keine** Dateien aus `packages/docs/src/docs/`.
 
@@ -144,7 +144,7 @@ In `pnpm check` und in der GitHub-CI läuft `biome:ci`.
 | Workspace       | Entry-Points                                    | Besonderheiten                                                   |
 | --------------- | ----------------------------------------------- | ---------------------------------------------------------------- |
 | `packages/core` | `src/components/**/index.ts`, Tests, Test-Setup | Ignoriert u. a. `@testing-library/preact`, Embla-Carousel-Pakete |
-| `packages/docs`     | `index.html`, E2E, Scripts                      | Ignoriert `src/docs/**` (Doku-Seiten), Tailwind/CSS-only-Deps    |
+| `packages/docs` | `index.html`, E2E, Scripts                      | Ignoriert `src/docs/**` (Doku-Seiten), Tailwind/CSS-only-Deps    |
 
 ```bash
 pnpm knip           # einzeln

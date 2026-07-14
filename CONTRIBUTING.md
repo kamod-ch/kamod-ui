@@ -27,7 +27,7 @@ apps
 | Path            | Description                                                |
 | --------------- | ---------------------------------------------------------- |
 | `packages/core` | Component library source, types, and unit tests.           |
-| `packages/docs`     | Local docs UI, examples, Vitest tests, and Playwright E2E. |
+| `packages/docs` | Local docs UI, examples, Vitest tests, and Playwright E2E. |
 
 Component documentation pages and registry wiring live under `packages/docs/src/docs/` (for example `docs/pages/*-doc.tsx` and `docs/registry.ts`).
 

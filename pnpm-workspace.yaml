@@ -4,6 +4,6 @@ allowBuilds:
   esbuild: false
   lefthook: false
 minimumReleaseAgeExclude:
-  - '@kamod-ch/preactpress@2.1.0'
+  - "@kamod-ch/preactpress@2.1.0"
 overrides:
-  '@kamod-ch/preactpress': link:../preactpress
+  "@kamod-ch/preactpress": link:../preactpress
