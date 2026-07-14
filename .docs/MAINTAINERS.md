@@ -34,14 +34,8 @@ npm view @kamod-ui/core deprecated
 
 ### Recommended local release
 
-1. Bump version in `packages/core/package.json` and update [`CHANGELOG.md`](../CHANGELOG.md).
-2. Run full pre-publish checks:
-
-   ```bash
-   pnpm release:check
-   ```
-
-3. Authenticate with npm (once per machine, or set `NODE_AUTH_TOKEN`):
+1. Update [`CHANGELOG.md`](../CHANGELOG.md) for the release (optional but recommended).
+2. Authenticate with npm (once per machine, or set `NODE_AUTH_TOKEN`):
 
    ```bash
    npm login
@@ -49,23 +43,29 @@ npm view @kamod-ui/core deprecated
    pnpm release:auth
    ```
 
-4. Regenerate component size docs (optional but recommended before a release):
+3. Regenerate component size docs (optional but recommended before a release):
 
    ```bash
    pnpm docs:components
    ```
 
+4. Dry-run first (checks, build, tests, and `npm pack` without publishing):
+
+   ```bash
+   pnpm release:dry
+   ```
+
 5. Version, tag, push, and publish:
 
    ```bash
-   pnpm release
+   pnpm release          # patch bump (default)
+   pnpm release:minor      # minor bump
+   pnpm release:major      # major bump
    ```
 
-   `pnpm release` runs: `commit-and-tag-version` → `git push --follow-tags` → `pnpm release:publish`.
+   `pnpm release` runs [`scripts/release.mjs`](../scripts/release.mjs): pre-checks (`release:check`) → bump `packages/core/package.json` → `syncpack:fix` → commit + tag → `pnpm publish` → push `main` and tag.
 
-   After each version bump, `postbump` runs `pnpm syncpack:fix` so `packages/docs` stays aligned with `@kamod-ch/ui` (CI `pnpm qa:deps`).
-
-   It does **not** run tests or `release:check` automatically — run those first.
+   Requires branch `main` and a clean working tree.
 
    If you already ran `pnpm release` and CI fails on syncpack only, fix with `pnpm syncpack:fix && pnpm install`, commit, and `git push` — do **not** run `pnpm release` again (that would bump to the next version).
 
@@ -94,7 +94,10 @@ The workflow appends auth tokens to the committed [`.npmrc`](../.npmrc) (scope l
 | `release:publish`          | Publishes `@kamod-ch/ui` with `--access public --no-git-checks` |
 | `release:deprecate-legacy` | Deprecates `@kamod-ui/core@*` on npm (one-time; needs 2FA)      |
 | `release:quick`            | `install` → package checks → auth → publish (no version bump)   |
-| `release`                  | Version bump + push tags + `release:publish`                    |
+| `release`                  | Patch release via `scripts/release.mjs`                         |
+| `release:minor`            | Minor release via `scripts/release.mjs`                         |
+| `release:major`            | Major release via `scripts/release.mjs`                         |
+| `release:dry`              | Pre-checks + `npm pack` dry run (no bump, no publish)           |
 | `docs:components`          | Build core + regenerate [`.docs/COMPONENTS.md`](COMPONENTS.md)  |
 
 Local `pnpm release:publish` does not pass `--provenance` (npm cannot detect a CI provider on your machine). Provenance is enabled only in GitHub Actions.

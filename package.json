@@ -62,13 +62,15 @@
     "release:auth": "npm whoami --registry=https://registry.npmjs.org || (echo 'Authenticate with: npm login (or set NODE_AUTH_TOKEN)' >&2; exit 1)",
     "release:deprecate-legacy": "pnpm release:auth && node scripts/deprecate-legacy-packages.mjs",
     "release:publish": "pnpm --filter @kamod-ch/ui publish --access public --no-git-checks",
-    "release": "commit-and-tag-version && git push --follow-tags && pnpm release:publish",
+    "release": "node ./scripts/release.mjs patch",
+    "release:minor": "node ./scripts/release.mjs minor",
+    "release:major": "node ./scripts/release.mjs major",
+    "release:dry": "node ./scripts/release.mjs patch --dry",
     "release:quick": "pnpm install && pnpm release:check:package && pnpm release:auth && pnpm release:publish"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.16",
     "@types/node": "^25.9.2",
-    "commit-and-tag-version": "^12.7.3",
     "knip": "^6.16.1",
     "lefthook": "^2.1.9",
     "oxfmt": "^0.54.0",
@@ -77,10 +79,5 @@
     "syncpack": "^15.3.1",
     "typescript": "^6.0.3"
   },
-  "packageManager": "pnpm@11.9.0",
-  "commit-and-tag-version": {
-    "scripts": {
-      "postbump": "pnpm syncpack:fix && pnpm install --lockfile-only"
-    }
-  }
+  "packageManager": "pnpm@11.9.0"
 }
