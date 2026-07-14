@@ -14,5 +14,13 @@
       "dependencyTypes": ["dev", "peer", "prod"],
       "isIgnored": true
     }
+  ],
+  "versionGroups": [
+    {
+      "label": "Preserve peer compatibility ranges",
+      "dependencies": ["@kamod-ch/themes", "@kamod-ch/ui", "zod"],
+      "dependencyTypes": ["peer"],
+      "isIgnored": true
+    }
   ]
 }

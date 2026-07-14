@@ -14,13 +14,7 @@ export {
   textareaComponent,
 } from "./Form";
 export { headingComponent } from "./Heading";
-export {
-  cardComponent,
-  contentChildUnion,
-  gridComponent,
-  inlineComponent,
-  stackComponent,
-} from "./Layout";
+export { cardComponent, gridComponent, inlineComponent, stackComponent } from "./Layout";
 export { linkComponent } from "./Link";
 export { progressComponent } from "./Progress";
 export { skeletonComponent } from "./Skeleton";

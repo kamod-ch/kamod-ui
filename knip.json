@@ -12,6 +12,7 @@
       "project": ["src/**/*.ts"],
       "ignoreDependencies": [
         "@testing-library/preact",
+        "@kamod-ch/themes",
         "embla-carousel",
         "embla-carousel-autoplay"
       ],
@@ -23,22 +24,32 @@
     },
     "packages/openui": {
       "entry": [
-        "src/index.ts",
-        "src/library/index.ts",
-        "src/presets/basic.ts",
-        "src/presets/forms.ts",
-        "src/prompts/index.ts",
-        "src/examples/fixtures.ts",
-        "src/**/*.test.tsx",
+        "src/compat/index.ts",
+        "src/security/index.ts",
+        "src/tokens/index.ts",
+        "src/**/*.test.{ts,tsx}",
         "src/test/setup.ts"
       ],
-      "project": ["src/**/*.{ts,tsx}"],
-      "ignoreDependencies": ["@testing-library/preact", "preact-render-to-string"]
+      "project": ["src/**/*.{ts,tsx}"]
+    },
+    "packages/themes": {
+      "entry": ["src/**/*.test.{ts,tsx}", "src/test/setup.ts"],
+      "project": ["src/**/*.{ts,tsx}"]
     },
     "packages/docs": {
-      "entry": ["index.html", "src/docs/**/*.{ts,tsx}", "e2e/**/*.ts", "scripts/**/*.{js,mjs}"],
-      "project": ["src/**/*.{ts,tsx}", "e2e/**/*.ts"],
+      "entry": [
+        ".preactpress/config.ts",
+        "index.html",
+        "src/main.tsx",
+        "src/kitchen-sink/KitchenSinkPage.tsx",
+        "src/docs/**/*.{ts,tsx}",
+        "e2e/**/*.ts",
+        "scripts/**/*.{js,mjs}"
+      ],
+      "project": ["src/**/*.{ts,tsx}", "e2e/**/*.ts", ".preactpress/**/*.ts"],
+      "ignoreBinaries": ["serve"],
       "ignoreDependencies": [
+        "@preact/preset-vite",
         "tailwindcss",
         "tw-animate-css",
         "@fontsource-variable/inter",
@@ -46,6 +57,5 @@
       ],
       "ignore": ["src/base-path.ts", "src/theme/theme-presets.ts"]
     }
-  },
-  "ignoreDependencies": ["preact"]
+  }
 }

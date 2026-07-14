@@ -65,12 +65,8 @@
     "release": "commit-and-tag-version && git push --follow-tags && pnpm release:publish",
     "release:quick": "pnpm install && pnpm release:check:package && pnpm release:auth && pnpm release:publish"
   },
-  "dependencies": {
-    "@kamod-ch/preactpress": "link:../preactpress"
-  },
   "devDependencies": {
     "@biomejs/biome": "^2.4.16",
-    "@preact/signals": "^2.9.1",
     "@types/node": "^25.9.2",
     "commit-and-tag-version": "^12.7.3",
     "knip": "^6.16.1",
@@ -82,15 +78,6 @@
     "typescript": "^6.0.3"
   },
   "packageManager": "pnpm@11.9.0",
-  "pnpm": {
-    "overrides": {
-      "vitest": "^4.1.8",
-      "picomatch": "4.0.4",
-      "@rollup/pluginutils>picomatch": "2.3.2",
-      "postcss": ">=8.5.10",
-      "fflate": "0.8.3"
-    }
-  },
   "commit-and-tag-version": {
     "scripts": {
       "postbump": "pnpm syncpack:fix && pnpm install --lockfile-only"
