@@ -31,5 +31,7 @@ describe("SelectableCard", () => {
     expect(cardB).toHaveAttribute("data-state", "checked");
     expect(cardB?.querySelector("[data-slot='selectable-card-indicator']")).toBeTruthy();
     expect(cardA?.querySelector("[data-slot='selectable-card-indicator']")).toBeNull();
+    expect(cardA?.querySelector(".pe-9")).toBeTruthy();
+    expect(cardB?.querySelector(".pe-9")).toBeTruthy();
   });
 });

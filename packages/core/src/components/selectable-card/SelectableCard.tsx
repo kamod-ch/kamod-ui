@@ -7,10 +7,13 @@ function SelectableCardSelectedIndicator() {
   return (
     <span
       data-slot="selectable-card-indicator"
-      class="pointer-events-none flex size-[22px] shrink-0 items-center justify-center rounded-full border-[2.5px] border-black bg-white shadow-[0_1px_4px_rgba(0,0,0,0.12)] dark:border-white dark:bg-neutral-950 dark:shadow-[0_1px_5px_rgba(0,0,0,0.45)]"
+      class="pointer-events-none relative inline-flex size-[22px] shrink-0 rounded-full border-[2.5px] border-black bg-white shadow-[0_1px_4px_rgba(0,0,0,0.12)] dark:border-white dark:bg-neutral-950 dark:shadow-[0_1px_5px_rgba(0,0,0,0.45)]"
       aria-hidden
     >
-      <span class="size-[9px] rounded-full bg-black dark:bg-white" />
+      <span
+        data-slot="selectable-card-indicator-dot"
+        class="pointer-events-none absolute left-1/2 top-1/2 size-[9px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-black dark:bg-white"
+      />
     </span>
   );
 }
@@ -34,7 +37,7 @@ export const SelectableCard = ({
   ...rest
 }: SelectableCardProps) => {
   const group = useRadioGroup();
-  const selected = group.controlledValue !== undefined ? group.controlledValue : group.value.value;
+  const selected = group.controlledValue !== undefined ? group.controlledValue : group.value;
   const checked = selected === value;
 
   return (
@@ -60,7 +63,7 @@ export const SelectableCard = ({
           onChange?.(event);
           const el = event.currentTarget as HTMLInputElement;
           const nextSelected =
-            group.controlledValue !== undefined ? group.controlledValue : group.value.value;
+            group.controlledValue !== undefined ? group.controlledValue : group.value;
           el.checked = nextSelected === value;
         }}
         {...rest}
@@ -73,12 +76,14 @@ export const SelectableCard = ({
             : "border-border/35 bg-background hover:border-border/60",
         )}
       >
-        {checked ? (
-          <span class="pointer-events-none absolute end-2.5 top-2.5">
+        <span class="pointer-events-none absolute end-2.5 top-1/2 -translate-y-1/2">
+          {checked ? (
             <SelectableCardSelectedIndicator />
-          </span>
-        ) : null}
-        <div class={cn("min-w-0", checked && "pe-9")}>{children}</div>
+          ) : (
+            <span class="inline-block size-[22px] shrink-0" aria-hidden />
+          )}
+        </span>
+        <div class="min-w-0 pe-9">{children}</div>
       </div>
     </label>
   );

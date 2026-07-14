@@ -17,7 +17,7 @@ export const TabsContent = ({
   ...rest
 }: TabsContentProps) => {
   const tabs = useTabs();
-  const active = tabs.value.value === value;
+  const active = tabs.value === value;
   const id = idProp ?? tabs.contentId(value);
   const labelledBy = tabs.triggerId(value);
 

@@ -1,12 +1,11 @@
-import { type Signal, useSignal } from "@preact/signals";
 import type { ComponentChildren, JSX } from "preact";
 import { createContext } from "preact";
-import { useContext, useEffect, useId } from "preact/hooks";
+import { useContext, useEffect, useId, useState } from "preact/hooks";
 import { cn } from "../../lib/utils";
 
 type RadioGroupContextValue = {
-  value: Signal<string | null>;
-  /** When set, selection follows this prop (controlled); otherwise `value` signal is used. */
+  value: string | null;
+  /** When set, selection follows this prop; otherwise local state is used. */
   controlledValue: string | undefined;
   setValue: (next: string) => void;
   name: string;
@@ -41,26 +40,26 @@ export const RadioGroup = ({
 }: RadioGroupProps) => {
   const autoId = useId();
   const name = nameProp ?? `radio-group-${autoId}`;
-  const internal = useSignal<string | null>(
+  const [internalValue, setInternalValue] = useState<string | null>(
     valueProp !== undefined ? valueProp : (defaultValue ?? null),
   );
 
   useEffect(() => {
     if (valueProp !== undefined) {
-      internal.value = valueProp;
+      setInternalValue(valueProp);
     }
   }, [valueProp]);
 
   const setValue = (next: string) => {
     if (valueProp === undefined) {
-      internal.value = next;
+      setInternalValue(next);
     }
     onValueChange?.(next);
   };
 
   return (
     <RadioGroupContext.Provider
-      value={{ value: internal, controlledValue: valueProp, setValue, name }}
+      value={{ value: internalValue, controlledValue: valueProp, setValue, name }}
     >
       <div role="radiogroup" data-slot="radio-group" class={cn("grid gap-3", className)} {...rest}>
         {children}

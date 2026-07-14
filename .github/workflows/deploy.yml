@@ -1,12 +1,14 @@
-name: Deploy demo to GitHub Pages
+name: Deploy docs to GitHub Pages
 
 on:
   push:
     branches:
       - main
     paths:
-      - "apps/demo/**"
+      - "packages/docs/**"
       - "packages/core/**"
+      - "packages/themes/**"
+      - "packages/openui/**"
       - ".github/workflows/deploy.yml"
       - "package.json"
       - "pnpm-lock.yaml"
@@ -42,22 +44,22 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Check demo formatting (oxfmt)
-        run: pnpm --filter demo run fmt:check
+      - name: Check docs formatting (oxfmt)
+        run: pnpm --filter @kamod-ch/ui-docs run format:check
 
-      - name: Build workspace (demo with Pages base path)
+      - name: Build workspace (docs with Pages base path)
         run: pnpm run build
         env:
           # https://<user>.github.io/<repo>/
           VITE_BASE_PATH: /${{ github.event.repository.name }}/
 
       - name: SPA fallback (deep links on GitHub Pages)
-        run: cp apps/demo/dist/index.html apps/demo/dist/404.html
+        run: cp packages/docs/dist/index.html packages/docs/dist/404.html
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: apps/demo/dist
+          path: packages/docs/dist
 
   deploy:
     runs-on: ubuntu-latest

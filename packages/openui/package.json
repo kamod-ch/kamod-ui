@@ -1,0 +1,95 @@
+{
+  "name": "@kamod-ch/openui",
+  "version": "0.2.1",
+  "description": "Official OpenUI adapter for Kamod UI: a typed, secure component library for generative UI with Preact.",
+  "keywords": [
+    "generative-ui",
+    "kamod",
+    "llm",
+    "openui",
+    "preact",
+    "ui"
+  ],
+  "homepage": "https://kamod-ch.github.io/kamod-ui/",
+  "bugs": {
+    "url": "https://github.com/kamod-ch/kamod-ui/issues"
+  },
+  "license": "MIT",
+  "author": "Klaus Zahiragic <watzak>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kamod-ch/kamod-ui.git",
+    "directory": "packages/openui"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./library": {
+      "types": "./dist/library/index.d.ts",
+      "import": "./dist/library/index.js"
+    },
+    "./presets/basic": {
+      "types": "./dist/presets/basic.d.ts",
+      "import": "./dist/presets/basic.js"
+    },
+    "./presets/forms": {
+      "types": "./dist/presets/forms.d.ts",
+      "import": "./dist/presets/forms.js"
+    },
+    "./prompts": {
+      "types": "./dist/prompts/index.d.ts",
+      "import": "./dist/prompts/index.js"
+    },
+    "./examples": {
+      "types": "./dist/examples/fixtures.d.ts",
+      "import": "./dist/examples/fixtures.js"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "lint": "oxlint .",
+    "publint": "publint",
+    "attw": "attw --pack . --profile esm-only --entrypoints . ./library ./presets/basic ./presets/forms ./prompts ./examples"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.3",
+    "@kamod-ch/ui": "workspace:*",
+    "@openuidev/react-lang": "^0.2.8",
+    "@preact/signals": "^2.9.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/preact": "^3.2.4",
+    "@types/node": "^25.9.2",
+    "jsdom": "^29.1.1",
+    "preact": "^10.29.2",
+    "preact-render-to-string": "^6.7.0",
+    "publint": "^0.3.21",
+    "tsup": "^8.5.1",
+    "vitest": "^4.1.8",
+    "zod": "^4.0.0"
+  },
+  "peerDependencies": {
+    "@kamod-ch/ui": "^0.2.1",
+    "@openuidev/react-lang": "^0.2.8",
+    "@preact/signals": "^2.9.1",
+    "preact": "^10.29.2",
+    "zod": "^3.25.0 || ^4.0.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -13,7 +13,7 @@ const tabsList = tv({
   variants: {
     variant: {
       default: "",
-      line: "rounded-none gap-1 bg-transparent p-0",
+      line: "gap-1 rounded-none bg-transparent p-0 ring-0 group-data-[orientation=horizontal]/tabs:rounded-none",
     },
   },
   defaultVariants: {

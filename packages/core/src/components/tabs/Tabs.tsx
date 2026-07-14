@@ -1,12 +1,11 @@
-import { type Signal, useSignal } from "@preact/signals";
 import type { ComponentChildren, JSX } from "preact";
 import { createContext } from "preact";
-import { useContext, useEffect, useMemo } from "preact/hooks";
+import { useContext, useEffect, useMemo, useState } from "preact/hooks";
 import { createIdFactory } from "../../lib/interactive";
 import { cn } from "../../lib/utils";
 
 type TabsContextValue = {
-  value: Signal<string>;
+  value: string;
   setValue: (next: string) => void;
   orientation: "horizontal" | "vertical";
   baseId: string;
@@ -60,21 +59,21 @@ export const Tabs = ({
   children,
   ...rest
 }: TabsProps) => {
-  const value = useSignal(defaultValue);
+  const [value, setLocalValue] = useState(defaultValue);
   const baseId = useMemo(() => createIdFactory("tabs")(), []);
   const triggerId = useMemo(() => (tabValue: string) => `${baseId}-trigger-${tabValue}`, [baseId]);
   const contentId = useMemo(() => (tabValue: string) => `${baseId}-content-${tabValue}`, [baseId]);
   const setValue = (next: string) => {
     if (!syncKey) {
-      value.value = next;
+      setLocalValue(next);
       return;
     }
 
-    const syncEntry = getOrCreateSyncEntry(syncKey, value.value);
+    const syncEntry = getOrCreateSyncEntry(syncKey, value);
     if (syncEntry.value === next) return;
 
     syncEntry.value = next;
-    value.value = next;
+    setLocalValue(next);
     syncEntry.subscribers.forEach((subscriber) => subscriber(next));
   };
 
@@ -83,11 +82,13 @@ export const Tabs = ({
 
     const syncEntry = getOrCreateSyncEntry(syncKey, defaultValue);
     syncEntry.instancesCount += 1;
-    value.value = syncEntry.value;
+    setLocalValue(syncEntry.value);
 
     const subscriber: SyncSubscriber = (nextValue) => {
-      if (value.value === nextValue) return;
-      value.value = nextValue;
+      setLocalValue((currentValue) => {
+        if (currentValue === nextValue) return currentValue;
+        return nextValue;
+      });
     };
     syncEntry.subscribers.add(subscriber);
 
@@ -98,7 +99,7 @@ export const Tabs = ({
         syncRegistry.delete(syncKey);
       }
     };
-  }, [defaultValue, syncKey, value]);
+  }, [defaultValue, syncKey]);
 
   return (
     <TabsContext.Provider value={{ value, setValue, orientation, baseId, triggerId, contentId }}>
