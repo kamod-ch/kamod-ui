@@ -48,18 +48,22 @@ jobs:
         run: pnpm --filter @kamod-ch/ui-docs run format:check
 
       - name: Build docs with Pages base path
-        run: pnpm --filter @kamod-ch/ui-docs... build
+        run: pnpm run build:pages
         env:
           # https://<user>.github.io/<repo>/
           VITE_BASE_PATH: /${{ github.event.repository.name }}/
 
       - name: Verify docs artifact
         run: |
-          test -f packages/docs/dist/index.html || {
+          if [ ! -f packages/docs/dist/index.html ]; then
             echo "packages/docs/dist/index.html was not generated" >&2
-            find packages/docs/dist -maxdepth 3 -type f | sort >&2
+            if [ -d packages/docs/dist ]; then
+              find packages/docs/dist -maxdepth 3 -type f | sort >&2
+            else
+              echo "packages/docs/dist directory was not generated" >&2
+            fi
             exit 1
-          }
+          fi
 
       - name: SPA fallback (deep links on GitHub Pages)
         run: cp packages/docs/dist/index.html packages/docs/dist/404.html

@@ -1,0 +1,13 @@
+@import "./theme-fonts.css";
+@import "tailwindcss";
+@import "tw-animate-css";
+@plugin "@tailwindcss/forms";
+@custom-variant dark (&:where(.dark, .dark *));
+@source "../../../core/src/**/*.{ts,tsx}";
+@source "../../../themes/src/**/*.{ts,tsx}";
+
+@import "@kamod-ch/themes/theme.css";
+@import "./demo-foundation.css";
+@import "./app.css";
+@import "./pages.css";
+@import "./site-footer.css";

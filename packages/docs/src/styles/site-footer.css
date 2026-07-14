@@ -1,0 +1,79 @@
+.kiw-footer {
+  width: min(100% - 2rem, 1320px);
+  margin: 0 auto;
+  padding: 2rem 0 3rem;
+  color: var(--muted-foreground);
+  text-align: center;
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+}
+
+.kiw-footer-built,
+.kiw-footer-copy {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.kiw-footer-built a,
+.kiw-footer-copy a {
+  color: var(--foreground);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.kiw-footer-built a:hover,
+.kiw-footer-copy a:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.kiw-footer-logo {
+  display: inline-flex;
+  line-height: 0;
+  text-decoration: none;
+}
+
+.kiw-footer-logo .ki-logo__kamod-wrap {
+  display: grid;
+  align-items: center;
+  height: auto;
+  width: min(9.5rem, 52vw);
+}
+
+.kiw-footer-logo .ki-logo__kamod {
+  grid-area: 1 / 1;
+  display: block;
+  height: auto;
+  width: 100%;
+  max-width: none;
+  justify-self: center;
+}
+
+.kiw-footer-logo .ki-logo__kamod--dark {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.dark):not([data-theme]) .kiw-footer-logo .ki-logo__kamod--light {
+    opacity: 0;
+  }
+
+  :root:not(.dark):not([data-theme]) .kiw-footer-logo .ki-logo__kamod--dark {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+html.dark .kiw-footer-logo .ki-logo__kamod--light,
+:root[data-theme="dark"] .kiw-footer-logo .ki-logo__kamod--light {
+  opacity: 0;
+}
+
+html.dark .kiw-footer-logo .ki-logo__kamod--dark,
+:root[data-theme="dark"] .kiw-footer-logo .ki-logo__kamod--dark {
+  opacity: 1;
+  pointer-events: auto;
+}

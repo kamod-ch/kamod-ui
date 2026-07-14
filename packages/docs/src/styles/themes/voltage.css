@@ -1,0 +1,118 @@
+/**
+ * Voltage — VoltAgent-style tokens from `.cursor/DESIGN.md`
+ * Abyss black + emerald signal green, warm charcoal borders, Inter + system-ui + SFMono.
+ */
+
+:root[data-theme="voltage"] {
+  --font-sans:
+    "Inter Variable", Inter, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-mono:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+    monospace;
+  --default-font-family: var(--font-sans);
+  --font-primary: var(--font-sans);
+  --font-display:
+    system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, Cantarell,
+    "Noto Sans", Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    sans-serif;
+  --font-mono-custom: var(--font-mono);
+
+  /* Light: warm paper for docs / kitchen-sink (DESIGN.md is dark-first; this stays subdued) */
+  --background: #f4f3f0;
+  --foreground: #181816;
+  --card: #ffffff;
+  --card-foreground: #181816;
+  --popover: #ffffff;
+  --popover-foreground: #181816;
+  --primary: #00a06c;
+  --primary-foreground: #f2f2f2;
+  --primary-accent: #008f5f;
+  --secondary: color-mix(in srgb, #818cf8 22%, #f4f3f0);
+  --secondary-foreground: #1e1b4b;
+  --secondary-accent: #6366f1;
+  --muted: #e8e6e1;
+  --muted-foreground: #5c5854;
+  --accent: #ebe8e3;
+  --accent-foreground: #181816;
+  --info: #4cb3d4;
+  --info-foreground: #0c1e26;
+  --success: #008b00;
+  --success-foreground: #f2f2f2;
+  --warning: #c48900;
+  --warning-foreground: #1a1408;
+  --error: #d63e44;
+  --error-foreground: #ffffff;
+  --destructive: #d63e44;
+  --destructive-foreground: #ffffff;
+  --border: rgba(61, 58, 57, 0.22);
+  --input: rgba(61, 58, 57, 0.28);
+  --ring: #00d992;
+  --outline: rgba(24, 24, 22, 0.4);
+  --radius: 0.5rem;
+
+  --sidebar-background: #ebe8e3;
+  --sidebar-foreground: #181816;
+  --sidebar-primary: #00a06c;
+  --sidebar-primary-foreground: #f2f2f2;
+  --sidebar-accent: #e0ddd7;
+  --sidebar-accent-foreground: #181816;
+  --sidebar-border: rgba(61, 58, 57, 0.18);
+  --sidebar-outline: rgba(24, 24, 22, 0.35);
+}
+
+.dark[data-theme="voltage"] {
+  --font-sans:
+    "Inter Variable", Inter, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-mono:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+    monospace;
+  --default-font-family: var(--font-sans);
+  --font-primary: var(--font-sans);
+  --font-display:
+    system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, Cantarell,
+    "Noto Sans", Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    sans-serif;
+  --font-mono-custom: var(--font-mono);
+
+  --background: #050507;
+  --foreground: #f2f2f2;
+  --card: #101010;
+  --card-foreground: #f2f2f2;
+  --popover: #101010;
+  --popover-foreground: #f2f2f2;
+  --primary: #00d992;
+  --primary-foreground: #050507;
+  --primary-accent: #2fd6a1;
+  --secondary: color-mix(in srgb, #818cf8 18%, #101010);
+  --secondary-foreground: #e8e9ff;
+  --secondary-accent: #818cf8;
+  --muted: #141414;
+  --muted-foreground: #8b949e;
+  --accent: #1a1a1a;
+  --accent-foreground: #f2f2f2;
+  --info: #4cb3d4;
+  --info-foreground: #050507;
+  --success: #008b00;
+  --success-foreground: #f2f2f2;
+  --warning: #ffba00;
+  --warning-foreground: #1a1408;
+  --error: #fb565b;
+  --error-foreground: #050507;
+  --destructive: #fb565b;
+  --destructive-foreground: #050507;
+  --border: #3d3a39;
+  --input: #3d3a39;
+  --ring: #00d992;
+  --outline: rgba(242, 242, 242, 0.45);
+
+  --sidebar-background: #101010;
+  --sidebar-foreground: #f2f2f2;
+  --sidebar-primary: #00d992;
+  --sidebar-primary-foreground: #050507;
+  --sidebar-accent: #141414;
+  --sidebar-accent-foreground: #f2f2f2;
+  --sidebar-border: #3d3a39;
+  --sidebar-outline: rgba(242, 242, 242, 0.4);
+}

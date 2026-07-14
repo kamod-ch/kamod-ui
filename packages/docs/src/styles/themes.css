@@ -1,0 +1,12 @@
+/**
+ * Demo theme presets (`data-theme` on `<html>`). Add a file under `./themes/`
+ * and import it here; register the same id in `src/theme/theme-presets.ts`.
+ */
+@import "./themes/kamod.css";
+@import "./themes/shadcn.css";
+@import "./themes/ocean.css";
+@import "./themes/sunset.css";
+@import "./themes/cursor-warm.css";
+@import "./themes/voltage.css";
+@import "./themes/watson.css";
+@import "./themes/professional.css";

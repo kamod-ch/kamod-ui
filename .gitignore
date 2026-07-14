@@ -21,7 +21,16 @@ test-results/
 /packages/docs/playwright-report/
 packages/docs/playwright-report/
 docs/
+!packages/docs/
+packages/docs/*
 !packages/docs/docs/
 !packages/docs/docs/**
+!packages/docs/src/
+packages/docs/src/*
 !packages/docs/src/docs/
+!packages/docs/src/docs/**
 !packages/docs/src/docs/generated-manifest.ts
+!packages/docs/src/kitchen-sink/
+!packages/docs/src/kitchen-sink/**
+!packages/docs/src/styles/
+!packages/docs/src/styles/**
