@@ -47,11 +47,19 @@ jobs:
       - name: Check docs formatting (oxfmt)
         run: pnpm --filter @kamod-ch/ui-docs run format:check
 
-      - name: Build workspace (docs with Pages base path)
-        run: pnpm run build
+      - name: Build docs with Pages base path
+        run: pnpm --filter @kamod-ch/ui-docs... build
         env:
           # https://<user>.github.io/<repo>/
           VITE_BASE_PATH: /${{ github.event.repository.name }}/
+
+      - name: Verify docs artifact
+        run: |
+          test -f packages/docs/dist/index.html || {
+            echo "packages/docs/dist/index.html was not generated" >&2
+            find packages/docs/dist -maxdepth 3 -type f | sort >&2
+            exit 1
+          }
 
       - name: SPA fallback (deep links on GitHub Pages)
         run: cp packages/docs/dist/index.html packages/docs/dist/404.html
