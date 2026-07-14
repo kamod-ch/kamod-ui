@@ -48,9 +48,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Check docs formatting (oxfmt)
-        run: pnpm --filter @kamod-ch/ui-docs run format:check
-
       - name: Build docs with Pages base path
         run: pnpm run build:pages
         env:

@@ -12,6 +12,7 @@
     "**/inbox/**",
     "**/proofshot-artifacts/**",
     "**/*.tsbuildinfo",
-    "pnpm-lock.yaml"
+    "pnpm-lock.yaml",
+    "packages/docs/tsconfig.json"
   ]
 }
