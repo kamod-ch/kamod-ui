@@ -1,6 +1,6 @@
 {
   "name": "@kamod-ch/ui",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Lightweight Preact + Tailwind UI components: composable primitives you can customize, extend, and ship without a heavy runtime.",
   "keywords": [
     "components",
