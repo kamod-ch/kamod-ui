@@ -109,12 +109,18 @@ importers:
       '@fontsource-variable/inter':
         specifier: ^5.2.8
         version: 5.2.8
+      '@kamod-ch/openui':
+        specifier: workspace:*
+        version: link:../openui
       '@kamod-ch/themes':
         specifier: workspace:*
         version: link:../themes
       '@kamod-ch/ui':
         specifier: workspace:*
         version: link:../core
+      '@openuidev/react-lang':
+        specifier: ^0.2.8
+        version: 0.2.8(react@19.2.7)(zod@4.4.3)
       '@preact/signals':
         specifier: ^2.9.1
         version: 2.9.1(preact@10.29.2)
@@ -133,6 +139,9 @@ importers:
       prismjs:
         specifier: ^1.30.0
         version: 1.30.0
+      zod:
+        specifier: ^4.0.0
+        version: 4.4.3
     devDependencies:
       '@axe-core/playwright':
         specifier: ^4.11.3
