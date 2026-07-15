@@ -71,7 +71,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.16",
-    "@types/node": "^25.9.2",
+    "@types/node": "^26.1.1",
     "knip": "^6.16.1",
     "lefthook": "^2.1.9",
     "oxfmt": "^0.54.0",
