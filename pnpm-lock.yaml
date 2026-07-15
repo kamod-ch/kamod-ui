@@ -36,6 +36,34 @@ importers:
         specifier: ^6.0.3
         version: 6.0.3
 
+  packages/blocks:
+    dependencies:
+      '@kamod-ch/icons':
+        specifier: ^1.0.3
+        version: 1.0.3(preact@10.29.2)
+    devDependencies:
+      '@kamod-ch/ui':
+        specifier: workspace:*
+        version: link:../core
+      '@preact/signals':
+        specifier: ^2.9.1
+        version: 2.9.1(preact@10.29.2)
+      '@testing-library/preact':
+        specifier: ^3.2.4
+        version: 3.2.4(preact@10.29.2)
+      jsdom:
+        specifier: ^29.1.1
+        version: 29.1.1
+      preact:
+        specifier: ^10.29.2
+        version: 10.29.2
+      tsup:
+        specifier: ^8.5.1
+        version: 8.5.1(jiti@2.7.0)(postcss@8.5.15)(typescript@6.0.3)(yaml@2.9.0)
+      vitest:
+        specifier: ^4.1.8
+        version: 4.1.8(@types/node@25.9.2)(@vitest/coverage-v8@4.1.8)(jsdom@29.1.1)(vite@8.0.16(@types/node@25.9.2)(esbuild@0.27.4)(jiti@2.7.0)(yaml@2.9.0))
+
   packages/core:
     dependencies:
       clsx:
@@ -99,9 +127,21 @@ importers:
       '@formisch/preact':
         specifier: 1.0.0-rc.0
         version: 1.0.0-rc.0(@preact/signals@2.9.1(preact@10.29.2))(preact@10.29.2)(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))
+      '@kamod-ch/blocks':
+        specifier: workspace:*
+        version: link:../blocks
+      '@kamod-ch/hooks':
+        specifier: ^1.0.0
+        version: 1.0.0(preact@10.29.2)
+      '@kamod-ch/icons':
+        specifier: ^1.0.3
+        version: 1.0.3(preact@10.29.2)
       '@kamod-ch/openui':
         specifier: workspace:*
         version: link:../openui
+      '@kamod-ch/signals':
+        specifier: ^1.0.3
+        version: 1.0.3(@preact/signals@2.9.1(preact@10.29.2))(preact@10.29.2)
       '@kamod-ch/themes':
         specifier: workspace:*
         version: link:../themes
@@ -716,10 +756,26 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
+  '@kamod-ch/hooks@1.0.0':
+    resolution: {integrity: sha512-LzcZ/hXh9/1KuVw1rJeV6V9tGAZ+hbLh2mJlOwjUq0wZzZZ0x4BOPU32JI2uZQX045ChpLdOQ76D8GpQeOiHpw==}
+    peerDependencies:
+      preact: ^10.29.2
+
+  '@kamod-ch/icons@1.0.3':
+    resolution: {integrity: sha512-7SdXdBxLmMVG93/hYMr6E+cY1UCJ9kiB3IHDxvL23alDH51Boe1F6OVp6swTiVzYjFoYNFk5IjukU3P7AEnZng==}
+    peerDependencies:
+      preact: '>=10'
+
   '@kamod-ch/preactpress@2.1.0':
     resolution: {integrity: sha512-k2MA1AFTCZ2KSF9SYvadn2ucCjE20yHHTKmWTnXPsAqzqTBAth2Enl1stof7WuD6oPaoWN5qLdWzZzxESf2f7g==}
     engines: {node: '>=20'}
     hasBin: true
+
+  '@kamod-ch/signals@1.0.3':
+    resolution: {integrity: sha512-mnKZus5leC2qE+Zhq2rXFt9tHVeOcIjDWtiKtkAInicHNQgXuR4LpaXrAyQ1znrcik+y85J0W+533OHyN2KKBQ==}
+    peerDependencies:
+      '@preact/signals': ^2.0.0
+      preact: ^10.0.0
 
   '@loaderkit/resolve@1.0.6':
     resolution: {integrity: sha512-G8FdIoF5CypfwmD9rl8BXod5HDn8JqB0CCNBXDTaRZ+yRYhARrrSToX1zg1zy9jX3zLqigsELwhT4gNtkdQAUg==}
@@ -4448,6 +4504,14 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
+  '@kamod-ch/hooks@1.0.0(preact@10.29.2)':
+    dependencies:
+      preact: 10.29.2
+
+  '@kamod-ch/icons@1.0.3(preact@10.29.2)':
+    dependencies:
+      preact: 10.29.2
+
   '@kamod-ch/preactpress@2.1.0(@babel/core@7.29.0)(@types/node@25.9.2)(esbuild@0.27.4)(jiti@2.7.0)(rollup@4.59.0)(yaml@2.9.0)':
     dependencies:
       '@docsearch/css': 4.6.3
@@ -4486,6 +4550,11 @@ snapshots:
       - terser
       - tsx
       - yaml
+
+  '@kamod-ch/signals@1.0.3(@preact/signals@2.9.1(preact@10.29.2))(preact@10.29.2)':
+    dependencies:
+      '@preact/signals': 2.9.1(preact@10.29.2)
+      preact: 10.29.2
 
   '@loaderkit/resolve@1.0.6':
     dependencies:

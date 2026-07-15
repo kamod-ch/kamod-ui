@@ -25,7 +25,11 @@
   "dependencies": {
     "@fontsource-variable/inter": "^5.2.8",
     "@formisch/preact": "1.0.0-rc.0",
+    "@kamod-ch/blocks": "workspace:*",
+    "@kamod-ch/hooks": "^1.0.0",
+    "@kamod-ch/icons": "^1.0.3",
     "@kamod-ch/openui": "workspace:*",
+    "@kamod-ch/signals": "^1.0.3",
     "@kamod-ch/themes": "workspace:*",
     "@kamod-ch/ui": "workspace:*",
     "@openuidev/react-lang": "^0.2.8",

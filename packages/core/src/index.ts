@@ -339,12 +339,30 @@ export {
   Sidebar,
   SidebarContent,
   SidebarFooter,
+  SidebarGroup,
+  SidebarGroupAction,
+  SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarHeader,
+  SidebarInput,
   SidebarInset,
+  SidebarMenu,
+  SidebarMenuAction,
+  SidebarMenuBadge,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarMenuSkeleton,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
   SidebarProvider,
+  SidebarRail,
+  SidebarSeparator,
   SidebarTrigger,
   useSidebar,
 } from "./components/sidebar";
+export type { SidebarProps } from "./components/sidebar/Sidebar";
+export type { SidebarProviderProps } from "./components/sidebar/SidebarProvider";
 export { Skeleton, SkeletonVariants } from "./components/skeleton";
 export { Slider, type SliderPrimitiveValue, type SliderProps } from "./components/slider";
 export { dismissSonner, Sonner, sonner } from "./components/sonner";

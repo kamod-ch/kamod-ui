@@ -2,7 +2,7 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { expect, type Page, test } from "@playwright/test";
-import { formDocPages } from "../src/docs/registry";
+import { formDocPages, packageDocPages } from "../src/docs/registry";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 /** Repo-root `tmp/` (this file lives in `packages/docs/e2e/`). */
@@ -233,21 +233,17 @@ test("docs /docs/components full link audit (writes tmp report)", async ({ page,
     const componentGridHrefs = await page
       .locator(".docs-components-grid a.docs-component-item[href]")
       .evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).getAttribute("href") ?? ""));
-    const packageGridHrefs = await page
-      .locator(".docs-packages-grid a.docs-component-item[href]")
-      .evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).getAttribute("href") ?? ""));
-    const gridHrefsClean = [...componentGridHrefs, ...packageGridHrefs].filter(Boolean);
+    const gridHrefsClean = componentGridHrefs.filter(Boolean);
 
     if (gridHrefsClean.length === 0) {
       addFinding({
         severity: "blocker",
         url: base + overviewPath,
-        detail: "No grid links found (docs-components-grid / docs-packages-grid)",
+        detail: "No grid links found (docs-components-grid)",
       });
     }
 
     slugsFromGrid = new Set<string>();
-    const packageSlugsFromGrid = new Set<string>();
     for (const href of componentGridHrefs.filter(Boolean)) {
       let path: string;
       try {
@@ -271,31 +267,15 @@ test("docs /docs/components full link audit (writes tmp report)", async ({ page,
       }
     }
 
-    for (const href of packageGridHrefs.filter(Boolean)) {
-      let path: string;
-      try {
-        path = new URL(href, base).pathname;
-      } catch {
-        addFinding({ severity: "error", detail: `Invalid package grid href: ${href}` });
-        continue;
-      }
-      const slug = slugFromDocsPath(`${path}/`);
-      if (!slug) {
-        addFinding({
-          severity: "error",
-          url: href,
-          detail: "Could not parse slug from package grid href",
-        });
-        continue;
-      }
-      packageSlugsFromGrid.add(slug);
-    }
-
     const expectedComponentSidebarEntries = slugsFromGrid.size + 1;
-    const expectedPackageSidebarEntries = packageSlugsFromGrid.size;
+    const expectedPackageSidebarEntries = packageDocPages.length;
     const expectedFormSidebarEntries = formDocPages.length;
+    const expectedBlockSidebarEntries = 1;
     expectedSidebarEntries =
-      expectedComponentSidebarEntries + expectedPackageSidebarEntries + expectedFormSidebarEntries;
+      expectedComponentSidebarEntries +
+      expectedPackageSidebarEntries +
+      expectedFormSidebarEntries +
+      expectedBlockSidebarEntries;
 
     await gotoDocsPath(page, overviewPath);
     const componentSidebarEntries = page.locator(
@@ -307,6 +287,18 @@ test("docs /docs/components full link audit (writes tmp report)", async ({ page,
         severity: "warning",
         url: base + overviewPath,
         detail: `Component sidebar count ${componentSidebarCount} !== grid slugs + overview (${expectedComponentSidebarEntries})`,
+      });
+    }
+
+    const blockSidebarEntries = page.locator(
+      'aside.docs-sidebar nav[aria-label="Docs blocks"] :is(a,button)',
+    );
+    const blockSidebarCount = await blockSidebarEntries.count();
+    if (blockSidebarCount !== expectedBlockSidebarEntries) {
+      addFinding({
+        severity: "warning",
+        url: base + overviewPath,
+        detail: `Block sidebar count ${blockSidebarCount} !== expected ${expectedBlockSidebarEntries}`,
       });
     }
 
@@ -330,7 +322,7 @@ test("docs /docs/components full link audit (writes tmp report)", async ({ page,
       addFinding({
         severity: "warning",
         url: base + overviewPath,
-        detail: `Package sidebar count ${packageSidebarCount} !== package grid slugs (${expectedPackageSidebarEntries})`,
+        detail: `Package sidebar count ${packageSidebarCount} !== registered package docs (${expectedPackageSidebarEntries})`,
       });
     }
 

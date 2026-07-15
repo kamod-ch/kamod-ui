@@ -10,6 +10,7 @@ export type DemoTopNavItem = {
 
 export const demoTopNavItems: DemoTopNavItem[] = [
   { label: "Components", href: withBasePath("/docs/components") },
+  { label: "Blocks", href: withBasePath("/blocks/sidebar") },
 ];
 
 type DemoShellProps = {

@@ -5,9 +5,11 @@
 @custom-variant dark (&:where(.dark, .dark *));
 @source "../../../core/src/**/*.{ts,tsx}";
 @source "../../../themes/src/**/*.{ts,tsx}";
+@source "../../../blocks/src/**/*.{ts,tsx}";
 
 @import "@kamod-ch/themes/theme.css";
 @import "./demo-foundation.css";
 @import "./app.css";
 @import "./pages.css";
+@import "./blocks.css";
 @import "./site-footer.css";

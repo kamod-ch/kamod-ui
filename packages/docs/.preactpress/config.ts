@@ -10,6 +10,7 @@ const repoRoot = resolve(__dirname, "../../../");
 const docsRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const preactRoot = resolve(docsRoot, "node_modules/preact");
 const openuiSrc = resolve(__dirname, "../../openui/src");
+const blocksSrc = resolve(__dirname, "../../blocks/src");
 const coreSrc = resolve(__dirname, "../../core/src");
 const base = (process.env.VITE_BASE_PATH?.trim() || "/").replace(/\/?$/, "/");
 const faviconFiles = new Map([
@@ -101,6 +102,22 @@ export default defineConfig({
     resolve: {
       alias: [
         {
+          find: /^@kamod-ch\/blocks\/sidebar$/,
+          replacement: resolve(blocksSrc, "sidebar/index.ts"),
+        },
+        {
+          find: /^@kamod-ch\/blocks\/login$/,
+          replacement: resolve(blocksSrc, "login/index.ts"),
+        },
+        {
+          find: /^@kamod-ch\/blocks\/signup$/,
+          replacement: resolve(blocksSrc, "signup/index.ts"),
+        },
+        {
+          find: "@kamod-ch/blocks",
+          replacement: resolve(blocksSrc, "index.ts"),
+        },
+        {
           find: "@kamod-ch/openui/examples",
           replacement: resolve(openuiSrc, "examples/fixtures.ts"),
         },
@@ -180,6 +197,8 @@ export default defineConfig({
       noExternal: [
         "@formisch/preact",
         "@formisch/core",
+        "@kamod-ch/blocks",
+        "@kamod-ch/icons",
         "@formisch/methods",
         "@preact/signals",
         "@kamod-ch/openui",

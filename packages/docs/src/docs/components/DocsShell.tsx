@@ -38,6 +38,7 @@ type DocsShellProps = {
   getDocHref?: (slug: string) => string;
   componentsOverviewHref?: string;
   getSectionHref?: (sectionId: string) => string;
+  activeBlock?: "sidebar" | "login" | "signup";
 };
 
 type NavEntry = {
@@ -119,6 +120,7 @@ export const DocsShell = ({
   getDocHref = (slug) => withBasePath(`/docs/${slug}/installation`),
   componentsOverviewHref = withBasePath("/docs/components"),
   getSectionHref,
+  activeBlock,
 }: DocsShellProps) => {
   const tocSections = activeDoc ? groupTocSections(activeDoc.sections) : null;
   const sortedPackageDocs = useMemo(
@@ -193,8 +195,35 @@ export const DocsShell = ({
     ],
   );
 
+  const blockNavEntries: NavEntry[] = [
+    {
+      key: "sidebar",
+      label: "Sidebar",
+      active: activeBlock === "sidebar",
+      href: withBasePath("/blocks/sidebar"),
+    },
+    {
+      key: "login",
+      label: "Login",
+      active: activeBlock === "login",
+      href: withBasePath("/blocks/login"),
+    },
+    {
+      key: "signup",
+      label: "Signup",
+      active: activeBlock === "signup",
+      href: withBasePath("/blocks/signup"),
+    },
+  ];
+
   const sidebarNav = (
     <>
+      <h2>Blocks</h2>
+      <nav aria-label="Docs blocks" class="docs-sidebar-nav docs-sidebar-nav--blocks">
+        {blockNavEntries.map((entry) => (
+          <NavLink entry={entry} key={entry.key} />
+        ))}
+      </nav>
       {packageNavEntries.length ? (
         <>
           <h2>Packages</h2>
@@ -226,6 +255,10 @@ export const DocsShell = ({
 
   const mobileNav = (
     <nav aria-label="Mobile docs navigation" class="docs-mobile-sheet-nav">
+      <p class="docs-mobile-sheet-group-label">Blocks</p>
+      {blockNavEntries.map((entry) => (
+        <NavLink asSheetClose entry={entry} key={entry.key} />
+      ))}
       {packageNavEntries.length ? (
         <>
           <p class="docs-mobile-sheet-group-label">Packages</p>

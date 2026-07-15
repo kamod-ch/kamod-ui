@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1400" viewBox="0 0 1200 1400" role="img" aria-label="Abstract layered product interface">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#94a3b8"/><stop offset="0.48" stop-color="#475569"/><stop offset="1" stop-color="#111827"/></linearGradient>
+    <linearGradient id="c" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".82"/><stop offset="1" stop-color="#fff" stop-opacity=".18"/></linearGradient>
+  </defs>
+  <rect width="1200" height="1400" fill="url(#g)"/>
+  <circle cx="1000" cy="170" r="360" fill="#fff" opacity=".12"/>
+  <circle cx="140" cy="1230" r="420" fill="#000" opacity=".16"/>
+  <rect x="170" y="230" width="860" height="940" rx="56" fill="url(#c)" opacity=".42"/>
+  <rect x="240" y="320" width="720" height="92" rx="24" fill="#fff" opacity=".48"/>
+  <rect x="240" y="470" width="320" height="320" rx="34" fill="#fff" opacity=".30"/>
+  <rect x="610" y="470" width="350" height="126" rx="30" fill="#fff" opacity=".30"/>
+  <rect x="610" y="640" width="350" height="150" rx="30" fill="#fff" opacity=".22"/>
+  <rect x="240" y="850" width="720" height="64" rx="20" fill="#fff" opacity=".34"/>
+  <rect x="240" y="960" width="520" height="64" rx="20" fill="#fff" opacity=".25"/>
+</svg>

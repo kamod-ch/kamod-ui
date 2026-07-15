@@ -1,7 +1,6 @@
-import { Badge } from "@kamod-ch/ui";
 import { withBasePath } from "../base-path";
 import { DocsShell } from "./components/DocsShell";
-import { componentOverviewItems, docsPages, packageOverviewItems } from "./registry";
+import { componentOverviewItems, docsPages } from "./registry";
 
 export const DocsOverviewContent = () => (
   <DocsShell
@@ -13,29 +12,8 @@ export const DocsOverviewContent = () => (
       <section class="docs-components-overview">
         <h1>Components</h1>
         <p class="docs-components-intro">
-          Browse Kamod UI components and packages. Linked entries open full usage, preview, and code
-          examples.
+          Browse Kamod UI components. Linked entries open full usage, preview, and code examples.
         </p>
-
-        {packageOverviewItems.length ? (
-          <section class="docs-packages-overview">
-            <h2>Packages</h2>
-            <div class="docs-packages-grid">
-              {packageOverviewItems.map((pkg) =>
-                pkg.slug ? (
-                  <a
-                    class="docs-component-item docs-component-item--highlighted"
-                    href={withBasePath(`/docs/${pkg.slug}/installation`)}
-                    key={pkg.label}
-                  >
-                    <span>{pkg.label}</span>
-                    <Badge variant="success">new</Badge>
-                  </a>
-                ) : null,
-              )}
-            </div>
-          </section>
-        ) : null}
 
         <h2 class="docs-components-grid-heading">All components</h2>
         <div class="docs-components-grid">

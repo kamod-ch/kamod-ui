@@ -27,7 +27,9 @@ import { dropzoneDocPage } from "./pages/dropzone-doc";
 import { emptyDocPage } from "./pages/empty-doc";
 import { fieldDocPage } from "./pages/field-doc";
 import { formischDocPage } from "./pages/formisch-doc";
+import { hooksDocPage } from "./pages/hooks-package-doc";
 import { hoverCardDocPage } from "./pages/hover-card-doc";
+import { iconsDocPage } from "./pages/icons-package-doc";
 import { imageDocPage } from "./pages/image-doc";
 import { inputDocPage } from "./pages/input-doc";
 import { inputGroupDocPage } from "./pages/input-group-doc";
@@ -50,6 +52,7 @@ import { selectableCardDocPage } from "./pages/selectable-card-doc";
 import { separatorDocPage } from "./pages/separator-doc";
 import { sheetDocPage } from "./pages/sheet-doc";
 import { sidebarDocPage } from "./pages/sidebar-doc";
+import { signalsDocPage } from "./pages/signals-package-doc";
 import { skeletonDocPage } from "./pages/skeleton-doc";
 import { sliderDocPage } from "./pages/slider-doc";
 import { sonnerDocPage } from "./pages/sonner-doc";
@@ -97,6 +100,9 @@ export const docsPages: DocPageModule[] = [
   formischDocPage,
   hoverCardDocPage,
   imageDocPage,
+  iconsDocPage,
+  hooksDocPage,
+  signalsDocPage,
   inputDocPage,
   inputOtpDocPage,
   itemDocPage,
@@ -176,12 +182,14 @@ export const docsUpdatedComponentSlugs = new Set([
 ]);
 
 /** Shown with a "new" badge for package docs. */
-export const docsNewPackageSlugs = new Set<string>();
+export const docsNewPackageSlugs = new Set<string>([
+  "hooks-package",
+  "icons-package",
+  "signals-package",
+]);
 
 /** Shown with a "new" badge for form guides. */
 export const docsNewFormSlugs = new Set<string>();
-
-export const packageOverviewItems: ComponentOverviewItem[] = [];
 
 export const componentOverviewItems: ComponentOverviewItem[] = [
   { label: "Accordion", slug: "accordion" },

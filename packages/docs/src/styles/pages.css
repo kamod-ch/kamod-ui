@@ -140,29 +140,141 @@ html.dark .docs-mobile-sheet {
   color: var(--muted-foreground);
 }
 
-.docs-packages-overview {
-  margin-bottom: 2rem;
-}
-
-.docs-packages-overview h2,
 .docs-components-grid-heading {
   margin: 0 0 0.75rem;
   font-size: 1.1rem;
   font-weight: 600;
 }
 
-.docs-packages-grid {
-  display: grid;
-  gap: 0.6rem;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  margin-bottom: 0.5rem;
+.docs-package-teaser {
+  margin: 0 0 1.25rem;
+  padding: 1.15rem 1.2rem;
+  border: 1px solid var(--border);
+  border-radius: 0.85rem;
+  background: color-mix(in oklab, var(--muted) 45%, transparent);
 }
 
-.docs-component-item--highlighted {
-  justify-content: space-between;
+.docs-package-teaser-eyebrow {
+  margin: 0 0 0.55rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.docs-package-teaser-headline {
+  margin: 0 0 0.55rem;
+  font-size: 1.35rem;
+  font-weight: 650;
+  line-height: 1.25;
+}
+
+.docs-package-teaser-lead {
+  margin: 0 0 1rem;
+  max-width: 62ch;
+  color: var(--muted-foreground);
+  line-height: 1.55;
+}
+
+.docs-package-teaser-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.65rem;
+  margin: 0 0 1rem;
+}
+
+.docs-package-teaser-stat {
+  padding: 0.65rem 0.75rem;
+  border: 1px solid color-mix(in oklab, var(--border) 80%, transparent);
+  border-radius: 0.65rem;
+  background: color-mix(in oklab, var(--background) 80%, transparent);
+}
+
+.docs-package-teaser-stat dt {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.docs-package-teaser-stat dd {
+  margin: 0.2rem 0 0;
+  font-size: 0.78rem;
+  color: var(--muted-foreground);
+}
+
+.docs-package-teaser-actions {
+  display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
-  border: 1px solid color-mix(in oklab, var(--primary) 35%, var(--border));
+}
+
+.docs-package-feature-grid {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0 0 1.75rem;
+  padding: 0;
+  list-style: none;
+}
+
+.docs-package-feature-card {
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  background: var(--background);
+}
+
+.docs-package-feature-title {
+  margin: 0 0 0.35rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.docs-package-feature-text {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--muted-foreground);
+}
+
+.docs-package-cta-panel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0.5rem 0 1.5rem;
+  padding: 1rem 1.15rem;
+  border: 1px solid color-mix(in oklab, var(--primary) 30%, var(--border));
+  border-radius: 0.85rem;
   background: color-mix(in oklab, var(--primary) 8%, transparent);
+}
+
+.docs-package-cta-copy {
+  flex: 1;
+  min-width: min(100%, 16rem);
+}
+
+.docs-package-cta-title {
+  margin: 0 0 0.3rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.docs-package-cta-text {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--muted-foreground);
+}
+
+@media (max-width: 720px) {
+  .docs-package-teaser-stats,
+  .docs-package-feature-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .docs-openui-intro {

@@ -486,6 +486,10 @@ export const docsRouteManifest = [
     ],
   },
   {
+    slug: "hooks-package",
+    sections: ["installation", "usage", "api-reference", "accessibility"],
+  },
+  {
     slug: "hover-card",
     sections: [
       "installation",
@@ -499,6 +503,10 @@ export const docsRouteManifest = [
       "api-reference",
       "accessibility",
     ],
+  },
+  {
+    slug: "icons-package",
+    sections: ["installation", "usage", "api-reference", "accessibility"],
   },
   {
     slug: "image",
@@ -839,6 +847,10 @@ export const docsRouteManifest = [
       "api-reference",
       "accessibility",
     ],
+  },
+  {
+    slug: "signals-package",
+    sections: ["installation", "usage", "api-reference", "accessibility"],
   },
   {
     slug: "skeleton",

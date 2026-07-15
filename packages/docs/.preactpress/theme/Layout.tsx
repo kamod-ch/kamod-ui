@@ -1,6 +1,8 @@
 import type { LayoutProps } from "@kamod-ch/preactpress/client";
 import { syncThemeFromStorage } from "@kamod-ch/themes";
 import type { FunctionalComponent } from "preact";
+import { AuthBlocksPreviewContent, BlocksAuthContent } from "../../src/blocks/BlocksAuthContent";
+import { BlocksPreviewContent, BlocksSidebarContent } from "../../src/blocks/BlocksSidebarContent";
 import { DocsComponentContent } from "../../src/docs/DocsComponentContent";
 import { DocsOverviewContent } from "../../src/docs/DocsOverviewContent";
 import { KitchenSinkPage } from "../../src/kitchen-sink/KitchenSinkPage";
@@ -10,12 +12,21 @@ if (typeof window !== "undefined") {
   syncThemeFromStorage();
 }
 
-type DemoPageKind = "kitchen-sink" | "docs-overview" | "component-doc";
+type DemoPageKind =
+  | "kitchen-sink"
+  | "docs-overview"
+  | "component-doc"
+  | "blocks-sidebar"
+  | "blocks-auth"
+  | "block-preview"
+  | "auth-block-preview";
 
 type DemoPageMeta = {
   pageKind?: DemoPageKind;
   slug?: string;
   section?: string;
+  blockId?: string;
+  blockCategory?: "login" | "signup";
 };
 
 const readPageMeta = (page: LayoutProps["page"]): DemoPageMeta => {
@@ -24,6 +35,13 @@ const readPageMeta = (page: LayoutProps["page"]): DemoPageMeta => {
     pageKind: typeof meta.pageKind === "string" ? (meta.pageKind as DemoPageKind) : undefined,
     slug: typeof meta.slug === "string" ? meta.slug : undefined,
     section: typeof meta.section === "string" ? meta.section : undefined,
+    blockId: typeof meta.blockId === "string" ? meta.blockId : undefined,
+    blockCategory:
+      meta.blockCategory === "signup"
+        ? "signup"
+        : meta.blockCategory === "login"
+          ? "login"
+          : undefined,
   };
 };
 
@@ -41,6 +59,22 @@ const Layout: FunctionalComponent<LayoutProps> = ({ page }) => {
 
   if (meta.pageKind === "component-doc") {
     return <DocsComponentContent slug={meta.slug} section={meta.section} />;
+  }
+
+  if (meta.pageKind === "blocks-sidebar") {
+    return <BlocksSidebarContent />;
+  }
+
+  if (meta.pageKind === "blocks-auth" && meta.blockCategory) {
+    return <BlocksAuthContent category={meta.blockCategory} />;
+  }
+
+  if (meta.pageKind === "block-preview") {
+    return <BlocksPreviewContent id={meta.blockId} />;
+  }
+
+  if (meta.pageKind === "auth-block-preview") {
+    return <AuthBlocksPreviewContent category={meta.blockCategory} id={meta.blockId} />;
   }
 
   if (MdxComponent) {

@@ -1,0 +1,59 @@
+{
+  "name": "@kamod-ch/blocks",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Composable Preact blocks for Kamod UI.",
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./sidebar": {
+      "types": "./dist/sidebar/index.d.ts",
+      "import": "./dist/sidebar/index.js"
+    },
+    "./login": {
+      "types": "./dist/login/index.d.ts",
+      "import": "./dist/login/index.js"
+    },
+    "./signup": {
+      "types": "./dist/signup/index.d.ts",
+      "import": "./dist/signup/index.js"
+    },
+    "./login/*": {
+      "types": "./dist/login/*/index.d.ts",
+      "import": "./dist/login/*/index.js"
+    },
+    "./signup/*": {
+      "types": "./dist/signup/*/index.d.ts",
+      "import": "./dist/signup/*/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "lint": "oxlint ."
+  },
+  "dependencies": {
+    "@kamod-ch/icons": "^1.0.3"
+  },
+  "devDependencies": {
+    "@kamod-ch/ui": "workspace:*",
+    "@preact/signals": "^2.9.1",
+    "@testing-library/preact": "^3.2.4",
+    "jsdom": "^29.1.1",
+    "preact": "^10.29.2",
+    "tsup": "^8.5.1",
+    "vitest": "^4.1.8"
+  },
+  "peerDependencies": {
+    "@kamod-ch/ui": "workspace:*",
+    "@preact/signals": "^2.9.1",
+    "preact": "^10.29.2"
+  }
+}
