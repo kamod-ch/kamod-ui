@@ -26,6 +26,7 @@ import { dropdownDocPage } from "./pages/dropdown-doc";
 import { dropzoneDocPage } from "./pages/dropzone-doc";
 import { emptyDocPage } from "./pages/empty-doc";
 import { fieldDocPage } from "./pages/field-doc";
+import { formischDocPage } from "./pages/formisch-doc";
 import { hoverCardDocPage } from "./pages/hover-card-doc";
 import { imageDocPage } from "./pages/image-doc";
 import { inputDocPage } from "./pages/input-doc";
@@ -93,6 +94,7 @@ export const docsPages: DocPageModule[] = [
   drawerDocPage,
   emptyDocPage,
   fieldDocPage,
+  formischDocPage,
   hoverCardDocPage,
   imageDocPage,
   inputDocPage,
@@ -149,8 +151,13 @@ export const docsBySlug = docsPages.reduce<Record<string, DocPageModule>>((acc, 
 /** Package docs shown in the Packages sidebar section (not the component grid). */
 export const packageDocPages = docsPages.filter((page) => page.navGroup === "packages");
 
+/** Form docs shown before the long Components sidebar section. */
+export const formDocPages = docsPages.filter((page) => page.navGroup === "forms");
+
 /** Component docs for the alphabetical sidebar and overview grid. */
-export const componentDocPages = docsPages.filter((page) => page.navGroup !== "packages");
+export const componentDocPages = docsPages.filter(
+  (page) => !page.navGroup || page.navGroup === "components",
+);
 
 /**
  * Shown with an "updated" badge in docs and kitchen sink nav.
@@ -170,6 +177,9 @@ export const docsUpdatedComponentSlugs = new Set([
 
 /** Shown with a "new" badge for package docs. */
 export const docsNewPackageSlugs = new Set<string>();
+
+/** Shown with a "new" badge for form guides. */
+export const docsNewFormSlugs = new Set<string>();
 
 export const packageOverviewItems: ComponentOverviewItem[] = [];
 

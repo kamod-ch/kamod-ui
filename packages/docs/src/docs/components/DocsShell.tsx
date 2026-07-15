@@ -21,8 +21,10 @@ import { GithubRepoLink } from "../../layout/GithubRepoLink";
 import { ThemePresetSelect } from "../../theme/ThemePresetSelect";
 import {
   componentDocPages,
+  docsNewFormSlugs,
   docsNewPackageSlugs,
   docsUpdatedComponentSlugs,
+  formDocPages,
   packageDocPages,
 } from "../registry";
 import type { DocPageModule, DocSection } from "../types";
@@ -123,6 +125,10 @@ export const DocsShell = ({
     () => [...packageDocPages].sort((a, b) => a.title.localeCompare(b.title)),
     [],
   );
+  const sortedFormDocs = useMemo(
+    () => [...formDocPages].sort((a, b) => a.title.localeCompare(b.title)),
+    [],
+  );
   const sortedComponentDocs = useMemo(
     () => [...componentDocPages].sort((a, b) => a.title.localeCompare(b.title)),
     [],
@@ -148,6 +154,18 @@ export const DocsShell = ({
         badge: docsNewPackageSlugs.has(doc.slug) ? "new" : undefined,
       })),
     [activeDoc?.slug, getDocHref, sortedPackageDocs],
+  );
+
+  const formNavEntries = useMemo<NavEntry[]>(
+    () =>
+      sortedFormDocs.map((doc) => ({
+        key: doc.slug,
+        label: doc.title,
+        active: doc.slug === activeDoc?.slug,
+        href: getDocHref(doc.slug),
+        badge: docsNewFormSlugs.has(doc.slug) ? "new" : undefined,
+      })),
+    [activeDoc?.slug, getDocHref, sortedFormDocs],
   );
 
   const componentNavEntries = useMemo<NavEntry[]>(
@@ -187,6 +205,16 @@ export const DocsShell = ({
           </nav>
         </>
       ) : null}
+      {formNavEntries.length ? (
+        <>
+          <h2>Forms</h2>
+          <nav aria-label="Docs forms" class="docs-sidebar-nav docs-sidebar-nav--forms">
+            {formNavEntries.map((entry) => (
+              <NavLink entry={entry} key={entry.key} />
+            ))}
+          </nav>
+        </>
+      ) : null}
       <h2>Components</h2>
       <nav aria-label="Docs components" class="docs-sidebar-nav">
         {componentNavEntries.map((entry) => (
@@ -202,6 +230,14 @@ export const DocsShell = ({
         <>
           <p class="docs-mobile-sheet-group-label">Packages</p>
           {packageNavEntries.map((entry) => (
+            <NavLink asSheetClose entry={entry} key={entry.key} />
+          ))}
+        </>
+      ) : null}
+      {formNavEntries.length ? (
+        <>
+          <p class="docs-mobile-sheet-group-label">Forms</p>
+          {formNavEntries.map((entry) => (
             <NavLink asSheetClose entry={entry} key={entry.key} />
           ))}
         </>

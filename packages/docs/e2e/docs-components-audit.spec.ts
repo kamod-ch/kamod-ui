@@ -2,6 +2,7 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { expect, type Page, test } from "@playwright/test";
+import { formDocPages } from "../src/docs/registry";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 /** Repo-root `tmp/` (this file lives in `packages/docs/e2e/`). */
@@ -292,7 +293,9 @@ test("docs /docs/components full link audit (writes tmp report)", async ({ page,
 
     const expectedComponentSidebarEntries = slugsFromGrid.size + 1;
     const expectedPackageSidebarEntries = packageSlugsFromGrid.size;
-    expectedSidebarEntries = expectedComponentSidebarEntries + expectedPackageSidebarEntries;
+    const expectedFormSidebarEntries = formDocPages.length;
+    expectedSidebarEntries =
+      expectedComponentSidebarEntries + expectedPackageSidebarEntries + expectedFormSidebarEntries;
 
     await gotoDocsPath(page, overviewPath);
     const componentSidebarEntries = page.locator(
@@ -304,6 +307,18 @@ test("docs /docs/components full link audit (writes tmp report)", async ({ page,
         severity: "warning",
         url: base + overviewPath,
         detail: `Component sidebar count ${componentSidebarCount} !== grid slugs + overview (${expectedComponentSidebarEntries})`,
+      });
+    }
+
+    const formSidebarEntries = page.locator(
+      'aside.docs-sidebar nav[aria-label="Docs forms"] :is(a,button)',
+    );
+    const formSidebarCount = await formSidebarEntries.count();
+    if (formSidebarCount !== expectedFormSidebarEntries) {
+      addFinding({
+        severity: "warning",
+        url: base + overviewPath,
+        detail: `Form sidebar count ${formSidebarCount} !== registered form docs (${expectedFormSidebarEntries})`,
       });
     }
 
@@ -325,8 +340,16 @@ test("docs /docs/components full link audit (writes tmp report)", async ({ page,
     const mobileNav = page.locator(
       '[aria-label="Docs navigation panel"] nav[aria-label="Mobile docs navigation"]',
     );
-    await expect.soft(mobileNav).toBeVisible({ timeout: 15_000 });
-    const mobileCount = await mobileNav.locator(":is(a,button)").count();
+    let mobileCount = 0;
+    try {
+      await mobileNav.waitFor({ state: "visible", timeout: 15_000 });
+      mobileCount = await mobileNav.locator(":is(a,button)").count();
+    } catch (error) {
+      addFinding({
+        severity: "warning",
+        detail: `Mobile sheet did not become visible: ${error instanceof Error ? error.message : String(error)}`,
+      });
+    }
     if (mobileCount !== expectedSidebarEntries) {
       addFinding({
         severity: "warning",

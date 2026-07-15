@@ -24,7 +24,7 @@ export type DocPageModule = {
   command: string;
   usageLabel: string;
   /** Sidebar group — defaults to components. */
-  navGroup?: "components" | "packages";
+  navGroup?: "components" | "forms" | "packages";
   /** Overrides the title-row package path (e.g. @kamod-ch/openui). */
   packagePath?: string;
   /** Overrides auto-generated usage import snippet. */

@@ -174,10 +174,14 @@ export default defineConfig({
           replacement: resolve(preactRoot, "dist/preact.module.js"),
         },
       ],
-      dedupe: ["preact", "preact/hooks", "preact/compat", "preact/devtools"],
+      dedupe: ["preact", "preact/hooks", "preact/compat", "preact/devtools", "react", "react-dom"],
     },
     ssr: {
       noExternal: [
+        "@formisch/preact",
+        "@formisch/core",
+        "@formisch/methods",
+        "@preact/signals",
         "@kamod-ch/openui",
         "@openuidev/react-lang",
         "@openuidev/lang-core",
