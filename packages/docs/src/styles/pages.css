@@ -482,6 +482,166 @@ a.docs-component-item:hover {
   color: var(--foreground);
 }
 
+.docs-steps {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 0.25rem;
+}
+
+.docs-step {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.docs-step-title {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--foreground);
+}
+
+.docs-step-number {
+  display: inline-grid;
+  place-items: center;
+  width: 1.65rem;
+  height: 1.65rem;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--primary) 14%, var(--muted));
+  border: 1px solid color-mix(in oklab, var(--primary) 24%, var(--border));
+  color: var(--foreground);
+  font-size: 0.82rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.docs-preset-grid {
+  display: grid;
+  gap: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+@media (min-width: 640px) {
+  .docs-preset-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.docs-section-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid color-mix(in oklab, var(--border) 90%, transparent);
+}
+
+.docs-section-nav-link {
+  color: var(--foreground);
+  font-size: 0.92rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.docs-section-nav-link:hover {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.docs-section-nav-next {
+  margin-left: auto;
+  text-align: right;
+}
+
+.docs-typeset-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.85rem 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.docs-typeset-toolbar-theme {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.docs-typeset-preset-toggle {
+  flex: 1 1 auto;
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
+.docs-typeset-frame {
+  max-height: min(32rem, 70vh);
+  overflow: auto;
+  border: 1px solid color-mix(in oklab, var(--border) 92%, transparent);
+  border-radius: 0.75rem;
+  background: color-mix(in oklab, var(--card) 88%, var(--background));
+  padding: 1rem 1.1rem;
+}
+
+.docs-typeset-frame-label {
+  margin: 0 0 0.75rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.docs-typeset-builder {
+  display: grid;
+  gap: 1rem;
+  margin-top: 0.25rem;
+}
+
+@media (min-width: 980px) {
+  .docs-typeset-builder {
+    grid-template-columns: minmax(240px, 280px) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+
+.docs-typeset-builder-controls {
+  display: grid;
+  gap: 1.25rem;
+  padding: 1rem;
+  border: 1px solid color-mix(in oklab, var(--border) 92%, transparent);
+  border-radius: 0.75rem;
+  background: color-mix(in oklab, var(--card) 90%, var(--background));
+}
+
+.docs-typeset-builder-group {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.docs-typeset-builder-group-label {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.docs-typeset-builder-actions {
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.docs-typeset-builder-output {
+  min-width: 0;
+}
+
 .docs-section :where(ul, ol) {
   margin: 0.95rem 0 1.15rem;
   padding-left: 1.3rem;

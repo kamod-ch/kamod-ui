@@ -8,6 +8,8 @@
 @source "../../../blocks/src/**/*.{ts,tsx}";
 
 @import "@kamod-ch/themes/theme.css";
+@import "@kamod-ch/typeset/typeset.css";
+@import "@kamod-ch/typeset/presets.css";
 @import "./demo-foundation.css";
 @import "./app.css";
 @import "./pages.css";

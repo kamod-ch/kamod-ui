@@ -26,8 +26,18 @@ test.describe("sidebar blocks docs", () => {
     for (const id of ids) {
       await expect(page.locator(`article#${id}`)).toBeAttached();
     }
-    const firstFrame = page.frameLocator('iframe[title="sidebar-01 preview"]');
-    await expect(firstFrame.getByText("Data Fetching").first()).toBeVisible();
+    const firstCard = page.locator("article#sidebar-01");
+    await expect(firstCard.locator(".blocks-preview-host")).toContainText("Data Fetching", {
+      timeout: 15_000,
+    });
+  });
+
+  test("loads sidebar overview without console errors while scrolling", async ({ page }) => {
+    await page.goto("./blocks/sidebar");
+    await page.locator("article#sidebar-16").scrollIntoViewIfNeeded();
+    await expect(page.locator("article#sidebar-16")).toBeVisible();
+    await page.locator("article#sidebar-01").scrollIntoViewIfNeeded();
+    await expect(page.locator("article#sidebar-01")).toBeVisible();
   });
 
   test("code tab shows file tree and install path", async ({ page }) => {
@@ -53,6 +63,10 @@ test.describe("sidebar blocks docs", () => {
       .first()
       .click();
     await expect(page.getByText("History").or(page.getByText("Genesis")).first()).toBeVisible();
+
+    await page.goto("./blocks/sidebar/sidebar-06/preview");
+    await page.getByRole("button", { name: "Playground" }).click();
+    await expect(page.getByRole("menuitem", { name: "History" })).toBeVisible();
 
     await page.goto("./blocks/sidebar/sidebar-10/preview");
     await page.getByRole("button", { name: "Open sidebar popover" }).click();

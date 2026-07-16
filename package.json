@@ -23,7 +23,7 @@
   "scripts": {
     "prepare": "lefthook install",
     "build": "pnpm -r build",
-    "build:docs": "pnpm --filter @kamod-ch/themes build && pnpm --filter @kamod-ch/ui build && pnpm --filter @kamod-ch/openui build && pnpm --filter @kamod-ch/ui-docs build",
+    "build:docs": "pnpm --filter @kamod-ch/themes build && pnpm --filter @kamod-ch/typeset build && pnpm --filter @kamod-ch/ui build && pnpm --filter @kamod-ch/openui build && pnpm --filter @kamod-ch/ui-docs build",
     "test": "pnpm --filter @kamod-ch/ui test",
     "test:openui": "pnpm --filter @kamod-ch/openui test",
     "test:coverage": "pnpm --filter @kamod-ch/ui test:coverage",
@@ -35,7 +35,7 @@
     "docs:readme": "node scripts/sync-package-readme.mjs",
     "docs:readme:check": "node scripts/sync-package-readme.mjs --check",
     "test:e2e": "pnpm --filter @kamod-ch/ui-docs test:e2e",
-    "typecheck": "pnpm --filter @kamod-ch/themes build && pnpm --filter @kamod-ch/ui build && pnpm --filter @kamod-ch/openui build && pnpm -r typecheck",
+    "typecheck": "pnpm --filter @kamod-ch/themes build && pnpm --filter @kamod-ch/typeset build && pnpm --filter @kamod-ch/ui build && pnpm --filter @kamod-ch/openui build && pnpm -r typecheck",
     "lint:fast": "oxlint .",
     "lint": "oxlint .",
     "lint:fix": "oxlint --fix .",

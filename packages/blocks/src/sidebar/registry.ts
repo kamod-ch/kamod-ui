@@ -64,6 +64,31 @@ const blockFiles = (id: SidebarBlockId): BlockFile[] => {
       kind: "support",
     },
     {
+      path: "src/sidebar/shared/nav-secondary.tsx",
+      label: "components/nav-secondary.tsx",
+      kind: "support",
+    },
+    {
+      path: "src/sidebar/shared/nav-actions.tsx",
+      label: "components/nav-actions.tsx",
+      kind: "support",
+    },
+    {
+      path: "src/sidebar/shared/nav-favorites.tsx",
+      label: "components/nav-favorites.tsx",
+      kind: "support",
+    },
+    {
+      path: "src/sidebar/shared/sidebar-opt-in-form.tsx",
+      label: "components/sidebar-opt-in-form.tsx",
+      kind: "support",
+    },
+    {
+      path: "src/sidebar/shared/site-header.tsx",
+      label: "components/site-header.tsx",
+      kind: "support",
+    },
+    {
       path: "src/sidebar/SidebarBlockShell.tsx",
       label: "components/sidebar-block-shell.tsx",
       kind: "support",

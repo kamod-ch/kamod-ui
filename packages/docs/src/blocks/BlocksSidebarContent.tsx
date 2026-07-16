@@ -7,6 +7,7 @@ import { CodeBlock } from "../docs/components/CodeBlock";
 import { DocsShell } from "../docs/components/DocsShell";
 import { GithubRepoLink } from "../layout/GithubRepoLink";
 import { ThemePresetSelect } from "../theme/ThemePresetSelect";
+import { BlockPreview } from "./BlockPreview";
 import { getSidebarBlockSource } from "./sidebar-source";
 
 export const BlocksSidebarContent = () => (
@@ -109,15 +110,11 @@ const BlockCard = ({ block }: { block: SidebarBlock }) => {
             <TabsTrigger value="code">Code</TabsTrigger>
           </TabsList>
           <TabsContent value="preview">
-            <div class="blocks-preview-frame">
-              <iframe
-                key={previewKey}
-                title={`${block.id} preview`}
-                src={previewUrl}
-                style={{ height: `${block.preview.height}px` }}
-                loading="lazy"
-              />
-            </div>
+            <BlockPreview
+              previewKey={previewKey}
+              component={block.component}
+              height={block.preview.height}
+            />
           </TabsContent>
           <TabsContent value="code">
             <div class="blocks-install">

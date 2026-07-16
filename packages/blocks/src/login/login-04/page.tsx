@@ -1,7 +1,6 @@
 import { Card, CardContent } from "@kamod-ch/ui";
+import { authCoverUrl } from "../../auth/shared/auth-cover-url";
 import { LoginForm } from "./login-form";
-
-const cover = new URL("../../auth/shared/auth-cover.svg", import.meta.url).href;
 
 export function Login04() {
   return (
@@ -13,7 +12,7 @@ export function Login04() {
           </div>
           <div class="relative hidden min-h-[560px] bg-muted md:block">
             <img
-              src={cover}
+              src={authCoverUrl}
               alt="Abstract product interface preview"
               width={1200}
               height={1400}

@@ -6,6 +6,7 @@ import { withBasePath } from "../base-path";
 import { CodeBlock } from "../docs/components/CodeBlock";
 import { DocsShell } from "../docs/components/DocsShell";
 import { getAuthBlockSource } from "./auth-source";
+import { BlockPreview } from "./BlockPreview";
 
 type AuthCategory = "login" | "signup";
 type AuthBlock = (typeof loginBlocks)[number];
@@ -60,10 +61,11 @@ const BlockCard = ({ block }: { block: AuthBlock }) => {
   const previewUrl = withBasePath(`/blocks/${block.category}/${block.id}/preview`);
   const source = getAuthBlockSource(block.id as AuthBlockId, selectedFile);
   const fileTree = useMemo(() => buildFileTree(block.files), [block.files]);
+  const installCommand = block.installCommand;
 
-  const copySource = async () => {
+  const copyInstall = async () => {
     try {
-      await navigator.clipboard.writeText(source);
+      await navigator.clipboard.writeText(installCommand);
       setCopied(true);
       window.setTimeout(() => setCopied(false), 1600);
     } catch {
@@ -94,24 +96,20 @@ const BlockCard = ({ block }: { block: AuthBlock }) => {
             <TabsTrigger value="code">Code</TabsTrigger>
           </TabsList>
           <TabsContent value="preview">
-            <div class="blocks-preview-frame">
-              <iframe
-                key={previewKey}
-                title={`${block.id} preview`}
-                src={previewUrl}
-                style={{ height: `${block.preview.height}px` }}
-                loading="lazy"
-              />
-            </div>
+            <BlockPreview
+              previewKey={previewKey}
+              component={block.component}
+              height={block.preview.height}
+            />
           </TabsContent>
           <TabsContent value="code">
             <div class="blocks-install">
-              <code>{selectedFile}</code>
+              <code>{installCommand}</code>
               <Button
                 size="icon-sm"
                 variant="ghost"
-                aria-label="Copy selected source"
-                onClick={copySource}
+                aria-label="Copy block path"
+                onClick={copyInstall}
               >
                 {copied ? <Check size={14} /> : <Copy size={14} />}
               </Button>

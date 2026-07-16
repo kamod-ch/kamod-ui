@@ -1,4 +1,4 @@
-import { GitBranchIcon, MailIcon } from "@kamod-ch/icons/lucide";
+import { ChromeIcon, GithubIcon } from "@kamod-ch/icons/shadcn";
 import { Alert, AlertDescription, Button, Checkbox, Input, Label } from "@kamod-ch/ui";
 import { useRef, useState } from "preact/hooks";
 import type { AuthProvider, AuthStatus, SignupValues } from "../../auth/shared/auth-utils";
@@ -94,7 +94,7 @@ export function SignupForm({
               disabled={loading}
               onClick={() => void social("github")}
             >
-              <GitBranchIcon aria-hidden="true" /> GitHub
+              <GithubIcon aria-hidden="true" /> GitHub
             </Button>
             <Button
               type="button"
@@ -102,7 +102,7 @@ export function SignupForm({
               disabled={loading}
               onClick={() => void social("google")}
             >
-              <MailIcon aria-hidden="true" /> Google
+              <ChromeIcon aria-hidden="true" /> Google
             </Button>
           </div>
           <div class="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">

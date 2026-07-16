@@ -9,6 +9,8 @@ export type DocSection = {
 export type DocRenderMainContext = {
   title: string;
   sections: DocSection[];
+  activeSectionId: string;
+  getSectionHref: (sectionId: string) => string;
   renderTitleRow: () => ComponentChildren;
   renderPreviewAndCodeTabs: (args: {
     preview: ComponentChildren;

@@ -1,7 +1,6 @@
 import { GalleryVerticalEndIcon } from "@kamod-ch/icons/lucide";
+import { authCoverUrl } from "../../auth/shared/auth-cover-url";
 import { LoginForm } from "./login-form";
-
-const cover = new URL("../../auth/shared/auth-cover.svg", import.meta.url).href;
 
 export function Login02() {
   return (
@@ -21,7 +20,7 @@ export function Login02() {
       </section>
       <aside class="relative hidden bg-muted lg:block">
         <img
-          src={cover}
+          src={authCoverUrl}
           alt="Abstract product interface preview"
           width={1200}
           height={1400}

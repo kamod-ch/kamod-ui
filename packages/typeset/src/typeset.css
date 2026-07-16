@@ -1,0 +1,413 @@
+@layer components {
+  .typeset {
+    --typeset-font-body: inherit;
+    --typeset-font-heading: inherit;
+    --typeset-font-mono:
+      ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    --typeset-size: 1em;
+    --typeset-leading: 1.75;
+    --typeset-flow: 1.25em;
+    --typeset-measure: none;
+    --typeset-heading-weight: 650;
+    --typeset-heading-tracking: -0.025em;
+    --typeset-link-decoration: underline;
+    --typeset-code-size: 0.875em;
+    --typeset-list-indent: 1.45em;
+    --typeset-table-border: var(--border, currentColor);
+    --typeset-blockquote-border: var(--border, currentColor);
+    --typeset-radius: var(--radius, 0.625rem);
+    --typeset-background: var(--background, transparent);
+    --typeset-primary-foreground: var(--primary-foreground, currentColor);
+    max-inline-size: var(--typeset-measure);
+    color: var(--foreground, currentColor);
+    font-family: var(--typeset-font-body);
+    font-size: var(--typeset-size);
+    line-height: var(--typeset-leading);
+    overflow-wrap: anywhere;
+    text-rendering: optimizeLegibility;
+  }
+
+  .typeset :where(.not-typeset, [data-not-typeset]) {
+    color: inherit;
+    font: inherit;
+  }
+
+  .typeset
+    :where(p, ul, ol, dl, blockquote, pre, figure, table, details, hr, .typeset-scroll):not(
+      .not-typeset,
+      [data-not-typeset],
+      .not-typeset *,
+      [data-not-typeset] *
+    ) {
+    margin-block: 0;
+    margin-block-start: var(--typeset-flow);
+  }
+
+  .typeset
+    :where(h1, h2, h3, h4, h5, h6):not(
+      .not-typeset,
+      [data-not-typeset],
+      .not-typeset *,
+      [data-not-typeset] *
+    ) {
+    margin-block: 0;
+    margin-block-start: calc(var(--typeset-flow) * 1.55);
+    color: var(--foreground, currentColor);
+    font-family: var(--typeset-font-heading);
+    font-weight: var(--typeset-heading-weight);
+    letter-spacing: var(--typeset-heading-tracking);
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+
+  .typeset :where(h1):not(.not-typeset, [data-not-typeset], .not-typeset *, [data-not-typeset] *) {
+    font-size: calc(var(--typeset-size) * 2.25);
+  }
+  .typeset :where(h2):not(.not-typeset, [data-not-typeset], .not-typeset *, [data-not-typeset] *) {
+    font-size: calc(var(--typeset-size) * 1.75);
+  }
+  .typeset :where(h3):not(.not-typeset, [data-not-typeset], .not-typeset *, [data-not-typeset] *) {
+    font-size: calc(var(--typeset-size) * 1.375);
+  }
+  .typeset :where(h4):not(.not-typeset, [data-not-typeset], .not-typeset *, [data-not-typeset] *) {
+    font-size: calc(var(--typeset-size) * 1.15);
+  }
+  .typeset
+    :where(h5, h6):not(.not-typeset, [data-not-typeset], .not-typeset *, [data-not-typeset] *) {
+    font-size: var(--typeset-size);
+  }
+  .typeset :where(h6):not(.not-typeset, [data-not-typeset], .not-typeset *, [data-not-typeset] *) {
+    color: var(--muted-foreground, currentColor);
+    text-transform: uppercase;
+  }
+
+  .typeset
+    :where(strong, b):not(.not-typeset, [data-not-typeset], .not-typeset *, [data-not-typeset] *) {
+    font-weight: 700;
+  }
+  .typeset
+    :where(em, i, cite, q):not(
+      .not-typeset,
+      [data-not-typeset],
+      .not-typeset *,
+      [data-not-typeset] *
+    ) {
+    font-style: italic;
+  }
+  .typeset
+    :where(small):not(.not-typeset, [data-not-typeset], .not-typeset *, [data-not-typeset] *) {
+    font-size: 0.875em;
+  }
+  .typeset
+    :where(del, s):not(.not-typeset, [data-not-typeset], .not-typeset *, [data-not-typeset] *) {
+    text-decoration: line-through;
+  }
+  .typeset :where(ins):not(.not-typeset, [data-not-typeset], .not-typeset *, [data-not-typeset] *) {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+  .typeset
+    :where(mark):not(.not-typeset, [data-not-typeset], .not-typeset *, [data-not-typeset] *) {
+    border-radius: calc(var(--typeset-radius) * 0.35);
+    background: var(--accent, Mark);
+    color: var(--foreground, MarkText);
+    padding-inline: 0.15em;
+  }
+  .typeset
+    :where(abbr[title]):not(
+      .not-typeset,
+      [data-not-typeset],
+      .not-typeset *,
+      [data-not-typeset] *
+    ) {
+    cursor: help;
+    text-decoration: underline dotted;
+    text-underline-offset: 0.18em;
+  }
+  .typeset
+    :where(sub, sup):not(.not-typeset, [data-not-typeset], .not-typeset *, [data-not-typeset] *) {
+    font-size: 0.75em;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+  }
+  .typeset :where(sub):not(.not-typeset, [data-not-typeset], .not-typeset *, [data-not-typeset] *) {
+    inset-block-start: 0.25em;
+  }
+  .typeset :where(sup):not(.not-typeset, [data-not-typeset], .not-typeset *, [data-not-typeset] *) {
+    inset-block-start: -0.5em;
+  }
+
+  .typeset :where(a):not(.not-typeset, [data-not-typeset], .not-typeset *, [data-not-typeset] *) {
+    color: var(--primary, currentColor);
+    text-decoration: var(--typeset-link-decoration);
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.18em;
+  }
+  .typeset
+    :where(a:hover):not(.not-typeset, [data-not-typeset], .not-typeset *, [data-not-typeset] *) {
+    color: var(--foreground, currentColor);
+  }
+  .typeset
+    :where(
+      a:focus-visible,
+      summary:focus-visible,
+      pre:focus-visible,
+      .typeset-scroll:focus-visible
+    ):not(.not-typeset, [data-not-typeset], .not-typeset *, [data-not-typeset] *) {
+    border-radius: calc(var(--typeset-radius) * 0.35);
+    outline: 2px solid var(--ring, currentColor);
+    outline-offset: 3px;
+  }
+
+  .typeset
+    :where(ul, ol):not(.not-typeset, [data-not-typeset], .not-typeset *, [data-not-typeset] *) {
+    padding-inline-start: var(--typeset-list-indent);
+  }
+  .typeset :where(ul):not(.not-typeset, [data-not-typeset], .not-typeset *, [data-not-typeset] *) {
+    list-style: disc;
+  }
+  .typeset :where(ol):not(.not-typeset, [data-not-typeset], .not-typeset *, [data-not-typeset] *) {
+    list-style: decimal;
+  }
+  .typeset :where(li):not(.not-typeset, [data-not-typeset], .not-typeset *, [data-not-typeset] *) {
+    margin-block-start: calc(var(--typeset-flow) * 0.35);
+    padding-inline-start: 0.15em;
+  }
+  .typeset
+    :where(li > ul, li > ol):not(
+      .not-typeset,
+      [data-not-typeset],
+      .not-typeset *,
+      [data-not-typeset] *
+    ) {
+    margin-block-start: calc(var(--typeset-flow) * 0.4);
+  }
+  .typeset
+    :where(li > p):not(.not-typeset, [data-not-typeset], .not-typeset *, [data-not-typeset] *) {
+    margin-block-start: calc(var(--typeset-flow) * 0.35);
+  }
+  .typeset
+    :where(ul.contains-task-list, ul.task-list):not(
+      .not-typeset,
+      [data-not-typeset],
+      .not-typeset *,
+      [data-not-typeset] *
+    ) {
+    list-style: none;
+    padding-inline-start: 0;
+  }
+  .typeset
+    :where(li.task-list-item):not(
+      .not-typeset,
+      [data-not-typeset],
+      .not-typeset *,
+      [data-not-typeset] *
+    ) {
+    list-style: none;
+  }
+  .typeset
+    :where(input[type="checkbox"]):not(
+      .not-typeset,
+      [data-not-typeset],
+      .not-typeset *,
+      [data-not-typeset] *
+    ) {
+    margin-inline-end: 0.5em;
+    vertical-align: -0.15em;
+    accent-color: var(--primary, auto);
+  }
+  .typeset :where(dt):not(.not-typeset, [data-not-typeset], .not-typeset *, [data-not-typeset] *) {
+    margin-block-start: calc(var(--typeset-flow) * 0.75);
+    font-weight: 650;
+  }
+  .typeset :where(dd):not(.not-typeset, [data-not-typeset], .not-typeset *, [data-not-typeset] *) {
+    margin-inline-start: var(--typeset-list-indent);
+    margin-block-start: calc(var(--typeset-flow) * 0.25);
+    color: var(--muted-foreground, currentColor);
+  }
+
+  .typeset
+    :where(code, kbd):not(.not-typeset, [data-not-typeset], .not-typeset *, [data-not-typeset] *) {
+    border: 1px solid var(--border, transparent);
+    border-radius: calc(var(--typeset-radius) * 0.45);
+    background: var(--muted, transparent);
+    color: var(--foreground, currentColor);
+    font-family: var(--typeset-font-mono);
+    font-size: var(--typeset-code-size);
+    padding: 0.12em 0.32em;
+  }
+  .typeset :where(kbd):not(.not-typeset, [data-not-typeset], .not-typeset *, [data-not-typeset] *) {
+    box-shadow: inset 0 -1px 0 var(--border, currentColor);
+    white-space: nowrap;
+  }
+  .typeset :where(pre):not(.not-typeset, [data-not-typeset], .not-typeset *, [data-not-typeset] *) {
+    max-inline-size: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border: 1px solid var(--border, transparent);
+    border-radius: var(--typeset-radius);
+    background: var(--card, var(--muted, transparent));
+    color: var(--card-foreground, currentColor);
+    font-family: var(--typeset-font-mono);
+    font-size: var(--typeset-code-size);
+    line-height: 1.65;
+    padding: calc(var(--typeset-flow) * 0.85);
+    tab-size: 2;
+    white-space: pre;
+  }
+  .typeset
+    :where(pre code):not(.not-typeset, [data-not-typeset], .not-typeset *, [data-not-typeset] *) {
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: inherit;
+    font-size: 1em;
+    padding: 0;
+  }
+  .typeset
+    :where(pre, .typeset-scroll):not(
+      .not-typeset,
+      [data-not-typeset],
+      .not-typeset *,
+      [data-not-typeset] *
+    ) {
+    scrollbar-color: var(--border, currentColor) transparent;
+  }
+
+  .typeset
+    :where(blockquote):not(.not-typeset, [data-not-typeset], .not-typeset *, [data-not-typeset] *) {
+    border-inline-start: 0.25em solid var(--typeset-blockquote-border);
+    color: var(--muted-foreground, currentColor);
+    padding-inline-start: 1em;
+  }
+  .typeset :where(hr):not(.not-typeset, [data-not-typeset], .not-typeset *, [data-not-typeset] *) {
+    border: 0;
+    border-block-start: 1px solid var(--border, currentColor);
+  }
+
+  .typeset
+    :where(img, picture, video, canvas, svg):not(
+      .not-typeset,
+      [data-not-typeset],
+      .not-typeset *,
+      [data-not-typeset] *
+    ) {
+    block-size: auto;
+    max-inline-size: 100%;
+  }
+  .typeset
+    :where(img, video):not(.not-typeset, [data-not-typeset], .not-typeset *, [data-not-typeset] *) {
+    border-radius: var(--typeset-radius);
+  }
+  .typeset
+    :where(figcaption, caption):not(
+      .not-typeset,
+      [data-not-typeset],
+      .not-typeset *,
+      [data-not-typeset] *
+    ) {
+    color: var(--muted-foreground, currentColor);
+    font-size: 0.875em;
+    margin-block-start: calc(var(--typeset-flow) * 0.45);
+    text-align: start;
+  }
+
+  .typeset
+    :where(table):not(.not-typeset, [data-not-typeset], .not-typeset *, [data-not-typeset] *) {
+    border-collapse: collapse;
+    inline-size: 100%;
+    overflow-wrap: normal;
+  }
+  .typeset
+    :where(thead):not(.not-typeset, [data-not-typeset], .not-typeset *, [data-not-typeset] *) {
+    border-block-end: 1px solid var(--typeset-table-border);
+  }
+  .typeset
+    :where(tfoot):not(.not-typeset, [data-not-typeset], .not-typeset *, [data-not-typeset] *) {
+    border-block-start: 1px solid var(--typeset-table-border);
+  }
+  .typeset :where(tr):not(.not-typeset, [data-not-typeset], .not-typeset *, [data-not-typeset] *) {
+    border-block-end: 1px solid var(--typeset-table-border);
+  }
+  .typeset
+    :where(th, td):not(.not-typeset, [data-not-typeset], .not-typeset *, [data-not-typeset] *) {
+    padding: calc(var(--typeset-flow) * 0.45) 0.75em;
+    text-align: start;
+    vertical-align: top;
+  }
+  .typeset :where(th):not(.not-typeset, [data-not-typeset], .not-typeset *, [data-not-typeset] *) {
+    color: var(--foreground, currentColor);
+    font-weight: 650;
+  }
+  .typeset :where(td):not(.not-typeset, [data-not-typeset], .not-typeset *, [data-not-typeset] *) {
+    color: var(--foreground, currentColor);
+  }
+
+  .typeset
+    :where(details):not(.not-typeset, [data-not-typeset], .not-typeset *, [data-not-typeset] *) {
+    border: 1px solid var(--border, currentColor);
+    border-radius: var(--typeset-radius);
+    padding: calc(var(--typeset-flow) * 0.75);
+  }
+  .typeset
+    :where(summary):not(.not-typeset, [data-not-typeset], .not-typeset *, [data-not-typeset] *) {
+    cursor: pointer;
+    font-weight: 650;
+  }
+
+  .typeset
+    :where(.footnotes, [role="doc-endnotes"]):not(
+      .not-typeset,
+      [data-not-typeset],
+      .not-typeset *,
+      [data-not-typeset] *
+    ) {
+    border-block-start: 1px solid var(--border, currentColor);
+    font-size: 0.9em;
+    margin-block-start: calc(var(--typeset-flow) * 1.5);
+    padding-block-start: var(--typeset-flow);
+  }
+  .typeset
+    :where(.anchor, .heading-anchor):not(
+      .not-typeset,
+      [data-not-typeset],
+      .not-typeset *,
+      [data-not-typeset] *
+    ) {
+    color: var(--muted-foreground, currentColor);
+    opacity: 0.8;
+    text-decoration: none;
+  }
+  .typeset
+    :where(a[target="_blank"]):not(
+      .not-typeset,
+      [data-not-typeset],
+      .not-typeset *,
+      [data-not-typeset] *
+    ) {
+    overflow-wrap: anywhere;
+  }
+
+  .typeset
+    :where(.typeset-scroll):not(
+      .not-typeset,
+      [data-not-typeset],
+      .not-typeset *,
+      [data-not-typeset] *
+    ) {
+    max-inline-size: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .typeset
+    :where(.typeset-scroll > table):not(
+      .not-typeset,
+      [data-not-typeset],
+      .not-typeset *,
+      [data-not-typeset] *
+    ) {
+    min-inline-size: max-content;
+    margin-block-start: 0;
+  }
+}

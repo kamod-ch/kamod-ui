@@ -56,6 +56,23 @@ export type BlockDefinition = {
   installCommand: string;
 };
 
+export type BreadcrumbItem = {
+  label: string;
+  href?: string;
+  hiddenOnMobile?: boolean;
+};
+
+export type SidebarBlockLayout = {
+  headerClass?: string;
+  contentClass?: string;
+  triggerClass?: string;
+  headerInner?: boolean;
+  stickyHeader?: boolean;
+  placeholder?: "grid" | "list" | "squares" | "centered";
+  breadcrumbs?: BreadcrumbItem[];
+  contentPaddingTop?: boolean;
+};
+
 export type SidebarBlockVariant = {
   id: SidebarBlockId;
   title: string;
@@ -74,8 +91,16 @@ export type SidebarBlockVariant = {
   right?: boolean;
   dual?: boolean;
   stickyHeader?: boolean;
-  collapsible?: boolean;
+  /** Docs sidebar with collapsible nav groups (sidebar-02). */
+  collapsibleSections?: boolean;
+  /** App nav with always-expanded submenus (sidebar-03/04). */
   submenus?: boolean;
+  /** App nav with collapsible submenu triggers (sidebar-05). */
+  collapsibleSubmenus?: boolean;
+  showSearchForm?: boolean;
+  showOptInForm?: boolean;
+  showSecondaryNav?: boolean;
+  layout?: SidebarBlockLayout;
 };
 
 export const sidebarVariants: SidebarBlockVariant[] = [
@@ -92,7 +117,11 @@ export const sidebarVariants: SidebarBlockVariant[] = [
     eyebrow: "A sidebar with collapsible sections",
     description: "A sidebar with collapsible sections.",
     features: ["collapsible", "mobile"],
-    collapsible: true,
+    collapsibleSections: true,
+    layout: {
+      stickyHeader: true,
+      placeholder: "list",
+    },
   },
   {
     id: "sidebar-03",
@@ -101,6 +130,11 @@ export const sidebarVariants: SidebarBlockVariant[] = [
     description: "A sidebar with submenus.",
     features: ["submenus", "mobile"],
     submenus: true,
+    layout: {
+      headerClass: "flex h-16 shrink-0 items-center gap-2 border-b",
+      headerInner: true,
+      triggerClass: "",
+    },
   },
   {
     id: "sidebar-04",
@@ -110,6 +144,10 @@ export const sidebarVariants: SidebarBlockVariant[] = [
     features: ["floating", "submenus", "mobile"],
     floating: true,
     submenus: true,
+    layout: {
+      headerClass: "flex h-16 shrink-0 items-center gap-2 px-4",
+      contentPaddingTop: false,
+    },
   },
   {
     id: "sidebar-05",
@@ -117,8 +155,9 @@ export const sidebarVariants: SidebarBlockVariant[] = [
     eyebrow: "A sidebar with collapsible submenus",
     description: "A sidebar with collapsible submenus.",
     features: ["collapsible", "submenus", "mobile"],
-    collapsible: true,
     submenus: true,
+    collapsibleSubmenus: true,
+    showSearchForm: true,
   },
   {
     id: "sidebar-06",
@@ -127,6 +166,7 @@ export const sidebarVariants: SidebarBlockVariant[] = [
     description: "A sidebar with submenus as dropdowns.",
     features: ["dropdowns", "mobile"],
     dropdowns: true,
+    showOptInForm: true,
   },
   {
     id: "sidebar-07",
@@ -143,6 +183,7 @@ export const sidebarVariants: SidebarBlockVariant[] = [
     description: "An inset sidebar with secondary navigation.",
     features: ["inset", "mobile"],
     inset: true,
+    showSecondaryNav: true,
   },
   {
     id: "sidebar-09",
@@ -151,7 +192,6 @@ export const sidebarVariants: SidebarBlockVariant[] = [
     description: "Collapsible nested sidebars.",
     features: ["nested", "collapsible", "mobile"],
     nested: true,
-    collapsible: true,
   },
   {
     id: "sidebar-10",
@@ -168,7 +208,13 @@ export const sidebarVariants: SidebarBlockVariant[] = [
     description: "A sidebar with a collapsible file tree.",
     features: ["file-tree", "collapsible", "mobile"],
     fileTree: true,
-    collapsible: true,
+    layout: {
+      breadcrumbs: [
+        { label: "components", href: "#", hiddenOnMobile: true },
+        { label: "ui", href: "#", hiddenOnMobile: true },
+        { label: "button.tsx" },
+      ],
+    },
   },
   {
     id: "sidebar-12",

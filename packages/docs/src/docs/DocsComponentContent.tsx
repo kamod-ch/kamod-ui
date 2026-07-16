@@ -316,6 +316,8 @@ export const DocsComponentContent = ({ slug, section }: { slug?: string; section
   const renderContext: DocRenderMainContext = {
     title: activeDoc.title,
     sections: docSections,
+    activeSectionId,
+    getSectionHref: (sectionId) => withBasePath(`/docs/${activeDoc.slug}/${sectionId}`),
     renderTitleRow,
     renderPreviewAndCodeTabs,
     renderSectionExtraContent,

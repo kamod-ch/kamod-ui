@@ -145,6 +145,9 @@ importers:
       '@kamod-ch/themes':
         specifier: workspace:*
         version: link:../themes
+      '@kamod-ch/typeset':
+        specifier: workspace:*
+        version: link:../typeset
       '@kamod-ch/ui':
         specifier: workspace:*
         version: link:../core
@@ -285,6 +288,18 @@ importers:
       tsup:
         specifier: ^8.5.1
         version: 8.5.1(jiti@2.7.0)(postcss@8.5.15)(typescript@6.0.3)(yaml@2.9.0)
+      vitest:
+        specifier: ^4.1.8
+        version: 4.1.8(@types/node@25.9.2)(@vitest/coverage-v8@4.1.8)(jsdom@29.1.1)(vite@8.0.16(@types/node@25.9.2)(esbuild@0.27.4)(jiti@2.7.0)(yaml@2.9.0))
+
+  packages/typeset:
+    devDependencies:
+      tsup:
+        specifier: ^8.5.1
+        version: 8.5.1(jiti@2.7.0)(postcss@8.5.15)(typescript@6.0.3)(yaml@2.9.0)
+      typescript:
+        specifier: ^6.0.3
+        version: 6.0.3
       vitest:
         specifier: ^4.1.8
         version: 4.1.8(@types/node@25.9.2)(@vitest/coverage-v8@4.1.8)(jsdom@29.1.1)(vite@8.0.16(@types/node@25.9.2)(esbuild@0.27.4)(jiti@2.7.0)(yaml@2.9.0))

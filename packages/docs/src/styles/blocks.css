@@ -153,6 +153,32 @@
   border-radius: 0.75rem;
   border: 1px solid var(--border);
   background: var(--background);
+  position: relative;
+}
+
+.blocks-preview-inline {
+  contain: layout paint style;
+  isolation: isolate;
+}
+
+.blocks-preview-placeholder {
+  height: 100%;
+  background: color-mix(in srgb, var(--muted) 35%, transparent);
+}
+
+.blocks-preview-host [data-slot="sidebar-wrapper"] {
+  min-height: 100% !important;
+  height: 100%;
+}
+
+.blocks-preview-host .min-h-svh,
+.blocks-preview-host .min-h-\[100vh\] {
+  min-height: 0 !important;
+}
+
+.blocks-preview-host .h-\[100vh\] {
+  height: auto !important;
+  min-height: 12rem;
 }
 
 .blocks-preview-frame iframe {
