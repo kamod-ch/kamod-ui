@@ -1,8 +1,9 @@
-import { ChromeIcon, GithubIcon } from "@kamod-ch/icons/shadcn";
+import { GithubIcon } from "@kamod-ch/icons/shadcn";
 import { Alert, AlertDescription, Button, Input, Label } from "@kamod-ch/ui";
 import { useRef, useState } from "preact/hooks";
 import type { AuthProvider, AuthStatus, LoginValues } from "../../auth/shared/auth-utils";
 import { demoRejects, focusFirstError, isEmail, sleep } from "../../auth/shared/auth-utils";
+import { GoogleIcon } from "../../auth/shared/google-icon";
 
 export type LoginFormProps = {
   onSubmit?: (values: LoginValues) => void | Promise<void>;
@@ -160,7 +161,7 @@ export function LoginForm({
             disabled={loading}
             onClick={() => void social("google")}
           >
-            <ChromeIcon aria-hidden="true" /> Google
+            <GoogleIcon aria-hidden="true" /> Google
           </Button>
         </div>
       </div>

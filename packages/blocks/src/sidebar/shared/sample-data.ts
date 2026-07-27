@@ -60,7 +60,7 @@ export const appNavData = {
     avatar: "S",
   },
   teams: [
-    { name: "Acme Inc", logo: "A", plan: "Enterprise" },
+    { name: "Kamod GmbH", logo: "kamod", plan: "Enterprise" },
     { name: "Acme Corp.", logo: "C", plan: "Startup" },
     { name: "Evil Corp.", logo: "E", plan: "Free" },
   ],

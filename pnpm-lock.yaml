@@ -11,6 +11,9 @@ importers:
       '@biomejs/biome':
         specifier: ^2.4.16
         version: 2.4.16
+      '@kamod-ch/brand':
+        specifier: ^0.1.0
+        version: 0.1.0(preact@10.29.2)
       '@types/node':
         specifier: ^25.9.2
         version: 25.9.2
@@ -130,6 +133,9 @@ importers:
       '@kamod-ch/blocks':
         specifier: workspace:*
         version: link:../blocks
+      '@kamod-ch/brand':
+        specifier: ^0.1.0
+        version: 0.1.0(preact@10.29.2)
       '@kamod-ch/hooks':
         specifier: ^1.0.0
         version: 1.0.0(preact@10.29.2)
@@ -770,6 +776,12 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
+
+  '@kamod-ch/brand@0.1.0':
+    resolution: {integrity: sha512-OlvFptU4FYa4sM4F10LQEWvOuA0in5aLQQVT1runf8ZbvVzLxRcYx7LZBHoBysjxHgIN3uue+b06kYnZ61UvGg==}
+    hasBin: true
+    peerDependencies:
+      preact: '>=10'
 
   '@kamod-ch/hooks@1.0.0':
     resolution: {integrity: sha512-LzcZ/hXh9/1KuVw1rJeV6V9tGAZ+hbLh2mJlOwjUq0wZzZZ0x4BOPU32JI2uZQX045ChpLdOQ76D8GpQeOiHpw==}
@@ -4518,6 +4530,10 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
+
+  '@kamod-ch/brand@0.1.0(preact@10.29.2)':
+    dependencies:
+      preact: 10.29.2
 
   '@kamod-ch/hooks@1.0.0(preact@10.29.2)':
     dependencies:

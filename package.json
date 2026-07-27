@@ -67,10 +67,12 @@
     "release:minor": "node ./scripts/release.mjs minor",
     "release:major": "node ./scripts/release.mjs major",
     "release:dry": "node ./scripts/release.mjs patch --dry",
-    "release:quick": "pnpm install && pnpm release:check:package && pnpm release:auth && pnpm release:publish"
+    "release:quick": "pnpm install && pnpm release:check:package && pnpm release:auth && pnpm release:publish",
+    "brand:readme": "kamod-brand-readme --product UI --output .github/assets"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.16",
+    "@kamod-ch/brand": "^0.1.0",
     "@types/node": "^25.9.2",
     "knip": "^6.16.1",
     "lefthook": "^2.1.9",

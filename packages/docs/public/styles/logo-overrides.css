@@ -1,0 +1,20 @@
+.docs-topbar-brand .kamod-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 2rem;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+@media (max-width: 639px) {
+  .docs-topbar-brand .kamod-logo {
+    height: 2.1rem;
+  }
+
+  .docs-topbar-brand .kamod-logo__mark,
+  .docs-topbar-brand .kamod-logo__mark-img,
+  .docs-topbar-brand .kamod-logo__suffix {
+    height: 2.1rem;
+  }
+}

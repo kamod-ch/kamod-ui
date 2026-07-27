@@ -67,7 +67,6 @@ import { toastDocPage } from "./pages/toast-doc";
 import { toggleDocPage } from "./pages/toggle-doc";
 import { toggleGroupDocPage } from "./pages/toggle-group-doc";
 import { tooltipDocPage } from "./pages/tooltip-doc";
-import { typesetDocPage } from "./pages/typeset-doc";
 import { typographyDocPage } from "./pages/typography-doc";
 import { videoDocPage } from "./pages/video-doc";
 import type { ComponentOverviewItem, DocPageModule } from "./types";
@@ -141,7 +140,6 @@ export const docsPages: DocPageModule[] = [
   toggleDocPage,
   toggleGroupDocPage,
   typographyDocPage,
-  typesetDocPage,
   tooltipDocPage,
   videoDocPage,
 ];
@@ -188,7 +186,6 @@ export const docsNewPackageSlugs = new Set<string>([
   "hooks-package",
   "icons-package",
   "signals-package",
-  "typeset",
 ]);
 
 /** Shown with a "new" badge for form guides. */

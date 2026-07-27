@@ -35,45 +35,18 @@
   text-decoration: none;
 }
 
-.kiw-footer-logo .ki-logo__kamod-wrap {
+.kiw-footer-logo .kamod-mark {
   display: grid;
   align-items: center;
   height: auto;
   width: min(9.5rem, 52vw);
 }
 
-.kiw-footer-logo .ki-logo__kamod {
+.kiw-footer-logo .kamod-mark__img {
   grid-area: 1 / 1;
   display: block;
   height: auto;
   width: 100%;
   max-width: none;
   justify-self: center;
-}
-
-.kiw-footer-logo .ki-logo__kamod--dark {
-  opacity: 0;
-  pointer-events: none;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not(.dark):not([data-theme]) .kiw-footer-logo .ki-logo__kamod--light {
-    opacity: 0;
-  }
-
-  :root:not(.dark):not([data-theme]) .kiw-footer-logo .ki-logo__kamod--dark {
-    opacity: 1;
-    pointer-events: auto;
-  }
-}
-
-html.dark .kiw-footer-logo .ki-logo__kamod--light,
-:root[data-theme="dark"] .kiw-footer-logo .ki-logo__kamod--light {
-  opacity: 0;
-}
-
-html.dark .kiw-footer-logo .ki-logo__kamod--dark,
-:root[data-theme="dark"] .kiw-footer-logo .ki-logo__kamod--dark {
-  opacity: 1;
-  pointer-events: auto;
 }

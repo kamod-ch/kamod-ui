@@ -1051,28 +1051,6 @@ export const docsRouteManifest = [
     ],
   },
   {
-    slug: "typeset",
-    sections: [
-      "installation",
-      "usage",
-      "rhythm",
-      "css-variables",
-      "presets",
-      "own-presets",
-      "theme-integration",
-      "dark-mode",
-      "responsive-tables",
-      "overrides",
-      "opt-out",
-      "accessibility",
-      "streaming",
-      "tailwind-typography",
-      "api-reference",
-      "demo",
-      "builder",
-    ],
-  },
-  {
     slug: "typography",
     sections: [
       "installation",

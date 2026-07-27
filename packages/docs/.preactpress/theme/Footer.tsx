@@ -1,3 +1,4 @@
+import { KamodMarkLogo } from "@kamod-ch/brand";
 import type { FunctionalComponent } from "preact";
 import { withBasePath } from "../../src/base-path";
 
@@ -9,20 +10,7 @@ const Footer: FunctionalComponent = () => (
       target="_blank"
       rel="noopener noreferrer"
     >
-      <span class="ki-logo__kamod-wrap" aria-hidden="true">
-        <img
-          src={withBasePath("/kamod-logo-horizontal.svg")}
-          alt="kamod"
-          class="ki-logo__kamod ki-logo__kamod--light"
-          decoding="async"
-        />
-        <img
-          src={withBasePath("/kamod-logo-horizontal-dark.svg")}
-          alt=""
-          class="ki-logo__kamod ki-logo__kamod--dark"
-          decoding="async"
-        />
-      </span>
+      <KamodMarkLogo resolveAsset={withBasePath} />
     </a>
 
     <p class="kiw-footer-copy">

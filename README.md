@@ -1,9 +1,9 @@
 <p align="center">
-  <img src=".github/assets/logo-kamod-ui-dark.svg#gh-light-mode-only" alt="kamod | UI" width="280" />
-  <img src=".github/assets/logo-kamod-ui-light.svg#gh-dark-mode-only" alt="kamod | UI" width="280" />
+  <img src=".github/assets/logo-kamod-ui-dark.svg#gh-light-mode-only" alt="Kamod UI" width="280" />
+  <img src=".github/assets/logo-kamod-ui-light.svg#gh-dark-mode-only" alt="Kamod UI" width="280" />
 </p>
 
-<h1 align="center">Kamod UI</h1>
+# Kamod UI
 
 Lightweight UI components for **Preact** and **Tailwind**: composable primitives you can customize, extend, and ship without a heavy runtime. Open source; source is meant to be read and adapted.
 

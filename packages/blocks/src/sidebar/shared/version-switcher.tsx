@@ -1,4 +1,4 @@
-import { CheckIcon, ChevronsUpDownIcon, GalleryVerticalEndIcon } from "@kamod-ch/icons/lucide";
+import { CheckIcon, ChevronsUpDownIcon } from "@kamod-ch/icons/lucide";
 import {
   Dropdown,
   DropdownContent,
@@ -9,6 +9,7 @@ import {
   SidebarMenuItem,
 } from "@kamod-ch/ui";
 import { useState } from "preact/hooks";
+import { KamodIconFrame } from "../../auth/shared/kamod-icon-frame";
 
 export const VersionSwitcher = ({
   versions,
@@ -28,9 +29,7 @@ export const VersionSwitcher = ({
               size="lg"
               class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <div class="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                <GalleryVerticalEndIcon class="size-4" />
-              </div>
+              <KamodIconFrame size="md" />
               <div class="flex flex-col gap-0.5 leading-none">
                 <span class="font-medium">Documentation</span>
                 <span>v{selectedVersion}</span>
