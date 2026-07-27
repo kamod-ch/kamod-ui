@@ -2,7 +2,7 @@ import { type ComponentChildren, cloneElement, isValidElement, type JSX } from "
 import { tv } from "tailwind-variants";
 import { useDropdown } from "./Dropdown";
 
-export const dropdownTrigger = tv({
+const dropdownTrigger = tv({
   base: [
     "inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap",
     "focus-visible:ring-outline/50 transition-[color,box-shadow] outline-none focus-visible:ring-3",

@@ -24,7 +24,7 @@ export const useDropdown = () => {
   return context;
 };
 
-export const dropdownRoot = tv({
+const dropdownRoot = tv({
   base: "relative inline-flex",
 });
 

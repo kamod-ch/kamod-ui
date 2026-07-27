@@ -12,19 +12,8 @@
       "project": ["scripts/**/*.{js,mjs}"]
     },
     "packages/core": {
-      "entry": ["src/components/**/index.ts", "src/**/*.test.ts", "src/test/setup.ts"],
-      "project": ["src/**/*.ts"],
-      "ignoreDependencies": [
-        "@testing-library/preact",
-        "@kamod-ch/themes",
-        "embla-carousel",
-        "embla-carousel-autoplay"
-      ],
-      "ignore": [
-        "src/components/dialog/useModalPanelA11y.ts",
-        "src/components/sonner/sonner-store.ts",
-        "src/components/avatar/types.ts"
-      ]
+      "entry": ["src/components/**/index.ts", "src/**/*.test.{ts,tsx}", "src/test/setup.ts"],
+      "project": ["src/**/*.{ts,tsx}"]
     },
     "packages/openui": {
       "entry": [
@@ -43,23 +32,53 @@
     "packages/docs": {
       "entry": [
         ".preactpress/config.ts",
+        ".preactpress/theme/Layout.tsx",
         "index.html",
         "src/main.tsx",
         "src/kitchen-sink/KitchenSinkPage.tsx",
+        "src/blocks/**/*.{ts,tsx}",
         "src/docs/**/*.{ts,tsx}",
         "e2e/**/*.ts",
         "scripts/**/*.{js,mjs}"
       ],
-      "project": ["src/**/*.{ts,tsx}", "e2e/**/*.ts", ".preactpress/**/*.ts"],
+      "project": ["src/**/*.{ts,tsx}", "e2e/**/*.ts", ".preactpress/**/*.{ts,tsx}"],
       "ignoreBinaries": ["serve"],
+      "ignore": ["src/base-path.ts", "src/theme/theme-presets.ts"],
       "ignoreDependencies": [
         "@preact/preset-vite",
         "tailwindcss",
         "tw-animate-css",
         "@fontsource-variable/inter",
-        "@tailwindcss/forms"
+        "@tailwindcss/forms",
+        "@kamod-ch/hooks",
+        "@kamod-ch/icons",
+        "@kamod-ch/signals"
+      ]
+    },
+    "packages/blocks": {
+      "entry": [
+        "src/index.ts",
+        "src/sidebar/index.ts",
+        "src/login/index.ts",
+        "src/signup/index.ts",
+        "src/login/*/index.ts",
+        "src/signup/*/index.ts",
+        "src/**/*.test.{ts,tsx}",
+        "vitest.config.ts",
+        "tsup.config.ts"
       ],
-      "ignore": ["src/base-path.ts", "src/theme/theme-presets.ts"]
+      "project": ["src/**/*.{ts,tsx}"]
+    },
+    "packages/typeset": {
+      "entry": [
+        "src/index.ts",
+        "src/presets.ts",
+        "src/generator.ts",
+        "test/**/*.test.ts",
+        "scripts/**/*.mjs",
+        "tsup.config.ts"
+      ],
+      "project": ["src/**/*.{ts,css}", "test/**/*.ts", "scripts/**/*.mjs"]
     }
   }
 }

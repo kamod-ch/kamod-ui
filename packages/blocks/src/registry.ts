@@ -3,7 +3,7 @@ import { loginBlocks } from "./login/registry";
 import { signupBlocks } from "./signup/registry";
 
 export const authBlocks: BlockDefinition[] = [...loginBlocks, ...signupBlocks];
-export const blocksRegistry = authBlocks;
+export const blocksRegistry: BlockDefinition[] = [...authBlocks];
 export const authBlocksById = authBlocks.reduce<Record<AuthBlockId, BlockDefinition>>(
   (acc, block) => {
     acc[block.id] = block;
