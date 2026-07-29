@@ -25,3 +25,4 @@ packages/docs/playwright-report/
 packages/docs/test-results/
 packages/docs/dist/
 packages/docs/node_modules/
+/docs

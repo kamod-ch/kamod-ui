@@ -49,25 +49,9 @@ jobs:
       - name: Validate published package shape
         run: pnpm qa:publint && pnpm qa:attw
 
-      - name: Configure npm registry authentication
-        run: |
-          if [ -z "${NODE_AUTH_TOKEN}" ]; then
-            echo "::error::NPM_TOKEN repository secret is missing or empty. Create an npm automation token with publish access to the @kamod-ch scope and add it as the NPM_TOKEN secret in GitHub repository settings." >&2
-            exit 1
-          fi
-          {
-            echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}"
-          } >> .npmrc
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Verify npm authentication
-        run: npm whoami --registry=https://registry.npmjs.org
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Upgrade npm for trusted publishing
+        run: npm install -g npm@latest
 
       - name: Publish @kamod-ch/ui to npm
         working-directory: packages/core
         run: pnpm publish --access public --provenance --no-git-checks
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

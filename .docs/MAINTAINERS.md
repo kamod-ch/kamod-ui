@@ -65,18 +65,24 @@ npm view @kamod-ui/core deprecated
 
 ### CI publish (tag push)
 
-Tagged pushes (`v*`) trigger [`.github/workflows/publish.yml`](../.github/workflows/publish.yml), which runs typecheck, lint, tests, build, publint, attw, then publishes **`@kamod-ch/ui`** to [npmjs.org](https://www.npmjs.com/package/@kamod-ch/ui) with `--provenance` (requires GitHub Actions OIDC + `NPM_TOKEN` secret). This is the **only** path used by `pnpm release`.
+Tagged pushes (`v*`) trigger [`.github/workflows/publish.yml`](../.github/workflows/publish.yml), which runs typecheck, lint, tests, build, publint, attw, then publishes **`@kamod-ch/ui`** to [npmjs.org](https://www.npmjs.com/package/@kamod-ch/ui) via [npm Trusted Publishing](https://docs.npmjs.com/trusted-publishers/) (GitHub Actions OIDC — no long-lived `NPM_TOKEN`). This is the **only** path used by `pnpm release`.
 
-#### GitHub Actions `NPM_TOKEN` secret
+#### npm Trusted Publisher (one-time setup)
 
-CI publish fails with `ENEEDAUTH` when the secret is missing, empty, or invalid.
+CI publish authenticates with a short-lived OIDC token from GitHub Actions. No `NPM_TOKEN` repository secret is required.
 
-1. In npm, open the **`kamod-ch`** org → **Access Tokens** (or your user tokens if you publish under a user scope).
-2. Create an **Automation** or **Granular** token with **publish** permission for `@kamod-ch/*`.
-3. In GitHub → **kamod-ui** repo → **Settings** → **Secrets and variables** → **Actions**, add repository secret **`NPM_TOKEN`** with that token value.
-4. Re-run the failed publish workflow or push the tag again after fixing the secret.
+1. On [npmjs.com](https://www.npmjs.com/package/@kamod-ch/ui/access), open **`@kamod-ch/ui`** → **Settings** → **Trusted Publisher**.
+2. Add a **GitHub Actions** publisher:
+   - **Organization or user:** `kamod-ch`
+   - **Repository:** `kamod-ui`
+   - **Workflow filename:** `publish.yml` (filename only, must match [`.github/workflows/publish.yml`](../.github/workflows/publish.yml))
+   - **Environment name:** leave empty (unless the workflow uses a GitHub environment)
+   - **Allow npm publish:** enabled
+3. Click **Set up connection**.
 
-The workflow appends auth tokens to the committed [`.npmrc`](../.npmrc) (scope lines only; no secrets in git) and runs `npm whoami` before publish so auth problems fail with a clear message instead of only at `pnpm publish`.
+The workflow sets `permissions.id-token: write`, uses `registry-url` in `setup-node`, and runs `pnpm publish --provenance`. Do not set `NODE_AUTH_TOKEN` in the publish job — that would bypass OIDC.
+
+If publish fails with auth errors, verify the trusted publisher workflow filename matches exactly and re-run the failed workflow.
 
 ### Script reference
 
