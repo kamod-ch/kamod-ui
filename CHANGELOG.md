@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. Update manually before running `pnpm release`.
 
+## [1.1.0] - Unreleased
+
+### Features
+
+- **Sidebar:** ship the full application-shell sidebar system (replacing the minimal 1.0.1 stub in published builds).
+  - `SidebarProvider` with controlled/uncontrolled desktop `open` state and mobile `openMobile` sheet
+  - `Sidebar`, `SidebarHeader`, `SidebarContent`, `SidebarFooter`, `SidebarInset`, `SidebarRail`, `SidebarTrigger`
+  - Menu primitives: `SidebarMenu`, `SidebarMenuButton`, `SidebarMenuSub`, badges, skeletons, groups
+  - Mobile drawer via `Sheet` (focus trap, body scroll lock, escape to close)
+  - Desktop collapse modes: `offcanvas`, `icon`, `none`; variants `sidebar`, `floating`, `inset`
+  - Keyboard shortcut `Ctrl/Cmd + B` to toggle
+- **Sidebar blocks:** 16 documented sidebar block variants in `@kamod-ch/blocks` (docs site)
+
+### Notes for consumers
+
+- `@kamod-ui-pro/application-shell` (`DashboardShell`) requires `@kamod-ch/ui` **>= 1.1.0**.
+- Import `@kamod-ch/ui/theme.css` and scan `@kamod-ch/ui/dist/**/*.js` in Tailwind `content` when using sidebar tokens.
+
 ## [0.2.1](https://github.com/kamod-ch/kamod-ui/compare/v0.1.5...v0.2.1) (2026-06-10)
 
 ## [0.2.0](https://github.com/kamod-ch/kamod-ui/compare/v0.1.5...v0.2.0) (2026-06-10)
