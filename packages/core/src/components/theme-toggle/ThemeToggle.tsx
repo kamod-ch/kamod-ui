@@ -1,6 +1,6 @@
 import { resolvedColorSchemeSignal, setColorScheme, syncThemeFromStorage } from "@kamod-ch/themes";
 import type { ComponentChildren, JSX } from "preact";
-import { useEffect } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import { cn } from "../../lib/utils";
 import { Button } from "../button";
 
@@ -48,11 +48,16 @@ const MoonIcon = ({ class: className }: { class?: string }) => (
 );
 
 export const ThemeToggle = ({ children, onClick, ...rest }: ThemeToggleProps) => {
+  // Keep SSR and the first client render identical: theme from localStorage /
+  // matchMedia is only known after mount, so icon choice must wait.
+  const [mounted, setMounted] = useState(false);
+
   useEffect(() => {
     syncThemeFromStorage();
+    setMounted(true);
   }, []);
 
-  const darkMode = resolvedColorSchemeSignal.value === "dark";
+  const darkMode = mounted && resolvedColorSchemeSignal.value === "dark";
 
   return (
     <Button
@@ -60,7 +65,7 @@ export const ThemeToggle = ({ children, onClick, ...rest }: ThemeToggleProps) =>
       variant="outline"
       size="icon"
       data-slot="theme-toggle"
-      data-state={darkMode ? "dark" : "light"}
+      data-state={mounted ? (darkMode ? "dark" : "light") : "light"}
       aria-label={children == null ? (darkMode ? "Light mode" : "Dark mode") : undefined}
       onClick={(event) => {
         const next = resolvedColorSchemeSignal.value === "dark" ? "light" : "dark";

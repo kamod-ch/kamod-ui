@@ -8,6 +8,7 @@ import { DocsShell } from "../docs/components/DocsShell";
 import { GithubRepoLink } from "../layout/GithubRepoLink";
 import { ThemePresetSelect } from "../theme/ThemePresetSelect";
 import { BlockPreview } from "./BlockPreview";
+import { FeaturedBlockChips } from "./FeaturedBlockChips";
 import { getSidebarBlockSource } from "./sidebar-source";
 
 export const BlocksSidebarContent = () => (
@@ -29,15 +30,7 @@ const BlocksSidebarMain = () => (
         Clean, modern building blocks. Copy and paste into your apps. Built with Preact and Kamod
         UI. Open Source.
       </p>
-      <div class="blocks-featured" aria-label="Featured block categories">
-        <span class="blocks-featured-chip is-active">Sidebar</span>
-        <a class="blocks-featured-chip" href={withBasePath("/blocks/login")}>
-          Login
-        </a>
-        <a class="blocks-featured-chip" href={withBasePath("/blocks/signup")}>
-          Signup
-        </a>
-      </div>
+      <FeaturedBlockChips active="sidebar" />
     </header>
     <div class="grid gap-10">
       {sidebarBlocks.map((block) => (

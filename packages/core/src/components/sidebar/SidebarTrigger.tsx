@@ -17,13 +17,14 @@ export const SidebarTrigger = ({ class: className, onClick, ...rest }: SidebarTr
       data-slot="sidebar-trigger"
       variant="ghost"
       size="icon"
+      type="button"
       class={cn("size-7", className)}
       aria-label="Toggle Sidebar"
+      {...rest}
       onClick={(event) => {
         onClick?.(event);
         toggleSidebar();
       }}
-      {...rest}
     >
       <PanelLeftIcon />
       <span class="sr-only">Toggle Sidebar</span>

@@ -7,6 +7,7 @@ import { CodeBlock } from "../docs/components/CodeBlock";
 import { DocsShell } from "../docs/components/DocsShell";
 import { getAuthBlockSource } from "./auth-source";
 import { BlockPreview } from "./BlockPreview";
+import { FeaturedBlockChips } from "./FeaturedBlockChips";
 
 type AuthCategory = "login" | "signup";
 type AuthBlock = (typeof loginBlocks)[number];
@@ -29,6 +30,7 @@ export const BlocksAuthContent = ({ category }: { category: AuthCategory }) => {
                 ? "Responsive login screens built with Preact and Kamod UI primitives."
                 : "Accessible signup screens with validation, terms copy, and social-provider callbacks."}
             </p>
+            <FeaturedBlockChips active={isLogin ? "login" : "signup"} />
           </header>
           <div class="grid gap-10">
             {(isLogin ? loginBlocks : signupBlocks).map((block) => (

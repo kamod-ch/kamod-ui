@@ -38,7 +38,16 @@ type DocsShellProps = {
   getDocHref?: (slug: string) => string;
   componentsOverviewHref?: string;
   getSectionHref?: (sectionId: string) => string;
-  activeBlock?: "sidebar" | "login" | "signup";
+  activeBlock?:
+    | "sidebar"
+    | "app-sidebar"
+    | "login"
+    | "signup"
+    | "auth"
+    | "marketing"
+    | "dashboard"
+    | "communication"
+    | "commerce";
 };
 
 type NavEntry = {
@@ -203,6 +212,12 @@ export const DocsShell = ({
       href: withBasePath("/blocks/sidebar"),
     },
     {
+      key: "app-sidebar",
+      label: "App Sidebar",
+      active: activeBlock === "app-sidebar",
+      href: withBasePath("/blocks/app-sidebar"),
+    },
+    {
       key: "login",
       label: "Login",
       active: activeBlock === "login",
@@ -213,6 +228,36 @@ export const DocsShell = ({
       label: "Signup",
       active: activeBlock === "signup",
       href: withBasePath("/blocks/signup"),
+    },
+    {
+      key: "auth",
+      label: "Auth",
+      active: activeBlock === "auth",
+      href: withBasePath("/blocks/auth"),
+    },
+    {
+      key: "marketing",
+      label: "Marketing",
+      active: activeBlock === "marketing",
+      href: withBasePath("/blocks/marketing"),
+    },
+    {
+      key: "dashboard",
+      label: "Dashboard",
+      active: activeBlock === "dashboard",
+      href: withBasePath("/blocks/dashboard"),
+    },
+    {
+      key: "communication",
+      label: "Communication",
+      active: activeBlock === "communication",
+      href: withBasePath("/blocks/communication"),
+    },
+    {
+      key: "commerce",
+      label: "Commerce",
+      active: activeBlock === "commerce",
+      href: withBasePath("/blocks/commerce"),
     },
   ];
 

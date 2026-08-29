@@ -46,6 +46,18 @@ Many UI kits are heavier than necessary, overly opinionated, or tied to React. K
 
 ## Quick start
 
+### New project?
+
+```bash
+npm create kamod@latest
+```
+
+Choose a starter:
+
+- **Preact** → lightweight Preact applications
+- **Astro** → content-first sites with Preact Islands
+- **Otok** → full-stack Preact applications
+
 ### Vite + Preact + Tailwind v4 starter
 
 ```bash

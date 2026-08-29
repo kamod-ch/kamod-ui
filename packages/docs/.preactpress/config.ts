@@ -102,6 +102,10 @@ export default defineConfig({
     resolve: {
       alias: [
         {
+          find: /^@kamod-ch\/blocks\/app-sidebar$/,
+          replacement: resolve(blocksSrc, "app-sidebar/index.ts"),
+        },
+        {
           find: /^@kamod-ch\/blocks\/sidebar$/,
           replacement: resolve(blocksSrc, "sidebar/index.ts"),
         },
@@ -112,6 +116,22 @@ export default defineConfig({
         {
           find: /^@kamod-ch\/blocks\/signup$/,
           replacement: resolve(blocksSrc, "signup/index.ts"),
+        },
+        {
+          find: /^@kamod-ch\/blocks\/shared$/,
+          replacement: resolve(blocksSrc, "shared/index.ts"),
+        },
+        {
+          find: /^@kamod-ch\/blocks\/marketing$/,
+          replacement: resolve(blocksSrc, "marketing/index.ts"),
+        },
+        {
+          find: /^@kamod-ch\/blocks\/auth$/,
+          replacement: resolve(blocksSrc, "auth/index.ts"),
+        },
+        {
+          find: /^@kamod-ch\/blocks\/dashboard$/,
+          replacement: resolve(blocksSrc, "dashboard/index.ts"),
         },
         {
           find: "@kamod-ch/blocks",

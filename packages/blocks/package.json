@@ -31,18 +31,73 @@
     "./signup/*": {
       "types": "./dist/signup/*/index.d.ts",
       "import": "./dist/signup/*/index.js"
+    },
+    "./shared": {
+      "types": "./dist/shared/index.d.ts",
+      "import": "./dist/shared/index.js"
+    },
+    "./auth": {
+      "types": "./dist/auth/index.d.ts",
+      "import": "./dist/auth/index.js"
+    },
+    "./auth/*": {
+      "types": "./dist/auth/*/index.d.ts",
+      "import": "./dist/auth/*/index.js"
+    },
+    "./app-sidebar": {
+      "types": "./dist/app-sidebar/index.d.ts",
+      "import": "./dist/app-sidebar/index.js"
+    },
+    "./app-sidebar/*": {
+      "types": "./dist/app-sidebar/*/index.d.ts",
+      "import": "./dist/app-sidebar/*/index.js"
+    },
+    "./dashboard": {
+      "types": "./dist/dashboard/index.d.ts",
+      "import": "./dist/dashboard/index.js"
+    },
+    "./dashboard/*": {
+      "types": "./dist/dashboard/*/index.d.ts",
+      "import": "./dist/dashboard/*/index.js"
+    },
+    "./communication": {
+      "types": "./dist/communication/index.d.ts",
+      "import": "./dist/communication/index.js"
+    },
+    "./communication/*": {
+      "types": "./dist/communication/*/index.d.ts",
+      "import": "./dist/communication/*/index.js"
+    },
+    "./commerce": {
+      "types": "./dist/commerce/index.d.ts",
+      "import": "./dist/commerce/index.js"
+    },
+    "./commerce/*": {
+      "types": "./dist/commerce/*/index.d.ts",
+      "import": "./dist/commerce/*/index.js"
+    },
+    "./marketing": {
+      "types": "./dist/marketing/index.d.ts",
+      "import": "./dist/marketing/index.js"
+    },
+    "./marketing/*": {
+      "types": "./dist/marketing/*/index.d.ts",
+      "import": "./dist/marketing/*/index.js"
     }
   },
   "scripts": {
-    "build": "tsup",
+    "build": "NODE_OPTIONS=--max-old-space-size=8192 tsup",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "lint": "oxlint ."
+    "lint": "oxlint .",
+    "format": "oxfmt .",
+    "format:check": "oxfmt --check ."
   },
   "dependencies": {
     "@kamod-ch/icons": "^1.0.3"
   },
   "devDependencies": {
+    "@kamod-ch/themes": "workspace:*",
     "@kamod-ch/ui": "workspace:*",
     "@preact/signals": "^2.9.1",
     "@testing-library/preact": "^3.2.4",
@@ -52,6 +107,7 @@
     "vitest": "^4.1.8"
   },
   "peerDependencies": {
+    "@kamod-ch/themes": "^0.2.1",
     "@kamod-ch/ui": "workspace:*",
     "@preact/signals": "^2.9.1",
     "preact": "^10.29.2"

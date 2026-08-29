@@ -26,10 +26,15 @@ export const dropdownItem = tv({
   },
 });
 
-export type DropdownItemProps = JSX.ButtonHTMLAttributes<HTMLButtonElement> &
-  VariantProps<typeof dropdownItem> & {
-    children?: ComponentChildren;
-  };
+type DropdownItemSharedProps = VariantProps<typeof dropdownItem> & {
+  children?: ComponentChildren;
+};
+
+export type DropdownItemProps = DropdownItemSharedProps &
+  (
+    | (Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, "href"> & { href?: undefined })
+    | (JSX.AnchorHTMLAttributes<HTMLAnchorElement> & { href: string })
+  );
 
 export const DropdownItem = ({
   inset = false,
@@ -37,9 +42,39 @@ export const DropdownItem = ({
   class: className,
   children,
   onClick,
+  href,
   ...rest
 }: DropdownItemProps) => {
   const dropdown = useDropdown();
+  const resolvedClass = dropdownItem({
+    inset,
+    variant,
+    class: className as string | undefined,
+  });
+
+  const handleActivate = (event: JSX.TargetedMouseEvent<HTMLElement>) => {
+    (onClick as ((event: JSX.TargetedMouseEvent<HTMLElement>) => void) | undefined)?.(event);
+    if (event.defaultPrevented) return;
+    dropdown.setOpen(false);
+  };
+
+  if (href) {
+    return (
+      <a
+        href={href}
+        role="menuitem"
+        data-slot="dropdown-item"
+        data-inset={inset ? "true" : undefined}
+        data-variant={variant}
+        class={resolvedClass}
+        onClick={handleActivate}
+        {...(rest as JSX.AnchorHTMLAttributes<HTMLAnchorElement>)}
+      >
+        {children}
+      </a>
+    );
+  }
+
   return (
     <button
       type="button"
@@ -47,13 +82,9 @@ export const DropdownItem = ({
       data-slot="dropdown-item"
       data-inset={inset ? "true" : undefined}
       data-variant={variant}
-      class={dropdownItem({ inset, variant, class: className as string | undefined })}
-      onClick={(event) => {
-        onClick?.(event);
-        if (event.defaultPrevented) return;
-        dropdown.setOpen(false);
-      }}
-      {...rest}
+      class={resolvedClass}
+      onClick={handleActivate as JSX.MouseEventHandler<HTMLButtonElement>}
+      {...(rest as JSX.ButtonHTMLAttributes<HTMLButtonElement>)}
     >
       {children}
     </button>

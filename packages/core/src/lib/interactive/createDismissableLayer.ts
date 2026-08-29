@@ -17,7 +17,7 @@ export const isPointerWithinModalDialogPanelSlop = (
   const slop = MODAL_DIALOG_PANEL_OUTSIDE_SLOP_PX;
 
   for (const panel of document.querySelectorAll(
-    '[data-slot="dialog-content"][data-state="open"]:not([data-kamod-root-dismissible])',
+    '[data-slot="dialog-content"][data-state="open"]:not([data-kamod-root-dismissible]), [data-slot="command-dialog-content"][data-state="open"]:not([data-kamod-root-dismissible])',
   )) {
     if (!(panel instanceof HTMLElement)) continue;
     const r = panel.getBoundingClientRect();
@@ -42,8 +42,12 @@ export const createDismissableLayer = ({
 }: CreateDismissableLayerOptions) => {
   const enabled = signal(true);
   const portalLayerSelector =
-    '[data-slot="dialog-content"], [data-slot="alert-dialog-content"], [data-slot="sheet-content"], [data-slot="popover-content"], [data-slot="select-content"], [data-slot="dropdown-content"]';
-  const overlayLayerSlots = new Set(["dialog-content", "alert-dialog-content"]);
+    '[data-slot="dialog-content"], [data-slot="command-dialog-content"], [data-slot="alert-dialog-content"], [data-slot="sheet-content"], [data-slot="popover-content"], [data-slot="select-content"], [data-slot="dropdown-content"]';
+  const overlayLayerSlots = new Set([
+    "dialog-content",
+    "command-dialog-content",
+    "alert-dialog-content",
+  ]);
 
   const stop = effect(() => {
     if (!enabled.value || !open()) return;

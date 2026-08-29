@@ -49,6 +49,12 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-outline: var(--sidebar-outline);
   --color-sidebar-ring: var(--sidebar-outline);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
 }
 
 :root {
@@ -91,6 +97,11 @@
   --sidebar-accent-foreground: var(--color-neutral-900);
   --sidebar-border: var(--color-neutral-200);
   --sidebar-outline: var(--color-neutral-400);
+  --chart-1: var(--color-sky-500);
+  --chart-2: var(--color-emerald-500);
+  --chart-3: var(--color-violet-500);
+  --chart-4: var(--color-amber-500);
+  --chart-5: var(--color-rose-500);
 }
 
 .dark {
@@ -132,6 +143,11 @@
   --sidebar-accent-foreground: var(--color-neutral-100);
   --sidebar-border: var(--color-neutral-800);
   --sidebar-outline: var(--color-neutral-600);
+  --chart-1: var(--color-sky-400);
+  --chart-2: var(--color-emerald-400);
+  --chart-3: var(--color-violet-400);
+  --chart-4: var(--color-amber-400);
+  --chart-5: var(--color-rose-400);
 }
 
 @layer base {

@@ -45,6 +45,9 @@ importers:
         specifier: ^1.0.3
         version: 1.0.3(preact@10.29.2)
     devDependencies:
+      '@kamod-ch/themes':
+        specifier: workspace:*
+        version: link:../themes
       '@kamod-ch/ui':
         specifier: workspace:*
         version: link:../core

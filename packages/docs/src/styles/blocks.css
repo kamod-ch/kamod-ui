@@ -161,6 +161,11 @@
   isolation: isolate;
 }
 
+.blocks-preview-mobile {
+  max-width: 375px;
+  margin-inline: auto;
+}
+
 .blocks-preview-placeholder {
   height: 100%;
   background: color-mix(in srgb, var(--muted) 35%, transparent);

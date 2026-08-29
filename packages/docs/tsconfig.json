@@ -8,6 +8,13 @@
       "@kamod-ch/ui": ["../core/src/index.ts"],
       "@kamod-ch/blocks": ["../blocks/src/index.ts"],
       "@kamod-ch/blocks/sidebar": ["../blocks/src/sidebar/index.ts"],
+      "@kamod-ch/blocks/app-sidebar": ["../blocks/src/app-sidebar/index.ts"],
+      "@kamod-ch/blocks/shared": ["../blocks/src/shared/index.ts"],
+      "@kamod-ch/blocks/marketing": ["../blocks/src/marketing/index.ts"],
+      "@kamod-ch/blocks/auth": ["../blocks/src/auth/index.ts"],
+      "@kamod-ch/blocks/dashboard": ["../blocks/src/dashboard/index.ts"],
+      "@kamod-ch/blocks/communication": ["../blocks/src/communication/index.ts"],
+      "@kamod-ch/blocks/commerce": ["../blocks/src/commerce/index.ts"],
       "@kamod-ch/preactpress/config": ["./node_modules/@kamod-ch/preactpress/dist/node/config-helpers.d.ts"],
       "@kamod-ch/preactpress/client": ["./node_modules/@kamod-ch/preactpress/dist/client/index.d.ts"]
     }

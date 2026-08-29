@@ -45,6 +45,12 @@ export const Dropdown = ({
   const contentRef = useRef<HTMLDivElement | null>(null);
   const instanceId = useMemo(() => nextDropdownId(), []);
 
+  const triggerId = `${instanceId}-trigger`;
+  const contentId = `${instanceId}-content`;
+  const setOpen = (next: boolean) => {
+    open.value = next;
+  };
+
   useEffect(() => {
     const layer = createDismissableLayer({
       root: () => rootRef.current,
@@ -54,17 +60,37 @@ export const Dropdown = ({
       },
     });
     return () => layer.dispose();
-  }, []);
+  }, [open]);
+
+  // Island hydrate can leave Preact onClick dead; native capture keeps the trigger reliable.
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+
+    const onClick = (event: Event) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+      const trigger = target.closest(`#${CSS.escape(triggerId)}`);
+      if (!trigger || !root.contains(trigger)) return;
+      // Menu items handle their own activation.
+      if (target.closest('[data-slot="dropdown-item"]')) return;
+
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      open.value = !open.value;
+    };
+
+    root.addEventListener("click", onClick, true);
+    return () => root.removeEventListener("click", onClick, true);
+  }, [open, triggerId]);
 
   return (
     <DropdownContext.Provider
       value={{
         open,
-        setOpen: (next) => {
-          open.value = next;
-        },
-        triggerId: `${instanceId}-trigger`,
-        contentId: `${instanceId}-content`,
+        setOpen,
+        triggerId,
+        contentId,
         rootRef,
         triggerRef,
         contentRef,

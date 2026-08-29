@@ -31,6 +31,12 @@
   --radius-xl: calc(var(--radius) + 0.25rem);
   --radius-2xl: calc(var(--radius) + 0.5rem);
   --radius-3xl: calc(var(--radius) + 1rem);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
 }
 
 :root {
@@ -55,6 +61,11 @@
   --ring: var(--color-neutral-400);
   --outline: var(--color-neutral-400);
   --radius: 0.625rem;
+  --chart-1: var(--color-sky-500);
+  --chart-2: var(--color-emerald-500);
+  --chart-3: var(--color-violet-500);
+  --chart-4: var(--color-amber-500);
+  --chart-5: var(--color-rose-500);
 }
 
 .dark {
@@ -78,4 +89,9 @@
   --input: --alpha(var(--color-neutral-50) / 15%);
   --ring: var(--color-neutral-500);
   --outline: var(--color-neutral-500);
+  --chart-1: var(--color-sky-400);
+  --chart-2: var(--color-emerald-400);
+  --chart-3: var(--color-violet-400);
+  --chart-4: var(--color-amber-400);
+  --chart-5: var(--color-rose-400);
 }
