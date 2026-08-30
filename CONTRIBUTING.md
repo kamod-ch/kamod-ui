@@ -85,9 +85,14 @@ From the root:
 | `pnpm build`     | Build all packages (recursive).           |
 | `pnpm typecheck` | Typecheck all workspaces.                 |
 | `pnpm lint`      | Lint/typecheck scripts per workspace.     |
+| `pnpm lint:a11y` | Static JSX accessibility lint (selected rules). |
 | `pnpm test`      | Run **@kamod-ch/ui** unit tests (Vitest). |
 | `pnpm test:docs` | Run **docs** unit tests (Vitest).         |
 | `pnpm test:e2e`  | Run **docs** Playwright tests.            |
+| `pnpm test:a11y` | Chromium Playwright/Axe accessibility audits. |
+
+See [docs/accessibility-testing.md](docs/accessibility-testing.md) for the a11y policy, coverage
+model, and automation limits.
 
 In `packages/docs` you can also run `pnpm qa:themes` for theme regression checks, and use `pnpm format` / `pnpm format:check` (oxfmt) for formatting when working in that app.
 
@@ -131,5 +136,6 @@ Open a GitHub issue (or discussion, if enabled) with the use case, expected API,
 
 - **Core:** Vitest in `packages/core` (`pnpm test` from root).
 - **Docs:** Vitest and Playwright in `packages/docs` (`pnpm test:docs`, `pnpm test:e2e` from root).
+- **Accessibility:** Static JSX-a11y lint and Chromium Axe audits (`pnpm lint:a11y`, `pnpm test:a11y`). Details in [docs/accessibility-testing.md](docs/accessibility-testing.md).
 
 New behavior should include tests where it is practical (unit tests for logic and components; E2E or visual checks when the demo flow is critical).

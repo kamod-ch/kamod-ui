@@ -1,4 +1,3 @@
-import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
 test.describe("Forms / Formisch docs", () => {
@@ -120,16 +119,5 @@ test.describe("Forms / Formisch docs", () => {
     await section.getByRole("textbox", { name: "Email 1" }).fill("not-an-email");
     await section.getByRole("button", { name: "Save" }).click();
     await expect(section.getByText("Enter a valid email address.")).toBeVisible();
-  });
-
-  test("Formisch page has no serious axe violations", async ({ page }) => {
-    await page.goto("./docs/formisch/demo");
-    const results = await new AxeBuilder({ page })
-      .include("section#demo")
-      .exclude(".docs-code-wrap")
-      .analyze();
-    expect(
-      results.violations.filter((v) => ["serious", "critical"].includes(v.impact ?? "")),
-    ).toEqual([]);
   });
 });

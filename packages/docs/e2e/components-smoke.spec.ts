@@ -1,4 +1,3 @@
-import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
 test.describe("core component docs smoke", () => {
@@ -97,52 +96,6 @@ test.describe("core component docs smoke", () => {
     await expect(page.getByText("Looks good.")).toBeVisible();
     await expect(counter).toHaveText("63/180");
     await expect(textarea).not.toHaveAttribute("aria-invalid", "true");
-  });
-
-  test("A11y checks pass for tooltip, toggle, toggle group and typography docs", async ({
-    page,
-  }) => {
-    await page.goto("./docs/tooltip/basic-tooltip");
-    await page.locator("#basic-tooltip").waitFor({ state: "attached" });
-    const tooltipA11y = await new AxeBuilder({ page }).include("#basic-tooltip").analyze();
-    expect(tooltipA11y.violations).toEqual([]);
-
-    await page.goto("./docs/toggle/toggle-options");
-    await page.locator("#toggle-options").waitFor({ state: "attached" });
-    const toggleA11y = await new AxeBuilder({ page }).include("#toggle-options").analyze();
-    expect(toggleA11y.violations).toEqual([]);
-
-    await page.goto("./docs/toggle-group/single-selection");
-    await page.locator("#single-selection").waitFor({ state: "attached" });
-    const toggleGroupA11y = await new AxeBuilder({ page }).include("#single-selection").analyze();
-    expect(toggleGroupA11y.violations).toEqual([]);
-
-    await page.goto("./docs/typography/h1");
-    await page.locator("#h1").waitFor({ state: "attached" });
-    const typographyA11y = await new AxeBuilder({ page }).include("#h1").analyze();
-    expect(typographyA11y.violations).toEqual([]);
-
-    await page.goto("./docs/textarea/textarea-production-field");
-    await page.locator("#textarea-production-field").waitFor({ state: "attached" });
-    const textareaA11y = await new AxeBuilder({ page })
-      .include("#textarea-production-field")
-      .analyze();
-    expect(textareaA11y.violations).toEqual([]);
-
-    await page.goto("./docs/sheet/basic-sheet");
-    await page.locator("#basic-sheet").waitFor({ state: "attached" });
-    const sheetA11y = await new AxeBuilder({ page }).include("#basic-sheet").analyze();
-    expect(sheetA11y.violations).toEqual([]);
-
-    await page.goto("./docs/dialog/basic-dialog");
-    await page.locator("#basic-dialog").waitFor({ state: "attached" });
-    const dialogA11y = await new AxeBuilder({ page }).include("#basic-dialog").analyze();
-    expect(dialogA11y.violations).toEqual([]);
-
-    await page.goto("./docs/tabs/synced-tabs");
-    await page.locator("#synced-tabs").waitFor({ state: "attached" });
-    const tabsA11y = await new AxeBuilder({ page }).include("#synced-tabs").analyze();
-    expect(tabsA11y.violations).toEqual([]);
   });
 
   test("Visual snapshots stay stable for tooltip, toggle, toggle group and typography", async ({
