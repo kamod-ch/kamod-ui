@@ -11,12 +11,14 @@ concurrency:
 
 jobs:
   publish:
+    name: Publish packages
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       id-token: write
-    uses: kamod-ch/.github/.github/workflows/npm-publish-on-tag.yml@main
-    with:
-      pre-publish: pnpm release:check
-      publish: pnpm release:publish
-    secrets:
-      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+    steps:
+      - uses: kamod-ch/.github/.github/actions/npm-publish-on-tag@main
+        with:
+          pre-publish: pnpm release:check
+          publish: pnpm release:publish
+          npm-token: ${{ secrets.NPM_TOKEN }}
