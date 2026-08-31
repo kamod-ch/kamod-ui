@@ -11,47 +11,12 @@ concurrency:
 
 jobs:
   publish:
-    name: Publish packages
-    runs-on: ubuntu-latest
     permissions:
       contents: read
       id-token: write
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v6
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: 22
-          cache: pnpm
-          registry-url: "https://registry.npmjs.org"
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Typecheck
-        run: pnpm typecheck
-
-      - name: Lint
-        run: pnpm lint
-
-      - name: Run tests
-        run: pnpm test:ci
-
-      - name: Build project
-        run: pnpm build
-
-      - name: Validate published package shape
-        run: pnpm qa:publint && pnpm qa:attw
-
-      - name: Upgrade npm for trusted publishing
-        run: npm install -g npm@latest
-
-      - name: Publish @kamod-ch/ui to npm
-        working-directory: packages/core
-        run: pnpm publish --access public --provenance --no-git-checks
+    uses: kamod-ch/.github/.github/workflows/npm-publish-on-tag.yml@main
+    with:
+      pre-publish: pnpm release:check
+      publish: pnpm release:publish
+    secrets:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
