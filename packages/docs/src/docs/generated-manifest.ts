@@ -505,6 +505,10 @@ export const docsRouteManifest = [
     ],
   },
   {
+    slug: "i18n-package",
+    sections: ["installation", "usage", "api-reference", "accessibility"],
+  },
+  {
     slug: "icons-package",
     sections: ["installation", "usage", "api-reference", "accessibility"],
   },
@@ -671,6 +675,30 @@ export const docsRouteManifest = [
       "api-reference",
       "accessibility",
     ],
+  },
+  {
+    slug: "motion-accordion",
+    sections: ["installation", "usage", "basic", "api-reference", "accessibility"],
+  },
+  {
+    slug: "motion-alert-dialog",
+    sections: ["installation", "usage", "basic", "api-reference", "accessibility"],
+  },
+  {
+    slug: "motion-collapsible",
+    sections: ["installation", "usage", "basic", "api-reference", "accessibility"],
+  },
+  {
+    slug: "motion-dialog",
+    sections: ["installation", "usage", "basic", "api-reference", "accessibility"],
+  },
+  {
+    slug: "motion-sheet",
+    sections: ["installation", "usage", "basic", "side", "api-reference", "accessibility"],
+  },
+  {
+    slug: "motion-tabs",
+    sections: ["installation", "usage", "basic", "api-reference", "accessibility"],
   },
   {
     slug: "native-select",
@@ -912,6 +940,10 @@ export const docsRouteManifest = [
     ],
   },
   {
+    slug: "state-package",
+    sections: ["installation", "usage", "api-reference", "accessibility"],
+  },
+  {
     slug: "switch",
     sections: [
       "installation",
@@ -1073,6 +1105,10 @@ export const docsRouteManifest = [
       "api-reference",
       "accessibility",
     ],
+  },
+  {
+    slug: "ui-motion",
+    sections: ["installation", "usage", "components", "api-reference", "accessibility"],
   },
   {
     slug: "video",

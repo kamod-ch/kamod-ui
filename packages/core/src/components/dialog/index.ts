@@ -4,10 +4,14 @@ import { DialogContent } from "./DialogContent";
 import { DialogDescription } from "./DialogDescription";
 import { DialogFooter } from "./DialogFooter";
 import { DialogHeader } from "./DialogHeader";
+import { DialogPortal } from "./DialogPortal";
 import { DialogTitle } from "./DialogTitle";
 import { DialogTrigger } from "./DialogTrigger";
 
-export type { DialogContentPresentation } from "./DialogContent";
+export { useDialog } from "./Dialog";
+export type { DialogContentPresentation, DialogContentProps } from "./DialogContent";
+export { dialogViewportBleedClass } from "./DialogContent";
+export { useModalPanelA11y } from "./useModalPanelA11y";
 export {
   Dialog,
   DialogClose,
@@ -15,6 +19,7 @@ export {
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogPortal,
   DialogTitle,
   DialogTrigger,
 };
@@ -22,6 +27,7 @@ export {
 export default {
   Root: Dialog,
   Trigger: DialogTrigger,
+  Portal: DialogPortal,
   Content: DialogContent,
   Header: DialogHeader,
   Footer: DialogFooter,

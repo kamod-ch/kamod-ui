@@ -16,15 +16,18 @@ import { Menu, SunMoon } from "lucide-preact";
 import type { ComponentChildren } from "preact";
 import { useMemo } from "preact/hooks";
 import { withBasePath } from "../../base-path";
+import { visibleBlockNavItems } from "../../blocks/block-nav-config";
 import { DemoShell, demoTopNavItems } from "../../layout/DemoShell";
 import { GithubRepoLink } from "../../layout/GithubRepoLink";
 import { ThemePresetSelect } from "../../theme/ThemePresetSelect";
 import {
   componentDocPages,
   docsNewFormSlugs,
+  docsNewMotionSlugs,
   docsNewPackageSlugs,
   docsUpdatedComponentSlugs,
   formDocPages,
+  motionDocPages,
   packageDocPages,
 } from "../registry";
 import type { DocPageModule, DocSection } from "../types";
@@ -140,6 +143,13 @@ export const DocsShell = ({
     () => [...formDocPages].sort((a, b) => a.title.localeCompare(b.title)),
     [],
   );
+  const sortedMotionDocs = useMemo(
+    () =>
+      [...motionDocPages].sort((a, b) =>
+        (a.navLabel ?? a.title).localeCompare(b.navLabel ?? b.title),
+      ),
+    [],
+  );
   const sortedComponentDocs = useMemo(
     () => [...componentDocPages].sort((a, b) => a.title.localeCompare(b.title)),
     [],
@@ -179,6 +189,18 @@ export const DocsShell = ({
     [activeDoc?.slug, getDocHref, sortedFormDocs],
   );
 
+  const motionNavEntries = useMemo<NavEntry[]>(
+    () =>
+      sortedMotionDocs.map((doc) => ({
+        key: doc.slug,
+        label: doc.navLabel ?? doc.title,
+        active: doc.slug === activeDoc?.slug,
+        href: getDocHref(doc.slug),
+        badge: docsNewMotionSlugs.has(doc.slug) ? "new" : undefined,
+      })),
+    [activeDoc?.slug, getDocHref, sortedMotionDocs],
+  );
+
   const componentNavEntries = useMemo<NavEntry[]>(
     () => [
       {
@@ -204,62 +226,12 @@ export const DocsShell = ({
     ],
   );
 
-  const blockNavEntries: NavEntry[] = [
-    {
-      key: "sidebar",
-      label: "Sidebar",
-      active: activeBlock === "sidebar",
-      href: withBasePath("/blocks/sidebar"),
-    },
-    {
-      key: "app-sidebar",
-      label: "App Sidebar",
-      active: activeBlock === "app-sidebar",
-      href: withBasePath("/blocks/app-sidebar"),
-    },
-    {
-      key: "login",
-      label: "Login",
-      active: activeBlock === "login",
-      href: withBasePath("/blocks/login"),
-    },
-    {
-      key: "signup",
-      label: "Signup",
-      active: activeBlock === "signup",
-      href: withBasePath("/blocks/signup"),
-    },
-    {
-      key: "auth",
-      label: "Auth",
-      active: activeBlock === "auth",
-      href: withBasePath("/blocks/auth"),
-    },
-    {
-      key: "marketing",
-      label: "Marketing",
-      active: activeBlock === "marketing",
-      href: withBasePath("/blocks/marketing"),
-    },
-    {
-      key: "dashboard",
-      label: "Dashboard",
-      active: activeBlock === "dashboard",
-      href: withBasePath("/blocks/dashboard"),
-    },
-    {
-      key: "communication",
-      label: "Communication",
-      active: activeBlock === "communication",
-      href: withBasePath("/blocks/communication"),
-    },
-    {
-      key: "commerce",
-      label: "Commerce",
-      active: activeBlock === "commerce",
-      href: withBasePath("/blocks/commerce"),
-    },
-  ];
+  const blockNavEntries: NavEntry[] = visibleBlockNavItems.map((item) => ({
+    key: item.key,
+    label: item.label,
+    active: activeBlock === item.key,
+    href: withBasePath(item.href),
+  }));
 
   const sidebarNav = (
     <>
@@ -284,6 +256,16 @@ export const DocsShell = ({
           <h2>Forms</h2>
           <nav aria-label="Docs forms" class="docs-sidebar-nav docs-sidebar-nav--forms">
             {formNavEntries.map((entry) => (
+              <NavLink entry={entry} key={entry.key} />
+            ))}
+          </nav>
+        </>
+      ) : null}
+      {motionNavEntries.length ? (
+        <>
+          <h2>Motion</h2>
+          <nav aria-label="Docs motion" class="docs-sidebar-nav docs-sidebar-nav--motion">
+            {motionNavEntries.map((entry) => (
               <NavLink entry={entry} key={entry.key} />
             ))}
           </nav>
@@ -316,6 +298,14 @@ export const DocsShell = ({
         <>
           <p class="docs-mobile-sheet-group-label">Forms</p>
           {formNavEntries.map((entry) => (
+            <NavLink asSheetClose entry={entry} key={entry.key} />
+          ))}
+        </>
+      ) : null}
+      {motionNavEntries.length ? (
+        <>
+          <p class="docs-mobile-sheet-group-label">Motion</p>
+          {motionNavEntries.map((entry) => (
             <NavLink asSheetClose entry={entry} key={entry.key} />
           ))}
         </>

@@ -1,8 +1,8 @@
-import { Collapsible } from "./Collapsible";
+import { Collapsible, useCollapsible } from "./Collapsible";
 import { CollapsibleContent } from "./CollapsibleContent";
 import { CollapsibleTrigger } from "./CollapsibleTrigger";
 
-export { Collapsible, CollapsibleContent, CollapsibleTrigger };
+export { Collapsible, CollapsibleContent, CollapsibleTrigger, useCollapsible };
 
 export default {
   Root: Collapsible,

@@ -8,8 +8,10 @@ import { assertNoBlockingA11yViolations } from "./a11y-utils";
  */
 const PREVIEW_LESS_SLUGS = new Set([
   "hooks-package", // external package teaser — no in-repo live preview demos
+  "i18n-package", // external package teaser — no in-repo live preview demos
   "icons-package", // external package teaser — no in-repo live preview demos
   "signals-package", // external package teaser — no in-repo live preview demos
+  "state-package", // external package teaser — no in-repo live preview demos
 ]);
 
 for (const { slug } of docsRouteManifest) {

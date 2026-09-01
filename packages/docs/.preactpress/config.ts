@@ -10,6 +10,7 @@ const repoRoot = resolve(__dirname, "../../../");
 const docsRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const preactRoot = resolve(docsRoot, "node_modules/preact");
 const openuiSrc = resolve(__dirname, "../../openui/src");
+const motionSrc = resolve(__dirname, "../../motion/src");
 const blocksSrc = resolve(__dirname, "../../blocks/src");
 const coreSrc = resolve(__dirname, "../../core/src");
 const base = (process.env.VITE_BASE_PATH?.trim() || "/").replace(/\/?$/, "/");
@@ -150,8 +151,20 @@ export default defineConfig({
           replacement: resolve(openuiSrc, "index.ts"),
         },
         {
+          find: /^@kamod-ch\/ui-motion\/(.+)$/,
+          replacement: `${motionSrc}/$1/index.ts`,
+        },
+        {
+          find: "@kamod-ch/ui-motion",
+          replacement: resolve(motionSrc, "index.ts"),
+        },
+        {
           find: "@kamod-ch/ui/lib/utils",
           replacement: resolve(coreSrc, "lib/utils.ts"),
+        },
+        {
+          find: "@kamod-ch/ui/lib/interactive",
+          replacement: resolve(coreSrc, "lib/interactive/index.ts"),
         },
         {
           find: /^@kamod-ch\/ui\/(.+)$/,
@@ -211,7 +224,16 @@ export default defineConfig({
           replacement: resolve(preactRoot, "dist/preact.module.js"),
         },
       ],
-      dedupe: ["preact", "preact/hooks", "preact/compat", "preact/devtools", "react", "react-dom"],
+      dedupe: [
+        "preact",
+        "preact/hooks",
+        "preact/compat",
+        "preact/devtools",
+        "react",
+        "react-dom",
+        "motion",
+        "motion/mini",
+      ],
     },
     ssr: {
       noExternal: [
@@ -222,6 +244,13 @@ export default defineConfig({
         "@formisch/methods",
         "@preact/signals",
         "@kamod-ch/openui",
+        "@kamod-ch/ui-motion",
+        "@kamod-ch/motion",
+        "@kamod-ch/motion/motion",
+        "@kamod-ch/motion/presence",
+        "@kamod-ch/motion/presets",
+        "motion",
+        "motion/mini",
         "@openuidev/react-lang",
         "@openuidev/lang-core",
         "preact",

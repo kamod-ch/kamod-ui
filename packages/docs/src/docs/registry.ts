@@ -1,4 +1,5 @@
 import { buildDocsPageSlugsLongestFirst } from "./doc-snippet-rewrite";
+import { motionComponentEntries } from "./motion/motion-doc-config";
 import { accordionDocPage } from "./pages/accordion-doc";
 import { alertDialogDocPage } from "./pages/alert-dialog-doc";
 import { alertDocPage } from "./pages/alert-doc";
@@ -29,6 +30,7 @@ import { fieldDocPage } from "./pages/field-doc";
 import { formischDocPage } from "./pages/formisch-doc";
 import { hooksDocPage } from "./pages/hooks-package-doc";
 import { hoverCardDocPage } from "./pages/hover-card-doc";
+import { i18nDocPage } from "./pages/i18n-package-doc";
 import { iconsDocPage } from "./pages/icons-package-doc";
 import { imageDocPage } from "./pages/image-doc";
 import { inputDocPage } from "./pages/input-doc";
@@ -39,6 +41,12 @@ import { kbdDocPage } from "./pages/kbd-doc";
 import { labelDocPage } from "./pages/label-doc";
 import { localeSegmentGroupDocPage } from "./pages/locale-segment-group-doc";
 import { menubarDocPage } from "./pages/menubar-doc";
+import { motionAccordionDocPage } from "./pages/motion-accordion-doc";
+import { motionAlertDialogDocPage } from "./pages/motion-alert-dialog-doc";
+import { motionCollapsibleDocPage } from "./pages/motion-collapsible-doc";
+import { motionDialogDocPage } from "./pages/motion-dialog-doc";
+import { motionSheetDocPage } from "./pages/motion-sheet-doc";
+import { motionTabsDocPage } from "./pages/motion-tabs-doc";
 import { nativeSelectDocPage } from "./pages/native-select-doc";
 import { navigationMenuDocPage } from "./pages/navigation-menu-doc";
 import { paginationDocPage } from "./pages/pagination-doc";
@@ -57,6 +65,7 @@ import { skeletonDocPage } from "./pages/skeleton-doc";
 import { sliderDocPage } from "./pages/slider-doc";
 import { sonnerDocPage } from "./pages/sonner-doc";
 import { spinnerDocPage } from "./pages/spinner-doc";
+import { stateDocPage } from "./pages/state-package-doc";
 import { switchDocPage } from "./pages/switch-doc";
 import { tableDocPage } from "./pages/table-doc";
 import { tabsDocPage } from "./pages/tabs-doc";
@@ -68,6 +77,7 @@ import { toggleDocPage } from "./pages/toggle-doc";
 import { toggleGroupDocPage } from "./pages/toggle-group-doc";
 import { tooltipDocPage } from "./pages/tooltip-doc";
 import { typographyDocPage } from "./pages/typography-doc";
+import { uiMotionDocPage } from "./pages/ui-motion-doc";
 import { videoDocPage } from "./pages/video-doc";
 import type { ComponentOverviewItem, DocPageModule } from "./types";
 
@@ -102,7 +112,9 @@ export const docsPages: DocPageModule[] = [
   imageDocPage,
   iconsDocPage,
   hooksDocPage,
+  i18nDocPage,
   signalsDocPage,
+  stateDocPage,
   inputDocPage,
   inputOtpDocPage,
   itemDocPage,
@@ -113,6 +125,12 @@ export const docsPages: DocPageModule[] = [
   labelDocPage,
   localeSegmentGroupDocPage,
   menubarDocPage,
+  motionAccordionDocPage,
+  motionAlertDialogDocPage,
+  motionCollapsibleDocPage,
+  motionDialogDocPage,
+  motionSheetDocPage,
+  motionTabsDocPage,
   navigationMenuDocPage,
   nativeSelectDocPage,
   paginationDocPage,
@@ -140,6 +158,7 @@ export const docsPages: DocPageModule[] = [
   toggleDocPage,
   toggleGroupDocPage,
   typographyDocPage,
+  uiMotionDocPage,
   tooltipDocPage,
   videoDocPage,
 ];
@@ -159,6 +178,9 @@ export const packageDocPages = docsPages.filter((page) => page.navGroup === "pac
 
 /** Form docs shown before the long Components sidebar section. */
 export const formDocPages = docsPages.filter((page) => page.navGroup === "forms");
+
+/** Motion wrapper docs — own sidebar section between Forms and Components. */
+export const motionDocPages = docsPages.filter((page) => page.navGroup === "motion");
 
 /** Component docs for the alphabetical sidebar and overview grid. */
 export const componentDocPages = docsPages.filter(
@@ -184,9 +206,14 @@ export const docsUpdatedComponentSlugs = new Set([
 /** Shown with a "new" badge for package docs. */
 export const docsNewPackageSlugs = new Set<string>([
   "hooks-package",
+  "i18n-package",
   "icons-package",
   "signals-package",
+  "state-package",
 ]);
+
+/** Shown with a "new" badge for motion wrapper docs. */
+export const docsNewMotionSlugs = new Set(motionComponentEntries.map((entry) => entry.slug));
 
 /** Shown with a "new" badge for form guides. */
 export const docsNewFormSlugs = new Set<string>();
@@ -259,3 +286,8 @@ export const componentOverviewItems: ComponentOverviewItem[] = [
   { label: "Typography", slug: "typography" },
   { label: "Video", slug: "video" },
 ];
+
+export const motionOverviewItems: ComponentOverviewItem[] = motionComponentEntries.map((entry) => ({
+  label: entry.navLabel,
+  slug: entry.slug,
+}));

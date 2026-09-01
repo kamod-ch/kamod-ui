@@ -87,9 +87,9 @@ const results = await new AxeBuilder({ page })
   .include("section#demo")
   .exclude(".docs-code-wrap")
   .analyze();
-expect(
-  results.violations.filter((v) => ["serious", "critical"].includes(v.impact ?? "")),
-).toEqual([]);
+expect(results.violations.filter((v) => ["serious", "critical"].includes(v.impact ?? ""))).toEqual(
+  [],
+);
 ```
 
 Use one shared policy: `critical` and `serious` violations fail CI. Moderate and minor results are
@@ -143,17 +143,17 @@ high-signal zero-baseline rules above.
 
 ## Commands you will need
 
-| Purpose | Command | Expected on success |
-| --- | --- | --- |
-| Install | `pnpm install --frozen-lockfile` | exit 0; lockfile unchanged |
-| Static a11y | `pnpm lint:a11y` | exit 0; zero violations for the selected rules |
-| Focused browser a11y | `pnpm test:a11y` | exit 0; all Chromium a11y tests pass |
-| Existing E2E | `pnpm test:e2e` | exit 0; existing Playwright suite still passes when browsers are installed |
-| Typecheck | `pnpm typecheck` | exit 0; no TypeScript errors |
-| Lint | `pnpm lint` | exit 0 |
-| Unit/integration tests | `pnpm test:ci` | exit 0; all existing tests pass |
-| Workflow syntax | `actionlint .github/workflows/ci.yml` | exit 0 if `actionlint` is installed |
-| Full repository gate | `pnpm check` | exit 0 |
+| Purpose                | Command                               | Expected on success                                                        |
+| ---------------------- | ------------------------------------- | -------------------------------------------------------------------------- |
+| Install                | `pnpm install --frozen-lockfile`      | exit 0; lockfile unchanged                                                 |
+| Static a11y            | `pnpm lint:a11y`                      | exit 0; zero violations for the selected rules                             |
+| Focused browser a11y   | `pnpm test:a11y`                      | exit 0; all Chromium a11y tests pass                                       |
+| Existing E2E           | `pnpm test:e2e`                       | exit 0; existing Playwright suite still passes when browsers are installed |
+| Typecheck              | `pnpm typecheck`                      | exit 0; no TypeScript errors                                               |
+| Lint                   | `pnpm lint`                           | exit 0                                                                     |
+| Unit/integration tests | `pnpm test:ci`                        | exit 0; all existing tests pass                                            |
+| Workflow syntax        | `actionlint .github/workflows/ci.yml` | exit 0 if `actionlint` is installed                                        |
+| Full repository gate   | `pnpm check`                          | exit 0                                                                     |
 
 If the local machine does not have Chromium installed, run
 `pnpm --filter @kamod-ch/ui-docs exec playwright install chromium` before `pnpm test:a11y`. Do not
@@ -514,7 +514,7 @@ Finally update Plan 003's status in `plans/README.md` to `DONE`.
 - [ ] The CI job does not run WebKit, iPhone, visual snapshots, or the complete E2E suite.
 - [ ] `CONTRIBUTING.md` and `docs/accessibility-testing.md` document commands, policy, and Axe limits.
 - [ ] `pnpm typecheck`, `pnpm lint`, `pnpm lint:a11y`, `pnpm test:ci`, `pnpm test:a11y`,
-  `pnpm format:check`, and `pnpm biome:ci` all exit 0.
+      `pnpm format:check`, and `pnpm biome:ci` all exit 0.
 - [ ] `git diff --check` exits 0 and no generated manifest/public drift exists.
 - [ ] No component implementation or screenshot baseline is modified.
 - [ ] `plans/README.md` marks Plan 003 `DONE` after completion.

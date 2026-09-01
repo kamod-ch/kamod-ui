@@ -2,7 +2,8 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { expect, type Page, test } from "@playwright/test";
-import { formDocPages, packageDocPages } from "../src/docs/registry";
+import { visibleBlockNavItems } from "../src/blocks/block-nav-config";
+import { formDocPages, motionDocPages, packageDocPages } from "../src/docs/registry";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 /** Repo-root `tmp/` (this file lives in `packages/docs/e2e/`). */
@@ -231,7 +232,12 @@ test("docs /docs/components full link audit (writes tmp report)", async ({ page,
       .toBeVisible();
 
     const componentGridHrefs = await page
-      .locator(".docs-components-grid a.docs-component-item[href]")
+      .locator(
+        ".docs-components-grid:not(.docs-components-grid--motion) a.docs-component-item[href]",
+      )
+      .evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).getAttribute("href") ?? ""));
+    const motionGridHrefs = await page
+      .locator(".docs-components-grid--motion a.docs-component-item[href]")
       .evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).getAttribute("href") ?? ""));
     const gridHrefsClean = componentGridHrefs.filter(Boolean);
 
@@ -270,11 +276,13 @@ test("docs /docs/components full link audit (writes tmp report)", async ({ page,
     const expectedComponentSidebarEntries = slugsFromGrid.size + 1;
     const expectedPackageSidebarEntries = packageDocPages.length;
     const expectedFormSidebarEntries = formDocPages.length;
-    const expectedBlockSidebarEntries = 1;
+    const expectedMotionSidebarEntries = motionDocPages.length;
+    const expectedBlockSidebarEntries = visibleBlockNavItems.length;
     expectedSidebarEntries =
       expectedComponentSidebarEntries +
       expectedPackageSidebarEntries +
       expectedFormSidebarEntries +
+      expectedMotionSidebarEntries +
       expectedBlockSidebarEntries;
 
     await gotoDocsPath(page, overviewPath);
@@ -311,6 +319,26 @@ test("docs /docs/components full link audit (writes tmp report)", async ({ page,
         severity: "warning",
         url: base + overviewPath,
         detail: `Form sidebar count ${formSidebarCount} !== registered form docs (${expectedFormSidebarEntries})`,
+      });
+    }
+
+    const motionSidebarEntries = page.locator(
+      'aside.docs-sidebar nav[aria-label="Docs motion"] :is(a,button)',
+    );
+    const motionSidebarCount = await motionSidebarEntries.count();
+    if (motionSidebarCount !== expectedMotionSidebarEntries) {
+      addFinding({
+        severity: "warning",
+        url: base + overviewPath,
+        detail: `Motion sidebar count ${motionSidebarCount} !== registered motion docs (${expectedMotionSidebarEntries})`,
+      });
+    }
+
+    if (motionGridHrefs.filter(Boolean).length !== expectedMotionSidebarEntries) {
+      addFinding({
+        severity: "warning",
+        url: base + overviewPath,
+        detail: `Motion overview grid links ${motionGridHrefs.filter(Boolean).length} !== motion docs (${expectedMotionSidebarEntries})`,
       });
     }
 

@@ -140,6 +140,97 @@ html.dark .docs-mobile-sheet {
   color: var(--muted-foreground);
 }
 
+.docs-components-intro--subsection {
+  margin-top: -0.35rem;
+  margin-bottom: 0.85rem;
+  font-size: 0.92rem;
+}
+
+.docs-components-grid--motion {
+  margin-bottom: 1.75rem;
+}
+
+.docs-motion-context {
+  margin: 0 0 1.25rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid color-mix(in oklab, var(--border) 90%, transparent);
+  border-left: 3px solid color-mix(in oklab, var(--primary) 55%, var(--border));
+  border-radius: 0.65rem;
+  background: color-mix(in oklab, var(--muted) 35%, transparent);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.docs-motion-context p {
+  margin: 0;
+}
+
+.docs-motion-context p + p {
+  margin-top: 0.45rem;
+}
+
+.docs-motion-context-meta {
+  color: var(--muted-foreground);
+  font-size: 0.86rem;
+}
+
+.docs-motion-context code {
+  font-size: 0.84em;
+}
+
+.docs-motion-catalog {
+  display: grid;
+  gap: 0.65rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 640px) {
+  .docs-motion-catalog {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.docs-motion-catalog-card {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.85rem 0.95rem;
+  border: 1px solid var(--border);
+  border-radius: 0.7rem;
+  background: var(--background);
+  text-decoration: none;
+  color: inherit;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+
+.docs-motion-catalog-card:hover {
+  border-color: color-mix(in oklab, var(--primary) 35%, var(--border));
+  background: color-mix(in oklab, var(--muted) 25%, var(--background));
+}
+
+.docs-motion-catalog-card:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.docs-motion-catalog-label {
+  font-weight: 600;
+}
+
+.docs-motion-catalog-summary {
+  color: var(--muted-foreground);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.docs-motion-catalog-path {
+  font-size: 0.78rem;
+  color: var(--muted-foreground);
+}
+
 .docs-components-grid-heading {
   margin: 0 0 0.75rem;
   font-size: 1.1rem;

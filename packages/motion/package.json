@@ -1,0 +1,99 @@
+{
+  "name": "@kamod-ch/ui-motion",
+  "version": "0.1.0",
+  "description": "Optional motion-enhanced compositions for Kamod UI, built on @kamod-ch/motion.",
+  "keywords": [
+    "animation",
+    "kamod",
+    "motion",
+    "preact",
+    "ui"
+  ],
+  "homepage": "https://kamod-ch.github.io/kamod-ui/",
+  "bugs": {
+    "url": "https://github.com/kamod-ch/kamod-ui/issues"
+  },
+  "license": "MIT",
+  "author": "Klaus Zahiragic <watzak>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kamod-ch/kamod-ui.git",
+    "directory": "packages/motion"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./dialog": {
+      "types": "./dist/dialog/index.d.ts",
+      "import": "./dist/dialog/index.js"
+    },
+    "./alert-dialog": {
+      "types": "./dist/alert-dialog/index.d.ts",
+      "import": "./dist/alert-dialog/index.js"
+    },
+    "./sheet": {
+      "types": "./dist/sheet/index.d.ts",
+      "import": "./dist/sheet/index.js"
+    },
+    "./accordion": {
+      "types": "./dist/accordion/index.d.ts",
+      "import": "./dist/accordion/index.js"
+    },
+    "./collapsible": {
+      "types": "./dist/collapsible/index.d.ts",
+      "import": "./dist/collapsible/index.js"
+    },
+    "./tabs": {
+      "types": "./dist/tabs/index.d.ts",
+      "import": "./dist/tabs/index.js"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "lint": "oxlint .",
+    "publint": "publint",
+    "attw": "attw --pack . --profile esm-only"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.3",
+    "@kamod-ch/motion": "file:../../vendor/kamod-ch-motion-0.1.0.tgz",
+    "@kamod-ch/ui": "workspace:*",
+    "@preact/signals": "^2.9.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/preact": "^3.2.4",
+    "@types/node": "^25.9.2",
+    "jsdom": "^29.1.1",
+    "motion": "^13.1.1",
+    "preact": "^10.29.2",
+    "publint": "^0.3.21",
+    "tsup": "^8.5.1",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.8"
+  },
+  "peerDependencies": {
+    "@kamod-ch/motion": "^0.1.0",
+    "@kamod-ch/ui": "^0.2.1",
+    "@preact/signals": "^2.9.1",
+    "motion": "^13.1.1",
+    "preact": "^10.29.2"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -80,16 +80,16 @@ pnpm --filter @kamod-ch/ui-docs dev
 
 From the root:
 
-| Command          | Purpose                                   |
-| ---------------- | ----------------------------------------- |
-| `pnpm build`     | Build all packages (recursive).           |
-| `pnpm typecheck` | Typecheck all workspaces.                 |
-| `pnpm lint`      | Lint/typecheck scripts per workspace.     |
+| Command          | Purpose                                         |
+| ---------------- | ----------------------------------------------- |
+| `pnpm build`     | Build all packages (recursive).                 |
+| `pnpm typecheck` | Typecheck all workspaces.                       |
+| `pnpm lint`      | Lint/typecheck scripts per workspace.           |
 | `pnpm lint:a11y` | Static JSX accessibility lint (selected rules). |
-| `pnpm test`      | Run **@kamod-ch/ui** unit tests (Vitest). |
-| `pnpm test:docs` | Run **docs** unit tests (Vitest).         |
-| `pnpm test:e2e`  | Run **docs** Playwright tests.            |
-| `pnpm test:a11y` | Chromium Playwright/Axe accessibility audits. |
+| `pnpm test`      | Run **@kamod-ch/ui** unit tests (Vitest).       |
+| `pnpm test:docs` | Run **docs** unit tests (Vitest).               |
+| `pnpm test:e2e`  | Run **docs** Playwright tests.                  |
+| `pnpm test:a11y` | Chromium Playwright/Axe accessibility audits.   |
 
 See [docs/accessibility-testing.md](docs/accessibility-testing.md) for the a11y policy, coverage
 model, and automation limits.
