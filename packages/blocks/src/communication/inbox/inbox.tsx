@@ -1,6 +1,11 @@
 import { ArchiveIcon, ChevronLeftIcon, StarIcon } from "@kamod-ch/icons/lucide";
 import { Badge, Button, Empty, EmptyDescription, EmptyHeader, EmptyTitle } from "@kamod-ch/ui";
-import { type DateFormatOptions, formatDayLabel, formatTime, useControllableState } from "../../shared";
+import {
+  type DateFormatOptions,
+  formatDayLabel,
+  formatTime,
+  useControllableState,
+} from "../../shared";
 import type {
   CommunicationLayout,
   InboxFolder,
