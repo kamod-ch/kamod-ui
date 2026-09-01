@@ -13,7 +13,7 @@ coverage
 .cursor
 proofshot-artifacts/
 data_old/
-inbox/
+/inbox/
 scripts_old/
 playwright-report/
 test-results/

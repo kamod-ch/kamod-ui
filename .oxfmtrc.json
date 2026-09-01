@@ -9,7 +9,6 @@
     "**/tmp/**",
     "**/data_old/**",
     "**/scripts_old/**",
-    "**/inbox/**",
     "**/proofshot-artifacts/**",
     "**/*.tsbuildinfo",
     "pnpm-lock.yaml",
