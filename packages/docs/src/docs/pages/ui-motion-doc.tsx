@@ -1,100 +1,70 @@
-import { CodeBlock } from "../components/CodeBlock";
-import { PackageFeatureGrid } from "../components/package-teaser";
-import { MotionComponentCatalog } from "../motion/MotionComponentCatalog";
-import type { DocPageModule } from "../types";
-import { MOTION_COMMAND } from "./create-motion-doc-page";
+import {
+  dialogExample,
+  mapUiMotionExamples,
+  reducedMotionExample,
+  uiMotionExamples,
+} from "../examples/ui-motion";
+import { createGenericDocPage } from "./create-generic-doc-page";
 
-const quickStartCode = `import {
+export const UI_MOTION_COMMAND =
+  "pnpm add @kamod-ch/ui-motion @kamod-ch/motion @kamod-ch/ui preact motion @preact/signals";
+
+/** Section ids referenced by generate-docs-route-manifest.mjs (keep in sync with uiMotionExamples). */
+const UI_MOTION_EXAMPLE_SECTION_IDS = [
+  { id: "dialog" },
+  { id: "alert-dialog" },
+  { id: "sheet" },
+  { id: "accordion" },
+  { id: "collapsible" },
+  { id: "reduced-motion" },
+] as const;
+void UI_MOTION_EXAMPLE_SECTION_IDS;
+
+const basePage = createGenericDocPage({
+  slug: "ui-motion",
+  title: "UI Motion",
+  usageLabel:
+    "Optional motion wrappers for Kamod UI — Presence-managed exit animations without changing @kamod-ch/ui.",
+  previewCode: dialogExample.code,
+  installationText:
+    "Install @kamod-ch/ui-motion with its peers. @kamod-ch/ui stays motion-free — add these packages only when you need animated enter/exit. A separate CSS import (for example @kamod-ch/motion/presets/tokens.css) is not required for the JS presets used by ui-motion adapters. Do not install motion/react.",
+  usageText:
+    "Replace content components (DialogContent, SheetContent, …) with the matching @kamod-ch/ui-motion export. Keep Dialog, triggers, titles, and actions from @kamod-ch/ui. Compose portal + overlay + content for dialogs; do not mix tw-animate classes on the same nodes as motion presets.",
+  exampleSections: mapUiMotionExamples(uiMotionExamples),
+  apiRows: [
+    { prop: "MotionDialogPortal", type: "component", defaultValue: "@kamod-ch/ui-motion/dialog" },
+    { prop: "MotionDialogOverlay", type: "component", defaultValue: "fade preset" },
+    { prop: "MotionDialogContent", type: "component", defaultValue: "scale preset" },
+    {
+      prop: "MotionAlertDialogContent",
+      type: "component",
+      defaultValue: "@kamod-ch/ui-motion/alert-dialog",
+    },
+    { prop: "MotionSheetContent", type: "component", defaultValue: "@kamod-ch/ui-motion/sheet" },
+    {
+      prop: "MotionAccordionContent",
+      type: "component",
+      defaultValue: "@kamod-ch/ui-motion/accordion",
+    },
+    {
+      prop: "MotionCollapsibleContent",
+      type: "component",
+      defaultValue: "@kamod-ch/ui-motion/collapsible",
+    },
+    { prop: "MotionComponentProps", type: "type", defaultValue: "optional motion overrides" },
+  ],
+  accessibilityText:
+    "Motion wrappers preserve focus traps, aria-modal, Escape dismiss, and focus return from @kamod-ch/ui. Spatial presets honor prefers-reduced-motion via @kamod-ch/motion — pass reducedMotion on Motion or rely on preset reduced fallbacks.",
+});
+
+export const uiMotionDocPage = {
+  ...basePage,
+  command: UI_MOTION_COMMAND,
+  packagePath: "@kamod-ch/ui-motion",
+  usageImportSnippet: `import {
   MotionDialogPortal,
   MotionDialogOverlay,
   MotionDialogContent,
-} from "@kamod-ch/ui-motion/dialog";
-import { Dialog, DialogTitle, DialogTrigger } from "@kamod-ch/ui/dialog";
-
-<Dialog>
-  <DialogTrigger>Open</DialogTrigger>
-  <MotionDialogPortal>
-    <MotionDialogOverlay />
-    <MotionDialogContent>
-      <DialogTitle>Settings</DialogTitle>
-    </MotionDialogContent>
-  </MotionDialogPortal>
-</Dialog>`;
-
-export const uiMotionDocPage: DocPageModule = {
-  slug: "ui-motion",
-  title: "UI Motion",
-  navGroup: "packages",
-  command: MOTION_COMMAND,
-  usageLabel: "Optional motion wrappers for Kamod UI primitives.",
-  packagePath: "@kamod-ch/ui-motion",
-  usageImportSnippet: `import { MotionDialogContent } from "@kamod-ch/ui-motion/dialog";`,
-  sections: [
-    {
-      id: "installation",
-      title: "Installation",
-      text: "Add @kamod-ch/ui-motion with @kamod-ch/motion, @kamod-ch/ui, preact, and motion. Core @kamod-ch/ui stays motion-free — install motion only when you need animated enter/exit.",
-    },
-    {
-      id: "usage",
-      title: "When to use",
-      text: "Use motion wrappers when you need Presence-managed exit animations and preset-driven motion. Keep core components for CSS-only transitions and zero extra dependencies.",
-    },
-    {
-      id: "components",
-      title: "Components",
-      text: "Each wrapper has a dedicated docs page under Motion in the sidebar.",
-    },
-    {
-      id: "api-reference",
-      title: "API Reference",
-      text: "Subpath exports mirror Kamod UI primitives. Open a component page below for props and live previews.",
-    },
-    {
-      id: "accessibility",
-      title: "Accessibility Notes",
-      text: "Motion wrappers do not replace focus traps, aria-modal, dismiss layers, or keyboard behavior from @kamod-ch/ui. @kamod-ch/motion presets honor prefers-reduced-motion.",
-    },
-  ],
-  renderMain: (context) => (
-    <>
-      {context.renderTitleRow()}
-      <section class="docs-package-teaser" aria-label="UI Motion overview">
-        <p class="docs-package-teaser-eyebrow">Optional add-on</p>
-        <h2 class="docs-package-teaser-headline">Animate Kamod UI without changing its core</h2>
-        <p class="docs-package-teaser-lead">
-          Swap content components for motion variants — dialog, sheet, alert dialog, accordion,
-          collapsible, and tabs indicator — while keeping triggers, titles, and actions from
-          @kamod-ch/ui.
-        </p>
-      </section>
-      <PackageFeatureGrid
-        features={[
-          {
-            title: "Composition, not fork",
-            text: "Motion pages wrap existing primitives. Dialog roots, triggers, and a11y hooks stay unchanged.",
-          },
-          {
-            title: "Exit animations",
-            text: "Presence keeps nodes mounted through close animations — something CSS-only core content cannot do.",
-          },
-          {
-            title: "Preset-driven",
-            text: "Animations come from @kamod-ch/motion presets. Do not mix tw-animate classes on the same nodes.",
-          },
-        ]}
-      />
-      {context.sections.map((section) => (
-        <section key={section.id} id={section.id} class="docs-section">
-          <h2>{section.title}</h2>
-          <p class="docs-copy">{section.text}</p>
-          {section.id === "installation" ? context.renderSectionExtraContent(section.id) : null}
-          {section.id === "usage" ? (
-            <CodeBlock code={quickStartCode} language="tsx" className="docs-tab-code" />
-          ) : null}
-          {section.id === "components" ? <MotionComponentCatalog /> : null}
-        </section>
-      ))}
-    </>
-  ),
+} from "@kamod-ch/ui-motion/dialog";`,
+  usageExampleSnippet: reducedMotionExample.code,
 };

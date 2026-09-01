@@ -17,6 +17,11 @@ import type { ComponentChildren } from "preact";
 import { useState } from "preact/hooks";
 import { ApiReference } from "../components/ApiReference";
 import { CodeBlock } from "../components/CodeBlock";
+import {
+  MOTION_ALERT_DIALOG_EXAMPLE_CODE,
+  MotionAlertDialogDestructivePreview,
+} from "../examples/ui-motion/alert-dialog-example";
+import { UiMotionDocLink } from "../examples/ui-motion/ui-motion-doc-link";
 import type { DocPageModule } from "../types";
 
 function BasicHero() {
@@ -249,6 +254,10 @@ import { Bluetooth } from "lucide-preact";
 
 // Toggle dir; pass dir + data-lang on AlertDialogContent for RTL overlays.`,
   },
+  "with-motion": {
+    preview: () => <MotionAlertDialogDestructivePreview />,
+    code: MOTION_ALERT_DIALOG_EXAMPLE_CODE,
+  },
 };
 
 type Lang = "en" | "ar" | "he";
@@ -454,7 +463,7 @@ export const alertDialogDocPage: DocPageModule = {
     {
       id: "installation",
       title: "Installation",
-      text: "Import alert dialog primitives from `@/components/kamod-ui/alert-dialog`.",
+      text: "Import alert dialog primitives from `@/components/kamod-ui/alert-dialog`. Motion is optional — core @kamod-ch/ui includes CSS enter/exit on AlertDialogContent.",
     },
     {
       id: "usage",
@@ -490,6 +499,11 @@ export const alertDialogDocPage: DocPageModule = {
       id: "rtl",
       title: "RTL",
       text: "Set dir on the overlay via AlertDialogContent and wrap with DirectionProvider for logical layout.",
+    },
+    {
+      id: "with-motion",
+      title: "With Motion",
+      text: "Optional Presence-managed exit animations via @kamod-ch/ui-motion — same cancel/confirm flow and dismiss semantics as the core alert dialog.",
     },
     { id: "api-reference", title: "API Reference", text: "Props overview." },
   ],
@@ -532,11 +546,16 @@ export const alertDialogDocPage: DocPageModule = {
       if (!block) {
         return null;
       }
-      return context.renderPreviewAndCodeTabs({
-        preview: block.preview(),
-        codeSnippet: block.code,
-        previewClass: "overflow-x-auto",
-      });
+      return (
+        <>
+          {sectionId === "with-motion" ? <UiMotionDocLink section="alert-dialog" /> : null}
+          {context.renderPreviewAndCodeTabs({
+            preview: block.preview(),
+            codeSnippet: block.code,
+            previewClass: "overflow-x-auto",
+          })}
+        </>
+      );
     };
 
     return (

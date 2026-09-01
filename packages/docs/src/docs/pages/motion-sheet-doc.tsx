@@ -1,5 +1,5 @@
 import { MotionSheetDemo } from "../motion/MotionSheetDemo";
-import { MotionSheetSidesDemo } from "../motion/MotionSheetSidesDemo";
+import { MOTION_SHEET_EXAMPLE_CODE, MotionSheetSidesDemo } from "../motion/MotionSheetSidesDemo";
 import { createMotionDocPage } from "./create-motion-doc-page";
 
 export const motionSheetDocPage = createMotionDocPage({
@@ -37,11 +37,7 @@ import { Button } from "@kamod-ch/ui/button";
       id: "side",
       title: "Side",
       text: 'Pass side="top" | "right" | "bottom" | "left". Motion presets match the chosen edge.',
-      code: `import { MotionSheetContent } from "@kamod-ch/ui-motion/sheet";
-
-<MotionSheetContent side="bottom">
-  …
-</MotionSheetContent>`,
+      code: MOTION_SHEET_EXAMPLE_CODE,
       renderPreview: () => <MotionSheetSidesDemo />,
     },
   ],

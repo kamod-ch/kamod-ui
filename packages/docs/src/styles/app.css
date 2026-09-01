@@ -293,8 +293,6 @@ html {
   margin-bottom: 0.6rem;
 }
 
-[data-slot="accordion-trigger"],
-[data-slot="collapsible-trigger"],
 /* Icon-sized dropdown triggers (e.g. breadcrumb ellipsis) use component styles only — a border here looked like an unwanted gray frame. */
 [data-slot="dropdown-trigger"]:not([data-size^="icon"]) {
   padding: 0.55rem 0.8rem;
@@ -307,6 +305,15 @@ html {
 .preview [data-slot="accordion"],
 .preview [data-slot="collapsible"] {
   width: 100%;
+}
+
+/* Accordion/collapsible use shadcn-style rows in component docs — no extra preview chrome. */
+.preview [data-slot="accordion-trigger"],
+.preview [data-slot="collapsible-trigger"] {
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
 }
 
 /* Select uses component Tailwind (shadcn-style trigger + popover); do not override here — old rules caused thick padding and “floating” item hovers. */
@@ -509,29 +516,18 @@ html {
   transform: rotate(135deg);
 }
 
-/* Panel chrome lives on the inner wrapper so the grid shell can collapse to 0fr */
-[data-slot="accordion-content"] {
-  display: flow-root;
-}
-
-[data-slot="accordion-content-inner"] {
-  margin-top: 0;
-  padding: 1.3rem 0.75rem 0.75rem;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border);
-  background: color-mix(in oklab, var(--muted) 60%, var(--card));
-}
-
+[data-slot="accordion-content"],
 [data-slot="collapsible-content"] {
   display: flow-root;
 }
 
-[data-slot="collapsible-content-inner"] {
+.preview [data-slot="accordion-content-inner"],
+.preview [data-slot="collapsible-content-inner"] {
   margin-top: 0;
-  padding: 1.3rem 0.75rem 0.75rem;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border);
-  background: color-mix(in oklab, var(--muted) 60%, var(--card));
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
 }
 
 [data-slot="tabs-content"] {

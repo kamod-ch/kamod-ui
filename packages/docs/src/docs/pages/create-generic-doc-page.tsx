@@ -23,6 +23,8 @@ type GenericDocPageConfig = {
   usageText: string;
   /** Merged onto every Preview tab shell (e.g. overflow for focus rings). */
   previewChromeClass?: string;
+  /** Optional JSX rendered below section copy (e.g. cross-links). */
+  sectionExtras?: Record<string, () => ComponentChildren>;
   exampleSections: Array<{
     id: string;
     title: string;
@@ -130,6 +132,7 @@ export const createGenericDocPage = (config: GenericDocPageConfig): DocPageModul
           <section key={docSection.id} id={docSection.id} class="docs-section">
             <h2>{docSection.title}</h2>
             <p class="docs-copy">{docSection.text}</p>
+            {config.sectionExtras?.[docSection.id]?.()}
             {context.renderSectionExtraContent(docSection.id)}
             {docSection.id !== heroExampleSectionId
               ? renderSectionExtraContent(docSection.id, context.renderPreviewAndCodeTabs)

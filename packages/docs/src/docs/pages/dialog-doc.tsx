@@ -15,6 +15,11 @@ import {
   Label,
 } from "@kamod-ch/ui";
 import { useState } from "preact/hooks";
+import {
+  MOTION_DIALOG_EXAMPLE_CODE,
+  MotionDialogProfilePreview,
+} from "../examples/ui-motion/dialog-example";
+import { UiMotionDocLink } from "../examples/ui-motion/ui-motion-doc-link";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 type Lang = "en" | "ar" | "he";
@@ -207,10 +212,13 @@ export const Example = () => (
   usageLabel:
     'Modal dialog with backdrop, centered panel, default close control, Escape + focus return, `presentation="slot"` for custom layouts (Alert Dialog, full-screen previews).',
   installationText:
-    'Install `@kamod-ch/ui`, then compose `Dialog`, `DialogTrigger`, and `DialogContent` as in the snippet below. The default modal is centered; for immersive full-viewport layouts use `presentation="slot"` and apply overlay + panel classes on `DialogContent` yourself (see Usage).',
+    'Install `@kamod-ch/ui`, then compose `Dialog`, `DialogTrigger`, and `DialogContent` as in the snippet below. The default modal is centered; for immersive full-viewport layouts use `presentation="slot"` and apply overlay + panel classes on `DialogContent` yourself (see Usage). Motion is optional — see With Motion for @kamod-ch/ui-motion.',
   installationExample: {
     code: INSTALLATION_FULLSCREEN_CODE,
     renderPreview: () => <DialogInstallationFullscreenPreview />,
+  },
+  sectionExtras: {
+    "with-motion": () => <UiMotionDocLink section="dialog" />,
   },
   usageText:
     'Default `DialogContent` is `presentation="modal"` (backdrop + centered panel). If your code used to put **`fixed inset-0`**, **`flex items-center justify-center`**, and **`bg-black/50`** on `DialogContent` itself, you must set **`presentation="slot"`** — otherwise you get two backdrops and a nested centered shell. Same pattern as `AlertDialogContent` and the docs “View Markdown” dialog. Width-only classes like `sm:max-w-md` on modal are fine without slot. `lockBodyScroll` defaults to true on `Dialog`.',
@@ -595,6 +603,13 @@ export const Example = () => (
           </DialogContent>
         </Dialog>
       ),
+    },
+    {
+      id: "with-motion",
+      title: "With Motion",
+      text: "Replace DialogContent with MotionDialogPortal, MotionDialogOverlay, and MotionDialogContent for Presence-managed exit. Escape, focus return, and close button semantics match core Dialog.",
+      code: MOTION_DIALOG_EXAMPLE_CODE,
+      renderPreview: () => <MotionDialogProfilePreview />,
     },
   ],
   apiRows: [

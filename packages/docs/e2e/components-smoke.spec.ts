@@ -185,6 +185,33 @@ test.describe("core component docs smoke", () => {
     await expect(preview.getByLabel("Option one")).not.toBeChecked();
   });
 
+  test("Accordion toggles and settles without runaway height animation", async ({ page }) => {
+    await page.goto("./docs/accordion/basic");
+    await expect(page.locator("h1", { hasText: "Accordion" })).toBeVisible();
+
+    const preview = page.locator(".preview").first();
+    const first = preview.getByRole("button", { name: "How do I reset my password?" });
+    const second = preview.getByRole("button", { name: "Can I change my subscription plan?" });
+
+    await expect(first).toHaveAttribute("aria-expanded", "true");
+
+    await first.click();
+    await expect(first).toHaveAttribute("aria-expanded", "false");
+
+    await second.click();
+    await expect(second).toHaveAttribute("aria-expanded", "true");
+    await expect(first).toHaveAttribute("aria-expanded", "false");
+
+    const content = preview.locator('[data-slot="accordion-content"][data-state="open"]').first();
+
+    await expect(content).toBeVisible();
+    await page.waitForTimeout(400);
+
+    const heightAfterSettle = await content.evaluate((node) => node.style.height);
+    await page.waitForTimeout(200);
+    await expect(content).toHaveJSProperty("style.height", heightAfterSettle);
+  });
+
   test("DatePicker opens calendar popover", async ({ page }) => {
     await page.goto("./docs/date-picker/date-picker-convenience");
     await page

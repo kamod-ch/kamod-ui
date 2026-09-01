@@ -19,7 +19,10 @@ export function MotionAlertDialogPortal({ children }: MotionAlertDialogPortalPro
   return (
     <DialogPortal forceMount>
       <Presence show={open} onExitComplete={onExitComplete}>
-        {children}
+        {/* Dismiss layer treats backdrop hits on overlay children as in-layer (no outside dismiss). */}
+        <div data-slot="alert-dialog-content" class="contents">
+          {children}
+        </div>
       </Presence>
     </DialogPortal>
   );

@@ -15,10 +15,15 @@ import type { ComponentChildren } from "preact";
 import { useState } from "preact/hooks";
 import { ApiReference } from "../components/ApiReference";
 import { CodeBlock } from "../components/CodeBlock";
+import {
+  MOTION_ACCORDION_EXAMPLE_CODE,
+  MotionAccordionFaqPreview,
+} from "../examples/ui-motion/accordion-example";
+import { UiMotionDocLink } from "../examples/ui-motion/ui-motion-doc-link";
 import type { DocPageModule } from "../types";
 
 const accordionPreviewItemClass =
-  "border-b border-border last:border-b-0 data-[state=open]:bg-muted/60";
+  "border-b border-border px-4 last:border-b-0 data-[state=open]:bg-muted/60";
 
 function AccordionHero() {
   return (
@@ -291,6 +296,10 @@ const sectionBlocks: Record<string, { preview: () => ComponentChildren; code: st
 
 // Set dir on Accordion or an ancestor; trigger label uses text-start for logical alignment.`,
   },
+  "with-motion": {
+    preview: () => <MotionAccordionFaqPreview />,
+    code: MOTION_ACCORDION_EXAMPLE_CODE,
+  },
 };
 
 type Lang = "en" | "ar" | "he";
@@ -450,6 +459,11 @@ export const accordionDocPage: DocPageModule = {
     { id: "borders", title: "Borders", text: "Border on the root and border-b between items." },
     { id: "card", title: "Card", text: "Nest the accordion inside CardContent." },
     { id: "rtl", title: "RTL", text: "dir on the accordion; labels use text-start." },
+    {
+      id: "with-motion",
+      title: "With Motion",
+      text: "Optional height and opacity animation via @kamod-ch/ui-motion — same single/collapsible semantics and chevron indicator as core AccordionContent.",
+    },
     { id: "api-reference", title: "API Reference", text: "Props overview." },
   ],
   renderMain: (context) => {
@@ -484,11 +498,16 @@ export const accordionDocPage: DocPageModule = {
       if (!block) {
         return null;
       }
-      return context.renderPreviewAndCodeTabs({
-        preview: block.preview(),
-        codeSnippet: block.code,
-        previewClass: "overflow-x-auto",
-      });
+      return (
+        <>
+          {sectionId === "with-motion" ? <UiMotionDocLink section="accordion" /> : null}
+          {context.renderPreviewAndCodeTabs({
+            preview: block.preview(),
+            codeSnippet: block.code,
+            previewClass: "overflow-x-auto",
+          })}
+        </>
+      );
     };
 
     return (

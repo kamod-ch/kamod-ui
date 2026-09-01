@@ -1,9 +1,9 @@
 ---
 title: "ui-motion"
-description: "ui-motion / motion-dialog"
+description: "ui-motion / accordion"
 pageKind: component-doc
 slug: "ui-motion"
-section: "motion-dialog"
+section: "accordion"
 sidebar: false
 outline: false
 ---

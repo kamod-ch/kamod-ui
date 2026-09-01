@@ -8,6 +8,9 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const pagesDir = path.resolve(__dirname, "../src/docs/pages");
 const outFile = path.resolve(__dirname, "../src/docs/generated-manifest.ts");
 const docsDir = path.resolve(__dirname, "../docs");
+const repoRoot = path.resolve(__dirname, "../../..");
+const llmsSource = path.join(repoRoot, "llms.txt");
+const llmsPublic = path.resolve(__dirname, "../public/llms.txt");
 
 const files = (await fs.readdir(pagesDir)).filter((file) => file.endsWith("-doc.tsx"));
 const manifest = [];
@@ -114,3 +117,5 @@ for (const entry of existingDocs) {
   await removeIfExists(path.join(docsDir, entry.name));
   await removeIfExists(path.join(docsDir, slug));
 }
+
+await fs.copyFile(llmsSource, llmsPublic);

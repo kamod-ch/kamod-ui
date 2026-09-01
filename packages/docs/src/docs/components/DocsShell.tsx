@@ -22,6 +22,7 @@ import { GithubRepoLink } from "../../layout/GithubRepoLink";
 import { ThemePresetSelect } from "../../theme/ThemePresetSelect";
 import {
   componentDocPages,
+  docsNewComponentSlugs,
   docsNewFormSlugs,
   docsNewMotionSlugs,
   docsNewPackageSlugs,
@@ -214,7 +215,11 @@ export const DocsShell = ({
         label: doc.title,
         active: doc.slug === activeDoc?.slug,
         href: getDocHref(doc.slug),
-        badge: docsUpdatedComponentSlugs.has(doc.slug) ? ("updated" as const) : undefined,
+        badge: docsNewComponentSlugs.has(doc.slug)
+          ? ("new" as const)
+          : docsUpdatedComponentSlugs.has(doc.slug)
+            ? ("updated" as const)
+            : undefined,
       })),
     ],
     [

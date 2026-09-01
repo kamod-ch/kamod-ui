@@ -8,7 +8,7 @@ import {
   rewriteKamodCoreImportsInDocString,
   symbolToKamodSlug,
 } from "./doc-snippet-rewrite";
-import { docsPageSlugsLongestFirst, docsPages } from "./registry";
+import { allDocsPages, docsPageSlugsLongestFirst, docsPages } from "./registry";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -54,7 +54,7 @@ describe("docs registry vs page files", () => {
       const m = raw.match(/slug:\s*"([^"]+)"/);
       if (m && !ROUTE_SKIP_SLUGS.has(m[1]!)) fromDisk.add(m[1]!);
     }
-    const fromRegistry = new Set(docsPages.map((p) => p.slug));
+    const fromRegistry = new Set(allDocsPages.map((p) => p.slug));
     expect([...fromRegistry].sort()).toEqual([...fromDisk].sort());
   });
 });

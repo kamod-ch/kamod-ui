@@ -28,6 +28,11 @@ import {
 } from "lucide-preact";
 import type { ComponentChildren } from "preact";
 import { useState } from "preact/hooks";
+import {
+  MOTION_COLLAPSIBLE_EXAMPLE_CODE,
+  MotionCollapsibleFileTreePreview,
+} from "../examples/ui-motion/collapsible-example";
+import { UiMotionDocLink } from "../examples/ui-motion/ui-motion-doc-link";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 const CollapsibleDemoPreview = () => {
@@ -374,7 +379,10 @@ export const Example = () => {
   usageLabel:
     "Progressive disclosure with open/onOpenChange, asChild triggers, height animation (accordion-style), shadcn-aligned examples.",
   installationText:
-    "Import Collapsible, CollapsibleTrigger and CollapsibleContent from `@/components/kamod-ui/collapsible`.",
+    "Import Collapsible, CollapsibleTrigger and CollapsibleContent from `@/components/kamod-ui/collapsible`. Motion is optional — core CollapsibleContent includes CSS height animation.",
+  sectionExtras: {
+    "with-motion": () => <UiMotionDocLink section="collapsible" />,
+  },
   usageText:
     "Wrap trigger and content. Use open and onOpenChange for controlled state. Use CollapsibleTrigger asChild with Button for icon toggles. CollapsibleContent animates height (respects prefers-reduced-motion).",
   exampleSections: [
@@ -457,6 +465,13 @@ import { ChevronDown } from "lucide-preact";`,
       code: `import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/kamod-ui/collapsible"
 import { DirectionProvider } from "@/components/kamod-ui/direction";`,
       renderPreview: () => <CollapsibleRtlPreview />,
+    },
+    {
+      id: "with-motion",
+      title: "With Motion",
+      text: "Replace CollapsibleContent with MotionCollapsibleContent for measured height and opacity reveal. aria-expanded and visible status text stay on the trigger.",
+      code: MOTION_COLLAPSIBLE_EXAMPLE_CODE,
+      renderPreview: () => <MotionCollapsibleFileTreePreview />,
     },
   ],
   apiRows: [

@@ -134,7 +134,28 @@ Kamod UI is not aimed at:
 - [Toggle Group](https://ui.kamod.ch/docs/toggle-group)
 - [Tooltip](https://ui.kamod.ch/docs/tooltip)
 - [Typography](https://ui.kamod.ch/docs/typography)
+- [UI Motion](https://ui.kamod.ch/docs/ui-motion)
 - [Video](https://ui.kamod.ch/docs/video)
+
+## UI Motion (optional)
+
+Optional exit animations for Dialog, Alert Dialog, Sheet, Accordion, and Collapsible via [@kamod-ch/ui-motion](https://ui.kamod.ch/docs/ui-motion). Core [@kamod-ch/ui](https://ui.kamod.ch/docs) stays motion-free.
+
+Install:
+
+```bash
+pnpm add @kamod-ch/ui-motion @kamod-ch/motion @kamod-ch/ui preact motion @preact/signals
+```
+
+- [UI Motion docs](https://ui.kamod.ch/docs/ui-motion)
+- [Dialog with motion](https://ui.kamod.ch/docs/ui-motion/dialog)
+- [Alert Dialog with motion](https://ui.kamod.ch/docs/ui-motion/alert-dialog)
+- [Sheet with motion](https://ui.kamod.ch/docs/ui-motion/sheet)
+- [Accordion with motion](https://ui.kamod.ch/docs/ui-motion/accordion)
+- [Collapsible with motion](https://ui.kamod.ch/docs/ui-motion/collapsible)
+- [Reduced motion policies](https://ui.kamod.ch/docs/ui-motion/reduced-motion)
+
+Do not install `motion/react` — use the `motion` package with `@kamod-ch/motion` presets.
 
 ## Package usage notes
 

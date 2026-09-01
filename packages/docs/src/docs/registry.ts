@@ -1,4 +1,5 @@
 import { buildDocsPageSlugsLongestFirst } from "./doc-snippet-rewrite";
+import { docsShowMotion, isMotionDocSlug } from "./docs-feature-flags";
 import { motionComponentEntries } from "./motion/motion-doc-config";
 import { accordionDocPage } from "./pages/accordion-doc";
 import { alertDialogDocPage } from "./pages/alert-dialog-doc";
@@ -81,7 +82,7 @@ import { uiMotionDocPage } from "./pages/ui-motion-doc";
 import { videoDocPage } from "./pages/video-doc";
 import type { ComponentOverviewItem, DocPageModule } from "./types";
 
-export const docsPages: DocPageModule[] = [
+export const allDocsPages: DocPageModule[] = [
   accordionDocPage,
   alertDocPage,
   alertDialogDocPage,
@@ -163,6 +164,10 @@ export const docsPages: DocPageModule[] = [
   videoDocPage,
 ];
 
+export const docsPages: DocPageModule[] = docsShowMotion
+  ? allDocsPages
+  : allDocsPages.filter((page) => !isMotionDocSlug(page.slug) && page.navGroup !== "motion");
+
 /** Longest first so e.g. `navigation-menu` wins over shorter prefixes in import rewriting. */
 export const docsPageSlugsLongestFirst: readonly string[] = buildDocsPageSlugsLongestFirst(
   docsPages.map((p) => p.slug),
@@ -203,6 +208,9 @@ export const docsUpdatedComponentSlugs = new Set([
   "tabs",
 ]);
 
+/** Shown with a "new" badge in the Components sidebar and overview grid. */
+export const docsNewComponentSlugs = docsShowMotion ? new Set(["ui-motion"]) : new Set<string>();
+
 /** Shown with a "new" badge for package docs. */
 export const docsNewPackageSlugs = new Set<string>([
   "hooks-package",
@@ -213,7 +221,9 @@ export const docsNewPackageSlugs = new Set<string>([
 ]);
 
 /** Shown with a "new" badge for motion wrapper docs. */
-export const docsNewMotionSlugs = new Set(motionComponentEntries.map((entry) => entry.slug));
+export const docsNewMotionSlugs = docsShowMotion
+  ? new Set(motionComponentEntries.map((entry) => entry.slug))
+  : new Set<string>();
 
 /** Shown with a "new" badge for form guides. */
 export const docsNewFormSlugs = new Set<string>();
@@ -284,10 +294,13 @@ export const componentOverviewItems: ComponentOverviewItem[] = [
   { label: "Toggle Group", slug: "toggle-group" },
   { label: "Tooltip", slug: "tooltip" },
   { label: "Typography", slug: "typography" },
+  ...(docsShowMotion ? [{ label: "UI Motion", slug: "ui-motion" } as const] : []),
   { label: "Video", slug: "video" },
 ];
 
-export const motionOverviewItems: ComponentOverviewItem[] = motionComponentEntries.map((entry) => ({
-  label: entry.navLabel,
-  slug: entry.slug,
-}));
+export const motionOverviewItems: ComponentOverviewItem[] = docsShowMotion
+  ? motionComponentEntries.map((entry) => ({
+      label: entry.navLabel,
+      slug: entry.slug,
+    }))
+  : [];

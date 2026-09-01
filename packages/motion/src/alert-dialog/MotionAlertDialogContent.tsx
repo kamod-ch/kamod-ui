@@ -1,6 +1,5 @@
 import { Motion, type MotionProps } from "@kamod-ch/motion/motion";
 import { type DialogContentProps, useDialog, useModalPanelA11y } from "@kamod-ch/ui/dialog";
-import type { JSX } from "preact";
 import { cn } from "../lib/cn.js";
 import { scale } from "../lib/presets.js";
 
@@ -27,14 +26,6 @@ export function MotionAlertDialogContent({
   const open = dialog.open.value === true;
   const { panelRef, labelledBy, describedBy } = useModalPanelA11y(open);
 
-  const handleKeyDown = (event: JSX.TargetedKeyboardEvent<HTMLDivElement>) => {
-    if (event.key === "Escape") {
-      event.preventDefault();
-      dialog.setOpen(false);
-    }
-    onKeyDown?.(event);
-  };
-
   return (
     <Motion
       ref={panelRef}
@@ -57,7 +48,7 @@ export function MotionAlertDialogContent({
       animate={scale.animate}
       exit={scale.exit}
       transition={scale.transition}
-      onKeyDown={handleKeyDown}
+      onKeyDown={onKeyDown}
       {...(rest as Omit<MotionProps, "initial" | "animate" | "exit" | "transition">)}
     >
       {children}

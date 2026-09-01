@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { docsShowMotion, isMotionDocSlug } from "../src/docs/docs-feature-flags";
 import { docsRouteManifest } from "../src/docs/generated-manifest";
 import { assertNoBlockingA11yViolations } from "./a11y-utils";
 
@@ -15,6 +16,10 @@ const PREVIEW_LESS_SLUGS = new Set([
 ]);
 
 for (const { slug } of docsRouteManifest) {
+  if (!docsShowMotion && isMotionDocSlug(slug)) {
+    continue;
+  }
+
   test(`${slug} docs have no blocking initial-state violations`, async ({ page }) => {
     await page.goto(`./docs/${slug}/installation`);
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();

@@ -10,13 +10,22 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@kamod-ch/ui";
+import {
+  MOTION_SHEET_EXAMPLE_CODE,
+  MotionSheetSidesPreview,
+} from "../examples/ui-motion/sheet-example";
+import { UiMotionDocLink } from "../examples/ui-motion/ui-motion-doc-link";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const sheetDocPage = createGenericDocPage({
   slug: "sheet",
   title: "Sheet",
   usageLabel: "Sheet extends Dialog to render content from a viewport edge.",
-  installationText: "Import Sheet primitives from `@/components/kamod-ui/sheet`.",
+  installationText:
+    "Import Sheet primitives from `@/components/kamod-ui/sheet`. Motion is optional — core SheetContent includes CSS slide animations.",
+  sectionExtras: {
+    "with-motion": () => <UiMotionDocLink section="sheet" />,
+  },
   usageText:
     'Use SheetTrigger to open and SheetContent with side="top" | "right" | "bottom" | "left". Left and right panels accept max-width utilities; top and bottom span the viewport width. Bottom/top padding includes safe-area insets for notched devices.',
   exampleSections: [
@@ -144,6 +153,13 @@ export const Example = () => (
           </SheetContent>
         </Sheet>
       ),
+    },
+    {
+      id: "with-motion",
+      title: "With Motion",
+      text: "Replace SheetContent with MotionSheetContent for Presence-managed exit and directional presets from @kamod-ch/motion.",
+      code: MOTION_SHEET_EXAMPLE_CODE,
+      renderPreview: () => <MotionSheetSidesPreview />,
     },
   ],
   apiRows: [

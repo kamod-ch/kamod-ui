@@ -81,6 +81,7 @@
     "jsdom": "^29.1.1",
     "motion": "^13.1.1",
     "preact": "^10.29.2",
+    "preact-render-to-string": "^6.7.0",
     "publint": "^0.3.21",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",

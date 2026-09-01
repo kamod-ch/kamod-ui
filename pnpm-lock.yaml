@@ -260,6 +260,9 @@ importers:
       preact:
         specifier: ^10.29.2
         version: 10.29.2
+      preact-render-to-string:
+        specifier: ^6.7.0
+        version: 6.7.0(preact@10.29.2)
       publint:
         specifier: ^0.3.21
         version: 0.3.21

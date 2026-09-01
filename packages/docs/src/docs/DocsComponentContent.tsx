@@ -19,6 +19,7 @@ import { buildComponentDocMarkdown } from "./build-component-doc-markdown";
 import { CodeBlock } from "./components/CodeBlock";
 import { DocsShell } from "./components/DocsShell";
 import { docImportFrom, rewriteKamodCoreImportsInDocString } from "./doc-snippet-imports";
+import { docsShowMotion, isMotionDocSection, isMotionDocSlug } from "./docs-feature-flags";
 import { docsBySlug, docsPages } from "./registry";
 import type { DocRenderMainContext, DocSection } from "./types";
 
@@ -52,7 +53,12 @@ const toPascalCase = (value: string) =>
 export const DocsComponentContent = ({ slug, section }: { slug?: string; section?: string }) => {
   const [activeSection, setActiveSection] = useState(section ?? "");
   const fallbackDoc = docsPages[0];
-  const activeDoc = slug ? (docsBySlug[slug] ?? fallbackDoc) : fallbackDoc;
+  const activeDoc =
+    slug && !docsShowMotion && isMotionDocSlug(slug)
+      ? fallbackDoc
+      : slug
+        ? (docsBySlug[slug] ?? fallbackDoc)
+        : fallbackDoc;
   const usageSectionId = "usage";
   const apiReferenceSectionId = "api-reference";
   const accessibilitySectionId = "accessibility";
@@ -98,7 +104,9 @@ export const DocsComponentContent = ({ slug, section }: { slug?: string; section
       ];
     }
 
-    return sections.filter((item) => !isRtlSection(item));
+    return sections.filter(
+      (item) => !isRtlSection(item) && (docsShowMotion || !isMotionDocSection(item.id)),
+    );
   }, [activeDoc.sections, activeDoc.title, activeDoc.usageLabel]);
   const activeSectionId =
     section && docSections.some((item) => item.id === section)

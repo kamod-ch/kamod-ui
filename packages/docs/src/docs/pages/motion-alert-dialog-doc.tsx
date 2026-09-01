@@ -1,4 +1,7 @@
-import { MotionAlertDialogDemo } from "../motion/MotionAlertDialogDemo";
+import {
+  MOTION_ALERT_DIALOG_EXAMPLE_CODE,
+  MotionAlertDialogDemo,
+} from "../motion/MotionAlertDialogDemo";
 import { createMotionDocPage } from "./create-motion-doc-page";
 
 export const motionAlertDialogDocPage = createMotionDocPage({
@@ -23,31 +26,7 @@ export const motionAlertDialogDocPage = createMotionDocPage({
       id: "basic",
       title: "Basic",
       text: "Destructive confirmation with scale enter/exit on the panel and fade on the overlay.",
-      code: `import {
-  MotionAlertDialogPortal,
-  MotionAlertDialogOverlay,
-  MotionAlertDialogViewport,
-  MotionAlertDialogContent,
-} from "@kamod-ch/ui-motion/alert-dialog";
-import {
-  AlertDialog,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@kamod-ch/ui/alert-dialog";
-
-<AlertDialog>
-  <AlertDialogTrigger asChild>
-    <Button variant="outline">Delete account</Button>
-  </AlertDialogTrigger>
-  <MotionAlertDialogPortal>
-    <MotionAlertDialogOverlay />
-    <MotionAlertDialogViewport>
-      <MotionAlertDialogContent>
-        <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-      </MotionAlertDialogContent>
-    </MotionAlertDialogViewport>
-  </MotionAlertDialogPortal>
-</AlertDialog>`,
+      code: MOTION_ALERT_DIALOG_EXAMPLE_CODE,
       renderPreview: () => <MotionAlertDialogDemo />,
     },
   ],

@@ -1,4 +1,4 @@
-import { MotionDialogDemo } from "../motion/MotionDialogDemo";
+import { MOTION_DIALOG_EXAMPLE_CODE, MotionDialogDemo } from "../motion/MotionDialogDemo";
 import { createMotionDocPage } from "./create-motion-doc-page";
 
 export const motionDialogDocPage = createMotionDocPage({
@@ -22,25 +22,7 @@ export const motionDialogDocPage = createMotionDocPage({
       id: "basic",
       title: "Basic",
       text: "Open a dialog with enter/exit animations. Focus trap and dismiss behavior come from the underlying Dialog primitive.",
-      code: `import {
-  MotionDialogPortal,
-  MotionDialogOverlay,
-  MotionDialogContent,
-} from "@kamod-ch/ui-motion/dialog";
-import { Dialog, DialogTitle, DialogTrigger } from "@kamod-ch/ui/dialog";
-import { Button } from "@kamod-ch/ui/button";
-
-<Dialog>
-  <DialogTrigger asChild>
-    <Button variant="outline">Open</Button>
-  </DialogTrigger>
-  <MotionDialogPortal>
-    <MotionDialogOverlay />
-    <MotionDialogContent>
-      <DialogTitle>Settings</DialogTitle>
-    </MotionDialogContent>
-  </MotionDialogPortal>
-</Dialog>`,
+      code: MOTION_DIALOG_EXAMPLE_CODE,
       renderPreview: () => <MotionDialogDemo />,
     },
   ],
