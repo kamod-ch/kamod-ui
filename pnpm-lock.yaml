@@ -146,8 +146,8 @@ importers:
         specifier: ^1.0.3
         version: 1.0.3(preact@10.29.2)
       '@kamod-ch/motion':
-        specifier: file:../../vendor/kamod-ch-motion-0.1.0.tgz
-        version: file:vendor/kamod-ch-motion-0.1.0.tgz(motion@13.1.1(react@19.2.7))(preact@10.29.2)
+        specifier: ^0.1.0
+        version: 0.1.0(motion@13.1.1(react@19.2.7))(preact@10.29.2)
       '@kamod-ch/openui':
         specifier: workspace:*
         version: link:../openui
@@ -234,8 +234,8 @@ importers:
         specifier: ^0.18.3
         version: 0.18.3
       '@kamod-ch/motion':
-        specifier: file:../../vendor/kamod-ch-motion-0.1.0.tgz
-        version: file:vendor/kamod-ch-motion-0.1.0.tgz(motion@13.1.1(react@19.2.7))(preact@10.29.2)
+        specifier: ^0.1.0
+        version: 0.1.0(motion@13.1.1(react@19.2.7))(preact@10.29.2)
       '@kamod-ch/ui':
         specifier: workspace:*
         version: link:../core
@@ -853,9 +853,8 @@ packages:
     peerDependencies:
       preact: '>=10'
 
-  '@kamod-ch/motion@file:vendor/kamod-ch-motion-0.1.0.tgz':
-    resolution: {integrity: sha512-dwjV5RS6AJqtmc9/RRKf78ft0ddiHjyBRO0uzTdYOeVNODuMQUDqQ06L3tptA9ixmpmxxJVzRWnUnMG4ebXCqw==, tarball: file:vendor/kamod-ch-motion-0.1.0.tgz}
-    version: 0.1.0
+  '@kamod-ch/motion@0.1.0':
+    resolution: {integrity: sha512-2JL+SIjrW0pncJ7wwFTY+w84hBEvJSAry0LgSCnjtdAfx/p8EefFpNpmgWizkTaRRc0EhnCfUaDHUL2Sy6YPHQ==}
     engines: {node: '>=20'}
     peerDependencies:
       motion: ^13.1.1
@@ -4639,7 +4638,7 @@ snapshots:
     dependencies:
       preact: 10.29.2
 
-  '@kamod-ch/motion@file:vendor/kamod-ch-motion-0.1.0.tgz(motion@13.1.1(react@19.2.7))(preact@10.29.2)':
+  '@kamod-ch/motion@0.1.0(motion@13.1.1(react@19.2.7))(preact@10.29.2)':
     dependencies:
       motion: 13.1.1(react@19.2.7)
       preact: 10.29.2

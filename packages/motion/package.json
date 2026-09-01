@@ -72,7 +72,7 @@
   "dependencies": {},
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.3",
-    "@kamod-ch/motion": "file:../../vendor/kamod-ch-motion-0.1.0.tgz",
+    "@kamod-ch/motion": "^0.1.0",
     "@kamod-ch/ui": "workspace:*",
     "@preact/signals": "^2.9.1",
     "@testing-library/jest-dom": "^6.9.1",

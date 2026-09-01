@@ -30,7 +30,7 @@
     "@kamod-ch/brand": "^0.1.0",
     "@kamod-ch/hooks": "^1.0.0",
     "@kamod-ch/icons": "^1.0.3",
-    "@kamod-ch/motion": "file:../../vendor/kamod-ch-motion-0.1.0.tgz",
+    "@kamod-ch/motion": "^0.1.0",
     "@kamod-ch/openui": "workspace:*",
     "@kamod-ch/signals": "^1.0.3",
     "@kamod-ch/themes": "workspace:*",
