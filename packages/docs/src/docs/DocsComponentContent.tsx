@@ -333,9 +333,16 @@ export const DocsComponentContent = ({ slug, section }: { slug?: string; section
 
   const mainContent = activeDoc.renderMain(renderContext);
 
+  const sidebarScope =
+    activeDoc.navGroup === "packages"
+      ? ("packages" as const)
+      : activeDoc.navGroup === "forms"
+        ? ("forms" as const)
+        : ("components" as const);
+
   return (
     <DocsShell
-      isComponentsOverview={false}
+      sidebarScope={sidebarScope}
       activeDoc={activeDocView}
       activeSection={activeSection}
       docs={docsPages}

@@ -33,14 +33,26 @@ import {
 } from "../registry";
 import type { DocPageModule, DocSection } from "../types";
 
+export type DocsSidebarScope = "components" | "blocks" | "forms" | "packages";
+
 type DocsShellProps = {
-  isComponentsOverview: boolean;
+  sidebarScope: DocsSidebarScope;
+  /** Marks the "Components overview" sidebar link as active. */
+  isComponentsOverview?: boolean;
+  /** Marks the "Forms overview" sidebar link as active. */
+  isFormsOverview?: boolean;
+  /** Marks the "Packages overview" sidebar link as active. */
+  isPackagesOverview?: boolean;
+  /** Show right promo column on overview pages (no TOC). */
+  isSectionOverview?: boolean;
   activeDoc: DocPageModule | null;
   activeSection: string;
   docs: DocPageModule[];
   mainContent: ComponentChildren;
   getDocHref?: (slug: string) => string;
   componentsOverviewHref?: string;
+  formsOverviewHref?: string;
+  packagesOverviewHref?: string;
   getSectionHref?: (sectionId: string) => string;
   activeBlock?:
     | "sidebar"
@@ -125,36 +137,57 @@ function NavLink({ entry, asSheetClose }: { entry: NavEntry; asSheetClose?: bool
   );
 }
 
+function SidebarSection({
+  title,
+  ariaLabel,
+  entries,
+  navClass,
+}: {
+  title: string;
+  ariaLabel: string;
+  entries: NavEntry[];
+  navClass?: string;
+}) {
+  return (
+    <>
+      <h2>{title}</h2>
+      <nav aria-label={ariaLabel} class={navClass ?? "docs-sidebar-nav"}>
+        {entries.map((entry) => (
+          <NavLink entry={entry} key={entry.key} />
+        ))}
+      </nav>
+    </>
+  );
+}
+
+function MobileSection({ title, entries }: { title: string; entries: NavEntry[] }) {
+  return (
+    <>
+      <p class="docs-mobile-sheet-group-label">{title}</p>
+      {entries.map((entry) => (
+        <NavLink asSheetClose entry={entry} key={entry.key} />
+      ))}
+    </>
+  );
+}
+
 export const DocsShell = ({
-  isComponentsOverview,
+  sidebarScope,
+  isComponentsOverview = false,
+  isFormsOverview = false,
+  isPackagesOverview = false,
+  isSectionOverview = false,
   activeDoc,
   activeSection,
   mainContent,
   getDocHref = (slug) => withBasePath(`/docs/${slug}/installation`),
   componentsOverviewHref = withBasePath("/docs/components"),
+  formsOverviewHref = withBasePath("/docs/forms"),
+  packagesOverviewHref = withBasePath("/docs/packages"),
   getSectionHref,
   activeBlock,
 }: DocsShellProps) => {
   const tocSections = activeDoc ? groupTocSections(activeDoc.sections) : null;
-  const sortedPackageDocs = useMemo(
-    () => [...packageDocPages].sort((a, b) => a.title.localeCompare(b.title)),
-    [],
-  );
-  const sortedFormDocs = useMemo(
-    () => [...formDocPages].sort((a, b) => a.title.localeCompare(b.title)),
-    [],
-  );
-  const sortedMotionDocs = useMemo(
-    () =>
-      [...motionDocPages].sort((a, b) =>
-        (a.navLabel ?? a.title).localeCompare(b.navLabel ?? b.title),
-      ),
-    [],
-  );
-  const sortedComponentDocs = useMemo(
-    () => [...componentDocPages].sort((a, b) => a.title.localeCompare(b.title)),
-    [],
-  );
   const installationSection = tocSections?.installation ?? null;
   const usageSection = tocSections?.usage ?? null;
   const exampleSections = tocSections?.examples ?? [];
@@ -163,73 +196,87 @@ export const DocsShell = ({
     tocSections?.examples.some((section) => section.id === activeSection) ?? false;
   const proFeedbackFormUrl =
     (import.meta.env.VITE_PRO_FEEDBACK_FORM_URL ?? "").trim() || PRO_FEEDBACK_FORM_DEFAULT;
-  const showToc = Boolean(!isComponentsOverview && activeDoc);
-  const showRightSidebar = showToc || isComponentsOverview;
+  const showToc = Boolean(!isSectionOverview && activeDoc);
+  const showRightSidebar = showToc || isSectionOverview;
 
   const packageNavEntries = useMemo<NavEntry[]>(
-    () =>
-      sortedPackageDocs.map((doc) => ({
-        key: doc.slug,
-        label: doc.title,
-        active: doc.slug === activeDoc?.slug,
-        href: getDocHref(doc.slug),
-        badge: docsNewPackageSlugs.has(doc.slug) ? "new" : undefined,
-      })),
-    [activeDoc?.slug, getDocHref, sortedPackageDocs],
-  );
-
-  const formNavEntries = useMemo<NavEntry[]>(
-    () =>
-      sortedFormDocs.map((doc) => ({
-        key: doc.slug,
-        label: doc.title,
-        active: doc.slug === activeDoc?.slug,
-        href: getDocHref(doc.slug),
-        badge: docsNewFormSlugs.has(doc.slug) ? "new" : undefined,
-      })),
-    [activeDoc?.slug, getDocHref, sortedFormDocs],
-  );
-
-  const motionNavEntries = useMemo<NavEntry[]>(
-    () =>
-      sortedMotionDocs.map((doc) => ({
-        key: doc.slug,
-        label: doc.navLabel ?? doc.title,
-        active: doc.slug === activeDoc?.slug,
-        href: getDocHref(doc.slug),
-        badge: docsNewMotionSlugs.has(doc.slug) ? "new" : undefined,
-      })),
-    [activeDoc?.slug, getDocHref, sortedMotionDocs],
-  );
-
-  const componentNavEntries = useMemo<NavEntry[]>(
     () => [
       {
         key: "__overview",
-        label: "Components overview",
-        active: isComponentsOverview,
-        href: componentsOverviewHref,
+        label: "Packages overview",
+        active: isPackagesOverview,
+        href: packagesOverviewHref,
       },
-      ...sortedComponentDocs.map((doc) => ({
+      ...[...packageDocPages]
+        .sort((a, b) => a.title.localeCompare(b.title))
+        .map((doc) => ({
+          key: doc.slug,
+          label: doc.title,
+          active: doc.slug === activeDoc?.slug,
+          href: getDocHref(doc.slug),
+          badge: docsNewPackageSlugs.has(doc.slug) ? ("new" as const) : undefined,
+        })),
+    ],
+    [activeDoc?.slug, getDocHref, isPackagesOverview, packagesOverviewHref],
+  );
+
+  const formNavEntries = useMemo<NavEntry[]>(
+    () => [
+      {
+        key: "__overview",
+        label: "Forms overview",
+        active: isFormsOverview,
+        href: formsOverviewHref,
+      },
+      ...[...formDocPages]
+        .sort((a, b) => a.title.localeCompare(b.title))
+        .map((doc) => ({
+          key: doc.slug,
+          label: doc.title,
+          active: doc.slug === activeDoc?.slug,
+          href: getDocHref(doc.slug),
+          badge: docsNewFormSlugs.has(doc.slug) ? ("new" as const) : undefined,
+        })),
+    ],
+    [activeDoc?.slug, formsOverviewHref, getDocHref, isFormsOverview],
+  );
+
+  const componentNavEntries = useMemo<NavEntry[]>(() => {
+    const mergedDocs = [
+      ...componentDocPages.map((doc) => ({
         key: doc.slug,
         label: doc.title,
-        active: doc.slug === activeDoc?.slug,
-        href: getDocHref(doc.slug),
+        sortLabel: doc.title,
         badge: docsNewComponentSlugs.has(doc.slug)
           ? ("new" as const)
           : docsUpdatedComponentSlugs.has(doc.slug)
             ? ("updated" as const)
             : undefined,
       })),
-    ],
-    [
-      activeDoc?.slug,
-      componentsOverviewHref,
-      getDocHref,
-      isComponentsOverview,
-      sortedComponentDocs,
-    ],
-  );
+      ...motionDocPages.map((doc) => ({
+        key: doc.slug,
+        label: doc.navLabel ?? doc.title,
+        sortLabel: doc.navLabel ?? doc.title,
+        badge: docsNewMotionSlugs.has(doc.slug) ? ("new" as const) : undefined,
+      })),
+    ].sort((a, b) => a.sortLabel.localeCompare(b.sortLabel));
+
+    return [
+      {
+        key: "__overview",
+        label: "Components overview",
+        active: isComponentsOverview,
+        href: componentsOverviewHref,
+      },
+      ...mergedDocs.map((doc) => ({
+        key: doc.key,
+        label: doc.label,
+        active: doc.key === activeDoc?.slug,
+        href: getDocHref(doc.key),
+        badge: doc.badge,
+      })),
+    ];
+  }, [activeDoc?.slug, componentsOverviewHref, getDocHref, isComponentsOverview]);
 
   const blockNavEntries: NavEntry[] = visibleBlockNavItems.map((item) => ({
     key: item.key,
@@ -238,87 +285,47 @@ export const DocsShell = ({
     href: withBasePath(item.href),
   }));
 
-  const sidebarNav = (
-    <>
-      <h2>Blocks</h2>
-      <nav aria-label="Docs blocks" class="docs-sidebar-nav docs-sidebar-nav--blocks">
-        {blockNavEntries.map((entry) => (
-          <NavLink entry={entry} key={entry.key} />
-        ))}
-      </nav>
-      {packageNavEntries.length ? (
-        <>
-          <h2>Packages</h2>
-          <nav aria-label="Docs packages" class="docs-sidebar-nav docs-sidebar-nav--packages">
-            {packageNavEntries.map((entry) => (
-              <NavLink entry={entry} key={entry.key} />
-            ))}
-          </nav>
-        </>
-      ) : null}
-      {formNavEntries.length ? (
-        <>
-          <h2>Forms</h2>
-          <nav aria-label="Docs forms" class="docs-sidebar-nav docs-sidebar-nav--forms">
-            {formNavEntries.map((entry) => (
-              <NavLink entry={entry} key={entry.key} />
-            ))}
-          </nav>
-        </>
-      ) : null}
-      {motionNavEntries.length ? (
-        <>
-          <h2>Motion</h2>
-          <nav aria-label="Docs motion" class="docs-sidebar-nav docs-sidebar-nav--motion">
-            {motionNavEntries.map((entry) => (
-              <NavLink entry={entry} key={entry.key} />
-            ))}
-          </nav>
-        </>
-      ) : null}
-      <h2>Components</h2>
-      <nav aria-label="Docs components" class="docs-sidebar-nav">
-        {componentNavEntries.map((entry) => (
-          <NavLink entry={entry} key={entry.key} />
-        ))}
-      </nav>
-    </>
-  );
+  const sidebarNav =
+    sidebarScope === "blocks" ? (
+      <SidebarSection
+        title="Blocks"
+        ariaLabel="Docs blocks"
+        entries={blockNavEntries}
+        navClass="docs-sidebar-nav docs-sidebar-nav--blocks"
+      />
+    ) : sidebarScope === "packages" ? (
+      <SidebarSection
+        title="Packages"
+        ariaLabel="Docs packages"
+        entries={packageNavEntries}
+        navClass="docs-sidebar-nav docs-sidebar-nav--packages"
+      />
+    ) : sidebarScope === "forms" ? (
+      <SidebarSection
+        title="Forms"
+        ariaLabel="Docs forms"
+        entries={formNavEntries}
+        navClass="docs-sidebar-nav docs-sidebar-nav--forms"
+      />
+    ) : (
+      <SidebarSection
+        title="Components"
+        ariaLabel="Docs components"
+        entries={componentNavEntries}
+      />
+    );
 
   const mobileNav = (
     <nav aria-label="Mobile docs navigation" class="docs-mobile-sheet-nav">
-      <p class="docs-mobile-sheet-group-label">Blocks</p>
-      {blockNavEntries.map((entry) => (
-        <NavLink asSheetClose entry={entry} key={entry.key} />
-      ))}
-      {packageNavEntries.length ? (
-        <>
-          <p class="docs-mobile-sheet-group-label">Packages</p>
-          {packageNavEntries.map((entry) => (
-            <NavLink asSheetClose entry={entry} key={entry.key} />
-          ))}
-        </>
-      ) : null}
-      {formNavEntries.length ? (
-        <>
-          <p class="docs-mobile-sheet-group-label">Forms</p>
-          {formNavEntries.map((entry) => (
-            <NavLink asSheetClose entry={entry} key={entry.key} />
-          ))}
-        </>
-      ) : null}
-      {motionNavEntries.length ? (
-        <>
-          <p class="docs-mobile-sheet-group-label">Motion</p>
-          {motionNavEntries.map((entry) => (
-            <NavLink asSheetClose entry={entry} key={entry.key} />
-          ))}
-        </>
-      ) : null}
-      <p class="docs-mobile-sheet-group-label">Components</p>
-      {componentNavEntries.map((entry) => (
-        <NavLink asSheetClose entry={entry} key={entry.key} />
-      ))}
+      {sidebarScope === "blocks" ? (
+        <MobileSection title="Blocks" entries={blockNavEntries} />
+      ) : sidebarScope === "packages" ? (
+        <MobileSection title="Packages" entries={packageNavEntries} />
+      ) : sidebarScope === "forms" ? (
+        <MobileSection title="Forms" entries={formNavEntries} />
+      ) : (
+        <MobileSection title="Components" entries={componentNavEntries} />
+      )}
     </nav>
   );
 

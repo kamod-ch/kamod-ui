@@ -5,15 +5,14 @@ import { useMemo, useState } from "preact/hooks";
 import { withBasePath } from "../base-path";
 import { CodeBlock } from "../docs/components/CodeBlock";
 import { DocsShell } from "../docs/components/DocsShell";
-import { BlockPreview } from "./BlockPreview";
+import { BlockPreviewPanel } from "./BlockPreviewPanel";
 import { getCommerceBlockSource } from "./commerce-source";
-import { FeaturedBlockChips } from "./FeaturedBlockChips";
 
 type CommerceBlock = (typeof commerceBlocks)[number];
 
 export const BlocksCommerceContent = () => (
   <DocsShell
-    isComponentsOverview={false}
+    sidebarScope="blocks"
     activeDoc={null}
     activeSection=""
     docs={[]}
@@ -26,7 +25,6 @@ export const BlocksCommerceContent = () => (
             Payment UI, saved tokenized cards, and a checkout state machine. PAN/CVC never persist.
             These blocks do not make an app PCI compliant — use PSP-hosted fields in production.
           </p>
-          <FeaturedBlockChips active="commerce" />
         </header>
         <div class="grid gap-10">
           {commerceBlocks.map((block) => (
@@ -112,31 +110,24 @@ const BlockCard = ({ block }: { block: CommerceBlock }) => {
           <TabsList class="docs-tabs-list" variant="line">
             <TabsTrigger value="preview">Preview</TabsTrigger>
             <TabsTrigger value="dark">Dark Mode</TabsTrigger>
-            <TabsTrigger value="mobile">Mobile</TabsTrigger>
             <TabsTrigger value="usage">Usage</TabsTrigger>
             <TabsTrigger value="code">Code</TabsTrigger>
           </TabsList>
           <TabsContent value="preview">
-            <BlockPreview
+            <BlockPreviewPanel
               previewKey={previewKey}
               component={block.component}
               height={block.preview.height}
+              previewUrl={previewUrl}
             />
           </TabsContent>
           <TabsContent value="dark">
-            <BlockPreview
+            <BlockPreviewPanel
               previewKey={previewKey}
               component={block.component}
               height={block.preview.height}
+              previewUrl={previewUrl}
               appearance="dark"
-            />
-          </TabsContent>
-          <TabsContent value="mobile">
-            <BlockPreview
-              previewKey={previewKey}
-              component={block.component}
-              height={block.preview.height}
-              viewport="mobile"
             />
           </TabsContent>
           <TabsContent value="usage">

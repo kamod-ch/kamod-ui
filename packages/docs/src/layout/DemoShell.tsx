@@ -11,6 +11,8 @@ export type DemoTopNavItem = {
 export const demoTopNavItems: DemoTopNavItem[] = [
   { label: "Components", href: withBasePath("/docs/components") },
   { label: "Blocks", href: withBasePath("/blocks/sidebar") },
+  { label: "Forms", href: withBasePath("/docs/forms") },
+  { label: "Packages", href: withBasePath("/docs/packages") },
 ];
 
 type DemoShellProps = {

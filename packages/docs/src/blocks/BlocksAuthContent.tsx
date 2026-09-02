@@ -6,8 +6,7 @@ import { withBasePath } from "../base-path";
 import { CodeBlock } from "../docs/components/CodeBlock";
 import { DocsShell } from "../docs/components/DocsShell";
 import { getAuthBlockSource } from "./auth-source";
-import { BlockPreview } from "./BlockPreview";
-import { FeaturedBlockChips } from "./FeaturedBlockChips";
+import { BlockPreviewPanel } from "./BlockPreviewPanel";
 
 type AuthCategory = "login" | "signup";
 type AuthBlock = (typeof loginBlocks)[number];
@@ -16,7 +15,7 @@ export const BlocksAuthContent = ({ category }: { category: AuthCategory }) => {
   const isLogin = category === "login";
   return (
     <DocsShell
-      isComponentsOverview={false}
+      sidebarScope="blocks"
       activeDoc={null}
       activeSection=""
       docs={[]}
@@ -30,7 +29,6 @@ export const BlocksAuthContent = ({ category }: { category: AuthCategory }) => {
                 ? "Responsive login screens built with Preact and Kamod UI primitives."
                 : "Accessible signup screens with validation, terms copy, and social-provider callbacks."}
             </p>
-            <FeaturedBlockChips active={isLogin ? "login" : "signup"} />
           </header>
           <div class="grid gap-10">
             {(isLogin ? loginBlocks : signupBlocks).map((block) => (
@@ -98,10 +96,11 @@ const BlockCard = ({ block }: { block: AuthBlock }) => {
             <TabsTrigger value="code">Code</TabsTrigger>
           </TabsList>
           <TabsContent value="preview">
-            <BlockPreview
+            <BlockPreviewPanel
               previewKey={previewKey}
               component={block.component}
               height={block.preview.height}
+              previewUrl={previewUrl}
             />
           </TabsContent>
           <TabsContent value="code">

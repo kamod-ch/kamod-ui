@@ -2,8 +2,7 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { expect, type Page, test } from "@playwright/test";
-import { visibleBlockNavItems } from "../src/blocks/block-nav-config";
-import { formDocPages, motionDocPages, packageDocPages } from "../src/docs/registry";
+import { motionDocPages } from "../src/docs/registry";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 /** Repo-root `tmp/` (this file lives in `packages/docs/e2e/`). */
@@ -154,7 +153,7 @@ function writeAuditMarkdown(opts: {
 
   lines.push("## Static / coverage notes", "");
   lines.push(
-    `- Sidebar vs grid: expected \`${opts.expectedSidebarEntries}\` sidebar/mobile entries (overview + each grid slug).`,
+    `- Sidebar vs grid: expected \`${opts.expectedSidebarEntries}\` sidebar/mobile entries on components overview (Components overview + each grid slug + motion docs merged into Components).`,
   );
   lines.push(
     "- Invalid slug `/docs/__invalid_slug_xyz__/installation` may either redirect to a valid docs page or return a static 404 page, depending on hosting/runtime mode.",
@@ -239,7 +238,7 @@ test("docs /docs/components full link audit (writes tmp report)", async ({ page,
     const motionGridHrefs = await page
       .locator(".docs-components-grid--motion a.docs-component-item[href]")
       .evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).getAttribute("href") ?? ""));
-    const gridHrefsClean = componentGridHrefs.filter(Boolean);
+    gridHrefsClean = componentGridHrefs.filter(Boolean);
 
     if (gridHrefsClean.length === 0) {
       addFinding({
@@ -273,19 +272,20 @@ test("docs /docs/components full link audit (writes tmp report)", async ({ page,
       }
     }
 
-    const expectedComponentSidebarEntries = slugsFromGrid.size + 1;
-    const expectedPackageSidebarEntries = packageDocPages.length;
-    const expectedFormSidebarEntries = formDocPages.length;
-    const expectedMotionSidebarEntries = motionDocPages.length;
-    const expectedBlockSidebarEntries = visibleBlockNavItems.length;
-    expectedSidebarEntries =
-      expectedComponentSidebarEntries +
-      expectedPackageSidebarEntries +
-      expectedFormSidebarEntries +
-      expectedMotionSidebarEntries +
-      expectedBlockSidebarEntries;
+    // Components overview sidebar is scoped: only Components (merged with Motion docs).
+    const expectedComponentSidebarEntries = slugsFromGrid.size + 1 + motionDocPages.length;
+    expectedSidebarEntries = expectedComponentSidebarEntries;
 
     await gotoDocsPath(page, overviewPath);
+    await expect
+      .soft(page.locator("aside.docs-sidebar").getByRole("heading", { name: "Components" }))
+      .toBeVisible();
+    for (const hidden of ["Blocks", "Packages", "Forms", "Motion"]) {
+      await expect
+        .soft(page.locator("aside.docs-sidebar").getByRole("heading", { name: hidden }))
+        .toHaveCount(0);
+    }
+
     const componentSidebarEntries = page.locator(
       'aside.docs-sidebar nav[aria-label="Docs components"] :is(a,button)',
     );
@@ -294,63 +294,32 @@ test("docs /docs/components full link audit (writes tmp report)", async ({ page,
       addFinding({
         severity: "warning",
         url: base + overviewPath,
-        detail: `Component sidebar count ${componentSidebarCount} !== grid slugs + overview (${expectedComponentSidebarEntries})`,
+        detail: `Component sidebar count ${componentSidebarCount} !== overview + grid slugs + motion docs (${expectedComponentSidebarEntries})`,
       });
     }
 
-    const blockSidebarEntries = page.locator(
-      'aside.docs-sidebar nav[aria-label="Docs blocks"] :is(a,button)',
-    );
-    const blockSidebarCount = await blockSidebarEntries.count();
-    if (blockSidebarCount !== expectedBlockSidebarEntries) {
-      addFinding({
-        severity: "warning",
-        url: base + overviewPath,
-        detail: `Block sidebar count ${blockSidebarCount} !== expected ${expectedBlockSidebarEntries}`,
-      });
+    for (const [label, selector] of [
+      ["Docs blocks", 'aside.docs-sidebar nav[aria-label="Docs blocks"]'],
+      ["Docs forms", 'aside.docs-sidebar nav[aria-label="Docs forms"]'],
+      ["Docs packages", 'aside.docs-sidebar nav[aria-label="Docs packages"]'],
+      ["Docs motion", 'aside.docs-sidebar nav[aria-label="Docs motion"]'],
+    ] as const) {
+      const count = await page.locator(selector).count();
+      if (count !== 0) {
+        addFinding({
+          severity: "warning",
+          url: base + overviewPath,
+          detail: `${label} nav should be hidden on components overview, found ${count}`,
+        });
+      }
     }
 
-    const formSidebarEntries = page.locator(
-      'aside.docs-sidebar nav[aria-label="Docs forms"] :is(a,button)',
-    );
-    const formSidebarCount = await formSidebarEntries.count();
-    if (formSidebarCount !== expectedFormSidebarEntries) {
-      addFinding({
-        severity: "warning",
-        url: base + overviewPath,
-        detail: `Form sidebar count ${formSidebarCount} !== registered form docs (${expectedFormSidebarEntries})`,
-      });
-    }
-
-    const motionSidebarEntries = page.locator(
-      'aside.docs-sidebar nav[aria-label="Docs motion"] :is(a,button)',
-    );
-    const motionSidebarCount = await motionSidebarEntries.count();
-    if (motionSidebarCount !== expectedMotionSidebarEntries) {
-      addFinding({
-        severity: "warning",
-        url: base + overviewPath,
-        detail: `Motion sidebar count ${motionSidebarCount} !== registered motion docs (${expectedMotionSidebarEntries})`,
-      });
-    }
-
+    const expectedMotionSidebarEntries = motionDocPages.length;
     if (motionGridHrefs.filter(Boolean).length !== expectedMotionSidebarEntries) {
       addFinding({
         severity: "warning",
         url: base + overviewPath,
         detail: `Motion overview grid links ${motionGridHrefs.filter(Boolean).length} !== motion docs (${expectedMotionSidebarEntries})`,
-      });
-    }
-
-    const packageSidebarEntries = page.locator(
-      'aside.docs-sidebar nav[aria-label="Docs packages"] :is(a,button)',
-    );
-    const packageSidebarCount = await packageSidebarEntries.count();
-    if (packageSidebarCount !== expectedPackageSidebarEntries) {
-      addFinding({
-        severity: "warning",
-        url: base + overviewPath,
-        detail: `Package sidebar count ${packageSidebarCount} !== registered package docs (${expectedPackageSidebarEntries})`,
       });
     }
 

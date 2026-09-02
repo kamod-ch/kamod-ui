@@ -1,5 +1,6 @@
 import { cn } from "@kamod-ch/ui";
 import type { ComponentType } from "preact";
+import type { BlockPreviewViewport } from "./BlockViewportSwitcher";
 
 export type BlockPreviewMode = "desktop" | "collapsed" | "mobile";
 
@@ -8,8 +9,10 @@ type BlockPreviewProps = {
   height: number;
   previewKey: number;
   appearance?: "light" | "dark";
-  viewport?: "desktop" | "mobile";
+  viewport?: BlockPreviewViewport;
   mode?: BlockPreviewMode;
+  /** When set and viewport is tablet/mobile, render an iframe instead of inline. */
+  previewUrl?: string;
 };
 
 export const BlockPreview = ({
@@ -19,20 +22,35 @@ export const BlockPreview = ({
   appearance = "light",
   viewport = "desktop",
   mode = "desktop",
-}: BlockPreviewProps) => (
-  <div
-    class={cn(
-      "blocks-preview-frame blocks-preview-inline",
-      appearance === "dark" && "dark",
-      viewport === "mobile" && "blocks-preview-mobile",
-    )}
-    style={{ height: `${height}px` }}
-  >
+  previewUrl,
+}: BlockPreviewProps) => {
+  const useIframe = Boolean(previewUrl) && viewport !== "desktop";
+
+  return (
     <div
-      key={`${previewKey}-${appearance}-${viewport}-${mode}`}
-      class="blocks-preview-host h-full w-full overflow-auto bg-background text-foreground"
+      class={cn(
+        "blocks-preview-frame blocks-preview-inline",
+        appearance === "dark" && "dark",
+        viewport === "tablet" && "blocks-preview-tablet",
+        viewport === "mobile" && "blocks-preview-mobile",
+      )}
+      style={{ height: `${height}px` }}
     >
-      <Preview mode={mode} />
+      <div
+        key={`${previewKey}-${appearance}-${viewport}-${mode}-${useIframe ? "iframe" : "inline"}`}
+        class="blocks-preview-host h-full w-full overflow-auto bg-background text-foreground"
+      >
+        {useIframe && previewUrl ? (
+          <iframe
+            src={previewUrl}
+            title="Block preview"
+            class="blocks-preview-iframe"
+            loading="lazy"
+          />
+        ) : (
+          <Preview mode={mode} />
+        )}
+      </div>
     </div>
-  </div>
-);
+  );
+};

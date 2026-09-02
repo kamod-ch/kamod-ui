@@ -73,6 +73,28 @@ outline: false
 ---`,
 );
 
+await writePage(
+  path.join(docsDir, "forms.md"),
+  `---
+title: Forms
+description: Form guides and patterns for Kamod UI.
+pageKind: docs-forms-overview
+sidebar: false
+outline: false
+---`,
+);
+
+await writePage(
+  path.join(docsDir, "packages.md"),
+  `---
+title: Packages
+description: Standalone Kamod packages — hooks, icons, i18n, and more.
+pageKind: docs-packages-overview
+sidebar: false
+outline: false
+---`,
+);
+
 for (const doc of manifest) {
   await writePage(
     path.join(docsDir, `${doc.slug}.md`),
@@ -103,11 +125,12 @@ outline: false
   }
 }
 
+const overviewPages = new Set(["components.md", "forms.md", "packages.md"]);
 const manifestSlugs = new Set(manifest.map((doc) => doc.slug));
 const existingDocs = await fs.readdir(docsDir, { withFileTypes: true });
 
 for (const entry of existingDocs) {
-  if (!entry.isFile() || !entry.name.endsWith(".md") || entry.name === "components.md") {
+  if (!entry.isFile() || !entry.name.endsWith(".md") || overviewPages.has(entry.name)) {
     continue;
   }
 

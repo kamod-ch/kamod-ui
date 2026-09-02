@@ -212,13 +212,7 @@ export const docsUpdatedComponentSlugs = new Set([
 export const docsNewComponentSlugs = docsShowMotion ? new Set(["ui-motion"]) : new Set<string>();
 
 /** Shown with a "new" badge for package docs. */
-export const docsNewPackageSlugs = new Set<string>([
-  "hooks-package",
-  "i18n-package",
-  "icons-package",
-  "signals-package",
-  "state-package",
-]);
+export const docsNewPackageSlugs = new Set<string>();
 
 /** Shown with a "new" badge for motion wrapper docs. */
 export const docsNewMotionSlugs = docsShowMotion

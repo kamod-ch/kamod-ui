@@ -26,9 +26,15 @@ import {
   BlocksMarketingContent,
   MarketingBlocksPreviewContent,
 } from "../../src/blocks/BlocksMarketingContent";
-import { BlocksPreviewContent, BlocksSidebarContent } from "../../src/blocks/BlocksSidebarContent";
+import {
+  BlocksPreviewContent,
+  BlocksSidebarContent,
+  BlocksSidebarDetailContent,
+} from "../../src/blocks/BlocksSidebarContent";
 import { DocsComponentContent } from "../../src/docs/DocsComponentContent";
+import { DocsFormsOverviewContent } from "../../src/docs/DocsFormsOverviewContent";
 import { DocsOverviewContent } from "../../src/docs/DocsOverviewContent";
+import { DocsPackagesOverviewContent } from "../../src/docs/DocsPackagesOverviewContent";
 import { KitchenSinkPage } from "../../src/kitchen-sink/KitchenSinkPage";
 import "../../src/styles/index.css";
 
@@ -39,8 +45,11 @@ if (typeof window !== "undefined") {
 type DemoPageKind =
   | "kitchen-sink"
   | "docs-overview"
+  | "docs-forms-overview"
+  | "docs-packages-overview"
   | "component-doc"
   | "blocks-sidebar"
+  | "blocks-sidebar-detail"
   | "blocks-app-sidebar"
   | "blocks-auth"
   | "blocks-auth-catalog"
@@ -98,12 +107,24 @@ const Layout: FunctionalComponent<LayoutProps> = ({ page }) => {
     return <DocsOverviewContent />;
   }
 
+  if (meta.pageKind === "docs-forms-overview") {
+    return <DocsFormsOverviewContent />;
+  }
+
+  if (meta.pageKind === "docs-packages-overview") {
+    return <DocsPackagesOverviewContent />;
+  }
+
   if (meta.pageKind === "component-doc") {
     return <DocsComponentContent slug={meta.slug} section={meta.section} />;
   }
 
   if (meta.pageKind === "blocks-sidebar") {
     return <BlocksSidebarContent />;
+  }
+
+  if (meta.pageKind === "blocks-sidebar-detail") {
+    return <BlocksSidebarDetailContent blockId={meta.blockId} />;
   }
 
   if (meta.pageKind === "blocks-app-sidebar") {

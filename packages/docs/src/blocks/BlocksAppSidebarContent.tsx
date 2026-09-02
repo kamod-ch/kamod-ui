@@ -6,14 +6,14 @@ import { withBasePath } from "../base-path";
 import { CodeBlock } from "../docs/components/CodeBlock";
 import { DocsShell } from "../docs/components/DocsShell";
 import { getAppSidebarBlockSource } from "./app-sidebar-source";
-import { BlockPreview, type BlockPreviewMode } from "./BlockPreview";
-import { FeaturedBlockChips } from "./FeaturedBlockChips";
+import type { BlockPreviewMode } from "./BlockPreview";
+import { BlockPreviewPanel } from "./BlockPreviewPanel";
 
 type AppSidebarBlock = (typeof appSidebarBlocks)[number];
 
 export const BlocksAppSidebarContent = () => (
   <DocsShell
-    isComponentsOverview={false}
+    sidebarScope="blocks"
     activeDoc={null}
     activeSection=""
     docs={[]}
@@ -26,7 +26,6 @@ export const BlocksAppSidebarContent = () => (
             Preact-native application sidebars ported from the uipkge catalog. Existing Kamod
             sidebar-01…16 stay on the Sidebar page. Built with Kamod UI tokens and Tailwind v4.
           </p>
-          <FeaturedBlockChips active="app-sidebar" />
         </header>
         <div class="grid gap-10">
           {appSidebarBlocks.map((block) => (
@@ -110,35 +109,18 @@ const BlockCard = ({ block }: { block: AppSidebarBlock }) => {
         </div>
         <Tabs defaultValue="preview" class="docs-tabs">
           <TabsList class="docs-tabs-list" variant="line">
-            <TabsTrigger value="preview">Desktop</TabsTrigger>
-            <TabsTrigger value="collapsed">Collapsed</TabsTrigger>
-            <TabsTrigger value="mobile">Mobile</TabsTrigger>
+            <TabsTrigger value="preview">Preview</TabsTrigger>
             <TabsTrigger value="usage">Usage</TabsTrigger>
             <TabsTrigger value="code">Code</TabsTrigger>
           </TabsList>
           <TabsContent value="preview">
-            <BlockPreview
+            <BlockPreviewPanel
               previewKey={previewKey}
               component={block.component}
               height={block.preview.height}
+              previewUrl={previewUrl}
+              mobilePreviewUrl={withBasePath(`/blocks/app-sidebar/${block.id}/mobile`)}
               mode="desktop"
-            />
-          </TabsContent>
-          <TabsContent value="collapsed">
-            <BlockPreview
-              previewKey={previewKey}
-              component={block.component}
-              height={block.preview.height}
-              mode="collapsed"
-            />
-          </TabsContent>
-          <TabsContent value="mobile">
-            <BlockPreview
-              previewKey={previewKey}
-              component={block.component}
-              height={block.preview.height}
-              viewport="mobile"
-              mode="mobile"
             />
           </TabsContent>
           <TabsContent value="usage">

@@ -5,15 +5,15 @@ import { useMemo, useState } from "preact/hooks";
 import { withBasePath } from "../base-path";
 import { CodeBlock } from "../docs/components/CodeBlock";
 import { DocsShell } from "../docs/components/DocsShell";
-import { BlockPreview, type BlockPreviewMode } from "./BlockPreview";
+import type { BlockPreviewMode } from "./BlockPreview";
+import { BlockPreviewPanel } from "./BlockPreviewPanel";
 import { getDashboardBlockSource } from "./dashboard-source";
-import { FeaturedBlockChips } from "./FeaturedBlockChips";
 
 type DashboardBlock = (typeof dashboardBlocks)[number];
 
 export const BlocksDashboardContent = () => (
   <DocsShell
-    isComponentsOverview={false}
+    sidebarScope="blocks"
     activeDoc={null}
     activeSection=""
     docs={[]}
@@ -28,7 +28,6 @@ export const BlocksDashboardContent = () => (
             Keyboard, focus, and controlled state stay with the consumer. Built with Kamod UI tokens
             and Tailwind v4.
           </p>
-          <FeaturedBlockChips active="dashboard" />
         </header>
         <div class="grid gap-10">
           {dashboardBlocks.map((block) => (
@@ -113,45 +112,32 @@ const BlockCard = ({ block }: { block: DashboardBlock }) => {
         </div>
         <Tabs defaultValue="preview" class="docs-tabs">
           <TabsList class="docs-tabs-list" variant="line">
-            <TabsTrigger value="preview">{isLayout ? "Desktop" : "Preview"}</TabsTrigger>
-            {isLayout ? <TabsTrigger value="collapsed">Collapsed</TabsTrigger> : null}
+            <TabsTrigger value="preview">Preview</TabsTrigger>
             <TabsTrigger value="dark">Dark Mode</TabsTrigger>
-            <TabsTrigger value="mobile">Mobile</TabsTrigger>
             <TabsTrigger value="usage">Usage</TabsTrigger>
             <TabsTrigger value="code">Code</TabsTrigger>
           </TabsList>
           <TabsContent value="preview">
-            <BlockPreview
+            <BlockPreviewPanel
               previewKey={previewKey}
               component={block.component}
               height={block.preview.height}
+              previewUrl={previewUrl}
+              mobilePreviewUrl={
+                isLayout ? withBasePath(`/blocks/dashboard/${block.id}/mobile`) : undefined
+              }
             />
           </TabsContent>
-          {isLayout ? (
-            <TabsContent value="collapsed">
-              <BlockPreview
-                previewKey={previewKey}
-                component={block.component}
-                height={block.preview.height}
-                mode="collapsed"
-              />
-            </TabsContent>
-          ) : null}
           <TabsContent value="dark">
-            <BlockPreview
+            <BlockPreviewPanel
               previewKey={previewKey}
               component={block.component}
               height={block.preview.height}
+              previewUrl={previewUrl}
               appearance="dark"
-            />
-          </TabsContent>
-          <TabsContent value="mobile">
-            <BlockPreview
-              previewKey={previewKey}
-              component={block.component}
-              height={block.preview.height}
-              viewport="mobile"
-              mode={isLayout ? "mobile" : "desktop"}
+              mobilePreviewUrl={
+                isLayout ? withBasePath(`/blocks/dashboard/${block.id}/mobile`) : undefined
+              }
             />
           </TabsContent>
           <TabsContent value="usage">

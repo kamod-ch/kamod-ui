@@ -1,28 +1,59 @@
 import { type SidebarBlockId, sidebarBlocks } from "@kamod-ch/blocks";
 import { Button, Tabs, TabsContent, TabsList, TabsTrigger, ThemeToggle } from "@kamod-ch/ui";
-import { Check, Copy, ExternalLink, RefreshCw, SunMoon } from "lucide-preact";
+import { ArrowLeft, Check, Copy, ExternalLink, RefreshCw, SunMoon } from "lucide-preact";
 import { useMemo, useState } from "preact/hooks";
 import { withBasePath } from "../base-path";
 import { CodeBlock } from "../docs/components/CodeBlock";
 import { DocsShell } from "../docs/components/DocsShell";
+import { DemoShell, demoTopNavItems } from "../layout/DemoShell";
 import { GithubRepoLink } from "../layout/GithubRepoLink";
 import { ThemePresetSelect } from "../theme/ThemePresetSelect";
-import { BlockPreview } from "./BlockPreview";
-import { FeaturedBlockChips } from "./FeaturedBlockChips";
+import { BlockPreviewPanel } from "./BlockPreviewPanel";
 import { getSidebarBlockSource } from "./sidebar-source";
 
 export const BlocksSidebarContent = () => (
   <DocsShell
-    isComponentsOverview={false}
+    sidebarScope="blocks"
     activeDoc={null}
     activeSection=""
     docs={[]}
     activeBlock="sidebar"
-    mainContent={<BlocksSidebarMain />}
+    mainContent={<BlocksSidebarOverview />}
   />
 );
 
-const BlocksSidebarMain = () => (
+export const BlocksSidebarDetailContent = ({ blockId }: { blockId?: string }) => {
+  const block = sidebarBlocks.find((item) => item.id === blockId);
+
+  return (
+    <DemoShell
+      brand="Kamod UI"
+      rootClassName="docs-shell"
+      topNavItems={demoTopNavItems}
+      topbarActions={<BlocksTopbarActions />}
+      mainContent={
+        block ? (
+          <section class="docs-components-overview blocks-sidebar-page blocks-sidebar-detail">
+            <header class="blocks-detail-header">
+              <a class="blocks-detail-back" href={withBasePath("/blocks/sidebar")}>
+                <ArrowLeft size={16} aria-hidden="true" />
+                All sidebar blocks
+              </a>
+            </header>
+            <BlockCard block={block} />
+          </section>
+        ) : (
+          <section class="docs-components-overview blocks-sidebar-page blocks-sidebar-detail">
+            <p>Block not found.</p>
+            <a href={withBasePath("/blocks/sidebar")}>Back to sidebar blocks</a>
+          </section>
+        )
+      }
+    />
+  );
+};
+
+const BlocksSidebarOverview = () => (
   <section class="docs-components-overview blocks-sidebar-page">
     <header class="blocks-hero">
       <h1>Building Blocks for the Web</h1>
@@ -30,13 +61,21 @@ const BlocksSidebarMain = () => (
         Clean, modern building blocks. Copy and paste into your apps. Built with Preact and Kamod
         UI. Open Source.
       </p>
-      <FeaturedBlockChips active="sidebar" />
     </header>
-    <div class="grid gap-10">
+    <ul class="docs-package-overview-grid blocks-overview-grid">
       {sidebarBlocks.map((block) => (
-        <BlockCard block={block} key={block.id} />
+        <li key={block.id}>
+          <a
+            class="docs-package-overview-card blocks-overview-card"
+            href={withBasePath(`/blocks/sidebar/${block.id}`)}
+          >
+            <span class="docs-package-overview-label">{block.id}</span>
+            <span class="docs-package-overview-summary">{block.description}</span>
+            <code class="docs-package-overview-path">{block.installCommand}</code>
+          </a>
+        </li>
       ))}
-    </div>
+    </ul>
   </section>
 );
 
@@ -103,10 +142,11 @@ const BlockCard = ({ block }: { block: SidebarBlock }) => {
             <TabsTrigger value="code">Code</TabsTrigger>
           </TabsList>
           <TabsContent value="preview">
-            <BlockPreview
+            <BlockPreviewPanel
               previewKey={previewKey}
               component={block.component}
               height={block.preview.height}
+              previewUrl={previewUrl}
             />
           </TabsContent>
           <TabsContent value="code">

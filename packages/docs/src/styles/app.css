@@ -307,10 +307,9 @@ html {
   width: 100%;
 }
 
-/* Accordion/collapsible use shadcn-style rows in component docs — no extra preview chrome. */
+/* Accordion/collapsible use shadcn-style rows in component docs — strip old preview chrome only (border/background), not component padding (py-4 / pb-4). */
 .preview [data-slot="accordion-trigger"],
 .preview [data-slot="collapsible-trigger"] {
-  padding: 0;
   border: none;
   border-radius: 0;
   background: transparent;
@@ -524,7 +523,6 @@ html {
 .preview [data-slot="accordion-content-inner"],
 .preview [data-slot="collapsible-content-inner"] {
   margin-top: 0;
-  padding: 0;
   border: none;
   border-radius: 0;
   background: transparent;

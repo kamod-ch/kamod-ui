@@ -5,6 +5,8 @@ import { componentOverviewItems, docsPages, motionOverviewItems } from "./regist
 
 export const DocsOverviewContent = () => (
   <DocsShell
+    sidebarScope="components"
+    isSectionOverview
     isComponentsOverview
     activeDoc={null}
     activeSection=""

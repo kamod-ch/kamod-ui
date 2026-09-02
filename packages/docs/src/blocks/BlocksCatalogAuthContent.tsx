@@ -5,16 +5,15 @@ import { useMemo, useState } from "preact/hooks";
 import { withBasePath } from "../base-path";
 import { CodeBlock } from "../docs/components/CodeBlock";
 import { DocsShell } from "../docs/components/DocsShell";
-import { BlockPreview } from "./BlockPreview";
+import { BlockPreviewPanel } from "./BlockPreviewPanel";
 import { catalogAuthPreviewProps } from "./catalog-auth-fixtures";
 import { getCatalogAuthBlockSource } from "./catalog-auth-source";
-import { FeaturedBlockChips } from "./FeaturedBlockChips";
 
 type CatalogAuthBlock = (typeof catalogAuthBlocks)[number];
 
 export const BlocksCatalogAuthContent = () => (
   <DocsShell
-    isComponentsOverview={false}
+    sidebarScope="blocks"
     activeDoc={null}
     activeSection=""
     docs={[]}
@@ -27,7 +26,6 @@ export const BlocksCatalogAuthContent = () => (
             Preact-native authentication screens ported from the uipkge catalog. The consumer owns
             network and session logic. Built with Kamod UI tokens and Tailwind v4.
           </p>
-          <FeaturedBlockChips active="auth" />
         </header>
         <div class="grid gap-10">
           {catalogAuthBlocks.map((block) => (
@@ -118,31 +116,24 @@ const BlockCard = ({ block }: { block: CatalogAuthBlock }) => {
           <TabsList class="docs-tabs-list" variant="line">
             <TabsTrigger value="preview">Preview</TabsTrigger>
             <TabsTrigger value="dark">Dark Mode</TabsTrigger>
-            <TabsTrigger value="mobile">Mobile</TabsTrigger>
             <TabsTrigger value="usage">Usage</TabsTrigger>
             <TabsTrigger value="code">Code</TabsTrigger>
           </TabsList>
           <TabsContent value="preview">
-            <BlockPreview
+            <BlockPreviewPanel
               previewKey={previewKey}
               component={Preview}
               height={block.preview.height}
+              previewUrl={previewUrl}
             />
           </TabsContent>
           <TabsContent value="dark">
-            <BlockPreview
+            <BlockPreviewPanel
               previewKey={previewKey}
               component={Preview}
               height={block.preview.height}
+              previewUrl={previewUrl}
               appearance="dark"
-            />
-          </TabsContent>
-          <TabsContent value="mobile">
-            <BlockPreview
-              previewKey={previewKey}
-              component={Preview}
-              height={block.preview.height}
-              viewport="mobile"
             />
           </TabsContent>
           <TabsContent value="usage">

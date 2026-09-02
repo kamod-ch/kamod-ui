@@ -278,9 +278,10 @@ test.describe("UI Motion docs polish QA", () => {
 
   test("sidebar shows new badge on UI Motion", async ({ page }) => {
     await page.goto(docsRoute("docs/ui-motion/installation"));
-    const uiMotionLink = page.locator(".docs-sidebar nav a.docs-nav-button", {
-      hasText: "UI Motion",
-    });
+    const uiMotionLink = page.locator(
+      'aside.docs-sidebar nav[aria-label="Docs components"] a.docs-nav-button',
+      { hasText: "UI Motion" },
+    );
     await expect(uiMotionLink).toBeVisible();
     await expect(uiMotionLink.getByText("new", { exact: true })).toBeVisible();
   });
@@ -303,6 +304,9 @@ test.describe("UI Motion docs polish QA", () => {
       '[aria-label="Docs navigation panel"] nav[aria-label="Mobile docs navigation"]',
     );
     await expect(mobileNav.getByRole("link", { name: /UI Motion/ })).toBeVisible();
+    await expect(
+      mobileNav.locator(".docs-mobile-sheet-group-label", { hasText: "Motion" }),
+    ).toHaveCount(0);
     await page.keyboard.press("Escape");
   });
 

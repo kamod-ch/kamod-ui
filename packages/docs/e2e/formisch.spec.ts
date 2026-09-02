@@ -14,6 +14,12 @@ test.describe("Forms / Formisch docs", () => {
     await page.goto("./docs/components");
     await expect(
       page.locator("aside.docs-sidebar").getByRole("heading", { name: "Forms" }),
+    ).toHaveCount(0);
+
+    await page.locator(".docs-topbar-links").getByRole("link", { name: "Forms" }).click();
+    await expect(page.getByRole("heading", { level: 1, name: "Forms" })).toBeVisible();
+    await expect(
+      page.locator("aside.docs-sidebar").getByRole("heading", { name: "Forms" }),
     ).toBeVisible();
     await page
       .locator("aside.docs-sidebar nav[aria-label='Docs forms']")
@@ -22,7 +28,7 @@ test.describe("Forms / Formisch docs", () => {
     await expect(page.getByRole("heading", { level: 1, name: "Formisch" })).toBeVisible();
 
     await page.setViewportSize({ width: 600, height: 900 });
-    await page.goto("./docs/components");
+    await page.goto("./docs/forms");
     await page.getByRole("button", { name: "Open navigation menu" }).click();
     await expect(
       page.locator(".docs-mobile-sheet-group-label", { hasText: "Forms" }),

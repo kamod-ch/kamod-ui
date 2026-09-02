@@ -5,15 +5,14 @@ import { useMemo, useState } from "preact/hooks";
 import { withBasePath } from "../base-path";
 import { CodeBlock } from "../docs/components/CodeBlock";
 import { DocsShell } from "../docs/components/DocsShell";
-import { BlockPreview } from "./BlockPreview";
+import { BlockPreviewPanel } from "./BlockPreviewPanel";
 import { getCommunicationBlockSource } from "./communication-source";
-import { FeaturedBlockChips } from "./FeaturedBlockChips";
 
 type CommunicationBlock = (typeof communicationBlocks)[number];
 
 export const BlocksCommunicationContent = () => (
   <DocsShell
-    isComponentsOverview={false}
+    sidebarScope="blocks"
     activeDoc={null}
     activeSection=""
     docs={[]}
@@ -26,7 +25,6 @@ export const BlocksCommunicationContent = () => (
             Preact-native chat, inbox, and LLM blocks. Consumer data is controlled; fixtures live in
             previews. Streaming uses AbortSignal. Built with Kamod UI tokens and Tailwind v4.
           </p>
-          <FeaturedBlockChips active="communication" />
         </header>
         <div class="grid gap-10">
           {communicationBlocks.map((block) => (
@@ -112,32 +110,24 @@ const BlockCard = ({ block }: { block: CommunicationBlock }) => {
           <TabsList class="docs-tabs-list" variant="line">
             <TabsTrigger value="preview">Preview</TabsTrigger>
             <TabsTrigger value="dark">Dark Mode</TabsTrigger>
-            <TabsTrigger value="mobile">Mobile</TabsTrigger>
             <TabsTrigger value="usage">Usage</TabsTrigger>
             <TabsTrigger value="code">Code</TabsTrigger>
           </TabsList>
           <TabsContent value="preview">
-            <BlockPreview
+            <BlockPreviewPanel
               previewKey={previewKey}
               component={block.component}
               height={block.preview.height}
+              previewUrl={previewUrl}
             />
           </TabsContent>
           <TabsContent value="dark">
-            <BlockPreview
+            <BlockPreviewPanel
               previewKey={previewKey}
               component={block.component}
               height={block.preview.height}
+              previewUrl={previewUrl}
               appearance="dark"
-            />
-          </TabsContent>
-          <TabsContent value="mobile">
-            <BlockPreview
-              previewKey={previewKey}
-              component={block.component}
-              height={block.preview.height}
-              viewport="mobile"
-              mode="mobile"
             />
           </TabsContent>
           <TabsContent value="usage">
