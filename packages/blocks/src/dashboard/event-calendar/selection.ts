@@ -1,7 +1,7 @@
 import { maxDateKey, minDateKey } from "./date";
 import type { CalendarDateRange, DateKey } from "./types";
 
-export const normalizeRange = (start: DateKey, end: DateKey): CalendarDateRange => ({
+const normalizeRange = (start: DateKey, end: DateKey): CalendarDateRange => ({
   start: minDateKey(start, end),
   end: maxDateKey(start, end),
 });

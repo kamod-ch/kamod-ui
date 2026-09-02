@@ -215,6 +215,9 @@ importers:
       '@types/prismjs':
         specifier: ^1.26.6
         version: 1.26.6
+      axe-core:
+        specifier: ^4.11.4
+        version: 4.11.4
       tailwindcss:
         specifier: ^4.3.0
         version: 4.3.0

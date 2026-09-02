@@ -1,14 +1,5 @@
 export { KanbanBoard, type KanbanBoardProps } from "./kanban-board";
-export {
-  addTask,
-  announceMove,
-  filterColumns,
-  findTask,
-  kanbanReducer,
-  moveTask,
-  reorderColumns,
-  updateTask,
-} from "./kanban-machine";
+export { filterColumns, kanbanReducer, moveTask } from "./kanban-machine";
 export { KanbanBoardPreview } from "./preview";
 export type {
   Assignee,

@@ -69,6 +69,16 @@
       ],
       "project": ["src/**/*.{ts,tsx}"]
     },
+    "packages/motion": {
+      "entry": [
+        "src/**/index.ts",
+        "src/**/*.test.{ts,tsx}",
+        "src/test/setup.ts",
+        "tsup.config.ts",
+        "vitest.config.ts"
+      ],
+      "project": ["src/**/*.{ts,tsx}"]
+    },
     "packages/typeset": {
       "entry": [
         "src/index.ts",

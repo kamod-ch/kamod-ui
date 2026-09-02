@@ -1,9 +1,9 @@
-export const CHART_TOKEN_COUNT = 5;
+const CHART_TOKEN_COUNT = 5;
 
 export const chartToken = (index: number): string =>
   `var(--chart-${(Math.max(0, index) % CHART_TOKEN_COUNT) + 1})`;
 
-export const finiteNumber = (value: unknown): number | null => {
+const finiteNumber = (value: unknown): number | null => {
   if (typeof value !== "number" || !Number.isFinite(value)) return null;
   return value;
 };
@@ -36,8 +36,8 @@ export type FunnelStage = {
   color?: string;
 };
 
-export const FUNNEL_MIN_STAGES = 3;
-export const FUNNEL_MAX_STAGES = 6;
+const FUNNEL_MIN_STAGES = 3;
+const FUNNEL_MAX_STAGES = 6;
 
 export const normalizeFunnelStages = (stages: FunnelStage[]): FunnelStage[] => {
   const cleaned = stages
@@ -63,7 +63,7 @@ export type NamedValue = {
   color?: string;
 };
 
-export const normalizeNamedValues = (items: NamedValue[]): NamedValue[] =>
+const normalizeNamedValues = (items: NamedValue[]): NamedValue[] =>
   items
     .map((item) => ({ ...item, value: clampNonNegative(item.value) }))
     .filter((item) => item.value > 0);
@@ -88,7 +88,7 @@ export const pieArcs = (items: NamedValue[]): PieArc[] => {
   });
 };
 
-export const polarToCartesian = (
+const polarToCartesian = (
   cx: number,
   cy: number,
   radius: number,

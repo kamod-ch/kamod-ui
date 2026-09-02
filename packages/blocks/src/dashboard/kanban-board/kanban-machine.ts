@@ -66,18 +66,18 @@ export const updateTask = (columns: Column[], taskId: string, patch: Partial<Tas
     ),
   }));
 
-export const removeTask = (columns: Column[], taskId: string): Column[] =>
+const removeTask = (columns: Column[], taskId: string): Column[] =>
   columns.map((column) => ({
     ...column,
     tasks: column.tasks.filter((task) => task.id !== taskId),
   }));
 
-export const toggleColumn = (columns: Column[], columnId: string): Column[] =>
+const toggleColumn = (columns: Column[], columnId: string): Column[] =>
   columns.map((column) =>
     column.id === columnId ? { ...column, collapsed: !column.collapsed } : column,
   );
 
-export const addColumn = (columns: Column[], column: Column): Column[] => [...columns, column];
+const addColumn = (columns: Column[], column: Column): Column[] => [...columns, column];
 
 export const kanbanReducer = (columns: Column[], action: KanbanAction): Column[] => {
   switch (action.type) {
@@ -100,7 +100,7 @@ export const kanbanReducer = (columns: Column[], action: KanbanAction): Column[]
   }
 };
 
-export const taskMatches = (task: Task, filter: KanbanFilter): boolean => {
+const taskMatches = (task: Task, filter: KanbanFilter): boolean => {
   const query = filter.query?.trim().toLowerCase() ?? "";
   if (query) {
     const haystack = [task.title, task.description, ...(task.tags ?? [])].join(" ").toLowerCase();

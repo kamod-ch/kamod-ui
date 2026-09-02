@@ -2,7 +2,7 @@ import type { ComponentChildren, JSX } from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
 import { useDropdown } from "./Dropdown";
 
-export const dropdownItem = tv({
+const dropdownItem = tv({
   base: [
     "relative flex w-full cursor-default select-none items-center gap-1 rounded-sm px-1 py-0.5 text-sm outline-none transition-colors duration-100 ease-out",
     "text-popover-foreground hover:bg-accent hover:text-accent-foreground",

@@ -37,7 +37,7 @@ export const addDaysToDateKey = (key: DateKey, days: number): DateKey => {
   });
 };
 
-export const daysInMonth = (year: number, month: number): number =>
+const daysInMonth = (year: number, month: number): number =>
   new Date(Date.UTC(year, month, 0, 12, 0, 0)).getUTCDate();
 
 export const addMonthsToDateKey = (key: DateKey, months: number): DateKey => {
@@ -57,7 +57,7 @@ export const startOfMonthKey = (key: DateKey): DateKey => {
   return formatDateKey({ year, month, day: 1 });
 };
 
-export const endOfMonthKey = (key: DateKey): DateKey => {
+const endOfMonthKey = (key: DateKey): DateKey => {
   const { year, month } = parseDateKey(key);
   return formatDateKey({ year, month, day: daysInMonth(year, month) });
 };
@@ -83,7 +83,7 @@ export const isDateKeyInRange = (key: DateKey, start: DateKey, end: DateKey): bo
   return compareDateKeys(key, from) >= 0 && compareDateKeys(key, to) <= 0;
 };
 
-export const eachDateKey = (start: DateKey, end: DateKey): DateKey[] => {
+const eachDateKey = (start: DateKey, end: DateKey): DateKey[] => {
   const from = minDateKey(start, end);
   const to = maxDateKey(start, end);
   const keys: DateKey[] = [];
