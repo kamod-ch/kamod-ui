@@ -64,41 +64,41 @@ jobs:
         run: pnpm qa:publint && pnpm qa:attw
 
   # a11y:
-    # name: Accessibility audits
-    # runs-on: ubuntu-latest
+  # name: Accessibility audits
+  # runs-on: ubuntu-latest
 
-    # steps:
-    #   - name: Checkout code
-    #     uses: actions/checkout@v6
+  # steps:
+  #   - name: Checkout code
+  #     uses: actions/checkout@v6
 
-    #   - name: Setup pnpm
-    #     uses: pnpm/action-setup@v4
+  #   - name: Setup pnpm
+  #     uses: pnpm/action-setup@v4
 
-    #   - name: Setup Node.js 22
-    #     uses: actions/setup-node@v6
-    #     with:
-    #       node-version: 22
-    #       cache: pnpm
+  #   - name: Setup Node.js 22
+  #     uses: actions/setup-node@v6
+  #     with:
+  #       node-version: 22
+  #       cache: pnpm
 
-    #   - name: Install dependencies
-    #     run: pnpm install --frozen-lockfile
+  #   - name: Install dependencies
+  #     run: pnpm install --frozen-lockfile
 
-    #   - name: Static accessibility lint
-    #     run: pnpm lint:a11y
+  #   - name: Static accessibility lint
+  #     run: pnpm lint:a11y
 
-    #   - name: Install Chromium for Playwright
-    #     run: pnpm --filter @kamod-ch/ui-docs exec playwright install --with-deps chromium
+  #   - name: Install Chromium for Playwright
+  #     run: pnpm --filter @kamod-ch/ui-docs exec playwright install --with-deps chromium
 
-    #   - name: Run Chromium accessibility audits
-    #     run: pnpm test:a11y
+  #   - name: Run Chromium accessibility audits
+  #     run: pnpm test:a11y
 
-    #   - name: Upload Playwright report
-    #     if: failure()
-    #     uses: actions/upload-artifact@v4
-    #     with:
-    #       name: a11y-playwright-report
-    #       path: packages/docs/playwright-report
-    #       retention-days: 7
+  #   - name: Upload Playwright report
+  #     if: failure()
+  #     uses: actions/upload-artifact@v4
+  #     with:
+  #       name: a11y-playwright-report
+  #       path: packages/docs/playwright-report
+  #       retention-days: 7
 
   workflows:
     name: Lint GitHub workflows
