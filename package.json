@@ -27,7 +27,7 @@
     "test": "pnpm --filter @kamod-ch/ui test",
     "test:openui": "pnpm --filter @kamod-ch/openui test",
     "test:coverage": "pnpm --filter @kamod-ch/ui test:coverage",
-    "test:ci": "pnpm test && pnpm test:openui && pnpm --filter @kamod-ch/ui-motion test && pnpm --filter @kamod-ch/ui build && pnpm --filter @kamod-ch/ui-motion build && pnpm --filter @kamod-ch/openui build && pnpm test:docs",
+    "test:ci": "pnpm --filter @kamod-ch/themes build && pnpm test && pnpm test:openui && pnpm --filter @kamod-ch/ui-motion test && pnpm --filter @kamod-ch/ui build && pnpm --filter @kamod-ch/ui-motion build && pnpm --filter @kamod-ch/openui build && pnpm test:docs",
     "test:docs": "pnpm --filter @kamod-ch/ui-docs test",
     "test:demo": "pnpm test:docs",
     "doc:rewrite-imports": "node scripts/rewrite-kamod-doc-imports.mjs",
