@@ -64,7 +64,7 @@
     "release:check:package": "pnpm qa:package",
     "release:auth": "npm whoami --registry=https://registry.npmjs.org || (echo 'Authenticate with: npm login (or set NODE_AUTH_TOKEN)' >&2; exit 1)",
     "release:deprecate-legacy": "pnpm release:auth && node scripts/deprecate-legacy-packages.mjs",
-    "release:publish": "pnpm --filter @kamod-ch/ui --filter @kamod-ch/themes --filter @kamod-ch/openui --filter @kamod-ch/ui-motion publish --access public --provenance --no-git-checks",
+    "release:publish": "pnpm --filter @kamod-ch/ui --filter @kamod-ch/themes --filter @kamod-ch/openui --filter @kamod-ch/ui-motion --recursive publish --access public --provenance --no-git-checks",
     "release": "node ./scripts/release.mjs patch",
     "release:minor": "node ./scripts/release.mjs minor",
     "release:major": "node ./scripts/release.mjs major",
