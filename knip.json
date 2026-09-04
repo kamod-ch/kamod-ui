@@ -42,7 +42,6 @@
         "scripts/**/*.{js,mjs}"
       ],
       "project": ["src/**/*.{ts,tsx}", "e2e/**/*.ts", ".preactpress/**/*.{ts,tsx}"],
-      "ignoreBinaries": ["serve"],
       "ignore": ["src/base-path.ts", "src/theme/theme-presets.ts"],
       "ignoreDependencies": [
         "@preact/preset-vite",
@@ -51,7 +50,6 @@
         "@fontsource-variable/inter",
         "@tailwindcss/forms",
         "@kamod-ch/hooks",
-        "@kamod-ch/icons",
         "@kamod-ch/signals"
       ]
     },
@@ -88,7 +86,7 @@
         "scripts/**/*.mjs",
         "tsup.config.ts"
       ],
-      "project": ["src/**/*.{ts,css}", "test/**/*.ts", "scripts/**/*.mjs"]
+      "project": ["src/**/*.ts", "test/**/*.ts", "scripts/**/*.mjs"]
     }
   }
 }

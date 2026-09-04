@@ -7,7 +7,6 @@ export type {
   CalendarStatus,
   DateKey,
   EventTypeConfig,
-  MonthCell,
   WeekStartsOn,
 } from "./types";
-export { type UseEventCalendarOptions, useEventCalendar } from "./use-event-calendar";
+export { useEventCalendar } from "./use-event-calendar";

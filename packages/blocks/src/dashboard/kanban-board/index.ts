@@ -14,4 +14,4 @@ export type {
   Subtask,
   Task,
 } from "./types";
-export { type UseKanbanOptions, useKanban } from "./use-kanban";
+export { useKanban } from "./use-kanban";
