@@ -12,11 +12,6 @@ export type TreeNodeRecord = {
   level: number;
 };
 
-export type TreeRegistrySnapshot = {
-  nodes: Map<string, TreeNodeRecord>;
-  version: number;
-};
-
 export class TreeRegistry {
   private nodes = new Map<string, TreeNodeRecord>();
   private childrenByParent = new Map<string | null, string[]>();
