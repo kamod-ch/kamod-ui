@@ -2,6 +2,7 @@ import type { ComponentChild, ComponentChildren, JSX, VNode } from "preact";
 import { isValidElement, toChildArray } from "preact";
 import { useCallback, useMemo, useState } from "preact/hooks";
 import { tv } from "tailwind-variants";
+import { cn } from "../../lib/utils";
 import { AvatarBadge } from "./AvatarBadge";
 import { AvatarContext } from "./context";
 
@@ -87,7 +88,7 @@ export const Avatar = ({ size = "default", class: className, children, ...rest }
         {...rest}
         data-slot="avatar"
         data-size={dataSize}
-        class={avatarRoot({ size, class: className as string | undefined })}
+        class={cn(avatarRoot({ size }), className)}
       >
         <span class={avatarMedia()}>{media}</span>
         {badges}

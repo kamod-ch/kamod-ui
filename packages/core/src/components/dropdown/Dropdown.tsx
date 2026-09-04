@@ -4,6 +4,7 @@ import { createContext } from "preact";
 import { useContext, useEffect, useMemo, useRef } from "preact/hooks";
 import { tv } from "tailwind-variants";
 import { createDismissableLayer, createIdFactory } from "../../lib/interactive";
+import { cn } from "../../lib/utils";
 
 export type DropdownContextValue = {
   open: ReturnType<typeof signal<boolean>>;
@@ -98,7 +99,7 @@ export const Dropdown = ({
     >
       <div
         ref={rootRef}
-        class={dropdownRoot({ class: className as string | undefined })}
+        class={cn(dropdownRoot(), className)}
         data-slot="dropdown"
         data-state={open.value ? "open" : "closed"}
         {...rest}

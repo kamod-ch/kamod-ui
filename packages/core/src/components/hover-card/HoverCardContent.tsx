@@ -1,5 +1,6 @@
 import type { ComponentChildren, JSX } from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
+import { cn } from "../../lib/utils";
 import { useHoverCard } from "./HoverCard";
 
 const positionBySide = {
@@ -85,7 +86,7 @@ export const HoverCardContent = ({
       data-side={side}
       data-align={align}
       data-state="open"
-      class={`${positionBySide[side]} ${alignClass} ${hoverCardContent({ side, class: className as string | undefined })}`}
+      class={cn(hoverCardContent({ side }), positionBySide[side], alignClass, className)}
       style={inlineStyle ? { ...offsetStyle, ...inlineStyle } : offsetStyle}
       onMouseEnter={(event) => {
         pinOpen();

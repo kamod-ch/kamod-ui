@@ -42,11 +42,8 @@ export const Item = ({
 }: ItemProps) => {
   const resolvedVariant = variant ?? "default";
   const resolvedSize = size ?? "default";
-  const resolvedClassName = item({
-    variant: resolvedVariant,
-    size: resolvedSize,
-    class: className as string | undefined,
-  });
+  const variantClasses = item({ variant: resolvedVariant, size: resolvedSize });
+  const resolvedClassName = cn(variantClasses, className);
 
   if (asChild) {
     if (!isValidElement(children)) {
@@ -61,7 +58,7 @@ export const Item = ({
     return cloneElement(children, {
       ...childProps,
       ...(rest as JSX.HTMLAttributes<HTMLElement>),
-      class: cn(childProps.class, childProps.className, resolvedClassName),
+      class: cn(variantClasses, childProps.class, childProps.className, className),
       "data-slot": "item",
       "data-variant": resolvedVariant,
       "data-size": resolvedSize,

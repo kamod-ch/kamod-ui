@@ -1,5 +1,5 @@
 import { GithubIcon } from "@kamod-ch/icons/shadcn";
-import { Button, Separator } from "@kamod-ch/ui";
+import { Button, cn, Separator } from "@kamod-ch/ui";
 import type { CatalogOauthProvider } from "./catalog-form";
 import { GoogleIcon } from "./google-icon";
 
@@ -24,7 +24,10 @@ export const AuthOauthRow = ({
       <div class="relative">
         <Separator />
         <span
-          class={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-2 text-[11px] tracking-wider text-muted-foreground uppercase ${surfaceClass}`}
+          class={cn(
+            "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-2 text-[11px] tracking-wider text-muted-foreground uppercase",
+            surfaceClass,
+          )}
         >
           {label}
         </span>

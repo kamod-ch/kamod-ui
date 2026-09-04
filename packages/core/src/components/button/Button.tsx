@@ -68,11 +68,8 @@ export const Button = ({
 }: ButtonProps) => {
   const resolvedVariant = variant ?? "default";
   const resolvedSize = size ?? "default";
-  const resolvedClassName = button({
-    variant: resolvedVariant,
-    size: resolvedSize,
-    class: className,
-  });
+  const variantClasses = button({ variant: resolvedVariant, size: resolvedSize });
+  const resolvedClassName = cn(variantClasses, className);
 
   if (asChild) {
     if (!isValidElement(children)) {
@@ -97,7 +94,7 @@ export const Button = ({
     return cloneElement(children, {
       ...childProps,
       ...(rest as JSX.HTMLAttributes<HTMLElement>),
-      class: cn(childProps.class, childProps.className, resolvedClassName),
+      class: cn(variantClasses, childProps.class, childProps.className, className),
       "data-slot": "button",
       "data-variant": resolvedVariant,
       "data-size": resolvedSize,

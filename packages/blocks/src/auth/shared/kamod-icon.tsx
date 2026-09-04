@@ -1,3 +1,4 @@
+import { cn } from "@kamod-ch/ui";
 import type { JSX } from "preact";
 import { type KamodBrandSize, kamodIconSizeClass } from "./kamod-brand-sizes";
 
@@ -22,7 +23,7 @@ export function KamodIcon({
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 4.8364825 4.6948195"
       aria-hidden="true"
-      class={[kamodIconSizeClass[size], className].filter(Boolean).join(" ")}
+      class={cn(kamodIconSizeClass[size], className)}
       {...props}
     >
       <g transform="matrix(1.0195906,0,0,1.2167594,-142.14328,-57.752582)">

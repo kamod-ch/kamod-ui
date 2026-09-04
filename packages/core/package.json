@@ -40,6 +40,10 @@
       "import": "./dist/index.js"
     },
     "./theme.css": "./dist/theme.css",
+    "./utils": {
+      "types": "./dist/utils.d.ts",
+      "import": "./dist/utils.js"
+    },
     "./lib/utils": {
       "types": "./dist/lib/utils.d.ts",
       "import": "./dist/lib/utils.js"

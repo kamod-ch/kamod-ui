@@ -1,5 +1,6 @@
 import type { ComponentChildren, JSX } from "preact";
 import { tv } from "tailwind-variants";
+import { cn } from "../../lib/utils";
 
 export const popoverHeader = tv({ base: "flex flex-col gap-1.5" });
 
@@ -8,11 +9,7 @@ export type PopoverHeaderProps = JSX.HTMLAttributes<HTMLDivElement> & {
 };
 
 export const PopoverHeader = ({ class: className, children, ...rest }: PopoverHeaderProps) => (
-  <div
-    class={popoverHeader({ class: className as string | undefined })}
-    data-slot="popover-header"
-    {...rest}
-  >
+  <div class={cn(popoverHeader(), className)} data-slot="popover-header" {...rest}>
     {children}
   </div>
 );

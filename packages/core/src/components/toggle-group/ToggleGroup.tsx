@@ -165,7 +165,7 @@ export const ToggleGroup = ({
         data-size={resolvedSize}
         role="group"
         aria-orientation={orientation ?? "horizontal"}
-        class={cn(toggleGroup({ orientation, spacing, class: className }))}
+        class={cn(toggleGroup({ orientation, spacing }), className)}
         {...rest}
       >
         {children}

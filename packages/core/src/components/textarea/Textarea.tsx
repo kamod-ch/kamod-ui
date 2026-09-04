@@ -1,5 +1,6 @@
 import type { JSX } from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
+import { cn } from "../../lib/utils";
 
 export const textarea = tv({
   base: [
@@ -26,9 +27,5 @@ export type TextareaProps = Omit<JSX.TextareaHTMLAttributes<HTMLTextAreaElement>
   VariantProps<typeof textarea>;
 
 export const Textarea = ({ size, class: className, ...rest }: TextareaProps) => (
-  <textarea
-    class={textarea({ size, class: className as string | undefined })}
-    data-slot="textarea"
-    {...rest}
-  />
+  <textarea class={cn(textarea({ size }), className)} data-slot="textarea" {...rest} />
 );

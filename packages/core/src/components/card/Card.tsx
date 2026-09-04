@@ -1,5 +1,6 @@
 import type { ComponentChildren, JSX } from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
+import { cn } from "../../lib/utils";
 
 export const card = tv({
   base: [
@@ -25,7 +26,7 @@ export type CardProps = JSX.HTMLAttributes<HTMLDivElement> &
 
 export const Card = ({ class: className, size, children, ...rest }: CardProps) => (
   <div
-    class={card({ size, class: className as string | undefined })}
+    class={cn(card({ size }), className)}
     data-slot="card"
     data-size={size ?? "default"}
     {...rest}

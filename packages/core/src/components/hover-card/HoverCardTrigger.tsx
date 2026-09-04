@@ -1,5 +1,6 @@
 import { type ComponentChildren, cloneElement, isValidElement, type JSX } from "preact";
 import { tv } from "tailwind-variants";
+import { cn } from "../../lib/utils";
 import { useHoverCard } from "./HoverCard";
 
 const hoverCardTrigger = tv({
@@ -86,7 +87,7 @@ export const HoverCardTrigger = ({
       }}
       type="button"
       data-slot="hover-card-trigger"
-      class={hoverCardTrigger({ class: className as string | undefined })}
+      class={cn(hoverCardTrigger(), className)}
       {...rest}
       onMouseEnter={(event) => {
         scheduleOpen();

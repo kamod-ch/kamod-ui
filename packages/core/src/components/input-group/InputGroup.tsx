@@ -1,5 +1,6 @@
 import type { ComponentChildren, JSX } from "preact";
 import { tv } from "tailwind-variants";
+import { cn } from "../../lib/utils";
 
 export const inputGroup = tv({
   base: [
@@ -22,12 +23,7 @@ export type InputGroupProps = JSX.HTMLAttributes<HTMLDivElement> & {
 };
 
 export const InputGroup = ({ class: className, children, ...rest }: InputGroupProps) => (
-  <div
-    role="group"
-    class={inputGroup({ class: className as string | undefined })}
-    data-slot="input-group"
-    {...rest}
-  >
+  <div role="group" class={cn(inputGroup(), className)} data-slot="input-group" {...rest}>
     {children}
   </div>
 );

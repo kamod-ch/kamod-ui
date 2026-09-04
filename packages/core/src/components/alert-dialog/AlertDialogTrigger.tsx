@@ -1,4 +1,5 @@
 import type { ComponentChildren } from "preact";
+import { cn } from "../../lib/utils";
 import { button } from "../button/Button";
 import { DialogTrigger, type DialogTriggerProps } from "../dialog/DialogTrigger";
 
@@ -12,9 +13,7 @@ export const AlertDialogTrigger = ({
 }: AlertDialogTriggerProps) => (
   <DialogTrigger
     asChild={asChild}
-    class={
-      asChild ? className : button({ variant: "outline", class: className as string | undefined })
-    }
+    class={asChild ? className : cn(button({ variant: "outline" }), className)}
     data-slot="alert-dialog-trigger"
     {...rest}
   >

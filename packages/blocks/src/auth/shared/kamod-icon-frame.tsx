@@ -1,3 +1,4 @@
+import { cn } from "@kamod-ch/ui";
 import type { KamodBrandSize } from "./kamod-brand-sizes";
 import { KamodIcon } from "./kamod-icon";
 
@@ -13,11 +14,7 @@ export function KamodIconFrame({
   frameClass = "aspect-square size-8 rounded-lg",
 }: KamodIconFrameProps) {
   return (
-    <div
-      class={["flex items-center justify-center bg-white", frameClass, className]
-        .filter(Boolean)
-        .join(" ")}
-    >
+    <div class={cn("flex items-center justify-center bg-white", frameClass, className)}>
       <KamodIcon size={size} onLightBackground />
     </div>
   );

@@ -5,6 +5,7 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
+  cn,
   Separator,
   SidebarInset,
   SidebarTrigger,
@@ -38,7 +39,7 @@ const PlaceholderContent = ({
   contentPaddingTop?: boolean;
 }) => {
   const padding = contentPaddingTop ? "p-4" : "p-4 pt-0";
-  const baseClass = ["flex flex-1 flex-col gap-4", padding, contentClass].filter(Boolean).join(" ");
+  const baseClass = cn("flex flex-1 flex-col gap-4", padding, contentClass);
 
   if (kind === "list") {
     return (
@@ -156,11 +157,7 @@ export const DashboardShell = ({
   return (
     <SidebarInset>
       {showHeader ? (
-        <header
-          class={[headerClass, stickyHeader ? "sticky top-0 z-10 bg-background" : ""]
-            .filter(Boolean)
-            .join(" ")}
-        >
+        <header class={cn(headerClass, stickyHeader && "sticky top-0 z-10 bg-background")}>
           {headerInner ? (
             <div class="flex items-center gap-2 px-3">{headerContent}</div>
           ) : (

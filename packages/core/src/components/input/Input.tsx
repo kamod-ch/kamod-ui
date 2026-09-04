@@ -1,5 +1,6 @@
 import type { JSX } from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
+import { cn } from "../../lib/utils";
 
 export const input = tv({
   base: [
@@ -21,9 +22,5 @@ export type InputProps = Omit<JSX.InputHTMLAttributes<HTMLInputElement>, "size">
   VariantProps<typeof input>;
 
 export const Input = ({ size, class: className, ...rest }: InputProps) => (
-  <input
-    class={input({ size, class: className as string | undefined })}
-    data-slot="input"
-    {...rest}
-  />
+  <input class={cn(input({ size }), className)} data-slot="input" {...rest} />
 );

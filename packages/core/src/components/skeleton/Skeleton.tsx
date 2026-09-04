@@ -1,5 +1,6 @@
 import type { JSX } from "preact";
 import { tv } from "tailwind-variants";
+import { cn } from "../../lib/utils";
 
 export const skeleton = tv({
   base: "rounded-md",
@@ -25,9 +26,5 @@ export type SkeletonProps = JSX.HTMLAttributes<HTMLDivElement> & {
 };
 
 export const Skeleton = ({ class: className, variant, ...rest }: SkeletonProps) => (
-  <div
-    class={skeleton({ class: className as string | undefined, variant })}
-    data-slot="skeleton"
-    {...rest}
-  />
+  <div class={cn(skeleton({ variant }), className)} data-slot="skeleton" {...rest} />
 );

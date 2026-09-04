@@ -1,5 +1,6 @@
 import type { ComponentChildren, JSX } from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
+import { cn } from "../../lib/utils";
 
 export const inputGroupAddon = tv({
   base: [
@@ -36,7 +37,7 @@ export const InputGroupAddon = ({
   <div
     role="group"
     data-align={align}
-    class={inputGroupAddon({ align, class: className as string | undefined })}
+    class={cn(inputGroupAddon({ align }), className)}
     data-slot="input-group-addon"
     onClick={(event) => {
       const target = event.target as HTMLElement | null;

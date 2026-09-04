@@ -67,9 +67,7 @@ export const ToggleGroupItem = ({
       data-size={resolvedSize}
       aria-pressed={pressed}
       disabled={isDisabled}
-      class={cn(
-        toggleGroupItem({ variant: resolvedVariant, size: resolvedSize, class: className }),
-      )}
+      class={cn(toggleGroupItem({ variant: resolvedVariant, size: resolvedSize }), className)}
       onClick={(event) => {
         if (isDisabled) return;
         toggle(value);

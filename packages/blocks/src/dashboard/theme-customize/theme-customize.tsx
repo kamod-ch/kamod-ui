@@ -15,6 +15,7 @@ import {
 } from "@kamod-ch/themes";
 import {
   Button,
+  cn,
   Label,
   Popover,
   PopoverContent,
@@ -246,9 +247,10 @@ export const ThemeCustomize = ({
                   <button
                     key={item.id}
                     type="button"
-                    class={`rounded-md border px-2 py-1.5 text-left text-xs ${
-                      brand === item.id ? "border-ring ring-2 ring-ring/40" : "border-border"
-                    }`}
+                    class={cn(
+                      "rounded-md border px-2 py-1.5 text-left text-xs",
+                      brand === item.id ? "border-ring ring-2 ring-ring/40" : "border-border",
+                    )}
                     aria-pressed={brand === item.id}
                     onClick={() => setBrand(item.id)}
                   >

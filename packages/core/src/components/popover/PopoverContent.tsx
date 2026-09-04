@@ -1,5 +1,6 @@
 import type { ComponentChildren, JSX } from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
+import { cn } from "../../lib/utils";
 import { usePopover } from "./Popover";
 
 const positionBySide = {
@@ -90,7 +91,7 @@ export const PopoverContent = ({
       data-side={side}
       data-align={align}
       data-state={popover.open.value ? "open" : "closed"}
-      class={`${positionBySide[side]} ${alignClass} ${popoverContent({ side, class: className as string | undefined })}`}
+      class={cn(popoverContent({ side }), positionBySide[side], alignClass, className)}
       style={inlineStyle ? { ...offsetStyle, ...inlineStyle } : offsetStyle}
       onKeyDown={(event) => {
         if (event.key === "Escape") {

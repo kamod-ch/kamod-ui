@@ -1,5 +1,6 @@
 import type { ComponentChildren, JSX } from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
+import { cn } from "../../lib/utils";
 import { button } from "../button/Button";
 
 export const inputGroupButton = tv({
@@ -32,7 +33,7 @@ export const InputGroupButton = ({
 }: InputGroupButtonProps) => (
   <button
     type={type}
-    class={`${button({ variant, size, class: className as string | undefined })} ${inputGroupButton({ size })}`}
+    class={cn(button({ variant, size }), inputGroupButton({ size }), className)}
     data-slot="input-group-button"
     {...rest}
   >

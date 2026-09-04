@@ -3,6 +3,7 @@ import {
   Badge,
   Button,
   ButtonVariants,
+  cn,
   Empty,
   EmptyDescription,
   EmptyHeader,
@@ -170,7 +171,10 @@ export const NotificationsPopover = ({
                       data-read={item.read ? "true" : "false"}
                     >
                       <span
-                        class={`mt-1.5 size-1.5 shrink-0 rounded-full ${item.read ? "bg-border" : "bg-primary"}`}
+                        class={cn(
+                          "mt-1.5 size-1.5 shrink-0 rounded-full",
+                          item.read ? "bg-border" : "bg-primary",
+                        )}
                         aria-hidden="true"
                       />
                       <div class="min-w-0 flex-1">

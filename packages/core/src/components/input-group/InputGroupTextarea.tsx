@@ -1,4 +1,5 @@
 import { tv } from "tailwind-variants";
+import { cn } from "../../lib/utils";
 import { Textarea, type TextareaProps } from "../textarea/Textarea";
 
 export const inputGroupTextarea = tv({
@@ -11,9 +12,5 @@ export const inputGroupTextarea = tv({
 export type InputGroupTextareaProps = TextareaProps;
 
 export const InputGroupTextarea = ({ class: className, ...rest }: InputGroupTextareaProps) => (
-  <Textarea
-    class={inputGroupTextarea({ class: className as string | undefined })}
-    data-slot="input-group-control"
-    {...rest}
-  />
+  <Textarea class={cn(inputGroupTextarea(), className)} data-slot="input-group-control" {...rest} />
 );

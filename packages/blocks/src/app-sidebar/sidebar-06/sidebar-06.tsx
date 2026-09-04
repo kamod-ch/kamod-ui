@@ -2,6 +2,7 @@ import { StarIcon } from "@kamod-ch/icons/lucide";
 import {
   Avatar,
   AvatarFallback,
+  cn,
   Sidebar,
   SidebarContent,
   SidebarFooter,
@@ -122,7 +123,10 @@ export const AppSidebar06 = ({
                       }
                     >
                       <span
-                        class={`flex size-5 shrink-0 items-center justify-center rounded-md text-white ${project.colorClass ?? "bg-chart-1"}`}
+                        class={cn(
+                          "flex size-5 shrink-0 items-center justify-center rounded-md text-white",
+                          project.colorClass ?? "bg-chart-1",
+                        )}
                       >
                         <span class="text-[10px] font-semibold">{project.name.slice(0, 1)}</span>
                       </span>

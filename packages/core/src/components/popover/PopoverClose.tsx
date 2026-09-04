@@ -1,5 +1,6 @@
 import type { ComponentChildren, JSX } from "preact";
 import { tv } from "tailwind-variants";
+import { cn } from "../../lib/utils";
 import { usePopover } from "./Popover";
 
 export const popoverClose = tv({
@@ -25,7 +26,7 @@ export const PopoverClose = ({
   return (
     <button
       type="button"
-      class={popoverClose({ class: className as string | undefined })}
+      class={cn(popoverClose(), className)}
       data-slot="popover-close"
       aria-label="Close"
       onClick={(event) => {

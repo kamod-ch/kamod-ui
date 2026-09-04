@@ -1,5 +1,5 @@
 import { SearchIcon } from "@kamod-ch/icons/lucide";
-import { Kbd, Label, SidebarInput } from "@kamod-ch/ui";
+import { cn, Kbd, Label, SidebarInput } from "@kamod-ch/ui";
 import type { JSX, Ref } from "preact";
 
 export type AppSearchFieldProps = Omit<JSX.InputHTMLAttributes<HTMLInputElement>, "size"> & {
@@ -29,7 +29,7 @@ export const AppSearchField = ({
       id={id}
       ref={ref}
       placeholder="Search..."
-      class={`pl-8 ${className ?? ""}`}
+      class={cn("pl-8", className)}
       {...rest}
     />
     {shortcutHint ? (

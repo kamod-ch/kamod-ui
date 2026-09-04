@@ -69,7 +69,7 @@ export const RadioGroupItem = ({
       data-slot="radio-group-item"
       data-state={checked ? "checked" : "unchecked"}
       data-size={size ?? "default"}
-      class={cn(itemRoot({ size, class: className }))}
+      class={cn(itemRoot({ size }), className)}
     >
       <span class={indicatorBox({ size })}>
         <input

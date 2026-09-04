@@ -1,5 +1,6 @@
 import type { ComponentChildren, JSX } from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
+import { cn } from "../../lib/utils";
 import { useDropdown } from "./Dropdown";
 
 const dropdownItem = tv({
@@ -46,11 +47,7 @@ export const DropdownItem = ({
   ...rest
 }: DropdownItemProps) => {
   const dropdown = useDropdown();
-  const resolvedClass = dropdownItem({
-    inset,
-    variant,
-    class: className as string | undefined,
-  });
+  const resolvedClass = cn(dropdownItem({ inset, variant }), className);
 
   const handleActivate = (event: JSX.TargetedMouseEvent<HTMLElement>) => {
     (onClick as ((event: JSX.TargetedMouseEvent<HTMLElement>) => void) | undefined)?.(event);

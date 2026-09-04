@@ -1,5 +1,6 @@
 import type { ComponentChildren, JSX } from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
+import { cn } from "../../lib/utils";
 
 export const kbd = tv({
   base: [
@@ -24,7 +25,7 @@ export type KbdProps = Omit<JSX.HTMLAttributes<HTMLElement>, "size"> &
   };
 
 export const Kbd = ({ class: className, size, children, ...rest }: KbdProps) => (
-  <kbd data-slot="kbd" class={kbd({ size, class: className as string | undefined })} {...rest}>
+  <kbd data-slot="kbd" class={cn(kbd({ size }), className)} {...rest}>
     {children}
   </kbd>
 );

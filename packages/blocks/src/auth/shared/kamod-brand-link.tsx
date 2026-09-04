@@ -1,3 +1,4 @@
+import { cn } from "@kamod-ch/ui";
 import type { KamodBrandSize } from "./kamod-brand-sizes";
 import { KamodLogo } from "./kamod-logo";
 
@@ -9,11 +10,7 @@ type KamodBrandLinkProps = {
 
 export function KamodBrandLink({ href = "#", class: className, size = "md" }: KamodBrandLinkProps) {
   return (
-    <a
-      href={href}
-      class={["inline-flex items-center", className].filter(Boolean).join(" ")}
-      aria-label="Kamod home"
-    >
+    <a href={href} class={cn("inline-flex items-center", className)} aria-label="Kamod home">
       <KamodLogo size={size} />
     </a>
   );

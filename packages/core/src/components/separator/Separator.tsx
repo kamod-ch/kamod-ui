@@ -1,5 +1,6 @@
 import type { JSX } from "preact";
 import { tv } from "tailwind-variants";
+import { cn } from "../../lib/utils";
 
 export const separator = tv({
   base: "bg-border shrink-0",
@@ -32,7 +33,7 @@ export const Separator = ({
     role={decorative ? undefined : "separator"}
     aria-orientation={decorative ? undefined : orientation}
     data-orientation={orientation}
-    class={separator({ orientation, class: className as string | undefined })}
+    class={cn(separator({ orientation }), className)}
     data-slot="separator"
     {...rest}
   />

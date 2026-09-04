@@ -31,7 +31,7 @@ export const ItemMedia = ({ variant, class: className, children, ...rest }: Item
     <div
       data-slot="item-media"
       data-variant={resolvedVariant}
-      class={cn(itemMedia({ variant: resolvedVariant, class: className as string | undefined }))}
+      class={cn(itemMedia({ variant: resolvedVariant }), className)}
       {...rest}
     >
       {children}

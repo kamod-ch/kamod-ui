@@ -1,5 +1,6 @@
 import type { JSX } from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
+import { cn } from "../../lib/utils";
 
 export const label = tv({
   base: [
@@ -15,9 +16,5 @@ export type LabelProps = Omit<JSX.LabelHTMLAttributes<HTMLLabelElement>, "size">
   VariantProps<typeof label>;
 
 export const Label = ({ size, class: className, ...rest }: LabelProps) => (
-  <label
-    class={label({ size, class: className as string | undefined })}
-    data-slot="label"
-    {...rest}
-  />
+  <label class={cn(label({ size }), className)} data-slot="label" {...rest} />
 );

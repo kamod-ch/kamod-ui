@@ -1,5 +1,6 @@
 import { type ComponentChildren, cloneElement, isValidElement, type JSX } from "preact";
 import { tv } from "tailwind-variants";
+import { cn } from "../../lib/utils";
 import { useDropdown } from "./Dropdown";
 
 const dropdownTrigger = tv({
@@ -80,7 +81,7 @@ export const DropdownTrigger = ({
       }}
       id={dropdown.triggerId}
       type="button"
-      class={dropdownTrigger({ class: className as string | undefined })}
+      class={cn(dropdownTrigger(), className)}
       data-slot="dropdown-trigger"
       data-state={dropdown.open.value ? "open" : "closed"}
       aria-controls={dropdown.contentId}

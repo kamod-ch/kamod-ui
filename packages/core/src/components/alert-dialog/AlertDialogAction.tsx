@@ -16,7 +16,7 @@ export const AlertDialogAction = ({
   ...rest
 }: AlertDialogActionProps) => (
   <DialogClose
-    class={button({ variant, class: cn("w-full sm:w-auto", className as string | undefined) })}
+    class={cn(button({ variant }), "w-full sm:w-auto", className)}
     data-slot="alert-dialog-action"
     {...rest}
   >

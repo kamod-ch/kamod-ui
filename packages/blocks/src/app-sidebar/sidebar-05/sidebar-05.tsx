@@ -24,6 +24,7 @@ import {
 import {
   Avatar,
   AvatarFallback,
+  cn,
   Sidebar,
   SidebarContent,
   SidebarGroup,
@@ -213,12 +214,12 @@ const RailButton = ({
         type="button"
         aria-label={label}
         aria-current={active ? "page" : undefined}
-        class={[
+        class={cn(
           "relative flex aspect-square size-9 items-center justify-center rounded-lg transition-colors",
           active
             ? "bg-sidebar-accent text-foreground"
             : "text-muted-foreground hover:bg-sidebar-accent/60 hover:text-foreground",
-        ].join(" ")}
+        )}
         onClick={onClick}
       >
         {active ? (

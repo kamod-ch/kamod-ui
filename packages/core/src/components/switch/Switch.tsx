@@ -74,7 +74,7 @@ export const Switch = ({
         data-slot="switch"
         data-state={nextChecked ? "checked" : "unchecked"}
         data-size={size ?? "default"}
-        class={cn(switchRoot({ size, class: className }))}
+        class={cn(switchRoot({ size }), className)}
         onClick={(event) => {
           const updated = !nextChecked;
           if (!isControlled) {

@@ -1,5 +1,6 @@
 import type { ComponentChildren, JSX } from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
+import { cn } from "../../lib/utils";
 import { useDropdown } from "./Dropdown";
 
 const positionBySide = {
@@ -92,7 +93,7 @@ export const DropdownContent = ({
       data-side={side}
       data-align={align}
       data-state={dropdown.open.value ? "open" : "closed"}
-      class={`${positionBySide[side]} ${alignClass} ${dropdownContent({ side, class: className as string | undefined })}`}
+      class={cn(dropdownContent({ side }), positionBySide[side], alignClass, className)}
       style={inlineStyle ? { ...offsetStyle, ...inlineStyle } : offsetStyle}
       onKeyDown={(event) => {
         if (event.key === "Escape") {

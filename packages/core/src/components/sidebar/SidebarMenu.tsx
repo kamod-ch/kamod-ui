@@ -86,11 +86,7 @@ export const SidebarMenuButton = ({
   ...rest
 }: SidebarMenuButtonProps) => {
   const { isMobile, state } = useSidebar();
-  const classes = sidebarMenuButton({
-    variant,
-    size,
-    class: className as string | undefined,
-  });
+  const classes = cn(sidebarMenuButton({ variant, size }), className);
 
   const button = asChild ? (
     <Slot

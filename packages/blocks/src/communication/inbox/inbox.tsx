@@ -1,5 +1,5 @@
 import { ArchiveIcon, ChevronLeftIcon, StarIcon } from "@kamod-ch/icons/lucide";
-import { Badge, Button, Empty, EmptyDescription, EmptyHeader, EmptyTitle } from "@kamod-ch/ui";
+import { Badge, Button, cn, Empty, EmptyDescription, EmptyHeader, EmptyTitle } from "@kamod-ch/ui";
 import {
   type DateFormatOptions,
   formatDayLabel,
@@ -96,11 +96,12 @@ export const Inbox = ({
     <div
       data-slot="block-inbox"
       data-layout={layout}
-      class={`bg-background text-foreground overflow-hidden rounded-xl border ${
+      class={cn(
+        "bg-background text-foreground overflow-hidden rounded-xl border",
         stacked
           ? "grid grid-cols-1"
-          : "grid lg:grid-cols-[12rem_20rem_minmax(0,1fr)] md:grid-cols-[20rem_minmax(0,1fr)]"
-      }`}
+          : "grid lg:grid-cols-[12rem_20rem_minmax(0,1fr)] md:grid-cols-[20rem_minmax(0,1fr)]",
+      )}
     >
       <nav
         aria-label="Folders"
@@ -118,9 +119,10 @@ export const Inbox = ({
             <li key={item.id}>
               <button
                 type="button"
-                class={`hover:bg-muted flex w-full items-center justify-between px-3 py-2 text-left text-sm ${
-                  item.id === folder ? "bg-muted font-medium" : ""
-                }`}
+                class={cn(
+                  "hover:bg-muted flex w-full items-center justify-between px-3 py-2 text-left text-sm",
+                  item.id === folder && "bg-muted font-medium",
+                )}
                 onClick={() => {
                   setFolder(item.id);
                   setSelected(null);
@@ -180,9 +182,10 @@ export const Inbox = ({
             <li key={item.id}>
               <button
                 type="button"
-                class={`hover:bg-muted flex w-full flex-col items-start gap-0.5 border-b px-3 py-2 text-left ${
-                  item.id === selected ? "bg-muted" : ""
-                }`}
+                class={cn(
+                  "hover:bg-muted flex w-full flex-col items-start gap-0.5 border-b px-3 py-2 text-left",
+                  item.id === selected && "bg-muted",
+                )}
                 aria-current={item.id === selected ? "true" : undefined}
                 onClick={() => openMessage(item.id)}
               >

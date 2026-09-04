@@ -1,4 +1,5 @@
 import { tv } from "tailwind-variants";
+import { cn } from "../../lib/utils";
 import { Input, type InputProps } from "../input/Input";
 
 export const inputGroupInput = tv({
@@ -11,9 +12,5 @@ export const inputGroupInput = tv({
 export type InputGroupInputProps = InputProps;
 
 export const InputGroupInput = ({ class: className, ...rest }: InputGroupInputProps) => (
-  <Input
-    class={inputGroupInput({ class: className as string | undefined })}
-    data-slot="input-group-control"
-    {...rest}
-  />
+  <Input class={cn(inputGroupInput(), className)} data-slot="input-group-control" {...rest} />
 );

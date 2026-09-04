@@ -4,6 +4,7 @@ import {
   AvatarFallback,
   AvatarImage,
   Button,
+  cn,
   Empty,
   EmptyHeader,
   EmptyTitle,
@@ -128,20 +129,24 @@ export const ChatThread = ({
                 return (
                   <article
                     key={message.id}
-                    class={`flex ${mine ? "justify-end" : "justify-start"}`}
+                    class={cn("flex", mine ? "justify-end" : "justify-start")}
                     data-status={message.status}
                   >
                     <div
-                      class={`max-w-[80%] rounded-2xl px-3 py-2 text-sm ${
-                        mine ? "bg-primary text-primary-foreground" : "bg-muted text-foreground"
-                      }`}
+                      class={cn(
+                        "max-w-[80%] rounded-2xl px-3 py-2 text-sm",
+                        mine ? "bg-primary text-primary-foreground" : "bg-muted text-foreground",
+                      )}
                     >
                       {!mine && author ? (
                         <p class="mb-0.5 text-[10px] font-medium opacity-80">{author.name}</p>
                       ) : null}
                       <p class="whitespace-pre-wrap">{message.body}</p>
                       <p
-                        class={`mt-1 text-[10px] ${mine ? "opacity-80" : "text-muted-foreground"}`}
+                        class={cn(
+                          "mt-1 text-[10px]",
+                          mine ? "opacity-80" : "text-muted-foreground",
+                        )}
                       >
                         {formatTime(new Date(message.createdAt), options)}
                         {mine ? ` · ${statusLabel(message.status)}` : ""}

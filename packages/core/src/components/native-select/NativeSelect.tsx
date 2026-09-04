@@ -1,5 +1,6 @@
 import type { ComponentChildren, JSX } from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
+import { cn } from "../../lib/utils";
 
 export const nativeSelectWrapper = tv({
   base: [
@@ -59,11 +60,7 @@ export const NativeSelect = ({
   ...rest
 }: NativeSelectProps) => (
   <div class={nativeSelectWrapper()} data-size={size} data-slot="native-select-wrapper">
-    <select
-      class={nativeSelect({ size, class: className as string | undefined })}
-      data-slot="native-select"
-      {...rest}
-    >
+    <select class={cn(nativeSelect({ size }), className)} data-slot="native-select" {...rest}>
       {children}
     </select>
     {icon ?? (

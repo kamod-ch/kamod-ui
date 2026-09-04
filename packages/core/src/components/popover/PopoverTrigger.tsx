@@ -1,5 +1,6 @@
 import { type ComponentChildren, cloneElement, isValidElement, type JSX } from "preact";
 import { tv } from "tailwind-variants";
+import { cn } from "../../lib/utils";
 import { usePopover } from "./Popover";
 
 export const popoverTrigger = tv({
@@ -78,7 +79,7 @@ export const PopoverTrigger = ({
       }}
       id={popover.triggerId}
       type="button"
-      class={popoverTrigger({ class: className as string | undefined })}
+      class={cn(popoverTrigger(), className)}
       data-slot="popover-trigger"
       data-state={popover.open.value ? "open" : "closed"}
       aria-controls={popover.contentId}

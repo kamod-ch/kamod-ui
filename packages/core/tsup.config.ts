@@ -19,6 +19,7 @@ const componentEntries: Record<string, string> = Object.fromEntries(
 export default defineConfig({
   entry: {
     index: "src/index.ts",
+    utils: "src/utils.ts",
     "lib/utils": "src/lib/utils.ts",
     "lib/signals/index": "src/lib/signals/index.ts",
     "lib/interactive/index": "src/lib/interactive/index.ts",

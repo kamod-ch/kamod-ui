@@ -239,6 +239,22 @@ export const docsRouteManifest = [
     ],
   },
   {
+    slug: "cn",
+    sections: [
+      "installation",
+      "usage",
+      "basic-classes",
+      "conditional-classes",
+      "arrays-and-objects",
+      "override-defaults",
+      "preact-component",
+      "variant-system",
+      "clsx-vs-cn",
+      "api-reference",
+      "accessibility",
+    ],
+  },
+  {
     slug: "collapsible",
     sections: [
       "installation",

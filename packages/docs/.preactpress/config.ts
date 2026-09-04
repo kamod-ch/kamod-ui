@@ -1,18 +1,18 @@
 import fs from "node:fs/promises";
 import path, { resolve } from "node:path";
-import { fileURLToPath } from "node:url";
 import { defineConfig } from "@kamod-ch/preactpress/config";
 import { getThemeInitScript } from "@kamod-ch/themes";
 import tailwindcss from "@tailwindcss/vite";
 import type { Connect } from "vite";
 
-const repoRoot = resolve(__dirname, "../../../");
-const docsRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const configDir = import.meta.dirname;
+const docsRoot = resolve(configDir, "..");
+const repoRoot = resolve(configDir, "../../../");
 const preactRoot = resolve(docsRoot, "node_modules/preact");
-const openuiSrc = resolve(__dirname, "../../openui/src");
-const motionSrc = resolve(__dirname, "../../motion/src");
-const blocksSrc = resolve(__dirname, "../../blocks/src");
-const coreSrc = resolve(__dirname, "../../core/src");
+const openuiSrc = resolve(configDir, "../../openui/src");
+const motionSrc = resolve(configDir, "../../motion/src");
+const blocksSrc = resolve(configDir, "../../blocks/src");
+const coreSrc = resolve(configDir, "../../core/src");
 const base = (process.env.VITE_BASE_PATH?.trim() || "/").replace(/\/?$/, "/");
 const faviconFiles = new Map([
   ["/favicon.svg", { file: "favicon.svg", type: "image/svg+xml" }],
@@ -174,7 +174,7 @@ export default defineConfig({
           find: "@kamod-ch/ui",
           replacement: resolve(coreSrc, "index.ts"),
         },
-        { find: "lucide-preact", replacement: resolve(__dirname, "../node_modules/lucide-preact") },
+        { find: "lucide-preact", replacement: resolve(configDir, "../node_modules/lucide-preact") },
         {
           find: /^react$/,
           replacement: resolve(preactRoot, "compat/dist/compat.module.js"),

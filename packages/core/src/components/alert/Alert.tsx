@@ -1,5 +1,6 @@
 import type { ComponentChildren, JSX } from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
+import { cn } from "../../lib/utils";
 
 export const alert = tv({
   base: [
@@ -42,7 +43,7 @@ export const Alert = ({ children, variant, class: className, ...rest }: AlertPro
     role="alert"
     data-slot="alert"
     data-variant={variant ?? "default"}
-    class={alert({ variant, class: className as string | undefined })}
+    class={cn(alert({ variant }), className)}
     {...rest}
   >
     {children}

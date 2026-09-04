@@ -398,4 +398,4 @@ export {
   trapFocus,
 } from "./lib/interactive";
 export { createControllableSignal } from "./lib/signals";
-export { cn } from "./lib/utils";
+export { type ClassValue, cn } from "./lib/utils";

@@ -1,5 +1,6 @@
 import type { ComponentChildren, JSX } from "preact";
 import { tv } from "tailwind-variants";
+import { cn } from "../../lib/utils";
 
 export const popoverDescription = tv({ base: "text-muted-foreground text-sm" });
 
@@ -12,11 +13,7 @@ export const PopoverDescription = ({
   children,
   ...rest
 }: PopoverDescriptionProps) => (
-  <p
-    class={popoverDescription({ class: className as string | undefined })}
-    data-slot="popover-description"
-    {...rest}
-  >
+  <p class={cn(popoverDescription(), className)} data-slot="popover-description" {...rest}>
     {children}
   </p>
 );

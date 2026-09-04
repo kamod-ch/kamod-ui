@@ -8,6 +8,7 @@ import {
 } from "@kamod-ch/icons/lucide";
 import {
   Button,
+  cn,
   Empty,
   EmptyDescription,
   EmptyHeader,
@@ -187,20 +188,22 @@ export const AiLlmChat = ({
     <div
       data-slot="block-ai-llm-chat"
       data-layout={layout}
-      class={`bg-background text-foreground overflow-hidden rounded-xl border ${
-        stacked ? "grid grid-cols-1" : "grid md:grid-cols-[16rem_minmax(0,1fr)]"
-      }`}
+      class={cn(
+        "bg-background text-foreground overflow-hidden rounded-xl border",
+        stacked ? "grid grid-cols-1" : "grid md:grid-cols-[16rem_minmax(0,1fr)]",
+      )}
     >
-      <aside class={`border-r ${stacked ? "border-b" : ""}`}>
+      <aside class={cn("border-r", stacked && "border-b")}>
         <p class="px-3 py-2 text-sm font-medium">Threads</p>
         <ul>
           {threads.map((item) => (
             <li key={item.id}>
               <button
                 type="button"
-                class={`hover:bg-muted w-full px-3 py-2 text-left text-sm ${
-                  item.id === threadId ? "bg-muted font-medium" : ""
-                }`}
+                class={cn(
+                  "hover:bg-muted w-full px-3 py-2 text-left text-sm",
+                  item.id === threadId && "bg-muted font-medium",
+                )}
                 onClick={() => setThreadId(item.id)}
               >
                 {item.title}

@@ -1,3 +1,4 @@
+import { cn } from "@kamod-ch/ui";
 import { type KamodBrandSize, kamodLogoSizeClass } from "./kamod-brand-sizes";
 import { kamodLogoDarkUrl, kamodLogoLightUrl } from "./kamod-logo-url";
 
@@ -7,21 +8,16 @@ type KamodLogoProps = {
 };
 
 export function KamodLogo({ class: className, size = "md" }: KamodLogoProps) {
-  const imgClass = [kamodLogoSizeClass[size], "block object-contain"].join(" ");
+  const imgClass = cn(kamodLogoSizeClass[size], "block object-contain");
 
   return (
-    <span class={["inline-flex shrink-0", className].filter(Boolean).join(" ")} aria-hidden="true">
-      <img
-        src={kamodLogoLightUrl}
-        alt=""
-        decoding="async"
-        class={[imgClass, "dark:hidden"].join(" ")}
-      />
+    <span class={cn("inline-flex shrink-0", className)} aria-hidden="true">
+      <img src={kamodLogoLightUrl} alt="" decoding="async" class={cn(imgClass, "dark:hidden")} />
       <img
         src={kamodLogoDarkUrl}
         alt=""
         decoding="async"
-        class={[imgClass, "hidden dark:block"].join(" ")}
+        class={cn(imgClass, "hidden dark:block")}
       />
     </span>
   );

@@ -67,7 +67,7 @@ export const Toggle = ({
       data-variant={variant ?? "default"}
       data-size={size ?? "default"}
       data-state={nextPressed ? "on" : "off"}
-      class={cn(toggle({ variant, size, class: className }))}
+      class={cn(toggle({ variant, size }), className)}
       onClick={(event) => {
         const updated = !nextPressed;
         if (!isControlled) {

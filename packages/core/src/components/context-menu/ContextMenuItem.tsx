@@ -1,5 +1,6 @@
 import type { ComponentChildren, JSX } from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
+import { cn } from "../../lib/utils";
 import { useContextMenu } from "./ContextMenu";
 
 export const contextMenuItem = tv({
@@ -46,7 +47,7 @@ export const ContextMenuItem = ({
       data-slot="context-menu-item"
       data-inset={inset ? "true" : undefined}
       data-variant={variant}
-      class={contextMenuItem({ inset, variant, class: className as string | undefined })}
+      class={cn(contextMenuItem({ inset, variant }), className)}
       onClick={(event) => {
         onClick?.(event);
         if (event.defaultPrevented) return;

@@ -4,6 +4,7 @@ import { createContext } from "preact";
 import { useContext, useEffect, useMemo, useRef } from "preact/hooks";
 import { tv } from "tailwind-variants";
 import { createDismissableLayer, createIdFactory } from "../../lib/interactive";
+import { cn } from "../../lib/utils";
 
 type PopoverContextValue = {
   open: ReturnType<typeof signal<boolean>>;
@@ -91,7 +92,7 @@ export const Popover = ({
     >
       <div
         ref={rootRef}
-        class={popover({ class: className as string | undefined })}
+        class={cn(popover(), className)}
         data-slot="popover"
         data-state={open.value ? "open" : "closed"}
         {...rest}

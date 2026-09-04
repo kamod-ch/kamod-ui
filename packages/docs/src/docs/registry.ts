@@ -15,6 +15,7 @@ import { cardDocPage } from "./pages/card-doc";
 import { carouselDocPage } from "./pages/carousel-doc";
 import { chartDocPage } from "./pages/chart-doc";
 import { checkboxDocPage } from "./pages/checkbox-doc";
+import { cnDocPage } from "./pages/cn-doc";
 import { collapsibleDocPage } from "./pages/collapsible-doc";
 import { comboboxDocPage } from "./pages/combobox-doc";
 import { commandDocPage } from "./pages/command-doc";
@@ -95,6 +96,7 @@ export const allDocsPages: DocPageModule[] = [
   carouselDocPage,
   chartDocPage,
   checkboxDocPage,
+  cnDocPage,
   collapsibleDocPage,
   comboboxDocPage,
   commandDocPage,
@@ -238,6 +240,7 @@ export const componentOverviewItems: ComponentOverviewItem[] = [
   { label: "Chart", slug: "chart" },
   { label: "Checkbox", slug: "checkbox" },
   { label: "Collapsible", slug: "collapsible" },
+  { label: "cn Utility", slug: "cn" },
   { label: "Combobox", slug: "combobox" },
   { label: "Command", slug: "command" },
   { label: "Context Menu", slug: "context-menu" },

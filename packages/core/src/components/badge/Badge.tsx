@@ -83,12 +83,12 @@ export const Badge = ({
   const isHref = "href" in rest && typeof rest.href === "string";
   const isLink = Boolean(isHref);
 
-  const resolvedClass = badge({
+  const variantClasses = badge({
     variant: resolvedVariant,
     size: resolvedSize,
     isLink,
-    class: className,
   });
+  const resolvedClass = cn(variantClasses, className);
 
   if (asChild) {
     if (!isValidElement(children)) {
@@ -101,17 +101,16 @@ export const Badge = ({
       className?: string;
     };
 
-    const asChildClass = badge({
+    const asChildVariantClasses = badge({
       variant: resolvedVariant,
       size: resolvedSize,
       isLink: childIsAnchor,
-      class: className,
     });
 
     return cloneElement(children, {
       ...(rest as JSX.HTMLAttributes<HTMLElement>),
       ...childProps,
-      class: cn(asChildClass, childProps.class, childProps.className),
+      class: cn(asChildVariantClasses, childProps.class, childProps.className, className),
       "data-slot": "badge",
       "data-variant": resolvedVariant,
     });
