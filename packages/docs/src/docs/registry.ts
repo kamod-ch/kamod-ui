@@ -78,6 +78,7 @@ import { toastDocPage } from "./pages/toast-doc";
 import { toggleDocPage } from "./pages/toggle-doc";
 import { toggleGroupDocPage } from "./pages/toggle-group-doc";
 import { tooltipDocPage } from "./pages/tooltip-doc";
+import { treeDocPage } from "./pages/tree-doc";
 import { typographyDocPage } from "./pages/typography-doc";
 import { uiMotionDocPage } from "./pages/ui-motion-doc";
 import { videoDocPage } from "./pages/video-doc";
@@ -160,6 +161,7 @@ export const allDocsPages: DocPageModule[] = [
   toastDocPage,
   toggleDocPage,
   toggleGroupDocPage,
+  treeDocPage,
   typographyDocPage,
   uiMotionDocPage,
   tooltipDocPage,
@@ -203,6 +205,7 @@ export const docsUpdatedComponentSlugs = new Set([
   "tooltip",
   "toggle",
   "toggle-group",
+  "tree",
   "typography",
   "textarea",
   "spinner",
@@ -289,6 +292,7 @@ export const componentOverviewItems: ComponentOverviewItem[] = [
   { label: "Toast", slug: "toast" },
   { label: "Toggle", slug: "toggle" },
   { label: "Toggle Group", slug: "toggle-group" },
+  { label: "Tree", slug: "tree" },
   { label: "Tooltip", slug: "tooltip" },
   { label: "Typography", slug: "typography" },
   ...(docsShowMotion ? [{ label: "UI Motion", slug: "ui-motion" } as const] : []),

@@ -185,6 +185,24 @@ test.describe("core component docs smoke", () => {
     await expect(preview.getByLabel("Option one")).not.toBeChecked();
   });
 
+  test("Tree expands via chevron and selects on row click", async ({ page }) => {
+    await page.goto("./docs/tree/single-selection");
+    await expect(page.locator("h1", { hasText: "Tree" })).toBeVisible();
+
+    const preview = page.locator("#single-selection .preview");
+    await preview.scrollIntoViewIfNeeded();
+    const documents = preview.getByRole("treeitem", { name: "Documents" });
+    const chevron = documents.locator('[data-slot="tree-item-chevron"]');
+
+    await expect(documents).toHaveAttribute("aria-expanded", "true");
+    await chevron.click();
+    await expect(documents).toHaveAttribute("aria-expanded", "false");
+
+    await documents.click();
+    await expect(documents).toHaveAttribute("aria-selected", "true");
+    await expect(documents).toHaveAttribute("aria-expanded", "false");
+  });
+
   test("Accordion toggles and settles without runaway height animation", async ({ page }) => {
     await page.goto("./docs/accordion/basic");
     await expect(page.locator("h1", { hasText: "Accordion" })).toBeVisible();

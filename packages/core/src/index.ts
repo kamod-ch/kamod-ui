@@ -385,6 +385,7 @@ export { Toaster, useToast } from "./components/toast";
 export { Toggle } from "./components/toggle";
 export { ToggleGroup, ToggleGroupItem } from "./components/toggle-group";
 export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./components/tooltip";
+export { Tree, TreeItem, TreeProvider, treeItemVariants, treeVariants } from "./components/tree";
 export type { TypographyVariants } from "./components/typography";
 export { Typography, typography } from "./components/typography";
 export { Video } from "./components/video";

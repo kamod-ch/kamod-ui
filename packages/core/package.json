@@ -304,6 +304,10 @@
       "types": "./dist/components/toggle-group/index.d.ts",
       "import": "./dist/components/toggle-group/index.js"
     },
+    "./tree": {
+      "types": "./dist/components/tree/index.d.ts",
+      "import": "./dist/components/tree/index.js"
+    },
     "./tooltip": {
       "types": "./dist/components/tooltip/index.d.ts",
       "import": "./dist/components/tooltip/index.js"
@@ -346,6 +350,7 @@
     "@testing-library/preact": "^3.2.4",
     "@vitest/coverage-v8": "^4.1.11",
     "jsdom": "^30.0.1",
+    "preact-render-to-string": "^6.7.0",
     "publint": "^0.3.24",
     "tailwindcss": "^4.3.3",
     "tsup": "^8.5.1",

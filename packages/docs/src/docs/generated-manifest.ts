@@ -1104,6 +1104,26 @@ export const docsRouteManifest = [
     ],
   },
   {
+    slug: "tree",
+    sections: [
+      "installation",
+      "usage",
+      "basic",
+      "default-expanded",
+      "controlled-expansion",
+      "single-selection",
+      "multiple-selection",
+      "no-icons-lines",
+      "variants",
+      "disabled",
+      "deep",
+      "rtl",
+      "accessibility",
+      "keyboard",
+      "api-reference",
+    ],
+  },
+  {
     slug: "typography",
     sections: [
       "installation",

@@ -112,6 +112,9 @@ importers:
       jsdom:
         specifier: ^30.0.1
         version: 30.0.1
+      preact-render-to-string:
+        specifier: ^6.7.0
+        version: 6.7.0(preact@10.29.8)
       publint:
         specifier: ^0.3.24
         version: 0.3.24
