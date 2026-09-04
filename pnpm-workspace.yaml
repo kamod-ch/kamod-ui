@@ -1,9 +1,10 @@
 packages:
   - "packages/*"
 allowBuilds:
+  "@openuidev/lang-core": true
   esbuild: false
   lefthook: false
 minimumReleaseAgeExclude:
-  - "@kamod-ch/preactpress@2.1.0"
+  - "@kamod-ch/preactpress@2.2.1"
   - "@kamod-ch/brand@0.1.0"
   - "@kamod-ch/motion@0.1.0"

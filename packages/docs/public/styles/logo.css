@@ -79,6 +79,49 @@ html.dark .kamod-logo__suffix {
   translate: 0 0.05rem;
 }
 
+/* Symbol-only mark (no wordmark) */
+.kamod-icon {
+  display: grid;
+  align-items: center;
+  height: 1.5rem;
+  width: 1.5rem;
+}
+
+.kamod-icon__img {
+  grid-area: 1 / 1;
+  display: block;
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
+
+.kamod-icon__img--dark {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]):not(.dark) .kamod-icon__img--light {
+    opacity: 0;
+  }
+
+  :root:not([data-theme]):not(.dark) .kamod-icon__img--dark {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+:root[data-theme="dark"] .kamod-icon__img--light,
+html.dark .kamod-icon__img--light {
+  opacity: 0;
+}
+
+:root[data-theme="dark"] .kamod-icon__img--dark,
+html.dark .kamod-icon__img--dark {
+  opacity: 1;
+  pointer-events: auto;
+}
+
 /* Horizontal footer mark */
 .kamod-mark {
   display: grid;

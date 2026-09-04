@@ -99,17 +99,17 @@
   "devDependencies": {
     "@kamod-ch/themes": "workspace:*",
     "@kamod-ch/ui": "workspace:*",
-    "@preact/signals": "^2.9.1",
+    "@preact/signals": "^2.11.1",
     "@testing-library/preact": "^3.2.4",
-    "jsdom": "^29.1.1",
-    "preact": "^10.29.2",
+    "jsdom": "^30.0.1",
+    "preact": "^10.29.8",
     "tsup": "^8.5.1",
-    "vitest": "^4.1.8"
+    "vitest": "^4.1.11"
   },
   "peerDependencies": {
     "@kamod-ch/themes": "^0.2.1",
     "@kamod-ch/ui": "workspace:*",
-    "@preact/signals": "^2.9.1",
-    "preact": "^10.29.2"
+    "@preact/signals": "^2.11.1",
+    "preact": "^10.29.8"
   }
 }

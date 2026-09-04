@@ -69,30 +69,29 @@
     "publint": "publint",
     "attw": "attw --pack . --profile esm-only"
   },
-  "dependencies": {},
   "devDependencies": {
-    "@arethetypeswrong/cli": "^0.18.3",
+    "@arethetypeswrong/cli": "^0.18.5",
     "@kamod-ch/motion": "^0.1.0",
     "@kamod-ch/ui": "workspace:*",
-    "@preact/signals": "^2.9.1",
-    "@testing-library/jest-dom": "^6.9.1",
+    "@preact/signals": "^2.11.1",
+    "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/preact": "^3.2.4",
-    "@types/node": "^25.9.2",
-    "jsdom": "^29.1.1",
-    "motion": "^13.1.1",
-    "preact": "^10.29.2",
+    "@types/node": "^26.4.1",
+    "jsdom": "^30.0.1",
+    "motion": "^13.2.0",
+    "preact": "^10.29.8",
     "preact-render-to-string": "^6.7.0",
-    "publint": "^0.3.21",
+    "publint": "^0.3.24",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.8"
+    "vitest": "^4.1.11"
   },
   "peerDependencies": {
     "@kamod-ch/motion": "^0.1.0",
     "@kamod-ch/ui": "^0.2.1",
-    "@preact/signals": "^2.9.1",
-    "motion": "^13.1.1",
-    "preact": "^10.29.2"
+    "@preact/signals": "^2.11.1",
+    "motion": "^13.2.0",
+    "preact": "^10.29.8"
   },
   "engines": {
     "node": ">=20"

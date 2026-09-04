@@ -332,25 +332,25 @@
     "embla-carousel": "^8.6.0",
     "embla-carousel-autoplay": "^8.6.0",
     "tailwind-merge": "^3.6.0",
-    "tailwind-variants": "^3.2.2"
+    "tailwind-variants": "^3.3.1"
   },
   "devDependencies": {
-    "@arethetypeswrong/cli": "^0.18.3",
+    "@arethetypeswrong/cli": "^0.18.5",
     "@kamod-ch/themes": "workspace:*",
-    "@preact/signals": "^2.9.1",
-    "@testing-library/jest-dom": "^6.9.1",
+    "@preact/signals": "^2.11.1",
+    "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/preact": "^3.2.4",
-    "@vitest/coverage-v8": "^4.1.8",
-    "jsdom": "^29.1.1",
-    "publint": "^0.3.21",
-    "tailwindcss": "^4.3.0",
+    "@vitest/coverage-v8": "^4.1.11",
+    "jsdom": "^30.0.1",
+    "publint": "^0.3.24",
+    "tailwindcss": "^4.3.3",
     "tsup": "^8.5.1",
-    "vitest": "^4.1.8"
+    "vitest": "^4.1.11"
   },
   "peerDependencies": {
     "@kamod-ch/themes": "^0.2.1",
-    "@preact/signals": "^2.9.1",
-    "preact": "^10.29.2"
+    "@preact/signals": "^2.11.1",
+    "preact": "^10.29.8"
   },
   "peerDependenciesMeta": {
     "@preact/signals": {

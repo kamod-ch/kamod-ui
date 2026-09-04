@@ -67,26 +67,26 @@
     "attw": "attw --pack . --profile esm-only --entrypoints . ./library ./presets/basic ./presets/forms ./prompts ./examples"
   },
   "devDependencies": {
-    "@arethetypeswrong/cli": "^0.18.3",
+    "@arethetypeswrong/cli": "^0.18.5",
     "@kamod-ch/ui": "workspace:*",
-    "@openuidev/react-lang": "^0.2.8",
-    "@preact/signals": "^2.9.1",
-    "@testing-library/jest-dom": "^6.9.1",
+    "@openuidev/react-lang": "^0.2.15",
+    "@preact/signals": "^2.11.1",
+    "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/preact": "^3.2.4",
-    "@types/node": "^25.9.2",
-    "jsdom": "^29.1.1",
-    "preact": "^10.29.2",
+    "@types/node": "^26.4.1",
+    "jsdom": "^30.0.1",
+    "preact": "^10.29.8",
     "preact-render-to-string": "^6.7.0",
-    "publint": "^0.3.21",
+    "publint": "^0.3.24",
     "tsup": "^8.5.1",
-    "vitest": "^4.1.8",
-    "zod": "^4.0.0"
+    "vitest": "^4.1.11",
+    "zod": "^4.5.4"
   },
   "peerDependencies": {
     "@kamod-ch/ui": "^0.2.1",
-    "@openuidev/react-lang": "^0.2.8",
-    "@preact/signals": "^2.9.1",
-    "preact": "^10.29.2",
+    "@openuidev/react-lang": "^0.2.15",
+    "@preact/signals": "^2.11.1",
+    "preact": "^10.29.8",
     "zod": "^3.25.0 || ^4.0.0"
   },
   "engines": {
