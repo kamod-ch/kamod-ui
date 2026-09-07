@@ -2,7 +2,7 @@ import type { ComponentChildren } from "preact";
 import { cn } from "../../lib/utils";
 import type { TreeIconProp, TreeIconState, TreeIcons } from "./tree-types";
 
-export const DefaultChevron = ({ expanded }: { expanded: boolean }) => (
+const DefaultChevron = ({ expanded }: { expanded: boolean }) => (
   <svg
     viewBox="0 0 16 16"
     width="16"
@@ -25,7 +25,7 @@ export const DefaultChevron = ({ expanded }: { expanded: boolean }) => (
   </svg>
 );
 
-export const DefaultBranchIcon = () => (
+const DefaultBranchIcon = () => (
   <svg viewBox="0 0 16 16" width="16" height="16" fill="none" aria-hidden="true" focusable="false">
     <path
       d="M2 4.5h8a2 2 0 012 2V12"
@@ -37,7 +37,7 @@ export const DefaultBranchIcon = () => (
   </svg>
 );
 
-export const DefaultLeafIcon = () => (
+const DefaultLeafIcon = () => (
   <svg viewBox="0 0 16 16" width="16" height="16" fill="none" aria-hidden="true" focusable="false">
     <path d="M4 8h8M8 4v8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
   </svg>
