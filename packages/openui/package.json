@@ -80,7 +80,7 @@
     "preact-render-to-string": "^6.7.0",
     "publint": "^0.3.24",
     "tsup": "^8.5.1",
-    "vitest": "^4.1.11",
+    "vitest": "^5.0.0",
     "zod": "^4.5.4"
   },
   "peerDependencies": {
