@@ -400,16 +400,22 @@ export type {
   TreeProviderProps,
   TreeSelectionMode,
 } from "./components/tree";
-export { Tree, 
+export {
+  Tree,
   TreeExpander,
-  TreeIcon,TreeItem, 
+  TreeIcon,
+  TreeItem,
   TreeLabel,
   TreeLines,
   TreeNode,
   TreeNodeActions,
   TreeNodeContent,
-  TreeNodeTrigger,TreeProvider, treeItemVariants, treeVariants, 
-  useTreeNodeContext,} from "./components/tree";
+  TreeNodeTrigger,
+  TreeProvider,
+  treeItemVariants,
+  treeVariants,
+  useTreeNodeContext,
+} from "./components/tree";
 export type { TypographyVariants } from "./components/typography";
 export { Typography, typography } from "./components/typography";
 export { Video } from "./components/video";
