@@ -1,7 +1,19 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/preact";
 import { useState } from "preact/hooks";
 import { describe, expect, it, vi } from "vitest";
-import { Tree, TreeItem, TreeProvider } from "./index";
+import {
+  Tree,
+  TreeExpander,
+  TreeIcon,
+  TreeItem,
+  TreeLabel,
+  TreeNode,
+  TreeNodeActions,
+  TreeNodeContent,
+  TreeNodeTrigger,
+  TreeProvider,
+} from "./index";
+import type { TreeIconState } from "./tree-types";
 
 function BasicFileTree({
   selectionMode = "none" as const,
@@ -85,7 +97,7 @@ describe("Tree", () => {
   it("expands and collapses branches via chevron without selecting", () => {
     render(<BasicFileTree selectionMode="single" />);
     const documents = screen.getByRole("treeitem", { name: "Documents" });
-    const chevron = documents.querySelector('[data-slot="tree-item-chevron"]') as HTMLElement;
+    const chevron = documents.querySelector('[data-slot="tree-expander"]') as HTMLElement;
 
     expect(documents).toHaveAttribute("aria-expanded", "false");
     expect(documents).not.toHaveAttribute("aria-selected", "true");
@@ -145,7 +157,7 @@ describe("Tree", () => {
     const documents = screen.getByRole("treeitem", { name: "Documents" });
     expect(documents).toHaveAttribute("aria-expanded", "true");
 
-    const chevron = documents.querySelector('[data-slot="tree-item-chevron"]') as HTMLElement;
+    const chevron = documents.querySelector('[data-slot="tree-expander"]') as HTMLElement;
     fireEvent.click(chevron);
     expect(onExpandedChange).toHaveBeenCalledWith([]);
     expect(documents).toHaveAttribute("aria-expanded", "false");
@@ -303,8 +315,8 @@ describe("Tree", () => {
     );
 
     const branch = screen.getByRole("treeitem", { name: "Branch" });
-    expect(branch.querySelector('[data-slot="tree-item-chevron"]')).toHaveClass("size-4");
-    expect(branch.querySelector('[data-slot="tree-item-icon"]')).toHaveClass("size-4");
+    expect(branch.querySelector('[data-slot="tree-expander"]')).toHaveClass("size-4");
+    expect(branch.querySelector('[data-slot="tree-icon"]')).toHaveClass("size-4");
   });
 
   it("can hide icons and lines via provider props", () => {
@@ -312,7 +324,7 @@ describe("Tree", () => {
       <BasicFileTree showIcons={false} showLines={false} defaultExpandedIds={["documents"]} />,
     );
     expect(document.querySelector('[data-slot="tree-lines"]')).toBeNull();
-    expect(document.querySelector('[data-slot="tree-item-icon"]')).toBeNull();
+    expect(document.querySelector('[data-slot="tree-icon"]')).toBeNull();
   });
 
   it("supports Enter activation for selection without moving selection on focus alone", () => {
@@ -323,6 +335,174 @@ describe("Tree", () => {
 
     fireEvent.keyDown(readme, { key: "Enter" });
     expect(readme).toHaveAttribute("aria-selected", "true");
+  });
+});
+
+describe("Tree compound API", () => {
+  it("TreeNode compound API shares state with TreeItem", () => {
+    render(
+      <TreeProvider defaultExpandedIds={["hybrid"]} selectionMode="single">
+        <Tree aria-label="Hybrid">
+          <TreeItem nodeId="item" label="Item A" />
+          <TreeNode nodeId="hybrid">
+            <TreeNodeTrigger>
+              <TreeExpander />
+              <TreeLabel>Hybrid Branch</TreeLabel>
+            </TreeNodeTrigger>
+            <TreeNodeContent>
+              <TreeItem nodeId="nested" label="Nested Item" />
+            </TreeNodeContent>
+          </TreeNode>
+        </Tree>
+      </TreeProvider>,
+    );
+
+    const hybrid = screen.getByRole("treeitem", { name: "Hybrid Branch" });
+    expect(hybrid).toHaveAttribute("aria-expanded", "true");
+    expect(screen.getByRole("treeitem", { name: "Nested Item" })).toBeVisible();
+  });
+
+  it("TreeNodeActions do not trigger selection or expansion", () => {
+    const actionClick = vi.fn();
+    render(
+      <TreeProvider selectionMode="single">
+        <Tree aria-label="Actions">
+          <TreeNode nodeId="docs">
+            <TreeNodeTrigger>
+              <TreeExpander />
+              <TreeLabel>Documents</TreeLabel>
+              <TreeNodeActions>
+                <button type="button" onClick={actionClick}>
+                  Badge
+                </button>
+              </TreeNodeActions>
+            </TreeNodeTrigger>
+            <TreeNodeContent>
+              <TreeItem nodeId="readme" label="README.md" />
+            </TreeNodeContent>
+          </TreeNode>
+        </Tree>
+      </TreeProvider>,
+    );
+
+    const docs = screen.getByRole("treeitem", { name: /Documents/ });
+    fireEvent.click(screen.getByRole("button", { name: "Badge" }));
+    expect(actionClick).toHaveBeenCalled();
+    expect(docs).not.toHaveAttribute("aria-selected", "true");
+    expect(docs).toHaveAttribute("aria-expanded", "false");
+  });
+
+  it("TreeIcon render function receives correct TreeIconState", () => {
+    const iconRender = vi.fn(({ expanded, branch }: TreeIconState) => (
+      <span data-testid="dynamic-icon">{expanded ? "open" : branch ? "closed" : "leaf"}</span>
+    ));
+
+    render(
+      <TreeProvider defaultExpandedIds={["branch"]}>
+        <Tree aria-label="Icons">
+          <TreeNode nodeId="branch" icon={iconRender}>
+            <TreeNodeTrigger>
+              <TreeExpander />
+              <TreeIcon />
+              <TreeLabel>Branch</TreeLabel>
+            </TreeNodeTrigger>
+            <TreeNodeContent>
+              <TreeItem nodeId="leaf" label="Leaf" icon={iconRender} />
+            </TreeNodeContent>
+          </TreeNode>
+        </Tree>
+      </TreeProvider>,
+    );
+
+    expect(iconRender).toHaveBeenCalledWith(
+      expect.objectContaining({ nodeId: "branch", branch: true, expanded: true, level: 1 }),
+    );
+    expect(iconRender).toHaveBeenCalledWith(
+      expect.objectContaining({ nodeId: "leaf", branch: false, expanded: false, level: 2 }),
+    );
+  });
+});
+
+describe("Tree icons", () => {
+  it("applies icon priority: disabled > selected > expanded > node icon", () => {
+    render(
+      <TreeProvider
+        selectionMode="single"
+        defaultSelectedIds={["node"]}
+        defaultExpandedIds={["node"]}
+      >
+        <Tree aria-label="Priority">
+          <TreeItem
+            nodeId="node"
+            label="Node"
+            icon={<span data-testid="base">base</span>}
+            expandedIcon={<span data-testid="expanded">expanded</span>}
+            selectedIcon={<span data-testid="selected">selected</span>}
+            disabledIcon={<span data-testid="disabled">disabled</span>}
+          >
+            <TreeItem nodeId="child" label="Child" />
+          </TreeItem>
+        </Tree>
+      </TreeProvider>,
+    );
+
+    const node = screen.getByRole("treeitem", { name: "Node" });
+    expect(node.querySelector('[data-testid="selected"]')).toBeTruthy();
+    expect(node.querySelector('[data-testid="expanded"]')).toBeNull();
+  });
+
+  it("uses provider default icons with node overrides", () => {
+    render(
+      <TreeProvider
+        icons={{
+          branch: <span data-testid="provider-branch">PB</span>,
+          leaf: <span data-testid="provider-leaf">PL</span>,
+        }}
+        defaultExpandedIds={["branch"]}
+      >
+        <Tree aria-label="Provider icons">
+          <TreeItem nodeId="branch" label="Branch">
+            <TreeItem nodeId="leaf" label="Leaf" />
+          </TreeItem>
+          <TreeItem
+            nodeId="override"
+            label="Override"
+            icon={<span data-testid="override">OV</span>}
+          />
+        </Tree>
+      </TreeProvider>,
+    );
+
+    expect(
+      screen
+        .getByRole("treeitem", { name: "Branch" })
+        .querySelector('[data-testid="provider-branch"]'),
+    ).toBeTruthy();
+    expect(
+      screen.getByRole("treeitem", { name: "Leaf" }).querySelector('[data-testid="provider-leaf"]'),
+    ).toBeTruthy();
+    expect(
+      screen.getByRole("treeitem", { name: "Override" }).querySelector('[data-testid="override"]'),
+    ).toBeTruthy();
+  });
+
+  it("shows disabledIcon over selectedIcon", () => {
+    render(
+      <TreeProvider selectionMode="single" defaultSelectedIds={["locked"]}>
+        <Tree aria-label="Disabled icon">
+          <TreeItem
+            nodeId="locked"
+            label="Locked"
+            disabled
+            selectedIcon={<span data-testid="selected">sel</span>}
+            disabledIcon={<span data-testid="disabled">dis</span>}
+          />
+        </Tree>
+      </TreeProvider>,
+    );
+    expect(
+      screen.getByRole("treeitem", { name: "Locked" }).querySelector('[data-testid="disabled"]'),
+    ).toBeTruthy();
   });
 });
 

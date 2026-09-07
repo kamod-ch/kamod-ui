@@ -331,6 +331,7 @@
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
+    "typecheck:emit": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\" && tsc --emitDeclarationOnly --declaration --declarationMap false",
     "lint": "oxlint .",
     "publint": "publint",
     "attw": "attw --pack . --profile esm-only --exclude-entrypoints ./theme.css"

@@ -5,6 +5,7 @@ import { useContext, useLayoutEffect, useMemo, useRef, useState } from "preact/h
 import { tv, type VariantProps } from "tailwind-variants";
 import { cn } from "../../lib/utils";
 import { TreeRegistry } from "./tree-registry";
+import type { TreeIcons } from "./tree-types";
 
 export type TreeSelectionMode = "none" | "single" | "multiple";
 
@@ -64,6 +65,7 @@ export type TreeProviderContextValue = {
   showIcons: boolean;
   animateExpand: boolean;
   indent: number | string;
+  icons?: TreeIcons;
   variant: NonNullable<VariantProps<typeof treeVariants>["variant"]>;
   size: NonNullable<VariantProps<typeof treeVariants>["size"]>;
   focusedId: Signal<string | null>;
@@ -111,6 +113,7 @@ export type TreeProviderProps = Omit<JSX.HTMLAttributes<HTMLDivElement>, "class"
     showIcons?: boolean;
     animateExpand?: boolean;
     indent?: number | string;
+    icons?: TreeIcons;
     children?: ComponentChildren;
   };
 
@@ -129,6 +132,7 @@ export const TreeProvider = ({
   showIcons = true,
   animateExpand = true,
   indent = 20,
+  icons,
   children,
   ...rest
 }: TreeProviderProps) => {
@@ -254,6 +258,7 @@ export const TreeProvider = ({
     showIcons,
     animateExpand,
     indent,
+    icons,
     variant: variant ?? "default",
     size: size ?? "default",
     focusedId,

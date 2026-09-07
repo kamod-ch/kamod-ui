@@ -192,7 +192,7 @@ test.describe("core component docs smoke", () => {
     const preview = page.locator("#single-selection .preview");
     await preview.scrollIntoViewIfNeeded();
     const documents = preview.getByRole("treeitem", { name: "Documents" });
-    const chevron = documents.locator('[data-slot="tree-item-chevron"]');
+    const chevron = documents.locator('[data-slot="tree-expander"]');
 
     await expect(documents).toHaveAttribute("aria-expanded", "true");
     await chevron.click();

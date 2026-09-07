@@ -1,5 +1,27 @@
-import { FileTextIcon, FolderIcon, FolderOpenIcon } from "@kamod-ch/icons/lucide";
-import { Button, DirectionProvider, Tree, TreeItem, TreeProvider } from "@kamod-ch/ui";
+import {
+  CodeIcon,
+  DatabaseIcon,
+  FileTextIcon,
+  FolderIcon,
+  FolderOpenIcon,
+  KeyIcon,
+  UsersIcon,
+} from "@kamod-ch/icons/lucide";
+import {
+  Badge,
+  Button,
+  DirectionProvider,
+  Tree,
+  TreeExpander,
+  TreeIcon,
+  TreeItem,
+  TreeLabel,
+  TreeNode,
+  TreeNodeActions,
+  TreeNodeContent,
+  TreeNodeTrigger,
+  TreeProvider,
+} from "@kamod-ch/ui";
 import type { ComponentChildren } from "preact";
 import { useState } from "preact/hooks";
 import { ApiReference } from "../components/ApiReference";
@@ -175,6 +197,160 @@ function TreeRtlDemo() {
   );
 }
 
+function CompoundApiDemo() {
+  return (
+    <TreeProvider defaultExpandedIds={["database"]} class="w-full max-w-md">
+      <Tree aria-label="Compound API">
+        <TreeNode nodeId="database">
+          <TreeNodeTrigger>
+            <TreeExpander />
+            <TreeIcon
+              icon={({ expanded }) =>
+                expanded ? <FolderOpenIcon aria-hidden /> : <DatabaseIcon aria-hidden />
+              }
+            />
+            <TreeLabel>Database</TreeLabel>
+          </TreeNodeTrigger>
+          <TreeNodeContent>
+            <TreeItem nodeId="users" label="Users" icon={<UsersIcon aria-hidden />} />
+            <TreeItem nodeId="roles" label="Roles" icon={<KeyIcon aria-hidden />} />
+          </TreeNodeContent>
+        </TreeNode>
+        <TreeItem nodeId="api" label="API Routes" icon={<CodeIcon aria-hidden />} />
+      </Tree>
+    </TreeProvider>
+  );
+}
+
+function CustomIconsDemo() {
+  return (
+    <TreeProvider defaultExpandedIds={["database", "files"]} class="w-full max-w-md">
+      <Tree aria-label="Custom icons">
+        <TreeNode nodeId="database">
+          <TreeNodeTrigger>
+            <TreeExpander />
+            <TreeIcon
+              icon={({ expanded }) =>
+                expanded ? <FolderOpenIcon aria-hidden /> : <DatabaseIcon aria-hidden />
+              }
+            />
+            <TreeLabel>Database</TreeLabel>
+          </TreeNodeTrigger>
+          <TreeNodeContent>
+            <TreeItem nodeId="users" label="Users" icon={<UsersIcon aria-hidden />} />
+            <TreeItem nodeId="roles" label="Roles" icon={<KeyIcon aria-hidden />} />
+          </TreeNodeContent>
+        </TreeNode>
+        <TreeItem nodeId="files" label="Files" icon={<FolderIcon aria-hidden />}>
+          <TreeItem nodeId="readme" label="README.md" icon={<FileTextIcon aria-hidden />} />
+        </TreeItem>
+        <TreeItem nodeId="api" label="API" icon={<CodeIcon aria-hidden />} />
+      </Tree>
+    </TreeProvider>
+  );
+}
+
+function StateIconsDemo() {
+  return (
+    <TreeProvider
+      selectionMode="single"
+      defaultSelectedIds={["active"]}
+      defaultExpandedIds={["branch"]}
+      class="w-full max-w-md"
+    >
+      <Tree aria-label="State icons">
+        <TreeItem
+          nodeId="branch"
+          label="Branch"
+          icon={<FolderIcon aria-hidden />}
+          expandedIcon={<FolderOpenIcon aria-hidden />}
+          selectedIcon={<FolderOpenIcon aria-hidden class="text-primary" />}
+        >
+          <TreeItem
+            nodeId="active"
+            label="Active file"
+            icon={<FileTextIcon aria-hidden />}
+            selectedIcon={<FileTextIcon aria-hidden class="text-primary" />}
+          />
+          <TreeItem
+            nodeId="locked"
+            label="Locked file"
+            icon={<FileTextIcon aria-hidden />}
+            disabled
+            disabledIcon={<FileTextIcon aria-hidden class="opacity-40" />}
+          />
+        </TreeItem>
+      </Tree>
+    </TreeProvider>
+  );
+}
+
+function ProviderIconsDemo() {
+  return (
+    <TreeProvider
+      defaultExpandedIds={["docs"]}
+      icons={{
+        branch: <FolderIcon aria-hidden />,
+        branchExpanded: <FolderOpenIcon aria-hidden />,
+        leaf: <FileTextIcon aria-hidden />,
+      }}
+      class="w-full max-w-md"
+    >
+      <Tree aria-label="Provider icons">
+        <TreeItem nodeId="docs" label="Documents">
+          <TreeItem nodeId="readme" label="README.md" />
+        </TreeItem>
+        <TreeItem
+          nodeId="custom"
+          label="Custom override"
+          icon={<CodeIcon aria-hidden class="text-primary" />}
+        />
+      </Tree>
+    </TreeProvider>
+  );
+}
+
+function NodeActionsDemo() {
+  return (
+    <TreeProvider defaultExpandedIds={["docs"]} class="w-full max-w-md">
+      <Tree aria-label="Node actions">
+        <TreeNode nodeId="docs">
+          <TreeNodeTrigger>
+            <TreeExpander />
+            <TreeIcon icon={<FolderIcon aria-hidden />} />
+            <TreeLabel>Documents</TreeLabel>
+            <TreeNodeActions>
+              <Badge variant="secondary">3</Badge>
+              <Button size="icon-sm" variant="ghost" aria-label="Add file" type="button">
+                +
+              </Button>
+            </TreeNodeActions>
+          </TreeNodeTrigger>
+          <TreeNodeContent>
+            <TreeItem nodeId="readme" label="README.md" icon={<FileTextIcon aria-hidden />} />
+          </TreeNodeContent>
+        </TreeNode>
+      </Tree>
+    </TreeProvider>
+  );
+}
+
+const CustomSvgIcon = () => (
+  <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" class="size-4">
+    <circle cx="8" cy="8" r="5" fill="currentColor" opacity="0.6" />
+  </svg>
+);
+
+function CustomPreactIconDemo() {
+  return (
+    <TreeProvider class="w-full max-w-md">
+      <Tree aria-label="Custom SVG">
+        <TreeItem nodeId="custom" label="Custom Preact SVG" icon={<CustomSvgIcon />} />
+      </Tree>
+    </TreeProvider>
+  );
+}
+
 const sectionBlocks: Record<string, { preview: () => ComponentChildren; code: string }> = {
   basic: {
     preview: () => <FileTreePreview />,
@@ -241,6 +417,68 @@ import { FileTextIcon, FolderIcon } from "@kamod-ch/icons/lucide";
   <Tree aria-label="RTL tree" dir="rtl">…</Tree>
 </DirectionProvider>`,
   },
+  compound: {
+    preview: () => <CompoundApiDemo />,
+    code: `import {
+  Tree, TreeExpander, TreeIcon, TreeItem, TreeLabel,
+  TreeNode, TreeNodeContent, TreeNodeTrigger, TreeProvider,
+} from "@/components/kamod-ui/tree";
+
+<TreeNode nodeId="database">
+  <TreeNodeTrigger>
+    <TreeExpander />
+    <TreeIcon icon={({ expanded }) => expanded ? <OpenIcon /> : <DatabaseIcon />} />
+    <TreeLabel>Database</TreeLabel>
+  </TreeNodeTrigger>
+  <TreeNodeContent>
+    <TreeItem nodeId="users" label="Users" icon={<UsersIcon />} />
+  </TreeNodeContent>
+</TreeNode>`,
+  },
+  "custom-icons": {
+    preview: () => <CustomIconsDemo />,
+    code: `<TreeIcon icon={({ expanded }) => expanded ? <FolderOpenIcon /> : <DatabaseIcon />} />
+<TreeItem nodeId="users" label="Users" icon={<UsersIcon />} />
+<TreeItem nodeId="roles" label="Roles" icon={<KeyIcon />} />
+<TreeItem nodeId="api" label="API" icon={<CodeIcon />} />`,
+  },
+  "state-icons": {
+    preview: () => <StateIconsDemo />,
+    code: `<TreeItem
+  nodeId="branch"
+  label="Branch"
+  icon={<FolderIcon />}
+  expandedIcon={<FolderOpenIcon />}
+  selectedIcon={<FolderOpenIcon class="text-primary" />}
+  disabledIcon={<FileTextIcon class="opacity-40" />}
+/>`,
+  },
+  "provider-icons": {
+    preview: () => <ProviderIconsDemo />,
+    code: `<TreeProvider icons={{
+  branch: <FolderIcon />,
+  branchExpanded: <FolderOpenIcon />,
+  leaf: <FileTextIcon />,
+}}>
+  <TreeItem nodeId="docs" label="Documents">…</TreeItem>
+  <TreeItem nodeId="custom" label="Override" icon={<CodeIcon />} />
+</TreeProvider>`,
+  },
+  "node-actions": {
+    preview: () => <NodeActionsDemo />,
+    code: `<TreeNodeActions>
+  <Badge variant="secondary">3</Badge>
+  <Button size="icon-sm" variant="ghost" aria-label="Add file">+</Button>
+</TreeNodeActions>`,
+  },
+  "custom-preact-icon": {
+    preview: () => <CustomPreactIconDemo />,
+    code: `const CustomSvgIcon = () => (
+  <svg viewBox="0 0 16 16" aria-hidden class="size-4">…</svg>
+);
+
+<TreeItem nodeId="custom" label="Custom Preact SVG" icon={<CustomSvgIcon />} />`,
+  },
 };
 
 const apiSections = [
@@ -260,6 +498,12 @@ const apiSections = [
       { prop: "showIcons", type: "boolean", defaultValue: "true" },
       { prop: "animateExpand", type: "boolean", defaultValue: "true" },
       { prop: "indent", type: "number | string", defaultValue: "20" },
+      {
+        prop: "icons",
+        type: "TreeIcons",
+        defaultValue: "-",
+        description: "branch, branchExpanded, leaf, expander, expanderExpanded",
+      },
       { prop: "variant", type: '"default" | "outline" | "ghost"', defaultValue: '"default"' },
       { prop: "size", type: '"sm" | "default" | "lg"', defaultValue: '"default"' },
     ],
@@ -276,12 +520,32 @@ const apiSections = [
     rows: [
       { prop: "nodeId", type: "string", defaultValue: "(required)" },
       { prop: "label", type: "ComponentChildren", defaultValue: "(required)" },
-      { prop: "icon", type: "ComponentChildren", defaultValue: "-" },
+      {
+        prop: "icon",
+        type: "ComponentChildren | (state: TreeIconState) => ComponentChildren",
+        defaultValue: "-",
+      },
       { prop: "expandedIcon", type: "ComponentChildren", defaultValue: "-" },
+      { prop: "selectedIcon", type: "ComponentChildren", defaultValue: "-" },
+      { prop: "disabledIcon", type: "ComponentChildren", defaultValue: "-" },
       { prop: "endContent", type: "ComponentChildren", defaultValue: "-" },
       { prop: "data", type: "unknown", defaultValue: "-" },
       { prop: "disabled", type: "boolean", defaultValue: "false" },
       { prop: "class", type: "string", defaultValue: "-" },
+    ],
+  },
+  {
+    title: "Compound primitives",
+    description:
+      "TreeNode, TreeNodeTrigger, TreeExpander, TreeIcon, TreeLabel, TreeNodeActions, TreeNodeContent, and TreeLines share the same state and accessibility as TreeItem.",
+    rows: [
+      { prop: "TreeNode.nodeId", type: "string", defaultValue: "(required)" },
+      { prop: "TreeIcon.icon", type: "ComponentChildren | TreeIconRender", defaultValue: "-" },
+      {
+        prop: "TreeNodeActions",
+        type: "ComponentChildren",
+        defaultValue: "Isolated click/key events",
+      },
     ],
   },
 ] as const;
@@ -352,6 +616,36 @@ export const treeDocPage: DocPageModule = {
       id: "rtl",
       title: "RTL",
       text: "Indent and connector lines use logical inset properties; pair with DirectionProvider.",
+    },
+    {
+      id: "compound",
+      title: "Advanced Compound API",
+      text: "Compose TreeNode, TreeNodeTrigger, TreeExpander, TreeIcon, TreeLabel, and TreeNodeContent for full layout control. Mix with TreeItem in the same tree.",
+    },
+    {
+      id: "custom-icons",
+      title: "Custom Icons",
+      text: "Use @kamod-ch/icons exports or custom Preact SVG components. TreeIcon accepts a render function with TreeIconState.",
+    },
+    {
+      id: "state-icons",
+      title: "State-Specific Icons",
+      text: "Icon priority: disabledIcon → selectedIcon → expandedIcon → node icon/render → provider default. Override per node as needed.",
+    },
+    {
+      id: "provider-icons",
+      title: "Provider Default Icons",
+      text: "Set branch, branchExpanded, and leaf defaults on TreeProvider. Individual nodes can override with their own icon prop.",
+    },
+    {
+      id: "node-actions",
+      title: "TreeNodeActions",
+      text: "Place badges or icon buttons in TreeNodeActions. Pointer and keyboard events are isolated from node selection and expansion.",
+    },
+    {
+      id: "custom-preact-icon",
+      title: "Custom Preact SVG Icon",
+      text: "Any Preact component works as an icon without coupling the core package to a specific icon library.",
     },
     {
       id: "accessibility",
