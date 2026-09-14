@@ -349,13 +349,13 @@
     "@preact/signals": "^2.11.1",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/preact": "^3.2.4",
-    "@vitest/coverage-v8": "^4.1.11",
+    "@vitest/coverage-v8": "^5.0.0",
     "jsdom": "^30.0.1",
     "preact-render-to-string": "^6.7.0",
     "publint": "^0.3.24",
     "tailwindcss": "^4.3.3",
     "tsup": "^8.5.1",
-    "vitest": "^4.1.11"
+    "vitest": "^5.0.0"
   },
   "peerDependencies": {
     "@kamod-ch/themes": "^0.2.1",

@@ -73,7 +73,7 @@
     "publint": "^0.3.24",
     "tailwindcss": "^4.3.3",
     "tsup": "^8.5.1",
-    "vitest": "^4.1.11"
+    "vitest": "^5.0.0"
   },
   "peerDependencies": {
     "@preact/signals": "^2.11.1",
