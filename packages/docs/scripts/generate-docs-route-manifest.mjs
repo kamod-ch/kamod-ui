@@ -31,7 +31,7 @@ for (const file of files) {
   const slugMatch = source.match(/slug:\s*"([^"]+)"/);
   if (!slugMatch || ROUTE_SKIP_SLUGS.has(slugMatch[1])) continue;
 
-  const ids = [...source.matchAll(/id:\s*"([^"]+)"/g)].map((match) => match[1]);
+  const ids = [...source.matchAll(/\bid:\s*"([^"]+)"/g)].map((match) => match[1]);
   const seen = new Set();
   const sections = [];
 
@@ -96,6 +96,9 @@ outline: false
 );
 
 for (const doc of manifest) {
+  // Remove stale generated section routes when an example id is renamed or removed.
+  await removeIfExists(path.join(docsDir, doc.slug));
+
   await writePage(
     path.join(docsDir, `${doc.slug}.md`),
     `---

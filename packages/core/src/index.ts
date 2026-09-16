@@ -37,6 +37,25 @@ export {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "./components/breadcrumb";
+export type {
+  BulkActionBarActionsProps,
+  BulkActionBarClearProps,
+  BulkActionBarCountProps,
+  BulkActionBarProps,
+  BulkActionBarVariant,
+} from "./components/bulk-action-bar";
+export {
+  BulkActionBar,
+  BulkActionBarActions,
+  BulkActionBarClear,
+  BulkActionBarCount,
+  BulkActionBarVariants,
+  bulkActionBar,
+  bulkActionBarActions,
+  bulkActionBarClear,
+  bulkActionBarCount,
+  useBulkActionBar,
+} from "./components/bulk-action-bar";
 export { Button, ButtonVariants } from "./components/button";
 export { ButtonGroup, ButtonGroupSeparator, ButtonGroupText } from "./components/button-group";
 export type {
@@ -69,6 +88,13 @@ export {
 } from "./components/carousel";
 export { Chart } from "./components/chart";
 export { Checkbox, type CheckboxCheckedState } from "./components/checkbox";
+export type { CodeBlockProps } from "./components/code-block";
+export { CodeBlock, 
+  codeBlockHeader,
+  codeBlockPre,
+  codeBlockRoot,
+  sanitizeCodeLanguage,
+  splitCodeLines,} from "./components/code-block";
 export { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./components/collapsible";
 export type {
   ComboboxChipProps,
@@ -139,8 +165,56 @@ export {
   ContextMenuSubTrigger,
   ContextMenuTrigger,
 } from "./components/context-menu";
+export type { CopyFieldProps, CopyFieldTruncate } from "./components/copy-field";
+export { CopyField, truncateCopyFieldValue } from "./components/copy-field";
+export type {
+  CopyStatus,
+  CopyToClipboardFailureReason,
+  CopyToClipboardResult,
+  UseCopyToClipboardOptions,
+  UseCopyToClipboardReturn,
+} from "./components/copyable";
+export { copyTextToClipboard, useCopyToClipboard } from "./components/copyable";
 export { DataTable } from "./components/data-table";
 export { DatePicker, formatDatePickerDisplay } from "./components/date-picker";
+export type {
+  DateRangePickerLabels,
+  DateRangePickerProps,DateRangePreset, DateRangePresetLabels, 
+  DateRangeValidationMessages
+} from "./components/date-range-picker";
+export {
+  addCalendarDays,
+  atNoon,
+  buildDisabledChecker,
+  cloneRange,
+  compareCalendarDays,
+  createDateRangePresets,
+  DateRangePicker,
+  formatDateRangeDisplay,
+  isCompleteRange,
+  isSameCalendarDay,
+  normalizeRange,
+  validateRangeDraft,
+} from "./components/date-range-picker";
+export type {
+  DescriptionListColumns,
+  DescriptionListDetailsProps,
+  DescriptionListItemProps,
+  DescriptionListLayout,
+  DescriptionListProps,
+  DescriptionListTermProps,
+} from "./components/description-list";
+export {
+  DescriptionList,
+  DescriptionListDetails,
+  DescriptionListItem,
+  DescriptionListTerm,
+  DescriptionListVariants,
+  descriptionList,
+  descriptionListDetails,
+  descriptionListItem,
+  descriptionListTerm,
+} from "./components/description-list";
 export type { DialogContentPresentation } from "./components/dialog";
 export {
   Dialog,
@@ -218,6 +292,61 @@ export {
   FieldTitle,
   fieldRoot,
 } from "./components/field";
+export type {
+  FileUploadDropzoneProps,
+  FileUploadItemProps,
+  FileUploadListProps,
+  FileUploadManagerProps,
+  SimulatedUploadAdapterOptions,
+  UploadAdapter,
+  UploadAdapterContext,
+  UploadAdapterResult,
+  UploadFileEntry,
+  UploadProgressUpdate,
+  UploadQueueState,
+  UploadStatus,
+  UploadValidationRules,
+  UseUploadQueueOptions,
+} from "./components/file-upload-manager";
+export {
+  createSimulatedUploadAdapter,
+  createUploadAttemptId,
+  createUploadEntryId,
+  FileUploadDropzone,
+  FileUploadItem,
+  FileUploadList,
+  FileUploadManager,
+  formatUploadFileSize,
+  useUploadQueue,
+  validateUploadFile,
+  validationRulesToAcceptAttr,
+} from "./components/file-upload-manager";
+export type {
+  DemoFilters,
+  DemoTask,
+  FilterBarChipProps,
+  FilterBarDemoLabels,
+  FilterBarDemoProps,
+  FilterBarProps,
+  FilterBarResetProps,
+  FilterBarResultCountProps,
+  FilterBarSearchProps,
+} from "./components/filter-bar";
+export {
+  DEFAULT_DEMO_FILTERS,
+  DEMO_TASKS,
+  EN_DEMO_LABELS,
+  FilterBar,
+  FilterBarChip,
+  FilterBarChips,
+  FilterBarControls,
+  FilterBarDemo,
+  FilterBarMeta,
+  FilterBarReset,
+  FilterBarResultCount,
+  FilterBarSearch,
+  filterDemoTasks,
+} from "./components/filter-bar";
 export { HoverCard, HoverCardContent, HoverCardTrigger } from "./components/hover-card";
 export { Image } from "./components/image";
 export { Input, InputVariants } from "./components/input";
@@ -252,6 +381,29 @@ export {
   ItemTitle,
 } from "./components/item";
 export { Kbd, KbdGroup } from "./components/kbd";
+export type {
+  KpiCardGridProps,
+  KpiCardProps,
+  KpiCardTrendData,
+  KpiCardTrendLabelProps,
+  KpiCardTrendProps,
+  KpiTrendDirection,
+  KpiTrendSentiment,
+} from "./components/kpi-card";
+export {
+  KpiCard,
+  KpiCardGrid,
+  KpiCardTrend,
+  KpiCardTrendLabel,
+  KpiCardVariants,
+  kpiCard,
+  kpiCardComparison,
+  kpiCardDescription,
+  kpiCardGrid,
+  kpiCardLabel,
+  kpiCardTrend,
+  kpiCardValue,
+} from "./components/kpi-card";
 export { Label, LabelVariants } from "./components/label";
 export {
   LocaleSegmentGroup,
@@ -275,6 +427,13 @@ export {
   MenubarSubTrigger,
   MenubarTrigger,
 } from "./components/menubar";
+export type {
+  MultiSelectLabels,
+  MultiSelectOption,
+  MultiSelectProps,
+  MultiSelectSelectedLabels,
+} from "./components/multi-select";
+export { MultiSelect, resolveMultiSelectLabel } from "./components/multi-select";
 export {
   NativeSelect,
   NativeSelectOptGroup,
@@ -290,6 +449,46 @@ export {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "./components/navigation-menu";
+export type {
+  NotificationCenterContentProps,
+  NotificationCenterHeaderProps,
+  NotificationCenterLabels,
+  NotificationCenterProps,
+  NotificationCenterTriggerProps,
+  NotificationFilter,
+  NotificationItemProps,
+  NotificationListProps,
+  NotificationRecord,
+} from "./components/notification-center";
+export {
+  filterNotifications,
+  LOAD_MORE_ACTION_ID,
+  MARK_ALL_READ_ACTION_ID,
+  NotificationCenter,
+  NotificationCenterContent,
+  NotificationCenterHeader,
+  NotificationCenterTrigger,
+  NotificationItem,
+  NotificationList,
+  useNotificationCenter,
+} from "./components/notification-center";
+export type { PageHeaderTitleLevel, PageHeaderTitleProps } from "./components/page-header";
+export {
+  PageHeader,
+  PageHeaderActions,
+  PageHeaderDescription,
+  PageHeaderFooter,
+  PageHeaderHeading,
+  PageHeaderTitle,
+  PageHeaderTitleVariants,
+  PageHeaderVariants,
+  pageHeader,
+  pageHeaderActions,
+  pageHeaderDescription,
+  pageHeaderFooter,
+  pageHeaderHeading,
+  pageHeaderTitle,
+} from "./components/page-header";
 export {
   Pagination,
   PaginationContent,
@@ -312,6 +511,44 @@ export {
 export { Progress } from "./components/progress";
 export { Prose } from "./components/prose";
 export { RadioGroup, RadioGroupItem } from "./components/radio-group";
+export type {
+  ResizableDirection,
+  ResizableHandleProps,
+  ResizablePanelGroupProps,
+  ResizablePanelProps,
+  ResizableSizePercent,
+} from "./components/resizable";
+export {
+  createEvenSizes,
+  normalizeResizableSizes,
+  RESIZABLE_SIZE_SUM,
+  RESIZABLE_SIZE_UNIT,
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+  resizeAdjacentPanels,
+  sizesApproximatelyEqual,
+  sumResizableSizes,
+  validateResizableConstraints,
+} from "./components/resizable";
+export type {
+  AutosaveAdapter,
+  SaveStatusFormatOptions,
+  SaveStatusLabels,
+  SaveStatusProps,
+  SaveStatusState,
+  UseAutosaveDraftOptions,
+  UseAutosaveDraftResult,
+} from "./components/save-status";
+export {
+  formatSaveStatusDateTime,
+  resolveSaveStatusDisplay,
+  SaveStatus,
+  saveStatusLabel,
+  saveStatusRoot,
+  toSaveStatusDateTime,
+  useAutosaveDraft,
+} from "./components/save-status";
 export { ScrollArea, ScrollAreaCorner, ScrollBar } from "./components/scroll-area";
 export {
   Select,
@@ -336,6 +573,31 @@ export {
   SheetTitle,
   SheetTrigger,
 } from "./components/sheet";
+export type {
+  KeyboardShortcutDefinition,
+  KeyboardShortcutHandler,
+  KeyboardShortcutKeysProps,
+  KeyboardShortcutsHelpLabels,
+  KeyboardShortcutsHelpProps,
+  ShortcutKeyToken,
+  ShortcutPlatform,
+  UseKeyboardShortcutsOptions,
+} from "./components/shortcuts-help";
+export {
+  buildShortcutSearchValue,
+  displayKeyToken,
+  formatShortcutAccessibleLabel,
+  formatShortcutSearchText,
+  groupShortcutsByCategory,
+  isEditableTarget,
+  KeyboardShortcutKeys,
+  KeyboardShortcutsHelp,
+  matchesKeyboardShortcut,
+  matchesShortcutSearch,
+  resolveShortcutPlatform,
+  toAriaKeyshortcuts,
+  useKeyboardShortcuts,
+} from "./components/shortcuts-help";
 export {
   Sidebar,
   SidebarContent,
@@ -368,6 +630,51 @@ export { Skeleton, SkeletonVariants } from "./components/skeleton";
 export { Slider, type SliderPrimitiveValue, type SliderProps } from "./components/slider";
 export { dismissSonner, Sonner, sonner } from "./components/sonner";
 export { Spinner } from "./components/spinner";
+export type {
+  StepperContentProps,
+  StepperDescriptionProps,
+  StepperIndicatorProps,
+  StepperItemProps,
+  StepperListProps,
+  StepperOrientation,
+  StepperPositionProps,
+  StepperProps,
+  StepperSeparatorProps,
+  StepperSize,
+  StepperStepDefinition,
+  StepperStepStatus,
+  StepperTitleProps,
+  StepperTriggerProps,
+} from "./components/stepper";
+export {
+  getNextStepId as getStepperNextStepId,
+  getPreviousStepId as getStepperPreviousStepId,
+  getStepIndex as getStepperIndex,
+  isCompletedStepReachable,
+  resolveStepStatuses,
+  Stepper,
+  StepperContent,
+  StepperDescription,
+  StepperIndicator,
+  StepperItem,
+  StepperList,
+  StepperPosition,
+  StepperSeparator,
+  StepperTitle,
+  StepperTrigger,
+  StepperVariants,
+  stepper,
+  stepperContent,
+  stepperDescription,
+  stepperIndicator,
+  stepperItem,
+  stepperList,
+  stepperPosition,
+  stepperSeparator,
+  stepperTitle,
+  stepperTrigger,
+  useStepper,
+} from "./components/stepper";
 export { Switch } from "./components/switch";
 export {
   Table,
@@ -380,8 +687,44 @@ export {
   TableRow,
 } from "./components/table";
 export { Tabs, TabsContent, TabsList, TabsTrigger } from "./components/tabs";
+export type {
+  TagInputDuplicatePolicy,
+  TagInputLabels,
+  TagInputProps,
+  TagInputSeparator,
+  TagInputTag,
+  TagInputValidationRules,
+} from "./components/tag-input";
+export { 
+  createTagId,
+  mergeTagIntoList,
+  normalizeTagValue,
+  separatorTriggersCommit,
+  splitPastedTagValues,
+  syncTagsFromValueProp,TagInput, 
+  validateTagCandidate,} from "./components/tag-input";
 export { Textarea, TextareaVariants } from "./components/textarea";
 export { ThemeToggle } from "./components/theme-toggle";
+export type {
+  TimelineFormatOptions,
+  TimelineIndicatorProps,
+  TimelineItemProps,
+  TimelineProps,
+  TimelineTimeProps,
+} from "./components/timeline";
+export {
+  formatTimelineDateTime,
+  Timeline,
+  TimelineActions,
+  TimelineContent,
+  TimelineDescription,
+  TimelineIndicator,
+  TimelineItem,
+  TimelineTime,
+  TimelineTitle,
+  toTimelineDate,
+  toTimelineDateTime,
+} from "./components/timeline";
 export { Toaster, useToast } from "./components/toast";
 export { Toggle } from "./components/toggle";
 export { ToggleGroup, ToggleGroupItem } from "./components/toggle-group";
@@ -420,6 +763,24 @@ export {
 export type { TypographyVariants } from "./components/typography";
 export { Typography, typography } from "./components/typography";
 export { Video } from "./components/video";
+export type {
+  WizardErrorProps,
+  WizardFooterProps,
+  WizardLabels,
+  WizardProps,
+  WizardStepProps,
+  WizardStepValidation,
+  WizardValidateStep,
+} from "./components/wizard";
+export {
+  focusWizardTarget,
+  normalizeWizardValidation,
+  useWizard,
+  Wizard,
+  WizardError,
+  WizardFooter,
+  WizardStep,
+} from "./components/wizard";
 export {
   createDismissableLayer,
   createIdFactory,

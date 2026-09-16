@@ -12,9 +12,11 @@ export const nativeSelectWrapper = tv({
 export const nativeSelect = tv({
   base: [
     "border-input dark:bg-input/30 text-foreground ring-offset-background min-h-0 min-w-0 w-full rounded-md border bg-transparent shadow-xs",
+    "scheme-light dark:scheme-dark",
     "invalid:text-foreground/85",
     "placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground appearance-none bg-none select-none",
-    "[&_option]:text-foreground",
+    "[&_option]:bg-popover [&_option]:text-popover-foreground",
+    "[&_option:checked]:bg-accent [&_option:checked]:text-accent-foreground",
     "hover:border-foreground/20 transition-[color,box-shadow,border-color] outline-none",
     "focus-visible:border-outline focus-visible:ring-outline/50 focus-visible:ring-3",
     "disabled:pointer-events-none disabled:cursor-not-allowed",

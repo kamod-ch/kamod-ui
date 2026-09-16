@@ -10,6 +10,18 @@ export function buildDocsPageSlugsLongestFirst(slugs: readonly string[]): string
 
 const SYMBOL_SLUG_OVERRIDES: Record<string, string> = {
   DateRange: "calendar",
+  DateRangePicker: "date-range-picker",
+  createDateRangePresets: "date-range-picker",
+  formatDateRangeDisplay: "date-range-picker",
+  FilterBar: "filter-bar",
+  FilterBarChip: "filter-bar",
+  FilterBarChips: "filter-bar",
+  FilterBarControls: "filter-bar",
+  FilterBarDemo: "filter-bar",
+  FilterBarMeta: "filter-bar",
+  FilterBarReset: "filter-bar",
+  FilterBarResultCount: "filter-bar",
+  FilterBarSearch: "filter-bar",
   Theme: "typography",
 };
 
