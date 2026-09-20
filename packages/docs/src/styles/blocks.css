@@ -179,6 +179,56 @@
   }
 }
 
+.blocks-doc-guide {
+  width: 100%;
+  min-width: 0;
+  margin-top: 2.5rem;
+  /* Match the showcase's inner padding plus its 1px container border. */
+  padding-inline: calc(1rem + 1px);
+  overflow-wrap: anywhere;
+}
+
+.blocks-detail-documentation {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  min-width: 0;
+}
+
+.blocks-doc-body {
+  min-width: 0;
+  padding-bottom: 2rem;
+}
+
+.blocks-doc-section + .blocks-doc-section {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+}
+
+.blocks-doc-section-header {
+  margin-bottom: 1.75rem;
+}
+
+.blocks-doc-section h2 {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.4rem, 2vw, 1.75rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.3;
+}
+
+.blocks-doc-section h3 {
+  margin: 0 0 0.75rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.blocks-doc-section :is(h2, h3)[id] {
+  /* The document already offsets anchors for the sticky topbar; add breathing room. */
+  scroll-margin-top: 1rem;
+}
+
 .blocks-doc-heading-link {
   position: relative;
   display: inline-block;
@@ -237,10 +287,125 @@
   text-decoration: none;
 }
 
+.blocks-doc-section p {
+  max-width: none;
+  margin: 0 0 1rem;
+  color: var(--muted-foreground);
+  font-size: 0.95rem;
+  line-height: 1.8;
+}
+
+.blocks-doc-section p:last-child {
+  margin-bottom: 0;
+}
+
+.blocks-doc-section :is(strong, h2, h3) {
+  color: var(--foreground);
+}
+
+.blocks-doc-section :is(p, td, th, dd) code {
+  border-radius: 0.25rem;
+  padding: 0.1em 0.3em;
+  background: var(--muted);
+  color: var(--foreground);
+  font-size: 0.88em;
+}
+
+.blocks-doc-section .blocks-doc-eyebrow {
+  margin-bottom: 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.blocks-doc-steps {
+  margin: 0 0 0 0.9rem;
+  padding: 0;
+  list-style: none;
+  counter-reset: block-step;
+}
+
+.blocks-doc-steps > li {
+  position: relative;
+  min-width: 0;
+  /* Leave the heading's permalink icon clear of the numbered step marker. */
+  padding: 0 0 2rem 2rem;
+  border-left: 1px solid var(--border);
+  counter-increment: block-step;
+}
+
+.blocks-doc-steps > li:last-child {
+  padding-bottom: 0;
+  border-color: transparent;
+}
+
+.blocks-doc-steps > li::before {
+  content: counter(block-step);
+  position: absolute;
+  top: -0.1rem;
+  left: -0.9rem;
+  display: grid;
+  place-items: center;
+  width: 1.8rem;
+  height: 1.8rem;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--background);
+  color: var(--foreground);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.blocks-doc-section .blocks-doc-note {
+  max-width: none;
+  margin-top: 1.25rem;
+  padding: 0.85rem 1rem;
+  border-left: 3px solid var(--border);
+  border-radius: 0 0.5rem 0.5rem 0;
+  background: color-mix(in oklab, var(--muted) 50%, transparent);
+  font-size: 0.85rem;
+}
+
+.blocks-doc-callouts {
+  display: grid;
+  gap: 1.5rem;
+  margin: 1.5rem 0 0;
+}
+
+.blocks-doc-callouts > div {
+  padding-left: 1rem;
+  border-left: 2px solid var(--border);
+}
+
+.blocks-doc-callouts dt {
+  margin-bottom: 0.4rem;
+  color: var(--foreground);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.blocks-doc-callouts dd {
+  margin: 0;
+  color: var(--muted-foreground);
+  font-size: 0.9rem;
+  line-height: 1.75;
+}
+
 /* Match the documentation shell's spacing and column breakpoints in app.css. */
 @media (min-width: 640px) {
   .blocks-shell-header-intro {
     padding-bottom: 2rem;
+  }
+
+  .blocks-doc-guide {
+    margin-top: 3rem;
+    padding-inline: calc(1.25rem + 1px);
+  }
+
+  .blocks-doc-callouts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 2rem;
   }
 }
 
@@ -251,6 +416,19 @@
 
   .blocks-shell-header-intro p {
     font-size: 1.1rem;
+  }
+
+  .blocks-doc-guide {
+    margin-top: 4rem;
+  }
+
+  .blocks-doc-body {
+    padding-bottom: 2.5rem;
+  }
+
+  .blocks-doc-section + .blocks-doc-section {
+    margin-top: 3rem;
+    padding-top: 3rem;
   }
 }
 
@@ -285,6 +463,29 @@
   .docs-shell:has(.blocks-shell-header) .docs-theme-preset-select {
     width: 100%;
     min-width: 0;
+  }
+
+  /* Give Copy its own row instead of covering a narrow code sample. */
+  .blocks-doc-body .docs-code-wrap {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    background: var(--muted);
+  }
+
+  .blocks-doc-body .docs-copy-code-button {
+    position: static;
+    align-self: flex-end;
+    min-height: 2.75rem;
+    margin: 0.5rem;
+  }
+
+  .blocks-doc-body .docs-code {
+    margin: 0;
+    border: 0;
+    border-top: 1px solid var(--border);
+    border-radius: 0 0 0.75rem 0.75rem;
   }
 }
 
