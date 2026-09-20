@@ -1,6 +1,8 @@
-import { cleanup, fireEvent, render, screen } from "@testing-library/preact";
+import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/preact";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { Sidebar } from "./Sidebar";
 import { SidebarProvider, useSidebar } from "./SidebarProvider";
+import { SidebarTrigger } from "./SidebarTrigger";
 
 beforeEach(() => {
   vi.stubGlobal("matchMedia", (media: string) => ({
@@ -13,6 +15,33 @@ beforeEach(() => {
 afterEach(() => {
   cleanup();
   vi.unstubAllGlobals();
+});
+
+it("returns mobile focus to the pointer opener even when the browser does not focus it", async () => {
+  vi.stubGlobal("innerWidth", 320);
+  vi.stubGlobal("matchMedia", (media: string) => ({
+    matches: media.includes("max-width: 767px"),
+    media,
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+  }));
+  render(
+    <SidebarProvider>
+      <button type="button">Previous focus</button>
+      <SidebarTrigger />
+      <Sidebar>
+        <button type="button">Inside sidebar</button>
+      </Sidebar>
+    </SidebarProvider>,
+  );
+  screen.getByRole("button", { name: "Previous focus" }).focus();
+  const trigger = screen.getByRole("button", { name: "Toggle Sidebar" });
+  // fireEvent reproduces Safari's click without a preceding native focus change.
+  fireEvent.click(trigger);
+  const dialog = await screen.findByRole("dialog", { name: "Sidebar" });
+  fireEvent.keyDown(dialog, { key: "Escape" });
+  await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
+  await waitFor(() => expect(trigger).toHaveFocus());
 });
 
 const Navigation = () => {
