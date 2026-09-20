@@ -7,12 +7,28 @@ const FOCUSABLE_SELECTOR = [
   "[tabindex]:not([tabindex='-1'])",
 ].join(", ");
 
+const isVisible = (element: HTMLElement): boolean => {
+  if (element.closest("[hidden], [inert], [aria-hidden='true']")) return false;
+  const view = element.ownerDocument.defaultView;
+  for (let node: HTMLElement | null = element; node; node = node.parentElement) {
+    const style = view?.getComputedStyle(node);
+    if (
+      style?.display === "none" ||
+      style?.visibility === "hidden" ||
+      style?.visibility === "collapse"
+    )
+      return false;
+  }
+  return true;
+};
+
 export const getFocusableElements = (root: HTMLElement): HTMLElement[] =>
   Array.from(root.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)).filter(
     (element) =>
       !element.hasAttribute("disabled") &&
       element.getAttribute("aria-hidden") !== "true" &&
-      element.tabIndex !== -1,
+      element.tabIndex !== -1 &&
+      isVisible(element),
   );
 
 export type TrapFocusOptions = {
@@ -34,7 +50,7 @@ export const trapFocus = (container: HTMLElement, options: TrapFocusOptions = {}
     getFocusableElements(container)[0]?.focus();
   };
 
-  requestAnimationFrame(focusInitial);
+  const initialFrame = requestAnimationFrame(focusInitial);
 
   const onKeyDown = (event: KeyboardEvent) => {
     if (event.key !== "Tab") return;
@@ -51,19 +67,22 @@ export const trapFocus = (container: HTMLElement, options: TrapFocusOptions = {}
     const active = document.activeElement;
 
     if (event.shiftKey) {
-      if (active === first || !container.contains(active)) {
+      if (active === container || active === first || !container.contains(active)) {
         event.preventDefault();
         last.focus();
       }
       return;
     }
 
-    if (active === last || !container.contains(active)) {
+    if (active === container || active === last || !container.contains(active)) {
       event.preventDefault();
       first.focus();
     }
   };
 
   container.addEventListener("keydown", onKeyDown);
-  return () => container.removeEventListener("keydown", onKeyDown);
+  return () => {
+    cancelAnimationFrame(initialFrame);
+    container.removeEventListener("keydown", onKeyDown);
+  };
 };
