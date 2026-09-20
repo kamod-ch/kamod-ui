@@ -29,6 +29,19 @@ const props: ApplicationShell1Props = {
 };
 const originalMatchMedia = window.matchMedia;
 const originalWidth = window.innerWidth;
+const useMobileViewport = () => {
+  Object.defineProperty(window, "innerWidth", { configurable: true, value: 320 });
+  window.matchMedia = (query: string) => ({
+    matches: query.includes("max-width: 767px"),
+    media: query,
+    onchange: null,
+    addListener() {},
+    removeListener() {},
+    addEventListener() {},
+    removeEventListener() {},
+    dispatchEvent: () => true,
+  });
+};
 afterEach(() => {
   cleanup();
   window.matchMedia = originalMatchMedia;
@@ -127,19 +140,37 @@ describe("Application Shell 1", () => {
     await waitFor(() => expect(screen.queryByRole("menu")).toBeNull());
   });
 
-  it.each(["Account", "Billing", "Notifications", "Log out"])(
-    "reports the %s user action",
-    async (label) => {
-      const onUserAction = vi.fn();
-      render(<ApplicationShell1 {...props} onUserAction={onUserAction} />);
-      fireEvent.click(screen.getByRole("button", { name: "Open account menu for Alex Morgan" }));
-      fireEvent.click(await screen.findByRole("menuitem", { name: label }));
-      expect(onUserAction).toHaveBeenCalledWith(
-        label === "Log out" ? "logout" : label.toLowerCase(),
-      );
-      expect(screen.queryByRole("menu")).toBeNull();
-    },
-  );
+  describe.each(["expanded", "collapsed", "mobile"] as const)("%s account menu", (mode) => {
+    it.each(["Account", "Billing", "Notifications", "Log out"])(
+      "reports the %s user action once and dismisses only the menu",
+      async (label) => {
+        if (mode === "mobile") useMobileViewport();
+        const onUserAction = vi.fn();
+        render(
+          <ApplicationShell1
+            {...props}
+            defaultOpen={mode !== "collapsed"}
+            onUserAction={onUserAction}
+          />,
+        );
+        if (mode === "mobile") {
+          fireEvent.click(screen.getByRole("button", { name: "Toggle Sidebar" }));
+          await screen.findByRole("dialog");
+        }
+        const trigger = screen.getByRole("button", {
+          name: "Open account menu for Alex Morgan",
+        });
+        fireEvent.click(trigger);
+        fireEvent.click(await screen.findByRole("menuitem", { name: label }));
+        expect(onUserAction).toHaveBeenCalledExactlyOnceWith(
+          label === "Log out" ? "logout" : label.toLowerCase(),
+        );
+        expect(screen.queryByRole("menu")).toBeNull();
+        await waitFor(() => expect(document.activeElement).toBe(trigger));
+        if (mode === "mobile") expect(screen.getByRole("dialog")).toBeTruthy();
+      },
+    );
+  });
 
   it("dismisses a router-handled icon submenu even when the path stays the same", async () => {
     render(
@@ -171,27 +202,32 @@ describe("Application Shell 1", () => {
     await waitFor(() => expect(document.activeElement).toBe(trigger));
   });
 
-  it("closes mobile navigation after a router-handled link", async () => {
-    Object.defineProperty(window, "innerWidth", { configurable: true, value: 320 });
-    window.matchMedia = (query: string) => ({
-      matches: query.includes("max-width: 767px"),
-      media: query,
-      onchange: null,
-      addListener() {},
-      removeListener() {},
-      addEventListener() {},
-      removeEventListener() {},
-      dispatchEvent: () => true,
-    });
+  it("preserves mobile navigation for modified clicks and closes after ordinary selection", async () => {
+    useMobileViewport();
+    const onNavigate = vi.fn((_destination, event) => event.preventDefault());
+    const onOpenChange = vi.fn();
     render(
-      <ApplicationShell1 {...props} onNavigate={(_destination, event) => event.preventDefault()} />,
+      <ApplicationShell1
+        {...props}
+        defaultOpen={false}
+        onNavigate={onNavigate}
+        onOpenChange={onOpenChange}
+      />,
     );
     const trigger = screen.getByRole("button", { name: "Toggle Sidebar" });
     trigger.focus();
     fireEvent.click(trigger);
     const dialog = await screen.findByRole("dialog");
-    fireEvent.click(within(dialog).getByRole("link", { name: "Dashboard" }));
+    const dashboard = within(dialog).getByRole("link", { name: "Dashboard" });
+    for (const modifier of ["metaKey", "ctrlKey", "shiftKey", "altKey"]) {
+      fireEvent.click(dashboard, { [modifier]: true });
+      expect(screen.getByRole("dialog")).toBe(dialog);
+      expect(onNavigate.mock.lastCall?.[1][modifier]).toBe(true);
+    }
+    fireEvent.click(dashboard);
+    expect(onNavigate).toHaveBeenCalledTimes(5);
     await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
     await waitFor(() => expect(document.activeElement).toBe(trigger));
+    expect(onOpenChange).not.toHaveBeenCalled();
   });
 });
