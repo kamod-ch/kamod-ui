@@ -97,7 +97,13 @@ export default defineConfig({
     ],
     server: {
       watch: {
-        ignored: [resolve(repoRoot, "tmp"), resolve(repoRoot, ".cursor"), "**/node_modules/**"],
+        ignored: [
+          resolve(repoRoot, "tmp"),
+          resolve(repoRoot, ".cursor"),
+          "**/node_modules/**",
+          "**/test-results/**",
+          "**/playwright-report/**",
+        ],
       },
     },
     resolve: {
