@@ -3,6 +3,8 @@ import { defineConfig } from "tsup";
 export default defineConfig({
   entry: [
     "src/index.ts",
+    "src/application-shell/index.ts",
+    "src/application-shell/application-shell-1/index.ts",
     "src/shared/index.ts",
     "src/sidebar/index.ts",
     "src/login/index.ts",

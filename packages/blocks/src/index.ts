@@ -1,4 +1,5 @@
 export * from "./app-sidebar";
+export * from "./application-shell";
 export * from "./auth";
 export type {
   AuthBlockCategory,
