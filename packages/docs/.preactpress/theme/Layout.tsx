@@ -2,6 +2,11 @@ import type { LayoutProps } from "@kamod-ch/preactpress/client";
 import { syncThemeFromStorage } from "@kamod-ch/themes";
 import type { FunctionalComponent } from "preact";
 import {
+  ApplicationShellBlocksPreviewContent,
+  BlocksApplicationShellContent,
+  BlocksApplicationShellDetailContent,
+} from "../../src/blocks/BlocksApplicationShellContent";
+import {
   AppSidebarBlocksPreviewContent,
   BlocksAppSidebarContent,
 } from "../../src/blocks/BlocksAppSidebarContent";
@@ -50,6 +55,9 @@ type DemoPageKind =
   | "component-doc"
   | "blocks-sidebar"
   | "blocks-sidebar-detail"
+  | "blocks-application-shell"
+  | "blocks-application-shell-detail"
+  | "application-shell-block-preview"
   | "blocks-app-sidebar"
   | "blocks-auth"
   | "blocks-auth-catalog"
@@ -121,6 +129,16 @@ const Layout: FunctionalComponent<LayoutProps> = ({ page }) => {
 
   if (meta.pageKind === "blocks-sidebar") {
     return <BlocksSidebarContent />;
+  }
+
+  if (meta.pageKind === "blocks-application-shell") {
+    return <BlocksApplicationShellContent />;
+  }
+  if (meta.pageKind === "blocks-application-shell-detail") {
+    return <BlocksApplicationShellDetailContent blockId={meta.blockId} />;
+  }
+  if (meta.pageKind === "application-shell-block-preview") {
+    return <ApplicationShellBlocksPreviewContent id={meta.blockId} />;
   }
 
   if (meta.pageKind === "blocks-sidebar-detail") {

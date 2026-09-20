@@ -16,7 +16,7 @@ import { Menu, SunMoon } from "lucide-preact";
 import type { ComponentChildren } from "preact";
 import { useMemo } from "preact/hooks";
 import { withBasePath } from "../../base-path";
-import { visibleBlockNavItems } from "../../blocks/block-nav-config";
+import { type BlockNavKey, visibleBlockNavItems } from "../../blocks/block-nav-config";
 import { DemoShell, demoTopNavItems } from "../../layout/DemoShell";
 import { GithubRepoLink } from "../../layout/GithubRepoLink";
 import { ThemePresetSelect } from "../../theme/ThemePresetSelect";
@@ -54,16 +54,7 @@ type DocsShellProps = {
   formsOverviewHref?: string;
   packagesOverviewHref?: string;
   getSectionHref?: (sectionId: string) => string;
-  activeBlock?:
-    | "sidebar"
-    | "app-sidebar"
-    | "login"
-    | "signup"
-    | "auth"
-    | "marketing"
-    | "dashboard"
-    | "communication"
-    | "commerce";
+  activeBlock?: BlockNavKey;
 };
 
 type NavEntry = {

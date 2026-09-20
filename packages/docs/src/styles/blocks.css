@@ -104,9 +104,11 @@
   }
 }
 
-.blocks-card-title {
+/* Keep block titles consistent even when they are the page's h1. */
+.blocks-card-header .blocks-card-title {
   font-size: 1rem;
   font-weight: 500;
+  line-height: 1.4;
   margin: 0;
   color: var(--muted-foreground);
 }

@@ -103,6 +103,10 @@ export default defineConfig({
     resolve: {
       alias: [
         {
+          find: /^@kamod-ch\/blocks\/application-shell$/,
+          replacement: resolve(blocksSrc, "application-shell/index.ts"),
+        },
+        {
           find: /^@kamod-ch\/blocks\/app-sidebar$/,
           replacement: resolve(blocksSrc, "app-sidebar/index.ts"),
         },
