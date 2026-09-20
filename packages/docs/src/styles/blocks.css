@@ -419,6 +419,83 @@
   min-width: 7.5rem;
 }
 
+.blocks-doc-explanation > section {
+  margin-top: 2rem;
+}
+
+.blocks-doc-attribution {
+  position: relative;
+  padding: 0.75rem 1.25rem 1.1rem;
+  border: 1px solid var(--border);
+  border-inline-start: 3px solid color-mix(in oklab, var(--foreground) 35%, var(--border));
+  border-radius: 0.65rem;
+  background: color-mix(in oklab, var(--muted) 55%, var(--background));
+}
+
+.blocks-doc-attribution-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.375rem;
+  margin-bottom: 0.5rem;
+  padding-inline-end: 2.75rem;
+}
+
+.blocks-doc-attribution-badge {
+  border-color: color-mix(in oklab, var(--info) 30%, var(--border));
+  background: color-mix(in oklab, var(--info) 12%, var(--background));
+  color: color-mix(in oklab, var(--info) 20%, var(--foreground));
+  transition: none;
+}
+
+.blocks-doc-attribution .blocks-doc-attribution-title {
+  margin: 0;
+  color: var(--foreground);
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.7;
+}
+
+.blocks-doc-reference .blocks-doc-reference-note {
+  margin-top: 1rem;
+  font-size: 0.875rem;
+}
+
+.blocks-doc-attribution p {
+  font-size: 0.875rem;
+  line-height: 1.75;
+}
+
+.blocks-doc-attribution-source {
+  color: inherit;
+  text-decoration: none;
+}
+
+.blocks-doc-attribution-icon {
+  position: absolute;
+  top: 0.8rem;
+  inset-inline-end: 0.75rem;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 0.5rem;
+  color: var(--muted-foreground);
+}
+
+.blocks-doc-attribution-source:hover .blocks-doc-attribution-icon,
+.blocks-doc-attribution-source:focus-visible .blocks-doc-attribution-icon {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.blocks-doc-attribution-source:focus-visible,
+.blocks-doc-attribution-source:focus-visible .blocks-doc-attribution-icon {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+  border-radius: 0.25rem;
+}
+
 .blocks-doc-callouts {
   display: grid;
   gap: 1.5rem;
@@ -466,6 +543,20 @@
 }
 
 @media (min-width: 980px) {
+  .blocks-doc-attribution {
+    padding-top: 1.1rem;
+  }
+
+  .blocks-doc-attribution-header {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .blocks-doc-attribution-badge {
+    order: 1;
+  }
+
   .blocks-shell-header-intro {
     padding-bottom: 2.5rem;
   }
