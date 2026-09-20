@@ -34,7 +34,7 @@ import {
   TabsTrigger,
 } from "@kamod-ch/ui";
 import type { ComponentChildren } from "preact";
-import { useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import { withBasePath } from "../base-path";
 import { CodeBlock } from "../docs/components/CodeBlock";
 import { DocsShell } from "../docs/components/DocsShell";
@@ -47,6 +47,45 @@ const categoryPath = "/blocks/application-shell";
 const repositoryUrl = "https://github.com/kamod-ch/kamod-ui";
 /** One registry entry, keeping page props aligned with the available block metadata. */
 type ApplicationShellBlock = (typeof applicationShellBlocks)[number];
+
+/** An in-page destination, optionally grouped with one level of subsection links. */
+type ShellContentsEntry = {
+  id: string;
+  label: string;
+  children?: readonly { id: string; label: string }[];
+};
+
+/** Reading order for the documentation; IDs also support direct links and browser history. */
+const shellContents: readonly ShellContentsEntry[] = [
+  {
+    id: "application-shell-installation",
+    label: "Add this block",
+    children: [
+      { id: "application-shell-copy", label: "1. Copy the block" },
+      { id: "application-shell-dependencies", label: "2. Install missing dependencies" },
+      { id: "application-shell-styles", label: "3. Set up styles and import" },
+    ],
+  },
+  { id: "application-shell-usage", label: "Usage" },
+  {
+    id: "application-shell-props",
+    label: "Props and data",
+    children: [{ id: "application-shell-navigation-data", label: "Type your navigation data" }],
+  },
+  {
+    id: "application-shell-about",
+    label: "About this block",
+    children: [
+      { id: "application-shell-structure", label: "Structure and composition" },
+      { id: "application-shell-navigation", label: "Navigation and routing" },
+      { id: "application-shell-responsive", label: "Responsive behavior and state" },
+      { id: "application-shell-account", label: "Account menu and page content" },
+      { id: "application-shell-accessibility", label: "Accessibility and styling" },
+      { id: "application-shell-demo", label: "Making it your own" },
+    ],
+  },
+  { id: "application-shell-reference", label: "Design reference" },
+];
 
 /**
  * Makes a heading a native permalink with a link icon revealed on hover or keyboard focus.
@@ -202,6 +241,115 @@ const ShellPageHeader = ({ block }: { block: ApplicationShellBlock }) => {
         </div>
       </div>
     </header>
+  );
+};
+
+/**
+ * Links to the page overview, showcase and documentation, highlighting the current heading.
+ * Uses native fragment links for keyboard navigation, deep links and browser history.
+ * DOM measurement runs only after mount and at most once per scroll frame.
+ *
+ * @param props - The block whose overview and showcase head the contents list.
+ */
+const ShellTableOfContents = ({ block }: { block: ApplicationShellBlock }) => {
+  const overviewId = `${block.id}-overview`;
+  const [activeId, setActiveId] = useState<string>(overviewId);
+
+  useEffect(() => {
+    const ids = [
+      overviewId,
+      block.id,
+      ...shellContents.flatMap((entry) => [
+        entry.id,
+        ...(entry.children?.map(({ id }) => id) ?? []),
+      ]),
+    ];
+    const headings = ids
+      .map((id) => document.getElementById(id))
+      .filter((element): element is HTMLElement => element !== null);
+    const topbar = document.querySelector<HTMLElement>(".docs-topbar");
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const readingLine = (topbar?.getBoundingClientRect().height ?? 64) + 48;
+      let current = overviewId;
+      for (const heading of headings) {
+        if (heading.getBoundingClientRect().top > readingLine) break;
+        current = heading.id;
+      }
+      // A short final section may never reach the reading line before the page ends.
+      if (Math.ceil(window.scrollY + window.innerHeight) >= document.documentElement.scrollHeight) {
+        current = headings.at(-1)?.id ?? current;
+      }
+      setActiveId(current);
+    };
+    const schedule = () => {
+      if (!frame) frame = window.requestAnimationFrame(update);
+    };
+    const restoreHash = () => {
+      // PreactPress sets scrollRestoration to manual, including same-page Back/Forward.
+      if (window.location.hash === "#top") {
+        window.scrollTo({ top: 0, behavior: "instant" });
+      } else {
+        const target = headings.find((heading) => heading.id === window.location.hash.slice(1));
+        target?.scrollIntoView({ block: "start", behavior: "instant" });
+      }
+      schedule();
+    };
+    update();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    window.addEventListener("hashchange", restoreHash);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+      window.removeEventListener("hashchange", restoreHash);
+    };
+  }, [block.id, overviewId]);
+
+  return (
+    <aside class="blocks-doc-toc">
+      <nav aria-labelledby="application-shell-contents">
+        <h2 id="application-shell-contents">On this page</h2>
+        <ul>
+          <li>
+            <a href="#top" aria-current={activeId === overviewId ? "location" : undefined}>
+              Overview
+            </a>
+          </li>
+          <li>
+            <a href={`#${block.id}`} aria-current={activeId === block.id ? "location" : undefined}>
+              {block.title} <span class="blocks-doc-toc-hint">Showcase</span>
+            </a>
+          </li>
+          {shellContents.map((entry) => (
+            <li key={entry.id}>
+              <a
+                href={`#${entry.id}`}
+                aria-current={activeId === entry.id ? "location" : undefined}
+              >
+                {entry.label}
+              </a>
+              {entry.children && (
+                <ul>
+                  {entry.children.map((child) => (
+                    <li key={child.id}>
+                      <a
+                        href={`#${child.id}`}
+                        aria-current={activeId === child.id ? "location" : undefined}
+                      >
+                        {child.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </aside>
   );
 };
 
@@ -856,12 +1004,56 @@ const ShellDetail = ({ block }: { block: ApplicationShellBlock }) => {
       </article>
       <section class="blocks-doc-guide" aria-label={`${block.title} documentation`}>
         <div class="blocks-detail-documentation">
+          <ShellTableOfContents block={block} />
           <div class="blocks-doc-body">
             <ShellSetup />
             <ShellUsage />
             <ShellProps />
             <ShellExplanation />
             <ShellDesignReference />
+          </div>
+          <footer class="blocks-doc-footer">
+            <a href={withBasePath(categoryPath)}>
+              <ArrowLeftIcon size={16} strokeWidth={2} aria-hidden="true" />
+              Explore application shells
+            </a>
+            <a href={`#${block.id}`}>
+              Back to showcase <span aria-hidden="true">↑</span>
+            </a>
+          </footer>
+          <div class="blocks-doc-closing">
+            <p>Built with Preact and Kamod UI.</p>
+            <p>Make it your own. Contributions and feedback are welcome.</p>
+            <nav class="blocks-doc-closing-links" aria-label="Project resources">
+              <Button
+                variant="ghost"
+                size="icon"
+                href={repositoryUrl}
+                target="_blank"
+                rel="noreferrer noopener"
+                aria-label="Kamod UI on GitHub (opens in a new tab)"
+                title="Kamod UI on GitHub"
+              >
+                <BrandGithubIcon size={16} aria-hidden="true" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                href={`${repositoryUrl}/issues/new`}
+                target="_blank"
+                rel="noreferrer noopener"
+                aria-label="Report an issue on GitHub (opens in a new tab)"
+                title="Report an issue on GitHub"
+              >
+                <BugIcon
+                  size={16}
+                  strokeWidth={2}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                />
+              </Button>
+            </nav>
           </div>
         </div>
       </section>

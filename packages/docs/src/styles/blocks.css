@@ -188,12 +188,76 @@
   overflow-wrap: anywhere;
 }
 
+.blocks-doc-footer {
+  grid-column: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding-block: 1.25rem;
+  border-top: 1px solid var(--border);
+}
+
+.blocks-doc-footer a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  width: fit-content;
+  max-width: 100%;
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+  text-decoration: none;
+}
+
+.blocks-doc-footer a:hover {
+  color: var(--foreground);
+}
+
 .blocks-doc-footer a:focus-visible,
 .blocks-doc-closing-links [data-slot="button"]:focus-visible,
 .blocks-doc-table:focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 3px;
   border-radius: 0.25rem;
+}
+
+.blocks-doc-closing {
+  grid-column: 1;
+  display: grid;
+  justify-items: center;
+  gap: 0.375rem;
+  padding-block: 2rem 1rem;
+  color: var(--color-neutral-500);
+  font-size: 0.75rem;
+  line-height: 1.75;
+  text-align: center;
+}
+
+.dark .blocks-doc-closing {
+  color: var(--color-neutral-400);
+}
+
+.blocks-doc-closing p {
+  margin: 0;
+  color: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.blocks-doc-closing-links {
+  display: flex;
+  gap: 0.25rem;
+  margin-top: 0.25rem;
+}
+
+.blocks-doc-closing-links [data-slot="button"] {
+  border-radius: 0.375rem;
+  color: inherit;
+}
+
+.blocks-doc-closing-links [data-slot="button"]:is(:hover, :focus-visible) {
+  background: var(--muted);
+  color: var(--foreground);
 }
 
 .blocks-detail-documentation {
@@ -525,6 +589,69 @@
   margin-top: 1.75rem;
 }
 
+.blocks-doc-toc {
+  display: none;
+  min-width: 0;
+}
+
+.blocks-doc-toc h2 {
+  margin: 0 0 1rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.blocks-doc-toc ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.blocks-doc-toc nav > ul {
+  border-left: 1px solid var(--border);
+}
+
+.blocks-doc-toc a {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 2.75rem;
+  margin-left: -1px;
+  padding: 0.5rem 1rem;
+  border-left: 2px solid transparent;
+  color: var(--muted-foreground);
+  font-size: 0.975rem;
+  line-height: 1.6;
+  text-decoration: none;
+}
+
+.blocks-doc-toc ul ul a {
+  padding-left: 1.9rem;
+  font-size: 0.9rem;
+}
+
+.blocks-doc-toc a:hover,
+.blocks-doc-toc a[aria-current="location"] {
+  color: var(--foreground);
+}
+
+.blocks-doc-toc a[aria-current="location"] {
+  border-left-color: var(--foreground);
+  font-weight: 600;
+}
+
+.blocks-doc-toc a:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: -2px;
+  border-radius: 0.25rem;
+}
+
+.blocks-doc-toc-hint {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--muted-foreground);
+}
+
 /* Match the documentation shell's spacing and column breakpoints in app.css. */
 @media (min-width: 640px) {
   .blocks-shell-header-intro {
@@ -534,6 +661,12 @@
   .blocks-doc-guide {
     margin-top: 3rem;
     padding-inline: calc(1.25rem + 1px);
+  }
+
+  .blocks-doc-footer {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 1.5rem;
   }
 
   .blocks-doc-callouts {
@@ -576,6 +709,51 @@
   .blocks-doc-section + .blocks-doc-section {
     margin-top: 3rem;
     padding-top: 3rem;
+  }
+}
+
+/* Keep section navigation available on medium desktops without crowding the text. */
+@media (min-width: 980px) {
+  .blocks-doc-guide {
+    padding-inline-end: 0;
+  }
+
+  .blocks-detail-documentation {
+    grid-template-columns: minmax(0, 1fr) 16rem;
+    column-gap: 2rem;
+  }
+
+  .blocks-doc-body {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .blocks-doc-toc {
+    display: block;
+    grid-column: 2;
+    /* Include the footer and closing note in the sticky container's available height. */
+    grid-row: 1 / span 3;
+  }
+
+  /* Only the contents stick; the guide remains an open layout without a frame. */
+  .blocks-doc-toc nav {
+    position: sticky;
+    top: 5.5rem;
+    max-height: calc(100dvh - 7rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+
+  .blocks-doc-toc a {
+    min-height: 2.4rem;
+  }
+}
+
+@media (min-width: 1260px) {
+  .blocks-detail-documentation {
+    grid-template-columns: minmax(0, 1fr) clamp(21rem, 25vw, 23rem);
+    column-gap: clamp(3rem, 4vw, 5rem);
   }
 }
 
