@@ -85,6 +85,7 @@ const NavLink = ({
     <button
       type="button"
       aria-label={item.label}
+      aria-current={active ? "page" : undefined}
       disabled={item.disabled}
       onClick={(event) => onNavigate?.(item, event)}
     >
@@ -153,9 +154,9 @@ const NavBranch = ({
           {(item.href ? [item, ...(item.items ?? [])] : (item.items ?? [])).map((child) => (
             <MenuItem
               key={child.id}
-              href={child.disabled ? undefined : child.href}
-              disabled={child.disabled}
-              aria-disabled={child.disabled || undefined}
+              href={item.disabled || child.disabled ? undefined : child.href}
+              disabled={item.disabled || child.disabled}
+              aria-disabled={item.disabled || child.disabled || undefined}
               aria-current={isActive(child, currentPath) ? "page" : undefined}
               class="px-2 py-1.5"
               onClick={(event: Parameters<ApplicationShellNavigate>[1]) =>

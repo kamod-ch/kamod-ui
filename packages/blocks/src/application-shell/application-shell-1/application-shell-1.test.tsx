@@ -131,6 +131,119 @@ describe("Application Shell 1", () => {
     expect(document.querySelector('[data-slot="sidebar"][data-state="collapsed"]')).toBeTruthy();
   });
 
+  it.each([true, false])(
+    "disables child destinations when an open branch becomes disabled (defaultOpen: %s)",
+    async (defaultOpen) => {
+      const onNavigate = vi.fn();
+      const navigationGroups = (disabled: boolean): ApplicationShell1Props["navigationGroups"] => [
+        {
+          id: "workspace",
+          items: [
+            {
+              id: "projects",
+              label: "Projects",
+              disabled,
+              items: [
+                { id: "recent", label: "Recent", href: "/recent" },
+                { id: "create", label: "Create project" },
+              ],
+            },
+          ],
+        },
+      ];
+      const { rerender } = render(
+        <ApplicationShell1
+          {...props}
+          defaultOpen={defaultOpen}
+          currentPath="/recent"
+          navigationGroups={navigationGroups(false)}
+          onNavigate={onNavigate}
+        />,
+      );
+      if (!defaultOpen) {
+        fireEvent.click(screen.getByRole("button", { name: "Projects" }));
+        await screen.findByRole("menu");
+      }
+      rerender(
+        <ApplicationShell1
+          {...props}
+          defaultOpen={defaultOpen}
+          currentPath="/recent"
+          navigationGroups={navigationGroups(true)}
+          onNavigate={onNavigate}
+        />,
+      );
+      const recent = defaultOpen
+        ? screen.getByLabelText("Recent")
+        : screen.getByRole("menuitem", { name: "Recent" });
+      const create = screen.getByRole(defaultOpen ? "button" : "menuitem", {
+        name: "Create project",
+      });
+      expect(recent.getAttribute("href")).toBeNull();
+      expect(recent.getAttribute("aria-disabled")).toBe("true");
+      expect(create.hasAttribute("disabled")).toBe(true);
+      recent.click();
+      create.click();
+      expect(onNavigate).not.toHaveBeenCalled();
+    },
+  );
+
+  it.each([true, false])(
+    "announces active callback destinations and updates them when defaultOpen is %s",
+    async (defaultOpen) => {
+      const onNavigate = vi.fn<NonNullable<ApplicationShell1Props["onNavigate"]>>(
+        (_destination, event) => event.preventDefault(),
+      );
+      const navigationGroups = (
+        overviewActive: boolean,
+      ): ApplicationShell1Props["navigationGroups"] => [
+        {
+          id: "workspace",
+          items: [
+            { id: "overview", label: "Overview action", active: overviewActive },
+            {
+              id: "projects",
+              label: "Projects",
+              items: [{ id: "recent", label: "Recent action", active: !overviewActive }],
+            },
+          ],
+        },
+      ];
+      const { rerender } = render(
+        <ApplicationShell1
+          {...props}
+          defaultOpen={defaultOpen}
+          navigationGroups={navigationGroups(true)}
+          onNavigate={onNavigate}
+        />,
+      );
+      const overview = screen.getByRole("button", { name: "Overview action" });
+      expect(overview.getAttribute("aria-current")).toBe("page");
+      fireEvent.click(overview);
+      expect(onNavigate.mock.lastCall?.[0]).toMatchObject({ id: "overview" });
+
+      rerender(
+        <ApplicationShell1
+          {...props}
+          defaultOpen={defaultOpen}
+          navigationGroups={navigationGroups(false)}
+          onNavigate={onNavigate}
+        />,
+      );
+      expect(
+        screen.getByRole("button", { name: "Overview action" }).hasAttribute("aria-current"),
+      ).toBe(false);
+      fireEvent.click(screen.getByRole("button", { name: "Projects" }));
+      const recent = await screen.findByRole(defaultOpen ? "button" : "menuitem", {
+        name: "Recent action",
+      });
+      expect(recent.getAttribute("aria-current")).toBe("page");
+      fireEvent.click(recent);
+      expect(onNavigate.mock.lastCall?.[0]).toMatchObject({ id: "recent" });
+      expect(onNavigate).toHaveBeenCalledTimes(2);
+    },
+  );
+
   it("keeps nested destinations available in icon mode", async () => {
     render(<ApplicationShell1Preview />);
     fireEvent.click(screen.getByRole("button", { name: "Toggle Sidebar" }));
