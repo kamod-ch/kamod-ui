@@ -5,7 +5,10 @@
  * @see https://www.shadcnblocks.com/blocks/application-shell — related application shell catalog.
  * @see https://www.shadcnblocks.com/block/application-shell1 — block and detail-header design reference.
  */
-import { applicationShellBlocks } from "@kamod-ch/blocks/application-shell";
+import {
+  type ApplicationShell1Props,
+  applicationShellBlocks,
+} from "@kamod-ch/blocks/application-shell";
 import {
   ArrowLeftIcon,
   BugIcon,
@@ -394,6 +397,141 @@ const ShellUsage = () => (
   </section>
 );
 
+const navigationExample = `import type { ApplicationShellNavigationGroup } from "./components/application-shell-1";
+
+export const navigationGroups = [{
+  id: "workspace",
+  label: "Workspace",
+  items: [{
+    id: "projects",
+    label: "Projects",
+    href: "/projects",
+    items: [{ id: "recent", label: "Recent projects", href: "/projects/recent" }],
+  }],
+}] satisfies readonly ApplicationShellNavigationGroup[];`;
+
+/** Public prop names and their actual defaults; required data has no built-in fallback. */
+const shellPropRows: readonly [
+  prop: keyof ApplicationShell1Props,
+  description: ComponentChildren,
+  defaultValue: "Required" | "undefined" | "true",
+][] = [
+  ["brand", "name, optional description, href and logo (Preact content).", "Required"],
+  [
+    "navigationGroups",
+    <>
+      Groups with id, optional label and items. Each item has id, label, optional href, icon,
+      active, disabled and one level of child items. See{" "}
+      <a class="underline" href="#application-shell-navigation-data">
+        Type your navigation data
+      </a>
+      .
+    </>,
+    "Required",
+  ],
+  [
+    "user",
+    "name, email, optional avatarSrc and initials. Initials default to the user's name.",
+    "Required",
+  ],
+  [
+    "breadcrumbs",
+    "An ordered list of { label, href? }. The final entry is the current page; earlier entries hide on mobile.",
+    "Required",
+  ],
+  ["children", "Your page content, rendered inside the main landmark.", "undefined"],
+  [
+    "currentPath",
+    "Exact href match for active links. An item's explicit active value takes precedence.",
+    "undefined",
+  ],
+  [
+    "onNavigate",
+    "Receives (destination, event) for navigation, brand and breadcrumb clicks. Call event.preventDefault() for client routing. Items without href act as buttons.",
+    "undefined",
+  ],
+  [
+    "onUserAction",
+    "Receives account, billing, notifications or logout. Supply your own actions; no authentication is included.",
+    "undefined",
+  ],
+  [
+    "open",
+    "Controlled desktop sidebar state. Pass with onOpenChange; omit to let the shell manage its state.",
+    "undefined",
+  ],
+  [
+    "defaultOpen",
+    "Initial desktop state when uncontrolled; true means expanded. Ignored when open is supplied. The mobile sheet starts closed independently.",
+    "true",
+  ],
+  [
+    "onOpenChange",
+    "Receives the next desktop open state. Update open when controlled; can also observe uncontrolled changes.",
+    "undefined",
+  ],
+  ["class", "Additional classes on the shell wrapper.", "undefined"],
+  ["className", "Alias for class; merged after it when both are supplied.", "undefined"],
+];
+
+/** Reference table and typed navigation example for the shell's public inputs. */
+const ShellProps = () => (
+  <section class="blocks-doc-section" aria-labelledby="application-shell-props">
+    <header class="blocks-doc-section-header">
+      <h2 id="application-shell-props" tabIndex={-1}>
+        <ShellHeadingLink id="application-shell-props">Props and data</ShellHeadingLink>
+      </h2>
+      <p>
+        Supply your app's data and callbacks; the shell handles layout and navigation controls.{" "}
+        <code>brand</code>, <code>navigationGroups</code>, <code>user</code> and{" "}
+        <code>breadcrumbs</code> are required and have no default. The remaining props are optional,
+        so you can start with native links and add routing or controlled sidebar state when needed.
+      </p>
+    </header>
+    <div
+      class="blocks-doc-table"
+      role="region"
+      aria-labelledby="application-shell-props"
+      tabIndex={0}
+    >
+      <table>
+        <caption class="sr-only">ApplicationShell1 props, descriptions and default values</caption>
+        <thead>
+          <tr>
+            <th scope="col">Prop</th>
+            <th scope="col">Description</th>
+            <th scope="col">Default value</th>
+          </tr>
+        </thead>
+        <tbody>
+          {shellPropRows.map(([prop, description, defaultValue]) => (
+            <tr key={prop}>
+              <th scope="row">
+                <code>{prop}</code>
+              </th>
+              <td>{description}</td>
+              <td>{defaultValue === "Required" ? defaultValue : <code>{defaultValue}</code>}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <section class="blocks-doc-data-example" aria-labelledby="application-shell-navigation-data">
+      <h3 id="application-shell-navigation-data" tabIndex={-1}>
+        <ShellHeadingLink id="application-shell-navigation-data">
+          Type your navigation data
+        </ShellHeadingLink>
+      </h3>
+      <p>
+        The local entrypoint also exports the data and callback types. Use stable IDs for groups and
+        items, and keep child destinations to one level. This example gives Projects its own page as
+        well as an expandable child link; pass the resulting array to <code>navigationGroups</code>.
+      </p>
+      <CodeBlock code={navigationExample} language="tsx" />
+    </section>
+  </section>
+);
+
 /**
  * Presents one variant's responsive preview, source browser and setup/usage instructions.
  * Preview resets and file selection belong to this docs view, separate from shell state.
@@ -497,6 +635,7 @@ const ShellDetail = ({ block }: { block: ApplicationShellBlock }) => {
           <div class="blocks-doc-body">
             <ShellSetup />
             <ShellUsage />
+            <ShellProps />
           </div>
         </div>
       </section>

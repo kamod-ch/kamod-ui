@@ -188,6 +188,14 @@
   overflow-wrap: anywhere;
 }
 
+.blocks-doc-footer a:focus-visible,
+.blocks-doc-closing-links [data-slot="button"]:focus-visible,
+.blocks-doc-table:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+  border-radius: 0.25rem;
+}
+
 .blocks-detail-documentation {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -367,6 +375,50 @@
   font-size: 0.85rem;
 }
 
+.blocks-doc-table {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+}
+
+.blocks-doc-table table {
+  width: 100%;
+  min-width: 36rem;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+
+.blocks-doc-table :is(th, td) {
+  padding: 0.9rem 1rem;
+  vertical-align: top;
+}
+
+.blocks-doc-table thead {
+  background: var(--muted);
+  font-size: 0.8rem;
+}
+
+.blocks-doc-table tbody tr {
+  border-top: 1px solid var(--border);
+}
+
+.blocks-doc-table th[scope="row"] {
+  width: 24%;
+  min-width: 10rem;
+  font-weight: 400;
+}
+
+.blocks-doc-table td {
+  color: var(--muted-foreground);
+}
+
+.blocks-doc-table :is(th, td):last-child {
+  width: 16%;
+  min-width: 7.5rem;
+}
+
 .blocks-doc-callouts {
   display: grid;
   gap: 1.5rem;
@@ -390,6 +442,10 @@
   color: var(--muted-foreground);
   font-size: 0.9rem;
   line-height: 1.75;
+}
+
+.blocks-doc-data-example {
+  margin-top: 1.75rem;
 }
 
 /* Match the documentation shell's spacing and column breakpoints in app.css. */
