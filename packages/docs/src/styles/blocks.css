@@ -1021,6 +1021,13 @@
   height: 100%;
 }
 
+/* Anchor desktop sidebars to the preview, avoiding WebKit fixed/contain clipping. */
+.blocks-preview-inline [data-slot="sidebar-container"] {
+  position: absolute;
+  height: 100%;
+  max-height: calc(100% - var(--header-height, 0px));
+}
+
 .blocks-preview-host .min-h-svh,
 .blocks-preview-host .min-h-\[100vh\] {
   min-height: 0 !important;
