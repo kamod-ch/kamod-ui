@@ -5,6 +5,10 @@
   max-width: none;
 }
 
+.docs-shell:has(.blocks-sidebar-detail) {
+  --blocks-detail-page-gutter: 0.75rem;
+}
+
 /* Block docs use the full main column (docs-content is otherwise capped at 760px). */
 .docs-shell:has(.blocks-sidebar-page) .docs-content {
   width: 100%;
@@ -26,8 +30,262 @@
   }
 }
 
+@media (min-width: 640px) {
+  .docs-shell:has(.blocks-sidebar-detail) {
+    --blocks-detail-page-gutter: 1.25rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .docs-shell:has(.blocks-sidebar-detail) {
+    --blocks-detail-page-gutter: 1.75rem;
+  }
+}
+
+@media (min-width: 980px) {
+  .docs-shell:has(.blocks-sidebar-detail) {
+    --blocks-detail-page-gutter: 3.25rem;
+  }
+}
+
+@media (min-width: 1260px) {
+  .docs-shell:has(.blocks-sidebar-detail) {
+    --blocks-detail-page-gutter: 5.25rem;
+  }
+}
+
+@media (min-width: 1440px) {
+  .docs-shell:has(.blocks-sidebar-detail) {
+    --blocks-detail-page-gutter: 7rem;
+  }
+}
+
+@media (min-width: 1680px) {
+  .docs-shell:has(.blocks-sidebar-detail) {
+    --blocks-detail-page-gutter: 9rem;
+  }
+}
+
+.docs-shell:has(.blocks-sidebar-detail) .docs-layout {
+  padding-inline: max(
+    var(--blocks-detail-page-gutter),
+    env(safe-area-inset-left, 0px),
+    env(safe-area-inset-right, 0px)
+  );
+}
+
 .blocks-detail-header {
   margin-bottom: 1.25rem;
+}
+
+.blocks-shell-header {
+  container: application-shell-header / inline-size;
+  margin-bottom: 1.25rem;
+  color: var(--foreground);
+}
+
+.blocks-shell-header-intro {
+  padding-bottom: 1.5rem;
+}
+
+.blocks-shell-header-back {
+  min-height: 2.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.blocks-shell-header-title-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+}
+
+.blocks-shell-header h1 {
+  min-width: 0;
+  margin: 0;
+  font-size: clamp(1.65rem, 2.8vw, 2.5rem);
+  font-weight: 650;
+  line-height: 1.2;
+  letter-spacing: -0.035em;
+  overflow-wrap: anywhere;
+  scroll-margin-top: 1rem;
+}
+
+.blocks-shell-header-intro p {
+  max-width: 96ch;
+  margin: 1.25rem 0 0;
+  color: var(--color-neutral-500);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.dark .blocks-shell-header-intro p {
+  color: var(--color-neutral-400);
+}
+
+.blocks-shell-header-toolbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  padding-block: 0.75rem;
+}
+
+.blocks-shell-header-toolbar [data-slot="breadcrumb"] {
+  flex: 1;
+  min-width: 0;
+}
+
+.blocks-shell-header-toolbar [data-slot="breadcrumb-list"] {
+  row-gap: 0.5rem;
+  line-height: 1.75;
+}
+
+.blocks-shell-header-toolbar [data-slot="breadcrumb-link"]:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+  border-radius: 0.2rem;
+}
+
+.blocks-shell-header-actions {
+  display: none;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.25rem;
+  margin-inline-start: auto;
+}
+
+.blocks-shell-header-actions [data-slot="button"] {
+  border-radius: 0.375rem;
+  background: var(--muted);
+  color: var(--muted-foreground);
+}
+
+.blocks-shell-header-actions [data-slot="button"]:not(:disabled):is(:hover, :focus-visible) {
+  background: color-mix(in oklab, var(--foreground) 12%, var(--muted));
+  color: var(--foreground);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--foreground) 15%, var(--border));
+}
+
+.blocks-shell-header-actions [data-slot="button"]:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+}
+
+/* Leave room for the full breadcrumb, four 32px controls and a 24px gap. */
+@container application-shell-header (min-width: 39rem) {
+  .blocks-shell-header-actions {
+    display: flex;
+  }
+}
+
+.blocks-doc-heading-link {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+
+.blocks-doc-heading-link:hover {
+  text-decoration: none;
+}
+
+.blocks-doc-heading-icon {
+  position: absolute;
+  inset-inline-end: 100%;
+  top: 0.1em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 1rem;
+  height: 1.2em;
+  color: var(--muted-foreground);
+  visibility: hidden;
+}
+
+/* Main headings get a larger icon and gap; subsection and showcase titles stay compact. */
+:is(.blocks-shell-header h1, .blocks-doc-section h2) .blocks-doc-heading-icon {
+  width: 1.75rem;
+}
+
+:is(.blocks-shell-header h1, .blocks-doc-section h2) .blocks-doc-heading-icon svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* The flush page title needs an internal permalink until the outer gutter is wide enough. */
+@media (max-width: 1439px) {
+  .blocks-shell-header h1 .blocks-doc-heading-link {
+    padding-inline-end: 1.75rem;
+  }
+
+  .blocks-shell-header h1 .blocks-doc-heading-icon {
+    inset-inline-end: 0;
+    justify-content: flex-end;
+  }
+}
+
+.blocks-doc-heading-link:is(:hover, :focus-visible) .blocks-doc-heading-icon {
+  visibility: visible;
+}
+
+.blocks-doc-heading-link:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 4px;
+  border-radius: 0.2rem;
+  text-decoration: none;
+}
+
+/* Match the documentation shell's spacing and column breakpoints in app.css. */
+@media (min-width: 640px) {
+  .blocks-shell-header-intro {
+    padding-bottom: 2rem;
+  }
+}
+
+@media (min-width: 980px) {
+  .blocks-shell-header-intro {
+    padding-bottom: 2.5rem;
+  }
+
+  .blocks-shell-header-intro p {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 639px) {
+  /* Keep the brand and all theme controls usable without widening this detail page. */
+  html:has(.blocks-shell-header) {
+    scroll-padding-top: calc(108px + 1rem);
+  }
+
+  .docs-shell:has(.blocks-shell-header) .docs-topbar {
+    --docs-topbar-height: 108px;
+  }
+
+  .docs-shell:has(.blocks-shell-header) .docs-topbar-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: 2.75rem 2.75rem;
+    gap: 0.25rem;
+    padding-block: 0.5rem;
+  }
+
+  .docs-shell:has(.blocks-shell-header) .docs-topbar-actions {
+    min-width: 0;
+    margin-left: 0;
+  }
+
+  .docs-shell:has(.blocks-shell-header) .docs-theme-preset {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .docs-shell:has(.blocks-shell-header) .docs-theme-preset-select {
+    width: 100%;
+    min-width: 0;
+  }
 }
 
 .blocks-detail-back {
