@@ -40,7 +40,7 @@ const isActive = (item: ApplicationShellNavigationLink, path?: string) =>
 
 /**
  * Renders a native link or callback-only button with active and disabled semantics.
- * Top-level links receive a fallback icon and an icon-mode tooltip; child links do not.
+ * Top-level links receive a fallback icon and an icon-mode hover title; child links do not.
  *
  * @param props - Destination and navigation context; `sub` selects the child-link wrapper.
  */
@@ -92,6 +92,7 @@ const NavLink = ({
       {content}
     </button>
   );
+  // Native hover titles remain visible outside the icon column's scroll clipping.
   return sub ? (
     <SidebarMenuSubButton asChild isActive={active}>
       {element}
@@ -100,7 +101,7 @@ const NavLink = ({
     <SidebarMenuButton
       asChild
       isActive={active}
-      tooltip={state === "collapsed" && !isMobile ? item.label : undefined}
+      title={state === "collapsed" && !isMobile ? item.label : undefined}
     >
       {element}
     </SidebarMenuButton>
@@ -148,7 +149,12 @@ const NavBranch = ({
             <span>{item.label}</span>
           </MenuTrigger>
         </SidebarMenuButton>
-        <MenuContent side="right" align="start" class="w-56 bg-popover motion-reduce:animate-none">
+        <MenuContent
+          portal
+          side="right"
+          align="start"
+          class="w-56 bg-popover motion-reduce:animate-none! motion-reduce:[&_*]:transition-none!"
+        >
           <DropdownLabel>{item.label}</DropdownLabel>
           <DropdownSeparator />
           {(item.href ? [item, ...(item.items ?? [])] : (item.items ?? [])).map((child) => (

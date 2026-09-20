@@ -431,6 +431,32 @@ test("desktop keyboard navigation and collapse", async ({ page }) => {
   await expect(playground).toBeFocused();
 });
 
+test("collapsed navigation scrolls independently and its menus fit short windows", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 768, height: 375 });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto(preview);
+  await page.getByRole("button", { name: "Toggle Sidebar", exact: true }).click();
+  const content = page.locator('[data-slot="sidebar-content"]');
+  const more = page.getByRole("button", { name: "More", exact: true });
+  await more.scrollIntoViewIfNeeded();
+  expect(await content.evaluate((node) => node.scrollTop)).toBeGreaterThan(0);
+  await more.click();
+  const menu = page.getByRole("menu");
+  const last = menu.getByRole("menuitem", { name: "Archived projects", exact: true });
+  await expect(last).toBeInViewport();
+  const bounds = await menu.boundingBox();
+  expect(bounds!.y).toBeGreaterThanOrEqual(0);
+  expect(bounds!.y + bounds!.height).toBeLessThanOrEqual(375);
+  await last.click();
+  await expect(page.getByRole("status")).toHaveText("Selected Archived projects");
+  await expect(more).toBeFocused();
+  await expect(menu).toHaveCount(0);
+  await page.getByRole("button", { name: "Open account menu for Alex Morgan" }).click();
+  await expect(page.getByRole("menuitem", { name: "Log out", exact: true })).toBeInViewport();
+});
+
 for (const mode of ["expanded", "collapsed", "mobile"] as const) {
   test(`${mode} account menu supports keyboard selection and focus return`, async ({ page }) => {
     await page.setViewportSize({ width: mode === "mobile" ? 320 : 1440, height: 900 });
@@ -520,6 +546,14 @@ test("reduced motion applies to the shell and portaled mobile sheet", async ({ p
   await expect(sidebar).toHaveCSS("transition-property", "none");
   const trigger = page.getByRole("button", { name: "Toggle Sidebar", exact: true });
   await trigger.click();
+  await page.getByRole("button", { name: "Playground", exact: true }).click();
+  await expect(page.getByRole("menu")).toHaveCSS("animation-name", "none");
+  await expect(page.getByRole("menu")).toHaveCSS("transition-property", "none");
+  await expect(page.getByRole("menuitem", { name: "History", exact: true })).toHaveCSS(
+    "transition-property",
+    "none",
+  );
+  await page.keyboard.press("Escape");
   const account = page.getByRole("button", { name: "Open account menu for Alex Morgan" });
   await account.click();
   await expect(page.getByRole("menu")).toHaveCSS("animation-name", "none");

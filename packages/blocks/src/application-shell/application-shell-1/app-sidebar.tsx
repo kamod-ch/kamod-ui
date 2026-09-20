@@ -95,8 +95,8 @@ export const AppSidebar = ({
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-      {/* Icon-mode dropdowns must escape the content's normal scroll clipping. */}
-      <SidebarContent class="group-data-[collapsible=icon]:overflow-visible">
+      {/* Portaled icon menus let navigation scroll without covering the account footer. */}
+      <SidebarContent class="group-data-[collapsible=icon]:overflow-auto">
         <NavMain
           navigationGroups={navigationGroups}
           currentPath={currentPath}

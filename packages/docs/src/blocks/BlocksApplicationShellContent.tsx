@@ -402,7 +402,7 @@ const dependencyCommands = {
 /**
  * Explains copying the block, installing missing dependencies and enabling its styles.
  * The blocks package is private, so the example imports from the reader's local components.
- * The compatibility note identifies the public dropdown hook required by the menu adapters.
+ * The compatibility note identifies the public dropdown hook and portal support used by the menus.
  */
 const ShellSetup = () => (
   <section class="blocks-doc-section" aria-labelledby="application-shell-installation">
@@ -461,8 +461,10 @@ const ShellSetup = () => (
         </Tabs>
         <p class="blocks-doc-note">
           <strong>Compatibility:</strong> <code>@kamod-ch/ui</code> must export{" "}
-          <code>useDropdown</code>. The shell's menu adapters use this hook. If your installed
-          release does not include it, use a release that does before integrating the block.
+          <code>useDropdown</code> and support the <code>portal</code> prop on{" "}
+          <code>DropdownContent</code>. The shell's menu adapters use these APIs to manage keyboard
+          navigation and keep menus outside the sidebar's scroll container. Use a UI release that
+          includes both APIs before integrating the block.
         </p>
       </li>
       <li>
