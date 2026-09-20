@@ -62,7 +62,8 @@ export const CodeBlock = ({
         <Copy size={16} />
         <span>{isCopied ? "Copied" : "Copy"}</span>
       </button>
-      <pre class={`docs-code ${className ?? ""}`.trim()} data-language={language}>
+      {/* Keep horizontally overflowing examples keyboard-scrollable in every browser. */}
+      <pre class={`docs-code ${className ?? ""}`.trim()} data-language={language} tabIndex={0}>
         <code
           class={`language-${language}`}
           dangerouslySetInnerHTML={{ __html: highlightedCode }}
