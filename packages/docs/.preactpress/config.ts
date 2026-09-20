@@ -52,7 +52,8 @@ export default defineConfig({
     title: "Kamod UI",
     description:
       "Lightweight UI components for Preact and Tailwind: composable primitives you can customize, extend, and ship without a heavy runtime.",
-    url: "https://kamod-ch.github.io/kamod-ui/",
+    // PreactPress appends base to this origin when generating canonical and social URLs.
+    url: "https://kamod-ch.github.io",
     base,
   },
   markdown: {

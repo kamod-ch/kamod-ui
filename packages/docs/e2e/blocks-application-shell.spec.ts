@@ -32,6 +32,19 @@ test("navigates category, overview card, detail and back", async ({ page }) => {
   await expect(page.locator("a.blocks-overview-card")).toHaveCount(1);
 });
 
+test("shell routes generate canonical metadata with a single deployment prefix", async ({
+  page,
+  baseURL,
+}) => {
+  for (const route of [category, detail, preview]) {
+    await page.goto(route);
+    const pathname = new URL(`${route}/`, baseURL).pathname;
+    const canonical = `https://kamod-ch.github.io${pathname}`;
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", canonical);
+    await expect(page.locator('meta[property="og:url"]')).toHaveAttribute("content", canonical);
+  }
+});
+
 test("documentation header exposes breadcrumbs, repository links and disabled variant boundaries", async ({
   page,
 }) => {
@@ -53,7 +66,7 @@ test("documentation header exposes breadcrumbs, repository links and disabled va
   );
   await expect(breadcrumb.getByRole("link", { name: "Blocks", exact: true })).toHaveAttribute(
     "href",
-    /\/blocks$/,
+    /\/blocks\/sidebar$/,
   );
   await expect(
     breadcrumb.getByRole("link", { name: "Application Shell", exact: true }),
@@ -115,6 +128,9 @@ test("documentation header exposes breadcrumbs, repository links and disabled va
   await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
   await page.reload();
   await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
+  await breadcrumb.getByRole("link", { name: "Blocks", exact: true }).click();
+  await expect(page).toHaveURL(/\/blocks\/sidebar\/?$/);
+  await expect(page.locator("a.blocks-overview-card").first()).toBeVisible();
 });
 
 test("loads detail directly, displays sources and switches preview viewports", async ({ page }) => {

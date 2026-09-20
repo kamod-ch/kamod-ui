@@ -44,6 +44,8 @@ import { BlockPreviewPanel } from "./BlockPreviewPanel";
 import { BlocksTopbarActions } from "./BlocksSidebarContent";
 
 const categoryPath = "/blocks/application-shell";
+const blocksOverviewHref =
+  demoTopNavItems.find((item) => item.label === "Blocks")?.href ?? withBasePath("/blocks/sidebar");
 const repositoryUrl = "https://github.com/kamod-ch/kamod-ui";
 /** One registry entry, keeping page props aligned with the available block metadata. */
 type ApplicationShellBlock = (typeof applicationShellBlocks)[number];
@@ -169,7 +171,7 @@ const ShellPageHeader = ({ block }: { block: ApplicationShellBlock }) => {
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href={withBasePath("/blocks")}>Blocks</BreadcrumbLink>
+              <BreadcrumbLink href={blocksOverviewHref}>Blocks</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
