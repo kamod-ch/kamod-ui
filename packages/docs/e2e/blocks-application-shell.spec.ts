@@ -398,7 +398,7 @@ for (const width of [320, 640, 768, 979, 980, 1024, 1260, 1440]) {
   }
 }
 
-test("desktop keyboard navigation, collapse and account actions", async ({ page }) => {
+test("desktop keyboard navigation and collapse", async ({ page }) => {
   await page.goto(preview);
   const models = page.getByRole("button", { name: "Models", exact: true });
   await models.focus();
@@ -421,20 +421,52 @@ test("desktop keyboard navigation, collapse and account actions", async ({ page 
   await page.keyboard.press("Escape");
   await expect(playground).toBeFocused();
   await expect(page.getByRole("menu")).toHaveCount(0);
-  const account = page.getByRole("button", { name: "Open account menu for Alex Morgan" });
-  await account.focus();
-  await page.keyboard.press("Enter");
-  await expect(page.getByRole("menuitem", { name: "Account", exact: true })).toBeFocused();
+  await page.keyboard.press("ArrowUp");
+  await expect(page.getByRole("menuitem", { name: "History", exact: true })).toBeFocused();
   await page.keyboard.press("ArrowDown");
-  await expect(page.getByRole("menuitem", { name: "Billing", exact: true })).toBeFocused();
-  await page.keyboard.press("Home");
-  await expect(page.getByRole("menuitem", { name: "Account", exact: true })).toBeFocused();
-  await page.keyboard.press("Escape");
-  await expect(account).toBeFocused();
-  await account.click();
-  await page.getByRole("menuitem", { name: "Log out", exact: true }).click();
-  await expect(page.getByRole("status")).toHaveText("Selected Log out");
+  await expect(page.getByRole("menuitem", { name: "Starred", exact: true })).toBeFocused();
+  await page.keyboard.press("Enter");
+  await expect(page.getByRole("status")).toHaveText("Selected Starred");
+  await expect(page.getByRole("menu")).toHaveCount(0);
+  await expect(playground).toBeFocused();
 });
+
+for (const mode of ["expanded", "collapsed", "mobile"] as const) {
+  test(`${mode} account menu supports keyboard selection and focus return`, async ({ page }) => {
+    await page.setViewportSize({ width: mode === "mobile" ? 320 : 1440, height: 900 });
+    await page.goto(preview);
+    if (mode !== "expanded")
+      await page.getByRole("button", { name: "Toggle Sidebar", exact: true }).click();
+    const account = page.getByRole("button", { name: "Open account menu for Alex Morgan" });
+    const first = page.getByRole("menuitem", { name: "Account", exact: true });
+    const last = page.getByRole("menuitem", { name: "Log out", exact: true });
+    await account.focus();
+    await page.keyboard.press("Enter");
+    await expect(first).toBeFocused();
+    await page.keyboard.press("ArrowDown");
+    await expect(page.getByRole("menuitem", { name: "Billing", exact: true })).toBeFocused();
+    await page.keyboard.press("End");
+    await expect(last).toBeFocused();
+    await page.keyboard.press("ArrowDown");
+    await expect(first).toBeFocused();
+    await page.keyboard.press("ArrowUp");
+    await expect(last).toBeFocused();
+    await page.keyboard.press("Home");
+    await expect(first).toBeFocused();
+    await page.keyboard.press("Escape");
+    await expect(page.getByRole("menu")).toHaveCount(0);
+    await expect(account).toBeFocused();
+    await page.keyboard.press("ArrowDown");
+    await expect(first).toBeFocused();
+    await page.keyboard.press("End");
+    await page.keyboard.press("Enter");
+    await expect(page.getByRole("menu")).toHaveCount(0);
+    await expect(page.getByRole("status")).toHaveText("Selected Log out");
+    await expect(account).toBeFocused();
+    if (mode === "mobile")
+      await expect(page.getByRole("dialog", { name: "Sidebar", exact: true })).toBeVisible();
+  });
+}
 
 test("mobile sheet traps focus, closes on navigation and returns focus on Escape", async ({
   page,
@@ -448,8 +480,14 @@ test("mobile sheet traps focus, closes on navigation and returns focus on Escape
   await assertNoBlockingA11yViolations(page, "Application Shell mobile sheet", {
     include: '[role="dialog"]',
   });
+  const brand = dialog.getByRole("link", { name: "Acme Inc", exact: true });
+  const account = dialog.getByRole("button", { name: "Open account menu for Alex Morgan" });
+  // Prove both boundaries wrap past the hidden Sheet close button and untabbable rail.
+  await brand.focus();
   await page.keyboard.press("Shift+Tab");
-  await expect(dialog.locator(":focus")).toHaveCount(1);
+  await expect(account).toBeFocused();
+  await page.keyboard.press("Tab");
+  await expect(brand).toBeFocused();
   await page.keyboard.press("Escape");
   await expect(dialog).toHaveCount(0);
   await expect(trigger).toBeFocused();
@@ -459,14 +497,20 @@ test("mobile sheet traps focus, closes on navigation and returns focus on Escape
   await expect(dialog).toHaveCount(0);
   await expect(trigger).toBeFocused();
   await trigger.click();
-  const account = dialog.getByRole("button", { name: "Open account menu for Alex Morgan" });
   await account.click();
   await page.keyboard.press("Escape");
   await expect(dialog).toBeVisible();
   await expect(account).toBeFocused();
-  await dialog.getByRole("link", { name: "Design Engineering", exact: true }).click();
+  const models = dialog.getByRole("button", { name: "Models", exact: true });
+  await models.focus();
+  await page.keyboard.press("Enter");
+  await expect(models).toHaveAttribute("aria-expanded", "true");
+  await page.keyboard.press("Tab");
+  await expect(dialog.getByRole("link", { name: "Genesis", exact: true })).toBeFocused();
+  await page.keyboard.press("Enter");
   await expect(dialog).toHaveCount(0);
-  await expect(page.getByRole("status")).toHaveText("Selected Design Engineering");
+  await expect(page.getByRole("status")).toHaveText("Selected Genesis");
+  await expect(trigger).toBeFocused();
 });
 
 test("reduced motion applies to the shell and portaled mobile sheet", async ({ page }) => {
