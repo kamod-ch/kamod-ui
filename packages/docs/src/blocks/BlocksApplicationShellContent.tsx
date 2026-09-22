@@ -5,17 +5,13 @@
  * @see https://www.shadcnblocks.com/blocks/application-shell — related application shell catalog.
  * @see https://www.shadcnblocks.com/block/application-shell1 — block and detail-header design reference.
  */
-import {
-  type ApplicationShell1Props,
-  applicationShellBlocks,
-} from "@kamod-ch/blocks/application-shell";
+import { applicationShellBlocks } from "@kamod-ch/blocks/application-shell";
 import {
   ArrowLeftIcon,
   BugIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
   ExternalLinkIcon,
-  LinkIcon,
   RefreshCwIcon,
 } from "@kamod-ch/icons/lucide";
 import { BrandGithubIcon } from "@kamod-ch/icons/tabler/filled";
@@ -33,15 +29,17 @@ import {
   TabsList,
   TabsTrigger,
 } from "@kamod-ch/ui";
-import type { ComponentChildren } from "preact";
 import { useEffect, useState } from "preact/hooks";
 import { withBasePath } from "../base-path";
 import { CodeBlock } from "../docs/components/CodeBlock";
 import { DocsShell } from "../docs/components/DocsShell";
 import { DemoShell, demoTopNavItems } from "../layout/DemoShell";
+import { ShellProps } from "./ApplicationShellProps";
 import { applicationShellSources } from "./application-shell-source";
 import { BlockPreviewPanel } from "./BlockPreviewPanel";
 import { BlocksTopbarActions } from "./BlocksSidebarContent";
+import { RequiredIndicator } from "./RequiredIndicator";
+import { ShellHeadingLink } from "./ShellHeadingLink";
 
 const categoryPath = "/blocks/application-shell";
 const blocksOverviewHref =
@@ -72,7 +70,13 @@ const shellContents: readonly ShellContentsEntry[] = [
   {
     id: "application-shell-props",
     label: "Props and data",
-    children: [{ id: "application-shell-navigation-data", label: "Type your navigation data" }],
+    children: [
+      { id: "application-shell-prop-reference", label: "Component props" },
+      { id: "application-shell-navigation-data", label: "Type your navigation data" },
+      { id: "application-shell-data-types", label: "Data type reference" },
+      { id: "application-shell-callbacks", label: "Navigation and callbacks" },
+      { id: "application-shell-state", label: "Sidebar state" },
+    ],
   },
   {
     id: "application-shell-about",
@@ -88,20 +92,6 @@ const shellContents: readonly ShellContentsEntry[] = [
   },
   { id: "application-shell-reference", label: "Design reference" },
 ];
-
-/**
- * Makes a heading a native permalink with a link icon revealed on hover or keyboard focus.
- * The decorative icon sits outside the text flow, preserving alignment and accessible names.
- * @param props - The fragment target (or `top`) and the visible heading content.
- */
-const ShellHeadingLink = ({ id, children }: { id: string; children: ComponentChildren }) => (
-  <a class="blocks-doc-heading-link" href={`#${id}`}>
-    <span class="blocks-doc-heading-icon" aria-hidden="true">
-      <LinkIcon size={14} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
-    </span>
-    {children}
-  </a>
-);
 
 /**
  * Introduces the variant and provides category, adjacent-variant and repository links.
@@ -472,13 +462,14 @@ const ShellSetup = () => (
             </TabsContent>
           ))}
         </Tabs>
-        <p class="blocks-doc-note">
-          <strong>Compatibility:</strong> <code>@kamod-ch/ui</code> must export{" "}
-          <code>useDropdown</code> and support the <code>portal</code> prop on{" "}
-          <code>DropdownContent</code>. The shell's menu adapters use these APIs to manage keyboard
-          navigation and keep menus outside the sidebar's scroll container. Use a UI release that
-          includes both APIs before integrating the block.
-        </p>
+        <div role="paragraph" class="blocks-doc-note">
+          <strong>Compatibility:</strong>{" "}
+          <RequiredIndicator label="Required UI compatibility" tooltip="Required Kamod UI APIs" />{" "}
+          <code>@kamod-ch/ui</code> must export <code>useDropdown</code> and support the{" "}
+          <code>portal</code> prop on <code>DropdownContent</code>. The shell's menu adapters use
+          these APIs to manage keyboard navigation and keep menus outside the sidebar's scroll
+          container. Use a UI release that includes both APIs before integrating the block.
+        </div>
       </li>
       <li>
         <h3 id="application-shell-styles" tabIndex={-1}>
@@ -486,15 +477,16 @@ const ShellSetup = () => (
             Set up styles and import
           </ShellHeadingLink>
         </h3>
-        <p>
+        <div role="paragraph">
           Follow the{" "}
           <a class="underline" href={withBasePath("/docs/theming/css-setup")}>
             theme and Tailwind setup
           </a>{" "}
-          in your app's global stylesheet, then ensure Tailwind scans the copied files as well as
-          the Kamod components. An app that already uses Kamod can keep its existing theme setup.
-          Import the shell from your new local folder:
-        </p>
+          <RequiredIndicator label="Required styling setup" tooltip="Required CSS setup" /> in your
+          app's global stylesheet, then ensure Tailwind scans the copied files as well as the Kamod
+          components. An app that already uses Kamod can keep its existing theme setup. Import the
+          shell from your new local folder:
+        </div>
         <CodeBlock code={shellImport} language="tsx" />
         <p class="blocks-doc-note">
           <strong>Check the first render:</strong> the sidebar, borders and page background should
@@ -533,11 +525,13 @@ const ShellUsage = () => (
       <h2 id="application-shell-usage" tabIndex={-1}>
         <ShellHeadingLink id="application-shell-usage">Usage</ShellHeadingLink>
       </h2>
-      <p>
-        Pass your brand, navigation, user and breadcrumbs, then place your page content inside the
-        shell. Mount it in your app's shared layout so pages can reuse the same navigation. The
-        example below starts with one destination and lets the shell manage its own sidebar state.
-      </p>
+      <div role="paragraph">
+        Pass your brand, navigation, user and breadcrumbs{" "}
+        <RequiredIndicator label="Required usage data" tooltip="Four required data props" />, then
+        place your page content inside the shell. Mount it in your app's shared layout so pages can
+        reuse the same navigation. The example below starts with one destination and lets the shell
+        manage its own sidebar state.
+      </div>
     </header>
     <CodeBlock code={usage} language="tsx" />
     <dl class="blocks-doc-callouts">
@@ -558,141 +552,6 @@ const ShellUsage = () => (
         </dd>
       </div>
     </dl>
-  </section>
-);
-
-const navigationExample = `import type { ApplicationShellNavigationGroup } from "./components/application-shell-1";
-
-export const navigationGroups = [{
-  id: "workspace",
-  label: "Workspace",
-  items: [{
-    id: "projects",
-    label: "Projects",
-    href: "/projects",
-    items: [{ id: "recent", label: "Recent projects", href: "/projects/recent" }],
-  }],
-}] satisfies readonly ApplicationShellNavigationGroup[];`;
-
-/** Public prop names and their actual defaults; required data has no built-in fallback. */
-const shellPropRows: readonly [
-  prop: keyof ApplicationShell1Props,
-  description: ComponentChildren,
-  defaultValue: "Required" | "undefined" | "true",
-][] = [
-  ["brand", "name, optional description, href and logo (Preact content).", "Required"],
-  [
-    "navigationGroups",
-    <>
-      Groups with id, optional label and items. Each item has id, label, optional href, icon,
-      active, disabled and one level of child items. See{" "}
-      <a class="underline" href="#application-shell-navigation-data">
-        Type your navigation data
-      </a>
-      .
-    </>,
-    "Required",
-  ],
-  [
-    "user",
-    "name, email, optional avatarSrc and initials. Initials default to the user's name.",
-    "Required",
-  ],
-  [
-    "breadcrumbs",
-    "An ordered list of { label, href? }. The final entry is the current page; earlier entries hide on mobile.",
-    "Required",
-  ],
-  ["children", "Your page content, rendered inside the main landmark.", "undefined"],
-  [
-    "currentPath",
-    "Exact href match for active links. An item's explicit active value takes precedence.",
-    "undefined",
-  ],
-  [
-    "onNavigate",
-    "Receives (destination, event) for navigation, brand and breadcrumb clicks. Call event.preventDefault() for client routing. Items without href act as buttons.",
-    "undefined",
-  ],
-  [
-    "onUserAction",
-    "Receives account, billing, notifications or logout. Supply your own actions; no authentication is included.",
-    "undefined",
-  ],
-  [
-    "open",
-    "Controlled desktop sidebar state. Pass with onOpenChange; omit to let the shell manage its state.",
-    "undefined",
-  ],
-  [
-    "defaultOpen",
-    "Initial desktop state when uncontrolled; true means expanded. Ignored when open is supplied. The mobile sheet starts closed independently.",
-    "true",
-  ],
-  [
-    "onOpenChange",
-    "Receives the next desktop open state. Update open when controlled; can also observe uncontrolled changes.",
-    "undefined",
-  ],
-  ["class", "Additional classes on the shell wrapper.", "undefined"],
-  ["className", "Alias for class; merged after it when both are supplied.", "undefined"],
-];
-
-/** Reference table and typed navigation example for the shell's public inputs. */
-const ShellProps = () => (
-  <section class="blocks-doc-section" aria-labelledby="application-shell-props">
-    <header class="blocks-doc-section-header">
-      <h2 id="application-shell-props" tabIndex={-1}>
-        <ShellHeadingLink id="application-shell-props">Props and data</ShellHeadingLink>
-      </h2>
-      <p>
-        Supply your app's data and callbacks; the shell handles layout and navigation controls.{" "}
-        <code>brand</code>, <code>navigationGroups</code>, <code>user</code> and{" "}
-        <code>breadcrumbs</code> are required and have no default. The remaining props are optional,
-        so you can start with native links and add routing or controlled sidebar state when needed.
-      </p>
-    </header>
-    <div
-      class="blocks-doc-table"
-      role="region"
-      aria-labelledby="application-shell-props"
-      tabIndex={0}
-    >
-      <table>
-        <caption class="sr-only">ApplicationShell1 props, descriptions and default values</caption>
-        <thead>
-          <tr>
-            <th scope="col">Prop</th>
-            <th scope="col">Description</th>
-            <th scope="col">Default value</th>
-          </tr>
-        </thead>
-        <tbody>
-          {shellPropRows.map(([prop, description, defaultValue]) => (
-            <tr key={prop}>
-              <th scope="row">
-                <code>{prop}</code>
-              </th>
-              <td>{description}</td>
-              <td>{defaultValue === "Required" ? defaultValue : <code>{defaultValue}</code>}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-    <section class="blocks-doc-data-example" aria-labelledby="application-shell-navigation-data">
-      <h3 id="application-shell-navigation-data" tabIndex={-1}>
-        <ShellHeadingLink id="application-shell-navigation-data">
-          Type your navigation data
-        </ShellHeadingLink>
-      </h3>
-      <p>
-        The local entrypoint also exports the data and callback types. Use stable IDs for groups and
-        items, and keep child destinations to one level. This example gives Projects its own page as
-        well as an expandable child link; pass the resulting array to <code>navigationGroups</code>.
-      </p>
-      <CodeBlock code={navigationExample} language="tsx" />
-    </section>
   </section>
 );
 
@@ -760,9 +619,10 @@ const ShellExplanation = () => (
         <strong>The shell does not choose a router for you.</strong> Links follow their URLs
         normally. To use client-side routing, handle <code>onNavigate(destination, event)</code>,
         call <code>event.preventDefault()</code> for the click you handle and update your route.
-        Preserve Ctrl/Cmd, Shift and Alt clicks so browser shortcuts keep working. An item without
-        an <code>href</code> acts as a button. Breadcrumbs are supplied separately: the last entry
-        describes the current page, while earlier entries may link to parent destinations.
+        Preserve Ctrl/Cmd, Shift and Alt clicks so browser shortcuts keep working. A leaf without an{" "}
+        <code>href</code> acts as an action button; a branch without one only toggles its submenu.
+        Breadcrumbs are supplied separately: the last entry describes the current page, while
+        earlier entries may link to parent destinations.
       </p>
     </section>
     <section aria-labelledby="application-shell-responsive">
@@ -806,13 +666,14 @@ const ShellExplanation = () => (
         and dismisses the menu. Connect these callbacks to your own pages, dialogs or authentication
         service; the block itself does not manage a session.
       </p>
-      <p>
+      <div role="paragraph">
         Everything passed as <code>children</code> appears beneath the header inside the existing{" "}
         <code>main</code> landmark. Replace the demo's muted placeholders with a dashboard, form,
         table or routed page. The content wrapper provides padding and flexible vertical space,
         while your page owns its headings, loading states and data. Avoid nesting another{" "}
-        <code>main</code> element inside the shell.
-      </p>
+        <code>main</code> element inside the shell.{" "}
+        <RequiredIndicator label="Main landmark requirement" tooltip="Use a single main landmark" />
+      </div>
     </section>
     <section aria-labelledby="application-shell-accessibility">
       <h3 id="application-shell-accessibility" tabIndex={-1}>
