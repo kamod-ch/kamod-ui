@@ -426,7 +426,9 @@ const ShellSetup = () => (
         </h3>
         <p>
           Copy the Code-tab files into <code>src/components/application-shell-1</code>. Skip{" "}
-          <code>preview.tsx</code> and <code>demo-data.tsx</code> unless you want the demo.
+          <code>preview.tsx</code>, <code>demo-data.tsx</code> and{" "}
+          <code>assets/kamod-ui-logo.svg</code> unless you want the demo. To keep the demo branding,
+          copy the SVG into the same <code>assets</code> subfolder.
         </p>
         <p>
           <strong>Keep the reusable files together:</strong> <code>application-shell-1.tsx</code>,{" "}
@@ -997,7 +999,7 @@ const ShellDetail = ({ block }: { block: ApplicationShellBlock }) => {
                 <div class="blocks-code-pane">
                   <CodeBlock
                     code={applicationShellSources[selectedFile]}
-                    language="tsx"
+                    language={selectedFile.endsWith(".svg") ? "text" : "tsx"}
                     className="docs-tab-code"
                   />
                 </div>

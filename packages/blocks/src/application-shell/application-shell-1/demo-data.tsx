@@ -1,18 +1,19 @@
 /**
  * @file Typed sample content for the Application Shell 1 preview.
  * Hash URLs identify demo selections; replace them with app routes when reusing this data.
- * Fixtures use a single icon family and remain separate from the reusable shell's API.
+ * Navigation uses a single icon family; the Kamod logo is a local demo asset.
+ * Fixtures remain separate from the reusable shell's API.
  */
 import {
   BookOpenIcon,
   BoxesIcon,
-  CommandIcon,
   EllipsisIcon,
   FrameIcon,
   MapIcon,
   Settings2Icon,
   TerminalIcon,
 } from "@kamod-ch/icons/lucide";
+import kamodLogoUrl from "./assets/kamod-ui-logo.svg?url";
 import type {
   ApplicationShellBrand,
   ApplicationShellDestination,
@@ -20,12 +21,12 @@ import type {
   ApplicationShellUser,
 } from "./types";
 
-/** Sample workspace identity with a decorative icon and a demo home destination. */
+/** Sample workspace identity with a decorative Kamod logo and a demo home destination. */
 export const applicationShell1Brand: ApplicationShellBrand = {
   name: "Acme Inc",
   description: "Enterprise",
   href: "#home",
-  logo: <CommandIcon strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />,
+  logo: <img src={kamodLogoUrl} alt="" width={24} height={24} class="size-6 object-contain" />,
 };
 
 /** Platform and project groups exercising direct links and one level of child navigation. */

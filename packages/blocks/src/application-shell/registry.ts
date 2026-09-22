@@ -27,6 +27,7 @@ export const applicationShellBlocks = [
       "types.ts",
       "preview.tsx",
       "demo-data.tsx",
+      "assets/kamod-ui-logo.svg",
       "index.ts",
     ].map((label) => ({
       label,

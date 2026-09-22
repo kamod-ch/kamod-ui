@@ -4,6 +4,7 @@
  */
 import sidebar from "../../../blocks/src/application-shell/application-shell-1/app-sidebar.tsx?raw";
 import shell from "../../../blocks/src/application-shell/application-shell-1/application-shell-1.tsx?raw";
+import logo from "../../../blocks/src/application-shell/application-shell-1/assets/kamod-ui-logo.svg?raw";
 import data from "../../../blocks/src/application-shell/application-shell-1/demo-data.tsx?raw";
 import index from "../../../blocks/src/application-shell/application-shell-1/index.ts?raw";
 import menu from "../../../blocks/src/application-shell/application-shell-1/menu.tsx?raw";
@@ -25,5 +26,6 @@ export const applicationShellSources: Record<string, string> = {
   "types.ts": types,
   "preview.tsx": preview,
   "demo-data.tsx": data,
+  "assets/kamod-ui-logo.svg": logo,
   "index.ts": index,
 };

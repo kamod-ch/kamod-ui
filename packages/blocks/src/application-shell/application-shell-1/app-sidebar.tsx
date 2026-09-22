@@ -53,7 +53,7 @@ export const AppSidebar = ({
   const brandContent = (
     <>
       <span
-        class="flex size-8 shrink-0 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground [&>svg]:size-4"
+        class="flex size-8 shrink-0 items-center justify-center rounded-lg bg-sidebar-accent/50 text-sidebar-foreground [&>svg]:size-4"
         aria-hidden="true"
       >
         {brand.logo ?? brand.name.slice(0, 1)}
