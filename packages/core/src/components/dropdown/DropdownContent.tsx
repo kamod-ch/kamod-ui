@@ -1,5 +1,7 @@
 import type { ComponentChildren, JSX } from "preact";
+import { useLayoutEffect, useState } from "preact/hooks";
 import { tv, type VariantProps } from "tailwind-variants";
+import { createPortal } from "../../lib/createPortal";
 import { cn } from "../../lib/utils";
 import { useDropdown } from "./Dropdown";
 
@@ -48,6 +50,8 @@ export const dropdownContent = tv({
 export type DropdownContentProps = JSX.HTMLAttributes<HTMLDivElement> &
   VariantProps<typeof dropdownContent> & {
     forceMount?: boolean;
+    /** Render in document.body and keep the menu inside the viewport, escaping scroll clipping. */
+    portal?: boolean;
     side?: "top" | "bottom" | "left" | "right";
     align?: "start" | "center" | "end";
     sideOffset?: number;
@@ -56,6 +60,7 @@ export type DropdownContentProps = JSX.HTMLAttributes<HTMLDivElement> &
 
 export const DropdownContent = ({
   forceMount = false,
+  portal = false,
   side = "bottom",
   align = "start",
   sideOffset = 4,
@@ -66,7 +71,86 @@ export const DropdownContent = ({
   ...rest
 }: DropdownContentProps) => {
   const dropdown = useDropdown();
-  if (!dropdown.open.value && !forceMount) return null;
+  const isOpen = dropdown.open.value;
+  const [placement, setPlacement] = useState({ left: 0, top: 0, side });
+
+  useLayoutEffect(() => {
+    if (!portal || (!isOpen && !forceMount)) return;
+    const content = dropdown.contentRef.current;
+    const trigger = dropdown.triggerRef.current;
+    if (!content || !trigger) return;
+    const view = trigger.ownerDocument.defaultView;
+    if (!view) return;
+
+    const update = () => {
+      const rect = trigger.getBoundingClientRect();
+      const padding = 8;
+      const viewportWidth = trigger.ownerDocument.documentElement.clientWidth || view.innerWidth;
+      const viewportHeight = view.innerHeight;
+      // Layout dimensions avoid the opening animation's temporary scale affecting placement.
+      const width = content.offsetWidth;
+      const height = content.offsetHeight;
+      const space = {
+        top: rect.top - sideOffset - padding,
+        bottom: viewportHeight - rect.bottom - sideOffset - padding,
+        left: rect.left - sideOffset - padding,
+        right: viewportWidth - rect.right - sideOffset - padding,
+      };
+      const opposite = { top: "bottom", bottom: "top", left: "right", right: "left" } as const;
+      const extent = side === "top" || side === "bottom" ? height : width;
+      const resolvedSide =
+        space[side] < extent && space[opposite[side]] > space[side] ? opposite[side] : side;
+      const vertical = resolvedSide === "top" || resolvedSide === "bottom";
+      const aligned = (start: number, end: number, size: number) =>
+        align === "start" ? start : align === "end" ? end - size : (start + end - size) / 2;
+      const left = vertical
+        ? aligned(rect.left, rect.right, width)
+        : resolvedSide === "right"
+          ? rect.right + sideOffset
+          : rect.left - width - sideOffset;
+      const top = vertical
+        ? resolvedSide === "bottom"
+          ? rect.bottom + sideOffset
+          : rect.top - height - sideOffset
+        : aligned(rect.top, rect.bottom, height);
+      const clamp = (value: number, limit: number) =>
+        Math.max(padding, Math.min(value, limit - padding));
+      const next = {
+        left: clamp(left, viewportWidth - width),
+        top: clamp(top, viewportHeight - height),
+        side: resolvedSide,
+      };
+      setPlacement((previous) =>
+        previous.left === next.left && previous.top === next.top && previous.side === next.side
+          ? previous
+          : next,
+      );
+    };
+
+    update();
+    // Capture scrolling in nested sidebar/content regions, not just the document.
+    view.addEventListener("scroll", update, true);
+    view.addEventListener("resize", update);
+    const observer = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(update);
+    observer?.observe(content);
+    observer?.observe(trigger);
+    return () => {
+      view.removeEventListener("scroll", update, true);
+      view.removeEventListener("resize", update);
+      observer?.disconnect();
+    };
+  }, [
+    portal,
+    isOpen,
+    forceMount,
+    side,
+    align,
+    sideOffset,
+    dropdown.contentRef,
+    dropdown.triggerRef,
+  ]);
+
+  if ((!isOpen && !forceMount) || (portal && typeof document === "undefined")) return null;
 
   const isVertical = side === "top" || side === "bottom";
   const alignClass = isVertical ? alignByAxis.vertical[align] : alignByAxis.horizontal[align];
@@ -80,7 +164,7 @@ export const DropdownContent = ({
           ? { marginLeft: `${sideOffset}px` }
           : { marginRight: `${sideOffset}px` };
 
-  return (
+  const content = (
     <div
       ref={(node) => {
         dropdown.contentRef.current = node;
@@ -90,14 +174,39 @@ export const DropdownContent = ({
       tabIndex={-1}
       aria-labelledby={dropdown.triggerId}
       data-slot="dropdown-content"
-      data-side={side}
+      data-side={portal ? placement.side : side}
       data-align={align}
       data-state={dropdown.open.value ? "open" : "closed"}
-      class={cn(dropdownContent({ side }), positionBySide[side], alignClass, className)}
-      style={inlineStyle ? { ...offsetStyle, ...inlineStyle } : offsetStyle}
+      class={cn(
+        dropdownContent({ side: portal ? placement.side : side }),
+        !portal && positionBySide[side],
+        !portal && alignClass,
+        className,
+      )}
+      style={
+        portal
+          ? {
+              ...inlineStyle,
+              position: "fixed",
+              left: placement.left,
+              top: placement.top,
+              right: "auto",
+              bottom: "auto",
+              margin: 0,
+              // Reposition instantly; state duration utilities must not animate left/top.
+              transitionProperty: "none",
+              maxWidth: "calc(100vw - 16px)",
+              maxHeight: "min(24rem, calc(100dvh - 16px))",
+            }
+          : inlineStyle
+            ? { ...offsetStyle, ...inlineStyle }
+            : offsetStyle
+      }
       onKeyDown={(event) => {
         if (event.key === "Escape") {
           event.preventDefault();
+          // A portaled menu has no enclosing Dropdown DOM node to stop a parent Sheet dismissal.
+          if (portal) event.stopPropagation();
           dropdown.setOpen(false);
           dropdown.triggerRef.current?.focus();
           return;
@@ -109,4 +218,5 @@ export const DropdownContent = ({
       {children}
     </div>
   );
+  return portal ? createPortal(content, document.body) : content;
 };

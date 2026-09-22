@@ -12,6 +12,14 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
+    "./application-shell": {
+      "types": "./dist/application-shell/index.d.ts",
+      "import": "./dist/application-shell/index.js"
+    },
+    "./application-shell/*": {
+      "types": "./dist/application-shell/*/index.d.ts",
+      "import": "./dist/application-shell/*/index.js"
+    },
     "./sidebar": {
       "types": "./dist/sidebar/index.d.ts",
       "import": "./dist/sidebar/index.js"

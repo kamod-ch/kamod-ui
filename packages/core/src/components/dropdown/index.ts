@@ -1,4 +1,4 @@
-import { Dropdown } from "./Dropdown";
+import { Dropdown, useDropdown } from "./Dropdown";
 import { DropdownCheckboxItem } from "./DropdownCheckboxItem";
 import { DropdownContent } from "./DropdownContent";
 import { DropdownGroup } from "./DropdownGroup";
@@ -30,6 +30,7 @@ export {
   DropdownSubContent,
   DropdownSubTrigger,
   DropdownTrigger,
+  useDropdown,
 };
 
 export default {

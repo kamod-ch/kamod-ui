@@ -62,7 +62,7 @@ export const SheetContent = ({
         class={cn(
           "fade-in fade-out",
           dialogViewportBleedClass,
-          "z-40 bg-black/50 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fill-mode-forwards",
+          "z-40 bg-black/50 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fill-mode-forwards motion-reduce:animate-none!",
         )}
       />
       <div
@@ -78,7 +78,7 @@ export const SheetContent = ({
         class={cn(
           "fixed z-50 flex min-h-0 min-w-0 flex-col gap-4 overflow-y-auto border bg-background shadow-lg outline-none",
           edgePadding,
-          "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fill-mode-forwards duration-300",
+          "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fill-mode-forwards duration-300 motion-reduce:animate-none!",
           sidePanelClass[side],
           className,
           isHorizontalEdge && "w-full !max-w-none",

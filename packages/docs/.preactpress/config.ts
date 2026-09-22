@@ -52,7 +52,8 @@ export default defineConfig({
     title: "Kamod UI",
     description:
       "Lightweight UI components for Preact and Tailwind: composable primitives you can customize, extend, and ship without a heavy runtime.",
-    url: "https://kamod-ch.github.io/kamod-ui/",
+    // PreactPress appends base to this origin when generating canonical and social URLs.
+    url: "https://kamod-ch.github.io",
     base,
   },
   markdown: {
@@ -97,11 +98,21 @@ export default defineConfig({
     ],
     server: {
       watch: {
-        ignored: [resolve(repoRoot, "tmp"), resolve(repoRoot, ".cursor"), "**/node_modules/**"],
+        ignored: [
+          resolve(repoRoot, "tmp"),
+          resolve(repoRoot, ".cursor"),
+          "**/node_modules/**",
+          "**/test-results/**",
+          "**/playwright-report/**",
+        ],
       },
     },
     resolve: {
       alias: [
+        {
+          find: /^@kamod-ch\/blocks\/application-shell$/,
+          replacement: resolve(blocksSrc, "application-shell/index.ts"),
+        },
         {
           find: /^@kamod-ch\/blocks\/app-sidebar$/,
           replacement: resolve(blocksSrc, "app-sidebar/index.ts"),

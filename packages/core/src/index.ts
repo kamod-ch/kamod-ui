@@ -185,6 +185,7 @@ export {
   DropdownSubContent,
   DropdownSubTrigger,
   DropdownTrigger,
+  useDropdown,
 } from "./components/dropdown";
 export {
   Dropzone,

@@ -42,7 +42,7 @@ export const createDismissableLayer = ({
 }: CreateDismissableLayerOptions) => {
   const enabled = signal(true);
   const portalLayerSelector =
-    '[data-slot="dialog-content"], [data-slot="command-dialog-content"], [data-slot="alert-dialog-content"], [data-slot="sheet-content"], [data-slot="popover-content"], [data-slot="select-content"], [data-slot="dropdown-content"]';
+    '[role="dialog"][aria-modal="true"], [data-slot="dialog-content"], [data-slot="command-dialog-content"], [data-slot="alert-dialog-content"], [data-slot="sheet-content"], [data-slot="popover-content"], [data-slot="select-content"], [data-slot="dropdown-content"]';
   const overlayLayerSlots = new Set([
     "dialog-content",
     "command-dialog-content",

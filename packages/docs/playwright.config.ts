@@ -2,7 +2,8 @@ import { defineConfig, devices } from "@playwright/test";
 
 /**
  * - **chromium**: all E2E specs (component smoke + kitchen sink).
- * - **webkit** / **iphone**: kitchen-sink specs only (visual + smoke on demo home / kitchen sink).
+ * - **webkit**: kitchen-sink, application-shell and inline-sidebar scrolling specs.
+ * - **iphone**: kitchen-sink specs (visual + smoke on demo home / kitchen sink).
  *
  * Update baselines: `pnpm test:e2e --update-snapshots` (from packages/docs).
  */
@@ -41,7 +42,7 @@ export default defineConfig({
     },
     {
       name: "webkit",
-      testMatch: /kitchen-sink.*\.spec\.ts/,
+      testMatch: /kitchen-sink.*\.spec\.ts|blocks-(application-shell|sidebar-preview)\.spec\.ts/,
       use: {
         ...devices["Desktop Safari"],
         viewport: { width: 1440, height: 900 },

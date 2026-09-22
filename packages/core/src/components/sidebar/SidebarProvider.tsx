@@ -1,6 +1,6 @@
 import type { ComponentChildren, JSX } from "preact";
 import { createContext } from "preact";
-import { useCallback, useContext, useEffect, useMemo, useState } from "preact/hooks";
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "preact/hooks";
 import { cn } from "../../lib/utils";
 import { TooltipProvider } from "../tooltip";
 import { useIsMobile } from "./use-mobile";
@@ -47,23 +47,42 @@ export const SidebarProvider = ({
   ...rest
 }: SidebarProviderProps) => {
   const isMobile = useIsMobile();
-  const [openMobile, setOpenMobile] = useState(false);
+  const [openMobile, setOpenMobileState] = useState(false);
+  const mobileTriggerRef = useRef<HTMLElement | null>(null);
+  const setOpenMobile = useCallback((value: boolean | ((prev: boolean) => boolean)) => {
+    setOpenMobileState((previous) => {
+      const next = typeof value === "function" ? value(previous) : value;
+      // The mobile Sheet is controlled here, outside a SheetTrigger. Remember the
+      // opener so Escape, backdrop dismissal and navigation all restore focus.
+      if (next && !previous && typeof document !== "undefined") {
+        mobileTriggerRef.current =
+          document.activeElement instanceof HTMLElement ? document.activeElement : null;
+      }
+      return next;
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!openMobile) {
+      mobileTriggerRef.current?.focus();
+      mobileTriggerRef.current = null;
+    }
+  }, [openMobile]);
   const [_open, _setOpen] = useState(defaultOpen);
   const open = openProp ?? _open;
 
   const setOpen = useCallback(
     (value: boolean | ((prev: boolean) => boolean)) => {
       const openState = typeof value === "function" ? value(open) : value;
-      if (setOpenProp) {
-        setOpenProp(openState);
-      } else {
+      if (openProp === undefined) {
         _setOpen(openState);
       }
+      setOpenProp?.(openState);
       if (typeof document !== "undefined") {
         document.cookie = `${SIDEBAR_COOKIE_NAME}=${openState}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`;
       }
     },
-    [setOpenProp, open],
+    [setOpenProp, open, openProp],
   );
 
   const toggleSidebar = useCallback(() => {
@@ -72,7 +91,7 @@ export const SidebarProvider = ({
     } else {
       setOpen((prev) => !prev);
     }
-  }, [isMobile, setOpen]);
+  }, [isMobile, setOpen, setOpenMobile]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -97,7 +116,7 @@ export const SidebarProvider = ({
       setOpenMobile,
       toggleSidebar,
     }),
-    [state, open, setOpen, isMobile, openMobile, toggleSidebar],
+    [state, open, setOpen, isMobile, openMobile, setOpenMobile, toggleSidebar],
   );
 
   return (

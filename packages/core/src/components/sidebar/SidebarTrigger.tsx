@@ -9,7 +9,7 @@ export type SidebarTriggerProps = Omit<JSX.ButtonHTMLAttributes<HTMLButtonElemen
 };
 
 export const SidebarTrigger = ({ class: className, onClick, ...rest }: SidebarTriggerProps) => {
-  const { toggleSidebar } = useSidebar();
+  const { isMobile, toggleSidebar } = useSidebar();
 
   return (
     <Button
@@ -23,6 +23,9 @@ export const SidebarTrigger = ({ class: className, onClick, ...rest }: SidebarTr
       {...rest}
       onClick={(event) => {
         onClick?.(event);
+        // Safari does not focus buttons on pointer clicks. The provider records
+        // the focused opener so dismissing the mobile sheet can return to it.
+        if (isMobile) event.currentTarget.focus({ preventScroll: true });
         toggleSidebar();
       }}
     >

@@ -10,6 +10,7 @@ export const HIDDEN_BLOCK_NAV_KEYS = new Set([
 
 export const BLOCK_NAV_ITEMS = [
   { key: "sidebar", label: "Sidebar", href: "/blocks/sidebar" },
+  { key: "application-shell", label: "Application Shell", href: "/blocks/application-shell" },
   { key: "app-sidebar", label: "App Sidebar", href: "/blocks/app-sidebar" },
   { key: "login", label: "Login", href: "/blocks/login" },
   { key: "signup", label: "Signup", href: "/blocks/signup" },

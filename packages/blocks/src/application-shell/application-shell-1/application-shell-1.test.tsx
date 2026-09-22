@@ -1,0 +1,346 @@
+import { cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/preact";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { ApplicationShell1 } from "./application-shell-1";
+import { ApplicationShell1Preview } from "./preview";
+import type { ApplicationShell1Props } from "./types";
+
+const props: ApplicationShell1Props = {
+  brand: { name: "Test workspace", href: "/" },
+  user: { name: "Alex Morgan", email: "alex@example.com" },
+  breadcrumbs: [{ label: "Workspace", href: "/workspace" }, { label: "Overview" }],
+  navigationGroups: [
+    {
+      id: "main",
+      label: "Workspace navigation",
+      items: [
+        { id: "dashboard", label: "Dashboard", href: "/dashboard" },
+        {
+          id: "projects",
+          label: "Projects",
+          items: [
+            { id: "recent", label: "Recent", href: "/recent" },
+            { id: "archived", label: "Archived", href: "/archived", disabled: true },
+          ],
+        },
+        { id: "action", label: "Create project" },
+      ],
+    },
+  ],
+};
+const originalMatchMedia = window.matchMedia;
+const originalWidth = window.innerWidth;
+const useMobileViewport = () => {
+  Object.defineProperty(window, "innerWidth", { configurable: true, value: 320 });
+  window.matchMedia = (query: string) => ({
+    matches: query.includes("max-width: 767px"),
+    media: query,
+    onchange: null,
+    addListener() {},
+    removeListener() {},
+    addEventListener() {},
+    removeEventListener() {},
+    dispatchEvent: () => true,
+  });
+};
+afterEach(() => {
+  cleanup();
+  window.matchMedia = originalMatchMedia;
+  Object.defineProperty(window, "innerWidth", { configurable: true, value: originalWidth });
+});
+
+describe("Application Shell 1", () => {
+  it("renders consumer data, breadcrumb links and arbitrary main content", () => {
+    render(
+      <ApplicationShell1 {...props}>
+        <h1>My content</h1>
+      </ApplicationShell1>,
+    );
+    expect(screen.getByRole("link", { name: "Test workspace" }).getAttribute("href")).toBe("/");
+    expect(screen.getByRole("navigation", { name: "Main navigation" })).toBeTruthy();
+    expect(screen.getByText("alex@example.com")).toBeTruthy();
+    expect(screen.getByText("AM")).toBeTruthy();
+    expect(
+      within(screen.getByRole("main")).getByRole("heading", { name: "My content" }),
+    ).toBeTruthy();
+    expect(screen.getByRole("link", { name: "Workspace" }).getAttribute("href")).toBe("/workspace");
+    expect(screen.getByText("Overview").getAttribute("aria-current")).toBe("page");
+  });
+
+  it("opens and closes nested navigation and marks the active destination", async () => {
+    render(<ApplicationShell1 {...props} currentPath="/recent" />);
+    const trigger = screen.getByRole("button", { name: "Projects" });
+    expect(trigger.getAttribute("aria-expanded")).toBe("true");
+    expect(screen.getByRole("link", { name: "Recent" }).getAttribute("aria-current")).toBe("page");
+    fireEvent.click(trigger);
+    expect(trigger.getAttribute("aria-expanded")).toBe("false");
+    fireEvent.click(trigger);
+    await waitFor(() => expect(trigger.getAttribute("aria-expanded")).toBe("true"));
+  });
+
+  it("preserves native hrefs and lets a router cancel navigation", () => {
+    const onNavigate = vi.fn((_destination, event) => event.preventDefault());
+    render(<ApplicationShell1 {...props} onNavigate={onNavigate} />);
+    const link = screen.getByRole("link", { name: "Dashboard" });
+    expect(link.getAttribute("href")).toBe("/dashboard");
+    expect(fireEvent.click(link)).toBe(false);
+    expect(onNavigate.mock.calls[0][0].href).toBe("/dashboard");
+    fireEvent.click(screen.getByRole("button", { name: "Create project" }));
+    expect(onNavigate.mock.calls[1][0].id).toBe("action");
+    fireEvent.click(screen.getByRole("link", { name: "Workspace" }));
+    expect(onNavigate.mock.calls[2][0].href).toBe("/workspace");
+  });
+
+  it("honors explicit active values and disabled destinations", () => {
+    const onNavigate = vi.fn();
+    render(
+      <ApplicationShell1
+        {...props}
+        onNavigate={onNavigate}
+        currentPath="/dashboard"
+        navigationGroups={[
+          {
+            id: "test",
+            items: [
+              { id: "one", label: "Not current", href: "/dashboard", active: false },
+              { id: "two", label: "Explicit current", href: "/other", active: true },
+              { id: "three", label: "Unavailable", href: "/disabled", disabled: true },
+            ],
+          },
+        ]}
+      />,
+    );
+    expect(screen.getByRole("link", { name: "Not current" }).hasAttribute("aria-current")).toBe(
+      false,
+    );
+    expect(
+      screen.getByRole("link", { name: "Explicit current" }).getAttribute("aria-current"),
+    ).toBe("page");
+    const disabled = screen.getByLabelText("Unavailable");
+    expect(disabled.getAttribute("href")).toBeNull();
+    fireEvent.click(disabled);
+    expect(onNavigate).not.toHaveBeenCalled();
+  });
+
+  it("supports controlled desktop collapse", () => {
+    const onOpenChange = vi.fn();
+    const { rerender } = render(<ApplicationShell1 {...props} open onOpenChange={onOpenChange} />);
+    fireEvent.click(screen.getByRole("button", { name: "Toggle Sidebar" }));
+    expect(onOpenChange).toHaveBeenCalledWith(false);
+    expect(document.querySelector('[data-slot="sidebar"][data-state="expanded"]')).toBeTruthy();
+    rerender(<ApplicationShell1 {...props} open={false} onOpenChange={onOpenChange} />);
+    expect(document.querySelector('[data-slot="sidebar"][data-state="collapsed"]')).toBeTruthy();
+  });
+
+  it.each([true, false])(
+    "disables child destinations when an open branch becomes disabled (defaultOpen: %s)",
+    async (defaultOpen) => {
+      const onNavigate = vi.fn();
+      const navigationGroups = (disabled: boolean): ApplicationShell1Props["navigationGroups"] => [
+        {
+          id: "workspace",
+          items: [
+            {
+              id: "projects",
+              label: "Projects",
+              disabled,
+              items: [
+                { id: "recent", label: "Recent", href: "/recent" },
+                { id: "create", label: "Create project" },
+              ],
+            },
+          ],
+        },
+      ];
+      const { rerender } = render(
+        <ApplicationShell1
+          {...props}
+          defaultOpen={defaultOpen}
+          currentPath="/recent"
+          navigationGroups={navigationGroups(false)}
+          onNavigate={onNavigate}
+        />,
+      );
+      if (!defaultOpen) {
+        fireEvent.click(screen.getByRole("button", { name: "Projects" }));
+        await screen.findByRole("menu");
+      }
+      rerender(
+        <ApplicationShell1
+          {...props}
+          defaultOpen={defaultOpen}
+          currentPath="/recent"
+          navigationGroups={navigationGroups(true)}
+          onNavigate={onNavigate}
+        />,
+      );
+      const recent = defaultOpen
+        ? screen.getByLabelText("Recent")
+        : screen.getByRole("menuitem", { name: "Recent" });
+      const create = screen.getByRole(defaultOpen ? "button" : "menuitem", {
+        name: "Create project",
+      });
+      expect(recent.getAttribute("href")).toBeNull();
+      expect(recent.getAttribute("aria-disabled")).toBe("true");
+      expect(create.hasAttribute("disabled")).toBe(true);
+      recent.click();
+      create.click();
+      expect(onNavigate).not.toHaveBeenCalled();
+    },
+  );
+
+  it.each([true, false])(
+    "announces active callback destinations and updates them when defaultOpen is %s",
+    async (defaultOpen) => {
+      const onNavigate = vi.fn<NonNullable<ApplicationShell1Props["onNavigate"]>>(
+        (_destination, event) => event.preventDefault(),
+      );
+      const navigationGroups = (
+        overviewActive: boolean,
+      ): ApplicationShell1Props["navigationGroups"] => [
+        {
+          id: "workspace",
+          items: [
+            { id: "overview", label: "Overview action", active: overviewActive },
+            {
+              id: "projects",
+              label: "Projects",
+              items: [{ id: "recent", label: "Recent action", active: !overviewActive }],
+            },
+          ],
+        },
+      ];
+      const { rerender } = render(
+        <ApplicationShell1
+          {...props}
+          defaultOpen={defaultOpen}
+          navigationGroups={navigationGroups(true)}
+          onNavigate={onNavigate}
+        />,
+      );
+      const overview = screen.getByRole("button", { name: "Overview action" });
+      expect(overview.getAttribute("aria-current")).toBe("page");
+      fireEvent.click(overview);
+      expect(onNavigate.mock.lastCall?.[0]).toMatchObject({ id: "overview" });
+
+      rerender(
+        <ApplicationShell1
+          {...props}
+          defaultOpen={defaultOpen}
+          navigationGroups={navigationGroups(false)}
+          onNavigate={onNavigate}
+        />,
+      );
+      expect(
+        screen.getByRole("button", { name: "Overview action" }).hasAttribute("aria-current"),
+      ).toBe(false);
+      fireEvent.click(screen.getByRole("button", { name: "Projects" }));
+      const recent = await screen.findByRole(defaultOpen ? "button" : "menuitem", {
+        name: "Recent action",
+      });
+      expect(recent.getAttribute("aria-current")).toBe("page");
+      fireEvent.click(recent);
+      expect(onNavigate.mock.lastCall?.[0]).toMatchObject({ id: "recent" });
+      expect(onNavigate).toHaveBeenCalledTimes(2);
+    },
+  );
+
+  it("keeps nested destinations available in icon mode", async () => {
+    render(<ApplicationShell1Preview />);
+    fireEvent.click(screen.getByRole("button", { name: "Toggle Sidebar" }));
+    fireEvent.click(screen.getByRole("button", { name: "Playground" }));
+    fireEvent.click(await screen.findByRole("menuitem", { name: "Starred" }));
+    expect(screen.getByRole("status").textContent).toBe("Selected Starred");
+    await waitFor(() => expect(screen.queryByRole("menu")).toBeNull());
+  });
+
+  describe.each(["expanded", "collapsed", "mobile"] as const)("%s account menu", (mode) => {
+    it.each(["Account", "Billing", "Notifications", "Log out"])(
+      "reports the %s user action once and dismisses only the menu",
+      async (label) => {
+        if (mode === "mobile") useMobileViewport();
+        const onUserAction = vi.fn();
+        render(
+          <ApplicationShell1
+            {...props}
+            defaultOpen={mode !== "collapsed"}
+            onUserAction={onUserAction}
+          />,
+        );
+        if (mode === "mobile") {
+          fireEvent.click(screen.getByRole("button", { name: "Toggle Sidebar" }));
+          await screen.findByRole("dialog");
+        }
+        const trigger = screen.getByRole("button", {
+          name: "Open account menu for Alex Morgan",
+        });
+        fireEvent.click(trigger);
+        fireEvent.click(await screen.findByRole("menuitem", { name: label }));
+        expect(onUserAction).toHaveBeenCalledExactlyOnceWith(
+          label === "Log out" ? "logout" : label.toLowerCase(),
+        );
+        expect(screen.queryByRole("menu")).toBeNull();
+        await waitFor(() => expect(document.activeElement).toBe(trigger));
+        if (mode === "mobile") expect(screen.getByRole("dialog")).toBeTruthy();
+      },
+    );
+  });
+
+  it("dismisses a router-handled icon submenu even when the path stays the same", async () => {
+    render(
+      <ApplicationShell1
+        {...props}
+        defaultOpen={false}
+        currentPath="/recent"
+        onNavigate={(_destination, event) => event.preventDefault()}
+      />,
+    );
+    const trigger = screen.getByRole("button", { name: "Projects" });
+    fireEvent.click(trigger);
+    const recent = await screen.findByRole("menuitem", { name: "Recent" });
+    expect(document.activeElement).toBe(recent);
+    fireEvent.keyDown(recent, { key: "ArrowDown" });
+    expect(document.activeElement).toBe(recent); // The other destination is disabled.
+    fireEvent.click(recent);
+    expect(screen.queryByRole("menu")).toBeNull();
+    expect(document.activeElement).toBe(trigger);
+  });
+
+  it("returns focus to the user trigger on Escape", async () => {
+    render(<ApplicationShell1 {...props} />);
+    const trigger = screen.getByRole("button", { name: "Open account menu for Alex Morgan" });
+    fireEvent.click(trigger);
+    const account = await screen.findByRole("menuitem", { name: "Account" });
+    account.focus();
+    fireEvent.keyDown(account, { key: "Escape" });
+    await waitFor(() => expect(document.activeElement).toBe(trigger));
+  });
+
+  it("preserves mobile navigation for modified clicks and closes after ordinary selection", async () => {
+    useMobileViewport();
+    const onNavigate = vi.fn((_destination, event) => event.preventDefault());
+    const onOpenChange = vi.fn();
+    render(
+      <ApplicationShell1
+        {...props}
+        defaultOpen={false}
+        onNavigate={onNavigate}
+        onOpenChange={onOpenChange}
+      />,
+    );
+    const trigger = screen.getByRole("button", { name: "Toggle Sidebar" });
+    trigger.focus();
+    fireEvent.click(trigger);
+    const dialog = await screen.findByRole("dialog");
+    const dashboard = within(dialog).getByRole("link", { name: "Dashboard" });
+    for (const modifier of ["metaKey", "ctrlKey", "shiftKey", "altKey"]) {
+      fireEvent.click(dashboard, { [modifier]: true });
+      expect(screen.getByRole("dialog")).toBe(dialog);
+      expect(onNavigate.mock.lastCall?.[1][modifier]).toBe(true);
+    }
+    fireEvent.click(dashboard);
+    expect(onNavigate).toHaveBeenCalledTimes(5);
+    await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
+    await waitFor(() => expect(document.activeElement).toBe(trigger));
+    expect(onOpenChange).not.toHaveBeenCalled();
+  });
+});
