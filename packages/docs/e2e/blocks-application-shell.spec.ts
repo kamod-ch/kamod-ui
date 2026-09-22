@@ -53,7 +53,8 @@ test("documentation header exposes breadcrumbs, repository links and disabled va
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "Application Shell 1 — Sidebar shell with breadcrumbs",
   );
-  await expect(header.locator('[data-slot="badge"]')).toHaveText("Preact native");
+  await expect(header.locator('[data-slot="badge"]')).toHaveText("Layout block");
+  await expect(header.locator('[data-slot="badge"]')).toHaveAttribute("data-variant", "secondary");
   for (const direction of ["Previous", "Next"]) {
     const control = header.getByRole("button", { name: `${direction} variant unavailable` });
     await expect(control).toBeDisabled();
@@ -247,13 +248,31 @@ for (const width of [320, 640, 768, 979, 980, 1024, 1260, 1440]) {
       const headerBox = await header.boundingBox();
       const showcaseBox = await page.locator("article.blocks-card").boundingBox();
       expect(showcaseBox!.y).toBeGreaterThan(headerBox!.y + headerBox!.height);
-      // A flush title must keep its permalink visible and clickable at narrow widths.
+      // Keep the permalink left of the first text line, visible and clickable at every width.
       const titleLink = header.getByRole("heading", { level: 1 }).getByRole("link");
+      await titleLink.hover();
+      await expect(titleLink.locator("svg")).toBeVisible();
       await titleLink.focus();
       const titleIcon = titleLink.locator("svg");
       await expect(titleIcon).toBeVisible();
       const iconBox = await titleIcon.boundingBox();
+      const titleTextLeft = await titleLink.evaluate((link) => {
+        const walker = document.createTreeWalker(link, NodeFilter.SHOW_TEXT, {
+          acceptNode: (node) =>
+            node.textContent?.trim() && !node.parentElement?.closest('[aria-hidden="true"]')
+              ? NodeFilter.FILTER_ACCEPT
+              : NodeFilter.FILTER_SKIP,
+        });
+        const text = walker.nextNode();
+        if (!text) throw new Error("The page title must contain visible text.");
+        const start = text.textContent!.search(/\S/);
+        const range = document.createRange();
+        range.setStart(text, start);
+        range.setEnd(text, start + 1);
+        return range.getBoundingClientRect().left;
+      });
       expect(iconBox!.x).toBeGreaterThanOrEqual(0);
+      expect(iconBox!.x + iconBox!.width).toBeLessThanOrEqual(titleTextLeft);
       expect(iconBox!.x + iconBox!.width).toBeLessThanOrEqual(width);
       await titleIcon.click();
       await expect(page).toHaveURL(/#top$/);
@@ -272,7 +291,13 @@ for (const width of [320, 640, 768, 979, 980, 1024, 1260, 1440]) {
         await themePreset.selectOption("kamod");
       }
       const actions = header.locator(".blocks-shell-header-actions");
-      if (width >= 768) {
+      // Action visibility follows available header space, not the viewport breakpoint.
+      const actionsFit = await header.evaluate(
+        (node) =>
+          node.clientWidth >=
+          44 * Number.parseFloat(getComputedStyle(document.documentElement).fontSize),
+      );
+      if (actionsFit) {
         await expect(actions).toBeVisible();
         const actionsBox = await actions.boundingBox();
         const breadcrumbs = await header.locator('[data-slot="breadcrumb-list"]').boundingBox();

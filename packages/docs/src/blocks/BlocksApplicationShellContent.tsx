@@ -153,14 +153,18 @@ const ShellPageHeader = ({ block }: { block: ApplicationShellBlock }) => {
               {displayName} — Sidebar shell with breadcrumbs
             </ShellHeadingLink>
           </h1>
-          <Badge variant="info" size="lg" class="py-1.5">
-            Preact native
+          <Badge variant="secondary" size="md">
+            Layout block
           </Badge>
         </div>
         <p>
           A responsive frame for your application, with a collapsible sidebar, grouped navigation,
           nested links and an account menu. Add your pages beneath the breadcrumb header and connect
-          your own routing and user actions.
+          your own routing and user actions.{" "}
+          <a class="blocks-shell-header-about" href="#application-shell-about">
+            About this block
+          </a>
+          .
         </p>
       </div>
       <div class="blocks-shell-header-toolbar">
@@ -319,11 +323,16 @@ const ShellTableOfContents = ({ block }: { block: ApplicationShellBlock }) => {
             <a href="#top" aria-current={activeId === overviewId ? "location" : undefined}>
               Overview
             </a>
-          </li>
-          <li>
-            <a href={`#${block.id}`} aria-current={activeId === block.id ? "location" : undefined}>
-              {block.title} <span class="blocks-doc-toc-hint">Showcase</span>
-            </a>
+            <ul>
+              <li>
+                <a
+                  href={`#${block.id}`}
+                  aria-current={activeId === block.id ? "location" : undefined}
+                >
+                  {block.title} <span class="blocks-doc-toc-hint">Showcase</span>
+                </a>
+              </li>
+            </ul>
           </li>
           {shellContents.map((entry) => (
             <li key={entry.id}>
@@ -520,6 +529,7 @@ export const App = () => (
 const ShellUsage = () => (
   <section class="blocks-doc-section" aria-labelledby="application-shell-usage">
     <header class="blocks-doc-section-header">
+      <p class="blocks-doc-eyebrow">Integration</p>
       <h2 id="application-shell-usage" tabIndex={-1}>
         <ShellHeadingLink id="application-shell-usage">Usage</ShellHeadingLink>
       </h2>
@@ -869,9 +879,6 @@ const ShellDesignReference = () => (
     </header>
     <div class="blocks-doc-attribution">
       <div class="blocks-doc-attribution-header">
-        <Badge variant="outline" size="sm" class="blocks-doc-attribution-badge">
-          Design inspiration
-        </Badge>
         <p class="blocks-doc-attribution-title">
           <ShellHeadingLink id="application-shell-reference">Attribution:</ShellHeadingLink>{" "}
           <a
@@ -883,7 +890,7 @@ const ShellDesignReference = () => (
             Shadcnblocks Application Shell 1
             <span class="blocks-doc-attribution-icon" aria-hidden="true">
               <ExternalLinkIcon
-                size={18}
+                size={16}
                 strokeWidth={2}
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -897,6 +904,10 @@ const ShellDesignReference = () => (
         This block adapts the original sidebar, breadcrumb header and account menu using Kamod's
         Preact components and theme tokens. Your application supplies its routing and account
         actions.
+      </p>
+      <p class="blocks-doc-attribution-note">
+        Map the layout to your own pages with the{" "}
+        <a href="#application-shell-navigation-data">typed navigation example</a>.
       </p>
     </div>
     <p class="blocks-doc-reference-note">
@@ -1021,16 +1032,9 @@ const ShellDetail = ({ block }: { block: ApplicationShellBlock }) => {
           <footer class="blocks-doc-footer">
             <a href={withBasePath(categoryPath)}>
               <ArrowLeftIcon size={16} strokeWidth={2} aria-hidden="true" />
-              Explore application shells
+              <span>Explore application shells</span>
             </a>
-            <a href={`#${block.id}`}>
-              Back to showcase <span aria-hidden="true">↑</span>
-            </a>
-          </footer>
-          <div class="blocks-doc-closing">
-            <p>Built with Preact and Kamod UI.</p>
-            <p>Make it your own. Contributions and feedback are welcome.</p>
-            <nav class="blocks-doc-closing-links" aria-label="Project resources">
+            <nav class="blocks-doc-footer-actions" aria-label="Project resources">
               <Button
                 variant="ghost"
                 size="icon"
@@ -1060,7 +1064,10 @@ const ShellDetail = ({ block }: { block: ApplicationShellBlock }) => {
                 />
               </Button>
             </nav>
-          </div>
+            <a href={`#${block.id}`}>
+              <span>Back to showcase</span> <span aria-hidden="true">↑</span>
+            </a>
+          </footer>
         </div>
       </section>
     </>
