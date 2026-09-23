@@ -249,14 +249,13 @@ for (const width of [320, 640, 768, 979, 980, 1024, 1260, 1440]) {
       const headerBox = await header.boundingBox();
       const showcaseBox = await page.locator("article.blocks-card").boundingBox();
       expect(showcaseBox!.y).toBeGreaterThan(headerBox!.y + headerBox!.height);
-      // Keep the permalink left of the first text line, visible and clickable at every width.
+      // Only show the permalink when the gutter fits it without indenting the title.
       const titleLink = header.getByRole("heading", { level: 1 }).getByRole("link");
       await titleLink.hover();
-      await expect(titleLink.locator("svg")).toBeVisible();
-      await titleLink.focus();
       const titleIcon = titleLink.locator("svg");
-      await expect(titleIcon).toBeVisible();
-      const iconBox = await titleIcon.boundingBox();
+      if (width >= 980) await expect(titleIcon).toBeVisible();
+      else await expect(titleIcon).toBeHidden();
+      await titleLink.focus();
       const titleTextLeft = await titleLink.evaluate((link) => {
         const walker = document.createTreeWalker(link, NodeFilter.SHOW_TEXT, {
           acceptNode: (node) =>
@@ -272,10 +271,16 @@ for (const width of [320, 640, 768, 979, 980, 1024, 1260, 1440]) {
         range.setEnd(text, start + 1);
         return range.getBoundingClientRect().left;
       });
-      expect(iconBox!.x).toBeGreaterThanOrEqual(0);
-      expect(iconBox!.x + iconBox!.width).toBeLessThanOrEqual(titleTextLeft);
-      expect(iconBox!.x + iconBox!.width).toBeLessThanOrEqual(width);
-      await titleIcon.click();
+      expect(titleTextLeft).toBeCloseTo(headerBox!.x, 0);
+      if (width >= 980) {
+        const iconBox = await titleIcon.boundingBox();
+        expect(iconBox!.x).toBeGreaterThanOrEqual(0);
+        expect(iconBox!.x + iconBox!.width).toBeLessThanOrEqual(titleTextLeft);
+        await titleIcon.click();
+      } else {
+        await expect(titleIcon).toBeHidden();
+        await titleLink.press("Enter");
+      }
       await expect(page).toHaveURL(/#top$/);
       await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
       if (width === 320) {
@@ -290,6 +295,21 @@ for (const width of [320, 640, 768, 979, 980, 1024, 1260, 1440]) {
           await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),
         ).toBe(true);
         await themePreset.selectOption("kamod");
+      }
+      const currentCrumb = await header.locator('[data-slot="breadcrumb-page"]').boundingBox();
+      const firstCrumb = await header
+        .getByRole("link", { name: "Home", exact: true })
+        .boundingBox();
+      expect(currentCrumb!.y).toBeCloseTo(firstCrumb!.y, 0);
+      expect(currentCrumb!.x + currentCrumb!.width).toBeLessThanOrEqual(
+        headerBox!.x + headerBox!.width,
+      );
+      if (width < 640) {
+        const badge = await header.locator('[data-slot="badge"]').boundingBox();
+        const title = await header.getByRole("heading", { level: 1 }).boundingBox();
+        const backlink = await header.locator(".blocks-shell-header-back").boundingBox();
+        expect(badge!.y).toBeGreaterThanOrEqual(backlink!.y + backlink!.height + 16);
+        expect(badge!.y + badge!.height).toBeLessThan(title!.y);
       }
       const actions = header.locator(".blocks-shell-header-actions");
       // Action visibility follows available header space, not the viewport breakpoint.
@@ -374,7 +394,46 @@ for (const width of [320, 640, 768, 979, 980, 1024, 1260, 1440]) {
       ).toBe(true);
       await page.screenshot({ path: testInfo.outputPath(`documentation-${width}-${scheme}.png`) });
 
+      const note = page.locator(".blocks-api-source-note");
+      const noteLayout = await note.evaluate((node) => {
+        const icon = node.querySelector("svg")!.getBoundingClientRect();
+        const text = node.querySelector("span")!.getBoundingClientRect();
+        const badge = node.querySelector('[data-slot="badge"]')!.getBoundingClientRect();
+        const style = getComputedStyle(node);
+        const contentWidth =
+          node.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+        return {
+          contentWidth,
+          textWidth: text.width,
+          textTop: text.top,
+          iconBottom: icon.bottom,
+          badgeBottom: badge.bottom,
+        };
+      });
+      if (noteLayout.contentWidth <= 672) {
+        expect(noteLayout.textWidth).toBeCloseTo(noteLayout.contentWidth, 0);
+        expect(noteLayout.textTop).toBeGreaterThan(
+          Math.max(noteLayout.iconBottom, noteLayout.badgeBottom),
+        );
+      }
+      if (width < 980) {
+        const copy = await page
+          .locator(".blocks-doc-body .docs-code-wrap")
+          .first()
+          .getByRole("button", { name: "Copy code" })
+          .boundingBox();
+        expect(copy!.height).toBeGreaterThanOrEqual(24);
+        expect(copy!.height).toBeLessThanOrEqual(32);
+      }
       if (width < 640) {
+        for (const step of await page.locator(".blocks-doc-steps > li").all()) {
+          await expect(step.locator(".blocks-doc-step-index")).toBeVisible();
+          const heading = step.getByRole("heading");
+          const stepBox = await heading.boundingBox();
+          expect(stepBox!.x).toBeCloseTo(bodyBox!.x, 0);
+          await heading.hover();
+          await expect(heading.locator(".blocks-doc-heading-icon")).toBeHidden();
+        }
         const code = page.locator(".blocks-doc-body .docs-code-wrap").first();
         const copy = await code.getByRole("button", { name: "Copy code" }).boundingBox();
         const sample = await code.locator("pre").boundingBox();
@@ -432,6 +491,11 @@ for (const width of [320, 640, 768, 979, 980, 1024, 1260, 1440]) {
         "https://www.shadcnblocks.com/block/application-shell1",
       );
       await page.screenshot({ path: testInfo.outputPath(`reference-${width}-${scheme}.png`) });
+      const footer = page.locator(".blocks-doc-footer");
+      for (const label of await footer.locator(".blocks-doc-footer-short").all()) {
+        if (width < 640) await expect(label).toBeVisible();
+        else await expect(label).toBeHidden();
+      }
       await guide.getByRole("link", { name: "Back to showcase", exact: true }).click();
       await expect(
         page.getByRole("heading", { name: "application-shell-01", exact: true }),

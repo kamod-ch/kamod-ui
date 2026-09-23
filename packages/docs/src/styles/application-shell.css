@@ -84,9 +84,24 @@
 }
 
 .blocks-shell-header-toolbar [data-slot="breadcrumb-list"] {
-  row-gap: 0.5rem;
+  flex-wrap: nowrap;
   font-size: 0.90625rem;
   line-height: 1.75;
+}
+
+.blocks-shell-header-toolbar [data-slot="breadcrumb-item"] {
+  min-width: 0;
+}
+
+.blocks-shell-header-toolbar [data-slot="breadcrumb-item"]:nth-child(-n + 3),
+.blocks-shell-header-toolbar [data-slot="breadcrumb-separator"] {
+  flex-shrink: 0;
+}
+
+.blocks-shell-header-toolbar :is([data-slot="breadcrumb-link"], [data-slot="breadcrumb-page"]) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .blocks-shell-header-toolbar [data-slot="breadcrumb-link"]:focus-visible {
@@ -169,6 +184,10 @@
 
 .blocks-doc-footer > a > span {
   min-width: 0;
+}
+
+.blocks-doc-footer .blocks-doc-footer-short {
+  display: none;
 }
 
 .blocks-doc-footer > a svg {
@@ -263,7 +282,7 @@
   position: absolute;
   inset-inline-end: 100%;
   top: 0.1em;
-  display: inline-flex;
+  display: none;
   align-items: center;
   justify-content: flex-start;
   width: 1rem;
@@ -280,27 +299,6 @@
 :is(.blocks-shell-header h1, .blocks-doc-section h2) .blocks-doc-heading-icon svg {
   width: 1.25rem;
   height: 1.25rem;
-}
-
-/* Keep heading icons inside narrow gutters without adding padding to the whole guide. */
-:is(.blocks-shell-header h1, .blocks-doc-section h2, .blocks-doc-section h3)
-  .blocks-doc-heading-link {
-  --heading-permalink-width: 1.75rem;
-  --heading-permalink-inset: max(
-    0px,
-    calc(var(--heading-permalink-width) + 0.25rem - var(--blocks-detail-page-gutter))
-  );
-  padding-inline-start: var(--heading-permalink-inset);
-}
-
-.blocks-doc-section h3 .blocks-doc-heading-link {
-  --heading-permalink-width: 1rem;
-}
-
-:is(.blocks-shell-header h1, .blocks-doc-section h2, .blocks-doc-section h3)
-  .blocks-doc-heading-icon {
-  inset-inline-end: auto;
-  inset-inline-start: calc(var(--heading-permalink-inset) - var(--heading-permalink-width));
 }
 
 .blocks-doc-heading-link:is(:hover, :focus-visible) .blocks-doc-heading-icon {
@@ -364,6 +362,10 @@
   padding: 0;
   list-style: none;
   counter-reset: block-step;
+}
+
+.blocks-doc-step-index {
+  display: none;
 }
 
 .blocks-doc-steps > li {
@@ -663,6 +665,11 @@
 
 /* Match the documentation shell's spacing and column breakpoints in app.css. */
 @media (min-width: 640px) {
+  /* The 20px page gutter fits subsection icons without indenting heading text. */
+  .blocks-doc-heading-icon {
+    display: inline-flex;
+  }
+
   .blocks-shell-header-intro {
     padding-bottom: 2rem;
   }
@@ -755,6 +762,28 @@
   }
 }
 
+@media (max-width: 979px) {
+  /* Large permalinks need a wider gutter; the heading itself remains a link. */
+  :is(.blocks-shell-header h1, .blocks-doc-section h2) .blocks-doc-heading-icon {
+    display: none;
+  }
+
+  .blocks-sidebar-detail .docs-code-wrap .docs-copy-code-button {
+    min-height: 1.75rem;
+    padding: 0.125rem 0.375rem;
+    border-radius: 0.375rem;
+  }
+
+  .blocks-sidebar-detail .docs-code-wrap .docs-copy-code-button:not(.is-copied) {
+    background: color-mix(in oklab, var(--secondary-accent) 12%, var(--muted));
+    border-color: color-mix(in oklab, var(--secondary-accent) 20%, var(--border));
+  }
+
+  .blocks-sidebar-detail .docs-code-wrap .docs-copy-code-button:not(.is-copied):hover {
+    background: color-mix(in oklab, var(--secondary-accent) 22%, var(--muted));
+  }
+}
+
 @media (min-width: 1260px) {
   .docs-shell:has(.blocks-shell-header) {
     --blocks-detail-page-gutter: clamp(4rem, 7vw, 6.75rem);
@@ -783,6 +812,39 @@
 }
 
 @media (max-width: 639px) {
+  .blocks-shell-header .blocks-shell-header-back {
+    margin-bottom: 1.25rem;
+  }
+
+  .blocks-shell-header-title-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .blocks-shell-header-title-row [data-slot="badge"] {
+    order: -1;
+  }
+
+  .blocks-doc-steps {
+    margin-inline-start: 0;
+  }
+
+  .blocks-doc-steps > li {
+    padding-inline-start: 0;
+    border: 0;
+  }
+
+  .blocks-doc-steps > li::before,
+  .blocks-doc-footer .blocks-doc-footer-long {
+    display: none;
+  }
+
+  .blocks-doc-step-index,
+  .blocks-doc-footer .blocks-doc-footer-short {
+    display: inline;
+  }
+
   /* Keep the brand and all theme controls usable without widening this detail page. */
   html:has(.blocks-shell-header) {
     scroll-padding-top: calc(108px + 1rem);
@@ -827,7 +889,6 @@
   .blocks-doc-body .docs-copy-code-button {
     position: static;
     align-self: flex-end;
-    min-height: 2.75rem;
     margin: 0.5rem;
   }
 

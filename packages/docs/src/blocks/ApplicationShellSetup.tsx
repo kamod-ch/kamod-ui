@@ -34,7 +34,12 @@ export const ShellSetup = () => (
     <ol class="blocks-doc-steps" role="list">
       <li>
         <h3 id="application-shell-copy" tabIndex={-1}>
-          <ShellHeadingLink id="application-shell-copy">Copy the block</ShellHeadingLink>
+          <ShellHeadingLink id="application-shell-copy">
+            <span class="blocks-doc-step-index" aria-hidden="true">
+              1.{" "}
+            </span>
+            Copy the block
+          </ShellHeadingLink>
         </h3>
         <p>
           Copy the Code-tab files into <code>src/components/application-shell-1</code>. Skip{" "}
@@ -53,6 +58,9 @@ export const ShellSetup = () => (
       <li>
         <h3 id="application-shell-dependencies" tabIndex={-1}>
           <ShellHeadingLink id="application-shell-dependencies">
+            <span class="blocks-doc-step-index" aria-hidden="true">
+              2.{" "}
+            </span>
             Install missing dependencies
           </ShellHeadingLink>
         </h3>
@@ -87,6 +95,9 @@ export const ShellSetup = () => (
       <li>
         <h3 id="application-shell-styles" tabIndex={-1}>
           <ShellHeadingLink id="application-shell-styles">
+            <span class="blocks-doc-step-index" aria-hidden="true">
+              3.{" "}
+            </span>
             Set up styles and import
           </ShellHeadingLink>
         </h3>

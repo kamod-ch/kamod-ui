@@ -1,5 +1,5 @@
 import { useTimeout } from "@kamod-ch/hooks";
-import { CopyIcon } from "@kamod-ch/icons/lucide";
+import { CopyIcon } from "@kamod-ch/icons/tabler/outline";
 import type { ComponentChildren } from "preact";
 import { useMemo, useState } from "preact/hooks";
 import Prism from "prismjs";

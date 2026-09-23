@@ -1,8 +1,9 @@
 /* Source-backed prop and type reference within the application shell guide. */
 
 .blocks-api-source-note {
-  display: flex;
-  flex-wrap: wrap;
+  container: shell-api-note / inline-size;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
   gap: 0.65rem;
   padding: 0.875rem 1rem;
@@ -14,12 +15,18 @@
   line-height: 1.65;
 }
 
-.blocks-api-source-note > span:first-of-type {
-  flex: 1 1 12rem;
-}
+/* Stack by available note width, including the narrower column beside the contents. */
+@container shell-api-note (max-width: 42rem) {
+  .blocks-api-source-note > span:first-of-type {
+    grid-row: 2;
+    grid-column: 1 / -1;
+  }
 
-.blocks-api-source-note > svg {
-  flex-shrink: 0;
+  .blocks-api-source-note > [data-slot="badge"] {
+    grid-row: 1;
+    grid-column: 2 / -1;
+    justify-self: end;
+  }
 }
 
 .blocks-api-section + .blocks-api-section {
