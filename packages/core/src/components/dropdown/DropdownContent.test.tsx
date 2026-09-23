@@ -1,4 +1,4 @@
-import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/preact";
+import { act, cleanup, fireEvent, render, screen, waitFor } from "@testing-library/preact";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { Dropdown } from "./Dropdown";
 import { DropdownContent } from "./DropdownContent";
@@ -112,5 +112,49 @@ describe("dropdown content placement", () => {
     const menu = screen.getByRole("menu");
     await waitFor(() => expect(menu).toHaveAttribute("data-side", "top"));
     expect(menu).toHaveStyle({ left: "68px", top: "136px" });
+  });
+
+  it("repositions growing content and stops observing when closed", async () => {
+    vi.stubGlobal("innerWidth", 768);
+    vi.stubGlobal("innerHeight", 375);
+    let height = 100;
+    let notifyResize = () => {};
+    const observe = vi.fn();
+    const disconnect = vi.fn();
+    vi.stubGlobal(
+      "ResizeObserver",
+      class {
+        constructor(callback: () => void) {
+          notifyResize = callback;
+        }
+        observe = observe;
+        disconnect = disconnect;
+      },
+    );
+    vi.spyOn(HTMLElement.prototype, "offsetWidth", "get").mockReturnValue(200);
+    vi.spyOn(HTMLElement.prototype, "offsetHeight", "get").mockImplementation(() => height);
+    render(
+      <Dropdown>
+        <DropdownTrigger>Actions</DropdownTrigger>
+        <DropdownContent portal side="right">
+          <DropdownItem>Account</DropdownItem>
+        </DropdownContent>
+      </Dropdown>,
+    );
+    const trigger = screen.getByRole("button", { name: "Actions" });
+    vi.spyOn(trigger, "getBoundingClientRect").mockReturnValue(new DOMRect(8, 300, 32, 32));
+    fireEvent.click(trigger);
+    const menu = screen.getByRole("menu");
+    await waitFor(() => expect(menu).toHaveStyle({ left: "44px", top: "267px" }));
+    expect(observe).toHaveBeenCalledWith(trigger);
+    expect(observe).toHaveBeenCalledWith(menu);
+
+    height = 200;
+    act(() => notifyResize());
+    await waitFor(() => expect(menu).toHaveStyle({ top: "167px" }));
+
+    fireEvent.click(trigger);
+    expect(screen.queryByRole("menu")).toBeNull();
+    expect(disconnect).toHaveBeenCalledOnce();
   });
 });

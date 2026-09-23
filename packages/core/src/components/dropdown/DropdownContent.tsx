@@ -1,9 +1,9 @@
 import type { ComponentChildren, JSX } from "preact";
-import { useLayoutEffect, useState } from "preact/hooks";
 import { tv, type VariantProps } from "tailwind-variants";
 import { createPortal } from "../../lib/createPortal";
 import { cn } from "../../lib/utils";
 import { useDropdown } from "./Dropdown";
+import { useDropdownPlacement } from "./useDropdownPlacement";
 
 const positionBySide = {
   top: "bottom-full",
@@ -72,83 +72,14 @@ export const DropdownContent = ({
 }: DropdownContentProps) => {
   const dropdown = useDropdown();
   const isOpen = dropdown.open.value;
-  const [placement, setPlacement] = useState({ left: 0, top: 0, side });
-
-  useLayoutEffect(() => {
-    if (!portal || (!isOpen && !forceMount)) return;
-    const content = dropdown.contentRef.current;
-    const trigger = dropdown.triggerRef.current;
-    if (!content || !trigger) return;
-    const view = trigger.ownerDocument.defaultView;
-    if (!view) return;
-
-    const update = () => {
-      const rect = trigger.getBoundingClientRect();
-      const padding = 8;
-      const viewportWidth = trigger.ownerDocument.documentElement.clientWidth || view.innerWidth;
-      const viewportHeight = view.innerHeight;
-      // Layout dimensions avoid the opening animation's temporary scale affecting placement.
-      const width = content.offsetWidth;
-      const height = content.offsetHeight;
-      const space = {
-        top: rect.top - sideOffset - padding,
-        bottom: viewportHeight - rect.bottom - sideOffset - padding,
-        left: rect.left - sideOffset - padding,
-        right: viewportWidth - rect.right - sideOffset - padding,
-      };
-      const opposite = { top: "bottom", bottom: "top", left: "right", right: "left" } as const;
-      const extent = side === "top" || side === "bottom" ? height : width;
-      const resolvedSide =
-        space[side] < extent && space[opposite[side]] > space[side] ? opposite[side] : side;
-      const vertical = resolvedSide === "top" || resolvedSide === "bottom";
-      const aligned = (start: number, end: number, size: number) =>
-        align === "start" ? start : align === "end" ? end - size : (start + end - size) / 2;
-      const left = vertical
-        ? aligned(rect.left, rect.right, width)
-        : resolvedSide === "right"
-          ? rect.right + sideOffset
-          : rect.left - width - sideOffset;
-      const top = vertical
-        ? resolvedSide === "bottom"
-          ? rect.bottom + sideOffset
-          : rect.top - height - sideOffset
-        : aligned(rect.top, rect.bottom, height);
-      const clamp = (value: number, limit: number) =>
-        Math.max(padding, Math.min(value, limit - padding));
-      const next = {
-        left: clamp(left, viewportWidth - width),
-        top: clamp(top, viewportHeight - height),
-        side: resolvedSide,
-      };
-      setPlacement((previous) =>
-        previous.left === next.left && previous.top === next.top && previous.side === next.side
-          ? previous
-          : next,
-      );
-    };
-
-    update();
-    // Capture scrolling in nested sidebar/content regions, not just the document.
-    view.addEventListener("scroll", update, true);
-    view.addEventListener("resize", update);
-    const observer = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(update);
-    observer?.observe(content);
-    observer?.observe(trigger);
-    return () => {
-      view.removeEventListener("scroll", update, true);
-      view.removeEventListener("resize", update);
-      observer?.disconnect();
-    };
-  }, [
-    portal,
-    isOpen,
-    forceMount,
+  const placement = useDropdownPlacement({
+    enabled: portal && (isOpen || forceMount),
+    triggerRef: dropdown.triggerRef,
+    contentRef: dropdown.contentRef,
     side,
     align,
     sideOffset,
-    dropdown.contentRef,
-    dropdown.triggerRef,
-  ]);
+  });
 
   if ((!isOpen && !forceMount) || (portal && typeof document === "undefined")) return null;
 
