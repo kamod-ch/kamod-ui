@@ -80,6 +80,8 @@ export default defineConfig({
   dts: true,
   sourcemap: true,
   clean: true,
+  // Keep preview images portable when the built package is imported from any page URL.
+  loader: { ".svg": "dataurl" },
   external: [
     "preact",
     "preact/hooks",

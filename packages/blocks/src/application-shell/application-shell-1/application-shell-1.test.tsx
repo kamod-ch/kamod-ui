@@ -66,6 +66,13 @@ describe("Application Shell 1", () => {
     expect(screen.getByText("Overview").getAttribute("aria-current")).toBe("page");
   });
 
+  it("omits an empty breadcrumb trail while keeping the sidebar toggle accessible", () => {
+    render(<ApplicationShell1 {...props} breadcrumbs={[]} />);
+    expect(screen.queryByRole("navigation", { name: "breadcrumb" })).toBeNull();
+    expect(screen.getByRole("button", { name: "Toggle Sidebar" })).toBeTruthy();
+    expect(within(screen.getByRole("main")).queryByRole("separator")).toBeNull();
+  });
+
   it("opens and closes nested navigation and marks the active destination", async () => {
     render(<ApplicationShell1 {...props} currentPath="/recent" />);
     const trigger = screen.getByRole("button", { name: "Projects" });
@@ -243,6 +250,101 @@ describe("Application Shell 1", () => {
       expect(onNavigate).toHaveBeenCalledTimes(2);
     },
   );
+
+  it.each([true, false])(
+    "keeps parent and child destinations distinct when their IDs match (defaultOpen: %s)",
+    async (defaultOpen) => {
+      const onNavigate = vi.fn<NonNullable<ApplicationShell1Props["onNavigate"]>>(
+        (_destination, event) => event.preventDefault(),
+      );
+      render(
+        <ApplicationShell1
+          {...props}
+          defaultOpen={defaultOpen}
+          currentPath="/recent"
+          navigationGroups={[
+            {
+              id: "workspace",
+              items: [
+                {
+                  id: "projects",
+                  label: "Projects",
+                  href: "/projects",
+                  items: [{ id: "projects", label: "Recent projects", href: "/recent" }],
+                },
+              ],
+            },
+          ]}
+          onNavigate={onNavigate}
+        />,
+      );
+      const openMenu = async () => {
+        if (defaultOpen) return;
+        fireEvent.click(screen.getByRole("button", { name: "Projects" }));
+        await screen.findByRole("menu");
+      };
+      await openMenu();
+      const role = defaultOpen ? "link" : "menuitem";
+      const parent = screen.getByRole(role, { name: "Projects", exact: true });
+      expect(parent.getAttribute("href")).toBe("/projects");
+      expect(parent.hasAttribute("aria-current")).toBe(false);
+      fireEvent.click(parent);
+      expect(onNavigate.mock.lastCall?.[0].href).toBe("/projects");
+
+      await openMenu();
+      const child = screen.getByRole(role, { name: "Recent projects" });
+      expect(child.getAttribute("href")).toBe("/recent");
+      expect(child.getAttribute("aria-current")).toBe("page");
+      fireEvent.click(child);
+      expect(onNavigate.mock.lastCall?.[0].href).toBe("/recent");
+      expect(onNavigate).toHaveBeenCalledTimes(2);
+    },
+  );
+
+  it("keeps an all-disabled icon submenu keyboard-dismissible", async () => {
+    render(
+      <ApplicationShell1
+        {...props}
+        defaultOpen={false}
+        navigationGroups={[
+          {
+            id: "workspace",
+            items: [
+              {
+                id: "projects",
+                label: "Projects",
+                items: [{ id: "recent", label: "Recent", href: "/recent", disabled: true }],
+              },
+            ],
+          },
+        ]}
+      />,
+    );
+    const trigger = screen.getByRole("button", { name: "Projects" });
+    fireEvent.keyDown(trigger, { key: "ArrowDown" });
+    const menu = await screen.findByRole("menu");
+    expect(document.activeElement).toBe(menu);
+    fireEvent.keyDown(menu, { key: "Escape" });
+    expect(screen.queryByRole("menu")).toBeNull();
+    expect(document.activeElement).toBe(trigger);
+  });
+
+  it("supports wrapping arrow navigation and Home/End in the account menu", async () => {
+    render(<ApplicationShell1 {...props} />);
+    const trigger = screen.getByRole("button", { name: "Open account menu for Alex Morgan" });
+    fireEvent.keyDown(trigger, { key: "ArrowDown" });
+    const first = await screen.findByRole("menuitem", { name: "Account" });
+    const last = screen.getByRole("menuitem", { name: "Log out" });
+    expect(document.activeElement).toBe(first);
+    fireEvent.keyDown(first, { key: "ArrowUp" });
+    expect(document.activeElement).toBe(last);
+    fireEvent.keyDown(last, { key: "ArrowDown" });
+    expect(document.activeElement).toBe(first);
+    fireEvent.keyDown(first, { key: "End" });
+    expect(document.activeElement).toBe(last);
+    fireEvent.keyDown(last, { key: "Home" });
+    expect(document.activeElement).toBe(first);
+  });
 
   it("keeps nested destinations available in icon mode", async () => {
     render(<ApplicationShell1Preview />);

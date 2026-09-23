@@ -40,7 +40,8 @@ const enabledItems = (root: HTMLElement) =>
 
 /**
  * Focuses the first enabled item on open and adds wrapping ArrowUp/ArrowDown traversal.
- * Home and End select the first and last enabled items. Other keys retain Dropdown behavior.
+ * Home and End select the first and last enabled items. If every item is disabled, the menu
+ * itself receives focus so Escape still works. Other keys retain Dropdown behavior.
  * DOM access is limited to the layout effect and event handlers, allowing server rendering.
  *
  * @param props - DropdownContent props; positioning is inherited and key handlers may cancel handling.
@@ -50,7 +51,8 @@ export const MenuContent = (props: ComponentProps<typeof DropdownContent>) => {
   const { open, contentRef } = useDropdown();
   const isOpen = open.value;
   useLayoutEffect(() => {
-    if (isOpen && contentRef.current) enabledItems(contentRef.current)[0]?.focus();
+    const content = contentRef.current;
+    if (isOpen && content) (enabledItems(content)[0] ?? content).focus();
   }, [isOpen, contentRef]);
   return (
     <DropdownContent
@@ -63,7 +65,7 @@ export const MenuContent = (props: ComponentProps<typeof DropdownContent>) => {
         const items = enabledItems(event.currentTarget);
         const focus = createRovingFocus(
           items.length,
-          items.indexOf(document.activeElement as HTMLElement),
+          items.indexOf(event.currentTarget.ownerDocument.activeElement as HTMLElement),
         );
         if (event.key === "ArrowDown") focus.moveNext();
         else if (event.key === "ArrowUp") focus.movePrev();

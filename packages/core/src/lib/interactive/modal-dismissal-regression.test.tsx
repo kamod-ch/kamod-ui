@@ -28,4 +28,34 @@ describe("portaled mobile sidebar dismissal", () => {
     expect(dismiss).toHaveBeenCalledOnce();
     layer.dispose();
   });
+
+  it("dismisses a nested dropdown when clicking elsewhere inside the same modal", () => {
+    const sheetRoot = document.createElement("div");
+    const panel = document.createElement("div");
+    panel.setAttribute("role", "dialog");
+    panel.setAttribute("aria-modal", "true");
+    panel.dataset.slot = "sidebar";
+    const dropdownRoot = document.createElement("div");
+    const otherAction = document.createElement("button");
+    panel.append(dropdownRoot, otherAction);
+    document.body.append(sheetRoot, panel);
+    const dismissSheet = vi.fn();
+    const dismissDropdown = vi.fn();
+    const sheet = createDismissableLayer({
+      root: () => sheetRoot,
+      open: () => true,
+      onDismiss: dismissSheet,
+    });
+    const dropdown = createDismissableLayer({
+      root: () => dropdownRoot,
+      open: () => true,
+      onDismiss: dismissDropdown,
+    });
+
+    otherAction.dispatchEvent(new MouseEvent("pointerdown", { bubbles: true }));
+    expect(dismissDropdown).toHaveBeenCalledOnce();
+    expect(dismissSheet).not.toHaveBeenCalled();
+    dropdown.dispose();
+    sheet.dispose();
+  });
 });

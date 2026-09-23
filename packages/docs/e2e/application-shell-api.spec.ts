@@ -46,6 +46,8 @@ test("prop type links reveal their definition and restore deep links through his
       .locator("code"),
   ).toHaveText(["brand", "navigationGroups", "user", "breadcrumbs"]);
   const required = table.getByRole("button", { name: "Required prop: brand", exact: true });
+  // Font swaps can move this small target out from under a stationary pointer.
+  await page.evaluate(() => document.fonts.ready);
   await required.hover();
   await expect(page.getByRole("tooltip")).toHaveText("Required prop: brand");
   await required.focus();
@@ -164,6 +166,7 @@ test("type definitions toggle independently by keyboard and copy their complete 
     await page.keyboard.press("Enter");
     await expect(brand.content.getByRole("button", { name: "Code copied" })).toBeFocused();
     await expect.poll(() => page.evaluate(() => navigator.clipboard.readText())).toBe(source);
+    await expect(copy).toHaveText("Copy");
   }
 
   await page.keyboard.press("Tab");

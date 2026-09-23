@@ -114,12 +114,12 @@ export const Tooltip = ({
   };
 
   const openWithDelay = () => {
-    if (open.value) return;
+    // Re-entering must cancel a pending close even while the tooltip is still open.
     if (closeTimerRef.current !== null) {
       window.clearTimeout(closeTimerRef.current);
       closeTimerRef.current = null;
     }
-    if (openTimerRef.current !== null) return;
+    if (open.value || openTimerRef.current !== null) return;
     openTimerRef.current = window.setTimeout(() => {
       setOpen(true);
       openTimerRef.current = null;
@@ -127,12 +127,12 @@ export const Tooltip = ({
   };
 
   const closeWithDelay = () => {
-    if (!open.value) return;
+    // Leaving during the opening delay must cancel that pending open first.
     if (openTimerRef.current !== null) {
       window.clearTimeout(openTimerRef.current);
       openTimerRef.current = null;
     }
-    if (closeTimerRef.current !== null) return;
+    if (!open.value || closeTimerRef.current !== null) return;
     closeTimerRef.current = window.setTimeout(() => {
       setOpen(false);
       closeTimerRef.current = null;

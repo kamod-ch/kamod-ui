@@ -60,7 +60,10 @@ export const createDismissableLayer = ({
       if (node.contains(target)) return;
       if (target instanceof Element) {
         const closestLayer = target.closest(portalLayerSelector);
-        if (closestLayer) {
+        // A surrounding modal is still outside a nested dropdown's own root.
+        // Only protect a separate portal here; otherwise outside clicks within
+        // the same modal would leave the nested dropdown open.
+        if (closestLayer && !closestLayer.contains(node)) {
           const layerSlot = closestLayer.getAttribute("data-slot");
           const rootDismissible = closestLayer.hasAttribute("data-kamod-root-dismissible");
 
