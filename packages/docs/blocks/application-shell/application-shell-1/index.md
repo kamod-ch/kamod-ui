@@ -7,6 +7,6 @@ sidebar: false
 outline: false
 ---
 
-Application Shell 1 combines responsive navigation, brand and account menus,
+Application Shell 1 combines responsive navigation, branding and an account menu,
 breadcrumbs and custom content. Preview the block, copy its source and learn its
 router-independent data API.
