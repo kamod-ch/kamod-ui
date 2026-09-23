@@ -31,8 +31,11 @@ export const useSidebar = () => {
 };
 
 export type SidebarProviderProps = JSX.HTMLAttributes<HTMLDivElement> & {
+  /** Initial desktop state when uncontrolled; the mobile sheet always starts closed. */
   defaultOpen?: boolean;
+  /** Controlled desktop state. Mobile visibility is managed separately. */
   open?: boolean;
+  /** Reports requested desktop state in both controlled and uncontrolled usage. */
   onOpenChange?: (open: boolean) => void;
   children?: ComponentChildren;
 };
@@ -40,7 +43,7 @@ export type SidebarProviderProps = JSX.HTMLAttributes<HTMLDivElement> & {
 export const SidebarProvider = ({
   defaultOpen = true,
   open: openProp,
-  onOpenChange: setOpenProp,
+  onOpenChange,
   class: className,
   style,
   children,
@@ -64,25 +67,25 @@ export const SidebarProvider = ({
 
   useEffect(() => {
     if (!openMobile) {
-      mobileTriggerRef.current?.focus();
+      mobileTriggerRef.current?.focus({ preventScroll: true });
       mobileTriggerRef.current = null;
     }
   }, [openMobile]);
-  const [_open, _setOpen] = useState(defaultOpen);
-  const open = openProp ?? _open;
+  const [internalOpen, setInternalOpen] = useState(defaultOpen);
+  const open = openProp ?? internalOpen;
 
   const setOpen = useCallback(
     (value: boolean | ((prev: boolean) => boolean)) => {
       const openState = typeof value === "function" ? value(open) : value;
       if (openProp === undefined) {
-        _setOpen(openState);
+        setInternalOpen(openState);
       }
-      setOpenProp?.(openState);
+      onOpenChange?.(openState);
       if (typeof document !== "undefined") {
         document.cookie = `${SIDEBAR_COOKIE_NAME}=${openState}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`;
       }
     },
-    [setOpenProp, open, openProp],
+    [onOpenChange, open, openProp],
   );
 
   const toggleSidebar = useCallback(() => {

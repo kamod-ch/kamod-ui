@@ -24,11 +24,7 @@ const isVisible = (element: HTMLElement): boolean => {
 
 export const getFocusableElements = (root: HTMLElement): HTMLElement[] =>
   Array.from(root.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)).filter(
-    (element) =>
-      !element.hasAttribute("disabled") &&
-      element.getAttribute("aria-hidden") !== "true" &&
-      element.tabIndex !== -1 &&
-      isVisible(element),
+    (element) => !element.matches(":disabled") && element.tabIndex >= 0 && isVisible(element),
   );
 
 export type TrapFocusOptions = {
@@ -43,9 +39,9 @@ export const trapFocus = (container: HTMLElement, options: TrapFocusOptions = {}
   const { focusContainer = true } = options;
 
   const focusInitial = () => {
-    if (focusContainer && container.tabIndex >= -1) {
+    if (focusContainer) {
       container.focus();
-      return;
+      if (container.ownerDocument.activeElement === container) return;
     }
     getFocusableElements(container)[0]?.focus();
   };
@@ -64,7 +60,7 @@ export const trapFocus = (container: HTMLElement, options: TrapFocusOptions = {}
 
     const first = focusables[0]!;
     const last = focusables[focusables.length - 1]!;
-    const active = document.activeElement;
+    const active = container.ownerDocument.activeElement;
 
     if (event.shiftKey) {
       if (active === container || active === first || !container.contains(active)) {
