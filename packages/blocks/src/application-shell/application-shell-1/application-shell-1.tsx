@@ -20,6 +20,47 @@ import { Fragment } from "preact";
 import { AppSidebar } from "./app-sidebar";
 import type { ApplicationShell1Props } from "./types";
 
+/** Omits empty trails and keeps only the current page visible below the sidebar breakpoint. */
+const ShellBreadcrumbs = ({
+  breadcrumbs,
+  onNavigate,
+}: Pick<ApplicationShell1Props, "breadcrumbs" | "onNavigate">) => {
+  if (breadcrumbs.length === 0) return null;
+  return (
+    <>
+      <Separator orientation="vertical" class="mr-2 data-[orientation=vertical]:h-4" />
+      <Breadcrumb class="min-w-0">
+        <BreadcrumbList class="flex-nowrap">
+          {breadcrumbs.map((crumb, index) => {
+            // The final crumb stays visible on narrow screens and never links to itself.
+            const current = index === breadcrumbs.length - 1;
+            return (
+              <Fragment key={`${index}-${crumb.label}`}>
+                {index > 0 && <BreadcrumbSeparator class="hidden shrink-0 md:block" />}
+                <BreadcrumbItem class={cn("min-w-0", !current && "hidden md:inline-flex")}>
+                  {current ? (
+                    <BreadcrumbPage class="truncate">{crumb.label}</BreadcrumbPage>
+                  ) : crumb.href ? (
+                    <BreadcrumbLink
+                      href={crumb.href}
+                      class="truncate"
+                      onClick={(event) => onNavigate?.(crumb, event)}
+                    >
+                      {crumb.label}
+                    </BreadcrumbLink>
+                  ) : (
+                    <span class="truncate">{crumb.label}</span>
+                  )}
+                </BreadcrumbItem>
+              </Fragment>
+            );
+          })}
+        </BreadcrumbList>
+      </Breadcrumb>
+    </>
+  );
+};
+
 /**
  * Renders grouped navigation, an account menu, a breadcrumb header and page content.
  * The included SidebarProvider owns desktop collapse and the independent mobile sheet.
@@ -81,35 +122,7 @@ export const ApplicationShell1 = ({
     <SidebarInset class="min-w-0">
       <header class="flex h-16 shrink-0 items-center gap-2 border-b px-4">
         <SidebarTrigger class="-ml-1" />
-        <Separator orientation="vertical" class="mr-2 data-[orientation=vertical]:h-4" />
-        <Breadcrumb class="min-w-0">
-          <BreadcrumbList class="flex-nowrap">
-            {breadcrumbs.map((crumb, index) => {
-              // The final crumb stays visible on narrow screens and never links to itself.
-              const current = index === breadcrumbs.length - 1;
-              return (
-                <Fragment key={`${index}-${crumb.label}`}>
-                  {index > 0 && <BreadcrumbSeparator class="hidden shrink-0 md:block" />}
-                  <BreadcrumbItem class={cn("min-w-0", !current && "hidden md:inline-flex")}>
-                    {current ? (
-                      <BreadcrumbPage class="truncate">{crumb.label}</BreadcrumbPage>
-                    ) : crumb.href ? (
-                      <BreadcrumbLink
-                        href={crumb.href}
-                        class="truncate"
-                        onClick={(event) => onNavigate?.(crumb, event)}
-                      >
-                        {crumb.label}
-                      </BreadcrumbLink>
-                    ) : (
-                      <span class="truncate">{crumb.label}</span>
-                    )}
-                  </BreadcrumbItem>
-                </Fragment>
-              );
-            })}
-          </BreadcrumbList>
-        </Breadcrumb>
+        <ShellBreadcrumbs breadcrumbs={breadcrumbs} onNavigate={onNavigate} />
       </header>
       <div class="flex min-w-0 flex-1 flex-col gap-4 p-4">{children}</div>
     </SidebarInset>

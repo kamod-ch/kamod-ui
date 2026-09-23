@@ -21,8 +21,21 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@kamod-ch/ui";
+import { Fragment } from "preact";
 import { MenuContent, MenuItem, MenuTrigger } from "./menu";
-import type { ApplicationShell1Props, ApplicationShellUser } from "./types";
+import type {
+  ApplicationShell1Props,
+  ApplicationShellIcon,
+  ApplicationShellUser,
+  ApplicationShellUserAction,
+} from "./types";
+
+const userActions = [
+  { action: "account", label: "Account", Icon: BadgeCheckIcon },
+  { action: "billing", label: "Billing", Icon: CreditCardIcon },
+  { action: "notifications", label: "Notifications", Icon: BellIcon },
+  { action: "logout", label: "Log out", Icon: LogOutIcon },
+] satisfies { action: ApplicationShellUserAction; label: string; Icon: ApplicationShellIcon }[];
 
 /**
  * Displays an avatar and identity, hiding the text in desktop icon mode.
@@ -102,43 +115,20 @@ export const NavUser = ({
               <span class="truncate text-xs font-normal text-muted-foreground">{user.email}</span>
             </DropdownLabel>
             <DropdownSeparator />
-            <MenuItem class="gap-2 px-2 py-1.5" onClick={() => onUserAction?.("account")}>
-              <BadgeCheckIcon
-                strokeWidth={2}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              />
-              Account
-            </MenuItem>
-            <MenuItem class="gap-2 px-2 py-1.5" onClick={() => onUserAction?.("billing")}>
-              <CreditCardIcon
-                strokeWidth={2}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              />
-              Billing
-            </MenuItem>
-            <MenuItem class="gap-2 px-2 py-1.5" onClick={() => onUserAction?.("notifications")}>
-              <BellIcon
-                strokeWidth={2}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              />
-              Notifications
-            </MenuItem>
-            <DropdownSeparator />
-            <MenuItem class="gap-2 px-2 py-1.5" onClick={() => onUserAction?.("logout")}>
-              <LogOutIcon
-                strokeWidth={2}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              />
-              Log out
-            </MenuItem>
+            {userActions.map(({ action, label, Icon }) => (
+              <Fragment key={action}>
+                {action === "logout" && <DropdownSeparator />}
+                <MenuItem class="gap-2 px-2 py-1.5" onClick={() => onUserAction?.(action)}>
+                  <Icon
+                    strokeWidth={2}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  />
+                  {label}
+                </MenuItem>
+              </Fragment>
+            ))}
           </MenuContent>
         </Dropdown>
       </SidebarMenuItem>

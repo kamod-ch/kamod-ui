@@ -34,6 +34,14 @@ import type {
 /** Navigation-only slice of the public shell props, shared by the group renderer. */
 type NavProps = Pick<ApplicationShell1Props, "navigationGroups" | "currentPath" | "onNavigate">;
 
+/** Shared destination context for links, expanded disclosures and collapsed menus. */
+type NavigationContext = Pick<NavProps, "currentPath" | "onNavigate">;
+
+type NavBranchProps = NavigationContext & {
+  item: ApplicationShellNavigationItem;
+  active: boolean;
+};
+
 /** Resolves explicit active state first; otherwise requires an exact, defined URL match. */
 const isActive = (item: ApplicationShellNavigationLink, path?: string) =>
   item.active ?? (item.href !== undefined && item.href === path);
@@ -49,12 +57,7 @@ const NavLink = ({
   currentPath,
   onNavigate,
   sub = false,
-}: {
-  item: ApplicationShellNavigationLink;
-  currentPath?: string;
-  onNavigate?: ApplicationShellNavigate;
-  sub?: boolean;
-}) => {
+}: NavigationContext & { item: ApplicationShellNavigationLink; sub?: boolean }) => {
   const { state, isMobile } = useSidebar();
   const Icon = item.icon ?? (sub ? undefined : CircleIcon);
   const content = (
@@ -108,89 +111,84 @@ const NavLink = ({
   );
 };
 
-/**
- * Exposes a parent and its children as an expanded disclosure or an icon-mode menu.
- * An active parent or child initially opens the disclosure. Later route changes update
- * highlighting without resetting the user's expanded/collapsed choice.
- *
- * @param props - A non-empty branch and the shell's current path and navigation callback.
- */
-const NavBranch = ({
+/** One destination in a collapsed branch, including inherited disabled state. */
+const NavMenuItem = ({
   item,
   currentPath,
   onNavigate,
-}: {
-  item: ApplicationShellNavigationItem;
-  currentPath?: string;
-  onNavigate?: ApplicationShellNavigate;
+  branchDisabled,
+}: NavigationContext & {
+  item: ApplicationShellNavigationLink;
+  branchDisabled?: boolean;
 }) => {
-  const { state, isMobile } = useSidebar();
+  const disabled = branchDisabled || item.disabled;
+  return (
+    <MenuItem
+      href={disabled ? undefined : item.href}
+      disabled={disabled}
+      aria-disabled={disabled || undefined}
+      aria-current={isActive(item, currentPath) ? "page" : undefined}
+      class="px-2 py-1.5"
+      onClick={(event: Parameters<ApplicationShellNavigate>[1]) => onNavigate?.(item, event)}
+    >
+      <span class="truncate">{item.label}</span>
+    </MenuItem>
+  );
+};
+
+/** Keeps branch destinations reachable when SidebarMenuSub is hidden in desktop icon mode. */
+const CollapsedNavBranch = ({ item, active, ...navigation }: NavBranchProps) => {
+  const Icon = item.icon ?? CircleIcon;
+  return (
+    <Dropdown class="w-full">
+      <SidebarMenuButton asChild isActive={active}>
+        <MenuTrigger
+          disabled={item.disabled}
+          aria-label={item.label}
+          class="justify-start border-0 bg-transparent shadow-none hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+        >
+          <Icon strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" />
+          <span>{item.label}</span>
+        </MenuTrigger>
+      </SidebarMenuButton>
+      <MenuContent
+        portal
+        side="right"
+        align="start"
+        class="w-56 bg-popover motion-reduce:animate-none! motion-reduce:[&_*]:transition-none!"
+      >
+        <DropdownLabel>{item.label}</DropdownLabel>
+        <DropdownSeparator />
+        {item.href && <NavMenuItem item={item} {...navigation} />}
+        {item.items?.map((child) => (
+          <NavMenuItem key={child.id} item={child} branchDisabled={item.disabled} {...navigation} />
+        ))}
+      </MenuContent>
+    </Dropdown>
+  );
+};
+
+/** Expanded disclosure; a parent URL remains separate from its child-list toggle. */
+const ExpandedNavBranch = ({ item, active, ...navigation }: NavBranchProps) => {
   const contentId = useId();
   const Icon = item.icon ?? CircleIcon;
-  const active =
-    isActive(item, currentPath) || item.items?.some((child) => isActive(child, currentPath));
-
-  // SidebarMenuSub is hidden in icon mode; keep its destinations reachable via a menu.
-  if (state === "collapsed" && !isMobile) {
-    return (
-      <Dropdown
-        class="w-full"
-        onKeyDown={(event) => {
-          if (event.key === "Escape" && event.defaultPrevented) event.stopPropagation();
-        }}
-      >
-        <SidebarMenuButton asChild isActive={active}>
-          <MenuTrigger
-            disabled={item.disabled}
-            aria-label={item.label}
-            class="justify-start border-0 bg-transparent shadow-none hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-          >
-            <Icon strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" />
-            <span>{item.label}</span>
-          </MenuTrigger>
-        </SidebarMenuButton>
-        <MenuContent
-          portal
-          side="right"
-          align="start"
-          class="w-56 bg-popover motion-reduce:animate-none! motion-reduce:[&_*]:transition-none!"
-        >
-          <DropdownLabel>{item.label}</DropdownLabel>
-          <DropdownSeparator />
-          {(item.href ? [item, ...(item.items ?? [])] : (item.items ?? [])).map((child) => (
-            <MenuItem
-              key={child.id}
-              href={item.disabled || child.disabled ? undefined : child.href}
-              disabled={item.disabled || child.disabled}
-              aria-disabled={item.disabled || child.disabled || undefined}
-              aria-current={isActive(child, currentPath) ? "page" : undefined}
-              class="px-2 py-1.5"
-              onClick={(event: Parameters<ApplicationShellNavigate>[1]) =>
-                onNavigate?.(child, event)
-              }
-            >
-              <span class="truncate">{child.label}</span>
-            </MenuItem>
-          ))}
-        </MenuContent>
-      </Dropdown>
-    );
-  }
-
+  const chevron = (
+    <ChevronRightIcon
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      class="transition-transform group-data-[state=open]/nav-branch:rotate-90 motion-reduce:transition-none"
+    />
+  );
   return (
     <Collapsible defaultOpen={active} class="group/nav-branch">
       {item.href ? (
         <>
-          <NavLink item={item} currentPath={currentPath} onNavigate={onNavigate} />
+          <NavLink item={item} {...navigation} />
           <CollapsibleTrigger asChild aria-controls={contentId}>
             <SidebarMenuAction aria-label={`Toggle ${item.label}`} disabled={item.disabled}>
-              <ChevronRightIcon
-                strokeWidth={2}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-                class="transition-transform group-data-[state=open]/nav-branch:rotate-90 motion-reduce:transition-none"
-              />
+              {chevron}
             </SidebarMenuAction>
           </CollapsibleTrigger>
         </>
@@ -199,13 +197,7 @@ const NavBranch = ({
           <SidebarMenuButton isActive={active} disabled={item.disabled} aria-label={item.label}>
             <Icon strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" />
             <span class="min-w-0 flex-1 truncate">{item.label}</span>
-            <ChevronRightIcon
-              strokeWidth={2}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-              class="ml-auto transition-transform group-data-[state=open]/nav-branch:rotate-90 motion-reduce:transition-none"
-            />
+            {chevron}
           </SidebarMenuButton>
         </CollapsibleTrigger>
       )}
@@ -216,14 +208,29 @@ const NavBranch = ({
               <NavLink
                 item={{ ...child, disabled: item.disabled || child.disabled }}
                 sub
-                currentPath={currentPath}
-                onNavigate={onNavigate}
+                {...navigation}
               />
             </SidebarMenuSubItem>
           ))}
         </SidebarMenuSub>
       </CollapsibleContent>
     </Collapsible>
+  );
+};
+
+/**
+ * Chooses an expanded disclosure or a desktop icon menu. Active descendants initially open
+ * the disclosure; later route changes update highlighting without resetting the user's choice.
+ */
+const NavBranch = ({ item, ...navigation }: Omit<NavBranchProps, "active">) => {
+  const { state, isMobile } = useSidebar();
+  const active =
+    isActive(item, navigation.currentPath) ||
+    Boolean(item.items?.some((child) => isActive(child, navigation.currentPath)));
+  return state === "collapsed" && !isMobile ? (
+    <CollapsedNavBranch item={item} active={active} {...navigation} />
+  ) : (
+    <ExpandedNavBranch item={item} active={active} {...navigation} />
   );
 };
 
