@@ -1,8 +1,9 @@
 /** @file Expandable source definitions and fragment navigation for the shell API guide. */
+import { useEventListener, useSet } from "@kamod-ch/hooks";
 import { ChevronDownIcon, CodeIcon } from "@kamod-ch/icons/lucide";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@kamod-ch/ui";
 import type { ComponentChildren } from "preact";
-import { useEffect, useState } from "preact/hooks";
+import { useEffect, useRef } from "preact/hooks";
 import { CodeBlock } from "../docs/components/CodeBlock";
 import type { TypeReference } from "./application-shell-api-data";
 import {
@@ -145,43 +146,35 @@ const ShellTypeDefinition = ({
 
 /** Independent disclosures that also open when targeted by a URL fragment. */
 export const useShellTypeDefinitions = () => {
-  const [openTypes, setOpenTypes] = useState<ReadonlySet<ApplicationShellTypeName>>(
-    () => new Set(["ApplicationShellNavigationGroup"]),
-  );
+  const [openTypes, { add, remove }] = useSet<ApplicationShellTypeName>([
+    "ApplicationShellNavigationGroup",
+  ]);
+  const frame = useRef(0);
   const setTypeOpen = (name: ApplicationShellTypeName, open: boolean) => {
-    setOpenTypes((current) => {
-      if (current.has(name) === open) return current;
-      const next = new Set(current);
-      if (open) next.add(name);
-      else next.delete(name);
-      return next;
-    });
+    if (open) add(name);
+    else remove(name);
   };
 
+  const revealType = (event?: HashChangeEvent) => {
+    window.cancelAnimationFrame(frame.current);
+    const name = applicationShellTypeNames.find(
+      (key) => window.location.hash === `#${typeId(key)}`,
+    );
+    if (!name) return;
+    add(name);
+    // PreactPress disables native history scroll restoration. Wait for the
+    // disclosure render before restoring direct links and Back/Forward targets.
+    frame.current = window.requestAnimationFrame(() => {
+      const heading = document.getElementById(typeId(name));
+      heading?.scrollIntoView({ block: "start", behavior: "instant" });
+      // Move focus for in-page navigation, while leaving initial document focus to the browser.
+      if (event) heading?.focus({ preventScroll: true });
+    });
+  };
+  useEventListener("hashchange", revealType);
   useEffect(() => {
-    let frame = 0;
-    const revealType = (event?: HashChangeEvent) => {
-      window.cancelAnimationFrame(frame);
-      const name = applicationShellTypeNames.find(
-        (key) => window.location.hash === `#${typeId(key)}`,
-      );
-      if (!name) return;
-      setTypeOpen(name, true);
-      // PreactPress disables native history scroll restoration. Wait for the
-      // disclosure render before restoring direct links and Back/Forward targets.
-      frame = window.requestAnimationFrame(() => {
-        const heading = document.getElementById(typeId(name));
-        heading?.scrollIntoView({ block: "start", behavior: "instant" });
-        // Move focus for in-page navigation, while leaving initial document focus to the browser.
-        if (event) heading?.focus({ preventScroll: true });
-      });
-    };
     revealType();
-    window.addEventListener("hashchange", revealType);
-    return () => {
-      window.cancelAnimationFrame(frame);
-      window.removeEventListener("hashchange", revealType);
-    };
+    return () => window.cancelAnimationFrame(frame.current);
   }, []);
 
   const renderTypeLink = (name: ApplicationShellTypeName, label: ComponentChildren = name) => (

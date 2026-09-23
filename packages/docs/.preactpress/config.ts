@@ -251,6 +251,8 @@ export default defineConfig({
         "@formisch/preact",
         "@formisch/core",
         "@kamod-ch/blocks",
+        // Share the aliased Preact runtime with hook consumers during static rendering.
+        "@kamod-ch/hooks",
         "@kamod-ch/icons",
         "@formisch/methods",
         "@preact/signals",

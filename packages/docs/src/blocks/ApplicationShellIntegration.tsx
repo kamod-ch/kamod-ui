@@ -61,35 +61,29 @@ export const AppFrame = (props: AppFrameProps) => {
   );
 };`;
 
-const persistedStateExample = `import { useEffect, useState } from "preact/hooks";
+const persistedStateExample = `import { useLocalStorageState } from "@kamod-ch/hooks";
+import {
+  ApplicationShell1,
+  type ApplicationShell1Props,
+} from "./components/application-shell-1";
 
-const storageKey = "app-sidebar-desktop-open";
+type AppFrameProps = Omit<
+  ApplicationShell1Props,
+  "open" | "defaultOpen" | "onOpenChange"
+>;
 
-export function useDesktopSidebarPreference() {
-  const [open, setOpen] = useState(true);
+export const AppFrame = (props: AppFrameProps) => {
+  const [open, setOpen] = useLocalStorageState<boolean>("app-sidebar-desktop-open", {
+    defaultValue: true,
+    getInitialValueInEffect: true,
+    deserializer: (raw) => raw !== "false",
+    onError: () => { /* Storage is optional; the toggle still works in memory. */ },
+  });
 
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem(storageKey);
-      if (saved === "true" || saved === "false") {
-        setOpen(saved === "true");
-      }
-    } catch {
-      // Keep the default if browser storage is unavailable.
-    }
-  }, []);
-
-  const setDesktopOpen = (next: boolean) => {
-    setOpen(next);
-    try {
-      localStorage.setItem(storageKey, String(next));
-    } catch {
-      // The toggle still works when the preference cannot be saved.
-    }
-  };
-
-  return [open, setDesktopOpen] as const;
-}`;
+  return (
+    <ApplicationShell1 {...props} open={open} onOpenChange={setOpen} />
+  );
+};`;
 
 /** Navigation data remains independent of the app's router. */
 export const ShellNavigationData = ({
@@ -231,11 +225,15 @@ export const ShellSidebarState = () => (
       the mobile sheet; your desktop preference still applies when returning to a wider screen.
     </p>
     <p class="blocks-api-example-intro">
-      <strong>Remember the desktop preference.</strong> In <code>AppFrame</code> above, replace{" "}
-      <code>useState(true)</code> with <code>useDesktopSidebarPreference()</code> and keep the same{" "}
-      <code>open</code>/<code>onOpenChange</code> wiring. Add this hook in the same file, or import
-      it from a local module. It restores the saved value after mounting and saves new values only
-      when the desktop toggle changes them.
+      <strong>Remember the desktop preference.</strong> For optional persistence, install{" "}
+      <code>@kamod-ch/hooks</code> with your package manager (for example,{" "}
+      <code>pnpm add @kamod-ch/hooks</code>) and use this version of <code>AppFrame</code>. Kamod
+      Hooks'{" "}
+      <a href="https://kamod-ch.github.io/kamod-hooks/hooks/use-local-storage-state/">
+        <code>useLocalStorageState</code>
+      </a>{" "}
+      handles storage and state updates while keeping the same <code>open</code>/
+      <code>onOpenChange</code> wiring. This package is only needed for this optional example.
     </p>
     <CodeBlock code={persistedStateExample} language="tsx" />
     <dl class="blocks-doc-callouts">
@@ -250,12 +248,12 @@ export const ShellSidebarState = () => (
       <div>
         <dt>First render</dt>
         <dd>
-          Reading storage in <code>useEffect</code> keeps server rendering safe. The sidebar may
-          briefly appear expanded before a saved collapsed preference is restored. To avoid that
-          shift, your server can read the core sidebar's <code>sidebar_state</code> cookie and pass
-          its parsed boolean as <code>defaultOpen</code> on the first render, or initialize
-          controlled state with it. The core writes this cookie but does not restore it
-          automatically.
+          <code>getInitialValueInEffect</code> uses the expanded default for both server rendering
+          and the first client render, then restores storage after mounting. The sidebar may briefly
+          appear expanded before a saved collapsed preference is restored. To avoid that shift, your
+          server can read the core sidebar's <code>sidebar_state</code> cookie and pass its parsed
+          boolean as <code>defaultOpen</code> on the first render, or initialize controlled state
+          with it. The core writes this cookie but does not restore it automatically.
         </dd>
       </div>
     </dl>

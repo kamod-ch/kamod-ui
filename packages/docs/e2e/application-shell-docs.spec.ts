@@ -13,6 +13,7 @@ test.beforeEach(async ({ page }) => {
 
 test("navigates category, overview card, detail and back", async ({ page }) => {
   await page.goto("./blocks/sidebar");
+  await page.evaluate(() => document.fonts.ready);
   await page
     .locator("aside.docs-sidebar")
     .getByRole("link", { name: "Application Shell", exact: true })

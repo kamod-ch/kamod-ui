@@ -1,6 +1,7 @@
-import { Copy } from "lucide-preact";
+import { useTimeout } from "@kamod-ch/hooks";
+import { CopyIcon } from "@kamod-ch/icons/lucide";
 import type { ComponentChildren } from "preact";
-import { useEffect, useMemo, useState } from "preact/hooks";
+import { useMemo, useState } from "preact/hooks";
 import Prism from "prismjs";
 import "prismjs/components/prism-bash.js";
 import "prismjs/components/prism-css.js";
@@ -38,11 +39,7 @@ export const CodeBlock = ({
     return Prism.highlight(code, grammar, language);
   }, [code, language]);
 
-  useEffect(() => {
-    if (!isCopied) return;
-    const timeoutId = window.setTimeout(() => setIsCopied(false), 1500);
-    return () => window.clearTimeout(timeoutId);
-  }, [isCopied]);
+  useTimeout(() => setIsCopied(false), isCopied ? 1500 : undefined);
 
   const copyCode = async () => {
     if (typeof navigator === "undefined" || !navigator.clipboard?.writeText) return;
@@ -62,7 +59,13 @@ export const CodeBlock = ({
       aria-label={isCopied ? "Code copied" : "Copy code"}
       onClick={() => void copyCode()}
     >
-      <Copy size={16} />
+      <CopyIcon
+        size={16}
+        strokeWidth={2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      />
       <span>{isCopied ? "Copied" : "Copy"}</span>
     </button>
   );
