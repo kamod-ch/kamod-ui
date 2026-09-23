@@ -730,12 +730,19 @@ const ShellDesignReference = () => (
     aria-labelledby="application-shell-reference"
   >
     <header class="blocks-doc-section-header">
+      <p class="blocks-doc-eyebrow">Design inspiration</p>
       <h2 id="application-shell-reference" tabIndex={-1}>
         <ShellHeadingLink id="application-shell-reference">Design reference</ShellHeadingLink>
       </h2>
       <p>
-        The starting point for this layout, with credit to the original design and notes on the
-        Kamod adaptation.
+        The original Shadcnblocks layout brings grouped navigation, a breadcrumb header and an
+        account menu into one application frame. Use it to compare the placement of controls and the
+        balance between navigation and page content. When adapting the Kamod version, start with
+        your own navigation hierarchy and route names, then use the{" "}
+        <a class="underline" href="#application-shell-navigation-data">
+          typed navigation example
+        </a>{" "}
+        and callback reference above to connect destinations and account actions to your app.
       </p>
     </header>
     <div class="blocks-doc-attribution">
@@ -746,7 +753,7 @@ const ShellDesignReference = () => (
             class="blocks-doc-attribution-source"
             href="https://www.shadcnblocks.com/block/application-shell1"
             target="_blank"
-            rel="noreferrer"
+            rel="noreferrer noopener"
           >
             Shadcnblocks Application Shell 1
             <span class="blocks-doc-attribution-icon" aria-hidden="true">
