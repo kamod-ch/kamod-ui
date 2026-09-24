@@ -1,4 +1,100 @@
 /* Category browsing uses image thumbnails; live demos belong to the detail pages. */
+.blocks-category-navigation {
+  padding-block: 0.5rem;
+}
+
+.blocks-category-navigation-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.9rem;
+  padding-inline: 0.25rem 0.75rem;
+}
+
+.blocks-category-navigation h2 {
+  margin: 0;
+  color: var(--foreground);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  text-transform: none;
+}
+
+.blocks-category-navigation-header > span {
+  flex-shrink: 0;
+  color: var(--muted-foreground);
+  font-size: 0.7rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.blocks-category-navigation ul {
+  margin: 0 0 0 0.25rem;
+  padding: 0;
+  border-left: 1px solid var(--border);
+  list-style: none;
+}
+
+.blocks-category-navigation .blocks-category-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  min-height: 2.75rem;
+  margin-left: -1px;
+  padding: 0.5rem 0.75rem 0.5rem 1rem;
+  border: 0;
+  border-left: 2px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  color: var(--muted-foreground);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  text-decoration: none;
+}
+
+.blocks-category-link > span:first-child {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.blocks-category-count {
+  flex-shrink: 0;
+  min-width: 1.5ch;
+  text-align: right;
+  font-size: 0.85em;
+  font-variant-numeric: tabular-nums;
+}
+
+.blocks-category-navigation .blocks-category-link:hover {
+  background: color-mix(in oklab, var(--muted) 30%, transparent);
+  color: var(--foreground);
+}
+
+.blocks-category-navigation .blocks-category-link[aria-current="page"] {
+  color: var(--foreground);
+  font-weight: 550;
+}
+
+.blocks-category-navigation .blocks-category-link[aria-current="page"]::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -2px;
+  width: 2px;
+  height: 1rem;
+  border-radius: 999px;
+  background: currentColor;
+  transform: translateY(-50%);
+}
+
+.blocks-category-navigation .blocks-category-link:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: -2px;
+  border-radius: 0.25rem;
+}
+
 .blocks-category-page {
   container-type: inline-size;
 }
@@ -231,10 +327,31 @@
   }
 }
 
+/* Give category navigation its own space without changing detail-page layouts. */
+@media (min-width: 980px) {
+  .docs-sidebar .blocks-category-navigation {
+    width: min(100%, 15rem);
+    margin-inline-end: auto;
+  }
+
+  .docs-shell:has(.blocks-category-page) .docs-layout {
+    grid-template-columns: 16.25rem minmax(0, 1fr);
+    column-gap: 1.75rem;
+  }
+}
+
+@media (min-width: 1260px) {
+  .docs-shell:has(.blocks-category-page) .docs-layout {
+    grid-template-columns: 18rem minmax(0, 1fr);
+    column-gap: 2.25rem;
+  }
+}
+
 /* Make room for a third readable preview column on wide displays. */
 @media (min-width: 1680px) {
   .docs-shell:has(.blocks-category-page) .docs-layout {
     max-width: 1680px;
+    column-gap: 2.5rem;
   }
 }
 

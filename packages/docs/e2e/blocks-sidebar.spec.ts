@@ -21,7 +21,7 @@ test.describe("sidebar blocks docs", () => {
       page.getByRole("heading", { level: 1, name: "Building Blocks for the Web" }),
     ).toBeVisible();
     await expect(
-      page.locator("aside.docs-sidebar").getByRole("heading", { name: "Blocks" }),
+      page.locator("aside.docs-sidebar").getByRole("heading", { name: "Categories" }),
     ).toBeVisible();
     for (const hidden of ["Components", "Packages", "Forms", "Motion"]) {
       await expect(

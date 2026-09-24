@@ -16,7 +16,8 @@ import { Menu, SunMoon } from "lucide-preact";
 import type { ComponentChildren } from "preact";
 import { useMemo } from "preact/hooks";
 import { withBasePath } from "../../base-path";
-import { type BlockNavKey, visibleBlockNavItems } from "../../blocks/block-nav-config";
+import { BlockCategoryNavigation } from "../../blocks/BlockCategoryNavigation";
+import type { BlockNavKey } from "../../blocks/block-nav-config";
 import { DemoShell, demoTopNavItems } from "../../layout/DemoShell";
 import { GithubRepoLink } from "../../layout/GithubRepoLink";
 import { ThemePresetSelect } from "../../theme/ThemePresetSelect";
@@ -269,21 +270,9 @@ export const DocsShell = ({
     ];
   }, [activeDoc?.slug, componentsOverviewHref, getDocHref, isComponentsOverview]);
 
-  const blockNavEntries: NavEntry[] = visibleBlockNavItems.map((item) => ({
-    key: item.key,
-    label: item.label,
-    active: activeBlock === item.key,
-    href: withBasePath(item.href),
-  }));
-
   const sidebarNav =
     sidebarScope === "blocks" ? (
-      <SidebarSection
-        title="Blocks"
-        ariaLabel="Docs blocks"
-        entries={blockNavEntries}
-        navClass="docs-sidebar-nav docs-sidebar-nav--blocks"
-      />
+      <BlockCategoryNavigation activeBlock={activeBlock} />
     ) : sidebarScope === "packages" ? (
       <SidebarSection
         title="Packages"
@@ -309,7 +298,7 @@ export const DocsShell = ({
   const mobileNav = (
     <nav aria-label="Mobile docs navigation" class="docs-mobile-sheet-nav">
       {sidebarScope === "blocks" ? (
-        <MobileSection title="Blocks" entries={blockNavEntries} />
+        <BlockCategoryNavigation activeBlock={activeBlock} mobile />
       ) : sidebarScope === "packages" ? (
         <MobileSection title="Packages" entries={packageNavEntries} />
       ) : sidebarScope === "forms" ? (
