@@ -101,8 +101,7 @@
 
 .blocks-category-header {
   padding-block: 0.5rem 1.5rem;
-  margin-bottom: 1.75rem;
-  border-bottom: 1px solid var(--border);
+  margin-bottom: 0;
 }
 
 .blocks-category-breadcrumbs {
@@ -136,6 +135,19 @@
   color: var(--muted-foreground);
   font-size: 0.8rem;
   line-height: 1.5;
+}
+
+.blocks-overview-count {
+  margin: 0 0 1rem;
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.blocks-overview-count strong {
+  color: var(--foreground);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
 }
 
 .blocks-overview-grid {
@@ -198,7 +210,7 @@
 .blocks-overview-preview {
   display: block;
   position: relative;
-  aspect-ratio: 8 / 5;
+  aspect-ratio: 16 / 9;
   margin: 0.625rem 0.625rem 0;
   overflow: hidden;
   border: 1px solid var(--border);

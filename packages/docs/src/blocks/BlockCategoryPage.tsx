@@ -67,6 +67,10 @@ export const BlockCategoryPage = ({ category }: { category: BlockCategory }) => 
               <span>Find your layout. Open a block to try it and explore the code.</span>
             </div>
           </header>
+          <p class="blocks-overview-count">
+            Showing <strong>{blocks.length}</strong> of {blocks.length}{" "}
+            {blocks.length === 1 ? "variant" : "variants"}
+          </p>
           <ul class="blocks-overview-grid" aria-label={`${label} block variants`}>
             {blocks.map((block, index) => (
               <li key={block.id} id={block.id}>

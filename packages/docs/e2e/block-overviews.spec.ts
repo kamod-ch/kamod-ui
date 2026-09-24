@@ -21,6 +21,9 @@ for (const [category, count] of [
     ).toHaveAttribute("href", /\/blocks\/sidebar$/);
     const cards = page.locator("a.blocks-overview-card");
     await expect(cards).toHaveCount(count);
+    await expect(page.locator(".blocks-overview-count")).toHaveText(
+      `Showing ${count} of ${count} ${count === 1 ? "variant" : "variants"}`,
+    );
     await expect(page.locator("iframe, article.blocks-card")).toHaveCount(0);
     for (const card of await cards.all()) {
       await card.scrollIntoViewIfNeeded();
