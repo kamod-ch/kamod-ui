@@ -95,7 +95,7 @@ test.describe("sidebar blocks docs", () => {
     await expect(blockCard.locator(".blocks-code-pane")).toContainText("AppSidebar");
   });
 
-  test("preview interactions: collapse, submenus, popover, dialog, right sidebar and mobile", async ({
+  test("preview interactions: collapse, submenus, actions, dialog, right sidebar and mobile", async ({
     page,
   }) => {
     await page.goto("./blocks/sidebar/sidebar-07/preview");
@@ -114,8 +114,9 @@ test.describe("sidebar blocks docs", () => {
     await expect(page.getByRole("menuitem", { name: "History" })).toBeVisible();
 
     await page.goto("./blocks/sidebar/sidebar-10/preview");
-    await page.getByRole("button", { name: "Open sidebar popover" }).click();
     await expect(page.getByText("Favorites")).toBeVisible();
+    await page.getByRole("button", { name: "More actions" }).click();
+    await expect(page.getByRole("menuitem", { name: "Copy link" })).toBeVisible();
 
     await page.goto("./blocks/sidebar/sidebar-13/preview");
     await page.getByRole("button", { name: "Open settings" }).click();
