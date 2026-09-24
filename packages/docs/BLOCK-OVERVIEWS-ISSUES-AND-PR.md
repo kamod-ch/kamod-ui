@@ -5,8 +5,9 @@ It explains the original problems, the chosen implementation, related fixes and
 verification. It covers the changes since base commit `99b8493` on
 `feat/block-overviews-and-live-previews`.
 
-**Recorded:** 24 September 2026. Both implementations are committed in this branch;
-this is a record of the proposed contribution, not a claim that GitHub has merged
+**Recorded:** 24 September 2026. This branch includes the original implementation and the category navigation,
+compact preview and variant-count refinements described below.
+This is a record of the proposed contribution, not a claim that GitHub has merged
 it or closed the issues. Screenshot cards are the agreed replacement for #56's
 original request for live previews.
 
@@ -119,8 +120,8 @@ Preserve block APIs, form behavior, preview routes and existing hidden-category
 visibility. This work follows the already merged Application Shell feature.
 
 [#56](https://github.com/kamod-ch/kamod-ui/issues/56) adds generated visual previews
-and card styling on top of this shared structure. Search, sorting, general setup
-guides and a full reusable documentation template remain separate proposals.
+and card styling on top of this shared structure. General setup guides, search/sort controls and a full reusable documentation
+template remain separate proposals.
 
 ### Screenshots
 
@@ -164,7 +165,7 @@ explicit regeneration step when block designs change.
 
 - Refine the category header with breadcrumbs, a variant-count badge and a short
   browsing hint. Keep the existing category sidebar and titles.
-- Use a consistent **8:5 image frame**, clear title/description, up to three useful
+- Use a compact **16:9 preview frame** with uncropped images, clear title/description, up to three useful
   feature tags and a footer showing the import path and “View block”.
 - Make the whole card one link, with visible keyboard focus and subtle themed
   hover styling. Reuse core **Card, Badge and Breadcrumb** components.
@@ -235,7 +236,7 @@ of ordinary builds.
 - [x] Overviews mount no live demos or preview iframes and request no demo/source chunks.
 - [x] Saved-theme selection avoids downloading the opposite image set on initial load.
 - [x] Keyboard, mobile/wide layouts, image failure, no-JavaScript and subpath links are covered.
-- [x] Docs build/typecheck, scoped lint/Biome, formatting, **40 docs unit tests** and **64 Chromium checks** pass.
+- [x] Docs build/typecheck, scoped lint/Biome, formatting, **40 docs unit tests** and **64 Chromium checks** are verified.
 
 Accessible names were also added to the shared theme toggle and footer brand link.
 Automated accessibility checks exclude only the official logo's wordmark contrast
@@ -245,8 +246,7 @@ fails before page creation with `Unknown setting: PushAPIEnabled`.
 ### Boundaries and references
 
 Depends on [#51's shared pages](#issue-51-consistent-overviews-and-detail-pages). No new dependencies,
-image service, theme-per-preset image matrix, search/sort controls or root `/blocks`
-route are introduced. The “Blocks” breadcrumb uses the existing `/blocks/sidebar`
+image service, theme-per-preset image matrix or root `/blocks` route are introduced. The “Blocks” breadcrumb uses the existing `/blocks/sidebar`
 entry page.
 
 See the [PR scope below](#pr-scope) for the complete change description, source
@@ -304,17 +304,32 @@ Each card contains a screenshot, block heading and description, up to three feat
 tags, the import path and a “View block” footer. The whole card is a single link,
 with no nested controls and a visible keyboard focus ring.
 
+The category sidebar now shares the detail page contents navigation's quiet left
+border, generous link spacing and a short, centered active marker. A **Categories** heading
+shows the total block count, with registry-derived variant counts aligned beside
+each category. Links use **0.85rem** text and a **16px** active marker while retaining
+44px click targets. They sit indented beneath the heading; the navigation itself
+aligns left in wider desktop sidebar columns, leaving more room beside the cards.
+Desktop and mobile use `BlockCategoryNavigation`; mobile links
+retain the core Sheet dismissal behavior. Counts have accessible descriptions,
+and active links expose `aria-current="page"`. No artificial subcategories are added.
+
 The category header adds core **Breadcrumb** navigation, a Preact/Kamod UI label,
 a variant-count badge and a browsing hint. A short note explains the screenshot
 theme. The Blocks breadcrumb uses the existing `/blocks/sidebar` entry page.
 
-- Reserve an **8:5 preview frame**; keep text wrapping and card footers consistent.
+- Reserve a **16:9 preview frame** with the full 8:5 screenshot contained inside;
+  keep text wrapping and card footers consistent.
 - Use one, two or three columns based on usable content width (**580px / 1120px**
   container breakpoints), accounting for the sidebar.
 - Allow category layouts up to **1680px** wide on large screens.
 - Below **640px**, place category-page branding and theme/actions on separate rows
   to avoid overlap. These rules do not change detail-page headers or widths.
 - Use current theme tokens for borders, colors, hover/focus and reduced-motion styling.
+
+A compact **Showing N of N variants** count sits above the grid, with singular
+wording for one variant. Cards remain in registry order. There is no search/sort
+toolbar, patterned band or extra divider between the header and cards.
 
 Overview styling moves into `block-overviews.css`, imported by the main stylesheet;
 the superseded overview-grid rules are removed from `blocks.css`.
@@ -422,6 +437,10 @@ static detail/preview HTML, source request races and retries, screenshot integri
 keyboard navigation, theme selection, responsive layouts, image failure and no-JS
 links. The thumbnail integrity test enforces both sizes/themes and a 100 KiB/image cap.
 
+Overview tests verify the displayed variant count for all four categories. The
+sidebar test expects the new **Categories** heading. Focused browser checks also
+verified the smaller links and active marker on mobile and desktop in both themes.
+
 The existing Sidebar 10 test was corrected to exercise **More actions → Copy link**,
 the menu already present in the unchanged baseline, instead of expecting an absent
 popover trigger. The block was not changed to satisfy that stale assertion.
@@ -452,7 +471,7 @@ the logo exemption. No whole-repository release-gate pass is claimed.
 structure, so they are delivered together. The screenshot implementation is the
 agreed alternative to #56's original live-preview title.
 
-Search/sort controls, a root `/blocks` landing page, general block guides and a full
+A root `/blocks` landing page, general block guides and a full
 shared template for all detailed documentation remain separate proposals. Future
 visual changes require regenerating affected thumbnails.
 
@@ -470,7 +489,7 @@ and formatter configuration edits, and duplicate working files are excluded.
 **Detail:** <!-- Add a Login/Signup detail page with Preview/Code controls. -->
 
 <details>
-<summary><strong>Complete changed-file inventory</strong> — 50 source/route/test/workflow files, 108 generated images and this scope record</summary>
+<summary><strong>Complete changed-file inventory</strong> — 51 source/route/test/workflow files, 108 generated images and this scope record</summary>
 
 Paths below are relative to the repository root. This covers the complete feature
 diff relative to `99b8493`, plus this combined issue/PR document.
@@ -527,6 +546,7 @@ diff relative to `99b8493`, plus this combined issue/PR document.
 #### Shared docs components, metadata and unit tests
 
 - `packages/docs/src/blocks/ApplicationShellShowcase.tsx`
+- `packages/docs/src/blocks/BlockCategoryNavigation.tsx`
 - `packages/docs/src/blocks/BlockCategoryPage.tsx`
 - `packages/docs/src/blocks/BlockDetailPage.tsx`
 - `packages/docs/src/blocks/BlockOverviewCard.tsx`
@@ -560,7 +580,8 @@ diff relative to `99b8493`, plus this combined issue/PR document.
 ## Implementation commits
 
 The existing #51 commits are followed by four focused #56 implementation commits;
-this combined document is committed separately after the code.
+this combined document is committed separately after the code. Follow-up commits
+keep category navigation, card presentation and documentation changes separate.
 
 | Commit    | Scope                                                                             |
 | --------- | --------------------------------------------------------------------------------- |
@@ -576,3 +597,17 @@ this combined document is committed separately after the code.
 The normal formatting/lint commit hooks passed without modifying the verified
 implementation. Personal issue drafts and local context files remain outside the
 commits; this combined document is the explicitly requested shared record.
+
+### Latest refinement commits
+
+1. **`1e8b270` — `feat(docs): refine block category navigation with variant counts`** — shared
+   desktop/mobile links, total and per-category counts, accessible active state,
+   compact text/marker and wider sidebar spacing; updated sidebar regression.
+2. **`8f1b4f1` — `style(docs): compact overview previews and show variant totals`** — shorter
+   16:9 frames without image cropping, simple count, cleaner header-to-grid spacing
+   and count assertions for each category.
+3. **`docs(blocks): update overview PR scope and validation`** — bring this shared
+   issue/PR record up to date. Personal planning files remain local.
+
+The planned full-width category header and aligned sidebar/card row are a future
+layout change, **not implemented by these commits**.
