@@ -4,6 +4,7 @@ import { defineConfig } from "@kamod-ch/preactpress/config";
 import { getThemeInitScript } from "@kamod-ch/themes";
 import tailwindcss from "@tailwindcss/vite";
 import type { Connect } from "vite";
+import { blockPagesPlugin } from "./block-pages-plugin";
 
 const configDir = import.meta.dirname;
 const docsRoot = resolve(configDir, "..");
@@ -62,6 +63,7 @@ export default defineConfig({
   },
   vite: {
     plugins: [
+      blockPagesPlugin(),
       {
         name: "kamod-ui-favicon-dev",
         enforce: "pre",

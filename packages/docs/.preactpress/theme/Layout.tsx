@@ -1,47 +1,60 @@
 import type { LayoutProps } from "@kamod-ch/preactpress/client";
 import { syncThemeFromStorage } from "@kamod-ch/themes";
 import type { FunctionalComponent } from "preact";
-import {
-  ApplicationShellBlocksPreviewContent,
-  BlocksApplicationShellContent,
-  BlocksApplicationShellDetailContent,
-} from "../../src/blocks/BlocksApplicationShellContent";
-import {
-  AppSidebarBlocksPreviewContent,
-  BlocksAppSidebarContent,
-} from "../../src/blocks/BlocksAppSidebarContent";
-import { AuthBlocksPreviewContent, BlocksAuthContent } from "../../src/blocks/BlocksAuthContent";
-import {
-  BlocksCatalogAuthContent,
-  CatalogAuthBlocksPreviewContent,
-} from "../../src/blocks/BlocksCatalogAuthContent";
-import {
-  BlocksCommerceContent,
-  CommerceBlocksPreviewContent,
-} from "../../src/blocks/BlocksCommerceContent";
-import {
-  BlocksCommunicationContent,
-  CommunicationBlocksPreviewContent,
-} from "../../src/blocks/BlocksCommunicationContent";
-import {
-  BlocksDashboardContent,
-  DashboardBlocksPreviewContent,
-} from "../../src/blocks/BlocksDashboardContent";
-import {
-  BlocksMarketingContent,
-  MarketingBlocksPreviewContent,
-} from "../../src/blocks/BlocksMarketingContent";
-import {
-  BlocksPreviewContent,
-  BlocksSidebarContent,
-  BlocksSidebarDetailContent,
-} from "../../src/blocks/BlocksSidebarContent";
+import { BlockCategoryPage } from "../../src/blocks/BlockCategoryPage";
 import { DocsComponentContent } from "../../src/docs/DocsComponentContent";
 import { DocsFormsOverviewContent } from "../../src/docs/DocsFormsOverviewContent";
 import { DocsOverviewContent } from "../../src/docs/DocsOverviewContent";
 import { DocsPackagesOverviewContent } from "../../src/docs/DocsPackagesOverviewContent";
 import { KitchenSinkPage } from "../../src/kitchen-sink/KitchenSinkPage";
+import { blockPage } from "./block-page";
 import "../../src/styles/index.css";
+
+const ApplicationShellBlocksPreviewContent = blockPage(
+  "BlocksApplicationShellContent",
+  "ApplicationShellBlocksPreviewContent",
+);
+const BlocksApplicationShellDetailContent = blockPage(
+  "BlocksApplicationShellContent",
+  "BlocksApplicationShellDetailContent",
+);
+const AppSidebarBlocksPreviewContent = blockPage(
+  "BlocksAppSidebarContent",
+  "AppSidebarBlocksPreviewContent",
+);
+const BlocksAppSidebarContent = blockPage("BlocksAppSidebarContent", "BlocksAppSidebarContent");
+const AuthBlocksPreviewContent = blockPage("BlocksAuthContent", "AuthBlocksPreviewContent");
+const BlocksCatalogAuthContent = blockPage("BlocksCatalogAuthContent", "BlocksCatalogAuthContent");
+const CatalogAuthBlocksPreviewContent = blockPage(
+  "BlocksCatalogAuthContent",
+  "CatalogAuthBlocksPreviewContent",
+);
+const BlocksCommerceContent = blockPage("BlocksCommerceContent", "BlocksCommerceContent");
+const CommerceBlocksPreviewContent = blockPage(
+  "BlocksCommerceContent",
+  "CommerceBlocksPreviewContent",
+);
+const BlocksCommunicationContent = blockPage(
+  "BlocksCommunicationContent",
+  "BlocksCommunicationContent",
+);
+const CommunicationBlocksPreviewContent = blockPage(
+  "BlocksCommunicationContent",
+  "CommunicationBlocksPreviewContent",
+);
+const BlocksDashboardContent = blockPage("BlocksDashboardContent", "BlocksDashboardContent");
+const DashboardBlocksPreviewContent = blockPage(
+  "BlocksDashboardContent",
+  "DashboardBlocksPreviewContent",
+);
+const BlocksMarketingContent = blockPage("BlocksMarketingContent", "BlocksMarketingContent");
+const MarketingBlocksPreviewContent = blockPage(
+  "BlocksMarketingContent",
+  "MarketingBlocksPreviewContent",
+);
+const BlocksPreviewContent = blockPage("BlocksSidebarContent", "BlocksPreviewContent");
+const BlocksSidebarDetailContent = blockPage("BlocksSidebarContent", "BlocksSidebarDetailContent");
+const BlocksAuthDetailContent = blockPage("BlocksAuthContent", "BlocksAuthDetailContent");
 
 if (typeof window !== "undefined") {
   syncThemeFromStorage();
@@ -59,6 +72,7 @@ type DemoPageKind =
   | "blocks-application-shell-detail"
   | "application-shell-block-preview"
   | "blocks-app-sidebar"
+  | "blocks-auth-detail"
   | "blocks-auth"
   | "blocks-auth-catalog"
   | "blocks-marketing"
@@ -128,11 +142,11 @@ const Layout: FunctionalComponent<LayoutProps> = ({ page }) => {
   }
 
   if (meta.pageKind === "blocks-sidebar") {
-    return <BlocksSidebarContent />;
+    return <BlockCategoryPage category="sidebar" />;
   }
 
   if (meta.pageKind === "blocks-application-shell") {
-    return <BlocksApplicationShellContent />;
+    return <BlockCategoryPage category="application-shell" />;
   }
   if (meta.pageKind === "blocks-application-shell-detail") {
     return <BlocksApplicationShellDetailContent blockId={meta.blockId} />;
@@ -150,7 +164,11 @@ const Layout: FunctionalComponent<LayoutProps> = ({ page }) => {
   }
 
   if (meta.pageKind === "blocks-auth" && meta.blockCategory) {
-    return <BlocksAuthContent category={meta.blockCategory} />;
+    return <BlockCategoryPage category={meta.blockCategory} />;
+  }
+
+  if (meta.pageKind === "blocks-auth-detail" && meta.blockCategory) {
+    return <BlocksAuthDetailContent category={meta.blockCategory} blockId={meta.blockId} />;
   }
 
   if (meta.pageKind === "blocks-auth-catalog") {
