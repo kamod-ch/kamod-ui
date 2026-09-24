@@ -26,12 +26,21 @@ describe("trapFocus", () => {
     const dispose = trapFocus(root, { focusContainer: false });
     const [first, last] = getFocusableElements(root);
 
-    first.focus();
-    root.dispatchEvent(new KeyboardEvent("keydown", { key: "Tab", bubbles: true }));
-    expect(document.activeElement).toBe(last);
-
-    root.dispatchEvent(new KeyboardEvent("keydown", { key: "Tab", shiftKey: true, bubbles: true }));
+    last.focus();
+    root.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "Tab", bubbles: true, cancelable: true }),
+    );
     expect(document.activeElement).toBe(first);
+
+    root.dispatchEvent(
+      new KeyboardEvent("keydown", {
+        key: "Tab",
+        shiftKey: true,
+        bubbles: true,
+        cancelable: true,
+      }),
+    );
+    expect(document.activeElement).toBe(last);
 
     dispose();
     root.remove();
