@@ -38,6 +38,7 @@
         "src/kitchen-sink/KitchenSinkPage.tsx",
         "src/blocks/**/*.{ts,tsx}",
         "src/docs/**/*.{ts,tsx}",
+        "src/test/setup.ts",
         "e2e/**/*.ts",
         "scripts/**/*.{js,mjs}"
       ],
@@ -49,7 +50,6 @@
         "tw-animate-css",
         "@fontsource-variable/inter",
         "@tailwindcss/forms",
-        "@kamod-ch/hooks",
         "@kamod-ch/signals"
       ]
     },
