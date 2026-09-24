@@ -305,9 +305,9 @@ tags, the import path and a “View block” footer. The whole card is a single 
 with no nested controls and a visible keyboard focus ring.
 
 The category sidebar now shares the detail page contents navigation's quiet left
-border, generous link spacing and a short, centered active marker. A **Categories** heading
+border, generous link spacing and a nearly full-height active marker. A **Categories** heading
 shows the total block count, with registry-derived variant counts aligned beside
-each category. Links use **0.85rem** text and a **16px** active marker while retaining
+each category. Links use **0.85rem** text and an active marker inset **2px** at each end while retaining
 44px click targets. They sit indented beneath the heading; the navigation itself
 aligns left in wider desktop sidebar columns, leaving more room beside the cards.
 Desktop and mobile use `BlockCategoryNavigation`; mobile links
