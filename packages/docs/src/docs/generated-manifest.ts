@@ -1025,6 +1025,7 @@ export const docsRouteManifest = [
       "usage",
       "basic-theme-toggle",
       "custom-toggle-label",
+      "ripple-theme-toggle",
       "api-reference",
       "accessibility",
     ],

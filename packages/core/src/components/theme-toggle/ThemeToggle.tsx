@@ -3,10 +3,12 @@ import type { ComponentChildren, JSX } from "preact";
 import { useEffect, useState } from "preact/hooks";
 import { cn } from "../../lib/utils";
 import { Button } from "../button";
+import { applyColorSchemeWithTransition, type ThemeToggleTransition } from "./theme-toggle-ripple";
 
 export type ThemeToggleProps = Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, "class"> & {
   class?: string;
   children?: ComponentChildren;
+  transition?: ThemeToggleTransition;
 };
 
 const SunIcon = ({ class: className }: { class?: string }) => (
@@ -47,7 +49,12 @@ const MoonIcon = ({ class: className }: { class?: string }) => (
   </svg>
 );
 
-export const ThemeToggle = ({ children, onClick, ...rest }: ThemeToggleProps) => {
+export const ThemeToggle = ({
+  children,
+  onClick,
+  transition = "instant",
+  ...rest
+}: ThemeToggleProps) => {
   // Keep SSR and the first client render identical: theme from localStorage /
   // matchMedia is only known after mount, so icon choice must wait.
   const [mounted, setMounted] = useState(false);
@@ -67,12 +74,20 @@ export const ThemeToggle = ({ children, onClick, ...rest }: ThemeToggleProps) =>
       data-slot="theme-toggle"
       data-state={mounted ? (darkMode ? "dark" : "light") : "light"}
       aria-label={children == null ? (darkMode ? "Light mode" : "Dark mode") : undefined}
-      onClick={(event) => {
-        const next = resolvedColorSchemeSignal.value === "dark" ? "light" : "dark";
-        setColorScheme(next);
-        onClick?.(event);
-      }}
       {...rest}
+      onClick={(event) => {
+        onClick?.(event);
+        if (event.defaultPrevented) {
+          return;
+        }
+        const next = resolvedColorSchemeSignal.value === "dark" ? "light" : "dark";
+        const origin = event.currentTarget;
+        if (!(origin instanceof HTMLElement)) {
+          setColorScheme(next);
+          return;
+        }
+        applyColorSchemeWithTransition(next, transition, setColorScheme, event, origin);
+      }}
     >
       {children ?? (darkMode ? <SunIcon /> : <MoonIcon />)}
     </Button>

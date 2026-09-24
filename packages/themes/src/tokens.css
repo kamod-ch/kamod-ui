@@ -164,3 +164,17 @@
     animation-duration: 0s !important;
   }
 }
+
+html.kamod-theme-ripple-active::view-transition-old(root),
+html.kamod-theme-ripple-active::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+html.kamod-theme-ripple-active::view-transition-new(root) {
+  z-index: 9999;
+}
+
+html.kamod-theme-ripple-active::view-transition-old(root) {
+  z-index: 1;
+}
