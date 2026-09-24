@@ -1,4 +1,5 @@
 import { act, cleanup, fireEvent, render, screen, waitFor } from "@testing-library/preact";
+import type { JSX } from "preact";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { Dropdown } from "./Dropdown";
 import { DropdownContent } from "./DropdownContent";
@@ -22,6 +23,22 @@ describe("dropdown content placement", () => {
       </Dropdown>,
     );
     expect(container).toContainElement(screen.getByRole("menu"));
+  });
+
+  it("does not measure an inline dropdown with a composite trigger", () => {
+    const Trigger = (props: JSX.ButtonHTMLAttributes<HTMLButtonElement>) => <button {...props} />;
+    render(
+      <Dropdown>
+        <DropdownTrigger asChild>
+          <Trigger>Actions</Trigger>
+        </DropdownTrigger>
+        <DropdownContent>
+          <DropdownItem>Account</DropdownItem>
+        </DropdownContent>
+      </Dropdown>,
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Actions" }));
+    expect(screen.getByRole("menuitem", { name: "Account" })).toBeVisible();
   });
 
   it("portals without losing selection, dismissal or Escape focus return", async () => {

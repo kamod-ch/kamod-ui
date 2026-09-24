@@ -75,10 +75,12 @@ export const useDropdownPlacement = ({
   const [placement, setPlacement] = useState<Placement>({ left: 0, top: 0, side });
 
   useLayoutEffect(() => {
+    // Inline menus use CSS positioning; their composite triggers need no DOM measurement.
+    if (!enabled) return;
     const content = contentRef.current;
     const trigger = triggerRef.current;
     const view = trigger?.ownerDocument.defaultView;
-    if (!enabled || !content || !trigger || !view) return;
+    if (!content || !trigger || !view) return;
 
     const update = () => {
       // Layout dimensions avoid the opening animation's temporary scale affecting placement.
