@@ -343,7 +343,7 @@ export const DocsShell = ({
         <>
           <ThemePresetSelect class="docs-theme-preset" selectClass="docs-theme-preset-select" />
           <GithubRepoLink />
-          <ThemeToggle class="docs-topbar-theme-toggle">
+          <ThemeToggle class="docs-topbar-theme-toggle" aria-label="Toggle color scheme">
             <SunMoon />
           </ThemeToggle>
         </>
