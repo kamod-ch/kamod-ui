@@ -10,6 +10,8 @@ export type BlockOverviewEntry = {
   title: string;
   description: string;
   installCommand: string;
+  tags: readonly string[];
+  features?: readonly string[];
 };
 
 export const blockCategories = {

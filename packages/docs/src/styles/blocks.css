@@ -98,16 +98,6 @@
   border-radius: 0.25rem;
 }
 
-.blocks-overview-grid {
-  margin-top: 0.25rem;
-}
-
-@media (min-width: 900px) {
-  .blocks-overview-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
 .blocks-hero {
   margin-bottom: 2.5rem;
 }

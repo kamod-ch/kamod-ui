@@ -1,11 +1,21 @@
 /** Shared category → detail navigation for every visible block category. */
+import {
+  Badge,
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@kamod-ch/ui";
 import { useEffect } from "preact/hooks";
 import { withBasePath } from "../base-path";
 import { DocsShell } from "../docs/components/DocsShell";
+import { BlockOverviewCard } from "./BlockOverviewCard";
 import { type BlockCategory, blockCategories, legacyBlockDestination } from "./block-categories";
 
 export const BlockCategoryPage = ({ category }: { category: BlockCategory }) => {
-  const { title, description, blocks } = blockCategories[category];
+  const { title, description, blocks, label } = blockCategories[category];
 
   useEffect(() => {
     // Old auth pages used /blocks/login#login-01. Replace the entry so Back does not loop.
@@ -30,25 +40,44 @@ export const BlockCategoryPage = ({ category }: { category: BlockCategory }) => 
       docs={[]}
       activeBlock={category}
       mainContent={
-        <section class="docs-components-overview blocks-sidebar-page">
-          <header class="blocks-hero">
+        <section class="docs-components-overview blocks-sidebar-page blocks-category-page">
+          <header class="blocks-hero blocks-category-header">
+            <Breadcrumb class="blocks-category-breadcrumbs">
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href={withBasePath("/")}>Home</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbLink href={withBasePath("/blocks/sidebar")}>Blocks</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbPage class="capitalize">{label}</BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
+            <span class="blocks-category-eyebrow">Built with Preact &amp; Kamod UI</span>
             <h1>{title}</h1>
             <p class="blocks-hero-lead">{description}</p>
+            <div class="blocks-category-caption">
+              <Badge variant="secondary" size="sm">
+                {blocks.length} {blocks.length === 1 ? "variant" : "variants"}
+              </Badge>
+              <span>Find your layout. Open a block to try it and explore the code.</span>
+            </div>
           </header>
-          <ul class="docs-package-overview-grid blocks-overview-grid">
-            {blocks.map((block) => (
+          <ul class="blocks-overview-grid" aria-label={`${label} block variants`}>
+            {blocks.map((block, index) => (
               <li key={block.id} id={block.id}>
-                <a
-                  class="docs-package-overview-card blocks-overview-card"
-                  href={withBasePath(`/blocks/${category}/${block.id}`)}
-                >
-                  <span class="docs-package-overview-label">{block.title}</span>
-                  <span class="docs-package-overview-summary">{block.description}</span>
-                  <code class="docs-package-overview-path">{block.installCommand}</code>
-                </a>
+                <BlockOverviewCard block={block} category={category} eager={index < 3} />
               </li>
             ))}
           </ul>
+          <p class="blocks-category-note">
+            Previews use the Kamod theme in light or dark mode. Try other themes and screen sizes on
+            each block’s detail page.
+          </p>
         </section>
       }
     />
