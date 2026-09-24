@@ -1,0 +1,5 @@
+/**
+ * Blobatar idle/hover animations for docs demos only.
+ * Imported from src/styles/index.css — not part of @kamod-ch/ui.
+ */
+@import "blobatar/motion.css";

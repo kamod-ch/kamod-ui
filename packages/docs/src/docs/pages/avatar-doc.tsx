@@ -19,6 +19,12 @@ import type { ComponentChildren } from "preact";
 import { useState } from "preact/hooks";
 import { ApiReference } from "../components/ApiReference";
 import { CodeBlock } from "../components/CodeBlock";
+import {
+  SMART_AVATAR_ANIMATED_FALLBACK_CODE,
+  SMART_AVATAR_GENERATED_FALLBACK_CODE,
+  SmartAvatarAnimatedFallbackPreview,
+  SmartAvatarGeneratedFallbackPreview,
+} from "../examples/avatar";
 import type { DocPageModule } from "../types";
 
 function AvatarHeroDemo() {
@@ -137,6 +143,14 @@ export const Example = () => (
     <AvatarFallback>CN</AvatarFallback>
   </Avatar>
 );`,
+  },
+  "generated-fallback": {
+    preview: () => <SmartAvatarGeneratedFallbackPreview />,
+    code: SMART_AVATAR_GENERATED_FALLBACK_CODE,
+  },
+  "animated-fallback": {
+    preview: () => <SmartAvatarAnimatedFallbackPreview />,
+    code: SMART_AVATAR_ANIMATED_FALLBACK_CODE,
   },
   badge: {
     preview: () => (
@@ -377,6 +391,23 @@ const apiSections = [
   },
 ] as const;
 
+const smartAvatarRecipeApiSections = [
+  {
+    title: "SmartAvatar (docs recipe)",
+    description:
+      "Optional composition in packages/docs/src/docs/examples/avatar/SmartAvatar.tsx. Depends on blobatar and @blobatar/preact — not shipped with @kamod-ch/ui.",
+    rows: [
+      { prop: "name", type: "string", defaultValue: "required (blobatar seed)" },
+      { prop: "src", type: "string | null", defaultValue: "undefined" },
+      { prop: "label", type: "string", defaultValue: "undefined" },
+      { prop: "badge", type: "ComponentChildren", defaultValue: "undefined" },
+      { prop: "blobatar", type: "SmartAvatarBlobatarOptions", defaultValue: "undefined" },
+      { prop: "size", type: '"sm" | "default" | "lg"', defaultValue: '"default"' },
+      { prop: "class", type: "string", defaultValue: "-" },
+    ],
+  },
+] as const;
+
 export const avatarDocPage: DocPageModule = {
   slug: "avatar",
   title: "Avatar",
@@ -395,6 +426,16 @@ export const avatarDocPage: DocPageModule = {
       text: "Place AvatarImage and AvatarFallback inside Avatar. The fallback stays visible until the image fires load; on error it shows again.",
     },
     { id: "basic", title: "Basic", text: "Image plus fallback initials." },
+    {
+      id: "generated-fallback",
+      title: "Generated fallback",
+      text: "Optional SmartAvatar recipe: deterministic blobatar fallback from a stable user id when no photo is available, when the URL fails, or while a photo loads. Uses Kamod Avatar primitives under the hood; install blobatar separately.",
+    },
+    {
+      id: "animated-fallback",
+      title: "Animated fallback",
+      text: 'Opt-in hover animation via blobatar.animate="hover". Import blobatar/motion.css in your global stylesheet (this docs site loads it from src/styles/avatar-blobatar-motion.css). Respects prefers-reduced-motion where supported. Static img fallback remains the recipe default.',
+    },
     {
       id: "badge",
       title: "Badge",
@@ -431,7 +472,12 @@ export const avatarDocPage: DocPageModule = {
       title: "RTL",
       text: "Set dir on the row; badge position uses logical end/bottom.",
     },
-    { id: "api-reference", title: "API Reference", text: "Component overview." },
+    {
+      id: "smartavatar-recipe",
+      title: "SmartAvatar recipe (optional)",
+      text: "Copy or import the docs recipe when you want blobatar fallbacks without adding blobatar to @kamod-ch/ui. Third-party packages only; Kamod Avatar API above is unchanged.",
+    },
+    { id: "api-reference", title: "API Reference", text: "@kamod-ch/ui Avatar primitives." },
   ],
   renderMain: (context) => {
     const renderSectionBody = (sectionId: string) => {
@@ -444,6 +490,14 @@ export const avatarDocPage: DocPageModule = {
             code={`import { Avatar, AvatarBadge, AvatarFallback, AvatarGroup, AvatarGroupCount, AvatarImage } from "@/components/kamod-ui/avatar";`}
             language="tsx"
           />
+        );
+      }
+      if (sectionId === "smartavatar-recipe") {
+        return (
+          <>
+            <CodeBlock code="pnpm add blobatar @blobatar/preact" language="bash" />
+            <ApiReference sections={smartAvatarRecipeApiSections} />
+          </>
         );
       }
       if (sectionId === "usage") {
@@ -471,6 +525,10 @@ export const Example = () => (
       return context.renderPreviewAndCodeTabs({
         preview: block.preview(),
         codeSnippet: block.code,
+        previewClass:
+          sectionId === "generated-fallback" || sectionId === "animated-fallback"
+            ? "overflow-x-auto"
+            : undefined,
       });
     };
 

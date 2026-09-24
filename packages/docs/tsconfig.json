@@ -1,7 +1,7 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "types": ["vite/client", "vitest"],
+    "types": ["vite/client", "vitest", "@testing-library/jest-dom"],
     "noEmit": true,
     "baseUrl": ".",
     "paths": {

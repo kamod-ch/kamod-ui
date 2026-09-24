@@ -170,6 +170,10 @@ export default defineConfig({
           replacement: resolve(motionSrc, "index.ts"),
         },
         {
+          find: "@kamod-ch/ui/utils",
+          replacement: resolve(coreSrc, "utils.ts"),
+        },
+        {
           find: "@kamod-ch/ui/lib/utils",
           replacement: resolve(coreSrc, "lib/utils.ts"),
         },
@@ -258,6 +262,8 @@ export default defineConfig({
         "@preact/signals",
         "@kamod-ch/openui",
         "@kamod-ch/ui-motion",
+        "@blobatar/preact",
+        "blobatar",
         "@kamod-ch/motion",
         "@kamod-ch/motion/motion",
         "@kamod-ch/motion/presence",
