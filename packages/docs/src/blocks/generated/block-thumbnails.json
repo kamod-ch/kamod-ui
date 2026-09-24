@@ -1,0 +1,704 @@
+{
+  "application-shell/application-shell-1": {
+    "light": [
+      {
+        "src": "/block-previews/application-shell--application-shell-1-light-480-995b63d32c.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/application-shell--application-shell-1-light-960-e79f05e593.webp",
+        "width": 960,
+        "height": 600
+      }
+    ],
+    "dark": [
+      {
+        "src": "/block-previews/application-shell--application-shell-1-dark-480-21791726c1.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/application-shell--application-shell-1-dark-960-8f7330a061.webp",
+        "width": 960,
+        "height": 600
+      }
+    ]
+  },
+  "login/login-01": {
+    "light": [
+      {
+        "src": "/block-previews/login--login-01-light-480-561649a202.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/login--login-01-light-960-bbae596297.webp",
+        "width": 960,
+        "height": 600
+      }
+    ],
+    "dark": [
+      {
+        "src": "/block-previews/login--login-01-dark-480-2b2ed13310.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/login--login-01-dark-960-9c2adfc230.webp",
+        "width": 960,
+        "height": 600
+      }
+    ]
+  },
+  "login/login-02": {
+    "light": [
+      {
+        "src": "/block-previews/login--login-02-light-480-76881d171d.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/login--login-02-light-960-d6cbd55882.webp",
+        "width": 960,
+        "height": 600
+      }
+    ],
+    "dark": [
+      {
+        "src": "/block-previews/login--login-02-dark-480-807770d609.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/login--login-02-dark-960-061ee022b0.webp",
+        "width": 960,
+        "height": 600
+      }
+    ]
+  },
+  "login/login-03": {
+    "light": [
+      {
+        "src": "/block-previews/login--login-03-light-480-593b2aea1f.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/login--login-03-light-960-c4392d287a.webp",
+        "width": 960,
+        "height": 600
+      }
+    ],
+    "dark": [
+      {
+        "src": "/block-previews/login--login-03-dark-480-c6e0dc399b.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/login--login-03-dark-960-43554f7091.webp",
+        "width": 960,
+        "height": 600
+      }
+    ]
+  },
+  "login/login-04": {
+    "light": [
+      {
+        "src": "/block-previews/login--login-04-light-480-b433cb8bcf.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/login--login-04-light-960-e91bf999dd.webp",
+        "width": 960,
+        "height": 600
+      }
+    ],
+    "dark": [
+      {
+        "src": "/block-previews/login--login-04-dark-480-a18bcd64b6.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/login--login-04-dark-960-f3e6914181.webp",
+        "width": 960,
+        "height": 600
+      }
+    ]
+  },
+  "login/login-05": {
+    "light": [
+      {
+        "src": "/block-previews/login--login-05-light-480-43a97326f8.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/login--login-05-light-960-418e37e2f6.webp",
+        "width": 960,
+        "height": 600
+      }
+    ],
+    "dark": [
+      {
+        "src": "/block-previews/login--login-05-dark-480-c908c3b29a.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/login--login-05-dark-960-ed3a0f0f96.webp",
+        "width": 960,
+        "height": 600
+      }
+    ]
+  },
+  "sidebar/sidebar-01": {
+    "light": [
+      {
+        "src": "/block-previews/sidebar--sidebar-01-light-480-4351b094fc.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/sidebar--sidebar-01-light-960-59d3f43cb4.webp",
+        "width": 960,
+        "height": 600
+      }
+    ],
+    "dark": [
+      {
+        "src": "/block-previews/sidebar--sidebar-01-dark-480-ac5fdfaa32.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/sidebar--sidebar-01-dark-960-ed7a3e8473.webp",
+        "width": 960,
+        "height": 600
+      }
+    ]
+  },
+  "sidebar/sidebar-02": {
+    "light": [
+      {
+        "src": "/block-previews/sidebar--sidebar-02-light-480-e87df946e3.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/sidebar--sidebar-02-light-960-6a97b1a1e4.webp",
+        "width": 960,
+        "height": 600
+      }
+    ],
+    "dark": [
+      {
+        "src": "/block-previews/sidebar--sidebar-02-dark-480-3e47f74c13.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/sidebar--sidebar-02-dark-960-197b99909e.webp",
+        "width": 960,
+        "height": 600
+      }
+    ]
+  },
+  "sidebar/sidebar-03": {
+    "light": [
+      {
+        "src": "/block-previews/sidebar--sidebar-03-light-480-c81db5852c.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/sidebar--sidebar-03-light-960-b694480366.webp",
+        "width": 960,
+        "height": 600
+      }
+    ],
+    "dark": [
+      {
+        "src": "/block-previews/sidebar--sidebar-03-dark-480-737d7014df.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/sidebar--sidebar-03-dark-960-9eb956976c.webp",
+        "width": 960,
+        "height": 600
+      }
+    ]
+  },
+  "sidebar/sidebar-04": {
+    "light": [
+      {
+        "src": "/block-previews/sidebar--sidebar-04-light-480-03310f2194.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/sidebar--sidebar-04-light-960-e6eccbab5d.webp",
+        "width": 960,
+        "height": 600
+      }
+    ],
+    "dark": [
+      {
+        "src": "/block-previews/sidebar--sidebar-04-dark-480-e985b9aa2e.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/sidebar--sidebar-04-dark-960-342956be81.webp",
+        "width": 960,
+        "height": 600
+      }
+    ]
+  },
+  "sidebar/sidebar-05": {
+    "light": [
+      {
+        "src": "/block-previews/sidebar--sidebar-05-light-480-cdcd117bb6.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/sidebar--sidebar-05-light-960-d960d5caee.webp",
+        "width": 960,
+        "height": 600
+      }
+    ],
+    "dark": [
+      {
+        "src": "/block-previews/sidebar--sidebar-05-dark-480-19b76940e0.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/sidebar--sidebar-05-dark-960-6bee69f58c.webp",
+        "width": 960,
+        "height": 600
+      }
+    ]
+  },
+  "sidebar/sidebar-06": {
+    "light": [
+      {
+        "src": "/block-previews/sidebar--sidebar-06-light-480-d0ab6b0487.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/sidebar--sidebar-06-light-960-aef10f3f63.webp",
+        "width": 960,
+        "height": 600
+      }
+    ],
+    "dark": [
+      {
+        "src": "/block-previews/sidebar--sidebar-06-dark-480-60bbffbd07.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/sidebar--sidebar-06-dark-960-eea1cae997.webp",
+        "width": 960,
+        "height": 600
+      }
+    ]
+  },
+  "sidebar/sidebar-07": {
+    "light": [
+      {
+        "src": "/block-previews/sidebar--sidebar-07-light-480-77f79db92d.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/sidebar--sidebar-07-light-960-b19aa8c7b5.webp",
+        "width": 960,
+        "height": 600
+      }
+    ],
+    "dark": [
+      {
+        "src": "/block-previews/sidebar--sidebar-07-dark-480-d75f83a29b.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/sidebar--sidebar-07-dark-960-c93735ed2e.webp",
+        "width": 960,
+        "height": 600
+      }
+    ]
+  },
+  "sidebar/sidebar-08": {
+    "light": [
+      {
+        "src": "/block-previews/sidebar--sidebar-08-light-480-b5e4461d8b.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/sidebar--sidebar-08-light-960-0cc20d3686.webp",
+        "width": 960,
+        "height": 600
+      }
+    ],
+    "dark": [
+      {
+        "src": "/block-previews/sidebar--sidebar-08-dark-480-aceec81c03.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/sidebar--sidebar-08-dark-960-41a2f598e0.webp",
+        "width": 960,
+        "height": 600
+      }
+    ]
+  },
+  "sidebar/sidebar-09": {
+    "light": [
+      {
+        "src": "/block-previews/sidebar--sidebar-09-light-480-c0fe6e0674.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/sidebar--sidebar-09-light-960-a07cfc8826.webp",
+        "width": 960,
+        "height": 600
+      }
+    ],
+    "dark": [
+      {
+        "src": "/block-previews/sidebar--sidebar-09-dark-480-720a05f553.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/sidebar--sidebar-09-dark-960-ebb18c27be.webp",
+        "width": 960,
+        "height": 600
+      }
+    ]
+  },
+  "sidebar/sidebar-10": {
+    "light": [
+      {
+        "src": "/block-previews/sidebar--sidebar-10-light-480-7faabf8371.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/sidebar--sidebar-10-light-960-4c898f4fb8.webp",
+        "width": 960,
+        "height": 600
+      }
+    ],
+    "dark": [
+      {
+        "src": "/block-previews/sidebar--sidebar-10-dark-480-c94bba0be2.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/sidebar--sidebar-10-dark-960-1f8f319ae7.webp",
+        "width": 960,
+        "height": 600
+      }
+    ]
+  },
+  "sidebar/sidebar-11": {
+    "light": [
+      {
+        "src": "/block-previews/sidebar--sidebar-11-light-480-e3883f77af.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/sidebar--sidebar-11-light-960-b77b242908.webp",
+        "width": 960,
+        "height": 600
+      }
+    ],
+    "dark": [
+      {
+        "src": "/block-previews/sidebar--sidebar-11-dark-480-e5bb8d6f26.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/sidebar--sidebar-11-dark-960-367662517e.webp",
+        "width": 960,
+        "height": 600
+      }
+    ]
+  },
+  "sidebar/sidebar-12": {
+    "light": [
+      {
+        "src": "/block-previews/sidebar--sidebar-12-light-480-96ce8eb651.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/sidebar--sidebar-12-light-960-26495bb9e6.webp",
+        "width": 960,
+        "height": 600
+      }
+    ],
+    "dark": [
+      {
+        "src": "/block-previews/sidebar--sidebar-12-dark-480-9175f3f472.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/sidebar--sidebar-12-dark-960-35e76836da.webp",
+        "width": 960,
+        "height": 600
+      }
+    ]
+  },
+  "sidebar/sidebar-13": {
+    "light": [
+      {
+        "src": "/block-previews/sidebar--sidebar-13-light-480-10ea7287ed.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/sidebar--sidebar-13-light-960-83c53275cf.webp",
+        "width": 960,
+        "height": 600
+      }
+    ],
+    "dark": [
+      {
+        "src": "/block-previews/sidebar--sidebar-13-dark-480-4fa9add5a5.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/sidebar--sidebar-13-dark-960-a54c9edc4d.webp",
+        "width": 960,
+        "height": 600
+      }
+    ]
+  },
+  "sidebar/sidebar-14": {
+    "light": [
+      {
+        "src": "/block-previews/sidebar--sidebar-14-light-480-54daccb8f5.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/sidebar--sidebar-14-light-960-6726251db4.webp",
+        "width": 960,
+        "height": 600
+      }
+    ],
+    "dark": [
+      {
+        "src": "/block-previews/sidebar--sidebar-14-dark-480-0a65ed849c.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/sidebar--sidebar-14-dark-960-4e1fe3157e.webp",
+        "width": 960,
+        "height": 600
+      }
+    ]
+  },
+  "sidebar/sidebar-15": {
+    "light": [
+      {
+        "src": "/block-previews/sidebar--sidebar-15-light-480-adaf2981a5.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/sidebar--sidebar-15-light-960-2e7536cb98.webp",
+        "width": 960,
+        "height": 600
+      }
+    ],
+    "dark": [
+      {
+        "src": "/block-previews/sidebar--sidebar-15-dark-480-7bbf6240e8.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/sidebar--sidebar-15-dark-960-5cd3bd4309.webp",
+        "width": 960,
+        "height": 600
+      }
+    ]
+  },
+  "sidebar/sidebar-16": {
+    "light": [
+      {
+        "src": "/block-previews/sidebar--sidebar-16-light-480-d378dd45f9.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/sidebar--sidebar-16-light-960-fb01106460.webp",
+        "width": 960,
+        "height": 600
+      }
+    ],
+    "dark": [
+      {
+        "src": "/block-previews/sidebar--sidebar-16-dark-480-fb21f6ea24.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/sidebar--sidebar-16-dark-960-184041714a.webp",
+        "width": 960,
+        "height": 600
+      }
+    ]
+  },
+  "signup/signup-01": {
+    "light": [
+      {
+        "src": "/block-previews/signup--signup-01-light-480-37c9b13d55.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/signup--signup-01-light-960-44b848984e.webp",
+        "width": 960,
+        "height": 600
+      }
+    ],
+    "dark": [
+      {
+        "src": "/block-previews/signup--signup-01-dark-480-1345144aab.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/signup--signup-01-dark-960-a9bce61e91.webp",
+        "width": 960,
+        "height": 600
+      }
+    ]
+  },
+  "signup/signup-02": {
+    "light": [
+      {
+        "src": "/block-previews/signup--signup-02-light-480-a33b2bd82a.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/signup--signup-02-light-960-c304e1767a.webp",
+        "width": 960,
+        "height": 600
+      }
+    ],
+    "dark": [
+      {
+        "src": "/block-previews/signup--signup-02-dark-480-6558fdf8ff.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/signup--signup-02-dark-960-fc22204625.webp",
+        "width": 960,
+        "height": 600
+      }
+    ]
+  },
+  "signup/signup-03": {
+    "light": [
+      {
+        "src": "/block-previews/signup--signup-03-light-480-18f46f285d.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/signup--signup-03-light-960-e6999d3106.webp",
+        "width": 960,
+        "height": 600
+      }
+    ],
+    "dark": [
+      {
+        "src": "/block-previews/signup--signup-03-dark-480-512f84b770.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/signup--signup-03-dark-960-9061c1878e.webp",
+        "width": 960,
+        "height": 600
+      }
+    ]
+  },
+  "signup/signup-04": {
+    "light": [
+      {
+        "src": "/block-previews/signup--signup-04-light-480-7d1012469c.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/signup--signup-04-light-960-b1a095b1c2.webp",
+        "width": 960,
+        "height": 600
+      }
+    ],
+    "dark": [
+      {
+        "src": "/block-previews/signup--signup-04-dark-480-e0318d8b13.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/signup--signup-04-dark-960-7ac0fe50e5.webp",
+        "width": 960,
+        "height": 600
+      }
+    ]
+  },
+  "signup/signup-05": {
+    "light": [
+      {
+        "src": "/block-previews/signup--signup-05-light-480-164d157c2d.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/signup--signup-05-light-960-c7edfb9671.webp",
+        "width": 960,
+        "height": 600
+      }
+    ],
+    "dark": [
+      {
+        "src": "/block-previews/signup--signup-05-dark-480-093b2be8de.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/signup--signup-05-dark-960-7b289d243c.webp",
+        "width": 960,
+        "height": 600
+      }
+    ]
+  }
+}
