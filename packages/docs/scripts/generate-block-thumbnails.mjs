@@ -16,22 +16,32 @@ const manifestPath = resolve(root, "src/blocks/generated/block-thumbnails.json")
 const viewport = { width: 1280, height: 800 };
 const widths = [480, 960];
 
-/** Chromium already ships with Playwright; use its WebP encoder without another dependency. */
-async function encode(page, png, width) {
+/** Decode each capture once, then encode both responsive sizes with Chromium's WebP encoder. */
+async function encode(page, png) {
   return page.evaluate(
-    async ({ png, width }) => {
+    async ({ png, widths }) => {
       const bytes = Uint8Array.from(atob(png), (character) => character.charCodeAt(0));
       const bitmap = await createImageBitmap(new Blob([bytes], { type: "image/png" }));
-      const canvas = new OffscreenCanvas(width, Math.round((width * bitmap.height) / bitmap.width));
-      const ctx = canvas.getContext("2d");
-      ctx.imageSmoothingQuality = "high";
-      ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
-      bitmap.close();
-      const blob = await canvas.convertToBlob({ type: "image/webp", quality: 0.84 });
-      if (blob.type !== "image/webp") throw new Error("WebP encoding is unavailable.");
-      return Array.from(new Uint8Array(await blob.arrayBuffer()));
+      try {
+        return await Promise.all(
+          widths.map(async (width) => {
+            const canvas = new OffscreenCanvas(
+              width,
+              Math.round((width * bitmap.height) / bitmap.width),
+            );
+            const ctx = canvas.getContext("2d");
+            ctx.imageSmoothingQuality = "high";
+            ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+            const blob = await canvas.convertToBlob({ type: "image/webp", quality: 0.84 });
+            if (blob.type !== "image/webp") throw new Error("WebP encoding is unavailable.");
+            return { width, bytes: Array.from(new Uint8Array(await blob.arrayBuffer())) };
+          }),
+        );
+      } finally {
+        bitmap.close();
+      }
     },
-    { png: png.toString("base64"), width },
+    { png: png.toString("base64"), widths },
   );
 }
 
@@ -63,7 +73,9 @@ async function discoverBlocks(browser, origin) {
   try {
     await ready(page, `${origin}${base}blocks/sidebar/`, false);
     const categories = await page
-      .locator('aside.docs-sidebar nav[aria-label="Docs blocks"] a')
+      .locator(
+        'aside.docs-sidebar nav[aria-label="Docs blocks"] a.blocks-category-link:not([data-block-placeholder])',
+      )
       .evaluateAll((links) => links.map((link) => link.href));
     if (!categories.length)
       throw new Error("No visible block categories found in the production build.");
@@ -89,6 +101,42 @@ async function discoverBlocks(browser, origin) {
   }
 }
 
+/** Collect runtime and essential asset failures so a broken preview is never published. */
+function trackCaptureErrors(page) {
+  const errors = [];
+  page.on("pageerror", (error) => errors.push(error.message));
+  const requiredAssets = new Set(["script", "stylesheet", "font"]);
+  page.on("response", (response) => {
+    if (response.status() >= 400 && requiredAssets.has(response.request().resourceType())) {
+      errors.push(`Asset failed (${response.status()}): ${response.url()}`);
+    }
+  });
+  page.on("requestfailed", (request) => {
+    if (requiredAssets.has(request.resourceType())) errors.push(`Asset failed: ${request.url()}`);
+  });
+  return errors;
+}
+
+/** Normalize the demo's state before capture, including the dialog-only sidebar variant. */
+async function preparePreview(page, block, scheme) {
+  await page.clock.setFixedTime(new Date("2026-01-15T12:00:00Z"));
+  await ready(page, block.url);
+  // This variant demonstrates a dialog; capture it open so its sidebar is visible.
+  if (block.key === "sidebar/sidebar-13") {
+    await page.getByRole("button", { name: "Open settings" }).click();
+    await page.getByRole("dialog").waitFor();
+  }
+  await page.addStyleTag({
+    content:
+      "*, *::before, *::after { animation: none !important; transition: none !important; caret-color: transparent !important; }",
+  });
+  if (
+    (await page.locator("html").evaluate((html) => html.classList.contains("dark"))) !==
+    (scheme === "dark")
+  )
+    throw new Error(`Incorrect theme: ${block.key}`);
+}
+
 /** Fresh state for each scheme makes results independent of capture order and local preferences. */
 async function capture(browser, block, scheme, assets) {
   const context = await browser.newContext({
@@ -105,38 +153,13 @@ async function capture(browser, block, scheme, assets) {
       localStorage.setItem("theme-preset", "kamod");
     }, scheme);
     const page = await context.newPage();
-    const errors = [];
-    page.on("pageerror", (error) => errors.push(error.message));
-    const requiredAssets = new Set(["script", "stylesheet", "font"]);
-    page.on("response", (response) => {
-      if (response.status() >= 400 && requiredAssets.has(response.request().resourceType())) {
-        errors.push(`Asset failed (${response.status()}): ${response.url()}`);
-      }
-    });
-    page.on("requestfailed", (request) => {
-      if (requiredAssets.has(request.resourceType())) errors.push(`Asset failed: ${request.url()}`);
-    });
-    await page.clock.setFixedTime(new Date("2026-01-15T12:00:00Z"));
-    await ready(page, block.url);
-    // This variant demonstrates a dialog; capture it open so its sidebar is visible.
-    if (block.key === "sidebar/sidebar-13") {
-      await page.getByRole("button", { name: "Open settings" }).click();
-      await page.getByRole("dialog").waitFor();
-    }
-    await page.addStyleTag({
-      content:
-        "*, *::before, *::after { animation: none !important; transition: none !important; caret-color: transparent !important; }",
-    });
-    if (
-      (await page.locator("html").evaluate((html) => html.classList.contains("dark"))) !==
-      (scheme === "dark")
-    )
-      throw new Error(`Incorrect theme: ${block.key}`);
+    const errors = trackCaptureErrors(page);
+    await preparePreview(page, block, scheme);
     const png = await page.screenshot({ animations: "disabled" });
     if (errors.length) throw new Error(`${block.key}: ${errors.join("; ")}`);
     const images = [];
-    for (const width of widths) {
-      const bytes = Buffer.from(await encode(page, png, width));
+    for (const { width, bytes: encoded } of await encode(page, png)) {
+      const bytes = Buffer.from(encoded);
       const hash = createHash("sha256").update(bytes).digest("hex").slice(0, 10);
       const filename = `${block.key.replace("/", "--")}-${scheme}-${width}-${hash}.webp`;
       assets.set(filename, bytes);
