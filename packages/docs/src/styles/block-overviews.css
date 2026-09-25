@@ -222,7 +222,9 @@
   gap: 0;
   overflow: hidden;
   border-radius: 0.875rem;
-  transition: box-shadow 180ms ease;
+  transition:
+    box-shadow 450ms ease,
+    transform 450ms ease;
 }
 
 .blocks-overview-surface:is(:hover, :focus-within) {
@@ -250,6 +252,17 @@
   object-fit: cover;
   object-position: top;
   background: var(--background);
+  transition: transform 1100ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .blocks-overview-surface:hover {
+    transform: translateY(-2px);
+  }
+
+  .blocks-overview-surface:hover .blocks-overview-preview img {
+    transform: scale(1.06);
+  }
 }
 
 .blocks-overview-placeholder {
@@ -326,11 +339,15 @@
   border-radius: 0.3rem;
   background: var(--block-card-code-background);
   color: var(--muted-foreground);
-  transition: color 300ms ease;
+  opacity: 0.55;
+  transition:
+    opacity 400ms ease,
+    color 300ms ease;
 }
 
 .blocks-overview-card:is(:hover, :focus-visible) .blocks-overview-open {
   color: var(--primary);
+  opacity: 1;
 }
 
 .blocks-overview-info p {
@@ -500,6 +517,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .blocks-overview-surface,
+  .blocks-overview-preview img,
   .blocks-overview-open {
     transition: none;
   }
