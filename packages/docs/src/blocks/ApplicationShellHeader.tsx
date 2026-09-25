@@ -5,23 +5,11 @@
 import { applicationShellBlocks } from "@kamod-ch/blocks/application-shell";
 import { ArrowLeftIcon, BugIcon, ChevronLeftIcon, ChevronRightIcon } from "@kamod-ch/icons/lucide";
 import { BrandGithubIcon } from "@kamod-ch/icons/tabler/filled";
-import {
-  Badge,
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-  Button,
-} from "@kamod-ch/ui";
+import { Badge, Button } from "@kamod-ch/ui";
 import { withBasePath } from "../base-path";
-import {
-  type ApplicationShellBlock,
-  blocksOverviewHref,
-  categoryPath,
-  repositoryUrl,
-} from "./application-shell-config";
+import { type ApplicationShellBlock, categoryPath } from "./application-shell-config";
+import { BlockBreadcrumbs } from "./BlockBreadcrumbs";
+import { blockIssueUrl, blockSourceUrl } from "./block-links";
 import { ShellHeadingLink } from "./ShellHeadingLink";
 
 /**
@@ -69,25 +57,7 @@ export const ShellPageHeader = ({ block }: { block: ApplicationShellBlock }) => 
         </p>
       </div>
       <div class="blocks-shell-header-toolbar">
-        <Breadcrumb aria-label="Block breadcrumb">
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink href={withBasePath("/")}>Home</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbLink href={blocksOverviewHref}>Blocks</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbLink href={withBasePath(categoryPath)}>Application Shell</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>{block.title}</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
+        <BlockBreadcrumbs category="application-shell" variant={block.title} />
         <ShellHeaderActions block={block} />
       </div>
     </header>
@@ -111,11 +81,7 @@ const ShellHeaderActions = ({ block }: { block: ApplicationShellBlock }) => {
       Icon: ChevronRightIcon,
     },
   ];
-  const sourceUrl = `${repositoryUrl}/tree/main/packages/blocks/src/${block.category}/${block.id}`;
-  const issueQuery = new URLSearchParams({
-    title: `bug(blocks): ${block.title} — `,
-    body: `Block: ${block.title}\nSource: ${sourceUrl}\n\n### What happened?\n\n### Steps to reproduce\n\n1. \n\n### Expected behavior\n\n### Browser and screen size\n\n`,
-  });
+  const sourceUrl = blockSourceUrl(block.category, block.id);
 
   return (
     <div class="blocks-shell-header-actions" role="group" aria-label="Block navigation and links">
@@ -144,7 +110,7 @@ const ShellHeaderActions = ({ block }: { block: ApplicationShellBlock }) => {
       <Button
         variant="ghost"
         size="icon"
-        href={`${repositoryUrl}/issues/new?${issueQuery}`}
+        href={blockIssueUrl(block.title, sourceUrl, "Block")}
         target="_blank"
         rel="noreferrer noopener"
         aria-label={`Report a bug with ${block.title} on GitHub (opens in a new tab)`}
