@@ -2,6 +2,7 @@
 import { loginBlocks } from "../../../blocks/src/login/registry";
 import { signupBlocks } from "../../../blocks/src/signup/registry";
 import { BlockDetailPage } from "./BlockDetailPage";
+import { BlockInstallation } from "./BlockInstallation";
 import { BlockShowcase } from "./BlockShowcase";
 
 type AuthCategory = "login" | "signup";
@@ -18,13 +19,16 @@ export const BlocksAuthDetailContent = ({
   return (
     <BlockDetailPage category={category}>
       {block ? (
-        <BlockShowcase
-          key={block.id}
-          block={block}
-          loadSource={async (file) =>
-            (await import("./auth-source")).getAuthBlockSource(block.id, file)
-          }
-        />
+        <>
+          <BlockShowcase
+            key={block.id}
+            block={block}
+            loadSource={async (file) =>
+              (await import("./auth-source")).getAuthBlockSource(block.id, file)
+            }
+          />
+          <BlockInstallation block={block} category={category} />
+        </>
       ) : (
         <p>Block not found.</p>
       )}
