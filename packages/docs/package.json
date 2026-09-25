@@ -21,7 +21,8 @@
     "lint": "oxlint .",
     "format": "oxfmt .",
     "format:check": "oxfmt --check .",
-    "qa:themes": "node ./scripts/theme-regression-check.mjs"
+    "qa:themes": "node ./scripts/theme-regression-check.mjs",
+    "blocks:thumbnails": "node scripts/generate-block-thumbnails.mjs"
   },
   "dependencies": {
     "@blobatar/preact": "^2.7.0",

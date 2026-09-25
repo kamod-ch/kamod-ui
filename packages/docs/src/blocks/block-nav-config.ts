@@ -26,3 +26,27 @@ export type BlockNavKey = (typeof BLOCK_NAV_ITEMS)[number]["key"];
 export const visibleBlockNavItems = BLOCK_NAV_ITEMS.filter(
   (item) => !HIDDEN_BLOCK_NAV_KEYS.has(item.key),
 );
+
+/** Planned categories: navigation-only links to unimplemented pages, with no variants. */
+export const PLACEHOLDER_BLOCK_CATEGORIES = [
+  { key: "about", label: "About" },
+  { key: "accept-invite", label: "Accept Invite" },
+  { key: "address-book", label: "Address Book" },
+  { key: "awards", label: "Awards" },
+  { key: "background-pattern", label: "Background Pattern" },
+  { key: "banner", label: "Banner" },
+  { key: "bento", label: "Bento" },
+  { key: "blog", label: "Blog" },
+  { key: "blog-post", label: "Blog Post" },
+  { key: "book-a-demo", label: "Book A Demo" },
+  { key: "careers", label: "Careers" },
+  { key: "case-studies", label: "Case Studies" },
+  { key: "case-study", label: "Case Study" },
+  { key: "changelog", label: "Changelog" },
+  { key: "chart-card", label: "Chart Card" },
+  { key: "chart-group", label: "Chart Group" },
+  { key: "checkout", label: "Checkout" },
+  { key: "code-example", label: "Code Example" },
+  { key: "community", label: "Community" },
+  { key: "contact", label: "Contact" },
+] as const;

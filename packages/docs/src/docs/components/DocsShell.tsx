@@ -10,16 +10,15 @@ import {
   SheetClose,
   SheetContent,
   SheetTrigger,
-  ThemeToggle,
 } from "@kamod-ch/ui";
-import { Menu, SunMoon } from "lucide-preact";
+import { Menu } from "lucide-preact";
 import type { ComponentChildren } from "preact";
 import { useMemo } from "preact/hooks";
 import { withBasePath } from "../../base-path";
-import { type BlockNavKey, visibleBlockNavItems } from "../../blocks/block-nav-config";
+import { BlockCategoryNavigation } from "../../blocks/BlockCategoryNavigation";
+import type { BlockNavKey } from "../../blocks/block-nav-config";
 import { DemoShell, demoTopNavItems } from "../../layout/DemoShell";
-import { GithubRepoLink } from "../../layout/GithubRepoLink";
-import { ThemePresetSelect } from "../../theme/ThemePresetSelect";
+import { DocsTopbarActions } from "../../layout/DocsTopbarActions";
 import {
   componentDocPages,
   docsNewComponentSlugs,
@@ -48,6 +47,10 @@ type DocsShellProps = {
   activeDoc: DocPageModule | null;
   activeSection: string;
   docs: DocPageModule[];
+  /** Optional content-column introduction above the sidebar and content row. */
+  contentHeader?: ComponentChildren;
+  /** Desktop preview beside the content introduction and above category navigation. */
+  sidebarHeader?: ComponentChildren;
   mainContent: ComponentChildren;
   getDocHref?: (slug: string) => string;
   componentsOverviewHref?: string;
@@ -170,6 +173,8 @@ export const DocsShell = ({
   isSectionOverview = false,
   activeDoc,
   activeSection,
+  contentHeader,
+  sidebarHeader,
   mainContent,
   getDocHref = (slug) => withBasePath(`/docs/${slug}/installation`),
   componentsOverviewHref = withBasePath("/docs/components"),
@@ -269,21 +274,9 @@ export const DocsShell = ({
     ];
   }, [activeDoc?.slug, componentsOverviewHref, getDocHref, isComponentsOverview]);
 
-  const blockNavEntries: NavEntry[] = visibleBlockNavItems.map((item) => ({
-    key: item.key,
-    label: item.label,
-    active: activeBlock === item.key,
-    href: withBasePath(item.href),
-  }));
-
   const sidebarNav =
     sidebarScope === "blocks" ? (
-      <SidebarSection
-        title="Blocks"
-        ariaLabel="Docs blocks"
-        entries={blockNavEntries}
-        navClass="docs-sidebar-nav docs-sidebar-nav--blocks"
-      />
+      <BlockCategoryNavigation activeBlock={activeBlock} />
     ) : sidebarScope === "packages" ? (
       <SidebarSection
         title="Packages"
@@ -309,7 +302,7 @@ export const DocsShell = ({
   const mobileNav = (
     <nav aria-label="Mobile docs navigation" class="docs-mobile-sheet-nav">
       {sidebarScope === "blocks" ? (
-        <MobileSection title="Blocks" entries={blockNavEntries} />
+        <BlockCategoryNavigation activeBlock={activeBlock} mobile />
       ) : sidebarScope === "packages" ? (
         <MobileSection title="Packages" entries={packageNavEntries} />
       ) : sidebarScope === "forms" ? (
@@ -339,15 +332,9 @@ export const DocsShell = ({
         </Sheet>
       }
       leftSidebar={sidebarNav}
-      topbarActions={
-        <>
-          <ThemePresetSelect class="docs-theme-preset" selectClass="docs-theme-preset-select" />
-          <GithubRepoLink />
-          <ThemeToggle class="docs-topbar-theme-toggle">
-            <SunMoon />
-          </ThemeToggle>
-        </>
-      }
+      topbarActions={<DocsTopbarActions />}
+      contentHeader={contentHeader}
+      sidebarHeader={sidebarHeader}
       mainContent={mainContent}
       rightSidebar={
         !showRightSidebar ? null : (

@@ -1,3 +1,4 @@
+import { sidebarBlockMetadata } from "./metadata";
 import { Sidebar01 } from "./sidebar-01";
 import { Sidebar02 } from "./sidebar-02";
 import { Sidebar03 } from "./sidebar-03";
@@ -14,8 +15,7 @@ import { Sidebar13 } from "./sidebar-13";
 import { Sidebar14 } from "./sidebar-14";
 import { Sidebar15 } from "./sidebar-15";
 import { Sidebar16 } from "./sidebar-16";
-import type { BlockDefinition, BlockFile, SidebarBlockId } from "./sidebar-data";
-import { sidebarVariants } from "./sidebar-data";
+import type { BlockDefinition, SidebarBlockId } from "./sidebar-data";
 
 const components = {
   "sidebar-01": Sidebar01,
@@ -36,95 +36,9 @@ const components = {
   "sidebar-16": Sidebar16,
 } satisfies Record<SidebarBlockId, BlockDefinition["component"]>;
 
-const blockFiles = (id: SidebarBlockId): BlockFile[] => {
-  const shared: BlockFile[] = [
-    {
-      path: "src/sidebar/shared/app-sidebar.tsx",
-      label: "components/app-sidebar.tsx",
-      kind: "support",
-    },
-    {
-      path: "src/sidebar/shared/dashboard-shell.tsx",
-      label: "components/dashboard-shell.tsx",
-      kind: "support",
-    },
-    {
-      path: "src/sidebar/shared/search-form.tsx",
-      label: "components/search-form.tsx",
-      kind: "support",
-    },
-    {
-      path: "src/sidebar/shared/version-switcher.tsx",
-      label: "components/version-switcher.tsx",
-      kind: "support",
-    },
-    {
-      path: "src/sidebar/shared/nav.tsx",
-      label: "components/nav.tsx",
-      kind: "support",
-    },
-    {
-      path: "src/sidebar/shared/nav-secondary.tsx",
-      label: "components/nav-secondary.tsx",
-      kind: "support",
-    },
-    {
-      path: "src/sidebar/shared/nav-actions.tsx",
-      label: "components/nav-actions.tsx",
-      kind: "support",
-    },
-    {
-      path: "src/sidebar/shared/nav-favorites.tsx",
-      label: "components/nav-favorites.tsx",
-      kind: "support",
-    },
-    {
-      path: "src/sidebar/shared/sidebar-opt-in-form.tsx",
-      label: "components/sidebar-opt-in-form.tsx",
-      kind: "support",
-    },
-    {
-      path: "src/sidebar/shared/site-header.tsx",
-      label: "components/site-header.tsx",
-      kind: "support",
-    },
-    {
-      path: "src/sidebar/SidebarBlockShell.tsx",
-      label: "components/sidebar-block-shell.tsx",
-      kind: "support",
-    },
-  ];
-
-  return [
-    {
-      path: `src/sidebar/${id}/${id}.tsx`,
-      label: "app/dashboard/page.tsx",
-      kind: "page",
-    },
-    ...shared,
-  ];
-};
-
-export const sidebarBlocks: BlockDefinition[] = sidebarVariants.map((variant) => ({
-  id: variant.id,
-  title: variant.title,
-  description: variant.description,
-  category: "sidebar",
-  component: components[variant.id],
-  files: blockFiles(variant.id),
-  dependencies: ["@kamod-ch/ui", "@kamod-ch/icons", "preact"],
-  uiComponents: [
-    "Sidebar",
-    "SidebarProvider",
-    "SidebarInset",
-    "SidebarTrigger",
-    "Breadcrumb",
-    "Separator",
-  ],
-  tags: ["application", "navigation", ...variant.features],
-  features: variant.features,
-  preview: { height: 800, fullWidth: true },
-  installCommand: `@kamod-ch/blocks/sidebar/${variant.id}`,
+export const sidebarBlocks: BlockDefinition[] = sidebarBlockMetadata.map((block) => ({
+  ...block,
+  component: components[block.id],
 }));
 
 export const sidebarBlocksById = sidebarBlocks.reduce<Record<SidebarBlockId, BlockDefinition>>(

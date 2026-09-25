@@ -98,16 +98,6 @@
   border-radius: 0.25rem;
 }
 
-.blocks-overview-grid {
-  margin-top: 0.25rem;
-}
-
-@media (min-width: 900px) {
-  .blocks-overview-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
 .blocks-hero {
   margin-bottom: 2.5rem;
 }
@@ -118,6 +108,18 @@
   letter-spacing: -0.03em;
   line-height: 1.15;
   margin: 0 0 0.75rem;
+}
+
+/* Overview and detail titles share the same typography at every viewport width. */
+.blocks-category-title-row h1,
+.blocks-shell-header h1 {
+  min-width: 0;
+  margin: 0;
+  font-size: clamp(1.625rem, 2.75vw, 2.45rem);
+  font-weight: 650;
+  line-height: 1.2;
+  letter-spacing: -0.035em;
+  overflow-wrap: anywhere;
 }
 
 .blocks-hero-lead {

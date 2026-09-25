@@ -30,13 +30,6 @@
 }
 
 .blocks-shell-header h1 {
-  min-width: 0;
-  margin: 0;
-  font-size: clamp(1.625rem, 2.75vw, 2.45rem);
-  font-weight: 650;
-  line-height: 1.2;
-  letter-spacing: -0.035em;
-  overflow-wrap: anywhere;
   scroll-margin-top: 1rem;
 }
 
@@ -85,8 +78,7 @@
 
 .blocks-shell-header-toolbar [data-slot="breadcrumb-list"] {
   flex-wrap: nowrap;
-  font-size: 0.90625rem;
-  line-height: 1.75;
+  font-size: 0.85rem;
 }
 
 .blocks-shell-header-toolbar [data-slot="breadcrumb-item"] {
@@ -698,12 +690,6 @@
   }
 }
 
-@media (min-width: 768px) {
-  .blocks-shell-header-toolbar [data-slot="breadcrumb-list"] {
-    font-size: 0.96875rem;
-  }
-}
-
 /* Keep section navigation available on medium desktops without crowding the text. */
 @media (min-width: 980px) {
   .blocks-doc-attribution {
@@ -792,10 +778,6 @@
   .docs-shell:has(.blocks-shell-header) .docs-layout {
     max-width: 2304px;
   }
-  .blocks-shell-header-toolbar [data-slot="breadcrumb-list"] {
-    font-size: 1.09375rem;
-  }
-
   .blocks-shell-header-actions [data-slot="button"] {
     width: 2.25rem;
     height: 2.25rem;
