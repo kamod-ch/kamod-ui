@@ -51,8 +51,12 @@ return link. Application Shell keeps its existing header and detailed guide.
   Shell, Login and Signup.
 - `BlockDetailPage` provides the common site layout and category backlink, with an
   optional custom header.
-- `BlockShowcase` owns preview/code tabs and controls; `BlockSourceFiles` owns the
-  source selector, loading feedback and retry behavior.
+- `BlockVariantDetail` combines the showcase and setup guide for Sidebar, Login
+  and Signup. Category modules supply their registry entry and lazy source loader.
+- `BlockShowcase` owns preview controls; `BlockShowcaseCode` retains selected-file
+  and copy feedback across tab switches. `BlockSourceFiles` handles loading and retry.
+- `BlockBreadcrumbs`, repository URL helpers and `DocsTopbarActions` share navigation
+  and theme controls between overview and detail pages.
 - Add **ten detail routes**: `login-01`–`login-05` and `signup-01`–`signup-05`.
 
 #### Load only what the visitor needs
@@ -62,10 +66,11 @@ Overviews import metadata; browser detail routes load their demo modules on dema
 source text loads when the Code tab is opened.
 
 ```tsx
-<BlockShowcase
-  block={block}
-  loadSource={async (file) => (await import("./auth-source")).getAuthBlockSource(block.id, file)}
-/>
+// Define once per category module; the import runs only when a file is requested.
+const loadSource: VariantSourceLoader<AuthBlockId> = async (id, file) =>
+  (await import("./auth-source")).getAuthBlockSource(id, file);
+
+<BlockVariantDetail category={category} block={block} loadSource={loadSource} />;
 ```
 
 PreactPress needs synchronous server rendering. A small Vite plugin supplies eager
@@ -170,7 +175,7 @@ explicit regeneration step when block designs change.
 - Keep one main preview/detail link with separate footer links for GitHub source and
   setup instructions. Keep dependencies in the setup guide and preserve keyboard focus without
   nested controls. Reuse core **Card, Badge, Button and Breadcrumb** components.
-- Adapt the grid to usable content width: one column, two at **580px**, three at
+- Adapt the grid to usable content width: one column, two at **640px**, three at
   **1120px**. Expand only category-page layouts to **1680px** on wide screens.
 - Keep card text and links usable when an image fails or JavaScript is unavailable.
 
@@ -198,7 +203,7 @@ single variant; normal documentation builds use the checked-in assets.
 
 #### 3. Render a shared, lightweight card
 
-`BlockOverviewCard.tsx` selects the active light/dark set after the saved theme is
+`BlockThumbnail.tsx` selects the active light/dark set after the saved theme is
 available. It reserves image space and supplies `srcSet`, `sizes` and asynchronous
 decoding. **The first three cards load eagerly; the rest use native lazy loading.**
 
@@ -307,10 +312,11 @@ The preview and description form the main detail link. A separate footer lists
 the block path and core icon-button
 links to the exact GitHub source folder and the detail page’s **Add this block**
 section. These are sibling links with accessible names, never nested controls.
-Hover gently lifts the card and zooms its preview; the arrow changes only color.
+Hover gently lifts the card while the preview retains its scale; the arrow fades
+in and changes color.
 Motion is limited to precise hover pointers and respects reduced-motion preferences.
 Previews sit inside padded, rounded frames with a compact arrow inset at the
-top-right, fixed above the zooming image. Centered title rows and softly tinted
+top-right, above the image. Centered title rows and softly tinted
 badges lead into descriptions limited to two lines (three from 1260px). A subtle
 divider separates the footer, with a subdued source path and compact actions
 using subdued theme backgrounds and icon colors, with clearer hover/focus states. Card dependency lists are omitted;
@@ -329,33 +335,62 @@ The category sidebar now shares the detail page contents navigation's quiet left
 border, generous link spacing and a nearly full-height active marker. A **Categories** heading
 shows the total block count, with registry-derived variant counts aligned beside
 each category. Links use **0.85rem** text and an active marker inset **2px** at each end while retaining
-44px click targets. They sit indented beneath the heading; the navigation itself
+34px compact link rows. They sit indented beneath the heading; the navigation itself
 aligns left in wider desktop sidebar columns, leaving more room beside the cards.
 Desktop and mobile use `BlockCategoryNavigation`; mobile links
 retain the core Sheet dismissal behavior. Counts have accessible descriptions,
-and active links expose `aria-current="page"`. No artificial subcategories are added.
+and active links expose `aria-current="page"`. Categories with variants gain a
+separate core Collapsible toggle and an indented list of direct variant links.
+Groups start collapsed and expand independently; category names still navigate to
+their overview. Empty categories show no toggle or icon. Mobile toggles and variant
+links have 44px targets; expanding keeps the sheet open, while selecting a link
+closes it. No artificial subcategories are added.
+
+Categories now starts level with the first card row; the introduction remains in
+the content column. An optional `contentHeader` slot in the shared shell keeps
+this alignment responsive without measured offsets and preserves one main landmark.
+A compact random preview fills the space above Categories beside the header on desktop.
+It links to one variant from the current group, selected after hydration and retained
+across theme changes. It reuses the shared thumbnail renderer and stays hidden below
+980px; its image loads lazily. A simple linked image fills nearly the entire width,
+with a small, muted “From this collection” label above it and a fine image outline.
+There is no outer card background, shadow or overlay control. The link retains an
+accessible variant name and a visible keyboard focus outline. The
+optional `sidebarHeader` slot preserves the grid alignment.
+Categories sort by block count, highest first, with alphabetical ties in both desktop
+and mobile navigation. Twenty alphabetically sorted planned categories link to unimplemented pages, each
+with zero variants; the real total stays 27. Both desktop and mobile navigation
+include them. The thumbnail generator reads only category links, skipping nested
+variant links and the marked placeholders.
 
 The category header adds core **Breadcrumb** navigation, a Preact/Kamod UI label,
 more descriptive titles and practical introductions with highlighted inline API
 names. A variant-count badge sits beside the heading and above it below 640px,
-matching the detail header. The variant count stands alone above the cards.
-The screenshot-theme note sits beneath the shortened introduction in larger,
-muted italic text with a theme-accented left border; it is no longer
-repeated below the cards. The Blocks breadcrumb uses the existing
+matching the detail header. The introduction aligns with the random preview at
+the top; breadcrumbs sit below it in the row directly above the cards.
+The screenshot-theme guidance is a second introduction paragraph with matching
+typography and a small gap. It is no longer repeated below the cards. The Blocks breadcrumb uses the existing
 `/blocks/sidebar` entry page.
 
 - Fill the **16:9 preview frame** using `object-fit: cover` and top alignment.
   Existing 8:5 screenshots are slightly cropped instead of letterboxed or stretched;
   thumbnails remain unchanged. Keep titles, metadata and actions usable on narrow cards.
-- Use one, two or three columns based on usable content width (**580px / 1120px**
+- Use one, two or three columns based on usable content width (**640px / 1120px**
   container breakpoints), accounting for the sidebar.
 - Allow category layouts up to **1680px** wide on large screens.
+- Share responsive heading typography with block detail pages and tighten mobile header spacing. Narrow cards
+  use smaller insets while preserving both path ends and the gap before footer actions.
+  The mobile category sheet keeps 44px tap targets; desktop links stay compact.
+- Size thumbnail downloads for the capped desktop grid and the revised column transitions.
 - Below **640px**, place category-page branding and theme/actions on separate rows
   to avoid overlap. These rules do not change detail-page headers or widths.
 - Use current theme tokens for borders, colors, hover/focus and reduced-motion styling.
 
-A compact **Showing N of N variants** count sits above the grid, with singular
-wording for one variant. Cards remain in registry order. There is no search/sort
+A compact **Showing N of N variants** count sits to the right of the breadcrumbs,
+followed by a dot separator and two source/report-issue links with generous spacing.
+The row aligns along the bottom edge and stacks on narrow screens, keeping the
+count and actions together. Issue links prefill the category and source URL.
+Cards remain in registry order. There is no search/sort
 toolbar, patterned band or extra divider between the header and cards.
 
 Overview styling moves into `block-overviews.css`, imported by the main stylesheet;
@@ -372,7 +407,7 @@ links, avoiding a second manually maintained registry.
 - Capture at **1280×800**, with fresh state, a fixed date, English/UTC and motion
   disabled. Wait for hydration, fonts and images; reject failed routes, required
   assets and browser exceptions. Capture Sidebar 13 with its settings dialog open.
-- Encode **480×300** and **960×600** WebP images using the existing Chromium tooling.
+- Decode each capture once and encode **480×300** and **960×600** WebP images using Chromium.
   Store content-hashed files in `public/block-previews/` and URLs/dimensions in a
   generated manifest. Publish after successful captures, then prune obsolete
   generated filenames.
@@ -400,15 +435,18 @@ regeneration is deferred. A complete repeat generated identical assets locally.
 
 ### 4. Shared showcase controls and reliable source loading
 
-`BlockShowcase` replaces repeated Preview/Code tabs, refresh/new-tab controls,
-path-copy feedback and selected-file state. It reuses core Tabs/Button and the
+`BlockShowcase` provides Preview/Code tabs and refresh/new-tab controls.
+`BlockShowcaseCode` keeps path-copy feedback and selected-file state separate from
+preview state, preserving selection across tab switches. Both reuse core Tabs/Button,
 existing preview/code components, Kamod Icons and Hooks' `useTimeout`.
 
 `BlockSourceFiles` provides grouped or flat file navigation, selected-file
 accessibility state, loading feedback and retryable errors. Source modules load
 only when Code is opened. An earlier asynchronous response cannot replace the
-currently selected file; cleanup prevents updates after unmount. Full paths avoid
-collisions between identical filenames in different directories.
+currently selected file; cleanup prevents updates after unmount. Results are bound
+to both the loader and filename, so switching blocks cannot expose stale code for
+an identically named file. Synchronous loader errors also show the retry UI.
+Full paths avoid collisions between filenames in different directories.
 
 Application Shell retains its `h2` permalink, flat file labels and existing
 path-copy behavior. Other detail showcases use an `h1` with paragraph descriptions.
@@ -472,29 +510,35 @@ The existing Sidebar 10 test was corrected to exercise **More actions → Copy l
 the menu already present in the unchanged baseline, instead of expecting an absent
 popover trigger. The block was not changed to satisfy that stale assertion.
 
-| Validation                                    | Result                                                                          |
-| --------------------------------------------- | ------------------------------------------------------------------------------- |
-| Docs unit tests                               | **42 passed**                                                                   |
-| Combined Chromium suites                      | **64 passed**: overview, auth, sidebar and Application Shell documentation      |
-| Blocks suite during metadata/shared-page work | **159 passed**                                                                  |
-| Targeted DropdownContent suite                | **6 passed**                                                                    |
-| Build and typechecks                          | Affected checks passed; final docs production build verified under `/kamod-ui/` |
-| Formatting and lint                           | Repository Oxfmt check, scoped Oxlint/Biome and diff checks passed              |
-| Generation                                    | All 108 assets generated; complete second run identical                         |
+| Validation                        | Current result                                                                                   |
+| --------------------------------- | ------------------------------------------------------------------------------------------------ |
+| Docs unit tests                   | **45 passed**, including loader changes and synchronous source failures                          |
+| Combined Chromium suites          | **74 passed** before committing: overview, auth, sidebar and Application Shell documentation     |
+| Latest overview/disclosure checks | **26 passed**, including keyboard expansion, empty categories and mobile variant navigation      |
+| Blocks suite                      | **159 passed**                                                                                   |
+| Targeted DropdownContent suite    | **6 passed**                                                                                     |
+| Docs production build             | Passed under `/kamod-ui/`                                                                        |
+| Scoped formatting/lint            | Oxfmt, Oxlint, Biome and diff checks passed                                                      |
+| Generator comparison              | Original and refactored generators produced identical 108 assets and manifests on the same build |
+| Docs typecheck                    | Same existing `DocsShell 2.tsx` error before and after this refactor; no new diagnostics         |
 
-Overview checks cover **320, 768, 1024, 1440 and 1920px** in light/dark mode, including
-a stored theme opposite the system preference. The final browser run used the
-production build; visual inspection also covered narrow and wide layouts.
+Chromium coverage includes all four categories across mobile, tablet and desktop,
+light/dark schemes, keyboard operation, source/setup links, lazy loading, image
+failure and static no-JS navigation. Boundary checks cover 16 widths from 320–1920px,
+including path/action spacing, sidebar alignment and mobile badge placement. The
+random header preview is checked for category membership, theme stability, keyboard
+focus and responsive visibility.
 
-The complete final changes passed docs typecheck, a production build under
-`/kamod-ui/`, **42 unit tests**, **64 Chromium checks**, and scoped Oxfmt, Oxlint
-and Biome checks before committing. Browser coverage includes source/setup links,
-keyboard order and cross-page installation-fragment scrolling.
+The typecheck failure belongs to an untouched local duplicate: `pageHeader` is not
+a `DemoShell` prop in `DocsShell 2.tsx`. Its diagnostic was recorded before editing
+and reproduced afterward with the same diagnostic. It is not counted as a passing
+check. A separate compiler run using the same project configuration and excluding
+only the untracked duplicate copies passed for all 215 remaining source files; no
+local copies were edited or included in the commits.
 
-Additional focused checks verified source-path truncation, minimum action spacing,
-vertical alignment and responsive text limits from 320px through 1920px. Earlier
-visual inspection covered mobile dark and desktop light cards; category-header
-checks covered all four categories at 320, 639, 640, 979, 980, 1260, 1440 and 1920px.
+Generator verification found an existing image difference for Sidebar 15 relative to
+the stored assets; both generators produced the same result. The pre-review assets
+were restored, keeping this refactor free of unrelated screenshot changes.
 
 **Verification limits:** WebKit could not create a page because the installed
 browser/driver rejects `PushAPIEnabled`; Safari is not marked as verified. Full-page
@@ -526,7 +570,7 @@ and formatter configuration edits, and duplicate working files are excluded.
 **Detail:** <!-- Add a Login/Signup detail page with Preview/Code controls. -->
 
 <details>
-<summary><strong>Complete changed-file inventory</strong> — 54 source/route/test/workflow files, 108 generated images and this scope record</summary>
+<summary><strong>Complete changed-file inventory</strong> — implementation files, 108 generated images and this scope record</summary>
 
 Paths below are relative to the repository root. This covers the complete feature
 diff relative to `99b8493`, plus this combined issue/PR document.
@@ -571,6 +615,7 @@ diff relative to `99b8493`, plus this combined issue/PR document.
 
 #### Browser coverage
 
+- `packages/docs/e2e/application-shell-docs.spec.ts`
 - `packages/docs/e2e/block-overviews.spec.ts`
 - `packages/docs/e2e/blocks-auth.spec.ts`
 - `packages/docs/e2e/blocks-sidebar.spec.ts`
@@ -578,6 +623,7 @@ diff relative to `99b8493`, plus this combined issue/PR document.
 #### Generator workflow
 
 - `packages/docs/scripts/README.md`
+- `packages/docs/scripts/BLOCK-PREVIEW-IMAGES.md`
 - `packages/docs/scripts/generate-block-thumbnails.mjs`
 
 #### Shared docs components, metadata and unit tests
@@ -585,10 +631,19 @@ diff relative to `99b8493`, plus this combined issue/PR document.
 - `packages/docs/src/blocks/ApplicationShellShowcase.tsx`
 - `packages/docs/src/blocks/BlockCategoryNavigation.tsx`
 - `packages/docs/src/blocks/BlockCategoryPage.tsx`
+- `packages/docs/src/blocks/BlockCategoryHeader.tsx`
 - `packages/docs/src/blocks/BlockDetailPage.tsx`
 - `packages/docs/src/blocks/BlockOverviewCard.tsx`
+- `packages/docs/src/blocks/BlockThumbnail.tsx`
+- `packages/docs/src/blocks/BlockCategoryPreview.tsx`
 - `packages/docs/src/blocks/BlockInstallation.tsx`
 - `packages/docs/src/blocks/BlockShowcase.tsx`
+- `packages/docs/src/blocks/BlockShowcaseCode.tsx`
+- `packages/docs/src/blocks/BlockVariantDetail.tsx`
+- `packages/docs/src/blocks/BlockBreadcrumbs.tsx`
+- `packages/docs/src/blocks/block-links.ts`
+- `packages/docs/src/blocks/ApplicationShellHeader.tsx`
+- `packages/docs/src/blocks/application-shell-config.ts`
 - `packages/docs/src/blocks/BlockSourceFiles.test.tsx`
 - `packages/docs/src/blocks/BlockSourceFiles.tsx`
 - `packages/docs/src/blocks/BlocksApplicationShellContent.tsx`
@@ -596,6 +651,7 @@ diff relative to `99b8493`, plus this combined issue/PR document.
 - `packages/docs/src/blocks/BlocksSidebarContent.tsx`
 - `packages/docs/src/blocks/block-categories.test.ts`
 - `packages/docs/src/blocks/block-categories.ts`
+- `packages/docs/src/blocks/block-nav-config.ts`
 - `packages/docs/src/blocks/block-overview-details.ts`
 - `packages/docs/src/blocks/block-overview-details.test.ts`
 - `packages/docs/src/blocks/block-thumbnails.test.ts`
@@ -604,6 +660,10 @@ diff relative to `99b8493`, plus this combined issue/PR document.
 #### Shared accessibility and styles
 
 - `packages/docs/src/docs/components/DocsShell.tsx`
+- `packages/docs/src/layout/DemoShell.tsx`
+- `packages/docs/src/layout/DocsTopbarActions.tsx`
+- `packages/docs/src/styles/app.css`
+- `packages/docs/src/styles/application-shell.css`
 - `packages/docs/src/styles/block-overviews.css`
 - `packages/docs/src/styles/blocks.css`
 - `packages/docs/src/styles/index.css`
@@ -649,8 +709,8 @@ commits; this combined document is the explicitly requested shared record.
 3. **`docs(blocks): update overview PR scope and validation`** — bring this shared
    issue/PR record up to date. Personal planning files remain local.
 
-The planned full-width category header and aligned sidebar/card row are a future
-layout change, **not implemented by these commits**.
+The full-width category header was reverted. The later sidebar alignment keeps
+the introduction in the content column and starts Categories beside the first cards.
 
 ### Category, setup and card refinement series
 

@@ -279,13 +279,15 @@ including them.
 
 [`generate-block-thumbnails.mjs`](generate-block-thumbnails.mjs) opens the built
 `/blocks/sidebar/` page and reads the visible category links from the desktop
-sidebar. It visits each category and reads `a.blocks-overview-card` links, then
+sidebar (`a.blocks-category-link`), excluding nested variant links. It visits each category and reads `a.blocks-overview-card` links, then
 appends `/preview/` to each detail URL.
 
-There is no separate list of screenshot targets. Hidden navigation categories are
-excluded. The sidebar navigation selector, card link class, route shape and
+There is no separate list of screenshot targets. Hidden navigation categories and
+planned links marked `data-block-placeholder` are excluded. These placeholder
+links deliberately lead to unimplemented pages and have no screenshot targets. The sidebar navigation selector, card link class, route shape and
 standalone preview pages are therefore part of the generator's discovery contract.
-If those structures change, update discovery too.
+If those structures change, update discovery too. Preserve the placeholder filter
+when changing the sidebar selector so a 404 page cannot interrupt generation.
 
 ### Use a repeatable capture environment
 
@@ -325,7 +327,8 @@ The 1280 × 800 capture is resized by Chromium's canvas encoder into:
 - **960 × 600 WebP** for larger cards and higher pixel densities.
 
 Both retain the original **8:5** aspect ratio. WebP quality is `0.84`; there is no
-additional image-processing dependency.
+additional image-processing dependency. Each PNG is decoded once, then both sizes
+are encoded from that bitmap before it is released.
 
 Filenames contain the category, route ID, scheme, width and the first ten hex
 characters of a SHA-256 hash of the encoded bytes:
@@ -355,15 +358,18 @@ writing may still require a rerun and an integrity check.
 
 ## 8. How cards display the images
 
-[`BlockOverviewCard.tsx`](../src/blocks/BlockOverviewCard.tsx) reads the manifest
+[`BlockThumbnail.tsx`](../src/blocks/BlockThumbnail.tsx) reads the manifest
 and waits for the stored light/dark preference before assigning image URLs. This
 avoids downloading the wrong scheme first when the saved setting differs from
 the system preference.
 
 - `srcSet` and `sizes` let the browser choose the image resolution.
+- Overview cards and the random desktop header preview share the thumbnail renderer.
+  The header chooses one current-category variant after hydration, keeps it when themes
+  change, and uses lazy loading so its hidden mobile image does not load unnecessarily.
 - The first three cards load eagerly; remaining cards use native lazy loading.
 - A reserved frame and image dimensions keep the layout stable while loading.
-- An unavailable or failed image falls back to **Explore the live demo**; text
+- An unavailable or failed card image falls back to **Explore the live demo**; text
   and navigation remain usable. Without JavaScript, card links and metadata still work.
 - Screenshots always show the **Kamod preset** in light/dark mode. Other selected
   presets style the surrounding page, not the captured pixels. Detail pages are
@@ -371,7 +377,7 @@ the system preference.
 
 The card frame is **16:9**, while saved images are **8:5**. `object-fit: cover` with
 top alignment slightly crops the image vertically to fill the frame without
-stretching or letterboxing. The inset spacing and hover zoom belong to the card's
+stretching or letterboxing. The inset spacing and card hover lift belong to the card's
 CSS, not the generated image. A CSS-only change to those effects needs no capture.
 
 ## 9. Add or remove a block
@@ -382,7 +388,8 @@ For a new variant:
    preview route using the category's existing conventions.
 2. Confirm it appears as a card in a visible category. For a new category, also
    update the category metadata and navigation; merely adding a source folder is
-   not enough for discovery.
+   not enough for discovery. If it was a planned category, remove its entry from
+   `PLACEHOLDER_BLOCK_CATEGORIES` and register it as an implemented category.
 3. Build the documentation and generate the new key, or run the full generator.
 4. Rebuild, review both schemes, run the integrity/browser checks, and commit
    the source, routes, images and manifest together.
@@ -437,7 +444,8 @@ would need to be explicitly configured; none is provided by the generator itself
 | [`package.json`](../package.json)                                                                     | `blocks:thumbnails` command.                                     |
 | [`block-nav-config.ts`](../src/blocks/block-nav-config.ts)                                            | Visible/hidden categories and navigation links.                  |
 | [`block-categories.ts`](../src/blocks/block-categories.ts)                                            | Category metadata and registered overview variants.              |
-| [`BlockOverviewCard.tsx`](../src/blocks/BlockOverviewCard.tsx)                                        | Theme-aware image loading and card navigation.                   |
+| [`BlockThumbnail.tsx`](../src/blocks/BlockThumbnail.tsx)                                              | Shared theme-aware image loading and fallback.                   |
+| [`BlockOverviewCard.tsx`](../src/blocks/BlockOverviewCard.tsx)                                        | Overview card navigation and metadata.                           |
 | [`block-overviews.css`](../src/styles/block-overviews.css)                                            | Preview frame, crop, spacing and hover effects.                  |
 | [`block-thumbnails.test.ts`](../src/blocks/block-thumbnails.test.ts)                                  | Catalog and generated-file integrity checks.                     |
 | [`block-overviews.spec.ts`](../e2e/block-overviews.spec.ts)                                           | Browser coverage for overview behavior and accessibility.        |
