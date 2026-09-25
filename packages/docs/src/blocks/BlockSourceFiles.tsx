@@ -3,7 +3,9 @@ import { Button } from "@kamod-ch/ui";
 import { useEffect, useMemo, useState } from "preact/hooks";
 import { CodeBlock } from "../docs/components/CodeBlock";
 
+/** Full source label, including directories, doubles as the stable file identifier. */
 export type BlockSourceFile = { label: string };
+/** Resolve a registry file label to its raw, copyable source; failures offer a retry. */
 export type BlockSourceLoader = (label: string) => Promise<string>;
 
 /** Keep full labels as keys, even when identical basenames occur in different directories. */
@@ -32,27 +34,8 @@ export const BlockSourceFiles = ({
   selectedFile: string;
   onSelect: (file: string) => void;
 }) => {
-  const [attempt, setAttempt] = useState(0);
-  const [source, setSource] = useState<{ file: string; code?: string; failed?: boolean }>();
+  const { current, retry } = useBlockSource(selectedFile, loadSource);
   const groups = useMemo(() => groupFiles(files, grouped), [files, grouped]);
-
-  useEffect(() => {
-    let active = true;
-    loadSource(selectedFile).then(
-      (code) => {
-        if (active) setSource({ file: selectedFile, code });
-      },
-      () => {
-        if (active) setSource({ file: selectedFile, failed: true });
-      },
-    );
-    // An earlier selection or unmounted page must not replace the currently displayed source.
-    return () => {
-      active = false;
-    };
-  }, [loadSource, selectedFile, attempt]);
-
-  const current = source?.file === selectedFile ? source : undefined;
   return (
     <div class="blocks-code-layout mt-3">
       <aside class="blocks-file-tree" aria-label="Block files">
@@ -80,21 +63,14 @@ export const BlockSourceFiles = ({
         </ul>
       </aside>
       <div class="blocks-code-pane">
-        {current?.failed ? (
+        {current?.status === "error" ? (
           <div role="alert">
             <p>Could not load the source file.</p>
-            <Button
-              size="sm"
-              variant="outline"
-              onClick={() => {
-                setSource(undefined);
-                setAttempt((value) => value + 1);
-              }}
-            >
+            <Button size="sm" variant="outline" onClick={retry}>
               Try again
             </Button>
           </div>
-        ) : current?.code !== undefined ? (
+        ) : current?.status === "ready" ? (
           <CodeBlock
             code={current.code}
             language={selectedFile.endsWith(".svg") ? "text" : "tsx"}
@@ -107,3 +83,40 @@ export const BlockSourceFiles = ({
     </div>
   );
 };
+
+/** Bind results to both loader and filename: different blocks can share a filename. */
+function useBlockSource(file: string, loadSource: BlockSourceLoader) {
+  const [attempt, setAttempt] = useState(0);
+  const [source, setSource] = useState<{
+    file: string;
+    loader: BlockSourceLoader;
+    attempt: number;
+    result: { status: "ready"; code: string } | { status: "error" };
+  }>();
+
+  useEffect(() => {
+    let active = true;
+    const load = async () => {
+      try {
+        const code = await loadSource(file);
+        if (active)
+          setSource({ file, loader: loadSource, attempt, result: { status: "ready", code } });
+      } catch {
+        if (active) setSource({ file, loader: loadSource, attempt, result: { status: "error" } });
+      }
+    };
+    void load();
+    // Ignore late results from an earlier selection, loader or unmounted page.
+    return () => {
+      active = false;
+    };
+  }, [loadSource, file, attempt]);
+
+  return {
+    current:
+      source?.file === file && source.loader === loadSource && source.attempt === attempt
+        ? source.result
+        : undefined,
+    retry: () => setAttempt((value) => value + 1),
+  };
+}

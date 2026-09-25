@@ -12,6 +12,50 @@ afterEach(cleanup);
 const files = [{ label: "first.tsx" }, { label: "second.tsx" }];
 
 describe("block source loading", () => {
+  it("hides the previous block's code when a new loader uses the same filename", async () => {
+    const { rerender } = render(
+      <BlockSourceFiles
+        files={files}
+        selectedFile="first.tsx"
+        onSelect={() => {}}
+        loadSource={async () => "Previous block"}
+      />,
+    );
+    expect(await screen.findByText("Previous block")).toBeVisible();
+    let resolve!: (code: string) => void;
+    const pending = new Promise<string>((done) => {
+      resolve = done;
+    });
+    rerender(
+      <BlockSourceFiles
+        files={files}
+        selectedFile="first.tsx"
+        onSelect={() => {}}
+        loadSource={() => pending}
+      />,
+    );
+    expect(screen.queryByText("Previous block")).not.toBeInTheDocument();
+    expect(screen.getByRole("status")).toHaveTextContent("Loading source");
+    await act(async () => {
+      resolve("Next block");
+    });
+    expect(screen.getByText("Next block")).toBeVisible();
+  });
+
+  it("handles a loader that throws before returning a promise", async () => {
+    render(
+      <BlockSourceFiles
+        files={files}
+        selectedFile="first.tsx"
+        onSelect={() => {}}
+        loadSource={() => {
+          throw new Error("Invalid source path");
+        }}
+      />,
+    );
+    expect(await screen.findByRole("alert")).toHaveTextContent("Could not load the source file");
+  });
+
   it("ignores a slow earlier request when the selected file changes", async () => {
     const resolvers = new Map<string, (code: string) => void>();
     const loadSource = vi.fn(
