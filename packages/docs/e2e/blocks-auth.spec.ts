@@ -1,7 +1,8 @@
 import { expect, test } from "@playwright/test";
 
 for (const category of ["login", "signup"] as const) {
-  const title = category === "login" ? "Login Blocks" : "Signup Blocks";
+  const title =
+    category === "login" ? "Login Forms and Sign-in Pages" : "Signup Forms and Registration Pages";
   test(`${category}: overview, detail, source and return navigation`, async ({ page }) => {
     page.on("pageerror", (error) => {
       throw error;
@@ -105,7 +106,7 @@ for (const category of ["login", "signup"] as const) {
 
 test("unknown category anchors stay on the overview", async ({ page }) => {
   await page.goto("./blocks/login#signup-01");
-  await expect(page.getByRole("heading", { name: "Login Blocks" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Login Forms and Sign-in Pages" })).toBeVisible();
   await expect(page).toHaveURL(/\/blocks\/login\/?#signup-01$/);
   await page.evaluate(() => {
     window.location.hash = "login-04";

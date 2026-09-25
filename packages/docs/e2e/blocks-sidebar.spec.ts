@@ -18,7 +18,7 @@ test.describe("sidebar blocks docs", () => {
   test("lists all sidebar blocks as overview cards", async ({ page }) => {
     await page.goto("./blocks/sidebar");
     await expect(
-      page.getByRole("heading", { level: 1, name: "Building Blocks for the Web" }),
+      page.getByRole("heading", { level: 1, name: "Sidebar Navigation and Layout Blocks" }),
     ).toBeVisible();
     await expect(
       page.locator("aside.docs-sidebar").getByRole("heading", { name: "Categories" }),

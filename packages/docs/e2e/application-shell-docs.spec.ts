@@ -19,7 +19,7 @@ test("navigates category, overview card, detail and back", async ({ page }) => {
     .getByRole("link", { name: "Application Shell", exact: true })
     .click();
   await expect(
-    page.getByRole("heading", { name: "Application Shell Blocks", exact: true }),
+    page.getByRole("heading", { name: "Application Shells for Your Workspace", exact: true }),
   ).toBeVisible();
   await expect(page.locator("article.blocks-card")).toHaveCount(0);
   await page.locator("a.blocks-overview-card").filter({ hasText: "application-shell-01" }).click();

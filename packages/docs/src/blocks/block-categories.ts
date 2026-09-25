@@ -10,34 +10,37 @@ export type BlockOverviewEntry = {
   title: string;
   description: string;
   installCommand: string;
+  dependencies: readonly string[];
   tags: readonly string[];
   features?: readonly string[];
 };
 
 export const blockCategories = {
   sidebar: {
-    title: "Building Blocks for the Web",
+    title: "Sidebar Navigation and Layout Blocks",
     description:
-      "Clean, modern building blocks. Copy and paste into your apps. Built with Preact and Kamod UI. Open Source.",
+      "Compare grouped links, nested menus, icon collapse and floating or inset layouts built with `Sidebar` from `@kamod-ch/ui`. Copy a variant’s source and replace the sample destinations with your application’s routes.",
     label: "sidebar",
     blocks: sidebarBlockMetadata,
   },
   "application-shell": {
-    title: "Application Shell Blocks",
-    description: "Responsive application layouts built with Preact and Kamod UI.",
+    title: "Application Shells for Your Workspace",
+    description:
+      "Build your workspace around responsive sidebar navigation, breadcrumbs and an account menu. Supply `navigationGroups` and `breadcrumbs`, render pages through `children`, and connect your own router and account actions.",
     label: "application shell",
     blocks: applicationShellBlockMetadata,
   },
   login: {
-    title: "Login Blocks",
-    description: "Responsive login screens built with Preact and Kamod UI primitives.",
+    title: "Login Forms and Sign-in Pages",
+    description:
+      "Choose compact forms, split layouts or email-only sign-in, with validation and submission feedback built in. Connect `onSubmit` to your authentication service and, where available, `onSocialLogin` to your provider flow.",
     label: "login",
     blocks: loginBlockMetadata,
   },
   signup: {
-    title: "Signup Blocks",
+    title: "Signup Forms and Registration Pages",
     description:
-      "Accessible signup screens with validation, terms copy, and social-provider callbacks.",
+      "Choose compact registration forms, split layouts or social-provider options, with validation and submission feedback. Connect `onSubmit` and, where available, `onSocialSignup` to your account service, then adapt the fields and legal links.",
     label: "signup",
     blocks: signupBlockMetadata,
   },

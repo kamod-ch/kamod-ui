@@ -58,19 +58,31 @@ export const BlockCategoryPage = ({ category }: { category: BlockCategory }) => 
               </BreadcrumbList>
             </Breadcrumb>
             <span class="blocks-category-eyebrow">Built with Preact &amp; Kamod UI</span>
-            <h1>{title}</h1>
-            <p class="blocks-hero-lead">{description}</p>
-            <div class="blocks-category-caption">
-              <Badge variant="secondary" size="sm">
+            <div class="blocks-category-title-row">
+              <h1>{title}</h1>
+              <Badge variant="secondary" size="md">
                 {blocks.length} {blocks.length === 1 ? "variant" : "variants"}
               </Badge>
-              <span>Find your layout. Open a block to try it and explore the code.</span>
             </div>
+            <p class="blocks-hero-lead">
+              {/* Category copy stays plain metadata; backticks mark inline API names. */}
+              {description
+                .split(/(`[^`]+`)/g)
+                .map((part, index) =>
+                  part.startsWith("`") ? <code key={index}>{part.slice(1, -1)}</code> : part,
+                )}
+            </p>
+            <p class="blocks-category-note">
+              Previews use the Kamod theme in light or dark mode. Try other themes and screen sizes
+              on each block’s detail page.
+            </p>
           </header>
-          <p class="blocks-overview-count">
-            Showing <strong>{blocks.length}</strong> of {blocks.length}{" "}
-            {blocks.length === 1 ? "variant" : "variants"}
-          </p>
+          <div class="blocks-overview-summary">
+            <p class="blocks-overview-count">
+              Showing <strong>{blocks.length}</strong> of {blocks.length}{" "}
+              {blocks.length === 1 ? "variant" : "variants"}
+            </p>
+          </div>
           <ul class="blocks-overview-grid" aria-label={`${label} block variants`}>
             {blocks.map((block, index) => (
               <li key={block.id} id={block.id}>
@@ -78,10 +90,6 @@ export const BlockCategoryPage = ({ category }: { category: BlockCategory }) => 
               </li>
             ))}
           </ul>
-          <p class="blocks-category-note">
-            Previews use the Kamod theme in light or dark mode. Try other themes and screen sizes on
-            each block’s detail page.
-          </p>
         </section>
       }
     />

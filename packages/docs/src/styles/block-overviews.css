@@ -121,23 +121,45 @@
   text-transform: uppercase;
 }
 
-.blocks-category-header .blocks-hero-lead {
-  max-width: 48rem;
-  margin-bottom: 1.5rem;
+.blocks-category-title-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.625rem 0.875rem;
 }
 
-.blocks-category-caption {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.65rem 1rem;
-  color: var(--muted-foreground);
-  font-size: 0.8rem;
-  line-height: 1.5;
+.blocks-category-title-row h1 {
+  min-width: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.blocks-category-title-row [data-slot="badge"] {
+  padding: 0.25rem 0.875rem;
+  font-size: 0.9375rem;
+}
+
+.blocks-category-header .blocks-hero-lead {
+  max-width: 64rem;
+  margin: 1.25rem 0 0;
+}
+
+.blocks-category-header .blocks-hero-lead code {
+  padding: 0.1em 0.3em;
+  border-radius: 0.25rem;
+  background: color-mix(in oklab, var(--primary) 8%, var(--muted));
+  color: var(--foreground);
+  font-size: 0.85em;
+  overflow-wrap: anywhere;
+}
+
+.blocks-overview-summary {
+  margin-bottom: 1rem;
 }
 
 .blocks-overview-count {
-  margin: 0 0 1rem;
+  flex-shrink: 0;
+  margin: 0;
   color: var(--muted-foreground);
   font-size: 0.75rem;
   line-height: 1.5;
@@ -325,9 +347,13 @@
 }
 
 .blocks-category-note {
-  margin: 1.75rem 0 0;
+  max-width: 64rem;
+  margin: 0.85rem 0 0;
+  padding-inline-start: 0.75rem;
+  border-inline-start: 2px solid color-mix(in oklab, var(--primary) 40%, var(--border));
   color: var(--muted-foreground);
-  font-size: 0.75rem;
+  font-size: 0.9375rem;
+  font-style: italic;
   line-height: 1.65;
 }
 
@@ -368,6 +394,16 @@
 
 /* The existing full wordmark and theme controls need separate rows on narrow category pages. */
 @media (max-width: 639px) {
+  .blocks-category-title-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .blocks-category-title-row [data-slot="badge"] {
+    order: -1;
+  }
+
   .docs-shell:has(.blocks-category-page) .docs-topbar {
     --docs-topbar-height: 112px;
     height: auto;
