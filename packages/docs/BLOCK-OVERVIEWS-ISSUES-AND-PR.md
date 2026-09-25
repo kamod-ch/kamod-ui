@@ -163,12 +163,13 @@ explicit regeneration step when block designs change.
 
 ### Proposed experience
 
-- Refine the category header with breadcrumbs, a variant-count badge and a short
-  browsing hint. Keep the existing category sidebar and titles.
-- Use a compact **16:9 preview frame** with uncropped images, clear title/description, up to three useful
-  feature tags and a footer showing the import path and “View block”.
-- Make the whole card one link, with visible keyboard focus and subtle themed
-  hover styling. Reuse core **Card, Badge and Breadcrumb** components.
+- Refine the category header with breadcrumbs, a variant-count badge and a
+  preview-theme note. Keep the existing category sidebar and titles.
+- Use a compact **16:9 preview frame** filled with a top-aligned screenshot, readable
+  display names plus code identifiers, detailed descriptions and tagged feature badges.
+- Keep one main preview/detail link with separate footer links for GitHub source and
+  setup instructions. Keep dependencies in the setup guide and preserve keyboard focus without
+  nested controls. Reuse core **Card, Badge, Button and Breadcrumb** components.
 - Adapt the grid to usable content width: one column, two at **580px**, three at
   **1120px**. Expand only category-page layouts to **1680px** on wide screens.
 - Keep card text and links usable when an image fails or JavaScript is unavailable.
@@ -236,7 +237,7 @@ of ordinary builds.
 - [x] Overviews mount no live demos or preview iframes and request no demo/source chunks.
 - [x] Saved-theme selection avoids downloading the opposite image set on initial load.
 - [x] Keyboard, mobile/wide layouts, image failure, no-JavaScript and subpath links are covered.
-- [x] Docs build/typecheck, scoped lint/Biome, formatting, **40 docs unit tests** and **64 Chromium checks** are verified.
+- [x] Docs build/typecheck, scoped lint/Biome, formatting, **42 docs unit tests** and **64 Chromium checks** are verified.
 
 Accessible names were also added to the shared theme toggle and footer brand link.
 Automated accessibility checks exclude only the official logo's wordmark contrast
@@ -300,9 +301,29 @@ uses the shared page/showcase wrappers.
 ### 2. Visual overview cards and responsive layout
 
 Add one shared `BlockOverviewCard`, using core **Card** and **Badge** components.
-Each card contains a screenshot, block heading and description, up to three feature
-tags, the import path and a “View block” footer. The whole card is a single link,
-with no nested controls and a visible keyboard focus ring.
+Each card pairs a readable display name with its code-styled component identifier,
+a more detailed muted description and up to three feature badges with tag icons.
+The preview and description form the main detail link. A separate footer lists
+the block path and core icon-button
+links to the exact GitHub source folder and the detail page’s **Add this block**
+section. These are sibling links with accessible names, never nested controls.
+Hover gently lifts the card and zooms its preview; the arrow changes only color.
+Motion is limited to precise hover pointers and respects reduced-motion preferences.
+Previews sit inside padded, rounded frames with a compact arrow inset at the
+top-right, fixed above the zooming image. Centered title rows and softly tinted
+badges lead into descriptions limited to two lines (three from 1260px). A subtle
+divider separates the footer, with a subdued source path and compact actions
+using subdued theme backgrounds and icon colors, with clearer hover/focus states. Card dependency lists are omitted;
+setup guides retain the package requirements. Paths
+truncate only their middle, preserving the scope and variant name, with a 12px
+minimum action gap. The full path stays available to assistive technology and
+in the hover title; centered 24px actions use 13px icons.
+
+Sidebar, Login and Signup details gain a compact shared setup section so every
+card’s setup link has a real destination. Application Shell retains its existing
+guide. Setup links use native same-tab navigation to preserve cross-page fragment
+scrolling; source links open a new tab. Setup instructions explain copying shared
+files, installing missing dependencies and connecting application callbacks.
 
 The category sidebar now shares the detail page contents navigation's quiet left
 border, generous link spacing and a nearly full-height active marker. A **Categories** heading
@@ -315,11 +336,17 @@ retain the core Sheet dismissal behavior. Counts have accessible descriptions,
 and active links expose `aria-current="page"`. No artificial subcategories are added.
 
 The category header adds core **Breadcrumb** navigation, a Preact/Kamod UI label,
-a variant-count badge and a browsing hint. A short note explains the screenshot
-theme. The Blocks breadcrumb uses the existing `/blocks/sidebar` entry page.
+more descriptive titles and practical introductions with highlighted inline API
+names. A variant-count badge sits beside the heading and above it below 640px,
+matching the detail header. The variant count stands alone above the cards.
+The screenshot-theme note sits beneath the shortened introduction in larger,
+muted italic text with a theme-accented left border; it is no longer
+repeated below the cards. The Blocks breadcrumb uses the existing
+`/blocks/sidebar` entry page.
 
-- Reserve a **16:9 preview frame** with the full 8:5 screenshot contained inside;
-  keep text wrapping and card footers consistent.
+- Fill the **16:9 preview frame** using `object-fit: cover` and top alignment.
+  Existing 8:5 screenshots are slightly cropped instead of letterboxed or stretched;
+  thumbnails remain unchanged. Keep titles, metadata and actions usable on narrow cards.
 - Use one, two or three columns based on usable content width (**580px / 1120px**
   container breakpoints), accounting for the sidebar.
 - Allow category layouts up to **1680px** wide on large screens.
@@ -447,7 +474,7 @@ popover trigger. The block was not changed to satisfy that stale assertion.
 
 | Validation                                    | Result                                                                          |
 | --------------------------------------------- | ------------------------------------------------------------------------------- |
-| Docs unit tests                               | **40 passed**                                                                   |
+| Docs unit tests                               | **42 passed**                                                                   |
 | Combined Chromium suites                      | **64 passed**: overview, auth, sidebar and Application Shell documentation      |
 | Blocks suite during metadata/shared-page work | **159 passed**                                                                  |
 | Targeted DropdownContent suite                | **6 passed**                                                                    |
@@ -458,6 +485,16 @@ popover trigger. The block was not changed to satisfy that stale assertion.
 Overview checks cover **320, 768, 1024, 1440 and 1920px** in light/dark mode, including
 a stored theme opposite the system preference. The final browser run used the
 production build; visual inspection also covered narrow and wide layouts.
+
+The complete final changes passed docs typecheck, a production build under
+`/kamod-ui/`, **42 unit tests**, **64 Chromium checks**, and scoped Oxfmt, Oxlint
+and Biome checks before committing. Browser coverage includes source/setup links,
+keyboard order and cross-page installation-fragment scrolling.
+
+Additional focused checks verified source-path truncation, minimum action spacing,
+vertical alignment and responsive text limits from 320px through 1920px. Earlier
+visual inspection covered mobile dark and desktop light cards; category-header
+checks covered all four categories at 320, 639, 640, 979, 980, 1260, 1440 and 1920px.
 
 **Verification limits:** WebKit could not create a page because the installed
 browser/driver rejects `PushAPIEnabled`; Safari is not marked as verified. Full-page
@@ -489,7 +526,7 @@ and formatter configuration edits, and duplicate working files are excluded.
 **Detail:** <!-- Add a Login/Signup detail page with Preview/Code controls. -->
 
 <details>
-<summary><strong>Complete changed-file inventory</strong> — 51 source/route/test/workflow files, 108 generated images and this scope record</summary>
+<summary><strong>Complete changed-file inventory</strong> — 54 source/route/test/workflow files, 108 generated images and this scope record</summary>
 
 Paths below are relative to the repository root. This covers the complete feature
 diff relative to `99b8493`, plus this combined issue/PR document.
@@ -550,6 +587,7 @@ diff relative to `99b8493`, plus this combined issue/PR document.
 - `packages/docs/src/blocks/BlockCategoryPage.tsx`
 - `packages/docs/src/blocks/BlockDetailPage.tsx`
 - `packages/docs/src/blocks/BlockOverviewCard.tsx`
+- `packages/docs/src/blocks/BlockInstallation.tsx`
 - `packages/docs/src/blocks/BlockShowcase.tsx`
 - `packages/docs/src/blocks/BlockSourceFiles.test.tsx`
 - `packages/docs/src/blocks/BlockSourceFiles.tsx`
@@ -558,6 +596,8 @@ diff relative to `99b8493`, plus this combined issue/PR document.
 - `packages/docs/src/blocks/BlocksSidebarContent.tsx`
 - `packages/docs/src/blocks/block-categories.test.ts`
 - `packages/docs/src/blocks/block-categories.ts`
+- `packages/docs/src/blocks/block-overview-details.ts`
+- `packages/docs/src/blocks/block-overview-details.test.ts`
 - `packages/docs/src/blocks/block-thumbnails.test.ts`
 - `packages/docs/src/blocks/generated/block-thumbnails.json`
 
@@ -611,3 +651,20 @@ commits; this combined document is the explicitly requested shared record.
 
 The planned full-width category header and aligned sidebar/card row are a future
 layout change, **not implemented by these commits**.
+
+### Category, setup and card refinement series
+
+These follow-up commits capture the final design, without recording superseded
+experiments such as dependency lists inside cards or the removed browsing hint.
+
+| Commit    | Scope                                                                          |
+| --------- | ------------------------------------------------------------------------------ |
+| `6591ed8` | Match detail breadcrumbs to compact overview sizing                            |
+| `e2bfe2e` | Category titles, responsive badges, introductions and theme guidance           |
+| `d714382` | Shared display/source/setup metadata and contract tests                        |
+| `324c9f6` | Shared Sidebar/Login/Signup installation guides                                |
+| `bb863c6` | Inset preview cards, tagged metadata, source/setup actions and truncated paths |
+| `6c57adc` | Slow preview zoom, card lift, translucent arrow and reduced-motion behavior    |
+| `c4e16d0` | Source-action and cross-page setup navigation browser coverage                 |
+
+A final documentation commit updates this shared issue/PR record and validation.
