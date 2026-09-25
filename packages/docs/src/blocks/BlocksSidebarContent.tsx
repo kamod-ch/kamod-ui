@@ -1,29 +1,15 @@
 /** Sidebar detail and standalone previews; the shared overview only imports registry metadata. */
 import { sidebarBlocks } from "@kamod-ch/blocks/sidebar";
-import { BlockDetailPage } from "./BlockDetailPage";
-import { BlockInstallation } from "./BlockInstallation";
-import { BlockShowcase } from "./BlockShowcase";
+import { BlockVariantDetail, type VariantSourceLoader } from "./BlockVariantDetail";
+
+const loadSource: VariantSourceLoader<(typeof sidebarBlocks)[number]["id"]> = async (
+  blockId,
+  file,
+) => (await import("./sidebar-source")).getSidebarBlockSource(blockId, file);
 
 export const BlocksSidebarDetailContent = ({ blockId }: { blockId?: string }) => {
   const block = sidebarBlocks.find((item) => item.id === blockId);
-  return (
-    <BlockDetailPage category="sidebar">
-      {block ? (
-        <>
-          <BlockShowcase
-            key={block.id}
-            block={block}
-            loadSource={async (file) =>
-              (await import("./sidebar-source")).getSidebarBlockSource(block.id, file)
-            }
-          />
-          <BlockInstallation block={block} category="sidebar" />
-        </>
-      ) : (
-        <p>Block not found.</p>
-      )}
-    </BlockDetailPage>
-  );
+  return <BlockVariantDetail category="sidebar" block={block} loadSource={loadSource} />;
 };
 
 export const BlocksPreviewContent = ({ id }: { id?: string }) => {

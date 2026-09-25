@@ -1,13 +1,12 @@
 /** Shared block preview, source tabs and controls; registries retain ownership of block data. */
-import { useTimeout } from "@kamod-ch/hooks";
-import { CheckIcon, ExternalLinkIcon, RefreshCwIcon } from "@kamod-ch/icons/lucide";
-import { CopyIcon } from "@kamod-ch/icons/tabler/outline";
+import { ExternalLinkIcon, RefreshCwIcon } from "@kamod-ch/icons/lucide";
 import { Button, Tabs, TabsContent, TabsList, TabsTrigger } from "@kamod-ch/ui";
 import type { ComponentChildren, ComponentProps } from "preact";
 import { useState } from "preact/hooks";
 import { withBasePath } from "../base-path";
 import { BlockPreviewPanel } from "./BlockPreviewPanel";
-import { type BlockSourceFile, BlockSourceFiles, type BlockSourceLoader } from "./BlockSourceFiles";
+import { BlockShowcaseCode } from "./BlockShowcaseCode";
+import type { BlockSourceFile, BlockSourceLoader } from "./BlockSourceFiles";
 
 /** Structural subset shared by Sidebar, Login, Signup and Application Shell registries. */
 export type ShowcaseBlock = {
@@ -21,6 +20,7 @@ export type ShowcaseBlock = {
   files: readonly BlockSourceFile[];
 };
 
+/** Key by block ID when changing variants so preview and selected-file state start fresh. */
 export const BlockShowcase = ({
   block,
   loadSource,
@@ -39,18 +39,7 @@ export const BlockShowcase = ({
 }) => {
   const Heading = headingLevel;
   const [previewKey, setPreviewKey] = useState(0);
-  const [copied, setCopied] = useState(false);
-  const [selectedFile, setSelectedFile] = useState(block.files[0]?.label ?? "");
-  useTimeout(() => setCopied(false), copied ? 1600 : undefined);
   const previewUrl = withBasePath(`/blocks/${block.category}/${block.id}/preview`);
-  const copyInstall = async () => {
-    try {
-      await navigator.clipboard.writeText(block.installCommand);
-      setCopied(true);
-    } catch {
-      setCopied(false);
-    }
-  };
 
   return (
     <article id={block.id} class="blocks-card" tabIndex={-1} aria-label={`${block.title} showcase`}>
@@ -96,42 +85,12 @@ export const BlockShowcase = ({
               height={block.preview.height}
             />
           </TabsContent>
-          <TabsContent value="code">
-            <div class="blocks-install">
-              <code>{block.installCommand}</code>
-              {copyPath && (
-                <Button
-                  size="icon-sm"
-                  variant="ghost"
-                  aria-label={copied ? "Block path copied" : "Copy block path"}
-                  onClick={copyInstall}
-                >
-                  {copied ? (
-                    <CheckIcon
-                      size={14}
-                      strokeWidth={2}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  ) : (
-                    <CopyIcon
-                      size={14}
-                      strokeWidth={2}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  )}
-                </Button>
-              )}
-            </div>
-            <BlockSourceFiles
-              files={block.files}
-              loadSource={loadSource}
-              selectedFile={selectedFile}
-              onSelect={setSelectedFile}
-              grouped={groupedFiles}
-            />
-          </TabsContent>
+          <BlockShowcaseCode
+            block={block}
+            loadSource={loadSource}
+            groupedFiles={groupedFiles}
+            copyPath={copyPath}
+          />
         </Tabs>
       </div>
     </article>
