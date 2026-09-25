@@ -28,6 +28,7 @@ for (const [category, count] of [
     for (const card of await cards.all()) {
       await card.scrollIntoViewIfNeeded();
       await expect(card.locator("img")).toBeVisible();
+      await expect(card.locator("img")).toHaveCSS("object-fit", "cover");
       await expect
         .poll(() =>
           card
@@ -37,6 +38,15 @@ for (const [category, count] of [
         .toBe(true);
       await expect(card).toHaveAttribute("href", new RegExp(`/blocks/${category}/[^/]+$`));
       await expect(card.locator("button, a, input")).toHaveCount(0);
+      const surface = card.locator("..");
+      await expect(surface.getByRole("link", { name: /source on GitHub/ })).toHaveAttribute(
+        "href",
+        new RegExp(`github.com/kamod-ch/kamod-ui/tree/main/packages/blocks/src/${category}/`),
+      );
+      await expect(surface.getByRole("link", { name: /Add .* to your project/ })).toHaveAttribute(
+        "href",
+        /#.*installation$/,
+      );
     }
     expect(
       scripts.filter((url) =>
@@ -49,6 +59,26 @@ for (const [category, count] of [
     await expect(cards.first()).toBeFocused();
     await page.keyboard.press("Enter");
     await expect(page.locator("article.blocks-card")).toBeVisible();
+    await page.goBack();
+    await cards.first().focus();
+    await page.keyboard.press("Tab");
+    await expect(
+      cards
+        .first()
+        .locator("..")
+        .getByRole("link", { name: /source on GitHub/ }),
+    ).toBeFocused();
+    await page.keyboard.press("Tab");
+    await expect(
+      cards
+        .first()
+        .locator("..")
+        .getByRole("link", { name: /Add .* to your project/ }),
+    ).toBeFocused();
+    await page.keyboard.press("Enter");
+    await expect(
+      page.getByRole("heading", { name: "Add this block", exact: true }),
+    ).toBeInViewport();
   });
 }
 
@@ -108,7 +138,8 @@ test("static cards retain text and navigation without JavaScript", async ({ brow
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
   await page.goto(new URL("./blocks/login/", baseURL).href);
-  const card = page.getByRole("link", { name: "login-01", exact: true });
+  const card = page.locator("a.blocks-overview-card").first();
+  await expect(card).toHaveAccessibleName("Login 1 login-01");
   await expect(card).toHaveAttribute("href", /\/blocks\/login\/login-01$/);
   await expect(card.getByText("A simple login form.")).toBeVisible();
   await context.close();
