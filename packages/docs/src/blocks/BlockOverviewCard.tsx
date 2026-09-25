@@ -1,10 +1,12 @@
 /** Visual comparison stays lightweight: only detail pages mount the interactive blocks. */
-import { ArrowUpRightIcon, ImageIcon } from "@kamod-ch/icons/lucide";
+import { ArrowUpRightIcon, ImageIcon, PackagePlusIcon, TagIcon } from "@kamod-ch/icons/lucide";
+import { BrandGithubIcon } from "@kamod-ch/icons/tabler/filled";
 import { resolvedColorSchemeSignal } from "@kamod-ch/themes";
-import { Badge, Card } from "@kamod-ch/ui";
+import { Badge, Button, Card } from "@kamod-ch/ui";
 import { useEffect, useState } from "preact/hooks";
 import { withBasePath } from "../base-path";
 import type { BlockCategory, BlockOverviewEntry } from "./block-categories";
+import { getBlockOverviewDetails } from "./block-overview-details";
 import thumbnails from "./generated/block-thumbnails.json";
 
 type Thumbnail = { src: string; width: number; height: number };
@@ -36,11 +38,14 @@ function ThumbnailImage({ images, eager }: { images?: Thumbnail[]; eager: boolea
           onError={() => setFailed(true)}
         />
       )}
+      <span class="blocks-overview-open">
+        <ArrowUpRightIcon size={13} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+      </span>
     </span>
   );
 }
 
-/** A single focusable link: preview images and metadata never introduce nested controls. */
+/** Preview/title navigation and footer actions are sibling links, never nested controls. */
 export function BlockOverviewCard({
   block,
   category,
@@ -57,45 +62,84 @@ export function BlockOverviewCard({
   const scheme = resolvedColorSchemeSignal.value;
   const images = mounted ? catalog[`${category}/${block.id}`]?.[scheme] : undefined;
   const tags = (block.features?.length ? block.features : block.tags).slice(0, 3);
+  const { displayName, note, sourceUrl, installationId } = getBlockOverviewDetails(category, block);
+  const detailUrl = withBasePath(`/blocks/${category}/${block.id}`);
   const titleId = `${block.id}-title`;
   const descriptionId = `${block.id}-description`;
+  const [pathScope, ...pathSegments] = block.installCommand.split("/");
+  const pathName = pathSegments.pop();
   return (
-    <a
-      class="blocks-overview-card"
-      href={withBasePath(`/blocks/${category}/${block.id}`)}
-      aria-labelledby={titleId}
-      aria-describedby={descriptionId}
-    >
-      <Card class="blocks-overview-surface">
+    <Card class="blocks-overview-surface">
+      <a
+        class="blocks-overview-card"
+        href={detailUrl}
+        aria-labelledby={titleId}
+        aria-describedby={descriptionId}
+      >
         <ThumbnailImage key={mounted ? scheme : "pending"} images={images} eager={eager} />
         <div class="blocks-overview-info">
           <div class="blocks-overview-title-row">
-            <h2 id={titleId}>{block.title}</h2>
-            <span class="blocks-overview-open" aria-hidden="true">
-              <ArrowUpRightIcon
-                size={18}
-                strokeWidth={2}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </span>
+            <h2 id={titleId}>
+              <span>{displayName}</span>
+              <span class="blocks-overview-code-label">
+                <span class="blocks-overview-title-separator" aria-hidden="true">
+                  /
+                </span>
+                <code>{block.title}</code>
+              </span>
+            </h2>
           </div>
-          <p id={descriptionId}>{block.description}</p>
+          <p id={descriptionId}>
+            {block.description} {note}
+          </p>
           <div class="blocks-overview-tags">
             {tags.map((tag) => (
               <Badge key={tag} variant="outline" size="xs">
+                <TagIcon size={11} strokeWidth={1.75} aria-hidden="true" />
                 {tag.replaceAll("-", " ")}
               </Badge>
             ))}
           </div>
         </div>
-        <div class="blocks-overview-footer">
-          <code title={block.installCommand}>{block.installCommand}</code>
-          <span>
-            View block <span aria-hidden="true">→</span>
-          </span>
+      </a>
+      <div class="blocks-overview-footer">
+        <div class="blocks-overview-actions">
+          <div class="blocks-overview-path">
+            <code title={block.installCommand}>
+              <span class="sr-only">{block.installCommand}</span>
+              <span aria-hidden="true">{pathScope}/</span>
+              <span class="blocks-overview-path-middle" aria-hidden="true">
+                {pathSegments.join("/")}/
+              </span>
+              <span aria-hidden="true">{pathName}</span>
+            </code>
+          </div>
+          <div class="blocks-overview-action-links">
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              href={sourceUrl}
+              target="_blank"
+              rel="noreferrer noopener"
+              aria-label={`${displayName} source on GitHub (opens in a new tab)`}
+              title="View source on GitHub"
+            >
+              <BrandGithubIcon size={13} aria-hidden="true" />
+            </Button>
+            {/* Native navigation preserves fragment scrolling across PreactPress routes. */}
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              href={`${detailUrl}#${installationId}`}
+              target="_self"
+              aria-label={`Add ${displayName} to your project`}
+              title="Add this block"
+            >
+              <PackagePlusIcon size={13} strokeWidth={1.75} aria-hidden="true" />
+            </Button>
+          </div>
         </div>
-      </Card>
-    </a>
+      </div>
+    </Card>
   );
 }
