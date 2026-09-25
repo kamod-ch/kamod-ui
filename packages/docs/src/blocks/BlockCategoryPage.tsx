@@ -1,21 +1,14 @@
 /** Shared category → detail navigation for every visible block category. */
-import {
-  Badge,
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@kamod-ch/ui";
 import { useEffect } from "preact/hooks";
 import { withBasePath } from "../base-path";
 import { DocsShell } from "../docs/components/DocsShell";
+import { BlockCategoryHeader } from "./BlockCategoryHeader";
+import { BlockCategoryPreview } from "./BlockCategoryPreview";
 import { BlockOverviewCard } from "./BlockOverviewCard";
 import { type BlockCategory, blockCategories, legacyBlockDestination } from "./block-categories";
 
 export const BlockCategoryPage = ({ category }: { category: BlockCategory }) => {
-  const { title, description, blocks, label } = blockCategories[category];
+  const { blocks, label } = blockCategories[category];
 
   useEffect(() => {
     // Old auth pages used /blocks/login#login-01. Replace the entry so Back does not loop.
@@ -39,50 +32,10 @@ export const BlockCategoryPage = ({ category }: { category: BlockCategory }) => 
       activeSection=""
       docs={[]}
       activeBlock={category}
+      contentHeader={<BlockCategoryHeader category={category} />}
+      sidebarHeader={<BlockCategoryPreview key={category} category={category} />}
       mainContent={
         <section class="docs-components-overview blocks-sidebar-page blocks-category-page">
-          <header class="blocks-hero blocks-category-header">
-            <Breadcrumb class="blocks-category-breadcrumbs">
-              <BreadcrumbList>
-                <BreadcrumbItem>
-                  <BreadcrumbLink href={withBasePath("/")}>Home</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  <BreadcrumbLink href={withBasePath("/blocks/sidebar")}>Blocks</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  <BreadcrumbPage class="capitalize">{label}</BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-            <span class="blocks-category-eyebrow">Built with Preact &amp; Kamod UI</span>
-            <div class="blocks-category-title-row">
-              <h1>{title}</h1>
-              <Badge variant="secondary" size="md">
-                {blocks.length} {blocks.length === 1 ? "variant" : "variants"}
-              </Badge>
-            </div>
-            <p class="blocks-hero-lead">
-              {/* Category copy stays plain metadata; backticks mark inline API names. */}
-              {description
-                .split(/(`[^`]+`)/g)
-                .map((part, index) =>
-                  part.startsWith("`") ? <code key={index}>{part.slice(1, -1)}</code> : part,
-                )}
-            </p>
-            <p class="blocks-category-note">
-              Previews use the Kamod theme in light or dark mode. Try other themes and screen sizes
-              on each block’s detail page.
-            </p>
-          </header>
-          <div class="blocks-overview-summary">
-            <p class="blocks-overview-count">
-              Showing <strong>{blocks.length}</strong> of {blocks.length}{" "}
-              {blocks.length === 1 ? "variant" : "variants"}
-            </p>
-          </div>
           <ul class="blocks-overview-grid" aria-label={`${label} block variants`}>
             {blocks.map((block, index) => (
               <li key={block.id} id={block.id}>

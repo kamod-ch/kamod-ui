@@ -1,4 +1,39 @@
 /* Category browsing uses image thumbnails; live demos belong to the detail pages. */
+.blocks-category-preview {
+  display: block;
+  padding: 0 0.25rem 0.25rem;
+  color: var(--foreground);
+  text-decoration: none;
+  border-radius: 0.5rem;
+}
+
+.blocks-category-preview-label {
+  display: block;
+  padding-bottom: 0.5rem;
+  color: var(--muted-foreground);
+  font-size: 0.5625rem;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.blocks-category-preview .blocks-overview-preview {
+  margin: 0;
+  outline: 1px solid color-mix(in oklab, var(--border) 65%, transparent);
+  outline-offset: -1px;
+}
+
+.blocks-category-preview .blocks-overview-placeholder > span,
+.blocks-category-preview .blocks-overview-open {
+  display: none;
+}
+
+.blocks-category-preview-link:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
 .blocks-category-navigation {
   padding-block: 0.5rem;
 }
@@ -171,17 +206,33 @@
   container: block-overview / inline-size;
 }
 
+.docs-shell:has(.blocks-category-page) .docs-layout {
+  row-gap: 1rem;
+}
+
 .blocks-category-header {
-  padding-block: 0.5rem 1.5rem;
+  padding-block: 0;
   margin-bottom: 0;
 }
 
 .blocks-category-breadcrumbs {
-  margin-bottom: 1.75rem;
+  flex: 1 1 15rem;
+  min-width: 0;
 }
 
 .blocks-category-breadcrumbs ol {
+  flex-wrap: nowrap;
   font-size: 0.85rem;
+}
+
+.blocks-category-breadcrumbs li:last-child {
+  min-width: 0;
+}
+
+.blocks-category-breadcrumbs li:last-child > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .blocks-category-eyebrow {
@@ -190,6 +241,7 @@
   color: var(--muted-foreground);
   font-size: 0.7rem;
   font-weight: 500;
+  line-height: 1;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -201,20 +253,19 @@
   gap: 0.625rem 0.875rem;
 }
 
-.blocks-category-title-row h1 {
-  min-width: 0;
-  margin: 0;
-  overflow-wrap: anywhere;
-}
-
 .blocks-category-title-row [data-slot="badge"] {
   padding: 0.25rem 0.875rem;
   font-size: 0.9375rem;
+  transition-property: color, background-color, border-color, box-shadow;
 }
 
 .blocks-category-header .blocks-hero-lead {
   max-width: 64rem;
   margin: 1.25rem 0 0;
+}
+
+.blocks-category-header .blocks-hero-lead + .blocks-hero-lead {
+  margin-top: 0.625rem;
 }
 
 .blocks-category-header .blocks-hero-lead code {
@@ -227,7 +278,24 @@
 }
 
 .blocks-overview-summary {
-  margin-bottom: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem 1.5rem;
+  margin-top: 1.75rem;
+}
+
+.blocks-overview-summary-actions {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: clamp(0.75rem, 2vw, 2rem);
+  margin-inline-start: auto;
+}
+
+.blocks-overview-summary-separator {
+  color: var(--muted-foreground);
 }
 
 .blocks-overview-count {
@@ -382,9 +450,6 @@
 .blocks-overview-title-separator {
   color: var(--muted-foreground);
   font-weight: 400;
-  max-width: 100%;
-  white-space: normal;
-  overflow-wrap: anywhere;
 }
 
 .blocks-overview-title-row code {
@@ -454,6 +519,9 @@
   background: color-mix(in oklab, var(--primary) 5%, var(--card));
   color: var(--muted-foreground);
   font-weight: 400;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .blocks-overview-footer {
@@ -543,14 +611,16 @@
   height: 2.75rem;
 }
 
-.blocks-overview-action-links {
+.blocks-overview-action-links,
+.blocks-overview-summary-links {
   display: flex;
   flex-shrink: 0;
   align-items: center;
   gap: 0.25rem;
 }
 
-.blocks-overview-action-links [data-slot="button"] {
+.blocks-overview-action-links [data-slot="button"],
+.blocks-overview-summary-links [data-slot="button"] {
   width: 1.5rem;
   height: 1.5rem;
   padding: 0.2rem;
@@ -559,12 +629,14 @@
   color: color-mix(in oklab, var(--muted-foreground) 85%, var(--card));
 }
 
-.blocks-overview-action-links [data-slot="button"] svg {
+.blocks-overview-action-links [data-slot="button"] svg,
+.blocks-overview-summary-links [data-slot="button"] svg {
   width: 13px;
   height: 13px;
 }
 
-.blocks-overview-action-links [data-slot="button"]:is(:hover, :focus-visible) {
+.blocks-overview-action-links [data-slot="button"]:is(:hover, :focus-visible),
+.blocks-overview-summary-links [data-slot="button"]:is(:hover, :focus-visible) {
   background: color-mix(in oklab, var(--muted) 65%, var(--card));
   color: var(--foreground);
 }
@@ -596,17 +668,6 @@
   color: var(--foreground);
   text-decoration: underline;
   text-underline-offset: 0.2em;
-}
-
-.blocks-category-note {
-  max-width: 64rem;
-  margin: 0.85rem 0 0;
-  padding-inline-start: 0.75rem;
-  border-inline-start: 2px solid color-mix(in oklab, var(--primary) 40%, var(--border));
-  color: var(--muted-foreground);
-  font-size: 0.9375rem;
-  font-style: italic;
-  line-height: 1.65;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -648,6 +709,23 @@
 
 /* The existing full wordmark and theme controls need separate rows on narrow category pages. */
 @media (max-width: 639px) {
+  .blocks-category-breadcrumbs {
+    flex-basis: 100%;
+  }
+
+  .blocks-category-header .blocks-hero-lead {
+    margin-top: 1rem;
+    font-size: 1rem;
+  }
+
+  .blocks-overview-summary {
+    margin-top: 1.25rem;
+  }
+
+  .blocks-overview-grid {
+    gap: 1rem;
+  }
+
   .blocks-category-title-row {
     flex-direction: column;
     align-items: flex-start;

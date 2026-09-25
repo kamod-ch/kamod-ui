@@ -110,6 +110,18 @@
   margin: 0 0 0.75rem;
 }
 
+/* Overview and detail titles share the same typography at every viewport width. */
+.blocks-category-title-row h1,
+.blocks-shell-header h1 {
+  min-width: 0;
+  margin: 0;
+  font-size: clamp(1.625rem, 2.75vw, 2.45rem);
+  font-weight: 650;
+  line-height: 1.2;
+  letter-spacing: -0.035em;
+  overflow-wrap: anywhere;
+}
+
 .blocks-hero-lead {
   max-width: 40rem;
   color: var(--muted-foreground);
