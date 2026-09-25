@@ -2,13 +2,24 @@ import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { blockCategories, legacyBlockDestination } from "./block-categories";
-import { visibleBlockNavItems } from "./block-nav-config";
+import { PLACEHOLDER_BLOCK_CATEGORIES, visibleBlockNavItems } from "./block-nav-config";
 
 describe("block category documentation", () => {
   it("covers exactly the visible categories without enabling hidden routes", () => {
     expect(Object.keys(blockCategories).sort()).toEqual(
       visibleBlockNavItems.map((item) => item.key).sort(),
     );
+  });
+
+  it("keeps planned navigation categories separate from implemented routes and variants", () => {
+    const keys = [...visibleBlockNavItems, ...PLACEHOLDER_BLOCK_CATEGORIES].map((item) => item.key);
+    expect(new Set(keys).size).toBe(keys.length);
+    expect(PLACEHOLDER_BLOCK_CATEGORIES).toHaveLength(20);
+    for (const { key } of PLACEHOLDER_BLOCK_CATEGORIES) {
+      expect(blockCategories).not.toHaveProperty(key);
+      expect(existsSync(resolve(import.meta.dirname, "../../blocks", `${key}.md`))).toBe(false);
+      expect(existsSync(resolve(import.meta.dirname, "../../blocks", key, "index.md"))).toBe(false);
+    }
   });
 
   for (const [category, { blocks }] of Object.entries(blockCategories)) {

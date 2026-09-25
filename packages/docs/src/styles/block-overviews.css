@@ -9,7 +9,7 @@
   justify-content: space-between;
   gap: 1rem;
   margin-bottom: 0.9rem;
-  padding-inline: 0.25rem 0.75rem;
+  padding-inline: 0.25rem 0;
 }
 
 .blocks-category-navigation h2 {
@@ -35,15 +35,54 @@
   list-style: none;
 }
 
+.blocks-category-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 1.5rem;
+  align-items: center;
+  gap: 0.25rem;
+  padding-right: 0.5rem;
+}
+
+.blocks-category-toggle {
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0.3rem;
+  background: transparent;
+  color: var(--muted-foreground);
+  cursor: pointer;
+}
+
+.blocks-category-toggle:is(:hover, [aria-expanded="true"]) {
+  color: var(--foreground);
+  background: color-mix(in oklab, var(--muted) 50%, transparent);
+}
+
+.blocks-category-toggle svg {
+  transition: transform 200ms ease;
+}
+
+.blocks-category-toggle[aria-expanded="true"] svg {
+  transform: rotate(90deg);
+}
+
+.blocks-category-toggle:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
 .blocks-category-navigation .blocks-category-link {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1.25rem;
-  min-height: 2.75rem;
+  min-height: 2.125rem;
   margin-left: -1px;
-  padding: 0.5rem 0.75rem 0.5rem 1rem;
+  padding: 0.3rem 0.25rem 0.3rem 1rem;
   border: 0;
   border-left: 2px solid transparent;
   border-radius: 0;
@@ -92,6 +131,40 @@
   outline: 2px solid var(--ring);
   outline-offset: -2px;
   border-radius: 0.25rem;
+}
+
+.blocks-category-navigation .blocks-category-variants {
+  margin: 0.25rem 0.5rem 0.5rem 1rem;
+  padding-left: 0.5rem;
+  border-left-style: dashed;
+}
+
+.blocks-category-navigation .blocks-category-variant-link {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-width: 0;
+  min-height: 1.875rem;
+  padding: 0.3rem 0.5rem;
+  border: 0;
+  border-radius: 0.3rem;
+  background: transparent;
+  white-space: normal;
+  color: var(--muted-foreground);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+  text-decoration: none;
+}
+
+.blocks-category-navigation .blocks-category-variant-link:hover {
+  color: var(--foreground);
+  background: color-mix(in oklab, var(--muted) 30%, transparent);
+}
+
+.blocks-category-navigation .blocks-category-variant-link:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: -2px;
 }
 
 .blocks-category-page {
@@ -455,6 +528,21 @@
   }
 }
 
+/* Keep desktop links compact while giving the mobile sheet comfortable tap targets. */
+.docs-mobile-sheet-nav .blocks-category-link,
+.docs-mobile-sheet-nav .blocks-category-variant-link {
+  min-height: 2.75rem;
+}
+
+.docs-mobile-sheet-nav .blocks-category-row {
+  grid-template-columns: minmax(0, 1fr) 2.75rem;
+}
+
+.docs-mobile-sheet-nav .blocks-category-toggle {
+  width: 2.75rem;
+  height: 2.75rem;
+}
+
 .blocks-overview-action-links {
   display: flex;
   flex-shrink: 0;
@@ -523,7 +611,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   .blocks-overview-surface,
-  .blocks-overview-open {
+  .blocks-overview-open,
+  .blocks-category-toggle svg {
     transition: none;
   }
 }
@@ -531,8 +620,9 @@
 /* Give category navigation its own space without changing detail-page layouts. */
 @media (min-width: 980px) {
   .docs-sidebar .blocks-category-navigation {
-    width: min(100%, 15rem);
+    width: 100%;
     margin-inline-end: auto;
+    padding-block-start: 0;
   }
 
   .docs-shell:has(.blocks-category-page) .docs-layout {
@@ -543,7 +633,7 @@
 
 @media (min-width: 1260px) {
   .docs-shell:has(.blocks-category-page) .docs-layout {
-    grid-template-columns: 18rem minmax(0, 1fr);
+    grid-template-columns: 19rem minmax(0, 1fr);
     column-gap: 2.25rem;
   }
 }
