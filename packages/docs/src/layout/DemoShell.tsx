@@ -24,6 +24,10 @@ type DemoShellProps = {
   topbarLeading?: ComponentChildren;
   topbarActions?: ComponentChildren;
   leftSidebar?: ComponentChildren;
+  /** Introduction above the content column; sidebars start alongside the content below it. */
+  contentHeader?: ComponentChildren;
+  /** Optional desktop companion beside the introduction, above the left sidebar. */
+  sidebarHeader?: ComponentChildren;
   mainContent: ComponentChildren;
   rightSidebar?: ComponentChildren;
   rootClassName?: string;
@@ -37,13 +41,22 @@ export const DemoShell = ({
   topbarLeading,
   topbarActions,
   leftSidebar,
+  contentHeader,
+  sidebarHeader,
   mainContent,
   rightSidebar,
   rootClassName,
 }: DemoShellProps) => {
-  const layoutClass = ["docs-layout", leftSidebar == null ? "docs-layout--no-left" : ""]
+  const layoutClass = [
+    "docs-layout",
+    leftSidebar == null ? "docs-layout--no-left" : "",
+    contentHeader != null ? "docs-layout--content-header" : "",
+  ]
     .filter(Boolean)
     .join(" ");
+  // Keep the introduction and browsing content in a single main landmark.
+  const Layout = contentHeader != null ? "main" : "div";
+  const Content = contentHeader != null ? "div" : "main";
   return (
     <div class={`${rootClassName ?? ""}`.trim()}>
       <header class="docs-topbar">
@@ -65,11 +78,15 @@ export const DemoShell = ({
         </div>
       </header>
 
-      <div class={layoutClass}>
+      <Layout class={layoutClass}>
+        {contentHeader != null && <div class="docs-layout-header">{contentHeader}</div>}
+        {contentHeader != null && leftSidebar != null && sidebarHeader != null && (
+          <div class="docs-layout-sidebar-header">{sidebarHeader}</div>
+        )}
         {leftSidebar != null ? <aside class="docs-sidebar">{leftSidebar}</aside> : null}
-        <main class="docs-content">{mainContent}</main>
+        <Content class="docs-content">{mainContent}</Content>
         <aside class="docs-rightbar">{rightSidebar}</aside>
-      </div>
+      </Layout>
 
       <Footer />
     </div>

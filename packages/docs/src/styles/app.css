@@ -177,6 +177,40 @@ html {
   padding-bottom: max(1.25rem, calc(0.25rem + env(safe-area-inset-bottom, 0px)));
 }
 
+.docs-layout-header {
+  min-width: 0;
+  grid-column: 1 / -1;
+}
+
+.docs-layout-sidebar-header {
+  display: none;
+}
+
+@media (min-width: 980px) {
+  .docs-layout-sidebar-header {
+    display: block;
+    grid-column: 1;
+    grid-row: 1;
+    align-self: start;
+    min-width: 0;
+    padding-inline-end: 0.5rem;
+  }
+
+  .docs-layout--content-header > .docs-layout-header {
+    grid-column: 2;
+    align-self: start;
+  }
+
+  .docs-layout--content-header.docs-layout--no-left > .docs-layout-header {
+    grid-column: 1;
+  }
+
+  .docs-layout--content-header > :is(.docs-sidebar, .docs-content, .docs-rightbar) {
+    grid-row: 2;
+    align-self: start;
+  }
+}
+
 .docs-sidebar {
   display: none;
   overflow-x: auto;
