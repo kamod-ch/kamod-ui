@@ -76,9 +76,11 @@ for (const scheme of ["light", "dark"] as const) {
       await expectVisibleUnderline(list);
       expect(await yarn.evaluate((tab) => tab.matches(":focus-visible"))).toBe(true);
       expect(await yarn.evaluate((tab) => getComputedStyle(tab).boxShadow)).not.toBe("none");
-      const panel = list.locator("..").getByRole("tabpanel");
+      const panel = page.getByRole("tabpanel", { name: "yarn", exact: true });
       await expect(panel).toBeVisible();
       await expect(panel).toContainText("yarn add");
+      await expect(panel).toHaveAttribute("id", (await yarn.getAttribute("aria-controls"))!);
+      await expect(panel).toHaveAttribute("aria-labelledby", (await yarn.getAttribute("id"))!);
       await yarn.press("Home");
       await expect(list.getByRole("tab", { name: "pnpm", exact: true })).toBeFocused();
       await expectVisibleUnderline(list);

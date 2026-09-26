@@ -1,7 +1,6 @@
 import type { ComponentChildren, JSX } from "preact";
 import { createContext } from "preact";
-import { useContext, useEffect, useMemo, useState } from "preact/hooks";
-import { createIdFactory } from "../../lib/interactive";
+import { useCallback, useContext, useEffect, useId, useState } from "preact/hooks";
 import { cn } from "../../lib/utils";
 
 type TabsContextValue = {
@@ -60,9 +59,10 @@ export const Tabs = ({
   ...rest
 }: TabsProps) => {
   const [value, setLocalValue] = useState(defaultValue);
-  const baseId = useMemo(() => createIdFactory("tabs")(), []);
-  const triggerId = useMemo(() => (tabValue: string) => `${baseId}-trigger-${tabValue}`, [baseId]);
-  const contentId = useMemo(() => (tabValue: string) => `${baseId}-content-${tabValue}`, [baseId]);
+  // Preact preserves this ID across server rendering and hydration.
+  const baseId = `tabs-${useId()}`;
+  const triggerId = useCallback((tabValue: string) => `${baseId}-trigger-${tabValue}`, [baseId]);
+  const contentId = useCallback((tabValue: string) => `${baseId}-content-${tabValue}`, [baseId]);
   const setValue = (next: string) => {
     if (!syncKey) {
       setLocalValue(next);
