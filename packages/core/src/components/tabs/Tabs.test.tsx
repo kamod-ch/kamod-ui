@@ -47,4 +47,36 @@ describe("Tabs", () => {
     expect(two).toHaveAttribute("aria-selected", "true");
     expect(screen.getByRole("tabpanel", { name: "Two" })).toBeVisible();
   });
+
+  it.each(["default", "line"] as const)(
+    "keeps vertical %s tabs keyboard accessible and skips disabled triggers",
+    (variant) => {
+      render(
+        <Tabs defaultValue="one" orientation="vertical">
+          <TabsList variant={variant}>
+            <TabsTrigger value="one">One</TabsTrigger>
+            <TabsTrigger value="two" disabled>
+              Two
+            </TabsTrigger>
+            <TabsTrigger value="three">Three</TabsTrigger>
+          </TabsList>
+          <TabsContent value="one">Panel one</TabsContent>
+          <TabsContent value="three">Panel three</TabsContent>
+        </Tabs>,
+      );
+
+      const one = screen.getByRole("tab", { name: "One" });
+      const three = screen.getByRole("tab", { name: "Three" });
+      expect(screen.getByRole("tablist")).toHaveAttribute("aria-orientation", "vertical");
+      one.focus();
+      fireEvent.keyDown(one, { key: "ArrowDown" });
+      expect(three).toHaveFocus();
+      expect(three).toHaveAttribute("aria-selected", "true");
+      expect(screen.getByRole("tabpanel", { name: "Three" })).toBeVisible();
+      fireEvent.keyDown(three, { key: "ArrowUp" });
+      expect(one).toHaveFocus();
+      expect(one).toHaveAttribute("aria-selected", "true");
+      expect(screen.getByRole("tabpanel", { name: "One" })).toBeVisible();
+    },
+  );
 });
