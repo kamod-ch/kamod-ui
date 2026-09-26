@@ -1,5 +1,22 @@
-import { fireEvent, render, screen } from "@testing-library/preact";
+import { fireEvent, render, screen, within } from "@testing-library/preact";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./index";
+
+function SyncedTabs({ syncKey }: { syncKey: string }) {
+  return (
+    <Tabs defaultValue="one" syncKey={syncKey}>
+      <TabsList>
+        <TabsTrigger value="one">One</TabsTrigger>
+        <TabsTrigger value="two">Two</TabsTrigger>
+      </TabsList>
+      <TabsContent value="one">Panel one</TabsContent>
+      <TabsContent value="two">Panel two</TabsContent>
+    </Tabs>
+  );
+}
+
+function tabsIn({ container }: { container: Element }) {
+  return within(container.querySelector<HTMLElement>('[data-slot="tabs"]')!);
+}
 
 describe("Tabs", () => {
   it("links triggers and panels with aria-controls and aria-labelledby", () => {
@@ -79,4 +96,41 @@ describe("Tabs", () => {
       expect(screen.getByRole("tabpanel", { name: "One" })).toBeVisible();
     },
   );
+
+  it("keeps remaining subscribers working and releases shared state after the last unmount", () => {
+    const first = render(<SyncedTabs syncKey="unmount-test" />);
+    const second = render(<SyncedTabs syncKey="unmount-test" />);
+    const firstTabs = tabsIn(first);
+    const secondTabs = tabsIn(second);
+    fireEvent.click(firstTabs.getByRole("tab", { name: "Two" }));
+    expect(secondTabs.getByRole("tab", { name: "Two" })).toHaveAttribute("aria-selected", "true");
+
+    first.unmount();
+    for (const name of ["One", "Two"]) {
+      fireEvent.click(secondTabs.getByRole("tab", { name }));
+      expect(secondTabs.getByRole("tabpanel", { name })).toBeVisible();
+    }
+    second.unmount();
+
+    const fresh = render(<SyncedTabs syncKey="unmount-test" />);
+    expect(tabsIn(fresh).getByRole("tab", { name: "One" })).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
+  });
+
+  it("unsubscribes from the previous sync key when it changes", () => {
+    const view = render(<SyncedTabs syncKey="previous-key" />);
+    fireEvent.click(tabsIn(view).getByRole("tab", { name: "Two" }));
+    view.rerender(<SyncedTabs syncKey="next-key" />);
+    expect(tabsIn(view).getByRole("tab", { name: "One" })).toHaveAttribute("aria-selected", "true");
+
+    const previous = render(<SyncedTabs syncKey="previous-key" />);
+    expect(tabsIn(previous).getByRole("tab", { name: "One" })).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
+    fireEvent.click(tabsIn(previous).getByRole("tab", { name: "Two" }));
+    expect(tabsIn(view).getByRole("tab", { name: "One" })).toHaveAttribute("aria-selected", "true");
+  });
 });
