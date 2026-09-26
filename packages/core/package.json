@@ -116,6 +116,10 @@
       "types": "./dist/components/collapsible/index.d.ts",
       "import": "./dist/components/collapsible/index.js"
     },
+    "./code-block": {
+      "types": "./dist/components/code-block/index.d.ts",
+      "import": "./dist/components/code-block/index.js"
+    },
     "./combobox": {
       "types": "./dist/components/combobox/index.d.ts",
       "import": "./dist/components/combobox/index.js"
@@ -128,6 +132,14 @@
       "types": "./dist/components/context-menu/index.d.ts",
       "import": "./dist/components/context-menu/index.js"
     },
+    "./copy-field": {
+      "types": "./dist/components/copy-field/index.d.ts",
+      "import": "./dist/components/copy-field/index.js"
+    },
+    "./copyable": {
+      "types": "./dist/components/copyable/index.d.ts",
+      "import": "./dist/components/copyable/index.js"
+    },
     "./data-table": {
       "types": "./dist/components/data-table/index.d.ts",
       "import": "./dist/components/data-table/index.js"
@@ -136,6 +148,18 @@
       "types": "./dist/components/date-picker/index.d.ts",
       "import": "./dist/components/date-picker/index.js"
     },
+    "./date-range-picker": {
+      "types": "./dist/components/date-range-picker/index.d.ts",
+      "import": "./dist/components/date-range-picker/index.js"
+    },
+    "./filter-bar": {
+      "types": "./dist/components/filter-bar/index.d.ts",
+      "import": "./dist/components/filter-bar/index.js"
+    },
+    "./file-upload-manager": {
+      "types": "./dist/components/file-upload-manager/index.d.ts",
+      "import": "./dist/components/file-upload-manager/index.js"
+    },
     "./dialog": {
       "types": "./dist/components/dialog/index.d.ts",
       "import": "./dist/components/dialog/index.js"
@@ -143,6 +167,10 @@
     "./direction": {
       "types": "./dist/components/direction/index.d.ts",
       "import": "./dist/components/direction/index.js"
+    },
+    "./description-list": {
+      "types": "./dist/components/description-list/index.d.ts",
+      "import": "./dist/components/description-list/index.js"
     },
     "./drawer": {
       "types": "./dist/components/drawer/index.d.ts",
@@ -176,6 +204,10 @@
       "types": "./dist/components/input/index.d.ts",
       "import": "./dist/components/input/index.js"
     },
+    "./kpi-card": {
+      "types": "./dist/components/kpi-card/index.d.ts",
+      "import": "./dist/components/kpi-card/index.js"
+    },
     "./input-group": {
       "types": "./dist/components/input-group/index.d.ts",
       "import": "./dist/components/input-group/index.js"
@@ -204,9 +236,17 @@
       "types": "./dist/components/menubar/index.d.ts",
       "import": "./dist/components/menubar/index.js"
     },
+    "./multi-select": {
+      "types": "./dist/components/multi-select/index.d.ts",
+      "import": "./dist/components/multi-select/index.js"
+    },
     "./native-select": {
       "types": "./dist/components/native-select/index.d.ts",
       "import": "./dist/components/native-select/index.js"
+    },
+    "./notification-center": {
+      "types": "./dist/components/notification-center/index.d.ts",
+      "import": "./dist/components/notification-center/index.js"
     },
     "./navigation-menu": {
       "types": "./dist/components/navigation-menu/index.d.ts",
@@ -215,6 +255,10 @@
     "./pagination": {
       "types": "./dist/components/pagination/index.d.ts",
       "import": "./dist/components/pagination/index.js"
+    },
+    "./page-header": {
+      "types": "./dist/components/page-header/index.d.ts",
+      "import": "./dist/components/page-header/index.js"
     },
     "./popover": {
       "types": "./dist/components/popover/index.d.ts",
@@ -231,6 +275,18 @@
     "./radio-group": {
       "types": "./dist/components/radio-group/index.d.ts",
       "import": "./dist/components/radio-group/index.js"
+    },
+    "./resizable": {
+      "types": "./dist/components/resizable/index.d.ts",
+      "import": "./dist/components/resizable/index.js"
+    },
+    "./save-status": {
+      "types": "./dist/components/save-status/index.d.ts",
+      "import": "./dist/components/save-status/index.js"
+    },
+    "./shortcuts-help": {
+      "types": "./dist/components/shortcuts-help/index.d.ts",
+      "import": "./dist/components/shortcuts-help/index.js"
     },
     "./scroll-area": {
       "types": "./dist/components/scroll-area/index.d.ts",
@@ -284,9 +340,17 @@
       "types": "./dist/components/tabs/index.d.ts",
       "import": "./dist/components/tabs/index.js"
     },
+    "./tag-input": {
+      "types": "./dist/components/tag-input/index.d.ts",
+      "import": "./dist/components/tag-input/index.js"
+    },
     "./textarea": {
       "types": "./dist/components/textarea/index.d.ts",
       "import": "./dist/components/textarea/index.js"
+    },
+    "./timeline": {
+      "types": "./dist/components/timeline/index.d.ts",
+      "import": "./dist/components/timeline/index.js"
     },
     "./theme-toggle": {
       "types": "./dist/components/theme-toggle/index.d.ts",
