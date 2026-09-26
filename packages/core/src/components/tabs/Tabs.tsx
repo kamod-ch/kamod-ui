@@ -1,7 +1,6 @@
 import type { ComponentChildren, JSX } from "preact";
 import { createContext } from "preact";
-import { useContext, useEffect, useMemo, useState } from "preact/hooks";
-import { createIdFactory } from "../../lib/interactive";
+import { useCallback, useContext, useEffect, useId, useState } from "preact/hooks";
 import { cn } from "../../lib/utils";
 
 type TabsContextValue = {
@@ -23,6 +22,7 @@ export const useTabs = () => {
 
 export type TabsProps = JSX.HTMLAttributes<HTMLDivElement> & {
   defaultValue: string;
+  /** Share selection with mounted groups using this key; release it after the last unmount. */
   syncKey?: string;
   orientation?: "horizontal" | "vertical";
   children?: ComponentChildren;
@@ -33,9 +33,9 @@ type SyncSubscriber = (nextValue: string) => void;
 type SyncRegistryEntry = {
   value: string;
   subscribers: Set<SyncSubscriber>;
-  instancesCount: number;
 };
 
+// Entries exist only while mounted tab groups subscribe to their key.
 const syncRegistry = new Map<string, SyncRegistryEntry>();
 
 const getOrCreateSyncEntry = (key: string, initialValue: string): SyncRegistryEntry => {
@@ -45,12 +45,12 @@ const getOrCreateSyncEntry = (key: string, initialValue: string): SyncRegistryEn
   const created: SyncRegistryEntry = {
     value: initialValue,
     subscribers: new Set<SyncSubscriber>(),
-    instancesCount: 0,
   };
   syncRegistry.set(key, created);
   return created;
 };
 
+/** Coordinates selection, hydration-stable ARIA IDs, and optional selection sharing. */
 export const Tabs = ({
   defaultValue,
   syncKey,
@@ -60,9 +60,10 @@ export const Tabs = ({
   ...rest
 }: TabsProps) => {
   const [value, setLocalValue] = useState(defaultValue);
-  const baseId = useMemo(() => createIdFactory("tabs")(), []);
-  const triggerId = useMemo(() => (tabValue: string) => `${baseId}-trigger-${tabValue}`, [baseId]);
-  const contentId = useMemo(() => (tabValue: string) => `${baseId}-content-${tabValue}`, [baseId]);
+  // Preact preserves this ID across server rendering and hydration.
+  const baseId = `tabs-${useId()}`;
+  const triggerId = useCallback((tabValue: string) => `${baseId}-trigger-${tabValue}`, [baseId]);
+  const contentId = useCallback((tabValue: string) => `${baseId}-content-${tabValue}`, [baseId]);
   const setValue = (next: string) => {
     if (!syncKey) {
       setLocalValue(next);
@@ -81,23 +82,13 @@ export const Tabs = ({
     if (!syncKey) return;
 
     const syncEntry = getOrCreateSyncEntry(syncKey, defaultValue);
-    syncEntry.instancesCount += 1;
     setLocalValue(syncEntry.value);
 
-    const subscriber: SyncSubscriber = (nextValue) => {
-      setLocalValue((currentValue) => {
-        if (currentValue === nextValue) return currentValue;
-        return nextValue;
-      });
-    };
-    syncEntry.subscribers.add(subscriber);
+    syncEntry.subscribers.add(setLocalValue);
 
     return () => {
-      syncEntry.subscribers.delete(subscriber);
-      syncEntry.instancesCount -= 1;
-      if (syncEntry.instancesCount <= 0) {
-        syncRegistry.delete(syncKey);
-      }
+      syncEntry.subscribers.delete(setLocalValue);
+      if (syncEntry.subscribers.size === 0) syncRegistry.delete(syncKey);
     };
   }, [defaultValue, syncKey]);
 
