@@ -19,12 +19,12 @@ export function BlockCategoryHeader({ category }: { category: BlockCategory }) {
         </Badge>
       </div>
       <p class="blocks-hero-lead">
-        {/* Category copy stays plain metadata; backticks mark inline API names. */}
-        {description
-          .split(/(`[^`]+`)/g)
-          .map((part, index) =>
-            part.startsWith("`") ? <code key={index}>{part.slice(1, -1)}</code> : part,
-          )}
+        {/* Small inline markup keeps the metadata independent of JSX. */}
+        {description.split(/(`[^`]+`|\*\*[^*]+\*\*)/g).map((part, index) => {
+          if (part.startsWith("`")) return <code key={index}>{part.slice(1, -1)}</code>;
+          if (part.startsWith("**")) return <strong key={index}>{part.slice(2, -2)}</strong>;
+          return part;
+        })}
       </p>
       <p class="blocks-hero-lead">
         Previews use the Kamod theme in light or dark mode. Try other themes and screen sizes on

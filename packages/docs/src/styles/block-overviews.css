@@ -346,12 +346,19 @@
   margin-top: 0.625rem;
 }
 
+/* Emphasize key guidance without changing line wrapping or the header height. */
+.blocks-category-header .blocks-hero-lead strong {
+  color: var(--foreground);
+  font-weight: inherit;
+}
+
 .blocks-category-header .blocks-hero-lead code {
   padding: 0.1em 0.3em;
   border-radius: 0.25rem;
-  background: color-mix(in oklab, var(--primary) 8%, var(--muted));
-  color: var(--foreground);
-  font-size: 0.85em;
+  background: color-mix(in oklab, var(--secondary-accent) 10%, var(--muted));
+  color: color-mix(in oklab, var(--secondary-accent) 35%, var(--foreground));
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--secondary-accent) 16%, transparent);
+  font-size: 0.88em;
   overflow-wrap: anywhere;
 }
 
