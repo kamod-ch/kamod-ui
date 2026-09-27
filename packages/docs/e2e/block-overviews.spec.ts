@@ -314,6 +314,76 @@ test("preview theme guidance wraps fully and supports activation and dismissal",
   }
 });
 
+test("preview guide stays below the sticky header after scrolling and resizing", async ({
+  page,
+}) => {
+  await page.goto("./blocks/sidebar");
+  await expect(page.locator(".blocks-category-preview")).toBeAttached();
+  const trigger = page.getByRole("button", { name: "About preview themes" });
+  const guide = page.getByRole("dialog", { name: "Preview guide" });
+  for (const [width, height] of [
+    [320, 568],
+    [740, 360],
+    [980, 480],
+    [1440, 900],
+  ]) {
+    await page.setViewportSize({ width, height });
+    await trigger.scrollIntoViewIfNeeded();
+    await trigger.click();
+    await guide.evaluate(async (panel) => {
+      await Promise.all(panel.getAnimations().map((animation) => animation.finished));
+    });
+    const assertContained = async () => {
+      await expect
+        .poll(() =>
+          guide.evaluate((panel) => {
+            const bounds = panel.getBoundingClientRect();
+            const header = document.querySelector(".docs-topbar")!.getBoundingClientRect();
+            return (
+              bounds.top >= header.bottom + 7 &&
+              bounds.bottom <= innerHeight - 7 &&
+              bounds.left >= 7 &&
+              bounds.right <= innerWidth - 7
+            );
+          }),
+        )
+        .toBe(true);
+    };
+    await assertContained();
+    // Keep the guide open while moving its trigger close to the sticky header.
+    await trigger.evaluate((el) => window.scrollBy(0, el.getBoundingClientRect().top - 130));
+    await assertContained();
+    await page.setViewportSize({ width, height: 320 });
+    await assertContained();
+    const close = guide.getByRole("button", { name: "Close preview guide" });
+    await close.focus();
+    await expect(close).toBeInViewport();
+    expect((await close.boundingBox())!.width).toBeGreaterThanOrEqual(24);
+    await page.keyboard.press("Enter");
+    await expect(guide).toBeHidden();
+    await expect(trigger).toBeFocused();
+  }
+});
+
+test("header actions settle after hover and respect reduced motion", async ({ page }) => {
+  await page.goto("./blocks/sidebar");
+  await expect(page.locator(".blocks-category-preview")).toBeAttached();
+  const row = page.locator(".blocks-overview-summary");
+  const button = row.getByRole("link", { name: /source on GitHub/ });
+  const icon = button.locator("svg");
+  await button.hover();
+  await expect(icon).toHaveCSS("animation-name", "blocks-header-icon-pop");
+  await icon.evaluate(async (el) => {
+    await Promise.all(el.getAnimations().map((a) => a.finished));
+  });
+  await expect(icon).toHaveCSS("transform", "none");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(icon).toHaveCSS("animation-name", "none");
+  await expect(icon).toHaveCSS("transition-duration", "0s");
+  await expect(icon).toHaveCSS("transform", "none");
+  await expect(button).toHaveCSS("transition-duration", "0s");
+});
+
 test("header preview uses a current-category thumbnail and keeps its selection when themes change", async ({
   page,
 }) => {
@@ -387,10 +457,13 @@ for (const scheme of ["light", "dark"] as const) {
     const summaryPositions = new Map<number, number>();
     for (const category of ["application-shell", "sidebar", "login", "signup"]) {
       await page.goto(`./blocks/${category}`);
+      await expect(page.locator("html")).toHaveClass(/pp-ready/);
+      await expect(page.locator(".blocks-category-preview")).toBeAttached();
       await expect(page.locator(".blocks-overview-preview img").first()).toBeVisible();
       await page.evaluate(() => document.fonts.ready);
       for (const width of [
-        320, 608, 639, 640, 667, 668, 768, 979, 980, 1024, 1259, 1260, 1440, 1679, 1680, 1920,
+        320, 375, 390, 414, 608, 639, 640, 667, 668, 767, 768, 769, 979, 980, 1023, 1024, 1025,
+        1259, 1260, 1261, 1440, 1679, 1680, 1920,
       ]) {
         await page.setViewportSize({ width, height: 900 });
         const layout = await page.evaluate(() => {
@@ -458,6 +531,9 @@ for (const scheme of ["light", "dark"] as const) {
               const frame = card.getBoundingClientRect();
               const links = actions.getBoundingClientRect();
               return (
+                [
+                  ...card.querySelectorAll('[data-slot="badge"], .blocks-overview-action-links a'),
+                ].every((element) => getComputedStyle(element).visibility === "visible") &&
                 frame.width >= 294 &&
                 path.scrollWidth <= path.clientWidth + 1 &&
                 links.left - end.right >= 12 &&

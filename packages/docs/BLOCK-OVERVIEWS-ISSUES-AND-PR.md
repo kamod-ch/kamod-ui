@@ -373,15 +373,17 @@ matching the detail header. The introduction aligns with the random preview at
 the top; breadcrumbs sit below it in the row directly above the cards.
 Each category has one expanded introduction describing the available layouts and
 integration points, with inline API names styled like the detail documentation.
-Descriptions reserve four lines and clamp overflow to keep the breadcrumb/action
-row aligned across categories. Compact action icons bounce and settle on hover,
+Descriptions reserve four lines and clamp overflow; mobile titles reserve two lines
+so shorter collection names do not pull the breadcrumb/action row upward. Compact action icons bounce and settle on hover,
 with softer highlights and reduced-motion support.
 Screenshot-theme guidance opens in a core Popover from the compact information
 button beside the source and issue links. A compact preview guide pairs a Snapshots
 badge with code-styled theme/mode labels, a link to the image-generation guide,
 three compact detail-page feature tiles and a separated live-demo hint. It fits narrow
 screens; click, tap or keyboard activation opens it, and Escape or an outside
-click dismisses it.
+click dismisses it. The guide stays within the viewport below the sticky site header,
+repositions on scroll or resize, and provides a 24px close target. Its positioning
+listeners and observer exist only while the guide is open.
 The Blocks breadcrumb uses the existing `/blocks/sidebar` entry page.
 
 - Fill the **16:9 preview frame** using `object-fit: cover` and top alignment.
