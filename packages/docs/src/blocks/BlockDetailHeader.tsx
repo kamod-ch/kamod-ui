@@ -8,8 +8,8 @@ import { BlockDetailDescription } from "./BlockDetailDescription";
 import { BlockHeadingLink } from "./BlockHeadingLink";
 import { BlockPageHeader } from "./BlockPageHeader";
 import { type BlockCategory, type BlockOverviewEntry, blockCategories } from "./block-categories";
+import { getBlockDetailTitle } from "./block-detail-titles";
 import { blockIssueUrl, blockSourceUrl } from "./block-links";
-import { getBlockOverviewDetails } from "./block-overview-details";
 
 export type BlockDetailHeaderProps = {
   category: BlockCategory;
@@ -30,14 +30,13 @@ export function BlockDetailHeader({
   descriptionLink,
   className = "",
 }: BlockDetailHeaderProps) {
-  const { displayName } = getBlockOverviewDetails(category, block);
   return (
     <BlockPageHeader
       category={category}
       variant={block.title}
       className={`blocks-variant-header ${className}`}
       id={`${block.id}-overview`}
-      title={<BlockHeadingLink id="top">{title ?? displayName}</BlockHeadingLink>}
+      title={<BlockHeadingLink id="top">{title ?? getBlockDetailTitle(block)}</BlockHeadingLink>}
       badge={category === "login" || category === "signup" ? "Form block" : "Layout block"}
       description={description ?? <BlockDetailDescription category={category} block={block} />}
       descriptionLink={descriptionLink}

@@ -131,11 +131,15 @@ test("detail headers follow registry neighbours and expose the correct variant s
 }) => {
   await page.goto("./blocks/login/login-01");
   const header = page.locator(".blocks-page-header");
-  await expect(header.getByRole("heading", { level: 1 })).toHaveText("Login 1");
+  await expect(header.getByRole("heading", { level: 1 })).toHaveText(
+    "Login 1 — Centered login form with social sign-in",
+  );
   await expect(header.getByRole("button", { name: "Previous variant unavailable" })).toBeDisabled();
   await header.getByRole("link", { name: "Next variant: login-02" }).click();
   await expect(page).toHaveURL(/\/blocks\/login\/login-02\/?$/);
-  await expect(header.getByRole("heading", { level: 1 })).toHaveText("Login 2");
+  await expect(header.getByRole("heading", { level: 1 })).toHaveText(
+    "Login 2 — Split-screen login with a cover image",
+  );
   await expect(header.getByRole("link", { name: "Previous variant: login-01" })).toHaveAttribute(
     "href",
     /\/blocks\/login\/login-01$/,
