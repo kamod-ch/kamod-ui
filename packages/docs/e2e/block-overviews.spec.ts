@@ -362,18 +362,18 @@ test("preview guide stays below the sticky header after scrolling and resizing",
   }
 });
 
-test("header actions settle after hover and respect reduced motion", async ({ page }) => {
+test("header actions use subtle hover feedback and respect reduced motion", async ({ page }) => {
   await page.goto("./blocks/sidebar");
   await expect(page.locator(".blocks-category-preview")).toBeAttached();
-  const row = page.locator(".blocks-overview-summary");
+  const row = page.locator(".blocks-page-header-summary");
   const button = row.getByRole("link", { name: /source on GitHub/ });
   const icon = button.locator("svg");
   await button.hover();
-  await expect(icon).toHaveCSS("animation-name", "blocks-header-icon-pop");
-  await icon.evaluate(async (el) => {
-    await Promise.all(el.getAnimations().map((a) => a.finished));
-  });
+  await expect(icon).toHaveCSS("animation-name", "none");
+  await expect(icon).not.toHaveCSS("transform", "none");
+  await page.mouse.move(0, 0);
   await expect(icon).toHaveCSS("transform", "none");
+  await button.hover();
   await page.emulateMedia({ reducedMotion: "reduce" });
   await expect(icon).toHaveCSS("animation-name", "none");
   await expect(icon).toHaveCSS("transition-duration", "0s");
@@ -464,7 +464,7 @@ for (const scheme of ["light", "dark"] as const) {
       ]) {
         await page.setViewportSize({ width, height: 900 });
         const layout = await page.evaluate(() => {
-          const header = document.querySelector(".blocks-category-title-row")!;
+          const header = document.querySelector(".blocks-page-header-title-row")!;
           const title = header.querySelector("h1")!.getBoundingClientRect();
           const badge = header.querySelector('[data-slot="badge"]')!.getBoundingClientRect();
           const cards = [...document.querySelectorAll(".blocks-overview-surface")];
@@ -497,7 +497,7 @@ for (const scheme of ["light", "dark"] as const) {
                   4 * parseFloat(descriptionStyle.lineHeight),
               ) < 1,
             summaryTop:
-              document.querySelector(".blocks-overview-summary")!.getBoundingClientRect().top +
+              document.querySelector(".blocks-page-header-summary")!.getBoundingClientRect().top +
               scrollY,
             pageFits: document.documentElement.scrollWidth <= innerWidth,
             badgeAboveTitle: badge.bottom <= title.top,

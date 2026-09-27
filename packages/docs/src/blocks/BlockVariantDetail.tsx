@@ -1,5 +1,6 @@
 /** Basic detail template for blocks that share the standard showcase and copy/setup guide. */
 import { useCallback } from "preact/hooks";
+import { BlockDetailHeader } from "./BlockDetailHeader";
 import { BlockDetailPage } from "./BlockDetailPage";
 import { BlockInstallation } from "./BlockInstallation";
 import { BlockShowcase, type ShowcaseBlock } from "./BlockShowcase";
@@ -23,7 +24,10 @@ export function BlockVariantDetail<Id extends string>({
     [block, loadSource],
   );
   return (
-    <BlockDetailPage category={category}>
+    <BlockDetailPage
+      category={category}
+      header={block ? <BlockDetailHeader category={category} block={block} /> : undefined}
+    >
       {block ? (
         <>
           <BlockShowcase key={block.id} block={block} loadSource={loadFile} />

@@ -29,7 +29,10 @@ test("navigates category, overview card, detail and back", async ({ page }) => {
   await expect(page.locator("aside.docs-sidebar")).toHaveCount(0);
   await expect(page.locator(".blocks-preview-host")).toContainText("Overview");
   await expect(page.getByRole("heading", { name: "Props and data" })).toBeVisible();
-  await page.getByRole("link", { name: "All application shell blocks", exact: true }).click();
+  await page
+    .getByRole("navigation", { name: "Block breadcrumb", exact: true })
+    .getByRole("link", { name: "Application Shell", exact: true })
+    .click();
   await expect(page.locator("a.blocks-overview-card")).toHaveCount(1);
 });
 
@@ -104,7 +107,7 @@ test("documentation header exposes breadcrumbs, repository links and disabled va
   await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
   await expect(overview).toHaveAttribute("aria-current", "location");
 
-  // Both links return above the backlink, even when the URL already ends in #top.
+  // Both links return above the introductory label, even when the URL already ends in #top.
   for (const width of [320, 768, 1024, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     const titleLink = page.getByRole("heading", { level: 1 }).getByRole("link");
@@ -112,9 +115,7 @@ test("documentation header exposes breadcrumbs, repository links and disabled va
     await page.evaluate(() => window.scrollTo({ top: 200, behavior: "instant" }));
     await page.keyboard.press("Enter");
     await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
-    await expect(
-      header.getByRole("link", { name: "All application shell blocks" }),
-    ).toBeInViewport();
+    await expect(header.locator(".blocks-page-header-eyebrow")).toBeInViewport();
   }
 
   await page
@@ -307,47 +308,24 @@ for (const width of [320, 640, 768, 979, 980, 1024, 1260, 1440]) {
       if (width < 640) {
         const badge = await header.locator('[data-slot="badge"]').boundingBox();
         const title = await header.getByRole("heading", { level: 1 }).boundingBox();
-        const backlink = await header.locator(".blocks-shell-header-back").boundingBox();
-        expect(badge!.y).toBeGreaterThanOrEqual(backlink!.y + backlink!.height + 16);
+        const label = await header.locator(".blocks-page-header-eyebrow").boundingBox();
+        expect(badge!.y).toBeGreaterThanOrEqual(label!.y + label!.height + 12);
         expect(badge!.y + badge!.height).toBeLessThan(title!.y);
       }
-      const actions = header.locator(".blocks-shell-header-actions");
-      // Action visibility follows available header space, not the viewport breakpoint.
-      const actionsFit = await header.evaluate(
-        (node) =>
-          node.clientWidth >=
-          44 * Number.parseFloat(getComputedStyle(document.documentElement).fontSize),
-      );
-      if (actionsFit) {
-        await expect(actions).toBeVisible();
-        const actionsBox = await actions.boundingBox();
-        const breadcrumbs = await header.locator('[data-slot="breadcrumb-list"]').boundingBox();
-        expect(actionsBox!.x - (breadcrumbs!.x + breadcrumbs!.width)).toBeGreaterThanOrEqual(24);
-        expect(actionsBox!.x + actionsBox!.width).toBeLessThanOrEqual(
-          headerBox!.x + headerBox!.width,
-        );
-        expect(breadcrumbs!.y + breadcrumbs!.height).toBeCloseTo(
-          actionsBox!.y + actionsBox!.height,
-          0,
-        );
-        const currentPage = await header.locator('[data-slot="breadcrumb-page"]').boundingBox();
-        const home = await header.getByRole("link", { name: "Home", exact: true }).boundingBox();
-        expect(currentPage!.y).toBeCloseTo(home!.y, 0);
-      } else {
-        await expect(actions).toBeHidden();
-        await expect(header.getByRole("group", { name: "Block navigation and links" })).toHaveCount(
-          0,
-        );
-        // Hidden actions must not intercept keyboard navigation after the breadcrumbs.
-        await header.getByRole("link", { name: "Application Shell", exact: true }).focus();
-        await page.keyboard.press("Tab");
-        await expect(
-          page
-            .getByRole("heading", { name: "application-shell-01", exact: true })
-            .getByRole("link"),
-        ).toBeFocused();
-        await page.evaluate(() => window.scrollTo(0, 0));
+      const actions = header.locator(".blocks-page-header-links");
+      await expect(actions).toBeVisible();
+      const actionsBox = (await actions.boundingBox())!;
+      const toolbarBox = (await header.locator(".blocks-page-header-summary").boundingBox())!;
+      expect(actionsBox.x + actionsBox.width).toBeLessThanOrEqual(headerBox!.x + headerBox!.width);
+      expect(actionsBox.y + actionsBox.height).toBeCloseTo(toolbarBox.y + toolbarBox.height, 0);
+      for (const button of await actions.locator('[data-slot="button"]').all()) {
+        expect((await button.boundingBox())!.width).toBe(32);
       }
+      // Compact layouts wrap the action row instead of dropping the variant/repository links.
+      const breadcrumbs = (await header.locator('[data-slot="breadcrumb-list"]').boundingBox())!;
+      expect(breadcrumbs.y + breadcrumbs.height).toBeLessThanOrEqual(
+        actionsBox.y + actionsBox.height,
+      );
       expect(
         await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),
       ).toBe(true);
