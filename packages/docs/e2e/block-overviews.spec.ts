@@ -381,6 +381,86 @@ test("header actions use subtle hover feedback and respect reduced motion", asyn
   await expect(button).toHaveCSS("transition-duration", "0s");
 });
 
+test("featured previews share card hover styling and respect reduced motion", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("./blocks/sidebar");
+  await expect(page.locator("html")).toHaveClass(/pp-ready/);
+  const preview = page.locator(".blocks-category-preview");
+  const card = page.locator(".blocks-overview-surface").first();
+  await card.hover();
+  await card.evaluate(async (el) => {
+    await Promise.all(el.getAnimations().map((a) => a.finished));
+  });
+  const shadow = await card.evaluate((el) => getComputedStyle(el).boxShadow);
+  const lift = await card.evaluate((el) => getComputedStyle(el).transform);
+  await preview.hover();
+  await expect(preview).toHaveCSS("box-shadow", shadow);
+  await expect(preview).toHaveCSS("transform", lift);
+  await page.mouse.move(0, 0);
+  await expect(preview).toHaveCSS("transform", "none");
+  await preview.getByRole("link").first().focus();
+  await expect(preview).toHaveCSS("box-shadow", shadow);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await preview.hover();
+  await expect(preview).toHaveCSS("transform", "none");
+  await expect(preview).toHaveCSS("transition-duration", "0s");
+});
+
+test("small-screen cards and buttons keep their highlights without hover motion", async ({
+  page,
+}) => {
+  await page.goto("./blocks/login");
+  await expect(page.locator("html")).toHaveClass(/pp-ready/);
+  for (const width of [320, 639]) {
+    await page.setViewportSize({ width, height: 900 });
+    const card = page.locator(".blocks-overview-surface").first();
+    const controls = [
+      card,
+      card.locator(".blocks-overview-open"),
+      ...(await card.locator(".blocks-overview-action-links a").all()),
+      ...(await page
+        .locator(
+          '.blocks-page-header-links :is([data-slot="button"], [data-slot="popover-trigger"])',
+        )
+        .all()),
+    ];
+    for (const control of controls) {
+      await page.mouse.move(0, 0);
+      const styles = () =>
+        control.evaluate((el) => {
+          const s = getComputedStyle(el);
+          return {
+            background: s.backgroundColor,
+            color: s.color,
+            shadow: s.boxShadow,
+            opacity: s.opacity,
+            transform: s.transform,
+            translate: s.translate,
+            transition: s.transitionDuration,
+            iconTransform: el.querySelector("svg")
+              ? getComputedStyle(el.querySelector("svg")!).transform
+              : "none",
+          };
+        });
+      const initial = await styles();
+      await control.hover();
+      expect(await styles()).toEqual(initial);
+      expect(initial.transform).toBe("none");
+      expect(initial.iconTransform).toBe("none");
+      expect(initial.transition).toBe("0s");
+      await page.mouse.down();
+      expect((await styles()).translate).toBe("none");
+      await page.mouse.move(0, 0);
+      await page.mouse.up();
+    }
+    await expect(card.locator(".blocks-overview-open")).toHaveCSS("opacity", "1");
+  }
+  // The default highlight stops at the existing 640px boundary.
+  await page.setViewportSize({ width: 640, height: 900 });
+  await page.mouse.move(0, 0);
+  await expect(page.locator(".blocks-overview-open").first()).toHaveCSS("opacity", "0.55");
+});
+
 test("header preview uses a current-category thumbnail and keeps its selection when themes change", async ({
   page,
 }) => {
