@@ -2,34 +2,30 @@
  * Explains the shell’s structure, interaction contracts, accessibility and design attribution.
  * @see https://www.shadcnblocks.com/block/application-shell1 — original visual reference.
  */
+
 import { ExternalLinkIcon } from "@kamod-ch/icons/lucide";
+import { BlockHeadingLink } from "./BlockHeadingLink";
+import { BlockDocSection, BlockGuideHeading } from "./detail/BlockDocumentation";
 import { RequiredIndicator } from "./RequiredIndicator";
-import { ShellHeadingLink } from "./ShellHeadingLink";
 
 /** Explains the block's composition, interaction contracts and customization in plain language. */
 export const ShellExplanation = () => (
-  <section
-    class="blocks-doc-section blocks-doc-explanation"
-    aria-labelledby="application-shell-about"
+  <BlockDocSection
+    id="application-shell-about"
+    className="blocks-doc-explanation"
+    introduction={
+      <>
+        <p>
+          <strong>Application Shell 1 is the frame around your application.</strong> It gives people
+          a consistent place to navigate, understand where they are and reach their account
+          controls, while your pages occupy the main content area. It suits dashboards, workspaces
+          and internal tools that share navigation across several screens.
+        </p>
+      </>
+    }
   >
-    <header class="blocks-doc-section-header">
-      <p class="blocks-doc-eyebrow">A closer look</p>
-      <h2 id="application-shell-about" tabIndex={-1}>
-        <ShellHeadingLink id="application-shell-about">About this block</ShellHeadingLink>
-      </h2>
-      <p>
-        <strong>Application Shell 1 is the frame around your application.</strong> It gives people a
-        consistent place to navigate, understand where they are and reach their account controls,
-        while your pages occupy the main content area. It suits dashboards, workspaces and internal
-        tools that share navigation across several screens.
-      </p>
-    </header>
     <section aria-labelledby="application-shell-structure">
-      <h3 id="application-shell-structure" tabIndex={-1}>
-        <ShellHeadingLink id="application-shell-structure">
-          Structure and composition
-        </ShellHeadingLink>
-      </h3>
+      <BlockGuideHeading id="application-shell-structure" />
       <p>
         The layout has three parts: a sidebar, a compact header and a flexible content area.{" "}
         <strong>The sidebar keeps context in view</strong> with a brand at the top, grouped links in
@@ -47,11 +43,7 @@ export const ShellExplanation = () => (
       </p>
     </section>
     <section aria-labelledby="application-shell-navigation">
-      <h3 id="application-shell-navigation" tabIndex={-1}>
-        <ShellHeadingLink id="application-shell-navigation">
-          Navigation and routing
-        </ShellHeadingLink>
-      </h3>
+      <BlockGuideHeading id="application-shell-navigation" />
       <p>
         Navigation is driven by <code>navigationGroups</code>, displayed in the order you supply.
         Each group has a stable ID, an optional heading and its items. An item can be a direct link
@@ -77,11 +69,7 @@ export const ShellExplanation = () => (
       </p>
     </section>
     <section aria-labelledby="application-shell-responsive">
-      <h3 id="application-shell-responsive" tabIndex={-1}>
-        <ShellHeadingLink id="application-shell-responsive">
-          Responsive behavior and state
-        </ShellHeadingLink>
-      </h3>
+      <BlockGuideHeading id="application-shell-responsive" />
       <p>
         At desktop widths, the sidebar starts expanded and can collapse to an icon rail. Direct
         links keep accessible names and tooltips; branches open dropdowns that expose their parent
@@ -104,11 +92,7 @@ export const ShellExplanation = () => (
       </p>
     </section>
     <section aria-labelledby="application-shell-account">
-      <h3 id="application-shell-account" tabIndex={-1}>
-        <ShellHeadingLink id="application-shell-account">
-          Account menu and page content
-        </ShellHeadingLink>
-      </h3>
+      <BlockGuideHeading id="application-shell-account" />
       <p>
         The footer displays the user's name, email and optional avatar. When an image is
         unavailable, it shows initials from the first two words of the name, or the initials you
@@ -127,11 +111,7 @@ export const ShellExplanation = () => (
       </div>
     </section>
     <section aria-labelledby="application-shell-accessibility">
-      <h3 id="application-shell-accessibility" tabIndex={-1}>
-        <ShellHeadingLink id="application-shell-accessibility">
-          Accessibility and styling
-        </ShellHeadingLink>
-      </h3>
+      <BlockGuideHeading id="application-shell-accessibility" />
       <p>
         Navigation controls retain accessible labels in icon mode, current links expose{" "}
         <code>aria-current</code>, and disclosure buttons report whether their content is expanded.
@@ -150,9 +130,7 @@ export const ShellExplanation = () => (
       </p>
     </section>
     <section aria-labelledby="application-shell-demo">
-      <h3 id="application-shell-demo" tabIndex={-1}>
-        <ShellHeadingLink id="application-shell-demo">Making it your own</ShellHeadingLink>
-      </h3>
+      <BlockGuideHeading id="application-shell-demo" />
       <p>
         Start by replacing the brand, navigation groups, user data and breadcrumbs. Keep group and
         item IDs stable, supply real destination URLs and connect the callbacks your app needs. Use{" "}
@@ -171,35 +149,33 @@ export const ShellExplanation = () => (
         both a narrow screen and a desktop, using the keyboard as well as the pointer.
       </p>
     </section>
-  </section>
+  </BlockDocSection>
 );
 
 /** Credits the source design in a standalone section with adaptation and setup guidance. */
 export const ShellDesignReference = () => (
-  <section
-    class="blocks-doc-section blocks-doc-reference"
-    aria-labelledby="application-shell-reference"
+  <BlockDocSection
+    id="application-shell-reference"
+    className="blocks-doc-reference"
+    introduction={
+      <>
+        <p>
+          The original Shadcnblocks layout brings grouped navigation, a breadcrumb header and an
+          account menu into one application frame. Use it to compare the placement of controls and
+          the balance between navigation and page content. When adapting the Kamod version, start
+          with your own navigation hierarchy and route names, then use the{" "}
+          <a class="underline" href="#application-shell-navigation-data">
+            typed navigation example
+          </a>{" "}
+          and callback reference above to connect destinations and account actions to your app.
+        </p>
+      </>
+    }
   >
-    <header class="blocks-doc-section-header">
-      <p class="blocks-doc-eyebrow">Design inspiration</p>
-      <h2 id="application-shell-reference" tabIndex={-1}>
-        <ShellHeadingLink id="application-shell-reference">Design reference</ShellHeadingLink>
-      </h2>
-      <p>
-        The original Shadcnblocks layout brings grouped navigation, a breadcrumb header and an
-        account menu into one application frame. Use it to compare the placement of controls and the
-        balance between navigation and page content. When adapting the Kamod version, start with
-        your own navigation hierarchy and route names, then use the{" "}
-        <a class="underline" href="#application-shell-navigation-data">
-          typed navigation example
-        </a>{" "}
-        and callback reference above to connect destinations and account actions to your app.
-      </p>
-    </header>
     <div class="blocks-doc-attribution">
       <div class="blocks-doc-attribution-header">
         <p class="blocks-doc-attribution-title">
-          <ShellHeadingLink id="application-shell-reference">Attribution:</ShellHeadingLink>{" "}
+          <BlockHeadingLink id="application-shell-reference">Attribution:</BlockHeadingLink>{" "}
           <a
             class="blocks-doc-attribution-source"
             href="https://www.shadcnblocks.com/block/application-shell1"
@@ -237,5 +213,5 @@ export const ShellDesignReference = () => (
       </a>{" "}
       above.
     </p>
-  </section>
+  </BlockDocSection>
 );

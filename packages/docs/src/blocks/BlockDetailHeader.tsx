@@ -5,11 +5,11 @@ import { Button } from "@kamod-ch/ui";
 import type { ComponentChildren } from "preact";
 import { withBasePath } from "../base-path";
 import { BlockDetailDescription } from "./BlockDetailDescription";
+import { BlockHeadingLink } from "./BlockHeadingLink";
 import { BlockPageHeader } from "./BlockPageHeader";
 import { type BlockCategory, type BlockOverviewEntry, blockCategories } from "./block-categories";
 import { blockIssueUrl, blockSourceUrl } from "./block-links";
 import { getBlockOverviewDetails } from "./block-overview-details";
-import { ShellHeadingLink } from "./ShellHeadingLink";
 
 export type BlockDetailHeaderProps = {
   category: BlockCategory;
@@ -37,7 +37,7 @@ export function BlockDetailHeader({
       variant={block.title}
       className={`blocks-variant-header ${className}`}
       id={`${block.id}-overview`}
-      title={<ShellHeadingLink id="top">{title ?? displayName}</ShellHeadingLink>}
+      title={<BlockHeadingLink id="top">{title ?? displayName}</BlockHeadingLink>}
       badge={category === "login" || category === "signup" ? "Form block" : "Layout block"}
       description={description ?? <BlockDetailDescription category={category} block={block} />}
       descriptionLink={descriptionLink}
