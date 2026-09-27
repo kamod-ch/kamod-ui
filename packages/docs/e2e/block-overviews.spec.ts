@@ -262,9 +262,6 @@ test("preview theme guidance wraps fully and supports activation and dismissal",
         "href",
         "https://github.com/kamod-ch/kamod-ui/blob/main/packages/docs/scripts/BLOCK-PREVIEW-IMAGES.md",
       );
-      await expect(
-        popover.getByRole("list", { name: "On the detail page" }).getByRole("listitem"),
-      ).toHaveText(["Live demo", "Themes", "Screen sizes"]);
       const bounds = (await popover.boundingBox())!;
       expect(bounds.x).toBeGreaterThanOrEqual(0);
       expect(bounds.y).toBeGreaterThanOrEqual(0);

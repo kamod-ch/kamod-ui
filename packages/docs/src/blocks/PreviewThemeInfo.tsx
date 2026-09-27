@@ -1,11 +1,5 @@
 /** Compact snapshot guidance with viewport-aware positioning and core dismissal behavior. */
-import {
-  ArrowUpRightIcon,
-  InfoIcon,
-  MonitorSmartphoneIcon,
-  MousePointer2Icon,
-  PaletteIcon,
-} from "@kamod-ch/icons/lucide";
+import { ArrowUpRightIcon, InfoIcon } from "@kamod-ch/icons/lucide";
 import {
   Badge,
   Button,
@@ -78,21 +72,6 @@ function PreviewGuideBody({ id }: { id: string }) {
         </a>{" "}
         keep collections quick to browse without loading every live demo.
       </PopoverDescription>
-      <div class="blocks-preview-theme-info-features">
-        <span id={`${id}-features`}>On the detail page</span>
-        <ul aria-labelledby={`${id}-features`}>
-          {[
-            { icon: MousePointer2Icon, label: "Live demo" },
-            { icon: PaletteIcon, label: "Themes" },
-            { icon: MonitorSmartphoneIcon, label: "Screen sizes" },
-          ].map(({ icon: Icon, label }) => (
-            <li key={label}>
-              <Icon size={14} strokeWidth={1.5} aria-hidden="true" />
-              <span>{label}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
       <PopoverDescription class="blocks-preview-theme-info-hint">
         Screenshots show the layout. Open any block to try the real interactions.
       </PopoverDescription>
