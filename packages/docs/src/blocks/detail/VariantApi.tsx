@@ -25,7 +25,7 @@ export function VariantApi({ guide }: { guide: VariantGuide }) {
           <p>
             <code>{component}</code> is a ready-made demonstration page with no public props. The
             reference below describes the{" "}
-            <strong>local {category === "sidebar" ? "layout helpers" : "form"}</strong> you can
+            <strong>local {category === "sidebar" ? "helpers and data" : "form"}</strong> you can
             configure after copying the source. Definitions come directly from the implementation;
             descriptions explain where your application takes over.
           </p>
@@ -47,8 +47,9 @@ export function VariantApi({ guide }: { guide: VariantGuide }) {
         <div role="paragraph">
           Each field includes its type and integration behavior. The asterisk{" "}
           <RequiredIndicator label="Required field indicator" tooltip="Required field" /> marks
-          required data fields; the form and layout-helper props themselves are optional. The
-          definitions retain the actual source’s optional markers and callback return types.
+          required fields. Navigation helpers require their data; omitted optional fields use the
+          defaults described below. The definitions retain the actual source’s optional markers and
+          callback return types.
         </div>
         <BlockPropsTable
           labelledBy={anchor("prop-reference")}
@@ -72,10 +73,10 @@ export function VariantApi({ guide }: { guide: VariantGuide }) {
         />
         {category === "sidebar" && (
           <p class="blocks-doc-note">
-            <code>AppSidebarProps</code> also inherits the core <code>SidebarProps</code>. In
-            particular, <code>side</code> chooses left or right, <code>variant</code> controls the
-            surface, and <code>collapsible</code> chooses offcanvas, icon or none. The local helper
-            defaults to offcanvas. These are helper props, not props on the exported variant page.
+            Configure the core <code>Sidebar</code> directly in your copied page:
+            <code>side</code> chooses left or right, <code>variant</code> controls the surface, and{" "}
+            <code>collapsible</code> chooses offcanvas, icon or none. The references here list only
+            types included in this variant’s download.
           </p>
         )}
       </section>

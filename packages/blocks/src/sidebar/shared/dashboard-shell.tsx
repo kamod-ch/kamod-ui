@@ -12,7 +12,12 @@ import {
 } from "@kamod-ch/ui";
 import type { ComponentChildren } from "preact";
 import { Fragment } from "preact";
-import type { BreadcrumbItem as BreadcrumbConfig, SidebarBlockLayout } from "../sidebar-data";
+/** One breadcrumb; place the current page last. */
+export type BreadcrumbConfig = {
+  label: string;
+  href?: string;
+  hiddenOnMobile?: boolean;
+};
 
 export type DashboardShellProps = {
   children?: ComponentChildren;
@@ -23,9 +28,11 @@ export type DashboardShellProps = {
   contentClass?: string;
   triggerClass?: string;
   headerInner?: boolean;
+  /** Classes for the optional inner header row; defaults to horizontal padding of 0.75rem. */
+  headerInnerClass?: string;
   stickyHeader?: boolean;
   showHeader?: boolean;
-  placeholder?: SidebarBlockLayout["placeholder"];
+  placeholder?: "grid" | "list" | "squares" | "centered";
   contentPaddingTop?: boolean;
 };
 
@@ -137,6 +144,7 @@ export const DashboardShell = ({
   contentClass,
   triggerClass = "-ml-1",
   headerInner = false,
+  headerInnerClass = "px-3",
   stickyHeader = false,
   showHeader = true,
   placeholder = "grid",
@@ -159,7 +167,7 @@ export const DashboardShell = ({
       {showHeader ? (
         <header class={cn(headerClass, stickyHeader && "sticky top-0 z-10 bg-background")}>
           {headerInner ? (
-            <div class="flex items-center gap-2 px-3">{headerContent}</div>
+            <div class={cn("flex items-center gap-2", headerInnerClass)}>{headerContent}</div>
           ) : (
             headerContent
           )}

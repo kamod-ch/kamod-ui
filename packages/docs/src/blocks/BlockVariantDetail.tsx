@@ -30,7 +30,16 @@ export function BlockVariantDetail<Id extends string>({
     >
       {block ? (
         <>
-          <BlockShowcase key={block.id} block={block} loadSource={loadFile} headingLevel="h2" />
+          <BlockShowcase
+            key={block.id}
+            block={
+              category === "sidebar"
+                ? { ...block, installCommand: `src/components/blocks/${block.id}` }
+                : block
+            }
+            loadSource={loadFile}
+            headingLevel="h2"
+          />
           <VariantDocumentation key={block.id} block={block} category={category} />
         </>
       ) : (

@@ -1,4 +1,10 @@
-import { LifeBuoyIcon, SendIcon } from "@kamod-ch/icons/lucide";
+import type { ComponentType } from "preact";
+export type SecondaryItem = {
+  title: string;
+  url: string;
+  icon: ComponentType;
+};
+
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -6,18 +12,13 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@kamod-ch/ui";
-import { stopNavigation } from "./sample-data";
+import { stopNavigation } from "./navigation";
 
-const secondaryItems = [
-  { title: "Support", url: "#", icon: LifeBuoyIcon },
-  { title: "Feedback", url: "#", icon: SendIcon },
-];
-
-export const NavSecondary = () => (
+export const NavSecondary = ({ items }: NavSecondaryProps) => (
   <SidebarGroup class="mt-auto">
     <SidebarGroupContent>
       <SidebarMenu>
-        {secondaryItems.map((item) => (
+        {items.map((item) => (
           <SidebarMenuItem key={item.title}>
             <SidebarMenuButton asChild size="sm">
               <a href={item.url} onClick={stopNavigation}>
@@ -31,3 +32,8 @@ export const NavSecondary = () => (
     </SidebarGroupContent>
   </SidebarGroup>
 );
+
+/** Inputs supplied by the containing page; demo fixtures are kept separately. */
+export type NavSecondaryProps = {
+  items: SecondaryItem[];
+};

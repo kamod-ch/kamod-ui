@@ -1,9 +1,15 @@
 /** Small source-backed reference for the copied helpers, not props on the zero-prop page wrappers. */
 
 import authSource from "../../../../blocks/src/auth/shared/auth-utils.ts?raw";
-import appSidebarSource from "../../../../blocks/src/sidebar/shared/app-sidebar.tsx?raw";
-import dashboardSource from "../../../../blocks/src/sidebar/shared/dashboard-shell.tsx?raw";
-import sidebarSource from "../../../../blocks/src/sidebar/sidebar-data.ts?raw";
+import { sidebarBlockMetadata } from "../../../../blocks/src/sidebar/metadata";
+
+const sidebarSources = import.meta.glob<string>(
+  [
+    "../../../../blocks/src/sidebar/shared/*.{ts,tsx}",
+    "../../../../blocks/src/sidebar/data/*.{ts,tsx}",
+  ],
+  { query: "?raw", import: "default", eager: true },
+);
 
 const forms = import.meta.glob<string>(
   [
@@ -32,25 +38,26 @@ function definition(source: string, name: string): string {
 }
 
 const descriptions: Record<string, string> = {
-  id: "Stable registered variant ID used to select this composition.",
-  title: "Registry title identifying the variant.",
-  description: "Short description of the layout.",
-  eyebrow: "Descriptive label in the variant configuration.",
-  features: "Feature tags describing the variant; tags do not enable behavior by themselves.",
-  layout: "Optional breadcrumb, header and placeholder configuration for the selected composition.",
-  floating: "Uses a floating sidebar surface in the standard composition.",
-  dropdowns: "Selects dropdown navigation in the standard composition.",
-  iconMode: "Enables the standard composition's desktop icon collapse.",
-  inset: "Selects the inset workspace composition.",
-  nested: "Selects the two-pane navigation composition.",
-  popover:
-    "Selects the favorites/action-menu composition; it does not wrap the sidebar in a Popover.",
-  fileTree: "Selects the expandable file-tree composition.",
-  calendar: "Selects the calendar navigation composition.",
-  dialog: "Selects the settings dialog composition.",
-  right: "Places the standard application sidebar on the right.",
-  dual: "Selects the application sidebar plus the right utility pane.",
-  submenus: "Shows always-expanded app submenus in the standard composition.",
+  title: "Visible navigation label. Keep names concise and distinguishable.",
+  url: "Destination URL. The demo uses # placeholders; replace these with application routes.",
+  isActive:
+    "Marks the current destination or initially opens its parent disclosure. Drive it from your router.",
+  icon: "Icon rendered beside the label; use a supported navigation icon key or the component type shown in the signature.",
+  items:
+    "Ordered destinations or nested links for this navigation helper. Supply your own data; helpers do not import demo fixtures.",
+  groups: "Ordered documentation groups with titles and destination links.",
+  teams:
+    "Available workspaces. The first is initially selected; choosing one updates local display state only.",
+  team: "Workspace details shown by the local switcher.",
+  user: "Display details for the user area. This presentation does not implement account actions or authentication.",
+  projects: "Project destinations and their icons, shown below the primary navigation.",
+  logo: "Brand mark or short fallback text. The demo uses kamod for the included brand icon.",
+  plan: "Secondary workspace label, such as a subscription tier.",
+  avatar: "Short fallback text displayed inside the user avatar frame.",
+  collapsible:
+    "Use disclosure controls for submenus. Defaults to true; false keeps child links expanded.",
+  collapsibleSections:
+    "Allow each documentation group to collapse. Defaults to false; groups with active items start open.",
   onSubmit:
     "Awaited after local validation. Connect your service here; demo delays and success/error messages still need replacing.",
   onSocialLogin:
@@ -68,7 +75,7 @@ const descriptions: Record<string, string> = {
   email: "Email entered by the user. The demo checks its shape; verify it through your service.",
   password:
     "Password entered by the user. The demo requires at least eight characters; never log this value.",
-  name: "Display name entered by the user. Signup requires at least two non-whitespace characters.",
+  name: "Visible name. Replace demo workspace, user or project names with your application data.",
   label: "Visible breadcrumb label; the final breadcrumb represents the current page.",
   href: "Optional destination URL for a breadcrumb link.",
   hiddenOnMobile: "Hides this intermediate breadcrumb below 768px; keep the current page visible.",
@@ -83,21 +90,14 @@ const descriptions: Record<string, string> = {
   contentClass:
     "Additional classes for placeholder content only. When children is supplied, style that content directly.",
   triggerClass: "Classes for the sidebar toggle. Replaces the default -ml-1 margin.",
+  headerInnerClass:
+    "Classes added to the optional inner header row. Defaults to px-3; used only when headerInner is true.",
   headerInner: "Wraps the header controls in an inner padded row. Defaults to false.",
   stickyHeader: "Keeps the breadcrumb header at the top while scrolling. Defaults to false.",
   showHeader: "Renders the breadcrumb header and sidebar toggle. Defaults to true.",
   placeholder:
     "Placeholder arrangement used only when children is omitted: grid, list, squares or centered. Defaults to grid.",
   contentPaddingTop: "Includes top padding on placeholder content. Defaults to true.",
-  mode: "Selects docs, app, submenus or dropdowns navigation. Defaults to docs.",
-  collapsibleSections:
-    "Makes documentation navigation groups independently collapsible. Defaults to false.",
-  collapsibleSubmenus: "Adds disclosure triggers in submenu mode. Defaults to false.",
-  showSearchForm:
-    "Adds search in submenu mode; documentation mode always includes it. Defaults to false. Connect a search implementation yourself.",
-  showOptInForm:
-    "Shows the sample newsletter card in dropdown mode. Defaults to false; it has no subscription backend.",
-  showSecondaryNav: "Adds sample utility navigation in app mode. Defaults to false.",
 };
 
 function reference(source: string, name: string, title: string, description: string): GuideType {
@@ -126,39 +126,25 @@ function reference(source: string, name: string, title: string, description: str
 
 /** Each form's own signature is read, so email-only login and social signup cannot drift silently. */
 export function getVariantApi(category: "sidebar" | "login" | "signup", id: string): GuideType[] {
-  if (category === "sidebar")
-    return [
-      reference(
-        dashboardSource,
-        "DashboardShellProps",
-        "Page content and breadcrumbs",
-        "Local layout helper used by the sidebar compositions. All props are optional; pass children to replace the demo panels.",
-      ),
-      reference(
-        appSidebarSource,
-        "AppSidebarProps",
-        "Navigation composition",
-        "Local sidebar helper. Extends the core SidebarProps, forwarding side, variant, collapsible and other sidebar attributes.",
-      ),
-      reference(
-        sidebarSource,
-        "SidebarBlockVariant",
-        "Variant configuration",
-        "Configuration selected by the zero-prop page. Specialized layout flags select distinct compositions; they are not arbitrary mix-and-match options. Pass a variant to the local SidebarBlockShell helper.",
-      ),
-      reference(
-        sidebarSource,
-        "SidebarBlockLayout",
-        "Header and placeholder options",
-        "Optional layout settings consumed by sidebar compositions. Each variant may supply its own defaults in sidebar-data.ts.",
-      ),
-      reference(
-        sidebarSource,
-        "BreadcrumbItem",
-        "Breadcrumb data",
-        "An ordered destination within the header; only label is required.",
-      ),
-    ];
+  if (category === "sidebar") {
+    const files = sidebarBlockMetadata.find((block) => block.id === id)?.files;
+    if (!files) throw new Error(`Unknown sidebar: ${id}`);
+    return files.flatMap((file) => {
+      const source = sidebarSources[`../../../../blocks/${file.path}`];
+      if (!source) return [];
+      return [...source.matchAll(/^export type (\w+) =/gm)].map((match) => {
+        const name = match[1];
+        return reference(
+          source,
+          name,
+          name.replace(/([a-z])([A-Z])/g, "$1 $2"),
+          name.endsWith("Props")
+            ? `Local helper inputs from ${file.label}. These configure the helper inside the copied page, not the exported variant itself.`
+            : `Data shape from ${file.label}. Supply real application values using the required and optional fields below.`,
+        );
+      });
+    });
+  }
   const source = forms[`../../../../blocks/src/${category}/${id}/${category}-form.tsx`];
   if (!source) throw new Error(`Missing form source: ${id}`);
   const signup = category === "signup";

@@ -24,10 +24,15 @@ export function VariantBehavior({ guide }: { guide: VariantGuide }) {
     >
       {sidebar ? (
         <p class="blocks-doc-note">
-          Change this composition in <code>SidebarBlockShell.tsx</code> and its configuration in{" "}
-          <code>sidebar-data.ts</code>. The special layout is selected by the variant configuration;
-          adding an unrelated flag does not automatically combine two different sidebar
-          compositions.
+          Edit <code>{block.id}.tsx</code> for layout and <code>data/</code> for example content.
+          {guide.files.some((file) => file.label.startsWith("components/")) && (
+            <>
+              {" "}
+              Reusable interactions live in <code>components/</code>.
+            </>
+          )}{" "}
+          Each variant is an explicit composition; there is no configuration switch or dependency on
+          another variant.
         </p>
       ) : (
         <>
@@ -121,20 +126,20 @@ export function VariantAbout({ guide }: { guide: VariantGuide }) {
         <p>
           {isSidebar ? (
             <>
-              The variant component selects a <code>SidebarBlockVariant</code> from{" "}
-              <code>sidebar-data.ts</code> and passes it to <code>SidebarBlockShell</code>. Shared
-              navigation and <code>DashboardShell</code> provide the common parts; specialized
-              calendar, file-tree, dialog and dual-pane compositions are defined in that renderer.
-              Replace sample data first, then change the relevant composition rather than
-              duplicating all variants.
+              The entrypoint <code>index.ts</code> exports this variant’s component. Its page file
+              composes core Kamod primitives directly, with focused local helpers where needed. Demo
+              data stays in
+              <code>data/</code>; shared brand artwork, when used, lives in <code>branding/</code>.
+              The download is generated from the implementation, with rewritten relative imports.
+              Its file tree and the Code tab describe that same installation folder.
             </>
           ) : (
             <>
               The copied <code>page.tsx</code> owns centering, background, branding and any cover
               image. Its sibling <code>{category}-form.tsx</code> owns the form. Shared helpers in{" "}
-              <code>auth/shared</code> supply validation utilities, provider artwork and optional
-              brand assets. You can reuse the form inside another page without copying the original
-              page layout.
+              <code>auth/shared</code> supply validation and provider artwork; optional branding
+              lives separately in <code>shared/branding</code>. You can reuse the form inside
+              another page without copying the original page layout.
             </>
           )}
         </p>

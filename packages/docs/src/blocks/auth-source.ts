@@ -9,6 +9,7 @@ const sources = import.meta.glob<string>(
     "../../../blocks/src/login/*/{page,login-form}.tsx",
     "../../../blocks/src/signup/*/{page,signup-form}.tsx",
     "../../../blocks/src/auth/shared/*.{ts,tsx,svg}",
+    "../../../blocks/src/shared/branding/*.{ts,tsx,svg}",
   ],
   { query: "?raw", import: "default", eager: true },
 );

@@ -4,6 +4,7 @@ import { CodeBlock } from "../../docs/components/CodeBlock";
 import { getBlockOverviewDetails } from "../block-overview-details";
 import { BlockDocSection, BlockGuideHeading } from "./BlockDocumentation";
 import { DependencyCommands } from "./DependencyCommands";
+import { SidebarInstallation } from "./SidebarInstallation";
 import type { VariantGuide } from "./VariantDocumentation";
 import { integrationExample, variantImport } from "./variant-examples";
 
@@ -16,41 +17,36 @@ export function VariantSetup({ guide }: { guide: VariantGuide }) {
       id={anchor("installation")}
       introduction={
         <p>
-          Copy this variant into your Preact project, install the dependencies you are missing and
-          connect your own {sidebar ? "navigation and page content" : "authentication service"}. The
-          source stays local, so you can change its layout without introducing another application
-          framework.
+          {sidebar ? "Download" : "Copy"} this variant into your Preact project, install the
+          dependencies you are missing and connect your own{" "}
+          {sidebar ? "navigation and page content" : "authentication service"}. The source stays
+          local, so you can change its layout without introducing another application framework.
         </p>
       }
     >
       <ol class="blocks-doc-steps" role="list">
         <li>
           <BlockGuideHeading id={anchor("copy")} />
-          <p>
-            Open the showcase’s <strong>Code</strong> tab and copy the files below. Use these source
-            paths relative to <code>src/components/blocks</code>, keeping the folder structure so
-            the existing relative imports resolve. The Code tab’s labels are display names; they are
-            not replacement import paths.
-          </p>
-          <CodeBlock
-            code={files.map((file) => file.path.replace(/^src\//, "")).join("\n")}
-            language="text"
-          />
-          <p class="blocks-doc-note">
-            {sidebar ? (
-              <>
-                The page selects its configuration from <code>sidebar-data.ts</code>. Its shared
-                renderer imports the other sidebar compositions too, so keep the listed support
-                files together even when copying a single variant.
-              </>
-            ) : (
-              <>
-                The form imports shared validation and provider helpers. Branded and illustrated
-                layouts also need their listed SVGs and URL helpers. Keep the <code>?url</code>{" "}
-                asset imports in a Vite app, or adapt them to your bundler’s asset handling.
-              </>
-            )}
-          </p>
+          {sidebar ? (
+            <SidebarInstallation guide={guide} />
+          ) : (
+            <>
+              <p>
+                Open the showcase’s <strong>Code</strong> tab and copy the files below relative to{" "}
+                <code>src/components/blocks</code>. Keep the source folder structure so relative
+                imports resolve.
+              </p>
+              <CodeBlock
+                code={files.map((file) => file.path.replace(/^src\//, "")).join("\n")}
+                language="text"
+              />
+              <p class="blocks-doc-note">
+                Forms use shared validation and provider helpers. Branded and illustrated layouts
+                also need their listed SVGs and URL helpers. Keep <code>?url</code> imports in a
+                Vite app, or adapt them to your bundler.
+              </p>
+            </>
+          )}
         </li>
         <li>
           <BlockGuideHeading id={anchor("dependencies")} />
@@ -71,7 +67,7 @@ export function VariantSetup({ guide }: { guide: VariantGuide }) {
             . Import your global stylesheet and make sure Tailwind scans the copied source and Kamod
             components. Keep your existing setup if the app already uses Kamod.
           </p>
-          <CodeBlock code={variantImport(guide)} language="tsx" />
+          {!sidebar && <CodeBlock code={variantImport(guide)} language="tsx" />}
           <p class="blocks-doc-note">
             The <code>{block.installCommand}</code> path identifies source in this repository; the
             blocks package is private. Use the local import above rather than trying to install that
@@ -103,10 +99,10 @@ export function VariantUsage({ guide }: { guide: VariantGuide }) {
       <p>
         {category === "sidebar" ? (
           <>
-            This minimal composition illustrates the shared helpers, rather than reproducing every
-            specialized part of this variant. To retain the exact preview layout, replace the
-            placeholder content in its selected composition inside{" "}
-            <code>SidebarBlockShell.tsx</code>.
+            Your copied <code>{guide.block.id}.tsx</code> contains the complete composition. Replace
+            its placeholder content and edit the supplied demo data first. The example below shows
+            one integration point in this variant; keep the remaining composition around it to
+            preserve the preview layout.
           </>
         ) : (
           <>
@@ -120,10 +116,10 @@ export function VariantUsage({ guide }: { guide: VariantGuide }) {
       <p class="blocks-doc-note">
         {category === "sidebar" ? (
           <>
-            Keep the sidebar and its trigger inside the same <code>SidebarProvider</code>.{" "}
-            <code>DashboardShell</code> renders the page’s main landmark; avoid nesting another{" "}
-            <code>main</code> inside it. Replace sample links and their click handlers before
-            connecting your router.
+            Keep the sidebar and its trigger inside the same <code>SidebarProvider</code>. Preserve
+            the existing main landmark instead of nesting another <code>main</code>. Placeholder{" "}
+            <code>#</code> links stay inert; real URLs navigate normally. Set current-page styling
+            from your router and connect search, form and action controls separately.
           </>
         ) : (
           <>

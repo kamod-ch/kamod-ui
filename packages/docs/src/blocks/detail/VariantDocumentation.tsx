@@ -71,7 +71,7 @@ export function VariantDocumentation({
         eyebrow: "API reference",
         Content: () => <VariantApi guide={guide} />,
         children: [
-          heading("prop-reference", category === "sidebar" ? "Local layout props" : "Form props"),
+          heading("prop-reference", category === "sidebar" ? "Local props and data" : "Form props"),
           heading("data-types", "Data type reference"),
         ],
       },

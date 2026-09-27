@@ -22,7 +22,8 @@
     "format": "oxfmt .",
     "format:check": "oxfmt --check .",
     "qa:themes": "node ./scripts/theme-regression-check.mjs",
-    "blocks:thumbnails": "node scripts/generate-block-thumbnails.mjs"
+    "blocks:thumbnails": "node scripts/generate-block-thumbnails.mjs",
+    "blocks:downloads": "node scripts/lib/sidebar-downloads.mjs"
   },
   "dependencies": {
     "@blobatar/preact": "^2.7.0",
@@ -61,6 +62,7 @@
     "@testing-library/preact": "^3.2.4",
     "@types/prismjs": "^1.26.6",
     "axe-core": "^4.13.0",
+    "fflate": "0.8.3",
     "jsdom": "^30.0.1",
     "preact-render-to-string": "^6.7.0",
     "tailwindcss": "^4.3.3",

@@ -14,13 +14,13 @@ export function authSupportFiles(id: string): BlockFile[] {
   }
   if (id.endsWith("-02") || id.endsWith("-04")) files.push("auth-cover-url.ts", "auth-cover.svg");
   return files.map((file) => ({
-    path: `src/auth/shared/${file}`,
+    path: `src/${file.startsWith("kamod-") ? "shared/branding" : "auth/shared"}/${file}`,
     label:
       file === "auth-utils.ts"
         ? "lib/auth-utils.ts"
         : file === "auth-cover.svg"
           ? "assets/auth-cover.svg"
-          : `auth/shared/${file}`,
+          : `${file.startsWith("kamod-") ? "shared/branding" : "auth/shared"}/${file}`,
     kind: file.endsWith(".svg") ? "asset" : "support",
   }));
 }

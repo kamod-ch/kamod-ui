@@ -1,0 +1,1104 @@
+{
+  "sidebar-01": [
+    {
+      "path": "src/sidebar/sidebar-01/sidebar-01.tsx",
+      "label": "sidebar-01.tsx",
+      "kind": "page"
+    },
+    {
+      "path": "src/sidebar/sidebar-01/index.ts",
+      "label": "index.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/shared/branding/kamod-brand-sizes.ts",
+      "label": "branding/kamod-brand-sizes.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/shared/branding/kamod-icon-frame.tsx",
+      "label": "branding/kamod-icon-frame.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/shared/branding/kamod-icon.tsx",
+      "label": "branding/kamod-icon.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/dashboard-shell.tsx",
+      "label": "components/dashboard-shell.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/nav-docs.tsx",
+      "label": "components/nav-docs.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/navigation.ts",
+      "label": "components/navigation.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/search-form.tsx",
+      "label": "components/search-form.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/version-switcher.tsx",
+      "label": "components/version-switcher.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/data/docs-data.ts",
+      "label": "data/docs-data.ts",
+      "kind": "support"
+    },
+    {
+      "path": "../../LICENSE.md",
+      "label": "LICENSE.md",
+      "kind": "support"
+    }
+  ],
+  "sidebar-02": [
+    {
+      "path": "src/sidebar/sidebar-02/sidebar-02.tsx",
+      "label": "sidebar-02.tsx",
+      "kind": "page"
+    },
+    {
+      "path": "src/sidebar/sidebar-02/index.ts",
+      "label": "index.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/shared/branding/kamod-brand-sizes.ts",
+      "label": "branding/kamod-brand-sizes.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/shared/branding/kamod-icon-frame.tsx",
+      "label": "branding/kamod-icon-frame.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/shared/branding/kamod-icon.tsx",
+      "label": "branding/kamod-icon.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/dashboard-shell.tsx",
+      "label": "components/dashboard-shell.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/nav-docs.tsx",
+      "label": "components/nav-docs.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/navigation.ts",
+      "label": "components/navigation.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/search-form.tsx",
+      "label": "components/search-form.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/version-switcher.tsx",
+      "label": "components/version-switcher.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/data/docs-data.ts",
+      "label": "data/docs-data.ts",
+      "kind": "support"
+    },
+    {
+      "path": "../../LICENSE.md",
+      "label": "LICENSE.md",
+      "kind": "support"
+    }
+  ],
+  "sidebar-03": [
+    {
+      "path": "src/sidebar/sidebar-03/sidebar-03.tsx",
+      "label": "sidebar-03.tsx",
+      "kind": "page"
+    },
+    {
+      "path": "src/sidebar/sidebar-03/index.ts",
+      "label": "index.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/shared/branding/kamod-brand-sizes.ts",
+      "label": "branding/kamod-brand-sizes.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/shared/branding/kamod-icon-frame.tsx",
+      "label": "branding/kamod-icon-frame.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/shared/branding/kamod-icon.tsx",
+      "label": "branding/kamod-icon.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/dashboard-shell.tsx",
+      "label": "components/dashboard-shell.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/nav-main.tsx",
+      "label": "components/nav-main.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/navigation-icons.ts",
+      "label": "components/navigation-icons.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/navigation-types.ts",
+      "label": "components/navigation-types.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/navigation.ts",
+      "label": "components/navigation.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/team-switcher.tsx",
+      "label": "components/team-switcher.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/data/navigation-data.ts",
+      "label": "data/navigation-data.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/data/teams-data.ts",
+      "label": "data/teams-data.ts",
+      "kind": "support"
+    },
+    {
+      "path": "../../LICENSE.md",
+      "label": "LICENSE.md",
+      "kind": "support"
+    }
+  ],
+  "sidebar-04": [
+    {
+      "path": "src/sidebar/sidebar-04/sidebar-04.tsx",
+      "label": "sidebar-04.tsx",
+      "kind": "page"
+    },
+    {
+      "path": "src/sidebar/sidebar-04/index.ts",
+      "label": "index.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/shared/branding/kamod-brand-sizes.ts",
+      "label": "branding/kamod-brand-sizes.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/shared/branding/kamod-icon-frame.tsx",
+      "label": "branding/kamod-icon-frame.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/shared/branding/kamod-icon.tsx",
+      "label": "branding/kamod-icon.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/dashboard-shell.tsx",
+      "label": "components/dashboard-shell.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/nav-main.tsx",
+      "label": "components/nav-main.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/navigation-icons.ts",
+      "label": "components/navigation-icons.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/navigation-types.ts",
+      "label": "components/navigation-types.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/navigation.ts",
+      "label": "components/navigation.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/team-switcher.tsx",
+      "label": "components/team-switcher.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/data/navigation-data.ts",
+      "label": "data/navigation-data.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/data/teams-data.ts",
+      "label": "data/teams-data.ts",
+      "kind": "support"
+    },
+    {
+      "path": "../../LICENSE.md",
+      "label": "LICENSE.md",
+      "kind": "support"
+    }
+  ],
+  "sidebar-05": [
+    {
+      "path": "src/sidebar/sidebar-05/sidebar-05.tsx",
+      "label": "sidebar-05.tsx",
+      "kind": "page"
+    },
+    {
+      "path": "src/sidebar/sidebar-05/index.ts",
+      "label": "index.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/shared/branding/kamod-brand-sizes.ts",
+      "label": "branding/kamod-brand-sizes.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/shared/branding/kamod-icon-frame.tsx",
+      "label": "branding/kamod-icon-frame.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/shared/branding/kamod-icon.tsx",
+      "label": "branding/kamod-icon.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/dashboard-shell.tsx",
+      "label": "components/dashboard-shell.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/nav-main.tsx",
+      "label": "components/nav-main.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/navigation-icons.ts",
+      "label": "components/navigation-icons.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/navigation-types.ts",
+      "label": "components/navigation-types.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/navigation.ts",
+      "label": "components/navigation.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/search-form.tsx",
+      "label": "components/search-form.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/team-switcher.tsx",
+      "label": "components/team-switcher.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/data/navigation-data.ts",
+      "label": "data/navigation-data.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/data/teams-data.ts",
+      "label": "data/teams-data.ts",
+      "kind": "support"
+    },
+    {
+      "path": "../../LICENSE.md",
+      "label": "LICENSE.md",
+      "kind": "support"
+    }
+  ],
+  "sidebar-06": [
+    {
+      "path": "src/sidebar/sidebar-06/sidebar-06.tsx",
+      "label": "sidebar-06.tsx",
+      "kind": "page"
+    },
+    {
+      "path": "src/sidebar/sidebar-06/index.ts",
+      "label": "index.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/shared/branding/kamod-brand-sizes.ts",
+      "label": "branding/kamod-brand-sizes.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/shared/branding/kamod-icon-frame.tsx",
+      "label": "branding/kamod-icon-frame.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/shared/branding/kamod-icon.tsx",
+      "label": "branding/kamod-icon.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/dashboard-shell.tsx",
+      "label": "components/dashboard-shell.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/nav-main-dropdowns.tsx",
+      "label": "components/nav-main-dropdowns.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/navigation-icons.ts",
+      "label": "components/navigation-icons.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/navigation-types.ts",
+      "label": "components/navigation-types.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/navigation.ts",
+      "label": "components/navigation.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/sidebar-opt-in-form.tsx",
+      "label": "components/sidebar-opt-in-form.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/team-switcher.tsx",
+      "label": "components/team-switcher.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/data/navigation-data.ts",
+      "label": "data/navigation-data.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/data/teams-data.ts",
+      "label": "data/teams-data.ts",
+      "kind": "support"
+    },
+    {
+      "path": "../../LICENSE.md",
+      "label": "LICENSE.md",
+      "kind": "support"
+    }
+  ],
+  "sidebar-07": [
+    {
+      "path": "src/sidebar/sidebar-07/sidebar-07.tsx",
+      "label": "sidebar-07.tsx",
+      "kind": "page"
+    },
+    {
+      "path": "src/sidebar/sidebar-07/index.ts",
+      "label": "index.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/shared/branding/kamod-brand-sizes.ts",
+      "label": "branding/kamod-brand-sizes.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/shared/branding/kamod-icon-frame.tsx",
+      "label": "branding/kamod-icon-frame.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/shared/branding/kamod-icon.tsx",
+      "label": "branding/kamod-icon.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/dashboard-shell.tsx",
+      "label": "components/dashboard-shell.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/nav-main.tsx",
+      "label": "components/nav-main.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/nav-projects.tsx",
+      "label": "components/nav-projects.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/nav-user.tsx",
+      "label": "components/nav-user.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/navigation-icons.ts",
+      "label": "components/navigation-icons.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/navigation-types.ts",
+      "label": "components/navigation-types.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/navigation.ts",
+      "label": "components/navigation.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/team-switcher.tsx",
+      "label": "components/team-switcher.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/data/navigation-data.ts",
+      "label": "data/navigation-data.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/data/projects-data.ts",
+      "label": "data/projects-data.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/data/teams-data.ts",
+      "label": "data/teams-data.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/data/user-data.ts",
+      "label": "data/user-data.ts",
+      "kind": "support"
+    },
+    {
+      "path": "../../LICENSE.md",
+      "label": "LICENSE.md",
+      "kind": "support"
+    }
+  ],
+  "sidebar-08": [
+    {
+      "path": "src/sidebar/sidebar-08/sidebar-08.tsx",
+      "label": "sidebar-08.tsx",
+      "kind": "page"
+    },
+    {
+      "path": "src/sidebar/sidebar-08/index.ts",
+      "label": "index.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/shared/branding/kamod-brand-sizes.ts",
+      "label": "branding/kamod-brand-sizes.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/shared/branding/kamod-icon-frame.tsx",
+      "label": "branding/kamod-icon-frame.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/shared/branding/kamod-icon.tsx",
+      "label": "branding/kamod-icon.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/dashboard-shell.tsx",
+      "label": "components/dashboard-shell.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/nav-main.tsx",
+      "label": "components/nav-main.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/nav-projects.tsx",
+      "label": "components/nav-projects.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/nav-secondary.tsx",
+      "label": "components/nav-secondary.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/nav-user.tsx",
+      "label": "components/nav-user.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/navigation-icons.ts",
+      "label": "components/navigation-icons.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/navigation-types.ts",
+      "label": "components/navigation-types.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/navigation.ts",
+      "label": "components/navigation.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/team-switcher.tsx",
+      "label": "components/team-switcher.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/data/navigation-data.ts",
+      "label": "data/navigation-data.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/data/projects-data.ts",
+      "label": "data/projects-data.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/data/secondary-data.ts",
+      "label": "data/secondary-data.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/data/teams-data.ts",
+      "label": "data/teams-data.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/data/user-data.ts",
+      "label": "data/user-data.ts",
+      "kind": "support"
+    },
+    {
+      "path": "../../LICENSE.md",
+      "label": "LICENSE.md",
+      "kind": "support"
+    }
+  ],
+  "sidebar-09": [
+    {
+      "path": "src/sidebar/sidebar-09/sidebar-09.tsx",
+      "label": "sidebar-09.tsx",
+      "kind": "page"
+    },
+    {
+      "path": "src/sidebar/sidebar-09/index.ts",
+      "label": "index.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/shared/branding/kamod-brand-sizes.ts",
+      "label": "branding/kamod-brand-sizes.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/shared/branding/kamod-icon-frame.tsx",
+      "label": "branding/kamod-icon-frame.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/shared/branding/kamod-icon.tsx",
+      "label": "branding/kamod-icon.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/dashboard-shell.tsx",
+      "label": "components/dashboard-shell.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/nav-user.tsx",
+      "label": "components/nav-user.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/team-switcher.tsx",
+      "label": "components/team-switcher.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/data/inbox-data.ts",
+      "label": "data/inbox-data.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/data/teams-data.ts",
+      "label": "data/teams-data.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/data/user-data.ts",
+      "label": "data/user-data.ts",
+      "kind": "support"
+    },
+    {
+      "path": "../../LICENSE.md",
+      "label": "LICENSE.md",
+      "kind": "support"
+    }
+  ],
+  "sidebar-10": [
+    {
+      "path": "src/sidebar/sidebar-10/sidebar-10.tsx",
+      "label": "sidebar-10.tsx",
+      "kind": "page"
+    },
+    {
+      "path": "src/sidebar/sidebar-10/index.ts",
+      "label": "index.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/shared/branding/kamod-brand-sizes.ts",
+      "label": "branding/kamod-brand-sizes.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/shared/branding/kamod-icon-frame.tsx",
+      "label": "branding/kamod-icon-frame.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/shared/branding/kamod-icon.tsx",
+      "label": "branding/kamod-icon.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/nav-actions.tsx",
+      "label": "components/nav-actions.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/nav-favorites.tsx",
+      "label": "components/nav-favorites.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/nav-main.tsx",
+      "label": "components/nav-main.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/nav-secondary.tsx",
+      "label": "components/nav-secondary.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/navigation-icons.ts",
+      "label": "components/navigation-icons.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/navigation-types.ts",
+      "label": "components/navigation-types.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/navigation.ts",
+      "label": "components/navigation.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/team-switcher.tsx",
+      "label": "components/team-switcher.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/data/favorites-data.ts",
+      "label": "data/favorites-data.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/data/navigation-data.ts",
+      "label": "data/navigation-data.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/data/secondary-data.ts",
+      "label": "data/secondary-data.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/data/teams-data.ts",
+      "label": "data/teams-data.ts",
+      "kind": "support"
+    },
+    {
+      "path": "../../LICENSE.md",
+      "label": "LICENSE.md",
+      "kind": "support"
+    }
+  ],
+  "sidebar-11": [
+    {
+      "path": "src/sidebar/sidebar-11/sidebar-11.tsx",
+      "label": "sidebar-11.tsx",
+      "kind": "page"
+    },
+    {
+      "path": "src/sidebar/sidebar-11/index.ts",
+      "label": "index.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/dashboard-shell.tsx",
+      "label": "components/dashboard-shell.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/navigation.ts",
+      "label": "components/navigation.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/data/file-tree-data.ts",
+      "label": "data/file-tree-data.ts",
+      "kind": "support"
+    },
+    {
+      "path": "../../LICENSE.md",
+      "label": "LICENSE.md",
+      "kind": "support"
+    }
+  ],
+  "sidebar-12": [
+    {
+      "path": "src/sidebar/sidebar-12/sidebar-12.tsx",
+      "label": "sidebar-12.tsx",
+      "kind": "page"
+    },
+    {
+      "path": "src/sidebar/sidebar-12/index.ts",
+      "label": "index.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/dashboard-shell.tsx",
+      "label": "components/dashboard-shell.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/nav-user.tsx",
+      "label": "components/nav-user.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/data/user-data.ts",
+      "label": "data/user-data.ts",
+      "kind": "support"
+    },
+    {
+      "path": "../../LICENSE.md",
+      "label": "LICENSE.md",
+      "kind": "support"
+    }
+  ],
+  "sidebar-13": [
+    {
+      "path": "src/sidebar/sidebar-13/sidebar-13.tsx",
+      "label": "sidebar-13.tsx",
+      "kind": "page"
+    },
+    {
+      "path": "src/sidebar/sidebar-13/index.ts",
+      "label": "index.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/data/settings-data.tsx",
+      "label": "data/settings-data.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "../../LICENSE.md",
+      "label": "LICENSE.md",
+      "kind": "support"
+    }
+  ],
+  "sidebar-14": [
+    {
+      "path": "src/sidebar/sidebar-14/sidebar-14.tsx",
+      "label": "sidebar-14.tsx",
+      "kind": "page"
+    },
+    {
+      "path": "src/sidebar/sidebar-14/index.ts",
+      "label": "index.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/shared/branding/kamod-brand-sizes.ts",
+      "label": "branding/kamod-brand-sizes.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/shared/branding/kamod-icon-frame.tsx",
+      "label": "branding/kamod-icon-frame.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/shared/branding/kamod-icon.tsx",
+      "label": "branding/kamod-icon.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/nav-docs.tsx",
+      "label": "components/nav-docs.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/navigation.ts",
+      "label": "components/navigation.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/search-form.tsx",
+      "label": "components/search-form.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/version-switcher.tsx",
+      "label": "components/version-switcher.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/data/docs-data.ts",
+      "label": "data/docs-data.ts",
+      "kind": "support"
+    },
+    {
+      "path": "../../LICENSE.md",
+      "label": "LICENSE.md",
+      "kind": "support"
+    }
+  ],
+  "sidebar-15": [
+    {
+      "path": "src/sidebar/sidebar-15/sidebar-15.tsx",
+      "label": "sidebar-15.tsx",
+      "kind": "page"
+    },
+    {
+      "path": "src/sidebar/sidebar-15/index.ts",
+      "label": "index.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/shared/branding/kamod-brand-sizes.ts",
+      "label": "branding/kamod-brand-sizes.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/shared/branding/kamod-icon-frame.tsx",
+      "label": "branding/kamod-icon-frame.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/shared/branding/kamod-icon.tsx",
+      "label": "branding/kamod-icon.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/nav-main.tsx",
+      "label": "components/nav-main.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/nav-projects.tsx",
+      "label": "components/nav-projects.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/nav-secondary.tsx",
+      "label": "components/nav-secondary.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/nav-user.tsx",
+      "label": "components/nav-user.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/navigation-icons.ts",
+      "label": "components/navigation-icons.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/navigation-types.ts",
+      "label": "components/navigation-types.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/navigation.ts",
+      "label": "components/navigation.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/team-switcher.tsx",
+      "label": "components/team-switcher.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/data/navigation-data.ts",
+      "label": "data/navigation-data.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/data/projects-data.ts",
+      "label": "data/projects-data.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/data/secondary-data.ts",
+      "label": "data/secondary-data.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/data/teams-data.ts",
+      "label": "data/teams-data.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/data/user-data.ts",
+      "label": "data/user-data.ts",
+      "kind": "support"
+    },
+    {
+      "path": "../../LICENSE.md",
+      "label": "LICENSE.md",
+      "kind": "support"
+    }
+  ],
+  "sidebar-16": [
+    {
+      "path": "src/sidebar/sidebar-16/sidebar-16.tsx",
+      "label": "sidebar-16.tsx",
+      "kind": "page"
+    },
+    {
+      "path": "src/sidebar/sidebar-16/index.ts",
+      "label": "index.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/shared/branding/kamod-brand-sizes.ts",
+      "label": "branding/kamod-brand-sizes.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/shared/branding/kamod-icon-frame.tsx",
+      "label": "branding/kamod-icon-frame.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/shared/branding/kamod-icon.tsx",
+      "label": "branding/kamod-icon.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/nav-main.tsx",
+      "label": "components/nav-main.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/nav-projects.tsx",
+      "label": "components/nav-projects.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/nav-user.tsx",
+      "label": "components/nav-user.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/navigation-icons.ts",
+      "label": "components/navigation-icons.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/navigation-types.ts",
+      "label": "components/navigation-types.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/navigation.ts",
+      "label": "components/navigation.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/site-header.tsx",
+      "label": "components/site-header.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/shared/team-switcher.tsx",
+      "label": "components/team-switcher.tsx",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/data/navigation-data.ts",
+      "label": "data/navigation-data.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/data/projects-data.ts",
+      "label": "data/projects-data.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/data/teams-data.ts",
+      "label": "data/teams-data.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/sidebar/data/user-data.ts",
+      "label": "data/user-data.ts",
+      "kind": "support"
+    },
+    {
+      "path": "../../LICENSE.md",
+      "label": "LICENSE.md",
+      "kind": "support"
+    }
+  ]
+}

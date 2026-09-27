@@ -9,7 +9,7 @@ import {
   SidebarMenuItem,
 } from "@kamod-ch/ui";
 import { useState } from "preact/hooks";
-import { KamodIconFrame } from "../../auth/shared/kamod-icon-frame";
+import { KamodIconFrame } from "../../shared/branding/kamod-icon-frame";
 
 export const VersionSwitcher = ({
   versions,

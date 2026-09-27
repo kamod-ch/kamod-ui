@@ -73,7 +73,13 @@ export const BlockSourceFiles = ({
         ) : current?.status === "ready" ? (
           <CodeBlock
             code={current.code}
-            language={selectedFile.endsWith(".svg") ? "text" : "tsx"}
+            language={
+              selectedFile.endsWith(".md")
+                ? "markdown"
+                : selectedFile.endsWith(".svg")
+                  ? "text"
+                  : "tsx"
+            }
             className="docs-tab-code"
           />
         ) : (

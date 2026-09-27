@@ -56,54 +56,8 @@ export type BlockDefinition = {
   installCommand: string;
 };
 
-export type BreadcrumbItem = {
-  label: string;
-  href?: string;
-  hiddenOnMobile?: boolean;
-};
-
-export type SidebarBlockLayout = {
-  headerClass?: string;
-  contentClass?: string;
-  triggerClass?: string;
-  headerInner?: boolean;
-  stickyHeader?: boolean;
-  placeholder?: "grid" | "list" | "squares" | "centered";
-  breadcrumbs?: BreadcrumbItem[];
-  contentPaddingTop?: boolean;
-};
-
-export type SidebarBlockVariant = {
-  id: SidebarBlockId;
-  title: string;
-  description: string;
-  eyebrow: string;
-  features: SidebarBlockFeature[];
-  floating?: boolean;
-  dropdowns?: boolean;
-  iconMode?: boolean;
-  inset?: boolean;
-  nested?: boolean;
-  popover?: boolean;
-  fileTree?: boolean;
-  calendar?: boolean;
-  dialog?: boolean;
-  right?: boolean;
-  dual?: boolean;
-  stickyHeader?: boolean;
-  /** Docs sidebar with collapsible nav groups (sidebar-02). */
-  collapsibleSections?: boolean;
-  /** App nav with always-expanded submenus (sidebar-03/04). */
-  submenus?: boolean;
-  /** App nav with collapsible submenu triggers (sidebar-05). */
-  collapsibleSubmenus?: boolean;
-  showSearchForm?: boolean;
-  showOptInForm?: boolean;
-  showSecondaryNav?: boolean;
-  layout?: SidebarBlockLayout;
-};
-
-export const sidebarVariants: SidebarBlockVariant[] = [
+/** Gallery metadata only; each variant owns its composition. */
+export const sidebarVariants = [
   {
     id: "sidebar-01",
     title: "sidebar-01",
@@ -117,11 +71,6 @@ export const sidebarVariants: SidebarBlockVariant[] = [
     eyebrow: "A sidebar with collapsible sections",
     description: "A sidebar with collapsible sections.",
     features: ["collapsible", "mobile"],
-    collapsibleSections: true,
-    layout: {
-      stickyHeader: true,
-      placeholder: "list",
-    },
   },
   {
     id: "sidebar-03",
@@ -129,12 +78,6 @@ export const sidebarVariants: SidebarBlockVariant[] = [
     eyebrow: "A sidebar with submenus",
     description: "A sidebar with submenus.",
     features: ["submenus", "mobile"],
-    submenus: true,
-    layout: {
-      headerClass: "flex h-16 shrink-0 items-center gap-2 border-b",
-      headerInner: true,
-      triggerClass: "",
-    },
   },
   {
     id: "sidebar-04",
@@ -142,12 +85,6 @@ export const sidebarVariants: SidebarBlockVariant[] = [
     eyebrow: "A floating sidebar with submenus",
     description: "A floating sidebar with submenus.",
     features: ["floating", "submenus", "mobile"],
-    floating: true,
-    submenus: true,
-    layout: {
-      headerClass: "flex h-16 shrink-0 items-center gap-2 px-4",
-      contentPaddingTop: false,
-    },
   },
   {
     id: "sidebar-05",
@@ -155,9 +92,6 @@ export const sidebarVariants: SidebarBlockVariant[] = [
     eyebrow: "A sidebar with collapsible submenus",
     description: "A sidebar with collapsible submenus.",
     features: ["collapsible", "submenus", "mobile"],
-    submenus: true,
-    collapsibleSubmenus: true,
-    showSearchForm: true,
   },
   {
     id: "sidebar-06",
@@ -165,8 +99,6 @@ export const sidebarVariants: SidebarBlockVariant[] = [
     eyebrow: "A sidebar with submenus as dropdowns",
     description: "A sidebar with submenus as dropdowns.",
     features: ["dropdowns", "mobile"],
-    dropdowns: true,
-    showOptInForm: true,
   },
   {
     id: "sidebar-07",
@@ -174,7 +106,6 @@ export const sidebarVariants: SidebarBlockVariant[] = [
     eyebrow: "A sidebar that collapses to icons",
     description: "A sidebar that collapses to icons.",
     features: ["icon-mode", "mobile"],
-    iconMode: true,
   },
   {
     id: "sidebar-08",
@@ -182,8 +113,6 @@ export const sidebarVariants: SidebarBlockVariant[] = [
     eyebrow: "An inset sidebar with secondary navigation",
     description: "An inset sidebar with secondary navigation.",
     features: ["inset", "mobile"],
-    inset: true,
-    showSecondaryNav: true,
   },
   {
     id: "sidebar-09",
@@ -191,7 +120,6 @@ export const sidebarVariants: SidebarBlockVariant[] = [
     eyebrow: "Collapsible nested sidebars",
     description: "Collapsible nested sidebars.",
     features: ["nested", "collapsible", "mobile"],
-    nested: true,
   },
   {
     id: "sidebar-10",
@@ -199,7 +127,6 @@ export const sidebarVariants: SidebarBlockVariant[] = [
     eyebrow: "A sidebar in a popover",
     description: "A sidebar in a popover.",
     features: ["popover", "mobile"],
-    popover: true,
   },
   {
     id: "sidebar-11",
@@ -207,14 +134,6 @@ export const sidebarVariants: SidebarBlockVariant[] = [
     eyebrow: "A sidebar with a collapsible file tree",
     description: "A sidebar with a collapsible file tree.",
     features: ["file-tree", "collapsible", "mobile"],
-    fileTree: true,
-    layout: {
-      breadcrumbs: [
-        { label: "components", href: "#", hiddenOnMobile: true },
-        { label: "ui", href: "#", hiddenOnMobile: true },
-        { label: "button.tsx" },
-      ],
-    },
   },
   {
     id: "sidebar-12",
@@ -222,7 +141,6 @@ export const sidebarVariants: SidebarBlockVariant[] = [
     eyebrow: "A sidebar with a calendar",
     description: "A sidebar with a calendar.",
     features: ["calendar", "mobile"],
-    calendar: true,
   },
   {
     id: "sidebar-13",
@@ -230,7 +148,6 @@ export const sidebarVariants: SidebarBlockVariant[] = [
     eyebrow: "A sidebar in a dialog",
     description: "A sidebar in a dialog.",
     features: ["dialog", "mobile"],
-    dialog: true,
   },
   {
     id: "sidebar-14",
@@ -238,7 +155,6 @@ export const sidebarVariants: SidebarBlockVariant[] = [
     eyebrow: "A sidebar on the right",
     description: "A sidebar on the right.",
     features: ["right", "mobile"],
-    right: true,
   },
   {
     id: "sidebar-15",
@@ -246,7 +162,6 @@ export const sidebarVariants: SidebarBlockVariant[] = [
     eyebrow: "A left and right sidebar",
     description: "A left and right sidebar.",
     features: ["dual", "right", "mobile"],
-    dual: true,
   },
   {
     id: "sidebar-16",
@@ -254,6 +169,11 @@ export const sidebarVariants: SidebarBlockVariant[] = [
     eyebrow: "A sidebar with a sticky site header",
     description: "A sidebar with a sticky site header.",
     features: ["sticky-header", "mobile"],
-    stickyHeader: true,
   },
-];
+] satisfies {
+  id: SidebarBlockId;
+  title: string;
+  description: string;
+  eyebrow: string;
+  features: SidebarBlockFeature[];
+}[];
