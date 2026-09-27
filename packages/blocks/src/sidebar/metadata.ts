@@ -4,6 +4,19 @@ import { sidebarVariants } from "./sidebar-data";
 
 const blockFiles = (id: SidebarBlockId): BlockFile[] => {
   const shared: BlockFile[] = [
+    ...["kamod-icon-frame.tsx", "kamod-icon.tsx", "kamod-brand-sizes.ts"].map(
+      (file): BlockFile => ({
+        path: `src/auth/shared/${file}`,
+        label: `auth/shared/${file}`,
+        kind: "support",
+      }),
+    ),
+    { path: "src/sidebar/sidebar-data.ts", label: "components/sidebar-data.ts", kind: "support" },
+    {
+      path: "src/sidebar/shared/sample-data.ts",
+      label: "components/sample-data.ts",
+      kind: "support",
+    },
     {
       path: "src/sidebar/shared/app-sidebar.tsx",
       label: "components/app-sidebar.tsx",
