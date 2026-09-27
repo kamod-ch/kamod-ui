@@ -4,6 +4,7 @@ import { BrandGithubIcon } from "@kamod-ch/icons/tabler/filled";
 import { Button } from "@kamod-ch/ui";
 import type { ComponentChildren } from "preact";
 import { withBasePath } from "../base-path";
+import { BlockDetailDescription } from "./BlockDetailDescription";
 import { BlockPageHeader } from "./BlockPageHeader";
 import { type BlockCategory, type BlockOverviewEntry, blockCategories } from "./block-categories";
 import { blockIssueUrl, blockSourceUrl } from "./block-links";
@@ -29,7 +30,7 @@ export function BlockDetailHeader({
   descriptionLink,
   className = "",
 }: BlockDetailHeaderProps) {
-  const { displayName, note } = getBlockOverviewDetails(category, block);
+  const { displayName } = getBlockOverviewDetails(category, block);
   return (
     <BlockPageHeader
       category={category}
@@ -38,13 +39,7 @@ export function BlockDetailHeader({
       id={`${block.id}-overview`}
       title={<ShellHeadingLink id="top">{title ?? displayName}</ShellHeadingLink>}
       badge={category === "login" || category === "signup" ? "Form block" : "Layout block"}
-      description={
-        description ?? (
-          <>
-            {block.description} {note}
-          </>
-        )
-      }
+      description={description ?? <BlockDetailDescription category={category} block={block} />}
       descriptionLink={descriptionLink}
       actions={<BlockDetailHeaderActions category={category} block={block} />}
     />

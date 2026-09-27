@@ -13,7 +13,16 @@ export const ShellPageHeader = ({ block }: { block: ApplicationShellBlock }) => 
     block={block}
     className="blocks-shell-header"
     title={`${getBlockDisplayName(block.title)} — Sidebar shell with breadcrumbs`}
-    description="A responsive frame for your application, with a collapsible sidebar, grouped navigation, nested links and an account menu. Add your pages beneath the breadcrumb header and connect your own routing and user actions."
+    description={
+      <>
+        A <strong>responsive frame for your application</strong>, with a collapsible sidebar,
+        grouped navigation, nested links and an account menu. Supply <code>navigationGroups</code>{" "}
+        and <code>breadcrumbs</code>, then render your pages through <code>children</code> beneath
+        the shared header. <strong>Routing and account actions stay in your app</strong>. Explore
+        desktop collapse and the separate mobile navigation in the demo; the examples below explain
+        how to connect your data and control the sidebar.
+      </>
+    }
     descriptionLink={
       <a class="blocks-shell-header-about" href="#application-shell-about">
         About this block
