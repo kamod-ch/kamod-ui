@@ -231,6 +231,89 @@ for (const width of [320, 768]) {
   });
 }
 
+test("preview theme guidance wraps fully and supports activation and dismissal", async ({
+  page,
+}) => {
+  for (const theme of ["light", "dark"]) {
+    await page.addInitScript((value) => localStorage.setItem("theme", value), theme);
+    for (const width of [320, 768, 980, 1440]) {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto("./blocks/application-shell");
+      await expect(page.locator("#pp-preloader")).toBeHidden();
+      await expect(page.locator(".blocks-category-preview")).toBeAttached();
+      const header = page.locator(".blocks-category-header");
+      const info = header.getByRole("button", { name: "About preview themes" });
+      const popover = page.getByRole("dialog", { name: "Preview guide" });
+      await expect(header.locator(".blocks-hero-lead")).toHaveCount(1);
+      await expect(header.locator(".blocks-hero-lead")).not.toContainText("Previews use");
+      await info.click();
+      await expect(info).toHaveAttribute("aria-expanded", "true");
+      await expect(popover).toBeVisible();
+      await expect(info).toHaveAttribute("aria-controls", (await popover.getAttribute("id"))!);
+      const paragraphs = popover.locator("p");
+      await expect(paragraphs).toHaveText([
+        "Gallery previews use the Kamod theme and follow your light or dark mode. These saved images keep collections quick to browse without loading every live demo.",
+        "Screenshots show the layout. Open any block to try the real interactions.",
+      ]);
+      const guideLink = popover.getByRole("link", {
+        name: "How preview images are generated (opens in a new tab)",
+      });
+      await expect(guideLink).toHaveAttribute(
+        "href",
+        "https://github.com/kamod-ch/kamod-ui/blob/main/packages/docs/scripts/BLOCK-PREVIEW-IMAGES.md",
+      );
+      await expect(
+        popover.getByRole("list", { name: "On the detail page" }).getByRole("listitem"),
+      ).toHaveText(["Live demo", "Themes", "Screen sizes"]);
+      const bounds = (await popover.boundingBox())!;
+      expect(bounds.x).toBeGreaterThanOrEqual(0);
+      expect(bounds.y).toBeGreaterThanOrEqual(0);
+      expect(bounds.x + bounds.width).toBeLessThanOrEqual(width);
+      // Text presence alone misses clipping: every rendered line must fit the panel.
+      expect(
+        await paragraphs.evaluateAll((elements) =>
+          elements.every((element) => {
+            const panel = element.parentElement!.getBoundingClientRect();
+            const range = document.createRange();
+            range.selectNodeContents(element);
+            return Array.from(range.getClientRects()).every(
+              (line) =>
+                line.left >= panel.left &&
+                line.right <= panel.right &&
+                line.top >= panel.top &&
+                line.bottom <= panel.bottom,
+            );
+          }),
+        ),
+      ).toBe(true);
+      await page.keyboard.press("Escape");
+      await expect(popover).toBeHidden();
+      await expect(info).toBeFocused();
+      await page.keyboard.press("Enter");
+      await expect(popover).toBeVisible();
+      await info.click();
+      await expect(popover).toBeHidden();
+      await page.keyboard.press("Space");
+      await expect(popover).toBeVisible();
+      await page.keyboard.press("Tab");
+      await expect(popover.getByRole("button", { name: "Close preview guide" })).toBeFocused();
+      await page.keyboard.press("Tab");
+      await expect(guideLink).toBeFocused();
+      await page.keyboard.press("Shift+Tab");
+      await page.keyboard.press("Enter");
+      await expect(popover).toBeHidden();
+      await expect(info).toBeFocused();
+      await info.click();
+      await expect(popover).toBeVisible();
+      await header.locator(".blocks-overview-count").click();
+      await expect(popover).toBeHidden();
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
+        true,
+      );
+    }
+  }
+});
+
 test("header preview uses a current-category thumbnail and keeps its selection when themes change", async ({
   page,
 }) => {
@@ -254,17 +337,41 @@ test("header preview uses a current-category thumbnail and keeps its selection w
     await page.locator('[data-slot="theme-toggle"]').click();
     await expect(preview.locator("img")).not.toHaveAttribute("src", before!);
     await expect(preview).toHaveAttribute("href", destination!);
-    const bounds = (await preview.boundingBox())!;
+    const container = page.locator(".blocks-category-preview");
+    const actions = container.getByRole("group");
+    await expect(container.getByText("From this collection", { exact: true })).toHaveCount(0);
+    await expect(actions.getByRole("link")).toHaveCount(3);
+    await expect(actions.getByRole("link", { name: /details$/ })).toHaveAttribute(
+      "href",
+      destination!,
+    );
+    const cardActions = card.locator("..").locator(".blocks-overview-action-links");
+    for (const name of [/source on GitHub/, /^Add /]) {
+      await expect(actions.getByRole("link", { name })).toHaveAttribute(
+        "href",
+        (await cardActions.getByRole("link", { name }).getAttribute("href"))!,
+      );
+    }
+    const bounds = (await container.boundingBox())!;
     const sidebar = (await page.locator("aside.docs-sidebar").boundingBox())!;
     const header = (await page.locator(".blocks-category-header").boundingBox())!;
     expect(bounds.x).toBe(sidebar.x);
     expect(bounds.x + bounds.width).toBeLessThan(header.x);
     expect(bounds.y + bounds.height).toBeLessThan(sidebar.y);
-    await preview.focus();
+    await actions.getByRole("link").nth(0).focus();
     await page.keyboard.press("Tab");
-    await page.keyboard.press("Shift+Tab");
+    await expect(actions.getByRole("link").nth(1)).toBeFocused();
+    await page.keyboard.press("Tab");
+    await expect(actions.getByRole("link").nth(2)).toBeFocused();
+    await page.keyboard.press("Tab");
     await expect(preview).toBeFocused();
     await expect(preview).toHaveCSS("outline-style", "solid");
+    const captionLink = container.locator(".blocks-category-preview-caption").getByRole("link");
+    const blockId = destination!.split("/").at(-1);
+    await expect(captionLink).toHaveAttribute("href", `${destination}#${blockId}`);
+    await page.keyboard.press("Tab");
+    await expect(captionLink).toBeFocused();
+    await expect(captionLink).toHaveCSS("outline-style", "solid");
     await page.setViewportSize({ width: 979, height: 900 });
     await expect(preview).toBeHidden();
     await page.setViewportSize({ width: 1440, height: 900 });
@@ -277,6 +384,7 @@ for (const scheme of ["light", "dark"] as const) {
     page,
   }) => {
     await page.addInitScript((scheme) => localStorage.setItem("theme", scheme), scheme);
+    const summaryPositions = new Map<number, number>();
     for (const category of ["application-shell", "sidebar", "login", "signup"]) {
       await page.goto(`./blocks/${category}`);
       await expect(page.locator(".blocks-overview-preview img").first()).toBeVisible();
@@ -296,11 +404,31 @@ for (const scheme of ["light", "dark"] as const) {
           const grid = document.querySelector(".blocks-overview-grid")!.getBoundingClientRect();
           const preview = document.querySelector(".blocks-category-preview")!;
           const previewFrame = preview.getBoundingClientRect();
+          const previewStyle = getComputedStyle(preview);
+          const previewInset =
+            parseFloat(previewStyle.paddingBottom) + parseFloat(previewStyle.borderBottomWidth);
+          const captionFrame = preview
+            .querySelector(".blocks-category-preview-caption")!
+            .getBoundingClientRect();
+          const previewActions = preview
+            .querySelector(".blocks-category-preview-meta")!
+            .getBoundingClientRect();
           const sidebar = document.querySelector("aside.docs-sidebar")!.getBoundingClientRect();
           const imageFrame = preview
             .querySelector(".blocks-overview-preview")!
             .getBoundingClientRect();
+          const description = document.querySelector(".blocks-category-header .blocks-hero-lead")!;
+          const descriptionStyle = getComputedStyle(description);
           return {
+            descriptionFitsFourLines:
+              descriptionStyle.webkitLineClamp === "4" &&
+              Math.abs(
+                description.getBoundingClientRect().height -
+                  4 * parseFloat(descriptionStyle.lineHeight),
+              ) < 1,
+            summaryTop:
+              document.querySelector(".blocks-overview-summary")!.getBoundingClientRect().top +
+              scrollY,
             pageFits: document.documentElement.scrollWidth <= innerWidth,
             badgeAboveTitle: badge.bottom <= title.top,
             headerAligned:
@@ -312,7 +440,11 @@ for (const scheme of ["light", "dark"] as const) {
                 ? previewFrame.width === 0 && sidebar.width === 0
                 : Math.abs(previewFrame.left - sidebar.left) < 1 &&
                   previewFrame.right + 16 <= introduction.left &&
-                  previewFrame.top >= introduction.top &&
+                  Math.abs(previewFrame.top - introduction.top) < 1 &&
+                  Math.abs(previewFrame.bottom - introduction.bottom) < 1 &&
+                  Math.abs(captionFrame.bottom - (previewFrame.bottom - previewInset)) < 1 &&
+                  imageFrame.bottom + 8 <= captionFrame.top &&
+                  previewActions.bottom < imageFrame.top &&
                   previewFrame.bottom < grid.top &&
                   Math.abs(sidebar.top - grid.top) < 1 &&
                   preview.scrollWidth <= preview.clientWidth + 1 &&
@@ -335,6 +467,16 @@ for (const scheme of ["light", "dark"] as const) {
             }),
           };
         });
+        expect(
+          layout.descriptionFitsFourLines,
+          `${category} four-line introduction at ${width}px`,
+        ).toBe(true);
+        const expectedTop = summaryPositions.get(width) ?? layout.summaryTop;
+        expect(
+          Math.abs(layout.summaryTop - expectedTop),
+          `${category} shared summary position at ${width}px`,
+        ).toBeLessThan(1);
+        summaryPositions.set(width, expectedTop);
         expect(layout.pageFits, `${category} page at ${width}px`).toBe(true);
         expect(layout.headerAligned, `${category} header/grid alignment at ${width}px`).toBe(true);
         expect(layout.previewFits, `${category} header preview at ${width}px`).toBe(true);
