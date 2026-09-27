@@ -1,27 +1,28 @@
 /* Category browsing uses image thumbnails; live demos belong to the detail pages. */
 .blocks-category-preview {
-  display: block;
-  padding: 0 0.25rem 0.25rem;
-  color: var(--foreground);
-  text-decoration: none;
-  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.5rem 0.875rem;
+  border: 1px solid color-mix(in oklab, var(--border) 65%, transparent);
+  border-radius: 0.75rem;
+  background: color-mix(in oklab, var(--muted) 40%, transparent);
 }
 
-.blocks-category-preview-label {
+.blocks-category-preview-link {
   display: block;
-  padding-bottom: 0.5rem;
-  color: var(--muted-foreground);
-  font-size: 0.5625rem;
-  font-weight: 400;
-  line-height: 1;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  flex-shrink: 0;
+  margin-top: auto;
+  border-radius: 0.5rem;
+  box-shadow:
+    0 0 0 1px color-mix(in oklab, var(--foreground) 5%, var(--border)),
+    0 2px 5px color-mix(in oklab, var(--foreground) 5%, transparent);
 }
 
 .blocks-category-preview .blocks-overview-preview {
   margin: 0;
-  outline: 1px solid color-mix(in oklab, var(--border) 65%, transparent);
-  outline-offset: -1px;
+  border-radius: 0.5rem;
 }
 
 .blocks-category-preview .blocks-overview-placeholder > span,
@@ -30,6 +31,83 @@
 }
 
 .blocks-category-preview-link:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.blocks-category-preview-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.25rem 0.5rem;
+  padding-inline: 0.125rem;
+}
+
+.blocks-category-preview-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.375rem;
+  min-width: 0;
+  font-size: 0.65625rem;
+  line-height: 1.5;
+}
+
+.blocks-category-preview-name {
+  color: var(--foreground);
+  font-weight: 500;
+}
+
+.blocks-category-preview-code {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-width: 0;
+  color: var(--muted-foreground);
+}
+
+.blocks-category-preview-code code {
+  padding: 0.1rem 0.25rem;
+  border-radius: 0.25rem;
+  background: color-mix(in oklab, var(--muted) 55%, transparent);
+  color: var(--muted-foreground);
+  font-size: 0.59375rem;
+  overflow-wrap: anywhere;
+}
+
+.blocks-category-preview-actions {
+  margin-left: auto;
+}
+
+.blocks-category-preview-caption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem 0.5rem;
+  margin: 0.375rem 0 0;
+  color: color-mix(in oklab, var(--muted-foreground) 65%, var(--card));
+  font-size: 0.59375rem;
+  line-height: 1.5;
+  text-align: center;
+  letter-spacing: 0.025em;
+}
+
+.blocks-category-preview-caption a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.125rem;
+  color: var(--foreground);
+  text-underline-offset: 0.15em;
+}
+
+.blocks-category-preview-caption a:hover {
+  text-decoration: underline;
+}
+
+.blocks-category-preview-caption a:focus-visible {
+  border-radius: 0.125rem;
   outline: 2px solid var(--ring);
   outline-offset: 2px;
 }
@@ -611,6 +689,7 @@
   height: 2.75rem;
 }
 
+.blocks-category-preview-actions,
 .blocks-overview-action-links,
 .blocks-overview-summary-links {
   display: flex;
@@ -619,6 +698,7 @@
   gap: 0.25rem;
 }
 
+.blocks-category-preview-actions [data-slot="button"],
 .blocks-overview-action-links [data-slot="button"],
 .blocks-overview-summary-links [data-slot="button"] {
   width: 1.5rem;
@@ -629,12 +709,14 @@
   color: color-mix(in oklab, var(--muted-foreground) 85%, var(--card));
 }
 
+.blocks-category-preview-actions [data-slot="button"] svg,
 .blocks-overview-action-links [data-slot="button"] svg,
 .blocks-overview-summary-links [data-slot="button"] svg {
   width: 13px;
   height: 13px;
 }
 
+.blocks-category-preview-actions [data-slot="button"]:is(:hover, :focus-visible),
 .blocks-overview-action-links [data-slot="button"]:is(:hover, :focus-visible),
 .blocks-overview-summary-links [data-slot="button"]:is(:hover, :focus-visible) {
   background: color-mix(in oklab, var(--muted) 65%, var(--card));
@@ -680,6 +762,12 @@
 
 /* Give category navigation its own space without changing detail-page layouts. */
 @media (min-width: 980px) {
+  /* Share the header’s grid-row height without measuring wrapped text in JavaScript. */
+  .docs-shell:has(.blocks-category-page) .docs-layout-sidebar-header {
+    display: flex;
+    align-self: stretch;
+  }
+
   .docs-sidebar .blocks-category-navigation {
     width: 100%;
     margin-inline-end: auto;
