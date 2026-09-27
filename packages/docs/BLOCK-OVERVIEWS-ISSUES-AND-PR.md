@@ -352,10 +352,13 @@ this alignment responsive without measured offsets and preserves one main landma
 A compact random preview fills the space above Categories beside the header on desktop.
 It links to one variant from the current group, selected after hydration and retained
 across theme changes. It reuses the shared thumbnail renderer and stays hidden below
-980px; its image loads lazily. A simple linked image fills nearly the entire width,
-with a small, muted “From this collection” label above it and a fine image outline.
-There is no outer card background, shadow or overlay control. The link retains an
-accessible variant name and a visible keyboard focus outline. The
+980px; its image loads lazily. A lightly bordered, theme-tinted frame adds a small
+inset around the linked image. The panel stretches to the full introduction height,
+including breadcrumbs, with the full-width image above a small, centered collection
+caption at the bottom. The compact title pairs the display name with a divider and
+code-styled component name; actions wrap below when space is limited. It provides separate detail,
+GitHub source and installation links using core Buttons. There is no overlaid text or control. Links retain accessible names and
+visible keyboard focus. The
 optional `sidebarHeader` slot preserves the grid alignment.
 Categories sort by block count, highest first, with alphabetical ties in both desktop
 and mobile navigation. Twenty alphabetically sorted planned categories link to unimplemented pages, each
@@ -368,9 +371,18 @@ more descriptive titles and practical introductions with highlighted inline API
 names. A variant-count badge sits beside the heading and above it below 640px,
 matching the detail header. The introduction aligns with the random preview at
 the top; breadcrumbs sit below it in the row directly above the cards.
-The screenshot-theme guidance is a second introduction paragraph with matching
-typography and a small gap. It is no longer repeated below the cards. The Blocks breadcrumb uses the existing
-`/blocks/sidebar` entry page.
+Each category has one expanded introduction describing the available layouts and
+integration points, with inline API names styled like the detail documentation.
+Descriptions reserve four lines and clamp overflow to keep the breadcrumb/action
+row aligned across categories. Compact action icons bounce and settle on hover,
+with softer highlights and reduced-motion support.
+Screenshot-theme guidance opens in a core Popover from the compact information
+button beside the source and issue links. A compact preview guide pairs a Snapshots
+badge with code-styled theme/mode labels, a link to the image-generation guide,
+three compact detail-page feature tiles and a separated live-demo hint. It fits narrow
+screens; click, tap or keyboard activation opens it, and Escape or an outside
+click dismisses it.
+The Blocks breadcrumb uses the existing `/blocks/sidebar` entry page.
 
 - Fill the **16:9 preview frame** using `object-fit: cover` and top alignment.
   Existing 8:5 screenshots are slightly cropped instead of letterboxed or stretched;
