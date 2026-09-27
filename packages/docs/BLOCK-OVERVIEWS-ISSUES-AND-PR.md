@@ -11,7 +11,7 @@ This is a record of the proposed contribution, not a claim that GitHub has merge
 it or closed the issues. Screenshot cards are the agreed replacement for #56's
 original request for live previews.
 
-## Current follow-up: shared headers and overview polish
+## Current follow-up: shared headers, detail guides and overview polish
 
 The original #51/#56 work below is historical. This follow-up branch builds on its
 merged implementation and relates to [#70](https://github.com/kamod-ch/kamod-ui/issues/70),
@@ -20,19 +20,28 @@ merged implementation and relates to [#70](https://github.com/kamod-ch/kamod-ui/
 
 - **Implemented:** shared overview/detail header composition, registry-based variant
   navigation, richer introductions, collection-preview polish, accessible snapshot
-  guidance and consistent responsive/hover styling.
-- **Still separate work:** #55's unified showcase toolbar and #61's reusable guide,
-  section definitions, contents sidebar and footer migration. Header reuse is only
-  part of those issues; this branch does not claim to close them.
+  guidance and consistent responsive/hover styling. All 27 detail pages now share
+  the Application Shell guide layout, with tailored Sidebar/Login/Signup content.
+- **Shared guides (#61):** section definitions drive headings and contents links;
+  setup tabs, API cards, required markers, guide/footer layout and responsive styles
+  are reused. Source-backed references distinguish page wrappers from local helpers.
+  Complete copy manifests include shared data, auth helpers and brand/cover assets.
+  API tables and type-link state are shared; field extraction is checked against
+  TypeScript, and disclosure cleanup/same-fragment reopening have regression tests.
+- **Still separate work:** #55's unified showcase toolbar. No issue is auto-closed
+  by this scope record.
 - **Later design decisions:** both page types use the same introductory label;
   breadcrumbs provide category return navigation. Compact actions wrap, and the
   inline About link stays reachable by allowing its paragraph to grow on phones.
-- **Current validation:** docs typechecking, 45 unit tests, all 57 relevant Chromium
-  tests, the production docs build and scoped lint/format checks pass. Header checks
+- **Current validation:** docs/blocks typechecking, 103 docs tests, 159 block tests,
+  all 65 relevant Chromium tests against the production build, the docs build and
+  scoped lint/format checks pass. Header checks
   cover 27 widths (320–2560px) in both schemes, with 24-width overview/card coverage.
-  An earlier concurrent preview-mount timeout did not recur in serial repeats or the
-  final full run. Safari remains unverified. Older diagnostics and counts below
-  describe the original branch, not this checkout.
+  Development-server reloads interrupted earlier browser runs; verification uses
+  an isolated production server. All eight new guide tests also pass with a compatible
+  temporary WebKit runner. Its four older Shell-check failures reproduce on unchanged
+  HEAD; the default WebKit runner remains blocked by a protocol mismatch. Older
+  diagnostics and counts below describe the original branch, not this checkout.
 
 ## Historical issue proposals and original PR scope
 
