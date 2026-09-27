@@ -1,0 +1,52 @@
+/** Copyable local integrations; presentation components do not own code templates. */
+import type { VariantGuide } from "./VariantDocumentation";
+
+/** Import from the directory structure listed in the installation guide. */
+export function variantImport({ component, category, block }: VariantGuide): string {
+  return `import { ${component} } from "./components/blocks/${category}/${block.id}/${category === "sidebar" ? block.id : "page"}";`;
+}
+
+/** The wrapper has no props; show how to configure its local helpers instead. */
+export function integrationExample(guide: VariantGuide): string {
+  const { category, block } = guide;
+  if (category === "sidebar")
+    return `import { SidebarProvider } from "@kamod-ch/ui";
+import { AppSidebar } from "./components/blocks/sidebar/shared/app-sidebar";
+import { DashboardShell } from "./components/blocks/sidebar/shared/dashboard-shell";
+
+export const Workspace = () => (
+  <SidebarProvider>
+    <AppSidebar mode="app" />
+    <DashboardShell breadcrumbs={[{ label: "Workspace", href: "/" }, { label: "Projects" }]}>
+      <h1 class="text-2xl font-semibold">Projects</h1>
+      <p>Your routed content goes here.</p>
+    </DashboardShell>
+  </SidebarProvider>
+);`;
+  const signup = category === "signup";
+  const form = signup ? "SignupForm" : "LoginForm";
+  const values = signup
+    ? "SignupValues"
+    : block.id === "login-05"
+      ? "MagicLinkValues"
+      : "LoginValues";
+  const props = ["onSubmit={submit}"];
+  if (signup) {
+    props.push('loginHref="/login"', 'termsHref="/terms"', 'privacyHref="/privacy"');
+    if (block.id === "signup-05") props.push("showSocial");
+  } else {
+    props.push('signupHref="/signup"');
+    if (block.id !== "login-05") props.push('forgotPasswordHref="/forgot-password"');
+  }
+  return `import { ${form} } from "./components/blocks/${category}/${block.id}/${category}-form";
+import type { ${values} } from "./components/blocks/auth/shared/auth-utils";
+
+type Props = { submit: (values: ${values}) => Promise<void> };
+
+// Supply your application's authentication function as submit.
+export const AccountForm = ({ submit }: Props) => (
+  <${form}
+    ${props.join("\n    ")}
+  />
+);`;
+}

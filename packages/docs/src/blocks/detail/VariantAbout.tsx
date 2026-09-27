@@ -1,0 +1,285 @@
+/** Behavior, integration boundaries and accessibility guidance tailored to each composition. */
+import { ExternalLinkIcon } from "@kamod-ch/icons/lucide";
+import { CodeBlock } from "../../docs/components/CodeBlock";
+import { getBlockOverviewDetails } from "../block-overview-details";
+import { BlockDocSection, BlockGuideHeading } from "./BlockDocumentation";
+import type { VariantGuide } from "./VariantDocumentation";
+
+export function VariantBehavior({ guide }: { guide: VariantGuide }) {
+  const { category, block, anchor, sidebar } = guide;
+  const signup = category === "signup";
+  return (
+    <BlockDocSection
+      id={anchor("behavior")}
+      introduction={
+        <p>
+          {sidebar?.text ??
+            (signup
+              ? "Registration validates a name, email and password, and asks the user to accept the terms. This combines field feedback with an explicit consent step; it does not create an account or store legal acceptance by itself."
+              : block.id === "login-05"
+                ? "This variant asks only for an email address. Its callback receives MagicLinkValues rather than a password. Connect an email-link service and provide the corresponding link-completion route; the block itself does not send an email."
+                : "The form validates an email and a password before awaiting onSubmit. GitHub and Google buttons call onSocialLogin independently. Your authentication service handles the session, provider redirect and post-login destination.")}
+        </p>
+      }
+    >
+      {sidebar ? (
+        <p class="blocks-doc-note">
+          Change this composition in <code>SidebarBlockShell.tsx</code> and its configuration in{" "}
+          <code>sidebar-data.ts</code>. The special layout is selected by the variant configuration;
+          adding an unrelated flag does not automatically combine two different sidebar
+          compositions.
+        </p>
+      ) : (
+        <>
+          <dl class="blocks-doc-callouts">
+            <div>
+              <dt>{signup ? "Consent is separate from the payload" : "Callbacks are awaited"}</dt>
+              <dd>
+                {signup ? (
+                  <>
+                    The checkbox is validated locally, but <code>SignupValues</code> contains only
+                    name, email and password. Extend your copied form and service contract if you
+                    need to persist consent, policy version or acceptance time.
+                  </>
+                ) : (
+                  <>
+                    Return a promise from your callback so the form waits for completion. A
+                    rejection enters its error state; replace the generic demo error with
+                    appropriate application feedback. Do not log submitted passwords.
+                  </>
+                )}
+              </dd>
+            </div>
+            <div>
+              <dt>Social providers need a service</dt>
+              <dd>
+                {signup ? (
+                  <>
+                    The form defaults to hiding social buttons; this page{" "}
+                    {block.id === "signup-05" ? "enables" : "does not enable"} them. Pass{" "}
+                    <code>showSocial</code> and <code>onSocialSignup</code> to show and connect
+                    GitHub and Google.
+                  </>
+                ) : (
+                  <>
+                    Connect <code>onSocialLogin</code> to your provider flow. Showing a provider
+                    button alone does not configure OAuth or create a session.
+                  </>
+                )}
+              </dd>
+            </div>
+          </dl>
+          <CodeBlock
+            code={
+              signup
+                ? "<SignupForm\n  showSocial\n  onSocialSignup={startProviderSignup}\n  onSubmit={createAccount}\n/>"
+                : "<LoginForm\n  onSocialLogin={startProviderLogin}\n  onSubmit={" +
+                  (block.id === "login-05" ? "requestSignInLink" : "signIn") +
+                  "}\n/>"
+            }
+            language="tsx"
+          />
+          <p class="blocks-doc-note">
+            The callback names above represent functions supplied by your app. Keep server-side
+            validation and credential handling in your authentication service. Adapt the form’s demo
+            messages to that service’s actual result.
+          </p>
+        </>
+      )}
+    </BlockDocSection>
+  );
+}
+
+function authLayout(guide: VariantGuide): string {
+  const number = guide.block.id.slice(-2);
+  if (number === "02")
+    return "A two-column page pairs a constrained form with a cover image. Below 1024px the image is hidden and the form takes the available width; branding remains above it.";
+  if (number === "03")
+    return "A centered card sits on a muted page background with a brand link above. Its maximum width keeps fields readable, while outer padding reduces on smaller screens.";
+  if (number === "04")
+    return "The form and cover share a centered card. Below 768px the image column is hidden, leaving the form at full card width. The illustration is decorative and should not carry essential instructions.";
+  return "A centered, constrained form uses fluid outer padding. On a narrow screen it fills the available content width without requiring a fixed desktop canvas.";
+}
+
+export function VariantAbout({ guide }: { guide: VariantGuide }) {
+  const { anchor, category, sidebar } = guide;
+  const isSidebar = category === "sidebar";
+  return (
+    <BlockDocSection
+      id={anchor("about")}
+      className="blocks-doc-explanation"
+      introduction={
+        <p>
+          {isSidebar
+            ? "This block is a complete navigation composition built from Kamod’s sidebar, menu and breadcrumb primitives. It demonstrates how those pieces work together; the sample destinations and workspace content are intended to be replaced."
+            : "This block separates page presentation from form interaction. Its Preact form owns input, validation, loading and feedback state, while your application supplies authentication and real destinations. Shared Kamod primitives provide the visual language and basic interactions."}
+        </p>
+      }
+    >
+      <section aria-labelledby={anchor("structure")}>
+        <BlockGuideHeading id={anchor("structure")} />
+        <p>
+          {isSidebar ? (
+            <>
+              The variant component selects a <code>SidebarBlockVariant</code> from{" "}
+              <code>sidebar-data.ts</code> and passes it to <code>SidebarBlockShell</code>. Shared
+              navigation and <code>DashboardShell</code> provide the common parts; specialized
+              calendar, file-tree, dialog and dual-pane compositions are defined in that renderer.
+              Replace sample data first, then change the relevant composition rather than
+              duplicating all variants.
+            </>
+          ) : (
+            <>
+              The copied <code>page.tsx</code> owns centering, background, branding and any cover
+              image. Its sibling <code>{category}-form.tsx</code> owns the form. Shared helpers in{" "}
+              <code>auth/shared</code> supply validation utilities, provider artwork and optional
+              brand assets. You can reuse the form inside another page without copying the original
+              page layout.
+            </>
+          )}
+        </p>
+      </section>
+      <section aria-labelledby={anchor("responsive")}>
+        <BlockGuideHeading id={anchor("responsive")} />
+        <p>{sidebar?.mobile ?? authLayout(guide)}</p>
+        <p>
+          {guide.block.id === "sidebar-13" ? (
+            <>
+              Keep the dialog trigger mounted as a stable focus-return target when settings panels
+              change. Preserve a scrollable content area on short screens.
+            </>
+          ) : isSidebar ? (
+            <>
+              Desktop collapse and the mobile sheet are different states in{" "}
+              <code>SidebarProvider</code>. A desktop toggle preference does not mean that the
+              mobile sheet should start open. Keep the provider mounted around the shared layout if
+              navigation changes should preserve its UI state.
+            </>
+          ) : (
+            <>
+              Keep labels, validation text and legal links able to wrap. Test with the on-screen
+              keyboard open and a long error message, not only an empty form. Light and dark colors
+              follow your application’s Kamod theme.
+            </>
+          )}
+        </p>
+      </section>
+      <section aria-labelledby={anchor("accessibility")}>
+        <BlockGuideHeading id={anchor("accessibility")} />
+        <dl class="blocks-doc-callouts">
+          <div>
+            <dt>{isSidebar ? "Navigation and current location" : "Labels and errors"}</dt>
+            <dd>
+              {isSidebar ? (
+                <>
+                  Use real destination links and meaningful names for icon-only controls. Connect
+                  active styling and <code>aria-current="page"</code> to your router; sample
+                  selection is not automatic route matching. Breadcrumbs should end with the current
+                  page.
+                </>
+              ) : (
+                <>
+                  Preserve each field’s label, <code>aria-invalid</code> and error association.
+                  Failed local validation focuses the first invalid field. If you add inputs, give
+                  them unique IDs and names, and include them in the error-focus logic.
+                </>
+              )}
+            </dd>
+          </div>
+          <div>
+            <dt>{isSidebar ? "Keyboard and focus" : "Submission feedback"}</dt>
+            <dd>
+              {isSidebar ? (
+                <>
+                  Retain the core sheet, dialog, menu and disclosure primitives when adapting
+                  interactions. Test Tab, Shift+Tab, Enter, Space and Escape where applicable; after
+                  an overlay closes, focus should return to its trigger. Avoid placing an essential
+                  destination only in a pane hidden on mobile.
+                </>
+              ) : (
+                <>
+                  Loading disables submission controls, and status messages use a polite live
+                  region. Preserve this feedback when connecting a real service. Replace demo
+                  wording with a clear result and a recovery action that does not expose sensitive
+                  account details.
+                </>
+              )}
+            </dd>
+          </div>
+        </dl>
+        <p class="blocks-doc-note">
+          Before shipping your adaptation, check 320px, 768px, 1024px and 1440px, keyboard-only
+          operation, 200% zoom, both color modes and your longest real content. These checks apply
+          to your finished integration; the demo cannot guarantee accessibility after its structure
+          or behavior changes.
+        </p>
+      </section>
+      <section aria-labelledby={anchor("production")}>
+        <BlockGuideHeading id={anchor("production")} />
+        <p>
+          {isSidebar ? (
+            <>
+              Replace <code>#</code> destinations and sample click handlers that prevent navigation.
+              Search, opt-in forms and action menus need application behavior. Replace placeholder
+              panels with routed content, and supply mobile alternatives for any essential
+              desktop-only utilities.
+            </>
+          ) : (
+            <>
+              Remove the artificial <code>sleep()</code> delay and <code>demoRejects()</code> rule,
+              replace the demo success/error messages, and supply real account and legal URLs. Local
+              validation is feedback, not a security boundary. The backend must validate input and
+              own account creation, sessions and recovery.
+            </>
+          )}
+        </p>
+      </section>
+    </BlockDocSection>
+  );
+}
+
+export function VariantSource({ guide }: { guide: VariantGuide }) {
+  const { block, category, anchor } = guide;
+  const { sourceUrl, displayName } = getBlockOverviewDetails(category, block);
+  return (
+    <BlockDocSection
+      id={anchor("source")}
+      className="blocks-doc-reference"
+      introduction={
+        <p>
+          Use the checked-in Kamod implementation as your reference when adapting this variant. The
+          showcase’s Code tab includes its supporting files, and the setup section explains how to
+          keep their imports intact.
+        </p>
+      }
+    >
+      <div class="blocks-doc-attribution">
+        <div class="blocks-doc-attribution-header">
+          <p class="blocks-doc-attribution-title">
+            Source:{" "}
+            <a
+              class="blocks-doc-attribution-source"
+              href={sourceUrl}
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              {displayName} on GitHub
+              <span class="blocks-doc-attribution-icon" aria-hidden="true">
+                <ExternalLinkIcon size={16} strokeWidth={2} />
+              </span>
+            </a>
+          </p>
+        </div>
+        <p>
+          Keep your local copy focused on the layout and interactions your app actually uses. Start
+          with the data and content, then adjust composition and styling using the same semantic
+          theme tokens.
+        </p>
+        <p class="blocks-doc-attribution-note">
+          Ready to integrate? Follow <a href={`#${anchor("installation")}`}>Add this block</a> and
+          the <a href={`#${anchor("usage")}`}>local usage example</a>.
+        </p>
+      </div>
+    </BlockDocSection>
+  );
+}
