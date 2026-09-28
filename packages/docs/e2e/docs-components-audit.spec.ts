@@ -326,13 +326,13 @@ test("docs /docs/components full link audit (writes tmp report)", async ({ page,
     await page.setViewportSize({ width: 600, height: 900 });
     await gotoDocsPath(page, overviewPath);
     await page.getByRole("button", { name: "Open navigation menu" }).click();
-    const mobileNav = page.locator(
-      '[aria-label="Docs navigation panel"] nav[aria-label="Mobile docs navigation"]',
-    );
+    const mobileNav = page.locator(".site-navigation-group").filter({
+      has: page.getByRole("button", { name: /Components Documentation/ }),
+    });
     let mobileCount = 0;
     try {
       await mobileNav.waitFor({ state: "visible", timeout: 15_000 });
-      mobileCount = await mobileNav.locator(":is(a,button)").count();
+      mobileCount = await mobileNav.getByRole("link").count();
     } catch (error) {
       addFinding({
         severity: "warning",

@@ -2,6 +2,7 @@ import type { ComponentChildren } from "preact";
 import Footer from "../../.preactpress/theme/Footer";
 import { withBasePath } from "../base-path";
 import { KamodUiBrandLogo } from "./KamodUiBrandLogo";
+import { SiteNavigation } from "./navigation/SiteNavigation";
 
 export type DemoTopNavItem = {
   label: string;
@@ -21,7 +22,6 @@ type DemoShellProps = {
   topNavItems: DemoTopNavItem[];
   /** Optional test id for the top nav links container (e.g. kitchen sink e2e). */
   topNavLinksTestId?: string;
-  topbarLeading?: ComponentChildren;
   topbarActions?: ComponentChildren;
   leftSidebar?: ComponentChildren;
   /** Introduction above the content column; sidebars start alongside the content below it. */
@@ -38,7 +38,6 @@ export const DemoShell = ({
   brandHref = withBasePath("/"),
   topNavItems,
   topNavLinksTestId,
-  topbarLeading,
   topbarActions,
   leftSidebar,
   contentHeader,
@@ -62,7 +61,7 @@ export const DemoShell = ({
       <header class="docs-topbar">
         <div class="docs-topbar-inner">
           <div class="docs-topbar-leading">
-            {topbarLeading}
+            <SiteNavigation />
             <a class="docs-topbar-brand" href={brandHref}>
               <KamodUiBrandLogo label={brand} />
             </a>

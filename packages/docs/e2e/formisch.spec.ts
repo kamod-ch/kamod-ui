@@ -31,10 +31,12 @@ test.describe("Forms / Formisch docs", () => {
     await page.goto("./docs/forms");
     await page.getByRole("button", { name: "Open navigation menu" }).click();
     await expect(
-      page.locator(".docs-mobile-sheet-group-label", { hasText: "Forms" }),
+      page
+        .getByRole("dialog", { name: "Explore Kamod", exact: true })
+        .getByRole("button", { name: /Forms Documentation/ }),
     ).toBeVisible();
     await page
-      .locator("[aria-label='Mobile docs navigation']")
+      .locator("[aria-label='Browse all pages']")
       .getByRole("link", { name: "Formisch" })
       .click();
     await expect(page.getByRole("heading", { level: 1, name: "Formisch" })).toBeVisible();

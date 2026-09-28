@@ -1,7 +1,6 @@
-/** Shared desktop/mobile category navigation; variants come from component-free metadata. */
+/** Desktop category navigation; variants come from component-free metadata. */
 import { ChevronRightIcon } from "@kamod-ch/icons/lucide";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger, SheetClose } from "@kamod-ch/ui";
-import type { JSX } from "preact";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@kamod-ch/ui";
 import { withBasePath } from "../base-path";
 import { type BlockOverviewEntry, blockCategories } from "./block-categories";
 import {
@@ -29,34 +28,20 @@ const categories = [
 ].sort((a, b) => b.variants.length - a.variants.length || a.label.localeCompare(b.label, "en"));
 const total = categories.reduce((sum, category) => sum + category.variants.length, 0);
 
-/** Dismiss the mobile sheet only for navigation, never for expanding a category. */
-function NavigationLink({
-  mobile,
-  ...props
-}: JSX.AnchorHTMLAttributes<HTMLAnchorElement> & {
-  mobile: boolean;
-}) {
-  const link = <a {...props} />;
-  return mobile ? <SheetClose asChild>{link}</SheetClose> : link;
-}
-
 /** A category link and its disclosure are sibling controls with independent actions. */
 function CategoryItem({
   category,
   active,
-  mobile,
 }: {
   category: (typeof categories)[number];
   active: boolean;
-  mobile: boolean;
 }) {
   const { key, label, href, variants, placeholder } = category;
   const count = variants.length;
-  const id = `block-category-${mobile ? "mobile" : "desktop"}-${key}`;
+  const id = `block-category-desktop-${key}`;
   const row = (
     <div class="blocks-category-row">
-      <NavigationLink
-        mobile={mobile}
+      <a
         class="blocks-category-link"
         href={withBasePath(href)}
         aria-label={label}
@@ -74,7 +59,7 @@ function CategoryItem({
             {placeholder && "; page not available yet"}
           </span>
         </span>
-      </NavigationLink>
+      </a>
       {count > 0 && (
         <CollapsibleTrigger
           class="blocks-category-toggle"
@@ -95,14 +80,13 @@ function CategoryItem({
         <ul class="blocks-category-variants" aria-label={`${label} variants`}>
           {variants.map((variant) => (
             <li key={variant.id}>
-              <NavigationLink
-                mobile={mobile}
+              <a
                 class="blocks-category-variant-link"
                 href={withBasePath(`${href}/${variant.id}`)}
                 title={variant.description}
               >
                 {getBlockDisplayName(variant.title)}
-              </NavigationLink>
+              </a>
             </li>
           ))}
         </ul>
@@ -111,29 +95,19 @@ function CategoryItem({
   );
 }
 
-/** Keep the same links, counts and disclosures in the sidebar and the mobile sheet. */
-export function BlockCategoryNavigation({
-  activeBlock,
-  mobile = false,
-}: {
-  activeBlock?: BlockNavKey;
-  mobile?: boolean;
-}) {
+/** Show published collections and planned categories in the overview sidebar. */
+export function BlockCategoryNavigation({ activeBlock }: { activeBlock?: BlockNavKey }) {
   return (
     <section class="blocks-category-navigation">
       <header class="blocks-category-navigation-header">
         <h2>Categories</h2>
         <span>{total} blocks</span>
       </header>
-      <nav aria-label={mobile ? "Mobile block categories" : "Docs blocks"}>
+      <nav aria-label="Docs blocks">
         <ul>
           {categories.map((category) => (
             <li key={category.key}>
-              <CategoryItem
-                category={category}
-                active={activeBlock === category.key}
-                mobile={mobile}
-              />
+              <CategoryItem category={category} active={activeBlock === category.key} />
             </li>
           ))}
         </ul>

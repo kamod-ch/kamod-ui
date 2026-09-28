@@ -6,12 +6,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetTrigger,
 } from "@kamod-ch/ui";
-import { Menu } from "lucide-preact";
 import type { ComponentChildren } from "preact";
 import { useMemo } from "preact/hooks";
 import { withBasePath } from "../../base-path";
@@ -104,7 +99,7 @@ const groupTocSections = (sections: DocSection[]): TocSectionGroups => {
 
 const PRO_FEEDBACK_FORM_DEFAULT = "https://tally.so/r/ODYbWK";
 
-function NavLink({ entry, asSheetClose }: { entry: NavEntry; asSheetClose?: boolean }) {
+function NavLink({ entry }: { entry: NavEntry }) {
   const className = `docs-nav-button ${entry.active ? "is-active" : ""}`;
   const content = (
     <>
@@ -113,16 +108,6 @@ function NavLink({ entry, asSheetClose }: { entry: NavEntry; asSheetClose?: bool
       {entry.badge === "updated" ? <Badge variant="success">updated</Badge> : null}
     </>
   );
-
-  if (asSheetClose) {
-    return (
-      <SheetClose asChild>
-        <a class={className} href={entry.href}>
-          {content}
-        </a>
-      </SheetClose>
-    );
-  }
 
   return (
     <a class={className} href={entry.href}>
@@ -150,17 +135,6 @@ function SidebarSection({
           <NavLink entry={entry} key={entry.key} />
         ))}
       </nav>
-    </>
-  );
-}
-
-function MobileSection({ title, entries }: { title: string; entries: NavEntry[] }) {
-  return (
-    <>
-      <p class="docs-mobile-sheet-group-label">{title}</p>
-      {entries.map((entry) => (
-        <NavLink asSheetClose entry={entry} key={entry.key} />
-      ))}
     </>
   );
 }
@@ -299,38 +273,11 @@ export const DocsShell = ({
       />
     );
 
-  const mobileNav = (
-    <nav aria-label="Mobile docs navigation" class="docs-mobile-sheet-nav">
-      {sidebarScope === "blocks" ? (
-        <BlockCategoryNavigation activeBlock={activeBlock} mobile />
-      ) : sidebarScope === "packages" ? (
-        <MobileSection title="Packages" entries={packageNavEntries} />
-      ) : sidebarScope === "forms" ? (
-        <MobileSection title="Forms" entries={formNavEntries} />
-      ) : (
-        <MobileSection title="Components" entries={componentNavEntries} />
-      )}
-    </nav>
-  );
-
   return (
     <DemoShell
       brand="Kamod UI"
       rootClassName="docs-shell"
       topNavItems={demoTopNavItems}
-      topbarLeading={
-        <Sheet class="docs-mobile-menu" lockBodyScroll>
-          <SheetTrigger aria-label="Open navigation menu" class="docs-mobile-menu-trigger">
-            <Menu size={18} />
-          </SheetTrigger>
-          <SheetContent class="docs-mobile-sheet" side="left" aria-label="Docs navigation panel">
-            <div class="docs-mobile-sheet-head">
-              <h2>Docs</h2>
-            </div>
-            {mobileNav}
-          </SheetContent>
-        </Sheet>
-      }
       leftSidebar={sidebarNav}
       topbarActions={<DocsTopbarActions />}
       contentHeader={contentHeader}

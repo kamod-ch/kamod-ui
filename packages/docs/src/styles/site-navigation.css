@@ -1,0 +1,310 @@
+/* The shared navigation takes over where the desktop navigation disappears. */
+.site-navigation {
+  display: inline-flex;
+  flex: none;
+}
+
+.site-navigation-trigger,
+.site-navigation-icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 0.65rem;
+  background: color-mix(in oklab, var(--foreground) 5%, transparent);
+  color: var(--foreground);
+  cursor: pointer;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease;
+}
+
+.site-navigation-panel {
+  inset: 0 auto 0 0;
+  width: min(100%, 26rem);
+  max-width: none;
+  height: 100dvh;
+  max-height: 100dvh;
+  gap: 0;
+  overflow: hidden;
+  padding: 0;
+  background: var(--background);
+  color: var(--foreground);
+  border-color: var(--border);
+}
+
+.site-navigation-head {
+  flex: none;
+  padding: max(1.25rem, env(safe-area-inset-top)) 1.25rem 1rem;
+  border-bottom: 1px solid var(--border);
+  background: color-mix(in oklab, var(--primary) 3%, var(--background));
+}
+
+.site-navigation-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.site-navigation-eyebrow {
+  color: var(--muted-foreground);
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+}
+
+.site-navigation-heading h2 {
+  margin: 0.25rem 0 0;
+  font-size: 1.45rem;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.035em;
+}
+
+.site-navigation-head [data-slot="dialog-description"] {
+  margin: 0.65rem 0 1rem;
+  max-width: 30ch;
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+}
+
+.site-navigation-search {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-height: 2.75rem;
+  padding-inline: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.65rem;
+  background: var(--background);
+  color: var(--muted-foreground);
+}
+
+.site-navigation-search svg {
+  flex: none;
+}
+
+.site-navigation-search input {
+  width: 100%;
+  min-width: 0;
+  padding: 0.65rem 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--foreground);
+  font: inherit;
+  /* Avoid automatic zoom when the search field receives focus on iOS. */
+  font-size: 1rem;
+  outline: none;
+  box-shadow: none;
+}
+
+.site-navigation-search:focus-within {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.site-navigation-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  padding: 1rem 0.75rem;
+}
+
+.site-navigation-directory-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0 0.5rem 0.75rem;
+  color: var(--muted-foreground);
+  font-size: 0.6875rem;
+}
+
+.site-navigation-directory-heading > :first-child {
+  font-weight: 500;
+}
+
+.site-navigation-group + .site-navigation-group {
+  margin-top: 0.3rem;
+}
+
+.site-navigation-group-trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  min-height: 3.5rem;
+  padding: 0.6rem 0.5rem;
+  border: 0;
+  border-radius: 0.65rem;
+  background: transparent;
+  color: var(--foreground);
+  text-align: left;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.site-navigation-group-trigger small {
+  display: block;
+  margin-top: 0.2rem;
+  color: var(--muted-foreground);
+  font-size: 0.6875rem;
+  font-weight: 400;
+}
+
+.site-navigation-group-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid var(--border);
+  border-radius: 0.55rem;
+  background: var(--background);
+  color: var(--muted-foreground);
+}
+
+.site-navigation-count {
+  margin-left: auto;
+  color: var(--muted-foreground);
+  font-size: 0.6875rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 400;
+}
+
+.site-navigation-chevron {
+  flex: none;
+  color: var(--muted-foreground);
+  transition: transform 180ms ease;
+}
+
+.site-navigation-group-trigger[aria-expanded="true"] {
+  background: color-mix(in oklab, var(--foreground) 4%, transparent);
+}
+
+.site-navigation-group-trigger[aria-expanded="true"] .site-navigation-chevron {
+  transform: rotate(180deg);
+}
+
+.site-navigation-links {
+  margin: 0.5rem 0 0.65rem 1.5rem;
+  padding: 0 0 0 0.75rem;
+  border-left: 1px solid var(--border);
+  list-style: none;
+}
+
+.site-navigation-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 2.75rem;
+  padding: 0.6rem 0.7rem;
+  border-radius: 0.45rem;
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.site-navigation-link[aria-current="page"] {
+  background: color-mix(in oklab, var(--primary) 10%, var(--background));
+  color: var(--foreground);
+  font-weight: 600;
+  box-shadow: inset 2px 0 var(--primary);
+}
+
+.site-navigation-empty {
+  padding: 1rem 0.5rem;
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.site-navigation-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  flex: none;
+  gap: 0.25rem;
+  padding: 0.5rem 1rem max(0.5rem, env(safe-area-inset-bottom));
+  border-top: 1px solid var(--border);
+  background: color-mix(in oklab, var(--foreground) 2%, var(--background));
+}
+
+.site-navigation-footer a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2.75rem;
+  padding: 0.3rem;
+  border-radius: 0.35rem;
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  text-decoration: none;
+}
+
+.site-navigation-panel :is(a, button):focus-visible,
+.site-navigation-trigger:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+@media (hover: hover) {
+  .site-navigation-trigger:hover,
+  .site-navigation-icon-button:hover,
+  .site-navigation-group-trigger:hover,
+  .site-navigation-link:hover,
+  .site-navigation-footer a:hover {
+    color: var(--foreground);
+    background: color-mix(in oklab, var(--primary) 7%, var(--background));
+  }
+}
+
+@media (min-width: 480px) {
+  .site-navigation-panel {
+    inset: 0.75rem auto 0.75rem 0.75rem;
+    width: min(calc(100% - 1.5rem), 26rem);
+    height: calc(100dvh - 1.5rem);
+    border-radius: 1rem;
+  }
+}
+
+@media (max-height: 480px) {
+  .site-navigation-head {
+    padding-block: 0.65rem;
+  }
+  .site-navigation-head [data-slot="dialog-description"],
+  .site-navigation-eyebrow {
+    display: none;
+  }
+  .site-navigation-search {
+    margin-top: 0.5rem;
+  }
+  .site-navigation-body {
+    padding-block: 0.5rem;
+  }
+}
+
+@media (min-width: 980px) {
+  .site-navigation {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-navigation-panel *,
+  .site-navigation-trigger {
+    transition: none;
+  }
+}

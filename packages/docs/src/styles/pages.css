@@ -2,93 +2,6 @@
   background: var(--background);
 }
 
-.docs-mobile-menu {
-  display: inline-flex;
-  align-items: center;
-}
-
-.docs-mobile-menu-trigger {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.75rem;
-  height: 2.75rem;
-  min-width: 2.75rem;
-  padding: 0;
-  border: 0;
-  border-radius: 0.55rem;
-  background: color-mix(in oklab, var(--foreground) 6%, transparent);
-  color: var(--foreground);
-}
-
-.docs-mobile-sheet {
-  position: fixed;
-  top: var(--docs-topbar-height, 56px);
-  left: 10px;
-  bottom: 0;
-  z-index: 80;
-  display: flex;
-  flex-direction: column;
-  width: min(82vw, 292px);
-  max-height: calc(100vh - var(--docs-topbar-height, 56px));
-  max-height: calc(100dvh - var(--docs-topbar-height, 56px));
-  padding-top: 0.9rem;
-  padding-right: 0.9rem;
-  padding-left: max(0.9rem, env(safe-area-inset-left, 0px));
-  padding-bottom: max(0.9rem, env(safe-area-inset-bottom, 0px));
-  overflow-y: auto;
-  border-right: 1px solid var(--border);
-  border-top-right-radius: 0.8rem;
-  border-bottom-right-radius: 0.8rem;
-  background: var(--card);
-  box-shadow:
-    0 20px 40px rgb(0 0 0 / 12%),
-    0 0 0 100vmax rgb(0 0 0 / 28%);
-  animation: docs-sheet-enter 170ms ease-out;
-}
-
-html.dark .docs-mobile-sheet {
-  box-shadow:
-    0 20px 40px rgb(0 0 0 / 38%),
-    0 0 0 100vmax rgb(0 0 0 / 44%);
-}
-
-@keyframes docs-sheet-enter {
-  from {
-    transform: translateX(-18px);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-.docs-mobile-sheet-head h2 {
-  margin: 0 0 0.85rem;
-  font-size: 0.8rem;
-  color: var(--muted-foreground);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-.docs-mobile-sheet-nav {
-  display: grid;
-  gap: 0.18rem;
-}
-
-.docs-mobile-sheet-nav :is(a, button) {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 0.5rem;
-  text-decoration: none;
-  color: var(--muted-foreground);
-  border-radius: 0.5rem;
-  padding: 0.5rem 0.55rem;
-  font-size: 0.89rem;
-}
-
 .docs-title-row {
   display: flex;
   justify-content: flex-start;
@@ -2836,10 +2749,6 @@ html.dark .landing-shadcn-brand-logo--dark-theme {
 }
 
 @media (min-width: 980px) {
-  .docs-mobile-menu {
-    display: none;
-  }
-
   .docs-title-row {
     justify-content: space-between;
     flex-wrap: nowrap;

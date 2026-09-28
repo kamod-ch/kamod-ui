@@ -148,9 +148,11 @@ test("planned categories stay navigable without becoming screenshot targets", as
   await expect(about).toHaveAccessibleDescription("0 variants; page not available yet");
   await page.setViewportSize({ width: 320, height: 900 });
   await page.getByRole("button", { name: "Open navigation menu" }).click();
-  const mobile = page.getByRole("navigation", { name: "Mobile block categories", exact: true });
-  await expect(mobile.getByRole("link")).toHaveCount(24);
-  await mobile.getByRole("link", { name: "Login", exact: true }).click();
+  const mobile = page.getByRole("navigation", { name: "Browse all pages", exact: true });
+  await expect(mobile.getByRole("button")).toHaveCount(7);
+  await expect(mobile.getByRole("link", { name: "About", exact: true })).toHaveCount(0);
+  await mobile.getByRole("button", { name: /Login Layout collection/ }).click();
+  await mobile.getByRole("link", { name: "All login blocks", exact: true }).click();
   await expect(page.getByRole("heading", { name: "Login Forms and Sign-in Pages" })).toBeVisible();
 });
 
@@ -212,8 +214,8 @@ for (const width of [320, 768]) {
     await page.setViewportSize({ width, height: 600 });
     await page.goto("./blocks/login");
     await page.getByRole("button", { name: "Open navigation menu" }).click();
-    const navigation = page.getByRole("navigation", { name: "Mobile block categories" });
-    const toggle = navigation.getByRole("button", { name: "Toggle Signup variants" });
+    const navigation = page.getByRole("navigation", { name: "Browse all pages" });
+    const toggle = navigation.getByRole("button", { name: /Signup Layout collection/ });
     await toggle.click();
     await expect(toggle).toHaveAttribute("aria-expanded", "true");
     await expect(navigation).toBeVisible();
@@ -667,7 +669,7 @@ test("header preview and category navigation remain usable on short desktop scre
     await page.setViewportSize({ width: 768, height: 480 });
     await expect(preview).toBeHidden();
     await page.getByRole("button", { name: "Open navigation menu" }).click();
-    await expect(page.getByRole("navigation", { name: "Mobile block categories" })).toBeVisible();
+    await expect(page.getByRole("navigation", { name: "Browse all pages" })).toBeVisible();
     await page.keyboard.press("Escape");
   }
 });
@@ -683,8 +685,8 @@ test("category menu stays usable in a short touch viewport", async ({ browser, b
     await page.goto("./blocks/sidebar");
     const trigger = page.getByRole("button", { name: "Open navigation menu" });
     await trigger.tap();
-    const navigation = page.getByRole("navigation", { name: "Mobile block categories" });
-    const signup = navigation.getByRole("link", { name: "Signup", exact: true });
+    const navigation = page.getByRole("navigation", { name: "Browse all pages" });
+    const signup = navigation.getByRole("button", { name: /Signup Layout collection/ });
     await signup.scrollIntoViewIfNeeded();
     await expect(signup).toBeInViewport();
     expect((await signup.boundingBox())!.height).toBeGreaterThanOrEqual(44);

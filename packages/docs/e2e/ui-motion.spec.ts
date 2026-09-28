@@ -300,13 +300,9 @@ test.describe("UI Motion docs polish QA", () => {
     await page.setViewportSize({ width: 375, height: 812 });
     await page.goto(docsRoute("docs/ui-motion/installation"));
     await page.getByRole("button", { name: "Open navigation menu" }).click();
-    const mobileNav = page.locator(
-      '[aria-label="Docs navigation panel"] nav[aria-label="Mobile docs navigation"]',
-    );
+    const mobileNav = page.getByRole("navigation", { name: "Browse all pages" });
     await expect(mobileNav.getByRole("link", { name: /UI Motion/ })).toBeVisible();
-    await expect(
-      mobileNav.locator(".docs-mobile-sheet-group-label", { hasText: "Motion" }),
-    ).toHaveCount(0);
+    await expect(mobileNav.getByRole("button", { name: /^Motion Documentation/ })).toHaveCount(0);
     await page.keyboard.press("Escape");
   });
 

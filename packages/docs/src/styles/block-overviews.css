@@ -841,19 +841,6 @@
 }
 
 /* Keep desktop links compact while giving the mobile sheet comfortable tap targets. */
-.docs-mobile-sheet-nav .blocks-category-link,
-.docs-mobile-sheet-nav .blocks-category-variant-link {
-  min-height: 2.75rem;
-}
-
-.docs-mobile-sheet-nav .blocks-category-row {
-  grid-template-columns: minmax(0, 1fr) 2.75rem;
-}
-
-.docs-mobile-sheet-nav .blocks-category-toggle {
-  width: 2.75rem;
-  height: 2.75rem;
-}
 
 .blocks-category-preview-actions,
 .blocks-overview-action-links,
@@ -1072,38 +1059,5 @@
 
   .blocks-page-header-title-row [data-slot="badge"] {
     order: -1;
-  }
-
-  html:has(.blocks-page-header) {
-    scroll-padding-top: calc(112px + 1rem);
-  }
-
-  .docs-shell:has(.blocks-page-header) .docs-topbar {
-    --docs-topbar-height: 112px;
-    height: auto;
-  }
-
-  .docs-shell:has(.blocks-page-header) .docs-topbar-inner {
-    flex-wrap: wrap;
-    padding-block: 0.5rem;
-  }
-
-  .docs-shell:has(.blocks-page-header) .docs-topbar-leading {
-    min-height: 2.75rem;
-  }
-
-  .docs-shell:has(.blocks-page-header) .docs-topbar-leading,
-  .docs-shell:has(.blocks-page-header) .docs-topbar-actions {
-    width: 100%;
-  }
-
-  .docs-shell:has(.blocks-page-header) .docs-theme-preset {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .docs-shell:has(.blocks-page-header) .docs-theme-preset-select {
-    width: 100%;
-    min-width: 0;
   }
 }
