@@ -67,7 +67,12 @@ export function VariantDocumentation({
         Content: () => <VariantUsage guide={guide} />,
         children:
           category === "sidebar"
-            ? []
+            ? [
+                heading("usage-model", "How this composition works"),
+                heading("render", "Render the block"),
+                heading("customize", "Adapt the local composition"),
+                heading("connect-app", "Connect your application"),
+              ]
             : [
                 heading("render", "Render the page or form"),
                 heading("connect-app", "Connect your authentication service"),

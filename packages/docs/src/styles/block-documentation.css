@@ -204,6 +204,10 @@
   margin-bottom: 0;
 }
 
+.blocks-sidebar-usage-model .blocks-doc-callouts {
+  margin-block: 1.5rem;
+}
+
 .blocks-doc-integration-notes {
   display: grid;
   gap: 0.875rem;
@@ -215,6 +219,7 @@
   list-style: disc;
 }
 
+.blocks-sidebar-usage-model a:not(.blocks-doc-heading-link),
 .blocks-doc-usage .blocks-doc-note a,
 .blocks-doc-integration-notes a {
   text-decoration: underline;

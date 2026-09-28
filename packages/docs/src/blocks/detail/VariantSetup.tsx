@@ -7,8 +7,9 @@ import { AuthUsage } from "./AuthUsage";
 import { BlockDocSection, BlockGuideHeading } from "./BlockDocumentation";
 import { DependencyCommands } from "./DependencyCommands";
 import { SidebarInstallation } from "./SidebarInstallation";
+import { SidebarUsage } from "./SidebarUsage";
 import type { VariantGuide } from "./VariantDocumentation";
-import { integrationExample, variantImport } from "./variant-examples";
+import { variantImport } from "./variant-examples";
 
 export function VariantSetup({ guide }: { guide: VariantGuide }) {
   const { block, category, anchor, files } = guide;
@@ -94,57 +95,6 @@ export function VariantSetup({ guide }: { guide: VariantGuide }) {
 }
 
 export function VariantUsage({ guide }: { guide: VariantGuide }) {
-  if (guide.category !== "sidebar") return <AuthUsage guide={guide} />;
-  const { anchor, component, category } = guide;
-  return (
-    <BlockDocSection
-      id={anchor("usage")}
-      introduction={
-        <p>
-          Render <code>{`<${component} />`}</code> to reproduce this complete page. That exported
-          wrapper takes <strong>no props</strong>. To integrate application data, edit your copied
-          page or compose its local helpers directly as shown below.
-        </p>
-      }
-    >
-      <CodeBlock
-        code={`${variantImport(guide)}\n\nexport const App = () => <${component} />;`}
-        language="tsx"
-      />
-      <p>
-        {category === "sidebar" ? (
-          <>
-            Your copied <code>{guide.block.id}.tsx</code> contains the complete composition. Replace
-            its placeholder content and edit the supplied demo data first. The example below shows
-            one integration point in this variant; keep the remaining composition around it to
-            preserve the preview layout.
-          </>
-        ) : (
-          <>
-            The form accepts callbacks; the page wrapper does not forward them. Render the form
-            below inside your own layout, or pass the same props to the form in your copied{" "}
-            <code>page.tsx</code> to keep this variant’s layout.
-          </>
-        )}
-      </p>
-      <CodeBlock code={integrationExample(guide)} language="tsx" />
-      <p class="blocks-doc-note">
-        {category === "sidebar" ? (
-          <>
-            Keep the sidebar and its trigger inside the same <code>SidebarProvider</code>. Preserve
-            the existing main landmark instead of nesting another <code>main</code>. Placeholder{" "}
-            <code>#</code> links stay inert; real URLs navigate normally. Set current-page styling
-            from your router and connect search, form and action controls separately.
-          </>
-        ) : (
-          <>
-            Supplying <code>onSubmit</code> connects your service but does not remove the demo
-            delay, the deliberate rejection of emails containing <code>error</code>, or the demo
-            success messages. Replace these in the copied form before production use. Provider
-            buttons also need your social callback.
-          </>
-        )}
-      </p>
-    </BlockDocSection>
-  );
+  if (guide.category === "sidebar") return <SidebarUsage guide={guide} />;
+  return <AuthUsage guide={guide} />;
 }

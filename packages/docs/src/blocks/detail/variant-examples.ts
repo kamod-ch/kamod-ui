@@ -13,14 +13,14 @@ export function integrationExample(guide: VariantGuide): string {
   const { category, block } = guide;
   if (category === "sidebar") {
     if (guide.files.some((file) => file.label === "components/nav-main.tsx"))
-      return `// Inside ${block.id}.tsx; keep its SidebarProvider and surrounding layout.
-<NavMain items={[{
+      return `// In ${block.id}.tsx; keep the surrounding layout.
+<NavMain${["sidebar-03", "sidebar-04"].includes(block.id) ? " collapsible={false}" : ""} items={[{
   title: "Projects", url: "/projects", icon: "frame", isActive: true,
   items: [{ title: "Overview", url: "/projects/overview" }],
 }]} />`;
     if (guide.files.some((file) => file.label === "components/nav-docs.tsx"))
       return `// Replace the NavDocs data in ${block.id}.tsx.
-<NavDocs groups={[{
+<NavDocs${block.id === "sidebar-02" ? " collapsibleSections" : ""} groups={[{
   title: "Workspace",
   items: [{ title: "Projects", url: "/projects", isActive: true }],
 }]} />`;
@@ -31,11 +31,7 @@ export function integrationExample(guide: VariantGuide): string {
   items: [{ title: "Overview", url: "/projects/overview" }],
 }]} />`;
     if (guide.files.some((file) => file.label === "components/dashboard-shell.tsx"))
-      return `// Replace this block's DashboardShell placeholder content.
-<DashboardShell breadcrumbs={[{ label: "Workspace", href: "/" }, { label: "Projects" }]}>
-  <h1 class="text-2xl font-semibold">Projects</h1>
-  <p>Your routed content goes here.</p>
-</DashboardShell>`;
+      return sidebarPageContentExample(block.id);
     return `// In ${block.id}.tsx, keep DialogTitle and replace the demo panels.
 <section aria-labelledby="account-settings">
   <h2 id="account-settings">Account settings</h2>
@@ -72,4 +68,20 @@ export const AccountForm = ({ submit${social ? ", startProvider" : ""} }: Props)
     ${props.join("\n    ")}
   />
 );`;
+}
+
+/** Replace only the existing content shell, retaining variant-specific props. */
+export function sidebarPageContentExample(blockId: string): string {
+  return `// In ${blockId}.tsx; keep existing layout props.
+<DashboardShell
+  breadcrumbs={[
+    { label: "Workspace", href: "/" },
+    { label: "Projects" },
+  ]}
+>
+  <div class="flex flex-1 flex-col gap-4 p-4">
+    <h1 class="text-2xl font-semibold">Projects</h1>
+    <p>Your routed content goes here.</p>
+  </div>
+</DashboardShell>`;
 }
