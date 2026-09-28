@@ -2,6 +2,7 @@ import { expect, test } from "@playwright/test";
 import { assertNoBlockingA11yViolations } from "./a11y-utils";
 
 const variants = [
+  { category: "application-shell", id: "application-shell-1" },
   ...Array.from({ length: 16 }, (_, i) => ({
     category: "sidebar",
     id: `sidebar-${String(i + 1).padStart(2, "0")}`,
@@ -29,9 +30,28 @@ test("every registered variant has a complete guide with valid, unique contents 
     // Inline form demos have their own headings; check the documentation chrome separately.
     await expect(page.locator(".blocks-page-header h1")).toHaveCount(1);
     await expect(page.locator(".blocks-card-header > div > h2")).toHaveCount(1);
-    for (const section of ["installation", "usage", "props", "behavior", "about", "source"]) {
-      await expect(guide.locator(`h2#${id}-${section}`)).toHaveCount(1);
+    const prefix = category === "application-shell" ? "application-shell" : id;
+    const sections = ["installation", "usage", "props", "about", "reference"];
+    if (category !== "application-shell") sections.push("behavior", "source");
+    for (const section of sections) {
+      await expect(guide.locator(`h2#${prefix}-${section}`)).toHaveCount(1);
     }
+    if (category === "login" || category === "signup") {
+      for (const section of ["render", "connect-app", "verify-flow"]) {
+        await expect(guide.locator(`h3#${id}-${section}`)).toHaveCount(1);
+      }
+    }
+    // Source-file permalinks resolve through the showcase's Code anchor.
+    expect(
+      await guide.locator('a[href^="#"]').evaluateAll((links) =>
+        links.every((link) => {
+          const hash = (link as HTMLAnchorElement).hash.slice(1);
+          const target = hash.includes("-code/") ? hash.split("/")[0] : hash;
+          return target === "top" || !!document.getElementById(target);
+        }),
+      ),
+      id,
+    ).toBe(true);
     expect(
       await guide.locator(".blocks-doc-toc a").evaluateAll((links) =>
         links.every((link) => {
@@ -49,7 +69,7 @@ test("every registered variant has a complete guide with valid, unique contents 
       id,
     ).toBe(true);
     await expect(guide.getByRole("tab", { name: "pnpm", exact: true })).toHaveCount(1);
-    await expect(guide.locator(`#${id}-accessibility`)).toHaveCount(1);
+    await expect(guide.locator(`#${prefix}-accessibility`)).toHaveCount(1);
   }
 });
 
