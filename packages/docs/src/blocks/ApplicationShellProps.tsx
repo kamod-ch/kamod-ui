@@ -97,10 +97,12 @@ const ShellDataTypes = ({ renderDefinition }: Pick<ShellTypeDefinitions, "render
     </p>
     <div class="blocks-api-types">{dataTypes.map(renderDefinition)}</div>
     <p class="blocks-doc-note">
-      <strong>Branch selection:</strong> an active child also highlights its parent branch, even
-      when the parent's own <code>active</code> is false. An active branch starts expanded; later
-      path changes update highlighting without resetting its disclosure while mounted. In desktop
-      icon mode, the branch becomes a dropdown containing its destinations.
+      <strong>Branch selection:</strong> an active child makes the branch start expanded and
+      highlights its icon-mode menu or URL-free disclosure trigger. A parent rendered as a separate
+      link keeps its own active state; a child does not mark that parent link as the current page.
+      Later path changes do not reset an already mounted disclosure. Switching to desktop icon mode
+      replaces the disclosure with a dropdown; expanding the sidebar creates a new disclosure from
+      the current active state.
     </p>
   </section>
 );
