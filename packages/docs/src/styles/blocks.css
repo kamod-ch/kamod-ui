@@ -225,10 +225,10 @@
 }
 
 .blocks-preview-panel-toolbar {
-  position: absolute;
-  top: 0.75rem;
-  right: 0.75rem;
-  z-index: 20;
+  /* Demo headers vary; keep viewport controls out of their interactive area. */
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.625rem;
 }
 
 .blocks-preview-viewport-switcher {
