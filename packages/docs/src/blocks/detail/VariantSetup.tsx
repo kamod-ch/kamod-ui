@@ -3,6 +3,7 @@ import { withBasePath } from "../../base-path";
 import { CodeBlock } from "../../docs/components/CodeBlock";
 import { getBlockOverviewDetails } from "../block-overview-details";
 import { ShowcaseCodeLink } from "../ShowcaseCodeLink";
+import { AuthUsage } from "./AuthUsage";
 import { BlockDocSection, BlockGuideHeading } from "./BlockDocumentation";
 import { DependencyCommands } from "./DependencyCommands";
 import { SidebarInstallation } from "./SidebarInstallation";
@@ -93,6 +94,7 @@ export function VariantSetup({ guide }: { guide: VariantGuide }) {
 }
 
 export function VariantUsage({ guide }: { guide: VariantGuide }) {
+  if (guide.category !== "sidebar") return <AuthUsage guide={guide} />;
   const { anchor, component, category } = guide;
   return (
     <BlockDocSection

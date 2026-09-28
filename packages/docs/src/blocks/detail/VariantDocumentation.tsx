@@ -65,6 +65,14 @@ export function VariantDocumentation({
         ...heading("usage", "Usage"),
         eyebrow: "Integration",
         Content: () => <VariantUsage guide={guide} />,
+        children:
+          category === "sidebar"
+            ? []
+            : [
+                heading("render", "Render the page or form"),
+                heading("connect-app", "Connect your authentication service"),
+                heading("verify-flow", "Check the complete flow"),
+              ],
       },
       {
         ...heading("props", "Props and data"),

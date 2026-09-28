@@ -190,6 +190,37 @@
   line-height: 1.8;
 }
 
+.blocks-doc-usage > section + section {
+  margin-top: clamp(1.75rem, 3vw, 2.25rem);
+  padding-top: clamp(1.5rem, 2vw, 2rem);
+  border-top: 1px solid var(--border);
+}
+
+.blocks-doc-usage > section > .docs-code-wrap {
+  margin-block: 1.25rem;
+}
+
+.blocks-doc-usage > section > :last-child {
+  margin-bottom: 0;
+}
+
+.blocks-doc-integration-notes {
+  display: grid;
+  gap: 0.875rem;
+  margin: 1.25rem 0 0;
+  padding-inline-start: 1.125rem;
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+  line-height: 1.8;
+  list-style: disc;
+}
+
+.blocks-doc-usage .blocks-doc-note a,
+.blocks-doc-integration-notes a {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
 .blocks-doc-section p:last-child,
 .blocks-doc-section [role="paragraph"]:last-child {
   margin-bottom: 0;

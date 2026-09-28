@@ -49,7 +49,9 @@ export function integrationExample(guide: VariantGuide): string {
     : block.id === "login-05"
       ? "MagicLinkValues"
       : "LoginValues";
+  const social = !signup || block.id === "signup-05";
   const props = ["onSubmit={submit}"];
+  if (social) props.push(`${signup ? "onSocialSignup" : "onSocialLogin"}={startProvider}`);
   if (signup) {
     props.push('loginHref="/login"', 'termsHref="/terms"', 'privacyHref="/privacy"');
     if (block.id === "signup-05") props.push("showSocial");
@@ -58,12 +60,14 @@ export function integrationExample(guide: VariantGuide): string {
     if (block.id !== "login-05") props.push('forgotPasswordHref="/forgot-password"');
   }
   return `import { ${form} } from "./components/blocks/${category}/${block.id}/${category}-form";
-import type { ${values} } from "./components/blocks/auth/shared/auth-utils";
+import type { ${values}${social ? ", AuthProvider" : ""} } from "./components/blocks/auth/shared/auth-utils";
 
-type Props = { submit: (values: ${values}) => Promise<void> };
+type Props = {
+  submit: (values: ${values}) => Promise<void>;${social ? "\n  startProvider: (provider: AuthProvider) => Promise<void>;" : ""}
+};
 
-// Supply your application's authentication function as submit.
-export const AccountForm = ({ submit }: Props) => (
+// These functions come from your application's authentication service.
+export const AccountForm = ({ submit${social ? ", startProvider" : ""} }: Props) => (
   <${form}
     ${props.join("\n    ")}
   />
