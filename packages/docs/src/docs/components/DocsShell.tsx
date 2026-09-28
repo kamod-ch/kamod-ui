@@ -33,6 +33,8 @@ type DocsShellProps = {
   sidebarScope: DocsSidebarScope;
   /** Marks the "Components overview" sidebar link as active. */
   isComponentsOverview?: boolean;
+  /** Marks the block directory as the current page in category navigation. */
+  isBlocksOverview?: boolean;
   /** Marks the "Forms overview" sidebar link as active. */
   isFormsOverview?: boolean;
   /** Marks the "Packages overview" sidebar link as active. */
@@ -142,6 +144,7 @@ function SidebarSection({
 export const DocsShell = ({
   sidebarScope,
   isComponentsOverview = false,
+  isBlocksOverview = false,
   isFormsOverview = false,
   isPackagesOverview = false,
   isSectionOverview = false,
@@ -250,7 +253,7 @@ export const DocsShell = ({
 
   const sidebarNav =
     sidebarScope === "blocks" ? (
-      <BlockCategoryNavigation activeBlock={activeBlock} />
+      <BlockCategoryNavigation activeBlock={activeBlock} isOverview={isBlocksOverview} />
     ) : sidebarScope === "packages" ? (
       <SidebarSection
         title="Packages"

@@ -5,7 +5,7 @@ import { demoTopNavItems } from "../layout/DemoShell";
 
 export const categoryPath = "/blocks/application-shell";
 export const blocksOverviewHref =
-  demoTopNavItems.find((item) => item.label === "Blocks")?.href ?? withBasePath("/blocks/sidebar");
+  demoTopNavItems.find((item) => item.label === "Blocks")?.href ?? withBasePath("/blocks");
 export { repositoryUrl } from "./block-links";
 /** One registry entry, keeping page props aligned with the available block metadata. */
 export type ApplicationShellBlock = (typeof applicationShellBlocks)[number];

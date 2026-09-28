@@ -18,7 +18,7 @@ for (const [category, count] of [
     await page.goto(`./blocks/${category}`);
     await expect(
       page.locator(".blocks-category-header").getByRole("link", { name: "Blocks", exact: true }),
-    ).toHaveAttribute("href", /\/blocks\/sidebar$/);
+    ).toHaveAttribute("href", /\/blocks$/);
     const cards = page.locator("a.blocks-overview-card");
     await expect(cards).toHaveCount(count);
     await expect(page.locator(".blocks-overview-count")).toHaveText(

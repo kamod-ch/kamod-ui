@@ -30,7 +30,7 @@ export function BlockBreadcrumbs({
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbLink href={withBasePath("/blocks/sidebar")}>Blocks</BreadcrumbLink>
+          <BreadcrumbLink href={withBasePath("/blocks")}>Blocks</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>

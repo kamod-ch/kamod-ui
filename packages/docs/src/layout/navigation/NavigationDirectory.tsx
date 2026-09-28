@@ -8,6 +8,7 @@ import {
 } from "@kamod-ch/icons/lucide";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger, SheetClose } from "@kamod-ch/ui";
 import { useId } from "preact/hooks";
+import { withBasePath } from "../../base-path";
 import { isNavigationCurrent, type NavigationGroup, type NavigationLink } from "./navigation-data";
 
 const groupIcons = {
@@ -96,6 +97,13 @@ export function NavigationDirectory({
 }) {
   return (
     <nav aria-label="Browse all pages" class="site-navigation-directory">
+      {!searching && (
+        <DirectoryLink
+          link={{ label: "Blocks overview", href: withBasePath("/blocks") }}
+          pathname={pathname}
+          overview
+        />
+      )}
       {groups.map((group) => (
         <DirectoryGroup
           key={`${group.id}-${searching}`}

@@ -2,6 +2,7 @@ import type { LayoutProps } from "@kamod-ch/preactpress/client";
 import { syncThemeFromStorage } from "@kamod-ch/themes";
 import type { FunctionalComponent } from "preact";
 import { BlockCategoryPage } from "../../src/blocks/BlockCategoryPage";
+import { BlockOverviewPage } from "../../src/blocks/BlockOverviewPage";
 import { DocsComponentContent } from "../../src/docs/DocsComponentContent";
 import { DocsFormsOverviewContent } from "../../src/docs/DocsFormsOverviewContent";
 import { DocsOverviewContent } from "../../src/docs/DocsOverviewContent";
@@ -62,6 +63,7 @@ if (typeof window !== "undefined") {
 
 type DemoPageKind =
   | "kitchen-sink"
+  | "blocks-overview"
   | "docs-overview"
   | "docs-forms-overview"
   | "docs-packages-overview"
@@ -127,6 +129,10 @@ const Layout: FunctionalComponent<LayoutProps> = ({ page }) => {
 
   if (meta.pageKind === "docs-overview") {
     return <DocsOverviewContent />;
+  }
+
+  if (meta.pageKind === "blocks-overview") {
+    return <BlockOverviewPage />;
   }
 
   if (meta.pageKind === "docs-forms-overview") {

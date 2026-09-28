@@ -96,13 +96,26 @@ function CategoryItem({
 }
 
 /** Show published collections and planned categories in the overview sidebar. */
-export function BlockCategoryNavigation({ activeBlock }: { activeBlock?: BlockNavKey }) {
+export function BlockCategoryNavigation({
+  activeBlock,
+  isOverview = false,
+}: {
+  activeBlock?: BlockNavKey;
+  isOverview?: boolean;
+}) {
   return (
     <section class="blocks-category-navigation">
       <header class="blocks-category-navigation-header">
         <h2>Categories</h2>
         <span>{total} blocks</span>
       </header>
+      <a
+        class={`docs-nav-button blocks-category-overview-link${isOverview ? " is-active" : ""}`}
+        href={withBasePath("/blocks")}
+        aria-current={isOverview ? "page" : undefined}
+      >
+        Blocks overview
+      </a>
       <nav aria-label="Docs blocks">
         <ul>
           {categories.map((category) => (

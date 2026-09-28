@@ -7,6 +7,7 @@ const routes = [
   "docs/button/usage",
   "docs/forms",
   "docs/packages",
+  "blocks",
   "blocks/sidebar",
   "blocks/sidebar/sidebar-05",
   "blocks/application-shell/application-shell-1",

@@ -488,6 +488,28 @@ a.docs-component-item:hover {
   cursor: default;
 }
 
+.docs-block-category-item {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.2rem;
+  min-height: 2.75rem;
+  padding-block: 0.5rem;
+}
+
+.docs-block-category-count {
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+}
+
+.blocks-category-overview-link {
+  margin-bottom: 0.75rem;
+}
+
+.blocks-category-overview-link[aria-current="page"] {
+  font-weight: 600;
+}
+
 .docs-tabs {
   margin-bottom: 0.8rem;
 }
