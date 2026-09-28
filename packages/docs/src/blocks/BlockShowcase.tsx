@@ -71,7 +71,7 @@ export const BlockShowcase = ({
           </Button>
         </div>
       </div>
-      <div class="blocks-card-body">
+      <div id={`${block.id}-code`} class="blocks-card-body">
         <Tabs defaultValue="preview" class="docs-tabs">
           <TabsList class="docs-tabs-list" variant="line">
             <TabsTrigger value="preview">Preview</TabsTrigger>

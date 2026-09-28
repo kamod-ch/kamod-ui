@@ -6,6 +6,7 @@ import { Button, TabsContent } from "@kamod-ch/ui";
 import { useState } from "preact/hooks";
 import type { ShowcaseBlock } from "./BlockShowcase";
 import { BlockSourceFiles, type BlockSourceLoader } from "./BlockSourceFiles";
+import { useShowcaseCodeNavigation } from "./ShowcaseCodeLink";
 
 export function BlockShowcaseCode({
   block,
@@ -20,6 +21,7 @@ export function BlockShowcaseCode({
 }) {
   const [copied, setCopied] = useState(false);
   const [selectedFile, setSelectedFile] = useState(block.files[0]?.label ?? "");
+  useShowcaseCodeNavigation(block.id, block.files, setSelectedFile);
   useTimeout(() => setCopied(false), copied ? 1600 : undefined);
   const copyInstall = async () => {
     try {
