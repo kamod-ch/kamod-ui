@@ -74,7 +74,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.5.11",
-    "@kamod-ch/brand": "^0.1.9",
+    "@kamod-ch/brand": "^0.1.12",
     "@types/node": "^26.4.1",
     "knip": "^6.34.0",
     "lefthook": "^2.1.12",
