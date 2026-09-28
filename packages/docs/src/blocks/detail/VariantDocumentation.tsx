@@ -2,6 +2,7 @@
 import { useMemo } from "preact/hooks";
 import { type BlockCategory, type BlockOverviewEntry, blockCategories } from "../block-categories";
 import { BlockDocumentation } from "./BlockDocumentation";
+import { SidebarAbout } from "./SidebarAbout";
 import { sidebarGuideProfiles } from "./sidebar-guide-profiles";
 import type { BlockGuideSection } from "./types";
 import { VariantAbout, VariantBehavior, VariantSource } from "./VariantAbout";
@@ -104,9 +105,19 @@ export function VariantDocumentation({
       {
         ...heading("about", "About this block"),
         eyebrow: "A closer look",
-        Content: () => <VariantAbout guide={guide} />,
+        Content: () =>
+          category === "sidebar" ? <SidebarAbout guide={guide} /> : <VariantAbout guide={guide} />,
         children: [
+          ...(category === "sidebar"
+            ? [
+                heading("suitability", "When to choose this variant"),
+                heading("alternatives", "Compare nearby variants"),
+              ]
+            : []),
           heading("structure", "Composition and customization"),
+          ...(category === "sidebar"
+            ? [heading("interaction", "How interaction and state work")]
+            : []),
           heading("responsive", "Responsive behavior"),
           heading("accessibility", "Accessibility"),
           heading("production", "Replace the demo behavior"),

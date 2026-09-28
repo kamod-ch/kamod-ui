@@ -357,6 +357,25 @@
   margin-top: 2rem;
 }
 
+.blocks-sidebar-about > section + section {
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.blocks-sidebar-about .blocks-doc-callouts,
+.blocks-sidebar-about-checklist {
+  margin-block: 1.25rem;
+}
+
+.blocks-sidebar-about-checklist {
+  list-style: decimal;
+}
+
+.blocks-sidebar-about a:not(.blocks-doc-heading-link) {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
 .blocks-doc-attribution {
   position: relative;
   padding: 0.75rem 1.25rem 1.1rem;
@@ -382,6 +401,11 @@
 .blocks-doc-reference .blocks-doc-reference-note {
   margin-top: 1rem;
   font-size: 0.875rem;
+}
+
+.blocks-doc-reference .blocks-doc-section-header .blocks-showcase-code-link {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
 }
 
 .blocks-doc-attribution p {

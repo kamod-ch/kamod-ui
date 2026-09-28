@@ -2,6 +2,7 @@
 import { ExternalLinkIcon } from "@kamod-ch/icons/lucide";
 import { CodeBlock } from "../../docs/components/CodeBlock";
 import { getBlockOverviewDetails } from "../block-overview-details";
+import { ShowcaseCodeLink } from "../ShowcaseCodeLink";
 import { BlockDocSection, BlockGuideHeading } from "./BlockDocumentation";
 import type { VariantGuide } from "./VariantDocumentation";
 
@@ -63,7 +64,8 @@ export function VariantBehavior({ guide }: { guide: VariantGuide }) {
                     The form defaults to hiding social buttons; this page{" "}
                     {block.id === "signup-05" ? "enables" : "does not enable"} them. Pass{" "}
                     <code>showSocial</code> and <code>onSocialSignup</code> to show and connect
-                    GitHub and Google.
+                    GitHub and Google. That provider path does not run the email form’s field or
+                    terms checks, so handle any required consent in the provider flow as well.
                   </>
                 ) : (
                   <>
@@ -106,109 +108,65 @@ function authLayout(guide: VariantGuide): string {
   return "A centered, constrained form uses fluid outer padding. On a narrow screen it fills the available content width without requiring a fixed desktop canvas.";
 }
 
+/** Authentication guides retain their form-specific explanation; sidebars use SidebarAbout. */
 export function VariantAbout({ guide }: { guide: VariantGuide }) {
-  const { anchor, category, sidebar } = guide;
-  const isSidebar = category === "sidebar";
+  const { anchor, category } = guide;
   return (
     <BlockDocSection
       id={anchor("about")}
       className="blocks-doc-explanation"
       introduction={
         <p>
-          {isSidebar
-            ? "This block is a complete navigation composition built from Kamod’s sidebar, menu and breadcrumb primitives. It demonstrates how those pieces work together; the sample destinations and workspace content are intended to be replaced."
-            : "This block separates page presentation from form interaction. Its Preact form owns input, validation, loading and feedback state, while your application supplies authentication and real destinations. Shared Kamod primitives provide the visual language and basic interactions."}
+          This block separates page presentation from form interaction. Its Preact form owns input,
+          validation, loading and feedback state, while your application supplies authentication and
+          real destinations. Shared Kamod primitives provide the visual language and basic
+          interactions.
         </p>
       }
     >
       <section aria-labelledby={anchor("structure")}>
         <BlockGuideHeading id={anchor("structure")} />
         <p>
-          {isSidebar ? (
-            <>
-              The entrypoint <code>index.ts</code> exports this variant’s component. Its page file
-              composes core Kamod primitives directly, with focused local helpers where needed. Demo
-              data stays in
-              <code>data/</code>; shared brand artwork, when used, lives in <code>branding/</code>.
-              The download is generated from the implementation, with rewritten relative imports.
-              Its file tree and the Code tab describe that same installation folder.
-            </>
-          ) : (
-            <>
-              The copied <code>page.tsx</code> owns centering, background, branding and any cover
-              image. Its sibling <code>{category}-form.tsx</code> owns the form. Shared helpers in{" "}
-              <code>auth/shared</code> supply validation and provider artwork; optional branding
-              lives separately in <code>shared/branding</code>. You can reuse the form inside
-              another page without copying the original page layout.
-            </>
-          )}
+          The copied <code>page.tsx</code> owns centering, background, branding and any cover image.
+          Its sibling <code>{category}-form.tsx</code> owns the form. Shared helpers in{" "}
+          <code>auth/shared</code> supply validation and provider artwork; optional branding lives
+          separately in <code>shared/branding</code>. You can reuse the form inside another page
+          without copying the original page layout, but keep the form’s imported helpers. The form
+          stores values internally; adding a value or initialValues prop requires changing that
+          implementation. Change field names, payload types and validation together when adapting
+          the form, and keep the service contract aligned with them.
         </p>
       </section>
       <section aria-labelledby={anchor("responsive")}>
         <BlockGuideHeading id={anchor("responsive")} />
-        <p>{sidebar?.mobile ?? authLayout(guide)}</p>
+        <p>{authLayout(guide)}</p>
         <p>
-          {guide.block.id === "sidebar-13" ? (
-            <>
-              Keep the dialog trigger mounted as a stable focus-return target when settings panels
-              change. Preserve a scrollable content area on short screens.
-            </>
-          ) : isSidebar ? (
-            <>
-              Desktop collapse and the mobile sheet are different states in{" "}
-              <code>SidebarProvider</code>. A desktop toggle preference does not mean that the
-              mobile sheet should start open. Keep the provider mounted around the shared layout if
-              navigation changes should preserve its UI state.
-            </>
-          ) : (
-            <>
-              Keep labels, validation text and legal links able to wrap. Test with the on-screen
-              keyboard open and a long error message, not only an empty form. Light and dark colors
-              follow your application’s Kamod theme.
-            </>
-          )}
+          Keep labels, validation text and legal links able to wrap. Test with the on-screen
+          keyboard open and a long error message, not only an empty form. Light and dark colors
+          follow your application’s Kamod theme. The full-page wrappers use <code>min-h-svh</code>,
+          so they can grow when content needs more height. Preserve that flexibility instead of
+          forcing a fixed height that clips error messages or the submit button.
         </p>
       </section>
       <section aria-labelledby={anchor("accessibility")}>
         <BlockGuideHeading id={anchor("accessibility")} />
         <dl class="blocks-doc-callouts">
           <div>
-            <dt>{isSidebar ? "Navigation and current location" : "Labels and errors"}</dt>
+            <dt>Labels and errors</dt>
             <dd>
-              {isSidebar ? (
-                <>
-                  Use real destination links and meaningful names for icon-only controls. Connect
-                  active styling and <code>aria-current="page"</code> to your router; sample
-                  selection is not automatic route matching. Breadcrumbs should end with the current
-                  page.
-                </>
-              ) : (
-                <>
-                  Preserve each field’s label, <code>aria-invalid</code> and error association.
-                  Failed local validation focuses the first invalid field. If you add inputs, give
-                  them unique IDs and names, and include them in the error-focus logic.
-                </>
-              )}
+              Preserve each field’s label, <code>aria-invalid</code> and error association. Failed
+              local validation focuses the first invalid field. If you add inputs, give them unique
+              IDs and names, and include them in the error-focus logic. Multiple instances of the
+              same copied form need distinct ID prefixes on labels, controls, help text and errors.
+              A placeholder is not a replacement for a label.
             </dd>
           </div>
           <div>
-            <dt>{isSidebar ? "Keyboard and focus" : "Submission feedback"}</dt>
+            <dt>Submission feedback</dt>
             <dd>
-              {isSidebar ? (
-                <>
-                  Retain the core sheet, dialog, menu and disclosure primitives when adapting
-                  interactions. Test Tab, Shift+Tab, Enter, Space and Escape where applicable; after
-                  an overlay closes, focus should return to its trigger. Avoid placing an essential
-                  destination only in a pane hidden on mobile.
-                </>
-              ) : (
-                <>
-                  Loading disables submission controls, and status messages use a polite live
-                  region. Preserve this feedback when connecting a real service. Replace demo
-                  wording with a clear result and a recovery action that does not expose sensitive
-                  account details.
-                </>
-              )}
+              Loading disables submission controls, and status messages use a polite live region.
+              Preserve this feedback when connecting a real service. Replace demo wording with a
+              clear result and a recovery action that does not expose sensitive account details.
             </dd>
           </div>
         </dl>
@@ -222,21 +180,13 @@ export function VariantAbout({ guide }: { guide: VariantGuide }) {
       <section aria-labelledby={anchor("production")}>
         <BlockGuideHeading id={anchor("production")} />
         <p>
-          {isSidebar ? (
-            <>
-              Replace <code>#</code> destinations and sample click handlers that prevent navigation.
-              Search, opt-in forms and action menus need application behavior. Replace placeholder
-              panels with routed content, and supply mobile alternatives for any essential
-              desktop-only utilities.
-            </>
-          ) : (
-            <>
-              Remove the artificial <code>sleep()</code> delay and <code>demoRejects()</code> rule,
-              replace the demo success/error messages, and supply real account and legal URLs. Local
-              validation is feedback, not a security boundary. The backend must validate input and
-              own account creation, sessions and recovery.
-            </>
-          )}
+          Remove the artificial <code>sleep()</code> delay and <code>demoRejects()</code> rule,
+          replace the demo success/error messages, and supply real account and legal URLs. Local
+          validation is feedback, not a security boundary. The backend must validate input and own
+          account creation, sessions and recovery. Branded layouts also need a real home destination
+          on <code>KamodBrandLink</code>, which otherwise points to <code>#</code>. If you replace
+          the cover, review its alt text: use an empty alternative for purely decorative artwork and
+          meaningful text only when it communicates useful information.
         </p>
       </section>
     </BlockDocSection>
@@ -252,9 +202,23 @@ export function VariantSource({ guide }: { guide: VariantGuide }) {
       className="blocks-doc-reference"
       introduction={
         <p>
-          Use the checked-in Kamod implementation as your reference when adapting this variant. The
-          showcase’s Code tab includes its supporting files, and the setup section explains how to
-          keep their imports intact.
+          Use the{" "}
+          <a class="underline" href={sourceUrl} target="_blank" rel="noreferrer noopener">
+            checked-in Kamod implementation
+          </a>{" "}
+          as your reference when adapting this variant. The{" "}
+          <ShowcaseCodeLink blockId={block.id}>showcase’s Code tab</ShowcaseCodeLink> includes its
+          supporting files, and the{" "}
+          <a class="underline" href={`#${anchor("installation")}`}>
+            setup instructions
+          </a>{" "}
+          explain where to place them and how to keep their imports intact. Before changing a
+          helper, trace where it is used in the composition and check its inputs in the{" "}
+          <a class="underline" href={`#${anchor("props")}`}>
+            Props and data reference
+          </a>
+          . This helps you adapt one part of the block without overlooking the files or behavior it
+          depends on.
         </p>
       }
     >
