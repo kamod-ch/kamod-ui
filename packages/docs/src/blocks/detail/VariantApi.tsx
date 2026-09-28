@@ -27,7 +27,16 @@ export function VariantApi({ guide }: { guide: VariantGuide }) {
             reference below describes the{" "}
             <strong>local {category === "sidebar" ? "helpers and data" : "form"}</strong> you can
             configure after copying the source. Definitions come directly from the implementation;
-            descriptions explain where your application takes over.
+            descriptions explain where your application takes over. Start with the component or data
+            shape you want to change, then follow its type link to the complete definition.
+            {category === "sidebar" && (
+              <>
+                {" "}
+                Keep sample values in <code>data/</code> separate from the behavior in your copied
+                components. This lets you replace labels and destinations without rewriting the
+                surrounding layout in <code>{guide.block.id}.tsx</code>.
+              </>
+            )}
           </p>
           <div class="blocks-api-source-note">
             <CodeIcon size={18} strokeWidth={2} aria-hidden="true" />
@@ -35,7 +44,10 @@ export function VariantApi({ guide }: { guide: VariantGuide }) {
               The signatures below come from the copied source files. Use the{" "}
               <a href={`#${anchor("data-types")}`}>data type reference</a> to inspect complete
               definitions and required fields. Optional callbacks do not imply that a backend is
-              included.
+              included. Select a table row’s type name to open its definition automatically. Use{" "}
+              <code>import type</code> from the corresponding copied file when typing your own data
+              or component inputs. This reference describes the shipped source; changes in your
+              local files will not update this page.
             </span>
             <Badge variant="secondary">TypeScript</Badge>
           </div>
@@ -47,9 +59,14 @@ export function VariantApi({ guide }: { guide: VariantGuide }) {
         <div role="paragraph">
           Each field includes its type and integration behavior. The asterisk{" "}
           <RequiredIndicator label="Required field indicator" tooltip="Required field" /> marks
-          required fields. Navigation helpers require their data; omitted optional fields use the
-          defaults described below. The definitions retain the actual source’s optional markers and
-          callback return types.
+          required fields. {category === "sidebar" && "Navigation helpers require their data; "}
+          {category === "sidebar" ? "omitted" : "Omitted"} optional fields use the defaults
+          described below. The definitions retain the actual source’s optional markers and callback
+          return types. Read each field together with its owning type: the same name can have a
+          different purpose on another helper. A <code>?</code> means the field may be omitted, not
+          that every optional field has a fallback value. When a field accepts an array, its
+          required marker means you must supply the array; check the helper’s behavior before using
+          an empty <code>[]</code>.
         </div>
         <BlockPropsTable
           labelledBy={anchor("prop-reference")}
@@ -73,10 +90,27 @@ export function VariantApi({ guide }: { guide: VariantGuide }) {
         />
         {category === "sidebar" && (
           <p class="blocks-doc-note">
-            Configure the core <code>Sidebar</code> directly in your copied page:
-            <code>side</code> chooses left or right, <code>variant</code> controls the surface, and{" "}
+            Configure the core <code>Sidebar</code> directly in your copied page: <code>side</code>{" "}
+            chooses left or right, <code>variant</code> controls the surface, and{" "}
             <code>collapsible</code> chooses offcanvas, icon or none. The references here list only
             types included in this variant’s download.
+            {api.some((entry) => entry.name === "NavigationItem") && (
+              <>
+                {" "}
+                Inherited types are shown separately: <code>NavigationItem</code> adds an icon and
+                optional children to <code>NavigationLink</code>, which owns the required title and
+                URL. Read both definitions when building a navigation item.
+              </>
+            )}
+            {api.some((entry) => entry.name === "SearchFormProps") && (
+              <>
+                {" "}
+                <code>SearchFormProps</code> refers to Preact’s form attributes rather than
+                declaring custom search inputs. The helper does not implement search or expose its
+                input value as a prop; connect the input and prevent the form’s default submission
+                in your local copy when implementing client-side search.
+              </>
+            )}
           </p>
         )}
       </section>
@@ -84,8 +118,10 @@ export function VariantApi({ guide }: { guide: VariantGuide }) {
         <BlockGuideHeading id={anchor("data-types")} />
         <p>
           Expand a definition to copy its exact TypeScript shape. Required fields are listed below
-          each summary and beside the code’s Copy button. Local types can be imported from the same
-          files as your copied components; they are not added to the zero-prop page wrapper.
+          each summary and beside the code’s Copy button for fields declared in that definition. For
+          intersections, also inspect the referenced base type’s required fields. Local types can be
+          imported from the same files as your copied components; they are not added to the
+          zero-prop page wrapper.
         </p>
         <div class="blocks-api-types">
           {api.map((entry) => (
