@@ -7,6 +7,7 @@ import { sidebarGuideProfiles } from "./sidebar-guide-profiles";
 import type { BlockGuideSection } from "./types";
 import { VariantAbout, VariantBehavior, VariantSource } from "./VariantAbout";
 import { VariantApi } from "./VariantApi";
+import { VariantDesignReference } from "./VariantDesignReference";
 import { VariantSetup, VariantUsage } from "./VariantSetup";
 import { getVariantApi } from "./variant-api";
 
@@ -127,6 +128,11 @@ export function VariantDocumentation({
         ...heading("source", "Source and customization"),
         eyebrow: "Keep building",
         Content: () => <VariantSource guide={guide} />,
+      },
+      {
+        ...heading("reference", "Design reference"),
+        eyebrow: "Design inspiration",
+        Content: () => <VariantDesignReference guide={guide} />,
       },
     ] satisfies BlockGuideSection[];
   }, [category, block]);

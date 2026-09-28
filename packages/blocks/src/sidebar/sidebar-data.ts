@@ -124,9 +124,9 @@ export const sidebarVariants = [
   {
     id: "sidebar-10",
     title: "sidebar-10",
-    eyebrow: "A sidebar in a popover",
-    description: "A sidebar in a popover.",
-    features: ["popover", "mobile"],
+    eyebrow: "An icon-collapsible sidebar with favorites and action menus",
+    description: "An icon-collapsible sidebar with favorites and header action menus.",
+    features: ["icon-mode", "dropdowns", "mobile"],
   },
   {
     id: "sidebar-11",
