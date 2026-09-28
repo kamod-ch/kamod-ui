@@ -9,6 +9,7 @@ import {
 } from "@kamod-ch/ui";
 import { withBasePath } from "../base-path";
 import { type BlockCategory, blockCategories } from "./block-categories";
+import { getBlockDisplayName } from "./block-overview-details";
 
 /** A category becomes a link when a variant is the current page. */
 export function BlockBreadcrumbs({
@@ -45,7 +46,7 @@ export function BlockBreadcrumbs({
           <>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>{variant}</BreadcrumbPage>
+              <BreadcrumbPage>{getBlockDisplayName(variant)}</BreadcrumbPage>
             </BreadcrumbItem>
           </>
         )}

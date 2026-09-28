@@ -76,7 +76,7 @@ test("documentation header exposes breadcrumbs, repository links and disabled va
   await expect(
     breadcrumb.getByRole("link", { name: "Application Shell", exact: true }),
   ).toHaveAttribute("href", /\/blocks\/application-shell$/);
-  await expect(breadcrumb.locator('[aria-current="page"]')).toHaveText("application-shell-01");
+  await expect(breadcrumb.locator('[aria-current="page"]')).toHaveText("Application Shell 1");
 
   const report = header.getByRole("link", { name: /Report a bug/ });
   const reportUrl = new URL((await report.getAttribute("href"))!);
