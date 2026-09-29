@@ -6,5 +6,5 @@ allowBuilds:
   lefthook: false
 minimumReleaseAgeExclude:
   - "@kamod-ch/preactpress@2.2.1"
-  - '@kamod-ch/brand@0.1.0 || 0.1.11 || 0.1.12'
+  - "@kamod-ch/brand@0.1.0 || 0.1.11 || 0.1.12"
   - "@kamod-ch/motion@0.1.0"
