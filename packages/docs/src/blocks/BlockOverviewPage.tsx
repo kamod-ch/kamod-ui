@@ -1,5 +1,6 @@
 import { DocsShell } from "../docs/components/DocsShell";
 import { LibraryDirectory, LibraryGrid } from "../docs/components/LibraryDirectory";
+import { LibrarySection } from "../docs/components/LibrarySection";
 import { type BlockCategory, blockCategories } from "./block-categories";
 import { PLACEHOLDER_BLOCK_CATEGORIES, visibleBlockNavItems } from "./block-nav-config";
 
@@ -32,21 +33,37 @@ export function BlockOverviewPage() {
           }))}
           description={
             <>
-              Browse {total} reusable Kamod UI blocks. Compare complete layouts, try their live
-              previews and bring the source into your <code>Preact</code> app. Each variant includes
-              its own setup guide and integration examples.
+              Browse {total} reusable Kamod UI blocks. Compare <strong>complete layouts</strong>,
+              try different themes and screen sizes in the live previews, and inspect the source
+              before adding a variant to your <code>Preact</code> app. Each setup guide explains the
+              required files and dependencies, so you can{" "}
+              <strong>connect your own data and navigation</strong> with a clear starting point.
             </>
           }
         >
-          <section class="library-directory-planned" aria-labelledby="planned-collections">
-            <div class="library-directory-section-heading">
-              <h2 id="planned-collections">On the horizon</h2>
-              <span>{PLACEHOLDER_BLOCK_CATEGORIES.length} planned categories</span>
-            </div>
-            <p>
-              These collections have no variants yet. Their links are placeholders; the pages are
-              not available.
-            </p>
+          <LibrarySection
+            class="library-directory-planned"
+            headingId="planned-collections"
+            title="On the horizon"
+            label="Planned collections"
+            meta={`${PLACEHOLDER_BLOCK_CATEGORIES.length} planned categories`}
+            description={
+              <>
+                <p>
+                  Explore the planned categories for future additions to the library, from content
+                  sections and marketing pages to checkout and community layouts. These entries show
+                  the intended collection structure;{" "}
+                  <strong>they do not yet include usable blocks</strong> or an installation guide.
+                </p>
+                <p>
+                  Every planned collection currently has <strong>0 variants</strong>. Its link is a
+                  placeholder, and the destination page is not available yet. For a layout you can
+                  use today, return to the <a href="#library-items">available collections</a> above
+                  and compare their previews and source files.
+                </p>
+              </>
+            }
+          >
             <LibraryGrid
               label="Planned block categories"
               items={PLACEHOLDER_BLOCK_CATEGORIES.map(({ key, label }) => ({
@@ -56,7 +73,7 @@ export function BlockOverviewPage() {
                 planned: true,
               }))}
             />
-          </section>
+          </LibrarySection>
         </LibraryDirectory>
       }
     />

@@ -1,14 +1,8 @@
-import {
-  ArrowRightIcon,
-  ArrowUpRightIcon,
-  BookOpenIcon,
-  CodeIcon,
-  ComponentIcon,
-  LayersIcon,
-  PaletteIcon,
-} from "@kamod-ch/icons/lucide";
+import { ArrowRightIcon, ArrowUpRightIcon, BookOpenIcon, CodeIcon } from "@kamod-ch/icons/lucide";
 import type { ComponentChildren } from "preact";
 import { withBasePath } from "../../base-path";
+import { LibraryDirectoryResources } from "./LibraryDirectoryResources";
+import { LibrarySection } from "./LibrarySection";
 
 export type LibraryEntry = {
   label: string;
@@ -31,28 +25,51 @@ export function LibraryDirectory({
   children?: ComponentChildren;
 }) {
   const isBlocks = kind === "blocks";
-  const Icon = isBlocks ? LayersIcon : ComponentIcon;
   const title = isBlocks ? "Blocks" : "Components";
   const other = isBlocks ? "Components" : "Blocks";
   return (
     <section class={`docs-components-overview library-directory docs-${kind}-overview`}>
       <header class="library-directory-header">
         <div class="library-directory-eyebrow">
-          <Icon size={15} aria-hidden="true" />
-          The Kamod library
-        </div>
-        <div class="library-directory-title">
-          <h1>{title}</h1>
-          <span>
+          <span class="library-directory-count">
             {items.length} {isBlocks ? "collections" : "components"}
           </span>
+          <span class="library-directory-platform">
+            Built for <strong>Preact</strong>
+          </span>
+        </div>
+        <div class="library-directory-title">
+          <h1>
+            {isBlocks
+              ? "Blocks for complete application layouts"
+              : "Components for flexible Preact interfaces"}
+          </h1>
         </div>
         <p class="docs-components-intro">{description}</p>
+        <p class="library-directory-start-note">
+          <strong>{isBlocks ? "Your source, your app." : "Start with the essentials."}</strong>{" "}
+          {isBlocks ? (
+            <>
+              Copy a variant, then adapt its <code>Preact</code> composition.
+            </>
+          ) : (
+            <>
+              Build with <code>@kamod-ch/ui</code> and shared tokens.
+            </>
+          )}{" "}
+          <a href={withBasePath("/docs/theming/installation")}>Set up your project</a>.
+        </p>
         <div class="library-directory-actions">
-          <a href={withBasePath(isBlocks ? "/docs/components" : "/blocks")}>
-            Explore {other.toLowerCase()}
-            <ArrowRightIcon size={14} aria-hidden="true" />
-          </a>
+          <div class="library-directory-browse-actions">
+            <a class="library-directory-browse" href="#library-items">
+              Browse {title.toLowerCase()}
+              <ArrowRightIcon size={14} aria-hidden="true" />
+            </a>
+            <a href={withBasePath(isBlocks ? "/docs/components" : "/blocks")}>
+              Explore {other.toLowerCase()}
+              <ArrowUpRightIcon size={13} aria-hidden="true" />
+            </a>
+          </div>
           <div class="library-directory-icon-links">
             <a
               href={withBasePath("/docs/theming/css-setup")}
@@ -73,31 +90,72 @@ export function LibraryDirectory({
           </div>
         </div>
       </header>
-      <div class="library-directory-section-heading">
-        <h2 class="docs-components-grid-heading">
-          {isBlocks ? "All block categories" : "All components"}
-        </h2>
-        <span>Source included</span>
-      </div>
-      <LibraryGrid label={isBlocks ? "Block categories" : "All components"} items={items} />
+      <nav class="library-directory-jump-links" aria-label="Directory sections">
+        <ul>
+          <li>
+            <a href="#library-items">{isBlocks ? "Available collections" : "All components"}</a>
+          </li>
+          {isBlocks && (
+            <li>
+              <a href="#planned-collections">Planned collections</a>
+            </li>
+          )}
+          <li>
+            <a href="#library-guides">Setup & theming</a>
+          </li>
+        </ul>
+        <a class="library-directory-start-link" href={withBasePath("/docs/theming/css-setup")}>
+          <BookOpenIcon size={14} aria-hidden="true" />
+          CSS guide
+          <ArrowUpRightIcon size={12} aria-hidden="true" />
+        </a>
+      </nav>
+      <LibrarySection
+        class="library-directory-items"
+        headingId="library-items"
+        title={isBlocks ? "All block categories" : "All components"}
+        label="Available now"
+        meta="Source included"
+        description={
+          isBlocks ? (
+            <>
+              <p>
+                Choose a collection that matches the screen you are building, then compare its
+                variants for navigation, content placement and responsive behavior. Open any block
+                to explore its <strong>live preview, source files and setup guide</strong>. The
+                variant count shows how many layouts are available in each collection.
+              </p>
+              <p>
+                Start with the closest composition and follow its installation instructions before
+                changing the layout. Keep the supplied files together, replace demo content with
+                your own data, and connect routing or service callbacks in your app. The{" "}
+                <a href="#library-guides">setup and theming guides</a> below help you give every
+                block the same <code>Preact</code> and styling foundation.
+              </p>
+            </>
+          ) : (
+            <>
+              <p>
+                Find the building block for your next interaction, from a single input or button to
+                navigation, overlays and data displays. Each linked page brings together{" "}
+                <strong>installation, working examples and an API reference</strong>, so you can see
+                how the component behaves before connecting it to your own interface.
+              </p>
+              <p>
+                Begin with a small example, then adapt its <code>props</code>, state and callbacks
+                to your app. Combine components from <code>@kamod-ch/ui</code> with shared theme
+                tokens to keep their appearance consistent. If you need a complete page layout,
+                explore the <a href={withBasePath("/blocks")}>block collections</a> to see these
+                pieces working together.
+              </p>
+            </>
+          )
+        }
+      >
+        <LibraryGrid label={isBlocks ? "Block categories" : "All components"} items={items} />
+      </LibrarySection>
       {children}
-      <section class="library-directory-resources" aria-label="Make it your own">
-        <div>
-          <PaletteIcon size={18} aria-hidden="true" />
-          <h2>Make it your own</h2>
-          <p>One set of theme tokens, from individual controls to complete layouts.</p>
-        </div>
-        <nav aria-label="Library guides">
-          <a href={withBasePath("/docs/theming/css-setup")}>
-            Connect your styles
-            <ArrowUpRightIcon size={14} aria-hidden="true" />
-          </a>
-          <a href={withBasePath("/docs/theming/usage")}>
-            Customize the theme
-            <ArrowUpRightIcon size={14} aria-hidden="true" />
-          </a>
-        </nav>
-      </section>
+      <LibraryDirectoryResources />
     </section>
   );
 }

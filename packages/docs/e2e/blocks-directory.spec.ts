@@ -1,4 +1,5 @@
-import { expect, test } from "@playwright/test";
+import { expect, type Page, test } from "@playwright/test";
+import { PLACEHOLDER_BLOCK_CATEGORIES } from "../src/blocks/block-nav-config";
 import { assertNoBlockingA11yViolations } from "./a11y-utils";
 
 const categories = [
@@ -8,6 +9,37 @@ const categories = [
   ["Signup", "signup", 5],
 ] as const;
 
+/** Protect readable introductions without tying the layout to specific spacing tokens. */
+async function expectSectionIntroductionsToFit(page: Page) {
+  const sections = await page.locator(".library-section-header").evaluateAll((headers) =>
+    headers.map((header) => {
+      const bounds = (selector: string) => {
+        const { x, y, width, right, bottom } = header
+          .querySelector(selector)!
+          .getBoundingClientRect();
+        return { x, y, width, right, bottom };
+      };
+      return {
+        headerWidth: header.getBoundingClientRect().width,
+        heading: bounds("h2"),
+        link: bounds(".blocks-doc-heading-link"),
+        icon: bounds(".blocks-doc-heading-icon"),
+        meta: bounds(".library-section-meta"),
+        description: bounds(".library-section-description"),
+      };
+    }),
+  );
+  expect(sections.length).toBeGreaterThan(0);
+  for (const { headerWidth, heading, link, icon, meta, description } of sections) {
+    expect(description.width).toBeCloseTo(headerWidth, 0);
+    expect(meta.bottom).toBeLessThanOrEqual(heading.y);
+    expect(heading.bottom).toBeLessThan(description.y);
+    expect(link.x).toBeCloseTo(description.x, 0);
+    expect(icon.x).toBeGreaterThanOrEqual(0);
+    expect(icon.right).toBeLessThanOrEqual(link.x);
+  }
+}
+
 test("the Blocks directory lists published collections and links through the site hierarchy", async ({
   page,
 }) => {
@@ -16,7 +48,13 @@ test("the Blocks directory lists published collections and links through the sit
     if (request.resourceType() === "script") scripts.push(request.url());
   });
   await page.goto("./blocks");
-  await expect(page.getByRole("heading", { name: "Blocks", exact: true, level: 1 })).toBeVisible();
+  await expect(
+    page.getByRole("heading", {
+      name: "Blocks for complete application layouts",
+      exact: true,
+      level: 1,
+    }),
+  ).toBeVisible();
   await expect(page.getByText(/Browse 27 reusable Kamod UI blocks/)).toBeVisible();
   await expect(page.getByText("Straight talk", { exact: true })).toBeVisible();
   await expect(
@@ -37,6 +75,12 @@ test("the Blocks directory lists published collections and links through the sit
   }
   const planned = page.getByRole("navigation", { name: "Planned block categories" });
   await expect(planned.getByRole("link")).toHaveCount(20);
+  const placeholderPaths = PLACEHOLDER_BLOCK_CATEGORIES.map(({ key }) => `/blocks/${key}`).sort();
+  expect(
+    await planned
+      .getByRole("link")
+      .evaluateAll((links) => links.map((link) => link.getAttribute("href")).sort()),
+  ).toEqual(placeholderPaths);
   await expect(planned.getByRole("link").first()).toHaveAccessibleName(
     /0 variants; page not available yet/,
   );
@@ -71,6 +115,7 @@ for (const theme of ["light", "dark"] as const) {
     await page.goto("./blocks/");
     for (const width of [320, 360, 639, 640, 979, 980, 1259, 1260, 1440]) {
       await page.setViewportSize({ width, height: 900 });
+      await expectSectionIntroductionsToFit(page);
       const directory = page.getByRole("navigation", { name: "Block categories", exact: true });
       await expect(directory.getByRole("link")).toHaveCount(categories.length);
       for (const link of await directory.getByRole("link").all()) {
@@ -108,7 +153,11 @@ test("directory links are present in static HTML without JavaScript", async ({
     const page = await context.newPage();
     await page.goto(new URL("./blocks/", baseURL).href);
     await expect(
-      page.getByRole("heading", { name: "Blocks", exact: true, level: 1 }),
+      page.getByRole("heading", {
+        name: "Blocks for complete application layouts",
+        exact: true,
+        level: 1,
+      }),
     ).toBeVisible();
     await expect(
       page.getByRole("navigation", { name: "Block categories", exact: true }).getByRole("link"),
@@ -118,23 +167,59 @@ test("directory links are present in static HTML without JavaScript", async ({
   }
 });
 
-test("components share the directory layout and guide links", async ({ page }) => {
-  await page.goto("./docs/components");
-  await expect(page.locator(".library-directory")).toBeVisible();
-  await expect(
-    page.getByRole("navigation", { name: "All components", exact: true }).getByRole("link").first(),
-  ).toBeVisible();
-  await expect(page.getByRole("link", { name: "Explore blocks", exact: true })).toHaveAttribute(
-    "href",
-    /\/blocks$/,
-  );
-  for (const width of [320, 640, 980, 1440]) {
-    await page.setViewportSize({ width, height: 900 });
-    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
-      true,
+for (const theme of ["light", "dark"] as const) {
+  test(`components share the directory layout and guide links (${theme})`, async ({ page }) => {
+    await page.addInitScript((scheme) => localStorage.setItem("theme", scheme), theme);
+    await page.goto("./docs/components");
+    await expect(page.locator(".library-directory")).toBeVisible();
+    await expect(
+      page
+        .getByRole("navigation", { name: "All components", exact: true })
+        .getByRole("link")
+        .first(),
+    ).toBeVisible();
+    await expect(page.getByRole("link", { name: "Explore blocks", exact: true })).toHaveAttribute(
+      "href",
+      /\/blocks$/,
     );
-  }
-  await assertNoBlockingA11yViolations(page, "Components directory", {
-    include: "main.docs-content",
+    await page
+      .getByRole("navigation", { name: "Directory sections" })
+      .getByRole("link", { name: "Setup & theming" })
+      .click();
+    await expect(page).toHaveURL(/#library-guides$/);
+    const guides = page.getByRole("navigation", { name: "Library guides" });
+    await expect(guides).toBeInViewport();
+    await expect(guides.locator(".library-guide-action")).toHaveCount(3);
+    for (const heading of await page.locator(".library-directory :is(h2, h3)").all()) {
+      const id = await heading.getAttribute("id");
+      expect(id).toBeTruthy();
+      await expect(heading.getByRole("link")).toHaveAttribute("href", `#${id}`);
+    }
+    for (const width of [320, 375, 480, 640, 768, 979, 980, 1260, 1440, 1920]) {
+      await page.setViewportSize({ width, height: 900 });
+      await expectSectionIntroductionsToFit(page);
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
+        true,
+      );
+      for (const link of await guides.getByRole("link").all()) {
+        const bounds = (await link.boundingBox())!;
+        expect(bounds.x).toBeGreaterThanOrEqual(0);
+        expect(bounds.x + bounds.width).toBeLessThanOrEqual(width);
+      }
+      const cards = await guides.locator(".library-guide-card").evaluateAll((items) =>
+        items.map((item) => {
+          const { y, bottom, width } = item.getBoundingClientRect();
+          return { y, bottom, width };
+        }),
+      );
+      const guideWidth = (await guides.boundingBox())!.width;
+      for (const [index, card] of cards.entries()) {
+        expect(card.width).toBeCloseTo(guideWidth, 0);
+        if (index) expect(card.y).toBeGreaterThan(cards[index - 1].bottom);
+      }
+    }
+    await assertNoBlockingA11yViolations(page, "Components directory", {
+      include: "main.docs-content",
+    });
   });
-});
+}

@@ -138,7 +138,9 @@ test("documentation header exposes breadcrumbs, repository links and disabled va
   await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
   await breadcrumb.getByRole("link", { name: "Blocks", exact: true }).click();
   await expect(page).toHaveURL(/\/blocks\/?$/);
-  await expect(page.getByRole("heading", { name: "Blocks", exact: true })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Blocks for complete application layouts", exact: true }),
+  ).toBeVisible();
 });
 
 test("loads detail directly, displays sources and switches preview viewports", async ({ page }) => {

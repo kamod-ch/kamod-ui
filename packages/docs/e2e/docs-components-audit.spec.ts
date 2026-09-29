@@ -239,7 +239,7 @@ test("docs /docs/components full link audit (writes tmp report)", async ({ page,
       .soft(
         page.getByRole("heading", {
           level: 1,
-          name: "Components",
+          name: "Components for flexible Preact interfaces",
           exact: true,
         }),
       )
