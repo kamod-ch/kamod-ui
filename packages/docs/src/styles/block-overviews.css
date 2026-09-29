@@ -1061,3 +1061,25 @@
     order: -1;
   }
 }
+
+/* On phones the collection trail leads into a full-width, balanced count/action row. */
+@media (max-width: 639px) {
+  .blocks-category-header .blocks-page-header-summary {
+    gap: 0.75rem;
+    padding-top: 1rem;
+  }
+  .blocks-category-header .blocks-page-header-actions {
+    width: 100%;
+    margin-inline-start: 0;
+    align-items: center;
+    gap: 0.625rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid color-mix(in oklab, var(--border) 60%, transparent);
+  }
+  .blocks-category-header .blocks-page-header-links {
+    margin-inline-start: auto;
+  }
+  .blocks-category-header .blocks-overview-count {
+    font-size: 0.75rem;
+  }
+}

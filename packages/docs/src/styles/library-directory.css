@@ -1,0 +1,249 @@
+.library-directory {
+  min-width: 0;
+}
+.library-directory-header {
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  background: linear-gradient(
+    140deg,
+    color-mix(in oklab, var(--primary) 4%, var(--background)),
+    var(--background) 70%
+  );
+}
+.library-directory-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--muted-foreground);
+  font-size: 0.6875rem;
+  letter-spacing: 0.05em;
+}
+.library-directory-title {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.8rem;
+}
+.library-directory .library-directory-title h1 {
+  margin: 0;
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 600;
+  letter-spacing: -0.045em;
+}
+.library-directory-title > span {
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.4rem;
+  background: color-mix(in oklab, var(--primary) 6%, var(--background));
+  color: var(--muted-foreground);
+  font-size: 0.6875rem;
+}
+.library-directory .docs-components-intro {
+  margin: 1rem 0 1.25rem;
+  max-width: 64ch;
+  font-size: 0.9375rem;
+  line-height: 1.7;
+}
+.library-directory code {
+  padding: 0.1rem 0.25rem;
+  border-radius: 0.25rem;
+  background: color-mix(in oklab, var(--primary) 7%, var(--background));
+  color: var(--foreground);
+  font-size: 0.88em;
+}
+.library-directory-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+.library-directory-actions a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.5rem;
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  text-decoration: none;
+}
+.library-directory-icon-links {
+  display: flex;
+  gap: 0.35rem;
+}
+.library-directory-icon-links a {
+  width: 2.5rem;
+  justify-content: center;
+  border-radius: 0.5rem;
+  background: color-mix(in oklab, var(--foreground) 3%, transparent);
+}
+.library-directory-section-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 2rem 0 0.85rem;
+}
+.library-directory .library-directory-section-heading h2 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 550;
+}
+.library-directory-section-heading > span {
+  font-size: 0.6875rem;
+  color: var(--muted-foreground);
+}
+.library-directory .library-directory-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+.library-directory .library-directory-item {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  gap: 0.6rem;
+  min-width: 0;
+  min-height: 3.25rem;
+  padding: 0.85rem;
+  border: 1px solid color-mix(in oklab, var(--border) 75%, transparent);
+  border-radius: 0.6rem;
+  background: var(--background);
+  text-decoration: none;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease;
+}
+.library-directory-item-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.library-directory-item-title svg {
+  flex: none;
+  color: var(--muted-foreground);
+  opacity: 0.5;
+}
+.library-directory-item-description {
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  line-height: 1.6;
+}
+.library-directory .docs-block-category-count {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  color: var(--muted-foreground);
+  font-size: 0.6875rem;
+}
+.library-directory .docs-block-category-count > span {
+  opacity: 0.7;
+}
+.library-directory .library-directory-item.is-planned {
+  border-style: dashed;
+  color: var(--muted-foreground);
+  background: transparent;
+}
+.library-directory-planned > p {
+  margin: 0 0 1rem;
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+  line-height: 1.65;
+}
+.library-directory-resources {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  padding: 1.25rem 0;
+  border-top: 1px solid var(--border);
+}
+.library-directory-resources > div > svg {
+  color: var(--muted-foreground);
+  margin-bottom: 0.5rem;
+}
+.library-directory-resources h2 {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 550;
+}
+.library-directory-resources p {
+  margin: 0.4rem 0 0;
+  max-width: 40ch;
+  font-size: 0.75rem;
+  line-height: 1.6;
+  color: var(--muted-foreground);
+}
+.library-directory-resources nav {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.library-directory-resources a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 2.5rem;
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  text-decoration: none;
+}
+.library-directory a:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+}
+@media (hover: hover) {
+  .library-directory .library-directory-item:hover,
+  .library-directory-icon-links a:hover {
+    background: color-mix(in oklab, var(--primary) 4%, var(--background));
+    border-color: color-mix(in oklab, var(--primary) 20%, var(--border));
+  }
+  .library-directory a:hover {
+    color: var(--foreground);
+  }
+}
+@media (min-width: 1440px) {
+  .library-directory .library-directory-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .docs-blocks-overview > .library-directory-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 639px) {
+  .library-directory-header {
+    padding: 1rem;
+  }
+  .library-directory .docs-components-intro {
+    font-size: 0.875rem;
+  }
+  .library-directory .library-directory-grid {
+    gap: 0.5rem;
+  }
+  .library-directory .library-directory-item {
+    padding: 0.75rem;
+  }
+  .library-directory-resources {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.75rem;
+  }
+  .library-directory-resources nav {
+    align-items: start;
+  }
+}
+@media (max-width: 374px) {
+  .library-directory .library-directory-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .library-directory .library-directory-item {
+    transition: none;
+  }
+}

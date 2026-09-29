@@ -35,6 +35,11 @@ test("the Blocks directory lists published collections and links through the sit
       }),
     ).toHaveAttribute("href", new RegExp(`/blocks/${slug}$`));
   }
+  const planned = page.getByRole("navigation", { name: "Planned block categories" });
+  await expect(planned.getByRole("link")).toHaveCount(20);
+  await expect(planned.getByRole("link").first()).toHaveAccessibleName(
+    /0 variants; page not available yet/,
+  );
   await expect(page.locator("iframe, article.blocks-card")).toHaveCount(0);
   expect(
     scripts.filter((url) =>
@@ -111,4 +116,25 @@ test("directory links are present in static HTML without JavaScript", async ({
   } finally {
     await context.close();
   }
+});
+
+test("components share the directory layout and guide links", async ({ page }) => {
+  await page.goto("./docs/components");
+  await expect(page.locator(".library-directory")).toBeVisible();
+  await expect(
+    page.getByRole("navigation", { name: "All components", exact: true }).getByRole("link").first(),
+  ).toBeVisible();
+  await expect(page.getByRole("link", { name: "Explore blocks", exact: true })).toHaveAttribute(
+    "href",
+    /\/blocks$/,
+  );
+  for (const width of [320, 640, 980, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
+      true,
+    );
+  }
+  await assertNoBlockingA11yViolations(page, "Components directory", {
+    include: "main.docs-content",
+  });
 });

@@ -1,7 +1,7 @@
-import { withBasePath } from "../base-path";
 import { DocsShell } from "../docs/components/DocsShell";
+import { LibraryDirectory, LibraryGrid } from "../docs/components/LibraryDirectory";
 import { type BlockCategory, blockCategories } from "./block-categories";
-import { visibleBlockNavItems } from "./block-nav-config";
+import { PLACEHOLDER_BLOCK_CATEGORIES, visibleBlockNavItems } from "./block-nav-config";
 
 // Keep the directory aligned with published collections, without loading their demos.
 const categories = visibleBlockNavItems
@@ -23,28 +23,43 @@ export function BlockOverviewPage() {
       activeSection=""
       docs={[]}
       mainContent={
-        <section class="docs-components-overview docs-blocks-overview">
-          <h1>Blocks</h1>
-          <p class="docs-components-intro">
-            Browse {total} reusable Kamod UI blocks. Choose a category to compare layouts and
-            explore each variant’s live preview, source code and setup guide.
-          </p>
-          <h2 class="docs-components-grid-heading">All block categories</h2>
-          <nav class="docs-components-grid" aria-label="Block categories">
-            {categories.map(({ key, label, href, count }) => (
-              <a
-                class="docs-component-item docs-block-category-item"
-                href={withBasePath(href)}
-                key={key}
-              >
-                <span>{label}</span>
-                <span class="docs-block-category-count">
-                  {count} {count === 1 ? "variant" : "variants"}
-                </span>
-              </a>
-            ))}
-          </nav>
-        </section>
+        <LibraryDirectory
+          kind="blocks"
+          items={categories.map((item) => ({
+            ...item,
+            detail:
+              blockCategories[item.key as BlockCategory].description
+                .replace(/[`*]/g, "")
+                .split(". ")[0] + ".",
+          }))}
+          description={
+            <>
+              Browse {total} reusable Kamod UI blocks. Compare complete layouts, try their live
+              previews and bring the source into your <code>Preact</code> app. Each variant includes
+              its own setup guide and integration examples.
+            </>
+          }
+        >
+          <section class="library-directory-planned" aria-labelledby="planned-collections">
+            <div class="library-directory-section-heading">
+              <h2 id="planned-collections">On the horizon</h2>
+              <span>{PLACEHOLDER_BLOCK_CATEGORIES.length} planned categories</span>
+            </div>
+            <p>
+              These collections have no variants yet. Their links are placeholders; the pages are
+              not available.
+            </p>
+            <LibraryGrid
+              label="Planned block categories"
+              items={PLACEHOLDER_BLOCK_CATEGORIES.map(({ key, label }) => ({
+                label,
+                href: `/blocks/${key}`,
+                count: 0,
+                planned: true,
+              }))}
+            />
+          </section>
+        </LibraryDirectory>
       }
     />
   );
