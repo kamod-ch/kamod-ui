@@ -110,6 +110,18 @@ export const docsRouteManifest = [
     ],
   },
   {
+    slug: "bulk-action-bar",
+    sections: [
+      "installation",
+      "usage",
+      "data-table-demo",
+      "sticky-variant",
+      "focus-return",
+      "api-reference",
+      "accessibility",
+    ],
+  },
+  {
     slug: "button",
     sections: [
       "installation",
@@ -258,6 +270,18 @@ export const docsRouteManifest = [
     ],
   },
   {
+    slug: "code-block",
+    sections: [
+      "installation",
+      "usage",
+      "plaintext",
+      "shell",
+      "copy-error",
+      "api-reference",
+      "accessibility",
+    ],
+  },
+  {
     slug: "collapsible",
     sections: [
       "installation",
@@ -331,6 +355,17 @@ export const docsRouteManifest = [
     ],
   },
   {
+    slug: "copy-field",
+    sections: [
+      "installation",
+      "usage",
+      "ids-urls",
+      "clipboard-error",
+      "api-reference",
+      "accessibility",
+    ],
+  },
+  {
     slug: "data-table",
     sections: [
       "installation",
@@ -357,6 +392,24 @@ export const docsRouteManifest = [
       "time-picker",
       "natural-language",
       "rtl",
+      "api-reference",
+      "accessibility",
+    ],
+  },
+  {
+    slug: "date-range-picker",
+    sections: ["installation", "usage", "basic", "rtl", "api-reference", "accessibility"],
+  },
+  {
+    slug: "description-list",
+    sections: [
+      "installation",
+      "usage",
+      "customer-profile",
+      "invoice-details",
+      "technical-id",
+      "two-columns",
+      "edit-action",
       "api-reference",
       "accessibility",
     ],
@@ -477,6 +530,21 @@ export const docsRouteManifest = [
       "field-responsive",
       "field-rtl",
       "field-legacy-error",
+      "api-reference",
+      "accessibility",
+    ],
+  },
+  {
+    slug: "file-upload-manager",
+    sections: ["installation", "usage", "simulated-demo", "api-reference", "accessibility"],
+  },
+  {
+    slug: "filter-bar",
+    sections: [
+      "installation",
+      "usage",
+      "interactive-demo",
+      "debounced-search",
       "api-reference",
       "accessibility",
     ],
@@ -656,6 +724,21 @@ export const docsRouteManifest = [
     ],
   },
   {
+    slug: "kpi-card",
+    sections: [
+      "installation",
+      "usage",
+      "revenue-positive",
+      "error-rate",
+      "costs-positive",
+      "neutral-zero-loading",
+      "responsive-grid",
+      "sparkline-footer",
+      "api-reference",
+      "accessibility",
+    ],
+  },
+  {
     slug: "label",
     sections: [
       "installation",
@@ -724,6 +807,19 @@ export const docsRouteManifest = [
     sections: ["installation", "usage", "basic", "api-reference", "accessibility"],
   },
   {
+    slug: "multi-select",
+    sections: [
+      "installation",
+      "usage",
+      "team",
+      "categories",
+      "long-labels",
+      "external-search",
+      "api-reference",
+      "accessibility",
+    ],
+  },
+  {
     slug: "native-select",
     sections: [
       "installation",
@@ -749,6 +845,23 @@ export const docsRouteManifest = [
       "link-as-trigger-style",
       "rtl",
       "delays",
+      "api-reference",
+      "accessibility",
+    ],
+  },
+  {
+    slug: "notification-center",
+    sections: ["installation", "usage", "interactive-demo", "api-reference", "accessibility"],
+  },
+  {
+    slug: "page-header",
+    sections: [
+      "installation",
+      "usage",
+      "simple",
+      "breadcrumbs-actions",
+      "detail-metadata",
+      "long-title",
       "api-reference",
       "accessibility",
     ],
@@ -825,6 +938,29 @@ export const docsRouteManifest = [
     ],
   },
   {
+    slug: "resizable",
+    sections: [
+      "installation",
+      "usage",
+      "workbench",
+      "vertical",
+      "persistence",
+      "api-reference",
+      "accessibility",
+    ],
+  },
+  {
+    slug: "save-status",
+    sections: [
+      "installation",
+      "usage",
+      "states",
+      "autosave-demo",
+      "api-reference",
+      "accessibility",
+    ],
+  },
+  {
     slug: "scroll-area",
     sections: [
       "installation",
@@ -888,6 +1024,10 @@ export const docsRouteManifest = [
       "api-reference",
       "accessibility",
     ],
+  },
+  {
+    slug: "shortcuts-help",
+    sections: ["installation", "usage", "help", "integration", "api-reference", "accessibility"],
   },
   {
     slug: "sidebar",
@@ -968,6 +1108,20 @@ export const docsRouteManifest = [
     sections: ["installation", "usage", "api-reference", "accessibility"],
   },
   {
+    slug: "stepper",
+    sections: [
+      "installation",
+      "usage",
+      "organization",
+      "team",
+      "review",
+      "horizontal",
+      "vertical-error",
+      "api-reference",
+      "accessibility",
+    ],
+  },
+  {
     slug: "switch",
     sections: [
       "installation",
@@ -1003,6 +1157,10 @@ export const docsRouteManifest = [
       "api-reference",
       "accessibility",
     ],
+  },
+  {
+    slug: "tag-input",
+    sections: ["installation", "usage", "keywords", "api-reference", "accessibility"],
   },
   {
     slug: "textarea",
@@ -1042,6 +1200,19 @@ export const docsRouteManifest = [
       "provider-controls",
       "token-overrides",
       "tailwind-preset",
+      "api-reference",
+      "accessibility",
+    ],
+  },
+  {
+    slug: "timeline",
+    sections: [
+      "installation",
+      "usage",
+      "order-history",
+      "team-activity",
+      "audit-trail",
+      "grouped-load-more",
       "api-reference",
       "accessibility",
     ],
@@ -1179,6 +1350,18 @@ export const docsRouteManifest = [
       "usage",
       "video-with-source",
       "muted-preview",
+      "api-reference",
+      "accessibility",
+    ],
+  },
+  {
+    slug: "wizard",
+    sections: [
+      "installation",
+      "usage",
+      "organization-wizard",
+      "mount-behavior",
+      "formisch-integration",
       "api-reference",
       "accessibility",
     ],

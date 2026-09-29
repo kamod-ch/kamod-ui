@@ -1,4 +1,5 @@
-export { Command } from "./Command";
+export type { CommandContextValue, CommandProps } from "./Command";
+export { Command, useCommand } from "./Command";
 export { CommandDialog } from "./CommandDialog";
 export { CommandEmpty } from "./CommandEmpty";
 export { CommandGroup } from "./CommandGroup";

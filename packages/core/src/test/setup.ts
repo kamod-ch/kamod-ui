@@ -14,3 +14,6 @@ class ResizeObserverStub {
 
 // jsdom does not implement ResizeObserver; ScrollBar relies on it for thumb sizing.
 globalThis.ResizeObserver = ResizeObserverStub as unknown as typeof ResizeObserver;
+
+// Command list highlight uses scrollIntoView; jsdom may omit or stub it incompletely.
+Element.prototype.scrollIntoView = () => {};

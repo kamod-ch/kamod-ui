@@ -691,9 +691,13 @@ export const Calendar = ({
       dir={dir}
       class={cn(
         "bg-background group/calendar relative w-fit rounded-md border [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent",
-        calSize === "sm"
-          ? "min-w-[15rem] p-2 [--cell-size:1.5625rem]"
-          : "min-w-[16.75rem] p-2.5 [--cell-size:1.75rem]",
+        numberOfMonths === 2
+          ? calSize === "sm"
+            ? "w-full max-w-full min-w-0 p-2 [--cell-size:1.5625rem]"
+            : "w-full max-w-full min-w-0 p-2.5 [--cell-size:1.75rem]"
+          : calSize === "sm"
+            ? "min-w-[15rem] p-2 [--cell-size:1.5625rem]"
+            : "min-w-[16.75rem] p-2.5 [--cell-size:1.75rem]",
         numberOfMonths === 2 && "max-w-full",
         className,
       )}
@@ -729,10 +733,11 @@ export const Calendar = ({
       )}
       <div
         class={cn(
-          "relative flex flex-col",
+          "relative flex",
+          numberOfMonths === 2 ? "flex-row items-start justify-between" : "flex-col",
           calSize === "sm" ? "gap-2.5" : "gap-3",
-          numberOfMonths === 2 && "md:flex-row md:items-start md:justify-between",
-          numberOfMonths === 2 && (calSize === "sm" ? "md:gap-4" : "md:gap-6"),
+          numberOfMonths === 2 && (calSize === "sm" ? "gap-4" : "gap-6"),
+          numberOfMonths === 2 && "[&>div]:min-w-0 [&>div]:flex-1 [&>div]:shrink",
         )}
       >
         {monthsToRender.map((offset) => {
