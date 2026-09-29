@@ -30,7 +30,6 @@ export const BlockCategoryPage = ({ category }: { category: BlockCategory }) => 
       sidebarScope="blocks"
       activeDoc={null}
       activeSection=""
-      docs={[]}
       activeBlock={category}
       contentHeader={<BlockCategoryHeader category={category} />}
       sidebarHeader={<BlockCategoryPreview key={category} category={category} />}

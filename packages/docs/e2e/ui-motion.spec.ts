@@ -276,14 +276,13 @@ test.describe("UI Motion docs polish QA", () => {
     await expect(gridLink).toHaveAttribute("href", /\/docs\/ui-motion\/installation$/);
   });
 
-  test("sidebar shows new badge on UI Motion", async ({ page }) => {
+  test("sidebar highlights UI Motion", async ({ page }) => {
     await page.goto(docsRoute("docs/ui-motion/installation"));
-    const uiMotionLink = page.locator(
-      'aside.docs-sidebar nav[aria-label="Docs components"] a.docs-nav-button',
-      { hasText: "UI Motion" },
-    );
+    const uiMotionLink = page.locator("aside.docs-sidebar a.site-navigation-link", {
+      hasText: "UI Motion",
+    });
     await expect(uiMotionLink).toBeVisible();
-    await expect(uiMotionLink.getByText("new", { exact: true })).toBeVisible();
+    await expect(uiMotionLink).toHaveAttribute("aria-current", "page");
   });
 
   test("View Markdown dialog works on UI Motion installation", async ({ page }) => {

@@ -1,6 +1,6 @@
 import { withBasePath } from "../base-path";
 import { DocsShell } from "./components/DocsShell";
-import { docsPages, packageDocPages } from "./registry";
+import { packageDocPages } from "./registry";
 
 export const DocsPackagesOverviewContent = () => {
   const sortedPackages = [...packageDocPages].sort((a, b) => a.title.localeCompare(b.title));
@@ -9,10 +9,8 @@ export const DocsPackagesOverviewContent = () => {
     <DocsShell
       sidebarScope="packages"
       isSectionOverview
-      isPackagesOverview
       activeDoc={null}
       activeSection=""
-      docs={docsPages}
       mainContent={
         <section class="docs-components-overview docs-packages-overview">
           <header class="docs-packages-hero">

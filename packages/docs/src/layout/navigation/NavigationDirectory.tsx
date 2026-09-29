@@ -1,5 +1,4 @@
 import {
-  ArrowUpRightIcon,
   ChevronDownIcon,
   ComponentIcon,
   LayersIcon,
@@ -8,12 +7,7 @@ import {
 } from "@kamod-ch/icons/lucide";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger, SheetClose } from "@kamod-ch/ui";
 import { useId } from "preact/hooks";
-import {
-  flattenNavigationLinks,
-  isNavigationCurrent,
-  type NavigationGroup,
-  type NavigationLink,
-} from "./navigation-data";
+import { isNavigationCurrent, type NavigationGroup, type NavigationLink } from "./navigation-data";
 
 const groupIcons = {
   components: ComponentIcon,
@@ -26,63 +20,58 @@ function DirectoryLink({
   link,
   pathname,
   overview = false,
+  closeOnNavigate,
 }: {
   link: NavigationLink;
   pathname: string;
   overview?: boolean;
+  closeOnNavigate: boolean;
 }) {
-  return (
-    <SheetClose asChild>
-      <a
-        href={link.href}
-        class="site-navigation-link"
-        aria-current={isNavigationCurrent(pathname, link.href) ? "page" : undefined}
-      >
-        <span>{link.label}</span>
-        {overview && <ArrowUpRightIcon size={14} aria-hidden="true" />}
-      </a>
-    </SheetClose>
+  const description =
+    link.variantCount === undefined
+      ? undefined
+      : `${link.variantCount} ${link.variantCount === 1 ? "variant" : "variants"}${link.planned ? " · Planned collection — page not available yet" : ""}`;
+  const anchor = (
+    <a
+      href={link.href}
+      class={`site-navigation-link${overview ? " site-navigation-link-overview" : ""}`}
+      data-block-placeholder={link.planned ? "" : undefined}
+      aria-label={link.variantCount !== undefined ? link.label : undefined}
+      title={description}
+      aria-current={
+        isNavigationCurrent(pathname, link.href)
+          ? "page"
+          : isNavigationCurrent(pathname, link.href, link.matchDescendants)
+            ? "location"
+            : undefined
+      }
+    >
+      {overview && <ComponentIcon size={13} aria-hidden="true" />}
+      <span>{link.label}</span>
+      {link.variantCount !== undefined && (
+        <span class="site-navigation-link-meta" aria-hidden="true">
+          {link.planned && <small class="site-navigation-planned">Planned</small>}
+          <span class="site-navigation-variant-count">{link.variantCount}</span>
+        </span>
+      )}
+    </a>
   );
+  return closeOnNavigate ? <SheetClose asChild>{anchor}</SheetClose> : anchor;
 }
 
-/** A collection remains a normal link; its separate toggle reveals individual variants. */
-function DirectoryEntry({ link, pathname }: { link: NavigationLink; pathname: string }) {
-  const id = useId();
-  if (!link.children?.length) return <DirectoryLink link={link} pathname={pathname} />;
-  const current = flattenNavigationLinks([link]).some((entry) =>
-    isNavigationCurrent(pathname, entry.href),
-  );
-  return (
-    <Collapsible class="site-navigation-collection" defaultOpen={current}>
-      <div class="site-navigation-collection-row">
-        <DirectoryLink link={link} pathname={pathname} />
-        <CollapsibleTrigger
-          class="site-navigation-collection-toggle"
-          aria-controls={id}
-          aria-label={`Toggle ${link.label} variants`}
-        >
-          <span>{link.children.length}</span>
-          <ChevronDownIcon size={14} aria-hidden="true" />
-        </CollapsibleTrigger>
-      </div>
-      <CollapsibleContent id={id} duration="180ms">
-        <ul class="site-navigation-links site-navigation-variant-links">
-          {link.children.map((child) => (
-            <li key={child.href}>
-              <DirectoryLink link={child} pathname={pathname} />
-            </li>
-          ))}
-        </ul>
-      </CollapsibleContent>
-    </Collapsible>
-  );
-}
-
-function DirectoryGroup({ group, pathname }: { group: NavigationGroup; pathname: string }) {
+function DirectoryGroup({
+  group,
+  pathname,
+  closeOnNavigate,
+}: {
+  group: NavigationGroup;
+  pathname: string;
+  closeOnNavigate: boolean;
+}) {
   const id = useId();
   const Icon = groupIcons[group.kind];
-  const current = [group.overview, ...flattenNavigationLinks(group.links)].some((link) =>
-    isNavigationCurrent(pathname, link.href),
+  const current = [group.overview, ...group.links].some((link) =>
+    isNavigationCurrent(pathname, link.href, link.matchDescendants),
   );
   return (
     <Collapsible class="site-navigation-group" defaultOpen={current}>
@@ -94,7 +83,10 @@ function DirectoryGroup({ group, pathname }: { group: NavigationGroup; pathname:
           {group.label}
           <small>{group.kind === "blocks" ? "Layout collections" : "Documentation"}</small>
         </span>
-        <span class="site-navigation-count" aria-label={`${group.links.length} pages`}>
+        <span
+          class="site-navigation-count"
+          aria-label={`${group.links.length} ${group.kind === "blocks" ? "collections" : "pages"}`}
+        >
           {group.links.length}
         </span>
         <ChevronDownIcon class="site-navigation-chevron" size={16} aria-hidden="true" />
@@ -102,11 +94,16 @@ function DirectoryGroup({ group, pathname }: { group: NavigationGroup; pathname:
       <CollapsibleContent id={id} duration="180ms">
         <ul class="site-navigation-links">
           <li>
-            <DirectoryLink link={group.overview} pathname={pathname} overview />
+            <DirectoryLink
+              link={group.overview}
+              pathname={pathname}
+              overview
+              closeOnNavigate={closeOnNavigate}
+            />
           </li>
           {group.links.map((link) => (
             <li key={link.href}>
-              <DirectoryEntry link={link} pathname={pathname} />
+              <DirectoryLink link={link} pathname={pathname} closeOnNavigate={closeOnNavigate} />
             </li>
           ))}
         </ul>
@@ -118,14 +115,21 @@ function DirectoryGroup({ group, pathname }: { group: NavigationGroup; pathname:
 export function NavigationDirectory({
   groups,
   pathname,
+  closeOnNavigate = false,
 }: {
   groups: NavigationGroup[];
   pathname: string;
+  closeOnNavigate?: boolean;
 }) {
   return (
     <nav aria-label="Browse all pages" class="site-navigation-directory">
       {groups.map((group) => (
-        <DirectoryGroup key={group.id} group={group} pathname={pathname} />
+        <DirectoryGroup
+          key={`${group.id}:${pathname}`}
+          group={group}
+          pathname={pathname}
+          closeOnNavigate={closeOnNavigate}
+        />
       ))}
     </nav>
   );

@@ -1,11 +1,16 @@
 import { withBasePath } from "../../base-path";
 import { type BlockCategory, blockCategories } from "../../blocks/block-categories";
-import { visibleBlockNavItems } from "../../blocks/block-nav-config";
-import { getBlockDisplayName } from "../../blocks/block-overview-details";
+import { PLACEHOLDER_BLOCK_CATEGORIES, visibleBlockNavItems } from "../../blocks/block-nav-config";
 import { docsShowMotion, isMotionDocSlug } from "../../docs/docs-feature-flags";
 import { docsNavigation } from "../../docs/generated-navigation";
 
-export type NavigationLink = { label: string; href: string; children?: NavigationLink[] };
+export type NavigationLink = {
+  label: string;
+  href: string;
+  matchDescendants?: boolean;
+  planned?: boolean;
+  variantCount?: number;
+};
 export type NavigationGroup = {
   id: string;
   label: string;
@@ -40,33 +45,34 @@ const groups: NavigationGroup[] = [
     label: "Blocks",
     kind: "blocks",
     overview: { label: "Blocks overview", href: withBasePath("/blocks") },
-    links: visibleBlockNavItems
-      .filter((item) => item.key in blockCategories)
-      .map((item) => ({
-        label: item.label,
-        href: withBasePath(item.href),
-        children: blockCategories[item.key as BlockCategory].blocks.map((block) => ({
-          label: getBlockDisplayName(block.title),
-          href: withBasePath(`${item.href}/${block.id}`),
+    links: [
+      ...visibleBlockNavItems
+        .filter((item) => item.key in blockCategories)
+        .map((item) => ({
+          label: item.label,
+          href: withBasePath(item.href),
+          matchDescendants: true,
+          variantCount: blockCategories[item.key as BlockCategory].blocks.length,
         })),
+      ...PLACEHOLDER_BLOCK_CATEGORIES.map(({ key, label }) => ({
+        label,
+        href: withBasePath(`/blocks/${key}`),
+        planned: true,
+        variantCount: 0,
       })),
+    ],
   },
 ];
 
-/** Match a component's section routes too, but never mark its overview as the current page. */
-export function isNavigationCurrent(pathname: string, href: string) {
+/** Match section routes and explicitly opted-in collections without matching sibling names. */
+export function isNavigationCurrent(pathname: string, href: string, matchDescendants = false) {
   const path = pathname.replace(/\/$/, "");
   const target = href.replace(/\/$/, "");
   if (target.endsWith("/installation")) {
     const root = target.slice(0, -"/installation".length);
     return path === root || path.startsWith(`${root}/`);
   }
-  return path === target;
-}
-
-/** Keep nested variants reachable when deciding which collection to expand. */
-export function flattenNavigationLinks(links: NavigationLink[]): NavigationLink[] {
-  return links.flatMap((link) => [link, ...flattenNavigationLinks(link.children ?? [])]);
+  return path === target || (matchDescendants && path.startsWith(`${target}/`));
 }
 
 export const navigationGroups = [groups[0], groups[3], groups[1], groups[2]];

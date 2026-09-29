@@ -231,13 +231,13 @@ html {
   margin-top: 1.25rem;
 }
 
-.docs-sidebar nav {
+.docs-sidebar nav:not(.site-navigation-directory) {
   display: flex;
   gap: 0.45rem;
   min-width: max-content;
 }
 
-.docs-sidebar nav a {
+.docs-sidebar nav:not(.site-navigation-directory) a {
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -713,20 +713,20 @@ html {
     border-bottom: 0;
   }
 
-  .docs-sidebar nav {
+  .docs-sidebar nav:not(.site-navigation-directory) {
     display: grid;
     min-width: 0;
     gap: 0.2rem;
   }
 
-  .docs-sidebar nav a {
+  .docs-sidebar nav:not(.site-navigation-directory) a {
     display: flex;
     justify-content: space-between;
     border: 0;
     background: transparent;
   }
 
-  .docs-sidebar nav.docs-sidebar-nav .docs-nav-button {
+  .docs-sidebar nav:not(.site-navigation-directory).docs-sidebar-nav .docs-nav-button {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -737,8 +737,8 @@ html {
     font: inherit;
   }
 
-  .docs-sidebar nav.docs-sidebar-nav .docs-nav-button:hover,
-  .docs-sidebar nav.docs-sidebar-nav .docs-nav-button.is-active {
+  .docs-sidebar nav:not(.site-navigation-directory).docs-sidebar-nav .docs-nav-button:hover,
+  .docs-sidebar nav:not(.site-navigation-directory).docs-sidebar-nav .docs-nav-button.is-active {
     background: rgb(255 255 255 / 7%);
   }
 

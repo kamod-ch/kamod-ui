@@ -1,16 +1,14 @@
 import { DocsShell } from "./components/DocsShell";
 import { LibraryDirectory, LibraryGrid } from "./components/LibraryDirectory";
 import { docsShowMotion } from "./docs-feature-flags";
-import { componentOverviewItems, docsPages, motionOverviewItems } from "./registry";
+import { componentOverviewItems, motionOverviewItems } from "./registry";
 
 export const DocsOverviewContent = () => (
   <DocsShell
     sidebarScope="components"
     isSectionOverview
-    isComponentsOverview
     activeDoc={null}
     activeSection=""
-    docs={docsPages}
     mainContent={
       <LibraryDirectory
         kind="components"

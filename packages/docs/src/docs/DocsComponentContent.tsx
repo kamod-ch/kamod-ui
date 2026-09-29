@@ -345,7 +345,6 @@ export const DocsComponentContent = ({ slug, section }: { slug?: string; section
       sidebarScope={sidebarScope}
       activeDoc={activeDocView}
       activeSection={activeSection}
-      docs={docsPages}
       mainContent={mainContent}
       getSectionHref={(sectionId) => withBasePath(`/docs/${activeDoc.slug}/${sectionId}`)}
     />

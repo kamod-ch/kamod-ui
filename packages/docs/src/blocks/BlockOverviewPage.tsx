@@ -18,10 +18,8 @@ export function BlockOverviewPage() {
     <DocsShell
       sidebarScope="blocks"
       isSectionOverview
-      isBlocksOverview
       activeDoc={null}
       activeSection=""
-      docs={[]}
       mainContent={
         <LibraryDirectory
           kind="blocks"

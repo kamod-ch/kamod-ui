@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { PLACEHOLDER_BLOCK_CATEGORIES } from "../src/blocks/block-nav-config";
 import { assertNoBlockingA11yViolations } from "./a11y-utils";
 import { forwardTabKey } from "./browser-utils";
 
@@ -15,6 +16,72 @@ const routes = [
   "blocks/login/login-01",
   "blocks/signup/signup-01",
 ];
+
+test("desktop sidebars share the mobile directory and current destination", async ({ page }) => {
+  for (const [route, group, label] of [
+    ["blocks", "Blocks", "Blocks overview"],
+    ["blocks/sidebar", "Blocks", "Sidebar"],
+    ["docs/components", "Components", "Components overview"],
+    ["docs/button/usage", "Components", "Button"],
+  ]) {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(`./${route}`);
+    const desktop = page.locator("aside.docs-sidebar .site-navigation-directory");
+    await expect(desktop.getByRole("button", { name: new RegExp(`^${group} `) })).toHaveAttribute(
+      "aria-expanded",
+      "true",
+    );
+    const selected = desktop.getByRole("link", { name: label, exact: true });
+    await expect(selected).toHaveAttribute("aria-current", "page");
+    const links = await desktop
+      .locator("a")
+      .evaluateAll((items) => items.map((a) => a.getAttribute("href")));
+    const desktopStyle = await selected.evaluate((a) => {
+      const style = getComputedStyle(a);
+      return [style.backgroundImage, style.color, style.fontSize, style.padding];
+    });
+    await expect(desktop.getByRole("button", { name: /Toggle .* variants/ })).toHaveCount(0);
+    await assertNoBlockingA11yViolations(page, "Shared sidebar", { include: "aside.docs-sidebar" });
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.getByRole("button", { name: "Open navigation menu" }).click();
+    const mobile = page.locator(".site-navigation-panel .site-navigation-directory");
+    expect(
+      await mobile.locator("a").evaluateAll((items) => items.map((a) => a.getAttribute("href"))),
+    ).toEqual(links);
+    const mobileSelected = mobile.getByRole("link", { name: label, exact: true });
+    await expect(mobileSelected).toHaveAttribute("aria-current", "page");
+    if (group === "Blocks") {
+      for (const directory of [desktop, mobile]) {
+        for (const [name, count] of [
+          ["Sidebar", 16],
+          ["Application Shell", 1],
+          ["Login", 5],
+          ["Signup", 5],
+        ] as const) {
+          const link = directory.getByRole("link", { name, exact: true, includeHidden: true });
+          await expect(link.locator(".site-navigation-variant-count")).toHaveText(String(count));
+          await expect(link).toHaveAccessibleDescription(
+            `${count} ${count === 1 ? "variant" : "variants"}`,
+          );
+        }
+      }
+      const planned = mobile.locator("a[data-block-placeholder]");
+      await expect(planned).toHaveCount(PLACEHOLDER_BLOCK_CATEGORIES.length);
+      const contact = mobile.getByRole("link", { name: "Contact", exact: true });
+      await contact.scrollIntoViewIfNeeded();
+      await expect(contact).toBeInViewport();
+      await expect(contact).toHaveAccessibleDescription(
+        "0 variants · Planned collection — page not available yet",
+      );
+    }
+    expect(
+      await mobileSelected.evaluate((a) => {
+        const style = getComputedStyle(a);
+        return [style.backgroundImage, style.color, style.fontSize, style.padding];
+      }),
+    ).toEqual(desktopStyle);
+  }
+});
 
 for (const route of routes) {
   test(`shared navigation is available on /${route}`, async ({ page }) => {
@@ -69,15 +136,15 @@ for (const scheme of ["light", "dark"] as const) {
       await expect(
         panel.getByRole("link", { name: "Kamod UI repository on GitHub" }),
       ).toBeInViewport();
-      await expect(panel.getByRole("link", { name: "Sidebar 5", exact: true })).toHaveAttribute(
+      await expect(panel.getByRole("link", { name: "Sidebar", exact: true })).toHaveAttribute(
         "aria-current",
-        "page",
+        "location",
       );
-      await panel.getByRole("button", { name: "Toggle Signup variants" }).click();
-      const last = panel.getByRole("link", { name: "Signup 5", exact: true });
+      await expect(panel.getByRole("button", { name: /Toggle .* variants/ })).toHaveCount(0);
+      const last = panel.getByRole("link", { name: "Signup", exact: true });
       await last.scrollIntoViewIfNeeded();
       await expect(last).toBeInViewport();
-      expect((await last.boundingBox())!.height).toBeGreaterThanOrEqual(44);
+      expect((await last.boundingBox())!.height).toBeGreaterThanOrEqual(36);
       await page.keyboard.press("Escape");
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
         true,
@@ -86,7 +153,7 @@ for (const scheme of ["light", "dark"] as const) {
   });
 }
 
-test("nested navigation, keyboard focus and theme picker", async ({ page, browserName }) => {
+test("collection navigation, keyboard focus and theme picker", async ({ page, browserName }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("./");
   const trigger = page.getByRole("button", { name: "Open navigation menu" });
@@ -95,11 +162,9 @@ test("nested navigation, keyboard focus and theme picker", async ({ page, browse
   const panel = page.getByRole("dialog", { name: "Explore Kamod", exact: true });
   await expect(panel.getByRole("searchbox")).toHaveCount(0);
   await panel.getByRole("button", { name: /Blocks Layout collections/ }).click();
-  const collection = panel.getByRole("button", { name: "Toggle Sidebar variants" });
-  await collection.click();
-  await expect(collection).toHaveAttribute("aria-expanded", "true");
-  await expect(panel.getByRole("link", { name: "Sidebar 5", exact: true })).toBeVisible();
-  await assertNoBlockingA11yViolations(page, "Nested navigation", {
+  await expect(panel.getByRole("button", { name: /Toggle .* variants/ })).toHaveCount(0);
+  await expect(panel.getByRole("link", { name: "Sidebar", exact: true })).toBeVisible();
+  await assertNoBlockingA11yViolations(page, "Collection navigation", {
     include: ".site-navigation-panel",
   });
   const last = panel.getByRole("link", { name: "Kamod UI repository on GitHub" });
@@ -113,8 +178,8 @@ test("nested navigation, keyboard focus and theme picker", async ({ page, browse
     themes.getByRole("button", { name: "Professional (Electronics)", exact: true }),
   ).toHaveAttribute("aria-pressed", "true");
   await panel.getByRole("button", { name: "Choose color theme" }).click();
-  await panel.getByRole("link", { name: "Sidebar 5", exact: true }).click();
-  await expect(page).toHaveURL(/\/blocks\/sidebar\/sidebar-05\/?$/);
+  await panel.getByRole("link", { name: "Sidebar", exact: true }).click();
+  await expect(page).toHaveURL(/\/blocks\/sidebar\/?$/);
   await expect(panel).toBeHidden();
   await trigger.click();
   await panel.getByRole("button", { name: "Close navigation menu" }).click();

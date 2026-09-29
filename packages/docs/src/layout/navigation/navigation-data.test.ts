@@ -2,8 +2,9 @@ import { existsSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { blockCategories } from "../../blocks/block-categories";
+import { PLACEHOLDER_BLOCK_CATEGORIES } from "../../blocks/block-nav-config";
 import { docsPages } from "../../docs/registry";
-import { flattenNavigationLinks, isNavigationCurrent, navigationGroups } from "./navigation-data";
+import { isNavigationCurrent, navigationGroups } from "./navigation-data";
 
 describe("site navigation", () => {
   it("exposes every visible docs page with its original label and group", () => {
@@ -24,27 +25,43 @@ describe("site navigation", () => {
     ).toHaveLength(docsPages.length);
   });
 
-  it("includes every registered block exactly once and no placeholder routes", () => {
+  it("includes every available and planned collection exactly once", () => {
     const links = navigationGroups
       .filter((group) => group.kind === "blocks")
-      .flatMap((group) => group.links.flatMap((link) => link.children ?? []));
-    const expected = Object.entries(blockCategories).flatMap(([category, { blocks }]) =>
-      blocks.map((block) => `/blocks/${category}/${block.id}`),
+      .flatMap((group) => group.links);
+    const expected = [
+      ...Object.keys(blockCategories),
+      ...PLACEHOLDER_BLOCK_CATEGORIES.map(({ key }) => key),
+    ].map((category) => `/blocks/${category}`);
+    expect(
+      links.filter((link) => link.planned).map(({ label, href }) => ({ label, href })),
+    ).toEqual(
+      PLACEHOLDER_BLOCK_CATEGORIES.map(({ key, label }) => ({ label, href: `/blocks/${key}` })),
     );
     expect(links.map((link) => link.href).sort()).toEqual(expected.sort());
     expect(new Set(links.map((link) => link.href)).size).toBe(links.length);
+    for (const [category, { blocks }] of Object.entries(blockCategories)) {
+      expect(links.find((link) => link.href === `/blocks/${category}`)?.variantCount).toBe(
+        blocks.length,
+      );
+    }
+    expect(links.filter((link) => link.planned).every((link) => link.variantCount === 0)).toBe(
+      true,
+    );
   });
 
-  it("links only to existing generated routes", () => {
+  it("distinguishes available routes from explicitly planned destinations", () => {
     for (const group of navigationGroups) {
-      for (const link of [group.overview, ...flattenNavigationLinks(group.links)]) {
+      for (const link of [group.overview, ...group.links]) {
         const route = resolve(import.meta.dirname, "../../..", link.href.slice(1));
-        expect(existsSync(`${route}.md`) || existsSync(`${route}/index.md`), link.href).toBe(true);
+        expect(existsSync(`${route}.md`) || existsSync(`${route}/index.md`), link.href).toBe(
+          !link.planned,
+        );
       }
     }
   });
 
-  it("groups collections and variants under one Blocks entry", () => {
+  it("groups direct collection links under one Blocks entry", () => {
     expect(navigationGroups.map((group) => group.label)).toEqual([
       "Components",
       "Blocks",
@@ -53,8 +70,12 @@ describe("site navigation", () => {
     ]);
     const blocks = navigationGroups.find((group) => group.id === "blocks")!;
     expect(blocks.overview.href).toBe("/blocks");
-    expect(blocks.links).toHaveLength(Object.keys(blockCategories).length);
-    expect(blocks.links.every((link) => link.children?.length)).toBe(true);
+    expect(blocks.links).toHaveLength(
+      Object.keys(blockCategories).length + PLACEHOLDER_BLOCK_CATEGORIES.length,
+    );
+    expect(
+      blocks.links.filter((link) => !link.planned).every((link) => link.matchDescendants),
+    ).toBe(true);
   });
 
   it("identifies exact pages and docs section routes with a deployment prefix", () => {
@@ -68,5 +89,10 @@ describe("site navigation", () => {
       true,
     );
     expect(isNavigationCurrent("/blocks/sidebar/sidebar-05", "/blocks/sidebar")).toBe(false);
+    expect(isNavigationCurrent("/blocks/sidebar/sidebar-05", "/blocks/sidebar", true)).toBe(true);
+    expect(isNavigationCurrent("/blocks/sidebar-other", "/blocks/sidebar", true)).toBe(false);
+    expect(
+      isNavigationCurrent("/kamod-ui/blocks/sidebar/sidebar-05/", "/kamod-ui/blocks/sidebar", true),
+    ).toBe(true);
   });
 });

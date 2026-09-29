@@ -160,9 +160,10 @@
 }
 
 .site-navigation-links {
-  margin: 0.5rem 0 0.65rem 1.5rem;
-  padding: 0 0 0 0.75rem;
-  border-left: 1px solid var(--border);
+  display: grid;
+  gap: 0.375rem;
+  margin: 0.5rem 0 0.85rem 2.5rem;
+  padding: 0;
   list-style: none;
 }
 
@@ -171,8 +172,8 @@
   justify-content: space-between;
   align-items: center;
   gap: 0.75rem;
-  min-height: 2.75rem;
-  padding: 0.6rem 0.7rem;
+  min-height: 2.25rem;
+  padding: 0.4rem 0.7rem;
   border-radius: 0.45rem;
   color: var(--muted-foreground);
   font-size: 0.8125rem;
@@ -181,13 +182,64 @@
   overflow-wrap: anywhere;
 }
 
-.site-navigation-link[aria-current="page"] {
-  background: color-mix(in oklab, var(--primary) 5%, var(--background));
-  color: color-mix(in oklab, var(--primary) 35%, var(--foreground));
-  font-weight: 500;
+.site-navigation-link-overview {
+  justify-content: flex-start;
+  gap: 0.5rem;
+  background: color-mix(in oklab, var(--primary) 4%, var(--background));
+  font-size: 0.78125rem;
+  font-weight: 450;
+}
+
+.site-navigation-links > li:first-child {
+  margin-bottom: 0.25rem;
+  padding-bottom: 0.625rem;
+  border-bottom: 1px solid color-mix(in oklab, var(--border) 60%, transparent);
+}
+
+.site-navigation-link-meta {
+  display: flex;
+  align-items: center;
+  flex: none;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+.site-navigation-variant-count {
+  min-width: 1.375rem;
+  padding: 0.05rem 0.25rem;
+  border-radius: 0.3rem;
+  background: color-mix(in oklab, var(--foreground) 4%, transparent);
+  color: var(--muted-foreground);
+  font-size: 0.6875rem;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+.site-navigation-planned {
+  flex: none;
+  color: var(--muted-foreground);
+  font-size: 0.625rem;
+  font-weight: 400;
+}
+
+.site-navigation-link-overview > svg {
+  flex: none;
+  opacity: 0.65;
+}
+
+.site-navigation-link[aria-current] {
+  background: linear-gradient(
+    100deg,
+    color-mix(in oklab, var(--primary) 6%, var(--background)),
+    color-mix(in oklab, var(--primary) 1.5%, var(--background))
+  );
+  color: color-mix(in oklab, var(--primary) 20%, var(--foreground));
+  font-weight: 450;
 }
 
 .site-navigation-panel :is(a, button):focus-visible,
+.site-navigation-directory :is(a, button):focus-visible,
 .site-icon-button:focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 2px;
@@ -197,7 +249,7 @@
   .site-icon-button:hover,
   .site-navigation-icon-button:hover,
   .site-navigation-group-trigger:hover,
-  .site-navigation-link:hover,
+  .site-navigation-link:not([aria-current]):hover,
   .site-navigation-footer a:hover {
     color: var(--foreground);
     background: color-mix(in oklab, var(--primary) 7%, var(--background));
@@ -234,23 +286,27 @@
 
 @media (prefers-reduced-motion: reduce) {
   .site-navigation-panel *,
+  .site-navigation-directory *,
   .site-navigation-trigger {
     transition: none;
   }
 }
 
-/* A quiet dot marks the current destination without a heavy rail or filled row. */
-.site-navigation-link[aria-current="page"]::after {
+/* A small ring keeps the active destination recognizable even in neutral themes. */
+.site-navigation-link[aria-current]::after {
   content: "";
-  width: 0.3rem;
-  height: 0.3rem;
+  width: 0.375rem;
+  height: 0.375rem;
   flex: none;
+  margin-inline-start: auto;
+  margin-inline-end: 0.125rem;
+  border: 1.5px solid color-mix(in oklab, var(--primary) 65%, var(--background));
   border-radius: 50%;
-  background: var(--primary);
-  opacity: 0.65;
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--primary) 6%, var(--background));
 }
-.site-navigation-link[aria-current="page"] > svg {
-  display: none;
+.site-navigation-link[aria-current] .site-navigation-link-meta {
+  order: 1;
+  margin-left: 0;
 }
 .site-navigation-icon-button {
   width: 2rem;
@@ -273,36 +329,33 @@
   font-size: 0.8rem;
   text-decoration: none;
 }
-.site-navigation-collection-row {
-  display: flex;
-  align-items: center;
+
+.site-navigation-quick-links a:focus-visible {
+  background: color-mix(in oklab, var(--primary) 6%, var(--background));
+  color: var(--foreground);
 }
-.site-navigation-collection-row > .site-navigation-link {
-  flex: 1;
-  min-width: 0;
+
+@media (hover: hover) {
+  .site-navigation-quick-links a:hover {
+    background: color-mix(in oklab, var(--primary) 6%, var(--background));
+    color: var(--foreground);
+  }
+
+  .site-navigation-quick-links a:hover > svg {
+    color: color-mix(in oklab, var(--primary) 70%, var(--foreground));
+  }
 }
-.site-navigation-collection-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-  min-width: 2.75rem;
-  height: 2.75rem;
-  border: 0;
-  border-radius: 0.4rem;
-  background: transparent;
-  color: var(--muted-foreground);
-  font-size: 0.65rem;
-  cursor: pointer;
-}
-.site-navigation-collection-toggle[aria-expanded="true"] svg {
-  transform: rotate(180deg);
-}
-.site-navigation-variant-links {
-  margin: 0.2rem 0 0.4rem 0.75rem;
-}
-.site-navigation-variant-links .site-navigation-link {
-  font-size: 0.75rem;
+
+@media (prefers-reduced-motion: no-preference) {
+  .site-navigation-quick-links a {
+    transition:
+      background-color 160ms ease,
+      color 160ms ease;
+  }
+
+  .site-navigation-quick-links a > svg {
+    transition: color 160ms ease;
+  }
 }
 .site-navigation-footer {
   flex: none;

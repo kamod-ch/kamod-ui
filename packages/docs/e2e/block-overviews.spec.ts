@@ -136,98 +136,41 @@ for (const width of [320, 768, 1024, 1440, 1920]) {
   }
 }
 
-test("planned categories stay navigable without becoming screenshot targets", async ({ page }) => {
+test("shared sidebar includes available and planned categories", async ({ page }) => {
   await page.goto("./blocks/sidebar");
   const sidebar = page.locator("aside.docs-sidebar");
-  const links = sidebar.getByRole("navigation", { name: "Docs blocks", exact: true });
-  await expect(links.locator("a[data-block-placeholder]")).toHaveCount(20);
-  await expect(links.locator("a:not([data-block-placeholder])")).toHaveCount(4);
-  await expect(sidebar.getByText("27 blocks", { exact: true })).toBeVisible();
-  const about = links.getByRole("link", { name: "About", exact: true });
-  await expect(about).toHaveAttribute("href", /\/blocks\/about$/);
-  await expect(about).toHaveAccessibleDescription("0 variants; page not available yet");
-  await page.setViewportSize({ width: 320, height: 900 });
-  await page.getByRole("button", { name: "Open navigation menu" }).click();
-  const mobile = page.getByRole("navigation", { name: "Browse all pages", exact: true });
-  await expect(mobile.locator(".site-navigation-group-trigger")).toHaveCount(4);
-  await expect(mobile.getByRole("link", { name: "About", exact: true })).toHaveCount(0);
-  await mobile.getByRole("link", { name: "Login", exact: true }).click();
-  await expect(page.getByRole("heading", { name: "Login Forms and Sign-in Pages" })).toBeVisible();
+  const navigation = sidebar.getByRole("navigation", { name: "Browse all pages" });
+  await expect(
+    navigation.getByRole("button", { name: /Blocks Layout collections/ }),
+  ).toHaveAttribute("aria-expanded", "true");
+  await expect(navigation.getByRole("link", { name: "Sidebar", exact: true })).toHaveAttribute(
+    "aria-current",
+    "page",
+  );
+  await expect(navigation.getByRole("button", { name: /Toggle .* variants/ })).toHaveCount(0);
+  await expect(navigation.getByRole("link", { name: "About", exact: true })).toHaveAttribute(
+    "href",
+    /\/blocks\/about$/,
+  );
+  await expect(navigation.locator("a[data-block-placeholder]")).toHaveCount(20);
+  await navigation.getByRole("link", { name: "Blocks overview" }).click();
+  await expect(
+    page.getByRole("navigation", { name: "Planned block categories" }).getByRole("link"),
+  ).toHaveCount(20);
 });
 
-for (const scheme of ["light", "dark"] as const) {
-  test(`category disclosures expose variant links independently (${scheme})`, async ({ page }) => {
-    await page.addInitScript((theme) => localStorage.setItem("theme", theme), scheme);
-    await page.goto("./blocks/sidebar");
-    const navigation = page
-      .locator("aside.docs-sidebar")
-      .getByRole("navigation", { name: "Docs blocks" });
-    await expect(navigation.getByRole("button")).toHaveCount(4);
-    const emptyRows = navigation.locator(".blocks-category-row").filter({
-      has: page.locator("a[data-block-placeholder]"),
-    });
-    await expect(emptyRows).toHaveCount(20);
-    await expect(emptyRows.locator("button, svg")).toHaveCount(0);
-
-    for (const [label, count] of [
-      ["Sidebar", 16],
-      ["Login", 5],
-      ["Signup", 5],
-      ["Application Shell", 1],
-    ] as const) {
-      const toggle = navigation.getByRole("button", { name: `Toggle ${label} variants` });
-      await toggle.focus();
-      await page.keyboard.press("Enter");
-      await expect(toggle).toHaveAttribute("aria-expanded", "true");
-      const variants = navigation.getByRole("list", { name: `${label} variants` });
-      await expect(variants.getByRole("link")).toHaveCount(count);
-      await expect(variants).toHaveCSS("border-left-style", "dashed");
-      await expect(page).toHaveURL(/\/blocks\/sidebar\/?$/);
-      // Leave Sidebar expanded while opening another category.
-      if (label !== "Sidebar") {
-        await expect(navigation.getByRole("list", { name: "Sidebar variants" })).toBeVisible();
-        await page.keyboard.press("Space");
-        await expect(toggle).toHaveAttribute("aria-expanded", "false");
-        await expect(variants).toBeHidden();
-        await expect(toggle).toBeFocused();
-      }
-    }
-    await expect(
-      navigation.locator("a.blocks-category-link:not([data-block-placeholder])"),
-    ).toHaveCount(4);
-    await assertNoBlockingA11yViolations(page, "expanded block categories", {
-      exclude: ".kamod-logo__suffix",
-    });
-    const variant = navigation.getByRole("link", { name: "Sidebar 16", exact: true });
-    await variant.scrollIntoViewIfNeeded();
-    await variant.click();
-    await expect(page).toHaveURL(/\/blocks\/sidebar\/sidebar-16\/?$/);
-    await expect(page.locator("article#sidebar-16")).toBeVisible();
-  });
-}
-
 for (const width of [320, 768]) {
-  test(`mobile category disclosure stays open until a variant is selected (${width}px)`, async ({
+  test(`mobile category navigation opens the collection directly (${width}px)`, async ({
     page,
   }) => {
     await page.setViewportSize({ width, height: 600 });
     await page.goto("./blocks/login");
     await page.getByRole("button", { name: "Open navigation menu" }).click();
-    const navigation = page.getByRole("navigation", { name: "Browse all pages" });
-    const toggle = navigation.getByRole("button", { name: "Toggle Signup variants" });
-    await toggle.click();
-    await expect(toggle).toHaveAttribute("aria-expanded", "true");
-    await expect(navigation).toBeVisible();
-    expect((await toggle.boundingBox())!.height).toBeGreaterThanOrEqual(44);
-    const variant = navigation.getByRole("link", { name: "Signup 5", exact: true });
-    await variant.scrollIntoViewIfNeeded();
-    expect((await variant.boundingBox())!.height).toBeGreaterThanOrEqual(44);
-    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
-      true,
-    );
-    await variant.click();
-    await expect(page).toHaveURL(/\/blocks\/signup\/signup-05\/?$/);
-    await expect(page.locator("article#signup-05")).toBeVisible();
+    const navigation = page
+      .getByRole("dialog", { name: "Explore Kamod", exact: true })
+      .getByRole("navigation", { name: "Browse all pages" });
+    await navigation.getByRole("link", { name: "Signup", exact: true }).click();
+    await expect(page).toHaveURL(/\/blocks\/signup\/?$/);
     await expect(navigation).toBeHidden();
   });
 }
@@ -685,10 +628,11 @@ test("category menu stays usable in a short touch viewport", async ({ browser, b
     const trigger = page.getByRole("button", { name: "Open navigation menu" });
     await trigger.tap();
     const navigation = page.getByRole("navigation", { name: "Browse all pages" });
-    const signup = navigation.getByRole("button", { name: "Toggle Signup variants" });
+    const signup = navigation.getByRole("link", { name: "Signup", exact: true });
     await signup.scrollIntoViewIfNeeded();
     await expect(signup).toBeInViewport();
-    expect((await signup.boundingBox())!.height).toBeGreaterThanOrEqual(44);
+    await expect(signup).toHaveAttribute("href", /\/blocks\/signup$/);
+    expect((await signup.boundingBox())!.height).toBeGreaterThanOrEqual(36);
     await page.keyboard.press("Escape");
     await expect(navigation).toBeHidden();
     await expect(trigger).toBeFocused();

@@ -1,49 +1,21 @@
-import {
-  Badge,
-  Button,
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@kamod-ch/ui";
+import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle } from "@kamod-ch/ui";
 import type { ComponentChildren } from "preact";
-import { useMemo } from "preact/hooks";
 import { withBasePath } from "../../base-path";
-import { BlockCategoryNavigation } from "../../blocks/BlockCategoryNavigation";
 import type { BlockNavKey } from "../../blocks/block-nav-config";
 import { DemoShell, demoTopNavItems } from "../../layout/DemoShell";
 import { DocsTopbarActions } from "../../layout/DocsTopbarActions";
-import {
-  componentDocPages,
-  docsNewComponentSlugs,
-  docsNewFormSlugs,
-  docsNewMotionSlugs,
-  docsNewPackageSlugs,
-  docsUpdatedComponentSlugs,
-  formDocPages,
-  motionDocPages,
-  packageDocPages,
-} from "../registry";
+import { NavigationDirectory } from "../../layout/navigation/NavigationDirectory";
+import { navigationGroups } from "../../layout/navigation/navigation-data";
 import type { DocPageModule, DocSection } from "../types";
 
 export type DocsSidebarScope = "components" | "blocks" | "forms" | "packages";
 
 type DocsShellProps = {
   sidebarScope: DocsSidebarScope;
-  /** Marks the "Components overview" sidebar link as active. */
-  isComponentsOverview?: boolean;
-  /** Marks the block directory as the current page in category navigation. */
-  isBlocksOverview?: boolean;
-  /** Marks the "Forms overview" sidebar link as active. */
-  isFormsOverview?: boolean;
-  /** Marks the "Packages overview" sidebar link as active. */
-  isPackagesOverview?: boolean;
   /** Show right promo column on overview pages (no TOC). */
   isSectionOverview?: boolean;
   activeDoc: DocPageModule | null;
   activeSection: string;
-  docs: DocPageModule[];
   /** Optional content-column introduction above the sidebar and content row. */
   contentHeader?: ComponentChildren;
   /** Desktop preview beside the content introduction and above category navigation. */
@@ -55,14 +27,6 @@ type DocsShellProps = {
   packagesOverviewHref?: string;
   getSectionHref?: (sectionId: string) => string;
   activeBlock?: BlockNavKey;
-};
-
-type NavEntry = {
-  key: string;
-  label: string;
-  active: boolean;
-  href: string;
-  badge?: "new" | "updated";
 };
 
 type TocSectionGroups = {
@@ -101,52 +65,8 @@ const groupTocSections = (sections: DocSection[]): TocSectionGroups => {
 
 const PRO_FEEDBACK_FORM_DEFAULT = "https://tally.so/r/ODYbWK";
 
-function NavLink({ entry }: { entry: NavEntry }) {
-  const className = `docs-nav-button ${entry.active ? "is-active" : ""}`;
-  const content = (
-    <>
-      <span>{entry.label}</span>
-      {entry.badge === "new" ? <Badge variant="success">new</Badge> : null}
-      {entry.badge === "updated" ? <Badge variant="success">updated</Badge> : null}
-    </>
-  );
-
-  return (
-    <a class={className} href={entry.href}>
-      {content}
-    </a>
-  );
-}
-
-function SidebarSection({
-  title,
-  ariaLabel,
-  entries,
-  navClass,
-}: {
-  title: string;
-  ariaLabel: string;
-  entries: NavEntry[];
-  navClass?: string;
-}) {
-  return (
-    <>
-      <h2>{title}</h2>
-      <nav aria-label={ariaLabel} class={navClass ?? "docs-sidebar-nav"}>
-        {entries.map((entry) => (
-          <NavLink entry={entry} key={entry.key} />
-        ))}
-      </nav>
-    </>
-  );
-}
-
 export const DocsShell = ({
   sidebarScope,
-  isComponentsOverview = false,
-  isBlocksOverview = false,
-  isFormsOverview = false,
-  isPackagesOverview = false,
   isSectionOverview = false,
   activeDoc,
   activeSection,
@@ -172,109 +92,17 @@ export const DocsShell = ({
   const showToc = Boolean(!isSectionOverview && activeDoc);
   const showRightSidebar = showToc || isSectionOverview;
 
-  const packageNavEntries = useMemo<NavEntry[]>(
-    () => [
-      {
-        key: "__overview",
-        label: "Packages overview",
-        active: isPackagesOverview,
-        href: packagesOverviewHref,
-      },
-      ...[...packageDocPages]
-        .sort((a, b) => a.title.localeCompare(b.title))
-        .map((doc) => ({
-          key: doc.slug,
-          label: doc.title,
-          active: doc.slug === activeDoc?.slug,
-          href: getDocHref(doc.slug),
-          badge: docsNewPackageSlugs.has(doc.slug) ? ("new" as const) : undefined,
-        })),
-    ],
-    [activeDoc?.slug, getDocHref, isPackagesOverview, packagesOverviewHref],
-  );
-
-  const formNavEntries = useMemo<NavEntry[]>(
-    () => [
-      {
-        key: "__overview",
-        label: "Forms overview",
-        active: isFormsOverview,
-        href: formsOverviewHref,
-      },
-      ...[...formDocPages]
-        .sort((a, b) => a.title.localeCompare(b.title))
-        .map((doc) => ({
-          key: doc.slug,
-          label: doc.title,
-          active: doc.slug === activeDoc?.slug,
-          href: getDocHref(doc.slug),
-          badge: docsNewFormSlugs.has(doc.slug) ? ("new" as const) : undefined,
-        })),
-    ],
-    [activeDoc?.slug, formsOverviewHref, getDocHref, isFormsOverview],
-  );
-
-  const componentNavEntries = useMemo<NavEntry[]>(() => {
-    const mergedDocs = [
-      ...componentDocPages.map((doc) => ({
-        key: doc.slug,
-        label: doc.title,
-        sortLabel: doc.title,
-        badge: docsNewComponentSlugs.has(doc.slug)
-          ? ("new" as const)
-          : docsUpdatedComponentSlugs.has(doc.slug)
-            ? ("updated" as const)
-            : undefined,
-      })),
-      ...motionDocPages.map((doc) => ({
-        key: doc.slug,
-        label: doc.navLabel ?? doc.title,
-        sortLabel: doc.navLabel ?? doc.title,
-        badge: docsNewMotionSlugs.has(doc.slug) ? ("new" as const) : undefined,
-      })),
-    ].sort((a, b) => a.sortLabel.localeCompare(b.sortLabel));
-
-    return [
-      {
-        key: "__overview",
-        label: "Components overview",
-        active: isComponentsOverview,
-        href: componentsOverviewHref,
-      },
-      ...mergedDocs.map((doc) => ({
-        key: doc.key,
-        label: doc.label,
-        active: doc.key === activeDoc?.slug,
-        href: getDocHref(doc.key),
-        badge: doc.badge,
-      })),
-    ];
-  }, [activeDoc?.slug, componentsOverviewHref, getDocHref, isComponentsOverview]);
-
-  const sidebarNav =
-    sidebarScope === "blocks" ? (
-      <BlockCategoryNavigation activeBlock={activeBlock} isOverview={isBlocksOverview} />
-    ) : sidebarScope === "packages" ? (
-      <SidebarSection
-        title="Packages"
-        ariaLabel="Docs packages"
-        entries={packageNavEntries}
-        navClass="docs-sidebar-nav docs-sidebar-nav--packages"
-      />
-    ) : sidebarScope === "forms" ? (
-      <SidebarSection
-        title="Forms"
-        ariaLabel="Docs forms"
-        entries={formNavEntries}
-        navClass="docs-sidebar-nav docs-sidebar-nav--forms"
-      />
-    ) : (
-      <SidebarSection
-        title="Components"
-        ariaLabel="Docs components"
-        entries={componentNavEntries}
-      />
-    );
+  // Derive the current route from page metadata so SSR paints the correct open group.
+  const pathname = activeDoc
+    ? getDocHref(activeDoc.slug)
+    : sidebarScope === "blocks"
+      ? withBasePath(activeBlock ? `/blocks/${activeBlock}` : "/blocks")
+      : {
+          components: componentsOverviewHref,
+          forms: formsOverviewHref,
+          packages: packagesOverviewHref,
+        }[sidebarScope];
+  const sidebarNav = <NavigationDirectory groups={navigationGroups} pathname={pathname} />;
 
   return (
     <DemoShell

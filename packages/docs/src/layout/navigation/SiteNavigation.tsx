@@ -105,7 +105,6 @@ export function SiteNavigation() {
               <a href={withBasePath("/docs/theming/installation")}>
                 <PaletteIcon size={16} aria-hidden="true" />
                 Theming
-                <ArrowUpRightIcon size={13} aria-hidden="true" />
               </a>
             </SheetClose>
           </nav>
@@ -113,7 +112,7 @@ export function SiteNavigation() {
             <span>Browse the library</span>
             <span>Built for Preact</span>
           </div>
-          <NavigationDirectory groups={navigationGroups} pathname={pathname} />
+          <NavigationDirectory groups={navigationGroups} pathname={pathname} closeOnNavigate />
         </div>
         <footer class="site-navigation-footer">
           <nav class="site-navigation-secondary-links" aria-label="Useful links">
