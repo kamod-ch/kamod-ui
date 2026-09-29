@@ -3,6 +3,10 @@ import { syncThemeFromStorage } from "@kamod-ch/themes";
 import type { FunctionalComponent } from "preact";
 import { BlockCategoryPage } from "../../src/blocks/BlockCategoryPage";
 import { BlockOverviewPage } from "../../src/blocks/BlockOverviewPage";
+import {
+  applyPreviewAppearance,
+  previewAppearanceFromSearch,
+} from "../../src/blocks/preview-appearance";
 import { DocsComponentContent } from "../../src/docs/DocsComponentContent";
 import { DocsFormsOverviewContent } from "../../src/docs/DocsFormsOverviewContent";
 import { DocsOverviewContent } from "../../src/docs/DocsOverviewContent";
@@ -59,6 +63,11 @@ const BlocksAuthDetailContent = blockPage("BlocksAuthContent", "BlocksAuthDetail
 
 if (typeof window !== "undefined") {
   syncThemeFromStorage();
+  // New-tab preview links carry their own appearance without changing stored site preferences.
+  if (/\/preview\/?$/.test(window.location.pathname)) {
+    const appearance = previewAppearanceFromSearch(window.location.search);
+    if (appearance) applyPreviewAppearance(document.documentElement, appearance);
+  }
 }
 
 type DemoPageKind =

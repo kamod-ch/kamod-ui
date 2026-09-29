@@ -24,10 +24,15 @@ test("navigates category, overview card, detail and back", async ({ page }) => {
   await expect(page.locator("article.blocks-card")).toHaveCount(0);
   await page.locator("a.blocks-overview-card").filter({ hasText: "application-shell-01" }).click();
   await expect(
-    page.getByRole("heading", { name: "application-shell-01", exact: true }),
+    page.getByRole("heading", {
+      name: "Application Shell 1 — Sidebar shell with breadcrumbs",
+      exact: true,
+    }),
   ).toBeVisible();
   await expect(page.locator("aside.docs-sidebar")).toHaveCount(0);
-  await expect(page.locator(".blocks-preview-host")).toContainText("Overview");
+  await expect(page.frameLocator(".blocks-preview-iframe").locator("body")).toContainText(
+    "Overview",
+  );
   await expect(page.getByRole("heading", { name: "Props and data" })).toBeVisible();
   await page
     .getByRole("navigation", { name: "Block breadcrumb", exact: true })
@@ -71,7 +76,7 @@ test("documentation header exposes breadcrumbs, repository links and disabled va
   );
   await expect(breadcrumb.getByRole("link", { name: "Blocks", exact: true })).toHaveAttribute(
     "href",
-    /\/blocks\/sidebar$/,
+    /\/blocks$/,
   );
   await expect(
     breadcrumb.getByRole("link", { name: "Application Shell", exact: true }),
@@ -132,8 +137,8 @@ test("documentation header exposes breadcrumbs, repository links and disabled va
   await page.reload();
   await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
   await breadcrumb.getByRole("link", { name: "Blocks", exact: true }).click();
-  await expect(page).toHaveURL(/\/blocks\/sidebar\/?$/);
-  await expect(page.locator("a.blocks-overview-card").first()).toBeVisible();
+  await expect(page).toHaveURL(/\/blocks\/?$/);
+  await expect(page.getByRole("heading", { name: "Blocks", exact: true })).toBeVisible();
 });
 
 test("loads detail directly, displays sources and switches preview viewports", async ({ page }) => {
@@ -143,7 +148,7 @@ test("loads detail directly, displays sources and switches preview viewports", a
   await page.getByRole("button", { name: "types.ts", exact: true }).click();
   await expect(page.locator(".blocks-code-pane")).toContainText("ApplicationShell1Props");
   await page.getByRole("tab", { name: "Preview", exact: true }).click();
-  const panel = page.locator(".blocks-preview-panel");
+  const panel = page.locator(".blocks-showcase");
   for (const viewport of ["Mobile", "Tablet"]) {
     await panel.getByRole("button", { name: `${viewport} view` }).click();
     await expect(panel.locator("iframe")).toHaveAttribute(
@@ -153,10 +158,11 @@ test("loads detail directly, displays sources and switches preview viewports", a
     await expect(panel.frameLocator("iframe").getByText("Overview")).toBeVisible();
   }
   await panel.getByRole("button", { name: "Desktop view" }).click();
-  await expect(panel.locator("iframe")).toHaveCount(0);
+  await expect(panel.locator("iframe")).toBeVisible();
   // The embedded sidebar must fit the preview, including its footer.
   const frameBox = await panel.locator(".blocks-preview-frame").boundingBox();
   const userBox = await panel
+    .frameLocator("iframe")
     .getByRole("button", { name: "Open account menu for Alex Morgan" })
     .boundingBox();
   expect(userBox!.y + userBox!.height).toBeLessThanOrEqual(frameBox!.y + frameBox!.height);
@@ -207,9 +213,7 @@ test("documentation contents support keyboard links, history and scroll tracking
   await contents.getByRole("link", { name: "application-shell-01 Showcase" }).click();
   await expect(page).toHaveURL(/#application-shell-1$/);
   await expect(page.getByRole("article", { name: "application-shell-01 showcase" })).toBeFocused();
-  await expect(
-    page.getByRole("heading", { name: "application-shell-01", exact: true }),
-  ).toBeInViewport();
+  await expect(page.getByRole("tab", { name: "Preview", exact: true })).toBeInViewport();
 });
 
 test("documentation sections can be opened directly by URL", async ({ page }) => {
@@ -475,9 +479,7 @@ for (const width of [320, 640, 768, 979, 980, 1024, 1260, 1440]) {
         else await expect(label).toBeHidden();
       }
       await guide.getByRole("link", { name: "Back to showcase", exact: true }).click();
-      await expect(
-        page.getByRole("heading", { name: "application-shell-01", exact: true }),
-      ).toBeInViewport();
+      await expect(page.getByRole("tab", { name: "Preview", exact: true })).toBeInViewport();
     });
   }
 }

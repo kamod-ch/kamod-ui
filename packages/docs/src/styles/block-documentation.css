@@ -241,13 +241,15 @@
 }
 
 .blocks-doc-section :is(p, td, th, dd) code,
-.blocks-doc-section [role="paragraph"] code {
+.blocks-doc-section [role="paragraph"] code,
+.blocks-showcase-prompt :is(p, li) code:not(pre code) {
   border-radius: 0.25rem;
   padding: 0.1em 0.3em;
   font-size: 0.88em;
 }
 
-.blocks-doc-section code:not(pre code, .blocks-api-type-name) {
+.blocks-doc-section code:not(pre code, .blocks-api-type-name),
+.blocks-showcase-prompt :is(p, li) code:not(pre code) {
   border-radius: 0.25rem;
   background: color-mix(in oklab, var(--secondary-accent) 10%, var(--muted));
   color: color-mix(in oklab, var(--secondary-accent) 35%, var(--foreground));

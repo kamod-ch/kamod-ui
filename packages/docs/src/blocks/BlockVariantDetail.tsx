@@ -6,7 +6,7 @@ import { BlockShowcase, type ShowcaseBlock } from "./BlockShowcase";
 import type { BlockCategory, BlockOverviewEntry } from "./block-categories";
 import { VariantDocumentation } from "./detail/VariantDocumentation";
 
-/** Category-specific raw source modules are imported only when the Code tab requests a file. */
+/** Raw source modules load only when Code or Prompt requests implementation files. */
 export type VariantSourceLoader<Id extends string> = (blockId: Id, file: string) => Promise<string>;
 
 export function BlockVariantDetail<Id extends string>({
@@ -38,7 +38,6 @@ export function BlockVariantDetail<Id extends string>({
                 : block
             }
             loadSource={loadFile}
-            headingLevel="h2"
           />
           <VariantDocumentation key={block.id} block={block} category={category} />
         </>

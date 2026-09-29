@@ -27,9 +27,9 @@ test("every registered variant has a complete guide with valid, unique contents 
     await expect(page.locator("html")).toHaveClass(/pp-ready/);
     const guide = page.locator(".blocks-doc-guide");
     await expect(guide).toBeVisible();
-    // Inline form demos have their own headings; check the documentation chrome separately.
+    // The preview is isolated; documentation retains its own heading hierarchy.
     await expect(page.locator(".blocks-page-header h1")).toHaveCount(1);
-    await expect(page.locator(".blocks-card-header > div > h2")).toHaveCount(1);
+    await expect(page.locator(".blocks-showcase > h2")).toHaveCount(1);
     const prefix = category === "application-shell" ? "application-shell" : id;
     const sections = ["installation", "usage", "props", "about", "reference"];
     if (category !== "application-shell") sections.push("behavior", "source");

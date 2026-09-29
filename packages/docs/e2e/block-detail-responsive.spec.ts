@@ -29,15 +29,17 @@ for (const theme of ["light", "dark"]) {
       await page.goto(`./blocks/${category}/${id}`);
       await expect(page.locator("html")).toHaveClass(/pp-ready/);
       await page.evaluate(() => document.fonts.ready);
-      // Interaction coverage lives in the guide/installation tests; expose all optional content here.
-      await page
-        .locator(
-          '.blocks-api-type-trigger[data-state="closed"], .blocks-install-files-heading[aria-expanded="false"]',
-        )
-        .evaluateAll((buttons) =>
-          buttons.forEach((button) => (button as HTMLButtonElement).click()),
-        );
-      await expect(page.locator('.blocks-api-type-trigger[data-state="closed"]')).toHaveCount(0);
+      // Wait for the lazy page to hydrate, then expand each disclosure as a user would.
+      await page.waitForLoadState("networkidle");
+      for (const trigger of await page.locator(".blocks-api-type-trigger").all()) {
+        if ((await trigger.getAttribute("data-state")) === "closed") await trigger.click();
+        await expect(trigger).toHaveAttribute("data-state", "open");
+      }
+      const inventory = page.locator(".blocks-install-files-heading");
+      if (await inventory.count()) {
+        if ((await inventory.getAttribute("aria-expanded")) === "false") await inventory.click();
+        await expect(inventory).toHaveAttribute("aria-expanded", "true");
+      }
 
       for (const width of widths) {
         await page.setViewportSize({ width, height: 900 });
@@ -45,7 +47,7 @@ for (const theme of ["light", "dark"]) {
           const issues: string[] = [];
           if (document.documentElement.scrollWidth > innerWidth + 1) issues.push("Page overflows");
           const toolbar = document
-            .querySelector(".blocks-preview-panel-toolbar")!
+            .querySelector(".blocks-showcase-toolbar")!
             .getBoundingClientRect();
           const preview = document.querySelector(".blocks-preview-frame")!.getBoundingClientRect();
           if (toolbar.bottom > preview.top) issues.push("Viewport controls overlap the live demo");
@@ -56,7 +58,7 @@ for (const theme of ["light", "dark"]) {
             ".blocks-card-header",
             ".blocks-card-actions",
             ".blocks-card-body",
-            ".blocks-preview-panel-toolbar",
+            ".blocks-showcase-toolbar",
             ".blocks-doc-section-header",
             ".blocks-doc-callouts",
             ".blocks-doc-footer",
@@ -131,14 +133,21 @@ for (const route of [
     for (const width of [320, 768, 980, 1440]) {
       await page.setViewportSize({ width, height: 600 });
       for (const mode of ["Mobile", "Tablet", "Desktop"]) {
-        await showcase.getByRole("button", { name: `${mode} view`, exact: true }).click();
-        const toolbar = await showcase.locator(".blocks-preview-panel-toolbar").boundingBox();
+        const control = showcase.getByRole("button", { name: `${mode} view`, exact: true });
+        const minWidth = mode === "Desktop" ? 980 : mode === "Tablet" ? 768 : 0;
+        const fits = (await showcase.evaluate((node) => node.clientWidth)) >= minWidth;
+        if (!fits) {
+          await expect(control).toBeDisabled();
+          continue;
+        }
+        await expect(control).toBeEnabled();
+        await control.click();
+        const toolbar = await showcase.locator(".blocks-showcase-toolbar").boundingBox();
         const preview = await showcase.locator(".blocks-preview-frame").boundingBox();
         expect(toolbar!.y + toolbar!.height).toBeLessThan(preview!.y);
         expect(preview!.x).toBeGreaterThanOrEqual(0);
         expect(preview!.x + preview!.width).toBeLessThanOrEqual(width);
-        if (mode !== "Desktop") await expect(showcase.locator("iframe")).toBeVisible();
-        else await expect(showcase.locator("iframe")).toHaveCount(0);
+        await expect(showcase.locator("iframe")).toBeVisible();
       }
     }
   });

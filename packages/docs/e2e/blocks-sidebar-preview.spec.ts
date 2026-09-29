@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-test("sidebar variants fit their inline preview containers", async ({ page }) => {
+test("sidebar variants fit their isolated preview frames", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1100 });
   for (const id of [
     "sidebar-04",
@@ -13,7 +13,10 @@ test("sidebar variants fit their inline preview containers", async ({ page }) =>
     await test.step(id, async () => {
       await page.goto(`./blocks/sidebar/${id}`);
       const frame = page.locator(".blocks-preview-frame");
-      const container = frame.locator('[data-slot="sidebar-container"]').first();
+      const container = page
+        .frameLocator(".blocks-preview-iframe")
+        .locator('[data-slot="sidebar-container"]')
+        .first();
       await expect(container).toBeVisible();
       const bounds = await frame.boundingBox();
       const sidebar = await container.boundingBox();
@@ -36,7 +39,7 @@ for (const block of [
   }, testInfo) => {
     await page.setViewportSize({ width: 1440, height: 1100 });
     await page.goto(`./blocks/${block.route}`);
-    const host = page.locator(".blocks-preview-host");
+    const host = page.frameLocator(".blocks-preview-iframe");
     const trigger = host.getByRole("button", { name: block.trigger }).first();
     await expect(trigger).toBeVisible();
     await page.evaluate(() => window.scrollTo(0, 160));

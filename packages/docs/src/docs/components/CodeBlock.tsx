@@ -25,19 +25,24 @@ export const CodeBlock = ({
   language,
   className,
   toolbarContent,
+  renderedContent,
 }: {
   code: string;
   language: CodeLanguage;
   className?: string;
   /** Content beside Copy above the code; excluded from highlighting and copied text. */
   toolbarContent?: ComponentChildren;
+  /** Optional document view; Copy still uses the original, unmodified code string. */
+  renderedContent?: ComponentChildren;
 }) => {
   const [isCopied, setIsCopied] = useState(false);
+  const rendersCode = renderedContent === undefined;
   const highlightedCode = useMemo(() => {
+    if (!rendersCode) return "";
     const grammar = Prism.languages[language];
     if (!grammar) return escapeHtml(code);
     return Prism.highlight(code, grammar, language);
-  }, [code, language]);
+  }, [code, language, rendersCode]);
 
   useTimeout(() => setIsCopied(false), isCopied ? 1500 : undefined);
 
@@ -81,12 +86,16 @@ export const CodeBlock = ({
         copyButton
       )}
       {/* Keep horizontally overflowing examples keyboard-scrollable in every browser. */}
-      <pre class={`docs-code ${className ?? ""}`.trim()} data-language={language} tabIndex={0}>
-        <code
-          class={`language-${language}`}
-          dangerouslySetInnerHTML={{ __html: highlightedCode }}
-        />
-      </pre>
+      {rendersCode ? (
+        <pre class={`docs-code ${className ?? ""}`.trim()} data-language={language} tabIndex={0}>
+          <code
+            class={`language-${language}`}
+            dangerouslySetInnerHTML={{ __html: highlightedCode }}
+          />
+        </pre>
+      ) : (
+        renderedContent
+      )}
     </div>
   );
 };

@@ -1,5 +1,5 @@
 /**
- * @file Build-time source imports for the Application Shell 1 documentation's Code tab.
+ * @file Build-time source imports for Application Shell 1's Code and Prompt tabs.
  * Vite's raw imports keep copied examples identical to the checked-in implementation.
  */
 import sidebar from "../../../blocks/src/application-shell/application-shell-1/app-sidebar.tsx?raw";

@@ -46,6 +46,7 @@
     "blobatar": "^2.7.0",
     "chrono-node": "^2.10.1",
     "lucide-preact": "^1.39.0",
+    "marked": "16.4.2",
     "motion": "^13.2.0",
     "preact": "^10.29.8",
     "prismjs": "^1.30.0",

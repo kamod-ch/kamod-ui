@@ -190,6 +190,9 @@ importers:
       lucide-preact:
         specifier: ^1.39.0
         version: 1.39.0(preact@10.29.8)
+      marked:
+        specifier: 16.4.2
+        version: 16.4.2
       motion:
         specifier: ^13.2.0
         version: 13.2.0(react-dom@19.2.8(react@19.2.7))(react@19.2.7)

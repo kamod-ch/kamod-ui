@@ -14,6 +14,9 @@
 @import "./app.css";
 @import "./pages.css";
 @import "./blocks.css";
+@import "./block-showcase.css";
+@import "./block-prompt.css";
+@import "./block-source.css";
 @import "./block-overviews.css";
 @import "./block-documentation.css";
 @import "./block-api.css";

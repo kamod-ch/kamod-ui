@@ -118,8 +118,14 @@ for (const theme of ["light", "dark"] as const) {
         if (width < 640) expect(detail.badgeAboveTitle).toBe(true);
         const header = (await page.locator(".blocks-page-header").boundingBox())!;
         const showcase = (await page.locator("article.blocks-card").boundingBox())!;
-        expect(header.x).toBeCloseTo(showcase.x, 0);
-        expect(header.width).toBeCloseTo(showcase.width, 0);
+        if (width < 640) {
+          expect(showcase.x).toBeCloseTo(0, 0);
+          expect(showcase.width).toBeCloseTo(width, 0);
+          expect(header.x).toBeGreaterThan(0);
+        } else {
+          expect(header.x).toBeCloseTo(showcase.x, 0);
+          expect(header.width).toBeCloseTo(showcase.width, 0);
+        }
         expect(showcase.y - header.y - header.height).toBeCloseTo(width >= 980 ? 20 : 12, 0);
       }
     }

@@ -6,6 +6,23 @@ import type { BlockSourceFile } from "./BlockSourceFiles";
 
 const openCodeEvent = "blocks:open-showcase-code";
 
+/** Accept only the showcase anchor or an exact registered file, including encoded paths. */
+export function getShowcaseCodeTarget(
+  blockId: string,
+  files: readonly BlockSourceFile[],
+  hash: string,
+): { file?: string } | undefined {
+  const anchor = `#${blockId}-code`;
+  if (hash === anchor) return {};
+  if (!hash.startsWith(`${anchor}/`)) return;
+  try {
+    const file = decodeURIComponent(hash.slice(anchor.length + 1));
+    if (files.some((entry) => entry.label === file)) return { file };
+  } catch {
+    // Malformed fragments are not source requests.
+  }
+}
+
 export function ShowcaseCodeLink({
   blockId,
   children,
@@ -54,18 +71,8 @@ export function useShowcaseCodeNavigation(
       document.getElementById(anchor)?.scrollIntoView({ block: "start", behavior: "instant" });
     };
     const restoreHash = () => {
-      const hash = window.location.hash;
-      if (hash === `#${anchor}`) reveal();
-      else if (hash.startsWith(`#${anchor}/`)) {
-        const encodedFile = hash.slice(anchor.length + 2);
-        let file: string;
-        try {
-          file = decodeURIComponent(encodedFile);
-        } catch {
-          return;
-        }
-        reveal(file);
-      }
+      const target = getShowcaseCodeTarget(blockId, files, window.location.hash);
+      if (target) reveal(target.file);
     };
     const openCode = (event: Event) => {
       const request = (event as CustomEvent<{ blockId: string; file?: string }>).detail;
