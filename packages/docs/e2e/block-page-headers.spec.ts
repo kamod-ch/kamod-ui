@@ -81,16 +81,11 @@ for (const theme of ["light", "dark"] as const) {
         await page.setViewportSize({ width, height: 900 });
         const detail = await headerMetrics(page);
         const reference = overview.get(width)!;
-        for (const key of [
-          "title",
-          "badge",
-          "description",
-          "breadcrumbs",
-          "button",
-          "iconSize",
-        ] as const) {
+        for (const key of ["title", "badge", "description", "breadcrumbs", "iconSize"] as const) {
           expect(detail[key], `${category}: ${key} at ${width}px`).toEqual(reference[key]);
         }
+        // Phone collection toolbars use larger touch targets; detail controls stay compact.
+        expect(reference.button).toEqual(width < 640 ? [40, 40] : detail.button);
         expect(detail.top, `${category}: header top at ${width}px`).toBeCloseTo(reference.top, 0);
         expect(detail.titleTop, `${category}: title start at ${width}px`).toBeCloseTo(
           reference.titleTop,

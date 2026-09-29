@@ -699,11 +699,11 @@
 
 @media (min-width: 1260px) {
   .docs-shell:has(.blocks-doc-guide) {
-    --blocks-detail-page-gutter: clamp(4rem, 7vw, 6.75rem);
+    --blocks-detail-page-gutter: var(--docs-wide-page-gutter);
   }
 
   .docs-shell:has(.blocks-doc-guide) .docs-layout {
-    max-width: 2304px;
+    max-width: var(--docs-wide-page-max-width);
   }
   .blocks-detail-documentation {
     grid-template-columns: minmax(0, 1fr) clamp(21rem, 25vw, 23rem);

@@ -193,7 +193,10 @@ test("navbar controls share one row and theme menus fit short screens", async ({
     [390, 844],
     [740, 360],
     [979, 800],
+    [980, 800],
+    [1260, 900],
     [1440, 900],
+    [1920, 1080],
   ]) {
     await page.setViewportSize({ width, height });
     await page.goto("./docs/components");
@@ -208,9 +211,10 @@ test("navbar controls share one row and theme menus fit short screens", async ({
       }),
     );
     expect(boxes).toHaveLength(3);
-    for (const box of boxes) {
-      expect(box.width).toBe(40);
-      expect(box.height).toBe(40);
+    for (const [index, box] of boxes.entries()) {
+      if (width >= 980 && index === 0) expect(box.width).toBeGreaterThan(36);
+      else expect(box.width).toBe(width < 980 ? 40 : 36);
+      expect(box.height).toBe(width < 980 ? 40 : 36);
       expect(box.y).toBeCloseTo(boxes[0].y, 0);
     }
     if (width < 980) await page.getByRole("button", { name: "Open navigation menu" }).click();
@@ -223,9 +227,35 @@ test("navbar controls share one row and theme menus fit short screens", async ({
     const bounds = (await picker.boundingBox())!;
     expect(bounds.y).toBeGreaterThanOrEqual(0);
     expect(bounds.y + bounds.height).toBeLessThanOrEqual(height);
+    await picker.getByRole("button", { name: "Professional (Electronics)", exact: true }).click();
+    if (width >= 980) {
+      await expect(topbar.getByRole("button", { name: "Choose color theme" })).toContainText(
+        "Professional (Electronics)",
+      );
+      const leading = (await topbar.locator(".docs-topbar-links").boundingBox())!;
+      const actions = (await topbar.locator(".docs-topbar-actions").boundingBox())!;
+      expect(leading.x + leading.width).toBeLessThanOrEqual(actions.x);
+    }
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
       true,
     );
+    if (width >= 980) {
+      await page.goto("./blocks/application-shell/application-shell-1");
+      const navbar = page.locator(".docs-topbar-inner");
+      const layout = page.locator(".docs-layout");
+      await expect(navbar).toHaveCSS(
+        "max-width",
+        await layout.evaluate((e) => getComputedStyle(e).maxWidth),
+      );
+      await expect(navbar).toHaveCSS(
+        "padding-left",
+        await layout.evaluate((e) => getComputedStyle(e).paddingLeft),
+      );
+      await expect(navbar).toHaveCSS(
+        "padding-right",
+        await layout.evaluate((e) => getComputedStyle(e).paddingRight),
+      );
+    }
   }
 });
 

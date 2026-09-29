@@ -8,7 +8,7 @@ export function DocsTopbarActions() {
   return (
     <>
       <span class="docs-desktop-theme-picker">
-        <ThemePresetPicker />
+        <ThemePresetPicker showLabel />
       </span>
       <ThemeToggle
         class="docs-topbar-theme-toggle site-icon-button"

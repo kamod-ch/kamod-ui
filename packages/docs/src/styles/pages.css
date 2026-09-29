@@ -1369,10 +1369,6 @@ html.dark .docs-copy-feedback.is-error {
   padding-bottom: max(2rem, env(safe-area-inset-bottom, 0px));
 }
 
-.landing-shell .docs-topbar {
-  background: transparent;
-}
-
 /* —— shadcn-style homepage (full chrome, no DemoShell) —— */
 .landing-shell--shadcn {
   display: flex;

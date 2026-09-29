@@ -5,16 +5,23 @@ import { Popover, PopoverContent, PopoverTitle, PopoverTrigger } from "@kamod-ch
 import { useSiteThemePreset } from "./useSiteThemePreset";
 
 /** A compact site-wide picker, separate from the showcase's local appearance controls. */
-export function ThemePresetPicker({ side = "bottom" }: { side?: "top" | "bottom" }) {
+export function ThemePresetPicker({
+  side = "bottom",
+  showLabel = false,
+}: {
+  side?: "top" | "bottom";
+  showLabel?: boolean;
+}) {
   const preset = useSiteThemePreset();
   return (
     <Popover class="site-theme-picker">
       <PopoverTrigger
-        class="site-icon-button"
+        class={`site-icon-button${showLabel ? " site-theme-picker-labeled" : ""}`}
         aria-label="Choose color theme"
         title="Choose color theme"
       >
         <PaletteIcon size={18} aria-hidden="true" />
+        {showLabel && <span>{THEME_PRESETS.find(({ id }) => id === preset)?.label}</span>}
       </PopoverTrigger>
       <PopoverContent class="site-theme-picker-content" side={side} align="end" sideOffset={8}>
         <PopoverTitle>Color theme</PopoverTitle>

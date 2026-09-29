@@ -1,3 +1,9 @@
+:root {
+  --docs-layout-max-width: 1360px;
+  --docs-wide-page-max-width: 1360px;
+  --docs-wide-page-gutter: 3.25rem;
+}
+
 .docs-shell {
   min-height: 100vh;
   min-height: 100dvh;
@@ -24,14 +30,15 @@ html {
   top: 0;
   z-index: 10;
   height: var(--docs-topbar-height);
-  background: transparent;
-  backdrop-filter: blur(10px);
+  background: color-mix(in oklab, var(--background) 82%, transparent);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  backdrop-filter: blur(16px) saturate(140%);
   border-bottom: 1px solid var(--border);
 }
 
 .docs-topbar-inner {
   width: 100%;
-  max-width: 1360px;
+  max-width: var(--docs-layout-max-width);
   height: 100%;
   margin: 0 auto;
   padding: 0 1.25rem;
@@ -169,7 +176,7 @@ html {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 0.75rem;
-  max-width: 1360px;
+  max-width: var(--docs-layout-max-width);
   margin: 0 auto;
   padding-top: 0.75rem;
   padding-right: 0.75rem;
@@ -830,4 +837,59 @@ html {
 .docs-topbar .site-icon-button svg {
   width: 1.125rem;
   height: 1.125rem;
+}
+
+@media (min-width: 980px) {
+  /* Share the block detail page's content edges across every desktop navbar. */
+  .docs-topbar-inner {
+    max-width: var(--docs-wide-page-max-width);
+    padding-inline: max(
+      var(--docs-wide-page-gutter),
+      env(safe-area-inset-left, 0px),
+      env(safe-area-inset-right, 0px)
+    );
+  }
+
+  .docs-topbar-links {
+    font-size: 0.975rem;
+    white-space: nowrap;
+  }
+
+  .docs-topbar-brand
+    :is(.kamod-logo, .kamod-logo__mark, .kamod-logo__mark-img, .kamod-logo__suffix) {
+    height: 1.75rem;
+  }
+
+  .docs-topbar-brand .kamod-logo__suffix {
+    font-size: 1.25rem;
+  }
+
+  .docs-topbar .site-icon-button {
+    width: 2.25rem;
+    height: 2.25rem;
+    min-width: 2.25rem;
+    border-radius: 0.55rem;
+  }
+
+  .docs-topbar .site-icon-button svg {
+    flex: none;
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .docs-topbar .site-theme-picker-labeled {
+    width: auto;
+    gap: 0.5rem;
+    padding-inline: 0.65rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+}
+
+@media (min-width: 1260px) {
+  :root {
+    --docs-wide-page-max-width: 2304px;
+    --docs-wide-page-gutter: clamp(4rem, 7vw, 6.75rem);
+  }
 }
