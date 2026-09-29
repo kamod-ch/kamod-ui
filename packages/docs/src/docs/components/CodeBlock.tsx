@@ -9,6 +9,7 @@ import "prismjs/components/prism-jsx.js";
 import "prismjs/components/prism-markdown.js";
 import "prismjs/components/prism-typescript.js";
 import "prismjs/components/prism-tsx.js";
+import { CodeFilePath } from "./CodeFilePath";
 
 type CodeLanguage = "tsx" | "bash" | "markdown" | "css" | "text";
 
@@ -25,6 +26,7 @@ export const CodeBlock = ({
   language,
   className,
   toolbarContent,
+  filePath,
   renderedContent,
 }: {
   code: string;
@@ -32,6 +34,8 @@ export const CodeBlock = ({
   className?: string;
   /** Content beside Copy above the code; excluded from highlighting and copied text. */
   toolbarContent?: ComponentChildren;
+  /** Source or installation path shown separately from the copied code. */
+  filePath?: string;
   /** Optional document view; Copy still uses the original, unmodified code string. */
   renderedContent?: ComponentChildren;
 }) => {
@@ -77,8 +81,9 @@ export const CodeBlock = ({
 
   return (
     <div class="docs-code-wrap">
-      {toolbarContent ? (
+      {filePath || toolbarContent ? (
         <div class="docs-code-toolbar">
+          {filePath && <CodeFilePath path={filePath} />}
           {toolbarContent}
           {copyButton}
         </div>

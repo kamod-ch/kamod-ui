@@ -149,14 +149,11 @@ test("type definitions toggle independently by keyboard and copy their complete 
     "Hide ApplicationShellBrand definition and field documentation",
   );
   await page.keyboard.press("Tab");
-  const requiredField = brand.content.getByRole("button", {
-    name: "Required Field: name",
-    exact: true,
-  });
-  await expect(requiredField).toBeFocused();
-  await expect(requiredField).toHaveAccessibleDescription("Required Field");
-  await page.keyboard.press("Escape");
-  await page.keyboard.press("Tab");
+  await expect(brand.content.locator(".docs-code-file-path")).toHaveAttribute(
+    "title",
+    "src/components/application-shell-1/types.ts",
+  );
+  await expect(brand.content.getByRole("button", { name: /^Required Field/ })).toHaveCount(0);
   const copy = brand.content.getByRole("button", { name: "Copy code", exact: true });
   await expect(copy).toBeFocused();
 
@@ -223,6 +220,26 @@ test("expanded type documentation keeps overflow inside code and tables at 320px
 
     const cards = page.locator(".blocks-api-type");
     await expect(cards).toHaveCount(10);
+    for (const header of await cards.locator(".docs-code-toolbar").all()) {
+      const path = header.locator(".docs-code-file-path");
+      await expect(path).toHaveAttribute("title", "src/components/application-shell-1/types.ts");
+      expect(
+        await path
+          .locator(".docs-code-path-middle")
+          .evaluate((node) => node.scrollWidth > node.clientWidth),
+      ).toBe(true);
+      expect(
+        await path
+          .locator(".docs-code-path-filename")
+          .evaluate((node) => node.scrollWidth <= node.clientWidth),
+      ).toBe(true);
+      const pathBox = (await path.boundingBox())!;
+      const copyBox = (await header
+        .getByRole("button", { name: "Copy code", exact: true })
+        .boundingBox())!;
+      expect(pathBox.x + pathBox.width).toBeLessThanOrEqual(copyBox.x - 8);
+      expect(pathBox.y + pathBox.height / 2).toBeCloseTo(copyBox.y + copyBox.height / 2, 0);
+    }
     expect(
       await cards.evaluateAll((elements) =>
         elements.every((element) => {

@@ -267,11 +267,6 @@
   margin: 0 0 0 auto;
 }
 
-.blocks-api-type-content .docs-code-toolbar .blocks-api-type-fields {
-  min-width: 0;
-  margin: 0;
-}
-
 .blocks-api-type-content .docs-code {
   margin-block: 0;
   border: 0;

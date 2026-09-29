@@ -118,10 +118,10 @@ export function VariantApi({ guide }: { guide: VariantGuide }) {
         <BlockGuideHeading id={anchor("data-types")} />
         <p>
           Expand a definition to copy its exact TypeScript shape. Required fields are listed below
-          each summary and beside the code’s Copy button for fields declared in that definition. For
-          intersections, also inspect the referenced base type’s required fields. Local types can be
-          imported from the same files as your copied components; they are not added to the
-          zero-prop page wrapper.
+          each summary for fields declared in that definition. The code header shows the file's
+          installation path; copy the definition with the button beside it. For intersections, also
+          inspect the referenced base type’s required fields. Local types can be imported from the
+          same files as your copied components; they are not added to the zero-prop page wrapper.
         </p>
         <div class="blocks-api-types">
           {api.map((entry) => (
@@ -130,6 +130,7 @@ export function VariantApi({ guide }: { guide: VariantGuide }) {
               id={anchor(`type-${entry.name}`)}
               entry={entry}
               source={entry.source}
+              filePath={entry.filePath}
               showFieldDocs={entry.source.includes("/**")}
               open={definitions.isOpen(anchor(`type-${entry.name}`))}
               onOpenChange={(open) => definitions.setOpen(anchor(`type-${entry.name}`), open)}

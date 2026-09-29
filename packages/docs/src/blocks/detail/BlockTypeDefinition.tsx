@@ -6,28 +6,19 @@ import { CodeBlock } from "../../docs/components/CodeBlock";
 import { BlockHeadingLink } from "../BlockHeadingLink";
 import { RequiredIndicator } from "../RequiredIndicator";
 
-/** The same required fields appear below the summary and beside the code's Copy button. */
+/** Required fields stay beside the summary; the source toolbar identifies their file. */
 const RequiredTypeFields = ({
   typeName,
   fields,
-  placement,
 }: {
   typeName: string;
   fields: readonly string[];
-  placement: "description" | "code";
 }) => {
   const requiredLabel = fields.length === 1 ? "Required Field" : "Required Fields";
   return (
     <div class="blocks-api-type-fields" role="group" aria-label={`Required fields of ${typeName}`}>
-      {placement === "description" && (
-        <span class="blocks-api-required-label">Required fields</span>
-      )}
-      <RequiredIndicator
-        label={`${requiredLabel}: ${fields.join(", ")}`}
-        tooltip={requiredLabel}
-        align={placement === "code" ? "start" : "center"}
-        side={placement === "code" ? "bottom" : "top"}
-      />
+      <span class="blocks-api-required-label">Required fields</span>
+      <RequiredIndicator label={`${requiredLabel}: ${fields.join(", ")}`} tooltip={requiredLabel} />
       <span class="blocks-api-type-field-list">
         {fields.map((field, index, fields) => (
           <span key={field}>
@@ -45,6 +36,7 @@ export function BlockTypeDefinition({
   id,
   entry,
   source,
+  filePath,
   requiredFields = [],
   requiredProp,
   showFieldDocs = true,
@@ -55,6 +47,7 @@ export function BlockTypeDefinition({
   id: string;
   entry: { name: string; title: string; description: ComponentChildren; note?: ComponentChildren };
   source: string;
+  filePath: string;
   requiredFields?: readonly string[];
   requiredProp?: { name: string };
   showFieldDocs?: boolean;
@@ -63,10 +56,6 @@ export function BlockTypeDefinition({
   /** Open the card even when its fragment is already the current URL. */
   onReveal: () => void;
 }) {
-  const renderRequiredFields = (placement: "description" | "code") =>
-    requiredFields.length > 0 && (
-      <RequiredTypeFields typeName={entry.name} fields={requiredFields} placement={placement} />
-    );
   return (
     <Collapsible class="blocks-api-type" open={open} onOpenChange={onOpenChange}>
       <div class="blocks-api-type-intro">
@@ -89,7 +78,9 @@ export function BlockTypeDefinition({
         </div>
         <code class="blocks-api-type-name">{entry.name}</code>
         <p>{entry.description}</p>
-        {renderRequiredFields("description")}
+        {requiredFields.length > 0 && (
+          <RequiredTypeFields typeName={entry.name} fields={requiredFields} />
+        )}
       </div>
       <CollapsibleTrigger
         id={`${id}-trigger`}
@@ -116,7 +107,7 @@ export function BlockTypeDefinition({
         />
       </CollapsibleTrigger>
       <CollapsibleContent id={`${id}-content`} duration="0ms" class="blocks-api-type-content">
-        <CodeBlock code={source} language="tsx" toolbarContent={renderRequiredFields("code")} />
+        <CodeBlock code={source} language="tsx" filePath={filePath} />
         {entry.note && <p class="blocks-api-type-note">{entry.note}</p>}
       </CollapsibleContent>
     </Collapsible>

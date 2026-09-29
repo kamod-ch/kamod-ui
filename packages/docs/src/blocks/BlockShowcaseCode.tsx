@@ -7,6 +7,7 @@ import { useState } from "preact/hooks";
 import type { ShowcaseBlock } from "./BlockShowcase";
 import { BlockSourceFiles, type BlockSourceLoader } from "./BlockSourceFiles";
 import { useShowcaseCodeNavigation } from "./ShowcaseCodeLink";
+import { blockSourceDestination } from "./source-manifest";
 
 export function BlockShowcaseCode({
   block,
@@ -68,7 +69,10 @@ export function BlockShowcaseCode({
         )}
       </div>
       <BlockSourceFiles
-        files={block.files}
+        files={block.files.map((file) => ({
+          ...file,
+          destination: blockSourceDestination(block, file),
+        }))}
         loadSource={loadSource}
         selectedFile={selectedFile}
         onSelect={setSelectedFile}

@@ -6,6 +6,7 @@ import { createSidebarInstallations } from "../../../scripts/lib/sidebar-downloa
 import { getAuthBlockSource } from "../auth-source";
 import { blockCategories } from "../block-categories";
 import { getSidebarBlockSource } from "../sidebar-source";
+import { blockSourceDestination } from "../source-manifest";
 import { sidebarGuideProfiles } from "./sidebar-guide-profiles";
 import { getVariantApi } from "./variant-api";
 
@@ -62,6 +63,16 @@ for (const category of ["sidebar", "login", "signup"] as const) {
         const api = getVariantApi(category, block.id);
         expect(api.length).toBeGreaterThanOrEqual(category === "sidebar" ? 1 : 3);
         for (const entry of api) {
+          const file = block.files.find(
+            (file) => blockSourceDestination({ category, id: block.id }, file) === entry.filePath,
+          );
+          expect(
+            file,
+            `${entry.name}: installation path identifies an included file`,
+          ).toBeDefined();
+          expect(readFileSync(resolve(sourceRoot, file!.path), "utf8")).toContain(
+            `export type ${entry.name} =`,
+          );
           expect(entry.source).toContain(`export type ${entry.name} =`);
           expect(entry.source).not.toContain("export const");
           // Independently check the lightweight docs extractor against TypeScript's AST.

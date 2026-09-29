@@ -7,7 +7,7 @@ import { CodeBlock } from "../docs/components/CodeBlock";
 import { BlockSourceExplorer } from "./BlockSourceExplorer";
 
 /** Full source label, including directories, doubles as the stable file identifier. */
-export type BlockSourceFile = { label: string };
+export type BlockSourceFile = { label: string; destination?: string };
 /** Resolve a registry file label to its raw, copyable source; failures offer a retry. */
 export type BlockSourceLoader = (label: string) => Promise<string>;
 
@@ -48,6 +48,11 @@ export const BlockSourceFiles = ({
             )}
             {extension}
           </span>
+          {current?.status === "ready" && (
+            <span class="blocks-source-lines">
+              {lineCount} {lineCount === 1 ? "line" : "lines"}
+            </span>
+          )}
         </div>
         {current?.status === "error" ? (
           <div class="blocks-source-state" role="alert">
@@ -61,20 +66,21 @@ export const BlockSourceFiles = ({
             key={selectedFile}
             code={current.code}
             language={language}
+            filePath={
+              files.find((file) => file.label === selectedFile)?.destination ?? selectedFile
+            }
             toolbarContent={
               <>
-                <span class="blocks-source-lines">
-                  {lineCount} {lineCount === 1 ? "line" : "lines"}
-                </span>
                 <button
                   type="button"
                   class="blocks-source-wrap"
                   aria-pressed={wrapped}
                   aria-label="Wrap code lines"
+                  title={`Line wrapping ${wrapped ? "on" : "off"}`}
                   onClick={() => setWrapped((value) => !value)}
                 >
                   <WrapIcon size={14} strokeWidth={1.75} aria-hidden="true" />
-                  Wrap {wrapped ? "on" : "off"}
+                  <span class="blocks-source-wrap-label">Wrap {wrapped ? "on" : "off"}</span>
                 </button>
               </>
             }

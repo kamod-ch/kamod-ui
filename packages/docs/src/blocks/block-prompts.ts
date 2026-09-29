@@ -6,15 +6,7 @@ import { getBlockOverviewDetails } from "./block-overview-details";
 export type BlockPromptMode = "setup" | "adapt";
 export type PromptSource = { destination: string; code: string };
 
-/** Sidebar exports already relocate imports; auth files must retain their repository hierarchy. */
-export function promptDestination(
-  block: Pick<ShowcaseBlock, "category" | "id">,
-  file: ShowcaseBlock["files"][number],
-) {
-  if (block.category === "sidebar") return `src/components/blocks/${block.id}/${file.label}`;
-  if (block.category === "application-shell") return `src/components/${block.id}/${file.label}`;
-  return `src/components/blocks/${file.path.replace(/^src\//, "")}`;
-}
+export { blockSourceDestination as promptDestination } from "./source-manifest";
 
 /** Use a fence longer than any source backtick run, including Markdown license/readme files. */
 function sourceSection({ destination, code }: PromptSource) {

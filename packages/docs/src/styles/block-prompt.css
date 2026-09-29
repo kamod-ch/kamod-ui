@@ -71,8 +71,8 @@
   min-height: 2rem;
   padding: 0.375rem 0.625rem;
   border-radius: 0.375rem;
-  background: color-mix(in oklab, var(--muted) 50%, var(--background));
-  color: var(--muted-foreground);
+  background: var(--accent);
+  color: var(--foreground);
   font-size: 0.75rem;
   text-decoration: none;
   transition:
@@ -81,8 +81,7 @@
 }
 .blocks-source-setup:hover,
 .blocks-prompt-links a:hover {
-  background: var(--accent);
-  color: var(--foreground);
+  background: color-mix(in oklab, var(--primary) 10%, var(--accent));
 }
 .blocks-source-setup:focus-visible,
 .blocks-prompt-links a:focus-visible {

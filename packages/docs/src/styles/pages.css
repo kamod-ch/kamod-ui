@@ -978,6 +978,45 @@ html.dark .docs-code .token.variable {
   justify-content: space-between;
   gap: 0.75rem;
   padding: 0.5rem 0.75rem;
+  min-width: 0;
+}
+
+.docs-code-toolbar .docs-code-file-path {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.docs-code-file-path > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.docs-code-path-root {
+  flex: none;
+  max-width: 12ch;
+}
+
+.docs-code-path-middle {
+  flex: 0 1 auto;
+  min-width: 2ch;
+}
+
+.docs-code-path-filename {
+  flex: none;
+  max-width: calc(100% - var(--code-path-reserved, 0ch));
+  color: var(--foreground);
 }
 
 .docs-code-toolbar .docs-copy-code-button {

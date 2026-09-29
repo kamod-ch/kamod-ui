@@ -9,6 +9,8 @@
   --showcase-control-size: 2rem;
   padding: 0;
   border-color: var(--showcase-border);
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
   background: var(--background);
 }
 

@@ -61,7 +61,8 @@ export function BlockShowcasePrompt({
         </div>
         <nav class="blocks-prompt-links" aria-label="Prompt references">
           <ShowcaseCodeLink blockId={block.id}>
-            <FileCodeIcon size={15} aria-hidden="true" /> Source files
+            <FileCodeIcon size={15} aria-hidden="true" /> Source files{" "}
+            <ArrowUpRightIcon size={12} aria-hidden="true" />
           </ShowcaseCodeLink>
           <a href={`#${setupId}-installation`}>
             <BookOpenIcon size={15} aria-hidden="true" /> Setup guide{" "}

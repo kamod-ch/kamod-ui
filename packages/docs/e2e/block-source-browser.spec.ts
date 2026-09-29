@@ -24,6 +24,8 @@ for (const scheme of ["light", "dark"] as const) {
       const panel = page.locator(".blocks-showcase-source");
       const code = panel.locator("pre");
       await expect(code).toBeVisible();
+      const filePath = panel.locator(".docs-code-toolbar .docs-code-file-path");
+      await expect(filePath).toHaveAttribute("title", /^src\/components\//);
       await expect(panel.locator(".blocks-source-intro")).toHaveCSS("display", "flex");
       await page.evaluate(() => document.fonts.ready);
 
@@ -34,6 +36,13 @@ for (const scheme of ["light", "dark"] as const) {
         );
         const tree = (await panel.locator(".blocks-file-tree").boundingBox())!;
         const pane = (await panel.locator(".blocks-code-pane").boundingBox())!;
+        const pathBox = (await filePath.boundingBox())!;
+        const copyBox = (await panel
+          .getByRole("button", { name: "Copy code", exact: true })
+          .boundingBox())!;
+        expect(pathBox.x + pathBox.width).toBeLessThan(copyBox.x - 8);
+        expect(pathBox.y + pathBox.height / 2).toBeCloseTo(copyBox.y + copyBox.height / 2, 0);
+        await expect(filePath.locator(".docs-code-path-root")).toHaveText("src/");
         if (width < 768) expect(pane.y).toBeGreaterThanOrEqual(tree.y + tree.height - 1);
         else expect(pane.y).toBeCloseTo(tree.y, 0);
         if (width < 640) {

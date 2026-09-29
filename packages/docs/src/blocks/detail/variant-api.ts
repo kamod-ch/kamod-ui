@@ -2,6 +2,7 @@
 
 import authSource from "../../../../blocks/src/auth/shared/auth-utils.ts?raw";
 import { sidebarBlockMetadata } from "../../../../blocks/src/sidebar/metadata";
+import { blockSourceDestination } from "../source-manifest";
 import { getVariantFieldDescription } from "./variant-field-descriptions";
 
 const sidebarSources = import.meta.glob<string>(
@@ -26,6 +27,7 @@ export type GuideType = {
   title: string;
   description: string;
   source: string;
+  filePath: string;
   fields: GuideField[];
 };
 
@@ -38,7 +40,13 @@ function definition(source: string, name: string): string {
   return match[0];
 }
 
-function reference(source: string, name: string, title: string, description: string): GuideType {
+function reference(
+  source: string,
+  name: string,
+  title: string,
+  description: string,
+  filePath: string,
+): GuideType {
   const text = definition(source, name);
   const body = text.includes("{")
     ? text.slice(text.indexOf("{") + 1, text.lastIndexOf("}")).replace(/\/\*[\s\S]*?\*\//g, "")
@@ -58,7 +66,7 @@ function reference(source: string, name: string, title: string, description: str
         description: getVariantFieldDescription(name, match[1], type),
       };
     });
-  return { name, title, description, source: text, fields };
+  return { name, title, description, source: text, filePath, fields };
 }
 
 /** Each form's own signature is read, so email-only login and social signup cannot drift silently. */
@@ -78,6 +86,7 @@ export function getVariantApi(category: "sidebar" | "login" | "signup", id: stri
           name.endsWith("Props")
             ? `Local helper inputs from ${file.label}. These configure the helper inside the copied page, not the exported variant itself.`
             : `Data shape from ${file.label}. Supply real application values using the required and optional fields below.`,
+          blockSourceDestination({ category, id }, file),
         );
       });
     });
@@ -92,6 +101,7 @@ export function getVariantApi(category: "sidebar" | "login" | "signup", id: stri
       signup ? "SignupFormProps" : "LoginFormProps",
       "Complete form signature",
       "The local form accepts optional callbacks and destination links. The exported page wrapper takes no props and does not forward these callbacks.",
+      `src/components/blocks/${category}/${id}/${category}-form.tsx`,
     ),
     reference(
       authSource,
@@ -100,12 +110,14 @@ export function getVariantApi(category: "sidebar" | "login" | "signup", id: stri
       signup
         ? "Passed to onSubmit after local validation. Terms acceptance is kept separately and is not included in this payload."
         : "Passed to onSubmit after local validation. Your service remains responsible for completing the authentication flow.",
+      "src/components/blocks/auth/shared/auth-utils.ts",
     ),
     reference(
       authSource,
       "AuthProvider",
       "Social provider",
       "The shared union includes gitlab, but the current forms render only GitHub and Google buttons. Adding another provider requires adding its UI and handler.",
+      "src/components/blocks/auth/shared/auth-utils.ts",
     ),
   ];
 }

@@ -33,6 +33,7 @@ const ShellTypeDefinition = ({
     <BlockTypeDefinition
       id={typeId(entry.name)}
       entry={entry}
+      filePath="src/components/application-shell-1/types.ts"
       open={open}
       onOpenChange={onOpenChange}
       onReveal={onReveal}
