@@ -5,7 +5,7 @@ import { getBlockDisplayName } from "../../blocks/block-overview-details";
 import { docsShowMotion, isMotionDocSlug } from "../../docs/docs-feature-flags";
 import { docsNavigation } from "../../docs/generated-navigation";
 
-export type NavigationLink = { label: string; href: string; keywords?: string };
+export type NavigationLink = { label: string; href: string; children?: NavigationLink[] };
 export type NavigationGroup = {
   id: string;
   label: string;
@@ -21,7 +21,7 @@ const docsGroups = [
 ] as const;
 
 /** Only metadata is imported here: opening the menu never loads live block demos. */
-export const navigationGroups: NavigationGroup[] = [
+const groups: NavigationGroup[] = [
   ...docsGroups.map(({ id, label }) => ({
     id,
     label,
@@ -33,22 +33,24 @@ export const navigationGroups: NavigationGroup[] = [
       .map((doc) => ({
         label: doc.label,
         href: withBasePath(`/docs/${doc.slug}/installation`),
-        keywords: doc.slug,
       })),
   })),
-  ...visibleBlockNavItems
-    .filter((item) => item.key in blockCategories)
-    .map((item) => ({
-      id: item.key,
-      label: item.label,
-      kind: "blocks" as const,
-      overview: { label: `All ${item.label.toLowerCase()} blocks`, href: withBasePath(item.href) },
-      links: blockCategories[item.key as BlockCategory].blocks.map((block) => ({
-        label: getBlockDisplayName(block.title),
-        href: withBasePath(`${item.href}/${block.id}`),
-        keywords: `${block.title} ${block.description}`,
+  {
+    id: "blocks",
+    label: "Blocks",
+    kind: "blocks",
+    overview: { label: "Blocks overview", href: withBasePath("/blocks") },
+    links: visibleBlockNavItems
+      .filter((item) => item.key in blockCategories)
+      .map((item) => ({
+        label: item.label,
+        href: withBasePath(item.href),
+        children: blockCategories[item.key as BlockCategory].blocks.map((block) => ({
+          label: getBlockDisplayName(block.title),
+          href: withBasePath(`${item.href}/${block.id}`),
+        })),
       })),
-    })),
+  },
 ];
 
 /** Match a component's section routes too, but never mark its overview as the current page. */
@@ -62,17 +64,9 @@ export function isNavigationCurrent(pathname: string, href: string) {
   return path === target;
 }
 
-/** Search labels, slugs and block descriptions; every word must match the same destination. */
-export function filterNavigation(groups: NavigationGroup[], query: string): NavigationGroup[] {
-  const words = query.toLocaleLowerCase().trim().split(/\s+/).filter(Boolean);
-  if (!words.length) return groups;
-  return groups.flatMap((group) => {
-    const matches = (link: NavigationLink) => {
-      const text =
-        `${group.label} ${group.kind} ${link.label} ${link.keywords ?? ""}`.toLocaleLowerCase();
-      return words.every((word) => text.includes(word));
-    };
-    const links = group.links.filter(matches);
-    return links.length || matches(group.overview) ? [{ ...group, links }] : [];
-  });
+/** Keep nested variants reachable when deciding which collection to expand. */
+export function flattenNavigationLinks(links: NavigationLink[]): NavigationLink[] {
+  return links.flatMap((link) => [link, ...flattenNavigationLinks(link.children ?? [])]);
 }
+
+export const navigationGroups = [groups[0], groups[3], groups[1], groups[2]];

@@ -289,17 +289,30 @@ for (const width of [320, 640, 768, 979, 980, 1024, 1260, 1440]) {
       await expect(page).toHaveURL(/#top$/);
       await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
       if (width === 320) {
-        const themePreset = page.getByRole("combobox", { name: "Color theme preset" });
-        await themePreset.selectOption("professional");
+        await page.getByRole("button", { name: "Open navigation menu" }).click();
+        const panel = page.getByRole("dialog", { name: "Explore Kamod", exact: true });
+        await panel.getByRole("button", { name: "Choose color theme" }).click();
+        await panel
+          .getByRole("group", { name: "Site color theme" })
+          .getByRole("button", { name: "Professional (Electronics)", exact: true })
+          .click();
+        await panel.getByRole("button", { name: "Close navigation menu" }).click();
         await page.evaluate(() => document.fonts.ready);
-        const brand = await page.locator(".docs-topbar-brand").boundingBox();
-        const topbarActions = await page.locator(".docs-topbar-actions").boundingBox();
-        expect(topbarActions!.y).toBeGreaterThanOrEqual(brand!.y + brand!.height);
-        expect(topbarActions!.x + topbarActions!.width).toBeLessThanOrEqual(width);
-        expect(
-          await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),
-        ).toBe(true);
-        await themePreset.selectOption("kamod");
+        const brand = (await page.locator(".docs-topbar-brand").boundingBox())!;
+        const actions = (await page.locator(".docs-topbar-actions").boundingBox())!;
+        expect(actions.y + actions.height / 2).toBeCloseTo(brand.y + brand.height / 2, 0);
+        expect(actions.x + actions.width).toBeLessThanOrEqual(width);
+        expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
+          true,
+        );
+        // Restore the theme before the rest of this light/dark layout and contrast check.
+        await page.getByRole("button", { name: "Open navigation menu" }).click();
+        await panel.getByRole("button", { name: "Choose color theme" }).click();
+        await panel
+          .getByRole("group", { name: "Site color theme" })
+          .getByRole("button", { name: "Kamod", exact: true })
+          .click();
+        await panel.getByRole("button", { name: "Close navigation menu" }).click();
       }
       const currentCrumb = await header.locator('[data-slot="breadcrumb-page"]').boundingBox();
       const firstCrumb = await header

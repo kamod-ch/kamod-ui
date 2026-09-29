@@ -638,53 +638,41 @@ html {
   }
 }
 
-@media (max-width: 639px) {
-  .docs-topbar {
-    --docs-topbar-height: 112px;
-    height: auto;
+/* One compact row keeps the menu, brand and site actions together on phones. */
+@media (max-width: 979px) {
+  .docs-desktop-theme-picker {
+    display: none;
   }
-
   .docs-topbar-inner {
-    flex-wrap: wrap;
-    padding: 0.5rem 0.75rem;
+    gap: 0.5rem;
+    padding-inline: 0.75rem;
+  }
+  .docs-topbar-leading {
+    flex: 1;
     gap: 0.5rem;
   }
-
-  .docs-topbar-leading {
-    gap: 0.45rem;
-    min-height: 2.75rem;
-  }
-
-  .docs-topbar-leading,
-  .docs-topbar-actions {
-    width: 100%;
-  }
-
-  .docs-theme-preset {
-    flex: 1;
+  .docs-topbar-brand {
     min-width: 0;
   }
-
-  .docs-theme-preset-select {
-    width: 100%;
-    min-width: 0;
-  }
-
   .docs-topbar-actions {
-    gap: 0.4rem;
+    gap: 0.375rem;
   }
-
-  .docs-topbar-actions [data-slot="theme-toggle"] {
-    width: 2.75rem;
-    height: 2.75rem;
-    min-width: 2.75rem;
-    padding: 0;
+}
+@media (max-width: 479px) {
+  .docs-topbar-leading .kamod-logo {
+    gap: 0.35rem;
   }
-
-  .docs-topbar-github {
-    width: 2.75rem;
-    height: 2.75rem;
-    min-width: 2.75rem;
+  .docs-topbar-leading .kamod-logo__mark {
+    width: auto;
+    height: 1.4rem;
+  }
+  .docs-topbar-leading .kamod-logo__mark-img {
+    width: auto;
+    height: 1.4rem;
+  }
+  .docs-topbar-leading .kamod-logo__suffix {
+    font-size: 1rem;
+    padding-left: 0.35rem;
   }
 }
 
@@ -822,4 +810,24 @@ html {
     color: var(--foreground);
     font-weight: 600;
   }
+}
+
+.docs-topbar .site-icon-button {
+  width: 2.5rem;
+  height: 2.5rem;
+  min-width: 2.5rem;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 0.65rem;
+  background: color-mix(in oklab, var(--foreground) 5%, transparent);
+  color: var(--muted-foreground);
+  box-shadow: none;
+}
+.docs-topbar .site-icon-button:hover {
+  background: color-mix(in oklab, var(--primary) 8%, var(--background));
+  color: var(--foreground);
+}
+.docs-topbar .site-icon-button svg {
+  width: 1.125rem;
+  height: 1.125rem;
 }

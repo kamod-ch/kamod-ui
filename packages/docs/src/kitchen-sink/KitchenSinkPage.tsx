@@ -46,7 +46,6 @@ import {
   Spinner,
   Switch,
   Textarea,
-  ThemeToggle,
   Tooltip,
   TooltipContent,
   TooltipTrigger,
@@ -69,7 +68,6 @@ import {
   Paperclip,
   Plus,
   Search,
-  SunMoon,
   Target,
   Users,
   Wallet,
@@ -78,8 +76,7 @@ import {
 import { useState } from "preact/hooks";
 import { withBasePath } from "../base-path";
 import { DemoShell, demoTopNavItems } from "../layout/DemoShell";
-import { GithubRepoLink } from "../layout/GithubRepoLink";
-import { ThemePresetSelect } from "../theme/ThemePresetSelect";
+import { DocsTopbarActions } from "../layout/DocsTopbarActions";
 
 const PRICE_RANGE_MIN = 0;
 const PRICE_RANGE_MAX = 1000;
@@ -983,15 +980,7 @@ export const KitchenSinkPage = () => (
     rootClassName="docs-shell landing-shell landing-shell--shadcn"
     topNavItems={demoTopNavItems}
     topNavLinksTestId="kitchen-sink-nav"
-    topbarActions={
-      <>
-        <ThemePresetSelect class="docs-theme-preset" selectClass="docs-theme-preset-select" />
-        <GithubRepoLink />
-        <ThemeToggle class="docs-topbar-theme-toggle">
-          <SunMoon />
-        </ThemeToggle>
-      </>
-    }
+    topbarActions={<DocsTopbarActions />}
     mainContent={
       <div id="kitchen-sink" class="landing-shadcn-main" data-testid="kitchen-sink">
         <section class="landing-shadcn-intro" aria-labelledby="kitchen-sink-title">

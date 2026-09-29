@@ -1,11 +1,4 @@
-import {
-  ArrowUpRightIcon,
-  HouseIcon,
-  MenuIcon,
-  PaletteIcon,
-  SearchIcon,
-  XIcon,
-} from "@kamod-ch/icons/lucide";
+import { ArrowUpRightIcon, HouseIcon, MenuIcon, PaletteIcon, XIcon } from "@kamod-ch/icons/lucide";
 import {
   Sheet,
   SheetClose,
@@ -16,19 +9,18 @@ import {
 } from "@kamod-ch/ui";
 import { useEffect, useId, useRef, useState } from "preact/hooks";
 import { withBasePath } from "../../base-path";
+import { ThemePresetPicker } from "../../theme/ThemePresetPicker";
+import { GithubRepoLink } from "../GithubRepoLink";
 import { NavigationDirectory } from "./NavigationDirectory";
-import { filterNavigation, navigationGroups } from "./navigation-data";
+import { navigationGroups } from "./navigation-data";
 
 /** One responsive navigation surface for home, documentation and every block detail page. */
 export function SiteNavigation() {
   const [ready, setReady] = useState(false);
   const [open, setOpen] = useState(false);
-  const [query, setQuery] = useState("");
   const [pathname, setPathname] = useState("");
   const triggerRef = useRef<HTMLButtonElement>(null);
   const id = useId();
-  const groups = filterNavigation(navigationGroups, query);
-  const searching = query.trim().length > 0;
 
   // Static pages paint before hydration; don't offer an inert trigger during that interval.
   useEffect(() => setReady(true), []);
@@ -37,7 +29,6 @@ export function SiteNavigation() {
     setOpen(next);
     if (next) {
       setPathname(window.location.pathname);
-      setQuery("");
     }
   };
 
@@ -79,7 +70,7 @@ export function SiteNavigation() {
           }}
           type="button"
           disabled={!ready}
-          class="site-navigation-trigger"
+          class="site-navigation-trigger site-icon-button"
           aria-label="Open navigation menu"
           aria-haspopup="dialog"
           aria-controls={open ? id : undefined}
@@ -101,52 +92,47 @@ export function SiteNavigation() {
           <SheetDescription>
             Components, complete layouts and the tools to build with them.
           </SheetDescription>
-          <label class="site-navigation-search">
-            <SearchIcon size={18} aria-hidden="true" />
-            <span class="sr-only">Find a page</span>
-            <input
-              type="search"
-              value={query}
-              onInput={(event) => setQuery(event.currentTarget.value)}
-              placeholder="Find a page or block…"
-              autoComplete="off"
-              spellcheck={false}
-            />
-          </label>
         </div>
         <div class="site-navigation-body">
+          <nav class="site-navigation-quick-links" aria-label="Start here">
+            <SheetClose asChild>
+              <a href={withBasePath("/")}>
+                <HouseIcon size={16} aria-hidden="true" />
+                Home
+              </a>
+            </SheetClose>
+            <SheetClose asChild>
+              <a href={withBasePath("/docs/theming/installation")}>
+                <PaletteIcon size={16} aria-hidden="true" />
+                Theming
+                <ArrowUpRightIcon size={13} aria-hidden="true" />
+              </a>
+            </SheetClose>
+          </nav>
           <div class="site-navigation-directory-heading">
-            <span>{searching ? "Search results" : "Browse the library"}</span>
-            <span role="status" aria-live="polite">
-              {searching
-                ? `${groups.reduce((total, group) => total + group.links.length + 1, 0)} links`
-                : "All collections"}
-            </span>
+            <span>Browse the library</span>
+            <span>Built for Preact</span>
           </div>
-          <NavigationDirectory groups={groups} pathname={pathname} searching={searching} />
-          {!groups.length && (
-            <p class="site-navigation-empty">No pages found. Try “sidebar”, “button” or “forms”.</p>
-          )}
+          <NavigationDirectory groups={navigationGroups} pathname={pathname} />
         </div>
-        <nav class="site-navigation-footer" aria-label="Useful links">
-          <SheetClose asChild>
-            <a href={withBasePath("/")}>
-              <HouseIcon size={16} aria-hidden="true" />
-              Home
+        <footer class="site-navigation-footer">
+          <nav class="site-navigation-secondary-links" aria-label="Useful links">
+            <SheetClose asChild>
+              <a href={withBasePath("/docs/theming/css-setup")}>CSS setup</a>
+            </SheetClose>
+            <a href="https://github.com/kamod-ch/kamod-ui/issues" target="_blank" rel="noreferrer">
+              Feedback
+              <ArrowUpRightIcon size={12} aria-hidden="true" />
             </a>
-          </SheetClose>
-          <SheetClose asChild>
-            <a href={withBasePath("/docs/theming/installation")}>
-              <PaletteIcon size={16} aria-hidden="true" />
-              Theming
-            </a>
-          </SheetClose>
-          <a href="https://github.com/kamod-ch/kamod-ui" target="_blank" rel="noreferrer">
-            GitHub
-            <ArrowUpRightIcon size={15} aria-hidden="true" />
-            <span class="sr-only"> (opens in a new tab)</span>
-          </a>
-        </nav>
+          </nav>
+          <div class="site-navigation-footer-bottom">
+            <span>Open source. Yours to shape.</span>
+            <div class="site-navigation-footer-actions">
+              <ThemePresetPicker side="top" />
+              <GithubRepoLink />
+            </div>
+          </div>
+        </footer>
       </SheetContent>
     </Sheet>
   );

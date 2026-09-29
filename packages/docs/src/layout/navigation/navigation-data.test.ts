@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { blockCategories } from "../../blocks/block-categories";
 import { docsPages } from "../../docs/registry";
-import { filterNavigation, isNavigationCurrent, navigationGroups } from "./navigation-data";
+import { flattenNavigationLinks, isNavigationCurrent, navigationGroups } from "./navigation-data";
 
 describe("site navigation", () => {
   it("exposes every visible docs page with its original label and group", () => {
@@ -27,7 +27,7 @@ describe("site navigation", () => {
   it("includes every registered block exactly once and no placeholder routes", () => {
     const links = navigationGroups
       .filter((group) => group.kind === "blocks")
-      .flatMap((group) => group.links);
+      .flatMap((group) => group.links.flatMap((link) => link.children ?? []));
     const expected = Object.entries(blockCategories).flatMap(([category, { blocks }]) =>
       blocks.map((block) => `/blocks/${category}/${block.id}`),
     );
@@ -37,26 +37,24 @@ describe("site navigation", () => {
 
   it("links only to existing generated routes", () => {
     for (const group of navigationGroups) {
-      for (const link of [group.overview, ...group.links]) {
+      for (const link of [group.overview, ...flattenNavigationLinks(group.links)]) {
         const route = resolve(import.meta.dirname, "../../..", link.href.slice(1));
         expect(existsSync(`${route}.md`) || existsSync(`${route}/index.md`), link.href).toBe(true);
       }
     }
   });
 
-  it("searches across sections, slug names and block descriptions", () => {
-    expect(
-      filterNavigation(navigationGroups, "  SiDeBaR-05 ")
-        .flatMap((group) => group.links)
-        .map((link) => link.label),
-    ).toEqual(["Sidebar 5"]);
-    expect(
-      filterNavigation(navigationGroups, "forms").some((group) =>
-        group.links.some((link) => link.label === "Formisch"),
-      ),
-    ).toBe(true);
-    expect(filterNavigation(navigationGroups, "not-a-real-page")).toEqual([]);
-    expect(filterNavigation(navigationGroups, "   ")).toBe(navigationGroups);
+  it("groups collections and variants under one Blocks entry", () => {
+    expect(navigationGroups.map((group) => group.label)).toEqual([
+      "Components",
+      "Blocks",
+      "Forms",
+      "Packages",
+    ]);
+    const blocks = navigationGroups.find((group) => group.id === "blocks")!;
+    expect(blocks.overview.href).toBe("/blocks");
+    expect(blocks.links).toHaveLength(Object.keys(blockCategories).length);
+    expect(blocks.links.every((link) => link.children?.length)).toBe(true);
   });
 
   it("identifies exact pages and docs section routes with a deployment prefix", () => {

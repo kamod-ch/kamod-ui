@@ -149,10 +149,9 @@ test("planned categories stay navigable without becoming screenshot targets", as
   await page.setViewportSize({ width: 320, height: 900 });
   await page.getByRole("button", { name: "Open navigation menu" }).click();
   const mobile = page.getByRole("navigation", { name: "Browse all pages", exact: true });
-  await expect(mobile.getByRole("button")).toHaveCount(7);
+  await expect(mobile.locator(".site-navigation-group-trigger")).toHaveCount(4);
   await expect(mobile.getByRole("link", { name: "About", exact: true })).toHaveCount(0);
-  await mobile.getByRole("button", { name: /Login Layout collection/ }).click();
-  await mobile.getByRole("link", { name: "All login blocks", exact: true }).click();
+  await mobile.getByRole("link", { name: "Login", exact: true }).click();
   await expect(page.getByRole("heading", { name: "Login Forms and Sign-in Pages" })).toBeVisible();
 });
 
@@ -215,7 +214,7 @@ for (const width of [320, 768]) {
     await page.goto("./blocks/login");
     await page.getByRole("button", { name: "Open navigation menu" }).click();
     const navigation = page.getByRole("navigation", { name: "Browse all pages" });
-    const toggle = navigation.getByRole("button", { name: /Signup Layout collection/ });
+    const toggle = navigation.getByRole("button", { name: "Toggle Signup variants" });
     await toggle.click();
     await expect(toggle).toHaveAttribute("aria-expanded", "true");
     await expect(navigation).toBeVisible();
@@ -686,7 +685,7 @@ test("category menu stays usable in a short touch viewport", async ({ browser, b
     const trigger = page.getByRole("button", { name: "Open navigation menu" });
     await trigger.tap();
     const navigation = page.getByRole("navigation", { name: "Browse all pages" });
-    const signup = navigation.getByRole("button", { name: /Signup Layout collection/ });
+    const signup = navigation.getByRole("button", { name: "Toggle Signup variants" });
     await signup.scrollIntoViewIfNeeded();
     await expect(signup).toBeInViewport();
     expect((await signup.boundingBox())!.height).toBeGreaterThanOrEqual(44);

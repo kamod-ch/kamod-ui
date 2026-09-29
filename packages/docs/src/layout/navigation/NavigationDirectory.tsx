@@ -8,8 +8,12 @@ import {
 } from "@kamod-ch/icons/lucide";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger, SheetClose } from "@kamod-ch/ui";
 import { useId } from "preact/hooks";
-import { withBasePath } from "../../base-path";
-import { isNavigationCurrent, type NavigationGroup, type NavigationLink } from "./navigation-data";
+import {
+  flattenNavigationLinks,
+  isNavigationCurrent,
+  type NavigationGroup,
+  type NavigationLink,
+} from "./navigation-data";
 
 const groupIcons = {
   components: ComponentIcon,
@@ -41,29 +45,54 @@ function DirectoryLink({
   );
 }
 
-function DirectoryGroup({
-  group,
-  pathname,
-  searching,
-}: {
-  group: NavigationGroup;
-  pathname: string;
-  searching: boolean;
-}) {
+/** A collection remains a normal link; its separate toggle reveals individual variants. */
+function DirectoryEntry({ link, pathname }: { link: NavigationLink; pathname: string }) {
+  const id = useId();
+  if (!link.children?.length) return <DirectoryLink link={link} pathname={pathname} />;
+  const current = flattenNavigationLinks([link]).some((entry) =>
+    isNavigationCurrent(pathname, entry.href),
+  );
+  return (
+    <Collapsible class="site-navigation-collection" defaultOpen={current}>
+      <div class="site-navigation-collection-row">
+        <DirectoryLink link={link} pathname={pathname} />
+        <CollapsibleTrigger
+          class="site-navigation-collection-toggle"
+          aria-controls={id}
+          aria-label={`Toggle ${link.label} variants`}
+        >
+          <span>{link.children.length}</span>
+          <ChevronDownIcon size={14} aria-hidden="true" />
+        </CollapsibleTrigger>
+      </div>
+      <CollapsibleContent id={id} duration="180ms">
+        <ul class="site-navigation-links site-navigation-variant-links">
+          {link.children.map((child) => (
+            <li key={child.href}>
+              <DirectoryLink link={child} pathname={pathname} />
+            </li>
+          ))}
+        </ul>
+      </CollapsibleContent>
+    </Collapsible>
+  );
+}
+
+function DirectoryGroup({ group, pathname }: { group: NavigationGroup; pathname: string }) {
   const id = useId();
   const Icon = groupIcons[group.kind];
-  const current = [group.overview, ...group.links].some((link) =>
+  const current = [group.overview, ...flattenNavigationLinks(group.links)].some((link) =>
     isNavigationCurrent(pathname, link.href),
   );
   return (
-    <Collapsible class="site-navigation-group" defaultOpen={searching || current}>
+    <Collapsible class="site-navigation-group" defaultOpen={current}>
       <CollapsibleTrigger class="site-navigation-group-trigger" aria-controls={id}>
         <span class="site-navigation-group-icon">
           <Icon size={18} aria-hidden="true" />
         </span>
         <span>
           {group.label}
-          <small>{group.kind === "blocks" ? "Layout collection" : "Documentation"}</small>
+          <small>{group.kind === "blocks" ? "Layout collections" : "Documentation"}</small>
         </span>
         <span class="site-navigation-count" aria-label={`${group.links.length} pages`}>
           {group.links.length}
@@ -77,7 +106,7 @@ function DirectoryGroup({
           </li>
           {group.links.map((link) => (
             <li key={link.href}>
-              <DirectoryLink link={link} pathname={pathname} />
+              <DirectoryEntry link={link} pathname={pathname} />
             </li>
           ))}
         </ul>
@@ -89,28 +118,14 @@ function DirectoryGroup({
 export function NavigationDirectory({
   groups,
   pathname,
-  searching,
 }: {
   groups: NavigationGroup[];
   pathname: string;
-  searching: boolean;
 }) {
   return (
     <nav aria-label="Browse all pages" class="site-navigation-directory">
-      {!searching && (
-        <DirectoryLink
-          link={{ label: "Blocks overview", href: withBasePath("/blocks") }}
-          pathname={pathname}
-          overview
-        />
-      )}
       {groups.map((group) => (
-        <DirectoryGroup
-          key={`${group.id}-${searching}`}
-          group={group}
-          pathname={pathname}
-          searching={searching}
-        />
+        <DirectoryGroup key={group.id} group={group} pathname={pathname} />
       ))}
     </nav>
   );

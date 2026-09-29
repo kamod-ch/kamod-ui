@@ -1,14 +1,8 @@
-import {
-  applyThemePreset,
-  isThemePresetId,
-  setThemePreset,
-  THEME_PRESET_STORAGE_KEY,
-  THEME_PRESETS,
-  themePresetSignal,
-  useThemePreset,
-} from "@kamod-ch/themes";
+import { isThemePresetId, setThemePreset, THEME_PRESETS } from "@kamod-ch/themes";
 import type { JSX } from "preact";
-import { useEffect, useLayoutEffect, useRef } from "preact/hooks";
+import { useId, useLayoutEffect, useRef } from "preact/hooks";
+
+import { useSiteThemePreset } from "./useSiteThemePreset";
 
 export type ThemePresetSelectProps = Omit<JSX.HTMLAttributes<HTMLLabelElement>, "onInput"> & {
   selectClass?: string;
@@ -19,29 +13,15 @@ export const ThemePresetSelect = ({
   selectClass,
   ...rest
 }: ThemePresetSelectProps) => {
-  const preset = useThemePreset();
+  const preset = useSiteThemePreset();
   const selectRef = useRef<HTMLSelectElement>(null);
-  const selectId = "theme-preset-select";
+  const selectId = useId();
 
   useLayoutEffect(() => {
     const select = selectRef.current;
     if (!select || select.value === preset) return;
     select.value = preset;
   }, [preset]);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const handleStorage = (event: StorageEvent) => {
-      if (event.key !== THEME_PRESET_STORAGE_KEY || !event.newValue) return;
-      if (!isThemePresetId(event.newValue)) return;
-      themePresetSignal.value = event.newValue;
-      applyThemePreset(event.newValue);
-    };
-
-    window.addEventListener("storage", handleStorage);
-    return () => window.removeEventListener("storage", handleStorage);
-  }, []);
 
   return (
     <label class={className} {...rest}>
