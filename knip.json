@@ -38,6 +38,7 @@
         "src/kitchen-sink/KitchenSinkPage.tsx",
         "src/blocks/**/*.{ts,tsx}",
         "src/docs/**/*.{ts,tsx}",
+        "src/**/*.test.{ts,tsx}",
         "src/test/setup.ts",
         "e2e/**/*.ts",
         "scripts/**/*.{js,mjs}"
