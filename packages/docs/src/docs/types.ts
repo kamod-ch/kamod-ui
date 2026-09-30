@@ -6,12 +6,19 @@ export type DocSection = {
   text: string;
 };
 
+export type DocContentsSection = {
+  id: string;
+  label: string;
+  children?: { id: string; label: string }[];
+};
+
 export type DocRenderMainContext = {
   title: string;
   sections: DocSection[];
   activeSectionId: string;
   getSectionHref: (sectionId: string) => string;
   renderTitleRow: () => ComponentChildren;
+  renderMarkdownAction: () => ComponentChildren;
   renderPreviewAndCodeTabs: (args: {
     preview: ComponentChildren;
     codeSnippet: string;
@@ -36,6 +43,8 @@ export type DocPageModule = {
   /** Overrides auto-generated usage example snippet. */
   usageExampleSnippet?: string;
   sections: DocSection[];
+  /** Opt into the shared reading-guide layout and nested in-page contents. */
+  guideContents?: DocContentsSection[];
   renderMain: (context: DocRenderMainContext) => ComponentChildren;
 };
 

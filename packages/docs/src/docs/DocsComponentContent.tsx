@@ -15,33 +15,17 @@ import {
 import type { ComponentChildren } from "preact";
 import { useEffect, useMemo, useState } from "preact/hooks";
 import { withBasePath } from "../base-path";
+import { BlockGuideContents } from "../blocks/detail/BlockGuideContents";
 import { buildComponentDocMarkdown } from "./build-component-doc-markdown";
 import { CodeBlock } from "./components/CodeBlock";
 import { DocsShell } from "./components/DocsShell";
 import { docImportFrom, rewriteKamodCoreImportsInDocString } from "./doc-snippet-imports";
 import { docsShowMotion, isMotionDocSection, isMotionDocSlug } from "./docs-feature-flags";
 import { docsBySlug, docsPages } from "./registry";
+import { scheduleSectionScroll } from "./scroll-to-section";
 import type { DocRenderMainContext, DocSection } from "./types";
 
 const isRtlSection = (section: DocSection) => /rtl/i.test(section.id) || /rtl/i.test(section.title);
-
-const scrollToSection = (sectionId: string, behavior: ScrollBehavior, attempt = 0) => {
-  const sectionElement = document.getElementById(sectionId);
-  if (sectionElement) {
-    const topbarElement = document.querySelector<HTMLElement>(".docs-topbar");
-    const topbarHeight = topbarElement?.getBoundingClientRect().height ?? 0;
-    const topOffset = topbarHeight + 16;
-    const targetTop = window.scrollY + sectionElement.getBoundingClientRect().top - topOffset;
-
-    window.scrollTo({
-      top: Math.max(0, targetTop),
-      behavior,
-    });
-    return;
-  }
-  if (attempt >= 4) return;
-  window.requestAnimationFrame(() => scrollToSection(sectionId, behavior, attempt + 1));
-};
 
 const toPascalCase = (value: string) =>
   value
@@ -119,11 +103,14 @@ export const DocsComponentContent = ({ slug, section }: { slug?: string; section
 
   useEffect(() => {
     setActiveSection(activeSectionId);
-    if (typeof window === "undefined") return;
-    window.requestAnimationFrame(() => scrollToSection(activeSectionId, "auto"));
-  }, [activeSectionId]);
+    // Guide entry routes open at the introduction; legacy section URLs still reach their target.
+    if (activeDoc.guideContents && (activeSectionId === "installation" || window.location.hash))
+      return;
+    return scheduleSectionScroll(activeSectionId);
+  }, [activeDoc.slug, activeDoc.guideContents, activeSectionId]);
 
   useEffect(() => {
+    if (activeDoc.guideContents) return;
     const ids = docSections.map((docSection) => docSection.id);
     const elements = ids
       .map((id) => document.getElementById(id))
@@ -148,7 +135,7 @@ export const DocsComponentContent = ({ slug, section }: { slug?: string; section
 
     elements.forEach((element) => observer.observe(element));
     return () => observer.disconnect();
-  }, [docSections]);
+  }, [docSections, activeDoc.guideContents]);
 
   const installationCommands = useMemo(() => {
     const pnpm = activeDoc.command;
@@ -286,6 +273,31 @@ export const DocsComponentContent = ({ slug, section }: { slug?: string; section
 
   const componentSourcePath = activeDoc.packagePath ?? docImportFrom(activeDoc.slug);
 
+  const renderMarkdownAction = () => (
+    <Dialog>
+      <Button variant="outline" size="sm" asChild>
+        <DialogTrigger>View Markdown</DialogTrigger>
+      </Button>
+      <DialogContent
+        presentation="slot"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-3 sm:p-6"
+      >
+        <div class="flex max-h-[min(80vh,720px)] w-full max-w-2xl flex-col gap-0 overflow-hidden rounded-xl border border-border bg-background p-0 shadow-lg">
+          <DialogHeader class="shrink-0 border-b border-border px-6 py-4 text-left">
+            <DialogTitle>Markdown for {activeDoc.title}</DialogTitle>
+          </DialogHeader>
+          <div class="min-h-0 flex-1 overflow-y-auto px-2 pb-4 pt-2">
+            <CodeBlock
+              code={markdownExport}
+              language="markdown"
+              className="docs-tab-code !max-h-none"
+            />
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+
   const renderTitleRow = () => (
     <div class="docs-title-row">
       <div class="docs-title-stack">
@@ -294,30 +306,7 @@ export const DocsComponentContent = ({ slug, section }: { slug?: string; section
           <code>{componentSourcePath}</code>
         </p>
       </div>
-      <div class="docs-title-row-actions">
-        <Dialog>
-          <Button variant="outline" size="sm" asChild>
-            <DialogTrigger>View Markdown</DialogTrigger>
-          </Button>
-          <DialogContent
-            presentation="slot"
-            class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-3 sm:p-6"
-          >
-            <div class="flex max-h-[min(80vh,720px)] w-full max-w-2xl flex-col gap-0 overflow-hidden rounded-xl border border-border bg-background p-0 shadow-lg">
-              <DialogHeader class="shrink-0 border-b border-border px-6 py-4 text-left">
-                <DialogTitle>Markdown for {activeDoc.title}</DialogTitle>
-              </DialogHeader>
-              <div class="min-h-0 flex-1 overflow-y-auto px-2 pb-4 pt-2">
-                <CodeBlock
-                  code={markdownExport}
-                  language="markdown"
-                  className="docs-tab-code !max-h-none"
-                />
-              </div>
-            </div>
-          </DialogContent>
-        </Dialog>
-      </div>
+      <div class="docs-title-row-actions">{renderMarkdownAction()}</div>
     </div>
   );
 
@@ -327,6 +316,7 @@ export const DocsComponentContent = ({ slug, section }: { slug?: string; section
     activeSectionId,
     getSectionHref: (sectionId) => withBasePath(`/docs/${activeDoc.slug}/${sectionId}`),
     renderTitleRow,
+    renderMarkdownAction,
     renderPreviewAndCodeTabs,
     renderSectionExtraContent,
   };
@@ -345,6 +335,14 @@ export const DocsComponentContent = ({ slug, section }: { slug?: string; section
       sidebarScope={sidebarScope}
       activeDoc={activeDocView}
       activeSection={activeSection}
+      pageContents={
+        activeDoc.guideContents ? (
+          <BlockGuideContents
+            id={`${activeDoc.slug}-contents`}
+            sections={activeDoc.guideContents}
+          />
+        ) : undefined
+      }
       mainContent={mainContent}
       getSectionHref={(sectionId) => withBasePath(`/docs/${activeDoc.slug}/${sectionId}`)}
     />
