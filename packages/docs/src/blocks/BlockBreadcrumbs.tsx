@@ -1,13 +1,5 @@
 /** One breadcrumb hierarchy for category and variant headers. */
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@kamod-ch/ui";
-import { withBasePath } from "../base-path";
+import { PageBreadcrumbs } from "../docs/components/PageBreadcrumbs";
 import { type BlockCategory, blockCategories } from "./block-categories";
 import { getBlockDisplayName } from "./block-overview-details";
 
@@ -21,36 +13,17 @@ export function BlockBreadcrumbs({
   variant?: string;
   className?: string;
 }) {
-  const label = blockCategories[category].label;
+  const label = blockCategories[category].label.replace(/\b\w/g, (letter) => letter.toUpperCase());
   return (
-    <Breadcrumb class={className} aria-label="Block breadcrumb">
-      <BreadcrumbList>
-        <BreadcrumbItem>
-          <BreadcrumbLink href={withBasePath("/")}>Home</BreadcrumbLink>
-        </BreadcrumbItem>
-        <BreadcrumbSeparator />
-        <BreadcrumbItem>
-          <BreadcrumbLink href={withBasePath("/blocks")}>Blocks</BreadcrumbLink>
-        </BreadcrumbItem>
-        <BreadcrumbSeparator />
-        <BreadcrumbItem>
-          {variant ? (
-            <BreadcrumbLink class="capitalize" href={withBasePath(`/blocks/${category}`)}>
-              {label.replace(/\b\w/g, (letter) => letter.toUpperCase())}
-            </BreadcrumbLink>
-          ) : (
-            <BreadcrumbPage class="capitalize">{label}</BreadcrumbPage>
-          )}
-        </BreadcrumbItem>
-        {variant && (
-          <>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>{getBlockDisplayName(variant)}</BreadcrumbPage>
-            </BreadcrumbItem>
-          </>
-        )}
-      </BreadcrumbList>
-    </Breadcrumb>
+    <PageBreadcrumbs
+      label="Block breadcrumb"
+      className={className}
+      ancestors={[
+        { label: "Home", href: "/" },
+        { label: "Blocks", href: "/blocks" },
+        ...(variant ? [{ label, href: `/blocks/${category}` }] : []),
+      ]}
+      current={variant ? getBlockDisplayName(variant) : label}
+    />
   );
 }

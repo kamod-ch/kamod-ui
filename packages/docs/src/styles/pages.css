@@ -1384,23 +1384,6 @@ html.dark .docs-copy-feedback.is-error {
   padding: 0;
 }
 
-/* Full-width home: do not reserve grid columns for doc sidebars (they stay in DOM for a11y hooks). */
-.landing-shell .docs-layout {
-  grid-template-columns: minmax(0, 1fr);
-  /* Match .docs-layout max width (see app.css) */
-  max-width: min(1360px, 100%);
-}
-
-.landing-shell .docs-sidebar,
-.landing-shell .docs-rightbar {
-  display: none !important;
-}
-
-.landing-shell .docs-content {
-  width: 100%;
-  max-width: none;
-}
-
 .landing-content {
   padding-top: 1.5rem;
   padding-left: max(0.75rem, env(safe-area-inset-left, 0px));
@@ -1432,7 +1415,7 @@ html.dark .docs-copy-feedback.is-error {
   align-items: center;
   gap: 1rem;
   width: 100%;
-  max-width: 1360px;
+  max-width: var(--docs-wide-page-max-width);
   height: 100%;
   margin: 0 auto;
   padding: 0 1.25rem;
@@ -1532,7 +1515,7 @@ html.dark .landing-shadcn-brand-logo--dark-theme {
 .landing-shadcn-main {
   flex: 1;
   width: 100%;
-  /* Width comes from .docs-layout (1360px); avoid a wider inner cap than docs pages */
+  /* The shared page container owns the width. */
   max-width: none;
   margin: 0 auto;
   box-sizing: border-box;
@@ -2867,10 +2850,5 @@ html.dark .landing-shadcn-brand-logo--dark-theme {
 
   .docs-toc-link-child {
     font-size: 0.84rem;
-  }
-
-  .docs-promo {
-    border: 1px solid var(--border);
-    background: var(--card);
   }
 }

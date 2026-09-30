@@ -5,73 +5,9 @@
   max-width: none;
 }
 
+/* Detail showcases use this same gutter for their mobile edge-to-edge treatment. */
 .docs-shell:has(.blocks-sidebar-detail) {
-  --blocks-detail-page-gutter: 0.75rem;
-}
-
-/* Block docs use the full main column (docs-content is otherwise capped at 760px). */
-.docs-shell:has(.blocks-sidebar-page) .docs-content {
-  width: 100%;
-  max-width: none;
-}
-
-/* Right bar is empty on block pages but still reserves a grid track at 1260px+. */
-.docs-shell:has(.blocks-sidebar-page) .docs-rightbar {
-  display: none;
-}
-
-@media (min-width: 1260px) {
-  .docs-shell:has(.blocks-sidebar-page) .docs-layout {
-    grid-template-columns: minmax(220px, 260px) minmax(0, 1fr);
-  }
-
-  .docs-shell:has(.blocks-sidebar-detail) .docs-layout {
-    grid-template-columns: minmax(0, 1fr);
-  }
-}
-
-@media (min-width: 640px) {
-  .docs-shell:has(.blocks-sidebar-detail) {
-    --blocks-detail-page-gutter: 1.25rem;
-  }
-}
-
-@media (min-width: 768px) {
-  .docs-shell:has(.blocks-sidebar-detail) {
-    --blocks-detail-page-gutter: 1.75rem;
-  }
-}
-
-@media (min-width: 980px) {
-  .docs-shell:has(.blocks-sidebar-detail) {
-    --blocks-detail-page-gutter: 3.25rem;
-  }
-}
-
-@media (min-width: 1260px) {
-  .docs-shell:has(.blocks-sidebar-detail) {
-    --blocks-detail-page-gutter: 5.25rem;
-  }
-}
-
-@media (min-width: 1440px) {
-  .docs-shell:has(.blocks-sidebar-detail) {
-    --blocks-detail-page-gutter: 7rem;
-  }
-}
-
-@media (min-width: 1680px) {
-  .docs-shell:has(.blocks-sidebar-detail) {
-    --blocks-detail-page-gutter: 9rem;
-  }
-}
-
-.docs-shell:has(.blocks-sidebar-detail) .docs-layout {
-  padding-inline: max(
-    var(--blocks-detail-page-gutter),
-    env(safe-area-inset-left, 0px),
-    env(safe-area-inset-right, 0px)
-  );
+  --blocks-detail-page-gutter: var(--docs-wide-page-gutter);
 }
 
 .blocks-detail-header {

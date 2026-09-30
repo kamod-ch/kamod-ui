@@ -1,7 +1,12 @@
 :root {
-  --docs-layout-max-width: 1360px;
   --docs-wide-page-max-width: 1360px;
-  --docs-wide-page-gutter: 3.25rem;
+  --docs-wide-page-gutter: 0.75rem;
+  --docs-sidebar-width: clamp(16rem, 19vw, 19rem);
+  --docs-rightbar-width: 16.25rem;
+  --docs-sidebar-inner-padding: 1rem;
+  --docs-column-gap: 1rem;
+  --docs-sidebar-top: 84px;
+  --docs-sidebar-height: calc(100dvh - var(--docs-sidebar-top) - 1rem);
 }
 
 .docs-shell {
@@ -38,10 +43,10 @@ html {
 
 .docs-topbar-inner {
   width: 100%;
-  max-width: var(--docs-layout-max-width);
+  max-width: var(--docs-wide-page-max-width);
   height: 100%;
   margin: 0 auto;
-  padding: 0 1.25rem;
+  padding: 0 var(--docs-wide-page-gutter);
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -173,14 +178,18 @@ html {
 }
 
 .docs-layout {
+  width: 100%;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 0.75rem;
-  max-width: var(--docs-layout-max-width);
+  max-width: var(--docs-wide-page-max-width);
   margin: 0 auto;
   padding-top: 0.75rem;
-  padding-right: 0.75rem;
-  padding-left: 0.75rem;
+  padding-inline: max(
+    var(--docs-wide-page-gutter),
+    env(safe-area-inset-left, 0px),
+    env(safe-area-inset-right, 0px)
+  );
   padding-bottom: max(1.25rem, calc(0.25rem + env(safe-area-inset-bottom, 0px)));
 }
 
@@ -200,7 +209,6 @@ html {
     grid-row: 1;
     align-self: start;
     min-width: 0;
-    padding-inline-end: 0.5rem;
   }
 
   .docs-layout--content-header > .docs-layout-header {
@@ -637,10 +645,12 @@ html {
 }
 
 @media (min-width: 640px) {
+  :root {
+    --docs-wide-page-gutter: 1.25rem;
+  }
+
   .docs-layout {
     padding-top: 0.875rem;
-    padding-right: 0.875rem;
-    padding-left: 0.875rem;
     padding-bottom: max(1.5rem, calc(0.25rem + env(safe-area-inset-bottom, 0px)));
   }
 }
@@ -652,7 +662,6 @@ html {
   }
   .docs-topbar-inner {
     gap: 0.5rem;
-    padding-inline: 0.75rem;
   }
   .docs-topbar-leading {
     flex: 1;
@@ -691,12 +700,15 @@ html {
 }
 
 @media (min-width: 980px) {
+  :root {
+    --docs-wide-page-gutter: 3.25rem;
+  }
+
   .docs-layout {
-    grid-template-columns: minmax(210px, 250px) minmax(0, 1fr);
+    grid-template-columns: var(--docs-sidebar-width) minmax(0, 1fr);
     gap: 1.25rem;
+    column-gap: var(--docs-column-gap);
     padding-top: 1.25rem;
-    padding-right: 1rem;
-    padding-left: 1rem;
     padding-bottom: max(3rem, calc(0.5rem + env(safe-area-inset-bottom, 0px)));
   }
 
@@ -704,20 +716,44 @@ html {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .docs-layout--no-left .docs-content {
-    width: min(960px, 100%);
+  .docs-sidebar,
+  .docs-layout-sidebar-header {
+    width: 100%;
+    min-width: 0;
+    padding-inline: 0 var(--docs-sidebar-inner-padding);
   }
 
   .docs-sidebar {
-    display: block;
+    display: flex;
+    flex-direction: column;
     position: sticky;
-    top: 84px;
-    max-height: calc(100vh - 100px);
-    max-height: calc(100dvh - 100px);
-    overflow-y: auto;
-    overflow-x: visible;
-    padding-right: 0.5rem;
+    top: var(--docs-sidebar-top);
+    height: var(--docs-sidebar-height);
+    overflow: hidden;
     border-bottom: 0;
+  }
+
+  .docs-sidebar-scroll {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    /* Local covers hide each edge shadow when that end of the list is reached. */
+    background:
+      linear-gradient(var(--background) 30%, transparent) center top / 100% 32px no-repeat local,
+      linear-gradient(transparent, var(--background) 70%) center bottom / 100% 32px no-repeat local,
+      radial-gradient(
+          farthest-side at 50% 0,
+          color-mix(in oklab, var(--foreground) 12%, transparent),
+          transparent
+        )
+        center top / 100% 12px no-repeat scroll,
+      radial-gradient(
+          farthest-side at 50% 100%,
+          color-mix(in oklab, var(--foreground) 12%, transparent),
+          transparent
+        )
+        center bottom / 100% 12px no-repeat scroll;
   }
 
   .docs-sidebar nav:not(.site-navigation-directory) {
@@ -750,7 +786,7 @@ html {
   }
 
   .docs-content {
-    width: min(760px, 100%);
+    width: 100%;
   }
 }
 
@@ -761,27 +797,39 @@ html {
 }
 
 @media (min-width: 1260px) {
+  :root {
+    --docs-column-gap: 1.25rem;
+  }
+
   .docs-layout {
-    grid-template-columns: minmax(220px, 260px) minmax(0, 1fr) minmax(220px, 260px);
+    grid-template-columns: var(--docs-sidebar-width) minmax(0, 1fr) var(--docs-rightbar-width);
     gap: 1.5rem;
+    column-gap: var(--docs-column-gap);
     align-items: start;
     padding-top: 1.25rem;
-    padding-right: 1rem;
-    padding-left: 1rem;
     padding-bottom: max(3rem, calc(0.5rem + env(safe-area-inset-bottom, 0px)));
   }
 
   .docs-layout--no-left {
-    grid-template-columns: minmax(0, 1fr) minmax(220px, 260px);
+    grid-template-columns: minmax(0, 1fr) var(--docs-rightbar-width);
+  }
+
+  .docs-layout--no-right {
+    grid-template-columns: var(--docs-sidebar-width) minmax(0, 1fr);
+  }
+
+  .docs-layout--no-left.docs-layout--no-right {
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .docs-rightbar {
     display: block;
     width: 100%;
     position: sticky;
-    top: 84px;
+    top: var(--docs-sidebar-top);
     align-self: start;
     height: fit-content;
+    padding-inline-start: var(--docs-sidebar-inner-padding);
   }
 
   .docs-rightbar > * {
@@ -796,24 +844,24 @@ html {
     letter-spacing: 0.08em;
   }
 
-  .docs-rightbar nav {
+  .docs-rightbar-contents > nav {
     display: grid;
     gap: 0.45rem;
     margin-bottom: 1.25rem;
     width: 100%;
   }
 
-  .docs-rightbar nav a {
+  .docs-rightbar-contents > nav a {
     text-decoration: none;
     color: var(--muted-foreground);
     font-size: 0.88rem;
   }
 
-  .docs-rightbar nav a:hover {
+  .docs-rightbar-contents > nav a:hover {
     color: var(--foreground);
   }
 
-  .docs-rightbar nav a.is-active {
+  .docs-rightbar-contents > nav a.is-active {
     color: var(--foreground);
     font-weight: 600;
   }
@@ -840,8 +888,9 @@ html {
 }
 
 @media (min-width: 980px) {
-  /* Share the block detail page's content edges across every desktop navbar. */
-  .docs-topbar-inner {
+  /* Navigation and reading layouts share the same outer edges at every desktop width. */
+  .docs-topbar-inner,
+  .docs-layout {
     max-width: var(--docs-wide-page-max-width);
     padding-inline: max(
       var(--docs-wide-page-gutter),

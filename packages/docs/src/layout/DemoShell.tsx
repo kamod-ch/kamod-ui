@@ -49,6 +49,7 @@ export const DemoShell = ({
   const layoutClass = [
     "docs-layout",
     leftSidebar == null ? "docs-layout--no-left" : "",
+    rightSidebar == null ? "docs-layout--no-right" : "",
     contentHeader != null ? "docs-layout--content-header" : "",
   ]
     .filter(Boolean)
@@ -84,7 +85,7 @@ export const DemoShell = ({
         )}
         {leftSidebar != null ? <aside class="docs-sidebar">{leftSidebar}</aside> : null}
         <Content class="docs-content">{mainContent}</Content>
-        <aside class="docs-rightbar">{rightSidebar}</aside>
+        {rightSidebar != null && <aside class="docs-rightbar">{rightSidebar}</aside>}
       </Layout>
 
       <Footer />

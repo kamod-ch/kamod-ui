@@ -32,7 +32,11 @@ export function BlockPageHeader({
 }: BlockPageHeaderProps) {
   return (
     <header class={`blocks-hero blocks-page-header ${className}`} aria-labelledby={id}>
-      <div class="blocks-page-header-eyebrow">Built with Preact & Kamod UI</div>
+      <BlockBreadcrumbs
+        category={category}
+        variant={variant}
+        className="blocks-page-header-breadcrumbs"
+      />
       <div class="blocks-page-header-title-row">
         <h1 id={id} tabIndex={id ? -1 : undefined}>
           {title}
@@ -48,11 +52,6 @@ export function BlockPageHeader({
         </p>
       </div>
       <div class="blocks-page-header-summary">
-        <BlockBreadcrumbs
-          category={category}
-          variant={variant}
-          className="blocks-page-header-breadcrumbs"
-        />
         <div class="blocks-page-header-actions">{actions}</div>
       </div>
     </header>

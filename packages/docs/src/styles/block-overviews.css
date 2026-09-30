@@ -116,64 +116,12 @@
   container: block-overview / inline-size;
 }
 
-.docs-shell:has(.blocks-category-page) .docs-layout {
-  row-gap: 1rem;
-}
-
-/* Move the entire header row together, including the overview's featured preview. */
-.docs-shell:has(.blocks-page-header) .docs-layout {
-  padding-block-start: clamp(1.5rem, 3vw, 2.5rem);
-}
-
 .blocks-page-header {
   display: flex;
   flex-direction: column;
   min-block-size: 16rem;
   padding-block: 0;
   margin-bottom: 0;
-}
-
-.blocks-page-header-breadcrumbs {
-  flex: 1 1 15rem;
-  min-width: 0;
-}
-
-.blocks-page-header-breadcrumbs ol {
-  flex-wrap: nowrap;
-  font-size: 0.9rem;
-}
-
-.blocks-page-header-breadcrumbs li {
-  min-width: 0;
-}
-
-.blocks-page-header-breadcrumbs li:nth-child(-n + 3),
-.blocks-page-header-breadcrumbs [data-slot="breadcrumb-separator"] {
-  flex-shrink: 0;
-}
-
-.blocks-page-header-breadcrumbs :is([data-slot="breadcrumb-link"], [data-slot="breadcrumb-page"]) {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.blocks-page-header-breadcrumbs [data-slot="breadcrumb-link"]:focus-visible {
-  outline: 2px solid var(--ring);
-  outline-offset: 3px;
-  border-radius: 0.2rem;
-}
-
-.blocks-page-header-eyebrow {
-  display: flex;
-  align-items: center;
-  margin-bottom: 0.85rem;
-  color: var(--muted-foreground);
-  font-size: 0.7rem;
-  font-weight: 500;
-  line-height: 1;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
 }
 
 .blocks-page-header-title-row {
@@ -389,6 +337,11 @@
   list-style: none;
   margin: 0;
   padding: 0;
+}
+
+/* Without the discovery preview, the introduction belongs to the standard content column. */
+.blocks-category-page > .blocks-category-header {
+  margin-bottom: var(--docs-column-gap);
 }
 
 .blocks-overview-grid > li {
@@ -777,33 +730,11 @@
     display: flex;
     align-self: stretch;
   }
-
-  .docs-shell:has(.blocks-category-page) .docs-layout {
-    grid-template-columns: 16.25rem minmax(0, 1fr);
-    column-gap: 1.75rem;
-  }
 }
 
 @media (min-width: 1260px) {
-  .blocks-page-header-breadcrumbs ol {
-    font-size: 0.9375rem;
-  }
-
   .blocks-overview-count {
     font-size: 0.796875rem;
-  }
-
-  .docs-shell:has(.blocks-category-page) .docs-layout {
-    grid-template-columns: 19rem minmax(0, 1fr);
-    column-gap: 2.25rem;
-  }
-}
-
-/* Make room for a third readable preview column on wide displays. */
-@media (min-width: 1680px) {
-  .docs-shell:has(.blocks-category-page) .docs-layout {
-    max-width: 1680px;
-    column-gap: 2.5rem;
   }
 }
 
@@ -852,10 +783,6 @@
     color: var(--foreground);
     transition: none;
     translate: none;
-  }
-
-  .blocks-page-header-breadcrumbs {
-    flex-basis: 100%;
   }
 
   .blocks-page-header-description {

@@ -1,0 +1,44 @@
+.feedback-card {
+  position: relative;
+}
+.feedback-card .feedback-card-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.375rem;
+  color: var(--muted-foreground);
+}
+.feedback-card .feedback-card-close:hover {
+  background: color-mix(in oklab, var(--primary) 7%, transparent);
+  color: var(--foreground);
+}
+
+@media (min-width: 1260px) {
+  .docs-rightbar-contents {
+    min-height: 8rem;
+    max-height: var(--docs-sidebar-height);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+  /* Give the invitation the bottom slot while long contents lists scroll above it. */
+  .docs-rightbar:has(> .feedback-card) {
+    display: flex;
+    flex-direction: column;
+    height: var(--docs-sidebar-height);
+    overflow-y: auto;
+    scrollbar-width: thin;
+  }
+  .docs-rightbar:has(> .feedback-card) .docs-rightbar-contents {
+    flex: 1;
+  }
+  .docs-rightbar > .feedback-card {
+    flex-shrink: 0;
+    margin-top: auto;
+  }
+  .docs-rightbar-contents + .feedback-card {
+    margin-top: 2rem;
+  }
+}

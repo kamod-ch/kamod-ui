@@ -1,4 +1,3 @@
-import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle } from "@kamod-ch/ui";
 import type { ComponentChildren } from "preact";
 import { withBasePath } from "../../base-path";
 import type { BlockNavKey } from "../../blocks/block-nav-config";
@@ -6,14 +5,20 @@ import { DemoShell, demoTopNavItems } from "../../layout/DemoShell";
 import { DocsTopbarActions } from "../../layout/DocsTopbarActions";
 import { NavigationDirectory } from "../../layout/navigation/NavigationDirectory";
 import { navigationGroups } from "../../layout/navigation/navigation-data";
+import { SidebarResources } from "../../layout/navigation/SidebarResources";
 import type { DocPageModule, DocSection } from "../types";
+import { FeedbackCard } from "./FeedbackCard";
 
 export type DocsSidebarScope = "components" | "blocks" | "forms" | "packages";
 
 type DocsShellProps = {
   sidebarScope: DocsSidebarScope;
-  /** Show right promo column on overview pages (no TOC). */
+  /** Show the right promo column on overview pages. */
   isSectionOverview?: boolean;
+  /** Optional page-local contents above the feedback card. */
+  pageContents?: ComponentChildren;
+  /** Current route for pages that do not use component-document metadata. */
+  navigationPath?: string;
   activeDoc: DocPageModule | null;
   activeSection: string;
   /** Optional content-column introduction above the sidebar and content row. */
@@ -63,11 +68,11 @@ const groupTocSections = (sections: DocSection[]): TocSectionGroups => {
   return groups;
 };
 
-const PRO_FEEDBACK_FORM_DEFAULT = "https://tally.so/r/ODYbWK";
-
 export const DocsShell = ({
   sidebarScope,
   isSectionOverview = false,
+  pageContents,
+  navigationPath,
   activeDoc,
   activeSection,
   contentHeader,
@@ -87,10 +92,8 @@ export const DocsShell = ({
   const apiReferenceSection = tocSections?.apiReference ?? null;
   const hasActiveExampleSection =
     tocSections?.examples.some((section) => section.id === activeSection) ?? false;
-  const proFeedbackFormUrl =
-    (import.meta.env.VITE_PRO_FEEDBACK_FORM_URL ?? "").trim() || PRO_FEEDBACK_FORM_DEFAULT;
-  const showToc = Boolean(!isSectionOverview && activeDoc);
-  const showRightSidebar = showToc || isSectionOverview;
+  const showToc = Boolean(!pageContents && !isSectionOverview && activeDoc);
+  const showRightSidebar = showToc || isSectionOverview || Boolean(pageContents);
 
   // Derive the current route from page metadata so SSR paints the correct open group.
   const pathname = activeDoc
@@ -102,12 +105,19 @@ export const DocsShell = ({
           forms: formsOverviewHref,
           packages: packagesOverviewHref,
         }[sidebarScope];
-  const sidebarNav = <NavigationDirectory groups={navigationGroups} pathname={pathname} />;
+  const sidebarNav = (
+    <>
+      <div class="docs-sidebar-scroll">
+        <NavigationDirectory groups={navigationGroups} pathname={navigationPath ?? pathname} />
+      </div>
+      <SidebarResources />
+    </>
+  );
 
   return (
     <DemoShell
       brand="Kamod UI"
-      rootClassName="docs-shell"
+      rootClassName={`docs-shell${pageContents ? " docs-shell-page-contents" : ""}`}
       topNavItems={demoTopNavItems}
       leftSidebar={sidebarNav}
       topbarActions={<DocsTopbarActions />}
@@ -117,85 +127,68 @@ export const DocsShell = ({
       rightSidebar={
         !showRightSidebar ? null : (
           <>
-            {showToc ? (
-              <>
-                <h3>On this page</h3>
-                <nav aria-label="On this page">
-                  {installationSection ? (
-                    <a
-                      class={`docs-toc-link ${activeSection === installationSection.id ? "is-active" : ""}`}
-                      href={
-                        getSectionHref?.(installationSection.id) ?? `#${installationSection.id}`
-                      }
-                    >
-                      {installationSection.title}
-                    </a>
-                  ) : null}
-                  {usageSection ? (
-                    <a
-                      class={`docs-toc-link ${activeSection === usageSection.id ? "is-active" : ""}`}
-                      href={getSectionHref?.(usageSection.id) ?? `#${usageSection.id}`}
-                    >
-                      {usageSection.title}
-                    </a>
-                  ) : null}
-                  {exampleSections.length ? (
-                    <div class="docs-toc-group">
-                      <span
-                        class={`docs-toc-group-label ${hasActiveExampleSection ? "is-active" : ""}`}
-                      >
-                        Examples
-                      </span>
-                      <div class="docs-toc-children">
-                        {exampleSections.map((section) => (
-                          <a
-                            key={section.id}
-                            class={`docs-toc-link docs-toc-link-child ${activeSection === section.id ? "is-active" : ""}`}
-                            href={getSectionHref?.(section.id) ?? `#${section.id}`}
+            {(pageContents || showToc) && (
+              <div class="docs-rightbar-contents">
+                {pageContents}
+                {showToc ? (
+                  <>
+                    <h3>On this page</h3>
+                    <nav aria-label="On this page">
+                      {installationSection ? (
+                        <a
+                          class={`docs-toc-link ${activeSection === installationSection.id ? "is-active" : ""}`}
+                          href={
+                            getSectionHref?.(installationSection.id) ?? `#${installationSection.id}`
+                          }
+                        >
+                          {installationSection.title}
+                        </a>
+                      ) : null}
+                      {usageSection ? (
+                        <a
+                          class={`docs-toc-link ${activeSection === usageSection.id ? "is-active" : ""}`}
+                          href={getSectionHref?.(usageSection.id) ?? `#${usageSection.id}`}
+                        >
+                          {usageSection.title}
+                        </a>
+                      ) : null}
+                      {exampleSections.length ? (
+                        <div class="docs-toc-group">
+                          <span
+                            class={`docs-toc-group-label ${hasActiveExampleSection ? "is-active" : ""}`}
                           >
-                            {section.title}
-                          </a>
-                        ))}
-                      </div>
-                    </div>
-                  ) : null}
-                  {apiReferenceSection ? (
-                    <a
-                      class={`docs-toc-link ${activeSection === apiReferenceSection.id ? "is-active" : ""}`}
-                      href={
-                        getSectionHref?.(apiReferenceSection.id) ?? `#${apiReferenceSection.id}`
-                      }
-                    >
-                      {apiReferenceSection.title}
-                    </a>
-                  ) : null}
-                </nav>
-              </>
-            ) : null}
+                            Examples
+                          </span>
+                          <div class="docs-toc-children">
+                            {exampleSections.map((section) => (
+                              <a
+                                key={section.id}
+                                class={`docs-toc-link docs-toc-link-child ${activeSection === section.id ? "is-active" : ""}`}
+                                href={getSectionHref?.(section.id) ?? `#${section.id}`}
+                              >
+                                {section.title}
+                              </a>
+                            ))}
+                          </div>
+                        </div>
+                      ) : null}
+                      {apiReferenceSection ? (
+                        <a
+                          class={`docs-toc-link ${activeSection === apiReferenceSection.id ? "is-active" : ""}`}
+                          href={
+                            getSectionHref?.(apiReferenceSection.id) ?? `#${apiReferenceSection.id}`
+                          }
+                        >
+                          {apiReferenceSection.title}
+                        </a>
+                      ) : null}
+                    </nav>
+                  </>
+                ) : null}
+              </div>
+            )}
 
-            <Card class="docs-promo">
-              <CardHeader class="gap-1.5">
-                <CardTitle class="text-base leading-snug">Straight talk</CardTitle>
-                <CardDescription class="grid gap-2.5 text-sm leading-snug">
-                  <span class="text-foreground/90">
-                    We&apos;re planning a Pro tier with individually unlockable components.
-                  </span>
-                  <span class="font-medium text-foreground">Would that matter to you?</span>
-                </CardDescription>
-              </CardHeader>
-              <CardContent class="grid gap-2.5">
-                <Button
-                  href={proFeedbackFormUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  size="sm"
-                  variant="default"
-                  class="w-full"
-                >
-                  2-minute feedback
-                </Button>
-              </CardContent>
-            </Card>
+            <FeedbackCard />
           </>
         )
       }
