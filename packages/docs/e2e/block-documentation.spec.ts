@@ -89,7 +89,7 @@ for (const theme of ["light", "dark"]) {
       for (const width of [320, 640, 768, 979, 980, 1024, 1260, 1440, 1920]) {
         await page.setViewportSize({ width, height: 900 });
         const toc = page.locator(".blocks-doc-toc");
-        if (width < 980) await expect(toc).toBeHidden();
+        if (width < 1260) await expect(toc).toBeHidden();
         else await expect(toc).toBeVisible();
         expect(
           await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1),

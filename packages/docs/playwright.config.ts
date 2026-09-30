@@ -43,7 +43,7 @@ export default defineConfig({
     {
       name: "webkit",
       testMatch:
-        /kitchen-sink.*\.spec\.ts|(?:blocks-application-shell|application-shell-docs|blocks-sidebar-preview|site-navigation|tabs-overflow|block-showcase|block-source-browser|block-prompts|showcase-preferences|showcase-refresh|showcase-viewport)\.spec\.ts/,
+        /kitchen-sink.*\.spec\.ts|(?:blocks-application-shell|application-shell-docs|blocks-sidebar-preview|site-navigation|block-guides|tabs-overflow|block-showcase|block-source-browser|block-prompts|showcase-preferences|showcase-refresh|showcase-viewport)\.spec\.ts/,
       use: {
         ...devices["Desktop Safari"],
         viewport: { width: 1440, height: 900 },

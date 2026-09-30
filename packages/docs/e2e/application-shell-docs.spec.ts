@@ -97,9 +97,14 @@ test("documentation header exposes breadcrumbs, repository links and disabled va
   );
   for (const link of [report, source]) await expect(link).toHaveAttribute("target", "_blank");
 
-  // Disabled neighbours stay out of the keyboard order; the repository links remain reachable.
+  // Follow the visual order from the top breadcrumb through the introduction to the actions.
   await breadcrumb.getByRole("link", { name: "Application Shell", exact: true }).focus();
   await page.keyboard.press("Tab");
+  await expect(header.getByRole("heading", { level: 1 }).getByRole("link")).toBeFocused();
+  await page.keyboard.press("Tab");
+  await expect(header.getByRole("link", { name: "About this block", exact: true })).toBeFocused();
+  await page.keyboard.press("Tab");
+  // Disabled variant neighbours stay out of the keyboard order.
   await expect(report).toBeFocused();
   await page.keyboard.press("Tab");
   await expect(source).toBeFocused();
@@ -112,7 +117,7 @@ test("documentation header exposes breadcrumbs, repository links and disabled va
   await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
   await expect(overview).toHaveAttribute("aria-current", "location");
 
-  // Both links return above the introductory label, even when the URL already ends in #top.
+  // Both links return above the introductory breadcrumbs, even when the URL already ends in #top.
   for (const width of [320, 768, 1024, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     const titleLink = page.getByRole("heading", { level: 1 }).getByRole("link");
@@ -120,7 +125,7 @@ test("documentation header exposes breadcrumbs, repository links and disabled va
     await page.evaluate(() => window.scrollTo({ top: 200, behavior: "instant" }));
     await page.keyboard.press("Enter");
     await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
-    await expect(header.locator(".blocks-page-header-eyebrow")).toBeInViewport();
+    await expect(header.locator(".blocks-page-header-breadcrumbs")).toBeInViewport();
   }
 
   await page
@@ -216,6 +221,23 @@ test("documentation contents support keyboard links, history and scroll tracking
   await expect(page).toHaveURL(/#application-shell-1$/);
   await expect(page.getByRole("article", { name: "application-shell-01 showcase" })).toBeFocused();
   await expect(page.getByRole("tab", { name: "Preview", exact: true })).toBeInViewport();
+});
+
+test("mobile section history restores position without a visible contents sidebar", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(detail);
+  await expect(page.locator("html")).toHaveClass(/pp-ready/);
+  await expect(page.locator(".blocks-doc-toc")).toBeHidden();
+  for (const id of ["application-shell-installation", "application-shell-usage"]) {
+    await page.locator(`#${id}`).getByRole("link").click();
+    await expect(page).toHaveURL(new RegExp(`#${id}$`));
+  }
+  await page.goBack();
+  await expect(page.locator("#application-shell-installation")).toBeInViewport();
+  await page.goForward();
+  await expect(page.locator("#application-shell-usage")).toBeInViewport();
 });
 
 test("documentation sections can be opened directly by URL", async ({ page }) => {
@@ -327,7 +349,7 @@ for (const width of [320, 640, 768, 979, 980, 1024, 1260, 1440]) {
       if (width < 640) {
         const badge = await header.locator('[data-slot="badge"]').boundingBox();
         const title = await header.getByRole("heading", { level: 1 }).boundingBox();
-        const label = await header.locator(".blocks-page-header-eyebrow").boundingBox();
+        const label = await header.locator(".blocks-page-header-breadcrumbs").boundingBox();
         expect(badge!.y).toBeGreaterThanOrEqual(label!.y + label!.height + 12);
         expect(badge!.y + badge!.height).toBeLessThan(title!.y);
       }
@@ -355,7 +377,7 @@ for (const width of [320, 640, 768, 979, 980, 1024, 1260, 1440]) {
       const contents = page.locator(".blocks-doc-toc nav");
       const body = page.locator(".blocks-doc-body");
       const bodyBox = await body.boundingBox();
-      if (width >= 980) {
+      if (width >= 1260) {
         await expect(contents).toBeVisible();
         const contentsBox = await contents.boundingBox();
         expect(contentsBox!.x).toBeGreaterThan(bodyBox!.x + bodyBox!.width);
@@ -379,7 +401,7 @@ for (const width of [320, 640, 768, 979, 980, 1024, 1260, 1440]) {
         path: testInfo.outputPath(`documentation-guide-${width}-${scheme}.png`),
       });
       await (
-        width >= 980
+        width >= 1260
           ? contents.getByRole("link", { name: "Add this block", exact: true })
           : page.getByRole("heading", { name: "Add this block", exact: true }).getByRole("link")
       ).click();
@@ -452,7 +474,7 @@ for (const width of [320, 640, 768, 979, 980, 1024, 1260, 1440]) {
       }
 
       await (
-        width >= 980
+        width >= 1260
           ? contents.getByRole("link", { name: "About this block", exact: true })
           : page.getByRole("heading", { name: "About this block", exact: true }).getByRole("link")
       ).click();
@@ -478,7 +500,7 @@ for (const width of [320, 640, 768, 979, 980, 1024, 1260, 1440]) {
         page.getByRole("heading", { name: "Design reference", level: 2, exact: true }),
       ).toBeVisible();
       await (
-        width >= 980
+        width >= 1260
           ? contents.getByRole("link", { name: "Design reference", exact: true })
           : page.locator("#application-shell-reference .blocks-doc-heading-link")
       ).click();

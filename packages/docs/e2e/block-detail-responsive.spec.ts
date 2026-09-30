@@ -91,7 +91,7 @@ for (const theme of ["light", "dark"]) {
           if (breadcrumb.clientHeight > parseFloat(getComputedStyle(breadcrumb).lineHeight) + 1)
             issues.push("Breadcrumbs wrap to multiple lines");
           const toc = document.querySelector<HTMLElement>(".blocks-doc-toc")!;
-          if ((getComputedStyle(toc).display !== "none") !== innerWidth >= 980)
+          if ((getComputedStyle(toc).display !== "none") !== innerWidth >= 1260)
             issues.push("Contents visibility does not match available width");
           return issues;
         });

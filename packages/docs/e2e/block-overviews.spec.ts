@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { SHOW_CATEGORY_PREVIEW } from "../src/blocks/block-display-options";
 import { assertNoBlockingA11yViolations } from "./a11y-utils";
 
 for (const [category, count] of [
@@ -19,6 +20,9 @@ for (const [category, count] of [
     await expect(
       page.locator(".blocks-category-header").getByRole("link", { name: "Blocks", exact: true }),
     ).toHaveAttribute("href", /\/blocks$/);
+    await expect(page.locator(".docs-layout-sidebar-header")).toHaveCount(
+      SHOW_CATEGORY_PREVIEW ? 1 : 0,
+    );
     const cards = page.locator("a.blocks-overview-card");
     await expect(cards).toHaveCount(count);
     await expect(page.locator(".blocks-overview-count")).toHaveText(
@@ -117,7 +121,9 @@ for (const width of [320, 768, 1024, 1440, 1920]) {
       if (width >= 980) {
         const sidebar = await page.locator("aside.docs-sidebar").boundingBox();
         expect(sidebar).toBeTruthy();
-        expect(Math.abs(sidebar!.y - grid!.y)).toBeLessThan(1);
+        expect(Math.abs(sidebar!.y - (SHOW_CATEGORY_PREVIEW ? grid!.y : header!.y))).toBeLessThan(
+          1,
+        );
       } else {
         await expect(page.locator("aside.docs-sidebar")).toBeHidden();
       }
@@ -184,7 +190,7 @@ test("preview theme guidance wraps fully and supports activation and dismissal",
       await page.setViewportSize({ width, height: 900 });
       await page.goto("./blocks/application-shell");
       await expect(page.locator("#pp-preloader")).toBeHidden();
-      await expect(page.locator(".blocks-category-preview")).toBeAttached();
+      await expect(page.locator(".blocks-category-header")).toBeVisible();
       const header = page.locator(".blocks-category-header");
       const info = header.getByRole("button", { name: "About preview themes" });
       const popover = page.getByRole("dialog", { name: "Preview guide" });
@@ -259,7 +265,7 @@ test("preview guide stays below the sticky header after scrolling and resizing",
   page,
 }) => {
   await page.goto("./blocks/sidebar");
-  await expect(page.locator(".blocks-category-preview")).toBeAttached();
+  await expect(page.locator(".blocks-category-header")).toBeVisible();
   const trigger = page.getByRole("button", { name: "About preview themes" });
   const guide = page.getByRole("dialog", { name: "Preview guide" });
   for (const [width, height] of [
@@ -308,7 +314,7 @@ test("preview guide stays below the sticky header after scrolling and resizing",
 
 test("header actions use subtle hover feedback and respect reduced motion", async ({ page }) => {
   await page.goto("./blocks/sidebar");
-  await expect(page.locator(".blocks-category-preview")).toBeAttached();
+  await expect(page.locator(".blocks-category-header")).toBeVisible();
   const row = page.locator(".blocks-page-header-summary");
   const button = row.getByRole("link", { name: /source on GitHub/ });
   const icon = button.locator("svg");
@@ -326,6 +332,7 @@ test("header actions use subtle hover feedback and respect reduced motion", asyn
 });
 
 test("featured previews share card hover styling and respect reduced motion", async ({ page }) => {
+  test.skip(!SHOW_CATEGORY_PREVIEW, "Random category preview is temporarily disabled.");
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto("./blocks/sidebar");
   await expect(page.locator("html")).toHaveClass(/pp-ready/);
@@ -408,6 +415,7 @@ test("small-screen cards and buttons keep their highlights without hover motion"
 test("header preview uses a current-category thumbnail and keeps its selection when themes change", async ({
   page,
 }) => {
+  test.skip(!SHOW_CATEGORY_PREVIEW, "Random category preview is temporarily disabled.");
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.addInitScript(() => localStorage.setItem("theme", "light"));
   for (const category of ["sidebar", "application-shell", "login", "signup"]) {
@@ -479,7 +487,7 @@ for (const scheme of ["light", "dark"] as const) {
     for (const category of ["application-shell", "sidebar", "login", "signup"]) {
       await page.goto(`./blocks/${category}`);
       await expect(page.locator("html")).toHaveClass(/pp-ready/);
-      await expect(page.locator(".blocks-category-preview")).toBeAttached();
+      await expect(page.locator(".blocks-category-header")).toBeVisible();
       await expect(page.locator(".blocks-overview-preview img").first()).toBeVisible();
       await page.evaluate(() => document.fonts.ready);
       for (const width of [
@@ -496,21 +504,49 @@ for (const scheme of ["light", "dark"] as const) {
             .querySelector(".blocks-category-header")!
             .getBoundingClientRect();
           const grid = document.querySelector(".blocks-overview-grid")!.getBoundingClientRect();
-          const preview = document.querySelector(".blocks-category-preview")!;
-          const previewFrame = preview.getBoundingClientRect();
-          const previewStyle = getComputedStyle(preview);
-          const previewInset =
-            parseFloat(previewStyle.paddingBottom) + parseFloat(previewStyle.borderBottomWidth);
-          const captionFrame = preview
-            .querySelector(".blocks-category-preview-caption")!
-            .getBoundingClientRect();
-          const previewActions = preview
-            .querySelector(".blocks-category-preview-meta")!
-            .getBoundingClientRect();
-          const sidebar = document.querySelector("aside.docs-sidebar")!.getBoundingClientRect();
-          const imageFrame = preview
-            .querySelector(".blocks-overview-preview")!
-            .getBoundingClientRect();
+          const preview = document.querySelector(".blocks-category-preview");
+          const previewFits = (() => {
+            if (!preview) {
+              const sidebar = document.querySelector("aside.docs-sidebar")!.getBoundingClientRect();
+              return innerWidth < 980
+                ? sidebar.width === 0
+                : Math.abs(sidebar.top - introduction.top) < 1;
+            }
+
+            const previewFrame = preview.getBoundingClientRect();
+            const previewStyle = getComputedStyle(preview);
+            const previewInset =
+              parseFloat(previewStyle.paddingBottom) + parseFloat(previewStyle.borderBottomWidth);
+            const captionFrame = preview
+              .querySelector(".blocks-category-preview-caption")!
+              .getBoundingClientRect();
+            const previewActions = preview
+              .querySelector(".blocks-category-preview-meta")!
+              .getBoundingClientRect();
+            const sidebar = document.querySelector("aside.docs-sidebar")!.getBoundingClientRect();
+            const navigation = document
+              .querySelector("aside.docs-sidebar .site-navigation-directory")!
+              .getBoundingClientRect();
+            const imageFrame = preview
+              .querySelector(".blocks-overview-preview")!
+              .getBoundingClientRect();
+            return innerWidth < 980
+              ? previewFrame.width === 0 && sidebar.width === 0
+              : Math.abs(previewFrame.left - navigation.left) < 1 &&
+                  Math.abs(previewFrame.right - navigation.right) < 1 &&
+                  previewFrame.right + 16 <= introduction.left &&
+                  Math.abs(previewFrame.top - introduction.top) < 1 &&
+                  Math.abs(previewFrame.bottom - introduction.bottom) < 1 &&
+                  Math.abs(captionFrame.bottom - (previewFrame.bottom - previewInset)) < 1 &&
+                  imageFrame.bottom + 8 <= captionFrame.top &&
+                  previewActions.bottom < imageFrame.top &&
+                  previewFrame.bottom < grid.top &&
+                  Math.abs(sidebar.top - grid.top) < 1 &&
+                  preview.scrollWidth <= preview.clientWidth + 1 &&
+                  imageFrame.left > previewFrame.left &&
+                  imageFrame.right < previewFrame.right &&
+                  Math.abs(imageFrame.width / imageFrame.height - 16 / 9) < 0.01;
+          })();
           const description = document.querySelector(".blocks-category-header .blocks-hero-lead")!;
           const descriptionStyle = getComputedStyle(description);
           return {
@@ -529,22 +565,7 @@ for (const scheme of ["light", "dark"] as const) {
               Math.abs(introduction.left - grid.left) < 1 &&
               Math.abs(introduction.width - grid.width) < 1 &&
               introduction.bottom < grid.top,
-            previewFits:
-              innerWidth < 980
-                ? previewFrame.width === 0 && sidebar.width === 0
-                : Math.abs(previewFrame.left - sidebar.left) < 1 &&
-                  previewFrame.right + 16 <= introduction.left &&
-                  Math.abs(previewFrame.top - introduction.top) < 1 &&
-                  Math.abs(previewFrame.bottom - introduction.bottom) < 1 &&
-                  Math.abs(captionFrame.bottom - (previewFrame.bottom - previewInset)) < 1 &&
-                  imageFrame.bottom + 8 <= captionFrame.top &&
-                  previewActions.bottom < imageFrame.top &&
-                  previewFrame.bottom < grid.top &&
-                  Math.abs(sidebar.top - grid.top) < 1 &&
-                  preview.scrollWidth <= preview.clientWidth + 1 &&
-                  imageFrame.left > previewFrame.left &&
-                  imageFrame.right < previewFrame.right &&
-                  Math.abs(imageFrame.width / imageFrame.height - 16 / 9) < 0.01,
+            previewFits,
             cardsFit: cards.every((card) => {
               const path = card.querySelector(".blocks-overview-path code")!;
               const end = path.lastElementChild!.getBoundingClientRect();
@@ -591,11 +612,12 @@ test("header preview and category navigation remain usable on short desktop scre
     await page.goto(`./blocks/${category}`);
     await expect(page.locator("#pp-preloader")).toBeHidden();
     const preview = page.locator(".blocks-category-preview-link");
-    const destination = await preview.getAttribute("href");
+    const destination = SHOW_CATEGORY_PREVIEW ? await preview.getAttribute("href") : null;
     for (const width of [980, 1280]) {
       await page.setViewportSize({ width, height: 480 });
       await page.evaluate(() => window.scrollTo(0, 0));
-      await expect(preview).toBeVisible();
+      if (SHOW_CATEGORY_PREVIEW) await expect(preview).toBeVisible();
+      else await expect(preview).toHaveCount(0);
       const sidebar = page.locator("aside.docs-sidebar");
       await sidebar.scrollIntoViewIfNeeded();
       const lastCategory = sidebar.getByRole("link").last();
@@ -606,7 +628,7 @@ test("header preview and category navigation remain usable on short desktop scre
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
         true,
       );
-      await expect(preview).toHaveAttribute("href", destination!);
+      if (SHOW_CATEGORY_PREVIEW) await expect(preview).toHaveAttribute("href", destination!);
     }
     await page.setViewportSize({ width: 768, height: 480 });
     await expect(preview).toBeHidden();

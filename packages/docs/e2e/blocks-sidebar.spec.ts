@@ -20,14 +20,16 @@ test.describe("sidebar blocks docs", () => {
     await expect(
       page.getByRole("heading", { level: 1, name: "Sidebar Navigation and Layout Blocks" }),
     ).toBeVisible();
+    const directory = page.locator("aside.docs-sidebar");
     await expect(
-      page.locator("aside.docs-sidebar").getByRole("heading", { name: "Categories" }),
-    ).toBeVisible();
-    for (const hidden of ["Components", "Packages", "Forms", "Motion"]) {
+      directory.getByRole("button", { name: /^Blocks Layout collections/ }),
+    ).toHaveAttribute("aria-expanded", "true");
+    for (const group of ["Components", "Packages", "Forms"]) {
       await expect(
-        page.locator("aside.docs-sidebar").getByRole("heading", { name: hidden }),
-      ).toHaveCount(0);
+        directory.getByRole("button", { name: new RegExp(`^${group} Documentation`) }),
+      ).toBeVisible();
     }
+    await expect(directory.getByRole("button", { name: /^Motion/ })).toHaveCount(0);
     for (const id of ids) {
       await expect(
         page.locator("a.blocks-overview-card").filter({ hasText: id }).first(),

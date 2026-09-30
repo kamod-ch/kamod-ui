@@ -11,28 +11,32 @@ const categories = [
 
 /** Protect readable introductions without tying the layout to specific spacing tokens. */
 async function expectSectionIntroductionsToFit(page: Page) {
-  const sections = await page.locator(".library-section-header").evaluateAll((headers) =>
-    headers.map((header) => {
-      const bounds = (selector: string) => {
-        const { x, y, width, right, bottom } = header
-          .querySelector(selector)!
-          .getBoundingClientRect();
-        return { x, y, width, right, bottom };
-      };
-      return {
-        headerWidth: header.getBoundingClientRect().width,
-        heading: bounds("h2"),
-        link: bounds(".blocks-doc-heading-link"),
-        icon: bounds(".blocks-doc-heading-icon"),
-        meta: bounds(".library-section-meta"),
-        description: bounds(".library-section-description"),
-      };
-    }),
-  );
+  const sections = await page
+    .locator(".library-section-header, .components-guide .block-guide-section")
+    .evaluateAll((headers) =>
+      headers.map((header) => {
+        const bounds = (selector: string) => {
+          const { x, y, width, right, bottom } = header
+            .querySelector(selector)!
+            .getBoundingClientRect();
+          return { x, y, width, right, bottom };
+        };
+        return {
+          headerWidth: header.getBoundingClientRect().width,
+          heading: bounds("h2"),
+          link: bounds(".blocks-doc-heading-link"),
+          icon: bounds(".blocks-doc-heading-icon"),
+          meta: header.querySelector(".library-section-meta")
+            ? bounds(".library-section-meta")
+            : null,
+          description: bounds(".library-section-description, .block-guide-prose"),
+        };
+      }),
+    );
   expect(sections.length).toBeGreaterThan(0);
   for (const { headerWidth, heading, link, icon, meta, description } of sections) {
     expect(description.width).toBeCloseTo(headerWidth, 0);
-    expect(meta.bottom).toBeLessThanOrEqual(heading.y);
+    if (meta) expect(meta.bottom).toBeLessThanOrEqual(heading.y);
     expect(heading.bottom).toBeLessThan(description.y);
     expect(link.x).toBeCloseTo(description.x, 0);
     expect(icon.x).toBeGreaterThanOrEqual(0);
@@ -178,10 +182,9 @@ for (const theme of ["light", "dark"] as const) {
         .getByRole("link")
         .first(),
     ).toBeVisible();
-    await expect(page.getByRole("link", { name: "Explore blocks", exact: true })).toHaveAttribute(
-      "href",
-      /\/blocks$/,
-    );
+    await expect(
+      page.getByRole("link", { name: "Browse complete layouts", exact: true }),
+    ).toHaveAttribute("href", /\/blocks$/);
     await page
       .getByRole("navigation", { name: "Directory sections" })
       .getByRole("link", { name: "Setup & theming" })
@@ -223,3 +226,64 @@ for (const theme of ["light", "dark"] as const) {
     });
   });
 }
+
+test("component overview shares guide navigation and supports interactive examples", async ({
+  page,
+  context,
+}) => {
+  await page.goto("./blocks/styles");
+  const reference = await page.locator(".block-guide-header").evaluate((header) => {
+    const heading = getComputedStyle(header.querySelector("h1")!);
+    return {
+      fontSize: heading.fontSize,
+      lineHeight: heading.lineHeight,
+      width: header.getBoundingClientRect().width,
+    };
+  });
+  await page.goto("./docs/components");
+  await expect(page.locator(".block-guide-header")).toBeVisible();
+  const actual = await page.locator(".block-guide-header").evaluate((header) => {
+    const heading = getComputedStyle(header.querySelector("h1")!);
+    return {
+      fontSize: heading.fontSize,
+      lineHeight: heading.lineHeight,
+      width: header.getBoundingClientRect().width,
+    };
+  });
+  expect(actual).toEqual(reference);
+  const contents = page.locator(".docs-rightbar .blocks-doc-toc");
+  const targets = await contents
+    .locator("a")
+    .evaluateAll((links) => links.map((link) => link.getAttribute("href")!));
+  for (const target of targets) await expect(page.locator(target)).toHaveCount(1);
+  await contents.getByRole("link", { name: "Compose an interface", exact: true }).click();
+  await expect(page).toHaveURL(/#compose-components$/);
+  const actions = page.getByRole("tab", { name: "Actions", exact: true });
+  await actions.focus();
+  await page.keyboard.press("ArrowRight");
+  await expect(page.getByRole("tab", { name: "State", exact: true })).toHaveAttribute(
+    "aria-selected",
+    "true",
+  );
+  const toggle = page.getByRole("switch", { name: "Email notifications" });
+  await expect(toggle).not.toBeChecked();
+  await toggle.focus();
+  await page.keyboard.press("Space");
+  await expect(toggle).toBeChecked();
+  await expect(page.getByRole("status")).toHaveText("Demo preference: on");
+  const panel = page.getByRole("tabpanel");
+  if (test.info().project.name === "chromium") {
+    await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+    const code = await panel.locator("pre code").textContent();
+    await panel.getByRole("button", { name: "Copy code", exact: true }).click();
+    await expect.poll(() => page.evaluate(() => navigator.clipboard.readText())).toBe(code);
+  }
+  await page.setViewportSize({ width: 375, height: 812 });
+  const mobile = page.locator(".block-guide-mobile-contents");
+  await mobile.locator("summary").click();
+  await mobile.getByRole("link", { name: "Review before shipping", exact: true }).click();
+  await expect(page.locator("#component-review")).toBeInViewport();
+  await assertNoBlockingA11yViolations(page, "Components reading guide", {
+    include: "main.docs-content",
+  });
+});

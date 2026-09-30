@@ -74,8 +74,10 @@ for (const theme of ["light", "dark"] as const) {
       await expect(page.locator("html")).toHaveClass(/pp-ready/);
       await page.evaluate(() => document.fonts.ready);
       await expect(page.locator("aside.docs-sidebar")).toHaveCount(0);
-      await expect(page.locator(".blocks-page-header-eyebrow")).toHaveText(
-        "Built with Preact & Kamod UI",
+      await expect(page.locator(".blocks-page-header-eyebrow")).toHaveCount(0);
+      await expect(page.locator(".blocks-page-header > :first-child")).toHaveAttribute(
+        "aria-label",
+        "Block breadcrumb",
       );
       for (const width of widths) {
         await page.setViewportSize({ width, height: 900 });
