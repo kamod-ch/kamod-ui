@@ -3,6 +3,7 @@ import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { blockCategories } from "../../blocks/block-categories";
 import { PLACEHOLDER_BLOCK_CATEGORIES } from "../../blocks/block-nav-config";
+import { docsUpdatedComponentSlugs } from "../../docs/component-status";
 import { docsPages } from "../../docs/registry";
 import { isNavigationCurrent, navigationGroups } from "./navigation-data";
 
@@ -23,6 +24,16 @@ describe("site navigation", () => {
     expect(
       navigationGroups.filter((group) => group.kind !== "blocks").flatMap((group) => group.links),
     ).toHaveLength(docsPages.length);
+  });
+
+  it("marks only the components in the update metadata", () => {
+    const links = navigationGroups.flatMap((group) => group.links);
+    expect(
+      links
+        .filter((link) => link.updated)
+        .map((link) => link.href)
+        .sort(),
+    ).toEqual([...docsUpdatedComponentSlugs].map((slug) => `/docs/${slug}/installation`).sort());
   });
 
   it("includes every available and planned collection exactly once", () => {
@@ -52,7 +63,7 @@ describe("site navigation", () => {
 
   it("distinguishes available routes from explicitly planned destinations", () => {
     for (const group of navigationGroups) {
-      for (const link of [group.overview, ...group.links]) {
+      for (const link of [group.overview, ...(group.guides ?? []), ...group.links]) {
         const route = resolve(import.meta.dirname, "../../..", link.href.slice(1));
         expect(existsSync(`${route}.md`) || existsSync(`${route}/index.md`), link.href).toBe(
           !link.planned,
@@ -76,6 +87,20 @@ describe("site navigation", () => {
     expect(
       blocks.links.filter((link) => !link.planned).every((link) => link.matchDescendants),
     ).toBe(true);
+  });
+
+  it("keeps the three introductory guides separate from collection counts", () => {
+    const blocks = navigationGroups.find((group) => group.id === "blocks")!;
+    expect(blocks.guides?.map(({ href }) => href)).toEqual([
+      "/blocks/getting-started",
+      "/blocks/styles",
+      "/blocks/theming",
+    ]);
+    expect(
+      blocks.guides?.every((guide) => !guide.planned && guide.variantCount === undefined),
+    ).toBe(true);
+    expect(isNavigationCurrent("/blocks/theming/", blocks.guides![2].href)).toBe(true);
+    expect(isNavigationCurrent("/blocks/theming", blocks.overview.href)).toBe(false);
   });
 
   it("identifies exact pages and docs section routes with a deployment prefix", () => {

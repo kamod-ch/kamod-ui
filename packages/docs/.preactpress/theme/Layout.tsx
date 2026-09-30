@@ -15,6 +15,8 @@ import { KitchenSinkPage } from "../../src/kitchen-sink/KitchenSinkPage";
 import { blockPage } from "./block-page";
 import "../../src/styles/index.css";
 
+const BlocksGuidesContent = blockPage("BlocksGuidesContent", "BlocksGuidesContent");
+
 const ApplicationShellBlocksPreviewContent = blockPage(
   "BlocksApplicationShellContent",
   "ApplicationShellBlocksPreviewContent",
@@ -73,6 +75,7 @@ if (typeof window !== "undefined") {
 type DemoPageKind =
   | "kitchen-sink"
   | "blocks-overview"
+  | "blocks-guide"
   | "docs-overview"
   | "docs-forms-overview"
   | "docs-packages-overview"
@@ -138,6 +141,10 @@ const Layout: FunctionalComponent<LayoutProps> = ({ page }) => {
 
   if (meta.pageKind === "docs-overview") {
     return <DocsOverviewContent />;
+  }
+
+  if (meta.pageKind === "blocks-guide") {
+    return <BlocksGuidesContent slug={meta.slug} />;
   }
 
   if (meta.pageKind === "blocks-overview") {

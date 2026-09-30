@@ -10,6 +10,7 @@ import { lazy, Suspense } from "preact/compat";
 import { useErrorBoundary } from "preact/hooks";
 
 type BlockModules = {
+  BlocksGuidesContent: typeof import("../../src/blocks/BlocksGuidesContent");
   BlocksSidebarContent: typeof import("../../src/blocks/BlocksSidebarContent");
   BlocksAuthContent: typeof import("../../src/blocks/BlocksAuthContent");
   BlocksApplicationShellContent: typeof import("../../src/blocks/BlocksApplicationShellContent");

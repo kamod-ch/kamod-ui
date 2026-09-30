@@ -1,6 +1,8 @@
 import { withBasePath } from "../../base-path";
 import { type BlockCategory, blockCategories } from "../../blocks/block-categories";
 import { PLACEHOLDER_BLOCK_CATEGORIES, visibleBlockNavItems } from "../../blocks/block-nav-config";
+import { blockGuides } from "../../blocks/guides/guide-catalog";
+import { docsUpdatedComponentSlugs } from "../../docs/component-status";
 import { docsShowMotion, isMotionDocSlug } from "../../docs/docs-feature-flags";
 import { docsNavigation } from "../../docs/generated-navigation";
 
@@ -9,13 +11,17 @@ export type NavigationLink = {
   href: string;
   matchDescendants?: boolean;
   planned?: boolean;
+  updated?: boolean;
   variantCount?: number;
+  /** Decorative trailing icon for introductory destinations; regular entries retain their counts. */
+  icon?: "components" | "blocks" | "forms" | "packages" | "getting-started" | "styles" | "theming";
 };
 export type NavigationGroup = {
   id: string;
   label: string;
   kind: "components" | "blocks" | "forms" | "packages";
   overview: NavigationLink;
+  guides?: NavigationLink[];
   links: NavigationLink[];
 };
 
@@ -31,12 +37,13 @@ const groups: NavigationGroup[] = [
     id,
     label,
     kind: id,
-    overview: { label: `${label} overview`, href: withBasePath(`/docs/${id}`) },
+    overview: { label: `${label} overview`, href: withBasePath(`/docs/${id}`), icon: id },
     links: docsNavigation
       .filter((doc) => docsShowMotion || !isMotionDocSlug(doc.slug))
       .filter((doc) => doc.group === id || (id === "components" && doc.group === "motion"))
       .map((doc) => ({
         label: doc.label,
+        updated: docsUpdatedComponentSlugs.has(doc.slug),
         href: withBasePath(`/docs/${doc.slug}/installation`),
       })),
   })),
@@ -44,7 +51,12 @@ const groups: NavigationGroup[] = [
     id: "blocks",
     label: "Blocks",
     kind: "blocks",
-    overview: { label: "Blocks overview", href: withBasePath("/blocks") },
+    overview: { label: "Blocks overview", href: withBasePath("/blocks"), icon: "blocks" },
+    guides: blockGuides.map(({ slug, label }) => ({
+      label,
+      href: withBasePath(`/blocks/${slug}`),
+      icon: slug,
+    })),
     links: [
       ...visibleBlockNavItems
         .filter((item) => item.key in blockCategories)

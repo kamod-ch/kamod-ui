@@ -5,7 +5,23 @@ import {
   PackageIcon,
   TextCursorInputIcon,
 } from "@kamod-ch/icons/lucide";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger, SheetClose } from "@kamod-ch/ui";
+import { BoomIcon, HourglassIcon } from "@kamod-ch/icons/tabler/filled";
+import {
+  ComponentsIcon,
+  CubeUnfoldedIcon,
+  FormsIcon,
+  LayoutDashboardIcon,
+  PaletteIcon,
+  RocketIcon,
+  WandIcon,
+} from "@kamod-ch/icons/tabler/outline";
+import {
+  Badge,
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+  SheetClose,
+} from "@kamod-ch/ui";
 import { useId } from "preact/hooks";
 import { isNavigationCurrent, type NavigationGroup, type NavigationLink } from "./navigation-data";
 
@@ -16,25 +32,41 @@ const groupIcons = {
   packages: PackageIcon,
 };
 
+const specialLinkIcons = {
+  components: ComponentsIcon,
+  blocks: LayoutDashboardIcon,
+  forms: FormsIcon,
+  packages: CubeUnfoldedIcon,
+  "getting-started": RocketIcon,
+  styles: WandIcon,
+  theming: PaletteIcon,
+};
+
 function DirectoryLink({
   link,
   pathname,
   overview = false,
+  guide = false,
   closeOnNavigate,
 }: {
   link: NavigationLink;
   pathname: string;
   overview?: boolean;
+  guide?: boolean;
   closeOnNavigate: boolean;
 }) {
+  const status = link.planned ? "Planned" : link.updated ? "Updated" : undefined;
+  const StatusIcon = link.planned ? HourglassIcon : BoomIcon;
+  const SpecialIcon = link.icon ? specialLinkIcons[link.icon] : undefined;
+  const showCount = link.variantCount !== undefined && !(link.planned && link.variantCount === 0);
   const description =
     link.variantCount === undefined
-      ? undefined
+      ? status
       : `${link.variantCount} ${link.variantCount === 1 ? "variant" : "variants"}${link.planned ? " · Planned collection — page not available yet" : ""}`;
   const anchor = (
     <a
       href={link.href}
-      class={`site-navigation-link${overview ? " site-navigation-link-overview" : ""}`}
+      class={`site-navigation-link${overview || guide ? " site-navigation-link-overview" : ""}`}
       data-block-placeholder={link.planned ? "" : undefined}
       aria-label={link.variantCount !== undefined ? link.label : undefined}
       title={description}
@@ -46,12 +78,29 @@ function DirectoryLink({
             : undefined
       }
     >
-      {overview && <ComponentIcon size={13} aria-hidden="true" />}
       <span>{link.label}</span>
-      {link.variantCount !== undefined && (
+      {(status || showCount || SpecialIcon) && (
         <span class="site-navigation-link-meta" aria-hidden="true">
-          {link.planned && <small class="site-navigation-planned">Planned</small>}
-          <span class="site-navigation-variant-count">{link.variantCount}</span>
+          {status && (
+            <Badge
+              variant="secondary"
+              size="xxs"
+              class="site-navigation-status"
+              data-status={link.planned ? "planned" : "updated"}
+            >
+              <StatusIcon class="size-3" aria-hidden="true" />
+              {status}
+            </Badge>
+          )}
+          {showCount && <span class="site-navigation-variant-count">{link.variantCount}</span>}
+          {SpecialIcon && (
+            <SpecialIcon
+              class="site-navigation-special-icon"
+              size={16}
+              strokeWidth={1.75}
+              aria-hidden="true"
+            />
+          )}
         </span>
       )}
     </a>
@@ -70,7 +119,7 @@ function DirectoryGroup({
 }) {
   const id = useId();
   const Icon = groupIcons[group.kind];
-  const current = [group.overview, ...group.links].some((link) =>
+  const current = [group.overview, ...(group.guides ?? []), ...group.links].some((link) =>
     isNavigationCurrent(pathname, link.href, link.matchDescendants),
   );
   return (
@@ -93,7 +142,7 @@ function DirectoryGroup({
       </CollapsibleTrigger>
       <CollapsibleContent id={id} duration="180ms">
         <ul class="site-navigation-links">
-          <li>
+          <li class={!group.guides?.length ? "site-navigation-intro-end" : undefined}>
             <DirectoryLink
               link={group.overview}
               pathname={pathname}
@@ -101,6 +150,19 @@ function DirectoryGroup({
               closeOnNavigate={closeOnNavigate}
             />
           </li>
+          {group.guides?.map((link, index, guides) => (
+            <li
+              key={link.href}
+              class={index === guides.length - 1 ? "site-navigation-intro-end" : undefined}
+            >
+              <DirectoryLink
+                link={link}
+                pathname={pathname}
+                guide
+                closeOnNavigate={closeOnNavigate}
+              />
+            </li>
+          ))}
           {group.links.map((link) => (
             <li key={link.href}>
               <DirectoryLink link={link} pathname={pathname} closeOnNavigate={closeOnNavigate} />

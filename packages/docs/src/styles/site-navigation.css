@@ -183,17 +183,14 @@
 }
 
 .site-navigation-link-overview {
-  justify-content: flex-start;
-  gap: 0.5rem;
-  background: color-mix(in oklab, var(--primary) 4%, var(--background));
-  font-size: 0.78125rem;
-  font-weight: 450;
+  font-size: 0.84375rem;
+  font-weight: 500;
 }
 
-.site-navigation-links > li:first-child {
+.site-navigation-links > .site-navigation-intro-end {
   margin-bottom: 0.25rem;
   padding-bottom: 0.625rem;
-  border-bottom: 1px solid color-mix(in oklab, var(--border) 60%, transparent);
+  border-bottom: 1px solid var(--border);
 }
 
 .site-navigation-link-meta {
@@ -202,6 +199,15 @@
   flex: none;
   gap: 0.5rem;
   margin-left: auto;
+}
+
+.site-navigation-special-icon {
+  flex: none;
+  opacity: 0.6;
+  transition: opacity 150ms ease;
+}
+.site-navigation-link:is(:hover, :focus-visible, [aria-current]) .site-navigation-special-icon {
+  opacity: 1;
 }
 
 .site-navigation-variant-count {
@@ -216,18 +222,6 @@
   text-align: center;
 }
 
-.site-navigation-planned {
-  flex: none;
-  color: var(--muted-foreground);
-  font-size: 0.625rem;
-  font-weight: 400;
-}
-
-.site-navigation-link-overview > svg {
-  flex: none;
-  opacity: 0.65;
-}
-
 .site-navigation-link[aria-current] {
   background: linear-gradient(
     100deg,
@@ -236,6 +230,10 @@
   );
   color: color-mix(in oklab, var(--primary) 20%, var(--foreground));
   font-weight: 450;
+}
+
+.site-navigation-link-overview[aria-current] {
+  font-weight: 500;
 }
 
 .site-navigation-panel :is(a, button):focus-visible,
@@ -293,20 +291,19 @@
 }
 
 /* A small ring keeps the active destination recognizable even in neutral themes. */
-.site-navigation-link[aria-current]::after {
+.site-navigation-link[aria-current] > span:first-child {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.site-navigation-link[aria-current] > span:first-child::before {
   content: "";
   width: 0.375rem;
   height: 0.375rem;
   flex: none;
-  margin-inline-start: auto;
-  margin-inline-end: 0.125rem;
   border: 1.5px solid color-mix(in oklab, var(--primary) 65%, var(--background));
   border-radius: 50%;
   box-shadow: 0 0 0 3px color-mix(in oklab, var(--primary) 6%, var(--background));
-}
-.site-navigation-link[aria-current] .site-navigation-link-meta {
-  order: 1;
-  margin-left: 0;
 }
 .site-navigation-icon-button {
   width: 2rem;
@@ -359,43 +356,101 @@
 }
 .site-navigation-footer {
   flex: none;
-  padding: 0.75rem 1.25rem max(0.75rem, env(safe-area-inset-bottom));
-  border-top: 1px solid color-mix(in oklab, var(--border) 65%, transparent);
+  padding: 0.75rem 1rem max(0.75rem, env(safe-area-inset-bottom));
+  border-top: 1px solid var(--border);
+  background: color-mix(in oklab, var(--muted) 22%, var(--background));
+}
+.site-navigation-project {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.375rem;
+  border-radius: 0.5rem;
+  color: var(--foreground);
+  text-decoration: none;
+}
+.site-navigation-project-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid var(--border);
+  border-radius: 0.625rem;
+  background: var(--background);
+}
+.site-navigation-project strong {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 550;
+  letter-spacing: -0.015em;
+}
+.site-navigation-project small {
+  display: block;
+  margin-top: 0.15rem;
+  color: var(--muted-foreground);
+  font-size: 0.6875rem;
+}
+.site-navigation-project > svg {
+  margin-left: auto;
+  color: var(--muted-foreground);
 }
 .site-navigation-secondary-links {
   display: flex;
-  gap: 1rem;
+  gap: 0.125rem;
 }
 .site-navigation-secondary-links a {
   display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
-  min-height: 2rem;
+  gap: 0.375rem;
+  min-height: 2.25rem;
+  padding-inline: 0.375rem;
+  border-radius: 0.5rem;
   color: var(--muted-foreground);
-  font-size: 0.7rem;
+  font-size: 0.6875rem;
   text-decoration: none;
 }
 .site-navigation-footer-bottom {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.75rem;
-  margin-top: 0.35rem;
-}
-.site-navigation-footer-bottom > span {
-  color: color-mix(in oklab, var(--muted-foreground) 80%, var(--background));
-  font-size: 0.625rem;
+  gap: 0.25rem;
+  margin-top: 0.625rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border);
 }
 .site-navigation-footer-actions {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.125rem;
 }
 .site-navigation-footer .site-icon-button {
   width: 2.25rem;
   height: 2.25rem;
   min-width: 2.25rem;
   background: transparent;
+}
+/* Keep the directory usable when the keyboard or landscape viewport reduces height. */
+@media (max-height: 480px) {
+  .site-navigation-footer {
+    padding-block: 0.375rem max(0.375rem, env(safe-area-inset-bottom));
+  }
+  .site-navigation-project {
+    gap: 0.5rem;
+    padding-block: 0;
+  }
+  .site-navigation-project-icon {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+  .site-navigation-project small {
+    display: none;
+  }
+  .site-navigation-footer-bottom {
+    margin-top: 0.25rem;
+    padding-top: 0;
+    border-top: 0;
+  }
 }
 .site-theme-picker-content {
   max-height: min(26rem, calc(100dvh - 10rem));
@@ -440,4 +495,10 @@
 .site-theme-options button:focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: -2px;
+}
+
+@media (min-width: 980px) {
+  .docs-sidebar .site-navigation-links {
+    margin-inline-start: 1rem;
+  }
 }

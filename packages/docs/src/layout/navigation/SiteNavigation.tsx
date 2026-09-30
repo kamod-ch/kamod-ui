@@ -1,4 +1,4 @@
-import { ArrowUpRightIcon, HouseIcon, MenuIcon, PaletteIcon, XIcon } from "@kamod-ch/icons/lucide";
+import { HouseIcon, MenuIcon, PaletteIcon, XIcon } from "@kamod-ch/icons/lucide";
 import {
   Sheet,
   SheetClose,
@@ -9,9 +9,8 @@ import {
 } from "@kamod-ch/ui";
 import { useEffect, useId, useRef, useState } from "preact/hooks";
 import { withBasePath } from "../../base-path";
-import { ThemePresetPicker } from "../../theme/ThemePresetPicker";
-import { GithubRepoLink } from "../GithubRepoLink";
 import { NavigationDirectory } from "./NavigationDirectory";
+import { NavigationFooter } from "./NavigationFooter";
 import { navigationGroups } from "./navigation-data";
 
 /** One responsive navigation surface for home, documentation and every block detail page. */
@@ -114,24 +113,7 @@ export function SiteNavigation() {
           </div>
           <NavigationDirectory groups={navigationGroups} pathname={pathname} closeOnNavigate />
         </div>
-        <footer class="site-navigation-footer">
-          <nav class="site-navigation-secondary-links" aria-label="Useful links">
-            <SheetClose asChild>
-              <a href={withBasePath("/docs/theming/css-setup")}>CSS setup</a>
-            </SheetClose>
-            <a href="https://github.com/kamod-ch/kamod-ui/issues" target="_blank" rel="noreferrer">
-              Feedback
-              <ArrowUpRightIcon size={12} aria-hidden="true" />
-            </a>
-          </nav>
-          <div class="site-navigation-footer-bottom">
-            <span>Open source. Yours to shape.</span>
-            <div class="site-navigation-footer-actions">
-              <ThemePresetPicker side="top" />
-              <GithubRepoLink />
-            </div>
-          </div>
-        </footer>
+        <NavigationFooter />
       </SheetContent>
     </Sheet>
   );
