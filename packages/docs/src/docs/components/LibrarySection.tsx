@@ -1,4 +1,5 @@
 import type { ComponentChildren } from "preact";
+import { BlockHeadingLink } from "../../blocks/BlockHeadingLink";
 import { LibraryHeading } from "./LibraryHeading";
 
 /** A consistent visual boundary and introduction for each part of a directory. */
@@ -11,6 +12,7 @@ export function LibrarySection({
   description,
   class: className = "",
   children,
+  guide = false,
 }: {
   id?: string;
   headingId: string;
@@ -20,7 +22,23 @@ export function LibrarySection({
   description?: ComponentChildren;
   class?: string;
   children: ComponentChildren;
+  /** Use the reading guide's section heading and spacing instead of the directory overline. */
+  guide?: boolean;
 }) {
+  if (guide)
+    return (
+      <section
+        id={id}
+        class={`blocks-doc-section block-guide-section ${className}`}
+        aria-labelledby={headingId}
+      >
+        <h2 id={headingId} tabIndex={-1}>
+          <BlockHeadingLink id={headingId}>{title}</BlockHeadingLink>
+        </h2>
+        {description && <div class="block-guide-prose">{description}</div>}
+        {children}
+      </section>
+    );
   return (
     <section id={id} class={`library-directory-section ${className}`} aria-labelledby={headingId}>
       <header class="library-section-header">

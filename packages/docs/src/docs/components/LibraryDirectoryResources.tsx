@@ -8,6 +8,18 @@ import {
 import { withBasePath } from "../../base-path";
 import { LibraryHeading } from "./LibraryHeading";
 import { LibrarySection } from "./LibrarySection";
+import { LibrarySourceResources } from "./LibrarySourceResources";
+
+export const libraryResourceContents = {
+  id: "library-guides-title",
+  label: "Make it your own",
+  children: [
+    { id: "connect-styles", label: "Connect your styles" },
+    { id: "customize-theme", label: "Customize the theme" },
+    { id: "explore-icons", label: "Explore the icon library" },
+    { id: "library-source-title", label: "Work with the source" },
+  ],
+};
 
 const guides = [
   {
@@ -65,9 +77,10 @@ const guides = [
 ];
 
 /** Shared next steps keep setup guidance useful on both library entry points. */
-export function LibraryDirectoryResources() {
+export function LibraryDirectoryResources({ guide = false }: { guide?: boolean }) {
   return (
     <LibrarySection
+      guide={guide}
       id="library-guides"
       class="library-directory-resources"
       headingId="library-guides-title"
@@ -123,9 +136,12 @@ export function LibraryDirectoryResources() {
           <strong>Check in your app.</strong> Try real content, a narrow viewport and keyboard
           navigation before shipping. Use the{" "}
           <a href={withBasePath("/docs/theming/usage")}>theme guide</a> to check both{" "}
-          <code>light</code> and <code>dark</code> appearances.
+          <code>light</code> and <code>dark</code> appearances. Replace sample routes and service
+          callbacks with your own, then check empty states and longer labels.{" "}
+          <strong>Keep the shared behavior; make the content yours.</strong>
         </p>
       </aside>
+      <LibrarySourceResources />
     </LibrarySection>
   );
 }

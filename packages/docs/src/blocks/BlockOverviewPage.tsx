@@ -1,8 +1,28 @@
+import { withBasePath } from "../base-path";
 import { DocsShell } from "../docs/components/DocsShell";
 import { LibraryDirectory, LibraryGrid } from "../docs/components/LibraryDirectory";
+import { LibraryJumpLinks } from "../docs/components/LibraryJumpLinks";
+import { LibraryPageHeader } from "../docs/components/LibraryPageHeader";
 import { LibrarySection } from "../docs/components/LibrarySection";
+import { BlockPageEnding } from "./BlockPageEnding";
 import { type BlockCategory, blockCategories } from "./block-categories";
 import { PLACEHOLDER_BLOCK_CATEGORIES, visibleBlockNavItems } from "./block-nav-config";
+import { BlockGuideContents } from "./detail/BlockGuideContents";
+
+const contents = [
+  { id: "library-items", label: "All block categories" },
+  { id: "planned-collections", label: "On the horizon" },
+  {
+    id: "library-guides-title",
+    label: "Make it your own",
+    children: [
+      { id: "connect-styles", label: "Connect your styles" },
+      { id: "customize-theme", label: "Customize the theme" },
+      { id: "explore-icons", label: "Explore the icon library" },
+      { id: "library-source-title", label: "Work with the source" },
+    ],
+  },
+];
 
 // Keep the directory aligned with published collections, without loading their demos.
 const categories = visibleBlockNavItems
@@ -19,11 +39,13 @@ export function BlockOverviewPage() {
     <DocsShell
       sidebarScope="blocks"
       isSectionOverview
+      pageContents={<BlockGuideContents id="blocks-overview-contents" sections={contents} />}
       activeDoc={null}
       activeSection=""
       mainContent={
         <LibraryDirectory
           kind="blocks"
+          footer={<BlockPageEnding page="overview" />}
           items={categories.map((item) => ({
             ...item,
             detail:
@@ -31,14 +53,49 @@ export function BlockOverviewPage() {
                 .replace(/[`*]/g, "")
                 .split(". ")[0] + ".",
           }))}
-          description={
-            <>
-              Browse {total} reusable Kamod UI blocks. Compare <strong>complete layouts</strong>,
-              try different themes and screen sizes in the live previews, and inspect the source
-              before adding a variant to your <code>Preact</code> app. Each setup guide explains the
-              required files and dependencies, so you can{" "}
-              <strong>connect your own data and navigation</strong> with a clear starting point.
-            </>
+          header={
+            <LibraryPageHeader
+              parent={{ label: "Home", href: "/" }}
+              label="Blocks"
+              eyebrow="Block collections"
+              focus="Explore · Preview · Build"
+              title="Blocks for complete application layouts"
+              description={
+                <>
+                  <p>
+                    Browse {total} reusable Kamod UI blocks across {categories.length} collections.
+                    Compare <strong>complete layouts</strong>, try different themes and screen sizes
+                    in the live previews, and inspect the source before adding a variant to your{" "}
+                    <code>Preact</code> app. Each block brings existing components together into a
+                    working composition, giving you a starting point for navigation, authentication
+                    screens and application shells.
+                  </p>
+                  <p>
+                    Start with the{" "}
+                    <a href={withBasePath("/blocks/getting-started")}>getting started guide</a>,
+                    then use each variant’s <strong>Code tab and setup instructions</strong> for its
+                    files and dependencies. Reuse <code>@kamod-ch/ui</code>, connect your own data
+                    and routes, and refine the result with the{" "}
+                    <a href={withBasePath("/blocks/styles")}>component styles</a> and{" "}
+                    <a href={withBasePath("/blocks/theming")}>theming guides</a>. The available
+                    collections below are ready to explore; <strong>planned collections</strong>{" "}
+                    show what’s on the horizon and do not yet contain usable variants.
+                  </p>
+                </>
+              }
+            >
+              <LibraryJumpLinks class="block-guide-switcher" label="Directory sections">
+                <li>
+                  <a href="#library-items">Available collections</a>
+                </li>
+                <li>
+                  <a href="#planned-collections">Planned collections</a>
+                </li>
+                <li>
+                  <a href="#library-guides">Setup & theming</a>
+                </li>
+              </LibraryJumpLinks>
+            </LibraryPageHeader>
           }
         >
           <LibrarySection

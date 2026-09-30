@@ -2,6 +2,7 @@ import { ArrowRightIcon, ArrowUpRightIcon, BookOpenIcon, CodeIcon } from "@kamod
 import type { ComponentChildren } from "preact";
 import { withBasePath } from "../../base-path";
 import { LibraryDirectoryResources } from "./LibraryDirectoryResources";
+import { LibraryJumpLinks } from "./LibraryJumpLinks";
 import { LibrarySection } from "./LibrarySection";
 
 export type LibraryEntry = {
@@ -10,17 +11,22 @@ export type LibraryEntry = {
   detail?: string;
   count?: number;
   planned?: boolean;
+  packagePath?: string;
 };
 
 /** Shared directory presentation; callers supply metadata without importing live examples. */
 export function LibraryDirectory({
   kind,
   description,
+  header,
+  footer,
   items,
   children,
 }: {
   kind: "blocks" | "components";
-  description: ComponentChildren;
+  description?: ComponentChildren;
+  header?: ComponentChildren;
+  footer?: ComponentChildren;
   items: LibraryEntry[];
   children?: ComponentChildren;
 }) {
@@ -28,88 +34,85 @@ export function LibraryDirectory({
   const title = isBlocks ? "Blocks" : "Components";
   const other = isBlocks ? "Components" : "Blocks";
   return (
-    <section class={`docs-components-overview library-directory docs-${kind}-overview`}>
-      <header class="library-directory-header">
-        <div class="library-directory-eyebrow">
-          <span class="library-directory-count">
-            {items.length} {isBlocks ? "collections" : "components"}
-          </span>
-          <span class="library-directory-platform">
-            Built for <strong>Preact</strong>
-          </span>
-        </div>
-        <div class="library-directory-title">
-          <h1>
-            {isBlocks
-              ? "Blocks for complete application layouts"
-              : "Components for flexible Preact interfaces"}
-          </h1>
-        </div>
-        <p class="docs-components-intro">{description}</p>
-        <p class="library-directory-start-note">
-          <strong>{isBlocks ? "Your source, your app." : "Start with the essentials."}</strong>{" "}
-          {isBlocks ? (
-            <>
-              Copy a variant, then adapt its <code>Preact</code> composition.
-            </>
-          ) : (
-            <>
-              Build with <code>@kamod-ch/ui</code> and shared tokens.
-            </>
-          )}{" "}
-          <a href={withBasePath("/docs/theming/installation")}>Set up your project</a>.
-        </p>
-        <div class="library-directory-actions">
-          <div class="library-directory-browse-actions">
-            <a class="library-directory-browse" href="#library-items">
-              Browse {title.toLowerCase()}
-              <ArrowRightIcon size={14} aria-hidden="true" />
-            </a>
-            <a href={withBasePath(isBlocks ? "/docs/components" : "/blocks")}>
-              Explore {other.toLowerCase()}
-              <ArrowUpRightIcon size={13} aria-hidden="true" />
-            </a>
-          </div>
-          <div class="library-directory-icon-links">
-            <a
-              href={withBasePath("/docs/theming/css-setup")}
-              aria-label="Open CSS setup guide"
-              title="CSS setup"
-            >
-              <BookOpenIcon size={16} aria-hidden="true" />
-            </a>
-            <a
-              href={`https://github.com/kamod-ch/kamod-ui/tree/main/packages/${isBlocks ? "blocks" : "core"}/src`}
-              target="_blank"
-              rel="noreferrer"
-              aria-label={`Browse ${kind} source on GitHub`}
-              title="Browse source"
-            >
-              <CodeIcon size={16} aria-hidden="true" />
-            </a>
-          </div>
-        </div>
-      </header>
-      <nav class="library-directory-jump-links" aria-label="Directory sections">
-        <ul>
-          <li>
-            <a href="#library-items">{isBlocks ? "Available collections" : "All components"}</a>
-          </li>
-          {isBlocks && (
+    <section id="top" class={`docs-components-overview library-directory docs-${kind}-overview`}>
+      {header ?? (
+        <>
+          <header class="library-directory-header">
+            <div class="library-directory-eyebrow">
+              <span class="library-directory-count">
+                {items.length} {isBlocks ? "collections" : "components"}
+              </span>
+              <span class="library-directory-platform">
+                Built for <strong>Preact</strong>
+              </span>
+            </div>
+            <div class="library-directory-title">
+              <h1>
+                {isBlocks
+                  ? "Blocks for complete application layouts"
+                  : "Components for flexible Preact interfaces"}
+              </h1>
+            </div>
+            <p class="docs-components-intro">{description}</p>
+            <p class="library-directory-start-note">
+              <strong>{isBlocks ? "Your source, your app." : "Start with the essentials."}</strong>{" "}
+              {isBlocks ? (
+                <>
+                  Copy a variant, then adapt its <code>Preact</code> composition.
+                </>
+              ) : (
+                <>
+                  Build with <code>@kamod-ch/ui</code> and shared tokens.
+                </>
+              )}{" "}
+              <a href={withBasePath("/docs/theming/installation")}>Set up your project</a>.
+            </p>
+            <div class="library-directory-actions">
+              <div class="library-directory-browse-actions">
+                <a class="library-directory-browse" href="#library-items">
+                  Browse {title.toLowerCase()}
+                  <ArrowRightIcon size={14} aria-hidden="true" />
+                </a>
+                <a href={withBasePath(isBlocks ? "/docs/components" : "/blocks")}>
+                  Explore {other.toLowerCase()}
+                  <ArrowUpRightIcon size={13} aria-hidden="true" />
+                </a>
+              </div>
+              <div class="library-directory-icon-links">
+                <a
+                  href={withBasePath("/docs/theming/css-setup")}
+                  aria-label="Open CSS setup guide"
+                  title="CSS setup"
+                >
+                  <BookOpenIcon size={16} aria-hidden="true" />
+                </a>
+                <a
+                  href={`https://github.com/kamod-ch/kamod-ui/tree/main/packages/${isBlocks ? "blocks" : "core"}/src`}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={`Browse ${kind} source on GitHub`}
+                  title="Browse source"
+                >
+                  <CodeIcon size={16} aria-hidden="true" />
+                </a>
+              </div>
+            </div>
+          </header>
+          <LibraryJumpLinks label="Directory sections">
             <li>
-              <a href="#planned-collections">Planned collections</a>
+              <a href="#library-items">{isBlocks ? "Available collections" : "All components"}</a>
             </li>
-          )}
-          <li>
-            <a href="#library-guides">Setup & theming</a>
-          </li>
-        </ul>
-        <a class="library-directory-start-link" href={withBasePath("/docs/theming/css-setup")}>
-          <BookOpenIcon size={14} aria-hidden="true" />
-          CSS guide
-          <ArrowUpRightIcon size={12} aria-hidden="true" />
-        </a>
-      </nav>
+            {isBlocks && (
+              <li>
+                <a href="#planned-collections">Planned collections</a>
+              </li>
+            )}
+            <li>
+              <a href="#library-guides">Setup & theming</a>
+            </li>
+          </LibraryJumpLinks>
+        </>
+      )}
       <LibrarySection
         class="library-directory-items"
         headingId="library-items"
@@ -156,6 +159,7 @@ export function LibraryDirectory({
       </LibrarySection>
       {children}
       <LibraryDirectoryResources />
+      {footer}
     </section>
   );
 }
@@ -185,6 +189,7 @@ export function LibraryGrid({ label, items }: { label: string; items: LibraryEnt
               <ArrowUpRightIcon size={14} aria-hidden="true" />
             </span>
             {item.detail && <span class="library-directory-item-description">{item.detail}</span>}
+            {item.packagePath && <code>{item.packagePath}</code>}
             {count && (
               <span class="docs-block-category-count">
                 {count}

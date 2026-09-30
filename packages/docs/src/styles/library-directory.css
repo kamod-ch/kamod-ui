@@ -1,6 +1,27 @@
 .library-directory {
   min-width: 0;
 }
+
+.docs-shell-page-contents .library-heading {
+  /* The document already reserves the navbar height through scroll-padding. */
+  scroll-margin-top: 1rem;
+}
+
+/* Keep contents and feedback together in one scrollable, sticky reading column. */
+@media (min-width: 1260px) {
+  .docs-shell-page-contents .docs-rightbar {
+    top: 5.5rem;
+    max-height: calc(100dvh - 7rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+  .docs-shell-page-contents .blocks-doc-toc nav {
+    position: static;
+    max-height: none;
+    overflow: visible;
+  }
+}
 .library-directory-header {
   padding: 1.15rem 1.25rem;
   border: 1px solid var(--border);
@@ -59,7 +80,7 @@
   font-size: 0.875rem;
   line-height: 1.7;
 }
-.library-directory code {
+.library-directory :where(:not(pre)) > code {
   padding: 0.1em 0.3em;
   border-radius: 0.25rem;
   background: color-mix(in oklab, var(--secondary-accent) 10%, var(--muted));
@@ -116,7 +137,7 @@
   font-size: 0.75rem;
   text-decoration: none;
 }
-.library-directory :is(.library-heading, #library-guides) {
+.library-directory :where(.library-heading, #library-guides) {
   scroll-margin-top: calc(var(--docs-topbar-height, 64px) + 1.5rem);
 }
 .library-directory-icon-links {
@@ -275,7 +296,7 @@
 }
 .library-guide-card {
   min-width: 0;
-  padding: clamp(1rem, 2vw, 1.25rem);
+  padding: 0.875rem 1rem;
   border: 1px solid color-mix(in oklab, var(--border) 70%, transparent);
   border-radius: 0.65rem;
   background: color-mix(in oklab, var(--primary) 2%, var(--background));
@@ -293,7 +314,7 @@
   margin-left: auto;
 }
 .library-directory-resources h3 {
-  margin: 0.85rem 0 0.75rem;
+  margin: 0.625rem 0 0.5rem;
   font-size: 1rem;
   font-weight: 550;
   color: var(--foreground);
@@ -458,8 +479,8 @@
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 0.5rem 1rem;
-  margin-top: 1.125rem;
-  padding-top: 0.875rem;
+  margin-top: 0.75rem;
+  padding-top: 0.5rem;
   border-top: 1px solid color-mix(in oklab, var(--border) 65%, transparent);
 }
 .library-guide-footer > span {
@@ -501,6 +522,90 @@
   margin: 0;
   font-size: 0.75rem;
   line-height: 1.75;
+}
+
+.library-source-resources {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+.library-source-resources > .library-heading {
+  margin-top: 0;
+}
+.library-source-resources > p,
+.library-source-footer p {
+  margin: 0;
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  line-height: 1.75;
+}
+.library-source-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: 0.75rem;
+  padding: 0;
+  margin: 1rem 0;
+  list-style: none;
+}
+.library-source-grid li {
+  min-width: 0;
+}
+.library-source-grid a {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.625rem;
+  height: 100%;
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.65rem;
+  color: var(--foreground);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+.library-source-grid a:hover {
+  background: color-mix(in oklab, var(--primary) 3%, var(--background));
+  border-color: color-mix(in oklab, var(--primary) 20%, var(--border));
+}
+.library-source-label {
+  color: var(--muted-foreground);
+  font-size: 0.6875rem;
+}
+.library-source-name {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  font-size: 0.875rem;
+}
+.library-source-name svg {
+  flex: none;
+}
+.library-source-name svg:last-child {
+  margin-left: auto;
+  color: var(--muted-foreground);
+}
+.library-source-description {
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  line-height: 1.7;
+}
+.library-source-package {
+  margin-top: auto;
+  font-size: 0.6875rem;
+}
+.library-source-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+}
+.library-source-footer p {
+  flex: 1 1 18rem;
+}
+.library-source-footer > a {
+  flex: none;
+  margin-left: auto;
 }
 @media (max-width: 639px) {
   .library-directory-jump-links {
