@@ -1,7 +1,7 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes, JSX } from "preact";
 import { cn } from "../../lib/utils";
 
-export type TableCaptionProps = JSX.HTMLAttributes<HTMLTableCaptionElement> & {
+export type TableCaptionProps = HTMLAttributes<HTMLTableCaptionElement> & {
   children?: ComponentChildren;
 };
 
@@ -9,7 +9,7 @@ export const TableCaption = ({ class: className, children, ...rest }: TableCapti
   <caption
     data-slot="table-caption"
     class={cn("text-muted-foreground mt-4 text-sm", className)}
-    {...rest}
+    {...(rest as JSX.IntrinsicElements["caption"])}
   >
     {children}
   </caption>

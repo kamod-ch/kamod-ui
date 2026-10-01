@@ -1,8 +1,8 @@
-import type { JSX } from "preact";
+import type { InputHTMLAttributes, JSX } from "preact";
 import { cn } from "../../lib/utils";
 import { useCommand } from "./Command";
 
-export type CommandInputProps = JSX.InputHTMLAttributes<HTMLInputElement>;
+export type CommandInputProps = InputHTMLAttributes<HTMLInputElement>;
 
 export const CommandInput = ({
   class: className,
@@ -41,7 +41,7 @@ export const CommandInput = ({
         }
         onKeyDown?.(event);
       }}
-      {...rest}
+      {...(rest as JSX.IntrinsicElements["input"])}
     />
   );
 };

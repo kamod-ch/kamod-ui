@@ -1,8 +1,8 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ButtonHTMLAttributes, ComponentChildren } from "preact";
 import { cn } from "../../lib/utils";
 import { useCommand } from "./Command";
 
-export type CommandItemProps = JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
+export type CommandItemProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   /** Used for case-insensitive filtering against the query. */
   value: string;
   children?: ComponentChildren;

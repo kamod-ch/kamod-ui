@@ -1,8 +1,8 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes, TargetedPointerEvent } from "preact";
 import { cn } from "../../lib/utils";
 import { useNavigationMenuItemCtx, useNavigationMenuRoot } from "./navigation-menu-context";
 
-export type NavigationMenuContentProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type NavigationMenuContentProps = HTMLAttributes<HTMLDivElement> & {
   children?: ComponentChildren;
 };
 
@@ -17,12 +17,12 @@ export const NavigationMenuContent = ({
   const { value } = useNavigationMenuItemCtx();
   const open = root.openValue.value === value;
 
-  const handlePointerEnter = (e: JSX.TargetedPointerEvent<HTMLDivElement>) => {
+  const handlePointerEnter = (e: TargetedPointerEvent<HTMLDivElement>) => {
     onPointerEnter?.(e);
     root.clearTimers();
   };
 
-  const handlePointerLeave = (e: JSX.TargetedPointerEvent<HTMLDivElement>) => {
+  const handlePointerLeave = (e: TargetedPointerEvent<HTMLDivElement>) => {
     onPointerLeave?.(e);
     if (e.defaultPrevented) return;
     root.requestClose();

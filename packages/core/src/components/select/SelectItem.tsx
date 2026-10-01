@@ -1,10 +1,10 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes, TargetedMouseEvent } from "preact";
 import { useEffect, useMemo, useRef } from "preact/hooks";
 import { createIdFactory } from "../../lib/interactive";
 import { cn } from "../../lib/utils";
 import { useSelect } from "./Select";
 
-export type SelectItemProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type SelectItemProps = HTMLAttributes<HTMLDivElement> & {
   value: string;
   disabled?: boolean;
   children?: ComponentChildren;
@@ -90,7 +90,7 @@ export const SelectItem = ({
           return;
         }
         select.setSelected(value);
-        onClick?.(event as unknown as JSX.TargetedMouseEvent<HTMLDivElement>);
+        onClick?.(event as unknown as TargetedMouseEvent<HTMLDivElement>);
         select.closeAndFocusTrigger();
       }}
       {...rest}

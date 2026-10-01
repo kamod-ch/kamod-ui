@@ -77,7 +77,9 @@ it("only the visible contents restores hashes and cleans up queued work on unmou
     navigate();
   });
   expect(scroll).toHaveBeenCalledTimes(2);
-  view.unmount();
+  act(() => {
+    view.unmount();
+  });
   expect(frames.size).toBe(0);
   expect(removeMedia).toHaveBeenCalledTimes(2);
   for (const event of ["scroll", "resize", "hashchange"]) {

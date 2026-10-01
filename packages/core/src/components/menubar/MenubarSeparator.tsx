@@ -1,7 +1,7 @@
-import type { JSX } from "preact";
+import type { HTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 
-export type MenubarSeparatorProps = JSX.HTMLAttributes<HTMLDivElement>;
+export type MenubarSeparatorProps = HTMLAttributes<HTMLDivElement>;
 
 export const MenubarSeparator = ({ class: className, ...rest }: MenubarSeparatorProps) => (
   <div

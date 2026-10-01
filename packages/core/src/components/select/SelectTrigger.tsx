@@ -1,8 +1,8 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ButtonHTMLAttributes, ComponentChildren } from "preact";
 import { cn } from "../../lib/utils";
 import { useSelect } from "./Select";
 
-export type SelectTriggerProps = JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
+export type SelectTriggerProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   children?: ComponentChildren;
 };
 

@@ -6,7 +6,7 @@ export default defineConfig({
     "tailwind-preset": "src/tailwind-preset.ts",
   },
   format: ["esm"],
-  dts: true,
+  dts: false,
   sourcemap: true,
   clean: true,
   splitting: true,

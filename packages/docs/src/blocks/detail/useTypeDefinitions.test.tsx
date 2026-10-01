@@ -102,7 +102,9 @@ it("removes its listener and pending animation on unmount", () => {
   const hashListeners = add.mock.calls.filter(([name]) => name === "hashchange");
   expect(hashListeners).toHaveLength(1);
   navigate("#type-A");
-  unmount();
+  act(() => {
+    unmount();
+  });
   expect(remove).toHaveBeenCalledWith("hashchange", hashListeners[0][1]);
   expect(frames.size).toBe(0);
   navigate("#type-B");

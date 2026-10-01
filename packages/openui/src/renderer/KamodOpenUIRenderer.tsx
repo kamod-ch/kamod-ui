@@ -7,9 +7,9 @@ import {
 } from "@openuidev/react-lang";
 import type { ComponentChildren } from "preact";
 import { useCallback, useState } from "preact/hooks";
-import { type KamodOpenUILibrary, kamodOpenUILibrary } from "../library/createLibrary";
-import type { KamodOpenUIAction } from "../security/action";
-import { type NavigationPolicy, validateNavigationTarget } from "../security/navigation";
+import { type KamodOpenUILibrary, kamodOpenUILibrary } from "../library/createLibrary.js";
+import type { KamodOpenUIAction } from "../security/action.js";
+import { type NavigationPolicy, validateNavigationTarget } from "../security/navigation.js";
 
 export type ErrorMode = "fallback" | "partial" | "throw";
 

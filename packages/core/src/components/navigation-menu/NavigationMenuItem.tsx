@@ -1,4 +1,4 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { useMemo } from "preact/hooks";
 import { createIdFactory } from "../../lib/interactive";
 import { cn } from "../../lib/utils";
@@ -6,7 +6,7 @@ import { NavigationMenuItemContext } from "./navigation-menu-context";
 
 const nextItemValue = createIdFactory("nm-item");
 
-export type NavigationMenuItemProps = JSX.HTMLAttributes<HTMLLIElement> & {
+export type NavigationMenuItemProps = HTMLAttributes<HTMLLIElement> & {
   children?: ComponentChildren;
   /** Stable id for this branch; auto-generated when omitted. */
   value?: string;

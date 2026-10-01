@@ -1,12 +1,20 @@
-import { type ComponentChildren, cloneElement, isValidElement, type JSX } from "preact";
+import {
+  type ComponentChildren,
+  cloneElement,
+  type HTMLAttributes,
+  isValidElement,
+  type TargetedFocusEvent,
+  type TargetedMouseEvent,
+  type TargetedPointerEvent,
+} from "preact";
 import { useTooltip } from "./Tooltip";
 
-export type TooltipTriggerProps = JSX.HTMLAttributes<HTMLSpanElement> & {
+export type TooltipTriggerProps = HTMLAttributes<HTMLSpanElement> & {
   asChild?: boolean;
   children?: ComponentChildren;
 };
 
-type TooltipTriggerCommonProps = JSX.HTMLAttributes<HTMLElement> & {
+type TooltipTriggerCommonProps = HTMLAttributes<HTMLElement> & {
   "data-slot"?: string;
   "data-state"?: "open" | "closed";
 };
@@ -30,27 +38,27 @@ export const TooltipTrigger = ({ asChild = false, children, ...rest }: TooltipTr
     "data-state": tooltip.open.value ? "open" : "closed",
     onPointerEnter: (event) => {
       tooltip.openWithDelay();
-      onPointerEnter?.(event as unknown as JSX.TargetedPointerEvent<HTMLElement>);
+      onPointerEnter?.(event as unknown as TargetedPointerEvent<HTMLElement>);
     },
     onPointerLeave: (event) => {
       tooltip.closeWithDelay();
-      onPointerLeave?.(event as unknown as JSX.TargetedPointerEvent<HTMLElement>);
+      onPointerLeave?.(event as unknown as TargetedPointerEvent<HTMLElement>);
     },
     onMouseEnter: (event) => {
       tooltip.openWithDelay();
-      onMouseEnter?.(event as unknown as JSX.TargetedMouseEvent<HTMLElement>);
+      onMouseEnter?.(event as unknown as TargetedMouseEvent<HTMLElement>);
     },
     onMouseLeave: (event) => {
       tooltip.closeWithDelay();
-      onMouseLeave?.(event as unknown as JSX.TargetedMouseEvent<HTMLElement>);
+      onMouseLeave?.(event as unknown as TargetedMouseEvent<HTMLElement>);
     },
     onFocus: (event) => {
       tooltip.setOpen(true);
-      onFocus?.(event as unknown as JSX.TargetedFocusEvent<HTMLElement>);
+      onFocus?.(event as unknown as TargetedFocusEvent<HTMLElement>);
     },
     onBlur: (event) => {
       tooltip.setOpen(false);
-      onBlur?.(event as unknown as JSX.TargetedFocusEvent<HTMLElement>);
+      onBlur?.(event as unknown as TargetedFocusEvent<HTMLElement>);
     },
   };
 
@@ -59,7 +67,7 @@ export const TooltipTrigger = ({ asChild = false, children, ...rest }: TooltipTr
       return null;
     }
 
-    const childProps = (children.props ?? {}) as JSX.HTMLAttributes<HTMLElement> & {
+    const childProps = (children.props ?? {}) as HTMLAttributes<HTMLElement> & {
       class?: string;
       className?: string;
     };

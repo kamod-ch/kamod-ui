@@ -1,4 +1,4 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ButtonHTMLAttributes, ComponentChildren, HTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 import { Input, type InputProps } from "../input/Input";
 import { Separator, type SeparatorProps } from "../separator/Separator";
@@ -26,7 +26,7 @@ export const SidebarSeparator = ({ class: className, ...rest }: SidebarSeparator
   />
 );
 
-export type SidebarGroupProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type SidebarGroupProps = HTMLAttributes<HTMLDivElement> & {
   children?: ComponentChildren;
 };
 
@@ -41,7 +41,7 @@ export const SidebarGroup = ({ class: className, children, ...rest }: SidebarGro
   </div>
 );
 
-export type SidebarGroupLabelProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type SidebarGroupLabelProps = HTMLAttributes<HTMLDivElement> & {
   asChild?: boolean;
   children?: ComponentChildren;
 };
@@ -76,7 +76,7 @@ export const SidebarGroupLabel = ({
   );
 };
 
-export type SidebarGroupActionProps = JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
+export type SidebarGroupActionProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   asChild?: boolean;
   children?: ComponentChildren;
 };
@@ -118,7 +118,7 @@ export const SidebarGroupAction = ({
   );
 };
 
-export type SidebarGroupContentProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type SidebarGroupContentProps = HTMLAttributes<HTMLDivElement> & {
   children?: ComponentChildren;
 };
 

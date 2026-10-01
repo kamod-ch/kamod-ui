@@ -1,5 +1,5 @@
 import { signal } from "@preact/signals";
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { createContext } from "preact";
 import { useCallback, useContext, useEffect, useMemo, useRef } from "preact/hooks";
 
@@ -22,7 +22,7 @@ export const useHoverCard = () => {
   return context;
 };
 
-export type HoverCardProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type HoverCardProps = HTMLAttributes<HTMLDivElement> & {
   defaultOpen?: boolean;
   /** Delay before opening (ms). Radix default 700. */
   openDelay?: number;

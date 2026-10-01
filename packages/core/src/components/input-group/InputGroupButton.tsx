@@ -1,4 +1,4 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ButtonHTMLAttributes, ComponentChildren } from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
 import { cn } from "../../lib/utils";
 import { button } from "../button/Button";
@@ -17,7 +17,7 @@ export const inputGroupButton = tv({
   },
 });
 
-export type InputGroupButtonProps = JSX.ButtonHTMLAttributes<HTMLButtonElement> &
+export type InputGroupButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
   VariantProps<typeof button> &
   VariantProps<typeof inputGroupButton> & {
     children?: ComponentChildren;

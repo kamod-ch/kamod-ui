@@ -1,8 +1,8 @@
-import type { JSX } from "preact";
+import type { ButtonHTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 import { useCombobox } from "./combobox-context";
 
-export type ComboboxClearProps = JSX.ButtonHTMLAttributes<HTMLButtonElement>;
+export type ComboboxClearProps = ButtonHTMLAttributes<HTMLButtonElement>;
 
 export const ComboboxClear = ({ class: className, onClick, ...rest }: ComboboxClearProps) => {
   const ctx = useCombobox();

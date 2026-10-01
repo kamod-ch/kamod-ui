@@ -1,5 +1,5 @@
 import { signal } from "@preact/signals";
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { createContext } from "preact";
 import { useContext, useEffect, useMemo, useRef } from "preact/hooks";
 import { tv } from "tailwind-variants";
@@ -29,7 +29,7 @@ export const popover = tv({
   base: "relative inline-flex",
 });
 
-export type PopoverProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type PopoverProps = HTMLAttributes<HTMLDivElement> & {
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;

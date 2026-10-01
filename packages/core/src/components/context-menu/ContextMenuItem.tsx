@@ -1,4 +1,4 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ButtonHTMLAttributes, ComponentChildren } from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
 import { cn } from "../../lib/utils";
 import { useContextMenu } from "./ContextMenu";
@@ -26,7 +26,7 @@ export const contextMenuItem = tv({
   },
 });
 
-export type ContextMenuItemProps = JSX.ButtonHTMLAttributes<HTMLButtonElement> &
+export type ContextMenuItemProps = ButtonHTMLAttributes<HTMLButtonElement> &
   VariantProps<typeof contextMenuItem> & {
     children?: ComponentChildren;
   };

@@ -1,9 +1,9 @@
-import type { JSX } from "preact";
+import type { HTMLAttributes } from "preact";
 import { useLayoutEffect, useState } from "preact/hooks";
 import { cn } from "../../lib/utils";
 import { useScrollAreaContext } from "./scroll-area-context";
 
-export type ScrollAreaCornerProps = JSX.HTMLAttributes<HTMLDivElement>;
+export type ScrollAreaCornerProps = HTMLAttributes<HTMLDivElement>;
 
 export const ScrollAreaCorner = ({ class: className, ...rest }: ScrollAreaCornerProps) => {
   const { viewportRef } = useScrollAreaContext();

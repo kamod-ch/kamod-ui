@@ -1,8 +1,8 @@
-import type { JSX } from "preact";
+import type { LabelHTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 import { label as labelStyles } from "../label/Label";
 
-export type FieldLabelProps = JSX.LabelHTMLAttributes<HTMLLabelElement>;
+export type FieldLabelProps = LabelHTMLAttributes<HTMLLabelElement>;
 
 export const FieldLabel = ({ class: className, ...rest }: FieldLabelProps) => (
   <label

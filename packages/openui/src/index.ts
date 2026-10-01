@@ -5,10 +5,10 @@ export type {
   KamodOpenUIRendererProps,
   KamodOpenUISecurityPolicy,
   NavigationPolicy,
-} from "./public";
+} from "./public.js";
 export {
   createKamodOpenUILibrary,
   KAMOD_OPENUI_ADAPTER_VERSION,
   KamodOpenUIRenderer,
   kamodOpenUILibrary,
-} from "./public";
+} from "./public.js";

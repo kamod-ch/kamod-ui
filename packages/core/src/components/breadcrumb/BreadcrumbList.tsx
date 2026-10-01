@@ -1,7 +1,7 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes, JSX } from "preact";
 import { cn } from "../../lib/utils";
 
-export type BreadcrumbListProps = JSX.HTMLAttributes<HTMLOListElement> & {
+export type BreadcrumbListProps = HTMLAttributes<HTMLOListElement> & {
   children?: ComponentChildren;
 };
 
@@ -12,7 +12,7 @@ export const BreadcrumbList = ({ class: className, children, ...rest }: Breadcru
       "text-muted-foreground flex flex-wrap items-center gap-1.5 break-words text-sm",
       className,
     )}
-    {...rest}
+    {...(rest as JSX.IntrinsicElements["ol"])}
   >
     {children}
   </ol>

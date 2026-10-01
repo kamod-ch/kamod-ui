@@ -1,6 +1,6 @@
 /** @file Native section permalinks shared by block headers and documentation. */
 import { LinkIcon } from "@kamod-ch/icons/lucide";
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, MouseEventHandler } from "preact";
 
 /**
  * Reveals a decorative link icon on hover or keyboard focus when the page gutter fits it.
@@ -14,7 +14,7 @@ export const BlockHeadingLink = ({
 }: {
   id: string;
   children: ComponentChildren;
-  onClick?: JSX.MouseEventHandler<HTMLAnchorElement>;
+  onClick?: MouseEventHandler<HTMLAnchorElement>;
 }) => (
   <a class="blocks-doc-heading-link" href={`#${id}`} onClick={onClick}>
     <span class="blocks-doc-heading-icon" aria-hidden="true">

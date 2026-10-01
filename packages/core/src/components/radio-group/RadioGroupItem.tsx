@@ -1,4 +1,4 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, InputHTMLAttributes } from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
 import { cn } from "../../lib/utils";
 import { useRadioGroup } from "./RadioGroup";
@@ -42,7 +42,7 @@ const dotSize = tv({
 type ItemVariants = VariantProps<typeof itemRoot>;
 
 export type RadioGroupItemProps = Omit<
-  JSX.InputHTMLAttributes<HTMLInputElement>,
+  InputHTMLAttributes<HTMLInputElement>,
   "type" | "name" | "class" | "size"
 > &
   ItemVariants & {
@@ -88,7 +88,7 @@ export const RadioGroupItem = ({
               group.controlledValue !== undefined ? group.controlledValue : group.value;
             el.checked = selected === value;
           }}
-          {...rest}
+          {...(rest as Record<string, unknown>)}
         />
         <span
           aria-hidden

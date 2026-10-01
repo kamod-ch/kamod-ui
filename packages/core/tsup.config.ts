@@ -26,7 +26,7 @@ export default defineConfig({
     ...componentEntries,
   },
   format: ["esm"],
-  dts: true,
+  dts: false,
   sourcemap: true,
   clean: true,
   splitting: true,

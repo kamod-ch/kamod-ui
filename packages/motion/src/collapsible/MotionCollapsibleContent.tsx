@@ -1,8 +1,8 @@
 import { useCollapsible } from "@kamod-ch/ui/collapsible";
-import type { JSX } from "preact";
+import type { HTMLAttributes } from "preact";
 import { MotionDisclosureContent } from "../lib/MotionDisclosureContent.js";
 
-export type MotionCollapsibleContentProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type MotionCollapsibleContentProps = HTMLAttributes<HTMLDivElement> & {
   forceMount?: boolean;
 };
 

@@ -1,4 +1,4 @@
-import type { JSX } from "preact";
+import type { HTMLAttributes, JSX } from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
 import { cn } from "../../lib/utils";
 
@@ -13,9 +13,12 @@ export const fieldLegend = tv({
   defaultVariants: { variant: "legend" },
 });
 
-export type FieldLegendProps = JSX.HTMLAttributes<HTMLLegendElement> &
-  VariantProps<typeof fieldLegend>;
+export type FieldLegendProps = HTMLAttributes<HTMLLegendElement> & VariantProps<typeof fieldLegend>;
 
 export const FieldLegend = ({ class: className, variant, ...rest }: FieldLegendProps) => (
-  <legend class={cn(fieldLegend({ variant }), className)} data-slot="field-legend" {...rest} />
+  <legend
+    class={cn(fieldLegend({ variant }), className)}
+    data-slot="field-legend"
+    {...(rest as JSX.IntrinsicElements["legend"])}
+  />
 );

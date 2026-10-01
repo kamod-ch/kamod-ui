@@ -1,9 +1,9 @@
 import { signal } from "@preact/signals";
-import type { ComponentChildren, JSX } from "preact";
+import type { ButtonHTMLAttributes, ComponentChildren } from "preact";
 import { useMemo } from "preact/hooks";
 import { cn } from "../../lib/utils";
 
-export type MenubarCheckboxItemProps = JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
+export type MenubarCheckboxItemProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   children?: ComponentChildren;
   checked?: boolean;
   defaultChecked?: boolean;

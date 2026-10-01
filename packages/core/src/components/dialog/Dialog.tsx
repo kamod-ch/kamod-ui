@@ -1,5 +1,5 @@
 import { type Signal, signal } from "@preact/signals";
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { createContext } from "preact";
 import { useContext, useEffect, useMemo, useRef } from "preact/hooks";
 import { createDismissableLayer } from "../../lib/interactive";
@@ -98,7 +98,7 @@ export const useDialog = () => {
   return context;
 };
 
-export type DialogProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type DialogProps = HTMLAttributes<HTMLDivElement> & {
   defaultOpen?: boolean;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;

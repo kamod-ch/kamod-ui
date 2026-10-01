@@ -1,4 +1,4 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
 import { cn } from "../../lib/utils";
 
@@ -19,7 +19,7 @@ export const kbd = tv({
   },
 });
 
-export type KbdProps = Omit<JSX.HTMLAttributes<HTMLElement>, "size"> &
+export type KbdProps = Omit<HTMLAttributes<HTMLElement>, "size"> &
   VariantProps<typeof kbd> & {
     children?: ComponentChildren;
   };

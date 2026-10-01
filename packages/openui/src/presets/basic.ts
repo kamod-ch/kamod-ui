@@ -1,7 +1,7 @@
-import { createKamodOpenUILibrary } from "../library/createLibrary";
+import { createKamodOpenUILibrary, type KamodOpenUILibrary } from "../library/createLibrary.js";
 
 /** Layout, content, feedback, and basic actions — no forms. */
-export const basicPreset = createKamodOpenUILibrary({
+export const basicPreset: KamodOpenUILibrary = createKamodOpenUILibrary({
   components: {
     form: false,
     field: false,

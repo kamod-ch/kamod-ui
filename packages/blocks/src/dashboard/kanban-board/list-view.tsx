@@ -1,5 +1,5 @@
 import { Badge, Empty, EmptyDescription, EmptyHeader, EmptyTitle } from "@kamod-ch/ui";
-import type { JSX } from "preact";
+import type { TargetedKeyboardEvent } from "preact";
 import type { Assignee, Column } from "./types";
 
 export type ListViewProps = {
@@ -7,7 +7,7 @@ export type ListViewProps = {
   assignees: Assignee[];
   liftedId: string | null;
   onOpenTask: (id: string) => void;
-  onTaskKeyDown: (taskId: string, event: JSX.TargetedKeyboardEvent<HTMLElement>) => void;
+  onTaskKeyDown: (taskId: string, event: TargetedKeyboardEvent<HTMLElement>) => void;
 };
 
 export const ListView = ({

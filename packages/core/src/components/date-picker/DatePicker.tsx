@@ -1,4 +1,4 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { useState } from "preact/hooks";
 import { cn } from "../../lib/utils";
 import { Button } from "../button/Button";
@@ -43,7 +43,7 @@ const ChevronDownGlyph = ({ class: className }: { class?: string }) => (
   </svg>
 );
 
-export type DatePickerProps = Omit<JSX.HTMLAttributes<HTMLDivElement>, "onChange"> & {
+export type DatePickerProps = Omit<HTMLAttributes<HTMLDivElement>, "onChange"> & {
   value?: Date;
   defaultValue?: Date;
   onValueChange?: (next: Date | undefined) => void;

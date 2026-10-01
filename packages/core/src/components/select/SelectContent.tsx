@@ -1,8 +1,8 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 import { useSelect } from "./Select";
 
-export type SelectContentProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type SelectContentProps = HTMLAttributes<HTMLDivElement> & {
   forceMount?: boolean;
   children?: ComponentChildren;
 };

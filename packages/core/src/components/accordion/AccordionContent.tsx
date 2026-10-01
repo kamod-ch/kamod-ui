@@ -1,9 +1,9 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, CSSProperties, HTMLAttributes } from "preact";
 import { useHeightDisclosureContent } from "../../lib/disclosure/use-height-disclosure-content";
 import { cn } from "../../lib/utils";
 import { useAccordionItem } from "./AccordionItem";
 
-export type AccordionContentProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type AccordionContentProps = HTMLAttributes<HTMLDivElement> & {
   forceMount?: boolean;
   /** Grid transition duration, e.g. `400ms` */
   duration?: string;
@@ -42,9 +42,9 @@ export const AccordionContent = ({
 
   if (!allowRender) return null;
 
-  const mergedStyle: JSX.CSSProperties = {
+  const mergedStyle: CSSProperties = {
     ...(typeof style === "object" && style !== null && !Array.isArray(style)
-      ? (style as JSX.CSSProperties)
+      ? (style as CSSProperties)
       : {}),
     ["--kamodui-accordion-duration" as string]: duration,
     ["--kamodui-accordion-timing-function" as string]: timingFunction,

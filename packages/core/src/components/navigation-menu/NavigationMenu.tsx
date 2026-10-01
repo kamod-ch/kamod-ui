@@ -1,5 +1,5 @@
 import { signal } from "@preact/signals";
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes, JSX } from "preact";
 import { useEffect, useMemo, useRef } from "preact/hooks";
 import { createDismissableLayer } from "../../lib/interactive";
 import { cn } from "../../lib/utils";
@@ -8,7 +8,7 @@ import {
   type NavigationMenuRootContextValue,
 } from "./navigation-menu-context";
 
-export type NavigationMenuProps = JSX.HTMLAttributes<HTMLElement> & {
+export type NavigationMenuProps = HTMLAttributes<HTMLElement> & {
   children?: ComponentChildren;
   /** Delay before opening a submenu on hover (ms). */
   delayDuration?: number;
@@ -106,7 +106,7 @@ export const NavigationMenu = ({
         aria-label="Main"
         dir={dir}
         class={cn("relative z-10 flex max-w-max flex-1 items-center justify-center", className)}
-        {...rest}
+        {...(rest as JSX.IntrinsicElements["nav"])}
       >
         {children}
       </nav>

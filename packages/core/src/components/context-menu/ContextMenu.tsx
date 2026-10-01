@@ -1,5 +1,5 @@
 import { signal } from "@preact/signals";
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { createContext } from "preact";
 import { useContext, useEffect, useMemo, useRef } from "preact/hooks";
 import { cn } from "../../lib/utils";
@@ -22,7 +22,7 @@ export const useContextMenu = () => {
   return ctx;
 };
 
-export type ContextMenuProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type ContextMenuProps = HTMLAttributes<HTMLDivElement> & {
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;

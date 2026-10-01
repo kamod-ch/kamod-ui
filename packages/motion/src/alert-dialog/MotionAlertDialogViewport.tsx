@@ -1,8 +1,8 @@
 import { dialogViewportBleedClass } from "@kamod-ch/ui/dialog";
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { cn } from "../lib/cn.js";
 
-export type MotionAlertDialogViewportProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type MotionAlertDialogViewportProps = HTMLAttributes<HTMLDivElement> & {
   children?: ComponentChildren;
 };
 

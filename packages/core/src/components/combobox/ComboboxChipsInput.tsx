@@ -1,9 +1,9 @@
-import type { JSX } from "preact";
+import type { InputHTMLAttributes, JSX } from "preact";
 import { cn } from "../../lib/utils";
 import { usePopover } from "../popover/Popover";
 import { useCombobox } from "./combobox-context";
 
-export type ComboboxChipsInputProps = JSX.InputHTMLAttributes<HTMLInputElement>;
+export type ComboboxChipsInputProps = InputHTMLAttributes<HTMLInputElement>;
 
 /** Filter field at the end of the chip row; requires `Combobox liftedFilter`. */
 export const ComboboxChipsInput = ({
@@ -24,7 +24,7 @@ export const ComboboxChipsInput = ({
 
   return (
     <input
-      {...rest}
+      {...(rest as JSX.IntrinsicElements["input"])}
       data-slot="combobox-chips-input"
       class={cn(
         "placeholder:text-muted-foreground min-w-[6rem] flex-1 border-0 bg-transparent px-1 py-1 text-sm outline-none",

@@ -1,8 +1,8 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 import { Table } from "../table/Table";
 
-export type DataTableProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type DataTableProps = HTMLAttributes<HTMLDivElement> & {
   children?: ComponentChildren;
   /**
    * When true (default), wraps the table in `overflow-hidden rounded-md border` like shadcn data tables.

@@ -1,4 +1,4 @@
-import type { JSX } from "preact";
+import type { HTMLAttributes } from "preact";
 import { useId, useState } from "preact/hooks";
 import { cn } from "../../lib/utils";
 import { Field, FieldGroup, FieldLabel } from "../field";
@@ -22,7 +22,7 @@ const ClockGlyph = ({ class: className }: { class?: string }) => (
   </svg>
 );
 
-export type CalendarDateTimePanelProps = Omit<JSX.HTMLAttributes<HTMLDivElement>, "onSelect"> &
+export type CalendarDateTimePanelProps = Omit<HTMLAttributes<HTMLDivElement>, "onSelect"> &
   Pick<
     CalendarProps,
     | "defaultMonth"

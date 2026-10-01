@@ -1,4 +1,4 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { useMemo, useState } from "preact/hooks";
 import { cn } from "../../lib/utils";
 import { Button } from "../button/Button";
@@ -133,7 +133,7 @@ const ChevronRight = ({ class: className }: { class?: string }) => (
   </svg>
 );
 
-export type CalendarProps = Omit<JSX.HTMLAttributes<HTMLDivElement>, "onSelect"> & {
+export type CalendarProps = Omit<HTMLAttributes<HTMLDivElement>, "onSelect"> & {
   mode?: CalendarMode;
   selected?: Date | DateRange;
   onSelect?: (value: Date | DateRange | undefined) => void;

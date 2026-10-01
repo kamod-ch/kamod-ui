@@ -1,8 +1,8 @@
-import type { JSX } from "preact";
+import type { HTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 import "./progress-indeterminate-styles";
 
-export type ProgressProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type ProgressProps = HTMLAttributes<HTMLDivElement> & {
   /** Set to `null` for an indeterminate bar (Radix-style). Ignored when `indeterminate` is true. */
   value?: number | null;
   max?: number;

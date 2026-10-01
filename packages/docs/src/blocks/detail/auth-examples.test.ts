@@ -1,7 +1,7 @@
 /** Verify the displayed examples as consumers of the documented copied folder structure. */
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
-import ts from "typescript";
+import ts from "@typescript/typescript6";
 import { expect, it } from "vitest";
 import { blockCategories } from "../block-categories";
 import { createVariantGuide } from "./VariantDocumentation";

@@ -23,13 +23,13 @@ import {
   tabsComponent,
   textareaComponent,
   textComponent,
-} from "../components";
+} from "../components/index.js";
 import {
   type KamodOpenUISecurityPolicy,
   type ResolvedSecurityPolicy,
   resolveSecurityPolicy,
-} from "../security/limits";
-import type { NavigationPolicy } from "../security/navigation";
+} from "../security/limits.js";
+import type { NavigationPolicy } from "../security/navigation.js";
 
 export type KamodOpenUIComponentKey =
   | "stack"

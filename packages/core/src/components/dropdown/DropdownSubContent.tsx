@@ -1,8 +1,8 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 import { useDropdownSub } from "./dropdown-sub-context";
 
-export type DropdownSubContentProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type DropdownSubContentProps = HTMLAttributes<HTMLDivElement> & {
   children?: ComponentChildren;
   /** `inline-end` (default): opens toward inline end (right in LTR). `inline-start`: toward inline start (left in LTR) — use near the viewport edge to avoid horizontal page scroll. */
   side?: "inline-end" | "inline-start";

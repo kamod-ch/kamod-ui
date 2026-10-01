@@ -1,7 +1,7 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 
-export type TableCellProps = JSX.HTMLAttributes<HTMLTableCellElement> & {
+export type TableCellProps = HTMLAttributes<HTMLTableCellElement> & {
   children?: ComponentChildren;
   /** @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td#attr-colspan */
   colSpan?: number;

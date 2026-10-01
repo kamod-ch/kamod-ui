@@ -1,4 +1,4 @@
-import type { JSX } from "preact";
+import type { TargetedKeyboardEvent } from "preact";
 import { useMemo, useState } from "preact/hooks";
 import { useControllableState } from "../../shared";
 import { announceMove, filterColumns, findTask, kanbanReducer } from "./kanban-machine";
@@ -128,7 +128,7 @@ export const useKanban = ({
     }
   };
 
-  const onTaskKeyDown = (taskId: string, event: JSX.TargetedKeyboardEvent<HTMLElement>) => {
+  const onTaskKeyDown = (taskId: string, event: TargetedKeyboardEvent<HTMLElement>) => {
     if (readOnly) return;
     if ((event.key === " " || event.key === "Enter") && !dragging) {
       event.preventDefault();

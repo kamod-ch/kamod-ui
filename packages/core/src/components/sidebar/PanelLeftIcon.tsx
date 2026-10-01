@@ -1,7 +1,7 @@
-import type { JSX } from "preact";
+import type { SVGAttributes } from "preact";
 
 /** Inline panel icon so @kamod-ch/ui stays free of lucide as a hard dependency. */
-export const PanelLeftIcon = (props: JSX.SVGAttributes<SVGSVGElement>) => (
+export const PanelLeftIcon = (props: SVGAttributes<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="24"

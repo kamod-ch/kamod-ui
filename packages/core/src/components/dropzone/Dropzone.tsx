@@ -1,8 +1,8 @@
 import { signal } from "@preact/signals";
-import type { ComponentChildren, JSX, TargetedDragEvent } from "preact";
+import type { ComponentChildren, HTMLAttributes, TargetedDragEvent } from "preact";
 import { cn } from "../../lib/utils";
 
-export type DropzoneProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type DropzoneProps = HTMLAttributes<HTMLDivElement> & {
   accept?: string;
   multiple?: boolean;
   onFilesChange?: (files: File[]) => void;

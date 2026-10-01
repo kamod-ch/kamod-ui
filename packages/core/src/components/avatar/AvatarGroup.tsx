@@ -1,10 +1,10 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { Fragment, isValidElement, toChildArray } from "preact";
 import { cn } from "../../lib/utils";
 import { Avatar } from "./Avatar";
 import { AvatarGroupCount } from "./AvatarGroupCount";
 
-export type AvatarGroupProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type AvatarGroupProps = HTMLAttributes<HTMLDivElement> & {
   children?: ComponentChildren;
 };
 

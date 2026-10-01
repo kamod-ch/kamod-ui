@@ -77,7 +77,7 @@ export default defineConfig({
     "src/marketing/testimonials-01/index.ts",
   ],
   format: ["esm"],
-  dts: true,
+  dts: false,
   sourcemap: true,
   clean: true,
   // Keep preview images portable when the built package is imported from any page URL.

@@ -10,7 +10,7 @@ export default defineConfig({
     "examples/fixtures": "src/examples/fixtures.ts",
   },
   format: ["esm"],
-  dts: true,
+  dts: false,
   sourcemap: true,
   clean: true,
   splitting: true,

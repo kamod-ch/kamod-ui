@@ -1,4 +1,11 @@
-import { type ComponentChildren, cloneElement, isValidElement, type JSX } from "preact";
+import {
+  type AnchorHTMLAttributes,
+  type ButtonHTMLAttributes,
+  type ComponentChildren,
+  cloneElement,
+  type HTMLAttributes,
+  isValidElement,
+} from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
 import { cn } from "../../lib/utils";
 
@@ -47,12 +54,12 @@ type CommonProps = VariantProps<typeof button> & {
 };
 
 type ButtonAsButton = CommonProps &
-  JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
+  ButtonHTMLAttributes<HTMLButtonElement> & {
     href?: undefined;
   };
 
 type ButtonAsAnchor = CommonProps &
-  JSX.AnchorHTMLAttributes<HTMLAnchorElement> & {
+  AnchorHTMLAttributes<HTMLAnchorElement> & {
     href: string;
   };
 
@@ -86,14 +93,14 @@ export const Button = ({
       return null;
     }
 
-    const childProps = (children.props ?? {}) as JSX.HTMLAttributes<HTMLElement> & {
+    const childProps = (children.props ?? {}) as HTMLAttributes<HTMLElement> & {
       class?: string;
       className?: string;
     };
 
     return cloneElement(children, {
       ...childProps,
-      ...(rest as JSX.HTMLAttributes<HTMLElement>),
+      ...(rest as HTMLAttributes<HTMLElement>),
       class: cn(variantClasses, childProps.class, childProps.className, className),
       "data-slot": "button",
       "data-variant": resolvedVariant,
@@ -108,7 +115,7 @@ export const Button = ({
         data-slot="button"
         data-variant={resolvedVariant}
         data-size={resolvedSize}
-        {...rest}
+        {...(rest as Record<string, unknown>)}
       >
         {children}
       </a>
@@ -121,7 +128,7 @@ export const Button = ({
       data-slot="button"
       data-variant={resolvedVariant}
       data-size={resolvedSize}
-      {...rest}
+      {...(rest as Record<string, unknown>)}
     >
       {children}
     </button>

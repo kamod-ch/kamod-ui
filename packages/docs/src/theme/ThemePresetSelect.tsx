@@ -1,10 +1,10 @@
 import { isThemePresetId, setThemePreset, THEME_PRESETS } from "@kamod-ch/themes";
-import type { JSX } from "preact";
+import type { HTMLAttributes } from "preact";
 import { useId, useLayoutEffect, useRef } from "preact/hooks";
 
 import { useSiteThemePreset } from "./useSiteThemePreset";
 
-export type ThemePresetSelectProps = Omit<JSX.HTMLAttributes<HTMLLabelElement>, "onInput"> & {
+export type ThemePresetSelectProps = Omit<HTMLAttributes<HTMLLabelElement>, "onInput"> & {
   selectClass?: string;
 };
 
@@ -24,7 +24,7 @@ export const ThemePresetSelect = ({
   }, [preset]);
 
   return (
-    <label class={className} {...rest}>
+    <label class={className} {...(rest as Record<string, unknown>)}>
       <span class="sr-only" id={`${selectId}-label`}>
         Color theme preset
       </span>

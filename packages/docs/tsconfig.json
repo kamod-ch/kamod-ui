@@ -1,9 +1,8 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "types": ["vite/client", "vitest", "@testing-library/jest-dom"],
+    "types": ["vite/client", "vitest/globals", "@testing-library/jest-dom/vitest"],
     "noEmit": true,
-    "baseUrl": ".",
     "paths": {
       "@kamod-ch/ui": ["../core/src/index.ts"],
       "@kamod-ch/blocks/application-shell": ["../blocks/src/application-shell/index.ts"],

@@ -1,8 +1,8 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 import { PopoverTrigger } from "../popover/PopoverTrigger";
 
-export type ComboboxChipsProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type ComboboxChipsProps = HTMLAttributes<HTMLDivElement> & {
   children?: ComponentChildren;
 };
 

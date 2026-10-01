@@ -1,7 +1,7 @@
-import type { JSX } from "preact";
+import type { HTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 
-export type SelectSeparatorProps = JSX.HTMLAttributes<HTMLDivElement>;
+export type SelectSeparatorProps = HTMLAttributes<HTMLDivElement>;
 
 export const SelectSeparator = ({ class: className, ...rest }: SelectSeparatorProps) => (
   <div

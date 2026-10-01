@@ -1,6 +1,6 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 
-export type SheetFooterProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type SheetFooterProps = HTMLAttributes<HTMLDivElement> & {
   children?: ComponentChildren;
 };
 

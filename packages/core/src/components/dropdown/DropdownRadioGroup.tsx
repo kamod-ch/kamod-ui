@@ -1,7 +1,7 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { DropdownRadioProvider, useDropdownRadioRoot } from "./dropdown-radio-context";
 
-export type DropdownRadioGroupProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type DropdownRadioGroupProps = HTMLAttributes<HTMLDivElement> & {
   value?: string;
   defaultValue?: string;
   onValueChange?: (value: string) => void;

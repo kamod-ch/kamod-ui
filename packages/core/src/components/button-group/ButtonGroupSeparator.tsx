@@ -1,7 +1,7 @@
-import type { JSX } from "preact";
+import type { HTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 
-export type ButtonGroupSeparatorProps = JSX.HTMLAttributes<HTMLSpanElement> & {
+export type ButtonGroupSeparatorProps = HTMLAttributes<HTMLSpanElement> & {
   orientation?: "horizontal" | "vertical";
 };
 

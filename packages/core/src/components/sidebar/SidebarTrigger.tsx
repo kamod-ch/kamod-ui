@@ -1,10 +1,10 @@
-import type { JSX } from "preact";
+import type { ButtonHTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 import { Button } from "../button/Button";
 import { PanelLeftIcon } from "./PanelLeftIcon";
 import { useSidebar } from "./SidebarProvider";
 
-export type SidebarTriggerProps = Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, "size"> & {
+export type SidebarTriggerProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "size"> & {
   class?: string;
 };
 

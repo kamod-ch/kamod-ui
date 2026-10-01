@@ -1,5 +1,5 @@
 import { Button, Field, Textarea } from "@kamod-ch/ui";
-import type { JSX } from "preact";
+import type { TargetedEvent } from "preact";
 import { useState } from "preact/hooks";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
@@ -27,7 +27,7 @@ const TextareaCounterPreview = () => {
 const TextareaAutosizePreview = () => {
   const [value, setValue] = useState("");
 
-  const handleInput = (event: JSX.TargetedEvent<HTMLTextAreaElement, Event>) => {
+  const handleInput = (event: TargetedEvent<HTMLTextAreaElement, Event>) => {
     const element = event.currentTarget;
     element.style.height = "auto";
     element.style.height = `${Math.min(element.scrollHeight, 240)}px`;
@@ -215,13 +215,13 @@ export const Example = () => {
       text: "Auto-grow textarea height on input for longer, distraction-free writing.",
       code: `import { Field } from "@/components/kamod-ui/field"
 import { Textarea } from "@/components/kamod-ui/textarea";
-import type { JSX } from "preact";
+import type { TargetedEvent } from "preact";
 import { useState } from "preact/hooks";
 
 export const Example = () => {
   const [value, setValue] = useState("");
 
-  const handleInput = (event: JSX.TargetedEvent<HTMLTextAreaElement, Event>) => {
+  const handleInput = (event: TargetedEvent<HTMLTextAreaElement, Event>) => {
     const element = event.currentTarget;
     element.style.height = "auto";
     element.style.height = \`\${Math.min(element.scrollHeight, 240)}px\`;

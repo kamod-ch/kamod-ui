@@ -1,11 +1,11 @@
 import { SearchIcon } from "@kamod-ch/icons/lucide";
 import { Label, SidebarGroup, SidebarGroupContent, SidebarInput } from "@kamod-ch/ui";
-import type { JSX } from "preact";
+import type { HTMLAttributes } from "preact";
 
-export type SearchFormProps = JSX.HTMLAttributes<HTMLFormElement>;
+export type SearchFormProps = HTMLAttributes<HTMLFormElement>;
 
 export const SearchForm = (props: SearchFormProps) => (
-  <form {...props}>
+  <form {...(props as Record<string, unknown>)}>
     <SidebarGroup class="py-0">
       <SidebarGroupContent class="relative">
         <Label htmlFor="sidebar-search" class="sr-only">

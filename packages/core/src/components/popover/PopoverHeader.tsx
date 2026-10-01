@@ -1,10 +1,10 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { tv } from "tailwind-variants";
 import { cn } from "../../lib/utils";
 
 export const popoverHeader = tv({ base: "flex flex-col gap-1.5" });
 
-export type PopoverHeaderProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type PopoverHeaderProps = HTMLAttributes<HTMLDivElement> & {
   children?: ComponentChildren;
 };
 

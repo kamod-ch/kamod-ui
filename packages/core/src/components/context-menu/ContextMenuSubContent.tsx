@@ -1,8 +1,8 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 import { useContextMenuSub } from "./context-menu-sub-context";
 
-export type ContextMenuSubContentProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type ContextMenuSubContentProps = HTMLAttributes<HTMLDivElement> & {
   children?: ComponentChildren;
 };
 

@@ -1,8 +1,8 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 import { useSelect } from "./Select";
 
-export type SelectValueProps = JSX.HTMLAttributes<HTMLSpanElement> & {
+export type SelectValueProps = HTMLAttributes<HTMLSpanElement> & {
   placeholder?: string;
   children?: ComponentChildren;
 };

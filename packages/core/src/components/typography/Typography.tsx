@@ -1,4 +1,4 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes, JSX } from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
 import { cn } from "../../lib/utils";
 
@@ -30,9 +30,7 @@ export const typography = tv({
 
 export type TypographyVariants = VariantProps<typeof typography>;
 
-export type TypographyProps = JSX.HTMLAttributes<
-  HTMLElementTagNameMap[keyof HTMLElementTagNameMap]
-> &
+export type TypographyProps = HTMLAttributes<HTMLElementTagNameMap[keyof HTMLElementTagNameMap]> &
   TypographyVariants & {
     as?: keyof HTMLElementTagNameMap;
     children?: ComponentChildren;

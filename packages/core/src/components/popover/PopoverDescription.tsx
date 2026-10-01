@@ -1,10 +1,10 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { tv } from "tailwind-variants";
 import { cn } from "../../lib/utils";
 
 export const popoverDescription = tv({ base: "text-muted-foreground text-sm" });
 
-export type PopoverDescriptionProps = JSX.HTMLAttributes<HTMLParagraphElement> & {
+export type PopoverDescriptionProps = HTMLAttributes<HTMLParagraphElement> & {
   children?: ComponentChildren;
 };
 

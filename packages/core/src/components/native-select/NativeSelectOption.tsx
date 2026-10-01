@@ -1,6 +1,6 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, OptionHTMLAttributes } from "preact";
 
-export type NativeSelectOptionProps = JSX.OptionHTMLAttributes<HTMLOptionElement> & {
+export type NativeSelectOptionProps = OptionHTMLAttributes<HTMLOptionElement> & {
   children?: ComponentChildren;
 };
 

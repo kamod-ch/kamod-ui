@@ -1,8 +1,8 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 import { type FieldRootVariants, fieldRoot } from "./field-variants";
 
-export type FieldProps = JSX.HTMLAttributes<HTMLDivElement> &
+export type FieldProps = HTMLAttributes<HTMLDivElement> &
   FieldRootVariants & {
     /** Legacy: label text/node (composition: use FieldLabel instead). */
     label?: ComponentChildren;

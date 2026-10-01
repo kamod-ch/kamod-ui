@@ -1,4 +1,4 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ButtonHTMLAttributes, ComponentChildren } from "preact";
 import { cn } from "../../lib/utils";
 import { useDropdownSub } from "./dropdown-sub-context";
 
@@ -20,7 +20,7 @@ const ChevronRight = ({ class: className }: { class?: string }) => (
   </svg>
 );
 
-export type DropdownSubTriggerProps = JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
+export type DropdownSubTriggerProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   children?: ComponentChildren;
 };
 

@@ -1,6 +1,6 @@
 {
   "name": "@kamod-ch/themes",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Reusable Kamod UI theme tokens, brand presets, and Preact theme runtime.",
   "keywords": [
     "design-system",
@@ -55,7 +55,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "tsup && cp src/*.css dist/ && mkdir -p dist/brands && cp src/brands/*.css dist/brands/.",
+    "build": "tsup && tsc --emitDeclarationOnly --declaration --declarationMap false && cp src/*.css dist/ && mkdir -p dist/brands && cp src/brands/*.css dist/brands/.",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
@@ -65,19 +65,19 @@
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.5",
-    "@preact/signals": "^2.11.1",
+    "@preact/signals": "^2.11.3",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/preact": "^3.2.4",
-    "@types/node": "^26.4.1",
-    "jsdom": "^30.0.1",
+    "@types/node": "^26.6.3",
+    "jsdom": "^30.1.1",
     "publint": "^0.3.24",
     "tailwindcss": "^4.3.3",
     "tsup": "^8.5.1",
-    "vitest": "^4.1.11"
+    "vitest": "^5.0.2"
   },
   "peerDependencies": {
-    "@preact/signals": "^2.11.1",
-    "preact": "^10.29.8"
+    "@preact/signals": "^2.11.3",
+    "preact": "^11.0.0"
   },
   "engines": {
     "node": ">=20"

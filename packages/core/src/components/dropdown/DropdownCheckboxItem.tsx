@@ -1,10 +1,10 @@
 import { signal } from "@preact/signals";
-import type { ComponentChildren, JSX } from "preact";
+import type { ButtonHTMLAttributes, ComponentChildren } from "preact";
 import { useEffect, useMemo } from "preact/hooks";
 import { cn } from "../../lib/utils";
 
 export type DropdownCheckboxItemProps = Omit<
-  JSX.ButtonHTMLAttributes<HTMLButtonElement>,
+  ButtonHTMLAttributes<HTMLButtonElement>,
   "children"
 > & {
   checked?: boolean;

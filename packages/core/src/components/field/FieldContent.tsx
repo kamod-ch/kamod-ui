@@ -1,7 +1,7 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 
-export type FieldContentProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type FieldContentProps = HTMLAttributes<HTMLDivElement> & {
   children?: ComponentChildren;
 };
 

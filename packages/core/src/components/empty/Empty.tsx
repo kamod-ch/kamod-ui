@@ -1,8 +1,8 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 import { emptyRoot } from "./empty-variants";
 
-export type EmptyProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type EmptyProps = HTMLAttributes<HTMLDivElement> & {
   /** Legacy: render title inside dashed card (use EmptyTitle when composing). */
   title?: ComponentChildren;
   /** Legacy: description line. */

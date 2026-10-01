@@ -1,4 +1,4 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { useMemo } from "preact/hooks";
 import { createIdFactory } from "../../lib/interactive";
 import { cn } from "../../lib/utils";
@@ -6,7 +6,7 @@ import { MenubarMenuContext } from "./menubar-context";
 
 const nextMenuId = createIdFactory("menubar-menu");
 
-export type MenubarMenuProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type MenubarMenuProps = HTMLAttributes<HTMLDivElement> & {
   children?: ComponentChildren;
   /** Optional stable id; auto-generated when omitted. */
   value?: string;

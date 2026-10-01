@@ -1,4 +1,9 @@
-import type { ComponentChildren, JSX } from "preact";
+import type {
+  ButtonHTMLAttributes,
+  ComponentChildren,
+  TargetedMouseEvent,
+  TargetedPointerEvent,
+} from "preact";
 import { cn } from "../../lib/utils";
 import { useNavigationMenuItemCtx, useNavigationMenuRoot } from "./navigation-menu-context";
 import { navigationMenuTriggerStyle } from "./navigationMenuTriggerStyle";
@@ -24,7 +29,7 @@ const ChevronDownIcon = ({ class: className }: { class?: string }) => (
   </svg>
 );
 
-export type NavigationMenuTriggerProps = JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
+export type NavigationMenuTriggerProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   children?: ComponentChildren;
 };
 
@@ -40,19 +45,19 @@ export const NavigationMenuTrigger = ({
   const { value } = useNavigationMenuItemCtx();
   const open = root.openValue.value === value;
 
-  const handlePointerEnter = (e: JSX.TargetedPointerEvent<HTMLButtonElement>) => {
+  const handlePointerEnter = (e: TargetedPointerEvent<HTMLButtonElement>) => {
     onPointerEnter?.(e);
     if (e.defaultPrevented) return;
     root.requestOpen(value);
   };
 
-  const handlePointerLeave = (e: JSX.TargetedPointerEvent<HTMLButtonElement>) => {
+  const handlePointerLeave = (e: TargetedPointerEvent<HTMLButtonElement>) => {
     onPointerLeave?.(e);
     if (e.defaultPrevented) return;
     root.requestClose();
   };
 
-  const handleClick = (e: JSX.TargetedMouseEvent<HTMLButtonElement>) => {
+  const handleClick = (e: TargetedMouseEvent<HTMLButtonElement>) => {
     onClick?.(e);
     if (e.defaultPrevented) return;
     root.toggleItem(value);

@@ -1,8 +1,8 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ButtonHTMLAttributes, ComponentChildren } from "preact";
 import { cn } from "../../lib/utils";
 import { useMenubarMenu, useMenubarRoot } from "./menubar-context";
 
-export type MenubarTriggerProps = JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
+export type MenubarTriggerProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   children?: ComponentChildren;
 };
 

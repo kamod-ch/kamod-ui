@@ -1,5 +1,5 @@
 import { signal } from "@preact/signals";
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { createContext } from "preact";
 import { useContext, useMemo } from "preact/hooks";
 
@@ -16,7 +16,7 @@ export const useCollapsible = () => {
   return context;
 };
 
-export type CollapsibleProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type CollapsibleProps = HTMLAttributes<HTMLDivElement> & {
   /** Uncontrolled initial state */
   defaultOpen?: boolean;
   /** Controlled open state */

@@ -1,4 +1,4 @@
-import type { JSX } from "preact";
+import type { CSSProperties } from "preact";
 import type { SidebarWidthVars } from "./types";
 
 export const sidebar05WidthVars: SidebarWidthVars = {
@@ -6,5 +6,5 @@ export const sidebar05WidthVars: SidebarWidthVars = {
   "--sidebar-width-icon": "3.5rem",
 };
 
-export const toSidebarProviderStyle = (vars: Partial<SidebarWidthVars>): JSX.CSSProperties =>
-  vars as JSX.CSSProperties;
+export const toSidebarProviderStyle = (vars: Partial<SidebarWidthVars>): CSSProperties =>
+  vars as CSSProperties;

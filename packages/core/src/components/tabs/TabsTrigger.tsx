@@ -1,8 +1,8 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ButtonHTMLAttributes, ComponentChildren } from "preact";
 import { cn } from "../../lib/utils";
 import { useTabs } from "./Tabs";
 
-export type TabsTriggerProps = JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
+export type TabsTriggerProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   value: string;
   children?: ComponentChildren;
 };

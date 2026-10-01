@@ -1,13 +1,10 @@
-import type { JSX } from "preact";
+import type { ButtonHTMLAttributes } from "preact";
 import { useState } from "preact/hooks";
 import { cn } from "../../lib/utils";
 import { Button } from "../button/Button";
 import { useCarousel } from "./Carousel";
 
-export type CarouselAutoplayPauseProps = Omit<
-  JSX.ButtonHTMLAttributes<HTMLButtonElement>,
-  "size"
-> & {
+export type CarouselAutoplayPauseProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "size"> & {
   class?: string;
 };
 

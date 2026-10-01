@@ -7,7 +7,7 @@ export default defineConfig({
     generator: "src/generator.ts",
   },
   format: ["esm"],
-  dts: true,
+  dts: false,
   sourcemap: true,
   clean: true,
   splitting: true,

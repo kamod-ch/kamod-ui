@@ -1,4 +1,4 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes, JSX } from "preact";
 import { useLayoutEffect, useMemo } from "preact/hooks";
 import { createIdFactory } from "../../lib/interactive";
 import { cn } from "../../lib/utils";
@@ -6,7 +6,7 @@ import { useDialog } from "./Dialog";
 
 const nextTitleId = createIdFactory("dialog-title");
 
-export type DialogTitleProps = JSX.HTMLAttributes<HTMLHeadingElement> & {
+export type DialogTitleProps = HTMLAttributes<HTMLHeadingElement> & {
   children?: ComponentChildren;
 };
 
@@ -36,7 +36,7 @@ export const DialogTitle = ({
       data-slot="dialog-title"
       id={id}
       class={cn("text-lg leading-none font-semibold tracking-tight", className)}
-      {...rest}
+      {...(rest as JSX.IntrinsicElements["h2"])}
     >
       {children}
     </h2>

@@ -1,8 +1,8 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ButtonHTMLAttributes, ComponentChildren } from "preact";
 import { cn } from "../../lib/utils";
 import { useContextMenuRadio } from "./context-menu-radio-context";
 
-export type ContextMenuRadioItemProps = JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
+export type ContextMenuRadioItemProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   value: string;
   children?: ComponentChildren;
 };

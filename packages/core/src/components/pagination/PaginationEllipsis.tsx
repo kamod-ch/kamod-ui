@@ -1,8 +1,8 @@
-import type { JSX } from "preact";
+import type { HTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 import { PaginationMoreHorizontal } from "./pagination-icons";
 
-export type PaginationEllipsisProps = JSX.HTMLAttributes<HTMLSpanElement>;
+export type PaginationEllipsisProps = HTMLAttributes<HTMLSpanElement>;
 
 export const PaginationEllipsis = ({ class: className, ...rest }: PaginationEllipsisProps) => (
   <span

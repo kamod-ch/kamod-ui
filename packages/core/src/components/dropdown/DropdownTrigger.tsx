@@ -1,4 +1,11 @@
-import { type ComponentChildren, cloneElement, isValidElement, type JSX } from "preact";
+import {
+  type ButtonHTMLAttributes,
+  type ComponentChildren,
+  cloneElement,
+  type HTMLAttributes,
+  isValidElement,
+  type TargetedMouseEvent,
+} from "preact";
 import { tv } from "tailwind-variants";
 import { cn } from "../../lib/utils";
 import { useDropdown } from "./Dropdown";
@@ -13,7 +20,7 @@ const dropdownTrigger = tv({
   ],
 });
 
-export type DropdownTriggerProps = JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
+export type DropdownTriggerProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   asChild?: boolean;
   children?: ComponentChildren;
 };
@@ -36,8 +43,8 @@ export const DropdownTrigger = ({
 }: DropdownTriggerProps) => {
   const dropdown = useDropdown();
 
-  const handleClick = (event: JSX.TargetedMouseEvent<HTMLElement>) => {
-    onClick?.(event as JSX.TargetedMouseEvent<HTMLButtonElement>);
+  const handleClick = (event: TargetedMouseEvent<HTMLElement>) => {
+    onClick?.(event as TargetedMouseEvent<HTMLButtonElement>);
     if (event.defaultPrevented) return;
     dropdown.setOpen(!dropdown.open.value);
   };
@@ -47,9 +54,9 @@ export const DropdownTrigger = ({
       return null;
     }
 
-    const childProps = (children.props ?? {}) as JSX.HTMLAttributes<HTMLElement> & {
+    const childProps = (children.props ?? {}) as HTMLAttributes<HTMLElement> & {
       ref?: unknown;
-      onClick?: (event: JSX.TargetedMouseEvent<HTMLElement>) => void;
+      onClick?: (event: TargetedMouseEvent<HTMLElement>) => void;
     };
 
     return cloneElement(children, {
@@ -61,7 +68,7 @@ export const DropdownTrigger = ({
       "aria-expanded": dropdown.open.value,
       "data-slot": "dropdown-trigger",
       "data-state": dropdown.open.value ? "open" : "closed",
-      onClick: (event: JSX.TargetedMouseEvent<HTMLElement>) => {
+      onClick: (event: TargetedMouseEvent<HTMLElement>) => {
         childProps.onClick?.(event);
         handleClick(event);
       },
@@ -87,7 +94,7 @@ export const DropdownTrigger = ({
       aria-controls={dropdown.contentId}
       aria-haspopup="menu"
       aria-expanded={dropdown.open.value}
-      onClick={(event) => handleClick(event as unknown as JSX.TargetedMouseEvent<HTMLElement>)}
+      onClick={(event) => handleClick(event as unknown as TargetedMouseEvent<HTMLElement>)}
       {...rest}
     >
       {children}

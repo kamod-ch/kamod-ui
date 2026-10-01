@@ -1,7 +1,7 @@
 import { Motion } from "@kamod-ch/motion/motion";
 import { dialogViewportBleedClass, useDialog } from "@kamod-ch/ui/dialog";
 import { isPointerWithinModalDialogPanelSlop } from "@kamod-ch/ui/lib/interactive";
-import type { JSX } from "preact";
+import type { TargetedPointerEvent } from "preact";
 import { cn } from "../lib/cn.js";
 import { fade } from "../lib/presets.js";
 
@@ -21,7 +21,7 @@ export function MotionDialogOverlay({ class: className }: MotionDialogOverlayPro
       animate={fade.animate}
       exit={fade.exit}
       transition={fade.transition}
-      onPointerDown={(event: JSX.TargetedPointerEvent<HTMLDivElement>) => {
+      onPointerDown={(event: TargetedPointerEvent<HTMLDivElement>) => {
         if (event.target !== event.currentTarget) return;
         if (isPointerWithinModalDialogPanelSlop(event)) return;
         dialog.setOpen(false);

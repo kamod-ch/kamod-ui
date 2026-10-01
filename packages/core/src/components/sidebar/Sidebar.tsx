@@ -1,9 +1,9 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "../sheet";
 import { SIDEBAR_WIDTH_MOBILE, useSidebar } from "./SidebarProvider";
 
-export type SidebarProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type SidebarProps = HTMLAttributes<HTMLDivElement> & {
   side?: "left" | "right";
   variant?: "sidebar" | "floating" | "inset";
   collapsible?: "offcanvas" | "icon" | "none";

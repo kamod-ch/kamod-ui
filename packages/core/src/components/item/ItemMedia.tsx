@@ -1,4 +1,4 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
 import { cn } from "../../lib/utils";
 
@@ -20,7 +20,7 @@ export const itemMedia = tv({
   },
 });
 
-export type ItemMediaProps = JSX.HTMLAttributes<HTMLDivElement> &
+export type ItemMediaProps = HTMLAttributes<HTMLDivElement> &
   VariantProps<typeof itemMedia> & {
     children?: ComponentChildren;
   };

@@ -11,7 +11,7 @@ export default defineConfig({
     "tabs/index": "src/tabs/index.ts",
   },
   format: ["esm"],
-  dts: true,
+  dts: false,
   sourcemap: true,
   clean: true,
   splitting: true,

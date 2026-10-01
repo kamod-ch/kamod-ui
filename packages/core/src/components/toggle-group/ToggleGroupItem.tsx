@@ -1,4 +1,4 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ButtonHTMLAttributes, ComponentChildren } from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
 import { cn } from "../../lib/utils";
 import { useToggleGroup } from "./ToggleGroup";
@@ -35,7 +35,7 @@ const toggleGroupItem = tv({
 
 type ToggleGroupItemVariants = VariantProps<typeof toggleGroupItem>;
 
-export type ToggleGroupItemProps = Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, "class"> &
+export type ToggleGroupItemProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "class"> &
   ToggleGroupItemVariants & {
     class?: string;
     value: string;

@@ -1,9 +1,9 @@
-import type { JSX } from "preact";
+import type { ImgHTMLAttributes } from "preact";
 import { useEffect } from "preact/hooks";
 import { cn } from "../../lib/utils";
 import { useAvatarContext } from "./context";
 
-export type AvatarImageProps = JSX.ImgHTMLAttributes<HTMLImageElement>;
+export type AvatarImageProps = ImgHTMLAttributes<HTMLImageElement>;
 
 export const AvatarImage = ({
   class: className,
@@ -26,7 +26,7 @@ export const AvatarImage = ({
     <img
       data-slot="avatar-image"
       src={src}
-      alt={alt}
+      alt={alt as string}
       class={cn(
         "absolute inset-0 z-10 size-full object-cover",
         showFallback && "invisible",
@@ -40,7 +40,7 @@ export const AvatarImage = ({
         onError?.(e);
         notifyError();
       }}
-      {...rest}
+      {...(rest as Record<string, unknown>)}
     />
   );
 };

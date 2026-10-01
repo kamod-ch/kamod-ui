@@ -1,4 +1,4 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { toChildArray } from "preact";
 import {
   TreeExpander,
@@ -11,7 +11,7 @@ import {
 } from "./TreeNode";
 import type { TreeIconProp } from "./tree-types";
 
-export type TreeItemProps = Omit<JSX.HTMLAttributes<HTMLDivElement>, "class"> & {
+export type TreeItemProps = Omit<HTMLAttributes<HTMLDivElement>, "class"> & {
   nodeId: string;
   label: ComponentChildren;
   icon?: TreeIconProp;

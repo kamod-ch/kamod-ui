@@ -1,4 +1,4 @@
-import type { JSX } from "preact";
+import type { TargetedKeyboardEvent, TargetedPointerEvent } from "preact";
 import { useEffect, useMemo, useRef, useState } from "preact/hooks";
 import { toDateKey, useControllableState } from "../../shared";
 import {
@@ -110,7 +110,7 @@ export const useEventCalendar = ({
     selectKey(todayKey, false);
   };
 
-  const onGridKeyDown = (event: JSX.TargetedKeyboardEvent<HTMLElement>) => {
+  const onGridKeyDown = (event: TargetedKeyboardEvent<HTMLElement>) => {
     const next = moveFocusedDateKey(focusedKey, event.key, weekStartsOn);
     if (next) {
       event.preventDefault();
@@ -123,7 +123,7 @@ export const useEventCalendar = ({
     }
   };
 
-  const onCellPointerDown = (key: DateKey, event: JSX.TargetedPointerEvent<HTMLElement>) => {
+  const onCellPointerDown = (key: DateKey, event: TargetedPointerEvent<HTMLElement>) => {
     if (event.button !== 0) return;
     draggingRef.current = true;
     event.currentTarget.setPointerCapture?.(event.pointerId);

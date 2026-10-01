@@ -1,6 +1,6 @@
 {
   "name": "kamod-ui",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "description": "Lightweight UI components for Preact and Tailwind: composable primitives you can customize, extend, and ship without a heavy runtime. Open source; source is meant to be read and adapted.",
   "keywords": [
@@ -73,16 +73,17 @@
     "brand:readme": "kamod-brand-readme --product UI --output .github/assets"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.5.11",
+    "@biomejs/biome": "^2.5.14",
     "@kamod-ch/brand": "^0.1.12",
-    "@types/node": "^26.4.1",
-    "knip": "^6.34.0",
-    "lefthook": "^2.1.12",
-    "oxfmt": "^0.66.0",
-    "oxlint": "^1.81.0",
-    "preact": "^10.29.8",
+    "@types/node": "^26.6.3",
+    "@typescript/typescript6": "^6.0.2",
+    "knip": "^6.38.0",
+    "lefthook": "^2.1.15",
+    "oxfmt": "^0.71.0",
+    "oxlint": "^1.86.0",
+    "preact": "^11.0.0",
     "syncpack": "^15.3.3",
-    "typescript": "^6.0.3"
+    "typescript": "^7.0.2"
   },
   "packageManager": "pnpm@11.25.0+sha512.5cde925b4f075f725eb71fbae18a42ffe784524789f19b61c731cb8721ec28aaee160e01a8d5af4fedb2a42cdbf300efe23db356b0d4a17b4d63e11f8ab7c956"
 }

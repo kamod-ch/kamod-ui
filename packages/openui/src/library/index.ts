@@ -5,4 +5,4 @@ export {
   type KamodOpenUIConfig,
   type KamodOpenUILibrary,
   kamodOpenUILibrary,
-} from "./createLibrary";
+} from "./createLibrary.js";

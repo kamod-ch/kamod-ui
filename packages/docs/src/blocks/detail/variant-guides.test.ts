@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
-import ts from "typescript";
+import ts from "@typescript/typescript6";
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import { createSidebarInstallations } from "../../../scripts/lib/sidebar-downloads.mjs";
 import { getAuthBlockSource } from "../auth-source";

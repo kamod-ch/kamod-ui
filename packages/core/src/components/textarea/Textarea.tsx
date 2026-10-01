@@ -1,4 +1,4 @@
-import type { JSX } from "preact";
+import type { TextareaHTMLAttributes } from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
 import { cn } from "../../lib/utils";
 
@@ -23,7 +23,7 @@ export const textarea = tv({
   defaultVariants: { size: "md" },
 });
 
-export type TextareaProps = Omit<JSX.TextareaHTMLAttributes<HTMLTextAreaElement>, "size"> &
+export type TextareaProps = Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "size"> &
   VariantProps<typeof textarea>;
 
 export const Textarea = ({ size, class: className, ...rest }: TextareaProps) => (

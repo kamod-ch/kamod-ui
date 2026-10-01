@@ -1,8 +1,8 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 import { useTabs } from "./Tabs";
 
-export type TabsContentProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type TabsContentProps = HTMLAttributes<HTMLDivElement> & {
   value: string;
   forceMount?: boolean;
   children?: ComponentChildren;

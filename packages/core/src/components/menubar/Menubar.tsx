@@ -1,11 +1,11 @@
 import { signal } from "@preact/signals";
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { useEffect, useMemo, useRef } from "preact/hooks";
 import { createDismissableLayer } from "../../lib/interactive";
 import { cn } from "../../lib/utils";
 import { MenubarRootContext } from "./menubar-context";
 
-export type MenubarProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type MenubarProps = HTMLAttributes<HTMLDivElement> & {
   children?: ComponentChildren;
   dir?: "ltr" | "rtl";
 };

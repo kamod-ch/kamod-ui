@@ -1,10 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap");
 
-:root,
-:root[data-theme="light"] {
-  --kamod-brand-orange: #f9a01b;
-}
-
 .kamod-logo {
   display: inline-flex;
   align-items: center;
@@ -38,7 +33,7 @@
   align-items: center;
   justify-content: center;
   height: 2rem;
-  color: var(--kamod-brand-orange);
+  color: var(--color-accent, var(--kamod-brand-orange, #f8a721));
   font-family: "Quicksand", system-ui, sans-serif;
   font-size: 1.4rem;
   font-weight: 700;

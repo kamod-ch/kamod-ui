@@ -1,4 +1,4 @@
-import type { JSX } from "preact";
+import type { HTMLAttributes } from "preact";
 import { tv } from "tailwind-variants";
 import { cn } from "../../lib/utils";
 
@@ -15,10 +15,7 @@ export const separator = tv({
   },
 });
 
-export type SeparatorProps = Omit<
-  JSX.HTMLAttributes<HTMLDivElement>,
-  "role" | "aria-orientation"
-> & {
+export type SeparatorProps = Omit<HTMLAttributes<HTMLDivElement>, "role" | "aria-orientation"> & {
   orientation?: "horizontal" | "vertical";
   decorative?: boolean;
 };

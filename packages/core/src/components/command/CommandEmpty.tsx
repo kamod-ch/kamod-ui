@@ -1,8 +1,8 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 import { useCommand } from "./Command";
 
-export type CommandEmptyProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type CommandEmptyProps = HTMLAttributes<HTMLDivElement> & {
   children?: ComponentChildren;
 };
 

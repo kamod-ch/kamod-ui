@@ -1,5 +1,5 @@
 import { type Signal, signal } from "@preact/signals";
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { createContext } from "preact";
 import { useContext, useMemo } from "preact/hooks";
 
@@ -19,7 +19,7 @@ export const useAccordion = () => {
   return context;
 };
 
-export type AccordionProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type AccordionProps = HTMLAttributes<HTMLDivElement> & {
   type?: AccordionType;
   /** When `type="single"`, `false` keeps one panel always open (clicking the open trigger does not close it). Default `true` matches common shadcn examples. */
   collapsible?: boolean;

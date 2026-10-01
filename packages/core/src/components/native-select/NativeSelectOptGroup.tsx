@@ -1,6 +1,6 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, OptgroupHTMLAttributes } from "preact";
 
-export type NativeSelectOptGroupProps = JSX.OptgroupHTMLAttributes<HTMLOptGroupElement> & {
+export type NativeSelectOptGroupProps = OptgroupHTMLAttributes<HTMLOptGroupElement> & {
   children?: ComponentChildren;
 };
 

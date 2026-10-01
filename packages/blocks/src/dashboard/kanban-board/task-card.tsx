@@ -1,6 +1,6 @@
 import { GripVerticalIcon } from "@kamod-ch/icons/lucide";
 import { Badge, cn } from "@kamod-ch/ui";
-import type { JSX } from "preact";
+import type { TargetedKeyboardEvent, TargetedPointerEvent } from "preact";
 import type { Assignee, Priority, Task } from "./types";
 
 const priorityLabel: Record<Priority, string> = {
@@ -23,8 +23,8 @@ export type TaskCardProps = {
   lifted?: boolean;
   readOnly?: boolean;
   onOpen: () => void;
-  onKeyDown: (event: JSX.TargetedKeyboardEvent<HTMLElement>) => void;
-  onPointerDown?: (event: JSX.TargetedPointerEvent<HTMLButtonElement>) => void;
+  onKeyDown: (event: TargetedKeyboardEvent<HTMLElement>) => void;
+  onPointerDown?: (event: TargetedPointerEvent<HTMLButtonElement>) => void;
 };
 
 export const TaskCard = ({

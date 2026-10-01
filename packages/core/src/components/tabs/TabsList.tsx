@@ -1,4 +1,4 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
 import { cn } from "../../lib/utils";
 import { useTabs } from "./Tabs";
@@ -21,7 +21,7 @@ const tabsList = tv({
   },
 });
 
-export type TabsListProps = JSX.HTMLAttributes<HTMLDivElement> &
+export type TabsListProps = HTMLAttributes<HTMLDivElement> &
   VariantProps<typeof tabsList> & {
     children?: ComponentChildren;
   };

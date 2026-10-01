@@ -1,9 +1,9 @@
-import type { JSX } from "preact";
+import type { HTMLAttributes, TargetedPointerEvent } from "preact";
 import { useLayoutEffect, useRef, useState } from "preact/hooks";
 import { cn } from "../../lib/utils";
 import { useScrollAreaContext } from "./scroll-area-context";
 
-export type ScrollBarProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type ScrollBarProps = HTMLAttributes<HTMLDivElement> & {
   orientation?: "horizontal" | "vertical";
 };
 
@@ -101,7 +101,7 @@ export const ScrollBar = ({
 
   const isVertical = orientation === "vertical";
 
-  const onThumbPointerDown = (e: JSX.TargetedPointerEvent<HTMLDivElement>) => {
+  const onThumbPointerDown = (e: TargetedPointerEvent<HTMLDivElement>) => {
     if (thumb.hidden) return;
     e.preventDefault();
     e.stopPropagation();
@@ -149,7 +149,7 @@ export const ScrollBar = ({
     window.addEventListener("pointercancel", onUp);
   };
 
-  const onTrackPointerDown = (e: JSX.TargetedPointerEvent<HTMLDivElement>) => {
+  const onTrackPointerDown = (e: TargetedPointerEvent<HTMLDivElement>) => {
     if (thumb.hidden || e.button !== 0) return;
     const t = thumbRef.current;
     if (t && (e.target === t || t.contains(e.target as Node))) return;

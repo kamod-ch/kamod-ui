@@ -1,8 +1,8 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 import { DialogHeader } from "../dialog/DialogHeader";
 
-export type AlertDialogHeaderProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type AlertDialogHeaderProps = HTMLAttributes<HTMLDivElement> & {
   children?: ComponentChildren;
 };
 

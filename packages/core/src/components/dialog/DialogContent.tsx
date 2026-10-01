@@ -1,4 +1,4 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes, TargetedKeyboardEvent } from "preact";
 import { createPortal } from "../../lib/createPortal";
 import { isPointerWithinModalDialogPanelSlop } from "../../lib/interactive";
 import { cn } from "../../lib/utils";
@@ -28,7 +28,7 @@ const modalPanelBase = [
 
 export type DialogContentPresentation = "modal" | "slot";
 
-export type DialogContentProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type DialogContentProps = HTMLAttributes<HTMLDivElement> & {
   forceMount?: boolean;
   /**
    * `modal` — built-in overlay + centered panel + optional corner close.
@@ -69,7 +69,7 @@ export const DialogContent = ({
     "aria-describedby": ariaDescribedBy ?? describedBy,
   };
 
-  const handleKeyDown = (event: JSX.TargetedKeyboardEvent<HTMLDivElement>) => {
+  const handleKeyDown = (event: TargetedKeyboardEvent<HTMLDivElement>) => {
     if (event.key === "Escape") {
       event.preventDefault();
       dialog.setOpen(false);

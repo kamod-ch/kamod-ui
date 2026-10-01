@@ -1,9 +1,9 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { useState } from "preact/hooks";
 import { cn } from "../../lib/utils";
 import { ContextMenuRadioProvider } from "./context-menu-radio-context";
 
-export type ContextMenuRadioGroupProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type ContextMenuRadioGroupProps = HTMLAttributes<HTMLDivElement> & {
   value?: string;
   defaultValue?: string;
   onValueChange?: (value: string) => void;

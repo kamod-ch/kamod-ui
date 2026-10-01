@@ -1,8 +1,8 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 import { Spinner } from "../spinner";
 
-export type DropzoneLoadingIndicatorProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type DropzoneLoadingIndicatorProps = HTMLAttributes<HTMLDivElement> & {
   children?: ComponentChildren;
 };
 

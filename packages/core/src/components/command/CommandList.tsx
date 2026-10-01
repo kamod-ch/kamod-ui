@@ -1,9 +1,9 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { useLayoutEffect, useRef } from "preact/hooks";
 import { cn } from "../../lib/utils";
 import { useCommand } from "./Command";
 
-export type CommandListProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type CommandListProps = HTMLAttributes<HTMLDivElement> & {
   children?: ComponentChildren;
   /** Notified when the list root mounts (e.g. combobox inline input forwards keyboard to the list). */
   onMount?: (el: HTMLDivElement | null) => void;

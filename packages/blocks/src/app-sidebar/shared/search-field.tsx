@@ -1,8 +1,8 @@
 import { SearchIcon } from "@kamod-ch/icons/lucide";
 import { cn, Kbd, Label, SidebarInput } from "@kamod-ch/ui";
-import type { JSX, Ref } from "preact";
+import type { InputHTMLAttributes, Ref } from "preact";
 
-export type AppSearchFieldProps = Omit<JSX.InputHTMLAttributes<HTMLInputElement>, "size"> & {
+export type AppSearchFieldProps = Omit<InputHTMLAttributes<HTMLInputElement>, "size"> & {
   label?: string;
   shortcutHint?: string;
   ref?: Ref<HTMLInputElement>;

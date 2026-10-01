@@ -4,7 +4,7 @@ Audit of Kamod UI primitives and motion adapter composition (Prompt 1).
 
 ## Package status
 
-`@kamod-ch/ui-motion` exists at `packages/motion` (v0.1.0). ESM-only, peers on `@kamod-ch/ui`, `@kamod-ch/motion`, `preact`, `motion`. `@kamod-ch/ui` has **no** dependency on motion, React, or React DOM.
+`@kamod-ch/ui-motion` exists at `packages/motion` (v0.1.1). ESM-only, peers on `@kamod-ch/ui`, `@kamod-ch/motion`, `preact`, `motion`. `@kamod-ch/ui` has **no** dependency on motion, React, or React DOM.
 
 ## Export map
 

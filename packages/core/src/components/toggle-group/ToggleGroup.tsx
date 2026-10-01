@@ -1,4 +1,4 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { createContext } from "preact";
 import { useContext, useMemo, useState } from "preact/hooks";
 import { tv, type VariantProps } from "tailwind-variants";
@@ -66,7 +66,7 @@ const toggleGroupItem = tv({
 
 type ToggleGroupItemVariants = VariantProps<typeof toggleGroupItem>;
 
-type ToggleGroupBaseProps = Omit<JSX.HTMLAttributes<HTMLDivElement>, "class"> &
+type ToggleGroupBaseProps = Omit<HTMLAttributes<HTMLDivElement>, "class"> &
   VariantProps<typeof toggleGroup> &
   ToggleGroupItemVariants & {
     class?: string;

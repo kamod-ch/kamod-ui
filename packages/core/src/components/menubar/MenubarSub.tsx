@@ -1,10 +1,10 @@
 import { signal } from "@preact/signals";
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { useMemo } from "preact/hooks";
 import { cn } from "../../lib/utils";
 import { MenubarSubContext } from "./menubar-context";
 
-export type MenubarSubProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type MenubarSubProps = HTMLAttributes<HTMLDivElement> & {
   children?: ComponentChildren;
 };
 
