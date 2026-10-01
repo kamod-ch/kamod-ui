@@ -7,25 +7,28 @@ import type { PackageTeaserConfig } from "../../pages/kamod-package-doc-factory"
 import type { DocContentsSection, DocRenderMainContext } from "../../types";
 import { CodeBlock } from "../CodeBlock";
 import { LibraryGuideSection } from "../LibraryGuideSection";
+import { PackageCapabilities, packageFeatureId } from "./PackageCapabilities";
 import { PackageGuideHeader, PackageText } from "./PackageGuideHeader";
+import { packageGuideDetails } from "./package-guide-details";
 import { packageGuideNotes } from "./package-guide-notes";
-
-const featureId = (title: string) =>
-  `capability-${title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
 
 export function packageGuideContents(config: PackageTeaserConfig): DocContentsSection[] {
   return [
     {
       id: "capabilities",
       label: "What the package brings",
-      children: config.features.map(({ title }) => ({ id: featureId(title), label: title })),
+      children: config.features.map(({ title }) => ({ id: packageFeatureId(title), label: title })),
     },
     {
       id: "installation",
       label: "Installation",
       children: [{ id: "check-your-environment", label: "Check your environment" }],
     },
-    { id: "usage", label: "Usage" },
+    {
+      id: "usage",
+      label: "Usage",
+      children: [{ id: "read-the-example", label: "Read the example" }],
+    },
     { id: "integration", label: "Integrate with your application" },
     {
       id: "api-reference",
@@ -51,6 +54,7 @@ export function PackageGuide({
   contents: DocContentsSection[];
 }) {
   const notes = packageGuideNotes[config.slug];
+  const details = packageGuideDetails[config.slug];
   const sections = context.sections.flatMap((section) =>
     section.id === "usage"
       ? [section, { id: "integration", title: "Integrate with your application", text: "" }]
@@ -59,30 +63,16 @@ export function PackageGuide({
   return (
     <article class="block-guide package-guide" id="top">
       <PackageGuideHeader config={config} renderMarkdownAction={context.renderMarkdownAction} />
-      <BlockGuideContents id={`${config.slug}-mobile-contents`} sections={contents} mobile />
+      <BlockGuideContents
+        id={`${config.slug}-mobile-contents`}
+        sections={contents}
+        pageTitle={config.headline}
+        mobile
+      />
       <div class="block-guide-documentation">
         <div class="blocks-doc-body">
           <LibraryGuideSection id="capabilities" title="What the package brings">
-            <dl class="package-guide-stats">
-              {config.stats.map(({ value, label }) => (
-                <div key={label}>
-                  <dt>{value}</dt>
-                  <dd>{label}</dd>
-                </div>
-              ))}
-            </dl>
-            <div class="block-guide-prose">
-              {config.features.map(({ title, text }) => (
-                <div key={title} class="package-guide-feature">
-                  <h3 id={featureId(title)} tabIndex={-1}>
-                    <BlockHeadingLink id={featureId(title)}>{title}</BlockHeadingLink>
-                  </h3>
-                  <p>
-                    <PackageText text={text} />
-                  </p>
-                </div>
-              ))}
-            </div>
+            <PackageCapabilities config={config} />
           </LibraryGuideSection>
           {sections.map((section) => (
             <LibraryGuideSection key={section.id} id={section.id} title={section.title}>
@@ -94,7 +84,13 @@ export function PackageGuide({
                 </div>
               )}
               {section.id === "integration" && (
-                <div class="block-guide-prose">{notes.integration}</div>
+                <>
+                  <div class="block-guide-prose">{notes.integration}</div>
+                  <aside class="package-guide-callout" aria-label="Integration goal">
+                    <strong>What a good integration looks like</strong>
+                    <p>{details.outcome}</p>
+                  </aside>
+                </>
               )}
               {section.id === "installation" && (
                 <>
@@ -121,18 +117,39 @@ export function PackageGuide({
                 </>
               )}
               {section.id === "usage" && (
-                <CodeBlock
-                  code={`${config.quickStart.import}\n\n${config.quickStart.usage}`}
-                  language="tsx"
-                  filePath="src/example.tsx"
-                />
+                <>
+                  <div class="package-guide-example-intro">
+                    <strong>A small starting point</strong>
+                    <span>Copy, understand, then adapt to your screen.</span>
+                  </div>
+                  <CodeBlock
+                    code={`${config.quickStart.import}\n\n${config.quickStart.usage}`}
+                    language="tsx"
+                    filePath="src/example.tsx"
+                  />
+                  <h3 id="read-the-example" tabIndex={-1}>
+                    <BlockHeadingLink id="read-the-example">Read the example</BlockHeadingLink>
+                  </h3>
+                  <ol class="package-guide-steps">
+                    {details.steps.map((step) => (
+                      <li key={step}>
+                        <span>
+                          <PackageText text={step} />
+                        </span>
+                      </li>
+                    ))}
+                  </ol>
+                </>
               )}
               {section.id === "api-reference" && (
                 <div class="block-guide-prose">
                   <p>
+                    Use this page to understand the integration, then consult the{" "}
                     <a href={config.externalDocsUrl} target="_blank" rel="noopener noreferrer">
                       Full API reference on live docs
-                    </a>
+                    </a>{" "}
+                    for exact signatures and supported options. Compare those details with the
+                    version in your lockfile before adapting an example.
                   </p>
                   <h3 id="explore-the-package" tabIndex={-1}>
                     <BlockHeadingLink id="explore-the-package">
@@ -140,15 +157,32 @@ export function PackageGuide({
                     </BlockHeadingLink>
                   </h3>
                   <p>{config.externalCtaDescription}</p>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    href={config.externalDocsUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Open live docs <ArrowUpRightIcon size={14} aria-hidden="true" />
-                  </Button>
+                  <ul>
+                    <li>
+                      <strong>Before choosing an API:</strong> read its input types, return values
+                      and default behavior.
+                    </li>
+                    <li>
+                      <strong>Before shipping:</strong> review lifecycle or server-rendering notes
+                      for the features you use.
+                    </li>
+                    <li>
+                      <strong>When behavior differs:</strong> reduce the case to a small example and
+                      include your package version in the report.
+                    </li>
+                  </ul>
+                  <div class="package-guide-reference-action">
+                    <span>Continue with the dedicated package documentation.</span>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      href={config.externalDocsUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Open live docs <ArrowUpRightIcon size={14} aria-hidden="true" />
+                    </Button>
+                  </div>
                 </div>
               )}
               {section.id === "accessibility" && (

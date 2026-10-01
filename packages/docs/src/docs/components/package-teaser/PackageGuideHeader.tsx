@@ -1,11 +1,9 @@
-import { ArrowUpRightIcon } from "@kamod-ch/icons/lucide";
-import { BrandGithubIcon } from "@kamod-ch/icons/tabler/filled";
-import { Button } from "@kamod-ch/ui";
 import type { ComponentChildren } from "preact";
 import { withBasePath } from "../../../base-path";
 import type { PackageTeaserConfig } from "../../pages/kamod-package-doc-factory";
 import { LibraryJumpLinks } from "../LibraryJumpLinks";
 import { LibraryPageHeader } from "../LibraryPageHeader";
+import { PackageResources } from "./PackageResources";
 import { packageGuideNotes } from "./package-guide-notes";
 
 /** Formats existing package prose without changing its wording or punctuation. */
@@ -50,39 +48,7 @@ export function PackageGuideHeader({
         </>
       }
     >
-      <div class="package-guide-resources">
-        <code>{config.packagePath}</code>
-        <div role="group" aria-label="Package resources">
-          <Button
-            variant="ghost"
-            size="sm"
-            href={config.externalDocsUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Open live docs <ArrowUpRightIcon size={14} aria-hidden="true" />
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            href={config.githubUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <BrandGithubIcon size={14} aria-hidden="true" /> GitHub
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            href={config.npmUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            npm
-          </Button>
-          {renderMarkdownAction()}
-        </div>
-      </div>
+      <PackageResources config={config} markdown={renderMarkdownAction()} />
       <LibraryJumpLinks
         class="block-guide-switcher"
         label="Package sections"
