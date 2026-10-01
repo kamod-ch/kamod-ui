@@ -1,7 +1,7 @@
-import { createKamodOpenUILibrary } from "../library/createLibrary";
+import { createKamodOpenUILibrary, type KamodOpenUILibrary } from "../library/createLibrary.js";
 
 /** Form-focused preset with supporting layout and feedback components. */
-export const formsPreset = createKamodOpenUILibrary({
+export const formsPreset: KamodOpenUILibrary = createKamodOpenUILibrary({
   components: {
     tabs: false,
     accordion: false,
