@@ -18,6 +18,12 @@ import { withBasePath } from "../base-path";
 import { BlockGuideContents } from "../blocks/detail/BlockGuideContents";
 import { buildComponentDocMarkdown } from "./build-component-doc-markdown";
 import { CodeBlock } from "./components/CodeBlock";
+import { ComponentDetailHeader } from "./components/component-detail/ComponentDetailHeader";
+import { ComponentExample } from "./components/component-detail/ComponentExample";
+import {
+  ComponentIntegrationGuide,
+  componentIntegrationContents,
+} from "./components/component-detail/ComponentIntegrationGuide";
 import { DocsShell } from "./components/DocsShell";
 import { docImportFrom, rewriteKamodCoreImportsInDocString } from "./doc-snippet-imports";
 import { docsShowMotion, isMotionDocSection, isMotionDocSlug } from "./docs-feature-flags";
@@ -43,6 +49,12 @@ export const DocsComponentContent = ({ slug, section }: { slug?: string; section
       : slug
         ? (docsBySlug[slug] ?? fallbackDoc)
         : fallbackDoc;
+  const isComponentDetail =
+    !activeDoc.guideContents &&
+    (!activeDoc.navGroup ||
+      activeDoc.navGroup === "components" ||
+      activeDoc.navGroup === "motion" ||
+      activeDoc.navGroup === "forms");
   const usageSectionId = "usage";
   const apiReferenceSectionId = "api-reference";
   const accessibilitySectionId = "accessibility";
@@ -101,16 +113,28 @@ export const DocsComponentContent = ({ slug, section }: { slug?: string; section
     [activeDoc, docSections],
   );
 
+  const contents = useMemo(
+    () =>
+      activeDoc.guideContents ??
+      (isComponentDetail
+        ? [
+            { id: "component-preview", label: "Live preview" },
+            ...docSections.map(({ id, title }) => ({ id, label: title })),
+            ...componentIntegrationContents,
+          ]
+        : undefined),
+    [activeDoc.guideContents, isComponentDetail, docSections],
+  );
+
   useEffect(() => {
     setActiveSection(activeSectionId);
     // Guide entry routes open at the introduction; legacy section URLs still reach their target.
-    if (activeDoc.guideContents && (activeSectionId === "installation" || window.location.hash))
-      return;
+    if (contents && (activeSectionId === "installation" || window.location.hash)) return;
     return scheduleSectionScroll(activeSectionId);
-  }, [activeDoc.slug, activeDoc.guideContents, activeSectionId]);
+  }, [activeDoc.slug, contents, activeSectionId]);
 
   useEffect(() => {
-    if (activeDoc.guideContents) return;
+    if (contents) return;
     const ids = docSections.map((docSection) => docSection.id);
     const elements = ids
       .map((id) => document.getElementById(id))
@@ -135,7 +159,7 @@ export const DocsComponentContent = ({ slug, section }: { slug?: string; section
 
     elements.forEach((element) => observer.observe(element));
     return () => observer.disconnect();
-  }, [docSections, activeDoc.guideContents]);
+  }, [docSections, contents]);
 
   const installationCommands = useMemo(() => {
     const pnpm = activeDoc.command;
@@ -147,22 +171,35 @@ export const DocsComponentContent = ({ slug, section }: { slug?: string; section
 
   const sectionExtraContentById: Record<string, () => ComponentChildren> = {
     installation: () => (
-      <Tabs defaultValue="pnpm" class="docs-tabs">
-        <TabsList class="docs-tabs-list" variant="line">
-          <TabsTrigger value="pnpm">pnpm</TabsTrigger>
-          <TabsTrigger value="npm">npm</TabsTrigger>
-          <TabsTrigger value="yarn">yarn</TabsTrigger>
-        </TabsList>
-        <TabsContent value="pnpm">
-          <CodeBlock code={installationCommands.pnpm} language="bash" className="docs-tab-code" />
-        </TabsContent>
-        <TabsContent value="npm">
-          <CodeBlock code={installationCommands.npm} language="bash" className="docs-tab-code" />
-        </TabsContent>
-        <TabsContent value="yarn">
-          <CodeBlock code={installationCommands.yarn} language="bash" className="docs-tab-code" />
-        </TabsContent>
-      </Tabs>
+      <>
+        <Tabs defaultValue="pnpm" class="docs-tabs">
+          <TabsList class="docs-tabs-list" variant="line">
+            <TabsTrigger value="pnpm">pnpm</TabsTrigger>
+            <TabsTrigger value="npm">npm</TabsTrigger>
+            <TabsTrigger value="yarn">yarn</TabsTrigger>
+          </TabsList>
+          <TabsContent value="pnpm">
+            <CodeBlock code={installationCommands.pnpm} language="bash" className="docs-tab-code" />
+          </TabsContent>
+          <TabsContent value="npm">
+            <CodeBlock code={installationCommands.npm} language="bash" className="docs-tab-code" />
+          </TabsContent>
+          <TabsContent value="yarn">
+            <CodeBlock code={installationCommands.yarn} language="bash" className="docs-tab-code" />
+          </TabsContent>
+        </Tabs>
+        {isComponentDetail && (
+          <p class="docs-copy">
+            The <code>@/components/kamod-ui/…</code> imports in these examples refer to local source
+            files. Configure that alias when copying source, or use the corresponding exports from{" "}
+            <code>@kamod-ch/ui</code> when installing the package. Connect{" "}
+            <a href={withBasePath("/docs/theming/css-setup")}>
+              the global theme CSS and Tailwind source detection
+            </a>{" "}
+            before your first render.
+          </p>
+        )}
+      </>
     ),
     usage: () => {
       const componentName = toPascalCase(activeDoc.slug);
@@ -194,12 +231,19 @@ export const DocsComponentContent = ({ slug, section }: { slug?: string; section
               ? `<Tabs defaultValue="overview">\n  <TabsList>\n    <TabsTrigger value="overview">Overview</TabsTrigger>\n    <TabsTrigger value="details">Details</TabsTrigger>\n  </TabsList>\n  <TabsContent value="overview">Overview content</TabsContent>\n  <TabsContent value="details">Details content</TabsContent>\n</Tabs>`
               : isAlertDialogDoc
                 ? `<AlertDialog>\n  <AlertDialogTrigger>Delete account</AlertDialogTrigger>\n  <AlertDialogContent>\n    <AlertDialogHeader>\n      <AlertDialogTitle>Delete account?</AlertDialogTitle>\n      <AlertDialogDescription>\n        This action is permanent.\n      </AlertDialogDescription>\n    </AlertDialogHeader>\n    <AlertDialogFooter>\n      <AlertDialogCancel>Cancel</AlertDialogCancel>\n      <AlertDialogAction>Continue</AlertDialogAction>\n    </AlertDialogFooter>\n  </AlertDialogContent>\n</AlertDialog>`
-                : `<${componentName} />`);
+                : undefined);
 
       return (
         <div class="grid gap-3">
           <CodeBlock code={importSnippet} language="tsx" />
-          <CodeBlock code={usageSnippet} language="tsx" />
+          {usageSnippet ? (
+            <CodeBlock code={usageSnippet} language="tsx" />
+          ) : (
+            <p class="docs-copy">
+              Choose a complete composition from the examples below; required child components and
+              props vary by pattern.
+            </p>
+          )}
           {isButtonDoc ? (
             <div class="docs-usage-row">
               <Button disabled>
@@ -238,33 +282,43 @@ export const DocsComponentContent = ({ slug, section }: { slug?: string; section
     preview,
     codeSnippet,
     previewClass,
+    filePath,
   }: {
     preview: ComponentChildren;
     codeSnippet: string;
     previewClass?: string;
-  }) => (
-    <Tabs defaultValue="preview" class="docs-tabs">
-      <TabsList class="docs-tabs-list" variant="line">
-        <TabsTrigger value="preview">Preview</TabsTrigger>
-        <TabsTrigger value="code">Code</TabsTrigger>
-      </TabsList>
-      <TabsContent value="preview">
-        <div
-          class={[
-            "preview relative flex min-h-40 w-full items-start justify-center p-3 sm:min-h-56 sm:p-6 lg:min-h-72 lg:p-10 data-[align=center]:items-center data-[align=end]:items-end data-[align=start]:items-start data-[chromeless=true]:h-auto data-[chromeless=true]:p-0",
-            previewClass,
-          ]
-            .filter(Boolean)
-            .join(" ")}
-        >
-          {preview}
-        </div>
-      </TabsContent>
-      <TabsContent value="code">
-        <CodeBlock code={codeSnippet} language="tsx" className="docs-tab-code" />
-      </TabsContent>
-    </Tabs>
-  );
+    filePath?: string;
+  }) =>
+    isComponentDetail ? (
+      <ComponentExample
+        preview={preview}
+        codeSnippet={rewriteKamodCoreImportsInDocString(codeSnippet, activeDoc.slug)}
+        previewClass={previewClass}
+        filePath={filePath ?? `src/components/${toPascalCase(activeDoc.slug)}Example.tsx`}
+      />
+    ) : (
+      <Tabs defaultValue="preview" class="docs-tabs">
+        <TabsList class="docs-tabs-list" variant="line">
+          <TabsTrigger value="preview">Preview</TabsTrigger>
+          <TabsTrigger value="code">Code</TabsTrigger>
+        </TabsList>
+        <TabsContent value="preview">
+          <div
+            class={[
+              "preview relative flex min-h-40 w-full items-start justify-center p-3 sm:min-h-56 sm:p-6 lg:min-h-72 lg:p-10 data-[align=center]:items-center data-[align=end]:items-end data-[align=start]:items-start data-[chromeless=true]:h-auto data-[chromeless=true]:p-0",
+              previewClass,
+            ]
+              .filter(Boolean)
+              .join(" ")}
+          >
+            {preview}
+          </div>
+        </TabsContent>
+        <TabsContent value="code">
+          <CodeBlock code={codeSnippet} language="tsx" className="docs-tab-code" />
+        </TabsContent>
+      </Tabs>
+    );
 
   const markdownExport = useMemo(
     () => buildComponentDocMarkdown(activeDoc.title, activeDoc.command, docSections),
@@ -298,17 +352,28 @@ export const DocsComponentContent = ({ slug, section }: { slug?: string; section
     </Dialog>
   );
 
-  const renderTitleRow = () => (
-    <div class="docs-title-row">
-      <div class="docs-title-stack">
-        <h1>{activeDoc.title}</h1>
-        <p class="docs-component-path">
-          <code>{componentSourcePath}</code>
-        </p>
+  const renderTitleRow = () =>
+    isComponentDetail ? (
+      <>
+        <ComponentDetailHeader
+          doc={activeDoc}
+          sections={docSections}
+          sourcePath={componentSourcePath}
+          markdownAction={renderMarkdownAction()}
+        />
+        <BlockGuideContents id={`${activeDoc.slug}-mobile-contents`} sections={contents!} mobile />
+      </>
+    ) : (
+      <div class="docs-title-row">
+        <div class="docs-title-stack">
+          <h1>{activeDoc.title}</h1>
+          <p class="docs-component-path">
+            <code>{componentSourcePath}</code>
+          </p>
+        </div>
+        <div class="docs-title-row-actions">{renderMarkdownAction()}</div>
       </div>
-      <div class="docs-title-row-actions">{renderMarkdownAction()}</div>
-    </div>
-  );
+    );
 
   const renderContext: DocRenderMainContext = {
     title: activeDoc.title,
@@ -321,7 +386,15 @@ export const DocsComponentContent = ({ slug, section }: { slug?: string; section
     renderSectionExtraContent,
   };
 
-  const mainContent = activeDoc.renderMain(renderContext);
+  const renderedContent = activeDoc.renderMain(renderContext);
+  const mainContent = isComponentDetail ? (
+    <article class="block-guide component-detail blocks-doc-body" id="top" key={activeDoc.slug}>
+      {renderedContent}
+      <ComponentIntegrationGuide doc={activeDoc} />
+    </article>
+  ) : (
+    renderedContent
+  );
 
   const sidebarScope =
     activeDoc.navGroup === "packages"
@@ -336,10 +409,11 @@ export const DocsComponentContent = ({ slug, section }: { slug?: string; section
       activeDoc={activeDocView}
       activeSection={activeSection}
       pageContents={
-        activeDoc.guideContents ? (
+        contents ? (
           <BlockGuideContents
             id={`${activeDoc.slug}-contents`}
-            sections={activeDoc.guideContents}
+            sections={contents}
+            pageTitle={activeDoc.guideTitle}
           />
         ) : undefined
       }

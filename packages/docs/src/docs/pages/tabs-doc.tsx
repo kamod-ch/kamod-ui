@@ -16,6 +16,7 @@ import {
 import type { ComponentChildren } from "preact";
 import { ApiReference } from "../components/ApiReference";
 import { CodeBlock } from "../components/CodeBlock";
+import { ComponentDocSection } from "../components/component-detail/ComponentDocSection";
 import type { DocPageModule } from "../types";
 
 const TabsSectionType = {
@@ -511,12 +512,10 @@ export const Example = () => (
 );`,
       })}
       {context.sections.map((docSection) => (
-        <section key={docSection.id} id={docSection.id} class="docs-section">
-          <h2>{docSection.title}</h2>
-          <p class="docs-copy">{docSection.text}</p>
+        <ComponentDocSection key={docSection.id} section={docSection}>
           {context.renderSectionExtraContent(docSection.id)}
           {renderTabsSection(docSection.id)}
-        </section>
+        </ComponentDocSection>
       ))}
     </>
   ),

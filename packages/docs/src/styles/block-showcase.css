@@ -71,8 +71,8 @@
   color: var(--muted-foreground);
 }
 
-.blocks-showcase [data-slot="tabs-trigger"],
-.blocks-showcase [data-slot="toggle-group-item"],
+.blocks-showcase-toolbar [data-slot="tabs-trigger"],
+.blocks-showcase-toolbar [data-slot="toggle-group-item"],
 .blocks-showcase-control {
   display: inline-flex;
   flex-shrink: 0;
@@ -98,7 +98,7 @@
     box-shadow 150ms ease;
 }
 
-.blocks-showcase [data-slot="toggle-group-item"],
+.blocks-showcase-toolbar [data-slot="toggle-group-item"],
 .blocks-showcase-control {
   min-width: var(--showcase-control-size);
 }
@@ -108,27 +108,27 @@
   flex-shrink: 0;
   stroke-width: 1.75;
 }
-.blocks-showcase [data-slot="tabs-trigger"]::after {
+.blocks-showcase-toolbar [data-slot="tabs-trigger"]::after {
   display: none;
 }
 
-.blocks-showcase [data-slot="tabs-trigger"][data-state="active"],
-.blocks-showcase [data-slot="toggle-group-item"][data-state="on"],
+.blocks-showcase-toolbar [data-slot="tabs-trigger"][data-state="active"],
+.blocks-showcase-toolbar [data-slot="toggle-group-item"][data-state="on"],
 .blocks-showcase-control[aria-pressed="true"] {
   background: var(--background);
   color: var(--foreground);
   box-shadow: 0 1px 3px rgb(0 0 0 / 8%);
 }
 
-.blocks-showcase [data-slot="tabs-trigger"]:hover,
-.blocks-showcase [data-slot="toggle-group-item"]:hover,
+.blocks-showcase-toolbar [data-slot="tabs-trigger"]:hover,
+.blocks-showcase-toolbar [data-slot="toggle-group-item"]:hover,
 .blocks-showcase-control:hover {
   color: var(--foreground);
   background: color-mix(in oklab, var(--primary) 12%, var(--background));
 }
 
-.blocks-showcase [data-slot="tabs-trigger"][data-state="active"]:hover,
-.blocks-showcase [data-slot="toggle-group-item"][data-state="on"]:hover,
+.blocks-showcase-toolbar [data-slot="tabs-trigger"][data-state="active"]:hover,
+.blocks-showcase-toolbar [data-slot="toggle-group-item"][data-state="on"]:hover,
 .blocks-showcase-control[aria-pressed="true"]:hover {
   background: var(--background);
 }
@@ -286,7 +286,7 @@
     padding: 0.625rem;
     gap: 0.75rem;
   }
-  .blocks-showcase [data-slot="tabs-trigger"] {
+  .blocks-showcase-toolbar [data-slot="tabs-trigger"] {
     font-size: 0.75rem;
     padding-inline: 0.5rem;
   }
@@ -332,8 +332,8 @@
     animation: none;
     transition: none;
   }
-  .blocks-showcase [data-slot="tabs-trigger"],
-  .blocks-showcase [data-slot="toggle-group-item"],
+  .blocks-showcase-toolbar [data-slot="tabs-trigger"],
+  .blocks-showcase-toolbar [data-slot="toggle-group-item"],
   .blocks-showcase-control {
     transition: none;
   }

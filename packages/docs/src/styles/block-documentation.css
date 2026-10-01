@@ -115,7 +115,7 @@
   margin-bottom: 1.75rem;
 }
 
-.blocks-doc-section h2 {
+.blocks-doc-section h2:not(:where(.component-example-canvas *)) {
   margin: 0 0 0.75rem;
   font-size: clamp(1.4rem, 2vw, 1.75rem);
   font-weight: 600;
@@ -123,14 +123,14 @@
   line-height: 1.3;
 }
 
-.blocks-doc-section h3 {
+.blocks-doc-section h3:not(:where(.component-example-canvas *)) {
   margin: 0 0 0.75rem;
   font-size: 1.05rem;
   font-weight: 600;
   line-height: 1.5;
 }
 
-.blocks-doc-section :is(h2, h3)[id] {
+.blocks-doc-section :is(h2, h3)[id]:not(:where(.component-example-canvas *)) {
   /* The document already offsets anchors for the sticky topbar; add breathing room. */
   scroll-margin-top: 1rem;
 }
@@ -181,8 +181,8 @@
   text-decoration: none;
 }
 
-.blocks-doc-section p,
-.blocks-doc-section [role="paragraph"] {
+.blocks-doc-section p:not(:where(.component-example-canvas *)),
+.blocks-doc-section [role="paragraph"]:not(:where(.component-example-canvas *)) {
   max-width: none;
   margin: 0 0 1rem;
   color: var(--muted-foreground);
@@ -226,24 +226,24 @@
   text-underline-offset: 0.2em;
 }
 
-.blocks-doc-section p:last-child,
-.blocks-doc-section [role="paragraph"]:last-child {
+.blocks-doc-section p:last-child:not(:where(.component-example-canvas *)),
+.blocks-doc-section [role="paragraph"]:last-child:not(:where(.component-example-canvas *)) {
   margin-bottom: 0;
 }
 
-.blocks-doc-section :is(h2, h3) {
+.blocks-doc-section :is(h2, h3):not(:where(.component-example-canvas *)) {
   color: var(--foreground);
 }
 
-.blocks-doc-section :is(strong, b) {
+.blocks-doc-section :is(strong, b):not(:where(.component-example-canvas *)) {
   color: inherit;
   font-weight: 500;
 }
 
 .block-guide-description code,
 .package-guide-resources > code,
-.blocks-doc-section :is(p, td, th, dd) code,
-.blocks-doc-section [role="paragraph"] code,
+.blocks-doc-section :is(p, td, th, dd) code:not(:where(.component-example-canvas *)),
+.blocks-doc-section [role="paragraph"] code:not(:where(.component-example-canvas *)),
 .blocks-showcase-prompt :is(p, li) code:not(pre code) {
   border-radius: 0.25rem;
   padding: 0.1em 0.3em;
@@ -252,7 +252,10 @@
 
 .block-guide-description code,
 .package-guide-resources > code,
-.blocks-doc-section code:not(pre code, .blocks-api-type-name, .docs-code-file-path),
+.blocks-doc-section
+  code:not(pre code, .blocks-api-type-name, .docs-code-file-path):not(
+    :where(.component-example-canvas *)
+  ),
 .blocks-showcase-prompt :is(p, li) code:not(pre code) {
   border-radius: 0.25rem;
   background: color-mix(in oklab, var(--secondary-accent) 10%, var(--muted));

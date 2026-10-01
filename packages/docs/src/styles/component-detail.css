@@ -1,0 +1,228 @@
+/* Component pages use the block guide shell, prose, headings and showcase controls. */
+.component-detail {
+  --showcase-control-inset: 0.875rem;
+}
+.component-detail-actions,
+.component-detail-actions-primary,
+.component-detail-resource-links {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+}
+.component-detail-actions {
+  justify-content: space-between;
+  margin-top: 1.5rem;
+}
+.component-detail-actions [data-slot="badge"] {
+  font-size: 0.6875rem;
+}
+.component-detail-resource-links {
+  gap: 0.25rem;
+}
+.component-detail .docs-section {
+  min-width: 0;
+  margin-top: 2.5rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid color-mix(in oklab, var(--foreground) 5%, var(--border));
+  scroll-margin-top: 5rem;
+}
+.component-detail .docs-section > .docs-copy {
+  max-width: none;
+  margin-bottom: 1.5rem;
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+  line-height: 1.85;
+}
+.component-detail .docs-section > h2 {
+  font-size: clamp(1.4rem, 2vw, 1.75rem);
+  line-height: 1.3;
+  letter-spacing: -0.025em;
+}
+.component-detail .block-guide-prose h3 {
+  margin-top: 1.75rem;
+}
+.component-detail .component-reference-grid h3 {
+  margin-top: 0;
+}
+.component-preview-intro {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin: 1.5rem 0 0.75rem;
+  color: var(--muted-foreground);
+  font-size: 0.6875rem;
+  scroll-margin-top: 6rem;
+}
+.component-preview-intro > :first-child {
+  color: var(--foreground);
+  font-weight: 550;
+}
+.component-example-directory {
+  margin-top: 1.25rem;
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.625rem;
+}
+.component-example-directory summary {
+  cursor: pointer;
+  font-size: 0.8125rem;
+  font-weight: 550;
+}
+.component-example-directory summary > span {
+  margin-left: 0.625rem;
+  color: var(--muted-foreground);
+  font-size: 0.6875rem;
+  font-weight: 400;
+}
+.component-example-directory p {
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+  line-height: 1.7;
+  margin: 1rem 0;
+}
+.component-example-directory ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  gap: 0.375rem 1rem;
+}
+.component-example-directory a {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.625rem 0.5rem;
+  border-radius: 0.375rem;
+  font-size: 0.8125rem;
+  color: var(--foreground);
+  text-decoration: none;
+}
+.component-example-directory a:hover {
+  background: var(--muted);
+}
+.component-example-directory svg {
+  margin-left: auto;
+  flex: none;
+}
+.component-example-number {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.6875rem;
+  color: var(--muted-foreground);
+}
+.component-example {
+  border: 1px solid var(--border);
+  border-radius: 0 0 0.625rem 0.625rem;
+  min-width: 0;
+  margin-block: 1rem;
+}
+.component-example > .blocks-showcase-tabs {
+  width: 100%;
+}
+.component-example-stage {
+  padding: clamp(1rem, 3vw, 2rem);
+  min-width: 0;
+}
+.component-example-canvas {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 12rem;
+  width: 100%;
+  margin-inline: auto;
+  overflow-x: auto;
+  padding: 0.25rem;
+}
+.component-example-canvas[data-narrow] {
+  max-width: 360px;
+}
+.component-example-caption {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  margin: 0;
+  border-top: 1px solid var(--border);
+  padding: 0.625rem 0.875rem;
+  color: var(--muted-foreground);
+  font-size: 0.625rem;
+  line-height: 1.6;
+}
+.component-detail .component-example-caption {
+  font-size: 0.625rem;
+  margin: 0;
+}
+.component-example .docs-code-wrap {
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+}
+.component-example .blocks-showcase-toolbar {
+  gap: 0.625rem;
+}
+.component-example .blocks-showcase-settings {
+  gap: 0.5rem;
+}
+.component-review-list li::marker {
+  color: var(--primary);
+}
+.component-reference-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: 1.5rem;
+}
+.component-reference-grid > div {
+  border-left: 2px solid var(--border);
+  padding-left: 1rem;
+}
+.component-related-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.8125rem;
+}
+.component-related-links > span {
+  color: var(--muted-foreground);
+  font-size: 0.6875rem;
+}
+.component-related-links a {
+  color: var(--foreground);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.component-example-directory :is(summary, a):focus-visible,
+.component-related-links a:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+}
+@media (max-width: 639px) {
+  .component-example .blocks-showcase-toolbar {
+    padding-inline: 0.5rem;
+  }
+  .component-example .blocks-showcase-settings {
+    margin-left: 0;
+  }
+  .component-example-reset-label,
+  .component-example-width-note,
+  .component-preview-intro > :last-child {
+    display: none;
+  }
+  .component-detail .docs-section {
+    margin-top: 2rem;
+    padding-top: 2rem;
+  }
+}
+
+/* Cancel global docs panel chrome on the outer showcase tabs only. */
+.component-example > .blocks-showcase-tabs > [data-slot="tabs-content"] {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}

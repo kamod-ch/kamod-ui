@@ -4,6 +4,7 @@ import type { ComponentChildren } from "preact";
 import { useState } from "preact/hooks";
 import { ApiReference } from "../components/ApiReference";
 import { CodeBlock } from "../components/CodeBlock";
+import { ComponentDocSection } from "../components/component-detail/ComponentDocSection";
 import type { DocPageModule } from "../types";
 
 type Lang = "en" | "ar" | "he";
@@ -413,12 +414,10 @@ export const Example = () => (
           codeSnippet: heroCode,
         })}
         {context.sections.map((docSection) => (
-          <section key={docSection.id} id={docSection.id} class="docs-section">
-            <h2>{docSection.title}</h2>
-            <p class="docs-copy">{docSection.text}</p>
+          <ComponentDocSection key={docSection.id} section={docSection}>
             {context.renderSectionExtraContent(docSection.id)}
             {renderSectionBody(docSection.id)}
-          </section>
+          </ComponentDocSection>
         ))}
       </>
     );

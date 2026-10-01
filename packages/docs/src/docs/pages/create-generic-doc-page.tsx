@@ -1,5 +1,7 @@
 import type { ComponentChildren } from "preact";
 import { ApiReference } from "../components/ApiReference";
+import { CodeBlock } from "../components/CodeBlock";
+import { ComponentDocSection } from "../components/component-detail/ComponentDocSection";
 import type { DocPageModule } from "../types";
 
 type ApiRow = {
@@ -129,15 +131,19 @@ export const createGenericDocPage = (config: GenericDocPageConfig): DocPageModul
           previewClass: previewTabClass,
         })}
         {context.sections.map((docSection) => (
-          <section key={docSection.id} id={docSection.id} class="docs-section">
-            <h2>{docSection.title}</h2>
-            <p class="docs-copy">{docSection.text}</p>
+          <ComponentDocSection key={docSection.id} section={docSection}>
             {config.sectionExtras?.[docSection.id]?.()}
             {context.renderSectionExtraContent(docSection.id)}
-            {docSection.id !== heroExampleSectionId
-              ? renderSectionExtraContent(docSection.id, context.renderPreviewAndCodeTabs)
-              : null}
-          </section>
+            {docSection.id !== heroExampleSectionId ? (
+              renderSectionExtraContent(docSection.id, context.renderPreviewAndCodeTabs)
+            ) : (
+              <CodeBlock
+                code={exampleCodeBySection[docSection.id]}
+                language="tsx"
+                filePath={`src/components/${config.title.replaceAll(" ", "")}Example.tsx`}
+              />
+            )}
+          </ComponentDocSection>
         ))}
       </>
     ),

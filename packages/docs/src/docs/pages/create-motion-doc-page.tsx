@@ -1,5 +1,6 @@
 import type { ComponentChildren } from "preact";
 import { ApiReference } from "../components/ApiReference";
+import { ComponentDocSection } from "../components/component-detail/ComponentDocSection";
 import { MotionDocContext } from "../motion/MotionDocContext";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
@@ -140,15 +141,13 @@ export function createMotionDocPage(config: MotionDocPageConfig) {
             .join(" "),
         })}
         {context.sections.map((docSection) => (
-          <section key={docSection.id} id={docSection.id} class="docs-section">
-            <h2>{docSection.title}</h2>
-            <p class="docs-copy">{docSection.text}</p>
+          <ComponentDocSection key={docSection.id} section={docSection}>
             {docSection.id === "installation" || docSection.id === "usage"
               ? context.renderSectionExtraContent(docSection.id)
               : docSection.id === heroExampleSectionId
                 ? null
                 : renderSectionExtraContent(docSection.id, context.renderPreviewAndCodeTabs)}
-          </section>
+          </ComponentDocSection>
         ))}
       </>
     ),
