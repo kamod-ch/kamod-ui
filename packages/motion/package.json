@@ -74,24 +74,24 @@
     "@arethetypeswrong/cli": "^0.18.5",
     "@kamod-ch/motion": "^0.1.0",
     "@kamod-ch/ui": "workspace:*",
-    "@preact/signals": "^2.11.1",
+    "@preact/signals": "^2.11.3",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/preact": "^3.2.4",
-    "@types/node": "^26.4.1",
-    "jsdom": "^30.0.1",
-    "motion": "^13.2.0",
+    "@types/node": "^26.6.3",
+    "jsdom": "^30.1.1",
+    "motion": "^13.4.6",
     "preact": "^10.29.8",
     "preact-render-to-string": "^6.7.0",
     "publint": "^0.3.24",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.11"
+    "vitest": "^5.0.2"
   },
   "peerDependencies": {
     "@kamod-ch/motion": "^0.1.0",
     "@kamod-ch/ui": "^0.2.1",
-    "@preact/signals": "^2.11.1",
-    "motion": "^13.2.0",
+    "@preact/signals": "^2.11.3",
+    "motion": "^13.4.6",
     "preact": "^10.29.8"
   },
   "engines": {

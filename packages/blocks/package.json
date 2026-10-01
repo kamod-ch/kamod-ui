@@ -102,22 +102,22 @@
     "format:check": "oxfmt --check ."
   },
   "dependencies": {
-    "@kamod-ch/icons": "^1.0.3"
+    "@kamod-ch/icons": "^1.1.0"
   },
   "devDependencies": {
     "@kamod-ch/themes": "workspace:*",
     "@kamod-ch/ui": "workspace:*",
-    "@preact/signals": "^2.11.1",
+    "@preact/signals": "^2.11.3",
     "@testing-library/preact": "^3.2.4",
-    "jsdom": "^30.0.1",
+    "jsdom": "^30.1.1",
     "preact": "^10.29.8",
     "tsup": "^8.5.1",
-    "vitest": "^4.1.11"
+    "vitest": "^5.0.2"
   },
   "peerDependencies": {
     "@kamod-ch/themes": "^0.2.1",
     "@kamod-ch/ui": "workspace:*",
-    "@preact/signals": "^2.11.1",
+    "@preact/signals": "^2.11.3",
     "preact": "^10.29.8"
   }
 }
