@@ -18,9 +18,9 @@ pnpm add @kamod-ch/openui @kamod-ch/ui @openuidev/react-lang zod preact @preact/
 
 | Dependency              | Supported             |
 | ----------------------- | --------------------- |
-| `@kamod-ch/ui`          | `^0.2.1`              |
-| `@openuidev/react-lang` | `^0.2.8`              |
-| `preact`                | `^10.29.2`            |
+| `@kamod-ch/ui`          | `^2.0.0`              |
+| `@openuidev/react-lang` | `^0.3.0`              |
+| `preact`                | `^11.0.0`             |
 | `zod`                   | `^3.25.0 \|\| ^4.0.0` |
 | Node                    | `>=20`                |
 

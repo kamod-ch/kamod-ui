@@ -1,6 +1,6 @@
 {
   "name": "@kamod-ch/ui-motion",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Optional motion-enhanced compositions for Kamod UI, built on @kamod-ch/motion.",
   "keywords": [
     "animation",
@@ -89,7 +89,7 @@
   },
   "peerDependencies": {
     "@kamod-ch/motion": "^0.1.0",
-    "@kamod-ch/ui": "^0.2.1",
+    "@kamod-ch/ui": "^2.0.0",
     "@preact/signals": "^2.11.3",
     "motion": "^13.4.6",
     "preact": "^11.0.0"

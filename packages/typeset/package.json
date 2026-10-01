@@ -1,6 +1,6 @@
 {
   "name": "@kamod-ch/typeset",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Framework-independent CSS typography and content styling for Kamod UI themes.",
   "keywords": [
     "css",

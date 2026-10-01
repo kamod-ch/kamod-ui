@@ -1,6 +1,6 @@
 {
   "name": "@kamod-ch/openui",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Official OpenUI adapter for Kamod UI: a typed, secure component library for generative UI with Preact.",
   "keywords": [
     "generative-ui",
@@ -84,7 +84,7 @@
     "zod": "^4.6.5"
   },
   "peerDependencies": {
-    "@kamod-ch/ui": "^0.2.1",
+    "@kamod-ch/ui": "^2.0.0",
     "@openuidev/react-lang": "^0.3.0",
     "@preact/signals": "^2.11.3",
     "preact": "^11.0.0",

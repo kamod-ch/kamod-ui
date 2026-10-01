@@ -1,6 +1,6 @@
 {
   "name": "@kamod-ch/themes",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Reusable Kamod UI theme tokens, brand presets, and Preact theme runtime.",
   "keywords": [
     "design-system",
