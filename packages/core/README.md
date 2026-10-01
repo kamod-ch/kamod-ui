@@ -5,16 +5,20 @@
 
 # Kamod UI
 
-Lightweight UI components for **Preact** and **Tailwind**: composable primitives you can customize, extend, and ship without a heavy runtime. Open source; source is meant to be read and adapted.
+A lightweight, accessible component system built natively for **Preact 11** and **Tailwind CSS v4**. Kamod UI provides composable TypeScript primitives, tree-shakeable subpath exports, signals-based interaction, and themes you can customize without pulling in a heavy runtime.
 
 <p align="center">
   <a href="https://www.npmjs.com/package/@kamod-ch/ui"><img src="https://img.shields.io/npm/v/@kamod-ch/ui" alt="npm version" /></a>
+  <img src="https://img.shields.io/badge/Preact-11-673ab8?logo=preact&logoColor=white" alt="Preact 11" />
+  <img src="https://img.shields.io/badge/Tailwind_CSS-v4-06b6d4?logo=tailwindcss&logoColor=white" alt="Tailwind CSS v4" />
   <a href="https://github.com/kamod-ch/kamod-ui/actions/workflows/ci.yml"><img src="https://github.com/kamod-ch/kamod-ui/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
   <a href="https://github.com/kamod-ch/kamod-ui/stargazers"><img src="https://img.shields.io/github/stars/kamod-ch/kamod-ui?style=social" alt="GitHub stars" /></a>
   <a href="https://github.com/kamod-ch/kamod-ui/blob/main/LICENSE.md"><img src="https://img.shields.io/github/license/kamod-ch/kamod-ui" alt="license" /></a>
 </p>
 
 **[Demo](https://ui.kamod.ch/)** · **[Component docs](https://ui.kamod.ch/docs/button)** · **[npm](https://www.npmjs.com/package/@kamod-ch/ui)** · **[GitHub](https://github.com/kamod-ch/kamod-ui)** · **[Issues](https://github.com/kamod-ch/kamod-ui/issues)**
+
+> **Kamod UI 2 is the Preact 11 release.** It requires Preact 11, `@preact/signals` 2.11+, Tailwind CSS v4, and Node.js 20+. Preact 10 users should stay on Kamod UI 1.x until they can upgrade.
 
 > Demo snippets in this repo use local aliases like `@/components/kamod-ui/*`. In your app, install `@kamod-ch/ui` and import from the package.
 
@@ -26,10 +30,11 @@ Lightweight UI components for **Preact** and **Tailwind**: composable primitives
 
 Many UI kits are heavier than necessary, overly opinionated, or tied to React. Kamod UI targets a smaller stack instead:
 
-- **Preact-first** — tiny runtime and familiar patterns if you already use React-like APIs.
-- **Tailwind-native** — style with utilities instead of a separate theme layer.
-- **Composable** — build UIs from small pieces without extra abstraction.
-- **Practical** — ship only what you need; the codebase stays easy to follow.
+- **Preact 11 native** — designed and tested against Preact 11 instead of relying on a React compatibility layer.
+- **Tailwind v4 native** — import-based setup, semantic CSS tokens, dark mode, and brand presets.
+- **Accessible interaction** — keyboard navigation, focus management, overlays, and controlled state are built into the primitives.
+- **Tree-shakeable** — import from the root barrel or one of 66 per-component subpaths.
+- **Composable and readable** — small TypeScript primitives that are straightforward to theme, extend, or fork.
 
 ## When to use Kamod UI
 
@@ -63,8 +68,8 @@ Choose a starter:
 ```bash
 pnpm create vite@latest my-app -- --template preact-ts
 cd my-app
-pnpm add @kamod-ch/ui @preact/signals
-pnpm add -D tailwindcss @tailwindcss/vite
+pnpm add @kamod-ch/ui @kamod-ch/themes preact@^11 @preact/signals@^2.11.3
+pnpm add -D tailwindcss@^4 @tailwindcss/vite
 ```
 
 ```ts
@@ -110,7 +115,7 @@ export function App() {
 }
 ```
 
-This is the smallest full setup. If you already have a Vite app, keep the `@kamod-ch/ui/theme.css` import and add `@kamod-ch/ui` + `@preact/signals`.
+This is the smallest full setup. If you already have a Vite app, keep the `@kamod-ch/ui/theme.css` import and install all runtime peers (`preact`, `@preact/signals`, and `@kamod-ch/themes`).
 
 Browse the [live component docs](https://ui.kamod.ch/docs/button) for variants, composition, and RTL examples.
 
@@ -165,16 +170,18 @@ Browse the [live component docs](https://ui.kamod.ch/docs/button) for variants, 
 
 ### Requirements
 
-- **Preact** `>= 10.26`
-- **`@preact/signals`** `>= 2.0` (required peer dependency — see below)
+- **Preact** `^11.0.0` (Preact 10 is not supported by Kamod UI 2)
+- **`@preact/signals`** `^2.11.3` (required peer dependency — see below)
+- **`@kamod-ch/themes`** `^0.2.2` (theme runtime used by components such as `ThemeToggle`)
 - **Tailwind CSS v4** (v3 is not supported)
-- An ESM-friendly bundler (Vite, Rolldown, esbuild, Next.js, …). Kamod UI is **ESM-only**; it does not ship a CommonJS build.
-- SSR: client components guard `typeof document` / `window` access and re-render safely on the client.
+- **Node.js** 20 or newer for development and package tooling
+- An ESM-friendly bundler (Vite, Rolldown, esbuild, …). Kamod UI is **ESM-only**; it does not ship a CommonJS build.
+- SSR: client components guard `document` / `window` access and re-render safely on the client.
 
 ### Install
 
 ```bash
-pnpm add @kamod-ch/ui preact @preact/signals
+pnpm add @kamod-ch/ui @kamod-ch/themes preact@^11 @preact/signals@^2.11.3
 ```
 
 The published library on npm is **[`@kamod-ch/ui`](https://www.npmjs.com/package/@kamod-ch/ui)**. This monorepo root and `packages/docs` are not published. The former package [`@kamod-ui/core`](https://www.npmjs.com/package/@kamod-ui/core) and the unscoped [`kamod-ui`](https://www.npmjs.com/package/kamod-ui) name are legacy — install `@kamod-ch/ui` instead.
@@ -217,9 +224,9 @@ The package ships a minimal `sideEffects` list (progress indeterminate keyframes
 
 ### Component sizes
 
-Each `@kamod-ch/ui/<name>` subpath is a separate export. Typical gzip size is **0.4–10 KB** (Kamod JS only; excludes `preact`, `@preact/signals`, and CSS).
+Each `@kamod-ch/ui/<name>` subpath is a separate export. Current gzip sizes range from **0.4–14.4 KB** (Kamod JS only; excludes peer dependencies and CSS).
 
-See **[Component sizes & signals reference](https://github.com/kamod-ch/kamod-ui/blob/main/.docs/COMPONENTS.md)** for all 65 exports with min/gzip sizes and signal usage. Regenerate after core changes:
+See **[Component sizes & signals reference](https://github.com/kamod-ch/kamod-ui/blob/main/.docs/COMPONENTS.md)** for all 66 exports with min/gzip sizes and signal usage. Regenerate after core changes:
 
 ```bash
 pnpm docs:components
@@ -264,10 +271,14 @@ Open the URL printed in the terminal for the kitchen sink and component docs. Qu
 
 ## Contributing
 
-| Workspace           | Path             | Role                                     |
-| ------------------- | ---------------- | ---------------------------------------- |
-| `@kamod-ch/ui`      | `packages/core/` | Published library (65 component exports) |
-| `@kamod-ch/ui-docs` | `packages/docs/` | Kitchen sink + interactive docs          |
+| Workspace             | Path                | Role                                                |
+| --------------------- | ------------------- | --------------------------------------------------- |
+| `@kamod-ch/ui`        | `packages/core/`    | Published component library (66 subpath exports)    |
+| `@kamod-ch/themes`    | `packages/themes/`  | Theme tokens, brand presets, and Preact runtime     |
+| `@kamod-ch/ui-motion` | `packages/motion/`  | Optional motion-enhanced compositions               |
+| `@kamod-ch/openui`    | `packages/openui/`  | Typed OpenUI adapter for generative interfaces      |
+| `@kamod-ch/typeset`   | `packages/typeset/` | Framework-independent content and typography styles |
+| `@kamod-ch/ui-docs`   | `packages/docs/`    | Kitchen sink and interactive documentation          |
 
 - Open issues for bugs and ideas; PRs welcome for components, docs, and examples.
 - Key scripts: `pnpm dev`, `pnpm check`, `pnpm format`, `pnpm lint`, `pnpm docs:components`
