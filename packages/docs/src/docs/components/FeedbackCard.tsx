@@ -12,9 +12,14 @@ export function FeedbackCard() {
   const [dismissed, setDismissed] = useState<boolean | null>(null);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    // Keep the browser reference for cleanup. Preact may flush passive-effect cleanup
+    // after a test environment has removed `window` from the global scope.
+    const browserWindow = window;
     const readPreference = () => {
       try {
-        setDismissed(localStorage.getItem(DISMISSED_KEY) === "true");
+        setDismissed(browserWindow.localStorage.getItem(DISMISSED_KEY) === "true");
       } catch {
         setDismissed(false);
       }
@@ -23,8 +28,8 @@ export function FeedbackCard() {
       if (event.key === DISMISSED_KEY || event.key === null) readPreference();
     };
     readPreference();
-    window.addEventListener("storage", syncPreference);
-    return () => window.removeEventListener("storage", syncPreference);
+    browserWindow.addEventListener("storage", syncPreference);
+    return () => browserWindow.removeEventListener("storage", syncPreference);
   }, []);
 
   const dismiss = () => {
