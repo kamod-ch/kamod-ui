@@ -1,4 +1,5 @@
 import { CodeBlock } from "../components/CodeBlock";
+import { ComponentDocSection } from "../components/component-detail/ComponentDocSection";
 import {
   BugReportForm,
   ContactEmailsForm,
@@ -10,6 +11,7 @@ import {
   SubscriptionPlanForm,
   SubscriptionPreferencesForm,
 } from "../forms/formisch/FormischExamples";
+import { FormischGuideNotes } from "../forms/formisch/FormischGuideNotes";
 import {
   arraySnippet,
   bugReportSnippet,
@@ -140,10 +142,22 @@ export const formischDocPage: DocPageModule = {
   slug: "formisch",
   title: "Formisch",
   navGroup: "forms",
-  command: "pnpm --filter @kamod-ch/ui-docs add @formisch/preact valibot",
-  usageLabel: "Schema-first form handling for Kamod UI docs with Preact, Formisch, and Valibot.",
+  command: "pnpm add @formisch/preact valibot",
+  usageLabel: "Schema-first forms with Preact, Formisch, Valibot and Kamod UI.",
   packagePath: "@formisch/preact + valibot",
   sections: [...sections],
+  exampleSectionIds: [
+    "demo",
+    "input",
+    "textarea",
+    "select",
+    "checkbox",
+    "radio-group",
+    "switch",
+    "complex-forms",
+    "resetting-form",
+    "array-fields",
+  ],
   renderMain: (context) => {
     const renderExample = (sectionId: string) => {
       switch (sectionId) {
@@ -152,13 +166,22 @@ export const formischDocPage: DocPageModule = {
             preview: <BugReportForm idPrefix="formisch-demo" />,
             codeSnippet: bugReportSnippet,
             previewClass,
+            filePath: `src/forms/${sectionId}.tsx`,
           });
         case "form-methods":
-          return <CodeBlock code={methodsSnippet} language="tsx" className="docs-tab-code mt-4" />;
+          return (
+            <CodeBlock
+              code={methodsSnippet}
+              language="tsx"
+              filePath="src/forms/form-methods.ts"
+              className="docs-tab-code mt-4"
+            />
+          );
         case "validation-modes":
           return (
             <CodeBlock
               code={validationModesSnippet}
+              filePath="src/forms/validation-modes.ts"
               language="tsx"
               className="docs-tab-code mt-4"
             />
@@ -168,54 +191,63 @@ export const formischDocPage: DocPageModule = {
             preview: <ProfileSettingsForm idPrefix="formisch-input" />,
             codeSnippet: inputSnippet,
             previewClass,
+            filePath: `src/forms/${sectionId}.tsx`,
           });
         case "textarea":
           return context.renderPreviewAndCodeTabs({
             preview: <PersonalizationForm idPrefix="formisch-textarea" />,
             codeSnippet: textareaSnippet,
             previewClass,
+            filePath: `src/forms/${sectionId}.tsx`,
           });
         case "select":
           return context.renderPreviewAndCodeTabs({
             preview: <LanguagePreferencesForm idPrefix="formisch-select" />,
             codeSnippet: selectSnippet,
             previewClass,
+            filePath: `src/forms/${sectionId}.tsx`,
           });
         case "checkbox":
           return context.renderPreviewAndCodeTabs({
             preview: <NotificationPreferencesForm idPrefix="formisch-checkbox" />,
             codeSnippet: checkboxSnippet,
             previewClass,
+            filePath: `src/forms/${sectionId}.tsx`,
           });
         case "radio-group":
           return context.renderPreviewAndCodeTabs({
             preview: <SubscriptionPlanForm idPrefix="formisch-radio" />,
             codeSnippet: radioSnippet,
             previewClass,
+            filePath: `src/forms/${sectionId}.tsx`,
           });
         case "switch":
           return context.renderPreviewAndCodeTabs({
             preview: <SecuritySettingsForm idPrefix="formisch-switch" />,
             codeSnippet: switchSnippet,
             previewClass,
+            filePath: `src/forms/${sectionId}.tsx`,
           });
         case "complex-forms":
           return context.renderPreviewAndCodeTabs({
             preview: <SubscriptionPreferencesForm idPrefix="formisch-complex" />,
             codeSnippet: complexSnippet,
             previewClass,
+            filePath: `src/forms/${sectionId}.tsx`,
           });
         case "resetting-form":
           return context.renderPreviewAndCodeTabs({
             preview: <BugReportForm idPrefix="formisch-reset" />,
             codeSnippet: bugReportSnippet,
             previewClass,
+            filePath: `src/forms/${sectionId}.tsx`,
           });
         case "array-fields":
           return context.renderPreviewAndCodeTabs({
             preview: <ContactEmailsForm idPrefix="formisch-array" />,
             codeSnippet: arraySnippet,
             previewClass,
+            filePath: `src/forms/${sectionId}.tsx`,
           });
         case "sources":
           return (
@@ -243,13 +275,14 @@ export const formischDocPage: DocPageModule = {
           preview: <BugReportForm idPrefix="formisch-hero" />,
           codeSnippet: bugReportSnippet,
           previewClass,
+          filePath: "src/forms/BugReportForm.tsx",
         })}
         {context.sections.map((section) => (
-          <section key={section.id} id={section.id} class="docs-section">
-            <h2>{section.title}</h2>
-            <p class="docs-copy">{section.text}</p>
+          <ComponentDocSection key={section.id} section={section}>
+            {section.id === "installation" && context.renderSectionExtraContent("installation")}
+            <FormischGuideNotes sectionId={section.id} />
             {renderExample(section.id)}
-          </section>
+          </ComponentDocSection>
         ))}
       </>
     );

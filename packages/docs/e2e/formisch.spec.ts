@@ -11,24 +11,23 @@ test.describe("Forms / Formisch docs", () => {
   });
 
   test("desktop and mobile navigation expose Forms and open Formisch", async ({ page }) => {
-    await page.goto("./docs/components");
+    await page.goto("./docs/components", { waitUntil: "domcontentloaded" });
     await expect(
       page.locator("aside.docs-sidebar").getByRole("heading", { name: "Forms" }),
     ).toHaveCount(0);
 
     await page.locator(".docs-topbar-links").getByRole("link", { name: "Forms" }).click();
-    await expect(page.getByRole("heading", { level: 1, name: "Forms" })).toBeVisible();
-    await expect(
-      page.locator("aside.docs-sidebar").getByRole("heading", { name: "Forms" }),
-    ).toBeVisible();
-    await page
-      .locator("aside.docs-sidebar nav[aria-label='Docs forms']")
-      .getByRole("link", { name: "Formisch" })
-      .click();
+    await expect(page).toHaveURL(/\/docs\/forms/);
+    const sidebar = page.locator("aside.docs-sidebar");
+    await expect(sidebar.getByRole("button", { name: /Forms Documentation/ })).toHaveAttribute(
+      "aria-expanded",
+      "true",
+    );
+    await sidebar.getByRole("link", { name: "Formisch", exact: true }).click();
     await expect(page.getByRole("heading", { level: 1, name: "Formisch" })).toBeVisible();
 
     await page.setViewportSize({ width: 600, height: 900 });
-    await page.goto("./docs/forms");
+    await page.goto("./docs/forms", { waitUntil: "domcontentloaded" });
     await page.getByRole("button", { name: "Open navigation menu" }).click();
     await expect(
       page
@@ -40,6 +39,36 @@ test.describe("Forms / Formisch docs", () => {
       .getByRole("link", { name: "Formisch" })
       .click();
     await expect(page.getByRole("heading", { level: 1, name: "Formisch" })).toBeVisible();
+  });
+
+  test("shared preview controls preserve the form examples and show their source", async ({
+    page,
+  }) => {
+    await page.goto("./docs/formisch/installation", { waitUntil: "domcontentloaded" });
+    await expect(page.locator(".component-detail-actions")).toContainText("10 documented patterns");
+    const preview = page.locator(".component-example").first();
+    await preview.getByLabel("Bug Title", { exact: true }).fill("Unsaved report");
+    await preview.getByRole("button", { name: "Narrow container", exact: true }).click();
+    await expect(preview.locator(".component-example-canvas")).toHaveAttribute(
+      "data-narrow",
+      "true",
+    );
+    await preview.getByRole("button", { name: "Reset example", exact: true }).click();
+    await expect(preview.getByLabel("Bug Title", { exact: true })).toHaveValue("");
+    await preview.getByRole("tab", { name: "Code", exact: true }).click();
+    await expect(preview.locator("pre code")).toContainText("field.input.value");
+    await expect(preview).toContainText("BugReportForm.tsx");
+    await preview.getByRole("tab", { name: "Preview", exact: true }).click();
+    await expect(preview.getByLabel("Bug Title", { exact: true })).toBeVisible();
+    await page.locator(".component-example-directory summary").click();
+    await expect(
+      page.getByRole("navigation", { name: "Formisch examples" }).getByRole("link"),
+    ).toHaveCount(10);
+    const setup = page.locator("#installation");
+    await setup.getByRole("tab", { name: "npm", exact: true }).click();
+    await expect(setup.locator("pre code")).toContainText("npm install @formisch/preact valibot");
+    await setup.getByRole("tab", { name: "yarn", exact: true }).click();
+    await expect(setup.locator("pre code")).toContainText("yarn add @formisch/preact valibot");
   });
 
   test("deep links render all Formisch sections", async ({ page }) => {
@@ -66,13 +95,13 @@ test.describe("Forms / Formisch docs", () => {
       "accessibility",
       "sources",
     ]) {
-      await page.goto(`./docs/formisch/${section}`);
+      await page.goto(`./docs/formisch/${section}`, { waitUntil: "domcontentloaded" });
       await expect(page.locator(`section#${section}`)).toBeVisible();
     }
   });
 
   test("bug report validation, submit and reset work", async ({ page }) => {
-    await page.goto("./docs/formisch/demo");
+    await page.goto("./docs/formisch/demo", { waitUntil: "domcontentloaded" });
     const demo = page.locator("section#demo");
     await demo.getByRole("button", { name: "Submit" }).click();
     await expect(demo.getByText("Use at least 5 characters.")).toBeVisible();
@@ -83,32 +112,32 @@ test.describe("Forms / Formisch docs", () => {
       .fill("The menu closes before I can choose the second item.");
     await demo.getByRole("button", { name: "Submit" }).click();
     await expect(demo.getByText('"title": "Broken menu"')).toBeVisible();
-    await demo.getByRole("button", { name: "Reset" }).click();
+    await demo.getByRole("button", { name: "Reset", exact: true }).click();
     await expect(demo.getByText('"title": "Broken menu"')).toBeHidden();
     await expect(demo.getByLabel("Bug Title")).toHaveValue("");
   });
 
   test("select, checkbox, radio group and switch update state", async ({ page }) => {
-    await page.goto("./docs/formisch/select");
+    await page.goto("./docs/formisch/select", { waitUntil: "domcontentloaded" });
     const select = page.locator("section#select");
     await select.getByRole("button", { name: "Spoken Language" }).click();
     await page.getByRole("option", { name: "German" }).click();
     await select.getByRole("button", { name: "Save" }).click();
     await expect(select.getByText('"language": "de"')).toBeVisible();
 
-    await page.goto("./docs/formisch/checkbox");
+    await page.goto("./docs/formisch/checkbox", { waitUntil: "domcontentloaded" });
     const checkbox = page.locator("section#checkbox");
     await checkbox.getByLabel("product").check();
     await checkbox.getByRole("button", { name: "Save" }).click();
     await expect(checkbox.getByText('"product"')).toBeVisible();
 
-    await page.goto("./docs/formisch/radio-group");
+    await page.goto("./docs/formisch/radio-group", { waitUntil: "domcontentloaded" });
     const radio = page.locator("section#radio-group");
     await radio.getByRole("radio", { name: /Enterprise/i }).check();
     await radio.getByRole("button", { name: "Save" }).click();
     await expect(radio.getByText('"plan": "enterprise"')).toBeVisible();
 
-    await page.goto("./docs/formisch/switch");
+    await page.goto("./docs/formisch/switch", { waitUntil: "domcontentloaded" });
     const sw = page.locator("section#switch");
     await sw.getByRole("switch", { name: /Multi-factor/i }).click();
     await sw.getByRole("button", { name: "Save" }).click();
@@ -116,7 +145,7 @@ test.describe("Forms / Formisch docs", () => {
   });
 
   test("FieldArray adds, removes, caps at five and validates email", async ({ page }) => {
-    await page.goto("./docs/formisch/array-fields");
+    await page.goto("./docs/formisch/array-fields", { waitUntil: "domcontentloaded" });
     const section = page.locator("section#array-fields");
     await section.getByRole("button", { name: "Add email" }).click();
     await expect(section.getByRole("textbox", { name: "Email 2" })).toBeVisible();
@@ -126,6 +155,8 @@ test.describe("Forms / Formisch docs", () => {
     await expect(section.getByRole("button", { name: "Add email" })).toBeDisabled();
     await section.getByRole("textbox", { name: "Email 1" }).fill("not-an-email");
     await section.getByRole("button", { name: "Save" }).click();
-    await expect(section.getByText("Enter a valid email address.")).toBeVisible();
+    const errors = section.getByRole("alert").filter({ hasText: "Enter a valid email address." });
+    await expect(errors).toHaveCount(5);
+    await expect(errors.first()).toBeVisible();
   });
 });
