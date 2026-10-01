@@ -9,8 +9,8 @@ const useActiveHeading = (
   blockId: string | undefined,
   sections: readonly ContentsSection[],
   mobile: boolean,
+  overviewId: string,
 ) => {
-  const overviewId = blockId ? `${blockId}-overview` : "top";
   const [activeId, setActiveId] = useState<string>(overviewId);
 
   useEffect(() => {
@@ -79,20 +79,26 @@ export const BlockGuideContents = ({
   sections,
   id,
   mobile = false,
+  pageTitle,
 }: {
   block?: BlockGuideIdentity;
+  /** Use a guide’s visible main heading as its first contents entry. */
+  pageTitle?: string;
   id: string;
   sections: readonly ContentsSection[];
   /** Render the same section tree as an inline disclosure instead of a desktop sidebar. */
   mobile?: boolean;
 }) => {
-  const overviewId = block ? `${block.id}-overview` : "top";
-  const activeId = useActiveHeading(block?.id, sections, mobile);
+  const overviewId = block ? `${block.id}-overview` : pageTitle ? "page-title" : "top";
+  const activeId = useActiveHeading(block?.id, sections, mobile, overviewId);
   const links = () => (
     <ul>
       <li>
-        <a href="#top" aria-current={activeId === overviewId ? "location" : undefined}>
-          Overview
+        <a
+          href={pageTitle && !block ? "#page-title" : "#top"}
+          aria-current={activeId === overviewId ? "location" : undefined}
+        >
+          {pageTitle ?? "Overview"}
         </a>
         {block && (
           <ul>

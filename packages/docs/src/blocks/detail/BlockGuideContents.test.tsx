@@ -86,3 +86,26 @@ it("only the visible contents restores hashes and cleans up queued work on unmou
     expect(removeWindow).toHaveBeenCalledWith(event, expect.any(Function));
   }
 });
+
+it("links a special page’s main title and restores its heading target", () => {
+  vi.stubGlobal("matchMedia", () => ({
+    matches: true,
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+  }));
+  const title = "From a block preview to your application";
+  const view = render(
+    <>
+      <h1 id="page-title">{title}</h1>
+      <BlockGuideContents id="guide-contents" pageTitle={title} sections={[]} />
+    </>,
+  );
+  const scroll = vi.fn();
+  document.getElementById("page-title")!.scrollIntoView = scroll;
+  expect(view.getByRole("link", { name: title }).getAttribute("href")).toBe("#page-title");
+  act(() => {
+    history.replaceState(null, "", "#page-title");
+    window.dispatchEvent(new HashChangeEvent("hashchange"));
+  });
+  expect(scroll).toHaveBeenCalledOnce();
+});
