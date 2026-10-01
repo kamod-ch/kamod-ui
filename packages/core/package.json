@@ -326,12 +326,12 @@
   },
   "scripts": {
     "prepublishOnly": "node ../../scripts/sync-package-readme.mjs",
-    "build": "NODE_OPTIONS=--max-old-space-size=8192 tsup && tsc --emitDeclarationOnly --declaration --declarationMap false && cp src/theme.css dist/theme.css",
+    "build": "NODE_OPTIONS=--max-old-space-size=8192 tsup && tsc --emitDeclarationOnly --declaration --declarationMap false && node ../../scripts/fix-declaration-imports.mjs dist && cp src/theme.css dist/theme.css",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
-    "typecheck:emit": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\" && tsc --emitDeclarationOnly --declaration --declarationMap false",
+    "typecheck:emit": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\" && tsc --emitDeclarationOnly --declaration --declarationMap false && node ../../scripts/fix-declaration-imports.mjs dist",
     "lint": "oxlint .",
     "publint": "publint",
     "attw": "attw --pack . --profile esm-only --exclude-entrypoints ./theme.css"
