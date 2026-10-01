@@ -38,7 +38,23 @@ const groups: NavigationGroup[] = [
     label,
     kind: id,
     overview: { label: `${label} overview`, href: withBasePath(`/docs/${id}`), icon: id },
+    guides:
+      id === "components"
+        ? [
+            {
+              label: "Theming",
+              href: withBasePath("/docs/theming/installation"),
+              icon: "theming" as const,
+            },
+            {
+              label: "Component styles",
+              href: withBasePath("/blocks/styles"),
+              icon: "styles" as const,
+            },
+          ]
+        : undefined,
     links: docsNavigation
+      .filter((doc) => doc.slug !== "theming")
       .filter((doc) => docsShowMotion || !isMotionDocSlug(doc.slug))
       .filter((doc) => doc.group === id || (id === "components" && doc.group === "motion"))
       .map((doc) => ({

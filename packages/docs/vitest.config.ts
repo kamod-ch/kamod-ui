@@ -1,9 +1,11 @@
 import { resolve } from "node:path";
 import { defineConfig } from "vitest/config";
+import { blockPagesPlugin } from "./.preactpress/block-pages-plugin";
 
 const coreSrc = resolve(import.meta.dirname, "../core/src");
 
 export default defineConfig({
+  plugins: [blockPagesPlugin()],
   resolve: {
     alias: [
       {

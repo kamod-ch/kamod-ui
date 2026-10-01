@@ -18,10 +18,10 @@ export const blockGuides = [
   },
   {
     slug: "theming",
-    label: "Theming & Tailwind",
-    title: "One theme, across your entire application",
+    label: "Theming blocks",
+    title: "Bring your app’s theme into every block",
     description:
-      "Connect Tailwind CSS v4, semantic tokens and Kamod’s theme runtime. Configure presets and color schemes, understand the sidebar’s own tokens, and keep the first render consistent with the rest of your app.",
+      "Apply the shared theme foundation to copied layouts. Check source discovery, sidebar surfaces, preview preferences and complete screens in both color schemes.",
     focus: "Configure · Customize · Check",
   },
 ] as const;

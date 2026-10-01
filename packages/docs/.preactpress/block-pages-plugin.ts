@@ -6,6 +6,8 @@ import { blockGuides } from "../src/blocks/guides/guide-catalog";
 
 const moduleId = "virtual:kamod-block-pages";
 const guidesId = "virtual:kamod-block-guides";
+const themingId = "virtual:kamod-theming-guide";
+const resolvedThemingId = `\0${themingId}`;
 const resolvedGuidesId = `\0${guidesId}`;
 const resolvedId = `\0${moduleId}`;
 
@@ -19,8 +21,14 @@ export function blockPagesPlugin(): Plugin {
     resolveId(id) {
       if (id === moduleId) return resolvedId;
       if (id === guidesId) return resolvedGuidesId;
+      if (id === themingId) return resolvedThemingId;
     },
     load(id, options) {
+      if (id === resolvedThemingId) {
+        const path = resolve(import.meta.dirname, "content/theming-foundations.md");
+        this.addWatchFile(path);
+        return `export default ${JSON.stringify(readFileSync(path, "utf8"))};`;
+      }
       if (id === resolvedGuidesId) {
         // PreactPress transforms .md?raw imports too; expose the original prose through a JS module.
         const sources = Object.fromEntries(
