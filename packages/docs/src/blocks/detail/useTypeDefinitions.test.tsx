@@ -38,6 +38,7 @@ function flushFrames() {
   });
 }
 beforeEach(() => {
+  vi.useFakeTimers();
   history.replaceState(null, "", "/");
   frames = new Map();
   vi.spyOn(window, "requestAnimationFrame").mockImplementation((callback) => {
@@ -54,6 +55,10 @@ beforeEach(() => {
 });
 afterEach(() => {
   cleanup();
+  // Preact 11 schedules effect work with both RAF and a fallback timeout. Drain
+  // that timeout before jsdom removes cancelAnimationFrame during teardown.
+  vi.runAllTimers();
+  vi.useRealTimers();
   vi.restoreAllMocks();
   scroll.mockClear();
 });
