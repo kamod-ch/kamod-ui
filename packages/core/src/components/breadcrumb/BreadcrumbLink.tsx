@@ -1,7 +1,14 @@
-import { type ComponentChildren, cloneElement, isValidElement, type JSX } from "preact";
+import {
+  type AnchorHTMLAttributes,
+  type ComponentChildren,
+  cloneElement,
+  type HTMLAttributes,
+  isValidElement,
+  type JSX,
+} from "preact";
 import { cn } from "../../lib/utils";
 
-export type BreadcrumbLinkProps = JSX.AnchorHTMLAttributes<HTMLAnchorElement> & {
+export type BreadcrumbLinkProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
   children?: ComponentChildren;
   asChild?: boolean;
 };
@@ -21,13 +28,13 @@ export const BreadcrumbLink = ({
       return null;
     }
 
-    const childProps = (children.props ?? {}) as JSX.HTMLAttributes<HTMLElement> & {
+    const childProps = (children.props ?? {}) as HTMLAttributes<HTMLElement> & {
       class?: string;
       className?: string;
     };
 
     return cloneElement(children, {
-      ...(rest as JSX.HTMLAttributes<HTMLElement>),
+      ...(rest as HTMLAttributes<HTMLElement>),
       ...childProps,
       class: cn(mergedClass, childProps.class, childProps.className),
       "data-slot": "breadcrumb-link",
@@ -35,7 +42,7 @@ export const BreadcrumbLink = ({
   }
 
   return (
-    <a data-slot="breadcrumb-link" class={mergedClass} {...rest}>
+    <a data-slot="breadcrumb-link" class={mergedClass} {...(rest as JSX.IntrinsicElements["a"])}>
       {children}
     </a>
   );

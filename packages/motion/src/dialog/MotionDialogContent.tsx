@@ -5,7 +5,7 @@ import {
   useDialog,
   useModalPanelA11y,
 } from "@kamod-ch/ui/dialog";
-import type { JSX } from "preact";
+import type { TargetedKeyboardEvent } from "preact";
 import { cn } from "../lib/cn.js";
 import { scale } from "../lib/presets.js";
 
@@ -36,7 +36,7 @@ export function MotionDialogContent({
   const open = dialog.open.value === true;
   const { panelRef, labelledBy, describedBy } = useModalPanelA11y(open);
 
-  const handleKeyDown = (event: JSX.TargetedKeyboardEvent<HTMLDivElement>) => {
+  const handleKeyDown = (event: TargetedKeyboardEvent<HTMLDivElement>) => {
     if (event.key === "Escape") {
       event.preventDefault();
       dialog.setOpen(false);

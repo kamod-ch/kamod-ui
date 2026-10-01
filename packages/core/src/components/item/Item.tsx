@@ -1,4 +1,4 @@
-import { type ComponentChildren, cloneElement, isValidElement, type JSX } from "preact";
+import { type ComponentChildren, cloneElement, type HTMLAttributes, isValidElement } from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
 import { cn } from "../../lib/utils";
 
@@ -26,7 +26,7 @@ export const item = tv({
   },
 });
 
-export type ItemProps = Omit<JSX.HTMLAttributes<HTMLDivElement>, "size"> &
+export type ItemProps = Omit<HTMLAttributes<HTMLDivElement>, "size"> &
   VariantProps<typeof item> & {
     children?: ComponentChildren;
     asChild?: boolean;
@@ -50,14 +50,14 @@ export const Item = ({
       return null;
     }
 
-    const childProps = (children.props ?? {}) as JSX.HTMLAttributes<HTMLElement> & {
+    const childProps = (children.props ?? {}) as HTMLAttributes<HTMLElement> & {
       class?: string;
       className?: string;
     };
 
     return cloneElement(children, {
       ...childProps,
-      ...(rest as JSX.HTMLAttributes<HTMLElement>),
+      ...(rest as HTMLAttributes<HTMLElement>),
       class: cn(variantClasses, childProps.class, childProps.className, className),
       "data-slot": "item",
       "data-variant": resolvedVariant,

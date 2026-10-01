@@ -6,6 +6,11 @@ allowBuilds:
   lefthook: false
 overrides:
   react: 19.2.8
+peerDependencyRules:
+  # These libraries are runtime-compatible with Preact 11 but have not widened
+  # their published peer ranges yet.
+  allowedVersions:
+    preact: ">=10 <12"
 minimumReleaseAgeExclude:
   - "@kamod-ch/preactpress@2.2.1"
   - "@kamod-ch/brand@0.1.0 || 0.1.11 || 0.1.12"

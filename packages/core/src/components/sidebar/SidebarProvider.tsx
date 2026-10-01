@@ -1,4 +1,4 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { createContext } from "preact";
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "preact/hooks";
 import { cn } from "../../lib/utils";
@@ -30,7 +30,7 @@ export const useSidebar = () => {
   return context;
 };
 
-export type SidebarProviderProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type SidebarProviderProps = HTMLAttributes<HTMLDivElement> & {
   /** Initial desktop state when uncontrolled; the mobile sheet always starts closed. */
   defaultOpen?: boolean;
   /** Controlled desktop state. Mobile visibility is managed separately. */

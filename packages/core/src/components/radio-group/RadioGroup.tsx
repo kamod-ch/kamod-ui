@@ -1,4 +1,4 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { createContext } from "preact";
 import { useContext, useEffect, useId, useState } from "preact/hooks";
 import { cn } from "../../lib/utils";
@@ -19,7 +19,7 @@ export const useRadioGroup = () => {
   return context;
 };
 
-export type RadioGroupProps = Omit<JSX.HTMLAttributes<HTMLDivElement>, "class"> & {
+export type RadioGroupProps = Omit<HTMLAttributes<HTMLDivElement>, "class"> & {
   /** When omitted, a stable unique name is generated (forms can still submit if you add name to inputs manually). */
   name?: string;
   defaultValue?: string;

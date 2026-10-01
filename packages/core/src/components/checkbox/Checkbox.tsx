@@ -1,17 +1,17 @@
-import type { JSX } from "preact";
+import type { InputHTMLAttributes, TargetedEvent } from "preact";
 import { useLayoutEffect, useRef, useState } from "preact/hooks";
 import { cn } from "../../lib/utils";
 
 export type CheckboxCheckedState = boolean | "indeterminate";
 
 export type CheckboxProps = Omit<
-  JSX.InputHTMLAttributes<HTMLInputElement>,
+  InputHTMLAttributes<HTMLInputElement>,
   "type" | "checked" | "defaultChecked" | "onChange"
 > & {
   checked?: CheckboxCheckedState;
   defaultChecked?: CheckboxCheckedState;
   onCheckedChange?: (checked: CheckboxCheckedState) => void;
-  onChange?: (event: JSX.TargetedEvent<HTMLInputElement>) => void;
+  onChange?: (event: TargetedEvent<HTMLInputElement>) => void;
 };
 
 const CheckIcon = ({ class: className }: { class?: string }) => (
@@ -77,7 +77,7 @@ export const Checkbox = ({
       )}
     >
       <input
-        {...rest}
+        {...(rest as Record<string, unknown>)}
         id={id}
         ref={(node) => {
           inputRef.current = node;

@@ -1,8 +1,8 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { useMemo } from "preact/hooks";
 import { cn } from "../../lib/utils";
 
-export type FieldErrorProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type FieldErrorProps = HTMLAttributes<HTMLDivElement> & {
   errors?: Array<{ message?: string } | undefined>;
   children?: ComponentChildren;
 };

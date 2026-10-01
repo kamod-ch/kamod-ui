@@ -1,4 +1,4 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { useLayoutEffect, useMemo } from "preact/hooks";
 import { createIdFactory } from "../../lib/interactive";
 import { cn } from "../../lib/utils";
@@ -6,7 +6,7 @@ import { useDialog } from "./Dialog";
 
 const nextDescriptionId = createIdFactory("dialog-description");
 
-export type DialogDescriptionProps = JSX.HTMLAttributes<HTMLParagraphElement> & {
+export type DialogDescriptionProps = HTMLAttributes<HTMLParagraphElement> & {
   children?: ComponentChildren;
 };
 

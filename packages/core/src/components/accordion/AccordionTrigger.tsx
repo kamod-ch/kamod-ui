@@ -1,9 +1,9 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ButtonHTMLAttributes, ComponentChildren } from "preact";
 import { cn } from "../../lib/utils";
 import { useAccordion } from "./Accordion";
 import { useAccordionItem } from "./AccordionItem";
 
-export type AccordionTriggerProps = JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
+export type AccordionTriggerProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   hideIndicator?: boolean;
   indicator?: ComponentChildren;
   children?: ComponentChildren;

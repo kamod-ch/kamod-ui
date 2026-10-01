@@ -1,8 +1,8 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 import { useAvatarContext } from "./context";
 
-export type AvatarFallbackProps = JSX.HTMLAttributes<HTMLSpanElement> & {
+export type AvatarFallbackProps = HTMLAttributes<HTMLSpanElement> & {
   children?: ComponentChildren;
 };
 

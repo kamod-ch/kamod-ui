@@ -1,6 +1,6 @@
 import { ChevronsUpDownIcon } from "@kamod-ch/icons/lucide";
 import { Button, Empty, EmptyDescription, EmptyHeader, EmptyTitle } from "@kamod-ch/ui";
-import type { JSX } from "preact";
+import type { TargetedKeyboardEvent, TargetedPointerEvent } from "preact";
 import { TaskCard } from "./task-card";
 import type { Assignee, Column, Task } from "./types";
 
@@ -11,8 +11,8 @@ export type BoardViewProps = {
   readOnly?: boolean;
   onOpenTask: (id: string) => void;
   onToggleColumn: (id: string) => void;
-  onTaskKeyDown: (taskId: string, event: JSX.TargetedKeyboardEvent<HTMLElement>) => void;
-  onGripPointerDown: (task: Task, event: JSX.TargetedPointerEvent<HTMLButtonElement>) => void;
+  onTaskKeyDown: (taskId: string, event: TargetedKeyboardEvent<HTMLElement>) => void;
+  onGripPointerDown: (task: Task, event: TargetedPointerEvent<HTMLButtonElement>) => void;
   onColumnPointerUp: (columnId: string, index: number) => void;
 };
 

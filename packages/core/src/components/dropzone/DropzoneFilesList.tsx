@@ -1,7 +1,7 @@
-import type { JSX } from "preact";
+import type { HTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 
-export type DropzoneFilesListProps = JSX.HTMLAttributes<HTMLUListElement> & {
+export type DropzoneFilesListProps = HTMLAttributes<HTMLUListElement> & {
   files: File[];
 };
 

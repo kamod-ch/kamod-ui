@@ -2,8 +2,8 @@ import { execFileSync } from "node:child_process";
 /** Validate the exported consumer folder independently of repository import paths. */
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, isAbsolute, resolve } from "node:path";
+import ts from "@typescript/typescript6";
 import { strFromU8, unzipSync } from "fflate";
-import ts from "typescript";
 import { build } from "vite";
 import { describe, expect, it } from "vitest";
 import { sidebarBlockMetadata } from "../../../blocks/src/sidebar/metadata";

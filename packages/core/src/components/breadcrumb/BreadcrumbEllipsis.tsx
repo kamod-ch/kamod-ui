@@ -1,7 +1,7 @@
-import type { JSX } from "preact";
+import type { HTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 
-export type BreadcrumbEllipsisProps = JSX.HTMLAttributes<HTMLSpanElement>;
+export type BreadcrumbEllipsisProps = HTMLAttributes<HTMLSpanElement>;
 
 export const BreadcrumbEllipsis = ({ class: className, ...rest }: BreadcrumbEllipsisProps) => (
   <span

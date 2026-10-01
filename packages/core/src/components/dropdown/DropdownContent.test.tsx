@@ -1,5 +1,5 @@
 import { act, cleanup, fireEvent, render, screen, waitFor } from "@testing-library/preact";
-import type { JSX } from "preact";
+import type { ButtonHTMLAttributes } from "preact";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { Dropdown } from "./Dropdown";
 import { DropdownContent } from "./DropdownContent";
@@ -26,7 +26,7 @@ describe("dropdown content placement", () => {
   });
 
   it("does not measure an inline dropdown with a composite trigger", () => {
-    const Trigger = (props: JSX.ButtonHTMLAttributes<HTMLButtonElement>) => <button {...props} />;
+    const Trigger = (props: ButtonHTMLAttributes<HTMLButtonElement>) => <button {...props} />;
     render(
       <Dropdown>
         <DropdownTrigger asChild>

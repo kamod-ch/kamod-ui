@@ -1,4 +1,4 @@
-import type { ComponentChild, ComponentChildren, JSX } from "preact";
+import type { ComponentChild, ComponentChildren, HTMLAttributes } from "preact";
 import { isValidElement, toChildArray } from "preact";
 import { useLayoutEffect, useMemo, useRef } from "preact/hooks";
 import { cn } from "../../lib/utils";
@@ -64,7 +64,7 @@ function syncViewportOverflowState(el: HTMLDivElement) {
   el.style.setProperty("--scroll-area-overflow-y-end", `${Math.max(0, maxY - scrollTop)}px`);
 }
 
-export type ScrollAreaProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type ScrollAreaProps = HTMLAttributes<HTMLDivElement> & {
   children?: ComponentChildren;
 };
 

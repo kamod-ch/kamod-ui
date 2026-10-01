@@ -1,8 +1,8 @@
-import type { JSX } from "preact";
+import type { ButtonHTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 import { useSidebar } from "./SidebarProvider";
 
-export type SidebarRailProps = JSX.ButtonHTMLAttributes<HTMLButtonElement>;
+export type SidebarRailProps = ButtonHTMLAttributes<HTMLButtonElement>;
 
 export const SidebarRail = ({ class: className, ...rest }: SidebarRailProps) => {
   const { toggleSidebar } = useSidebar();

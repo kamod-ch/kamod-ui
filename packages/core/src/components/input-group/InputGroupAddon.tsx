@@ -1,4 +1,4 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
 import { cn } from "../../lib/utils";
 
@@ -22,7 +22,7 @@ export const inputGroupAddon = tv({
   },
 });
 
-export type InputGroupAddonProps = JSX.HTMLAttributes<HTMLDivElement> &
+export type InputGroupAddonProps = HTMLAttributes<HTMLDivElement> &
   VariantProps<typeof inputGroupAddon> & {
     children?: ComponentChildren;
   };

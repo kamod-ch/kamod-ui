@@ -1,4 +1,4 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, JSX, SelectHTMLAttributes } from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
 import { cn } from "../../lib/utils";
 
@@ -46,7 +46,7 @@ export const nativeSelectIcon = tv({
   },
 });
 
-export type NativeSelectProps = Omit<JSX.SelectHTMLAttributes<HTMLSelectElement>, "size"> &
+export type NativeSelectProps = Omit<SelectHTMLAttributes<HTMLSelectElement>, "size"> &
   VariantProps<typeof nativeSelect> & {
     icon?: ComponentChildren;
     children?: ComponentChildren;
@@ -60,7 +60,11 @@ export const NativeSelect = ({
   ...rest
 }: NativeSelectProps) => (
   <div class={nativeSelectWrapper()} data-size={size} data-slot="native-select-wrapper">
-    <select class={cn(nativeSelect({ size }), className)} data-slot="native-select" {...rest}>
+    <select
+      class={cn(nativeSelect({ size }), className)}
+      data-slot="native-select"
+      {...(rest as JSX.IntrinsicElements["select"])}
+    >
       {children}
     </select>
     {icon ?? (

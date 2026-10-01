@@ -1,8 +1,8 @@
-import type { JSX } from "preact";
+import type { HTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 import { useInputOTP } from "./input-otp-context";
 
-export type InputOTPSlotProps = JSX.HTMLAttributes<HTMLSpanElement> & {
+export type InputOTPSlotProps = HTMLAttributes<HTMLSpanElement> & {
   index: number;
 };
 

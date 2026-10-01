@@ -1,5 +1,5 @@
 import { type Signal, signal } from "@preact/signals";
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { createContext } from "preact";
 import { useCallback, useContext, useMemo } from "preact/hooks";
 import { cn } from "../../lib/utils";
@@ -22,7 +22,7 @@ export const useCommand = () => {
   return context;
 };
 
-export type CommandProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type CommandProps = HTMLAttributes<HTMLDivElement> & {
   children?: ComponentChildren;
   /** First visible item gets `data-highlighted`; enables ArrowUp/Down + Enter in `CommandInput`. */
   autoHighlight?: boolean;

@@ -1,7 +1,7 @@
-import type { JSX } from "preact";
+import type { FieldsetHTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 
-export type FieldSetProps = JSX.FieldsetHTMLAttributes<HTMLFieldSetElement>;
+export type FieldSetProps = FieldsetHTMLAttributes<HTMLFieldSetElement>;
 
 export const FieldSet = ({ class: className, ...rest }: FieldSetProps) => (
   <fieldset

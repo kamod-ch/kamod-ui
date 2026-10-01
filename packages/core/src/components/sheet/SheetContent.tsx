@@ -1,4 +1,4 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { createPortal } from "../../lib/createPortal";
 import { cn } from "../../lib/utils";
 import { useDialog } from "../dialog/Dialog";
@@ -6,7 +6,7 @@ import { dialogViewportBleedClass } from "../dialog/DialogContent";
 import { useModalPanelA11y } from "../dialog/useModalPanelA11y";
 import { SheetClose } from "./SheetClose";
 
-export type SheetContentProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type SheetContentProps = HTMLAttributes<HTMLDivElement> & {
   side?: "left" | "right" | "top" | "bottom";
   forceMount?: boolean;
   showCloseButton?: boolean;

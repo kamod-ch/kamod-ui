@@ -1,8 +1,8 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 import { comboboxSelectionLabel, useCombobox } from "./combobox-context";
 
-export type ComboboxValueProps = Omit<JSX.HTMLAttributes<HTMLSpanElement>, "children"> & {
+export type ComboboxValueProps = Omit<HTMLAttributes<HTMLSpanElement>, "children"> & {
   placeholder?: string;
   children?:
     | ((state: { label: string; empty: boolean; keys: string[] }) => ComponentChildren)

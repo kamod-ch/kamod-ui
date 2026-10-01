@@ -1,4 +1,4 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, CSSProperties, HTMLAttributes } from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
 import { cn } from "../../lib/utils";
 import { usePopover } from "./Popover";
@@ -43,7 +43,7 @@ export const popoverContent = tv({
   },
 });
 
-export type PopoverContentProps = JSX.HTMLAttributes<HTMLDivElement> &
+export type PopoverContentProps = HTMLAttributes<HTMLDivElement> &
   VariantProps<typeof popoverContent> & {
     forceMount?: boolean;
     side?: "top" | "bottom" | "left" | "right";
@@ -69,7 +69,7 @@ export const PopoverContent = ({
   const isVertical = side === "top" || side === "bottom";
   const alignClass = isVertical ? alignByAxis.vertical[align] : alignByAxis.horizontal[align];
   const inlineStyle = typeof style === "object" && style !== null ? style : undefined;
-  const offsetStyle: JSX.CSSProperties =
+  const offsetStyle: CSSProperties =
     side === "bottom"
       ? { marginTop: `${sideOffset}px` }
       : side === "top"

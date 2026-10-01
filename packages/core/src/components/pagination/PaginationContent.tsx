@@ -1,7 +1,7 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 
-export type PaginationContentProps = JSX.HTMLAttributes<HTMLUListElement> & {
+export type PaginationContentProps = HTMLAttributes<HTMLUListElement> & {
   children?: ComponentChildren;
 };
 

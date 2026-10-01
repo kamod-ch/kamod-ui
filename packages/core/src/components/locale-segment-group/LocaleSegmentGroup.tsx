@@ -1,4 +1,4 @@
-import type { JSX } from "preact";
+import type { HTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 
 export type LocaleSegmentOption = { value: string; label: string };
@@ -16,7 +16,7 @@ const btnInactive =
   "bg-[#f7f4ee] text-black/60 hover:bg-black/5 hover:text-black dark:bg-transparent dark:text-neutral-400 dark:hover:bg-white/10 dark:hover:text-neutral-100";
 
 export type LocaleSegmentGroupProps = Omit<
-  JSX.HTMLAttributes<HTMLDivElement>,
+  HTMLAttributes<HTMLDivElement>,
   "class" | "role" | "value"
 > & {
   value: string;

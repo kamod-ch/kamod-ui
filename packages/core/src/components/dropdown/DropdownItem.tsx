@@ -1,4 +1,10 @@
-import type { ComponentChildren, JSX } from "preact";
+import type {
+  AnchorHTMLAttributes,
+  ButtonHTMLAttributes,
+  ComponentChildren,
+  MouseEventHandler,
+  TargetedMouseEvent,
+} from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
 import { cn } from "../../lib/utils";
 import { useDropdown } from "./Dropdown";
@@ -33,8 +39,8 @@ type DropdownItemSharedProps = VariantProps<typeof dropdownItem> & {
 
 export type DropdownItemProps = DropdownItemSharedProps &
   (
-    | (Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, "href"> & { href?: undefined })
-    | (JSX.AnchorHTMLAttributes<HTMLAnchorElement> & { href: string })
+    | (Omit<ButtonHTMLAttributes<HTMLButtonElement>, "href"> & { href?: undefined })
+    | (AnchorHTMLAttributes<HTMLAnchorElement> & { href: string })
   );
 
 export const DropdownItem = ({
@@ -49,8 +55,8 @@ export const DropdownItem = ({
   const dropdown = useDropdown();
   const resolvedClass = cn(dropdownItem({ inset, variant }), className);
 
-  const handleActivate = (event: JSX.TargetedMouseEvent<HTMLElement>) => {
-    (onClick as ((event: JSX.TargetedMouseEvent<HTMLElement>) => void) | undefined)?.(event);
+  const handleActivate = (event: TargetedMouseEvent<HTMLElement>) => {
+    (onClick as ((event: TargetedMouseEvent<HTMLElement>) => void) | undefined)?.(event);
     if (event.defaultPrevented) return;
     dropdown.setOpen(false);
   };
@@ -65,7 +71,7 @@ export const DropdownItem = ({
         data-variant={variant}
         class={resolvedClass}
         onClick={handleActivate}
-        {...(rest as JSX.AnchorHTMLAttributes<HTMLAnchorElement>)}
+        {...(rest as Record<string, unknown>)}
       >
         {children}
       </a>
@@ -80,8 +86,8 @@ export const DropdownItem = ({
       data-inset={inset ? "true" : undefined}
       data-variant={variant}
       class={resolvedClass}
-      onClick={handleActivate as JSX.MouseEventHandler<HTMLButtonElement>}
-      {...(rest as JSX.ButtonHTMLAttributes<HTMLButtonElement>)}
+      onClick={handleActivate as MouseEventHandler<HTMLButtonElement>}
+      {...(rest as Record<string, unknown>)}
     >
       {children}
     </button>

@@ -1,10 +1,10 @@
 import { signal } from "@preact/signals";
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { useEffect, useMemo } from "preact/hooks";
 import { cn } from "../../lib/utils";
 import { MenubarRadioContext } from "./menubar-context";
 
-export type MenubarRadioGroupProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type MenubarRadioGroupProps = HTMLAttributes<HTMLDivElement> & {
   children?: ComponentChildren;
   value?: string;
   defaultValue?: string;

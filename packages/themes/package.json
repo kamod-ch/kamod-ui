@@ -55,7 +55,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "tsup && cp src/*.css dist/ && mkdir -p dist/brands && cp src/brands/*.css dist/brands/.",
+    "build": "tsup && tsc --emitDeclarationOnly --declaration --declarationMap false && cp src/*.css dist/ && mkdir -p dist/brands && cp src/brands/*.css dist/brands/.",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
@@ -77,7 +77,7 @@
   },
   "peerDependencies": {
     "@preact/signals": "^2.11.3",
-    "preact": "^10.29.8"
+    "preact": "^11.0.0"
   },
   "engines": {
     "node": ">=20"

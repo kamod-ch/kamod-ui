@@ -1,9 +1,9 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, CSSProperties, HTMLAttributes } from "preact";
 import { useHeightDisclosureContent } from "../../lib/disclosure/use-height-disclosure-content";
 import { cn } from "../../lib/utils";
 import { useCollapsible } from "./Collapsible";
 
-export type CollapsibleContentProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type CollapsibleContentProps = HTMLAttributes<HTMLDivElement> & {
   forceMount?: boolean;
   /** Grid transition duration, e.g. `400ms` */
   duration?: string;
@@ -42,9 +42,9 @@ export const CollapsibleContent = ({
 
   if (!allowRender) return null;
 
-  const mergedStyle: JSX.CSSProperties = {
+  const mergedStyle: CSSProperties = {
     ...(typeof style === "object" && style !== null && !Array.isArray(style)
-      ? (style as JSX.CSSProperties)
+      ? (style as CSSProperties)
       : {}),
     ["--kamodui-collapsible-duration" as string]: duration,
     ["--kamodui-collapsible-timing-function" as string]: timingFunction,

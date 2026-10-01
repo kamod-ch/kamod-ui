@@ -1,4 +1,9 @@
-import type { ComponentChildren, JSX } from "preact";
+import type {
+  AnchorHTMLAttributes,
+  ButtonHTMLAttributes,
+  ComponentChildren,
+  HTMLAttributes,
+} from "preact";
 import { useMemo } from "preact/hooks";
 import { tv, type VariantProps } from "tailwind-variants";
 import { cn } from "../../lib/utils";
@@ -7,7 +12,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "../tooltip";
 import { useSidebar } from "./SidebarProvider";
 import { Slot } from "./slot";
 
-export type SidebarMenuProps = JSX.HTMLAttributes<HTMLUListElement> & {
+export type SidebarMenuProps = HTMLAttributes<HTMLUListElement> & {
   children?: ComponentChildren;
 };
 
@@ -22,7 +27,7 @@ export const SidebarMenu = ({ class: className, children, ...rest }: SidebarMenu
   </ul>
 );
 
-export type SidebarMenuItemProps = JSX.HTMLAttributes<HTMLLIElement> & {
+export type SidebarMenuItemProps = HTMLAttributes<HTMLLIElement> & {
   children?: ComponentChildren;
 };
 
@@ -67,11 +72,11 @@ export const sidebarMenuButton = tv({
   },
 });
 
-export type SidebarMenuButtonProps = JSX.ButtonHTMLAttributes<HTMLButtonElement> &
+export type SidebarMenuButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
   VariantProps<typeof sidebarMenuButton> & {
     asChild?: boolean;
     isActive?: boolean;
-    tooltip?: string | JSX.HTMLAttributes<HTMLDivElement>;
+    tooltip?: string | HTMLAttributes<HTMLDivElement>;
     children?: ComponentChildren;
   };
 
@@ -118,7 +123,7 @@ export const SidebarMenuButton = ({
   const tooltipProps =
     typeof tooltip === "string"
       ? { children: tooltip }
-      : (tooltip as JSX.HTMLAttributes<HTMLDivElement>);
+      : (tooltip as HTMLAttributes<HTMLDivElement>);
 
   return (
     <Tooltip>
@@ -133,7 +138,7 @@ export const SidebarMenuButton = ({
   );
 };
 
-export type SidebarMenuActionProps = JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
+export type SidebarMenuActionProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   asChild?: boolean;
   showOnHover?: boolean;
   children?: ComponentChildren;
@@ -182,7 +187,7 @@ export const SidebarMenuAction = ({
   );
 };
 
-export type SidebarMenuBadgeProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type SidebarMenuBadgeProps = HTMLAttributes<HTMLDivElement> & {
   children?: ComponentChildren;
 };
 
@@ -209,7 +214,7 @@ export const SidebarMenuBadge = ({
   </div>
 );
 
-export type SidebarMenuSkeletonProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type SidebarMenuSkeletonProps = HTMLAttributes<HTMLDivElement> & {
   showIcon?: boolean;
 };
 
@@ -236,7 +241,7 @@ export const SidebarMenuSkeleton = ({
   );
 };
 
-export type SidebarMenuSubProps = JSX.HTMLAttributes<HTMLUListElement> & {
+export type SidebarMenuSubProps = HTMLAttributes<HTMLUListElement> & {
   children?: ComponentChildren;
 };
 
@@ -255,7 +260,7 @@ export const SidebarMenuSub = ({ class: className, children, ...rest }: SidebarM
   </ul>
 );
 
-export type SidebarMenuSubItemProps = JSX.HTMLAttributes<HTMLLIElement> & {
+export type SidebarMenuSubItemProps = HTMLAttributes<HTMLLIElement> & {
   children?: ComponentChildren;
 };
 
@@ -274,7 +279,7 @@ export const SidebarMenuSubItem = ({
   </li>
 );
 
-export type SidebarMenuSubButtonProps = JSX.AnchorHTMLAttributes<HTMLAnchorElement> & {
+export type SidebarMenuSubButtonProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
   asChild?: boolean;
   size?: "sm" | "md";
   isActive?: boolean;
@@ -318,7 +323,7 @@ export const SidebarMenuSubButton = ({
       data-size={size}
       data-active={isActive}
       class={classes}
-      {...rest}
+      {...(rest as Record<string, unknown>)}
     >
       {children}
     </a>

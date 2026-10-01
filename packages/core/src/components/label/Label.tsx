@@ -1,4 +1,4 @@
-import type { JSX } from "preact";
+import type { LabelHTMLAttributes } from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
 import { cn } from "../../lib/utils";
 
@@ -12,7 +12,7 @@ export const label = tv({
   defaultVariants: { size: "sm" },
 });
 
-export type LabelProps = Omit<JSX.LabelHTMLAttributes<HTMLLabelElement>, "size"> &
+export type LabelProps = Omit<LabelHTMLAttributes<HTMLLabelElement>, "size"> &
   VariantProps<typeof label>;
 
 export const Label = ({ size, class: className, ...rest }: LabelProps) => (

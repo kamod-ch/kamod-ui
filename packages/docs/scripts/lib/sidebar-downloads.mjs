@@ -2,8 +2,8 @@
 import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { dirname, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import ts from "@typescript/typescript6";
 import { strToU8, zipSync } from "fflate";
-import ts from "typescript";
 
 export const blocksRoot = resolve(import.meta.dirname, "../../../blocks");
 const manifestPath = resolve(blocksRoot, "src/sidebar/installation-manifest.json");

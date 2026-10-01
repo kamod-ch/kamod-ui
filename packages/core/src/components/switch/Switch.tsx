@@ -1,4 +1,4 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ButtonHTMLAttributes, ComponentChildren } from "preact";
 import { useState } from "preact/hooks";
 import { tv, type VariantProps } from "tailwind-variants";
 import { cn } from "../../lib/utils";
@@ -42,7 +42,7 @@ const switchThumb = tv({
 
 type SwitchVariants = VariantProps<typeof switchRoot>;
 
-export type SwitchProps = Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, "class"> &
+export type SwitchProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "class"> &
   SwitchVariants & {
     class?: string;
     defaultChecked?: boolean;

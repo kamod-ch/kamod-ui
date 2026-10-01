@@ -1,8 +1,8 @@
 import { useAccordionItem } from "@kamod-ch/ui/accordion";
-import type { JSX } from "preact";
+import type { HTMLAttributes } from "preact";
 import { MotionDisclosureContent } from "../lib/MotionDisclosureContent.js";
 
-export type MotionAccordionContentProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type MotionAccordionContentProps = HTMLAttributes<HTMLDivElement> & {
   forceMount?: boolean;
 };
 

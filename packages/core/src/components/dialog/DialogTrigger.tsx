@@ -1,7 +1,15 @@
-import { type ComponentChildren, cloneElement, isValidElement, type JSX } from "preact";
+import {
+  type ButtonHTMLAttributes,
+  type ComponentChildren,
+  cloneElement,
+  type HTMLAttributes,
+  isValidElement,
+  type TargetedMouseEvent,
+  type TargetedPointerEvent,
+} from "preact";
 import { useDialog } from "./Dialog";
 
-export type DialogTriggerProps = JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
+export type DialogTriggerProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   asChild?: boolean;
   children?: ComponentChildren;
   "data-slot"?: string;
@@ -30,16 +38,16 @@ export const DialogTrigger = ({
     dialog.setOpen(true);
   };
 
-  const handlePointerDown = (event: JSX.TargetedPointerEvent<HTMLElement>) => {
-    onPointerDown?.(event as JSX.TargetedPointerEvent<HTMLButtonElement>);
+  const handlePointerDown = (event: TargetedPointerEvent<HTMLElement>) => {
+    onPointerDown?.(event as TargetedPointerEvent<HTMLButtonElement>);
     if (event.defaultPrevented) return;
     if (event.button === 0) {
       openDialog();
     }
   };
 
-  const handleClick = (event: JSX.TargetedMouseEvent<HTMLElement>) => {
-    onClick?.(event as JSX.TargetedMouseEvent<HTMLButtonElement>);
+  const handleClick = (event: TargetedMouseEvent<HTMLElement>) => {
+    onClick?.(event as TargetedMouseEvent<HTMLButtonElement>);
     if (event.defaultPrevented) return;
     openDialog();
   };
@@ -49,10 +57,10 @@ export const DialogTrigger = ({
       return null;
     }
 
-    const childProps = (children.props ?? {}) as JSX.HTMLAttributes<HTMLElement> & {
+    const childProps = (children.props ?? {}) as HTMLAttributes<HTMLElement> & {
       ref?: unknown;
-      onClick?: (event: JSX.TargetedMouseEvent<HTMLElement>) => void;
-      onPointerDown?: (event: JSX.TargetedPointerEvent<HTMLElement>) => void;
+      onClick?: (event: TargetedMouseEvent<HTMLElement>) => void;
+      onPointerDown?: (event: TargetedPointerEvent<HTMLElement>) => void;
     };
 
     return cloneElement(children, {
@@ -60,11 +68,11 @@ export const DialogTrigger = ({
       ...(rest as Record<string, unknown>),
       "aria-expanded": dialog.open.value,
       "data-slot": dataSlot,
-      onPointerDown: (event: JSX.TargetedPointerEvent<HTMLElement>) => {
+      onPointerDown: (event: TargetedPointerEvent<HTMLElement>) => {
         childProps.onPointerDown?.(event);
         handlePointerDown(event);
       },
-      onClick: (event: JSX.TargetedMouseEvent<HTMLElement>) => {
+      onClick: (event: TargetedMouseEvent<HTMLElement>) => {
         childProps.onClick?.(event);
         handleClick(event);
       },

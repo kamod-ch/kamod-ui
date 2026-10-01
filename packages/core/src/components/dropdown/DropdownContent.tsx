@@ -1,4 +1,4 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, CSSProperties, HTMLAttributes } from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
 import { createPortal } from "../../lib/createPortal";
 import { cn } from "../../lib/utils";
@@ -47,7 +47,7 @@ export const dropdownContent = tv({
   },
 });
 
-export type DropdownContentProps = JSX.HTMLAttributes<HTMLDivElement> &
+export type DropdownContentProps = HTMLAttributes<HTMLDivElement> &
   VariantProps<typeof dropdownContent> & {
     forceMount?: boolean;
     /** Render in document.body and keep the menu inside the viewport, escaping scroll clipping. */
@@ -86,7 +86,7 @@ export const DropdownContent = ({
   const isVertical = side === "top" || side === "bottom";
   const alignClass = isVertical ? alignByAxis.vertical[align] : alignByAxis.horizontal[align];
   const inlineStyle = typeof style === "object" && style !== null ? style : undefined;
-  const offsetStyle: JSX.CSSProperties =
+  const offsetStyle: CSSProperties =
     side === "bottom"
       ? { marginTop: `${sideOffset}px` }
       : side === "top"

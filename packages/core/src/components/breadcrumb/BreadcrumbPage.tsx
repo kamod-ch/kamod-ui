@@ -1,7 +1,7 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 
-export type BreadcrumbPageProps = JSX.HTMLAttributes<HTMLSpanElement> & {
+export type BreadcrumbPageProps = HTMLAttributes<HTMLSpanElement> & {
   children?: ComponentChildren;
 };
 

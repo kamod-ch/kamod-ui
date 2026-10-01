@@ -1,8 +1,8 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { cn } from "./cn.js";
 import { useDisclosureContentMotion } from "./use-disclosure-content-motion.js";
 
-export type MotionDisclosureContentProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type MotionDisclosureContentProps = HTMLAttributes<HTMLDivElement> & {
   open: boolean;
   forceMount?: boolean;
   outerDataSlot: string;

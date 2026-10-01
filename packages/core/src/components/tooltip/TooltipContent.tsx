@@ -1,8 +1,14 @@
-import { type ComponentChildren, cloneElement, isValidElement, type JSX } from "preact";
+import {
+  type ComponentChildren,
+  type CSSProperties,
+  cloneElement,
+  type HTMLAttributes,
+  isValidElement,
+} from "preact";
 import { useEffect, useId, useLayoutEffect, useRef, useState } from "preact/hooks";
 import { useTooltip } from "./Tooltip";
 
-export type TooltipContentProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type TooltipContentProps = HTMLAttributes<HTMLDivElement> & {
   asChild?: boolean;
   side?: "top" | "right" | "bottom" | "left";
   align?: "start" | "center" | "end";
@@ -13,7 +19,7 @@ export type TooltipContentProps = JSX.HTMLAttributes<HTMLDivElement> & {
   children?: ComponentChildren;
 };
 
-type TooltipContentCommonProps = JSX.HTMLAttributes<HTMLDivElement> & {
+type TooltipContentCommonProps = HTMLAttributes<HTMLDivElement> & {
   "data-slot"?: string;
   "data-state"?: "open" | "closed";
   "data-side"?: NonNullable<TooltipContentProps["side"]>;
@@ -39,8 +45,8 @@ export const TooltipContent = ({
   const prevSideRef = useRef(side);
   const flipTimerRef = useRef<number | null>(null);
   const [isFlipAnimating, setIsFlipAnimating] = useState(false);
-  const [dynamicClamp, setDynamicClamp] = useState<JSX.CSSProperties>({});
-  const [arrowStyle, setArrowStyle] = useState<JSX.CSSProperties>({});
+  const [dynamicClamp, setDynamicClamp] = useState<CSSProperties>({});
+  const [arrowStyle, setArrowStyle] = useState<CSSProperties>({});
   const { onMouseEnter, onMouseLeave, style, ...remainingProps } = rest;
 
   useEffect(() => {
@@ -100,7 +106,7 @@ export const TooltipContent = ({
       prevSideRef.current = nextSide;
     }
 
-    const nextClamp: JSX.CSSProperties = {};
+    const nextClamp: CSSProperties = {};
     if (nextSide === "top" || nextSide === "bottom") {
       const left = contentRect.left;
       const right = contentRect.right;
@@ -127,7 +133,7 @@ export const TooltipContent = ({
     setDynamicClamp(nextClamp);
 
     const arrowInset = 12;
-    const nextArrowStyle: JSX.CSSProperties = {};
+    const nextArrowStyle: CSSProperties = {};
     if (nextSide === "top" || nextSide === "bottom") {
       const triggerCenterX = triggerRect.left + triggerRect.width / 2;
       const desired = triggerCenterX - contentRect.left;
@@ -146,14 +152,14 @@ export const TooltipContent = ({
 
   if (!tooltip.open.value && !forceMount) return null;
 
-  const baseSideStyles: Record<NonNullable<TooltipContentProps["side"]>, JSX.CSSProperties> = {
+  const baseSideStyles: Record<NonNullable<TooltipContentProps["side"]>, CSSProperties> = {
     top: { bottom: `calc(100% + ${sideOffset}px)` },
     right: { left: `calc(100% + ${sideOffset}px)` },
     bottom: { top: `calc(100% + ${sideOffset}px)` },
     left: { right: `calc(100% + ${sideOffset}px)` },
   };
 
-  const alignStyles: Record<NonNullable<TooltipContentProps["align"]>, JSX.CSSProperties> = {
+  const alignStyles: Record<NonNullable<TooltipContentProps["align"]>, CSSProperties> = {
     start:
       resolvedSide === "top" || resolvedSide === "bottom"
         ? { left: `${alignOffset}px` }
@@ -169,9 +175,9 @@ export const TooltipContent = ({
   };
 
   const resolvedStyle =
-    typeof style === "object" && style && !("value" in style) ? (style as JSX.CSSProperties) : {};
+    typeof style === "object" && style && !("value" in style) ? (style as CSSProperties) : {};
 
-  const mergedStyle: JSX.CSSProperties = {
+  const mergedStyle: CSSProperties = {
     position: "absolute",
     zIndex: 50,
     maxWidth: "min(22rem, 92vw)",
@@ -209,7 +215,7 @@ export const TooltipContent = ({
       return null;
     }
 
-    const childProps = (children.props ?? {}) as JSX.HTMLAttributes<HTMLElement>;
+    const childProps = (children.props ?? {}) as HTMLAttributes<HTMLElement>;
     const nextChildren = (
       <>
         {childProps.children}

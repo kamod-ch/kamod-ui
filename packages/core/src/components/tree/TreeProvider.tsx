@@ -1,5 +1,5 @@
 import { type Signal, signal } from "@preact/signals";
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { createContext } from "preact";
 import { useContext, useLayoutEffect, useMemo, useRef, useState } from "preact/hooks";
 import { tv, type VariantProps } from "tailwind-variants";
@@ -99,7 +99,7 @@ export const TreeItemContext = createContext<TreeItemContextValue | null>(null);
 
 export const useTreeItemContext = () => useContext(TreeItemContext);
 
-export type TreeProviderProps = Omit<JSX.HTMLAttributes<HTMLDivElement>, "class"> &
+export type TreeProviderProps = Omit<HTMLAttributes<HTMLDivElement>, "class"> &
   VariantProps<typeof treeVariants> & {
     class?: string;
     expandedIds?: readonly string[];

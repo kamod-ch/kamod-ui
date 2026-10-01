@@ -1,11 +1,11 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { useRef } from "preact/hooks";
 import { cn } from "../../lib/utils";
 import { useContextMenu } from "./ContextMenu";
 
 const LONG_PRESS_MS = 500;
 
-export type ContextMenuTriggerProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type ContextMenuTriggerProps = HTMLAttributes<HTMLDivElement> & {
   children?: ComponentChildren;
 };
 

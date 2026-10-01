@@ -1,7 +1,14 @@
-import { type ComponentChildren, cloneElement, isValidElement, type JSX } from "preact";
+import {
+  type ButtonHTMLAttributes,
+  type ComponentChildren,
+  cloneElement,
+  type HTMLAttributes,
+  isValidElement,
+  type TargetedMouseEvent,
+} from "preact";
 import { useDialog } from "./Dialog";
 
-export type DialogCloseProps = JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
+export type DialogCloseProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   asChild?: boolean;
   children?: ComponentChildren;
   "data-slot"?: string;
@@ -25,8 +32,8 @@ export const DialogClose = ({
 }: DialogCloseProps) => {
   const dialog = useDialog();
 
-  const handleClick = (event: JSX.TargetedMouseEvent<HTMLElement>) => {
-    onClick?.(event as JSX.TargetedMouseEvent<HTMLButtonElement>);
+  const handleClick = (event: TargetedMouseEvent<HTMLElement>) => {
+    onClick?.(event as TargetedMouseEvent<HTMLButtonElement>);
     if (event.defaultPrevented) return;
     dialog.setOpen(false);
   };
@@ -36,16 +43,16 @@ export const DialogClose = ({
       return null;
     }
 
-    const childProps = (children.props ?? {}) as JSX.HTMLAttributes<HTMLElement> & {
+    const childProps = (children.props ?? {}) as HTMLAttributes<HTMLElement> & {
       ref?: unknown;
-      onClick?: (event: JSX.TargetedMouseEvent<HTMLElement>) => void;
+      onClick?: (event: TargetedMouseEvent<HTMLElement>) => void;
     };
 
     return cloneElement(children, {
       ...(childProps as Record<string, unknown>),
       ...(rest as Record<string, unknown>),
       "data-slot": dataSlot,
-      onClick: (event: JSX.TargetedMouseEvent<HTMLElement>) => {
+      onClick: (event: TargetedMouseEvent<HTMLElement>) => {
         childProps.onClick?.(event);
         handleClick(event);
       },
@@ -63,7 +70,7 @@ export const DialogClose = ({
       }}
       type="button"
       data-slot={dataSlot}
-      onClick={(event) => handleClick(event as unknown as JSX.TargetedMouseEvent<HTMLElement>)}
+      onClick={(event) => handleClick(event as unknown as TargetedMouseEvent<HTMLElement>)}
       {...rest}
     >
       {children}

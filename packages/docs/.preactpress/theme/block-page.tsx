@@ -36,15 +36,15 @@ export function blockPage<
     const [error] = useErrorBoundary();
     if (error)
       return (
-        <main role="alert">
+        <div role="alert">
           <p>Could not load this block page.</p>
           <button type="button" onClick={() => window.location.reload()}>
             Reload page
           </button>
-        </main>
+        </div>
       );
     return (
-      <Suspense fallback={<main role="status">Loading block…</main>}>
+      <Suspense fallback={<div role="status">Loading block…</div>}>
         <Page {...props} />
       </Suspense>
     );

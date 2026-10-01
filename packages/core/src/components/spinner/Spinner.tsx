@@ -1,7 +1,7 @@
-import type { JSX } from "preact";
+import type { HTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 
-export type SpinnerProps = JSX.HTMLAttributes<HTMLSpanElement> & {
+export type SpinnerProps = HTMLAttributes<HTMLSpanElement> & {
   size?: "xs" | "sm" | "md" | "lg" | "xl";
   tone?: "default" | "muted" | "primary";
   strokeWidth?: number;

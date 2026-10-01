@@ -1,12 +1,12 @@
 import { Motion, type MotionProps } from "@kamod-ch/motion/motion";
 import { dialogViewportBleedClass, useDialog, useModalPanelA11y } from "@kamod-ch/ui/dialog";
 import { SheetClose } from "@kamod-ch/ui/sheet";
-import type { JSX } from "preact";
+import type { HTMLAttributes } from "preact";
 import { cn } from "../lib/cn.js";
 import { fade, type SheetSide, sheetPreset } from "../lib/presets.js";
 import { MotionSheetPortal } from "./MotionSheetPortal.js";
 
-export type MotionSheetContentProps = Omit<JSX.HTMLAttributes<HTMLDivElement>, "ref"> & {
+export type MotionSheetContentProps = Omit<HTMLAttributes<HTMLDivElement>, "ref"> & {
   side?: SheetSide;
   showCloseButton?: boolean;
   "data-slot"?: string;

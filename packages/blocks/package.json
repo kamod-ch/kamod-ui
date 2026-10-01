@@ -94,7 +94,7 @@
     }
   },
   "scripts": {
-    "build": "NODE_OPTIONS=--max-old-space-size=8192 tsup",
+    "build": "NODE_OPTIONS=--max-old-space-size=8192 tsup && tsc -p tsconfig.declarations.json",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "lint": "oxlint .",
@@ -110,7 +110,7 @@
     "@preact/signals": "^2.11.3",
     "@testing-library/preact": "^3.2.4",
     "jsdom": "^30.1.1",
-    "preact": "^10.29.8",
+    "preact": "^11.0.0",
     "tsup": "^8.5.1",
     "vitest": "^5.0.2"
   },
@@ -118,6 +118,6 @@
     "@kamod-ch/themes": "^0.2.1",
     "@kamod-ch/ui": "workspace:*",
     "@preact/signals": "^2.11.3",
-    "preact": "^10.29.8"
+    "preact": "^11.0.0"
   }
 }

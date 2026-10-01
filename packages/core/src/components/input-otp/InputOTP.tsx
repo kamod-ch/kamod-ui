@@ -1,11 +1,11 @@
 import { signal } from "@preact/signals";
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes, TargetedEvent } from "preact";
 import { useMemo, useRef } from "preact/hooks";
 import { cn } from "../../lib/utils";
 import { InputOTPContext } from "./input-otp-context";
 import { filterOtpValue, REGEXP_ONLY_DIGITS } from "./patterns";
 
-export type InputOTPProps = Omit<JSX.HTMLAttributes<HTMLDivElement>, "onInput" | "onChange"> & {
+export type InputOTPProps = Omit<HTMLAttributes<HTMLDivElement>, "onInput" | "onChange"> & {
   maxLength?: number;
   value?: string;
   defaultValue?: string;
@@ -65,7 +65,7 @@ export const InputOTP = ({
     onValueChange?.(next);
   };
 
-  const handleInput = (event: JSX.TargetedEvent<HTMLInputElement>) => {
+  const handleInput = (event: TargetedEvent<HTMLInputElement>) => {
     let next = filterOtpValue(event.currentTarget.value, pattern);
     if (next.length > maxLength) next = next.slice(0, maxLength);
     emit(next);

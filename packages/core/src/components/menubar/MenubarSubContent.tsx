@@ -1,8 +1,8 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 import { useMenubarSub } from "./menubar-context";
 
-export type MenubarSubContentProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type MenubarSubContentProps = HTMLAttributes<HTMLDivElement> & {
   children?: ComponentChildren;
 };
 

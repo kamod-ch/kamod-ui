@@ -1,7 +1,7 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 
-export type ContextMenuShortcutProps = JSX.HTMLAttributes<HTMLSpanElement> & {
+export type ContextMenuShortcutProps = HTMLAttributes<HTMLSpanElement> & {
   children?: ComponentChildren;
 };
 

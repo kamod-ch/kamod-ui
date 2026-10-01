@@ -1,8 +1,8 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 import { useCarousel } from "./Carousel";
 
-export type CarouselContentProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type CarouselContentProps = HTMLAttributes<HTMLDivElement> & {
   children?: ComponentChildren;
 };
 

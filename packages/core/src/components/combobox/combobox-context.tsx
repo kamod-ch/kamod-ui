@@ -1,5 +1,5 @@
 import { type Signal, signal } from "@preact/signals";
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { createContext } from "preact";
 import { useCallback, useContext, useLayoutEffect, useMemo, useRef, useState } from "preact/hooks";
 import { cn } from "../../lib/utils";
@@ -73,7 +73,7 @@ export function comboboxSelectionLabel(ctx: ComboboxContextValue): string {
   return labels.join(", ");
 }
 
-export type ComboboxProps = Omit<JSX.HTMLAttributes<HTMLDivElement>, "children"> & {
+export type ComboboxProps = Omit<HTMLAttributes<HTMLDivElement>, "children"> & {
   items?: readonly unknown[];
   itemToStringValue?: (item: unknown) => string;
   itemKey?: (item: unknown) => string;

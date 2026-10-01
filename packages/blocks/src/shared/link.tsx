@@ -1,13 +1,20 @@
-import type { ComponentChildren, ComponentType, JSX } from "preact";
+import type {
+  AnchorHTMLAttributes,
+  AriaAttributes,
+  ComponentChildren,
+  ComponentType,
+  JSX,
+  MouseEventHandler,
+} from "preact";
 
 export type BlockLinkProps = {
   href: string;
   class?: string;
   children?: ComponentChildren;
-  target?: JSX.AnchorHTMLAttributes<HTMLAnchorElement>["target"];
+  target?: AnchorHTMLAttributes<HTMLAnchorElement>["target"];
   rel?: string;
-  onClick?: JSX.MouseEventHandler<HTMLAnchorElement>;
-  "aria-current"?: JSX.AriaAttributes["aria-current"];
+  onClick?: MouseEventHandler<HTMLAnchorElement>;
+  "aria-current"?: AriaAttributes["aria-current"];
   "aria-label"?: string;
 };
 

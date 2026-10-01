@@ -1,11 +1,11 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { useEffect, useLayoutEffect, useRef, useState } from "preact/hooks";
 import { createPortal } from "../../lib/createPortal";
 import { createDismissableLayer } from "../../lib/interactive";
 import { cn } from "../../lib/utils";
 import { useContextMenu } from "./ContextMenu";
 
-export type ContextMenuContentProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type ContextMenuContentProps = HTMLAttributes<HTMLDivElement> & {
   children?: ComponentChildren;
 };
 

@@ -1,5 +1,5 @@
 import { signal } from "@preact/signals";
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { createContext } from "preact";
 import { useContext, useEffect, useMemo, useRef } from "preact/hooks";
 import { createDismissableLayer, createIdFactory } from "../../lib/interactive";
@@ -38,7 +38,7 @@ export const useSelect = () => {
   return context;
 };
 
-export type SelectProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type SelectProps = HTMLAttributes<HTMLDivElement> & {
   defaultValue?: string;
   value?: string;
   onValueChange?: (value: string) => void;

@@ -1,5 +1,5 @@
 import { signal } from "@preact/signals";
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, CSSProperties, HTMLAttributes } from "preact";
 import { createContext } from "preact";
 import { useContext, useEffect, useMemo, useRef } from "preact/hooks";
 
@@ -30,7 +30,7 @@ export const useTooltip = () => {
   return context;
 };
 
-export type TooltipProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type TooltipProps = HTMLAttributes<HTMLDivElement> & {
   defaultOpen?: boolean;
   open?: boolean;
   onOpenChange?: (next: boolean) => void;
@@ -142,9 +142,9 @@ export const Tooltip = ({
   useEffect(() => cancelTimers, []);
 
   const resolvedStyle =
-    typeof style === "object" && style && !("value" in style) ? (style as JSX.CSSProperties) : {};
+    typeof style === "object" && style && !("value" in style) ? (style as CSSProperties) : {};
 
-  const mergedStyle: JSX.CSSProperties = {
+  const mergedStyle: CSSProperties = {
     position: "relative",
     display: "inline-flex",
     ...resolvedStyle,

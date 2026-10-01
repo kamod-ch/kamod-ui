@@ -1,12 +1,12 @@
 import { signal } from "@preact/signals";
-import type { JSX } from "preact";
+import type { InputHTMLAttributes, TargetedEvent, TargetedInputEvent } from "preact";
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "preact/hooks";
 import { cn } from "../../lib/utils";
 
 export type SliderPrimitiveValue = number | number[];
 
 export type SliderProps = Omit<
-  JSX.InputHTMLAttributes<HTMLInputElement>,
+  InputHTMLAttributes<HTMLInputElement>,
   "value" | "defaultValue" | "type"
 > & {
   defaultValue?: SliderPrimitiveValue;
@@ -155,7 +155,7 @@ export const Slider = ({
   disabled,
   orientation = "horizontal",
   id,
-  /** Applied to the native range input(s). Kept out of `rest` so `{...rest}` cannot wipe stacking/pointer rules on multi-thumb. */
+  /** Applied to the native range input(s). Kept out of `rest` so `{...(rest as Record<string, unknown>)}` cannot wipe stacking/pointer rules on multi-thumb. */
   style: inputStyleProp,
   ...rest
 }: SliderProps) => {
@@ -312,7 +312,7 @@ export const Slider = ({
             aria-hidden="true"
           />
           <input
-            {...rest}
+            {...(rest as Record<string, unknown>)}
             ref={singleThumbInputRef}
             type="range"
             data-slot="slider-thumb"
@@ -385,7 +385,7 @@ export const Slider = ({
           aria-hidden="true"
         />
         <input
-          {...rest}
+          {...(rest as Record<string, unknown>)}
           ref={singleThumbInputRef}
           type="range"
           data-slot="slider-thumb"
@@ -433,7 +433,7 @@ export const Slider = ({
    * `(value - min) / (max - min)` along the track. Per-thumb min/max would scale thumbs to the
    * full track width incorrectly. Ordering is enforced via `enforceOrder` in `setValues`.
    */
-  const onThumbInput = (i: number, event: JSX.TargetedInputEvent<HTMLInputElement>) => {
+  const onThumbInput = (i: number, event: TargetedInputEvent<HTMLInputElement>) => {
     const raw = Number(event.currentTarget.value);
     const next = [...values];
     next[i] = raw;
@@ -441,8 +441,8 @@ export const Slider = ({
     onInput?.(event);
   };
 
-  const onThumbChange = (i: number, event: JSX.TargetedEvent<HTMLInputElement>) => {
-    if (i === 0) userOnChange?.(event as JSX.TargetedInputEvent<HTMLInputElement>);
+  const onThumbChange = (i: number, event: TargetedEvent<HTMLInputElement>) => {
+    if (i === 0) userOnChange?.(event as TargetedInputEvent<HTMLInputElement>);
     const raw = Number((event.currentTarget as HTMLInputElement).value);
     const next = [...values];
     next[i] = raw;

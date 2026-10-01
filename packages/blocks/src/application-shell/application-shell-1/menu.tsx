@@ -5,7 +5,7 @@
  */
 import { DropdownContent, DropdownItem, DropdownTrigger, useDropdown } from "@kamod-ch/ui";
 import { createRovingFocus } from "@kamod-ch/ui/lib/interactive";
-import type { ComponentProps, JSX } from "preact";
+import type { ComponentProps, TargetedMouseEvent } from "preact";
 import { useLayoutEffect } from "preact/hooks";
 
 /**
@@ -78,7 +78,7 @@ export const MenuContent = (props: ComponentProps<typeof DropdownContent>) => {
 };
 
 /** Click event for DropdownItem's link and button render modes. */
-type MenuEvent = JSX.TargetedMouseEvent<HTMLAnchorElement | HTMLButtonElement>;
+type MenuEvent = TargetedMouseEvent<HTMLAnchorElement | HTMLButtonElement>;
 
 /**
  * Runs an enabled item's selection handler, then closes the menu and refocuses its trigger.

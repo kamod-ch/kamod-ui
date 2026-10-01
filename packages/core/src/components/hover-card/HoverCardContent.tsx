@@ -1,4 +1,4 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, CSSProperties, HTMLAttributes } from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
 import { cn } from "../../lib/utils";
 import { useHoverCard } from "./HoverCard";
@@ -42,7 +42,7 @@ export const hoverCardContent = tv({
   },
 });
 
-export type HoverCardContentProps = JSX.HTMLAttributes<HTMLDivElement> &
+export type HoverCardContentProps = HTMLAttributes<HTMLDivElement> &
   VariantProps<typeof hoverCardContent> & {
     side?: "top" | "bottom" | "left" | "right";
     align?: "start" | "center" | "end";
@@ -68,7 +68,7 @@ export const HoverCardContent = ({
   const isVertical = side === "top" || side === "bottom";
   const alignClass = isVertical ? alignByAxis.vertical[align] : alignByAxis.horizontal[align];
   const inlineStyle = typeof style === "object" && style !== null ? style : undefined;
-  const offsetStyle: JSX.CSSProperties =
+  const offsetStyle: CSSProperties =
     side === "bottom"
       ? { marginTop: `${sideOffset}px` }
       : side === "top"

@@ -1,8 +1,8 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 import { Separator } from "../separator/Separator";
 
-export type FieldSeparatorProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type FieldSeparatorProps = HTMLAttributes<HTMLDivElement> & {
   children?: ComponentChildren;
 };
 

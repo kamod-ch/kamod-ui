@@ -69,10 +69,11 @@ export const useDropdownPlacement = ({
   sideOffset,
 }: PlacementOptions & {
   enabled: boolean;
-  triggerRef: RefObject<HTMLElement>;
-  contentRef: RefObject<HTMLDivElement>;
+  triggerRef: RefObject<HTMLElement | null>;
+  contentRef: RefObject<HTMLDivElement | null>;
 }): Placement => {
   const [placement, setPlacement] = useState<Placement>({ left: 0, top: 0, side });
+  const [mountRevision, setMountRevision] = useState(0);
 
   useLayoutEffect(() => {
     // Inline menus use CSS positioning; their composite triggers need no DOM measurement.
@@ -80,7 +81,23 @@ export const useDropdownPlacement = ({
     const content = contentRef.current;
     const trigger = triggerRef.current;
     const view = trigger?.ownerDocument.defaultView;
-    if (!content || !trigger || !view) return;
+    console.log("placement-effect", {
+      content: !!content,
+      trigger: !!trigger,
+      rect: trigger?.getBoundingClientRect(),
+      mountRevision,
+    });
+    if (!content || !trigger || !view) {
+      // Preact 11 commits core portal children after their parent layout effects.
+      // Retry once the portal ref has been attached without relying on compat internals.
+      let cancelled = false;
+      queueMicrotask(() => {
+        if (!cancelled) setMountRevision((revision) => revision + 1);
+      });
+      return () => {
+        cancelled = true;
+      };
+    }
 
     const update = () => {
       // Layout dimensions avoid the opening animation's temporary scale affecting placement.
@@ -91,6 +108,15 @@ export const useDropdownPlacement = ({
         trigger.ownerDocument.documentElement.clientWidth || view.innerWidth,
         view.innerHeight,
         { side, align, sideOffset },
+      );
+      console.log(
+        "placement-next",
+        next,
+        trigger === document.querySelector("[data-slot=dropdown-trigger]"),
+        content.offsetWidth,
+        content.offsetHeight,
+        view.innerWidth,
+        view.innerHeight,
       );
       setPlacement((previous) =>
         previous.left === next.left && previous.top === next.top && previous.side === next.side
@@ -110,7 +136,7 @@ export const useDropdownPlacement = ({
       view.removeEventListener("resize", update);
       observer?.disconnect();
     };
-  }, [enabled, triggerRef, contentRef, side, align, sideOffset]);
+  }, [enabled, triggerRef, contentRef, side, align, sideOffset, mountRevision]);
 
   return placement;
 };

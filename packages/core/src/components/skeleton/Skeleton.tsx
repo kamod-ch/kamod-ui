@@ -1,4 +1,4 @@
-import type { JSX } from "preact";
+import type { HTMLAttributes } from "preact";
 import { tv } from "tailwind-variants";
 import { cn } from "../../lib/utils";
 
@@ -21,7 +21,7 @@ export const skeleton = tv({
 type SkeletonVariants = Parameters<typeof skeleton>[0];
 type SkeletonVariant = NonNullable<SkeletonVariants>["variant"];
 
-export type SkeletonProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type SkeletonProps = HTMLAttributes<HTMLDivElement> & {
   variant?: SkeletonVariant;
 };
 

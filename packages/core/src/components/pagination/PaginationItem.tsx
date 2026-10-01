@@ -1,6 +1,6 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 
-export type PaginationItemProps = JSX.HTMLAttributes<HTMLLIElement> & {
+export type PaginationItemProps = HTMLAttributes<HTMLLIElement> & {
   children?: ComponentChildren;
 };
 

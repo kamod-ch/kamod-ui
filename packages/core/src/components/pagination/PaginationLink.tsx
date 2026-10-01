@@ -1,9 +1,9 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { AnchorHTMLAttributes, ComponentChildren } from "preact";
 import type { VariantProps } from "tailwind-variants";
 import { cn } from "../../lib/utils";
 import { button } from "../button/Button";
 
-export type PaginationLinkProps = Omit<JSX.AnchorHTMLAttributes<HTMLAnchorElement>, "size"> & {
+export type PaginationLinkProps = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "size"> & {
   isActive?: boolean;
   size?: VariantProps<typeof button>["size"];
   children?: ComponentChildren;
@@ -24,7 +24,7 @@ export const PaginationLink = ({
 
   return (
     <a
-      {...(anchorRest as JSX.AnchorHTMLAttributes<HTMLAnchorElement>)}
+      {...anchorRest}
       data-slot={dataSlot}
       aria-current={isActive ? "page" : undefined}
       class={cn(

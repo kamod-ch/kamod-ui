@@ -1,4 +1,12 @@
-import { type ComponentChildren, cloneElement, isValidElement, type JSX } from "preact";
+import {
+  type ButtonHTMLAttributes,
+  type ComponentChildren,
+  cloneElement,
+  type HTMLAttributes,
+  isValidElement,
+  type TargetedFocusEvent,
+  type TargetedMouseEvent,
+} from "preact";
 import { tv } from "tailwind-variants";
 import { cn } from "../../lib/utils";
 import { useHoverCard } from "./HoverCard";
@@ -10,7 +18,7 @@ const hoverCardTrigger = tv({
   ],
 });
 
-export type HoverCardTriggerProps = JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
+export type HoverCardTriggerProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   asChild?: boolean;
   children?: ComponentChildren;
 };
@@ -41,37 +49,37 @@ export const HoverCardTrigger = ({
       return null;
     }
 
-    const childProps = (children.props ?? {}) as JSX.HTMLAttributes<HTMLElement> & {
+    const childProps = (children.props ?? {}) as HTMLAttributes<HTMLElement> & {
       ref?: unknown;
-      onMouseEnter?: (event: JSX.TargetedMouseEvent<HTMLElement>) => void;
-      onMouseLeave?: (event: JSX.TargetedMouseEvent<HTMLElement>) => void;
-      onFocus?: (event: JSX.TargetedFocusEvent<HTMLElement>) => void;
-      onBlur?: (event: JSX.TargetedFocusEvent<HTMLElement>) => void;
+      onMouseEnter?: (event: TargetedMouseEvent<HTMLElement>) => void;
+      onMouseLeave?: (event: TargetedMouseEvent<HTMLElement>) => void;
+      onFocus?: (event: TargetedFocusEvent<HTMLElement>) => void;
+      onBlur?: (event: TargetedFocusEvent<HTMLElement>) => void;
     };
 
     return cloneElement(children, {
       ...(childProps as Record<string, unknown>),
       ...(rest as Record<string, unknown>),
       "data-slot": "hover-card-trigger",
-      onMouseEnter: (event: JSX.TargetedMouseEvent<HTMLElement>) => {
+      onMouseEnter: (event: TargetedMouseEvent<HTMLElement>) => {
         childProps.onMouseEnter?.(event);
         scheduleOpen();
-        onMouseEnter?.(event as JSX.TargetedMouseEvent<HTMLButtonElement>);
+        onMouseEnter?.(event as TargetedMouseEvent<HTMLButtonElement>);
       },
-      onMouseLeave: (event: JSX.TargetedMouseEvent<HTMLElement>) => {
+      onMouseLeave: (event: TargetedMouseEvent<HTMLElement>) => {
         childProps.onMouseLeave?.(event);
         scheduleClose();
-        onMouseLeave?.(event as JSX.TargetedMouseEvent<HTMLButtonElement>);
+        onMouseLeave?.(event as TargetedMouseEvent<HTMLButtonElement>);
       },
-      onFocus: (event: JSX.TargetedFocusEvent<HTMLElement>) => {
+      onFocus: (event: TargetedFocusEvent<HTMLElement>) => {
         childProps.onFocus?.(event);
         scheduleOpen();
-        onFocus?.(event as JSX.TargetedFocusEvent<HTMLButtonElement>);
+        onFocus?.(event as TargetedFocusEvent<HTMLButtonElement>);
       },
-      onBlur: (event: JSX.TargetedFocusEvent<HTMLElement>) => {
+      onBlur: (event: TargetedFocusEvent<HTMLElement>) => {
         childProps.onBlur?.(event);
         scheduleClose();
-        onBlur?.(event as JSX.TargetedFocusEvent<HTMLButtonElement>);
+        onBlur?.(event as TargetedFocusEvent<HTMLButtonElement>);
       },
       ref: (node: HTMLElement | null) => {
         callRef(childProps.ref, node);

@@ -1,4 +1,4 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { createContext } from "preact";
 import { useContext } from "preact/hooks";
 import { useAccordion } from "./Accordion";
@@ -17,7 +17,7 @@ export const useAccordionItem = () => {
   return context;
 };
 
-export type AccordionItemProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type AccordionItemProps = HTMLAttributes<HTMLDivElement> & {
   value: string;
   disabled?: boolean;
   children?: ComponentChildren;

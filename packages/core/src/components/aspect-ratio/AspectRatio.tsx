@@ -1,7 +1,7 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 
-export type AspectRatioProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type AspectRatioProps = HTMLAttributes<HTMLDivElement> & {
   /** Width ÷ height (e.g. `16 / 9`, `1`, `9 / 16`). Applied as CSS `aspect-ratio`. */
   ratio: number;
   children?: ComponentChildren;

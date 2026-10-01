@@ -1,4 +1,4 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { createContext } from "preact";
 import { useCallback, useContext, useEffect, useId, useState } from "preact/hooks";
 import { cn } from "../../lib/utils";
@@ -20,7 +20,7 @@ export const useTabs = () => {
   return context;
 };
 
-export type TabsProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type TabsProps = HTMLAttributes<HTMLDivElement> & {
   defaultValue: string;
   /** Share selection with mounted groups using this key; release it after the last unmount. */
   syncKey?: string;

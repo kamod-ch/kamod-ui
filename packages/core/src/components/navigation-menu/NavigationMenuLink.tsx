@@ -1,8 +1,16 @@
-import { type ComponentChildren, cloneElement, isValidElement, type JSX } from "preact";
+import {
+  type AnchorHTMLAttributes,
+  type ComponentChildren,
+  cloneElement,
+  type HTMLAttributes,
+  isValidElement,
+  type JSX,
+  type TargetedMouseEvent,
+} from "preact";
 import { cn } from "../../lib/utils";
 import { useNavigationMenuItemCtx, useNavigationMenuRoot } from "./navigation-menu-context";
 
-export type NavigationMenuLinkProps = JSX.AnchorHTMLAttributes<HTMLAnchorElement> & {
+export type NavigationMenuLinkProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
   active?: boolean;
   children?: ComponentChildren;
   asChild?: boolean;
@@ -36,8 +44,8 @@ export const NavigationMenuLink = ({
     className,
   );
 
-  const handleClick = (event: JSX.TargetedMouseEvent<HTMLElement>) => {
-    onClick?.(event as JSX.TargetedMouseEvent<HTMLAnchorElement>);
+  const handleClick = (event: TargetedMouseEvent<HTMLElement>) => {
+    onClick?.(event as TargetedMouseEvent<HTMLAnchorElement>);
     if (event.defaultPrevented) return;
     root.clearTimers();
     root.openValue.value = null;
@@ -45,9 +53,9 @@ export const NavigationMenuLink = ({
 
   if (asChild) {
     if (!isValidElement(children)) return null;
-    const childProps = (children.props ?? {}) as JSX.HTMLAttributes<HTMLElement> & {
+    const childProps = (children.props ?? {}) as HTMLAttributes<HTMLElement> & {
       ref?: unknown;
-      onClick?: (event: JSX.TargetedMouseEvent<HTMLElement>) => void;
+      onClick?: (event: TargetedMouseEvent<HTMLElement>) => void;
       class?: string;
       className?: string;
     };
@@ -59,7 +67,7 @@ export const NavigationMenuLink = ({
       "data-active": active ? "" : undefined,
       "data-state": open ? "open" : "closed",
       class: mergedClass,
-      onClick: (event: JSX.TargetedMouseEvent<HTMLElement>) => {
+      onClick: (event: TargetedMouseEvent<HTMLElement>) => {
         childProps.onClick?.(event);
         handleClick(event);
       },
@@ -78,8 +86,8 @@ export const NavigationMenuLink = ({
       data-state={open ? "open" : "closed"}
       aria-current={active ? "page" : undefined}
       class={linkClass}
-      onClick={(e) => handleClick(e as unknown as JSX.TargetedMouseEvent<HTMLElement>)}
-      {...rest}
+      onClick={(e) => handleClick(e as unknown as TargetedMouseEvent<HTMLElement>)}
+      {...(rest as JSX.IntrinsicElements["a"])}
     >
       {children}
     </a>

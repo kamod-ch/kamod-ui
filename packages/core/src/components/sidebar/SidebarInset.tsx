@@ -1,7 +1,7 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes, JSX } from "preact";
 import { cn } from "../../lib/utils";
 
-export type SidebarInsetProps = JSX.HTMLAttributes<HTMLElement> & {
+export type SidebarInsetProps = HTMLAttributes<HTMLElement> & {
   children?: ComponentChildren;
 };
 
@@ -13,7 +13,7 @@ export const SidebarInset = ({ class: className, children, ...rest }: SidebarIns
       "md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow-sm md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ml-2",
       className,
     )}
-    {...rest}
+    {...(rest as JSX.IntrinsicElements["main"])}
   >
     {children}
   </main>

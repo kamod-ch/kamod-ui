@@ -1,11 +1,11 @@
 import { resolvedColorSchemeSignal, setColorScheme, syncThemeFromStorage } from "@kamod-ch/themes";
-import type { ComponentChildren, JSX } from "preact";
+import type { ButtonHTMLAttributes, ComponentChildren } from "preact";
 import { useEffect, useState } from "preact/hooks";
 import { cn } from "../../lib/utils";
 import { Button } from "../button";
 import { applyColorSchemeWithTransition, type ThemeToggleTransition } from "./theme-toggle-ripple";
 
-export type ThemeToggleProps = Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, "class"> & {
+export type ThemeToggleProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "class"> & {
   class?: string;
   children?: ComponentChildren;
   transition?: ThemeToggleTransition;

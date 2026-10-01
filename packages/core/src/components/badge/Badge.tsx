@@ -1,4 +1,11 @@
-import { type ComponentChildren, cloneElement, isValidElement, type JSX } from "preact";
+import {
+  type AnchorHTMLAttributes,
+  type ComponentChildren,
+  cloneElement,
+  type HTMLAttributes,
+  isValidElement,
+  type JSX,
+} from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
 import { cn } from "../../lib/utils";
 
@@ -59,12 +66,12 @@ type BadgeCommon = VariantProps<typeof badge> & {
 };
 
 type BadgeAsSpan = BadgeCommon &
-  JSX.HTMLAttributes<HTMLSpanElement> & {
+  HTMLAttributes<HTMLSpanElement> & {
     href?: undefined;
   };
 
 type BadgeAsAnchor = BadgeCommon &
-  JSX.AnchorHTMLAttributes<HTMLAnchorElement> & {
+  AnchorHTMLAttributes<HTMLAnchorElement> & {
     href: string;
   };
 
@@ -96,7 +103,7 @@ export const Badge = ({
     }
 
     const childIsAnchor = children.type === "a";
-    const childProps = (children.props ?? {}) as JSX.HTMLAttributes<HTMLElement> & {
+    const childProps = (children.props ?? {}) as HTMLAttributes<HTMLElement> & {
       class?: string;
       className?: string;
     };
@@ -108,7 +115,7 @@ export const Badge = ({
     });
 
     return cloneElement(children, {
-      ...(rest as JSX.HTMLAttributes<HTMLElement>),
+      ...(rest as HTMLAttributes<HTMLElement>),
       ...childProps,
       class: cn(asChildVariantClasses, childProps.class, childProps.className, className),
       "data-slot": "badge",
@@ -122,7 +129,7 @@ export const Badge = ({
         class={resolvedClass}
         data-slot="badge"
         data-variant={resolvedVariant}
-        {...(rest as JSX.AnchorHTMLAttributes<HTMLAnchorElement>)}
+        {...(rest as JSX.IntrinsicElements["a"])}
       >
         {children}
       </a>
@@ -134,7 +141,7 @@ export const Badge = ({
       class={resolvedClass}
       data-slot="badge"
       data-variant={resolvedVariant}
-      {...(rest as JSX.HTMLAttributes<HTMLSpanElement>)}
+      {...(rest as HTMLAttributes<HTMLSpanElement>)}
     >
       {children}
     </span>

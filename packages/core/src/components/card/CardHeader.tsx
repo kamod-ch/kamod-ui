@@ -1,4 +1,4 @@
-import type { JSX } from "preact";
+import type { HTMLAttributes } from "preact";
 import { tv } from "tailwind-variants";
 import { cn } from "../../lib/utils";
 
@@ -10,7 +10,7 @@ export const cardHeader = tv({
   ],
 });
 
-export type CardHeaderProps = JSX.HTMLAttributes<HTMLDivElement>;
+export type CardHeaderProps = HTMLAttributes<HTMLDivElement>;
 
 export const CardHeader = ({ class: className, ...rest }: CardHeaderProps) => (
   <div class={cn(cardHeader(), className)} data-slot="card-header" {...rest} />

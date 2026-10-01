@@ -1,10 +1,10 @@
-import type { JSX } from "preact";
+import type { TargetedKeyboardEvent } from "preact";
 import type { TreeProviderContextValue } from "./TreeProvider";
 
 const isMetaLike = (event: KeyboardEvent) => event.ctrlKey || event.metaKey;
 
 export const handleTreeKeyDown = (
-  event: JSX.TargetedKeyboardEvent<HTMLDivElement>,
+  event: TargetedKeyboardEvent<HTMLDivElement>,
   tree: TreeProviderContextValue,
 ) => {
   if (event.defaultPrevented) return;

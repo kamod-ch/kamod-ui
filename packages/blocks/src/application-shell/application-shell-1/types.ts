@@ -2,7 +2,7 @@
  * @file Public data and callback contracts for Application Shell 1.
  * Navigation, account actions and page content are supplied by the consuming app.
  */
-import type { ComponentChildren, ComponentType, JSX } from "preact";
+import type { ComponentChildren, ComponentType, TargetedMouseEvent } from "preact";
 
 /**
  * Preact icon component compatible with the shell's Lucide-style SVG props.
@@ -99,7 +99,7 @@ export type ApplicationShellUserAction = "account" | "billing" | "notifications"
  */
 export type ApplicationShellNavigate = (
   destination: ApplicationShellDestination,
-  event: JSX.TargetedMouseEvent<HTMLAnchorElement | HTMLButtonElement>,
+  event: TargetedMouseEvent<HTMLAnchorElement | HTMLButtonElement>,
 ) => void;
 
 /**

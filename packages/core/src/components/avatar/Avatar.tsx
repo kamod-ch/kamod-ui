@@ -1,4 +1,4 @@
-import type { ComponentChild, ComponentChildren, JSX, VNode } from "preact";
+import type { ComponentChild, ComponentChildren, HTMLAttributes, VNode } from "preact";
 import { isValidElement, toChildArray } from "preact";
 import { useCallback, useMemo, useState } from "preact/hooks";
 import { tv } from "tailwind-variants";
@@ -43,7 +43,7 @@ function partitionAvatarChildren(children: ComponentChildren): {
   return { media, badges };
 }
 
-export type AvatarProps = Omit<JSX.HTMLAttributes<HTMLSpanElement>, "size"> & {
+export type AvatarProps = Omit<HTMLAttributes<HTMLSpanElement>, "size"> & {
   children?: ComponentChildren;
   size?: "sm" | "default" | "lg";
 };

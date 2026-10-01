@@ -75,6 +75,6 @@ it("cleans up pending cooldown timers on unmount", () => {
   });
   act(() => result.current.complete(1));
   expect(vi.getTimerCount()).toBeGreaterThan(0);
-  unmount();
+  act(() => unmount());
   expect(vi.getTimerCount()).toBe(0);
 });

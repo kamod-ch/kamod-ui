@@ -196,51 +196,51 @@ export default defineConfig({
         { find: "lucide-preact", replacement: resolve(configDir, "../node_modules/lucide-preact") },
         {
           find: /^react$/,
-          replacement: resolve(preactRoot, "compat/dist/compat.module.js"),
+          replacement: resolve(preactRoot, "compat/dist/compat.mjs"),
         },
         {
           find: /^react-dom$/,
-          replacement: resolve(preactRoot, "compat/dist/compat.module.js"),
+          replacement: resolve(preactRoot, "compat/dist/compat.mjs"),
         },
         {
           find: /^react-dom\/client$/,
-          replacement: resolve(preactRoot, "compat/dist/compat.module.js"),
+          replacement: resolve(preactRoot, "compat/dist/compat.mjs"),
         },
         {
           find: /^react\/jsx-runtime$/,
-          replacement: resolve(preactRoot, "jsx-runtime/dist/jsxRuntime.module.js"),
+          replacement: resolve(preactRoot, "jsx-runtime/dist/jsxRuntime.mjs"),
         },
         {
           find: /^react\/jsx-dev-runtime$/,
-          replacement: resolve(preactRoot, "jsx-runtime/dist/jsxRuntime.module.js"),
+          replacement: resolve(preactRoot, "jsx-runtime/dist/jsxRuntime.mjs"),
         },
         {
           find: "preact/jsx-dev-runtime",
-          replacement: resolve(preactRoot, "jsx-runtime/dist/jsxRuntime.module.js"),
+          replacement: resolve(preactRoot, "jsx-runtime/dist/jsxRuntime.mjs"),
         },
         {
           find: "preact/jsx-runtime",
-          replacement: resolve(preactRoot, "jsx-runtime/dist/jsxRuntime.module.js"),
+          replacement: resolve(preactRoot, "jsx-runtime/dist/jsxRuntime.mjs"),
         },
         {
           find: "preact/hooks",
-          replacement: resolve(preactRoot, "hooks/dist/hooks.module.js"),
+          replacement: resolve(preactRoot, "hooks/dist/hooks.mjs"),
         },
         {
           find: "preact/devtools",
-          replacement: resolve(preactRoot, "devtools/dist/devtools.module.js"),
+          replacement: resolve(preactRoot, "devtools/dist/devtools.mjs"),
         },
         {
           find: "preact/debug",
-          replacement: resolve(preactRoot, "debug/dist/debug.module.js"),
+          replacement: resolve(preactRoot, "debug/dist/debug.mjs"),
         },
         {
           find: "preact/compat",
-          replacement: resolve(preactRoot, "compat/dist/compat.module.js"),
+          replacement: resolve(preactRoot, "compat/dist/compat.mjs"),
         },
         {
           find: /^preact$/,
-          replacement: resolve(preactRoot, "dist/preact.module.js"),
+          replacement: resolve(preactRoot, "dist/preact.mjs"),
         },
       ],
       dedupe: [

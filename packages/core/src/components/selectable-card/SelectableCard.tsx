@@ -1,4 +1,4 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, InputHTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 import { useRadioGroup } from "../radio-group/RadioGroup";
 
@@ -19,7 +19,7 @@ function SelectableCardSelectedIndicator() {
 }
 
 export type SelectableCardProps = Omit<
-  JSX.InputHTMLAttributes<HTMLInputElement>,
+  InputHTMLAttributes<HTMLInputElement>,
   "type" | "name" | "class" | "children"
 > & {
   value: string;
@@ -66,7 +66,7 @@ export const SelectableCard = ({
             group.controlledValue !== undefined ? group.controlledValue : group.value;
           el.checked = nextSelected === value;
         }}
-        {...rest}
+        {...(rest as Record<string, unknown>)}
       />
       <div
         class={cn(

@@ -1,10 +1,10 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { useRef } from "preact/hooks";
 import { cn } from "../../lib/utils";
 import { treeVariants, useTreeProvider } from "./TreeProvider";
 import { handleTreeKeyDown } from "./tree-keyboard";
 
-export type TreeProps = Omit<JSX.HTMLAttributes<HTMLDivElement>, "class"> & {
+export type TreeProps = Omit<HTMLAttributes<HTMLDivElement>, "class"> & {
   class?: string;
   children?: ComponentChildren;
 };

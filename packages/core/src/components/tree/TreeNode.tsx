@@ -1,4 +1,4 @@
-import type { ComponentChildren, JSX, RefObject } from "preact";
+import type { ComponentChildren, HTMLAttributes, RefObject, TargetedMouseEvent } from "preact";
 import { createContext, toChildArray } from "preact";
 import { useContext, useLayoutEffect, useRef } from "preact/hooks";
 import { useHeightDisclosureContent } from "../../lib/disclosure/use-height-disclosure-content";
@@ -25,7 +25,7 @@ export type TreeNodeContextValue = {
   level: number;
   parentPath: boolean[];
   isLast: boolean;
-  itemRef: RefObject<HTMLDivElement>;
+  itemRef: RefObject<HTMLDivElement | null>;
 };
 
 const TreeNodeContext = createContext<TreeNodeContextValue | null>(null);
@@ -142,7 +142,7 @@ export const TreeNode = ({
   );
 };
 
-export type TreeNodeTriggerProps = Omit<JSX.HTMLAttributes<HTMLDivElement>, "class"> & {
+export type TreeNodeTriggerProps = Omit<HTMLAttributes<HTMLDivElement>, "class"> & {
   class?: string;
   children?: ComponentChildren;
 };
@@ -165,7 +165,7 @@ export const TreeNodeTrigger = ({
   const isSelected = tree.selectedIds.value.has(node.nodeId);
   const isTabbable = tree.tabbableId.value === node.nodeId;
 
-  const handleItemClick = (event: JSX.TargetedMouseEvent<HTMLDivElement>) => {
+  const handleItemClick = (event: TargetedMouseEvent<HTMLDivElement>) => {
     if (node.disabled) return;
     tree.focusNode(node.nodeId);
     if (tree.selectionMode !== "none") {
@@ -220,7 +220,7 @@ export const TreeNodeTrigger = ({
   );
 };
 
-export type TreeExpanderProps = Omit<JSX.HTMLAttributes<HTMLSpanElement>, "class"> & {
+export type TreeExpanderProps = Omit<HTMLAttributes<HTMLSpanElement>, "class"> & {
   class?: string;
 };
 
@@ -265,7 +265,7 @@ export const TreeExpander = ({ class: className, ...rest }: TreeExpanderProps) =
   );
 };
 
-export type TreeIconProps = Omit<JSX.HTMLAttributes<HTMLSpanElement>, "class"> & {
+export type TreeIconProps = Omit<HTMLAttributes<HTMLSpanElement>, "class"> & {
   class?: string;
   icon?: TreeIconProp;
   expandedIcon?: ComponentChildren;
@@ -339,7 +339,7 @@ export const TreeIcon = ({
   );
 };
 
-export type TreeLabelProps = Omit<JSX.HTMLAttributes<HTMLSpanElement>, "class"> & {
+export type TreeLabelProps = Omit<HTMLAttributes<HTMLSpanElement>, "class"> & {
   class?: string;
   children?: ComponentChildren;
 };
@@ -354,7 +354,7 @@ export const TreeLabel = ({ class: className, children, ...rest }: TreeLabelProp
   </span>
 );
 
-export type TreeNodeActionsProps = Omit<JSX.HTMLAttributes<HTMLSpanElement>, "class"> & {
+export type TreeNodeActionsProps = Omit<HTMLAttributes<HTMLSpanElement>, "class"> & {
   class?: string;
   children?: ComponentChildren;
 };

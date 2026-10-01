@@ -1,5 +1,5 @@
 import { cn } from "@kamod-ch/ui";
-import type { JSX, Ref } from "preact";
+import type { Ref, TargetedKeyboardEvent, TargetedPointerEvent } from "preact";
 import { isDateKeyInRange, typeColor, weekdayLabels } from "./date";
 import type {
   CalendarDateRange,
@@ -18,9 +18,9 @@ export type MonthGridProps = {
   range: CalendarDateRange | null;
   eventsFor: (key: DateKey) => CalendarEvent[];
   types: EventTypeConfig[];
-  onGridKeyDown: (event: JSX.TargetedKeyboardEvent<HTMLElement>) => void;
+  onGridKeyDown: (event: TargetedKeyboardEvent<HTMLElement>) => void;
   onSelect: (key: DateKey, shift: boolean) => void;
-  onCellPointerDown: (key: DateKey, event: JSX.TargetedPointerEvent<HTMLElement>) => void;
+  onCellPointerDown: (key: DateKey, event: TargetedPointerEvent<HTMLElement>) => void;
   onCellPointerEnter: (key: DateKey) => void;
   onCellPointerUp: () => void;
   gridRef?: Ref<HTMLDivElement>;

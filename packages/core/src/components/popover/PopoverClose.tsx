@@ -1,4 +1,4 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ButtonHTMLAttributes, ComponentChildren } from "preact";
 import { tv } from "tailwind-variants";
 import { cn } from "../../lib/utils";
 import { usePopover } from "./Popover";
@@ -11,7 +11,7 @@ export const popoverClose = tv({
   ],
 });
 
-export type PopoverCloseProps = JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
+export type PopoverCloseProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   children?: ComponentChildren;
 };
 

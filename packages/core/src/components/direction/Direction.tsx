@@ -1,4 +1,4 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { createContext } from "preact";
 import { useContext } from "preact/hooks";
 import { cn } from "../../lib/utils";
@@ -10,7 +10,7 @@ const DirectionContext = createContext<DirectionValue>("ltr");
 /** Returns the active text direction from the nearest `DirectionProvider` / `Direction` wrapper (default `ltr`). */
 export const useDirection = () => useContext(DirectionContext);
 
-export type DirectionProviderProps = Omit<JSX.HTMLAttributes<HTMLDivElement>, "dir"> & {
+export type DirectionProviderProps = Omit<HTMLAttributes<HTMLDivElement>, "dir"> & {
   /** Text direction for the subtree — matches shadcn `DirectionProvider` (`direction` prop). */
   direction?: DirectionValue;
   children?: ComponentChildren;

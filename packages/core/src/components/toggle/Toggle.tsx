@@ -1,4 +1,4 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ButtonHTMLAttributes, ComponentChildren } from "preact";
 import { useState } from "preact/hooks";
 import { tv, type VariantProps } from "tailwind-variants";
 import { cn } from "../../lib/utils";
@@ -35,7 +35,7 @@ const toggle = tv({
 
 type ToggleVariants = VariantProps<typeof toggle>;
 
-export type ToggleProps = Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, "class"> &
+export type ToggleProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "class"> &
   ToggleVariants & {
     class?: string;
     defaultPressed?: boolean;

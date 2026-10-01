@@ -1,7 +1,7 @@
-import type { JSX } from "preact";
+import type { HTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 
-export type DropdownSeparatorProps = JSX.HTMLAttributes<HTMLDivElement>;
+export type DropdownSeparatorProps = HTMLAttributes<HTMLDivElement>;
 
 export const DropdownSeparator = ({ class: className, ...rest }: DropdownSeparatorProps) => (
   <div

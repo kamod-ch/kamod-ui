@@ -1,4 +1,4 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ButtonHTMLAttributes, ComponentChildren } from "preact";
 import { cn } from "../../lib/utils";
 import { Button } from "../button/Button";
 import { useCarousel } from "./Carousel";
@@ -35,7 +35,7 @@ const ChevronUp = ({ class: className }: { class?: string }) => (
   </svg>
 );
 
-export type CarouselPreviousProps = Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, "size"> & {
+export type CarouselPreviousProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "size"> & {
   children?: ComponentChildren;
 };
 

@@ -5,7 +5,7 @@ import EmblaCarousel, {
   type EmblaPluginType,
 } from "embla-carousel";
 import Autoplay from "embla-carousel-autoplay";
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { createContext } from "preact";
 import { useCallback, useContext, useLayoutEffect, useMemo, useRef, useState } from "preact/hooks";
 import { cn } from "../../lib/utils";
@@ -33,7 +33,7 @@ export const useCarousel = (strict = true) => {
   return context;
 };
 
-export type CarouselProps = Omit<JSX.HTMLAttributes<HTMLDivElement>, "dir"> & {
+export type CarouselProps = Omit<HTMLAttributes<HTMLDivElement>, "dir"> & {
   opts?: EmblaOptionsType;
   orientation?: CarouselOrientation;
   setApi?: (api: CarouselApi | null) => void;

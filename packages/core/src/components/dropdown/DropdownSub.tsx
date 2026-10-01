@@ -1,8 +1,8 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 import { DropdownSubProvider, useMemoDropdownSub } from "./dropdown-sub-context";
 
-export type DropdownSubProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type DropdownSubProps = HTMLAttributes<HTMLDivElement> & {
   children?: ComponentChildren;
 };
 

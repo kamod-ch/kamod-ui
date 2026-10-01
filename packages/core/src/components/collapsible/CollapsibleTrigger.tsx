@@ -1,7 +1,14 @@
-import { type ComponentChildren, cloneElement, isValidElement, type JSX } from "preact";
+import {
+  type ButtonHTMLAttributes,
+  type ComponentChildren,
+  cloneElement,
+  type HTMLAttributes,
+  isValidElement,
+  type TargetedMouseEvent,
+} from "preact";
 import { useCollapsible } from "./Collapsible";
 
-export type CollapsibleTriggerProps = JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
+export type CollapsibleTriggerProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   asChild?: boolean;
   children?: ComponentChildren;
   "data-slot"?: string;
@@ -27,8 +34,8 @@ export const CollapsibleTrigger = ({
 
   const toggle = () => setOpen(!open);
 
-  const handleClick = (event: JSX.TargetedMouseEvent<HTMLElement>) => {
-    onClick?.(event as JSX.TargetedMouseEvent<HTMLButtonElement>);
+  const handleClick = (event: TargetedMouseEvent<HTMLElement>) => {
+    onClick?.(event as TargetedMouseEvent<HTMLButtonElement>);
     if (event.defaultPrevented) return;
     toggle();
   };
@@ -38,9 +45,9 @@ export const CollapsibleTrigger = ({
       return null;
     }
 
-    const childProps = (children.props ?? {}) as JSX.HTMLAttributes<HTMLElement> & {
+    const childProps = (children.props ?? {}) as HTMLAttributes<HTMLElement> & {
       ref?: unknown;
-      onClick?: (event: JSX.TargetedMouseEvent<HTMLElement>) => void;
+      onClick?: (event: TargetedMouseEvent<HTMLElement>) => void;
     };
 
     return cloneElement(children, {
@@ -49,7 +56,7 @@ export const CollapsibleTrigger = ({
       "aria-expanded": open,
       "data-state": open ? "open" : "closed",
       "data-slot": dataSlot,
-      onClick: (event: JSX.TargetedMouseEvent<HTMLElement>) => {
+      onClick: (event: TargetedMouseEvent<HTMLElement>) => {
         childProps.onClick?.(event);
         handleClick(event);
       },

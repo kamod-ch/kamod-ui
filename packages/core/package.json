@@ -326,7 +326,7 @@
   },
   "scripts": {
     "prepublishOnly": "node ../../scripts/sync-package-readme.mjs",
-    "build": "NODE_OPTIONS=--max-old-space-size=8192 tsup && cp src/theme.css dist/theme.css",
+    "build": "NODE_OPTIONS=--max-old-space-size=8192 tsup && tsc --emitDeclarationOnly --declaration --declarationMap false && cp src/theme.css dist/theme.css",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",
@@ -360,7 +360,7 @@
   "peerDependencies": {
     "@kamod-ch/themes": "^0.2.1",
     "@preact/signals": "^2.11.3",
-    "preact": "^10.29.8"
+    "preact": "^11.0.0"
   },
   "peerDependenciesMeta": {
     "@preact/signals": {

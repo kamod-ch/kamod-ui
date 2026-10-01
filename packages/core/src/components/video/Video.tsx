@@ -1,7 +1,7 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, VideoHTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 
-export type VideoProps = JSX.VideoHTMLAttributes<HTMLVideoElement> & {
+export type VideoProps = VideoHTMLAttributes<HTMLVideoElement> & {
   children?: ComponentChildren;
 };
 

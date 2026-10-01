@@ -1,7 +1,7 @@
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, HTMLAttributes, JSX } from "preact";
 import { cn } from "../../lib/utils";
 
-export type EmptyTitleProps = JSX.HTMLAttributes<HTMLHeadingElement> & {
+export type EmptyTitleProps = HTMLAttributes<HTMLHeadingElement> & {
   children?: ComponentChildren;
 };
 
@@ -9,7 +9,7 @@ export const EmptyTitle = ({ class: className, children, ...rest }: EmptyTitlePr
   <h3
     class={cn("text-lg font-semibold tracking-tight", className)}
     data-slot="empty-title"
-    {...rest}
+    {...(rest as JSX.IntrinsicElements["h3"])}
   >
     {children}
   </h3>

@@ -1,7 +1,7 @@
-import { type ComponentChildren, cloneElement, isValidElement, type JSX } from "preact";
+import { type ComponentChildren, cloneElement, type HTMLAttributes, isValidElement } from "preact";
 import { cn } from "../../lib/utils";
 
-export type ButtonGroupTextProps = Omit<JSX.HTMLAttributes<HTMLDivElement>, "size"> & {
+export type ButtonGroupTextProps = Omit<HTMLAttributes<HTMLDivElement>, "size"> & {
   children?: ComponentChildren;
   asChild?: boolean;
 };
@@ -20,14 +20,14 @@ export const ButtonGroupText = ({
       return null;
     }
 
-    const childProps = (children.props ?? {}) as JSX.HTMLAttributes<HTMLElement> & {
+    const childProps = (children.props ?? {}) as HTMLAttributes<HTMLElement> & {
       class?: string;
       className?: string;
     };
 
     return cloneElement(children, {
       ...childProps,
-      ...(rest as JSX.HTMLAttributes<HTMLElement>),
+      ...(rest as HTMLAttributes<HTMLElement>),
       class: cn(childProps.class, childProps.className, textClass, className),
       "data-slot": "button-group-text",
     });

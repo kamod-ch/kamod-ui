@@ -1,5 +1,5 @@
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@kamod-ch/ui";
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren, CSSProperties } from "preact";
 import type { AppSidebarCollapseProps, AppSidebarPreviewMode, SidebarWidthVars } from "./types";
 import { toSidebarProviderStyle } from "./width-style";
 
@@ -8,7 +8,7 @@ export type AppSidebarPreviewShellProps = AppSidebarCollapseProps & {
   sidebar: ComponentChildren;
   mode?: AppSidebarPreviewMode;
   widthVars?: Partial<SidebarWidthVars>;
-  style?: JSX.CSSProperties;
+  style?: CSSProperties;
 };
 
 export const AppSidebarPreviewShell = ({
