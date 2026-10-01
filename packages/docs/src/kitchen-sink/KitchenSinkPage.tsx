@@ -42,15 +42,10 @@ import {
   SelectTrigger,
   SelectValue,
   Separator,
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetTrigger,
   Slider,
   Spinner,
   Switch,
   Textarea,
-  ThemeToggle,
   Tooltip,
   TooltipContent,
   TooltipTrigger,
@@ -68,13 +63,11 @@ import {
   LayoutDashboard,
   LayoutGrid,
   Lightbulb,
-  Menu,
   Mic,
   MoreHorizontal,
   Paperclip,
   Plus,
   Search,
-  SunMoon,
   Target,
   Users,
   Wallet,
@@ -82,24 +75,8 @@ import {
 } from "lucide-preact";
 import { useState } from "preact/hooks";
 import { withBasePath } from "../base-path";
-import {
-  docsBySlug,
-  docsNewPackageSlugs,
-  docsPages,
-  docsUpdatedComponentSlugs,
-} from "../docs/registry";
 import { DemoShell, demoTopNavItems } from "../layout/DemoShell";
-import { GithubRepoLink } from "../layout/GithubRepoLink";
-import { ThemePresetSelect } from "../theme/ThemePresetSelect";
-
-const sortedDocPages = [...docsPages].sort((a, b) => a.title.localeCompare(b.title));
-const sortedPackageDocPages = sortedDocPages.filter((doc) => doc.navGroup === "packages");
-const sortedComponentDocPages = sortedDocPages.filter((doc) => doc.navGroup !== "packages");
-
-const docFirstSectionHref = (slug: string) => {
-  const first = docsBySlug[slug]?.sections[0]?.id ?? "installation";
-  return withBasePath(`/docs/${slug}/${first}`);
-};
+import { DocsTopbarActions } from "../layout/DocsTopbarActions";
 
 const PRICE_RANGE_MIN = 0;
 const PRICE_RANGE_MAX = 1000;
@@ -1003,60 +980,7 @@ export const KitchenSinkPage = () => (
     rootClassName="docs-shell landing-shell landing-shell--shadcn"
     topNavItems={demoTopNavItems}
     topNavLinksTestId="kitchen-sink-nav"
-    topbarLeading={
-      <Sheet class="docs-mobile-menu" lockBodyScroll>
-        <SheetTrigger aria-label="Open navigation menu" class="docs-mobile-menu-trigger">
-          <Menu size={18} />
-        </SheetTrigger>
-        <SheetContent class="docs-mobile-sheet" side="left" aria-label="Docs navigation panel">
-          <div class="docs-mobile-sheet-head">
-            <h2>Docs</h2>
-          </div>
-          <nav aria-label="Mobile docs navigation" class="docs-mobile-sheet-nav">
-            <SheetClose asChild>
-              <a href={withBasePath("/docs/components")} class="docs-nav-button">
-                <span>Components overview</span>
-              </a>
-            </SheetClose>
-            {sortedPackageDocPages.length ? (
-              <>
-                <p class="docs-mobile-sheet-group-label">Packages</p>
-                {sortedPackageDocPages.map((doc) => (
-                  <SheetClose key={doc.slug} asChild>
-                    <a href={docFirstSectionHref(doc.slug)} class="docs-nav-button">
-                      <span>{doc.title}</span>
-                      {docsNewPackageSlugs.has(doc.slug) ? (
-                        <Badge variant="success">new</Badge>
-                      ) : null}
-                    </a>
-                  </SheetClose>
-                ))}
-              </>
-            ) : null}
-            <p class="docs-mobile-sheet-group-label">Components</p>
-            {sortedComponentDocPages.map((doc) => (
-              <SheetClose key={doc.slug} asChild>
-                <a href={docFirstSectionHref(doc.slug)} class="docs-nav-button">
-                  <span>{doc.title}</span>
-                  {docsUpdatedComponentSlugs.has(doc.slug) ? (
-                    <Badge variant="success">updated</Badge>
-                  ) : null}
-                </a>
-              </SheetClose>
-            ))}
-          </nav>
-        </SheetContent>
-      </Sheet>
-    }
-    topbarActions={
-      <>
-        <ThemePresetSelect class="docs-theme-preset" selectClass="docs-theme-preset-select" />
-        <GithubRepoLink />
-        <ThemeToggle class="docs-topbar-theme-toggle">
-          <SunMoon />
-        </ThemeToggle>
-      </>
-    }
+    topbarActions={<DocsTopbarActions />}
     mainContent={
       <div id="kitchen-sink" class="landing-shadcn-main" data-testid="kitchen-sink">
         <section class="landing-shadcn-intro" aria-labelledby="kitchen-sink-title">

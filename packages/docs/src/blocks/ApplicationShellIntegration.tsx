@@ -2,8 +2,8 @@
 import { Badge } from "@kamod-ch/ui";
 import { CodeBlock } from "../docs/components/CodeBlock";
 import type { ShellTypeDefinitions } from "./ApplicationShellTypeDefinition";
+import { BlockGuideHeading } from "./detail/BlockDocumentation";
 import { RequiredIndicator } from "./RequiredIndicator";
-import { ShellHeadingLink } from "./ShellHeadingLink";
 
 const navigationExample = `import { FolderIcon } from "@kamod-ch/icons/lucide";
 import type { ApplicationShellNavigationGroup } from "./components/application-shell-1";
@@ -90,11 +90,7 @@ export const ShellNavigationData = ({
   renderTypeLink,
 }: Pick<ShellTypeDefinitions, "renderTypeLink">) => (
   <section class="blocks-api-section" aria-labelledby="application-shell-navigation-data">
-    <h3 id="application-shell-navigation-data" tabIndex={-1}>
-      <ShellHeadingLink id="application-shell-navigation-data">
-        Type your navigation data
-      </ShellHeadingLink>
-    </h3>
+    <BlockGuideHeading id="application-shell-navigation-data" />
     <div role="paragraph">
       Use stable IDs{" "}
       <RequiredIndicator label="Required navigation IDs" tooltip="Required stable navigation IDs" />{" "}
@@ -131,9 +127,7 @@ export const ShellCallbacks = ({
   renderDefinition,
 }: Pick<ShellTypeDefinitions, "renderDefinition">) => (
   <section class="blocks-api-section" aria-labelledby="application-shell-callbacks">
-    <h3 id="application-shell-callbacks" tabIndex={-1}>
-      <ShellHeadingLink id="application-shell-callbacks">Navigation and callbacks</ShellHeadingLink>
-    </h3>
+    <BlockGuideHeading id="application-shell-callbacks" />
     <div role="paragraph">
       Native links need no callback. For client routing{" "}
       <RequiredIndicator label="Client routing requirement" tooltip="Cancel handled navigation" />,
@@ -184,9 +178,7 @@ export const ShellCallbacks = ({
 /** Controlled/uncontrolled desktop state and optional persistence, separate from mobile. */
 export const ShellSidebarState = () => (
   <section class="blocks-api-section" aria-labelledby="application-shell-state">
-    <h3 id="application-shell-state" tabIndex={-1}>
-      <ShellHeadingLink id="application-shell-state">Sidebar state</ShellHeadingLink>
-    </h3>
+    <BlockGuideHeading id="application-shell-state" />
     <dl class="blocks-api-state-options">
       <div>
         <dt>

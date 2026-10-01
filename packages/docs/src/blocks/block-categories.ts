@@ -19,28 +19,28 @@ export const blockCategories = {
   sidebar: {
     title: "Sidebar Navigation and Layout Blocks",
     description:
-      "Compare grouped links, nested menus, icon collapse and floating or inset layouts built with `Sidebar` from `@kamod-ch/ui`. Copy a variant’s source and replace the sample destinations with your application’s routes.",
+      "Choose a navigation layout that fits your application, from **grouped links and nested menus** to icon-only collapse, floating panels and inset sidebars. Each variant composes `Sidebar` primitives from `@kamod-ch/ui`, so you can adapt the navigation, branding and surrounding content together. Open a block to explore its **responsive behavior**, review the source and setup steps, then replace the sample destinations with your own routes.",
     label: "sidebar",
     blocks: sidebarBlockMetadata,
   },
   "application-shell": {
     title: "Application Shells for Your Workspace",
     description:
-      "Build your workspace around responsive sidebar navigation, breadcrumbs and an account menu. Supply `navigationGroups` and `breadcrumbs`, render pages through `children`, and connect your own router and account actions.",
+      "Give your workspace a consistent frame with **responsive sidebar navigation**, breadcrumbs and an account menu. Supply `navigationGroups` and `breadcrumbs` to describe your application, then render each page through `children` inside the shared layout. The shell leaves **routing, authentication and account actions** to your app. Explore the demo and typed examples to understand nested navigation, desktop collapse and the separate mobile navigation before connecting your own data.",
     label: "application shell",
     blocks: applicationShellBlockMetadata,
   },
   login: {
     title: "Login Forms and Sign-in Pages",
     description:
-      "Choose compact forms, split layouts or email-only sign-in, with validation and submission feedback built in. Connect `onSubmit` to your authentication service and, where available, `onSocialLogin` to your provider flow.",
+      "Find a sign-in layout that fits your entry point, from a compact form to a split page or an email-only flow. The examples include **field validation and submission feedback**; **your authentication service handles the actual sign-in**. Connect `onSubmit` and, where supported, `onSocialLogin` to your existing flow, then adapt the branding and account links. Each detail page provides the live demo, source files and setup guidance for that variant.",
     label: "login",
     blocks: loginBlockMetadata,
   },
   signup: {
     title: "Signup Forms and Registration Pages",
     description:
-      "Choose compact registration forms, split layouts or social-provider options, with validation and submission feedback. Connect `onSubmit` and, where available, `onSocialSignup` to your account service, then adapt the fields and legal links.",
+      "Build a registration entry point around a compact form, a split layout or supported social-provider options. Each example includes **validation and submission feedback while leaving account creation to your service**. Connect `onSubmit` and, where available, `onSocialSignup`, then adapt the fields, branding and legal links to your product. Use the detail page to inspect the form behavior and required files before integrating the layout into your **onboarding flow**.",
     label: "signup",
     blocks: signupBlockMetadata,
   },

@@ -2,6 +2,7 @@ import type { ComponentChildren } from "preact";
 import Footer from "../../.preactpress/theme/Footer";
 import { withBasePath } from "../base-path";
 import { KamodUiBrandLogo } from "./KamodUiBrandLogo";
+import { SiteNavigation } from "./navigation/SiteNavigation";
 
 export type DemoTopNavItem = {
   label: string;
@@ -10,7 +11,7 @@ export type DemoTopNavItem = {
 
 export const demoTopNavItems: DemoTopNavItem[] = [
   { label: "Components", href: withBasePath("/docs/components") },
-  { label: "Blocks", href: withBasePath("/blocks/sidebar") },
+  { label: "Blocks", href: withBasePath("/blocks") },
   { label: "Forms", href: withBasePath("/docs/forms") },
   { label: "Packages", href: withBasePath("/docs/packages") },
 ];
@@ -21,7 +22,6 @@ type DemoShellProps = {
   topNavItems: DemoTopNavItem[];
   /** Optional test id for the top nav links container (e.g. kitchen sink e2e). */
   topNavLinksTestId?: string;
-  topbarLeading?: ComponentChildren;
   topbarActions?: ComponentChildren;
   leftSidebar?: ComponentChildren;
   /** Introduction above the content column; sidebars start alongside the content below it. */
@@ -38,7 +38,6 @@ export const DemoShell = ({
   brandHref = withBasePath("/"),
   topNavItems,
   topNavLinksTestId,
-  topbarLeading,
   topbarActions,
   leftSidebar,
   contentHeader,
@@ -50,6 +49,7 @@ export const DemoShell = ({
   const layoutClass = [
     "docs-layout",
     leftSidebar == null ? "docs-layout--no-left" : "",
+    rightSidebar == null ? "docs-layout--no-right" : "",
     contentHeader != null ? "docs-layout--content-header" : "",
   ]
     .filter(Boolean)
@@ -62,7 +62,7 @@ export const DemoShell = ({
       <header class="docs-topbar">
         <div class="docs-topbar-inner">
           <div class="docs-topbar-leading">
-            {topbarLeading}
+            <SiteNavigation />
             <a class="docs-topbar-brand" href={brandHref}>
               <KamodUiBrandLogo label={brand} />
             </a>
@@ -85,7 +85,7 @@ export const DemoShell = ({
         )}
         {leftSidebar != null ? <aside class="docs-sidebar">{leftSidebar}</aside> : null}
         <Content class="docs-content">{mainContent}</Content>
-        <aside class="docs-rightbar">{rightSidebar}</aside>
+        {rightSidebar != null && <aside class="docs-rightbar">{rightSidebar}</aside>}
       </Layout>
 
       <Footer />

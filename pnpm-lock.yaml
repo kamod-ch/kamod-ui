@@ -190,6 +190,9 @@ importers:
       lucide-preact:
         specifier: ^1.39.0
         version: 1.39.0(preact@10.29.8)
+      marked:
+        specifier: 16.4.2
+        version: 16.4.2
       motion:
         specifier: ^13.2.0
         version: 13.2.0(react-dom@19.2.8(react@19.2.7))(react@19.2.7)
@@ -233,6 +236,9 @@ importers:
       axe-core:
         specifier: ^4.13.0
         version: 4.13.0
+      fflate:
+        specifier: 0.8.3
+        version: 0.8.3
       jsdom:
         specifier: ^30.0.1
         version: 30.0.1

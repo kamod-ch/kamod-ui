@@ -1,15 +1,10 @@
-import { CodeBlock } from "../components/CodeBlock";
-import {
-  PackageExternalDocsCta,
-  type PackageFeature,
-  PackageFeatureGrid,
-  PackageTeaserHero,
-  type PackageTeaserStat,
-} from "../components/package-teaser";
+import type { PackageFeature, PackageTeaserStat } from "../components/package-teaser";
+import { PackageGuide, packageGuideContents } from "../components/package-teaser/PackageGuide";
+import type { packageGuideNotes } from "../components/package-teaser/package-guide-notes";
 import type { DocPageModule } from "../types";
 
 export type PackageTeaserConfig = {
-  slug: string;
+  slug: keyof typeof packageGuideNotes;
   title: string;
   packagePath: string;
   command: string;
@@ -31,7 +26,7 @@ export type PackageTeaserConfig = {
 };
 
 export const createPackageTeaserDoc = (config: PackageTeaserConfig): DocPageModule => {
-  const quickStartCode = `${config.quickStart.import}\n\n${config.quickStart.usage}`;
+  const contents = packageGuideContents(config);
 
   return {
     slug: config.slug,
@@ -42,6 +37,7 @@ export const createPackageTeaserDoc = (config: PackageTeaserConfig): DocPageModu
     packagePath: config.packagePath,
     usageImportSnippet: config.quickStart.import,
     usageExampleSnippet: config.quickStart.usage,
+    guideContents: contents,
     sections: [
       {
         id: "installation",
@@ -64,42 +60,6 @@ export const createPackageTeaserDoc = (config: PackageTeaserConfig): DocPageModu
         text: config.accessibilityText,
       },
     ],
-    renderMain: (context) => (
-      <>
-        {context.renderTitleRow()}
-        <PackageTeaserHero
-          eyebrow={config.eyebrow}
-          headline={config.headline}
-          lead={config.lead}
-          stats={config.stats}
-          externalDocsUrl={config.externalDocsUrl}
-          githubUrl={config.githubUrl}
-          npmUrl={config.npmUrl}
-        />
-        <PackageFeatureGrid features={config.features} />
-        {context.sections.map((section) => (
-          <section key={section.id} id={section.id} class="docs-section">
-            <h2>{section.title}</h2>
-            <p class="docs-copy">{section.text}</p>
-            {section.id === "installation" ? context.renderSectionExtraContent(section.id) : null}
-            {section.id === "usage" ? (
-              <CodeBlock code={quickStartCode} language="tsx" className="docs-tab-code" />
-            ) : null}
-            {section.id === "api-reference" ? (
-              <p class="docs-copy">
-                <a href={config.externalDocsUrl} target="_blank" rel="noopener noreferrer">
-                  Full API reference on live docs
-                </a>
-              </p>
-            ) : null}
-          </section>
-        ))}
-        <PackageExternalDocsCta
-          title={config.externalCtaTitle}
-          description={config.externalCtaDescription}
-          externalDocsUrl={config.externalDocsUrl}
-        />
-      </>
-    ),
+    renderMain: (context) => <PackageGuide config={config} context={context} contents={contents} />,
   };
 };

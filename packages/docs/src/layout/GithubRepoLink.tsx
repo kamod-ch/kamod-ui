@@ -11,7 +11,7 @@ const INVERTOCAT_PATH =
 
 export const GithubRepoLink = () => (
   <a
-    class="docs-topbar-github"
+    class="docs-topbar-github site-icon-button"
     href={REPO_URL}
     target="_blank"
     rel="noreferrer noopener"

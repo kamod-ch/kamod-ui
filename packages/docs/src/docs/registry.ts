@@ -196,22 +196,7 @@ export const componentDocPages = docsPages.filter(
   (page) => !page.navGroup || page.navGroup === "components",
 );
 
-/**
- * Shown with an "updated" badge in docs and kitchen sink nav.
- * Remove slugs here once the refresh is reflected in release notes so the badge stays meaningful.
- */
-export const docsUpdatedComponentSlugs = new Set([
-  "popover",
-  "tooltip",
-  "toggle",
-  "toggle-group",
-  "tree",
-  "typography",
-  "textarea",
-  "spinner",
-  "switch",
-  "tabs",
-]);
+export { docsUpdatedComponentSlugs } from "./component-status";
 
 /** Shown with a "new" badge in the Components sidebar and overview grid. */
 export const docsNewComponentSlugs = docsShowMotion ? new Set(["ui-motion"]) : new Set<string>();

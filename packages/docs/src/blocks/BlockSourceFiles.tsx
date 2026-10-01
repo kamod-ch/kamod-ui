@@ -1,25 +1,15 @@
 /** On-demand source loading: overview and Preview tabs never fetch raw implementation text. */
+import { FileCodeIcon, TextWrapIcon } from "@kamod-ch/icons/lucide";
+import { BrandTypescriptIcon, TextWrapDisabledIcon } from "@kamod-ch/icons/tabler/outline";
 import { Button } from "@kamod-ch/ui";
-import { useEffect, useMemo, useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import { CodeBlock } from "../docs/components/CodeBlock";
+import { BlockSourceExplorer } from "./BlockSourceExplorer";
 
 /** Full source label, including directories, doubles as the stable file identifier. */
-export type BlockSourceFile = { label: string };
+export type BlockSourceFile = { label: string; destination?: string };
 /** Resolve a registry file label to its raw, copyable source; failures offer a retry. */
 export type BlockSourceLoader = (label: string) => Promise<string>;
-
-/** Keep full labels as keys, even when identical basenames occur in different directories. */
-function groupFiles(files: readonly BlockSourceFile[], grouped: boolean) {
-  const groups = new Map<string, { label: string; path: string }[]>();
-  for (const file of files) {
-    const parts = file.label.split("/");
-    const dir = grouped && parts.length > 1 ? parts.slice(0, -1).join("/") : ".";
-    const entries = groups.get(dir) ?? [];
-    entries.push({ label: grouped ? (parts.at(-1) ?? file.label) : file.label, path: file.label });
-    groups.set(dir, entries);
-  }
-  return [...groups].map(([dir, entries]) => ({ dir, entries }));
-}
 
 export const BlockSourceFiles = ({
   files,
@@ -35,36 +25,37 @@ export const BlockSourceFiles = ({
   onSelect: (file: string) => void;
 }) => {
   const { current, retry } = useBlockSource(selectedFile, loadSource);
-  const groups = useMemo(() => groupFiles(files, grouped), [files, grouped]);
+  const [wrapped, setWrapped] = useState(false);
+  const extension = selectedFile.split(".").at(-1)?.toLowerCase();
+  const language = extension === "md" ? "markdown" : extension === "svg" ? "text" : "tsx";
+  const lineCount = current?.status === "ready" ? current.code.trimEnd().split("\n").length : 0;
+  const WrapIcon = wrapped ? TextWrapIcon : TextWrapDisabledIcon;
   return (
-    <div class="blocks-code-layout mt-3">
-      <aside class="blocks-file-tree" aria-label="Block files">
-        <p class="blocks-file-tree-label">Files</p>
-        <ul class="blocks-file-tree-list">
-          {groups.map(({ dir, entries }) => (
-            <li key={dir}>
-              {grouped && <div class="blocks-file-tree-dir">{dir}/</div>}
-              <ul class="blocks-file-tree-list">
-                {entries.map((file) => (
-                  <li key={file.path}>
-                    <button
-                      type="button"
-                      class={`blocks-file-tree-btn ${selectedFile === file.path ? "is-active" : ""}`}
-                      aria-pressed={selectedFile === file.path}
-                      onClick={() => onSelect(file.path)}
-                    >
-                      {file.label}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </li>
-          ))}
-        </ul>
-      </aside>
-      <div class="blocks-code-pane">
+    <div class="blocks-code-layout">
+      <BlockSourceExplorer
+        files={files}
+        selectedFile={selectedFile}
+        onSelect={onSelect}
+        grouped={grouped}
+      />
+      <div class={`blocks-code-pane ${wrapped ? "is-wrapped" : ""}`}>
+        <div class="blocks-source-file-heading">
+          <FileCodeIcon size={17} strokeWidth={1.75} aria-hidden="true" />
+          <code title={selectedFile}>{selectedFile}</code>
+          <span class="blocks-source-extension">
+            {(extension === "tsx" || extension === "ts") && (
+              <BrandTypescriptIcon size={13} aria-hidden="true" />
+            )}
+            {extension}
+          </span>
+          {current?.status === "ready" && (
+            <span class="blocks-source-lines">
+              {lineCount} {lineCount === 1 ? "line" : "lines"}
+            </span>
+          )}
+        </div>
         {current?.status === "error" ? (
-          <div role="alert">
+          <div class="blocks-source-state" role="alert">
             <p>Could not load the source file.</p>
             <Button size="sm" variant="outline" onClick={retry}>
               Try again
@@ -72,13 +63,38 @@ export const BlockSourceFiles = ({
           </div>
         ) : current?.status === "ready" ? (
           <CodeBlock
+            key={selectedFile}
             code={current.code}
-            language={selectedFile.endsWith(".svg") ? "text" : "tsx"}
+            language={language}
+            filePath={
+              files.find((file) => file.label === selectedFile)?.destination ?? selectedFile
+            }
+            toolbarContent={
+              <>
+                <button
+                  type="button"
+                  class="blocks-source-wrap"
+                  aria-pressed={wrapped}
+                  aria-label="Wrap code lines"
+                  title={`Line wrapping ${wrapped ? "on" : "off"}`}
+                  onClick={() => setWrapped((value) => !value)}
+                >
+                  <WrapIcon size={14} strokeWidth={1.75} aria-hidden="true" />
+                  <span class="blocks-source-wrap-label">Wrap {wrapped ? "on" : "off"}</span>
+                </button>
+              </>
+            }
             className="docs-tab-code"
           />
         ) : (
-          <p role="status">Loading source…</p>
+          <p class="blocks-source-state" role="status">
+            Loading source…
+          </p>
         )}
+        <div class="blocks-source-footer">
+          <span>Read the supporting files before adapting this composition.</span>
+          <span>Copy preserves source formatting.</span>
+        </div>
       </div>
     </div>
   );

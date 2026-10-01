@@ -9,15 +9,15 @@ import {
   SidebarMenuItem,
 } from "@kamod-ch/ui";
 import { useState } from "preact/hooks";
-import { KamodIconFrame } from "../../auth/shared/kamod-icon-frame";
+import { KamodIconFrame } from "../../shared/branding/kamod-icon-frame";
 
-export const VersionSwitcher = ({
-  versions,
-  defaultVersion,
-}: {
+/** Version labels and the initial selection; switching does not load another release. */
+export type VersionSwitcherProps = {
   versions: string[];
   defaultVersion: string;
-}) => {
+};
+
+export const VersionSwitcher = ({ versions, defaultVersion }: VersionSwitcherProps) => {
   const [selectedVersion, setSelectedVersion] = useState(defaultVersion);
 
   return (

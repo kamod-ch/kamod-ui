@@ -6,6 +6,7 @@ import { BlockCategoryHeader } from "./BlockCategoryHeader";
 import { BlockCategoryPreview } from "./BlockCategoryPreview";
 import { BlockOverviewCard } from "./BlockOverviewCard";
 import { type BlockCategory, blockCategories, legacyBlockDestination } from "./block-categories";
+import { SHOW_CATEGORY_PREVIEW } from "./block-display-options";
 
 export const BlockCategoryPage = ({ category }: { category: BlockCategory }) => {
   const { blocks, label } = blockCategories[category];
@@ -30,12 +31,18 @@ export const BlockCategoryPage = ({ category }: { category: BlockCategory }) => 
       sidebarScope="blocks"
       activeDoc={null}
       activeSection=""
-      docs={[]}
       activeBlock={category}
-      contentHeader={<BlockCategoryHeader category={category} />}
-      sidebarHeader={<BlockCategoryPreview key={category} category={category} />}
+      contentHeader={
+        SHOW_CATEGORY_PREVIEW ? <BlockCategoryHeader category={category} /> : undefined
+      }
+      sidebarHeader={
+        SHOW_CATEGORY_PREVIEW ? (
+          <BlockCategoryPreview key={category} category={category} />
+        ) : undefined
+      }
       mainContent={
         <section class="docs-components-overview blocks-sidebar-page blocks-category-page">
+          {!SHOW_CATEGORY_PREVIEW && <BlockCategoryHeader category={category} />}
           <ul class="blocks-overview-grid" aria-label={`${label} block variants`}>
             {blocks.map((block, index) => (
               <li key={block.id} id={block.id}>

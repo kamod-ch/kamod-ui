@@ -5,33 +5,23 @@
  */
 import { applicationShellBlocks } from "@kamod-ch/blocks/application-shell";
 import { withBasePath } from "../base-path";
-import { ShellDesignReference, ShellExplanation } from "./ApplicationShellAbout";
-import { ShellTableOfContents } from "./ApplicationShellContents";
-import { ShellFooter } from "./ApplicationShellFooter";
 import { ShellPageHeader } from "./ApplicationShellHeader";
-import { ShellProps } from "./ApplicationShellProps";
-import { ShellSetup, ShellUsage } from "./ApplicationShellSetup";
 import { ShellShowcase } from "./ApplicationShellShowcase";
 import { type ApplicationShellBlock, categoryPath } from "./application-shell-config";
 import { BlockDetailPage } from "./BlockDetailPage";
+import { applicationShellSections } from "./detail/application-shell-sections";
+import { BlockDocumentation } from "./detail/BlockDocumentation";
 
 /** Composes the showcase and guide without owning either component’s interaction state. */
 const ShellDetail = ({ block }: { block: ApplicationShellBlock }) => (
   <>
     <ShellShowcase key={block.id} block={block} />
-    <section class="blocks-doc-guide" aria-label={`${block.title} documentation`}>
-      <div class="blocks-detail-documentation">
-        <ShellTableOfContents block={block} />
-        <div class="blocks-doc-body">
-          <ShellSetup />
-          <ShellUsage />
-          <ShellProps />
-          <ShellExplanation />
-          <ShellDesignReference />
-        </div>
-        <ShellFooter block={block} />
-      </div>
-    </section>
+    <BlockDocumentation
+      block={block}
+      category="application-shell"
+      sections={applicationShellSections}
+      contentsId="application-shell-contents"
+    />
   </>
 );
 

@@ -7,25 +7,20 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@kamod-ch/ui";
-import { stopNavigation } from "./sample-data";
+import type { NavigationLink } from "./navigation";
+import { stopNavigation } from "./navigation";
 
-const favorites = [
-  "Project Management & Task Tracking",
-  "Family Recipe Collection",
-  "Fitness Tracker",
-];
-
-export const NavFavorites = () => (
+export const NavFavorites = ({ items }: NavFavoritesProps) => (
   <SidebarGroup>
     <SidebarGroupLabel>Favorites</SidebarGroupLabel>
     <SidebarGroupContent>
       <SidebarMenu>
-        {favorites.map((item) => (
-          <SidebarMenuItem key={item}>
+        {items.map((item) => (
+          <SidebarMenuItem key={item.title}>
             <SidebarMenuButton asChild>
-              <a href="#" onClick={stopNavigation}>
+              <a href={item.url} onClick={stopNavigation}>
                 <StarIcon />
-                <span class="truncate">{item}</span>
+                <span class="truncate">{item.title}</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -34,3 +29,8 @@ export const NavFavorites = () => (
     </SidebarGroupContent>
   </SidebarGroup>
 );
+
+/** Inputs supplied by the containing page; demo fixtures are kept separately. */
+export type NavFavoritesProps = {
+  items: NavigationLink[];
+};

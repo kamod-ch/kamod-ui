@@ -16,7 +16,6 @@ export const BlocksDashboardContent = () => (
     sidebarScope="blocks"
     activeDoc={null}
     activeSection=""
-    docs={[]}
     activeBlock="dashboard"
     mainContent={
       <section class="docs-components-overview blocks-sidebar-page">

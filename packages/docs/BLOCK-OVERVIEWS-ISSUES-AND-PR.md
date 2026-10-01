@@ -11,6 +11,40 @@ This is a record of the proposed contribution, not a claim that GitHub has merge
 it or closed the issues. Screenshot cards are the agreed replacement for #56's
 original request for live previews.
 
+## Current follow-up: shared headers, detail guides and overview polish
+
+The original #51/#56 work below is historical. This follow-up branch builds on its
+merged implementation and relates to [#70](https://github.com/kamod-ch/kamod-ui/issues/70),
+[#55](https://github.com/kamod-ch/kamod-ui/issues/55) and
+[#61](https://github.com/kamod-ch/kamod-ui/issues/61).
+
+- **Implemented:** shared overview/detail header composition, registry-based variant
+  navigation, richer introductions, collection-preview polish, accessible snapshot
+  guidance and consistent responsive/hover styling. All 27 detail pages now share
+  the Application Shell guide layout, with tailored Sidebar/Login/Signup content.
+- **Shared guides (#61):** section definitions drive headings and contents links;
+  setup tabs, API cards, required markers, guide/footer layout and responsive styles
+  are reused. Source-backed references distinguish page wrappers from local helpers.
+  Complete copy manifests include shared data, auth helpers and brand/cover assets.
+  API tables and type-link state are shared; field extraction is checked against
+  TypeScript, and disclosure cleanup/same-fragment reopening have regression tests.
+- **Still separate work:** #55's unified showcase toolbar. No issue is auto-closed
+  by this scope record.
+- **Later design decisions:** both page types use the same introductory label;
+  breadcrumbs provide category return navigation. Compact actions wrap, and the
+  inline About link stays reachable by allowing its paragraph to grow on phones.
+- **Current validation:** docs/blocks typechecking, 103 docs tests, 159 block tests,
+  all 65 relevant Chromium tests against the production build, the docs build and
+  scoped lint/format checks pass. Header checks
+  cover 27 widths (320–2560px) in both schemes, with 24-width overview/card coverage.
+  Development-server reloads interrupted earlier browser runs; verification uses
+  an isolated production server. All eight new guide tests also pass with a compatible
+  temporary WebKit runner. Its four older Shell-check failures reproduce on unchanged
+  HEAD; the default WebKit runner remains blocked by a protocol mismatch. Older
+  diagnostics and counts below describe the original branch, not this checkout.
+
+## Historical issue proposals and original PR scope
+
 - [Issue 51: consistent overviews and detail pages](#issue-51-consistent-overviews-and-detail-pages)
 - [Issue 56: visual preview cards](#issue-56-visual-preview-cards)
 - [Combined PR scope](#pr-scope)
@@ -352,11 +386,15 @@ this alignment responsive without measured offsets and preserves one main landma
 A compact random preview fills the space above Categories beside the header on desktop.
 It links to one variant from the current group, selected after hydration and retained
 across theme changes. It reuses the shared thumbnail renderer and stays hidden below
-980px; its image loads lazily. A simple linked image fills nearly the entire width,
-with a small, muted “From this collection” label above it and a fine image outline.
-There is no outer card background, shadow or overlay control. The link retains an
-accessible variant name and a visible keyboard focus outline. The
-optional `sidebarHeader` slot preserves the grid alignment.
+980px; its image loads lazily. A lightly bordered, theme-tinted frame adds a small
+inset around the linked image. The panel stretches to the full introduction height,
+including breadcrumbs, with the full-width image above a small, centered collection
+caption at the bottom. The compact title pairs the display name with a divider and
+code-styled component name; actions wrap below when space is limited. It provides separate detail,
+GitHub source and installation links using core Buttons. There is no overlaid text or control. Links retain accessible names and
+visible keyboard focus. The featured preview shares the cards’ hover outline, shadow
+and gentle lift, with reduced-motion support. The optional `sidebarHeader` slot
+preserves the grid alignment.
 Categories sort by block count, highest first, with alphabetical ties in both desktop
 and mobile navigation. Twenty alphabetically sorted planned categories link to unimplemented pages, each
 with zero variants; the real total stays 27. Both desktop and mobile navigation
@@ -368,9 +406,39 @@ more descriptive titles and practical introductions with highlighted inline API
 names. A variant-count badge sits beside the heading and above it below 640px,
 matching the detail header. The introduction aligns with the random preview at
 the top; breadcrumbs sit below it in the row directly above the cards.
-The screenshot-theme guidance is a second introduction paragraph with matching
-typography and a small gap. It is no longer repeated below the cards. The Blocks breadcrumb uses the existing
-`/blocks/sidebar` entry page.
+Each category has one expanded introduction describing the available layouts and
+integration points, with inline API names styled like the detail documentation.
+Descriptions reserve four lines and clamp overflow; mobile titles reserve two lines
+so shorter collection names do not pull the breadcrumb/action row upward. Compact action icons lift and tilt subtly on hover,
+with softer highlights and reduced-motion support. Below 640px, overview cards and
+action buttons show their highlighted appearance by default; hover and press do not
+move them or change their colors.
+Screenshot-theme guidance opens in a core Popover from the compact information
+button beside the source and issue links. A compact preview guide pairs a Snapshots
+badge with code-styled theme/mode labels, a link to the image-generation guide
+and a separated live-demo hint. It fits narrow
+screens; click, tap or keyboard activation opens it, and Escape or an outside
+click dismisses it. The guide stays within the viewport below the sticky site header,
+repositions on scroll or resize, and provides a 24px close target. Its positioning
+listeners and observer exist only while the guide is open.
+The Blocks breadcrumb uses the existing `/blocks/sidebar` entry page.
+
+**Shared overview and detail headers.** `BlockPageHeader` now owns the introduction,
+badge, four-line description area, breadcrumbs and bottom action row for both page
+levels. Detail headers remain full-width above their showcases, with the same
+vertical starting position and typography as collection headers. Both use the
+“Built with Preact & Kamod UI” label and shared responsive top spacing (24–40px).
+Detail breadcrumbs retain the category return link. Mobile site-bar heights are normalized;
+long headings still wrap naturally.
+
+`BlockDetailHeader` supplies registry-based titles, descriptions, source/issue links
+and previous/next variant controls for Sidebar, Login, Signup and Application Shell.
+Missing neighbours are disabled. Application Shell keeps its richer title and copy;
+its About link follows the description inline, which expands on narrow screens to
+keep the link reachable. Detail introductions include practical integration guidance,
+API names in inline code and subtle emphasis. Breadcrumbs stay on one line, and compact
+screens wrap the action row instead of hiding useful links. Both page types share
+32px buttons, subtle desktop hover feedback and static mobile highlights.
 
 - Fill the **16:9 preview frame** using `object-fit: cover` and top alignment.
   Existing 8:5 screenshots are slightly cropped instead of letterboxed or stretched;
@@ -524,10 +592,15 @@ popover trigger. The block was not changed to satisfy that stale assertion.
 
 Chromium coverage includes all four categories across mobile, tablet and desktop,
 light/dark schemes, keyboard operation, source/setup links, lazy loading, image
-failure and static no-JS navigation. Boundary checks cover 16 widths from 320–1920px,
+failure and static no-JS navigation. Overview boundary checks cover 24 widths from 320–1920px,
 including path/action spacing, sidebar alignment and mobile badge placement. The
 random header preview is checked for category membership, theme stability, keyboard
 focus and responsive visibility.
+
+Shared overview/detail headers are compared at 27 widths from 320–2560px in both
+themes, including breakpoint boundaries. Checks cover matching starts and typography,
+description/toolbar separation, centered counts and separators, and the inline About
+link remaining visible when its description expands on narrow screens.
 
 The typecheck failure belongs to an untouched local duplicate: `pageHeader` is not
 a `DemoShell` prop in `DocsShell 2.tsx`. Its diagnostic was recorded before editing

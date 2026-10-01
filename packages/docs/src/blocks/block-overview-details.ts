@@ -25,7 +25,10 @@ export function getBlockDisplayName(title: string) {
 }
 
 /** Derive presentation and setup data without importing a live block component. */
-export function getBlockOverviewDetails(category: BlockCategory, block: BlockOverviewEntry) {
+export function getBlockOverviewDetails(
+  category: BlockCategory,
+  block: Pick<BlockOverviewEntry, "id" | "title" | "dependencies">,
+) {
   const displayName = getBlockDisplayName(block.title);
   // Registry dependencies are direct imports; UI also requires these setup peers.
   const dependencies = [

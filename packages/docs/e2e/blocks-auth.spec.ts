@@ -29,15 +29,18 @@ for (const category of ["login", "signup"] as const) {
     await expect(
       showcase.getByText(`@kamod-ch/blocks/${category}/${category}-02`, { exact: true }),
     ).toBeVisible();
-    await expect(showcase.locator(".blocks-code-pane code")).toContainText("import");
+    await expect(showcase.locator(".blocks-code-pane pre code")).toContainText("import");
     await showcase.getByRole("button", { name: "auth-cover.svg", exact: true }).click();
-    await expect(showcase.locator(".blocks-code-pane code")).toContainText("<svg");
+    await expect(showcase.locator(".blocks-code-pane pre code")).toContainText("<svg");
     await showcase.getByRole("tab", { name: "Preview", exact: true }).click();
     await showcase.getByRole("tab", { name: "Code", exact: true }).click();
     await expect(
       showcase.getByRole("button", { name: "auth-cover.svg", exact: true }),
     ).toHaveAttribute("aria-pressed", "true");
-    await page.getByRole("link", { name: `All ${category} blocks` }).click();
+    await page
+      .getByRole("navigation", { name: "Block breadcrumb", exact: true })
+      .getByRole("link", { name: category === "login" ? "Login" : "Signup", exact: true })
+      .click();
     await expect(cards).toHaveCount(5);
   });
 
@@ -65,7 +68,7 @@ for (const category of ["login", "signup"] as const) {
       expect(detail.ok()).toBe(true);
       const html = await detail.text();
       expect(html).toContain(`id="${id}"`);
-      expect(html).toContain(`All ${category} blocks`);
+      expect(html).toContain(`href="/blocks/${category}"`);
       expect(html).not.toContain("Loading block…");
       expect((await request.get(`./blocks/${category}/${id}/preview/`)).ok()).toBe(true);
     }
@@ -91,11 +94,11 @@ for (const category of ["login", "signup"] as const) {
           "src",
           new RegExp(`/blocks/${category}/${category}-01/preview$`),
         );
-        await showcase.getByRole("button", { name: "Refresh Preview" }).click();
+        await showcase.getByRole("button", { name: "Refresh", exact: true }).click();
         await expect(showcase.locator("iframe")).toBeVisible();
         await showcase.getByRole("tab", { name: "Code", exact: true }).focus();
         await page.keyboard.press("Enter");
-        await expect(showcase.locator(".blocks-code-pane code")).toContainText("import");
+        await expect(showcase.locator(".blocks-code-pane pre code")).toContainText("import");
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
           true,
         );

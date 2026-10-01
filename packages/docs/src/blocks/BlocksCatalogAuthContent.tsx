@@ -16,7 +16,6 @@ export const BlocksCatalogAuthContent = () => (
     sidebarScope="blocks"
     activeDoc={null}
     activeSection=""
-    docs={[]}
     activeBlock="auth"
     mainContent={
       <section class="docs-components-overview blocks-sidebar-page">

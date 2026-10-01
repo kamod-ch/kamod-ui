@@ -1,4 +1,5 @@
 /** Component-free registry data for lightweight documentation overviews. */
+import { authSupportFiles } from "../auth/shared/source-files";
 import type { BlockDefinition, BlockFile, SignupBlockId } from "../auth/types";
 
 const descriptions: Record<SignupBlockId, string> = {
@@ -17,15 +18,8 @@ const blockFiles = (id: SignupBlockId): BlockFile[] => {
       label: "components/signup-form.tsx",
       kind: "component",
     },
-    { path: "src/auth/shared/auth-utils.ts", label: "lib/auth-utils.ts", kind: "support" },
+    ...authSupportFiles(id),
   ];
-  if (["signup-02", "signup-04"].includes(id)) {
-    files.push({
-      path: "src/auth/shared/auth-cover.svg",
-      label: "assets/auth-cover.svg",
-      kind: "asset",
-    });
-  }
   return files;
 };
 

@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@kamod-ch/ui";
-import { KamodBrandLink } from "../../auth/shared/kamod-brand-link";
+import { KamodBrandLink } from "../../shared/branding/kamod-brand-link";
 import { LoginForm } from "./login-form";
 
 export function Login03() {

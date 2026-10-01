@@ -1,0 +1,162 @@
+/* Open reading sections adapt to the article width, including between two sidebars. */
+.block-guide-next {
+  container: guide-next / inline-size;
+  margin-top: 3.5rem;
+  padding-top: 2rem;
+}
+.guide-next-kicker {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  margin-bottom: 1rem;
+  color: var(--muted-foreground);
+  font-size: 0.6875rem;
+}
+.guide-next-kicker > :first-child {
+  color: var(--foreground);
+  font-weight: 500;
+}
+.guide-next-part {
+  margin-top: 2.5rem;
+}
+.block-guide-next p strong {
+  color: var(--foreground);
+  font-weight: 550;
+}
+.guide-next-part > h3 {
+  margin-bottom: 0.75rem;
+}
+.guide-next-paths {
+  display: grid;
+  gap: 1.75rem;
+  margin-top: 1.5rem;
+}
+.guide-next-path {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border-top: 1px solid var(--border);
+  padding-top: 1rem;
+}
+.guide-next-number {
+  color: var(--muted-foreground);
+  font-size: 0.6875rem;
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 0.75rem;
+}
+.guide-next-path > strong,
+.guide-next-example-intro > strong,
+.guide-next-build > strong {
+  color: var(--foreground);
+  font-size: 0.875rem;
+  font-weight: 550;
+}
+.guide-next-path > p {
+  margin-top: 0.625rem;
+}
+.guide-next-path .guide-next-outcome {
+  margin-top: auto;
+  padding-top: 0.75rem;
+  font-size: 0.8125rem;
+}
+.guide-next-outcome > span {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: var(--foreground);
+  font-size: 0.6875rem;
+  font-weight: 500;
+}
+.guide-next-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.5rem;
+  color: var(--foreground);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+.guide-next-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+.guide-next-exercises {
+  min-width: 0;
+  margin-top: 1.25rem;
+}
+.guide-next-tabs {
+  max-width: 100%;
+  margin-bottom: 1rem;
+}
+.guide-next-exercises [role="tabpanel"] {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.guide-next-tabs [role="tab"] {
+  min-width: 0;
+  padding-inline: 0.75rem;
+  font-size: 0.8125rem;
+}
+.guide-next-example-intro > p {
+  margin-top: 0.625rem;
+}
+.guide-next-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background: color-mix(in oklab, var(--primary) 4%, var(--background));
+}
+.guide-next-check > svg {
+  flex: none;
+  margin-top: 0.125rem;
+  color: var(--muted-foreground);
+}
+.guide-next-check strong {
+  font-size: 0.8125rem;
+  font-weight: 550;
+}
+.guide-next-check p {
+  margin-block: 0.4rem 0;
+  font-size: 0.8125rem;
+}
+.guide-next-review {
+  display: grid;
+  gap: 1.5rem 2rem;
+  margin-block: 1.5rem;
+}
+.guide-next-review dt {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--foreground);
+  font-size: 0.8125rem;
+  font-weight: 550;
+}
+.guide-next-review dt svg {
+  flex: none;
+  color: var(--muted-foreground);
+}
+.guide-next-review dd {
+  margin: 0.625rem 0 0;
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+  line-height: 1.8;
+}
+.guide-next-build {
+  padding-top: 1.25rem;
+  border-top: 1px dashed var(--border);
+}
+.guide-next-build > p {
+  margin-top: 0.625rem;
+}
+@container guide-next (min-width: 36rem) {
+  .guide-next-paths,
+  .guide-next-review {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

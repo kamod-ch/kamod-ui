@@ -1,6 +1,6 @@
 import { SearchIcon } from "@kamod-ch/icons/lucide";
 import { Button, Input, Separator, SidebarTrigger } from "@kamod-ch/ui";
-import { stopNavigation } from "./sample-data";
+import { stopNavigation } from "./navigation";
 
 export const SiteHeader = () => (
   <header class="sticky top-0 z-50 flex h-(--header-height) shrink-0 items-center gap-2 border-b bg-background px-4">

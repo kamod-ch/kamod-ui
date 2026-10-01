@@ -7,7 +7,7 @@ import {
   DropdownSeparator,
   DropdownTrigger,
 } from "@kamod-ch/ui";
-import { stopNavigation } from "./sample-data";
+import { stopNavigation } from "./navigation";
 
 export const NavActions = () => (
   <div class="flex items-center gap-2 text-muted-foreground">

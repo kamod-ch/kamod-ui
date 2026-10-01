@@ -1,0 +1,102 @@
+/* Reuse the block reading layout; only overview examples need extra styling. */
+.library-overview-guide .library-directory-resources h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.library-overview-guide .block-guide-prose h3 {
+  margin-top: 1.75rem;
+}
+.library-overview-guide .block-guide-prose h3:first-child {
+  margin-top: 0;
+}
+.library-overview-guide .block-guide-prose .blocks-doc-heading-link {
+  text-decoration: none;
+}
+.library-overview-guide .library-directory-grid {
+  margin-top: 1.25rem;
+}
+.library-overview-guide .block-guide-table th:first-child {
+  width: 24%;
+  min-width: 8rem;
+}
+.library-overview-guide .block-guide-table th:nth-child(2) {
+  width: 28%;
+}
+.library-overview-guide .block-guide-table a {
+  color: var(--foreground);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.library-overview-guide .block-guide-table tbody th {
+  background: transparent;
+}
+.library-overview-guide .block-guide-table tbody tr + tr th,
+.library-overview-guide .block-guide-table tbody tr:first-child th {
+  border-top: 1px solid color-mix(in oklab, var(--border) 65%, transparent);
+}
+.library-overview-guide .guide-next-example-intro p,
+.library-overview-guide .guide-next-check p {
+  margin-block: 0.625rem;
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+  line-height: 1.85;
+}
+.component-guide-preview {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.5rem;
+  padding: 1rem;
+  margin-block: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.625rem;
+  background: var(--card);
+  color: var(--card-foreground);
+}
+.component-guide-preview > div {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.component-guide-preview > span {
+  margin-left: auto;
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+}
+
+.overview-form-preview,
+.overview-hook-preview {
+  padding: 1rem;
+  margin-block: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.625rem;
+  background: var(--card);
+  color: var(--card-foreground);
+}
+.overview-form-preview {
+  display: grid;
+  gap: 0.75rem;
+}
+.overview-form-preview p,
+.overview-hook-preview p {
+  margin: 0;
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+  line-height: 1.7;
+}
+.overview-hook-preview p {
+  margin-top: 0.75rem;
+}
+.overview-demo-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.library-overview-guide .library-directory-item > code {
+  align-self: flex-start;
+  margin-top: 0.35rem;
+  font-size: 0.6875rem;
+}
+.docs-forms-overview .library-directory-grid {
+  grid-template-columns: minmax(0, 1fr);
+}

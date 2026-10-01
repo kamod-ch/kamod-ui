@@ -1,17 +1,13 @@
 /** Copy-and-adapt setup instructions and a minimal Preact integration. */
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@kamod-ch/ui";
+
 import { withBasePath } from "../base-path";
 import { CodeBlock } from "../docs/components/CodeBlock";
+import { BlockDocSection, BlockGuideHeading } from "./detail/BlockDocumentation";
+import { DependencyCommands } from "./detail/DependencyCommands";
 import { RequiredIndicator } from "./RequiredIndicator";
-import { ShellHeadingLink } from "./ShellHeadingLink";
+import { ShowcaseCodeLink } from "./ShowcaseCodeLink";
 
 const shellImport = `import { ApplicationShell1 } from "./components/application-shell-1";`;
-const shellDependencies = "@kamod-ch/ui @kamod-ch/icons @kamod-ch/themes @preact/signals";
-const dependencyCommands = {
-  pnpm: `pnpm add ${shellDependencies}`,
-  npm: `npm install ${shellDependencies}`,
-  yarn: `yarn add ${shellDependencies}`,
-};
 
 /**
  * Explains copying the block, installing missing dependencies and enabling its styles.
@@ -19,88 +15,60 @@ const dependencyCommands = {
  * The compatibility note identifies the public dropdown hook and portal support used by the menus.
  */
 export const ShellSetup = () => (
-  <section class="blocks-doc-section" aria-labelledby="application-shell-installation">
-    <header class="blocks-doc-section-header">
-      <p class="blocks-doc-eyebrow">Getting started</p>
-      <h2 id="application-shell-installation" tabIndex={-1}>
-        <ShellHeadingLink id="application-shell-installation">Add this block</ShellHeadingLink>
-      </h2>
-      <p>
-        Add a complete navigation layout to an existing Preact app in three steps. Copy the source,
-        connect the Kamod dependencies and bring your own pages. The files live in your project, so
-        you can adapt the sidebar, header and account menu as your application grows.
-      </p>
-    </header>
+  <BlockDocSection
+    id="application-shell-installation"
+    introduction={
+      <>
+        <p>
+          Add a complete navigation layout to an existing Preact app in three steps. Copy the
+          source, connect the Kamod dependencies and bring your own pages. The files live in your
+          project, so you can adapt the sidebar, header and account menu as your application grows.
+        </p>
+      </>
+    }
+  >
     <ol class="blocks-doc-steps" role="list">
       <li>
-        <h3 id="application-shell-copy" tabIndex={-1}>
-          <ShellHeadingLink id="application-shell-copy">
-            <span class="blocks-doc-step-index" aria-hidden="true">
-              1.{" "}
-            </span>
-            Copy the block
-          </ShellHeadingLink>
-        </h3>
+        <BlockGuideHeading id="application-shell-copy" />
         <p>
-          Copy the Code-tab files into <code>src/components/application-shell-1</code>. Skip{" "}
-          <code>preview.tsx</code>, <code>demo-data.tsx</code> and{" "}
-          <code>assets/kamod-ui-logo.svg</code> unless you want the demo. To keep the demo branding,
-          copy the SVG into the same <code>assets</code> subfolder.
+          Copy the files from the{" "}
+          <ShowcaseCodeLink blockId="application-shell-1">showcase’s Code tab</ShowcaseCodeLink>{" "}
+          into <code>src/components/application-shell-1</code>. Skip <code>preview.tsx</code>,{" "}
+          <code>demo-data.tsx</code> and <code>assets/kamod-ui-logo.svg</code> unless you want the
+          demo. To keep the demo branding, copy the SVG into the same <code>assets</code> subfolder.
         </p>
         <p>
           <strong>Keep the reusable files together:</strong> <code>application-shell-1.tsx</code>,{" "}
           <code>app-sidebar.tsx</code>, <code>nav-main.tsx</code>, <code>nav-user.tsx</code>,{" "}
           <code>menu.tsx</code>, <code>types.ts</code> and <code>index.ts</code>. Their relative
           imports work within this folder; the entrypoint exports the component and its public
-          types.
+          types. The examples assume an importing file at <code>src/App.tsx</code>; adjust the
+          relative import if yours lives elsewhere. Keep the repository’s license with your copy.
         </p>
       </li>
       <li>
-        <h3 id="application-shell-dependencies" tabIndex={-1}>
-          <ShellHeadingLink id="application-shell-dependencies">
-            <span class="blocks-doc-step-index" aria-hidden="true">
-              2.{" "}
-            </span>
-            Install missing dependencies
-          </ShellHeadingLink>
-        </h3>
+        <BlockGuideHeading id="application-shell-dependencies" />
         <p>
           Install the packages your app does not already have. Kamod UI supplies the interactive
           components, Icons supplies the SVG icons, and Themes and Preact Signals support the shared
           styling and state setup. Use your project's existing package manager.
         </p>
-        <Tabs defaultValue="pnpm" class="docs-tabs">
-          <TabsList class="docs-tabs-list" variant="line" aria-label="Package manager">
-            {Object.keys(dependencyCommands).map((manager) => (
-              <TabsTrigger key={manager} value={manager}>
-                {manager}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-          {Object.entries(dependencyCommands).map(([manager, command]) => (
-            <TabsContent key={manager} value={manager}>
-              <CodeBlock code={command} language="bash" className="docs-tab-code" />
-            </TabsContent>
-          ))}
-        </Tabs>
+        <DependencyCommands
+          dependencies={["@kamod-ch/ui", "@kamod-ch/icons", "@kamod-ch/themes", "@preact/signals"]}
+        />
         <div role="paragraph" class="blocks-doc-note">
           <strong>Compatibility:</strong>{" "}
           <RequiredIndicator label="Required UI compatibility" tooltip="Required Kamod UI APIs" />{" "}
           <code>@kamod-ch/ui</code> must export <code>useDropdown</code> and support the{" "}
-          <code>portal</code> prop on <code>DropdownContent</code>. The shell's menu adapters use
-          these APIs to manage keyboard navigation and keep menus outside the sidebar's scroll
-          container. Use a UI release that includes both APIs before integrating the block.
+          <code>portal</code> prop on <code>DropdownContent</code>, and expose{" "}
+          <code>createRovingFocus</code> from <code>@kamod-ch/ui/lib/interactive</code>. The shell's
+          menu adapters use these APIs to manage keyboard navigation and keep menus outside the
+          sidebar's scroll container. Use a UI release that includes these APIs before integrating
+          the block.
         </div>
       </li>
       <li>
-        <h3 id="application-shell-styles" tabIndex={-1}>
-          <ShellHeadingLink id="application-shell-styles">
-            <span class="blocks-doc-step-index" aria-hidden="true">
-              3.{" "}
-            </span>
-            Set up styles and import
-          </ShellHeadingLink>
-        </h3>
+        <BlockGuideHeading id="application-shell-styles" />
         <div role="paragraph">
           Follow the{" "}
           <a class="underline" href={withBasePath("/docs/theming/css-setup")}>
@@ -119,7 +87,7 @@ export const ShellSetup = () => (
         </p>
       </li>
     </ol>
-  </section>
+  </BlockDocSection>
 );
 
 const usage = `${shellImport}
@@ -143,21 +111,27 @@ export const App = () => (
 
 /** Shows a minimal integration and identifies where the app connects routing and account actions. */
 export const ShellUsage = () => (
-  <section class="blocks-doc-section" aria-labelledby="application-shell-usage">
-    <header class="blocks-doc-section-header">
-      <p class="blocks-doc-eyebrow">Integration</p>
-      <h2 id="application-shell-usage" tabIndex={-1}>
-        <ShellHeadingLink id="application-shell-usage">Usage</ShellHeadingLink>
-      </h2>
-      <div role="paragraph">
-        Pass your brand, navigation, user and breadcrumbs{" "}
-        <RequiredIndicator label="Required usage data" tooltip="Four required data props" />, then
-        place your page content inside the shell. Mount it in your app's shared layout so pages can
-        reuse the same navigation. The example below starts with one destination and lets the shell
-        manage its own sidebar state.
-      </div>
-    </header>
+  <BlockDocSection
+    id="application-shell-usage"
+    introduction={
+      <>
+        <div role="paragraph">
+          Pass your brand, navigation, user and breadcrumbs{" "}
+          <RequiredIndicator label="Required usage data" tooltip="Four required data props" />, then
+          place your page content inside the shell. Mount it in your app's shared layout so pages
+          can reuse the same navigation. The example below starts with one destination and lets the
+          shell manage its own sidebar state.
+        </div>
+      </>
+    }
+  >
     <CodeBlock code={usage} language="tsx" />
+    <p class="blocks-doc-note">
+      <strong>Keep the shell mounted across routes.</strong> Replace its children and route data
+      without changing the shell’s key to preserve local sidebar state. The shell already owns its{" "}
+      <code>SidebarProvider</code>; adding a second provider outside it will not control its inner
+      navigation. Use the public <a href="#application-shell-state">desktop state props</a> instead.
+    </p>
     <dl class="blocks-doc-callouts">
       <div>
         <dt>Connect navigation</dt>
@@ -176,5 +150,5 @@ export const ShellUsage = () => (
         </dd>
       </div>
     </dl>
-  </section>
+  </BlockDocSection>
 );

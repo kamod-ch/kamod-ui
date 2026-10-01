@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { SHOW_CATEGORY_PREVIEW } from "../src/blocks/block-display-options";
 import { assertNoBlockingA11yViolations } from "./a11y-utils";
 
 for (const [category, count] of [
@@ -18,7 +19,10 @@ for (const [category, count] of [
     await page.goto(`./blocks/${category}`);
     await expect(
       page.locator(".blocks-category-header").getByRole("link", { name: "Blocks", exact: true }),
-    ).toHaveAttribute("href", /\/blocks\/sidebar$/);
+    ).toHaveAttribute("href", /\/blocks$/);
+    await expect(page.locator(".docs-layout-sidebar-header")).toHaveCount(
+      SHOW_CATEGORY_PREVIEW ? 1 : 0,
+    );
     const cards = page.locator("a.blocks-overview-card");
     await expect(cards).toHaveCount(count);
     await expect(page.locator(".blocks-overview-count")).toHaveText(
@@ -117,7 +121,9 @@ for (const width of [320, 768, 1024, 1440, 1920]) {
       if (width >= 980) {
         const sidebar = await page.locator("aside.docs-sidebar").boundingBox();
         expect(sidebar).toBeTruthy();
-        expect(Math.abs(sidebar!.y - grid!.y)).toBeLessThan(1);
+        expect(Math.abs(sidebar!.y - (SHOW_CATEGORY_PREVIEW ? grid!.y : header!.y))).toBeLessThan(
+          1,
+        );
       } else {
         await expect(page.locator("aside.docs-sidebar")).toBeHidden();
       }
@@ -136,104 +142,280 @@ for (const width of [320, 768, 1024, 1440, 1920]) {
   }
 }
 
-test("planned categories stay navigable without becoming screenshot targets", async ({ page }) => {
+test("shared sidebar includes available and planned categories", async ({ page }) => {
   await page.goto("./blocks/sidebar");
   const sidebar = page.locator("aside.docs-sidebar");
-  const links = sidebar.getByRole("navigation", { name: "Docs blocks", exact: true });
-  await expect(links.locator("a[data-block-placeholder]")).toHaveCount(20);
-  await expect(links.locator("a:not([data-block-placeholder])")).toHaveCount(4);
-  await expect(sidebar.getByText("27 blocks", { exact: true })).toBeVisible();
-  const about = links.getByRole("link", { name: "About", exact: true });
-  await expect(about).toHaveAttribute("href", /\/blocks\/about$/);
-  await expect(about).toHaveAccessibleDescription("0 variants; page not available yet");
-  await page.setViewportSize({ width: 320, height: 900 });
-  await page.getByRole("button", { name: "Open navigation menu" }).click();
-  const mobile = page.getByRole("navigation", { name: "Mobile block categories", exact: true });
-  await expect(mobile.getByRole("link")).toHaveCount(24);
-  await mobile.getByRole("link", { name: "Login", exact: true }).click();
-  await expect(page.getByRole("heading", { name: "Login Forms and Sign-in Pages" })).toBeVisible();
+  const navigation = sidebar.getByRole("navigation", { name: "Browse all pages" });
+  await expect(
+    navigation.getByRole("button", { name: /Blocks Layout collections/ }),
+  ).toHaveAttribute("aria-expanded", "true");
+  await expect(navigation.getByRole("link", { name: "Sidebar", exact: true })).toHaveAttribute(
+    "aria-current",
+    "page",
+  );
+  await expect(navigation.getByRole("button", { name: /Toggle .* variants/ })).toHaveCount(0);
+  await expect(navigation.getByRole("link", { name: "About", exact: true })).toHaveAttribute(
+    "href",
+    /\/blocks\/about$/,
+  );
+  await expect(navigation.locator("a[data-block-placeholder]")).toHaveCount(20);
+  await navigation.getByRole("link", { name: "Blocks overview" }).click();
+  await expect(
+    page.getByRole("navigation", { name: "Planned block categories" }).getByRole("link"),
+  ).toHaveCount(20);
 });
 
-for (const scheme of ["light", "dark"] as const) {
-  test(`category disclosures expose variant links independently (${scheme})`, async ({ page }) => {
-    await page.addInitScript((theme) => localStorage.setItem("theme", theme), scheme);
-    await page.goto("./blocks/sidebar");
-    const navigation = page
-      .locator("aside.docs-sidebar")
-      .getByRole("navigation", { name: "Docs blocks" });
-    await expect(navigation.getByRole("button")).toHaveCount(4);
-    const emptyRows = navigation.locator(".blocks-category-row").filter({
-      has: page.locator("a[data-block-placeholder]"),
-    });
-    await expect(emptyRows).toHaveCount(20);
-    await expect(emptyRows.locator("button, svg")).toHaveCount(0);
-
-    for (const [label, count] of [
-      ["Sidebar", 16],
-      ["Login", 5],
-      ["Signup", 5],
-      ["Application Shell", 1],
-    ] as const) {
-      const toggle = navigation.getByRole("button", { name: `Toggle ${label} variants` });
-      await toggle.focus();
-      await page.keyboard.press("Enter");
-      await expect(toggle).toHaveAttribute("aria-expanded", "true");
-      const variants = navigation.getByRole("list", { name: `${label} variants` });
-      await expect(variants.getByRole("link")).toHaveCount(count);
-      await expect(variants).toHaveCSS("border-left-style", "dashed");
-      await expect(page).toHaveURL(/\/blocks\/sidebar\/?$/);
-      // Leave Sidebar expanded while opening another category.
-      if (label !== "Sidebar") {
-        await expect(navigation.getByRole("list", { name: "Sidebar variants" })).toBeVisible();
-        await page.keyboard.press("Space");
-        await expect(toggle).toHaveAttribute("aria-expanded", "false");
-        await expect(variants).toBeHidden();
-        await expect(toggle).toBeFocused();
-      }
-    }
-    await expect(
-      navigation.locator("a.blocks-category-link:not([data-block-placeholder])"),
-    ).toHaveCount(4);
-    await assertNoBlockingA11yViolations(page, "expanded block categories", {
-      exclude: ".kamod-logo__suffix",
-    });
-    const variant = navigation.getByRole("link", { name: "Sidebar 16", exact: true });
-    await variant.scrollIntoViewIfNeeded();
-    await variant.click();
-    await expect(page).toHaveURL(/\/blocks\/sidebar\/sidebar-16\/?$/);
-    await expect(page.locator("article#sidebar-16")).toBeVisible();
-  });
-}
-
 for (const width of [320, 768]) {
-  test(`mobile category disclosure stays open until a variant is selected (${width}px)`, async ({
+  test(`mobile category navigation opens the collection directly (${width}px)`, async ({
     page,
   }) => {
     await page.setViewportSize({ width, height: 600 });
     await page.goto("./blocks/login");
     await page.getByRole("button", { name: "Open navigation menu" }).click();
-    const navigation = page.getByRole("navigation", { name: "Mobile block categories" });
-    const toggle = navigation.getByRole("button", { name: "Toggle Signup variants" });
-    await toggle.click();
-    await expect(toggle).toHaveAttribute("aria-expanded", "true");
-    await expect(navigation).toBeVisible();
-    expect((await toggle.boundingBox())!.height).toBeGreaterThanOrEqual(44);
-    const variant = navigation.getByRole("link", { name: "Signup 5", exact: true });
-    await variant.scrollIntoViewIfNeeded();
-    expect((await variant.boundingBox())!.height).toBeGreaterThanOrEqual(44);
-    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
-      true,
-    );
-    await variant.click();
-    await expect(page).toHaveURL(/\/blocks\/signup\/signup-05\/?$/);
-    await expect(page.locator("article#signup-05")).toBeVisible();
+    const navigation = page
+      .getByRole("dialog", { name: "Explore Kamod", exact: true })
+      .getByRole("navigation", { name: "Browse all pages" });
+    await navigation.getByRole("link", { name: "Signup", exact: true }).click();
+    await expect(page).toHaveURL(/\/blocks\/signup\/?$/);
     await expect(navigation).toBeHidden();
   });
 }
 
+test("preview theme guidance wraps fully and supports activation and dismissal", async ({
+  page,
+}) => {
+  for (const theme of ["light", "dark"]) {
+    await page.addInitScript((value) => localStorage.setItem("theme", value), theme);
+    for (const width of [320, 768, 980, 1440]) {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto("./blocks/application-shell");
+      await expect(page.locator("#pp-preloader")).toBeHidden();
+      await expect(page.locator(".blocks-category-header")).toBeVisible();
+      const header = page.locator(".blocks-category-header");
+      const info = header.getByRole("button", { name: "About preview themes" });
+      const popover = page.getByRole("dialog", { name: "Preview guide" });
+      await expect(header.locator(".blocks-hero-lead")).toHaveCount(1);
+      await expect(header.locator(".blocks-hero-lead")).not.toContainText("Previews use");
+      await info.click();
+      await expect(info).toHaveAttribute("aria-expanded", "true");
+      await expect(popover).toBeVisible();
+      await expect(info).toHaveAttribute("aria-controls", (await popover.getAttribute("id"))!);
+      const paragraphs = popover.locator("p");
+      await expect(paragraphs).toHaveText([
+        "Gallery previews use the Kamod theme and follow your light or dark mode. These saved images keep collections quick to browse without loading every live demo.",
+        "Screenshots show the layout. Open any block to try the real interactions.",
+      ]);
+      const guideLink = popover.getByRole("link", {
+        name: "How preview images are generated (opens in a new tab)",
+      });
+      await expect(guideLink).toHaveAttribute(
+        "href",
+        "https://github.com/kamod-ch/kamod-ui/blob/main/packages/docs/scripts/BLOCK-PREVIEW-IMAGES.md",
+      );
+      const bounds = (await popover.boundingBox())!;
+      expect(bounds.x).toBeGreaterThanOrEqual(0);
+      expect(bounds.y).toBeGreaterThanOrEqual(0);
+      expect(bounds.x + bounds.width).toBeLessThanOrEqual(width);
+      // Text presence alone misses clipping: every rendered line must fit the panel.
+      expect(
+        await paragraphs.evaluateAll((elements) =>
+          elements.every((element) => {
+            const panel = element.parentElement!.getBoundingClientRect();
+            const range = document.createRange();
+            range.selectNodeContents(element);
+            return Array.from(range.getClientRects()).every(
+              (line) =>
+                line.left >= panel.left &&
+                line.right <= panel.right &&
+                line.top >= panel.top &&
+                line.bottom <= panel.bottom,
+            );
+          }),
+        ),
+      ).toBe(true);
+      await page.keyboard.press("Escape");
+      await expect(popover).toBeHidden();
+      await expect(info).toBeFocused();
+      await page.keyboard.press("Enter");
+      await expect(popover).toBeVisible();
+      await info.click();
+      await expect(popover).toBeHidden();
+      await page.keyboard.press("Space");
+      await expect(popover).toBeVisible();
+      await page.keyboard.press("Tab");
+      await expect(popover.getByRole("button", { name: "Close preview guide" })).toBeFocused();
+      await page.keyboard.press("Tab");
+      await expect(guideLink).toBeFocused();
+      await page.keyboard.press("Shift+Tab");
+      await page.keyboard.press("Enter");
+      await expect(popover).toBeHidden();
+      await expect(info).toBeFocused();
+      await info.click();
+      await expect(popover).toBeVisible();
+      await header.locator(".blocks-overview-count").click();
+      await expect(popover).toBeHidden();
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
+        true,
+      );
+    }
+  }
+});
+
+test("preview guide stays below the sticky header after scrolling and resizing", async ({
+  page,
+}) => {
+  await page.goto("./blocks/sidebar");
+  await expect(page.locator(".blocks-category-header")).toBeVisible();
+  const trigger = page.getByRole("button", { name: "About preview themes" });
+  const guide = page.getByRole("dialog", { name: "Preview guide" });
+  for (const [width, height] of [
+    [320, 568],
+    [740, 360],
+    [980, 480],
+    [1440, 900],
+  ]) {
+    await page.setViewportSize({ width, height });
+    await trigger.scrollIntoViewIfNeeded();
+    await trigger.click();
+    await guide.evaluate(async (panel) => {
+      await Promise.all(panel.getAnimations().map((animation) => animation.finished));
+    });
+    const assertContained = async () => {
+      await expect
+        .poll(() =>
+          guide.evaluate((panel) => {
+            const bounds = panel.getBoundingClientRect();
+            const header = document.querySelector(".docs-topbar")!.getBoundingClientRect();
+            return (
+              bounds.top >= header.bottom + 7 &&
+              bounds.bottom <= innerHeight - 7 &&
+              bounds.left >= 7 &&
+              bounds.right <= innerWidth - 7
+            );
+          }),
+        )
+        .toBe(true);
+    };
+    await assertContained();
+    // Keep the guide open while moving its trigger close to the sticky header.
+    await trigger.evaluate((el) => window.scrollBy(0, el.getBoundingClientRect().top - 130));
+    await assertContained();
+    await page.setViewportSize({ width, height: 320 });
+    await assertContained();
+    const close = guide.getByRole("button", { name: "Close preview guide" });
+    await close.focus();
+    await expect(close).toBeInViewport();
+    expect((await close.boundingBox())!.width).toBeGreaterThanOrEqual(24);
+    await page.keyboard.press("Enter");
+    await expect(guide).toBeHidden();
+    await expect(trigger).toBeFocused();
+  }
+});
+
+test("header actions use subtle hover feedback and respect reduced motion", async ({ page }) => {
+  await page.goto("./blocks/sidebar");
+  await expect(page.locator(".blocks-category-header")).toBeVisible();
+  const row = page.locator(".blocks-page-header-summary");
+  const button = row.getByRole("link", { name: /source on GitHub/ });
+  const icon = button.locator("svg");
+  await button.hover();
+  await expect(icon).toHaveCSS("animation-name", "none");
+  await expect(icon).not.toHaveCSS("transform", "none");
+  await page.mouse.move(0, 0);
+  await expect(icon).toHaveCSS("transform", "none");
+  await button.hover();
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(icon).toHaveCSS("animation-name", "none");
+  await expect(icon).toHaveCSS("transition-duration", "0s");
+  await expect(icon).toHaveCSS("transform", "none");
+  await expect(button).toHaveCSS("transition-duration", "0s");
+});
+
+test("featured previews share card hover styling and respect reduced motion", async ({ page }) => {
+  test.skip(!SHOW_CATEGORY_PREVIEW, "Random category preview is temporarily disabled.");
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("./blocks/sidebar");
+  await expect(page.locator("html")).toHaveClass(/pp-ready/);
+  const preview = page.locator(".blocks-category-preview");
+  const card = page.locator(".blocks-overview-surface").first();
+  await card.hover();
+  await card.evaluate(async (el) => {
+    await Promise.all(el.getAnimations().map((a) => a.finished));
+  });
+  const shadow = await card.evaluate((el) => getComputedStyle(el).boxShadow);
+  const lift = await card.evaluate((el) => getComputedStyle(el).transform);
+  await preview.hover();
+  await expect(preview).toHaveCSS("box-shadow", shadow);
+  await expect(preview).toHaveCSS("transform", lift);
+  await page.mouse.move(0, 0);
+  await expect(preview).toHaveCSS("transform", "none");
+  await preview.getByRole("link").first().focus();
+  await expect(preview).toHaveCSS("box-shadow", shadow);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await preview.hover();
+  await expect(preview).toHaveCSS("transform", "none");
+  await expect(preview).toHaveCSS("transition-duration", "0s");
+});
+
+test("small-screen cards and buttons keep their highlights without hover motion", async ({
+  page,
+}) => {
+  await page.goto("./blocks/login");
+  await expect(page.locator("html")).toHaveClass(/pp-ready/);
+  for (const width of [320, 639]) {
+    await page.setViewportSize({ width, height: 900 });
+    const card = page.locator(".blocks-overview-surface").first();
+    const controls = [
+      card,
+      card.locator(".blocks-overview-open"),
+      ...(await card.locator(".blocks-overview-action-links a").all()),
+      ...(await page
+        .locator(
+          '.blocks-page-header-links :is([data-slot="button"], [data-slot="popover-trigger"])',
+        )
+        .all()),
+    ];
+    for (const control of controls) {
+      await page.mouse.move(0, 0);
+      const styles = () =>
+        control.evaluate((el) => {
+          const s = getComputedStyle(el);
+          return {
+            background: s.backgroundColor,
+            color: s.color,
+            shadow: s.boxShadow,
+            opacity: s.opacity,
+            transform: s.transform,
+            translate: s.translate,
+            transition: s.transitionDuration,
+            iconTransform: el.querySelector("svg")
+              ? getComputedStyle(el.querySelector("svg")!).transform
+              : "none",
+          };
+        });
+      const initial = await styles();
+      await control.hover();
+      expect(await styles()).toEqual(initial);
+      expect(initial.transform).toBe("none");
+      expect(initial.iconTransform).toBe("none");
+      expect(initial.transition).toBe("0s");
+      await page.mouse.down();
+      expect((await styles()).translate).toBe("none");
+      await page.mouse.move(0, 0);
+      await page.mouse.up();
+    }
+    await expect(card.locator(".blocks-overview-open")).toHaveCSS("opacity", "1");
+  }
+  // The default highlight stops at the existing 640px boundary.
+  await page.setViewportSize({ width: 640, height: 900 });
+  await page.mouse.move(0, 0);
+  await expect(page.locator(".blocks-overview-open").first()).toHaveCSS("opacity", "0.55");
+});
+
 test("header preview uses a current-category thumbnail and keeps its selection when themes change", async ({
   page,
 }) => {
+  test.skip(!SHOW_CATEGORY_PREVIEW, "Random category preview is temporarily disabled.");
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.addInitScript(() => localStorage.setItem("theme", "light"));
   for (const category of ["sidebar", "application-shell", "login", "signup"]) {
@@ -254,17 +436,41 @@ test("header preview uses a current-category thumbnail and keeps its selection w
     await page.locator('[data-slot="theme-toggle"]').click();
     await expect(preview.locator("img")).not.toHaveAttribute("src", before!);
     await expect(preview).toHaveAttribute("href", destination!);
-    const bounds = (await preview.boundingBox())!;
+    const container = page.locator(".blocks-category-preview");
+    const actions = container.getByRole("group");
+    await expect(container.getByText("From this collection", { exact: true })).toHaveCount(0);
+    await expect(actions.getByRole("link")).toHaveCount(3);
+    await expect(actions.getByRole("link", { name: /details$/ })).toHaveAttribute(
+      "href",
+      destination!,
+    );
+    const cardActions = card.locator("..").locator(".blocks-overview-action-links");
+    for (const name of [/source on GitHub/, /^Add /]) {
+      await expect(actions.getByRole("link", { name })).toHaveAttribute(
+        "href",
+        (await cardActions.getByRole("link", { name }).getAttribute("href"))!,
+      );
+    }
+    const bounds = (await container.boundingBox())!;
     const sidebar = (await page.locator("aside.docs-sidebar").boundingBox())!;
     const header = (await page.locator(".blocks-category-header").boundingBox())!;
     expect(bounds.x).toBe(sidebar.x);
     expect(bounds.x + bounds.width).toBeLessThan(header.x);
     expect(bounds.y + bounds.height).toBeLessThan(sidebar.y);
-    await preview.focus();
+    await actions.getByRole("link").nth(0).focus();
     await page.keyboard.press("Tab");
-    await page.keyboard.press("Shift+Tab");
+    await expect(actions.getByRole("link").nth(1)).toBeFocused();
+    await page.keyboard.press("Tab");
+    await expect(actions.getByRole("link").nth(2)).toBeFocused();
+    await page.keyboard.press("Tab");
     await expect(preview).toBeFocused();
     await expect(preview).toHaveCSS("outline-style", "solid");
+    const captionLink = container.locator(".blocks-category-preview-caption").getByRole("link");
+    const blockId = destination!.split("/").at(-1);
+    await expect(captionLink).toHaveAttribute("href", `${destination}#${blockId}`);
+    await page.keyboard.press("Tab");
+    await expect(captionLink).toBeFocused();
+    await expect(captionLink).toHaveCSS("outline-style", "solid");
     await page.setViewportSize({ width: 979, height: 900 });
     await expect(preview).toBeHidden();
     await page.setViewportSize({ width: 1440, height: 900 });
@@ -277,16 +483,20 @@ for (const scheme of ["light", "dark"] as const) {
     page,
   }) => {
     await page.addInitScript((scheme) => localStorage.setItem("theme", scheme), scheme);
+    const summaryPositions = new Map<number, number>();
     for (const category of ["application-shell", "sidebar", "login", "signup"]) {
       await page.goto(`./blocks/${category}`);
+      await expect(page.locator("html")).toHaveClass(/pp-ready/);
+      await expect(page.locator(".blocks-category-header")).toBeVisible();
       await expect(page.locator(".blocks-overview-preview img").first()).toBeVisible();
       await page.evaluate(() => document.fonts.ready);
       for (const width of [
-        320, 608, 639, 640, 667, 668, 768, 979, 980, 1024, 1259, 1260, 1440, 1679, 1680, 1920,
+        320, 375, 390, 414, 608, 639, 640, 667, 668, 767, 768, 769, 979, 980, 1023, 1024, 1025,
+        1259, 1260, 1261, 1440, 1679, 1680, 1920,
       ]) {
         await page.setViewportSize({ width, height: 900 });
         const layout = await page.evaluate(() => {
-          const header = document.querySelector(".blocks-category-title-row")!;
+          const header = document.querySelector(".blocks-page-header-title-row")!;
           const title = header.querySelector("h1")!.getBoundingClientRect();
           const badge = header.querySelector('[data-slot="badge"]')!.getBoundingClientRect();
           const cards = [...document.querySelectorAll(".blocks-overview-surface")];
@@ -294,31 +504,68 @@ for (const scheme of ["light", "dark"] as const) {
             .querySelector(".blocks-category-header")!
             .getBoundingClientRect();
           const grid = document.querySelector(".blocks-overview-grid")!.getBoundingClientRect();
-          const preview = document.querySelector(".blocks-category-preview")!;
-          const previewFrame = preview.getBoundingClientRect();
-          const sidebar = document.querySelector("aside.docs-sidebar")!.getBoundingClientRect();
-          const imageFrame = preview
-            .querySelector(".blocks-overview-preview")!
-            .getBoundingClientRect();
+          const preview = document.querySelector(".blocks-category-preview");
+          const previewFits = (() => {
+            if (!preview) {
+              const sidebar = document.querySelector("aside.docs-sidebar")!.getBoundingClientRect();
+              return innerWidth < 980
+                ? sidebar.width === 0
+                : Math.abs(sidebar.top - introduction.top) < 1;
+            }
+
+            const previewFrame = preview.getBoundingClientRect();
+            const previewStyle = getComputedStyle(preview);
+            const previewInset =
+              parseFloat(previewStyle.paddingBottom) + parseFloat(previewStyle.borderBottomWidth);
+            const captionFrame = preview
+              .querySelector(".blocks-category-preview-caption")!
+              .getBoundingClientRect();
+            const previewActions = preview
+              .querySelector(".blocks-category-preview-meta")!
+              .getBoundingClientRect();
+            const sidebar = document.querySelector("aside.docs-sidebar")!.getBoundingClientRect();
+            const navigation = document
+              .querySelector("aside.docs-sidebar .site-navigation-directory")!
+              .getBoundingClientRect();
+            const imageFrame = preview
+              .querySelector(".blocks-overview-preview")!
+              .getBoundingClientRect();
+            return innerWidth < 980
+              ? previewFrame.width === 0 && sidebar.width === 0
+              : Math.abs(previewFrame.left - navigation.left) < 1 &&
+                  Math.abs(previewFrame.right - navigation.right) < 1 &&
+                  previewFrame.right + 16 <= introduction.left &&
+                  Math.abs(previewFrame.top - introduction.top) < 1 &&
+                  Math.abs(previewFrame.bottom - introduction.bottom) < 1 &&
+                  Math.abs(captionFrame.bottom - (previewFrame.bottom - previewInset)) < 1 &&
+                  imageFrame.bottom + 8 <= captionFrame.top &&
+                  previewActions.bottom < imageFrame.top &&
+                  previewFrame.bottom < grid.top &&
+                  Math.abs(sidebar.top - grid.top) < 1 &&
+                  preview.scrollWidth <= preview.clientWidth + 1 &&
+                  imageFrame.left > previewFrame.left &&
+                  imageFrame.right < previewFrame.right &&
+                  Math.abs(imageFrame.width / imageFrame.height - 16 / 9) < 0.01;
+          })();
+          const description = document.querySelector(".blocks-category-header .blocks-hero-lead")!;
+          const descriptionStyle = getComputedStyle(description);
           return {
+            descriptionFitsFourLines:
+              descriptionStyle.webkitLineClamp === "4" &&
+              Math.abs(
+                description.getBoundingClientRect().height -
+                  4 * parseFloat(descriptionStyle.lineHeight),
+              ) < 1,
+            summaryTop:
+              document.querySelector(".blocks-page-header-summary")!.getBoundingClientRect().top +
+              scrollY,
             pageFits: document.documentElement.scrollWidth <= innerWidth,
             badgeAboveTitle: badge.bottom <= title.top,
             headerAligned:
               Math.abs(introduction.left - grid.left) < 1 &&
               Math.abs(introduction.width - grid.width) < 1 &&
               introduction.bottom < grid.top,
-            previewFits:
-              innerWidth < 980
-                ? previewFrame.width === 0 && sidebar.width === 0
-                : Math.abs(previewFrame.left - sidebar.left) < 1 &&
-                  previewFrame.right + 16 <= introduction.left &&
-                  previewFrame.top >= introduction.top &&
-                  previewFrame.bottom < grid.top &&
-                  Math.abs(sidebar.top - grid.top) < 1 &&
-                  preview.scrollWidth <= preview.clientWidth + 1 &&
-                  imageFrame.left > previewFrame.left &&
-                  imageFrame.right < previewFrame.right &&
-                  Math.abs(imageFrame.width / imageFrame.height - 16 / 9) < 0.01,
+            previewFits,
             cardsFit: cards.every((card) => {
               const path = card.querySelector(".blocks-overview-path code")!;
               const end = path.lastElementChild!.getBoundingClientRect();
@@ -326,6 +573,9 @@ for (const scheme of ["light", "dark"] as const) {
               const frame = card.getBoundingClientRect();
               const links = actions.getBoundingClientRect();
               return (
+                [
+                  ...card.querySelectorAll('[data-slot="badge"], .blocks-overview-action-links a'),
+                ].every((element) => getComputedStyle(element).visibility === "visible") &&
                 frame.width >= 294 &&
                 path.scrollWidth <= path.clientWidth + 1 &&
                 links.left - end.right >= 12 &&
@@ -335,6 +585,16 @@ for (const scheme of ["light", "dark"] as const) {
             }),
           };
         });
+        expect(
+          layout.descriptionFitsFourLines,
+          `${category} four-line introduction at ${width}px`,
+        ).toBe(true);
+        const expectedTop = summaryPositions.get(width) ?? layout.summaryTop;
+        expect(
+          Math.abs(layout.summaryTop - expectedTop),
+          `${category} shared summary position at ${width}px`,
+        ).toBeLessThan(1);
+        summaryPositions.set(width, expectedTop);
         expect(layout.pageFits, `${category} page at ${width}px`).toBe(true);
         expect(layout.headerAligned, `${category} header/grid alignment at ${width}px`).toBe(true);
         expect(layout.previewFits, `${category} header preview at ${width}px`).toBe(true);
@@ -352,11 +612,12 @@ test("header preview and category navigation remain usable on short desktop scre
     await page.goto(`./blocks/${category}`);
     await expect(page.locator("#pp-preloader")).toBeHidden();
     const preview = page.locator(".blocks-category-preview-link");
-    const destination = await preview.getAttribute("href");
+    const destination = SHOW_CATEGORY_PREVIEW ? await preview.getAttribute("href") : null;
     for (const width of [980, 1280]) {
       await page.setViewportSize({ width, height: 480 });
       await page.evaluate(() => window.scrollTo(0, 0));
-      await expect(preview).toBeVisible();
+      if (SHOW_CATEGORY_PREVIEW) await expect(preview).toBeVisible();
+      else await expect(preview).toHaveCount(0);
       const sidebar = page.locator("aside.docs-sidebar");
       await sidebar.scrollIntoViewIfNeeded();
       const lastCategory = sidebar.getByRole("link").last();
@@ -367,12 +628,12 @@ test("header preview and category navigation remain usable on short desktop scre
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
         true,
       );
-      await expect(preview).toHaveAttribute("href", destination!);
+      if (SHOW_CATEGORY_PREVIEW) await expect(preview).toHaveAttribute("href", destination!);
     }
     await page.setViewportSize({ width: 768, height: 480 });
     await expect(preview).toBeHidden();
     await page.getByRole("button", { name: "Open navigation menu" }).click();
-    await expect(page.getByRole("navigation", { name: "Mobile block categories" })).toBeVisible();
+    await expect(page.getByRole("navigation", { name: "Browse all pages" })).toBeVisible();
     await page.keyboard.press("Escape");
   }
 });
@@ -388,11 +649,12 @@ test("category menu stays usable in a short touch viewport", async ({ browser, b
     await page.goto("./blocks/sidebar");
     const trigger = page.getByRole("button", { name: "Open navigation menu" });
     await trigger.tap();
-    const navigation = page.getByRole("navigation", { name: "Mobile block categories" });
+    const navigation = page.getByRole("navigation", { name: "Browse all pages" });
     const signup = navigation.getByRole("link", { name: "Signup", exact: true });
     await signup.scrollIntoViewIfNeeded();
     await expect(signup).toBeInViewport();
-    expect((await signup.boundingBox())!.height).toBeGreaterThanOrEqual(44);
+    await expect(signup).toHaveAttribute("href", /\/blocks\/signup$/);
+    expect((await signup.boundingBox())!.height).toBeGreaterThanOrEqual(36);
     await page.keyboard.press("Escape");
     await expect(navigation).toBeHidden();
     await expect(trigger).toBeFocused();

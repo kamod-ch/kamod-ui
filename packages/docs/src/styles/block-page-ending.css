@@ -1,0 +1,54 @@
+.blocks-page-ending {
+  margin-top: 3rem;
+  border-top: 1px solid var(--border);
+}
+.blocks-page-ending-next {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+  padding-block: 1.5rem;
+}
+.blocks-page-ending-next > div {
+  flex: 1 1 22rem;
+}
+.blocks-page-ending p {
+  margin: 0;
+}
+.blocks-page-ending .blocks-page-ending-eyebrow {
+  margin-bottom: 0.65rem;
+  color: var(--muted-foreground);
+  font-size: 0.6875rem;
+}
+.blocks-page-ending .blocks-page-ending-title {
+  color: var(--foreground);
+  font-size: 0.9375rem;
+  font-weight: 550;
+  line-height: 1.5;
+}
+.blocks-page-ending .blocks-page-ending-description {
+  margin-top: 0.5rem;
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+  line-height: 1.8;
+}
+.blocks-page-ending-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  color: var(--foreground);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+.blocks-page-ending-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+.blocks-page-ending-link:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+  border-radius: 0.25rem;
+}

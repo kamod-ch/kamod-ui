@@ -24,12 +24,20 @@ test("navigates category, overview card, detail and back", async ({ page }) => {
   await expect(page.locator("article.blocks-card")).toHaveCount(0);
   await page.locator("a.blocks-overview-card").filter({ hasText: "application-shell-01" }).click();
   await expect(
-    page.getByRole("heading", { name: "application-shell-01", exact: true }),
+    page.getByRole("heading", {
+      name: "Application Shell 1 — Sidebar shell with breadcrumbs",
+      exact: true,
+    }),
   ).toBeVisible();
   await expect(page.locator("aside.docs-sidebar")).toHaveCount(0);
-  await expect(page.locator(".blocks-preview-host")).toContainText("Overview");
+  await expect(page.frameLocator(".blocks-preview-iframe").locator("body")).toContainText(
+    "Overview",
+  );
   await expect(page.getByRole("heading", { name: "Props and data" })).toBeVisible();
-  await page.getByRole("link", { name: "All application shell blocks", exact: true }).click();
+  await page
+    .getByRole("navigation", { name: "Block breadcrumb", exact: true })
+    .getByRole("link", { name: "Application Shell", exact: true })
+    .click();
   await expect(page.locator("a.blocks-overview-card")).toHaveCount(1);
 });
 
@@ -68,12 +76,12 @@ test("documentation header exposes breadcrumbs, repository links and disabled va
   );
   await expect(breadcrumb.getByRole("link", { name: "Blocks", exact: true })).toHaveAttribute(
     "href",
-    /\/blocks\/sidebar$/,
+    /\/blocks$/,
   );
   await expect(
     breadcrumb.getByRole("link", { name: "Application Shell", exact: true }),
   ).toHaveAttribute("href", /\/blocks\/application-shell$/);
-  await expect(breadcrumb.locator('[aria-current="page"]')).toHaveText("application-shell-01");
+  await expect(breadcrumb.locator('[aria-current="page"]')).toHaveText("Application Shell 1");
 
   const report = header.getByRole("link", { name: /Report a bug/ });
   const reportUrl = new URL((await report.getAttribute("href"))!);
@@ -89,9 +97,14 @@ test("documentation header exposes breadcrumbs, repository links and disabled va
   );
   for (const link of [report, source]) await expect(link).toHaveAttribute("target", "_blank");
 
-  // Disabled neighbours stay out of the keyboard order; the repository links remain reachable.
+  // Follow the visual order from the top breadcrumb through the introduction to the actions.
   await breadcrumb.getByRole("link", { name: "Application Shell", exact: true }).focus();
   await page.keyboard.press("Tab");
+  await expect(header.getByRole("heading", { level: 1 }).getByRole("link")).toBeFocused();
+  await page.keyboard.press("Tab");
+  await expect(header.getByRole("link", { name: "About this block", exact: true })).toBeFocused();
+  await page.keyboard.press("Tab");
+  // Disabled variant neighbours stay out of the keyboard order.
   await expect(report).toBeFocused();
   await page.keyboard.press("Tab");
   await expect(source).toBeFocused();
@@ -104,7 +117,7 @@ test("documentation header exposes breadcrumbs, repository links and disabled va
   await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
   await expect(overview).toHaveAttribute("aria-current", "location");
 
-  // Both links return above the backlink, even when the URL already ends in #top.
+  // Both links return above the introductory breadcrumbs, even when the URL already ends in #top.
   for (const width of [320, 768, 1024, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     const titleLink = page.getByRole("heading", { level: 1 }).getByRole("link");
@@ -112,9 +125,7 @@ test("documentation header exposes breadcrumbs, repository links and disabled va
     await page.evaluate(() => window.scrollTo({ top: 200, behavior: "instant" }));
     await page.keyboard.press("Enter");
     await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
-    await expect(
-      header.getByRole("link", { name: "All application shell blocks" }),
-    ).toBeInViewport();
+    await expect(header.locator(".blocks-page-header-breadcrumbs")).toBeInViewport();
   }
 
   await page
@@ -131,8 +142,10 @@ test("documentation header exposes breadcrumbs, repository links and disabled va
   await page.reload();
   await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
   await breadcrumb.getByRole("link", { name: "Blocks", exact: true }).click();
-  await expect(page).toHaveURL(/\/blocks\/sidebar\/?$/);
-  await expect(page.locator("a.blocks-overview-card").first()).toBeVisible();
+  await expect(page).toHaveURL(/\/blocks\/?$/);
+  await expect(
+    page.getByRole("heading", { name: "Blocks for complete application layouts", exact: true }),
+  ).toBeVisible();
 });
 
 test("loads detail directly, displays sources and switches preview viewports", async ({ page }) => {
@@ -142,7 +155,7 @@ test("loads detail directly, displays sources and switches preview viewports", a
   await page.getByRole("button", { name: "types.ts", exact: true }).click();
   await expect(page.locator(".blocks-code-pane")).toContainText("ApplicationShell1Props");
   await page.getByRole("tab", { name: "Preview", exact: true }).click();
-  const panel = page.locator(".blocks-preview-panel");
+  const panel = page.locator(".blocks-showcase");
   for (const viewport of ["Mobile", "Tablet"]) {
     await panel.getByRole("button", { name: `${viewport} view` }).click();
     await expect(panel.locator("iframe")).toHaveAttribute(
@@ -152,10 +165,11 @@ test("loads detail directly, displays sources and switches preview viewports", a
     await expect(panel.frameLocator("iframe").getByText("Overview")).toBeVisible();
   }
   await panel.getByRole("button", { name: "Desktop view" }).click();
-  await expect(panel.locator("iframe")).toHaveCount(0);
+  await expect(panel.locator("iframe")).toBeVisible();
   // The embedded sidebar must fit the preview, including its footer.
   const frameBox = await panel.locator(".blocks-preview-frame").boundingBox();
   const userBox = await panel
+    .frameLocator("iframe")
     .getByRole("button", { name: "Open account menu for Alex Morgan" })
     .boundingBox();
   expect(userBox!.y + userBox!.height).toBeLessThanOrEqual(frameBox!.y + frameBox!.height);
@@ -206,9 +220,24 @@ test("documentation contents support keyboard links, history and scroll tracking
   await contents.getByRole("link", { name: "application-shell-01 Showcase" }).click();
   await expect(page).toHaveURL(/#application-shell-1$/);
   await expect(page.getByRole("article", { name: "application-shell-01 showcase" })).toBeFocused();
-  await expect(
-    page.getByRole("heading", { name: "application-shell-01", exact: true }),
-  ).toBeInViewport();
+  await expect(page.getByRole("tab", { name: "Preview", exact: true })).toBeInViewport();
+});
+
+test("mobile section history restores position without a visible contents sidebar", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(detail);
+  await expect(page.locator("html")).toHaveClass(/pp-ready/);
+  await expect(page.locator(".blocks-doc-toc")).toBeHidden();
+  for (const id of ["application-shell-installation", "application-shell-usage"]) {
+    await page.locator(`#${id}`).getByRole("link").click();
+    await expect(page).toHaveURL(new RegExp(`#${id}$`));
+  }
+  await page.goBack();
+  await expect(page.locator("#application-shell-installation")).toBeInViewport();
+  await page.goForward();
+  await expect(page.locator("#application-shell-usage")).toBeInViewport();
 });
 
 test("documentation sections can be opened directly by URL", async ({ page }) => {
@@ -284,17 +313,30 @@ for (const width of [320, 640, 768, 979, 980, 1024, 1260, 1440]) {
       await expect(page).toHaveURL(/#top$/);
       await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
       if (width === 320) {
-        const themePreset = page.getByRole("combobox", { name: "Color theme preset" });
-        await themePreset.selectOption("professional");
+        await page.getByRole("button", { name: "Open navigation menu" }).click();
+        const panel = page.getByRole("dialog", { name: "Explore Kamod", exact: true });
+        await panel.getByRole("button", { name: "Choose color theme" }).click();
+        await panel
+          .getByRole("group", { name: "Site color theme" })
+          .getByRole("button", { name: "Professional (Electronics)", exact: true })
+          .click();
+        await panel.getByRole("button", { name: "Close navigation menu" }).click();
         await page.evaluate(() => document.fonts.ready);
-        const brand = await page.locator(".docs-topbar-brand").boundingBox();
-        const topbarActions = await page.locator(".docs-topbar-actions").boundingBox();
-        expect(topbarActions!.y).toBeGreaterThanOrEqual(brand!.y + brand!.height);
-        expect(topbarActions!.x + topbarActions!.width).toBeLessThanOrEqual(width);
-        expect(
-          await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),
-        ).toBe(true);
-        await themePreset.selectOption("kamod");
+        const brand = (await page.locator(".docs-topbar-brand").boundingBox())!;
+        const actions = (await page.locator(".docs-topbar-actions").boundingBox())!;
+        expect(actions.y + actions.height / 2).toBeCloseTo(brand.y + brand.height / 2, 0);
+        expect(actions.x + actions.width).toBeLessThanOrEqual(width);
+        expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
+          true,
+        );
+        // Restore the theme before the rest of this light/dark layout and contrast check.
+        await page.getByRole("button", { name: "Open navigation menu" }).click();
+        await panel.getByRole("button", { name: "Choose color theme" }).click();
+        await panel
+          .getByRole("group", { name: "Site color theme" })
+          .getByRole("button", { name: "Kamod", exact: true })
+          .click();
+        await panel.getByRole("button", { name: "Close navigation menu" }).click();
       }
       const currentCrumb = await header.locator('[data-slot="breadcrumb-page"]').boundingBox();
       const firstCrumb = await header
@@ -307,47 +349,24 @@ for (const width of [320, 640, 768, 979, 980, 1024, 1260, 1440]) {
       if (width < 640) {
         const badge = await header.locator('[data-slot="badge"]').boundingBox();
         const title = await header.getByRole("heading", { level: 1 }).boundingBox();
-        const backlink = await header.locator(".blocks-shell-header-back").boundingBox();
-        expect(badge!.y).toBeGreaterThanOrEqual(backlink!.y + backlink!.height + 16);
+        const label = await header.locator(".blocks-page-header-breadcrumbs").boundingBox();
+        expect(badge!.y).toBeGreaterThanOrEqual(label!.y + label!.height + 12);
         expect(badge!.y + badge!.height).toBeLessThan(title!.y);
       }
-      const actions = header.locator(".blocks-shell-header-actions");
-      // Action visibility follows available header space, not the viewport breakpoint.
-      const actionsFit = await header.evaluate(
-        (node) =>
-          node.clientWidth >=
-          44 * Number.parseFloat(getComputedStyle(document.documentElement).fontSize),
-      );
-      if (actionsFit) {
-        await expect(actions).toBeVisible();
-        const actionsBox = await actions.boundingBox();
-        const breadcrumbs = await header.locator('[data-slot="breadcrumb-list"]').boundingBox();
-        expect(actionsBox!.x - (breadcrumbs!.x + breadcrumbs!.width)).toBeGreaterThanOrEqual(24);
-        expect(actionsBox!.x + actionsBox!.width).toBeLessThanOrEqual(
-          headerBox!.x + headerBox!.width,
-        );
-        expect(breadcrumbs!.y + breadcrumbs!.height).toBeCloseTo(
-          actionsBox!.y + actionsBox!.height,
-          0,
-        );
-        const currentPage = await header.locator('[data-slot="breadcrumb-page"]').boundingBox();
-        const home = await header.getByRole("link", { name: "Home", exact: true }).boundingBox();
-        expect(currentPage!.y).toBeCloseTo(home!.y, 0);
-      } else {
-        await expect(actions).toBeHidden();
-        await expect(header.getByRole("group", { name: "Block navigation and links" })).toHaveCount(
-          0,
-        );
-        // Hidden actions must not intercept keyboard navigation after the breadcrumbs.
-        await header.getByRole("link", { name: "Application Shell", exact: true }).focus();
-        await page.keyboard.press("Tab");
-        await expect(
-          page
-            .getByRole("heading", { name: "application-shell-01", exact: true })
-            .getByRole("link"),
-        ).toBeFocused();
-        await page.evaluate(() => window.scrollTo(0, 0));
+      const actions = header.locator(".blocks-page-header-links");
+      await expect(actions).toBeVisible();
+      const actionsBox = (await actions.boundingBox())!;
+      const toolbarBox = (await header.locator(".blocks-page-header-summary").boundingBox())!;
+      expect(actionsBox.x + actionsBox.width).toBeLessThanOrEqual(headerBox!.x + headerBox!.width);
+      expect(actionsBox.y + actionsBox.height).toBeCloseTo(toolbarBox.y + toolbarBox.height, 0);
+      for (const button of await actions.locator('[data-slot="button"]').all()) {
+        expect((await button.boundingBox())!.width).toBe(32);
       }
+      // Compact layouts wrap the action row instead of dropping the variant/repository links.
+      const breadcrumbs = (await header.locator('[data-slot="breadcrumb-list"]').boundingBox())!;
+      expect(breadcrumbs.y + breadcrumbs.height).toBeLessThanOrEqual(
+        actionsBox.y + actionsBox.height,
+      );
       expect(
         await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),
       ).toBe(true);
@@ -358,7 +377,7 @@ for (const width of [320, 640, 768, 979, 980, 1024, 1260, 1440]) {
       const contents = page.locator(".blocks-doc-toc nav");
       const body = page.locator(".blocks-doc-body");
       const bodyBox = await body.boundingBox();
-      if (width >= 980) {
+      if (width >= 1260) {
         await expect(contents).toBeVisible();
         const contentsBox = await contents.boundingBox();
         expect(contentsBox!.x).toBeGreaterThan(bodyBox!.x + bodyBox!.width);
@@ -382,7 +401,7 @@ for (const width of [320, 640, 768, 979, 980, 1024, 1260, 1440]) {
         path: testInfo.outputPath(`documentation-guide-${width}-${scheme}.png`),
       });
       await (
-        width >= 980
+        width >= 1260
           ? contents.getByRole("link", { name: "Add this block", exact: true })
           : page.getByRole("heading", { name: "Add this block", exact: true }).getByRole("link")
       ).click();
@@ -455,7 +474,7 @@ for (const width of [320, 640, 768, 979, 980, 1024, 1260, 1440]) {
       }
 
       await (
-        width >= 980
+        width >= 1260
           ? contents.getByRole("link", { name: "About this block", exact: true })
           : page.getByRole("heading", { name: "About this block", exact: true }).getByRole("link")
       ).click();
@@ -481,7 +500,7 @@ for (const width of [320, 640, 768, 979, 980, 1024, 1260, 1440]) {
         page.getByRole("heading", { name: "Design reference", level: 2, exact: true }),
       ).toBeVisible();
       await (
-        width >= 980
+        width >= 1260
           ? contents.getByRole("link", { name: "Design reference", exact: true })
           : page.locator("#application-shell-reference .blocks-doc-heading-link")
       ).click();
@@ -497,9 +516,7 @@ for (const width of [320, 640, 768, 979, 980, 1024, 1260, 1440]) {
         else await expect(label).toBeHidden();
       }
       await guide.getByRole("link", { name: "Back to showcase", exact: true }).click();
-      await expect(
-        page.getByRole("heading", { name: "application-shell-01", exact: true }),
-      ).toBeInViewport();
+      await expect(page.getByRole("tab", { name: "Preview", exact: true })).toBeInViewport();
     });
   }
 }

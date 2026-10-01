@@ -1,38 +1,33 @@
 /** Category introduction kept above the cards in the content column. */
 import { BugIcon } from "@kamod-ch/icons/lucide";
 import { BrandGithubIcon } from "@kamod-ch/icons/tabler/filled";
-import { Badge, Button } from "@kamod-ch/ui";
-import { BlockBreadcrumbs } from "./BlockBreadcrumbs";
+import { Button } from "@kamod-ch/ui";
+import { BlockPageHeader } from "./BlockPageHeader";
 import { type BlockCategory, blockCategories } from "./block-categories";
 import { blockIssueUrl, blockSourceUrl } from "./block-links";
+import { PreviewThemeInfo } from "./PreviewThemeInfo";
 
 export function BlockCategoryHeader({ category }: { category: BlockCategory }) {
   const { title, description, blocks, label } = blockCategories[category];
   const sourceUrl = blockSourceUrl(category);
   return (
-    <header class="blocks-hero blocks-category-header">
-      <span class="blocks-category-eyebrow">Built with Preact &amp; Kamod UI</span>
-      <div class="blocks-category-title-row">
-        <h1>{title}</h1>
-        <Badge variant="secondary" size="md">
-          {blocks.length} {blocks.length === 1 ? "variant" : "variants"}
-        </Badge>
-      </div>
-      <p class="blocks-hero-lead">
-        {/* Category copy stays plain metadata; backticks mark inline API names. */}
-        {description
-          .split(/(`[^`]+`)/g)
-          .map((part, index) =>
-            part.startsWith("`") ? <code key={index}>{part.slice(1, -1)}</code> : part,
-          )}
-      </p>
-      <p class="blocks-hero-lead">
-        Previews use the Kamod theme in light or dark mode. Try other themes and screen sizes on
-        each block’s detail page.
-      </p>
-      <div class="blocks-overview-summary">
-        <BlockBreadcrumbs category={category} className="blocks-category-breadcrumbs" />
-        <div class="blocks-overview-summary-actions">
+    <BlockPageHeader
+      category={category}
+      className="blocks-category-header"
+      title={title}
+      badge={`${blocks.length} ${blocks.length === 1 ? "variant" : "variants"}`}
+      description={
+        <>
+          {/* Small inline markup keeps the metadata independent of JSX. */}
+          {description.split(/(`[^`]+`|\*\*[^*]+\*\*)/g).map((part, index) => {
+            if (part.startsWith("`")) return <code key={index}>{part.slice(1, -1)}</code>;
+            if (part.startsWith("**")) return <strong key={index}>{part.slice(2, -2)}</strong>;
+            return part;
+          })}
+        </>
+      }
+      actions={
+        <>
           <p class="blocks-overview-count">
             Showing <strong>{blocks.length}</strong> of {blocks.length}{" "}
             {blocks.length === 1 ? "variant" : "variants"}
@@ -41,9 +36,9 @@ export function BlockCategoryHeader({ category }: { category: BlockCategory }) {
             ·
           </span>
           <div
-            class="blocks-overview-summary-links"
+            class="blocks-page-header-links"
             role="group"
-            aria-label={`${label} category links`}
+            aria-label={`${label} category actions`}
           >
             <Button
               variant="ghost"
@@ -67,9 +62,10 @@ export function BlockCategoryHeader({ category }: { category: BlockCategory }) {
             >
               <BugIcon size={13} strokeWidth={1.75} aria-hidden="true" />
             </Button>
+            <PreviewThemeInfo />
           </div>
-        </div>
-      </div>
-    </header>
+        </>
+      }
+    />
   );
 }

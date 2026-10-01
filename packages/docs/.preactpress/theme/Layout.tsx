@@ -2,6 +2,11 @@ import type { LayoutProps } from "@kamod-ch/preactpress/client";
 import { syncThemeFromStorage } from "@kamod-ch/themes";
 import type { FunctionalComponent } from "preact";
 import { BlockCategoryPage } from "../../src/blocks/BlockCategoryPage";
+import { BlockOverviewPage } from "../../src/blocks/BlockOverviewPage";
+import {
+  applyPreviewAppearance,
+  previewAppearanceFromSearch,
+} from "../../src/blocks/preview-appearance";
 import { DocsComponentContent } from "../../src/docs/DocsComponentContent";
 import { DocsFormsOverviewContent } from "../../src/docs/DocsFormsOverviewContent";
 import { DocsOverviewContent } from "../../src/docs/DocsOverviewContent";
@@ -9,6 +14,8 @@ import { DocsPackagesOverviewContent } from "../../src/docs/DocsPackagesOverview
 import { KitchenSinkPage } from "../../src/kitchen-sink/KitchenSinkPage";
 import { blockPage } from "./block-page";
 import "../../src/styles/index.css";
+
+const BlocksGuidesContent = blockPage("BlocksGuidesContent", "BlocksGuidesContent");
 
 const ApplicationShellBlocksPreviewContent = blockPage(
   "BlocksApplicationShellContent",
@@ -58,10 +65,17 @@ const BlocksAuthDetailContent = blockPage("BlocksAuthContent", "BlocksAuthDetail
 
 if (typeof window !== "undefined") {
   syncThemeFromStorage();
+  // New-tab preview links carry their own appearance without changing stored site preferences.
+  if (/\/preview\/?$/.test(window.location.pathname)) {
+    const appearance = previewAppearanceFromSearch(window.location.search);
+    if (appearance) applyPreviewAppearance(document.documentElement, appearance);
+  }
 }
 
 type DemoPageKind =
   | "kitchen-sink"
+  | "blocks-overview"
+  | "blocks-guide"
   | "docs-overview"
   | "docs-forms-overview"
   | "docs-packages-overview"
@@ -127,6 +141,14 @@ const Layout: FunctionalComponent<LayoutProps> = ({ page }) => {
 
   if (meta.pageKind === "docs-overview") {
     return <DocsOverviewContent />;
+  }
+
+  if (meta.pageKind === "blocks-guide") {
+    return <BlocksGuidesContent slug={meta.slug} />;
+  }
+
+  if (meta.pageKind === "blocks-overview") {
+    return <BlockOverviewPage />;
   }
 
   if (meta.pageKind === "docs-forms-overview") {

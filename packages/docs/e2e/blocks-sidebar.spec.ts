@@ -20,14 +20,16 @@ test.describe("sidebar blocks docs", () => {
     await expect(
       page.getByRole("heading", { level: 1, name: "Sidebar Navigation and Layout Blocks" }),
     ).toBeVisible();
+    const directory = page.locator("aside.docs-sidebar");
     await expect(
-      page.locator("aside.docs-sidebar").getByRole("heading", { name: "Categories" }),
-    ).toBeVisible();
-    for (const hidden of ["Components", "Packages", "Forms", "Motion"]) {
+      directory.getByRole("button", { name: /^Blocks Layout collections/ }),
+    ).toHaveAttribute("aria-expanded", "true");
+    for (const group of ["Components", "Packages", "Forms"]) {
       await expect(
-        page.locator("aside.docs-sidebar").getByRole("heading", { name: hidden }),
-      ).toHaveCount(0);
+        directory.getByRole("button", { name: new RegExp(`^${group} Documentation`) }),
+      ).toBeVisible();
     }
+    await expect(directory.getByRole("button", { name: /^Motion/ })).toHaveCount(0);
     for (const id of ids) {
       await expect(
         page.locator("a.blocks-overview-card").filter({ hasText: id }).first(),
@@ -39,16 +41,20 @@ test.describe("sidebar blocks docs", () => {
   test("opens a block detail page without the docs sidebar", async ({ page }) => {
     await page.goto("./blocks/sidebar/sidebar-01");
     await expect(page.locator("aside.docs-sidebar")).toHaveCount(0);
-    await expect(page.getByRole("link", { name: "All sidebar blocks" })).toBeVisible();
-    await expect(page.locator("article#sidebar-01 .blocks-preview-host")).toContainText(
+    await expect(
+      page
+        .getByRole("navigation", { name: "Block breadcrumb" })
+        .getByRole("link", { name: "Sidebar", exact: true }),
+    ).toBeVisible();
+    await expect(page.frameLocator(".blocks-preview-iframe").locator("body")).toContainText(
       "Data Fetching",
       { timeout: 15_000 },
     );
   });
 
-  test("viewport switcher toggles mobile iframe preview", async ({ page }) => {
+  test("viewport switcher resizes the isolated preview", async ({ page }) => {
     await page.goto("./blocks/sidebar/sidebar-01");
-    const panel = page.locator("article#sidebar-01 .blocks-preview-panel");
+    const panel = page.locator("article#sidebar-01");
     await expect(panel.getByRole("group", { name: "Preview viewport" })).toBeVisible();
     await expect(panel.locator(".blocks-preview-frame")).not.toHaveClass(/blocks-preview-mobile/);
 
@@ -64,7 +70,7 @@ test.describe("sidebar blocks docs", () => {
     await panel.getByRole("button", { name: "Desktop view" }).click();
     await expect(panel.locator(".blocks-preview-frame")).not.toHaveClass(/blocks-preview-mobile/);
     await expect(panel.locator(".blocks-preview-frame")).not.toHaveClass(/blocks-preview-tablet/);
-    await expect(panel.locator("iframe.blocks-preview-iframe")).toHaveCount(0);
+    await expect(panel.locator("iframe.blocks-preview-iframe")).toBeVisible();
   });
 
   test("loads sidebar overview without console errors while scrolling", async ({ page }) => {
@@ -89,10 +95,12 @@ test.describe("sidebar blocks docs", () => {
     await page.goto("./blocks/sidebar/sidebar-01");
     const blockCard = page.locator("article#sidebar-01");
     await blockCard.getByRole("tab", { name: "Code" }).click();
-    await expect(blockCard.getByText("@kamod-ch/blocks/sidebar/sidebar-01")).toBeVisible();
-    await expect(blockCard.getByRole("button", { name: "page.tsx" })).toBeVisible();
-    await blockCard.getByRole("button", { name: "app-sidebar.tsx" }).click();
-    await expect(blockCard.locator(".blocks-code-pane")).toContainText("AppSidebar");
+    await expect(
+      blockCard.getByText("src/components/blocks/sidebar-01", { exact: true }),
+    ).toBeVisible();
+    await expect(blockCard.getByRole("button", { name: "sidebar-01.tsx" })).toBeVisible();
+    await blockCard.getByRole("button", { name: "nav-docs.tsx" }).click();
+    await expect(blockCard.locator(".blocks-code-pane")).toContainText("NavDocs");
   });
 
   test("preview interactions: collapse, submenus, actions, dialog, right sidebar and mobile", async ({

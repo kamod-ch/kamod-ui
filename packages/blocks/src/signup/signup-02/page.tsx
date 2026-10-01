@@ -1,5 +1,5 @@
 import { authCoverUrl } from "../../auth/shared/auth-cover-url";
-import { KamodBrandLink } from "../../auth/shared/kamod-brand-link";
+import { KamodBrandLink } from "../../shared/branding/kamod-brand-link";
 import { SignupForm } from "./signup-form";
 
 export function Signup02() {

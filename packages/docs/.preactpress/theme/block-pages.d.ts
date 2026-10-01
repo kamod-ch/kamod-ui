@@ -7,3 +7,8 @@ declare module "virtual:kamod-block-pages" {
   /** Browser modules are fetched only when a block detail or preview route is rendered. */
   export const loaders: Record<string, () => Promise<PageModule>>;
 }
+
+declare module "virtual:kamod-block-guides" {
+  const sources: Record<string, string>;
+  export default sources;
+}

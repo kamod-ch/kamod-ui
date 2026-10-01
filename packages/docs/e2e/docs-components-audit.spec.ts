@@ -2,7 +2,16 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { expect, type Page, test } from "@playwright/test";
-import { motionDocPages } from "../src/docs/registry";
+import { docsShowMotion } from "../src/docs/docs-feature-flags";
+import { docsNavigation } from "../src/docs/generated-navigation";
+
+// Use route metadata: importing the component registry requires Vite's browser environment.
+const motionDocCount = docsShowMotion
+  ? docsNavigation.filter((doc) => doc.group === "motion").length
+  : 0;
+const packageSlugs = docsNavigation
+  .filter((doc) => doc.group === "packages")
+  .map((doc) => doc.slug);
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 /** Repo-root `tmp/` (this file lives in `packages/docs/e2e/`). */
@@ -227,16 +236,22 @@ test("docs /docs/components full link audit (writes tmp report)", async ({ page,
       });
     }
     await expect
-      .soft(page.getByRole("heading", { level: 1, name: "Components", exact: true }))
+      .soft(
+        page.getByRole("heading", {
+          level: 1,
+          name: "Components for flexible Preact interfaces",
+          exact: true,
+        }),
+      )
       .toBeVisible();
 
     const componentGridHrefs = await page
-      .locator(
-        ".docs-components-grid:not(.docs-components-grid--motion) a.docs-component-item[href]",
-      )
+      .getByRole("navigation", { name: "All components", exact: true })
+      .getByRole("link")
       .evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).getAttribute("href") ?? ""));
     const motionGridHrefs = await page
-      .locator(".docs-components-grid--motion a.docs-component-item[href]")
+      .getByRole("navigation", { name: "Motion components", exact: true })
+      .getByRole("link")
       .evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).getAttribute("href") ?? ""));
     gridHrefsClean = componentGridHrefs.filter(Boolean);
 
@@ -272,23 +287,21 @@ test("docs /docs/components full link audit (writes tmp report)", async ({ page,
       }
     }
 
-    // Components overview sidebar is scoped: only Components (merged with Motion docs).
-    const expectedComponentSidebarEntries = slugsFromGrid.size + 1 + motionDocPages.length;
+    // The shared sidebar expands Components, including Motion docs, on its overview.
+    const expectedComponentSidebarEntries = slugsFromGrid.size + 1 + motionDocCount;
     expectedSidebarEntries = expectedComponentSidebarEntries;
 
     await gotoDocsPath(page, overviewPath);
+    const sidebar = page.locator("aside.docs-sidebar");
     await expect
-      .soft(page.locator("aside.docs-sidebar").getByRole("heading", { name: "Components" }))
-      .toBeVisible();
-    for (const hidden of ["Blocks", "Packages", "Forms", "Motion"]) {
-      await expect
-        .soft(page.locator("aside.docs-sidebar").getByRole("heading", { name: hidden }))
-        .toHaveCount(0);
-    }
-
-    const componentSidebarEntries = page.locator(
-      'aside.docs-sidebar nav[aria-label="Docs components"] :is(a,button)',
-    );
+      .soft(sidebar.getByRole("button", { name: /Components Documentation/ }))
+      .toHaveAttribute("aria-expanded", "true");
+    const componentSidebarEntries = sidebar
+      .locator(".site-navigation-group")
+      .filter({
+        has: page.getByRole("button", { name: /Components Documentation/ }),
+      })
+      .getByRole("link");
     const componentSidebarCount = await componentSidebarEntries.count();
     if (componentSidebarCount !== expectedComponentSidebarEntries) {
       addFinding({
@@ -298,23 +311,13 @@ test("docs /docs/components full link audit (writes tmp report)", async ({ page,
       });
     }
 
-    for (const [label, selector] of [
-      ["Docs blocks", 'aside.docs-sidebar nav[aria-label="Docs blocks"]'],
-      ["Docs forms", 'aside.docs-sidebar nav[aria-label="Docs forms"]'],
-      ["Docs packages", 'aside.docs-sidebar nav[aria-label="Docs packages"]'],
-      ["Docs motion", 'aside.docs-sidebar nav[aria-label="Docs motion"]'],
-    ] as const) {
-      const count = await page.locator(selector).count();
-      if (count !== 0) {
-        addFinding({
-          severity: "warning",
-          url: base + overviewPath,
-          detail: `${label} nav should be hidden on components overview, found ${count}`,
-        });
-      }
+    for (const label of ["Blocks", "Forms", "Packages"]) {
+      await expect
+        .soft(sidebar.getByRole("button", { name: new RegExp(`^${label} `) }))
+        .toHaveAttribute("aria-expanded", "false");
     }
 
-    const expectedMotionSidebarEntries = motionDocPages.length;
+    const expectedMotionSidebarEntries = motionDocCount;
     if (motionGridHrefs.filter(Boolean).length !== expectedMotionSidebarEntries) {
       addFinding({
         severity: "warning",
@@ -326,13 +329,13 @@ test("docs /docs/components full link audit (writes tmp report)", async ({ page,
     await page.setViewportSize({ width: 600, height: 900 });
     await gotoDocsPath(page, overviewPath);
     await page.getByRole("button", { name: "Open navigation menu" }).click();
-    const mobileNav = page.locator(
-      '[aria-label="Docs navigation panel"] nav[aria-label="Mobile docs navigation"]',
-    );
+    const mobileNav = page.locator(".site-navigation-panel .site-navigation-group").filter({
+      has: page.getByRole("button", { name: /Components Documentation/ }),
+    });
     let mobileCount = 0;
     try {
       await mobileNav.waitFor({ state: "visible", timeout: 15_000 });
-      mobileCount = await mobileNav.locator(":is(a,button)").count();
+      mobileCount = await mobileNav.getByRole("link").count();
     } catch (error) {
       addFinding({
         severity: "warning",
@@ -404,7 +407,7 @@ test("docs /docs/components full link audit (writes tmp report)", async ({ page,
     }
 
     sectionUrlsVisited = 0;
-    const slugs = [...slugsFromGrid, ...packageSlugsFromGrid].sort();
+    const slugs = [...slugsFromGrid, ...packageSlugs].sort();
 
     for (const slug of slugs) {
       const docPage = await page.context().newPage();

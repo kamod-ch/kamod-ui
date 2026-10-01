@@ -1,7 +1,8 @@
 .kiw-footer {
-  width: min(100% - 2rem, 1320px);
+  width: 100%;
+  max-width: var(--docs-wide-page-max-width);
   margin: 0 auto;
-  padding: 2rem 0 3rem;
+  padding: 2rem var(--docs-wide-page-gutter) 3rem;
   color: var(--muted-foreground);
   text-align: center;
   display: grid;
