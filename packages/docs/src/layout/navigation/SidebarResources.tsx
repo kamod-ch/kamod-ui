@@ -7,7 +7,6 @@ import { repositoryUrl } from "../../blocks/block-links";
 export function SidebarResources() {
   return (
     <div class="docs-sidebar-resources" role="group" aria-label="Contribute to Kamod UI">
-      <p class="docs-sidebar-resources-label">Built in the open</p>
       <a
         class="docs-sidebar-repository"
         href={repositoryUrl}
@@ -36,7 +35,6 @@ export function SidebarResources() {
           <BugIcon size={14} aria-hidden="true" />
           Report a bug
         </Button>
-        <span aria-hidden="true">·</span>
         <Button
           variant="ghost"
           size="sm"

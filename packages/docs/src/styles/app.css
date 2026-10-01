@@ -1,7 +1,7 @@
 :root {
   --docs-wide-page-max-width: 1360px;
   --docs-wide-page-gutter: 0.75rem;
-  --docs-sidebar-width: clamp(16rem, 19vw, 19rem);
+  --docs-sidebar-width: clamp(17rem, 20vw, 20rem);
   --docs-rightbar-width: 16.25rem;
   --docs-sidebar-inner-padding: 1rem;
   --docs-column-gap: 1rem;
@@ -720,7 +720,7 @@ html {
   .docs-layout-sidebar-header {
     width: 100%;
     min-width: 0;
-    padding-inline: 0 var(--docs-sidebar-inner-padding);
+    padding-inline: 0 calc(var(--docs-sidebar-inner-padding) + 0.25rem);
   }
 
   .docs-sidebar {

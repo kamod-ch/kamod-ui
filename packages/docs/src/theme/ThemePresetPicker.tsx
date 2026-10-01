@@ -1,6 +1,13 @@
-import { CheckIcon, PaletteIcon } from "@kamod-ch/icons/lucide";
+import { ArrowUpRightIcon, PaletteIcon, SunMoonIcon } from "@kamod-ch/icons/lucide";
 import { setThemePreset, THEME_PRESETS } from "@kamod-ch/themes";
-import { Popover, PopoverContent, PopoverTitle, PopoverTrigger } from "@kamod-ch/ui";
+import {
+  Popover,
+  PopoverContent,
+  PopoverDescription,
+  PopoverTitle,
+  PopoverTrigger,
+} from "@kamod-ch/ui";
+import { withBasePath } from "../base-path";
 
 import { useSiteThemePreset } from "./useSiteThemePreset";
 
@@ -24,8 +31,15 @@ export function ThemePresetPicker({
         {showLabel && <span>{THEME_PRESETS.find(({ id }) => id === preset)?.label}</span>}
       </PopoverTrigger>
       <PopoverContent class="site-theme-picker-content" side={side} align="end" sideOffset={8}>
-        <PopoverTitle>Color theme</PopoverTitle>
-        <p>Make the library feel like your project.</p>
+        <header class="site-theme-picker-header">
+          <span class="site-theme-picker-icon" aria-hidden="true">
+            <PaletteIcon size={19} />
+          </span>
+          <div>
+            <PopoverTitle>Color theme</PopoverTitle>
+            <PopoverDescription>Find your palette, type &amp; surfaces.</PopoverDescription>
+          </div>
+        </header>
         <div class="site-theme-options" role="group" aria-label="Site color theme">
           {THEME_PRESETS.map(({ id, label }) => (
             <button
@@ -35,10 +49,24 @@ export function ThemePresetPicker({
               onClick={() => setThemePreset(id)}
             >
               <span>{label}</span>
-              {preset === id && <CheckIcon size={14} aria-hidden="true" />}
+              {preset === id && (
+                <span class="site-theme-selected-label" aria-hidden="true">
+                  Active
+                </span>
+              )}
             </button>
           ))}
         </div>
+        <footer class="site-theme-picker-footer">
+          <span>
+            <SunMoonIcon size={13} aria-hidden="true" />
+            Light &amp; dark ready
+          </span>
+          <a href={withBasePath("/docs/theming/installation")}>
+            Theming guide
+            <ArrowUpRightIcon size={13} aria-hidden="true" />
+          </a>
+        </footer>
       </PopoverContent>
     </Popover>
   );
