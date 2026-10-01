@@ -81,12 +81,6 @@ export const useDropdownPlacement = ({
     const content = contentRef.current;
     const trigger = triggerRef.current;
     const view = trigger?.ownerDocument.defaultView;
-    console.log("placement-effect", {
-      content: !!content,
-      trigger: !!trigger,
-      rect: trigger?.getBoundingClientRect(),
-      mountRevision,
-    });
     if (!content || !trigger || !view) {
       // Preact 11 commits core portal children after their parent layout effects.
       // Retry once the portal ref has been attached without relying on compat internals.
@@ -109,15 +103,12 @@ export const useDropdownPlacement = ({
         view.innerHeight,
         { side, align, sideOffset },
       );
-      console.log(
-        "placement-next",
-        next,
-        trigger === document.querySelector("[data-slot=dropdown-trigger]"),
-        content.offsetWidth,
-        content.offsetHeight,
-        view.innerWidth,
-        view.innerHeight,
-      );
+      // Preact 11 portals are separate render roots. A state update made while the
+      // portal's parent is committing is not guaranteed to patch that root, so keep
+      // the layout-critical DOM values in sync directly as well as in component state.
+      content.style.left = `${next.left}px`;
+      content.style.top = `${next.top}px`;
+      content.dataset.side = next.side;
       setPlacement((previous) =>
         previous.left === next.left && previous.top === next.top && previous.side === next.side
           ? previous
