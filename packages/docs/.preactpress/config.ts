@@ -6,6 +6,7 @@ import tailwindcss from "@tailwindcss/vite";
 import type { Connect } from "vite";
 import { blockDownloadsPlugin } from "./block-downloads-plugin";
 import { blockPagesPlugin } from "./block-pages-plugin";
+import { componentApiPlugin } from "./component-api-plugin";
 
 const configDir = import.meta.dirname;
 const docsRoot = resolve(configDir, "..");
@@ -65,6 +66,7 @@ export default defineConfig({
   vite: {
     plugins: [
       blockPagesPlugin(),
+      componentApiPlugin(),
       blockDownloadsPlugin(),
       {
         name: "kamod-ui-favicon-dev",
