@@ -10,6 +10,7 @@ import { BlockPageHeader } from "./BlockPageHeader";
 import { type BlockCategory, type BlockOverviewEntry, blockCategories } from "./block-categories";
 import { getBlockDetailTitle } from "./block-detail-titles";
 import { blockIssueUrl, blockSourceUrl } from "./block-links";
+import { ShowcaseHeading } from "./ShowcaseHeading";
 
 export type BlockDetailHeaderProps = {
   category: BlockCategory;
@@ -40,6 +41,7 @@ export function BlockDetailHeader({
       badge={category === "login" || category === "signup" ? "Form block" : "Layout block"}
       description={description ?? <BlockDetailDescription category={category} block={block} />}
       descriptionLink={descriptionLink}
+      summaryLabel={<ShowcaseHeading />}
       actions={<BlockDetailHeaderActions category={category} block={block} />}
     />
   );

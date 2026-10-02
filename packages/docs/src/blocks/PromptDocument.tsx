@@ -11,10 +11,12 @@ export function PromptDocument({
   prompt,
   mode,
   display,
+  sourceLabel = "Source included",
 }: {
   prompt: string;
   mode: BlockPromptMode;
   display: PromptDisplay;
+  sourceLabel?: string;
 }) {
   return (
     <CodeBlock
@@ -25,7 +27,7 @@ export function PromptDocument({
         <>
           <FileTextIcon size={16} strokeWidth={2} aria-hidden="true" />
           <h4>{mode === "setup" ? "Setup prompt" : "Adaptation prompt"}</h4>
-          <span class="blocks-prompt-format">Source included</span>
+          <span class="blocks-prompt-format">{sourceLabel}</span>
         </>
       }
       className="blocks-showcase-prompt-code"

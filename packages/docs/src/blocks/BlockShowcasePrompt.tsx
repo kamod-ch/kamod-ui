@@ -1,28 +1,14 @@
-import {
-  ArrowUpRightIcon,
-  BookOpenIcon,
-  CodeIcon,
-  EyeIcon,
-  FileCodeIcon,
-  PackagePlusIcon,
-  SlidersHorizontalIcon,
-  SparklesIcon,
-  TextAlignStartIcon,
-} from "@kamod-ch/icons/lucide";
-import { Button, ToggleGroup, ToggleGroupItem } from "@kamod-ch/ui";
+import { ArrowUpRightIcon, BookOpenIcon, FileCodeIcon, SparklesIcon } from "@kamod-ch/icons/lucide";
+import { Button } from "@kamod-ch/ui";
 import { useMemo } from "preact/hooks";
 import type { ShowcaseBlock } from "./BlockShowcase";
 import type { BlockSourceLoader } from "./BlockSourceFiles";
 import { getBlockDisplayName } from "./block-overview-details";
 import { type BlockPromptMode, createBlockPrompt } from "./block-prompts";
 import { type PromptDisplay, PromptDocument } from "./PromptDocument";
+import { PromptOptions } from "./PromptOptions";
 import { ShowcaseCodeLink } from "./ShowcaseCodeLink";
 import { usePromptSources } from "./usePromptSources";
-
-const modes = [
-  { value: "setup", label: "Set up block", Icon: PackagePlusIcon },
-  { value: "adapt", label: "Adapt block", Icon: SlidersHorizontalIcon },
-] as const;
 
 /** Both briefs include the same real source, with no provider-specific commands or integrations. */
 export function BlockShowcasePrompt({
@@ -79,56 +65,12 @@ export function BlockShowcasePrompt({
       </div>
       <section class="blocks-prompt-workspace" aria-label="Block prompt">
         <div class="blocks-prompt-options">
-          <div class="blocks-prompt-selectors">
-            <ToggleGroup
-              type="single"
-              value={mode}
-              size="sm"
-              spacing="none"
-              class="blocks-showcase-segmented"
-              aria-label="Prompt purpose"
-              aria-orientation={undefined}
-              onValueChange={(next) => {
-                if (next === "setup" || next === "adapt") onModeChange(next);
-              }}
-            >
-              {modes.map(({ value, label, Icon }) => (
-                <ToggleGroupItem key={value} value={value}>
-                  <Icon size={14} aria-hidden="true" />
-                  {label}
-                </ToggleGroupItem>
-              ))}
-            </ToggleGroup>
-            <span class="blocks-prompt-control-dot" aria-hidden="true">
-              ·
-            </span>
-            <ToggleGroup
-              type="single"
-              value={display}
-              size="sm"
-              spacing="none"
-              class="blocks-showcase-segmented"
-              aria-label="Prompt display"
-              aria-orientation={undefined}
-              onValueChange={(next) => {
-                if (next === "text" || next === "code" || next === "markdown")
-                  onDisplayChange(next);
-              }}
-            >
-              <ToggleGroupItem value="text">
-                <TextAlignStartIcon size={14} aria-hidden="true" />
-                Plain text
-              </ToggleGroupItem>
-              <ToggleGroupItem value="code">
-                <CodeIcon size={14} aria-hidden="true" />
-                Code<span class="sr-only"> (Markdown)</span>
-              </ToggleGroupItem>
-              <ToggleGroupItem value="markdown">
-                <EyeIcon size={14} aria-hidden="true" />
-                Markdown
-              </ToggleGroupItem>
-            </ToggleGroup>
-          </div>
+          <PromptOptions
+            mode={mode}
+            onModeChange={onModeChange}
+            display={display}
+            onDisplayChange={onDisplayChange}
+          />
           <span class="blocks-prompt-source-count">
             <FileCodeIcon size={13} aria-hidden="true" />
             {block.files.length} source files included

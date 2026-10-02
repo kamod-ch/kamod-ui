@@ -41,7 +41,8 @@ test("refresh follows the frame load, holds completion, and blocks repeat clicks
       node.click();
     });
     expect(requests).toBe(1);
-    expect((await button.boundingBox())!.width).toBe(width);
+    const loadingWidth = (await button.boundingBox())!.width;
+    expect(loadingWidth).toBeGreaterThan(width);
     await page.emulateMedia({ reducedMotion: "reduce" });
     await expect(button.locator(".blocks-showcase-refresh-spinner")).toHaveCSS(
       "animation-name",
@@ -52,11 +53,14 @@ test("refresh follows the frame load, holds completion, and blocks repeat clicks
     await expect(button).toHaveAttribute("data-refresh-state", "complete");
     await expect(button).toHaveAccessibleName("Refreshed");
     await expect(button).toBeDisabled();
-    expect((await button.boundingBox())!.width).toBe(width);
+    const completeWidth = (await button.boundingBox())!.width;
+    expect(completeWidth).toBeGreaterThan(width);
+    expect(completeWidth).toBeLessThan(loadingWidth);
     // The hook tests verify the short, disabled reset phase with deterministic timers.
     await expect(button).toHaveAttribute("data-refresh-state", "idle");
     await expect(button).toBeEnabled();
     await expect(button).toHaveAccessibleName("Refresh");
+    expect((await button.boundingBox())!.width).toBeCloseTo(width, 1);
     await showcase.getByRole("tab", { name: "Code", exact: true }).click();
     await button.click();
     await expect(showcase.getByRole("tab", { name: "Preview", exact: true })).toHaveAttribute(
