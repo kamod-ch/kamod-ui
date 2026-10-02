@@ -738,22 +738,15 @@ html {
     min-height: 0;
     overflow-y: auto;
     overflow-x: hidden;
-    /* Local covers hide each edge shadow when that end of the list is reached. */
+    /* The local cover hides the top shadow when the list is at its beginning. */
     background:
       linear-gradient(var(--background) 30%, transparent) center top / 100% 32px no-repeat local,
-      linear-gradient(transparent, var(--background) 70%) center bottom / 100% 32px no-repeat local,
       radial-gradient(
           farthest-side at 50% 0,
           color-mix(in oklab, var(--foreground) 12%, transparent),
           transparent
         )
-        center top / 100% 12px no-repeat scroll,
-      radial-gradient(
-          farthest-side at 50% 100%,
-          color-mix(in oklab, var(--foreground) 12%, transparent),
-          transparent
-        )
-        center bottom / 100% 12px no-repeat scroll;
+        center top / 100% 12px no-repeat scroll;
   }
 
   .docs-sidebar nav:not(.site-navigation-directory) {

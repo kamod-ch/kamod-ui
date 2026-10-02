@@ -639,7 +639,14 @@
   }
 
   .blocks-doc-guide {
+    display: grid;
+    grid-template-columns: var(--docs-sidebar-width) minmax(0, 1fr);
+    column-gap: var(--docs-column-gap);
     margin-top: 2.5rem;
+  }
+
+  .blocks-doc-guide > .docs-sidebar {
+    align-self: start;
   }
 
   .blocks-doc-body {

@@ -96,7 +96,7 @@ test("desktop sidebars share the mobile directory and current destination", asyn
         await expect(planned.locator(".site-navigation-status")).toHaveText(
           PLACEHOLDER_BLOCK_CATEGORIES.map(() => "Planned"),
         );
-        await expect(planned.locator(".site-navigation-status svg")).toHaveCount(
+        await expect(planned.locator(".site-navigation-status-dot")).toHaveCount(
           PLACEHOLDER_BLOCK_CATEGORIES.length,
         );
         for (const [name, count] of [
@@ -126,7 +126,7 @@ test("desktop sidebars share the mobile directory and current destination", asyn
         // The desktop directory is hidden at this point; inspect its DOM by route.
         const updated = directory.locator('a[href$="/docs/spinner/installation"]');
         await expect(updated.locator(".site-navigation-status")).toHaveText("Updated");
-        await expect(updated.locator(".site-navigation-status svg")).toHaveCount(1);
+        await expect(updated.locator(".site-navigation-status-dot")).toHaveCount(1);
         await expect(updated).toHaveAccessibleDescription("Updated");
         if (directory === mobile) await expect(updated).toHaveAccessibleName("Spinner");
         await expect(

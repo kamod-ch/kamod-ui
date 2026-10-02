@@ -2,6 +2,7 @@ import type { ComponentChildren } from "preact";
 import Footer from "../../.preactpress/theme/Footer";
 import { withBasePath } from "../base-path";
 import { KamodUiBrandLogo } from "./KamodUiBrandLogo";
+import { useRightSidebarScroll } from "./navigation/right-sidebar-memory";
 import { SiteNavigation } from "./navigation/SiteNavigation";
 
 export type DemoTopNavItem = {
@@ -46,6 +47,7 @@ export const DemoShell = ({
   rightSidebar,
   rootClassName,
 }: DemoShellProps) => {
+  const rightSidebarRef = useRightSidebarScroll<HTMLElement>("column", rightSidebar != null);
   const layoutClass = [
     "docs-layout",
     leftSidebar == null ? "docs-layout--no-left" : "",
@@ -85,7 +87,11 @@ export const DemoShell = ({
         )}
         {leftSidebar != null ? <aside class="docs-sidebar">{leftSidebar}</aside> : null}
         <Content class="docs-content">{mainContent}</Content>
-        {rightSidebar != null && <aside class="docs-rightbar">{rightSidebar}</aside>}
+        {rightSidebar != null && (
+          <aside class="docs-rightbar" ref={rightSidebarRef}>
+            {rightSidebar}
+          </aside>
+        )}
       </Layout>
 
       <Footer />

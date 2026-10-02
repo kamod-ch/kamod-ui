@@ -73,7 +73,8 @@ for (const theme of ["light", "dark"] as const) {
       await page.goto(destination);
       await expect(page.locator("html")).toHaveClass(/pp-ready/);
       await page.evaluate(() => document.fonts.ready);
-      await expect(page.locator("aside.docs-sidebar")).toHaveCount(0);
+      await expect(page.locator(".blocks-doc-guide > aside.docs-sidebar")).toHaveCount(1);
+      await expect(page.locator(".blocks-page-header aside.docs-sidebar")).toHaveCount(0);
       await expect(page.locator(".blocks-page-header-eyebrow")).toHaveCount(0);
       await expect(page.locator(".blocks-page-header > :first-child")).toHaveAttribute(
         "aria-label",

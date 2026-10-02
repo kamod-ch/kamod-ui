@@ -12,6 +12,8 @@ import { DocsFormsOverviewContent } from "../../src/docs/DocsFormsOverviewConten
 import { DocsOverviewContent } from "../../src/docs/DocsOverviewContent";
 import { DocsPackagesOverviewContent } from "../../src/docs/DocsPackagesOverviewContent";
 import { KitchenSinkPage } from "../../src/kitchen-sink/KitchenSinkPage";
+import { useRightSidebarPageMemory } from "../../src/layout/navigation/right-sidebar-memory";
+import { usePageReloadScroll } from "../../src/layout/usePageReloadScroll";
 import { blockPage } from "./block-page";
 import "../../src/styles/index.css";
 
@@ -132,6 +134,8 @@ const readPageMeta = (page: LayoutProps["page"]): DemoPageMeta => {
 };
 
 const Layout: FunctionalComponent<LayoutProps> = ({ page }) => {
+  useRightSidebarPageMemory(page);
+  usePageReloadScroll();
   const meta = readPageMeta(page);
   const MdxComponent = page?.kind === "mdx" ? page.Component : undefined;
 
