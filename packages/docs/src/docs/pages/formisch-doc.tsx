@@ -141,6 +141,7 @@ const previewClass = "data-[chromeless=true]:h-auto overflow-visible";
 export const formischDocPage: DocPageModule = {
   slug: "formisch",
   title: "Formisch",
+  headline: "Schema-first forms with Formisch",
   navGroup: "forms",
   command: "pnpm add @formisch/preact valibot",
   usageLabel: "Schema-first forms with Preact, Formisch, Valibot and Kamod UI.",

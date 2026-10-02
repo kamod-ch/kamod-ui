@@ -285,16 +285,6 @@ test.describe("UI Motion docs polish QA", () => {
     await expect(uiMotionLink).toHaveAttribute("aria-current", "page");
   });
 
-  test("View Markdown dialog works on UI Motion installation", async ({ page }) => {
-    await page.goto(docsRoute("docs/ui-motion/installation"));
-    await page.getByRole("button", { name: "View Markdown" }).click();
-    const dialog = page.getByRole("dialog");
-    await expect(dialog).toBeVisible();
-    await expect(dialog.getByRole("heading", { name: "Markdown for UI Motion" })).toBeVisible();
-    await page.keyboard.press("Escape");
-    await expect(dialog).toBeHidden();
-  });
-
   test("mobile navigation lists UI Motion", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 812 });
     await page.goto(docsRoute("docs/ui-motion/installation"));

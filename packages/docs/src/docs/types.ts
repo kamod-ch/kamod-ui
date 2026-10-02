@@ -31,6 +31,8 @@ export type DocRenderMainContext = {
 export type DocPageModule = {
   slug: string;
   title: string;
+  /** Optional descriptive H1; navigation and breadcrumb labels retain the short title. */
+  headline?: string;
   command: string;
   usageLabel: string;
   /** Sidebar group — defaults to components. */

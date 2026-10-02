@@ -1,10 +1,16 @@
-import { useId } from "preact/hooks";
+import { useContext, useId } from "preact/hooks";
 import { BlockHeadingLink } from "../../blocks/BlockHeadingLink";
+
+import { BlockPropsTable } from "../../blocks/detail/BlockPropsTable";
+import { ComponentTypeRevealContext } from "./component-detail/ComponentApiSection";
+import { componentApiOwner, componentTypeId } from "./component-detail/component-api";
+import { ComponentExamplesContext } from "./component-detail/component-examples";
 
 type ApiReferenceRow = {
   prop: string;
   type: string;
   defaultValue: string;
+  description?: string;
 };
 
 type ApiReferenceSection = {
@@ -19,6 +25,55 @@ type ApiReferenceProps = {
 
 function ApiReferenceTable({ section }: { section: ApiReferenceSection }) {
   const id = `api-${useId()}`;
+  const collection = useContext(ComponentExamplesContext);
+  const reveal = useContext(ComponentTypeRevealContext);
+  if (collection) {
+    const owner = componentApiOwner(collection.doc.slug, section.title);
+    return (
+      <div class="docs-api-reference">
+        <h4 id={id} tabIndex={-1}>
+          <BlockHeadingLink id={id}>{section.title}</BlockHeadingLink>
+        </h4>
+        {section.description && <p class="docs-copy">{section.description}</p>}
+        <BlockPropsTable
+          labelledBy={id}
+          caption={`${section.title} documented props`}
+          rows={section.rows.map((row) => {
+            const field = owner?.fields.find(({ name }) => name === row.prop.replace(/\?$/, ""));
+            return {
+              key: row.prop,
+              name: row.prop,
+              type: row.type,
+              required: field?.required ?? false,
+              owner: owner ? (
+                <a
+                  class="blocks-api-field-owner"
+                  href={`#${componentTypeId(owner)}`}
+                  onClick={() => reveal?.(componentTypeId(owner))}
+                >
+                  {owner.name}
+                </a>
+              ) : undefined,
+              description: (
+                <>
+                  <p>
+                    {row.description ||
+                      field?.description ||
+                      `Documented ${row.prop} option for ${section.title}. Check its type alongside the usage examples before supplying a value.`}
+                  </p>
+                  <p class="component-api-default">
+                    <span>Documented default</span>
+                    <code>{row.defaultValue}</code>
+                    {row.defaultValue === "undefined" && <span>No default value is listed.</span>}
+                  </p>
+                </>
+              ),
+            };
+          })}
+        />
+      </div>
+    );
+  }
   return (
     <div class="docs-api-reference" key={section.title}>
       <h3 id={id} tabIndex={-1}>

@@ -1,5 +1,6 @@
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@kamod-ch/ui";
 import { withBasePath } from "../../../base-path";
+import { BlockPropsTable } from "../../../blocks/detail/BlockPropsTable";
+import { ApiReference } from "../../components/ApiReference";
 import { CodeBlock } from "../../components/CodeBlock";
 
 const contracts = [
@@ -96,24 +97,40 @@ export function FormischGuideNotes({ sectionId }: { sectionId: string }) {
     case "api-reference":
       return (
         <>
-          <Table aria-label="Formisch integration contracts">
-            <TableHeader>
-              <TableRow>
-                <TableHead>API</TableHead>
-                <TableHead>Integration responsibility</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {contracts.map(([api, description]) => (
-                <TableRow key={api}>
-                  <TableCell>
-                    <code>{api}</code>
-                  </TableCell>
-                  <TableCell>{description}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+          <ApiReference
+            sections={[
+              {
+                title: "Example",
+                description:
+                  "The local demonstration wrappers accept an ID prefix so labels and controls stay unique when several examples appear on one page. This is a demo contract, not a prop of FormischForm.",
+                rows: [
+                  {
+                    prop: "idPrefix",
+                    type: "string",
+                    defaultValue: "No default; required",
+                    description:
+                      "A unique prefix used to build the form and control IDs in each example. Supply a different prefix for every mounted instance to preserve label associations.",
+                  },
+                ],
+              },
+            ]}
+          />
+          <p class="docs-copy">
+            The following integration points come from <code>@formisch/preact</code>. They describe
+            the roles used throughout the examples; follow the package reference for their complete
+            generic signatures.
+          </p>
+          <BlockPropsTable
+            labelledBy="component-props"
+            caption="Formisch integration contracts"
+            rows={contracts.map(([name, description]) => ({
+              key: name,
+              name,
+              type: "@formisch/preact",
+              required: false,
+              description,
+            }))}
+          />
           <p class="docs-copy">
             This is an integration map, not a replacement for the{" "}
             <a href="https://formisch.dev/">Formisch API documentation</a>. Check the installed

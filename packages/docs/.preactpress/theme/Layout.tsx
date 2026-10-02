@@ -7,6 +7,7 @@ import {
   applyPreviewAppearance,
   previewAppearanceFromSearch,
 } from "../../src/blocks/preview-appearance";
+import { ComponentPreviewPage } from "../../src/docs/components/component-detail/ComponentPreviewPage";
 import { DocsComponentContent } from "../../src/docs/DocsComponentContent";
 import { DocsFormsOverviewContent } from "../../src/docs/DocsFormsOverviewContent";
 import { DocsOverviewContent } from "../../src/docs/DocsOverviewContent";
@@ -82,6 +83,7 @@ type DemoPageKind =
   | "docs-forms-overview"
   | "docs-packages-overview"
   | "component-doc"
+  | "component-preview"
   | "blocks-sidebar"
   | "blocks-sidebar-detail"
   | "blocks-application-shell"
@@ -138,6 +140,8 @@ const Layout: FunctionalComponent<LayoutProps> = ({ page }) => {
   usePageReloadScroll();
   const meta = readPageMeta(page);
   const MdxComponent = page?.kind === "mdx" ? page.Component : undefined;
+
+  if (meta.pageKind === "component-preview") return <ComponentPreviewPage />;
 
   if (meta.pageKind === "kitchen-sink") {
     return <KitchenSinkPage />;

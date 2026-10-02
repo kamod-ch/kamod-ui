@@ -2,12 +2,11 @@ import { withBasePath } from "../../../base-path";
 import { BlockHeadingLink } from "../../../blocks/BlockHeadingLink";
 import type { DocPageModule } from "../../types";
 import { CodeBlock } from "../CodeBlock";
+import { ComponentBehaviorGuide } from "./ComponentBehaviorGuide";
 import { ComponentDocSection } from "./ComponentDocSection";
-import {
-  componentDesignReference,
-  componentGuidance,
-  componentSourceUrl,
-} from "./component-guidance";
+import { ComponentReferences } from "./ComponentReferences";
+import { ComponentRelatedComponents } from "./ComponentRelatedComponents";
+import { componentGuidance } from "./component-guidance";
 
 export const componentIntegrationContents = [
   {
@@ -17,6 +16,7 @@ export const componentIntegrationContents = [
       { id: "integration-behavior", label: "Connect the behavior" },
       { id: "integration-styling", label: "Refine the presentation" },
       { id: "integration-review", label: "Review the complete interaction" },
+      { id: "integration-compose", label: "Compose a complete interface" },
     ],
   },
   {
@@ -25,6 +25,7 @@ export const componentIntegrationContents = [
     children: [
       { id: "component-source", label: "Kamod UI implementation" },
       { id: "component-design-reference", label: "Design reference" },
+      { id: "component-reference-next", label: "Bring it back to your app" },
     ],
   },
 ];
@@ -32,7 +33,6 @@ export const componentIntegrationContents = [
 /** Practical family-specific guidance; the original examples remain the source of component API details. */
 export function ComponentIntegrationGuide({ doc }: { doc: DocPageModule }) {
   const guidance = componentGuidance(doc.slug);
-  const reference = componentDesignReference(doc.slug);
   return (
     <>
       <ComponentDocSection
@@ -54,6 +54,7 @@ export function ComponentIntegrationGuide({ doc }: { doc: DocPageModule }) {
             documented in this component's <a href="#api-reference">API</a>; different components
             expose different contracts.
           </p>
+          <ComponentBehaviorGuide doc={doc} />
           <h3 id="integration-styling" tabIndex={-1}>
             <BlockHeadingLink id="integration-styling">Refine the presentation</BlockHeadingLink>
           </h3>
@@ -94,73 +95,9 @@ export function ComponentIntegrationGuide({ doc }: { doc: DocPageModule }) {
             <code>md:</code>, and test overlays in the full page where their portals render.
           </p>
         </div>
-        <nav class="component-related-links" aria-label="Related components">
-          <span>Compose with</span>
-          {guidance.related
-            .filter((slug) => slug !== doc.slug)
-            .map((slug) => (
-              <a key={slug} href={withBasePath(`/docs/${slug}/installation`)}>
-                {slug
-                  .split("-")
-                  .map((word) => word[0].toUpperCase() + word.slice(1))
-                  .join(" ")}
-              </a>
-            ))}
-        </nav>
+        <ComponentRelatedComponents doc={doc} related={guidance.related} />
       </ComponentDocSection>
-      <ComponentDocSection
-        section={{
-          id: "component-references",
-          title: "Sources & design references",
-          text: "Keep the implementation reference and visual inspiration close at hand when adapting an example.",
-        }}
-      >
-        <div class="component-reference-grid">
-          <div class="block-guide-prose">
-            <h3 id="component-source" tabIndex={-1}>
-              <BlockHeadingLink id="component-source">Kamod UI implementation</BlockHeadingLink>
-            </h3>
-            <p>
-              The Preact components, examples and API on this page are maintained in{" "}
-              <a href={componentSourceUrl(doc.slug, doc.navGroup === "motion")}>
-                kamod-ch/kamod-ui
-              </a>
-              . Use this repository as the source of truth for supported behavior and consult its{" "}
-              <a href="https://github.com/kamod-ch/kamod-ui/blob/main/LICENSE">license</a> when
-              reusing code.
-            </p>
-          </div>
-          {reference ? (
-            <div class="block-guide-prose">
-              <h3 id="component-design-reference" tabIndex={-1}>
-                <BlockHeadingLink id="component-design-reference">
-                  Shadcnblocks design reference
-                </BlockHeadingLink>
-              </h3>
-              <p>
-                Explore the matching <a href={reference}>{doc.title} collection on Shadcnblocks</a>{" "}
-                for additional visual patterns. These are independently maintained React examples;
-                this link credits the reference collection, not the authorship of Kamod's Preact
-                implementation. Check the source's own license before copying an example.
-              </p>
-            </div>
-          ) : (
-            <div class="block-guide-prose">
-              <h3 id="component-design-reference" tabIndex={-1}>
-                <BlockHeadingLink id="component-design-reference">
-                  Shared design language
-                </BlockHeadingLink>
-              </h3>
-              <p>
-                Use the <a href={withBasePath("/blocks/styles")}>component styles guide</a> for
-                composition decisions and the{" "}
-                <a href={withBasePath("/docs/theming/installation")}>theming guide</a> for the
-                shared token contract.
-              </p>
-            </div>
-          )}
-        </div>
-      </ComponentDocSection>
+      <ComponentReferences doc={doc} />
     </>
   );
 }

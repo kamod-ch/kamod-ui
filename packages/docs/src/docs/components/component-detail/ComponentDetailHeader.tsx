@@ -1,31 +1,17 @@
-import { ArrowRightIcon, BugIcon, CodeIcon } from "@kamod-ch/icons/lucide";
-import { Badge, Button } from "@kamod-ch/ui";
-import type { ComponentChildren } from "preact";
 import { withBasePath } from "../../../base-path";
-import type { DocPageModule, DocSection } from "../../types";
+import type { DocPageModule } from "../../types";
 import { LibraryJumpLinks } from "../LibraryJumpLinks";
 import { LibraryPageHeader } from "../LibraryPageHeader";
-import { componentGuidance, componentSourceUrl } from "./component-guidance";
-
-const referenceSections = new Set(["installation", "usage", "api-reference", "accessibility"]);
-export const componentExamples = (sections: DocSection[]) =>
-  sections.filter(({ id }) => !referenceSections.has(id));
+import { componentGuidance } from "./component-guidance";
 
 export function ComponentDetailHeader({
   doc,
-  sections,
   sourcePath,
-  markdownAction,
 }: {
   doc: DocPageModule;
-  sections: DocSection[];
   sourcePath: string;
-  markdownAction: ComponentChildren;
 }) {
   const guidance = componentGuidance(doc.slug);
-  const examples = doc.exampleSectionIds
-    ? sections.filter(({ id }) => doc.exampleSectionIds!.includes(id))
-    : componentExamples(sections);
   return (
     <>
       <LibraryPageHeader
@@ -38,7 +24,7 @@ export function ComponentDetailHeader({
         label={doc.title}
         eyebrow={guidance.family}
         focus="Explore · Adapt · Compose"
-        title={doc.title}
+        title={doc.headline ?? doc.title}
         description={
           <>
             <p>
@@ -59,39 +45,6 @@ export function ComponentDetailHeader({
           </>
         }
       >
-        <div class="component-detail-actions">
-          <div class="component-detail-actions-primary">
-            <Button asChild size="sm" variant="secondary">
-              <a href="#installation">
-                Installation <ArrowRightIcon size={14} aria-hidden="true" />
-              </a>
-            </Button>
-            {markdownAction}
-            <Badge variant="secondary">
-              {examples.length} documented {examples.length === 1 ? "pattern" : "patterns"}
-            </Badge>
-          </div>
-          <div class="component-detail-resource-links">
-            <Button asChild size="icon" variant="ghost">
-              <a
-                href={componentSourceUrl(doc.slug, doc.navGroup === "motion")}
-                aria-label="Browse component source on GitHub"
-                title="Component source"
-              >
-                <CodeIcon size={16} aria-hidden="true" />
-              </a>
-            </Button>
-            <Button asChild size="icon" variant="ghost">
-              <a
-                href={`https://github.com/kamod-ch/kamod-ui/issues/new?title=${encodeURIComponent(`${doc.title}: `)}`}
-                aria-label={`Report an issue with ${doc.title}`}
-                title="Report an issue"
-              >
-                <BugIcon size={16} aria-hidden="true" />
-              </a>
-            </Button>
-          </div>
-        </div>
         <LibraryJumpLinks
           class="block-guide-switcher"
           label={`${doc.title} documentation`}
@@ -108,36 +61,6 @@ export function ComponentDetailHeader({
           </li>
         </LibraryJumpLinks>
       </LibraryPageHeader>
-      {examples.length > 0 && (
-        <details class="component-example-directory">
-          <summary>
-            Explore the examples <span>{examples.length} patterns</span>
-          </summary>
-          <p>
-            Choose a pattern to jump to its explanation and implementation. Each live example has
-            its own Preview, Code and Reset controls.
-          </p>
-          <nav aria-label={`${doc.title} examples`}>
-            <ul>
-              {examples.map((example, index) => (
-                <li key={example.id}>
-                  <a href={`#${example.id}`}>
-                    <span class="component-example-number" aria-hidden="true">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                    <span>{example.title}</span>
-                    <ArrowRightIcon size={13} aria-hidden="true" />
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        </details>
-      )}
-      <div id="component-preview" class="component-preview-intro" tabIndex={-1}>
-        <span>Interactive preview</span>
-        <span>Try it before you copy it</span>
-      </div>
     </>
   );
 }

@@ -2,24 +2,6 @@
 .component-detail {
   --showcase-control-inset: 0.875rem;
 }
-.component-detail-actions,
-.component-detail-actions-primary,
-.component-detail-resource-links {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.625rem;
-}
-.component-detail-actions {
-  justify-content: space-between;
-  margin-top: 1.5rem;
-}
-.component-detail-actions [data-slot="badge"] {
-  font-size: 0.6875rem;
-}
-.component-detail-resource-links {
-  gap: 0.25rem;
-}
 .component-detail .docs-section {
   min-width: 0;
   margin-top: 2.5rem;
@@ -42,79 +24,194 @@
 .component-detail .block-guide-prose h3 {
   margin-top: 1.75rem;
 }
-.component-detail .component-reference-grid h3 {
-  margin-top: 0;
+.component-detail .blocks-api-source-note {
+  margin-bottom: 2rem;
+}
+.component-detail .docs-api-reference h4 {
+  margin: 1.5rem 0 0.75rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+.component-detail .blocks-api-props-table td p {
+  font-size: inherit;
+  line-height: inherit;
+}
+.component-detail .blocks-api-props-table td .component-api-default {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.625rem;
+  margin: 0.625rem 0 0;
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  line-height: 1.6;
+}
+.component-api-default > span:first-child {
+  font-size: 0.6875rem;
+}
+/* Defaults are supporting metadata; keep them quieter than prop-name code chips. */
+.component-detail .blocks-api-props-table .component-api-default code {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: inherit;
+  font-size: inherit;
+  overflow-wrap: anywhere;
+}
+.component-detail .block-guide-prose .blocks-doc-heading-link {
+  text-decoration: none;
 }
 .component-preview-intro {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  align-items: center;
   justify-content: space-between;
-  gap: 0.5rem;
+  gap: 1rem;
   margin: 1.5rem 0 0.75rem;
   color: var(--muted-foreground);
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
   scroll-margin-top: 6rem;
 }
-.component-preview-intro > :first-child {
+.component-preview-intro .showcase-heading {
+  flex: 1;
+  min-width: 0;
+}
+.component-preview-intro .showcase-heading strong {
   color: var(--foreground);
-  font-weight: 550;
+  font-weight: 650;
+}
+.component-preview-intro .showcase-heading > span:last-child {
+  white-space: normal;
+}
+.component-preview-intro + .component-example {
+  margin-top: 0;
+}
+.component-detail .component-variant-section > h3 {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.125rem, 1.7vw, 1.4rem);
+  letter-spacing: -0.02em;
+}
+.component-detail .component-variant-section {
+  margin-top: 2rem;
+  padding-top: 2rem;
 }
 .component-example-directory {
-  margin-top: 1.25rem;
-  padding: 0.875rem 1rem;
+  margin-top: 1.5rem;
   border: 1px solid var(--border);
-  border-radius: 0.625rem;
+  border-radius: 0.75rem;
+  overflow: hidden;
 }
 .component-example-directory summary {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
   cursor: pointer;
-  font-size: 0.8125rem;
-  font-weight: 550;
+  list-style: none;
+  background: color-mix(in oklab, var(--foreground) 4%, var(--background));
 }
-.component-example-directory summary > span {
-  margin-left: 0.625rem;
-  color: var(--muted-foreground);
-  font-size: 0.6875rem;
-  font-weight: 400;
+.component-example-directory summary::-webkit-details-marker {
+  display: none;
 }
-.component-example-directory p {
+.component-example-directory-heading {
+  display: grid;
+  flex: 1;
+  gap: 0.25rem;
+  min-width: 0;
+  font-size: 0.875rem;
+}
+.component-example-directory-heading > span {
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+}
+.component-example-directory-chevron {
+  flex: none;
+}
+.component-example-directory[open] .component-example-directory-chevron {
+  transform: rotate(180deg);
+}
+.component-example-directory[open] summary {
+  border-bottom: 1px solid var(--border);
+}
+.component-example-directory-body {
+  padding: 1rem;
+}
+.component-example-directory-body > p,
+.component-example-directory-footer p {
+  margin: 0;
   color: var(--muted-foreground);
   font-size: 0.8125rem;
-  line-height: 1.7;
-  margin: 1rem 0;
+  line-height: 1.75;
+}
+.component-example-directory-body > p a {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
 }
 .component-example-directory ul {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  margin: 1rem 0;
   padding: 0;
-  margin: 0;
   list-style: none;
-  gap: 0.375rem 1rem;
 }
-.component-example-directory a {
+.component-example-directory li + li {
+  border-top: 1px solid var(--border);
+}
+.component-example-directory nav a {
   display: flex;
   align-items: center;
-  gap: 0.625rem;
-  padding: 0.625rem 0.5rem;
+  gap: 0.875rem;
+  padding: 0.875rem 0.5rem;
   border-radius: 0.375rem;
-  font-size: 0.8125rem;
   color: var(--foreground);
   text-decoration: none;
 }
-.component-example-directory a:hover {
-  background: var(--muted);
+.component-example-directory nav a:hover {
+  background: color-mix(in oklab, var(--primary) 6%, var(--background));
 }
-.component-example-directory svg {
-  margin-left: auto;
+.component-example-directory nav svg {
   flex: none;
-}
-.component-example-number {
-  font-variant-numeric: tabular-nums;
-  font-size: 0.6875rem;
+  margin-left: auto;
   color: var(--muted-foreground);
 }
+.component-example-directory-copy {
+  display: grid;
+  min-width: 0;
+  gap: 0.25rem;
+  font-size: 0.8125rem;
+}
+.component-example-directory-copy > span {
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+.component-example-number {
+  flex: none;
+  width: 1.25rem;
+  white-space: nowrap;
+  align-self: flex-start;
+  padding-top: 0.15rem;
+  color: var(--muted-foreground);
+  font-size: 0.6875rem;
+  font-variant-numeric: tabular-nums;
+}
+.component-example-directory-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+.component-example-directory-footer p {
+  flex: 1 1 16rem;
+}
+.component-example-directory-footer [data-slot="button"] {
+  background: color-mix(in oklab, var(--foreground) 4%, transparent);
+}
 .component-example {
-  border: 1px solid var(--border);
-  border-radius: 0 0 0.625rem 0.625rem;
   min-width: 0;
   margin-block: 1rem;
 }
@@ -136,19 +233,41 @@
   overflow-x: auto;
   padding: 0.25rem;
 }
-.component-example-canvas[data-narrow] {
-  max-width: 360px;
-}
 .component-example-caption {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.375rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
   margin: 0;
   border-top: 1px solid var(--border);
   padding: 0.625rem 0.875rem;
   color: var(--muted-foreground);
   font-size: 0.625rem;
   line-height: 1.6;
+}
+/* Long preview context remains contained on narrow screens. */
+.component-example-caption-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.component-example-links {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 0.375rem;
+}
+.component-example-links [data-slot="button"] {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+  background: color-mix(in oklab, var(--foreground) 6%, transparent);
+  color: var(--muted-foreground);
+}
+.component-example-links [data-slot="button"]:is(:hover, :focus-visible) {
+  background: color-mix(in oklab, var(--foreground) 12%, transparent);
+  color: var(--foreground);
 }
 .component-detail .component-example-caption {
   font-size: 0.625rem;
@@ -159,6 +278,19 @@
   border: 0;
   border-radius: 0;
 }
+.component-example-source .blocks-code-pane {
+  border-top: 1px solid var(--showcase-border);
+}
+/* Keep the source introduction compact inside the larger documentation typography. */
+.component-detail .component-example-source .blocks-source-intro h3 {
+  margin: 0;
+  font-size: 0.875rem;
+}
+.component-detail .component-example-source .blocks-source-intro p {
+  margin: 0.25rem 0 0;
+  font-size: 0.78125rem;
+  line-height: 1.5;
+}
 .component-example .blocks-showcase-toolbar {
   gap: 0.625rem;
 }
@@ -168,35 +300,212 @@
 .component-review-list li::marker {
   color: var(--primary);
 }
-.component-reference-grid {
+.component-detail .component-accessibility-checks {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: 1rem;
+  margin-block: 1.25rem;
+  padding-inline-start: 1.5rem;
+  color: var(--muted-foreground);
+  list-style: decimal;
+}
+.component-accessibility-topic {
+  margin-top: 2rem;
+}
+.component-detail .component-accessibility-topic > h3 {
+  margin-top: 0;
+}
+.component-accessibility-checks li {
+  padding-inline-start: 0.375rem;
+}
+.component-accessibility-checks li::marker {
+  color: var(--foreground);
+  font-weight: 600;
+}
+.component-references {
+  display: grid;
   gap: 1.5rem;
 }
-.component-reference-grid > div {
-  border-left: 2px solid var(--border);
-  padding-left: 1rem;
+.formisch-references {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 1.75rem;
 }
-.component-related-links {
+.formisch-reference-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+}
+.component-detail .formisch-references h3 {
+  margin: 0;
+}
+.component-detail .formisch-references p {
+  margin: 0.75rem 0 0;
+}
+.formisch-reference-heading [data-slot="button"] {
+  flex: none;
+  text-decoration: none;
+}
+.formisch-reference-location {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.75rem;
+  margin-top: 0.875rem;
+  font-size: 0.75rem;
+}
+.formisch-reference-location > span {
+  color: var(--muted-foreground);
+}
+.formisch-reference-location a {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.component-detail .formisch-reference-note {
+  font-size: 0.75rem;
+  line-height: 1.75;
+}
+.formisch-reference-list {
+  display: grid;
+  gap: 0.875rem;
+  margin: 1rem 0 0;
+}
+.formisch-reference-list > div {
+  display: grid;
+  grid-template-columns: 7rem minmax(0, 1fr);
+  gap: 0.25rem 1rem;
+  font-size: 0.8125rem;
+  line-height: 1.7;
+}
+.formisch-reference-list dt a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-weight: 500;
+}
+.formisch-reference-list dd {
+  margin: 0;
+  color: var(--muted-foreground);
+}
+@media (max-width: 479px) {
+  .formisch-reference-list > div {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.component-reference-panel {
+  gap: 1rem;
+  padding: clamp(1rem, 2.5vw, 1.75rem);
+  border: 1px solid var(--border);
+  border-left: 3px solid color-mix(in oklab, var(--primary) 25%, var(--border));
+  border-radius: 0.75rem;
+  background: color-mix(in oklab, var(--foreground) 2%, var(--background));
+  box-shadow: none;
+}
+.component-references .blocks-doc-heading-link {
+  text-decoration: none;
+}
+.component-reference-label {
+  color: var(--muted-foreground);
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+.component-detail .component-reference-panel :is(h3, p) {
+  margin: 0;
+}
+.component-reference-location {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+}
+.component-reference-location > span {
+  color: var(--muted-foreground);
+}
+.component-reference-location code {
+  overflow-wrap: anywhere;
+}
+.component-reference-actions {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 0.75rem 1.25rem;
   padding-top: 1rem;
   border-top: 1px solid var(--border);
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
 }
-.component-related-links > span {
+.component-reference-actions [data-slot="button"] {
+  height: auto;
+  min-height: 2rem;
+  padding: 0.375rem 0.625rem;
+  white-space: normal;
+  text-decoration: none;
+  background: color-mix(in oklab, var(--foreground) 4%, transparent);
+}
+.component-reference-next {
+  padding-top: 0.5rem;
+}
+.component-detail .component-reference-next h3 {
+  margin-top: 0;
+}
+.component-reference-next .component-reference-steps {
+  list-style: none;
+  padding: 0;
+  counter-reset: reference-step;
+  color: var(--muted-foreground);
+}
+.component-reference-steps li {
+  position: relative;
+  margin: 0;
+  padding: 1rem 0 1rem 2.25rem;
+  border-top: 1px solid var(--border);
+  counter-increment: reference-step;
+}
+.component-reference-steps li::before {
+  content: counter(reference-step, decimal-leading-zero);
+  position: absolute;
+  top: 1rem;
+  left: 0;
   color: var(--muted-foreground);
   font-size: 0.6875rem;
+  font-variant-numeric: tabular-nums;
 }
-.component-related-links a {
-  color: var(--foreground);
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
+.component-composition {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
 }
-.component-example-directory :is(summary, a):focus-visible,
-.component-related-links a:focus-visible {
+.component-detail .component-composition > h3 {
+  margin-top: 0;
+}
+.component-companion-list {
+  display: grid;
+  gap: 0;
+  margin-block: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.component-companion {
+  min-width: 0;
+  padding: 1rem 1.25rem;
+  background: color-mix(in oklab, var(--muted) 18%, transparent);
+}
+.component-companion + .component-companion {
+  border-top: 1px solid var(--border);
+}
+.component-companion-link {
+  margin-left: -0.5rem;
+}
+.component-detail .component-companion p {
+  margin: 0.5rem 0 0;
+  font-size: 0.875rem;
+  line-height: 1.75;
+}
+.component-example-directory :is(summary, a):focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 3px;
 }
@@ -207,9 +516,7 @@
   .component-example .blocks-showcase-settings {
     margin-left: 0;
   }
-  .component-example-reset-label,
-  .component-example-width-note,
-  .component-preview-intro > :last-child {
+  .component-example-reset-label {
     display: none;
   }
   .component-detail .docs-section {
@@ -218,11 +525,57 @@
   }
 }
 
-/* Cancel global docs panel chrome on the outer showcase tabs only. */
-.component-example > .blocks-showcase-tabs > [data-slot="tabs-content"] {
-  margin: 0;
+.component-example-actions > .component-example-width-controls {
   padding: 0;
   border: 0;
   border-radius: 0;
   background: transparent;
+}
+.component-example-actions > .blocks-showcase-control {
+  border-left: 1px solid var(--border);
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.component-example-frame-wrap {
+  width: 100%;
+  margin-inline: auto;
+}
+.component-example-frame-wrap[data-narrow] {
+  max-width: 360px;
+}
+.component-example-frame {
+  display: block;
+  width: 100%;
+  border: 0;
+}
+#component-preview-root {
+  padding: 0.25rem;
+  background: var(--background);
+  color: var(--foreground);
+}
+#component-preview-root > .component-example-canvas {
+  min-height: 19rem;
+}
+/* Prompt controls wrap by available article width, including layouts with both sidebars. */
+@container block-showcase (max-width: 800px) {
+  .component-example .blocks-prompt-intro {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "links" "title" "description";
+    padding: 1rem;
+  }
+  .component-example .blocks-prompt-selectors {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .component-example .blocks-prompt-control-dot {
+    display: none;
+  }
+}
+
+/* Keep width availability accurate while Preview is unmounted in Code or Prompt. */
+.component-example-size-probe {
+  height: 1px;
+  margin-bottom: -1px;
+  visibility: hidden;
+  padding-inline: clamp(1rem, 3vw, 2rem);
 }

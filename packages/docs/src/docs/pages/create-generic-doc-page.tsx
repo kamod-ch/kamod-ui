@@ -1,14 +1,8 @@
 import type { ComponentChildren } from "preact";
-import { ApiReference } from "../components/ApiReference";
+import { ApiReference, type ApiReferenceRow } from "../components/ApiReference";
 import { CodeBlock } from "../components/CodeBlock";
 import { ComponentDocSection } from "../components/component-detail/ComponentDocSection";
 import type { DocPageModule } from "../types";
-
-type ApiRow = {
-  prop: string;
-  type: string;
-  defaultValue: string;
-};
 
 type GenericDocPageConfig = {
   slug: string;
@@ -34,7 +28,7 @@ type GenericDocPageConfig = {
     code: string;
     renderPreview: () => ComponentChildren;
   }>;
-  apiRows: ApiRow[];
+  apiRows: ApiReferenceRow[];
   accessibilityText: string;
 };
 

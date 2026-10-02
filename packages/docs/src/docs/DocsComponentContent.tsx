@@ -18,18 +18,29 @@ import { withBasePath } from "../base-path";
 import { BlockGuideContents } from "../blocks/detail/BlockGuideContents";
 import { buildComponentDocMarkdown } from "./build-component-doc-markdown";
 import { CodeBlock } from "./components/CodeBlock";
+import {
+  accessibilityContents,
+  componentAccessibility,
+} from "./components/component-detail/accessibility";
 import { ComponentDetailHeader } from "./components/component-detail/ComponentDetailHeader";
 import { ComponentExample } from "./components/component-detail/ComponentExample";
 import {
   ComponentIntegrationGuide,
   componentIntegrationContents,
 } from "./components/component-detail/ComponentIntegrationGuide";
+import {
+  ComponentExamplesContext,
+  componentExamplesTitle,
+  getComponentExamples,
+} from "./components/component-detail/component-examples";
 import { DocsShell } from "./components/DocsShell";
 import { docImportFrom, rewriteKamodCoreImportsInDocString } from "./doc-snippet-imports";
 import { docsShowMotion, isMotionDocSection, isMotionDocSlug } from "./docs-feature-flags";
 import { docsBySlug, docsPages } from "./registry";
 import { scheduleSectionScroll } from "./scroll-to-section";
 import type { DocRenderMainContext, DocSection } from "./types";
+
+const previewContents = [{ id: "component-preview", label: "Live preview" }];
 
 const isRtlSection = (section: DocSection) => /rtl/i.test(section.id) || /rtl/i.test(section.title);
 
@@ -40,7 +51,15 @@ const toPascalCase = (value: string) =>
     .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
     .join("");
 
-export const DocsComponentContent = ({ slug, section }: { slug?: string; section?: string }) => {
+export const DocsComponentContent = ({
+  slug,
+  section,
+  previewIndex,
+}: {
+  slug?: string;
+  section?: string;
+  previewIndex?: number;
+}) => {
   const [activeSection, setActiveSection] = useState(section ?? "");
   const fallbackDoc = docsPages[0];
   const activeDoc =
@@ -100,10 +119,18 @@ export const DocsComponentContent = ({ slug, section }: { slug?: string; section
       ];
     }
 
-    return sections.filter(
+    const visibleSections = sections.filter(
       (item) => !isRtlSection(item) && (docsShowMotion || !isMotionDocSection(item.id)),
     );
-  }, [activeDoc.sections, activeDoc.title, activeDoc.usageLabel]);
+    if (!isComponentDetail) return visibleSections;
+    const examples = getComponentExamples(activeDoc, visibleSections);
+    const exampleIds = new Set(examples.map(({ id }) => id));
+    // Mixed guides interleave explanations and demos; keep variants together so the
+    // heading hierarchy and contents order describe the actual reading order.
+    return visibleSections.flatMap((item) =>
+      item.id === examples[0]?.id ? examples : exampleIds.has(item.id) ? [] : [item],
+    );
+  }, [activeDoc, isComponentDetail]);
   const activeSectionId =
     section && docSections.some((item) => item.id === section)
       ? section
@@ -113,28 +140,73 @@ export const DocsComponentContent = ({ slug, section }: { slug?: string; section
     [activeDoc, docSections],
   );
 
+  const exampleCollection = useMemo(
+    () => ({ doc: activeDoc, examples: getComponentExamples(activeDoc, docSections) }),
+    [activeDoc, docSections],
+  );
   const contents = useMemo(
     () =>
       activeDoc.guideContents ??
       (isComponentDetail
         ? [
-            { id: "component-preview", label: "Live preview" },
-            ...docSections.map(({ id, title }) => ({ id, label: title })),
+            ...docSections.flatMap(({ id, title }) => {
+              if (id === exampleCollection.examples[0]?.id)
+                return [
+                  {
+                    id: "component-examples",
+                    label: componentExamplesTitle(activeDoc),
+                    children: exampleCollection.examples.map(({ id, title }) => ({
+                      id,
+                      label: title,
+                    })),
+                  },
+                ];
+              return exampleCollection.examples.some((example) => example.id === id)
+                ? []
+                : [
+                    {
+                      id,
+                      label:
+                        id === "api-reference"
+                          ? "Props and data"
+                          : id === "accessibility" && componentAccessibility(activeDoc.slug)
+                            ? "Accessibility"
+                            : title,
+                      ...(id === "api-reference"
+                        ? {
+                            children: [
+                              {
+                                id: "component-props",
+                                label:
+                                  activeDoc.navGroup === "forms"
+                                    ? "Form props and contracts"
+                                    : "Component props",
+                              },
+                              { id: "component-data-types", label: "Data type reference" },
+                            ],
+                          }
+                        : id === "accessibility" && componentAccessibility(activeDoc.slug)
+                          ? { children: accessibilityContents }
+                          : {}),
+                    },
+                  ];
+            }),
             ...componentIntegrationContents,
           ]
         : undefined),
-    [activeDoc.guideContents, isComponentDetail, docSections],
+    [activeDoc, isComponentDetail, docSections, exampleCollection],
   );
 
   useEffect(() => {
+    if (previewIndex !== undefined) return;
     setActiveSection(activeSectionId);
     // Guide entry routes open at the introduction; legacy section URLs still reach their target.
     if (contents && (activeSectionId === "installation" || window.location.hash)) return;
     return scheduleSectionScroll(activeSectionId);
-  }, [activeDoc.slug, contents, activeSectionId]);
+  }, [activeDoc.slug, contents, activeSectionId, previewIndex]);
 
   useEffect(() => {
-    if (contents) return;
+    if (contents || previewIndex !== undefined) return;
     const ids = docSections.map((docSection) => docSection.id);
     const elements = ids
       .map((id) => document.getElementById(id))
@@ -159,7 +231,7 @@ export const DocsComponentContent = ({ slug, section }: { slug?: string; section
 
     elements.forEach((element) => observer.observe(element));
     return () => observer.disconnect();
-  }, [docSections, contents]);
+  }, [docSections, contents, previewIndex]);
 
   const installationCommands = useMemo(() => {
     const pnpm = activeDoc.command;
@@ -278,6 +350,8 @@ export const DocsComponentContent = ({ slug, section }: { slug?: string; section
   const renderSectionExtraContent = (sectionId: string) =>
     sectionExtraContentById[sectionId]?.() ?? null;
 
+  let exampleIndex = 0;
+  let selectedPreview: ComponentChildren = null;
   const renderPreviewAndCodeTabs = ({
     preview,
     codeSnippet,
@@ -288,12 +362,20 @@ export const DocsComponentContent = ({ slug, section }: { slug?: string; section
     codeSnippet: string;
     previewClass?: string;
     filePath?: string;
-  }) =>
-    isComponentDetail ? (
+  }) => {
+    const index = exampleIndex++;
+    if (previewIndex !== undefined) {
+      if (index === previewIndex)
+        selectedPreview = (
+          <div class={`preview component-example-canvas ${previewClass ?? ""}`}>{preview}</div>
+        );
+      return null;
+    }
+    return isComponentDetail ? (
       <ComponentExample
-        preview={preview}
+        doc={activeDoc}
+        index={index}
         codeSnippet={rewriteKamodCoreImportsInDocString(codeSnippet, activeDoc.slug)}
-        previewClass={previewClass}
         filePath={filePath ?? `src/components/${toPascalCase(activeDoc.slug)}Example.tsx`}
       />
     ) : (
@@ -319,14 +401,11 @@ export const DocsComponentContent = ({ slug, section }: { slug?: string; section
         </TabsContent>
       </Tabs>
     );
-
-  const markdownExport = useMemo(
-    () => buildComponentDocMarkdown(activeDoc.title, activeDoc.command, docSections),
-    [activeDoc.title, activeDoc.command, docSections],
-  );
+  };
 
   const componentSourcePath = activeDoc.packagePath ?? docImportFrom(activeDoc.slug);
 
+  // Only legacy pages with an export control need this document; isolated previews do not.
   const renderMarkdownAction = () => (
     <Dialog>
       <Button variant="outline" size="sm" asChild>
@@ -342,7 +421,12 @@ export const DocsComponentContent = ({ slug, section }: { slug?: string; section
           </DialogHeader>
           <div class="min-h-0 flex-1 overflow-y-auto px-2 pb-4 pt-2">
             <CodeBlock
-              code={markdownExport}
+              code={buildComponentDocMarkdown(
+                activeDoc.title,
+                activeDoc.command,
+                docSections,
+                activeDoc.slug,
+              )}
               language="markdown"
               className="docs-tab-code !max-h-none"
             />
@@ -355,13 +439,13 @@ export const DocsComponentContent = ({ slug, section }: { slug?: string; section
   const renderTitleRow = () =>
     isComponentDetail ? (
       <>
-        <ComponentDetailHeader
-          doc={activeDoc}
-          sections={docSections}
-          sourcePath={componentSourcePath}
-          markdownAction={renderMarkdownAction()}
+        <ComponentDetailHeader doc={activeDoc} sourcePath={componentSourcePath} />
+        <BlockGuideContents
+          id={`${activeDoc.slug}-mobile-contents`}
+          sections={contents!}
+          overviewChildren={previewContents}
+          mobile
         />
-        <BlockGuideContents id={`${activeDoc.slug}-mobile-contents`} sections={contents!} mobile />
       </>
     ) : (
       <div class="docs-title-row">
@@ -387,9 +471,13 @@ export const DocsComponentContent = ({ slug, section }: { slug?: string; section
   };
 
   const renderedContent = activeDoc.renderMain(renderContext);
+  if (previewIndex !== undefined)
+    return selectedPreview ?? <p role="alert">This example is not available.</p>;
   const mainContent = isComponentDetail ? (
     <article class="block-guide component-detail blocks-doc-body" id="top" key={activeDoc.slug}>
-      {renderedContent}
+      <ComponentExamplesContext.Provider value={exampleCollection}>
+        {renderedContent}
+      </ComponentExamplesContext.Provider>
       <ComponentIntegrationGuide doc={activeDoc} />
     </article>
   ) : (
@@ -413,6 +501,7 @@ export const DocsComponentContent = ({ slug, section }: { slug?: string; section
           <BlockGuideContents
             id={`${activeDoc.slug}-contents`}
             sections={contents}
+            overviewChildren={isComponentDetail ? previewContents : undefined}
             pageTitle={activeDoc.guideTitle}
           />
         ) : undefined
