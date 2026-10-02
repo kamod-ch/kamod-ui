@@ -1,10 +1,26 @@
-import type { ComponentChildren } from "preact";
 import { withBasePath } from "../../../base-path";
 import type { PackageTeaserConfig } from "../../pages/kamod-package-doc-factory";
 import { LibraryJumpLinks } from "../LibraryJumpLinks";
 import { LibraryPageHeader } from "../LibraryPageHeader";
 import { PackageResources } from "./PackageResources";
 import { packageGuideNotes } from "./package-guide-notes";
+
+/** Spaces separators independently without expanding the words in each label. */
+function PackageHeaderItems({ text }: { text: string }) {
+  return (
+    <>
+      {text.split(/( · )/).map((part, index) =>
+        index % 2 ? (
+          <span class="package-guide-eyebrow-separator" key={index}>
+            {part}
+          </span>
+        ) : (
+          part
+        ),
+      )}
+    </>
+  );
+}
 
 /** Formats existing package prose without changing its wording or punctuation. */
 export function PackageText({ text }: { text: string }) {
@@ -20,20 +36,14 @@ export function PackageText({ text }: { text: string }) {
 }
 
 /** Preserves package resources within the shared library introduction. */
-export function PackageGuideHeader({
-  config,
-  renderMarkdownAction,
-}: {
-  config: PackageTeaserConfig;
-  renderMarkdownAction: () => ComponentChildren;
-}) {
+export function PackageGuideHeader({ config }: { config: PackageTeaserConfig }) {
   const notes = packageGuideNotes[config.slug];
   return (
     <LibraryPageHeader
       parent={{ label: "Packages", href: "/docs/packages" }}
       label={config.title}
-      eyebrow={config.eyebrow}
-      focus="Install · Compose · Explore"
+      eyebrow={<PackageHeaderItems text={config.eyebrow} />}
+      focus={<PackageHeaderItems text="Install · Compose · Explore" />}
       title={config.headline}
       description={
         <>
@@ -48,7 +58,7 @@ export function PackageGuideHeader({
         </>
       }
     >
-      <PackageResources config={config} markdown={renderMarkdownAction()} />
+      <PackageResources config={config} />
       <LibraryJumpLinks
         class="block-guide-switcher"
         label="Package sections"

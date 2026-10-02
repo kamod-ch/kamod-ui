@@ -1,207 +1,159 @@
-/* Package guides share the article shell; these structures organize resources and practical notes. */
-.package-guide-resources {
-  container-type: inline-size;
-  margin-top: 1.75rem;
-  border: 1px solid var(--border);
-  border-radius: 0.75rem;
+/* The article uses the shared guide rhythm; package-specific layouts stay quiet and compact. */
+@media (min-width: 640px) {
+  .package-guide-eyebrow-separator {
+    padding-inline: 0.25rem;
+  }
 }
-.package-guide-resource-heading,
-.package-guide-resource-footnote {
+.package-guide-resources,
+.package-guide-resources > div,
+.package-guide-reference-controls {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  gap: 0.75rem 1.25rem;
+}
+.package-guide-resources {
   justify-content: space-between;
-  gap: 0.75rem 1rem;
-  padding: 1rem 1.125rem;
-  font-size: 0.75rem;
+  margin-top: 1.75rem;
+  font-size: 0.8125rem;
 }
-.package-guide-resource-heading {
-  background: color-mix(in oklab, var(--muted) 30%, var(--background));
-  border-radius: 0.75rem 0.75rem 0 0;
-  border-bottom: 1px solid var(--border);
-  font-weight: 500;
+.package-guide-resources > code {
+  overflow-wrap: anywhere;
 }
-.package-guide-resource-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-.package-guide-resource {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.625rem;
-  min-width: 0;
-  padding: 1.125rem;
-  color: var(--foreground);
-  text-decoration: none;
-  transition: background-color 150ms ease;
-}
-.package-guide-resource + .package-guide-resource {
-  border-left: 1px solid var(--border);
-}
-.package-guide-resource > svg {
-  color: var(--muted-foreground);
-}
-.package-guide-resource strong {
-  font-size: 0.875rem;
-  font-weight: 550;
-}
-.package-guide-resource p,
-.package-guide-resource-footnote p {
-  margin: 0;
-  color: var(--muted-foreground);
-  font-size: 0.75rem;
-  line-height: 1.7;
-}
-.package-guide-resource-action {
-  display: flex;
+.package-guide-resources a {
+  display: inline-flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 0.625rem;
-  width: 100%;
-  margin-top: auto;
-  padding-top: 0.5rem;
-  font-size: 0.75rem;
-  font-weight: 500;
+  gap: 0.375rem;
+  min-height: 2rem;
+  color: var(--muted-foreground);
+  text-decoration: none;
 }
-.package-guide-resource:hover {
-  background: color-mix(in oklab, var(--primary) 4%, var(--background));
+.package-guide-resources a:hover {
+  color: var(--foreground);
 }
-.package-guide-resource:focus-visible {
+.package-guide-resources a:focus-visible {
   outline: 2px solid var(--ring);
-  outline-offset: -3px;
+  outline-offset: 4px;
+  border-radius: 0.25rem;
 }
-.package-guide-resource-footnote {
+.package-guide-decisions {
+  margin-block: 1.5rem 2rem;
+}
+.package-guide-decision,
+.package-guide-troubleshooting > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: 0.75rem 2rem;
+  padding-block: 1.25rem;
   border-top: 1px solid var(--border);
 }
-.package-guide-resource-footnote p {
-  flex: 1 1 15rem;
-}
-.package-guide-resource-footnote strong {
-  color: var(--foreground);
-  font-weight: 500;
-}
-.package-guide-resource-footnote [data-slot="button"] {
-  flex: none;
-  font-size: 0.75rem;
-}
-.package-guide-facts {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.625rem 1.5rem;
-  margin: 1.25rem 0 1.75rem;
-  padding: 1rem 1.125rem;
-  border-radius: 0.5rem;
-  background: color-mix(in oklab, var(--muted) 45%, var(--background));
-}
-.package-guide-facts > div {
-  display: flex;
-  align-items: baseline;
-  gap: 0.5rem;
-  font-size: 0.75rem;
-}
-.package-guide-facts dt {
-  color: var(--muted-foreground);
-}
-.package-guide-facts dd {
-  order: -1;
-  margin: 0;
+.package-guide-decision > strong,
+.package-guide-troubleshooting dt {
+  font-size: 0.875rem;
   font-weight: 600;
+  line-height: 1.7;
   color: var(--foreground);
+}
+.package-guide .package-guide-decision p {
+  margin: 0;
+}
+.package-guide .package-guide-decision p + p {
+  margin-top: 0.5rem;
+}
+.package-guide .package-guide-boundary {
+  font-size: 0.8125rem;
+}
+.package-guide-capabilities {
+  display: grid;
+  gap: 1.75rem;
+  margin-top: 2rem;
 }
 .package-guide-feature {
-  display: grid;
-  grid-template-columns: 2rem minmax(0, 1fr);
-  gap: 1rem;
-  padding-block: 1.5rem;
+  padding-inline-start: 1.125rem;
+  border-left: 2px solid color-mix(in oklab, var(--primary) 18%, var(--border));
 }
-.package-guide-feature + .package-guide-feature {
-  border-top: 1px solid var(--border);
-}
-.package-guide-feature-number {
-  padding-top: 0.25rem;
-  font-size: 0.6875rem;
-  font-variant-numeric: tabular-nums;
-  color: var(--muted-foreground);
-}
-.package-guide-feature .block-guide-prose > h3 {
+.package-guide .package-guide-feature h3 {
   margin: 0 0 0.75rem;
 }
-.package-guide-feature .block-guide-prose > p:last-child {
+.package-guide .package-guide-feature p:last-child {
   margin-bottom: 0;
 }
-.package-guide-example-intro,
-.package-guide-reference-action {
+.package-guide-walkthrough {
+  display: grid;
+  gap: 1.75rem;
+  margin-block: 1.5rem 2.25rem;
+}
+.package-guide-reading {
+  display: grid;
+  gap: 0.875rem;
+  min-width: 0;
+}
+.package-guide-reading-title {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem 1rem;
-  margin: 1.5rem 0 0.75rem;
-  font-size: 0.75rem;
-  color: var(--muted-foreground);
-}
-.package-guide-example-intro strong {
-  color: var(--foreground);
-  font-weight: 500;
-}
-.package-guide-reference-action {
-  padding: 1rem 0;
-  border-top: 1px solid var(--border);
-}
-.package-guide-steps {
-  list-style: none;
-  counter-reset: package-step;
-  display: grid;
-  gap: 1rem;
-  padding: 0;
-  margin: 1rem 0 0;
-}
-.package-guide-steps li {
-  counter-increment: package-step;
-  display: grid;
-  grid-template-columns: 1.5rem minmax(0, 1fr);
+  align-items: baseline;
   gap: 0.75rem;
+}
+.package-guide-reading-title > span {
   color: var(--muted-foreground);
+  font-size: 0.6875rem;
+  font-variant-numeric: tabular-nums;
+}
+.package-guide-reading-title > strong {
+  font-weight: 600;
+  font-size: 0.9375rem;
+}
+.package-guide-troubleshooting {
+  margin-block: 1.5rem;
+}
+.package-guide-troubleshooting dd {
+  margin: 0;
   font-size: 0.875rem;
   line-height: 1.8;
-}
-.package-guide-steps li::before {
-  content: counter(package-step);
-  display: grid;
-  place-items: center;
-  align-self: start;
-  height: 1.5rem;
-  border-radius: 50%;
-  background: color-mix(in oklab, var(--primary) 7%, var(--background));
-  color: var(--foreground);
-  font-size: 0.6875rem;
+  color: var(--muted-foreground);
 }
 .package-guide-callout {
   margin-top: 1.5rem;
-  padding: 1.125rem 1.25rem;
-  border-left: 2px solid color-mix(in oklab, var(--primary) 45%, var(--border));
+  padding: 1rem 1.125rem;
+  border-left: 2px solid color-mix(in oklab, var(--primary) 35%, var(--border));
   background: color-mix(in oklab, var(--primary) 3%, var(--background));
   font-size: 0.875rem;
   line-height: 1.8;
 }
 .package-guide-callout strong {
+  font-weight: 600;
   color: var(--foreground);
-  font-weight: 550;
 }
 .package-guide-callout p {
   margin: 0.375rem 0 0;
   color: var(--muted-foreground);
 }
-.package-guide .block-guide-prose .blocks-doc-heading-link {
-  text-decoration: none;
+.package-guide-reference-action,
+.package-guide-reference-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-block: 1.25rem;
 }
-.package-guide .block-guide-prose > h3 {
-  margin-top: 1.75rem;
+.package-guide-reference-action {
+  font-size: 0.8125rem;
+  color: var(--muted-foreground);
 }
-.package-guide .package-guide-feature h3 {
-  margin-top: 0;
+.package-guide .package-guide-reference-note {
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+  line-height: 1.7;
 }
+.package-guide-reference :is(.package-guide-reference-code, .blocks-prompt-rendered) {
+  max-height: 30rem;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+.package-guide-reference .blocks-prompt-rendered {
+  padding: 1.25rem;
+}
+.package-guide .block-guide-prose .blocks-doc-heading-link,
 .package-guide .block-guide-prose [data-slot="button"] {
   text-decoration: none;
 }
@@ -211,35 +163,32 @@
 .package-guide .docs-tab-code {
   margin: 0;
 }
-@container (max-width: 38rem) {
-  .package-guide-resource-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .package-guide-resource {
-    display: grid;
-    grid-template-columns: 1.25rem minmax(0, 1fr);
-    column-gap: 0.75rem;
-  }
-  .package-guide-resource > svg {
-    grid-column: 1;
-    grid-row: 1;
-  }
-  .package-guide-resource :is(strong, p, .package-guide-resource-action) {
-    grid-column: 2;
-  }
-  .package-guide-resource + .package-guide-resource {
-    border-left: 0;
-    border-top: 1px solid var(--border);
-  }
+.package-guide {
+  container-type: inline-size;
 }
-@media (max-width: 767px) {
-  .package-guide-feature {
+@container (max-width: 36rem) {
+  .package-guide-decision,
+  .package-guide-troubleshooting > div {
     grid-template-columns: minmax(0, 1fr);
     gap: 0.5rem;
   }
-}
-@media (prefers-reduced-motion: reduce) {
-  .package-guide-resource {
-    transition: none;
+  .package-guide-reference-controls .blocks-showcase-segmented {
+    flex-wrap: wrap;
   }
+}
+
+.package-guide-reference-controls [data-slot="toggle-group-item"] {
+  gap: 0.375rem;
+  min-height: 2rem;
+  padding-inline: 0.625rem;
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+}
+.package-guide-reference-controls [data-slot="toggle-group-item"][data-state="on"] {
+  background: var(--background);
+  color: var(--foreground);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 8%);
+}
+.package-guide-reference-controls svg {
+  flex-shrink: 0;
 }
