@@ -1,4 +1,12 @@
 /* Reuse the block reading layout; only overview examples need extra styling. */
+.component-overview-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: 100%;
+}
+.component-overview-tabs [role="tab"] {
+  font-size: 0.9375rem;
+}
 .library-overview-guide .library-directory-resources h3 {
   font-size: 1.05rem;
   font-weight: 600;

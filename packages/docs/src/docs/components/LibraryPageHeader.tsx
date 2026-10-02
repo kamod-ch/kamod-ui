@@ -17,8 +17,8 @@ export function LibraryPageHeader({
   special?: boolean;
   parent: { label: string; href: string };
   label: string;
-  eyebrow: string;
-  focus: string;
+  eyebrow: ComponentChildren;
+  focus: ComponentChildren;
   title: string;
   description: ComponentChildren;
   children: ComponentChildren;
@@ -30,17 +30,9 @@ export function LibraryPageHeader({
         current={label}
       />
       <p class="block-guide-eyebrow">
-        <span class="block-guide-eyebrow-context">
-          {special && (
-            <>
-              <span class="block-guide-eyebrow-page">{label}</span>
-              <span aria-hidden="true">·</span>
-            </>
-          )}
-          <span class={`block-guide-eyebrow-label${special ? " block-guide-eyebrow-badge" : ""}`}>
-            <BookOpenIcon size={16} aria-hidden="true" />
-            <span>{eyebrow}</span>
-          </span>
+        <span class="block-guide-eyebrow-label">
+          <BookOpenIcon size={16} aria-hidden="true" />
+          <span>{eyebrow}</span>
         </span>
         <span class="block-guide-eyebrow-focus">{focus}</span>
       </p>

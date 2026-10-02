@@ -65,23 +65,6 @@
   color: var(--muted-foreground);
   font-size: 0.75rem;
 }
-.block-guide-eyebrow-context {
-  display: inline-flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.625rem;
-  min-width: 0;
-}
-.block-guide-eyebrow-page {
-  color: var(--muted-foreground);
-}
-.block-guide-eyebrow-badge {
-  padding: 0.375rem 0.625rem;
-  border-radius: 0.5rem;
-  background: color-mix(in oklab, var(--primary) 8%, var(--background));
-  color: var(--foreground);
-  border: 1px solid color-mix(in oklab, var(--primary) 12%, transparent);
-}
 .block-guide-eyebrow-label {
   display: inline-flex;
   align-items: center;

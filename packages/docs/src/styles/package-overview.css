@@ -1,0 +1,152 @@
+/* Package discovery stays compact without changing the shared guide header or sidebars. */
+.docs-packages-overview .package-directory {
+  display: grid;
+  margin-top: 1.5rem;
+  border-block: 1px solid var(--border);
+}
+.docs-packages-overview .package-directory-row {
+  display: grid;
+  grid-template-columns: minmax(10rem, 0.75fr) minmax(0, 1.5fr) auto;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.25rem 0.75rem;
+  color: var(--foreground);
+  text-decoration: none;
+}
+.package-directory-row + .package-directory-row {
+  border-top: 1px solid var(--border);
+}
+.package-directory-row:hover {
+  background: color-mix(in oklab, var(--primary) 4%, transparent);
+}
+.package-directory-row:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: -2px;
+  border-radius: 0.375rem;
+}
+.package-directory-identity,
+.package-directory-summary {
+  display: grid;
+  justify-items: start;
+  gap: 0.375rem;
+  min-width: 0;
+}
+.package-directory-identity strong {
+  font-size: 1rem;
+  font-weight: 600;
+}
+.docs-packages-overview .package-directory-identity code {
+  font-size: 0.6875rem;
+}
+.package-directory-summary {
+  font-size: 0.8125rem;
+  line-height: 1.7;
+}
+.package-directory-summary > :first-child {
+  font-weight: 500;
+}
+.package-directory-summary > :last-child,
+.package-directory-row > svg {
+  color: var(--muted-foreground);
+}
+.package-directory-row:hover > svg {
+  color: var(--primary);
+}
+.package-decision-list {
+  margin: 1.25rem 0 1.5rem;
+  border-block: 1px solid var(--border);
+}
+.package-decision-list > div {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.5fr);
+  gap: 0.5rem 1.5rem;
+  padding-block: 1rem;
+}
+.package-decision-list > div + div {
+  border-top: 1px solid var(--border);
+}
+.package-decision-list dt {
+  color: var(--foreground);
+  font-weight: 500;
+}
+.package-decision-list dd {
+  margin: 0;
+}
+.docs-packages-overview .package-review-list {
+  list-style: none;
+  counter-reset: package-review;
+  padding: 0;
+  margin-block: 1.5rem;
+}
+.docs-packages-overview .package-review-list > li {
+  position: relative;
+  counter-increment: package-review;
+  padding: 1rem 0 1rem 2.5rem;
+  margin: 0;
+  border-top: 1px solid var(--border);
+}
+.package-review-list > li::before {
+  content: counter(package-review, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 1.125rem;
+  color: var(--muted-foreground);
+  font-size: 0.6875rem;
+  font-variant-numeric: tabular-nums;
+}
+.package-foundations {
+  display: grid;
+  margin-block: 1.5rem 2rem;
+}
+.package-foundation {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.5rem;
+  padding-block: 1.25rem;
+  border-top: 1px solid var(--border);
+}
+.package-foundation > div {
+  flex: 1 1 20rem;
+  min-width: 0;
+}
+.docs-packages-overview .package-foundation h3 {
+  margin: 0 0 0.5rem;
+  font-size: 0.9375rem;
+}
+.docs-packages-overview .package-foundation p {
+  margin: 0;
+  font-size: 0.8125rem;
+}
+.package-foundation > [data-slot="button"] {
+  background: color-mix(in oklab, var(--foreground) 4%, transparent);
+}
+.package-foundation > [data-slot="button"]:hover {
+  background: color-mix(in oklab, var(--foreground) 8%, transparent);
+}
+.package-source-note {
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+/* Respond to the reading column, including intermediate layouts with a sidebar. */
+.docs-packages-overview .blocks-doc-body {
+  container-type: inline-size;
+}
+@container (max-width: 560px) {
+  .docs-packages-overview .package-directory-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.75rem;
+    padding-inline: 0.25rem;
+  }
+  .package-directory-summary {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .package-directory-row > svg {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .package-decision-list > div {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
