@@ -98,7 +98,10 @@ export function useRightSidebarScroll<T extends HTMLElement>(area: ScrollArea, e
       if (!restoring && node.clientHeight) top = node.scrollTop;
       persist();
     };
-    const show = () => {
+    const show = (event: PageTransitionEvent) => {
+      // Initial pageshow can arrive after the user has already scrolled but before
+      // the next storage write. Only a real page-cache restore should reset it.
+      if (!event.persisted) return;
       // Back/Forward can revive an old DOM from the browser's page cache.
       top = currentMemory().offsets[area] ?? 0;
       restoring = true;

@@ -83,7 +83,7 @@ it("flushes on pagehide and clears a stale DOM restored by Back/Forward", () => 
     key,
     JSON.stringify({ page: "/blocks/theming", offsets: { contents: 320 } }),
   );
-  fireEvent(window, new Event("pageshow"));
+  fireEvent(window, new PageTransitionEvent("pageshow", { persisted: true }));
   expect(node.scrollTop).toBe(0);
   expect(saved().page).toBe("/blocks/styles");
 });
@@ -138,4 +138,14 @@ it("ignores embedded previews that share the parent tab's session storage", () =
   scroll(view.getByTestId("contents"), 90);
   fireEvent(window, new Event("pagehide"));
   expect(saved()).toEqual(parent);
+});
+
+it("does not undo an early user scroll when the initial pageshow arrives", () => {
+  const view = mount();
+  const node = view.getByTestId("contents");
+  scroll(node, 180);
+  fireEvent(window, new PageTransitionEvent("pageshow", { persisted: false }));
+  expect(node.scrollTop).toBe(180);
+  fireEvent(window, new Event("pagehide"));
+  expect(saved().offsets.contents).toBe(180);
 });

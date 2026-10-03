@@ -32,19 +32,23 @@ const useActiveHeading = (
     const desktop = window.matchMedia("(min-width: 1260px)");
     const visible = () => desktop.matches !== mobile;
     let frame = 0;
+    let offsets: number[] | undefined;
     const update = () => {
       frame = 0;
       if (!visible()) return;
       const readingLine = (topbar?.getBoundingClientRect().height ?? 64) + 48;
-      const scrollPadding =
-        Number.parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
+      if (!offsets) {
+        const padding =
+          Number.parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
+        // Anchor styles only change with layout breakpoints, not on every scroll frame.
+        offsets = headings.map(
+          (heading) =>
+            padding + (Number.parseFloat(getComputedStyle(heading).scrollMarginTop) || 0),
+        );
+      }
       let current = overviewId;
-      for (const heading of headings) {
-        // Native anchors include both document padding and the target's scroll margin.
-        // Count the heading as reached at that same offset, including narrow layouts.
-        const anchorOffset =
-          scrollPadding + (Number.parseFloat(getComputedStyle(heading).scrollMarginTop) || 0);
-        if (heading.getBoundingClientRect().top > Math.max(readingLine, anchorOffset) + 1) break;
+      for (const [index, heading] of headings.entries()) {
+        if (heading.getBoundingClientRect().top > Math.max(readingLine, offsets[index]) + 1) break;
         current = heading.id;
       }
       // A short final section may never reach the reading line before the page ends.
@@ -55,6 +59,10 @@ const useActiveHeading = (
     };
     const schedule = () => {
       if (visible() && !frame) frame = window.requestAnimationFrame(update);
+    };
+    const resize = () => {
+      offsets = undefined;
+      schedule();
     };
     const restoreHash = () => {
       // Guides have two instances; block details have one that also restores mobile history.
@@ -70,15 +78,15 @@ const useActiveHeading = (
     };
     update();
     window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", schedule);
+    window.addEventListener("resize", resize);
     window.addEventListener("hashchange", restoreHash);
-    desktop.addEventListener("change", schedule);
+    desktop.addEventListener("change", resize);
     return () => {
       window.cancelAnimationFrame(frame);
       window.removeEventListener("scroll", schedule);
-      window.removeEventListener("resize", schedule);
+      window.removeEventListener("resize", resize);
       window.removeEventListener("hashchange", restoreHash);
-      desktop.removeEventListener("change", schedule);
+      desktop.removeEventListener("change", resize);
     };
   }, [blockId, overviewId, overviewChildren, sections, mobile]);
 
