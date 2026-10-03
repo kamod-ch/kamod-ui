@@ -1,17 +1,10 @@
 import { useTimeout } from "@kamod-ch/hooks";
 import { CopyIcon } from "@kamod-ch/icons/tabler/outline";
 import type { ComponentChildren } from "preact";
-import { useMemo, useState } from "preact/hooks";
-import Prism from "prismjs";
-import "prismjs/components/prism-bash.js";
-import "prismjs/components/prism-css.js";
-import "prismjs/components/prism-jsx.js";
-import "prismjs/components/prism-markdown.js";
-import "prismjs/components/prism-typescript.js";
-import "prismjs/components/prism-tsx.js";
+import { useLayoutEffect, useMemo, useRef, useState } from "preact/hooks";
 import { CodeFilePath } from "./CodeFilePath";
 
-type CodeLanguage = "tsx" | "bash" | "markdown" | "css" | "text";
+export type CodeLanguage = "tsx" | "bash" | "markdown" | "css" | "text";
 
 const escapeHtml = (value: string) =>
   value
@@ -28,6 +21,7 @@ export const CodeBlock = ({
   toolbarContent,
   filePath,
   renderedContent,
+  renderToolbar,
 }: {
   code: string;
   language: CodeLanguage;
@@ -38,14 +32,53 @@ export const CodeBlock = ({
   filePath?: string;
   /** Optional document view; Copy still uses the original, unmodified code string. */
   renderedContent?: ComponentChildren;
+  /** Custom toolbar layout that reuses this block's copy action and feedback. */
+  renderToolbar?: (copyButton: ComponentChildren) => ComponentChildren;
 }) => {
   const [isCopied, setIsCopied] = useState(false);
   const rendersCode = renderedContent === undefined;
-  const highlightedCode = useMemo(() => {
-    if (!rendersCode) return "";
-    const grammar = Prism.languages[language];
-    if (!grammar) return escapeHtml(code);
-    return Prism.highlight(code, grammar, language);
+  const codeElement = useRef<HTMLElement>(null);
+  const [highlight, setHighlight] = useState<{
+    code: string;
+    language: CodeLanguage;
+    html: string;
+  } | null>(null);
+  const highlightedCode = useMemo(
+    () =>
+      highlight?.code === code && highlight.language === language
+        ? highlight.html
+        : escapeHtml(code),
+    [code, language, highlight],
+  );
+  useLayoutEffect(() => {
+    const node = codeElement.current;
+    if (!node || !rendersCode || language === "text") return;
+    let cancelled = false;
+    const load = () => {
+      observer?.disconnect();
+      void import("./highlight-code")
+        .then(({ highlightCode }) => {
+          if (!cancelled) setHighlight({ code, language, html: highlightCode(code, language) });
+        })
+        .catch(() => {
+          // The complete plain-text example stays readable if the optional highlighter fails.
+        });
+    };
+    const observer =
+      typeof IntersectionObserver === "undefined"
+        ? null
+        : new IntersectionObserver(
+            (entries) => {
+              if (entries.some((entry) => entry.isIntersecting)) load();
+            },
+            { rootMargin: "200px" },
+          );
+    if (observer) observer.observe(node);
+    else load();
+    return () => {
+      cancelled = true;
+      observer?.disconnect();
+    };
   }, [code, language, rendersCode]);
 
   useTimeout(() => setIsCopied(false), isCopied ? 1500 : undefined);
@@ -66,6 +99,7 @@ export const CodeBlock = ({
       type="button"
       class={`docs-copy-code-button ${isCopied ? "is-copied" : ""}`}
       aria-label={isCopied ? "Code copied" : "Copy code"}
+      title={isCopied ? "Code copied" : "Copy code"}
       onClick={() => void copyCode()}
     >
       <CopyIcon
@@ -81,7 +115,9 @@ export const CodeBlock = ({
 
   return (
     <div class="docs-code-wrap">
-      {filePath || toolbarContent ? (
+      {renderToolbar ? (
+        renderToolbar(copyButton)
+      ) : filePath || toolbarContent ? (
         <div class="docs-code-toolbar">
           {filePath && <CodeFilePath path={filePath} />}
           {toolbarContent}
@@ -94,6 +130,7 @@ export const CodeBlock = ({
       {rendersCode ? (
         <pre class={`docs-code ${className ?? ""}`.trim()} data-language={language} tabIndex={0}>
           <code
+            ref={codeElement}
             class={`language-${language}`}
             dangerouslySetInnerHTML={{ __html: highlightedCode }}
           />

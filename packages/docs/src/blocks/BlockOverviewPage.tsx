@@ -9,6 +9,7 @@ import { type BlockCategory, blockCategories } from "./block-categories";
 import { PLACEHOLDER_BLOCK_CATEGORIES, visibleBlockNavItems } from "./block-nav-config";
 import { BlockGuideContents } from "./detail/BlockGuideContents";
 
+const title = "Blocks for complete application layouts";
 const contents = [
   { id: "library-items", label: "All block categories" },
   { id: "planned-collections", label: "On the horizon" },
@@ -39,7 +40,9 @@ export function BlockOverviewPage() {
     <DocsShell
       sidebarScope="blocks"
       isSectionOverview
-      pageContents={<BlockGuideContents id="blocks-overview-contents" sections={contents} />}
+      pageContents={
+        <BlockGuideContents id="blocks-overview-contents" sections={contents} pageTitle={title} />
+      }
       activeDoc={null}
       activeSection=""
       mainContent={
@@ -59,7 +62,7 @@ export function BlockOverviewPage() {
               label="Blocks"
               eyebrow="Block collections"
               focus="Explore · Preview · Build"
-              title="Blocks for complete application layouts"
+              title={title}
               description={
                 <>
                   <p>

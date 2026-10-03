@@ -2,6 +2,10 @@ import { readFileSync } from "node:fs";
 import { expect, test } from "@playwright/test";
 import { assertNoBlockingA11yViolations } from "./a11y-utils";
 
+test.beforeEach(async ({ page }) => {
+  await page.route("https://matomo.kamod.ch/**", (route) => route.fulfill({ status: 204 }));
+});
+
 const packages = ["hooks", "i18n", "icons", "signals", "state"];
 
 for (const name of packages) {
@@ -9,14 +13,14 @@ for (const name of packages) {
     page,
     context,
   }) => {
-    // The unchanged package configuration is the source of truth for content retention.
+    // Keep the existing descriptive content; compact resource links replace the old stat strip.
     const source = readFileSync(
       new URL(`../src/docs/pages/${name}-package-doc.tsx`, import.meta.url),
       "utf8",
     );
     const textFields = [
       ...source.matchAll(
-        /(?:eyebrow|headline|lead|installationText|usageText|apiReferenceText|accessibilityText|externalCtaTitle|externalCtaDescription|title|text|label|value|packagePath):\s*"([^"]*)"/g,
+        /(?:eyebrow|headline|lead|installationText|usageText|apiReferenceText|accessibilityText|externalCtaTitle|externalCtaDescription|title|text|packagePath):\s*"([^"]*)"/g,
       ),
     ].map((match) => match[1]);
     await page.goto(`./docs/${name}-package/installation`);
@@ -44,19 +48,44 @@ for (const name of packages) {
     await installation.getByRole("tab", { name: "npm", exact: true }).click();
     await expect(installation.getByRole("tabpanel")).toContainText("npm install");
     const usage = article.locator('section[aria-labelledby="usage"]');
-    const code = await usage.locator("pre code").textContent();
+    const code = await usage.locator("pre code").first().textContent();
     const originalImport = source.match(/import:\s*`([^`]+)`/)![1];
     const originalUsage = source.match(/usage:\s*`([^`]+)`/)![1];
     expect(code).toBe(`${originalImport}\n\n${originalUsage}`.replaceAll("\\n", "\n"));
-    if (test.info().project.name === "chromium") {
+    if (test.info().project.name === "chromium" || test.info().project.name === "chrome") {
       await context.grantPermissions(["clipboard-read", "clipboard-write"]);
-      await usage.getByRole("button", { name: "Copy code", exact: true }).click();
+      await usage.getByRole("button", { name: "Copy code", exact: true }).first().click();
       await expect.poll(() => page.evaluate(() => navigator.clipboard.readText())).toBe(code);
     }
-    await article.getByRole("button", { name: "View Markdown", exact: true }).click();
-    await expect(page.getByRole("dialog")).toContainText("Markdown for");
-    await page.keyboard.press("Escape");
-    await expect(page.getByRole("dialog")).toHaveCount(0);
+    await expect(article.getByRole("button", { name: "View Markdown", exact: true })).toHaveCount(
+      0,
+    );
+    const reference = article.locator(".package-guide-reference");
+    const document = await reference.locator("pre code").textContent();
+    expect(document).toContain("## Troubleshooting");
+    expect(document).toContain(originalImport);
+    for (const name of ["Code (Markdown)", "Markdown", "Plain text"]) {
+      await reference.getByRole("button", { name, exact: true }).click();
+      if (name === "Markdown") {
+        await expect(
+          reference.getByRole("region", { name: "Rendered package reference" }),
+        ).toContainText("integration reference");
+      } else {
+        await expect(reference.locator("pre code")).toHaveText(document!);
+      }
+      if (test.info().project.name === "chromium" || test.info().project.name === "chrome") {
+        await reference.getByRole("button", { name: /Copy code|Code copied/ }).click();
+        await expect.poll(() => page.evaluate(() => navigator.clipboard.readText())).toBe(document);
+      }
+    }
+    const downloadEvent = page.waitForEvent("download");
+    await reference.getByRole("link", { name: "Download Markdown reference" }).click();
+    const download = await downloadEvent;
+    expect(download.suggestedFilename()).toBe(`${name}-package-reference.md`);
+    const stream = await download.createReadStream();
+    const chunks: Buffer[] = [];
+    for await (const chunk of stream!) chunks.push(chunk);
+    expect(Buffer.concat(chunks).toString("utf8")).toBe(document);
     await assertNoBlockingA11yViolations(page, `${name} package guide`, {
       include: ".package-guide",
     });

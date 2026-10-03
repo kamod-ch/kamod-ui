@@ -44,14 +44,14 @@ const endings = {
   },
   styles: {
     label: "Component styles",
-    title: "Carry those design decisions across your app",
+    title: "Apply the foundation to a copied layout",
     description:
-      "Move shared colors and surfaces into semantic tokens. Connect your stylesheet and theme preset so each composition stays consistent in light and dark mode.",
-    nextLabel: "Theming & Tailwind",
+      "Already have your shared theme configured? Check copied-source discovery, sidebar and popover surfaces, and the difference between showcase preferences and your application settings.",
+    nextLabel: "Theming blocks",
     nextPath: "/blocks/theming",
   },
   theming: {
-    label: "Theming & Tailwind",
+    label: "Theming blocks",
     title: "Put your theme to work in a complete layout",
     description:
       "Choose a block and try it with your app’s tokens, real content and both color schemes. Compare navigation, forms and content surfaces before refining the final details.",
@@ -60,22 +60,62 @@ const endings = {
   },
 };
 
-/** Suggests a contextual next step at the end of an overview or guide. */
+const sharedTheming = {
+  title: "Carry those design decisions across your app",
+  description:
+    "Start with the shared Theming & Tailwind reference for components and blocks. Connect Tailwind once, define semantic token pairs, choose a preset and configure Light, Dark or System. This is the place for global CSS, theme controls and first-render setup.",
+  nextLabel: "Theming & Tailwind",
+  nextPath: "/docs/theming/installation",
+};
+
+type NextStep = Pick<
+  (typeof endings)["styles"],
+  "title" | "description" | "nextLabel" | "nextPath"
+>;
+
+function NextStepSection({
+  content,
+  id,
+  eyebrow,
+}: {
+  content: NextStep;
+  id: string;
+  eyebrow: string;
+}) {
+  return (
+    <section class="blocks-page-ending-next" aria-labelledby={id}>
+      <div>
+        <p class="blocks-page-ending-eyebrow">{eyebrow}</p>
+        <p class="blocks-page-ending-title" id={id}>
+          {content.title}
+        </p>
+        <p class="blocks-page-ending-description">{content.description}</p>
+      </div>
+      <a class="blocks-page-ending-link" href={withBasePath(content.nextPath)}>
+        {content.nextLabel}
+        <ArrowRightIcon size={15} aria-hidden="true" />
+      </a>
+    </section>
+  );
+}
+
+/** Suggests contextual next steps; shared styling leads to the foundation before block-specific checks. */
 export function BlockPageEnding({ page }: { page: keyof typeof endings }) {
   const content = endings[page];
   return (
     <footer class="blocks-page-ending" aria-label={`${content.label} closing links`}>
-      <div class="blocks-page-ending-next">
-        <div>
-          <p class="blocks-page-ending-eyebrow">A useful next step</p>
-          <p class="blocks-page-ending-title">{content.title}</p>
-          <p class="blocks-page-ending-description">{content.description}</p>
-        </div>
-        <a class="blocks-page-ending-link" href={withBasePath(content.nextPath)}>
-          {content.nextLabel}
-          <ArrowRightIcon size={15} aria-hidden="true" />
-        </a>
-      </div>
+      {page === "styles" && (
+        <NextStepSection
+          content={sharedTheming}
+          id="styles-theme-foundation"
+          eyebrow="The shared foundation"
+        />
+      )}
+      <NextStepSection
+        content={content}
+        id={`${page}-next-step`}
+        eyebrow={page === "styles" ? "For complete layouts" : "A useful next step"}
+      />
     </footer>
   );
 }

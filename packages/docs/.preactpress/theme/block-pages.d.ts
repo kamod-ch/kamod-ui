@@ -12,3 +12,8 @@ declare module "virtual:kamod-block-guides" {
   const sources: Record<string, string>;
   export default sources;
 }
+
+declare module "virtual:kamod-theming-guide" {
+  const source: string;
+  export default source;
+}

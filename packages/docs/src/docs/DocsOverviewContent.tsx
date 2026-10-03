@@ -15,6 +15,7 @@ import { docsShowMotion } from "./docs-feature-flags";
 import { componentOverviewItems, motionOverviewItems } from "./registry";
 
 const showMotion = docsShowMotion && motionOverviewItems.length > 0;
+const title = "Components for flexible Preact interfaces";
 const contents = [
   { id: "library-items", label: "All components" },
   {
@@ -52,7 +53,9 @@ export const DocsOverviewContent = () => (
     sidebarScope="components"
     activeDoc={null}
     activeSection=""
-    pageContents={<BlockGuideContents id="components-overview-contents" sections={contents} />}
+    pageContents={
+      <BlockGuideContents id="components-overview-contents" sections={contents} pageTitle={title} />
+    }
     mainContent={
       <article
         class="block-guide library-directory docs-components-overview components-guide library-overview-guide"
@@ -63,7 +66,7 @@ export const DocsOverviewContent = () => (
           label="Components"
           eyebrow="Component library"
           focus="Choose · Compose · Refine"
-          title="Components for flexible Preact interfaces"
+          title={title}
           description={
             <>
               <p>
@@ -97,7 +100,12 @@ export const DocsOverviewContent = () => (
             </li>
           </LibraryJumpLinks>
         </LibraryPageHeader>
-        <BlockGuideContents id="components-overview-mobile-contents" sections={contents} mobile />
+        <BlockGuideContents
+          id="components-overview-mobile-contents"
+          sections={contents}
+          pageTitle={title}
+          mobile
+        />
         <div class="block-guide-documentation">
           <div class="blocks-doc-body">
             <LibraryGuideSection id="library-items" title="Find your next component">

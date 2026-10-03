@@ -88,6 +88,19 @@
   outline: 2px solid var(--ring);
   outline-offset: 2px;
 }
+.blocks-prompt-links a {
+  width: 2rem;
+  padding: 0;
+  background: color-mix(in oklab, var(--muted) 45%, var(--background));
+  color: var(--muted-foreground);
+}
+.blocks-prompt-links a:hover {
+  color: var(--foreground);
+}
+.blocks-prompt-intro:not(:has(.blocks-prompt-links)) {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "title" "description";
+}
 .blocks-prompt-workspace {
   border-top: 1px solid var(--showcase-border);
 }
@@ -114,13 +127,6 @@
 .blocks-prompt-options svg {
   flex-shrink: 0;
 }
-.blocks-prompt-source-count {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  color: var(--muted-foreground);
-  font-size: 0.6875rem;
-}
 .blocks-prompt-hint {
   padding: 0 1.25rem 1.25rem;
 }
@@ -128,7 +134,9 @@
   max-width: 120ch;
   font-size: 0.75rem;
 }
-.blocks-prompt-hint a {
+.blocks-prompt-intro p a,
+.blocks-prompt-hint a,
+.blocks-prompt-format a {
   color: var(--foreground);
   text-decoration: underline;
   text-underline-offset: 0.2em;
@@ -149,6 +157,21 @@
   background: color-mix(in oklab, var(--muted) 65%, var(--background));
   color: var(--muted-foreground);
   font-size: 0.6875rem;
+}
+.blocks-prompt-document-heading {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.375rem 0.625rem;
+  min-width: 0;
+}
+.blocks-prompt-document-heading > svg {
+  flex: none;
+}
+.blocks-prompt-format {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
 }
 .blocks-prompt-workspace h4 {
   margin: 0;
@@ -193,13 +216,16 @@
 @media (max-width: 979px) {
   .blocks-prompt-intro {
     grid-template-columns: minmax(0, 1fr);
-    grid-template-areas: "links" "title" "description";
+    grid-template-areas: "title" "description" "links";
   }
 }
 @media (max-width: 639px) {
   .blocks-source-setup,
   .blocks-prompt-links a {
     min-height: 2.5rem;
+  }
+  .blocks-prompt-links a {
+    width: 2.5rem;
   }
   .blocks-prompt-intro {
     padding: 1.25rem 1rem 1.5rem;
@@ -225,9 +251,6 @@
   }
   .blocks-prompt-hint {
     padding-inline: 1rem;
-  }
-  .blocks-prompt-format {
-    display: none;
   }
   .blocks-prompt-workspace .docs-code-toolbar {
     padding-inline: 1rem;

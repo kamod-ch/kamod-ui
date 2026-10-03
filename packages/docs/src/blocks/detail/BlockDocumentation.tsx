@@ -1,5 +1,7 @@
 import { type ComponentChildren, createContext } from "preact";
 import { useContext } from "preact/hooks";
+import { withBasePath } from "../../base-path";
+import { DocsSidebarNavigation } from "../../layout/navigation/DocsSidebarNavigation";
 import { BlockHeadingLink } from "../BlockHeadingLink";
 import type { BlockCategory } from "../block-categories";
 import { BlockGuideContents } from "./BlockGuideContents";
@@ -56,7 +58,7 @@ export function BlockDocSection({
   );
 }
 
-/** One responsive guide grid, native contents navigation and footer for every variant. */
+/** Navigation starts with the guide below the full-width showcase for every block variant. */
 export function BlockDocumentation({
   block,
   category,
@@ -72,6 +74,9 @@ export function BlockDocumentation({
   return (
     <GuideContext.Provider value={sections}>
       <section class="blocks-doc-guide" aria-label={`${block.title} documentation`}>
+        <aside class="docs-sidebar" aria-label="Documentation navigation">
+          <DocsSidebarNavigation pathname={withBasePath(`/blocks/${category}/${block.id}`)} />
+        </aside>
         <div class="blocks-detail-documentation">
           <BlockGuideContents block={block} sections={sections} id={contentsId} />
           <div class="blocks-doc-body">

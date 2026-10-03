@@ -106,7 +106,9 @@ export function ComponentOverviewGuide() {
                     {links.map(([name, slug], index) => (
                       <span key={slug}>
                         {index > 0 && " · "}
-                        <a href={withBasePath(`/docs/${slug}/installation`)}>{name}</a>
+                        <a href={withBasePath(`/docs/${slug}/installation`)}>
+                          <code>{name}</code>
+                        </a>
                       </span>
                     ))}
                   </td>

@@ -108,7 +108,7 @@ import "./app.css";
 render(<App />, document.getElementById("app")!);
 ```
 
-This entry example assumes your existing HTML mount element is `id="app"`. Reuse your own mount or hydration entry in an established app. For presets, dark mode, source detection and first-render troubleshooting, continue with [Theming & Tailwind](/blocks/theming).
+This entry example assumes your existing HTML mount element is `id="app"`. Reuse your own mount or hydration entry in an established app. For presets, dark mode, source detection and first-render troubleshooting, continue with [Theming & Tailwind](/docs/theming/installation).
 
 ## Render the block in an existing screen
 
@@ -190,4 +190,4 @@ Treat the copied source as application code. Give local changes a clear purpose,
 
 When updating from the repository, compare the new source with your local version rather than replacing the folder blindly. Preserve your routes, content and callbacks while reviewing changes to the supporting components. Re-run the interaction and theme checks affected by the update.
 
-Continue with [Component styles](/blocks/styles) for density, hierarchy and reusable treatments, or [Theming & Tailwind](/blocks/theming) for application-wide colors and runtime appearance. When a general guide and a variant differ in their local file shape, the variant’s current source and setup list are the more specific reference.
+Continue with [Component styles](/blocks/styles) for density, hierarchy and reusable treatments, or [Theming & Tailwind](/docs/theming/installation) for application-wide colors and runtime appearance. When a general guide and a variant differ in their local file shape, the variant’s current source and setup list are the more specific reference.

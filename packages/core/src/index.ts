@@ -417,6 +417,7 @@ export {
   treeVariants,
   useTreeNodeContext,
 } from "./components/tree";
+export { TypeDefinition, type TypeDefinitionProps } from "./components/type-definition";
 export type { TypographyVariants } from "./components/typography";
 export { Typography, typography } from "./components/typography";
 export { Video } from "./components/video";

@@ -86,3 +86,57 @@ it("only the visible contents restores hashes and cleans up queued work on unmou
     expect(removeWindow).toHaveBeenCalledWith(event, expect.any(Function));
   }
 });
+
+it("links a special page’s main title and restores its heading target", () => {
+  vi.stubGlobal("matchMedia", () => ({
+    matches: true,
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+  }));
+  const title = "From a block preview to your application";
+  const view = render(
+    <>
+      <h1 id="page-title">{title}</h1>
+      <BlockGuideContents id="guide-contents" pageTitle={title} sections={[]} />
+    </>,
+  );
+  const scroll = vi.fn();
+  document.getElementById("page-title")!.scrollIntoView = scroll;
+  expect(view.getByRole("link", { name: title }).getAttribute("href")).toBe("#page-title");
+  act(() => {
+    history.replaceState(null, "", "#page-title");
+    window.dispatchEvent(new HashChangeEvent("hashchange"));
+  });
+  expect(scroll).toHaveBeenCalledOnce();
+});
+
+it("reuses anchor style offsets while scrolling and refreshes them after resizing", () => {
+  vi.stubGlobal("matchMedia", () => ({
+    matches: true,
+    addEventListener() {},
+    removeEventListener() {},
+  }));
+  const styles = vi.spyOn(window, "getComputedStyle");
+  let scheduled: FrameRequestCallback | undefined;
+  vi.spyOn(window, "requestAnimationFrame").mockImplementation((callback) => {
+    scheduled = callback;
+    return 1;
+  });
+  render(
+    <>
+      <h2 id="usage">Usage</h2>
+      <BlockGuideContents id="contents" sections={[{ id: "usage", label: "Usage" }]} />
+    </>,
+  );
+  const initial = styles.mock.calls.length;
+  const dispatch = (event: string) =>
+    act(() => {
+      window.dispatchEvent(new Event(event));
+      scheduled?.(0);
+    });
+  dispatch("scroll");
+  dispatch("scroll");
+  expect(styles).toHaveBeenCalledTimes(initial);
+  dispatch("resize");
+  expect(styles.mock.calls.length).toBeGreaterThan(initial);
+});

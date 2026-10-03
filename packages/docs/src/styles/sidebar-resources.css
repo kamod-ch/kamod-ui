@@ -2,19 +2,15 @@
   outline-offset: -2px;
 }
 
+.docs-sidebar-repository {
+  background: color-mix(in oklab, var(--primary) 3%, transparent);
+}
+
 .docs-sidebar-resources {
   flex: none;
   margin-top: 0.75rem;
   padding-top: 0.875rem;
   border-top: 1px solid var(--border);
-}
-.docs-sidebar-resources-label {
-  margin: 0 0 0.375rem;
-  padding-inline: 0.5rem;
-  color: var(--muted-foreground);
-  font-size: 0.6875rem;
-  font-weight: 500;
-  letter-spacing: 0.025em;
 }
 .docs-sidebar-repository {
   display: flex;
@@ -65,7 +61,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 0.125rem;
-  margin-top: 0.375rem;
+  margin-top: 0.625rem;
   color: var(--muted-foreground);
 }
 .docs-sidebar-resource-actions > a {
@@ -78,6 +74,7 @@
   color: var(--muted-foreground);
 }
 .docs-sidebar-resource-actions > a:hover {
+  background: var(--navigation-group-hover-background);
   color: var(--foreground);
 }
 @media (prefers-reduced-motion: reduce) {

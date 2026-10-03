@@ -28,9 +28,10 @@ const nextSteps = {
     outcome: "A consistent layout that keeps the original keyboard and responsive behavior.",
   },
   theming: {
-    title: "Connect the visual foundation",
-    task: "Check your global stylesheet, source discovery and semantic color pairs.",
-    outcome: "Shared surfaces and controls that work across presets and both color schemes.",
+    title: "Apply the theme to a complete layout",
+    task: "Check copied-source discovery, sidebar surfaces and overlays against your existing app theme.",
+    outcome:
+      "An integrated block that follows the same appearance preferences as the rest of your app.",
   },
 };
 

@@ -6,6 +6,8 @@ import tailwindcss from "@tailwindcss/vite";
 import type { Connect } from "vite";
 import { blockDownloadsPlugin } from "./block-downloads-plugin";
 import { blockPagesPlugin } from "./block-pages-plugin";
+import { componentApiPlugin } from "./component-api-plugin";
+import { componentPreviewPlugin } from "./component-preview-plugin";
 
 const configDir = import.meta.dirname;
 const docsRoot = resolve(configDir, "..");
@@ -65,6 +67,8 @@ export default defineConfig({
   vite: {
     plugins: [
       blockPagesPlugin(),
+      componentApiPlugin(),
+      componentPreviewPlugin(),
       blockDownloadsPlugin(),
       {
         name: "kamod-ui-favicon-dev",
@@ -283,34 +287,8 @@ export default defineConfig({
         "preact-render-to-string",
       ],
     },
-    build: {
-      rollupOptions: {
-        output: {
-          manualChunks(id) {
-            if (id.includes("/src/docs/pages/")) {
-              const fileName = id.split("/").at(-1) ?? "";
-              const firstChar = fileName[0]?.toLowerCase() ?? "z";
-
-              if (firstChar <= "b") return "docs-pages-a-b";
-              if (firstChar <= "d") return "docs-pages-c-d";
-              if (firstChar <= "g") return "docs-pages-e-g";
-              if (firstChar <= "k") return "docs-pages-h-k";
-              if (firstChar <= "m") return "docs-pages-l-m";
-              if (firstChar <= "p") return "docs-pages-n-p";
-              if (firstChar <= "s") return "docs-pages-q-s";
-              return "docs-pages-t-z";
-            }
-            if (id.includes("/packages/core/src/")) return "kamod-core";
-            if (id.includes("/prismjs/")) return "prismjs";
-            if (id.includes("/lucide-preact/")) {
-              return "icons";
-            }
-            if (id.includes("/node_modules/")) return "vendor";
-            return undefined;
-          },
-        },
-      },
-    },
+    // Let the bundler isolate shared modules. Alphabetic/manual vendor groups made
+    // the small preview entry import the main documentation application again.
   },
   transformHtml(html) {
     const withAssets = prefixSubpathAssetUrls(fixDevClientModule(html));

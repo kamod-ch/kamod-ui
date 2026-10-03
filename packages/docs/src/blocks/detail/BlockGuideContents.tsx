@@ -1,6 +1,10 @@
 /** Shared native contents links, active reading position and history restoration. */
 import { useEffect, useState } from "preact/hooks";
+import { useRightSidebarScroll } from "../../layout/navigation/right-sidebar-memory";
 import type { BlockGuideIdentity, BlockGuideSection } from "./types";
+
+type OverviewChild = { id: string; label: string };
+const noOverviewChildren: readonly OverviewChild[] = [];
 
 type ContentsSection = Pick<BlockGuideSection, "id" | "label" | "children">;
 
@@ -9,14 +13,16 @@ const useActiveHeading = (
   blockId: string | undefined,
   sections: readonly ContentsSection[],
   mobile: boolean,
+  overviewId: string,
+  overviewChildren: readonly OverviewChild[],
 ) => {
-  const overviewId = blockId ? `${blockId}-overview` : "top";
   const [activeId, setActiveId] = useState<string>(overviewId);
 
   useEffect(() => {
     const ids = [
       overviewId,
       ...(blockId ? [blockId] : []),
+      ...overviewChildren.map(({ id }) => id),
       ...sections.flatMap((entry) => [entry.id, ...(entry.children?.map(({ id }) => id) ?? [])]),
     ];
     const headings = ids
@@ -26,13 +32,23 @@ const useActiveHeading = (
     const desktop = window.matchMedia("(min-width: 1260px)");
     const visible = () => desktop.matches !== mobile;
     let frame = 0;
+    let offsets: number[] | undefined;
     const update = () => {
       frame = 0;
       if (!visible()) return;
       const readingLine = (topbar?.getBoundingClientRect().height ?? 64) + 48;
+      if (!offsets) {
+        const padding =
+          Number.parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
+        // Anchor styles only change with layout breakpoints, not on every scroll frame.
+        offsets = headings.map(
+          (heading) =>
+            padding + (Number.parseFloat(getComputedStyle(heading).scrollMarginTop) || 0),
+        );
+      }
       let current = overviewId;
-      for (const heading of headings) {
-        if (heading.getBoundingClientRect().top > readingLine) break;
+      for (const [index, heading] of headings.entries()) {
+        if (heading.getBoundingClientRect().top > Math.max(readingLine, offsets[index]) + 1) break;
         current = heading.id;
       }
       // A short final section may never reach the reading line before the page ends.
@@ -43,6 +59,10 @@ const useActiveHeading = (
     };
     const schedule = () => {
       if (visible() && !frame) frame = window.requestAnimationFrame(update);
+    };
+    const resize = () => {
+      offsets = undefined;
+      schedule();
     };
     const restoreHash = () => {
       // Guides have two instances; block details have one that also restores mobile history.
@@ -58,17 +78,17 @@ const useActiveHeading = (
     };
     update();
     window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", schedule);
+    window.addEventListener("resize", resize);
     window.addEventListener("hashchange", restoreHash);
-    desktop.addEventListener("change", schedule);
+    desktop.addEventListener("change", resize);
     return () => {
       window.cancelAnimationFrame(frame);
       window.removeEventListener("scroll", schedule);
-      window.removeEventListener("resize", schedule);
+      window.removeEventListener("resize", resize);
       window.removeEventListener("hashchange", restoreHash);
-      desktop.removeEventListener("change", schedule);
+      desktop.removeEventListener("change", resize);
     };
-  }, [blockId, overviewId, sections, mobile]);
+  }, [blockId, overviewId, overviewChildren, sections, mobile]);
 
   return activeId;
 };
@@ -79,21 +99,45 @@ export const BlockGuideContents = ({
   sections,
   id,
   mobile = false,
+  pageTitle,
+  overviewChildren = noOverviewChildren,
 }: {
   block?: BlockGuideIdentity;
+  /** Use a guide’s visible main heading as its first contents entry. */
+  pageTitle?: string;
+  /** Optional destinations within the opening overview, such as a component preview. */
+  overviewChildren?: readonly OverviewChild[];
   id: string;
   sections: readonly ContentsSection[];
   /** Render the same section tree as an inline disclosure instead of a desktop sidebar. */
   mobile?: boolean;
 }) => {
-  const overviewId = block ? `${block.id}-overview` : "top";
-  const activeId = useActiveHeading(block?.id, sections, mobile);
+  const contentsRef = useRightSidebarScroll<HTMLElement>("block-contents", !mobile);
+  const overviewId = block ? `${block.id}-overview` : pageTitle ? "page-title" : "top";
+  const activeId = useActiveHeading(block?.id, sections, mobile, overviewId, overviewChildren);
   const links = () => (
     <ul>
       <li>
-        <a href="#top" aria-current={activeId === overviewId ? "location" : undefined}>
-          Overview
+        <a
+          href={pageTitle && !block ? "#page-title" : "#top"}
+          aria-current={activeId === overviewId ? "location" : undefined}
+        >
+          {pageTitle ?? "Overview"}
         </a>
+        {!!overviewChildren.length && (
+          <ul>
+            {overviewChildren.map((child) => (
+              <li key={child.id}>
+                <a
+                  href={`#${child.id}`}
+                  aria-current={activeId === child.id ? "location" : undefined}
+                >
+                  {child.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
         {block && (
           <ul>
             <li>
@@ -140,7 +184,7 @@ export const BlockGuideContents = ({
     </details>
   ) : (
     <aside class="blocks-doc-toc">
-      <nav aria-labelledby={id}>
+      <nav aria-labelledby={id} ref={contentsRef}>
         <h2 id={id}>On this page</h2>
         {links()}
       </nav>

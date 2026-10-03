@@ -310,6 +310,10 @@
   margin-inline-start: auto;
 }
 
+.blocks-variant-header .blocks-page-header-summary {
+  align-items: center;
+}
+
 .blocks-overview-summary-separator {
   align-self: center;
   color: var(--muted-foreground);

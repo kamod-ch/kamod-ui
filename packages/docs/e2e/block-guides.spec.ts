@@ -68,7 +68,6 @@ for (const guide of blockGuides) {
     await expect(
       sidebar.getByRole("button", { name: /^Blocks Layout collections/ }),
     ).toHaveAttribute("aria-expanded", "true");
-    const intro = sidebar.locator(".site-navigation-link-overview");
     const blockGroup = sidebar
       .locator(".site-navigation-group")
       .filter({ has: page.getByRole("button", { name: /^Blocks Layout collections/ }) });
@@ -79,7 +78,10 @@ for (const guide of blockGuides) {
       "Blocks overview",
       ...blockGuides.map(({ label }) => label),
     ]);
-    await expect(intro.filter({ hasText: guide.label })).toHaveAttribute("aria-current", "page");
+    await expect(blockGroup.getByRole("link", { name: guide.label, exact: true })).toHaveAttribute(
+      "aria-current",
+      "page",
+    );
     const targets = await page
       .locator(".blocks-doc-toc a")
       .evaluateAll((links) => links.map((link) => link.getAttribute("href")));
@@ -96,10 +98,13 @@ for (const guide of blockGuides) {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.getByRole("button", { name: "Open navigation menu" }).click();
     const panel = page.locator(".site-navigation-panel");
-    const active = panel.getByRole("link", { name: guide.label, exact: true });
+    const mobileBlockGroup = panel.locator(".site-navigation-group").filter({
+      has: page.getByRole("button", { name: /^Blocks Layout collections/ }),
+    });
+    const active = mobileBlockGroup.getByRole("link", { name: guide.label, exact: true });
     await expect(active).toHaveAttribute("aria-current", "page");
     const next = blockGuides.find(({ slug }) => slug !== guide.slug)!;
-    await panel.getByRole("link", { name: next.label, exact: true }).click();
+    await mobileBlockGroup.getByRole("link", { name: next.label, exact: true }).click();
     await expect(page.getByRole("heading", { level: 1, name: next.title })).toBeVisible();
     await expect(panel).toBeHidden();
   });

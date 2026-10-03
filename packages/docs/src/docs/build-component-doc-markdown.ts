@@ -1,3 +1,7 @@
+import {
+  accessibilitySections,
+  componentAccessibility,
+} from "./components/component-detail/accessibility";
 import type { DocSection } from "./types";
 
 /** Builds a Markdown outline from doc metadata (title, install command, section headings and blurbs). */
@@ -5,6 +9,7 @@ export function buildComponentDocMarkdown(
   title: string,
   command: string,
   sections: DocSection[],
+  slug?: string,
 ): string {
   const parts: string[] = [
     `# ${title}`,
@@ -14,6 +19,25 @@ export function buildComponentDocMarkdown(
   ];
 
   for (const section of sections) {
+    const accessibility =
+      slug && section.id === "accessibility" ? componentAccessibility(slug) : undefined;
+    if (accessibility) {
+      parts.push("## Accessibility", "");
+      for (const { id, label, text } of accessibilitySections(accessibility)) {
+        parts.push(`### ${label}`, "", text, "");
+        if (id === "accessibility-naming" && accessibility.example) {
+          const { title, note, code } = accessibility.example;
+          parts.push(`**${title}.** ${note}`, "", "```tsx", code, "```", "");
+        }
+      }
+      parts.push(
+        "### Verify the complete interaction",
+        "",
+        ...accessibility.checks.map((check, index) => `${index + 1}. ${check}`),
+        "",
+      );
+      continue;
+    }
     parts.push(`## ${section.title}`, "");
     if (section.id === "installation") {
       parts.push("```bash", command, "```", "");

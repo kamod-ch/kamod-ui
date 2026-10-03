@@ -197,4 +197,4 @@ Comment on a non-obvious layout constraint or integration decision, rather than 
 
 Compare the adapted screen with the original preview to understand intentional differences, then judge it with your real content and workflow. The goal is a coherent application, not an exact screenshot match after its requirements have changed.
 
-Return to [Getting started](/blocks/getting-started#verify-the-first-real-render) for integration checks, or continue to [Theming & Tailwind](/blocks/theming) when the change should apply across every block. The [component references](/docs/components) remain the authority for individual variants, props and interaction contracts.
+Return to [Getting started](/blocks/getting-started#verify-the-first-real-render) for integration checks, or continue to [Theming & Tailwind](/docs/theming/installation) when the change should apply across every block. The [component references](/docs/components) remain the authority for individual variants, props and interaction contracts.

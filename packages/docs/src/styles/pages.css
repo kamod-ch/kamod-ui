@@ -755,7 +755,7 @@ a.docs-component-item:hover {
   font-style: italic;
 }
 
-.docs-section table {
+.docs-section table:not(:where(.blocks-doc-table *)) {
   width: 100%;
   margin: 1rem 0 1.2rem;
   border-collapse: collapse;
@@ -764,14 +764,14 @@ a.docs-component-item:hover {
   overflow: hidden;
 }
 
-.docs-section th,
-.docs-section td {
+.docs-section th:not(:where(.blocks-doc-table *)),
+.docs-section td:not(:where(.blocks-doc-table *)) {
   padding: 0.62rem 0.78rem;
   text-align: left;
   border-bottom: 1px solid var(--border);
 }
 
-.docs-section th {
+.docs-section th:not(:where(.blocks-doc-table *)) {
   background: color-mix(in oklab, var(--muted) 62%, var(--card));
   color: var(--muted-foreground);
   font-size: 0.78rem;

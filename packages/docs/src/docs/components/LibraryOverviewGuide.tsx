@@ -32,7 +32,13 @@ export function LibraryOverviewGuide({
       sidebarScope={scope}
       activeDoc={null}
       activeSection=""
-      pageContents={<BlockGuideContents id={`${scope}-overview-contents`} sections={contents} />}
+      pageContents={
+        <BlockGuideContents
+          id={`${scope}-overview-contents`}
+          sections={contents}
+          pageTitle={title}
+        />
+      }
       mainContent={
         <article
           class={`block-guide library-directory library-overview-guide docs-${scope}-overview`}
@@ -54,7 +60,12 @@ export function LibraryOverviewGuide({
               ))}
             </LibraryJumpLinks>
           </LibraryPageHeader>
-          <BlockGuideContents id={`${scope}-overview-mobile-contents`} sections={contents} mobile />
+          <BlockGuideContents
+            id={`${scope}-overview-mobile-contents`}
+            sections={contents}
+            pageTitle={title}
+            mobile
+          />
           <div class="block-guide-documentation">
             <div class="blocks-doc-body">
               {children}

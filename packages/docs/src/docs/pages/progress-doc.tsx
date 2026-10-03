@@ -164,11 +164,41 @@ export const Example = () => (
     },
   ],
   apiRows: [
-    { prop: "value", type: "number | null", defaultValue: "0" },
-    { prop: "max", type: "number", defaultValue: "100" },
-    { prop: "indeterminate", type: "boolean", defaultValue: "undefined" },
-    { prop: "class", type: "string", defaultValue: "undefined" },
-    { prop: "indicatorClass", type: "string", defaultValue: "undefined" },
+    {
+      prop: "value",
+      type: "number | null",
+      defaultValue: "0",
+      description:
+        "Measured completion, clamped between zero and max. Pass null for an indeterminate bar when the total duration is unknown; your task remains responsible for updating this value.",
+    },
+    {
+      prop: "max",
+      type: "number",
+      defaultValue: "100",
+      description:
+        "Positive total used to calculate the filled fraction and accessible maximum. Values at or below zero fall back to 100. Use the same unit for value and max, such as completed files and total files.",
+    },
+    {
+      prop: "indeterminate",
+      type: "boolean",
+      defaultValue: "undefined",
+      description:
+        "Forces the animated unknown-duration state, regardless of value. The bar omits aria-valuenow in this mode; provide a label that explains the ongoing operation.",
+    },
+    {
+      prop: "class",
+      type: "string",
+      defaultValue: "undefined",
+      description:
+        "Additional classes on the outer progress track. Use this for width or local sizing while keeping the surrounding label and status message in your composition.",
+    },
+    {
+      prop: "indicatorClass",
+      type: "string",
+      defaultValue: "undefined",
+      description:
+        "Additional classes on the inner indicator in both determinate and indeterminate modes. Prefer semantic theme colors and preserve the animation and reduced-motion behavior.",
+    },
   ],
   accessibilityText:
     "For determinate bars, pair with a visible label or aria-label. Indeterminate mode omits aria-valuenow and sets aria-valuetext (override via props). Prefer reduced-motion: animation stops when the user requests it.",
