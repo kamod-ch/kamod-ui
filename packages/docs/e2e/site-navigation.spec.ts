@@ -200,9 +200,7 @@ for (const scheme of ["light", "dark"] as const) {
       expect(await panel.evaluate((element) => element.scrollWidth <= element.clientWidth)).toBe(
         true,
       );
-      await expect(
-        panel.getByRole("link", { name: "Kamod UI repository on GitHub" }),
-      ).toBeInViewport();
+      await expect(panel.locator(".site-navigation-project")).toBeInViewport();
       await expect(panel.getByRole("link", { name: "Sidebar", exact: true })).toHaveAttribute(
         "aria-current",
         "location",
@@ -242,17 +240,10 @@ test("collection navigation, keyboard focus and theme picker", async ({ page, br
   await assertNoBlockingA11yViolations(page, "Collection navigation", {
     include: ".site-navigation-panel",
   });
-  const last = panel.getByRole("button", { name: "Choose color theme" });
+  const last = panel.locator(".site-navigation-footer-actions .docs-topbar-github");
   await last.focus();
   await page.keyboard.press(forwardTabKey(browserName));
   await expect(panel.getByRole("button", { name: "Close navigation menu" })).toBeFocused();
-  await panel.getByRole("button", { name: "Choose color theme" }).click();
-  const themes = panel.getByRole("group", { name: "Site color theme" });
-  await themes.getByRole("button", { name: "Professional (Electronics)", exact: true }).click();
-  await expect(
-    themes.getByRole("button", { name: "Professional (Electronics)", exact: true }),
-  ).toHaveAttribute("aria-pressed", "true");
-  await panel.getByRole("button", { name: "Choose color theme" }).click();
   await panel.getByRole("link", { name: "Sidebar", exact: true }).click();
   await expect(page).toHaveURL(/\/blocks\/sidebar\/?$/);
   await expect(panel).toBeHidden();
@@ -260,6 +251,19 @@ test("collection navigation, keyboard focus and theme picker", async ({ page, br
   await panel.getByRole("button", { name: "Close navigation menu" }).click();
   await expect(trigger).toBeFocused();
   await expect(page.locator("html")).not.toHaveAttribute("data-kamod-scroll-lock", "");
+  const palette = page
+    .locator(".docs-topbar")
+    .getByRole("button", { name: "Choose color theme" })
+    .filter({ visible: true });
+  await palette.click();
+  const themes = page.getByRole("group", { name: "Site color theme" });
+  const professional = themes.getByRole("button", {
+    name: "Professional (Electronics)",
+    exact: true,
+  });
+  await professional.click();
+  await expect(professional).toHaveAttribute("aria-pressed", "true");
+  await palette.click();
 });
 
 test("navbar controls share one row and theme menus fit short screens", async ({ page }) => {
@@ -292,7 +296,11 @@ test("navbar controls share one row and theme menus fit short screens", async ({
       expect(box.height).toBe(width < 980 ? 40 : 36);
       expect(box.y).toBeCloseTo(boxes[0].y, 0);
     }
-    if (width < 980) await page.getByRole("button", { name: "Open navigation menu" }).click();
+    if (width < 980) await expect(topbar.locator(".docs-topbar-github")).toBeHidden();
+    else await expect(topbar.locator(".docs-topbar-github")).toBeVisible();
+    if (width < 980) {
+      await expect(controls.last()).toHaveAttribute("aria-label", "Choose color theme");
+    }
     await page
       .getByRole("button", { name: "Choose color theme" })
       .filter({ visible: true })

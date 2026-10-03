@@ -655,10 +655,21 @@ html {
   }
 }
 
+.docs-desktop-github {
+  display: inline-flex;
+}
+.docs-mobile-theme-picker {
+  display: none;
+}
+
 /* One compact row keeps the menu, brand and site actions together on phones. */
 @media (max-width: 979px) {
-  .docs-desktop-theme-picker {
+  .docs-desktop-theme-picker,
+  .docs-desktop-github {
     display: none;
+  }
+  .docs-mobile-theme-picker {
+    display: inline-flex;
   }
   .docs-topbar-inner {
     gap: 0.5rem;
