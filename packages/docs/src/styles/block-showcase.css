@@ -26,7 +26,7 @@
 .blocks-showcase-tabs > [data-slot="tabs-content"] {
   margin: 0;
   padding: 0;
-  /* The showcase owns the frame; a nested panel border would restore the toolbar divider. */
+  /* The frame and toolbar own the borders; keep tab panels from doubling them. */
   border: 0;
   border-radius: 0;
   background: transparent;
@@ -41,7 +41,7 @@
   flex-wrap: wrap;
   gap: 0.625rem 1.5rem;
   padding: 0.75rem var(--showcase-control-inset, 1rem);
-  border-bottom: 0;
+  border-bottom: 1px solid var(--showcase-border);
   border-radius: calc(var(--showcase-radius) - 1px) calc(var(--showcase-radius) - 1px) 0 0;
   /* The containing card supplies the matching top rule, without a double border. */
   background: var(--background);
@@ -277,6 +277,27 @@
 }
 .showcase-heading > span:last-child {
   white-space: nowrap;
+}
+
+/* Reduce supporting text by the row's available width, keeping navigation on one line. */
+.blocks-variant-header .blocks-page-header-summary {
+  container: showcase-summary / inline-size;
+  flex-wrap: nowrap;
+}
+.blocks-variant-header .showcase-heading {
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+}
+@container showcase-summary (max-width: 40rem) {
+  .showcase-heading > span {
+    display: none;
+  }
+}
+@container showcase-summary (max-width: 27rem) {
+  .blocks-overview-count,
+  .blocks-overview-summary-separator {
+    display: none;
+  }
 }
 
 @media (min-width: 980px) {
