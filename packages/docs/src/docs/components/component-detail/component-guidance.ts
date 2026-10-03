@@ -9,6 +9,22 @@ export type ComponentGuidance = {
 
 const families: { slugs: string[]; guide: ComponentGuidance }[] = [
   {
+    slugs: ["type-definition"],
+    guide: {
+      family: "Reference & disclosure",
+      purpose:
+        "Separate a contract’s purpose from its implementation details. Keep the summary readable and reveal complete source only when the reader needs it.",
+      integration:
+        "Use title for the purpose and typeName for the exact identifier. Keep required-field metadata tied to the real declaration. Supply code rendering as children, and let one parent own open state when links or search results must reveal a definition.",
+      checks: [
+        "Open and close with Enter and Space; confirm hidden source and copy actions leave the tab order.",
+        "Try long type names and rich metadata at narrow widths in both themes without clipping the heading or focus ring.",
+        "Verify external reveal actions update the same open state, and use unique headingId values for permalink targets.",
+      ],
+      related: ["collapsible", "accordion", "badge"],
+    },
+  },
+  {
     slugs: ["formisch"],
     guide: {
       family: "Forms & validation",

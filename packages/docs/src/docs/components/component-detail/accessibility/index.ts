@@ -4,6 +4,7 @@ import { inputAccessibility } from "./inputs";
 import { navigationAccessibility } from "./navigation";
 import { overlayAccessibility } from "./overlays";
 import { presentationAccessibility } from "./presentation";
+import { typeDefinitionAccessibility } from "./type-definition";
 import type { AccessibilityProfile, AccessibilityProfiles } from "./types";
 
 const profiles: AccessibilityProfiles = {
@@ -13,6 +14,7 @@ const profiles: AccessibilityProfiles = {
   ...feedbackAccessibility,
   ...presentationAccessibility,
   formisch: formischAccessibility,
+  "type-definition": typeDefinitionAccessibility,
 };
 
 /** Undefined deliberately retains the existing section for other documentation families. */

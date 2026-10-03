@@ -126,6 +126,23 @@ export function ComponentReferences({ doc }: { doc: DocPageModule }) {
             </>
           ) : (
             <>
+              {doc.slug === "type-definition" && (
+                <p>
+                  <strong>Developed for Kamod’s API documentation.</strong> This card extracts the
+                  shared reference presentation used by the{" "}
+                  <a
+                    href={withBasePath(
+                      "/blocks/application-shell/application-shell-1#application-shell-type-ApplicationShellBrand",
+                    )}
+                  >
+                    Application Shell guide
+                  </a>
+                  . It composes{" "}
+                  <a href={withBasePath("/docs/collapsible/installation")}>Collapsible</a>
+                  with named summary slots; source parsing and permalink behavior stay in the
+                  documentation layer.
+                </p>
+              )}
               <p>
                 Start with the <a href={withBasePath("/blocks/styles")}>component styles guide</a>{" "}
                 to choose a clear hierarchy and consistent spacing. Keep the same treatment for

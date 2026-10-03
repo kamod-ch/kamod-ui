@@ -253,7 +253,7 @@
 .block-guide-description code,
 .package-guide-resources > code,
 .blocks-doc-section
-  code:not(pre code, .blocks-api-type-name, .docs-code-file-path):not(
+  code:not(pre code, [data-slot="type-definition-name"], .docs-code-file-path):not(
     :where(.component-example-canvas *)
   ),
 .blocks-showcase-prompt :is(p, li) code:not(pre code) {

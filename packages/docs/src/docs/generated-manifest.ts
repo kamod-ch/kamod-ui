@@ -1134,6 +1134,19 @@ export const docsRouteManifest = [
     ],
   },
   {
+    slug: "type-definition",
+    sections: [
+      "installation",
+      "usage",
+      "basic-definition",
+      "rich-definition",
+      "controlled-definition",
+      "compact-definition",
+      "api-reference",
+      "accessibility",
+    ],
+  },
+  {
     slug: "typography",
     sections: [
       "installation",
