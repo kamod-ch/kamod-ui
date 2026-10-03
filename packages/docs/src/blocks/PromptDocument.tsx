@@ -1,4 +1,5 @@
 import { FileTextIcon } from "@kamod-ch/icons/lucide";
+import type { ComponentChildren } from "preact";
 import { lazy, Suspense } from "preact/compat";
 import { CodeBlock } from "../docs/components/CodeBlock";
 import type { BlockPromptMode } from "./block-prompts";
@@ -16,7 +17,8 @@ export function PromptDocument({
   prompt: string;
   mode: BlockPromptMode;
   display: PromptDisplay;
-  sourceLabel?: string;
+  /** Optional source metadata or source-browser link beside the prompt title. */
+  sourceLabel?: ComponentChildren;
 }) {
   return (
     <CodeBlock
@@ -24,11 +26,16 @@ export function PromptDocument({
       code={prompt}
       language={display === "code" ? "markdown" : "text"}
       toolbarContent={
-        <>
+        <div class="blocks-prompt-document-heading">
           <FileTextIcon size={16} strokeWidth={2} aria-hidden="true" />
           <h4>{mode === "setup" ? "Setup prompt" : "Adaptation prompt"}</h4>
-          <span class="blocks-prompt-format">{sourceLabel}</span>
-        </>
+          {sourceLabel && (
+            <span class="blocks-prompt-format">
+              <span aria-hidden="true">·</span>
+              {sourceLabel}
+            </span>
+          )}
+        </div>
       }
       className="blocks-showcase-prompt-code"
       renderedContent={

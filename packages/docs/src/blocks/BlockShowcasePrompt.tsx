@@ -1,6 +1,7 @@
-import { ArrowUpRightIcon, BookOpenIcon, FileCodeIcon, SparklesIcon } from "@kamod-ch/icons/lucide";
+import { SparklesIcon } from "@kamod-ch/icons/lucide";
 import { Button } from "@kamod-ch/ui";
 import { useMemo } from "preact/hooks";
+import { BlockPromptLinks } from "./BlockPromptLinks";
 import type { ShowcaseBlock } from "./BlockShowcase";
 import type { BlockSourceLoader } from "./BlockSourceFiles";
 import { getBlockDisplayName } from "./block-overview-details";
@@ -45,22 +46,16 @@ export function BlockShowcasePrompt({
             <span aria-hidden="true">·</span>Build with your assistant
           </span>
         </div>
-        <nav class="blocks-prompt-links" aria-label="Prompt references">
-          <ShowcaseCodeLink blockId={block.id}>
-            <FileCodeIcon size={15} aria-hidden="true" /> Source files{" "}
-            <ArrowUpRightIcon size={12} aria-hidden="true" />
-          </ShowcaseCodeLink>
-          <a href={`#${setupId}-installation`}>
-            <BookOpenIcon size={15} aria-hidden="true" /> Setup guide{" "}
-            <ArrowUpRightIcon size={12} aria-hidden="true" />
-          </a>
-        </nav>
+        <BlockPromptLinks block={block} />
         <p>
           Bring <strong>{getBlockDisplayName(block.title)}</strong> into your app with a
-          ready-to-copy brief. Start with <strong>setup and integration</strong>, or describe a
-          focused change to an existing block. Both prompts include the actual <code>Preact</code>{" "}
-          source, destination paths and checks to keep the result consistent with your project’s{" "}
-          <code>TypeScript</code> setup and existing conventions.
+          ready-to-copy brief. Start with{" "}
+          <a href={`#${setupId}-installation`}>
+            <strong>setup and integration</strong>
+          </a>
+          , or describe a focused change to an existing block. Both prompts include the actual{" "}
+          <code>Preact</code> source, destination paths and checks to keep the result consistent
+          with your project’s <code>TypeScript</code> setup and existing conventions.
         </p>
       </div>
       <section class="blocks-prompt-workspace" aria-label="Block prompt">
@@ -71,10 +66,6 @@ export function BlockShowcasePrompt({
             display={display}
             onDisplayChange={onDisplayChange}
           />
-          <span class="blocks-prompt-source-count">
-            <FileCodeIcon size={13} aria-hidden="true" />
-            {block.files.length} source files included
-          </span>
         </div>
         <div class="blocks-prompt-hint">
           <p>
@@ -98,7 +89,6 @@ export function BlockShowcasePrompt({
               </>
             )}
           </p>
-          <span>No assistant-specific setup required</span>
         </div>
         {result?.error ? (
           <div class="blocks-prompt-state" role="alert">
@@ -108,7 +98,16 @@ export function BlockShowcasePrompt({
             </Button>
           </div>
         ) : result?.sources ? (
-          <PromptDocument prompt={prompt} mode={mode} display={display} />
+          <PromptDocument
+            prompt={prompt}
+            mode={mode}
+            display={display}
+            sourceLabel={
+              <ShowcaseCodeLink blockId={block.id}>
+                {block.files.length} source {block.files.length === 1 ? "file" : "files"} included
+              </ShowcaseCodeLink>
+            }
+          />
         ) : (
           <p class="blocks-prompt-state" role="status">
             Preparing prompt and source files…

@@ -20,8 +20,22 @@ for (const slug of ["accordion", "tabs", "video", "formisch"]) {
       const example = examples.nth(index);
       await example.getByRole("tab", { name: "Code", exact: true }).click();
       const source = await example.locator("pre code").innerText();
+      const controls = example.getByRole("group", { name: "Source controls" });
+      await expect(controls).toBeVisible();
+      await expect(
+        example.locator(".blocks-source-file-heading .docs-code-file-path"),
+      ).toHaveAttribute("title", /^src\//);
+      await controls.getByRole("button", { name: "Copy code", exact: true }).click();
+      await expect.poll(() => page.evaluate(() => navigator.clipboard.readText())).toBe(source);
+      await controls.getByRole("button", { name: "Wrap code lines" }).click();
+      await expect(example.locator("pre code")).toHaveCSS("white-space", "pre-wrap");
       await example.getByRole("tab", { name: "Prompt", exact: true }).click();
       await expect(example.locator("pre code")).toContainText(source);
+      await expect(
+        example.getByRole("link", { name: "setup and integration", exact: true }),
+      ).toHaveAttribute("href", "#installation");
+      await expect(example.getByRole("navigation", { name: "Prompt references" })).toHaveCount(0);
+      await expect(example.getByText("Example snippet included", { exact: true })).toHaveCount(0);
       await example.getByRole("button", { name: "Adapt example", exact: true }).click();
       const prompt = await example.locator("pre code").innerText();
       expect(prompt).toContain("[describe the outcome]");

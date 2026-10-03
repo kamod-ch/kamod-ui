@@ -1,4 +1,4 @@
-import { ArrowUpRightIcon, BookOpenIcon, FileCodeIcon, SparklesIcon } from "@kamod-ch/icons/lucide";
+import { SparklesIcon } from "@kamod-ch/icons/lucide";
 import { useMemo, useState } from "preact/hooks";
 import type { BlockPromptMode } from "../../../blocks/block-prompts";
 import { type PromptDisplay, PromptDocument } from "../../../blocks/PromptDocument";
@@ -25,23 +25,15 @@ export function ComponentExamplePrompt({ context }: { context: ComponentPromptCo
             <span aria-hidden="true">·</span>Build with your assistant
           </span>
         </div>
-        <nav class="blocks-prompt-links" aria-label="Prompt references">
-          <a href={context.sourceUrl} target="_blank" rel="noreferrer">
-            <FileCodeIcon size={15} aria-hidden="true" />
-            Source reference
-            <ArrowUpRightIcon size={12} aria-hidden="true" />
-          </a>
-          <a href="#installation">
-            <BookOpenIcon size={15} aria-hidden="true" />
-            Setup guide
-            <ArrowUpRightIcon size={12} aria-hidden="true" />
-          </a>
-        </nav>
         <p>
           Bring <strong>{context.title}</strong> into your app with a ready-to-copy brief. Start
-          with <strong>setup and integration</strong>, or describe a focused change to an existing
-          example. Both prompts include this example’s <code>Preact</code> snippet, a suggested file
-          path and checks for your project’s <code>TypeScript</code> setup.
+          with{" "}
+          <a href="#installation">
+            <strong>setup and integration</strong>
+          </a>
+          , or describe a focused change to an existing example. Both prompts include this example’s{" "}
+          <code>Preact</code> snippet, a suggested file path and checks for your project’s{" "}
+          <code>TypeScript</code> setup.
         </p>
       </div>
       <section class="blocks-prompt-workspace" aria-label="Component example prompt">
@@ -53,10 +45,6 @@ export function ComponentExamplePrompt({ context }: { context: ComponentPromptCo
             onDisplayChange={setDisplay}
             subject="example"
           />
-          <span class="blocks-prompt-source-count">
-            <FileCodeIcon size={13} aria-hidden="true" />
-            Example snippet included
-          </span>
         </div>
         <div class="blocks-prompt-hint">
           <p>
@@ -81,12 +69,7 @@ export function ComponentExamplePrompt({ context }: { context: ComponentPromptCo
             details.
           </span>
         </div>
-        <PromptDocument
-          prompt={prompt}
-          mode={mode}
-          display={display}
-          sourceLabel="Example included"
-        />
+        <PromptDocument prompt={prompt} mode={mode} display={display} />
         <div class="blocks-prompt-footer">
           <span>
             <strong>Your project, your conventions.</strong> Reuse existing tooling and keep
