@@ -312,6 +312,10 @@
       "types": "./dist/components/tooltip/index.d.ts",
       "import": "./dist/components/tooltip/index.js"
     },
+    "./type-definition": {
+      "types": "./dist/components/type-definition/index.d.ts",
+      "import": "./dist/components/type-definition/index.js"
+    },
     "./typography": {
       "types": "./dist/components/typography/index.d.ts",
       "import": "./dist/components/typography/index.js"
