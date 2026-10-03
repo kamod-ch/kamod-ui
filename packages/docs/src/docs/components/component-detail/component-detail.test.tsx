@@ -16,6 +16,19 @@ const components = docsPages.filter(
 );
 
 describe("component detail documentation", () => {
+  it.each(["kbd", "type-definition"])(
+    "%s distinguishes usage requirements from fallback values",
+    (slug) => {
+      const text = render(<DocsComponentContent slug={slug} section="installation" />).replace(
+        /<[^>]+>/g,
+        " ",
+      );
+      expect(text).toMatch(/Usage requirement\s+Required/);
+      expect(text).not.toMatch(/Documented default\s+required/i);
+      if (slug === "type-definition") expect(text).toMatch(/Documented default\s+false/);
+    },
+  );
+
   it.each(components.map((doc) => [doc.slug, doc] as const))(
     "%s keeps its sections inside the shared reading layout",
     (_slug, doc) => {

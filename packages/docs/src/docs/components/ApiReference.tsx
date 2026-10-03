@@ -40,6 +40,8 @@ function ApiReferenceTable({ section }: { section: ApiReferenceSection }) {
           caption={`${section.title} documented props`}
           rows={section.rows.map((row) => {
             const field = owner?.fields.find(({ name }) => name === row.prop.replace(/\?$/, ""));
+            // Older guide rows store usage requirements in the default-value column.
+            const isRequirement = row.defaultValue.trim().toLowerCase() === "required";
             return {
               key: row.prop,
               name: row.prop,
@@ -62,8 +64,8 @@ function ApiReferenceTable({ section }: { section: ApiReferenceSection }) {
                       `Documented ${row.prop} option for ${section.title}. Check its type alongside the usage examples before supplying a value.`}
                   </p>
                   <p class="component-api-default">
-                    <span>Documented default</span>
-                    <code>{row.defaultValue}</code>
+                    <span>{isRequirement ? "Usage requirement" : "Documented default"}</span>
+                    {isRequirement ? <span>Required</span> : <code>{row.defaultValue}</code>}
                     {row.defaultValue === "undefined" && <span>No default value is listed.</span>}
                   </p>
                 </>
