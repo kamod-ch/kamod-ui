@@ -44,7 +44,9 @@ it("loads after a batched hidden-to-visible jump and disconnects on teardown", (
       {} as IntersectionObserver,
     ),
   );
-  expect(frame.getAttribute("src")).toBe("/component-preview?component=formisch&example=4");
+  expect(frame.getAttribute("src")).toBe(
+    "/component-preview-frame.htm?component=formisch&example=4",
+  );
   expect(disconnect).toHaveBeenCalledTimes(1);
   unmount();
   expect(disconnect).toHaveBeenCalledTimes(2);
@@ -83,7 +85,8 @@ it("replaces resize observers on reload and cancels pending measurements on unmo
   );
   const frame = container.querySelector("iframe")!;
   const previewDocument = document.implementation.createHTMLDocument();
-  previewDocument.body.innerHTML = '<main id="component-preview-root"></main>';
+  previewDocument.body.innerHTML =
+    '<main id="component-preview-root" data-preview-ready="true"></main>';
   Object.defineProperty(frame, "contentDocument", { value: previewDocument });
   let measurement = 0;
   const load = () =>

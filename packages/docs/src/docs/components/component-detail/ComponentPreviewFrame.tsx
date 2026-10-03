@@ -24,7 +24,10 @@ export function ComponentPreviewFrame({
   const [visible, setVisible] = useState(false);
   const observer = useRef<ResizeObserver | null>(null);
   const resizeFrame = useRef<number | null>(null);
+  const stopWaiting = useRef<(() => void) | null>(null);
   const stopMeasuring = () => {
+    stopWaiting.current?.();
+    stopWaiting.current = null;
     observer.current?.disconnect();
     observer.current = null;
     if (resizeFrame.current !== null) cancelAnimationFrame(resizeFrame.current);
@@ -69,7 +72,7 @@ export function ComponentPreviewFrame({
       src={
         visible
           ? withBasePath(
-              `/component-preview?component=${encodeURIComponent(slug)}&example=${index}`,
+              `/component-preview-frame.htm?component=${encodeURIComponent(slug)}&example=${index}`,
             )
           : undefined
       }
@@ -80,7 +83,13 @@ export function ComponentPreviewFrame({
         stopMeasuring();
         const root = frame.current?.contentDocument?.getElementById("component-preview-root");
         if (!root) return;
-        onLoad?.(previewKey);
+        const ready = () => onLoad?.(previewKey);
+        if (root.dataset.previewReady === "true") ready();
+        else {
+          const document = root.ownerDocument;
+          document.addEventListener("kamod:preview-ready", ready, { once: true });
+          stopWaiting.current = () => document.removeEventListener("kamod:preview-ready", ready);
+        }
         const measure = () => {
           if (resizeFrame.current !== null) cancelAnimationFrame(resizeFrame.current);
           // Write in the next frame so resizing the iframe cannot re-enter its observer delivery.

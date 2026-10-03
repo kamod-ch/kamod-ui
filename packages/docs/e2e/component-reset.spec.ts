@@ -17,7 +17,7 @@ for (const slug of ["accordion", "formisch"]) {
         .locator("body")
         .evaluate((node) => node.setAttribute("data-reset-test", "old"));
       const index = await iframe.getAttribute("data-example-index");
-      const url = `**/component-preview?component=${slug}&example=${index}`;
+      const url = `**/component-preview-frame.htm?component=${slug}&example=${index}`;
       const button = example.getByRole("button", { name: "Reset example", exact: true });
       await expect(button.locator(".blocks-showcase-refresh-label")).toBeVisible();
       const width = (await button.boundingBox())!.width;
@@ -95,7 +95,7 @@ test("leaving a loading example cancels its reset without a success state", asyn
   const gate = new Promise<void>((resolve) => {
     release = resolve;
   });
-  await page.route("**/component-preview?component=formisch&example=0", async (route) => {
+  await page.route("**/component-preview-frame.htm?component=formisch&example=0", async (route) => {
     await gate;
     await route.abort();
   });

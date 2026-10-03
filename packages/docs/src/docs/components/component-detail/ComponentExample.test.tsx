@@ -135,6 +135,11 @@ it("uses the block refresh phases and only completes after the replacement frame
   preview.body.innerHTML = '<main id="component-preview-root">Example</main>';
   Object.defineProperty(frame, "contentDocument", { value: preview });
   fireEvent.load(frame);
+  expect(control).toHaveAttribute("data-refresh-state", "loading");
+  // A lightweight document can load before its selected example's module is ready.
+  act(() => {
+    preview.dispatchEvent(new Event("kamod:preview-ready"));
+  });
   expect(control).toHaveAttribute("data-refresh-state", "complete");
   expect(screen.getByRole("status")).toHaveTextContent("Example reset.");
   act(() => {
