@@ -40,9 +40,19 @@ for (const scheme of ["light", "dark"] as const) {
         const copyBox = (await panel
           .getByRole("button", { name: "Copy code", exact: true })
           .boundingBox())!;
-        expect(pathBox.x + pathBox.width).toBeLessThan(copyBox.x - 8);
-        expect(pathBox.y + pathBox.height / 2).toBeCloseTo(copyBox.y + copyBox.height / 2, 0);
+        if (pane.width > 448) {
+          expect(pathBox.x + pathBox.width).toBeLessThan(copyBox.x - 8);
+          expect(pathBox.y + pathBox.height / 2).toBeCloseTo(copyBox.y + copyBox.height / 2, 0);
+        } else {
+          expect(pathBox.y + pathBox.height).toBeLessThan(copyBox.y);
+        }
         await expect(filePath.locator(".docs-code-path-root")).toHaveText("src/");
+        const filename = filePath.locator(".docs-code-path-filename");
+        expect(await filename.evaluate((node) => node.scrollWidth <= node.clientWidth + 1)).toBe(
+          true,
+        );
+        await expect(panel.getByRole("group", { name: "Source controls" })).toBeVisible();
+        await expect(panel.locator(".blocks-source-lines")).toContainText("·");
         if (width < 768) expect(pane.y).toBeGreaterThanOrEqual(tree.y + tree.height - 1);
         else expect(pane.y).toBeCloseTo(tree.y, 0);
         if (width < 640) {
@@ -78,7 +88,9 @@ for (const scheme of ["light", "dark"] as const) {
       const path = await second.getAttribute("title");
       await second.focus();
       await second.press("Enter");
-      await expect(panel.locator(".blocks-source-file-heading code")).toHaveText(path!);
+      await expect(
+        panel.locator(".blocks-source-file-heading .docs-code-path-filename"),
+      ).toHaveText(`/${path!.split("/").at(-1)}`);
       await expect(code).not.toHaveText(original!);
       await expect(panel.getByRole("link", { name: "Setup guide" })).toHaveAttribute(
         "href",
