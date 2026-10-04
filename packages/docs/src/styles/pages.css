@@ -989,6 +989,30 @@ html.dark .docs-code .token.variable {
   margin-inline-start: auto;
 }
 
+/* Named snippets share one surface, including expanded API type definitions. */
+.docs-code-file {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  background: var(--muted);
+}
+.docs-code-file > .docs-code-toolbar {
+  border-bottom: 1px solid var(--border);
+}
+.docs-code-file > .docs-code-toolbar [data-path-part="end"] {
+  color: var(--foreground);
+}
+.docs-code-file > :last-child {
+  border-radius: 0 0 0.75rem 0.75rem;
+}
+.docs-code-file > .docs-code {
+  margin-block: 0;
+  border: 0;
+  background: transparent;
+  font-size: 0.75rem;
+}
+
 html.dark .docs-copy-feedback.is-success {
   color: rgb(134 239 172);
 }

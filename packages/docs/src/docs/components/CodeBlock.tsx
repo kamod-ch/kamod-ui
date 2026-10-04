@@ -28,7 +28,7 @@ export const CodeBlock = ({
   className?: string;
   /** Content beside Copy above the code; excluded from highlighting and copied text. */
   toolbarContent?: ComponentChildren;
-  /** Source or installation path shown separately from the copied code. */
+  /** Source or installation path in a joined file header, excluded from copied code. */
   filePath?: string;
   /** Optional document view; Copy still uses the original, unmodified code string. */
   renderedContent?: ComponentChildren;
@@ -114,7 +114,7 @@ export const CodeBlock = ({
   );
 
   return (
-    <div class="docs-code-wrap">
+    <div class={`docs-code-wrap${filePath && !renderToolbar ? " docs-code-file" : ""}`}>
       {renderToolbar ? (
         renderToolbar(copyButton)
       ) : filePath || toolbarContent ? (

@@ -658,7 +658,7 @@
     display: none;
   }
 
-  .blocks-sidebar-detail .docs-code-wrap .docs-copy-code-button {
+  .blocks-sidebar-detail .docs-code-wrap:not(.docs-code-file) .docs-copy-code-button {
     min-height: 1.75rem;
     padding: 0.125rem 0.375rem;
   }
@@ -722,7 +722,7 @@
   }
 
   /* Give Copy its own row instead of covering a narrow code sample. */
-  .blocks-doc-body .docs-code-wrap {
+  .blocks-doc-body .docs-code-wrap:not(.docs-code-file) {
     display: flex;
     flex-direction: column;
     border: 1px solid var(--border);
@@ -730,13 +730,13 @@
     background: var(--muted);
   }
 
-  .blocks-doc-body .docs-copy-code-button {
+  .blocks-doc-body .docs-code-wrap:not(.docs-code-file) .docs-copy-code-button {
     position: static;
     align-self: flex-end;
     margin: 0.5rem;
   }
 
-  .blocks-doc-body .docs-code {
+  .blocks-doc-body .docs-code-wrap:not(.docs-code-file) > .docs-code {
     margin: 0;
     border: 0;
     border-top: 1px solid var(--border);
