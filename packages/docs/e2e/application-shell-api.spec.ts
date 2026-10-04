@@ -37,6 +37,7 @@ test("prop type links reveal their definition and restore deep links through his
   page,
 }) => {
   await page.goto(detail);
+  await page.waitForLoadState("networkidle");
   const table = page.locator(".blocks-api-props-table");
   await expect(table.getByRole("columnheader")).toHaveText(["Prop / type", "Description"]);
   await expect(
@@ -57,13 +58,17 @@ test("prop type links reveal their definition and restore deep links through his
   await page.keyboard.press("Enter");
   await expect(page.getByRole("tooltip")).toHaveText("Required prop: brand");
   await page.keyboard.press("Tab");
-  await expect(page.getByRole("tooltip")).toHaveCount(0);
+  await expect(page.getByRole("tooltip").filter({ hasText: "Required prop: brand" })).toHaveCount(
+    0,
+  );
   const dataTypes = page.locator("section[aria-labelledby='application-shell-data-types']");
   await expect(
-    dataTypes.locator(".blocks-api-type-intro").getByRole("button", { name: /^Required Fields?:/ }),
+    dataTypes
+      .locator('[data-slot="type-definition-intro"]')
+      .getByRole("button", { name: /^Required Fields?:/ }),
   ).toHaveCount(6);
   await expect(
-    dataTypes.locator(".blocks-api-type-heading").getByRole("button", { name: /^Required type:/ }),
+    dataTypes.locator(".blocks-api-type-required").getByRole("button", { name: /^Required type:/ }),
   ).toHaveCount(4);
   for (const [type, prop] of [
     ["ApplicationShellBrand", "brand"],
@@ -74,8 +79,8 @@ test("prop type links reveal their definition and restore deep links through his
     const card = dataTypes.locator(".blocks-api-type").filter({
       has: page.locator(`#application-shell-type-${type}`),
     });
-    const heading = card.locator(".blocks-api-type-heading");
-    await expect(heading.locator(".blocks-api-type-required")).toHaveText("Required type");
+    const heading = card.locator(".blocks-api-type-required");
+    await expect(heading.locator(".blocks-api-required-label")).toHaveText("Required type");
     const marker = heading.getByRole("button", { name: `Required type: ${type}`, exact: true });
     await marker.focus();
     await expect(page.getByRole("tooltip")).toHaveText(`Used by required prop: ${prop}`);
@@ -87,7 +92,7 @@ test("prop type links reveal their definition and restore deep links through his
     .filter({
       has: page.getByRole("heading", { name: "Top-level items and branches", exact: true }),
     })
-    .locator(".blocks-api-type-intro");
+    .locator('[data-slot="type-definition-intro"]');
   await expect(inherited.locator(".blocks-api-type-fields code")).toHaveText(["id", "label"]);
   await expect(inherited.locator(".blocks-api-type-field-list")).toHaveText(/id,\s*label/);
   const fields = inherited.getByRole("button", { name: "Required Fields: id, label", exact: true });
@@ -96,7 +101,7 @@ test("prop type links reveal their definition and restore deep links through his
   await expect(fields).toHaveAccessibleDescription("Required Fields");
   await page.keyboard.press("Escape");
   const singleField = dataTypes
-    .locator(".blocks-api-type-intro")
+    .locator('[data-slot="type-definition-intro"]')
     .getByRole("button", { name: "Required Field: name", exact: true });
   await singleField.focus();
   await expect(page.getByRole("tooltip")).toHaveText("Required Field");
@@ -126,9 +131,14 @@ test("prop type links reveal their definition and restore deep links through his
   await expect(user.content).toBeVisible();
   await page.goForward();
   await expectTypeTarget(page, "ApplicationShellUser");
+  const position = await page.evaluate(() => scrollY);
+  await expect.poll(() => page.evaluate(() => history.state?.ppScrollY)).toBeCloseTo(position, 0);
   await page.reload();
-  // Initial document loading restores the anchor without taking keyboard focus.
-  await expectTypeTarget(page, "ApplicationShellUser", false);
+  // Reload preserves the reading position; other expanded cards can change the anchor's offset.
+  await expect(user.trigger).toHaveAttribute("aria-expanded", "true");
+  await expect(page).toHaveURL(new RegExp(`#${user.id}$`));
+  await expect.poll(() => page.evaluate(() => scrollY)).toBeCloseTo(position, 0);
+  await expect(user.heading).not.toBeFocused();
 });
 
 test("type definitions toggle independently by keyboard and copy their complete source", async ({
@@ -137,16 +147,17 @@ test("type definitions toggle independently by keyboard and copy their complete 
   browserName,
 }) => {
   await page.goto(detail);
+  await page.waitForLoadState("networkidle");
   const brand = typePanel(page, "ApplicationShellBrand");
   const user = typePanel(page, "ApplicationShellUser");
   await expect(brand.trigger).toHaveAccessibleName(
-    "Show ApplicationShellBrand definition and field documentation",
+    "View definition and field docs: ApplicationShellBrand",
   );
   await brand.trigger.focus();
   await page.keyboard.press("Enter");
   await expect(brand.trigger).toHaveAttribute("aria-expanded", "true");
   await expect(brand.trigger).toHaveAccessibleName(
-    "Hide ApplicationShellBrand definition and field documentation",
+    "Hide definition and field docs: ApplicationShellBrand",
   );
   await page.keyboard.press("Tab");
   await expect(brand.content.locator(".docs-code-file-path")).toHaveAttribute(
@@ -183,7 +194,7 @@ test("type definitions toggle independently by keyboard and copy their complete 
 
   const signature = typePanel(page, "ApplicationShell1Props");
   await signature.trigger.click();
-  await expect(signature.trigger).toHaveAccessibleName("Hide ApplicationShell1Props definition");
+  await expect(signature.trigger).toHaveAccessibleName("Hide definition: ApplicationShell1Props");
   const signatureSource = await signature.code.textContent();
   expect(signatureSource).toMatch(/^export type ApplicationShell1Props = \{/);
   expect(signatureSource).not.toMatch(/\/\*|\*\/|\/\//);
@@ -204,17 +215,23 @@ test("expanded type documentation keeps overflow inside code and tables at 320px
 }) => {
   await page.setViewportSize({ width: 320, height: 900 });
   await page.goto(`${detail}#application-shell-type-ApplicationShell1Props`);
+  // Establish the fragment position before reload restoration captures the current scroll.
+  await page.waitForLoadState("networkidle");
+  await expectTypeTarget(page, "ApplicationShell1Props", false);
   for (const theme of ["light", "dark"] as const) {
     await page.emulateMedia({ colorScheme: theme });
     await page.evaluate((mode) => localStorage.setItem("theme", mode), theme);
     await page.reload();
-    await expectTypeTarget(page, "ApplicationShell1Props", false);
+    await expect(typePanel(page, "ApplicationShell1Props").trigger).toHaveAttribute(
+      "aria-expanded",
+      "true",
+    );
     await expect
       .poll(() => page.evaluate(() => document.documentElement.classList.contains("dark")))
       .toBe(theme === "dark");
 
     const closedTypes = page.getByRole("button", {
-      name: /^Show ApplicationShell.* definition(?: and field documentation)?$/,
+      name: /^View definition(?: and field docs)?: ApplicationShell/,
     });
     while ((await closedTypes.count()) > 0) await closedTypes.first().click();
 
@@ -225,12 +242,12 @@ test("expanded type documentation keeps overflow inside code and tables at 320px
       await expect(path).toHaveAttribute("title", "src/components/application-shell-1/types.ts");
       expect(
         await path
-          .locator(".docs-code-path-middle")
+          .locator('[data-path-part="middle"]')
           .evaluate((node) => node.scrollWidth > node.clientWidth),
       ).toBe(true);
       expect(
         await path
-          .locator(".docs-code-path-filename")
+          .locator('[data-path-part="end"]')
           .evaluate((node) => node.scrollWidth <= node.clientWidth),
       ).toBe(true);
       const pathBox = (await path.boundingBox())!;
