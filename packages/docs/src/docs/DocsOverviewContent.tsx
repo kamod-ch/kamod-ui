@@ -11,6 +11,7 @@ import { LibraryDirectoryResources } from "./components/LibraryDirectoryResource
 import { LibraryGuideSection } from "./components/LibraryGuideSection";
 import { LibraryJumpLinks } from "./components/LibraryJumpLinks";
 import { LibraryPageHeader } from "./components/LibraryPageHeader";
+import { PathDisplay } from "./components/PathDisplay";
 import { docsShowMotion } from "./docs-feature-flags";
 import { componentOverviewItems, motionOverviewItems } from "./registry";
 
@@ -83,7 +84,7 @@ export const DocsOverviewContent = () => (
                 <a href={withBasePath("/docs/theming/installation")}>installation guide</a> and{" "}
                 <a href={withBasePath("/docs/theming/css-setup")}>global CSS</a>. For a complete
                 starting layout, <a href={withBasePath("/blocks")}>explore blocks</a> built from the
-                same <code>@kamod-ch/ui</code> primitives.
+                same <PathDisplay path={"@kamod-ch/ui"} /> primitives.
               </p>
             </>
           }
@@ -118,8 +119,9 @@ export const DocsOverviewContent = () => (
                 </p>
                 <p>
                   Start small: render the simplest example in your app before connecting services or
-                  changing its appearance. Keep imports on the public <code>@kamod-ch/ui</code> API
-                  and follow your project’s existing conventions for files and state.
+                  changing its appearance. Keep imports on the public{" "}
+                  <PathDisplay path={"@kamod-ch/ui"} /> API and follow your project’s existing
+                  conventions for files and state.
                 </p>
               </div>
               <LibraryGrid
@@ -136,9 +138,9 @@ export const DocsOverviewContent = () => (
                 <div class="block-guide-prose">
                   <p>
                     <strong>Build the interaction first, then add motion.</strong> Explore{" "}
-                    <code>@kamod-ch/ui-motion</code> when a transition helps explain what changed.
-                    Keep content usable without animation, check focus through state changes and
-                    respect <code>prefers-reduced-motion</code>.
+                    <PathDisplay path={"@kamod-ch/ui-motion"} /> when a transition helps explain
+                    what changed. Keep content usable without animation, check focus through state
+                    changes and respect <code>prefers-reduced-motion</code>.
                   </p>
                 </div>
                 <LibraryGrid

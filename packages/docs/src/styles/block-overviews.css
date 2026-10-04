@@ -585,7 +585,6 @@
 }
 
 .blocks-overview-path code {
-  display: flex;
   align-items: center;
   width: fit-content;
   max-width: 100%;
@@ -595,17 +594,6 @@
   color: var(--muted-foreground);
   font-size: 0.75rem;
   white-space: nowrap;
-}
-
-.blocks-overview-path code > span {
-  flex-shrink: 0;
-}
-
-.blocks-overview-path code > .blocks-overview-path-middle {
-  flex-shrink: 1;
-  min-width: 1ch;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 /* Keep both path ends readable in narrow cards, including multi-column grids. */

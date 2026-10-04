@@ -2,6 +2,7 @@ import { withBasePath } from "../../../base-path";
 import type { PackageTeaserConfig } from "../../pages/kamod-package-doc-factory";
 import { LibraryJumpLinks } from "../LibraryJumpLinks";
 import { LibraryPageHeader } from "../LibraryPageHeader";
+import { InlineCode } from "../PathDisplay";
 import { PackageResources } from "./PackageResources";
 import { packageGuideNotes } from "./package-guide-notes";
 
@@ -30,7 +31,7 @@ export function PackageText({ text }: { text: string }) {
         .split(
           /(@[\w-]+\/[\w./-]+|\b(?:use[A-Z]\w*|create[A-Z]\w*|persistedSignal|I18nProvider|Intl(?:\.\w+)?|currentColor|aria-hidden|aria-label)\b|\.value|\.match\(\))/g,
         )
-        .map((part, index) => (index % 2 ? <code key={index}>{part}</code> : part))}
+        .map((part, index) => (index % 2 ? <InlineCode key={index}>{part}</InlineCode> : part))}
     </>
   );
 }

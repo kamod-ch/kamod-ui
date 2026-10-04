@@ -2,6 +2,7 @@ import { withBasePath } from "../../../base-path";
 import { BlockPropsTable } from "../../../blocks/detail/BlockPropsTable";
 import { ApiReference } from "../../components/ApiReference";
 import { CodeBlock } from "../../components/CodeBlock";
+import { PathDisplay } from "../../components/PathDisplay";
 
 const contracts = [
   [
@@ -60,7 +61,8 @@ export function FormischGuideNotes({ sectionId }: { sectionId: string }) {
           <p>
             Follow the <a href="#demo">complete bug-report example</a> before extracting a field.
             Import <code>Field as FormischField</code> and <code>Form as FormischForm</code> from
-            <code> @formisch/preact</code>; keep Kamod’s <code>Field</code> for the visible wrapper.
+            <PathDisplay path={"@formisch/preact"} />; keep Kamod’s <code>Field</code> for the
+            visible wrapper.
             <strong> These components have different jobs</strong>, even though their names overlap.
           </p>
           <p>
@@ -116,9 +118,9 @@ export function FormischGuideNotes({ sectionId }: { sectionId: string }) {
             ]}
           />
           <p class="docs-copy">
-            The following integration points come from <code>@formisch/preact</code>. They describe
-            the roles used throughout the examples; follow the package reference for their complete
-            generic signatures.
+            The following integration points come from <PathDisplay path={"@formisch/preact"} />.
+            They describe the roles used throughout the examples; follow the package reference for
+            their complete generic signatures.
           </p>
           <BlockPropsTable
             labelledBy="component-props"
@@ -256,8 +258,9 @@ const errors = field.errors.value?.map((message) => ({ message }));`}
             The original{" "}
             <a href="https://ui.shadcn.com/docs/forms/formisch">shadcn/ui Formisch guide</a> is a
             reference for the form patterns. Its examples use React; this page integrates{" "}
-            <code>@formisch/preact</code> with Kamod’s Preact components. Consult Formisch for form
-            APIs and Valibot for schema APIs, and check each project’s license when reusing source.
+            <PathDisplay path={"@formisch/preact"} /> with Kamod’s Preact components. Consult
+            Formisch for form APIs and Valibot for schema APIs, and check each project’s license
+            when reusing source.
           </p>
         </div>
       );

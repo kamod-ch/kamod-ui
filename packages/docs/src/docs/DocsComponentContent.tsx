@@ -34,6 +34,7 @@ import {
   getComponentExamples,
 } from "./components/component-detail/component-examples";
 import { DocsShell } from "./components/DocsShell";
+import { PathDisplay } from "./components/PathDisplay";
 import { getDocSections } from "./doc-sections";
 import { docImportFrom, rewriteKamodCoreImportsInDocString } from "./doc-snippet-imports";
 import { docsShowMotion, isMotionDocSlug } from "./docs-feature-flags";
@@ -207,9 +208,9 @@ export const DocsComponentContent = ({
         </Tabs>
         {isComponentDetail && (
           <p class="docs-copy">
-            The <code>@/components/kamod-ui/…</code> imports in these examples refer to local source
-            files. Configure that alias when copying source, or use the corresponding exports from{" "}
-            <code>@kamod-ch/ui</code> when installing the package. Connect{" "}
+            The <PathDisplay path={"@/components/kamod-ui/…"} /> imports in these examples refer to
+            local source files. Configure that alias when copying source, or use the corresponding
+            exports from <PathDisplay path={"@kamod-ch/ui"} /> when installing the package. Connect{" "}
             <a href={withBasePath("/docs/theming/css-setup")}>
               the global theme CSS and Tailwind source detection
             </a>{" "}
@@ -397,7 +398,7 @@ export const DocsComponentContent = ({
         <div class="docs-title-stack">
           <h1>{activeDoc.title}</h1>
           <p class="docs-component-path">
-            <code>{componentSourcePath}</code>
+            <PathDisplay path={componentSourcePath} />
           </p>
         </div>
         <div class="docs-title-row-actions">{renderMarkdownAction()}</div>

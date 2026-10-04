@@ -1,4 +1,5 @@
 import { withBasePath } from "../../base-path";
+import { PathDisplay } from "../components/PathDisplay";
 
 type MotionDocContextProps = {
   coreSlug: string;
@@ -12,8 +13,9 @@ export function MotionDocContext({ coreSlug, coreTitle, replaces }: MotionDocCon
       <p>
         Motion-enhanced variant of{" "}
         <a href={withBasePath(`/docs/${coreSlug}/installation`)}>{coreTitle}</a>. Swap{" "}
-        <code>{replaces}</code> for the matching export from <code>@kamod-ch/ui-motion</code> — keep
-        the rest of the primitive tree from <code>@kamod-ch/ui</code>.
+        <code>{replaces}</code> for the matching export from{" "}
+        <PathDisplay path={"@kamod-ch/ui-motion"} /> — keep the rest of the primitive tree from{" "}
+        <PathDisplay path={"@kamod-ch/ui"} />.
       </p>
       <p class="docs-motion-context-meta">
         Requires <a href={withBasePath("/docs/ui-motion/installation")}>@kamod-ch/ui-motion</a> and

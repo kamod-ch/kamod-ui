@@ -1,3 +1,4 @@
+import { PathDisplay } from "../docs/components/PathDisplay";
 /** Copy-and-adapt setup instructions and a minimal Preact integration. */
 
 import { withBasePath } from "../base-path";
@@ -33,17 +34,19 @@ export const ShellSetup = () => (
         <p>
           Copy the files from the{" "}
           <ShowcaseCodeLink blockId="application-shell-1">showcase’s Code tab</ShowcaseCodeLink>{" "}
-          into <code>src/components/application-shell-1</code>. Skip <code>preview.tsx</code>,{" "}
-          <code>demo-data.tsx</code> and <code>assets/kamod-ui-logo.svg</code> unless you want the
-          demo. To keep the demo branding, copy the SVG into the same <code>assets</code> subfolder.
+          into <PathDisplay path={"src/components/application-shell-1"} />. Skip{" "}
+          <code>preview.tsx</code>, <code>demo-data.tsx</code> and{" "}
+          <PathDisplay path={"assets/kamod-ui-logo.svg"} /> unless you want the demo. To keep the
+          demo branding, copy the SVG into the same <code>assets</code> subfolder.
         </p>
         <p>
           <strong>Keep the reusable files together:</strong> <code>application-shell-1.tsx</code>,{" "}
           <code>app-sidebar.tsx</code>, <code>nav-main.tsx</code>, <code>nav-user.tsx</code>,{" "}
           <code>menu.tsx</code>, <code>types.ts</code> and <code>index.ts</code>. Their relative
           imports work within this folder; the entrypoint exports the component and its public
-          types. The examples assume an importing file at <code>src/App.tsx</code>; adjust the
-          relative import if yours lives elsewhere. Keep the repository’s license with your copy.
+          types. The examples assume an importing file at <PathDisplay path={"src/App.tsx"} />;
+          adjust the relative import if yours lives elsewhere. Keep the repository’s license with
+          your copy.
         </p>
       </li>
       <li>
@@ -59,12 +62,12 @@ export const ShellSetup = () => (
         <div role="paragraph" class="blocks-doc-note">
           <strong>Compatibility:</strong>{" "}
           <RequiredIndicator label="Required UI compatibility" tooltip="Required Kamod UI APIs" />{" "}
-          <code>@kamod-ch/ui</code> must export <code>useDropdown</code> and support the{" "}
+          <PathDisplay path={"@kamod-ch/ui"} /> must export <code>useDropdown</code> and support the{" "}
           <code>portal</code> prop on <code>DropdownContent</code>, and expose{" "}
-          <code>createRovingFocus</code> from <code>@kamod-ch/ui/lib/interactive</code>. The shell's
-          menu adapters use these APIs to manage keyboard navigation and keep menus outside the
-          sidebar's scroll container. Use a UI release that includes these APIs before integrating
-          the block.
+          <code>createRovingFocus</code> from <PathDisplay path={"@kamod-ch/ui/lib/interactive"} />.
+          The shell's menu adapters use these APIs to manage keyboard navigation and keep menus
+          outside the sidebar's scroll container. Use a UI release that includes these APIs before
+          integrating the block.
         </div>
       </li>
       <li>

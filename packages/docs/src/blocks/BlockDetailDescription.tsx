@@ -1,14 +1,15 @@
 import type { ComponentChildren } from "preact";
+import { PathDisplay } from "../docs/components/PathDisplay";
 import type { BlockCategory, BlockOverviewEntry } from "./block-categories";
 
 /** Integration guidance supplements each variant's own registry description. */
 const guidance: Record<BlockCategory, ComponentChildren> = {
   sidebar: (
     <>
-      Adapt the <code>Sidebar</code> components from <code>@kamod-ch/ui</code> to your navigation,
-      branding and page content. Replace sample destinations with your own routes, then check the{" "}
-      <strong>mobile layout and keyboard navigation</strong> in the live demo. The source and setup
-      steps show which files belong to this variant.
+      Adapt the <code>Sidebar</code> components from <PathDisplay path={"@kamod-ch/ui"} /> to your
+      navigation, branding and page content. Replace sample destinations with your own routes, then
+      check the <strong>mobile layout and keyboard navigation</strong> in the live demo. The source
+      and setup steps show which files belong to this variant.
     </>
   ),
   "application-shell": (

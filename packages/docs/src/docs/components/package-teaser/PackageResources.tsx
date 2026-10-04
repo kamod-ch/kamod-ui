@@ -1,6 +1,7 @@
 import { ArrowUpRightIcon, BookOpenIcon, PackageIcon } from "@kamod-ch/icons/lucide";
 import { BrandGithubIcon } from "@kamod-ch/icons/tabler/filled";
 import type { PackageTeaserConfig } from "../../pages/kamod-package-doc-factory";
+import { PathDisplay } from "../PathDisplay";
 
 /** Compact destinations keep the introduction focused on the guide itself. */
 export function PackageResources({ config }: { config: PackageTeaserConfig }) {
@@ -11,7 +12,7 @@ export function PackageResources({ config }: { config: PackageTeaserConfig }) {
   ];
   return (
     <nav class="package-guide-resources" aria-label="Package resources">
-      <code>{config.packagePath}</code>
+      <PathDisplay path={config.packagePath} />
       <div>
         {resources.map(({ label, href, Icon }) => (
           <a key={label} href={href} target="_blank" rel="noopener noreferrer">

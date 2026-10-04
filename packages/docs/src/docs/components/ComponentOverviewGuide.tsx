@@ -2,6 +2,7 @@ import { withBasePath } from "../../base-path";
 import { BlockHeadingLink } from "../../blocks/BlockHeadingLink";
 import { ComponentOverviewExamples } from "./ComponentOverviewExamples";
 import { LibraryGuideSection } from "./LibraryGuideSection";
+import { PathDisplay } from "./PathDisplay";
 
 const choices = [
   {
@@ -145,9 +146,9 @@ export function ComponentOverviewGuide() {
             Work in an <strong>already configured Preact project</strong>. Follow the{" "}
             <a href={withBasePath("/docs/theming/installation")}>installation guide</a> and{" "}
             <a href={withBasePath("/docs/theming/css-setup")}>CSS setup</a> before trying these
-            examples. Import public components from <code>@kamod-ch/ui</code>, use Preact’s{" "}
-            <code>useState</code> for local state, and keep the paths below aligned with your own
-            folder structure.
+            examples. Import public components from <PathDisplay path={"@kamod-ch/ui"} />, use
+            Preact’s <code>useState</code> for local state, and keep the paths below aligned with
+            your own folder structure.
           </p>
           <p>
             Each example isolates a different responsibility:{" "}

@@ -9,6 +9,7 @@ import { withBasePath } from "../../base-path";
 import { LibraryHeading } from "./LibraryHeading";
 import { LibrarySection } from "./LibrarySection";
 import { LibrarySourceResources } from "./LibrarySourceResources";
+import { PathDisplay } from "./PathDisplay";
 
 export const libraryResourceContents = {
   id: "library-guides-title",
@@ -34,8 +35,9 @@ const guides = [
       <>
         Connect <code>Tailwind CSS</code>, load the global styles and check source detection before
         your first render. Keep the stylesheet at your app’s entry point so every page shares the
-        same foundation. When you copy a block into <code>src/components</code>, make sure its files
-        are included in source detection so the classes used by the layout are generated.
+        same foundation. When you copy a block into <PathDisplay path={"src/components"} />, make
+        sure its files are included in source detection so the classes used by the layout are
+        generated.
       </>
     ),
   },
@@ -50,10 +52,10 @@ const guides = [
     description: (
       <>
         Choose a preset, explore light and dark modes, then adjust shared tokens with{" "}
-        <code>@kamod-ch/themes</code>. Update <code>--primary</code> and other semantic tokens to
-        carry your brand across the whole interface. Prefer shared tokens for recurring colors
-        instead of restyling every component separately, and check muted text, borders and focus
-        rings against your page background.
+        <PathDisplay path={"@kamod-ch/themes"} />. Update <code>--primary</code> and other semantic
+        tokens to carry your brand across the whole interface. Prefer shared tokens for recurring
+        colors instead of restyling every component separately, and check muted text, borders and
+        focus rings against your page background.
       </>
     ),
   },
@@ -67,10 +69,10 @@ const guides = [
     label: "Details",
     description: (
       <>
-        Complete navigation and actions with typed <code>@kamod-ch/icons</code> that inherit your
-        interface’s colors. Import the icons you need and keep their size and stroke consistent
-        across related controls. Pair unfamiliar actions with visible labels; when space calls for
-        an icon-only button, give it an <code>aria-label</code> that describes the action.
+        Complete navigation and actions with typed <PathDisplay path={"@kamod-ch/icons"} /> that
+        inherit your interface’s colors. Import the icons you need and keep their size and stroke
+        consistent across related controls. Pair unfamiliar actions with visible labels; when space
+        calls for an icon-only button, give it an <code>aria-label</code> that describes the action.
       </>
     ),
   },

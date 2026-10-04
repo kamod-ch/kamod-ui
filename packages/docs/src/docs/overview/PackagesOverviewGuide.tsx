@@ -3,6 +3,7 @@ import { BlockHeadingLink } from "../../blocks/BlockHeadingLink";
 import { CodeBlock } from "../components/CodeBlock";
 import { LibraryGuideSection } from "../components/LibraryGuideSection";
 import { OverviewExamples } from "../components/OverviewExamples";
+import { PathDisplay } from "../components/PathDisplay";
 import { PackageOverviewPreview } from "./OverviewPreviews";
 import { packageExamples } from "./overview-examples";
 
@@ -121,11 +122,11 @@ export function PackagesOverviewGuide() {
             </BlockHeadingLink>
           </h3>
           <p>
-            Use published entry points, such as <code>@kamod-ch/icons/lucide</code>, instead of
-            importing a file from a package’s internal source tree. Internal layouts can change
-            independently of the public API. Copy an icon’s exact exported name from its catalog and
-            verify the current hook signature instead of assuming it matches a similarly named React
-            library.
+            Use published entry points, such as <PathDisplay path={"@kamod-ch/icons/lucide"} />,
+            instead of importing a file from a package’s internal source tree. Internal layouts can
+            change independently of the public API. Copy an icon’s exact exported name from its
+            catalog and verify the current hook signature instead of assuming it matches a similarly
+            named React library.
           </p>
           <p>
             Named imports make intent easy to review. Avoid constructing a registry that eagerly
@@ -169,8 +170,9 @@ export function PackagesOverviewGuide() {
           </p>
           <p>
             Keep user-specific stores and locale instances scoped to a request rather than a mutable
-            module singleton. For <code>@kamod-ch/i18n</code>, align the server and client locale,
-            make the required messages available for the first render, and update <code>lang</code>
+            module singleton. For <PathDisplay path={"@kamod-ch/i18n"} />, align the server and
+            client locale, make the required messages available for the first render, and update{" "}
+            <code>lang</code>
             and direction when the locale changes. Include translated labels and errors, not just
             visible headings.
           </p>

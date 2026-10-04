@@ -1,5 +1,6 @@
 /** Practical integration steps tailored to the files included with each sidebar. */
 import { CodeBlock } from "../../docs/components/CodeBlock";
+import { PathDisplay } from "../../docs/components/PathDisplay";
 import { BlockDocSection, BlockGuideHeading } from "./BlockDocumentation";
 import { SidebarUsageIntroduction } from "./SidebarUsageIntroduction";
 import type { VariantGuide } from "./VariantDocumentation";
@@ -46,9 +47,9 @@ export function SidebarUsage({ guide }: { guide: VariantGuide }) {
         <BlockGuideHeading id={anchor("customize")} />
         <p>
           Your copied <code>{block.id}.tsx</code> contains the complete composition. Start with its
-          imports from <code>data/</code> to replace sample labels and destinations, then update the
-          local components that consume them. The snippet below replaces one part of that file; keep
-          the surrounding provider and layout in place.
+          imports from <PathDisplay path={"data/"} /> to replace sample labels and destinations,
+          then update the local components that consume them. The snippet below replaces one part of
+          that file; keep the surrounding provider and layout in place.
         </p>
         <CodeBlock code={integrationExample(guide)} language="tsx" />
         <p class="blocks-doc-note">

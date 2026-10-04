@@ -8,6 +8,7 @@ import {
   previewAppearanceFromSearch,
 } from "../../src/blocks/preview-appearance";
 import { ComponentPreviewPage } from "../../src/docs/components/component-detail/ComponentPreviewPage";
+import { PathCopySupport } from "../../src/docs/components/PathCopySupport";
 import { DocsComponentContent } from "../../src/docs/DocsComponentContent";
 import { DocsFormsOverviewContent } from "../../src/docs/DocsFormsOverviewContent";
 import { DocsOverviewContent } from "../../src/docs/DocsOverviewContent";
@@ -135,7 +136,7 @@ const readPageMeta = (page: LayoutProps["page"]): DemoPageMeta => {
   };
 };
 
-const Layout: FunctionalComponent<LayoutProps> = ({ page }) => {
+const PageContent: FunctionalComponent<LayoutProps> = ({ page }) => {
   useRightSidebarPageMemory(page);
   usePageReloadScroll();
   const meta = readPageMeta(page);
@@ -259,5 +260,12 @@ const Layout: FunctionalComponent<LayoutProps> = ({ page }) => {
 
   return <main dangerouslySetInnerHTML={{ __html: page?.kind === "markdown" ? page.html : "" }} />;
 };
+
+const Layout: FunctionalComponent<LayoutProps> = (props) => (
+  <>
+    <PathCopySupport />
+    <PageContent {...props} />
+  </>
+);
 
 export default Layout;

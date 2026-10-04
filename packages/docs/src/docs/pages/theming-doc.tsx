@@ -3,6 +3,7 @@ import { withBasePath } from "../../base-path";
 import { GuideArticle } from "../components/GuideArticle";
 import { LibraryJumpLinks } from "../components/LibraryJumpLinks";
 import { LibraryPageHeader } from "../components/LibraryPageHeader";
+import { PathDisplay } from "../components/PathDisplay";
 import { createComponentThemingSections } from "../guides/component-theming";
 import type { DocPageModule } from "../types";
 
@@ -79,8 +80,8 @@ export const themingDocPage: DocPageModule = {
             <>
               <p>
                 Give buttons, forms, cards and menus a consistent foundation with{" "}
-                <code>Tailwind CSS v4</code>, semantic tokens and <code>@kamod-ch/themes</code>.
-                Connect your stylesheet once, then choose{" "}
+                <code>Tailwind CSS v4</code>, semantic tokens and{" "}
+                <PathDisplay path={"@kamod-ch/themes"} />. Connect your stylesheet once, then choose{" "}
                 <strong>shared colors, typography and appearance preferences</strong> that work
                 across the interface. Start with a built-in preset and refine its roles rather than
                 repeating individual color values in every component.

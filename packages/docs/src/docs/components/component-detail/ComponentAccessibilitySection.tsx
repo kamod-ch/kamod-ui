@@ -3,6 +3,7 @@ import { withBasePath } from "../../../base-path";
 import { BlockHeadingLink } from "../../../blocks/BlockHeadingLink";
 import type { DocPageModule } from "../../types";
 import { CodeBlock } from "../CodeBlock";
+import { InlineCode } from "../PathDisplay";
 import { accessibilitySections } from "./accessibility";
 import type { AccessibilityProfile } from "./accessibility/types";
 import { componentSourceUrl } from "./component-guidance";
@@ -12,7 +13,7 @@ function AccessibilityText({ text }: { text: string }) {
   return text
     .split(/(`[^`]+`)/g)
     .map((part, index) =>
-      part.startsWith("`") ? <code key={index}>{part.slice(1, -1)}</code> : part,
+      part.startsWith("`") ? <InlineCode key={index}>{part.slice(1, -1)}</InlineCode> : part,
     );
 }
 

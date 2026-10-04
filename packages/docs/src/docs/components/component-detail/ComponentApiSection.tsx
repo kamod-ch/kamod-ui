@@ -7,6 +7,7 @@ import { BlockTypeDefinition } from "../../../blocks/detail/BlockTypeDefinition"
 import { useTypeDefinitions } from "../../../blocks/detail/useTypeDefinitions";
 import { RequiredIndicator } from "../../../blocks/RequiredIndicator";
 import type { DocPageModule } from "../../types";
+import { PathDisplay } from "../PathDisplay";
 import { componentApiTypes, componentTypeId } from "./component-api";
 import { componentSourceUrl } from "./component-guidance";
 
@@ -51,7 +52,7 @@ export function ComponentApiSection({
           helpers remain references in those declarations; their fields are not flattened here.
           Match the reference to your installed version, and check a package’s exports before
           writing an <code>import type</code>. A type exported by a source file is not necessarily
-          re-exported by <code>@kamod-ch/ui</code>.
+          re-exported by <PathDisplay path={"@kamod-ch/ui"} />.
         </span>
         <Badge variant="secondary">TypeScript</Badge>
       </div>

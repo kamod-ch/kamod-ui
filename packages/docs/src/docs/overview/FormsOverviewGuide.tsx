@@ -2,6 +2,7 @@ import { withBasePath } from "../../base-path";
 import { BlockHeadingLink } from "../../blocks/BlockHeadingLink";
 import { LibraryGuideSection } from "../components/LibraryGuideSection";
 import { OverviewExamples } from "../components/OverviewExamples";
+import { PathDisplay } from "../components/PathDisplay";
 import { FormOverviewPreview } from "./OverviewPreviews";
 import { formExamples } from "./overview-examples";
 
@@ -121,7 +122,7 @@ export function FormsOverviewGuide() {
             reused, then use{" "}
             <strong>Formisch for coordinated values, validation and submission</strong>. The schema
             and Formisch examples additionally require <code>valibot</code> and{" "}
-            <code>@formisch/preact</code>; follow the{" "}
+            <PathDisplay path={"@formisch/preact"} />; follow the{" "}
             <a href={withBasePath("/docs/formisch/installation")}>Formisch installation guide</a>.
           </p>
           <p>

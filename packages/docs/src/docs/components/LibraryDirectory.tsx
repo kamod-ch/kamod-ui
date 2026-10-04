@@ -4,6 +4,7 @@ import { withBasePath } from "../../base-path";
 import { LibraryDirectoryResources } from "./LibraryDirectoryResources";
 import { LibraryJumpLinks } from "./LibraryJumpLinks";
 import { LibrarySection } from "./LibrarySection";
+import { PathDisplay } from "./PathDisplay";
 
 export type LibraryEntry = {
   label: string;
@@ -62,7 +63,7 @@ export function LibraryDirectory({
                 </>
               ) : (
                 <>
-                  Build with <code>@kamod-ch/ui</code> and shared tokens.
+                  Build with <PathDisplay path={"@kamod-ch/ui"} /> and shared tokens.
                 </>
               )}{" "}
               <a href={withBasePath("/docs/theming/installation")}>Set up your project</a>.
@@ -148,10 +149,10 @@ export function LibraryDirectory({
               </p>
               <p>
                 Begin with a small example, then adapt its <code>props</code>, state and callbacks
-                to your app. Combine components from <code>@kamod-ch/ui</code> with shared theme
-                tokens to keep their appearance consistent. If you need a complete page layout,
-                explore the <a href={withBasePath("/blocks")}>block collections</a> to see these
-                pieces working together.
+                to your app. Combine components from <PathDisplay path={"@kamod-ch/ui"} /> with
+                shared theme tokens to keep their appearance consistent. If you need a complete page
+                layout, explore the <a href={withBasePath("/blocks")}>block collections</a> to see
+                these pieces working together.
               </p>
             </>
           )
@@ -191,7 +192,7 @@ export function LibraryGrid({ label, items }: { label: string; items: LibraryEnt
               <ArrowUpRightIcon size={14} aria-hidden="true" />
             </span>
             {item.detail && <span class="library-directory-item-description">{item.detail}</span>}
-            {item.packagePath && <code>{item.packagePath}</code>}
+            {item.packagePath && <PathDisplay path={item.packagePath} />}
             {count && (
               <span class="docs-block-category-count">
                 {count}

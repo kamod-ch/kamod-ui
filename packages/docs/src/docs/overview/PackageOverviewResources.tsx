@@ -3,6 +3,7 @@ import { Button } from "@kamod-ch/ui";
 import { withBasePath } from "../../base-path";
 import { BlockHeadingLink } from "../../blocks/BlockHeadingLink";
 import { LibraryGuideSection } from "../components/LibraryGuideSection";
+import { PathDisplay } from "../components/PathDisplay";
 import { packageDocPages } from "../registry";
 
 const responsibilities: Record<string, { purpose: string; detail: string }> = {
@@ -49,7 +50,7 @@ export function PackageDirectory() {
             >
               <span class="package-directory-identity">
                 <strong>{doc.title}</strong>
-                <code>{doc.packagePath}</code>
+                {doc.packagePath && <PathDisplay path={doc.packagePath} />}
               </span>
               <span class="package-directory-summary">
                 <span>{entry?.purpose ?? doc.usageLabel}</span>
@@ -71,8 +72,9 @@ const foundations = [
     href: "/docs/theming/css-setup",
     description: (
       <>
-        When your example uses <code>@kamod-ch/ui</code>, keep its global stylesheet and Tailwind
-        source detection in place. Behavior packages do not replace the interface’s CSS setup.
+        When your example uses <PathDisplay path={"@kamod-ch/ui"} />, keep its global stylesheet and
+        Tailwind source detection in place. Behavior packages do not replace the interface’s CSS
+        setup.
       </>
     ),
   },

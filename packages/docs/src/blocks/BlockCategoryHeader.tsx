@@ -2,6 +2,7 @@
 import { BugIcon } from "@kamod-ch/icons/lucide";
 import { BrandGithubIcon } from "@kamod-ch/icons/tabler/filled";
 import { Button } from "@kamod-ch/ui";
+import { InlineCode } from "../docs/components/PathDisplay";
 import { BlockPageHeader } from "./BlockPageHeader";
 import { type BlockCategory, blockCategories } from "./block-categories";
 import { blockIssueUrl, blockSourceUrl } from "./block-links";
@@ -20,7 +21,8 @@ export function BlockCategoryHeader({ category }: { category: BlockCategory }) {
         <>
           {/* Small inline markup keeps the metadata independent of JSX. */}
           {description.split(/(`[^`]+`|\*\*[^*]+\*\*)/g).map((part, index) => {
-            if (part.startsWith("`")) return <code key={index}>{part.slice(1, -1)}</code>;
+            if (part.startsWith("`"))
+              return <InlineCode key={index}>{part.slice(1, -1)}</InlineCode>;
             if (part.startsWith("**")) return <strong key={index}>{part.slice(2, -2)}</strong>;
             return part;
           })}

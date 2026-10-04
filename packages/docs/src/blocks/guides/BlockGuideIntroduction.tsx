@@ -1,4 +1,5 @@
 import { withBasePath } from "../../base-path";
+import { PathDisplay } from "../../docs/components/PathDisplay";
 import type { blockGuides } from "./guide-catalog";
 
 type GuideSlug = (typeof blockGuides)[number]["slug"];
@@ -19,7 +20,7 @@ export function BlockGuideIntroduction({ slug }: { slug: GuideSlug }) {
         <p>
           Use each variant’s <strong>Code tab and setup guide</strong> for its exact files and
           dependencies. Keep relative imports intact, reuse components from{" "}
-          <code>@kamod-ch/ui</code>, and follow the{" "}
+          <PathDisplay path={"@kamod-ch/ui"} />, and follow the{" "}
           <a href={withBasePath("/docs/theming/css-setup")}>CSS setup instructions</a> before
           checking the first render, keyboard navigation and smaller screens. Start with the working
           example, then adapt one part at a time; the{" "}
@@ -55,8 +56,8 @@ export function BlockGuideIntroduction({ slug }: { slug: GuideSlug }) {
     <>
       <p>
         Bring a copied layout into the <strong>theme your application already uses</strong>. Blocks
-        compose the same <code>@kamod-ch/ui</code> components and semantic tokens as individual
-        controls. This guide focuses on{" "}
+        compose the same <PathDisplay path={"@kamod-ch/ui"} /> components and semantic tokens as
+        individual controls. This guide focuses on{" "}
         <strong>sidebar surfaces, copied-source discovery and complete-screen checks</strong>, so
         you can adapt a composition without introducing another stylesheet or appearance system.
       </p>

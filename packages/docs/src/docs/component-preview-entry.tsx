@@ -1,4 +1,5 @@
 import { type ComponentChildren, render } from "preact";
+import { PathCopySupport } from "./components/PathCopySupport";
 import { getDocSections } from "./doc-sections";
 import { docsShowMotion, isMotionDocSlug } from "./docs-feature-flags";
 import type { DocPageModule } from "./types";
@@ -43,7 +44,13 @@ async function loadPreview() {
     },
   });
   if (preview === undefined) throw new Error("Unknown example index");
-  render(preview, root);
+  render(
+    <>
+      <PathCopySupport />
+      {preview}
+    </>,
+    root,
+  );
 }
 
 void loadPreview()

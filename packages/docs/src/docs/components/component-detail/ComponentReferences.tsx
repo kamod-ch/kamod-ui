@@ -5,6 +5,7 @@ import { withBasePath } from "../../../base-path";
 import { BlockHeadingLink } from "../../../blocks/BlockHeadingLink";
 import { repositoryUrl } from "../../../blocks/block-links";
 import type { DocPageModule } from "../../types";
+import { PathDisplay } from "../PathDisplay";
 import { ComponentDocSection } from "./ComponentDocSection";
 import { componentDesignReference, componentSourceUrl } from "./component-guidance";
 import { FormischReferences } from "./FormischReferences";
@@ -63,7 +64,7 @@ export function ComponentReferences({ doc }: { doc: DocPageModule }) {
           </p>
           <p class="component-reference-location">
             <span>Source location</span>
-            <code>{sourcePath}</code>
+            <PathDisplay path={sourcePath} />
           </p>
           <p>
             Compare imports, default values and state handling with the example you chose. The

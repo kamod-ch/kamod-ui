@@ -18,6 +18,7 @@ import {
 } from "@kamod-ch/ui";
 import { useState } from "preact/hooks";
 import { withBasePath } from "../../base-path";
+import { PathDisplay } from "../../docs/components/PathDisplay";
 import { ShowcaseCodeLink } from "../ShowcaseCodeLink";
 import type { VariantGuide } from "./VariantDocumentation";
 
@@ -67,7 +68,7 @@ function FileGroups({
         <li key={folder} class="blocks-install-folder">
           <div class="blocks-install-folder-label">
             <FolderIcon aria-hidden="true" size={14} />
-            <span>{folder || "At folder root"}</span>
+            <PathDisplay as="span" path={folder || "At folder root"} />
           </div>
           <ul>
             {files.map((name) => (
@@ -130,7 +131,7 @@ function IncludedFilesTrigger({ blockId }: { blockId: string }) {
             </span>
             <span>Extract into</span>
             <span class="blocks-install-path">
-              <code>{`src/components/blocks/${blockId}/`}</code>
+              <PathDisplay path={`src/components/blocks/${blockId}/`} />
             </span>
           </span>
           <ChevronDownIcon
@@ -157,12 +158,13 @@ export function SidebarInstallation({ guide }: { guide: VariantGuide }) {
     <>
       <p>
         Download this variant and extract its <code>{block.id}</code> folder into{" "}
-        <code>src/components/blocks</code>. Install the dependencies below, then import the
-        component. The folder includes its own helpers and demo data; no other sidebar variants are
-        needed. Relative imports are already set up inside the folder, so you can move it as a unit
-        and replace the sample navigation and content with your own. The archive already contains
-        the outer <code>{block.id}/</code> folder: extract it once, rather than creating a second
-        nested folder with the same name. The import examples assume <code>src/App.tsx</code>.
+        <PathDisplay path={"src/components/blocks"} />. Install the dependencies below, then import
+        the component. The folder includes its own helpers and demo data; no other sidebar variants
+        are needed. Relative imports are already set up inside the folder, so you can move it as a
+        unit and replace the sample navigation and content with your own. The archive already
+        contains the outer <PathDisplay path={`${block.id}/`} /> folder: extract it once, rather
+        than creating a second nested folder with the same name. The import examples assume{" "}
+        <PathDisplay path={"src/App.tsx"} />.
       </p>
       <Collapsible class="blocks-install-files group">
         <div class="blocks-install-actions">
@@ -205,8 +207,8 @@ export function SidebarInstallation({ guide }: { guide: VariantGuide }) {
         <strong>Prefer manual copying?</strong>{" "}
         <ShowcaseCodeLink blockId={block.id}>Open the Showcase’s Code tab</ShowcaseCodeLink> and
         copy each listed file into the same folder structure above. Its labels are the destination
-        paths inside <code>{block.id}/</code>, and its imports already match the download. Keep the
-        included license with your copy.
+        paths inside <PathDisplay path={`${block.id}/`} />, and its imports already match the
+        download. Keep the included license with your copy.
       </p>
     </>
   );

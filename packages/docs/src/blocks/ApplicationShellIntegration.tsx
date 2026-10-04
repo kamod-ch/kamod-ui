@@ -1,6 +1,7 @@
 /** @file Typed navigation, router callbacks and desktop-state integration examples. */
 import { Badge } from "@kamod-ch/ui";
 import { CodeBlock } from "../docs/components/CodeBlock";
+import { PathDisplay } from "../docs/components/PathDisplay";
 import type { ShellTypeDefinitions } from "./ApplicationShellTypeDefinition";
 import { BlockGuideHeading } from "./detail/BlockDocumentation";
 import { RequiredIndicator } from "./RequiredIndicator";
@@ -114,8 +115,9 @@ export const ShellNavigationData = ({
       <div>
         <dt>Keep selection explicit</dt>
         <dd>
-          Matching is exact: <code>/projects</code> and <code>/projects/</code> differ. Use{" "}
-          <code>active</code> when your app needs its own matching rules.
+          Matching is exact: <PathDisplay path={"/projects"} /> and{" "}
+          <PathDisplay path={"/projects/"} /> differ. Use <code>active</code> when your app needs
+          its own matching rules.
         </dd>
       </div>
     </dl>
@@ -218,7 +220,7 @@ export const ShellSidebarState = () => (
     </p>
     <p class="blocks-api-example-intro">
       <strong>Remember the desktop preference.</strong> For optional persistence, install{" "}
-      <code>@kamod-ch/hooks</code> with your package manager (for example,{" "}
+      <PathDisplay path={"@kamod-ch/hooks"} /> with your package manager (for example,{" "}
       <code>pnpm add @kamod-ch/hooks</code>) and use this version of <code>AppFrame</code>. Kamod
       Hooks'{" "}
       <a href="https://kamod-ch.github.io/kamod-hooks/hooks/use-local-storage-state/">

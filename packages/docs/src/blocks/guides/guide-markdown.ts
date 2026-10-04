@@ -1,5 +1,7 @@
 import { Marked, Renderer, type Token } from "marked";
 import { withBasePath } from "../../base-path";
+import { isDisplayPath } from "../../docs/components/PathDisplay";
+import { renderPathMarkup } from "../../docs/components/path-markup";
 
 export type GuidePart =
   | { kind: "html"; html: string }
@@ -21,6 +23,11 @@ const escape = (value: string) =>
     .replaceAll("'", "&#39;");
 const markdown = new Marked({
   renderer: {
+    codespan(token) {
+      return isDisplayPath(token.text)
+        ? renderPathMarkup(token.text)
+        : Renderer.prototype.codespan.call(this, token);
+    },
     html: ({ text }) => escape(text),
     link({ href, tokens }) {
       const label = this.parser.parseInline(tokens);

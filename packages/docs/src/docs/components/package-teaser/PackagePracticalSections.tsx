@@ -2,6 +2,7 @@ import { withBasePath } from "../../../base-path";
 import { BlockHeadingLink } from "../../../blocks/BlockHeadingLink";
 import type { PackageTeaserConfig } from "../../pages/kamod-package-doc-factory";
 import { LibraryGuideSection } from "../LibraryGuideSection";
+import { PathDisplay } from "../PathDisplay";
 import { PackageText } from "./PackageGuideHeader";
 import { type PackagePractice, packageGuidePractices } from "./package-guide-practices";
 
@@ -71,7 +72,7 @@ export function PackageSources({ config }: { config: PackageTeaserConfig }) {
         <p>
           This integration guide accompanies{" "}
           <a href={config.githubUrl} target="_blank" rel="noopener noreferrer">
-            {config.packagePath}
+            <PathDisplay as="span" path={config.packagePath} />
           </a>
           , maintained in the Kamod ecosystem. The{" "}
           <a href={config.externalDocsUrl} target="_blank" rel="noopener noreferrer">

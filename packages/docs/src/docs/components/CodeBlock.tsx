@@ -2,7 +2,7 @@ import { useTimeout } from "@kamod-ch/hooks";
 import { CopyIcon } from "@kamod-ch/icons/tabler/outline";
 import type { ComponentChildren } from "preact";
 import { useLayoutEffect, useMemo, useRef, useState } from "preact/hooks";
-import { CodeFilePath } from "./CodeFilePath";
+import { PathDisplay } from "./PathDisplay";
 
 export type CodeLanguage = "tsx" | "bash" | "markdown" | "css" | "text";
 
@@ -119,7 +119,7 @@ export const CodeBlock = ({
         renderToolbar(copyButton)
       ) : filePath || toolbarContent ? (
         <div class="docs-code-toolbar">
-          {filePath && <CodeFilePath path={filePath} />}
+          {filePath && <PathDisplay class="docs-code-file-path" path={filePath} />}
           {toolbarContent}
           {copyButton}
         </div>

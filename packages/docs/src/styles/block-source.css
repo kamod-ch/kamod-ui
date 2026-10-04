@@ -179,15 +179,6 @@
   max-width: 100%;
   font-size: 0.875rem;
 }
-.blocks-source-file-heading .docs-code-path-root {
-  max-width: none;
-}
-.blocks-source-file-heading .docs-code-path-filename {
-  /* Very long filenames may wrap, but never disappear behind an ellipsis. */
-  white-space: normal;
-  overflow-wrap: anywhere;
-  overflow: visible;
-}
 .blocks-source-lines {
   display: inline-flex;
   align-items: center;

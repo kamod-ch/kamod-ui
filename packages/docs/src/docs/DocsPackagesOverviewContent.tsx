@@ -1,6 +1,7 @@
 import { libraryResourceContents } from "./components/LibraryDirectoryResources";
 import { LibraryGuideSection } from "./components/LibraryGuideSection";
 import { LibraryOverviewGuide } from "./components/LibraryOverviewGuide";
+import { PathDisplay } from "./components/PathDisplay";
 import { PackageDirectory, PackageFoundations } from "./overview/PackageOverviewResources";
 import { PackagesOverviewGuide, PackagesOverviewReview } from "./overview/PackagesOverviewGuide";
 import { packageDocPages } from "./registry";
@@ -68,9 +69,10 @@ export const DocsPackagesOverviewContent = () => (
     <LibraryGuideSection id="library-items" title="Find the capability your app needs">
       <div class="block-guide-prose">
         <p>
-          These libraries are <strong>independent companions</strong> to <code>@kamod-ch/ui</code>.
-          Choose the responsibility you need below; each guide takes you from installation to
-          practical examples. You do not need to install the whole collection.
+          These libraries are <strong>independent companions</strong> to{" "}
+          <PathDisplay path={"@kamod-ch/ui"} />. Choose the responsibility you need below; each
+          guide takes you from installation to practical examples. You do not need to install the
+          whole collection.
         </p>
       </div>
       <PackageDirectory />

@@ -3,7 +3,7 @@ import { TextWrapDisabledIcon } from "@kamod-ch/icons/tabler/outline";
 import type { ComponentChildren } from "preact";
 import { useState } from "preact/hooks";
 import { CodeBlock } from "./CodeBlock";
-import { CodeFilePath } from "./CodeFilePath";
+import { PathDisplay } from "./PathDisplay";
 
 /** Shared source surface for block files and standalone component/form examples. */
 export function ShowcaseCodePane({
@@ -28,7 +28,7 @@ export function ShowcaseCodePane({
   const renderToolbar = (copyButton?: ComponentChildren) => (
     <div class="docs-code-toolbar blocks-source-file-heading">
       <div class="blocks-source-file-details">
-        <CodeFilePath path={filePath} />
+        <PathDisplay class="docs-code-file-path" path={filePath} />
         {code !== undefined && (
           <span class="blocks-source-lines">
             <span aria-hidden="true">·</span>

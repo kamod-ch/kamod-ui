@@ -3,6 +3,7 @@ import { Button, Separator } from "@kamod-ch/ui";
 import { withBasePath } from "../../../base-path";
 import { BlockHeadingLink } from "../../../blocks/BlockHeadingLink";
 import { repositoryUrl } from "../../../blocks/block-links";
+import { PathDisplay } from "../PathDisplay";
 import { ComponentDocSection } from "./ComponentDocSection";
 import { componentSourceUrl } from "./component-guidance";
 
@@ -12,8 +13,8 @@ const references = [
     href: "https://formisch.dev/",
     description: (
       <>
-        Form state, field paths and submission behavior. Use the <code>@formisch/preact</code>{" "}
-        adapter for these examples.
+        Form state, field paths and submission behavior. Use the{" "}
+        <PathDisplay path={"@formisch/preact"} /> adapter for these examples.
       </>
     ),
   },
@@ -76,7 +77,7 @@ export function FormischReferences() {
           <div class="formisch-reference-location">
             <span>Source</span>
             <a href={source} target="_blank" rel="noopener noreferrer">
-              <code>{source.split("/main/")[1]}</code>
+              <PathDisplay path={source.split("/main/")[1] ?? source} />
             </a>
           </div>
           <p class="formisch-reference-note">

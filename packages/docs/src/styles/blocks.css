@@ -135,12 +135,11 @@
   color: var(--foreground);
 }
 
-.blocks-install code {
-  flex: 1;
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.blocks-install .path-display {
+  flex: 0 1 auto;
+}
+.blocks-install .path-display + button {
+  margin-inline-start: auto;
 }
 
 .blocks-preview-panel {

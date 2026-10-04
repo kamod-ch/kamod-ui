@@ -2,6 +2,7 @@ import type { ComponentChildren } from "preact";
 import { useContext } from "preact/hooks";
 import { BlockHeadingLink } from "../../../blocks/BlockHeadingLink";
 import type { DocSection } from "../../types";
+import { InlineCode } from "../PathDisplay";
 import { componentAccessibility } from "./accessibility";
 import { ComponentAccessibilitySection } from "./ComponentAccessibilitySection";
 import { ComponentApiSection } from "./ComponentApiSection";
@@ -53,9 +54,9 @@ export function ComponentDocSection({
             .split(/(`[^`]+`|\b[\w-]+="[^"]+")/g)
             .map((part, index) =>
               part.startsWith("`") ? (
-                <code key={index}>{part.slice(1, -1)}</code>
+                <InlineCode key={index}>{part.slice(1, -1)}</InlineCode>
               ) : /^[\w-]+="/.test(part) ? (
-                <code key={index}>{part}</code>
+                <InlineCode key={index}>{part}</InlineCode>
               ) : (
                 part
               ),
