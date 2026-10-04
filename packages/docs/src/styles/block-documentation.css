@@ -70,7 +70,6 @@
 }
 
 .blocks-doc-footer > a:focus-visible,
-.blocks-doc-footer-actions [data-slot="button"]:focus-visible,
 .blocks-doc-table:focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 3px;
@@ -82,16 +81,6 @@
   align-items: center;
   gap: 0.25rem;
   color: var(--muted-foreground);
-}
-
-.blocks-doc-footer-actions [data-slot="button"] {
-  border-radius: 0.375rem;
-  color: inherit;
-}
-
-.blocks-doc-footer-actions [data-slot="button"]:is(:hover, :focus-visible) {
-  background: var(--muted);
-  color: var(--foreground);
 }
 
 .blocks-detail-documentation {
@@ -668,16 +657,6 @@
   .blocks-sidebar-detail .docs-code-wrap .docs-copy-code-button {
     min-height: 1.75rem;
     padding: 0.125rem 0.375rem;
-    border-radius: 0.375rem;
-  }
-
-  .blocks-sidebar-detail .docs-code-wrap .docs-copy-code-button:not(.is-copied) {
-    background: color-mix(in oklab, var(--secondary-accent) 12%, var(--muted));
-    border-color: color-mix(in oklab, var(--secondary-accent) 20%, var(--border));
-  }
-
-  .blocks-sidebar-detail .docs-code-wrap .docs-copy-code-button:not(.is-copied):hover {
-    background: color-mix(in oklab, var(--secondary-accent) 22%, var(--muted));
   }
 }
 
@@ -795,9 +774,6 @@
   width: 1.25rem;
   height: 1.25rem;
   padding: 0;
-  border-radius: 50%;
-  background: color-mix(in oklab, var(--muted) 55%, transparent);
-  color: var(--muted-foreground);
 }
 
 .blocks-install-next {
@@ -805,21 +781,11 @@
   height: auto;
   min-height: 1.75rem;
   padding: 0.375rem 0.625rem;
-  border: 1px solid color-mix(in oklab, var(--border) 65%, transparent);
-  border-radius: 0.5rem;
-  background: color-mix(in oklab, var(--muted) 25%, transparent);
-  color: var(--muted-foreground);
   font-size: 0.6875rem;
   font-weight: 400;
 }
 
 .blocks-install-next > svg {
-  color: var(--foreground);
-}
-
-.blocks-install-next:hover {
-  border-color: color-mix(in oklab, var(--primary) 20%, var(--border));
-  background: color-mix(in oklab, var(--muted) 65%, transparent);
   color: var(--foreground);
 }
 

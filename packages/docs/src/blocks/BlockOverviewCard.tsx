@@ -95,6 +95,7 @@ function BlockCardFooter({
         </div>
         <div class="blocks-overview-action-links">
           <Button
+            class="docs-icon-button"
             variant="ghost"
             size="icon-sm"
             href={sourceUrl}
@@ -107,6 +108,7 @@ function BlockCardFooter({
           </Button>
           {/* Native navigation preserves fragment scrolling across PreactPress routes. */}
           <Button
+            class="docs-icon-button"
             variant="ghost"
             size="icon-sm"
             href={installationUrl}

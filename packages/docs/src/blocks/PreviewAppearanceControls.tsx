@@ -21,7 +21,7 @@ export function PreviewAppearanceControls({
     >
       <button
         type="button"
-        class="blocks-showcase-control"
+        class="docs-icon-button blocks-showcase-control"
         aria-label="Dark preview"
         aria-pressed={isDark}
         title={`Switch preview to ${isDark ? "light" : "dark"} mode`}
@@ -30,7 +30,7 @@ export function PreviewAppearanceControls({
         <SchemeIcon size={17} aria-hidden="true" />
       </button>
       <label
-        class="blocks-showcase-preset blocks-showcase-control"
+        class="docs-icon-button blocks-showcase-preset blocks-showcase-control"
         title={`Preview theme: ${presetLabel}`}
       >
         <PaletteIcon size={17} aria-hidden="true" />

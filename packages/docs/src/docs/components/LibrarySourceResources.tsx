@@ -68,6 +68,7 @@ export function LibrarySourceResources() {
           and documentation tooling on GitHub. Add what your project needs, one piece at a time.
         </p>
         <Button
+          class="docs-icon-button"
           variant="ghost"
           size="sm"
           href="https://github.com/kamod-ch"

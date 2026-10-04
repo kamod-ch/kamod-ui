@@ -83,7 +83,12 @@ export function ComponentRelatedComponents({
               .join(" ");
             return (
               <div key={slug} class="component-companion">
-                <Button asChild variant="ghost" size="sm" class="component-companion-link">
+                <Button
+                  asChild
+                  variant="ghost"
+                  size="sm"
+                  class="docs-icon-button component-companion-link"
+                >
                   <a href={withBasePath(`/docs/${slug}/installation`)}>
                     {name}
                     <ArrowUpRightIcon size={14} aria-hidden="true" />

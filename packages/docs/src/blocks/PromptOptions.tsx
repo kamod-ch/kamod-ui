@@ -38,7 +38,7 @@ export function PromptOptions({
         }}
       >
         {modes.map(({ value, label, Icon }) => (
-          <ToggleGroupItem key={value} value={value}>
+          <ToggleGroupItem class="docs-icon-button" key={value} value={value}>
             <Icon size={14} aria-hidden="true" />
             {label} {subject}
           </ToggleGroupItem>

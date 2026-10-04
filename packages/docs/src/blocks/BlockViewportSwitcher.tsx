@@ -47,6 +47,7 @@ export const BlockViewportSwitcher = ({
       const disabled = availableWidth < BLOCK_VIEWPORT_MIN_WIDTH[viewport];
       return (
         <ToggleGroupItem
+          class="docs-icon-button"
           key={viewport}
           value={viewport}
           aria-label={label}

@@ -22,6 +22,7 @@ export function ComponentExampleLinks({
   return (
     <div class="component-example-links" role="group" aria-label="Example source and feedback">
       <Button
+        class="docs-icon-button"
         variant="ghost"
         size="icon-sm"
         href={`${repositoryUrl}/issues/new?${report}`}
@@ -33,6 +34,7 @@ export function ComponentExampleLinks({
         <BugIcon size={16} aria-hidden="true" />
       </Button>
       <Button
+        class="docs-icon-button"
         variant="ghost"
         size="icon-sm"
         href={source}

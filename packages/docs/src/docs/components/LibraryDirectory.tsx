@@ -69,7 +69,7 @@ export function LibraryDirectory({
             </p>
             <div class="library-directory-actions">
               <div class="library-directory-browse-actions">
-                <a class="library-directory-browse" href="#library-items">
+                <a class="docs-icon-button library-directory-browse" href="#library-items">
                   Browse {title.toLowerCase()}
                   <ArrowRightIcon size={14} aria-hidden="true" />
                 </a>
@@ -80,6 +80,7 @@ export function LibraryDirectory({
               </div>
               <div class="library-directory-icon-links">
                 <a
+                  class="docs-icon-button"
                   href={withBasePath("/docs/theming/css-setup")}
                   aria-label="Open CSS setup guide"
                   title="CSS setup"
@@ -87,6 +88,7 @@ export function LibraryDirectory({
                   <BookOpenIcon size={16} aria-hidden="true" />
                 </a>
                 <a
+                  class="docs-icon-button"
                   href={`https://github.com/kamod-ch/kamod-ui/tree/main/packages/${isBlocks ? "blocks" : "core"}/src`}
                   target="_blank"
                   rel="noreferrer"

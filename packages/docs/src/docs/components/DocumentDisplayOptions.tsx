@@ -32,7 +32,7 @@ export function DocumentDisplayOptions({
       }}
     >
       {formats.map(({ value: format, label: text, Icon }) => (
-        <ToggleGroupItem key={format} value={format}>
+        <ToggleGroupItem class="docs-icon-button" key={format} value={format}>
           <Icon size={14} aria-hidden="true" />
           {text}
           {format === "code" && <span class="sr-only"> (Markdown)</span>}

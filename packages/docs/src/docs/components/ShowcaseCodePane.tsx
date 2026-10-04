@@ -44,7 +44,7 @@ export function ShowcaseCodePane({
         >
           <button
             type="button"
-            class="blocks-source-wrap"
+            class="docs-icon-button blocks-source-wrap"
             aria-pressed={wrapped}
             aria-label="Wrap code lines"
             title={`Line wrapping ${wrapped ? "on" : "off"}`}

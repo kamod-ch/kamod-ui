@@ -177,6 +177,7 @@ export function PackageGuide({
                     <div class="package-guide-reference-action">
                       <span>Continue with the dedicated package documentation.</span>
                       <Button
+                        class="docs-icon-button"
                         variant="outline"
                         size="sm"
                         href={config.externalDocsUrl}

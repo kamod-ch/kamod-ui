@@ -22,7 +22,7 @@ export function PreviewRefreshControl({
     <>
       <button
         type="button"
-        class="blocks-showcase-control blocks-showcase-refresh"
+        class="docs-icon-button blocks-showcase-control blocks-showcase-refresh"
         data-refresh-state={phase}
         disabled={phase !== "idle"}
         aria-busy={phase === "loading"}

@@ -1,0 +1,69 @@
+/**
+ * Shared appearance for documentation icon actions, with or without a label.
+ * Apply alongside a core Button size or a local sizing class. This class owns
+ * no dimensions, padding, gap, font size or SVG size; each usage supplies those.
+ */
+.docs-icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 0.5rem;
+  background: color-mix(in oklab, var(--foreground) 6%, transparent);
+  color: var(--muted-foreground);
+  box-shadow: none;
+  text-decoration: none;
+  cursor: pointer;
+  translate: 0;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease,
+    box-shadow 160ms ease,
+    translate 160ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.docs-icon-button:is(:hover, :focus-visible):not(:disabled, [aria-disabled="true"]) {
+  background: color-mix(in oklab, var(--foreground) 12%, transparent);
+  color: var(--foreground);
+}
+.docs-icon-button:focus-visible,
+.docs-icon-button:has(select:focus-visible) {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+/* Selection and completed actions remain distinct from a transient hover. */
+.docs-icon-button:is(
+  [aria-pressed="true"],
+  [aria-expanded="true"],
+  [data-state="active"],
+  [data-state="on"],
+  [data-refresh-state="loading"],
+  [data-refresh-state="complete"],
+  .is-copied
+) {
+  background: var(--background);
+  color: var(--foreground);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 8%);
+}
+.docs-icon-button:is(:disabled, [aria-disabled="true"]) {
+  cursor: not-allowed;
+}
+.docs-icon-button[aria-busy="true"] {
+  cursor: progress;
+}
+/* Lift the surface without moving surrounding layout or disturbing animated icons. */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .docs-icon-button:hover:not(:disabled, [aria-disabled="true"], [aria-busy="true"]) {
+    translate: 0 -1px;
+    box-shadow: 0 3px 7px -4px color-mix(in oklab, var(--foreground) 32%, transparent);
+  }
+  .docs-icon-button:active:not(:disabled, [aria-disabled="true"], [aria-busy="true"]) {
+    translate: 0;
+    box-shadow: none;
+    transition-duration: 70ms;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .docs-icon-button {
+    transition: none;
+  }
+}

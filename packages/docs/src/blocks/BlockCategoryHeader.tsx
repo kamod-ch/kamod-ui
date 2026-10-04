@@ -41,6 +41,7 @@ export function BlockCategoryHeader({ category }: { category: BlockCategory }) {
             aria-label={`${label} category actions`}
           >
             <Button
+              class="docs-icon-button"
               variant="ghost"
               size="icon-sm"
               href={sourceUrl}
@@ -52,6 +53,7 @@ export function BlockCategoryHeader({ category }: { category: BlockCategory }) {
               <BrandGithubIcon size={13} aria-hidden="true" />
             </Button>
             <Button
+              class="docs-icon-button"
               variant="ghost"
               size="icon-sm"
               href={blockIssueUrl(label, sourceUrl, "Category")}

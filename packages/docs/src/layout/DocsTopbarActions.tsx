@@ -11,7 +11,7 @@ export function DocsTopbarActions() {
         <ThemePresetPicker showLabel />
       </span>
       <ThemeToggle
-        class="docs-topbar-theme-toggle site-icon-button"
+        class="docs-icon-button docs-topbar-theme-toggle site-icon-button"
         aria-label="Toggle color scheme"
       >
         <SunMoonIcon strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />

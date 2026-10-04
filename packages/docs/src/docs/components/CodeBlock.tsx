@@ -97,7 +97,7 @@ export const CodeBlock = ({
   const copyButton = (
     <button
       type="button"
-      class={`docs-copy-code-button ${isCopied ? "is-copied" : ""}`}
+      class={`docs-icon-button docs-copy-code-button ${isCopied ? "is-copied" : ""}`}
       aria-label={isCopied ? "Code copied" : "Copy code"}
       title={isCopied ? "Code copied" : "Copy code"}
       onClick={() => void copyCode()}

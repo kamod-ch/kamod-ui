@@ -52,15 +52,25 @@ export function ComponentExample({
           <div class="blocks-showcase-toolbar">
             <div class="blocks-showcase-views">
               <TabsList class="blocks-showcase-segmented" aria-label="Example view">
-                <TabsTrigger value="preview" aria-label="Preview" title="Preview">
+                <TabsTrigger
+                  class="docs-icon-button"
+                  value="preview"
+                  aria-label="Preview"
+                  title="Preview"
+                >
                   <EyeIcon aria-hidden="true" />
                   <span class="blocks-showcase-control-label">Preview</span>
                 </TabsTrigger>
-                <TabsTrigger value="code" aria-label="Code" title="Code">
+                <TabsTrigger class="docs-icon-button" value="code" aria-label="Code" title="Code">
                   <CodeIcon aria-hidden="true" />
                   <span class="blocks-showcase-control-label">Code</span>
                 </TabsTrigger>
-                <TabsTrigger value="prompt" aria-label="Prompt" title="Prompt">
+                <TabsTrigger
+                  class="docs-icon-button"
+                  value="prompt"
+                  aria-label="Prompt"
+                  title="Prompt"
+                >
                   <SparklesIcon aria-hidden="true" />
                   <span class="blocks-showcase-control-label">Prompt</span>
                 </TabsTrigger>
@@ -81,6 +91,7 @@ export function ComponentExample({
                   aria-orientation={undefined}
                 >
                   <ToggleGroupItem
+                    class="docs-icon-button"
                     value="narrow"
                     aria-label="Narrow container"
                     disabled={!canConstrain}
@@ -93,6 +104,7 @@ export function ComponentExample({
                     <ArrowsMinimizeIcon aria-hidden="true" />
                   </ToggleGroupItem>
                   <ToggleGroupItem
+                    class="docs-icon-button"
                     value="full"
                     aria-label="Full container width"
                     title="Use the available container width"

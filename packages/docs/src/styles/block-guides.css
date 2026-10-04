@@ -225,13 +225,13 @@
   }
 }
 
-:is(.block-guide-prose, .block-guide-description) a {
+:is(.block-guide-prose, .block-guide-description) a:not(.docs-icon-button) {
   color: var(--foreground);
   text-decoration: underline;
   text-decoration-color: color-mix(in oklab, currentColor 35%, transparent);
   text-underline-offset: 0.2em;
 }
-:is(.block-guide-prose, .block-guide-description) a:hover {
+:is(.block-guide-prose, .block-guide-description) a:not(.docs-icon-button):hover {
   text-decoration-color: currentColor;
 }
 

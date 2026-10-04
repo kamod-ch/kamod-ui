@@ -70,6 +70,7 @@ function BlockDetailHeaderActions({
       <div class="blocks-page-header-links" role="group" aria-label="Block navigation and links">
         {neighbours.map(({ label, rel, block: neighbour, Icon }) => (
           <Button
+            class="docs-icon-button"
             key={rel}
             variant="ghost"
             size="icon-sm"
@@ -85,6 +86,7 @@ function BlockDetailHeaderActions({
           </Button>
         ))}
         <Button
+          class="docs-icon-button"
           variant="ghost"
           size="icon-sm"
           href={blockIssueUrl(block.title, sourceUrl, "Block")}
@@ -96,6 +98,7 @@ function BlockDetailHeaderActions({
           <BugIcon size={16} strokeWidth={1.75} aria-hidden="true" />
         </Button>
         <Button
+          class="docs-icon-button"
           variant="ghost"
           size="icon-sm"
           href={sourceUrl}

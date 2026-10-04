@@ -136,6 +136,7 @@ const BlockCard = ({ block }: { block: MarketingBlock }) => {
             <div class="blocks-install">
               <code>{installCommand}</code>
               <Button
+                class="docs-icon-button"
                 size="icon-sm"
                 variant="ghost"
                 aria-label="Copy block path"

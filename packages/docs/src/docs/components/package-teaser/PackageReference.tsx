@@ -29,7 +29,13 @@ export function PackageReference({ config }: { config: PackageTeaserConfig }) {
       </div>
       <div class="package-guide-reference-controls">
         <DocumentDisplayOptions value={display} onChange={setDisplay} label="Reference display" />
-        <Button variant="ghost" size="sm" href={download} download={`${config.slug}-reference.md`}>
+        <Button
+          class="docs-icon-button"
+          variant="ghost"
+          size="sm"
+          href={download}
+          download={`${config.slug}-reference.md`}
+        >
           <DownloadIcon size={14} aria-hidden="true" />
           Download<span class="sr-only"> Markdown reference</span>
         </Button>

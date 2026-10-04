@@ -123,7 +123,7 @@ export function PackageFoundations() {
               </h3>
               <p>{description}</p>
             </div>
-            <Button variant="ghost" size="sm" href={withBasePath(href)}>
+            <Button class="docs-icon-button" variant="ghost" size="sm" href={withBasePath(href)}>
               {action}
               <ArrowRightIcon size={14} aria-hidden="true" />
             </Button>

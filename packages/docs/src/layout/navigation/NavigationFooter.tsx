@@ -45,7 +45,7 @@ export function NavigationFooter() {
         </nav>
         <div class="site-navigation-footer-actions">
           <a
-            class="site-icon-button"
+            class="docs-icon-button site-icon-button"
             href={`${repositoryUrl}/blob/main/CONTRIBUTING.md`}
             target="_blank"
             rel="noopener noreferrer"

@@ -90,20 +90,12 @@
   height: var(--showcase-control-size);
   min-height: 0;
   padding: 0 0.625rem;
-  border: 0;
-  border-radius: 0.375rem;
-  background: transparent;
-  color: color-mix(in oklab, var(--foreground) 78%, var(--background));
   font-size: 0.75rem;
   font-weight: 500;
   line-height: 1;
   text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
-  transition:
-    color 150ms ease,
-    background-color 150ms ease,
-    box-shadow 150ms ease;
 }
 
 :is(.blocks-showcase-toolbar, .blocks-prompt-options) [data-slot="toggle-group-item"],
@@ -120,40 +112,8 @@
   display: none;
 }
 
-.blocks-showcase-toolbar [data-slot="tabs-trigger"][data-state="active"],
-:is(.blocks-showcase-toolbar, .blocks-prompt-options)
-  [data-slot="toggle-group-item"][data-state="on"],
-.blocks-showcase-control[aria-pressed="true"] {
-  background: var(--background);
-  color: var(--foreground);
-  box-shadow: 0 1px 3px rgb(0 0 0 / 8%);
-}
-
-.blocks-showcase-toolbar [data-slot="tabs-trigger"]:hover,
-:is(.blocks-showcase-toolbar, .blocks-prompt-options) [data-slot="toggle-group-item"]:hover,
-.blocks-showcase-control:hover {
-  color: var(--foreground);
-  background: color-mix(in oklab, var(--primary) 12%, var(--background));
-}
-
-.blocks-showcase-toolbar [data-slot="tabs-trigger"][data-state="active"]:hover,
-:is(.blocks-showcase-toolbar, .blocks-prompt-options)
-  [data-slot="toggle-group-item"][data-state="on"]:hover,
-.blocks-showcase-control[aria-pressed="true"]:hover {
-  background: var(--background);
-}
-
-.blocks-showcase-control:focus-visible,
-.blocks-showcase-preset:focus-within {
-  outline: 2px solid var(--ring);
-  outline-offset: 2px;
-}
-
 .blocks-showcase .blocks-preview-viewport-switcher [data-slot="toggle-group-item"]:disabled {
   opacity: 0.35;
-  background: transparent;
-  color: var(--muted-foreground);
-  box-shadow: none;
   cursor: not-allowed;
   /* Preserve the explanatory native hover title on disabled buttons. */
   pointer-events: auto;
@@ -165,15 +125,6 @@
 .blocks-showcase-refresh:disabled {
   cursor: progress;
   opacity: 1;
-}
-.blocks-showcase-refresh:is([data-refresh-state="loading"], [data-refresh-state="complete"]) {
-  background: var(--background);
-  color: var(--foreground);
-  box-shadow: 0 1px 3px rgb(0 0 0 / 8%);
-}
-.blocks-showcase-refresh[data-refresh-state="resetting"] {
-  background: transparent;
-  box-shadow: none;
 }
 .blocks-showcase-refresh-icon {
   display: grid;
@@ -328,8 +279,11 @@
     font-size: 0.75rem;
     padding-inline: 0.5rem;
   }
-  /* Override the documentation's compact Copy button within both showcase panels. */
-  .blocks-showcase .docs-code-wrap .docs-code-toolbar .docs-copy-code-button {
+  /* Source controls size both buttons together; other Copy actions retain the larger touch size. */
+  .blocks-showcase
+    .docs-code-wrap
+    .docs-code-toolbar:not(.blocks-source-file-heading)
+    .docs-copy-code-button {
     min-height: 2.5rem;
   }
 }
@@ -368,11 +322,6 @@
 @media (prefers-reduced-motion: reduce) {
   .blocks-showcase-refresh[data-refresh-state] .blocks-showcase-refresh-icon > svg {
     animation: none;
-    transition: none;
-  }
-  .blocks-showcase-toolbar [data-slot="tabs-trigger"],
-  :is(.blocks-showcase-toolbar, .blocks-prompt-options) [data-slot="toggle-group-item"],
-  .blocks-showcase-control {
     transition: none;
   }
 }

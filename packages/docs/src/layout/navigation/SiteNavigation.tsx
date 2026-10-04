@@ -70,7 +70,7 @@ export function SiteNavigation() {
           }}
           type="button"
           disabled={!ready}
-          class="site-navigation-trigger site-icon-button"
+          class="docs-icon-button site-navigation-trigger site-icon-button"
           aria-label="Open navigation menu"
           aria-haspopup="dialog"
           aria-controls={open ? id : undefined}
@@ -85,7 +85,10 @@ export function SiteNavigation() {
               <span class="site-navigation-eyebrow">KAMOD UI / DOCUMENTATION</span>
               <SheetTitle>Explore Kamod</SheetTitle>
             </div>
-            <SheetClose class="site-navigation-icon-button" aria-label="Close navigation menu">
+            <SheetClose
+              class="docs-icon-button site-navigation-icon-button"
+              aria-label="Close navigation menu"
+            >
               <XIcon size={19} aria-hidden="true" />
             </SheetClose>
           </div>

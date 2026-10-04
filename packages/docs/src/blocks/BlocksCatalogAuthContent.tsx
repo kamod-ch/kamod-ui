@@ -142,6 +142,7 @@ const BlockCard = ({ block }: { block: CatalogAuthBlock }) => {
             <div class="blocks-install">
               <code>{installCommand}</code>
               <Button
+                class="docs-icon-button"
                 size="icon-sm"
                 variant="ghost"
                 aria-label="Copy block path"

@@ -118,12 +118,6 @@
   margin: 0;
   font-size: 0.8125rem;
 }
-.package-foundation > [data-slot="button"] {
-  background: color-mix(in oklab, var(--foreground) 4%, transparent);
-}
-.package-foundation > [data-slot="button"]:hover {
-  background: color-mix(in oklab, var(--foreground) 8%, transparent);
-}
 .package-source-note {
   padding-top: 1.5rem;
   border-top: 1px solid var(--border);

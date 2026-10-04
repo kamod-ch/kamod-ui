@@ -954,22 +954,9 @@ html.dark .docs-code .token.variable {
   align-items: center;
   gap: 0.35rem;
   padding: 0.35rem 0.55rem;
-  border: 1px solid var(--border);
-  border-radius: 0.5rem;
-  background: var(--muted);
-  color: var(--foreground);
   font-size: 0.75rem;
   line-height: 1;
   cursor: pointer;
-  transition:
-    background-color 140ms ease,
-    border-color 140ms ease,
-    transform 140ms ease;
-}
-
-.docs-copy-code-button:hover {
-  background: var(--accent);
-  border-color: var(--border);
 }
 
 .docs-code-toolbar {
@@ -1023,41 +1010,6 @@ html.dark .docs-code .token.variable {
   position: static;
   flex-shrink: 0;
   margin-inline-start: auto;
-}
-
-.docs-copy-code-button:focus-visible {
-  outline: 2px solid var(--outline);
-  outline-offset: 2px;
-}
-
-.docs-copy-code-button:active {
-  transform: translateY(1px);
-}
-
-.docs-copy-code-button.is-copied {
-  border-color: var(--success);
-  background: var(--success);
-  color: var(--success-foreground);
-}
-
-html.dark .docs-copy-code-button {
-  border-color: rgb(255 255 255 / 14%);
-  background: rgb(255 255 255 / 7%);
-}
-
-html.dark .docs-copy-code-button:hover {
-  background: rgb(255 255 255 / 11%);
-  border-color: rgb(255 255 255 / 24%);
-}
-
-html.dark .docs-copy-code-button:focus-visible {
-  outline-color: rgb(255 255 255 / 42%);
-}
-
-html.dark .docs-copy-code-button.is-copied {
-  border-color: rgb(110 231 183 / 52%);
-  background: rgb(16 185 129 / 16%);
-  color: rgb(134 239 172);
 }
 
 html.dark .docs-copy-feedback.is-success {

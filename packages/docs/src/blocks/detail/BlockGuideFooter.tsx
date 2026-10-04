@@ -29,6 +29,7 @@ export const BlockGuideFooter = ({
     </a>
     <nav class="blocks-doc-footer-actions" aria-label="Project resources">
       <Button
+        class="docs-icon-button"
         variant="ghost"
         size="icon"
         href={repositoryUrl}
@@ -40,6 +41,7 @@ export const BlockGuideFooter = ({
         <BrandGithubIcon size={16} aria-hidden="true" />
       </Button>
       <Button
+        class="docs-icon-button"
         variant="ghost"
         size="icon"
         href={`${repositoryUrl}/issues/new`}

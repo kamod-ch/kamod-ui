@@ -25,6 +25,7 @@ export function SidebarResources() {
       </a>
       <div class="docs-sidebar-resource-actions">
         <Button
+          class="docs-icon-button"
           variant="ghost"
           size="sm"
           href={`${repositoryUrl}/issues/new/choose`}
@@ -36,6 +37,7 @@ export function SidebarResources() {
           Report a bug
         </Button>
         <Button
+          class="docs-icon-button"
           variant="ghost"
           size="sm"
           href={`${repositoryUrl}/blob/main/CONTRIBUTING.md`}

@@ -57,6 +57,7 @@ export function FormischReferences() {
               <BlockHeadingLink id="component-source">Kamod UI implementation</BlockHeadingLink>
             </h3>
             <Button
+              class="docs-icon-button"
               variant="ghost"
               size="sm"
               href={source}

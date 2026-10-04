@@ -36,7 +36,7 @@ export function ThemePresetPicker({
   return (
     <Popover class="site-theme-picker">
       <PopoverTrigger
-        class={`site-icon-button${showLabel ? " site-theme-picker-labeled" : ""}`}
+        class={`docs-icon-button site-icon-button${showLabel ? " site-theme-picker-labeled" : ""}`}
         aria-label="Choose color theme"
         title="Choose color theme"
       >

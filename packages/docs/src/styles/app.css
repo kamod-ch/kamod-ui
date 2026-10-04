@@ -876,15 +876,6 @@ html {
   height: 2.5rem;
   min-width: 2.5rem;
   padding: 0;
-  border: 1px solid transparent;
-  border-radius: 0.65rem;
-  background: color-mix(in oklab, var(--foreground) 5%, transparent);
-  color: var(--muted-foreground);
-  box-shadow: none;
-}
-.docs-topbar .site-icon-button:hover {
-  background: color-mix(in oklab, var(--primary) 8%, var(--background));
-  color: var(--foreground);
 }
 .docs-topbar .site-icon-button svg {
   width: 1.125rem;
@@ -921,7 +912,6 @@ html {
     width: 2.25rem;
     height: 2.25rem;
     min-width: 2.25rem;
-    border-radius: 0.55rem;
   }
 
   .docs-topbar .site-icon-button svg {

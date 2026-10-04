@@ -92,7 +92,7 @@ function DownloadInfo() {
         <Button
           variant="ghost"
           size="icon-xs"
-          class="blocks-install-info"
+          class="docs-icon-button blocks-install-info"
           aria-label="About this download"
           onClick={() => setOpen(true)}
         >
@@ -167,7 +167,7 @@ export function SidebarInstallation({ guide }: { guide: VariantGuide }) {
       <Collapsible class="blocks-install-files group">
         <div class="blocks-install-actions">
           <div class="blocks-install-download">
-            <Button asChild size="sm">
+            <Button class="docs-icon-button" asChild size="sm">
               <a
                 download={`${block.id}.zip`}
                 href={withBasePath(`/blocks/downloads/${block.id}.zip`)}
@@ -187,7 +187,7 @@ export function SidebarInstallation({ guide }: { guide: VariantGuide }) {
           <Button
             variant="ghost"
             size="xs"
-            class="blocks-install-next"
+            class="docs-icon-button blocks-install-next"
             href={`#${anchor("dependencies")}`}
           >
             Install dependencies

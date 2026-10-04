@@ -76,6 +76,7 @@ export function ComponentReferences({ doc }: { doc: DocPageModule }) {
             aria-label={`${doc.title} implementation resources`}
           >
             <Button
+              class="docs-icon-button"
               variant="ghost"
               size="sm"
               href={source}
@@ -160,6 +161,7 @@ export function ComponentReferences({ doc }: { doc: DocPageModule }) {
           )}
           <nav class="component-reference-actions" aria-label={`${doc.title} design resources`}>
             <Button
+              class="docs-icon-button"
               variant="ghost"
               size="sm"
               href={reference ?? withBasePath("/blocks/styles")}

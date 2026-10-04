@@ -19,14 +19,7 @@
   width: 2.75rem;
   height: 2.75rem;
   padding: 0;
-  border: 1px solid transparent;
-  border-radius: 0.65rem;
-  background: color-mix(in oklab, var(--foreground) 5%, transparent);
-  color: var(--muted-foreground);
   cursor: pointer;
-  transition:
-    background 160ms ease,
-    border-color 160ms ease;
 }
 
 .site-navigation-panel {
@@ -277,18 +270,15 @@
 }
 
 .site-navigation-panel :is(a, button):focus-visible,
-.site-navigation-directory :is(a, button):focus-visible,
-.site-icon-button:focus-visible {
+.site-navigation-directory :is(a, button):focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 2px;
 }
 
 @media (hover: hover) {
-  .site-icon-button:hover,
-  .site-navigation-icon-button:hover,
   .site-navigation-group-trigger:hover,
   .site-navigation-link:not([aria-current]):hover,
-  .site-navigation-footer a:hover {
+  .site-navigation-footer a:not(.docs-icon-button):hover {
     color: var(--foreground);
     background: color-mix(in oklab, var(--primary) 7%, var(--background));
   }
@@ -357,7 +347,6 @@
 .site-navigation-icon-button {
   width: 2rem;
   height: 2rem;
-  border-radius: 0.5rem;
 }
 .site-navigation-quick-links {
   display: flex;
@@ -477,7 +466,6 @@
   width: 2.25rem;
   height: 2.25rem;
   min-width: 2.25rem;
-  background: transparent;
 }
 /* Keep the directory usable when the keyboard or landscape viewport reduces height. */
 @media (max-height: 480px) {
