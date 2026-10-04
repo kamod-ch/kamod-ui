@@ -79,6 +79,7 @@ import { toggleDocPage } from "./pages/toggle-doc";
 import { toggleGroupDocPage } from "./pages/toggle-group-doc";
 import { tooltipDocPage } from "./pages/tooltip-doc";
 import { treeDocPage } from "./pages/tree-doc";
+import { typeDefinitionDocPage } from "./pages/type-definition-doc";
 import { typographyDocPage } from "./pages/typography-doc";
 import { uiMotionDocPage } from "./pages/ui-motion-doc";
 import { videoDocPage } from "./pages/video-doc";
@@ -86,6 +87,7 @@ import type { ComponentOverviewItem, DocPageModule } from "./types";
 
 export const allDocsPages: DocPageModule[] = [
   accordionDocPage,
+  typeDefinitionDocPage,
   alertDocPage,
   alertDialogDocPage,
   aspectRatioDocPage,

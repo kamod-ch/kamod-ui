@@ -3,41 +3,9 @@ import { BlockHeadingLink } from "../../blocks/BlockHeadingLink";
 import { CodeBlock } from "../components/CodeBlock";
 import { LibraryGuideSection } from "../components/LibraryGuideSection";
 import { OverviewExamples } from "../components/OverviewExamples";
+import { PathDisplay } from "../components/PathDisplay";
 import { PackageOverviewPreview } from "./OverviewPreviews";
 import { packageExamples } from "./overview-examples";
-
-const choices = [
-  [
-    "Reusable component behavior",
-    "Hooks",
-    "hooks-package",
-    "State helpers, lifecycle work and browser interactions that belong near a component.",
-  ],
-  [
-    "A small durable preference",
-    "Signals",
-    "signals-package",
-    "Reactive values connected to a chosen storage driver, with explicit keys and defaults.",
-  ],
-  [
-    "Coordinated application transitions",
-    "State",
-    "state-package",
-    "Typed actions and reducers when several parts of the application share a domain model.",
-  ],
-  [
-    "Consistent visual actions",
-    "Icons",
-    "icons-package",
-    "Typed SVG components, named imports and icon families that inherit the interface’s colors.",
-  ],
-  [
-    "Multiple languages",
-    "i18n",
-    "i18n-package",
-    "Typed translation keys, locale-aware messages and native Intl formatting, with an optional Preact adapter.",
-  ],
-];
 
 /** Package guidance distinguishes responsibilities without prescribing an entire stack. */
 export function PackagesOverviewGuide() {
@@ -52,37 +20,10 @@ export function PackagesOverviewGuide() {
             follow that package’s installation and usage documentation.
           </p>
           <p>
-            The table below describes responsibilities. These are useful boundaries even when you
+            The directory above separates responsibilities. Keep those boundaries clear when you
             combine libraries: a hook manages nearby behavior, a store coordinates domain changes,
             and persistence decides what survives beyond the current session.
           </p>
-        </div>
-        <div
-          class="block-guide-table"
-          role="region"
-          aria-label="Package selection reference"
-          tabIndex={0}
-        >
-          <table>
-            <thead>
-              <tr>
-                <th scope="col">Your task</th>
-                <th scope="col">Start with</th>
-                <th scope="col">Its responsibility</th>
-              </tr>
-            </thead>
-            <tbody>
-              {choices.map(([task, label, slug, advice]) => (
-                <tr key={slug}>
-                  <th scope="row">{task}</th>
-                  <td>
-                    <a href={withBasePath(`/docs/${slug}/installation`)}>{label}</a>
-                  </td>
-                  <td>{advice}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
         </div>
         <div class="block-guide-prose">
           <h3 id="package-boundaries">
@@ -90,13 +31,30 @@ export function PackagesOverviewGuide() {
               Keep one owner for each responsibility
             </BlockHeadingLink>
           </h3>
-          <p>
-            Choose local Preact state for a value that belongs to one component. Consider{" "}
-            <code>@kamod-ch/hooks</code> when an existing hook captures repeated behavior. Use{" "}
-            <code>@kamod-ch/state</code> when explicit actions and shared transitions make the
-            domain easier to understand. Use <code>@kamod-ch/signals</code> when durable reactive
-            values are the need, not simply because a value changes.
-          </p>
+          <dl class="package-decision-list">
+            <div>
+              <dt>Is the behavior local?</dt>
+              <dd>
+                Start with <code>useState</code>. Reach for{" "}
+                <a href={withBasePath("/docs/hooks-package/installation")}>Hooks</a> when the same
+                behavior repeats across components.
+              </dd>
+            </div>
+            <div>
+              <dt>Does it need to survive a reload?</dt>
+              <dd>
+                Explore <a href={withBasePath("/docs/signals-package/installation")}>Signals</a>.
+                Define the storage key, initial value and reset behavior together.
+              </dd>
+            </div>
+            <div>
+              <dt>Do several actions change one model?</dt>
+              <dd>
+                Explore <a href={withBasePath("/docs/state-package/installation")}>State</a>. Make
+                transitions explicit and keep derived values out of storage.
+              </dd>
+            </div>
+          </dl>
           <p>
             These approaches can coexist, but do not mirror the same value in several places without
             a clear synchronization contract.{" "}
@@ -147,7 +105,7 @@ export function PackagesOverviewGuide() {
             <a href={withBasePath("/docs/hooks-package/installation")}>
               {" "}
               package installation guide
-            </a>
+            </a>{" "}
             for its full setup and verify that your existing Preact version satisfies the
             requirement.
           </p>
@@ -164,11 +122,11 @@ export function PackagesOverviewGuide() {
             </BlockHeadingLink>
           </h3>
           <p>
-            Use published entry points, such as <code>@kamod-ch/icons/lucide</code>, instead of
-            importing a file from a package’s internal source tree. Internal layouts can change
-            independently of the public API. Copy an icon’s exact exported name from its catalog and
-            verify the current hook signature instead of assuming it matches a similarly named React
-            library.
+            Use published entry points, such as <PathDisplay path={"@kamod-ch/icons/lucide"} />,
+            instead of importing a file from a package’s internal source tree. Internal layouts can
+            change independently of the public API. Copy an icon’s exact exported name from its
+            catalog and verify the current hook signature instead of assuming it matches a similarly
+            named React library.
           </p>
           <p>
             Named imports make intent easy to review. Avoid constructing a registry that eagerly
@@ -212,8 +170,9 @@ export function PackagesOverviewGuide() {
           </p>
           <p>
             Keep user-specific stores and locale instances scoped to a request rather than a mutable
-            module singleton. For <code>@kamod-ch/i18n</code>, align the server and client locale,
-            make the required messages available for the first render, and update <code>lang</code>
+            module singleton. For <PathDisplay path={"@kamod-ch/i18n"} />, align the server and
+            client locale, make the required messages available for the first render, and update{" "}
+            <code>lang</code>
             and direction when the locale changes. Include translated labels and errors, not just
             visible headings.
           </p>
@@ -245,10 +204,9 @@ export function PackagesOverviewReview() {
         <p>
           A successful import confirms that a module resolves. It does not confirm that state,
           persistence or rendering behaves correctly in your app. Check the{" "}
-          <strong>whole lifecycle</strong>
-          before you consider the integration complete.
+          <strong>whole lifecycle</strong> before you consider the integration complete.
         </p>
-        <ul>
+        <ol class="package-review-list">
           <li>
             <strong>Dependencies.</strong> Confirm the owning workspace declares the package and its
             peers. Review the lockfile diff and verify that no unintended runtime or duplicate
@@ -271,7 +229,7 @@ export function PackagesOverviewReview() {
             Inspect the generated bundle when size matters and verify the built app with its actual
             routes, assets and deployment base path.
           </li>
-        </ul>
+        </ol>
         <p>
           When reporting an issue, include the package version, the relevant import, runtime or
           browser and a small reproduction. Each package’s documentation links to its own source and

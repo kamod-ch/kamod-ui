@@ -49,7 +49,7 @@ export function FeedbackCard() {
         type="button"
         variant="ghost"
         size="icon"
-        class="feedback-card-close"
+        class="docs-icon-button feedback-card-close"
         aria-label="Dismiss feedback card"
         onClick={dismiss}
       >

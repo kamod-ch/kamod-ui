@@ -1,4 +1,5 @@
 import { withBasePath } from "../../base-path";
+import { PathDisplay } from "../../docs/components/PathDisplay";
 import type { blockGuides } from "./guide-catalog";
 
 type GuideSlug = (typeof blockGuides)[number]["slug"];
@@ -19,7 +20,7 @@ export function BlockGuideIntroduction({ slug }: { slug: GuideSlug }) {
         <p>
           Use each variant’s <strong>Code tab and setup guide</strong> for its exact files and
           dependencies. Keep relative imports intact, reuse components from{" "}
-          <code>@kamod-ch/ui</code>, and follow the{" "}
+          <PathDisplay path={"@kamod-ch/ui"} />, and follow the{" "}
           <a href={withBasePath("/docs/theming/css-setup")}>CSS setup instructions</a> before
           checking the first render, keyboard navigation and smaller screens. Start with the working
           example, then adapt one part at a time; the{" "}
@@ -43,32 +44,34 @@ export function BlockGuideIntroduction({ slug }: { slug: GuideSlug }) {
           Explore the <a href={withBasePath("/docs/components")}>component reference</a> before
           changing an interaction, and use <code>class</code> utilities for local layout
           adjustments. Keep <strong>focus states and responsive behavior</strong> intact while
-          replacing sample content. The <a href={withBasePath("/blocks/theming")}>theming guide</a>{" "}
-          explains how semantic tokens keep those refinements consistent in light and dark mode.
-          Work through typography, surfaces and density together, then check long labels, empty
-          states and narrow layouts so the result works with real content as well as the preview.
+          replacing sample content. The{" "}
+          <a href={withBasePath("/docs/theming/installation")}>shared theming guide</a> explains how
+          semantic tokens keep those refinements consistent in light and dark mode. Work through
+          typography, surfaces and density together, then check long labels, empty states and narrow
+          layouts so the result works with real content as well as the preview.
         </p>
       </>
     );
   return (
     <>
       <p>
-        Give every block the same foundation with <code>Tailwind CSS v4</code>, semantic tokens and
-        Kamod’s theme runtime. Connect your global stylesheet, choose a preset and configure
-        <strong> light and dark color schemes</strong> so copied blocks feel at home alongside the
-        rest of your application, including its first render. This guide separates stylesheet setup,
-        theme selection and local overrides, helping you choose the right place for each change
-        instead of repeating color values across individual blocks.
+        Bring a copied layout into the <strong>theme your application already uses</strong>. Blocks
+        compose the same <PathDisplay path={"@kamod-ch/ui"} /> components and semantic tokens as
+        individual controls. This guide focuses on{" "}
+        <strong>sidebar surfaces, copied-source discovery and complete-screen checks</strong>, so
+        you can adapt a composition without introducing another stylesheet or appearance system.
       </p>
       <p>
-        Start with the <a href={withBasePath("/docs/theming/css-setup")}>CSS setup guide</a>, then
-        learn how <code>@source</code> discovery and tokens such as <code>--background</code>,{" "}
-        <code>--foreground</code> and <code>--sidebar</code> affect the result. Use
-        <strong> shared tokens for application-wide changes</strong> and local utilities for
-        individual layouts; the <a href={withBasePath("/blocks/styles")}>component styles guide</a>{" "}
-        helps you decide where each adjustment belongs. Finish by checking text contrast, focus
-        indicators and sidebar surfaces in both schemes, and verify that the production build
-        includes the utilities your copied source uses.
+        Start with the{" "}
+        <a href={withBasePath("/docs/theming/installation")}>
+          shared Theming &amp; Tailwind reference
+        </a>{" "}
+        for global CSS, preset overrides and runtime setup. Then use this companion to check{" "}
+        <code>--sidebar-background</code>, distinguish preview settings from application preferences
+        and verify overlays in both schemes. Add a{" "}
+        <a href={withBasePath("/docs/theme-toggle/installation")}>Theme Toggle</a> where it suits
+        your layout; keep an explicit System option when users need it. For local spacing and
+        hierarchy, continue with <a href={withBasePath("/blocks/styles")}>Component styles</a>.
       </p>
     </>
   );

@@ -1,10 +1,9 @@
 import sources from "virtual:kamod-block-guides";
 import { withBasePath } from "../base-path";
-import { CodeBlock } from "../docs/components/CodeBlock";
 import { DocsShell } from "../docs/components/DocsShell";
+import { GuideArticle } from "../docs/components/GuideArticle";
 import { LibraryJumpLinks } from "../docs/components/LibraryJumpLinks";
 import { LibraryPageHeader } from "../docs/components/LibraryPageHeader";
-import { BlockHeadingLink } from "./BlockHeadingLink";
 import { BlockPageEnding } from "./BlockPageEnding";
 import { BlockGuideContents } from "./detail/BlockGuideContents";
 import { BlockGuideIntroduction } from "./guides/BlockGuideIntroduction";
@@ -41,73 +40,46 @@ export function BlocksGuidesContent({ slug }: { slug?: string }) {
       activeDoc={null}
       activeSection=""
       navigationPath={withBasePath(`/blocks/${guide.slug}`)}
-      pageContents={<BlockGuideContents id={`${guide.slug}-contents`} sections={guide.contents} />}
+      pageContents={
+        <BlockGuideContents
+          id={`${guide.slug}-contents`}
+          sections={guide.contents}
+          pageTitle={guide.title}
+        />
+      }
       mainContent={
-        <article class="block-guide" id="top">
-          <LibraryPageHeader
-            parent={{ label: "Blocks", href: "/blocks" }}
-            label={guide.label}
-            eyebrow="Block guides"
-            focus={guide.focus}
-            title={guide.title}
-            description={<BlockGuideIntroduction slug={guide.slug} />}
-          >
-            <LibraryJumpLinks class="block-guide-switcher" label="Block guides">
-              {blockGuides.map((item) => (
-                <li key={item.slug}>
-                  <a
-                    href={withBasePath(`/blocks/${item.slug}`)}
-                    aria-current={item.slug === slug ? "page" : undefined}
-                  >
-                    {item.label}
-                  </a>
-                </li>
-              ))}
-            </LibraryJumpLinks>
-          </LibraryPageHeader>
-          <BlockGuideContents
-            id={`${guide.slug}-mobile-contents`}
-            sections={guide.contents}
-            mobile
-          />
-          <div class="block-guide-documentation">
-            <div class="blocks-doc-body">
-              {guide.sections.map((section) => (
-                <section
-                  key={section.id}
-                  class="blocks-doc-section block-guide-section"
-                  aria-labelledby={section.id}
-                >
-                  <h2 id={section.id} tabIndex={-1}>
-                    <BlockHeadingLink id={section.id}>{section.title}</BlockHeadingLink>
-                  </h2>
-                  {section.parts.map((part, index) =>
-                    part.kind === "html" ? (
-                      <div
-                        key={index}
-                        class="block-guide-prose"
-                        dangerouslySetInnerHTML={{ __html: part.html }}
-                      />
-                    ) : part.kind === "heading" ? (
-                      <h3 key={part.id} id={part.id} tabIndex={-1}>
-                        <BlockHeadingLink id={part.id}>{part.title}</BlockHeadingLink>
-                      </h3>
-                    ) : (
-                      <CodeBlock
-                        key={index}
-                        code={part.code}
-                        language={part.language}
-                        filePath={part.filePath}
-                      />
-                    ),
-                  )}
-                </section>
-              ))}
-              <ContinueBuilding slug={guide.slug} />
-              <BlockPageEnding page={guide.slug} />
-            </div>
-          </div>
-        </article>
+        <GuideArticle
+          id={guide.slug}
+          title={guide.title}
+          sections={guide.sections}
+          contents={guide.contents}
+          header={
+            <LibraryPageHeader
+              parent={{ label: "Blocks", href: "/blocks" }}
+              label={guide.label}
+              eyebrow="Block guides"
+              focus={guide.focus}
+              title={guide.title}
+              description={<BlockGuideIntroduction slug={guide.slug} />}
+            >
+              <LibraryJumpLinks class="block-guide-switcher" label="Block guides">
+                {blockGuides.map((item) => (
+                  <li key={item.slug}>
+                    <a
+                      href={withBasePath(`/blocks/${item.slug}`)}
+                      aria-current={item.slug === slug ? "page" : undefined}
+                    >
+                      {item.label}
+                    </a>
+                  </li>
+                ))}
+              </LibraryJumpLinks>
+            </LibraryPageHeader>
+          }
+        >
+          <ContinueBuilding slug={guide.slug} />
+          <BlockPageEnding page={guide.slug} />
+        </GuideArticle>
       }
     />
   );

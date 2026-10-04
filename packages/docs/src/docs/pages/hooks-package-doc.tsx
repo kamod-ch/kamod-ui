@@ -29,7 +29,7 @@ export const hooksDocPage = createPackageTeaserDoc({
   ],
   quickStart: {
     import: `import { useToggle, useCounter, useLocalStorageState } from "@kamod-ch/hooks";`,
-    usage: `const [on, { toggle }] = useToggle(false);\nconst [count, { inc }] = useCounter(0);\nconst [theme, setTheme] = useLocalStorageState("theme", "dark");`,
+    usage: `export function useExampleState() {\n  const [on, { toggle }] = useToggle(false);\n  const [count, { inc }] = useCounter(0);\n  const [theme, setTheme] = useLocalStorageState("theme", { defaultValue: "dark" });\n  return { on, toggle, count, inc, theme, setTheme };\n}`,
   },
   installationText:
     "Install @kamod-ch/hooks with Preact as a peer dependency when using the package outside the Kamod UI monorepo.",

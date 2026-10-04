@@ -391,6 +391,11 @@ export const docsNavigation = [
     group: "components",
   },
   {
+    slug: "type-definition",
+    label: "Type Definition",
+    group: "components",
+  },
+  {
     slug: "typography",
     label: "Typography",
     group: "components",

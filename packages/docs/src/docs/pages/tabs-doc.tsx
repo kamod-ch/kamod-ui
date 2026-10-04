@@ -15,8 +15,8 @@ import {
 } from "@kamod-ch/ui";
 import type { ComponentChildren } from "preact";
 import { ApiReference } from "../components/ApiReference";
-import { CodeBlock } from "../components/CodeBlock";
-import type { DocPageModule } from "../types";
+import { ComponentDocSection } from "../components/component-detail/ComponentDocSection";
+import type { DocPageModule, DocRenderMainContext } from "../types";
 
 const TabsSectionType = {
   INSTALLATION: "installation",
@@ -27,25 +27,6 @@ const TabsSectionType = {
 } as const;
 
 type TabsSectionId = (typeof TabsSectionType)[keyof typeof TabsSectionType];
-
-const renderTabsExampleTabs = (previewContent: ComponentChildren, code: string) => (
-  <div class="docs-button-example">
-    <Tabs defaultValue="preview" class="docs-tabs">
-      <TabsList class="docs-tabs-list" variant="line">
-        <TabsTrigger value="preview">Preview</TabsTrigger>
-        <TabsTrigger value="code">Code</TabsTrigger>
-      </TabsList>
-      <TabsContent value="preview">
-        <div class="preview relative flex min-h-40 w-full justify-center p-3 sm:min-h-56 sm:p-6 lg:h-72 lg:p-10 data-[align=center]:items-center data-[align=end]:items-end data-[align=start]:items-start data-[chromeless=true]:h-auto data-[chromeless=true]:p-0">
-          {previewContent}
-        </div>
-      </TabsContent>
-      <TabsContent value="code">
-        <CodeBlock code={code} language="tsx" />
-      </TabsContent>
-    </Tabs>
-  </div>
-);
 
 const tabsExamplePreviewBySectionId: Record<TabsSectionId, () => ComponentChildren> = {
   [TabsSectionType.INSTALLATION]: () => null,
@@ -302,30 +283,6 @@ export const Example = () => (
 );`;
 }
 
-const tabsExampleBySectionId: Record<TabsSectionId, () => ComponentChildren> = {
-  [TabsSectionType.INSTALLATION]: () => null,
-  [TabsSectionType.SYNCED_TABS]: () =>
-    renderTabsExampleTabs(
-      tabsExamplePreviewBySectionId[TabsSectionType.SYNCED_TABS](),
-      tabsCodeBySectionId[TabsSectionType.SYNCED_TABS](),
-    ),
-  [TabsSectionType.DISABLED_TRIGGERS]: () =>
-    renderTabsExampleTabs(
-      tabsExamplePreviewBySectionId[TabsSectionType.DISABLED_TRIGGERS](),
-      tabsCodeBySectionId[TabsSectionType.DISABLED_TRIGGERS](),
-    ),
-  [TabsSectionType.NESTED_TABS]: () =>
-    renderTabsExampleTabs(
-      tabsExamplePreviewBySectionId[TabsSectionType.NESTED_TABS](),
-      tabsCodeBySectionId[TabsSectionType.NESTED_TABS](),
-    ),
-  [TabsSectionType.API_REFERENCE]: () =>
-    renderTabsExampleTabs(
-      tabsExamplePreviewBySectionId[TabsSectionType.API_REFERENCE](),
-      tabsCodeBySectionId[TabsSectionType.API_REFERENCE](),
-    ),
-};
-
 const tabsApiRows = {
   Tabs: [
     { prop: "defaultValue", type: "string", defaultValue: "-" },
@@ -356,15 +313,20 @@ const tabsSectionOutroById: Record<string, () => ComponentChildren> = {
   ),
 };
 
-const renderTabsExample = (sectionId: string) =>
-  tabsExampleBySectionId[sectionId as TabsSectionId]?.() ?? null;
-
-const renderTabsSection = (sectionId: string) => (
-  <>
-    {renderTabsExample(sectionId)}
-    {tabsSectionOutroById[sectionId]?.() ?? null}
-  </>
-);
+const renderTabsSection = (sectionId: string, context: DocRenderMainContext) => {
+  const id = sectionId as TabsSectionId;
+  return (
+    <>
+      {id !== TabsSectionType.INSTALLATION && tabsExamplePreviewBySectionId[id]
+        ? context.renderPreviewAndCodeTabs({
+            preview: tabsExamplePreviewBySectionId[id](),
+            codeSnippet: tabsCodeBySectionId[id](),
+          })
+        : null}
+      {tabsSectionOutroById[sectionId]?.() ?? null}
+    </>
+  );
+};
 
 export const tabsDocPage: DocPageModule = {
   slug: "tabs",
@@ -511,12 +473,10 @@ export const Example = () => (
 );`,
       })}
       {context.sections.map((docSection) => (
-        <section key={docSection.id} id={docSection.id} class="docs-section">
-          <h2>{docSection.title}</h2>
-          <p class="docs-copy">{docSection.text}</p>
+        <ComponentDocSection key={docSection.id} section={docSection}>
           {context.renderSectionExtraContent(docSection.id)}
-          {renderTabsSection(docSection.id)}
-        </section>
+          {renderTabsSection(docSection.id, context)}
+        </ComponentDocSection>
       ))}
     </>
   ),

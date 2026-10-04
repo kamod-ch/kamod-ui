@@ -14,7 +14,7 @@ describe("site navigation", () => {
         (entry) =>
           entry.id === (doc.navGroup === "motion" ? "components" : (doc.navGroup ?? "components")),
       );
-      expect(group?.links).toContainEqual(
+      expect([...(group?.guides ?? []), ...(group?.links ?? [])]).toContainEqual(
         expect.objectContaining({
           label: doc.navLabel ?? doc.title,
           href: `/docs/${doc.slug}/installation`,
@@ -22,8 +22,26 @@ describe("site navigation", () => {
       );
     }
     expect(
-      navigationGroups.filter((group) => group.kind !== "blocks").flatMap((group) => group.links),
+      navigationGroups
+        .filter((group) => group.kind !== "blocks")
+        .flatMap((group) => [...(group.guides ?? []), ...group.links])
+        .filter(({ href }) => href.startsWith("/docs/")),
     ).toHaveLength(docsPages.length);
+  });
+
+  it("promotes component theming to the introductory links without duplicating it", () => {
+    const components = navigationGroups.find((group) => group.id === "components")!;
+    expect(components.guides).toEqual([
+      { label: "Theming", href: "/docs/theming/installation", icon: "theming" },
+      { label: "Component styles", href: "/blocks/styles", icon: "styles" },
+    ]);
+    const blocks = navigationGroups.find((group) => group.id === "blocks")!;
+    expect(blocks.guides).toContainEqual(components.guides![1]);
+    expect(components.links.some(({ href }) => href.includes("/docs/theming/"))).toBe(false);
+    expect(isNavigationCurrent("/docs/theming/css-setup", components.guides![0].href)).toBe(true);
+    expect(components.links.some(({ href }) => href === "/docs/theme-toggle/installation")).toBe(
+      true,
+    );
   });
 
   it("marks only the components in the update metadata", () => {

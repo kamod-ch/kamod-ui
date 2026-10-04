@@ -1,6 +1,7 @@
 /** Explain the editable composition before introducing the individual integration steps. */
 import { withBasePath } from "../../base-path";
 import { CodeBlock } from "../../docs/components/CodeBlock";
+import { PathDisplay } from "../../docs/components/PathDisplay";
 import { ShowcaseCodeLink } from "../ShowcaseCodeLink";
 import { BlockGuideHeading } from "./BlockDocumentation";
 import type { VariantGuide } from "./VariantDocumentation";
@@ -66,7 +67,7 @@ export function SidebarUsageIntroduction({
           <dd>
             The no-props entrypoint does not remove the inner components’ APIs. Your copied file
             passes data and options to the helpers it uses. Update the sample values in{" "}
-            <code>data/</code> or pass application values at those call sites. Follow{" "}
+            <PathDisplay path={"data/"} /> or pass application values at those call sites. Follow{" "}
             <a href={`#${anchor("customize")}`}>Adapt the local composition</a> for this variant’s
             example and <a href={`#${anchor("prop-reference")}`}>Local props and data</a> for the
             supported inputs.

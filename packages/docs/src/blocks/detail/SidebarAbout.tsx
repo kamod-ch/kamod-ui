@@ -1,6 +1,7 @@
 import type { ComponentChildren } from "preact";
 import type { SidebarBlockId } from "../../../../blocks/src/sidebar/sidebar-data";
 import { withBasePath } from "../../base-path";
+import { PathDisplay } from "../../docs/components/PathDisplay";
 import { ShowcaseCodeLink } from "../ShowcaseCodeLink";
 import { BlockDocSection, BlockGuideHeading } from "./BlockDocumentation";
 import { type SidebarAboutContent, sidebarAboutContent } from "./sidebar-about-content";
@@ -75,10 +76,10 @@ function SidebarComposition({ guide, content }: AboutProps) {
           <ShowcaseCodeLink blockId={block.id} file={`${block.id}.tsx`}>
             <code>{block.id}.tsx</code>
           </ShowcaseCodeLink>{" "}
-          owns the arrangement. Any included helpers live in <code>components/</code>, fixtures in{" "}
-          <code>data/</code>, and any included brand artwork in <code>branding/</code>. These paths
-          describe your installation folder, which is generated from the actual implementation with
-          its relative imports rewritten together.
+          owns the arrangement. Any included helpers live in <PathDisplay path={"components/"} />,
+          fixtures in <PathDisplay path={"data/"} />, and any included brand artwork in{" "}
+          <PathDisplay path={"branding/"} />. These paths describe your installation folder, which
+          is generated from the actual implementation with its relative imports rewritten together.
         </p>
         <p>
           <strong>Edit the composition where it is assembled.</strong> The exported wrapper does not

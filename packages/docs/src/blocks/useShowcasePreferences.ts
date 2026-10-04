@@ -92,7 +92,7 @@ export function useShowcasePreferences(category: string, id: string) {
     viewport: "desktop",
     appearance: initialAppearance,
     promptMode: "setup",
-    promptDisplay: "text",
+    promptDisplay: "code",
     ...stored,
   };
   const update = (patch: Partial<ShowcasePreferences>) => {

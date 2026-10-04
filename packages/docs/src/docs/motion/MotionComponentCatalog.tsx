@@ -1,4 +1,5 @@
 import { withBasePath } from "../../base-path";
+import { PathDisplay } from "../components/PathDisplay";
 import { motionComponentEntries } from "./motion-doc-config";
 
 export function MotionComponentCatalog() {
@@ -12,7 +13,7 @@ export function MotionComponentCatalog() {
           >
             <span class="docs-motion-catalog-label">{entry.navLabel}</span>
             <span class="docs-motion-catalog-summary">{entry.summary}</span>
-            <code class="docs-motion-catalog-path">{entry.packagePath}</code>
+            <PathDisplay class="docs-motion-catalog-path" path={entry.packagePath} />
           </a>
         </li>
       ))}

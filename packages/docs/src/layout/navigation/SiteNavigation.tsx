@@ -11,6 +11,7 @@ import { useEffect, useId, useRef, useState } from "preact/hooks";
 import { withBasePath } from "../../base-path";
 import { NavigationDirectory } from "./NavigationDirectory";
 import { NavigationFooter } from "./NavigationFooter";
+import { NavigationScrollArea } from "./NavigationScrollArea";
 import { navigationGroups } from "./navigation-data";
 
 /** One responsive navigation surface for home, documentation and every block detail page. */
@@ -69,7 +70,7 @@ export function SiteNavigation() {
           }}
           type="button"
           disabled={!ready}
-          class="site-navigation-trigger site-icon-button"
+          class="docs-icon-button site-navigation-trigger site-icon-button"
           aria-label="Open navigation menu"
           aria-haspopup="dialog"
           aria-controls={open ? id : undefined}
@@ -84,7 +85,10 @@ export function SiteNavigation() {
               <span class="site-navigation-eyebrow">KAMOD UI / DOCUMENTATION</span>
               <SheetTitle>Explore Kamod</SheetTitle>
             </div>
-            <SheetClose class="site-navigation-icon-button" aria-label="Close navigation menu">
+            <SheetClose
+              class="docs-icon-button site-navigation-icon-button"
+              aria-label="Close navigation menu"
+            >
               <XIcon size={19} aria-hidden="true" />
             </SheetClose>
           </div>
@@ -92,7 +96,7 @@ export function SiteNavigation() {
             Components, complete layouts and the tools to build with them.
           </SheetDescription>
         </div>
-        <div class="site-navigation-body">
+        <NavigationScrollArea mode="mobile" class="site-navigation-body">
           <nav class="site-navigation-quick-links" aria-label="Start here">
             <SheetClose asChild>
               <a href={withBasePath("/")}>
@@ -112,7 +116,7 @@ export function SiteNavigation() {
             <span>Built for Preact</span>
           </div>
           <NavigationDirectory groups={navigationGroups} pathname={pathname} closeOnNavigate />
-        </div>
+        </NavigationScrollArea>
         <NavigationFooter />
       </SheetContent>
     </Sheet>

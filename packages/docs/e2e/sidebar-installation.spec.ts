@@ -8,6 +8,8 @@ for (const theme of ["light", "dark"]) {
     await page.addInitScript((mode) => localStorage.setItem("theme", mode), theme);
     await page.goto("./blocks/sidebar/sidebar-05#sidebar-05-copy");
     await expect(page.locator("html")).toHaveClass(/pp-ready/);
+    // The page shell is ready before the lazy block guide attaches its keyboard handlers.
+    await page.waitForLoadState("networkidle");
     const trigger = page.getByRole("button", { name: "View included files" });
     await trigger.focus();
     await page.keyboard.press("Enter");
@@ -53,13 +55,14 @@ test("every sidebar download and source-viewer asset has identical installable c
       expect(strFromU8(bytes)).toBe(sources[path.slice(id.length + 1)]);
   }
   await page.goto("./blocks/sidebar/sidebar-05#sidebar-05-copy");
+  await page.waitForLoadState("networkidle");
   const event = page.waitForEvent("download");
   await page.getByRole("link", { name: "Download block", exact: true }).click();
   const download = await event;
   expect(download.suggestedFilename()).toBe("sidebar-05.zip");
   expect(await download.failure()).toBeNull();
   await page.getByRole("tab", { name: "Code", exact: true }).click();
-  await expect(page.locator("#sidebar-05 .blocks-install")).toContainText(
+  await expect(page.locator("#sidebar-05 .blocks-showcase-import")).toContainText(
     "src/components/blocks/sidebar-05",
   );
   await expect(page.locator("#sidebar-05 pre").first()).toContainText("export const Sidebar05");
@@ -67,6 +70,7 @@ test("every sidebar download and source-viewer asset has identical installable c
 
 test("manual-copy link opens Code on first, repeated and direct navigation", async ({ page }) => {
   await page.goto("./blocks/sidebar/sidebar-05#sidebar-05-copy");
+  await page.waitForLoadState("networkidle");
   await expect(page.locator("html")).toHaveClass(/pp-ready/);
   const link = page.getByRole("link", { name: "Open the Showcase’s Code tab", exact: true });
   const showcase = page.locator("#sidebar-05");
@@ -100,6 +104,7 @@ test("included-file links select the exact source and survive repeat activation 
   expect(response.ok()).toBe(true);
   const sources: Record<string, string> = await response.json();
   await page.goto("./blocks/sidebar/sidebar-05#sidebar-05-copy");
+  await page.waitForLoadState("networkidle");
   await expect(page.locator("html")).toHaveClass(/pp-ready/);
   await page.getByRole("button", { name: "View included files" }).click();
   const inventory = page.locator(".blocks-install-inventory");

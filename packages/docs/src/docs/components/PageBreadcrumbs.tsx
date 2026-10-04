@@ -3,7 +3,6 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@kamod-ch/ui";
 import { Fragment } from "preact";
@@ -35,7 +34,9 @@ export function PageBreadcrumbs({
           </Fragment>
         ))}
         <BreadcrumbItem>
-          <BreadcrumbPage title={current}>{current}</BreadcrumbPage>
+          <BreadcrumbLink href="#" aria-current="page" title={current}>
+            {current}
+          </BreadcrumbLink>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>

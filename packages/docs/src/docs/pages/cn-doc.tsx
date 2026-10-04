@@ -1,6 +1,7 @@
 import { Button, cn } from "@kamod-ch/ui";
 import type { ComponentChildren } from "preact";
 import { useState } from "preact/hooks";
+import { PathDisplay } from "../components/PathDisplay";
 import type { DocPageModule } from "../types";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
@@ -58,7 +59,7 @@ export const cnDocPage: DocPageModule = {
       code: `import { cn } from "@kamod-ch/ui/utils";`,
       renderPreview: () => (
         <p class="text-muted-foreground text-sm">
-          Recommended entry point: <code>@kamod-ch/ui/utils</code>
+          Recommended entry point: <PathDisplay path={"@kamod-ch/ui/utils"} />
         </p>
       ),
     },

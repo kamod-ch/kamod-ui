@@ -12,6 +12,8 @@ export type BlockPageHeaderProps = {
   description: ComponentChildren;
   badge: string;
   actions: ComponentChildren;
+  /** Optional introduction opposite the variant navigation above its showcase. */
+  summaryLabel?: ComponentChildren;
   /** Optional inline navigation; its description expands to keep the link reachable. */
   descriptionLink?: ComponentChildren;
   id?: string;
@@ -26,6 +28,7 @@ export function BlockPageHeader({
   description,
   badge,
   actions,
+  summaryLabel,
   descriptionLink,
   id,
   className = "",
@@ -52,6 +55,7 @@ export function BlockPageHeader({
         </p>
       </div>
       <div class="blocks-page-header-summary">
+        {summaryLabel}
         <div class="blocks-page-header-actions">{actions}</div>
       </div>
     </header>

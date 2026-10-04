@@ -26,6 +26,7 @@ import type { ComponentChildren } from "preact";
 import { useMemo, useState } from "preact/hooks";
 import { ApiReference } from "../components/ApiReference";
 import { CodeBlock } from "../components/CodeBlock";
+import { PathDisplay } from "../components/PathDisplay";
 import type { DocPageModule, DocRenderMainContext, DocSection } from "../types";
 
 const installCss = `@import "tailwindcss";
@@ -541,8 +542,8 @@ function TypesetBuilder() {
           <TabsContent value="css">
             <CodeBlock code={generatedCss} language="css" className="docs-tab-code" />
             <p class="docs-copy mt-3 text-sm">
-              Generated preset CSS only. Import <code>@kamod-ch/typeset/typeset.css</code> for the
-              base stylesheet.
+              Generated preset CSS only. Import{" "}
+              <PathDisplay path={"@kamod-ch/typeset/typeset.css"} /> for the base stylesheet.
             </p>
           </TabsContent>
           <TabsContent value="markup">

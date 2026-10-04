@@ -10,6 +10,9 @@
   gap: 1rem 2rem;
   padding-block: 1.5rem;
 }
+.blocks-page-ending-next + .blocks-page-ending-next {
+  border-top: 1px solid var(--border);
+}
 .blocks-page-ending-next > div {
   flex: 1 1 22rem;
 }

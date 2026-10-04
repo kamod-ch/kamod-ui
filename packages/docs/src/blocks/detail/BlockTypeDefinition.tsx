@@ -1,6 +1,5 @@
 /** Shared source-backed API disclosure; callers own selection and deep-link state. */
-import { ChevronDownIcon, CodeIcon } from "@kamod-ch/icons/lucide";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@kamod-ch/ui";
+import { TypeDefinition } from "@kamod-ch/ui";
 import type { ComponentChildren } from "preact";
 import { CodeBlock } from "../../docs/components/CodeBlock";
 import { BlockHeadingLink } from "../BlockHeadingLink";
@@ -31,7 +30,7 @@ const RequiredTypeFields = ({
   );
 };
 
-/** Expandable type card using core Collapsible, code copying and contextual required-field markers. */
+/** Docs adapter: core owns layout/state; this layer supplies permalinks, source and field markers. */
 export function BlockTypeDefinition({
   id,
   entry,
@@ -57,59 +56,43 @@ export function BlockTypeDefinition({
   onReveal: () => void;
 }) {
   return (
-    <Collapsible class="blocks-api-type" open={open} onOpenChange={onOpenChange}>
-      <div class="blocks-api-type-intro">
-        <div class="blocks-api-type-heading">
-          <h4 id={id} tabIndex={-1}>
-            <BlockHeadingLink id={id} onClick={onReveal}>
-              {entry.title}
-            </BlockHeadingLink>
-          </h4>
-          {requiredProp && (
-            <div class="blocks-api-type-required">
-              <span class="blocks-api-required-label">Required type</span>
-              <RequiredIndicator
-                label={`Required type: ${entry.name}`}
-                tooltip={`Used by required prop: ${requiredProp.name}`}
-                align="end"
-              />
-            </div>
-          )}
-        </div>
-        <code class="blocks-api-type-name">{entry.name}</code>
-        <p>{entry.description}</p>
-        {requiredFields.length > 0 && (
+    <TypeDefinition
+      class="blocks-api-type"
+      headingId={id}
+      headingLevel={4}
+      title={
+        <BlockHeadingLink id={id} onClick={onReveal}>
+          {entry.title}
+        </BlockHeadingLink>
+      }
+      typeName={entry.name}
+      description={entry.description}
+      metadata={
+        requiredFields.length > 0 ? (
           <RequiredTypeFields typeName={entry.name} fields={requiredFields} />
-        )}
-      </div>
-      <CollapsibleTrigger
-        id={`${id}-trigger`}
-        class="blocks-api-type-trigger"
-        aria-controls={`${id}-content`}
-        aria-label={`${open ? "Hide" : "Show"} ${entry.name} definition${showFieldDocs ? " and field documentation" : ""}`}
-      >
-        <span>
-          <CodeIcon
-            size={16}
-            strokeWidth={2}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-          />
-          {open ? "Hide" : "View"} definition{showFieldDocs && " and field docs"}
-        </span>
-        <ChevronDownIcon
-          size={16}
-          strokeWidth={2}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden="true"
-        />
-      </CollapsibleTrigger>
-      <CollapsibleContent id={`${id}-content`} duration="0ms" class="blocks-api-type-content">
-        <CodeBlock code={source} language="tsx" filePath={filePath} />
-        {entry.note && <p class="blocks-api-type-note">{entry.note}</p>}
-      </CollapsibleContent>
-    </Collapsible>
+        ) : undefined
+      }
+      headerAction={
+        requiredProp && (
+          <div class="blocks-api-type-required">
+            <span class="blocks-api-required-label">Required type</span>
+            <RequiredIndicator
+              label={`Required type: ${entry.name}`}
+              tooltip={`Used by required prop: ${requiredProp.name}`}
+              align="end"
+            />
+          </div>
+        )
+      }
+      open={open}
+      onOpenChange={onOpenChange}
+      expandLabel={`View definition${showFieldDocs ? " and field docs" : ""}`}
+      collapseLabel={`Hide definition${showFieldDocs ? " and field docs" : ""}`}
+      triggerClass="blocks-api-type-trigger"
+      contentClass="blocks-api-type-content"
+    >
+      <CodeBlock code={source} language="tsx" filePath={filePath} />
+      {entry.note && <p class="blocks-api-type-note">{entry.note}</p>}
+    </TypeDefinition>
   );
 }

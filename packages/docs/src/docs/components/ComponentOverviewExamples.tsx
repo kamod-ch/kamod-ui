@@ -83,7 +83,11 @@ export function ComponentOverviewExamples() {
   const [enabled, setEnabled] = useState(false);
   return (
     <Tabs defaultValue="actions" class="guide-next-exercises">
-      <TabsList variant="line" aria-label="Component examples" class="guide-next-tabs">
+      <TabsList
+        variant="line"
+        aria-label="Component examples"
+        class="guide-next-tabs component-overview-tabs"
+      >
         {examples.map(({ value, label }) => (
           <TabsTrigger key={value} value={value}>
             {label}

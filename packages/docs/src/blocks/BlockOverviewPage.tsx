@@ -4,11 +4,13 @@ import { LibraryDirectory, LibraryGrid } from "../docs/components/LibraryDirecto
 import { LibraryJumpLinks } from "../docs/components/LibraryJumpLinks";
 import { LibraryPageHeader } from "../docs/components/LibraryPageHeader";
 import { LibrarySection } from "../docs/components/LibrarySection";
+import { PathDisplay } from "../docs/components/PathDisplay";
 import { BlockPageEnding } from "./BlockPageEnding";
 import { type BlockCategory, blockCategories } from "./block-categories";
 import { PLACEHOLDER_BLOCK_CATEGORIES, visibleBlockNavItems } from "./block-nav-config";
 import { BlockGuideContents } from "./detail/BlockGuideContents";
 
+const title = "Blocks for complete application layouts";
 const contents = [
   { id: "library-items", label: "All block categories" },
   { id: "planned-collections", label: "On the horizon" },
@@ -39,7 +41,9 @@ export function BlockOverviewPage() {
     <DocsShell
       sidebarScope="blocks"
       isSectionOverview
-      pageContents={<BlockGuideContents id="blocks-overview-contents" sections={contents} />}
+      pageContents={
+        <BlockGuideContents id="blocks-overview-contents" sections={contents} pageTitle={title} />
+      }
       activeDoc={null}
       activeSection=""
       mainContent={
@@ -59,7 +63,7 @@ export function BlockOverviewPage() {
               label="Blocks"
               eyebrow="Block collections"
               focus="Explore · Preview · Build"
-              title="Blocks for complete application layouts"
+              title={title}
               description={
                 <>
                   <p>
@@ -74,8 +78,8 @@ export function BlockOverviewPage() {
                     Start with the{" "}
                     <a href={withBasePath("/blocks/getting-started")}>getting started guide</a>,
                     then use each variant’s <strong>Code tab and setup instructions</strong> for its
-                    files and dependencies. Reuse <code>@kamod-ch/ui</code>, connect your own data
-                    and routes, and refine the result with the{" "}
+                    files and dependencies. Reuse <PathDisplay path={"@kamod-ch/ui"} />, connect
+                    your own data and routes, and refine the result with the{" "}
                     <a href={withBasePath("/blocks/styles")}>component styles</a> and{" "}
                     <a href={withBasePath("/blocks/theming")}>theming guides</a>. The available
                     collections below are ready to explore; <strong>planned collections</strong>{" "}

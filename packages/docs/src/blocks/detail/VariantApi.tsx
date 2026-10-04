@@ -2,6 +2,7 @@
 import { CodeIcon } from "@kamod-ch/icons/lucide";
 import { Badge } from "@kamod-ch/ui";
 import { useMemo } from "preact/hooks";
+import { PathDisplay } from "../../docs/components/PathDisplay";
 import { RequiredIndicator } from "../RequiredIndicator";
 import { BlockDocSection, BlockGuideHeading } from "./BlockDocumentation";
 import { BlockPropsTable } from "./BlockPropsTable";
@@ -32,9 +33,9 @@ export function VariantApi({ guide }: { guide: VariantGuide }) {
             {category === "sidebar" && (
               <>
                 {" "}
-                Keep sample values in <code>data/</code> separate from the behavior in your copied
-                components. This lets you replace labels and destinations without rewriting the
-                surrounding layout in <code>{guide.block.id}.tsx</code>.
+                Keep sample values in <PathDisplay path={"data/"} /> separate from the behavior in
+                your copied components. This lets you replace labels and destinations without
+                rewriting the surrounding layout in <code>{guide.block.id}.tsx</code>.
               </>
             )}
           </p>

@@ -7,11 +7,16 @@ import {
   applyPreviewAppearance,
   previewAppearanceFromSearch,
 } from "../../src/blocks/preview-appearance";
+import { ComponentPreviewPage } from "../../src/docs/components/component-detail/ComponentPreviewPage";
+import { PathCopySupport } from "../../src/docs/components/PathCopySupport";
 import { DocsComponentContent } from "../../src/docs/DocsComponentContent";
 import { DocsFormsOverviewContent } from "../../src/docs/DocsFormsOverviewContent";
 import { DocsOverviewContent } from "../../src/docs/DocsOverviewContent";
 import { DocsPackagesOverviewContent } from "../../src/docs/DocsPackagesOverviewContent";
 import { KitchenSinkPage } from "../../src/kitchen-sink/KitchenSinkPage";
+import { useRightSidebarPageMemory } from "../../src/layout/navigation/right-sidebar-memory";
+import { ApplicationTooltips } from "../../src/layout/tooltips/ApplicationTooltips";
+import { usePageReloadScroll } from "../../src/layout/usePageReloadScroll";
 import { blockPage } from "./block-page";
 import "../../src/styles/index.css";
 
@@ -80,6 +85,7 @@ type DemoPageKind =
   | "docs-forms-overview"
   | "docs-packages-overview"
   | "component-doc"
+  | "component-preview"
   | "blocks-sidebar"
   | "blocks-sidebar-detail"
   | "blocks-application-shell"
@@ -131,9 +137,13 @@ const readPageMeta = (page: LayoutProps["page"]): DemoPageMeta => {
   };
 };
 
-const Layout: FunctionalComponent<LayoutProps> = ({ page }) => {
+const PageContent: FunctionalComponent<LayoutProps> = ({ page }) => {
+  useRightSidebarPageMemory(page);
+  usePageReloadScroll();
   const meta = readPageMeta(page);
   const MdxComponent = page?.kind === "mdx" ? page.Component : undefined;
+
+  if (meta.pageKind === "component-preview") return <ComponentPreviewPage />;
 
   if (meta.pageKind === "kitchen-sink") {
     return <KitchenSinkPage />;
@@ -251,5 +261,13 @@ const Layout: FunctionalComponent<LayoutProps> = ({ page }) => {
 
   return <main dangerouslySetInnerHTML={{ __html: page?.kind === "markdown" ? page.html : "" }} />;
 };
+
+const Layout: FunctionalComponent<LayoutProps> = (props) => (
+  <>
+    <PathCopySupport />
+    <ApplicationTooltips page={props.page} />
+    <PageContent {...props} />
+  </>
+);
 
 export default Layout;

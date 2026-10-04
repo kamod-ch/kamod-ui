@@ -3,6 +3,7 @@ import { PackagePlusIcon, TagIcon } from "@kamod-ch/icons/lucide";
 import { BrandGithubIcon } from "@kamod-ch/icons/tabler/filled";
 import { Badge, Button, Card } from "@kamod-ch/ui";
 import { withBasePath } from "../base-path";
+import { PathDisplay } from "../docs/components/PathDisplay";
 import { BlockThumbnail } from "./BlockThumbnail";
 import type { BlockCategory, BlockOverviewEntry } from "./block-categories";
 import { getBlockOverviewDetails } from "./block-overview-details";
@@ -78,23 +79,15 @@ function BlockCardFooter({
   sourceUrl: string;
   installationUrl: string;
 }) {
-  const [pathScope, ...pathSegments] = path.split("/");
-  const pathName = pathSegments.pop();
   return (
     <div class="blocks-overview-footer">
       <div class="blocks-overview-actions">
         <div class="blocks-overview-path">
-          <code title={path}>
-            <span class="sr-only">{path}</span>
-            <span aria-hidden="true">{pathScope}/</span>
-            <span class="blocks-overview-path-middle" aria-hidden="true">
-              {pathSegments.join("/")}/
-            </span>
-            <span aria-hidden="true">{pathName}</span>
-          </code>
+          <PathDisplay path={path} />
         </div>
         <div class="blocks-overview-action-links">
           <Button
+            class="docs-icon-button"
             variant="ghost"
             size="icon-sm"
             href={sourceUrl}
@@ -107,6 +100,7 @@ function BlockCardFooter({
           </Button>
           {/* Native navigation preserves fragment scrolling across PreactPress routes. */}
           <Button
+            class="docs-icon-button"
             variant="ghost"
             size="icon-sm"
             href={installationUrl}

@@ -6,6 +6,7 @@ import {
 } from "./components/LibraryDirectoryResources";
 import { LibraryGuideSection } from "./components/LibraryGuideSection";
 import { LibraryOverviewGuide } from "./components/LibraryOverviewGuide";
+import { PathDisplay } from "./components/PathDisplay";
 import { FormsOverviewGuide, FormsOverviewReview } from "./overview/FormsOverviewGuide";
 import { formDocPages } from "./registry";
 
@@ -63,10 +64,11 @@ export const DocsFormsOverviewContent = () => (
         <p>
           Start with a small working form, explore the{" "}
           <a href={withBasePath("/docs/formisch/installation")}>Formisch integration</a> for{" "}
-          <code>@formisch/preact</code> and <code>valibot</code>, and keep field styling aligned
-          with the <a href={withBasePath("/docs/theming/css-setup")}>shared CSS foundation</a>. The
-          guidance below covers <strong>field choice, state, errors and recovery</strong>, with
-          copyable examples and checks for real content, keyboard use and both color schemes.
+          <PathDisplay path={"@formisch/preact"} /> and <code>valibot</code>, and keep field styling
+          aligned with the{" "}
+          <a href={withBasePath("/docs/theming/css-setup")}>shared CSS foundation</a>. The guidance
+          below covers <strong>field choice, state, errors and recovery</strong>, with copyable
+          examples and checks for real content, keyboard use and both color schemes.
         </p>
       </>
     }

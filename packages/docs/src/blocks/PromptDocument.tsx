@@ -1,4 +1,5 @@
-import { FileTextIcon } from "@kamod-ch/icons/lucide";
+import { SquareTerminalIcon } from "@kamod-ch/icons/lucide";
+import type { ComponentChildren } from "preact";
 import { lazy, Suspense } from "preact/compat";
 import { CodeBlock } from "../docs/components/CodeBlock";
 import type { BlockPromptMode } from "./block-prompts";
@@ -11,10 +12,13 @@ export function PromptDocument({
   prompt,
   mode,
   display,
+  sourceLabel = "Source included",
 }: {
   prompt: string;
   mode: BlockPromptMode;
   display: PromptDisplay;
+  /** Optional source metadata or source-browser link beside the prompt title. */
+  sourceLabel?: ComponentChildren;
 }) {
   return (
     <CodeBlock
@@ -22,11 +26,18 @@ export function PromptDocument({
       code={prompt}
       language={display === "code" ? "markdown" : "text"}
       toolbarContent={
-        <>
-          <FileTextIcon size={16} strokeWidth={2} aria-hidden="true" />
-          <h4>{mode === "setup" ? "Setup prompt" : "Adaptation prompt"}</h4>
-          <span class="blocks-prompt-format">Source included</span>
-        </>
+        <div class="blocks-prompt-document-heading">
+          <h4 class="showcase-metadata-label">
+            <SquareTerminalIcon size={16} strokeWidth={1.75} aria-hidden="true" />
+            {mode === "setup" ? "Setup prompt" : "Adaptation prompt"}
+          </h4>
+          {sourceLabel && (
+            <span class="blocks-prompt-format">
+              <span aria-hidden="true">·</span>
+              {sourceLabel}
+            </span>
+          )}
+        </div>
       }
       className="blocks-showcase-prompt-code"
       renderedContent={

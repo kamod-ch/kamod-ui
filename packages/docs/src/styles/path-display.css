@@ -1,0 +1,26 @@
+/* One layout for import paths, code headers, file inventories and inline references. */
+.path-display {
+  display: inline-grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, max-content);
+  align-items: baseline;
+  min-width: 0;
+  width: max-content;
+  max-width: 100%;
+  vertical-align: baseline;
+  text-align: left;
+}
+.path-display[data-path-middle] {
+  grid-template-columns: minmax(0, max-content) minmax(1ch, 1fr) minmax(0, max-content);
+}
+.path-display > :is([data-path-part="root"], [data-path-part="end"]) {
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.path-display > [data-path-part="middle"] {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

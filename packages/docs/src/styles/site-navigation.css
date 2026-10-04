@@ -1,3 +1,9 @@
+/* Share the same subtle hover tint between group headers and footer actions. */
+.docs-sidebar,
+.site-navigation-panel {
+  --navigation-group-hover-background: color-mix(in oklab, var(--primary) 6%, var(--background));
+}
+
 /* The shared navigation takes over where the desktop navigation disappears. */
 .site-navigation {
   display: inline-flex;
@@ -13,14 +19,7 @@
   width: 2.75rem;
   height: 2.75rem;
   padding: 0;
-  border: 1px solid transparent;
-  border-radius: 0.65rem;
-  background: color-mix(in oklab, var(--foreground) 5%, transparent);
-  color: var(--muted-foreground);
   cursor: pointer;
-  transition:
-    background 160ms ease,
-    border-color 160ms ease;
 }
 
 .site-navigation-panel {
@@ -97,7 +96,11 @@
 }
 
 .site-navigation-group + .site-navigation-group {
-  margin-top: 0.3rem;
+  margin-top: 0.625rem;
+}
+
+.navigation-scroll-content {
+  display: flow-root;
 }
 
 .site-navigation-group-trigger {
@@ -109,12 +112,13 @@
   padding: 0.6rem 0.5rem;
   border: 0;
   border-radius: 0.65rem;
-  background: transparent;
+  background: color-mix(in oklab, var(--primary) 3%, transparent);
   color: var(--foreground);
   text-align: left;
   font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
+  transition: background-color 150ms ease;
 }
 
 .site-navigation-group-trigger small {
@@ -151,8 +155,9 @@
   transition: transform 180ms ease;
 }
 
-.site-navigation-group-trigger[aria-expanded="true"] {
-  background: color-mix(in oklab, var(--foreground) 4%, transparent);
+/* Current location stays visible even when its group is collapsed. */
+.site-navigation-group-trigger[data-current] {
+  background: color-mix(in oklab, var(--primary) 8%, var(--background));
 }
 
 .site-navigation-group-trigger[aria-expanded="true"] .site-navigation-chevron {
@@ -162,8 +167,9 @@
 .site-navigation-links {
   display: grid;
   gap: 0.375rem;
-  margin: 0.5rem 0 0.85rem 2.5rem;
-  padding: 0;
+  margin: 0 0 0 2.5rem;
+  /* Keep vertical spacing inside the height measured by the disclosure animation. */
+  padding: 0.5rem 0 0.85rem;
   list-style: none;
 }
 
@@ -201,6 +207,37 @@
   margin-left: auto;
 }
 
+/* Quiet status labels use a tint so link names keep the strongest visual emphasis. */
+.site-navigation-status {
+  gap: 0.35rem;
+  padding: 0.05rem 0.4rem;
+  border-radius: 0.35rem;
+  background: color-mix(in oklab, var(--primary) 14%, transparent);
+  color: color-mix(in oklab, var(--primary) 25%, var(--foreground));
+  font-size: 0.625rem;
+  font-weight: 500;
+  line-height: 1rem;
+  transition: background-color 150ms ease;
+}
+
+.site-navigation-status-dot {
+  width: 0.3rem;
+  height: 0.3rem;
+  flex: none;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.65;
+}
+
+.site-navigation-status[data-status="planned"] .site-navigation-status-dot {
+  background: transparent;
+}
+
+.site-navigation-link:is(:hover, :focus-visible) .site-navigation-status {
+  background: color-mix(in oklab, var(--primary) 19%, transparent);
+}
+
 .site-navigation-special-icon {
   flex: none;
   opacity: 0.6;
@@ -223,11 +260,7 @@
 }
 
 .site-navigation-link[aria-current] {
-  background: linear-gradient(
-    100deg,
-    color-mix(in oklab, var(--primary) 6%, var(--background)),
-    color-mix(in oklab, var(--primary) 1.5%, var(--background))
-  );
+  background: color-mix(in oklab, var(--primary) 10%, var(--background));
   color: color-mix(in oklab, var(--primary) 20%, var(--foreground));
   font-weight: 450;
 }
@@ -237,20 +270,26 @@
 }
 
 .site-navigation-panel :is(a, button):focus-visible,
-.site-navigation-directory :is(a, button):focus-visible,
-.site-icon-button:focus-visible {
+.site-navigation-directory :is(a, button):focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 2px;
 }
 
 @media (hover: hover) {
-  .site-icon-button:hover,
-  .site-navigation-icon-button:hover,
   .site-navigation-group-trigger:hover,
   .site-navigation-link:not([aria-current]):hover,
-  .site-navigation-footer a:hover {
+  .site-navigation-footer a:not(.docs-icon-button):hover {
     color: var(--foreground);
     background: color-mix(in oklab, var(--primary) 7%, var(--background));
+  }
+
+  .site-navigation-group-trigger:hover,
+  .site-navigation-secondary-links a:hover {
+    background: var(--navigation-group-hover-background);
+  }
+
+  .site-navigation-group-trigger[data-current]:hover {
+    background: color-mix(in oklab, var(--primary) 14%, var(--background));
   }
 }
 
@@ -308,7 +347,6 @@
 .site-navigation-icon-button {
   width: 2rem;
   height: 2rem;
-  border-radius: 0.5rem;
 }
 .site-navigation-quick-links {
   display: flex;
@@ -428,7 +466,6 @@
   width: 2.25rem;
   height: 2.25rem;
   min-width: 2.25rem;
-  background: transparent;
 }
 /* Keep the directory usable when the keyboard or landscape viewport reduces height. */
 @media (max-height: 480px) {
@@ -453,48 +490,149 @@
   }
 }
 .site-theme-picker-content {
-  max-height: min(26rem, calc(100dvh - 10rem));
+  max-height: min(27rem, calc(100dvh - 10rem));
   overflow-y: auto;
-  width: 16rem;
-  padding: 0.75rem;
-  gap: 0.25rem;
+  overscroll-behavior: contain;
+  width: min(17.5rem, calc(100vw - 2rem));
+  padding: 0;
+  gap: 0;
   border-color: var(--border);
+  border-radius: 0.875rem;
+}
+.site-theme-picker-header {
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.875rem 1rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(
+    135deg,
+    color-mix(in oklab, var(--primary) 4%, transparent),
+    transparent 75%
+  );
+}
+.site-theme-picker-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+.site-theme-picker-count {
+  color: var(--muted-foreground);
+  font-size: 0.625rem;
+  font-variant-numeric: tabular-nums;
 }
 .site-theme-picker-content [data-slot="popover-title"] {
-  font-size: 0.8rem;
+  margin: 0;
+  font-size: 0.875rem;
+  letter-spacing: -0.015em;
 }
-.site-theme-picker-content > p {
-  font-size: 0.7rem;
+.site-theme-picker-content [data-slot="popover-description"] {
+  margin: 0;
+  font-size: 0.6875rem;
+  line-height: 1.5;
   color: var(--muted-foreground);
-  margin: 0 0 0.5rem;
 }
 .site-theme-options {
   display: grid;
-  gap: 0.15rem;
+  gap: 0.125rem;
+  padding: 0.5rem;
 }
 .site-theme-options button {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.5rem;
-  min-height: 2.5rem;
-  padding: 0.5rem;
+  gap: 0.75rem;
+  min-height: 2.125rem;
+  padding: 0.375rem 0.5rem;
   border: 0;
-  border-radius: 0.375rem;
+  border-radius: 0.5rem;
   background: transparent;
   color: var(--muted-foreground);
   text-align: left;
   font-size: 0.75rem;
   cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
 }
-.site-theme-options button[aria-pressed="true"],
 .site-theme-options button:hover {
-  background: color-mix(in oklab, var(--primary) 6%, var(--background));
+  background: color-mix(in oklab, var(--foreground) 4%, transparent);
   color: var(--foreground);
 }
+.site-theme-options button[aria-pressed="true"] {
+  background: color-mix(in oklab, var(--foreground) 7%, transparent);
+  color: var(--foreground);
+  font-weight: 600;
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--foreground) 5%, transparent);
+}
+.site-theme-option-detail,
+.site-theme-swatches {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+}
+.site-theme-option-detail {
+  gap: 0.625rem;
+}
+.site-theme-swatches {
+  gap: 0.1875rem;
+}
+.site-theme-swatches i {
+  width: 0.5rem;
+  height: 0.75rem;
+  border-radius: 0.1875rem;
+  box-shadow: inset 0 0 0 1px rgb(127 127 127 / 18%);
+}
+.site-theme-selection-check {
+  opacity: 0;
+}
+.site-theme-options button[aria-pressed="true"] .site-theme-selection-check {
+  opacity: 1;
+}
+.site-theme-picker-footer {
+  display: grid;
+  gap: 0.625rem;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--border);
+  background: color-mix(in oklab, var(--muted) 25%, transparent);
+  color: var(--muted-foreground);
+  font-size: 0.6875rem;
+}
+.site-theme-picker-hint {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin: 0;
+  font-size: 0.625rem;
+}
+.site-theme-picker-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 0.75rem;
+}
+.site-theme-picker-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--foreground);
+  text-decoration: none;
+}
+.site-theme-picker-links a:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.site-theme-picker-links a:focus-visible,
 .site-theme-options button:focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: -2px;
+  border-radius: 0.375rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-theme-options button {
+    transition: none;
+  }
 }
 
 @media (min-width: 980px) {

@@ -5,6 +5,7 @@ import { useMemo, useState } from "preact/hooks";
 import { withBasePath } from "../base-path";
 import { CodeBlock } from "../docs/components/CodeBlock";
 import { DocsShell } from "../docs/components/DocsShell";
+import { PathDisplay } from "../docs/components/PathDisplay";
 import { BlockPreviewPanel } from "./BlockPreviewPanel";
 import { getCommerceBlockSource } from "./commerce-source";
 
@@ -134,8 +135,9 @@ const BlockCard = ({ block }: { block: CommerceBlock }) => {
           </TabsContent>
           <TabsContent value="code">
             <div class="blocks-install">
-              <code>{installCommand}</code>
+              <PathDisplay path={installCommand} />
               <Button
+                class="docs-icon-button"
                 size="icon-sm"
                 variant="ghost"
                 aria-label="Copy block path"

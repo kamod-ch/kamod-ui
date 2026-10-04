@@ -2,6 +2,7 @@ import { ArrowRightIcon, ArrowUpRightIcon, CheckIcon } from "@kamod-ch/icons/luc
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@kamod-ch/ui";
 import { withBasePath } from "../../base-path";
 import { CodeBlock } from "../../docs/components/CodeBlock";
+import { PathDisplay } from "../../docs/components/PathDisplay";
 import { BlockHeadingLink } from "../BlockHeadingLink";
 import { blockGuides } from "./guide-catalog";
 import { guideExercises } from "./guide-exercises";
@@ -28,9 +29,10 @@ const nextSteps = {
     outcome: "A consistent layout that keeps the original keyboard and responsive behavior.",
   },
   theming: {
-    title: "Connect the visual foundation",
-    task: "Check your global stylesheet, source discovery and semantic color pairs.",
-    outcome: "Shared surfaces and controls that work across presets and both color schemes.",
+    title: "Apply the theme to a complete layout",
+    task: "Check copied-source discovery, sidebar surfaces and overlays against your existing app theme.",
+    outcome:
+      "An integrated block that follows the same appearance preferences as the rest of your app.",
   },
 };
 
@@ -72,7 +74,8 @@ export function ContinueBuilding({ slug }: { slug: (typeof blockGuides)[number][
           Put what you’ve learned into a <strong>small, working part of your app</strong>. Choose a
           composition, make one deliberate change and check the result with real content. You own
           the copied source: keep your <code>Preact</code> conventions, reuse the{" "}
-          <code>@kamod-ch/ui</code> primitives and let your application supply the behavior.
+          <PathDisplay path={"@kamod-ch/ui"} /> primitives and let your application supply the
+          behavior.
         </p>
       </div>
 

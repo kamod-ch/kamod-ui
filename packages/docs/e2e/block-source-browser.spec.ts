@@ -26,7 +26,17 @@ for (const scheme of ["light", "dark"] as const) {
       await expect(code).toBeVisible();
       const filePath = panel.locator(".docs-code-toolbar .docs-code-file-path");
       await expect(filePath).toHaveAttribute("title", /^src\/components\//);
-      await expect(panel.locator(".blocks-source-intro")).toHaveCSS("display", "flex");
+      await expect(panel.locator(".blocks-showcase-intro")).toHaveCSS("display", "flex");
+      const importPath = panel.locator(".blocks-showcase-import");
+      const importCode = importPath.locator("code");
+      await expect(importPath).toBeVisible();
+      await expect(panel.locator(".blocks-install")).toHaveCount(0);
+      if (category !== "application-shell") {
+        const originalPath = await importCode.textContent();
+        await importPath.getByRole("button", { name: "Copy block path", exact: true }).click();
+        expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(originalPath);
+        await expect(importPath.getByRole("button", { name: "Block path copied" })).toBeVisible();
+      }
       await page.evaluate(() => document.fonts.ready);
 
       for (const width of showcaseWidths) {
@@ -34,22 +44,40 @@ for (const scheme of ["light", "dark"] as const) {
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
           true,
         );
+        const metadataBox = (await importPath.boundingBox())!;
+        const headingBox = (await panel.locator(".blocks-showcase-intro h3").boundingBox())!;
+        expect(metadataBox.y + metadataBox.height).toBeLessThan(headingBox.y);
+        const guides = panel.getByRole("navigation", { name: "Block guides" }).getByRole("link");
+        for (const guide of await guides.all()) {
+          await expect(guide).toHaveText("");
+          await expect(guide).toHaveAccessibleName(/.+/);
+        }
         const tree = (await panel.locator(".blocks-file-tree").boundingBox())!;
         const pane = (await panel.locator(".blocks-code-pane").boundingBox())!;
         const pathBox = (await filePath.boundingBox())!;
         const copyBox = (await panel
           .getByRole("button", { name: "Copy code", exact: true })
           .boundingBox())!;
-        expect(pathBox.x + pathBox.width).toBeLessThan(copyBox.x - 8);
-        expect(pathBox.y + pathBox.height / 2).toBeCloseTo(copyBox.y + copyBox.height / 2, 0);
-        await expect(filePath.locator(".docs-code-path-root")).toHaveText("src/");
+        if (pane.width > 448) {
+          expect(pathBox.x + pathBox.width).toBeLessThan(copyBox.x - 8);
+          expect(pathBox.y + pathBox.height / 2).toBeCloseTo(copyBox.y + copyBox.height / 2, 0);
+        } else {
+          expect(pathBox.y + pathBox.height).toBeLessThan(copyBox.y);
+        }
+        await expect(filePath.locator('[data-path-part="root"]')).toHaveText("src/");
+        const filename = filePath.locator('[data-path-part="end"]');
+        expect(await filename.evaluate((node) => node.scrollWidth <= node.clientWidth + 1)).toBe(
+          true,
+        );
+        await expect(panel.getByRole("group", { name: "Source controls" })).toBeVisible();
+        await expect(panel.locator(".blocks-source-lines")).toContainText("·");
         if (width < 768) expect(pane.y).toBeGreaterThanOrEqual(tree.y + tree.height - 1);
         else expect(pane.y).toBeCloseTo(tree.y, 0);
         if (width < 640) {
           for (const name of ["Wrap code lines", "Copy code"]) {
             expect(
               (await panel.getByRole("button", { name, exact: true }).boundingBox())!.height,
-            ).toBeGreaterThanOrEqual(40);
+            ).toBeGreaterThanOrEqual(38);
           }
         }
       }
@@ -78,9 +106,18 @@ for (const scheme of ["light", "dark"] as const) {
       const path = await second.getAttribute("title");
       await second.focus();
       await second.press("Enter");
-      await expect(panel.locator(".blocks-source-file-heading code")).toHaveText(path!);
+      await expect(panel.locator('.blocks-source-file-heading [data-path-part="end"]')).toHaveText(
+        `/${path!.split("/").at(-1)}`,
+      );
       await expect(code).not.toHaveText(original!);
-      await expect(panel.getByRole("link", { name: "Setup guide" })).toHaveAttribute(
+      await expect(
+        panel.getByRole("navigation", { name: "Block guides" }).getByRole("link"),
+      ).toHaveCount(3);
+      await expect(
+        panel
+          .getByRole("navigation", { name: "Block guides" })
+          .getByRole("link", { name: "Setup guide", exact: true }),
+      ).toHaveAttribute(
         "href",
         `#${category === "application-shell" ? "application-shell" : id}-installation`,
       );

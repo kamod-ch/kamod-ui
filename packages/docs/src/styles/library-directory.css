@@ -114,9 +114,6 @@
 }
 .library-directory-actions .library-directory-browse {
   padding-inline: 0.75rem;
-  border-radius: 0.5rem;
-  color: var(--foreground);
-  background: color-mix(in oklab, var(--primary) 8%, var(--background));
   font-weight: 500;
 }
 .library-directory-jump-links {
@@ -147,8 +144,6 @@
 .library-directory-icon-links a {
   width: 2.5rem;
   justify-content: center;
-  border-radius: 0.5rem;
-  background: color-mix(in oklab, var(--foreground) 3%, transparent);
 }
 .library-section-overline {
   display: flex;
@@ -325,19 +320,17 @@
   line-height: 1.7;
   color: var(--muted-foreground);
 }
-.library-directory a:focus-visible {
+.library-directory a:not(.docs-icon-button):focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 3px;
 }
 @media (hover: hover) {
   .library-directory .library-directory-item:hover,
-  .library-directory-icon-links a:hover,
-  .library-guide-card:has(a:hover),
-  .library-directory-actions .library-directory-browse:hover {
+  .library-guide-card:has(a:hover) {
     background: color-mix(in oklab, var(--primary) 4%, var(--background));
     border-color: color-mix(in oklab, var(--primary) 20%, var(--border));
   }
-  .library-directory a:not(.library-directory-browse):hover {
+  .library-directory a:not(.library-directory-browse, .docs-icon-button):hover {
     color: var(--foreground);
   }
 }

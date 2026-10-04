@@ -1,6 +1,7 @@
 /** Copy paths and working local imports for the self-contained page examples. */
 import { withBasePath } from "../../base-path";
 import { CodeBlock } from "../../docs/components/CodeBlock";
+import { PathDisplay } from "../../docs/components/PathDisplay";
 import { getBlockOverviewDetails } from "../block-overview-details";
 import { ShowcaseCodeLink } from "../ShowcaseCodeLink";
 import { AuthUsage } from "./AuthUsage";
@@ -36,11 +37,12 @@ export function VariantSetup({ guide }: { guide: VariantGuide }) {
             <>
               <p>
                 <ShowcaseCodeLink blockId={block.id}>Open the showcase’s Code tab</ShowcaseCodeLink>{" "}
-                and copy the files below relative to <code>src/components/blocks</code>. Keep the
-                source folder structure so relative imports resolve. These are destination paths;
-                the Code tab’s display labels such as <code>app/{category}/page.tsx</code> are not
-                the installation paths. The examples below assume your importing file is{" "}
-                <code>src/App.tsx</code>.
+                and copy the files below relative to <PathDisplay path={"src/components/blocks"} />.
+                Keep the source folder structure so relative imports resolve. These are destination
+                paths; the Code tab’s display labels such as{" "}
+                <PathDisplay path={`app/${category}/page.tsx`} /> are not the installation paths.
+                The examples below assume your importing file is{" "}
+                <PathDisplay path={"src/App.tsx"} />.
               </p>
               <CodeBlock
                 code={files.map((file) => file.path.replace(/^src\//, "")).join("\n")}
@@ -77,9 +79,9 @@ export function VariantSetup({ guide }: { guide: VariantGuide }) {
           </p>
           <CodeBlock code={variantImport(guide)} language="tsx" />
           <p class="blocks-doc-note">
-            The <code>{block.installCommand}</code> path identifies source in this repository; the
-            blocks package is private. Use the local import above rather than trying to install that
-            path as a published package.
+            The <PathDisplay path={block.installCommand} /> path identifies source in this
+            repository; the blocks package is private. Use the local import above rather than trying
+            to install that path as a published package.
           </p>
           <p class="blocks-doc-note">
             <strong>Check the first render:</strong> the {sidebar ? "sidebar" : "form controls"},

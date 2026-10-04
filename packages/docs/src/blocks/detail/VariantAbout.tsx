@@ -1,6 +1,7 @@
 /** Behavior, integration boundaries and accessibility guidance tailored to each composition. */
 import { ExternalLinkIcon } from "@kamod-ch/icons/lucide";
 import { CodeBlock } from "../../docs/components/CodeBlock";
+import { PathDisplay } from "../../docs/components/PathDisplay";
 import { getBlockOverviewDetails } from "../block-overview-details";
 import { ShowcaseCodeLink } from "../ShowcaseCodeLink";
 import { BlockDocSection, BlockGuideHeading } from "./BlockDocumentation";
@@ -25,11 +26,12 @@ export function VariantBehavior({ guide }: { guide: VariantGuide }) {
     >
       {sidebar ? (
         <p class="blocks-doc-note">
-          Edit <code>{block.id}.tsx</code> for layout and <code>data/</code> for example content.
+          Edit <code>{block.id}.tsx</code> for layout and <PathDisplay path={"data/"} /> for example
+          content.
           {guide.files.some((file) => file.label.startsWith("components/")) && (
             <>
               {" "}
-              Reusable interactions live in <code>components/</code>.
+              Reusable interactions live in <PathDisplay path={"components/"} />.
             </>
           )}{" "}
           Each variant is an explicit composition; there is no configuration switch or dependency on
@@ -129,12 +131,12 @@ export function VariantAbout({ guide }: { guide: VariantGuide }) {
         <p>
           The copied <code>page.tsx</code> owns centering, background, branding and any cover image.
           Its sibling <code>{category}-form.tsx</code> owns the form. Shared helpers in{" "}
-          <code>auth/shared</code> supply validation and provider artwork; optional branding lives
-          separately in <code>shared/branding</code>. You can reuse the form inside another page
-          without copying the original page layout, but keep the form’s imported helpers. The form
-          stores values internally; adding a value or initialValues prop requires changing that
-          implementation. Change field names, payload types and validation together when adapting
-          the form, and keep the service contract aligned with them.
+          <PathDisplay path={"auth/shared"} /> supply validation and provider artwork; optional
+          branding lives separately in <PathDisplay path={"shared/branding"} />. You can reuse the
+          form inside another page without copying the original page layout, but keep the form’s
+          imported helpers. The form stores values internally; adding a value or initialValues prop
+          requires changing that implementation. Change field names, payload types and validation
+          together when adapting the form, and keep the service contract aligned with them.
         </p>
       </section>
       <section aria-labelledby={anchor("responsive")}>

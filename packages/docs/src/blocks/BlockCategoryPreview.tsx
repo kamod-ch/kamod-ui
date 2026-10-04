@@ -35,6 +35,7 @@ export function BlockCategoryPreview({ category }: { category: BlockCategory }) 
           aria-label={`${displayName} links`}
         >
           <Button
+            class="docs-icon-button"
             variant="ghost"
             size="icon-xs"
             href={detailUrl}
@@ -44,6 +45,7 @@ export function BlockCategoryPreview({ category }: { category: BlockCategory }) 
             <ArrowUpRightIcon size={13} strokeWidth={1.75} aria-hidden="true" />
           </Button>
           <Button
+            class="docs-icon-button"
             variant="ghost"
             size="icon-xs"
             href={sourceUrl}
@@ -56,6 +58,7 @@ export function BlockCategoryPreview({ category }: { category: BlockCategory }) 
           </Button>
           {/* Native navigation preserves the installation fragment across routes. */}
           <Button
+            class="docs-icon-button"
             variant="ghost"
             size="icon-xs"
             href={`${detailUrl}#${installationId}`}

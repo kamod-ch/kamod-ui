@@ -11,12 +11,17 @@ export function DocsTopbarActions() {
         <ThemePresetPicker showLabel />
       </span>
       <ThemeToggle
-        class="docs-topbar-theme-toggle site-icon-button"
+        class="docs-icon-button docs-topbar-theme-toggle site-icon-button"
         aria-label="Toggle color scheme"
       >
         <SunMoonIcon strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
       </ThemeToggle>
-      <GithubRepoLink />
+      <span class="docs-desktop-github">
+        <GithubRepoLink />
+      </span>
+      <span class="docs-mobile-theme-picker">
+        <ThemePresetPicker />
+      </span>
     </>
   );
 }

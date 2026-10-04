@@ -31,6 +31,40 @@ for (const [category, id] of [
       const adapt = panel.getByRole("button", { name: "Adapt block", exact: true });
       await expect(setup).toHaveAttribute("aria-pressed", "true");
       await expect(panel.locator("pre")).toContainText("## Installation and integration");
+      const references = panel.getByRole("navigation", { name: "Block guides" });
+      await expect(references.getByRole("link")).toHaveCount(3);
+      await expect(
+        references.getByRole("link", { name: "Setup guide", exact: true }),
+      ).toHaveAttribute(
+        "href",
+        `#${category === "application-shell" ? "application-shell" : id}-installation`,
+      );
+      await references.getByRole("link", { name: "Refine component styles", exact: true }).focus();
+      await expect(page.getByRole("tooltip")).toContainText("Refine component styles");
+      await page.keyboard.press("Escape");
+      await expect(
+        panel.getByRole("link", { name: "Setup and Integration", exact: true }),
+      ).toHaveAttribute(
+        "href",
+        `#${category === "application-shell" ? "application-shell" : id}-installation`,
+      );
+      await expect(
+        panel.getByText("No assistant-specific setup required", { exact: true }),
+      ).toHaveCount(0);
+      const sourceLink = panel
+        .locator(".docs-code-toolbar")
+        .getByRole("link", { name: /source files? included/ });
+      await expect(sourceLink).toHaveAttribute("href", `#${id}-code`);
+      await expect(panel.locator(".blocks-prompt-format")).toContainText("·");
+      await sourceLink.click();
+      await expect(
+        page.locator(".blocks-showcase").getByRole("tab", { name: "Code", exact: true }),
+      ).toHaveAttribute("aria-selected", "true");
+      await page
+        .locator(".blocks-showcase")
+        .getByRole("tab", { name: "Prompt", exact: true })
+        .click();
+
       await panel.getByRole("button", { name: "Copy code", exact: true }).click();
       const copied = await page.evaluate(() => navigator.clipboard.readText());
       expect(copied).toBe(await panel.locator("pre code").textContent());
@@ -83,7 +117,7 @@ for (const [category, id] of [
           `prompt at ${width}`,
         ).toBe(true);
         for (const selector of [
-          ".blocks-prompt-intro",
+          ".blocks-showcase-intro",
           ".blocks-prompt-selectors",
           ".docs-code-toolbar",
         ]) {

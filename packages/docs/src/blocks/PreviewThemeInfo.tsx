@@ -20,7 +20,7 @@ export function PreviewThemeInfo() {
   const id = useId();
   return (
     <Popover>
-      <Button asChild variant="ghost" size="icon-xs">
+      <Button class="docs-icon-button" asChild variant="ghost" size="icon-xs">
         <PopoverTrigger
           id={`${id}-trigger`}
           aria-controls={`${id}-content`}
@@ -57,7 +57,7 @@ function PreviewGuideBody({ id }: { id: string }) {
           Snapshots
         </Badge>
       </div>
-      <PopoverClose aria-label="Close preview guide" />
+      <PopoverClose class="docs-icon-button" aria-label="Close preview guide" />
       <PopoverDescription>
         Gallery previews use the <code>Kamod</code> theme and follow your <code>light</code> or{" "}
         <code>dark</code> mode. These{" "}

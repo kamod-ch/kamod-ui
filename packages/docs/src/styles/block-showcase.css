@@ -1,4 +1,4 @@
-/* Shared detail-page controls. Legacy catalogue showcases retain their existing styles. */
+/* Shared block, component and form showcase surfaces and controls. */
 .blocks-sidebar-detail {
   --showcase-control-inset: 1rem;
 }
@@ -7,10 +7,11 @@
   container: block-showcase / inline-size;
   --showcase-border: color-mix(in oklab, var(--border) 65%, transparent);
   --showcase-control-size: 2rem;
+  --showcase-radius: 0.875rem;
   padding: 0;
-  border-color: var(--showcase-border);
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+  border: 1px solid var(--showcase-border);
+  border-radius: var(--showcase-radius);
+  overflow: hidden;
   background: var(--background);
 }
 
@@ -22,8 +23,30 @@
   gap: 0;
 }
 
+/* Keep prompt and import-path metadata aligned across showcase tabs. */
+.blocks-showcase .showcase-metadata-label {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 0.625rem;
+  margin: 0;
+  color: var(--muted-foreground);
+  font-family: var(--font-sans, sans-serif);
+  font-size: 0.6875rem;
+  font-weight: 400;
+  line-height: 1.5;
+}
+.showcase-metadata-label > svg {
+  flex: none;
+}
+
 .blocks-showcase-tabs > [data-slot="tabs-content"] {
   margin: 0;
+  padding: 0;
+  /* The frame and toolbar own the borders; keep tab panels from doubling them. */
+  border: 0;
+  border-radius: 0;
+  background: transparent;
   min-width: 0;
   max-width: 100%;
 }
@@ -36,6 +59,7 @@
   gap: 0.625rem 1.5rem;
   padding: 0.75rem var(--showcase-control-inset, 1rem);
   border-bottom: 1px solid var(--showcase-border);
+  border-radius: calc(var(--showcase-radius) - 1px) calc(var(--showcase-radius) - 1px) 0 0;
   /* The containing card supplies the matching top rule, without a double border. */
   background: var(--background);
 }
@@ -55,6 +79,7 @@
   margin-left: auto;
 }
 
+.package-guide-reference .blocks-showcase-segmented,
 .blocks-showcase .blocks-showcase-segmented,
 .blocks-showcase .blocks-preview-viewport-switcher {
   display: inline-flex;
@@ -71,8 +96,8 @@
   color: var(--muted-foreground);
 }
 
-.blocks-showcase [data-slot="tabs-trigger"],
-.blocks-showcase [data-slot="toggle-group-item"],
+.blocks-showcase-toolbar [data-slot="tabs-trigger"],
+:is(.blocks-showcase-toolbar, .blocks-prompt-options) [data-slot="toggle-group-item"],
 .blocks-showcase-control {
   display: inline-flex;
   flex-shrink: 0;
@@ -82,23 +107,15 @@
   height: var(--showcase-control-size);
   min-height: 0;
   padding: 0 0.625rem;
-  border: 0;
-  border-radius: 0.375rem;
-  background: transparent;
-  color: color-mix(in oklab, var(--foreground) 78%, var(--background));
   font-size: 0.75rem;
   font-weight: 500;
   line-height: 1;
   text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
-  transition:
-    color 150ms ease,
-    background-color 150ms ease,
-    box-shadow 150ms ease;
 }
 
-.blocks-showcase [data-slot="toggle-group-item"],
+:is(.blocks-showcase-toolbar, .blocks-prompt-options) [data-slot="toggle-group-item"],
 .blocks-showcase-control {
   min-width: var(--showcase-control-size);
 }
@@ -108,42 +125,12 @@
   flex-shrink: 0;
   stroke-width: 1.75;
 }
-.blocks-showcase [data-slot="tabs-trigger"]::after {
+.blocks-showcase-toolbar [data-slot="tabs-trigger"]::after {
   display: none;
-}
-
-.blocks-showcase [data-slot="tabs-trigger"][data-state="active"],
-.blocks-showcase [data-slot="toggle-group-item"][data-state="on"],
-.blocks-showcase-control[aria-pressed="true"] {
-  background: var(--background);
-  color: var(--foreground);
-  box-shadow: 0 1px 3px rgb(0 0 0 / 8%);
-}
-
-.blocks-showcase [data-slot="tabs-trigger"]:hover,
-.blocks-showcase [data-slot="toggle-group-item"]:hover,
-.blocks-showcase-control:hover {
-  color: var(--foreground);
-  background: color-mix(in oklab, var(--primary) 12%, var(--background));
-}
-
-.blocks-showcase [data-slot="tabs-trigger"][data-state="active"]:hover,
-.blocks-showcase [data-slot="toggle-group-item"][data-state="on"]:hover,
-.blocks-showcase-control[aria-pressed="true"]:hover {
-  background: var(--background);
-}
-
-.blocks-showcase-control:focus-visible,
-.blocks-showcase-preset:focus-within {
-  outline: 2px solid var(--ring);
-  outline-offset: 2px;
 }
 
 .blocks-showcase .blocks-preview-viewport-switcher [data-slot="toggle-group-item"]:disabled {
   opacity: 0.35;
-  background: transparent;
-  color: var(--muted-foreground);
-  box-shadow: none;
   cursor: not-allowed;
   /* Preserve the explanatory native hover title on disabled buttons. */
   pointer-events: auto;
@@ -156,31 +143,14 @@
   cursor: progress;
   opacity: 1;
 }
-.blocks-showcase-refresh:is([data-refresh-state="loading"], [data-refresh-state="complete"]) {
-  background: var(--background);
-  color: var(--foreground);
-  box-shadow: 0 1px 3px rgb(0 0 0 / 8%);
-}
-.blocks-showcase-refresh[data-refresh-state="resetting"] {
-  background: transparent;
-  box-shadow: none;
-}
-.blocks-showcase-refresh-icon,
-.blocks-showcase-refresh-label {
+.blocks-showcase-refresh-icon {
   display: grid;
 }
 .blocks-showcase-refresh-label {
-  /* Keep every label beside the icon; reserve the unused width at its trailing edge. */
-  justify-items: start;
-  text-align: start;
+  white-space: nowrap;
 }
-.blocks-showcase-refresh-icon > svg,
-.blocks-showcase-refresh-label > span {
+.blocks-showcase-refresh-icon > svg {
   grid-area: 1 / 1;
-}
-/* Reserve the longest label so the other groups never move during a refresh. */
-.blocks-showcase-refresh-label > [aria-hidden="true"] {
-  visibility: hidden;
 }
 .blocks-showcase-refresh-icon > svg {
   transition: opacity 180ms ease;
@@ -248,18 +218,49 @@
   border-inline: 1px solid var(--showcase-border);
 }
 
-.blocks-showcase .blocks-install {
-  margin: 0;
-  border: 0;
-  border-bottom: 1px solid var(--showcase-border);
-  border-radius: 0;
-  min-height: 2.75rem;
-}
 .blocks-showcase .blocks-code-layout {
   margin: 0;
   border: 0;
   border-radius: 0;
 }
+.showcase-heading {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.625rem;
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+.showcase-heading strong {
+  color: var(--foreground);
+  font-weight: 650;
+}
+.showcase-heading > span:last-child {
+  white-space: nowrap;
+}
+
+/* Reduce supporting text by the row's available width, keeping navigation on one line. */
+.blocks-variant-header .blocks-page-header-summary {
+  container: showcase-summary / inline-size;
+  flex-wrap: nowrap;
+}
+.blocks-variant-header .showcase-heading {
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+}
+@container showcase-summary (max-width: 40rem) {
+  .showcase-heading > span {
+    display: none;
+  }
+}
+@container showcase-summary (max-width: 27rem) {
+  .blocks-overview-count,
+  .blocks-overview-summary-separator {
+    display: none;
+  }
+}
+
 @media (min-width: 980px) {
   .blocks-variant-header .blocks-page-header-summary {
     /* Include the showcase's perimeter border when aligning the two rows. */
@@ -279,19 +280,20 @@
           env(safe-area-inset-right, 0px)
         )
     );
-    border-inline: 0;
-    border-radius: 0;
   }
   .blocks-showcase-toolbar {
     padding: 0.625rem;
     gap: 0.75rem;
   }
-  .blocks-showcase [data-slot="tabs-trigger"] {
+  .blocks-showcase-toolbar [data-slot="tabs-trigger"] {
     font-size: 0.75rem;
     padding-inline: 0.5rem;
   }
-  /* Override the documentation's compact Copy button within both showcase panels. */
-  .blocks-showcase .docs-code-wrap .docs-code-toolbar .docs-copy-code-button {
+  /* Source controls size both buttons together; other Copy actions retain the larger touch size. */
+  .blocks-showcase
+    .docs-code-wrap
+    .docs-code-toolbar:not(.blocks-source-file-heading)
+    .docs-copy-code-button {
     min-height: 2.5rem;
   }
 }
@@ -330,11 +332,6 @@
 @media (prefers-reduced-motion: reduce) {
   .blocks-showcase-refresh[data-refresh-state] .blocks-showcase-refresh-icon > svg {
     animation: none;
-    transition: none;
-  }
-  .blocks-showcase [data-slot="tabs-trigger"],
-  .blocks-showcase [data-slot="toggle-group-item"],
-  .blocks-showcase-control {
     transition: none;
   }
 }

@@ -1,7 +1,7 @@
 :root {
   --docs-wide-page-max-width: 1360px;
   --docs-wide-page-gutter: 0.75rem;
-  --docs-sidebar-width: clamp(16rem, 19vw, 19rem);
+  --docs-sidebar-width: clamp(17rem, 20vw, 20rem);
   --docs-rightbar-width: 16.25rem;
   --docs-sidebar-inner-padding: 1rem;
   --docs-column-gap: 1rem;
@@ -655,10 +655,21 @@ html {
   }
 }
 
+.docs-desktop-github {
+  display: inline-flex;
+}
+.docs-mobile-theme-picker {
+  display: none;
+}
+
 /* One compact row keeps the menu, brand and site actions together on phones. */
 @media (max-width: 979px) {
-  .docs-desktop-theme-picker {
+  .docs-desktop-theme-picker,
+  .docs-desktop-github {
     display: none;
+  }
+  .docs-mobile-theme-picker {
+    display: inline-flex;
   }
   .docs-topbar-inner {
     gap: 0.5rem;
@@ -720,7 +731,7 @@ html {
   .docs-layout-sidebar-header {
     width: 100%;
     min-width: 0;
-    padding-inline: 0 var(--docs-sidebar-inner-padding);
+    padding-inline: 0 calc(var(--docs-sidebar-inner-padding) + 0.25rem);
   }
 
   .docs-sidebar {
@@ -738,22 +749,15 @@ html {
     min-height: 0;
     overflow-y: auto;
     overflow-x: hidden;
-    /* Local covers hide each edge shadow when that end of the list is reached. */
+    /* The local cover hides the top shadow when the list is at its beginning. */
     background:
       linear-gradient(var(--background) 30%, transparent) center top / 100% 32px no-repeat local,
-      linear-gradient(transparent, var(--background) 70%) center bottom / 100% 32px no-repeat local,
       radial-gradient(
           farthest-side at 50% 0,
           color-mix(in oklab, var(--foreground) 12%, transparent),
           transparent
         )
-        center top / 100% 12px no-repeat scroll,
-      radial-gradient(
-          farthest-side at 50% 100%,
-          color-mix(in oklab, var(--foreground) 12%, transparent),
-          transparent
-        )
-        center bottom / 100% 12px no-repeat scroll;
+        center top / 100% 12px no-repeat scroll;
   }
 
   .docs-sidebar nav:not(.site-navigation-directory) {
@@ -872,15 +876,6 @@ html {
   height: 2.5rem;
   min-width: 2.5rem;
   padding: 0;
-  border: 1px solid transparent;
-  border-radius: 0.65rem;
-  background: color-mix(in oklab, var(--foreground) 5%, transparent);
-  color: var(--muted-foreground);
-  box-shadow: none;
-}
-.docs-topbar .site-icon-button:hover {
-  background: color-mix(in oklab, var(--primary) 8%, var(--background));
-  color: var(--foreground);
 }
 .docs-topbar .site-icon-button svg {
   width: 1.125rem;
@@ -917,7 +912,6 @@ html {
     width: 2.25rem;
     height: 2.25rem;
     min-width: 2.25rem;
-    border-radius: 0.55rem;
   }
 
   .docs-topbar .site-icon-button svg {

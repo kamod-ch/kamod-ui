@@ -2,6 +2,7 @@ import { ArrowUpRightIcon } from "@kamod-ch/icons/lucide";
 import { BrandGithubIcon } from "@kamod-ch/icons/tabler/filled";
 import { Button } from "@kamod-ch/ui";
 import { LibraryHeading } from "./LibraryHeading";
+import { PathDisplay } from "./PathDisplay";
 
 const repositories = [
   {
@@ -10,8 +11,9 @@ const repositories = [
     packageName: "@kamod-ch/ui",
     description: (
       <>
-        Follow a component into <code>packages/core</code> or explore complete compositions in{" "}
-        <code>packages/blocks</code>. Read the implementation before changing shared behavior.
+        Follow a component into <PathDisplay path={"packages/core"} /> or explore complete
+        compositions in <PathDisplay path={"packages/blocks"} />. Read the implementation before
+        changing shared behavior.
       </>
     ),
   },
@@ -56,7 +58,7 @@ export function LibrarySourceResources() {
                 <ArrowUpRightIcon size={14} aria-hidden="true" />
               </span>
               <span class="library-source-description">{description}</span>
-              <code class="library-source-package">{packageName}</code>
+              <PathDisplay class="library-source-package" path={packageName} />
               <span class="sr-only"> (opens in a new tab)</span>
             </a>
           </li>
@@ -68,6 +70,7 @@ export function LibrarySourceResources() {
           and documentation tooling on GitHub. Add what your project needs, one piece at a time.
         </p>
         <Button
+          class="docs-icon-button"
           variant="ghost"
           size="sm"
           href="https://github.com/kamod-ch"

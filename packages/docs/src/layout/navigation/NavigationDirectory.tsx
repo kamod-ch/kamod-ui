@@ -5,7 +5,6 @@ import {
   PackageIcon,
   TextCursorInputIcon,
 } from "@kamod-ch/icons/lucide";
-import { BoomIcon, HourglassIcon } from "@kamod-ch/icons/tabler/filled";
 import {
   ComponentsIcon,
   CubeUnfoldedIcon,
@@ -23,6 +22,7 @@ import {
   SheetClose,
 } from "@kamod-ch/ui";
 import { useId } from "preact/hooks";
+import { useNavigationGroup } from "./NavigationScrollArea";
 import { isNavigationCurrent, type NavigationGroup, type NavigationLink } from "./navigation-data";
 
 const groupIcons = {
@@ -56,7 +56,6 @@ function DirectoryLink({
   closeOnNavigate: boolean;
 }) {
   const status = link.planned ? "Planned" : link.updated ? "Updated" : undefined;
-  const StatusIcon = link.planned ? HourglassIcon : BoomIcon;
   const SpecialIcon = link.icon ? specialLinkIcons[link.icon] : undefined;
   const showCount = link.variantCount !== undefined && !(link.planned && link.variantCount === 0);
   const description =
@@ -83,12 +82,12 @@ function DirectoryLink({
         <span class="site-navigation-link-meta" aria-hidden="true">
           {status && (
             <Badge
-              variant="secondary"
+              variant="primary"
               size="xxs"
               class="site-navigation-status"
               data-status={link.planned ? "planned" : "updated"}
             >
-              <StatusIcon class="size-3" aria-hidden="true" />
+              <span class="site-navigation-status-dot" aria-hidden="true" />
               {status}
             </Badge>
           )}
@@ -122,9 +121,16 @@ function DirectoryGroup({
   const current = [group.overview, ...(group.guides ?? []), ...group.links].some((link) =>
     isNavigationCurrent(pathname, link.href, link.matchDescendants),
   );
+  const disclosure = useNavigationGroup(group.id, current);
   return (
-    <Collapsible class="site-navigation-group" defaultOpen={current}>
-      <CollapsibleTrigger class="site-navigation-group-trigger" aria-controls={id}>
+    <Collapsible class="site-navigation-group" {...disclosure}>
+      <CollapsibleTrigger
+        class="site-navigation-group-trigger"
+        aria-controls={id}
+        data-navigation-group={group.id}
+        data-current={current || undefined}
+        data-tooltip={`${(disclosure.open ?? disclosure.defaultOpen) ? "Collapse" : "Expand"} ${group.label}`}
+      >
         <span class="site-navigation-group-icon">
           <Icon size={18} aria-hidden="true" />
         </span>

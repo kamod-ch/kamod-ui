@@ -38,6 +38,7 @@ export const createPackageTeaserDoc = (config: PackageTeaserConfig): DocPageModu
     usageImportSnippet: config.quickStart.import,
     usageExampleSnippet: config.quickStart.usage,
     guideContents: contents,
+    guideTitle: config.headline,
     sections: [
       {
         id: "installation",

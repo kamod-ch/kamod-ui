@@ -57,11 +57,6 @@ export const startOfMonthKey = (key: DateKey): DateKey => {
   return formatDateKey({ year, month, day: 1 });
 };
 
-const endOfMonthKey = (key: DateKey): DateKey => {
-  const { year, month } = parseDateKey(key);
-  return formatDateKey({ year, month, day: daysInMonth(year, month) });
-};
-
 export const weekdayOfDateKey = (key: DateKey): number => new Date(utcNoon(key)).getUTCDay();
 
 export const startOfWeekKey = (key: DateKey, weekStartsOn: WeekStartsOn): DateKey => {

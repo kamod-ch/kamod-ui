@@ -1,5 +1,7 @@
 /** Render prompt Markdown as inert documentation, keeping source/HTML examples literal. */
-import { Marked } from "marked";
+import { Marked, Renderer } from "marked";
+import { isDisplayPath } from "../docs/components/PathDisplay";
+import { renderPathMarkup } from "../docs/components/path-markup";
 
 const escape = (text: string) =>
   text
@@ -11,6 +13,11 @@ const escape = (text: string) =>
 const markdown = new Marked({
   gfm: true,
   renderer: {
+    codespan(token) {
+      return isDisplayPath(token.text)
+        ? renderPathMarkup(token.text)
+        : Renderer.prototype.codespan.call(this, token);
+    },
     html: ({ text }) => escape(text),
     image: ({ text }) => escape(text),
     link({ href, tokens }) {

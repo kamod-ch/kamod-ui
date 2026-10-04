@@ -150,11 +150,11 @@ test("showcase selections survive reloads, stay per-block and yield to source li
     "aria-selected",
     "true",
   );
-  await expect(showcase.locator(".blocks-source-file-heading code")).toHaveText(
+  await expect(showcase.locator(".blocks-source-file-heading code")).toContainText(
     "components/nav-main.tsx",
   );
   await page.reload();
-  await expect(showcase.locator(".blocks-source-file-heading code")).toHaveText(
+  await expect(showcase.locator(".blocks-source-file-heading code")).toContainText(
     "components/nav-main.tsx",
   );
 });

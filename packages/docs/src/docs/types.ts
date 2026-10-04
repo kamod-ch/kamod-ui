@@ -23,6 +23,7 @@ export type DocRenderMainContext = {
     preview: ComponentChildren;
     codeSnippet: string;
     previewClass?: string;
+    filePath?: string;
   }) => ComponentChildren;
   renderSectionExtraContent: (sectionId: string) => ComponentChildren;
 };
@@ -30,6 +31,8 @@ export type DocRenderMainContext = {
 export type DocPageModule = {
   slug: string;
   title: string;
+  /** Optional descriptive H1; navigation and breadcrumb labels retain the short title. */
+  headline?: string;
   command: string;
   usageLabel: string;
   /** Sidebar group — defaults to components. */
@@ -43,8 +46,12 @@ export type DocPageModule = {
   /** Overrides auto-generated usage example snippet. */
   usageExampleSnippet?: string;
   sections: DocSection[];
+  /** Restrict the example directory to actual interactive examples on mixed reference pages. */
+  exampleSectionIds?: readonly string[];
   /** Opt into the shared reading-guide layout and nested in-page contents. */
   guideContents?: DocContentsSection[];
+  /** Visible H1 used for the guide’s first contents link. */
+  guideTitle?: string;
   renderMain: (context: DocRenderMainContext) => ComponentChildren;
 };
 

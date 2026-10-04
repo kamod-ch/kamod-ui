@@ -3,9 +3,8 @@ import { withBasePath } from "../../base-path";
 import type { BlockNavKey } from "../../blocks/block-nav-config";
 import { DemoShell, demoTopNavItems } from "../../layout/DemoShell";
 import { DocsTopbarActions } from "../../layout/DocsTopbarActions";
-import { NavigationDirectory } from "../../layout/navigation/NavigationDirectory";
-import { navigationGroups } from "../../layout/navigation/navigation-data";
-import { SidebarResources } from "../../layout/navigation/SidebarResources";
+import { DocsSidebarNavigation } from "../../layout/navigation/DocsSidebarNavigation";
+import { useRightSidebarScroll } from "../../layout/navigation/right-sidebar-memory";
 import type { DocPageModule, DocSection } from "../types";
 import { FeedbackCard } from "./FeedbackCard";
 
@@ -94,6 +93,10 @@ export const DocsShell = ({
     tocSections?.examples.some((section) => section.id === activeSection) ?? false;
   const showToc = Boolean(!pageContents && !isSectionOverview && activeDoc);
   const showRightSidebar = showToc || isSectionOverview || Boolean(pageContents);
+  const contentsRef = useRightSidebarScroll<HTMLDivElement>(
+    "contents",
+    Boolean(pageContents) || showToc,
+  );
 
   // Derive the current route from page metadata so SSR paints the correct open group.
   const pathname = activeDoc
@@ -105,21 +108,13 @@ export const DocsShell = ({
           forms: formsOverviewHref,
           packages: packagesOverviewHref,
         }[sidebarScope];
-  const sidebarNav = (
-    <>
-      <div class="docs-sidebar-scroll">
-        <NavigationDirectory groups={navigationGroups} pathname={navigationPath ?? pathname} />
-      </div>
-      <SidebarResources />
-    </>
-  );
 
   return (
     <DemoShell
       brand="Kamod UI"
       rootClassName={`docs-shell${pageContents ? " docs-shell-page-contents" : ""}`}
       topNavItems={demoTopNavItems}
-      leftSidebar={sidebarNav}
+      leftSidebar={<DocsSidebarNavigation pathname={navigationPath ?? pathname} />}
       topbarActions={<DocsTopbarActions />}
       contentHeader={contentHeader}
       sidebarHeader={sidebarHeader}
@@ -128,7 +123,7 @@ export const DocsShell = ({
         !showRightSidebar ? null : (
           <>
             {(pageContents || showToc) && (
-              <div class="docs-rightbar-contents">
+              <div class="docs-rightbar-contents" ref={contentsRef}>
                 {pageContents}
                 {showToc ? (
                   <>

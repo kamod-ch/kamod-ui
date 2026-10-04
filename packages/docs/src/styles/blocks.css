@@ -135,12 +135,11 @@
   color: var(--foreground);
 }
 
-.blocks-install code {
-  flex: 1;
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.blocks-install .path-display {
+  flex: 0 1 auto;
+}
+.blocks-install .path-display + button {
+  margin-inline-start: auto;
 }
 
 .blocks-preview-panel {
@@ -173,16 +172,6 @@
   border: 1px solid color-mix(in oklab, var(--border) 85%, transparent);
   background: color-mix(in oklab, var(--muted) 92%, var(--background));
   box-shadow: 0 1px 2px rgb(0 0 0 / 6%);
-}
-
-.blocks-preview-viewport-switcher [data-slot="toggle-group-item"] {
-  border-radius: 0.4rem;
-}
-
-.blocks-preview-viewport-switcher [data-slot="toggle-group-item"][data-state="on"] {
-  background: var(--background);
-  color: var(--foreground);
-  box-shadow: 0 1px 2px rgb(0 0 0 / 10%);
 }
 
 .blocks-preview-frame {

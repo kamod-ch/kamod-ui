@@ -1,134 +1,126 @@
-import { ThemeToggle } from "@kamod-ch/ui";
-import { ThemePresetSelect } from "../../theme/ThemePresetSelect";
-import { createGenericDocPage } from "./create-generic-doc-page";
+import foundationSource from "virtual:kamod-theming-guide";
+import { withBasePath } from "../../base-path";
+import { GuideArticle } from "../components/GuideArticle";
+import { LibraryJumpLinks } from "../components/LibraryJumpLinks";
+import { LibraryPageHeader } from "../components/LibraryPageHeader";
+import { PathDisplay } from "../components/PathDisplay";
+import { createComponentThemingSections } from "../guides/component-theming";
+import type { DocPageModule } from "../types";
 
-export const themingDocPage = createGenericDocPage({
+const title = "Theming & Tailwind for your entire app";
+const sections = createComponentThemingSections(foundationSource);
+const contents = sections.map(({ id, title, children }) => ({ id, label: title, children }));
+
+export const themingDocPage: DocPageModule = {
   slug: "theming",
   title: "Theming",
+  command: "pnpm add @kamod-ch/ui @kamod-ch/themes @preact/signals",
   usageLabel:
-    "Use @kamod-ch/themes for reusable tokens, brand presets, and a Preact-first theme runtime.",
-  installationText:
-    "Install @kamod-ch/ui, @kamod-ch/themes, and @preact/signals, then import the themes CSS next to Tailwind. @kamod-ch/ui/theme.css remains the lightweight default if you only need the minimal theme.",
-  usageText:
-    'Theme presets are applied to <html data-theme="..."> and color scheme is represented by the .dark class. Keep custom brands token-driven and avoid one-off component overrides.',
-  previewCode: `import { ThemeProvider } from "@kamod-ch/themes";
-import { ThemeToggle } from "@kamod-ch/ui";
-import { ThemePresetSelect } from "../theme/ThemePresetSelect";
-
-export const App = ({ children }) => (
-  <ThemeProvider>
-    <div class="flex items-center gap-2">
-      <ThemePresetSelect class="docs-theme-preset" selectClass="docs-theme-preset-select" />
-      <ThemeToggle />
-    </div>
-    {children}
-  </ThemeProvider>
-);`,
-  exampleSections: [
+    "Use shared tokens, built-in presets and light/dark controls across Preact components.",
+  packagePath: "@kamod-ch/themes",
+  // Keep established section routes discoverable by the static route generator.
+  sections: [
     {
-      id: "css-setup",
-      title: "Tailwind v4 CSS setup",
-      text: "Import the full themes entry after Tailwind to get semantic tokens, default light/dark variables, and all brand presets. Use @kamod-ch/ui/theme.css instead when you want only the minimal compatibility theme.",
-      code: `/* app.css */
-@import "tailwindcss";
-@import "@kamod-ch/themes/theme.css";
-
-/* optional minimal path */
-/* @import "@kamod-ch/ui/theme.css"; */`,
-      renderPreview: () => (
-        <div class="stack">
-          <p class="docs-copy mb-0">
-            Tailwind v4 reads the package&apos;s CSS @theme mappings directly.
-          </p>
-        </div>
-      ),
+      id: "installation",
+      title: "Choose your theme foundation",
+      text: "Install missing packages and choose one theme CSS entry.",
     },
     {
-      id: "provider-controls",
-      title: "Runtime provider and controls",
-      text: "ThemeProvider keeps preset and scheme state in sync with localStorage. You can build controls with useTheme() or keep using the demo ThemePresetSelect and @kamod-ch/ui ThemeToggle.",
-      code: `import { ThemeProvider, useTheme } from "@kamod-ch/themes";
-
-const BrandSelect = () => {
-  const { preset, setPreset, presets } = useTheme();
-  return (
-    <select value={preset} onChange={(event) => setPreset(event.currentTarget.value)}>
-      {presets.map((item) => <option value={item.id}>{item.label}</option>)}
-    </select>
-  );
-};
-
-export const App = ({ children }) => (
-  <ThemeProvider defaultPreset="kamod" defaultScheme="system">
-    <BrandSelect />
-    {children}
-  </ThemeProvider>
-);`,
-      renderPreview: () => (
-        <div class="flex items-center gap-2">
-          <ThemePresetSelect class="docs-theme-preset" selectClass="docs-theme-preset-select" />
-          <ThemeToggle />
-        </div>
-      ),
+      id: "usage",
+      title: "Style components through their roles",
+      text: "Combine component variants, local layout utilities and semantic colors.",
+    },
+    {
+      id: "css-setup",
+      title: "Set up Tailwind and theme CSS",
+      text: "Connect global styles and source detection.",
     },
     {
       id: "token-overrides",
-      title: "Brand token overrides",
-      text: "Override semantic tokens per preset. Components consume the token contract for surfaces, actions, status colors, borders, radius, and sidebar colors.",
-      code: `@import "tailwindcss";
-@import "@kamod-ch/themes/theme.css";
-
-:root[data-theme="ocean"] {
-  --background: var(--color-slate-50);
-  --foreground: var(--color-slate-950);
-  --primary: var(--color-cyan-700);
-  --card: var(--color-cyan-50);
-  --info: var(--color-sky-300);
-  --sidebar-background: var(--color-cyan-50);
-  --border: var(--color-slate-300);
-}
-
-.dark[data-theme="ocean"] {
-  --background: var(--color-slate-950);
-  --foreground: var(--color-slate-50);
-  --primary: var(--color-cyan-400);
-  --card: var(--color-slate-900);
-  --sidebar-background: var(--color-slate-900);
-  --border: --alpha(var(--color-slate-100) / 15%);
-}`,
-      renderPreview: () => (
-        <div class="stack">
-          <p class="docs-copy mb-0">Override semantic token blocks to restyle all components.</p>
-        </div>
-      ),
+      title: "Shape your design with tokens",
+      text: "Pair surfaces and foregrounds, then refine presets, typography and radius.",
+    },
+    {
+      id: "provider-controls",
+      title: "Manage appearance preferences",
+      text: "Connect preset and scheme controls and keep the first render consistent.",
     },
     {
       id: "tailwind-preset",
       title: "Optional Tailwind preset",
-      text: "Tailwind v4 projects should prefer CSS @theme imports. @kamod-ch/themes/tailwind-preset is only for config-driven or compatibility setups.",
-      code: `// tailwind.config.ts (optional / legacy)
-import kamodThemes from "@kamod-ch/themes/tailwind-preset";
-
-export default {
-  presets: [kamodThemes],
-};`,
-      renderPreview: () => (
-        <p class="docs-copy mb-0">CSS imports are the primary Tailwind v4 integration path.</p>
-      ),
+      text: "Use configuration-based integration only when your project needs it.",
     },
-  ],
-  apiRows: [
-    { prop: "Package", type: "@kamod-ch/themes", defaultValue: "optional add-on" },
-    { prop: "CSS entry", type: "theme.css / tokens.css / brands.css", defaultValue: "theme.css" },
-    { prop: "Runtime", type: "ThemeProvider, useTheme, ThemeScript", defaultValue: "Preact" },
-    { prop: "Preset storage key", type: "theme-preset", defaultValue: "localStorage" },
-    { prop: "Scheme storage key", type: "theme", defaultValue: "localStorage + cookie" },
     {
-      prop: "Token groups",
-      type: "surface, action, status, form/focus, radius, sidebar",
-      defaultValue: "all presets",
+      id: "api-reference",
+      title: "Theme runtime reference",
+      text: "Public theme exports, provider options and persistence behavior.",
+    },
+    {
+      id: "accessibility",
+      title: "Troubleshoot and verify",
+      text: "Check production styles, contrast, focus and saved appearance choices.",
     },
   ],
-  accessibilityText:
-    "Ensure contrast remains readable in every preset and dark/light combination, especially for focus rings and muted text.",
-});
+  guideContents: contents,
+  guideTitle: title,
+  renderMain: () => (
+    <GuideArticle
+      id="component-theming"
+      title={title}
+      sections={sections}
+      contents={contents}
+      header={
+        <LibraryPageHeader
+          parent={{ label: "Components", href: "/docs/components" }}
+          label="Theming"
+          eyebrow="Shared design foundation"
+          focus="Configure · Customize · Check"
+          title={title}
+          description={
+            <>
+              <p>
+                Give buttons, forms, cards and menus a consistent foundation with{" "}
+                <code>Tailwind CSS v4</code>, semantic tokens and{" "}
+                <PathDisplay path={"@kamod-ch/themes"} />. Connect your stylesheet once, then choose{" "}
+                <strong>shared colors, typography and appearance preferences</strong> that work
+                across the interface. Start with a built-in preset and refine its roles rather than
+                repeating individual color values in every component.
+              </p>
+              <p>
+                This is the shared reference for <strong>components and complete blocks</strong>.
+                Follow the CSS setup, token and runtime steps here once, then use the{" "}
+                <a href={withBasePath("/blocks/theming")}>block theming guide</a> for copied-source
+                checks, sidebar surfaces and preview behavior. There is no separate block theme to
+                install. Add a{" "}
+                <a href={withBasePath("/docs/theme-toggle/installation")}>Theme Toggle</a> for a
+                compact Light/Dark action, or offer <strong>Light, Dark and System</strong> through
+                your own settings. Keep paired tokens such as <code>--card</code> and{" "}
+                <code>--card-foreground</code> readable, preserve focus feedback and verify the
+                first render as well as saved preferences.
+              </p>
+            </>
+          }
+        >
+          <LibraryJumpLinks
+            class="block-guide-switcher"
+            label="Theming guide sections"
+            reference={{
+              label: "Theme Toggle",
+              href: withBasePath("/docs/theme-toggle/installation"),
+            }}
+          >
+            <li>
+              <a href="#css-setup">CSS setup</a>
+            </li>
+            <li>
+              <a href="#token-overrides">Tokens & presets</a>
+            </li>
+            <li>
+              <a href="#provider-controls">Appearance controls</a>
+            </li>
+          </LibraryJumpLinks>
+        </LibraryPageHeader>
+      }
+    />
+  ),
+};

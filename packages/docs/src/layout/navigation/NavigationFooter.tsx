@@ -8,9 +8,9 @@ import { BrandGithubIcon } from "@kamod-ch/icons/tabler/filled";
 import { SheetClose } from "@kamod-ch/ui";
 import { withBasePath } from "../../base-path";
 import { repositoryUrl } from "../../blocks/block-links";
-import { ThemePresetPicker } from "../../theme/ThemePresetPicker";
+import { GithubRepoLink } from "../GithubRepoLink";
 
-/** Compact project resources and appearance controls beneath the scrolling mobile directory. */
+/** Compact project resources and contribution links beneath the scrolling mobile directory. */
 export function NavigationFooter() {
   return (
     <footer class="site-navigation-footer">
@@ -45,7 +45,7 @@ export function NavigationFooter() {
         </nav>
         <div class="site-navigation-footer-actions">
           <a
-            class="site-icon-button"
+            class="docs-icon-button site-icon-button"
             href={`${repositoryUrl}/blob/main/CONTRIBUTING.md`}
             target="_blank"
             rel="noopener noreferrer"
@@ -54,7 +54,7 @@ export function NavigationFooter() {
           >
             <GitPullRequestIcon size={17} aria-hidden="true" />
           </a>
-          <ThemePresetPicker side="top" />
+          <GithubRepoLink />
         </div>
       </div>
     </footer>
