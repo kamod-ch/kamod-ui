@@ -44,9 +44,6 @@ export function PromptOptions({
           </ToggleGroupItem>
         ))}
       </ToggleGroup>
-      <span class="blocks-prompt-control-dot" aria-hidden="true">
-        ·
-      </span>
       <DocumentDisplayOptions value={display} onChange={onDisplayChange} label="Prompt display" />
     </div>
   );

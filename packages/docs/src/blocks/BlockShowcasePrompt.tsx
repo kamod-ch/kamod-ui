@@ -1,10 +1,8 @@
-import { SparklesIcon } from "@kamod-ch/icons/lucide";
 import { Button } from "@kamod-ch/ui";
 import { useMemo } from "preact/hooks";
-import { BlockPromptLinks } from "./BlockPromptLinks";
 import type { ShowcaseBlock } from "./BlockShowcase";
+import { BlockShowcaseIntro } from "./BlockShowcaseIntro";
 import type { BlockSourceLoader } from "./BlockSourceFiles";
-import { getBlockDisplayName } from "./block-overview-details";
 import { type BlockPromptMode, createBlockPrompt } from "./block-prompts";
 import { type PromptDisplay, PromptDocument } from "./PromptDocument";
 import { PromptOptions } from "./PromptOptions";
@@ -36,28 +34,7 @@ export function BlockShowcasePrompt({
   const isSetup = mode === "setup";
   return (
     <>
-      <div class="blocks-prompt-intro">
-        <div class="blocks-prompt-title-row">
-          <h3>
-            <SparklesIcon size={21} strokeWidth={2} aria-hidden="true" />
-            From preview to your project
-          </h3>
-          <span class="blocks-prompt-eyebrow">
-            <span aria-hidden="true">·</span>Build with your assistant
-          </span>
-        </div>
-        <BlockPromptLinks block={block} />
-        <p>
-          Bring <strong>{getBlockDisplayName(block.title)}</strong> into your app with a
-          ready-to-copy brief. Start with{" "}
-          <a href={`#${setupId}-installation`}>
-            <strong>setup and integration</strong>
-          </a>
-          , or describe a focused change to an existing block. Both prompts include the actual{" "}
-          <code>Preact</code> source, destination paths and checks to keep the result consistent
-          with your project’s <code>TypeScript</code> setup and existing conventions.
-        </p>
-      </div>
+      <BlockShowcaseIntro block={block} view="prompt" />
       <section class="blocks-prompt-workspace" aria-label="Block prompt">
         <div class="blocks-prompt-options">
           <PromptOptions

@@ -1,8 +1,8 @@
-import { SparklesIcon } from "@kamod-ch/icons/lucide";
 import { useMemo, useState } from "preact/hooks";
 import type { BlockPromptMode } from "../../../blocks/block-prompts";
 import { type PromptDisplay, PromptDocument } from "../../../blocks/PromptDocument";
 import { PromptOptions } from "../../../blocks/PromptOptions";
+import { ComponentExampleIntro } from "./ComponentExampleIntro";
 import {
   type ComponentPromptContext,
   createComponentExamplePrompt,
@@ -15,27 +15,7 @@ export function ComponentExamplePrompt({ context }: { context: ComponentPromptCo
   const prompt = useMemo(() => createComponentExamplePrompt(context, mode), [context, mode]);
   return (
     <>
-      <div class="blocks-prompt-intro">
-        <div class="blocks-prompt-title-row">
-          <h3>
-            <SparklesIcon size={21} aria-hidden="true" />
-            From preview to your project
-          </h3>
-          <span class="blocks-prompt-eyebrow">
-            <span aria-hidden="true">·</span>Build with your assistant
-          </span>
-        </div>
-        <p>
-          Bring <strong>{context.title}</strong> into your app with a ready-to-copy brief. Start
-          with{" "}
-          <a href="#installation">
-            <strong>setup and integration</strong>
-          </a>
-          , or describe a focused change to an existing example. Both prompts include this example’s{" "}
-          <code>Preact</code> snippet, a suggested file path and checks for your project’s{" "}
-          <code>TypeScript</code> setup.
-        </p>
-      </div>
+      <ComponentExampleIntro view="prompt" />
       <section class="blocks-prompt-workspace" aria-label="Component example prompt">
         <div class="blocks-prompt-options">
           <PromptOptions
@@ -64,10 +44,6 @@ export function ComponentExamplePrompt({ context }: { context: ComponentPromptCo
               </>
             )}
           </p>
-          <span>
-            Examples can contain abbreviated code; the prompt links to the source for missing
-            details.
-          </span>
         </div>
         <PromptDocument prompt={prompt} mode={mode} display={display} />
         <div class="blocks-prompt-footer">

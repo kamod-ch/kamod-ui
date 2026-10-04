@@ -231,8 +231,10 @@
 
 .block-guide-description code,
 .package-guide-resources > code,
+.blocks-showcase-import code,
 .blocks-doc-section :is(p, td, th, dd) code:not(:where(.component-example-canvas *)),
 .blocks-doc-section [role="paragraph"] code:not(:where(.component-example-canvas *)),
+.blocks-showcase-intro p code,
 .blocks-showcase-prompt :is(p, li) code:not(pre code) {
   border-radius: 0.25rem;
   padding: 0.1em 0.3em;
@@ -241,10 +243,12 @@
 
 .block-guide-description code,
 .package-guide-resources > code,
+.blocks-showcase-import code,
 .blocks-doc-section
   code:not(pre code, [data-slot="type-definition-name"], .docs-code-file-path):not(
     :where(.component-example-canvas *)
   ),
+.blocks-showcase-intro p code,
 .blocks-showcase-prompt :is(p, li) code:not(pre code) {
   border-radius: 0.25rem;
   background: color-mix(in oklab, var(--secondary-accent) 10%, var(--muted));

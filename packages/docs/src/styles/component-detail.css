@@ -274,16 +274,6 @@
 .component-example-source .blocks-code-pane {
   border-top: 1px solid var(--showcase-border);
 }
-/* Keep the source introduction compact inside the larger documentation typography. */
-.component-detail .component-example-source .blocks-source-intro h3 {
-  margin: 0;
-  font-size: 0.875rem;
-}
-.component-detail .component-example-source .blocks-source-intro p {
-  margin: 0.25rem 0 0;
-  font-size: 0.78125rem;
-  line-height: 1.5;
-}
 .component-example .blocks-showcase-toolbar {
   gap: 0.625rem;
 }
@@ -546,22 +536,6 @@
 #component-preview-root > .component-example-canvas {
   min-height: 19rem;
 }
-/* Prompt controls wrap by available article width, including layouts with both sidebars. */
-@container block-showcase (max-width: 800px) {
-  .component-example .blocks-prompt-intro {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-areas: "links" "title" "description";
-    padding: 1rem;
-  }
-  .component-example .blocks-prompt-selectors {
-    flex-wrap: wrap;
-    gap: 0.75rem;
-  }
-  .component-example .blocks-prompt-control-dot {
-    display: none;
-  }
-}
-
 /* Keep width availability accurate while Preview is unmounted in Code or Prompt. */
 .component-example-size-probe {
   height: 1px;

@@ -19,6 +19,11 @@ for (const slug of ["accordion", "tabs", "video", "formisch"]) {
     for (const index of [0, count - 1]) {
       const example = examples.nth(index);
       await example.getByRole("tab", { name: "Code", exact: true }).click();
+      await expect(
+        example
+          .getByRole("navigation", { name: "Example guides" })
+          .getByRole("link", { name: "Setup guide", exact: true }),
+      ).toHaveAttribute("href", "#installation");
       const source = await example.locator("pre code").innerText();
       const controls = example.getByRole("group", { name: "Source controls" });
       await expect(controls).toBeVisible();
@@ -32,9 +37,14 @@ for (const slug of ["accordion", "tabs", "video", "formisch"]) {
       await example.getByRole("tab", { name: "Prompt", exact: true }).click();
       await expect(example.locator("pre code")).toContainText(source);
       await expect(
-        example.getByRole("link", { name: "setup and integration", exact: true }),
+        example.getByRole("link", { name: "Setup and Integration", exact: true }),
       ).toHaveAttribute("href", "#installation");
-      await expect(example.getByRole("navigation", { name: "Prompt references" })).toHaveCount(0);
+      const guides = example.getByRole("navigation", { name: "Example guides" });
+      await expect(guides.getByRole("link")).toHaveCount(3);
+      await expect(guides.getByRole("link", { name: "Setup guide", exact: true })).toHaveAttribute(
+        "href",
+        "#installation",
+      );
       await expect(example.getByText("Example snippet included", { exact: true })).toHaveCount(0);
       await example.getByRole("button", { name: "Adapt example", exact: true }).click();
       const prompt = await example.locator("pre code").innerText();

@@ -1,4 +1,4 @@
-import { FileTextIcon } from "@kamod-ch/icons/lucide";
+import { SquareTerminalIcon } from "@kamod-ch/icons/lucide";
 import type { ComponentChildren } from "preact";
 import { lazy, Suspense } from "preact/compat";
 import { CodeBlock } from "../docs/components/CodeBlock";
@@ -27,8 +27,10 @@ export function PromptDocument({
       language={display === "code" ? "markdown" : "text"}
       toolbarContent={
         <div class="blocks-prompt-document-heading">
-          <FileTextIcon size={16} strokeWidth={2} aria-hidden="true" />
-          <h4>{mode === "setup" ? "Setup prompt" : "Adaptation prompt"}</h4>
+          <h4 class="showcase-metadata-label">
+            <SquareTerminalIcon size={16} strokeWidth={1.75} aria-hidden="true" />
+            {mode === "setup" ? "Setup prompt" : "Adaptation prompt"}
+          </h4>
           {sourceLabel && (
             <span class="blocks-prompt-format">
               <span aria-hidden="true">·</span>

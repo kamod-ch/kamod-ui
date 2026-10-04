@@ -31,13 +31,19 @@ for (const [category, id] of [
       const adapt = panel.getByRole("button", { name: "Adapt block", exact: true });
       await expect(setup).toHaveAttribute("aria-pressed", "true");
       await expect(panel.locator("pre")).toContainText("## Installation and integration");
-      const references = panel.getByRole("navigation", { name: "Prompt references" });
-      await expect(references.getByRole("link")).toHaveCount(4);
+      const references = panel.getByRole("navigation", { name: "Block guides" });
+      await expect(references.getByRole("link")).toHaveCount(3);
+      await expect(
+        references.getByRole("link", { name: "Setup guide", exact: true }),
+      ).toHaveAttribute(
+        "href",
+        `#${category === "application-shell" ? "application-shell" : id}-installation`,
+      );
       await references.getByRole("link", { name: "Refine component styles", exact: true }).focus();
       await expect(page.getByRole("tooltip")).toContainText("Refine component styles");
       await page.keyboard.press("Escape");
       await expect(
-        panel.getByRole("link", { name: "setup and integration", exact: true }),
+        panel.getByRole("link", { name: "Setup and Integration", exact: true }),
       ).toHaveAttribute(
         "href",
         `#${category === "application-shell" ? "application-shell" : id}-installation`,
@@ -111,7 +117,7 @@ for (const [category, id] of [
           `prompt at ${width}`,
         ).toBe(true);
         for (const selector of [
-          ".blocks-prompt-intro",
+          ".blocks-showcase-intro",
           ".blocks-prompt-selectors",
           ".docs-code-toolbar",
         ]) {
