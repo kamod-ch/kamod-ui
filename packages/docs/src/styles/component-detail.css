@@ -97,119 +97,57 @@
   margin-top: 2rem;
   padding-top: 2rem;
 }
-.component-example-directory {
+/* A lightweight, always-visible index shares the order of the examples below. */
+.component-variant-index {
   margin-top: 1.5rem;
-  border: 1px solid var(--border);
-  border-radius: 0.75rem;
-  overflow: hidden;
+  padding-block: 1rem;
+  border-block: 1px solid var(--border);
 }
-.component-example-directory summary {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 1rem;
-  cursor: pointer;
-  list-style: none;
-  background: color-mix(in oklab, var(--foreground) 4%, var(--background));
-}
-.component-example-directory summary::-webkit-details-marker {
-  display: none;
-}
-.component-example-directory-heading {
-  display: grid;
-  flex: 1;
-  gap: 0.25rem;
-  min-width: 0;
-  font-size: 0.875rem;
-}
-.component-example-directory-heading > span {
+.component-variant-index > p {
+  margin: 0 0 0.5rem;
   color: var(--muted-foreground);
   font-size: 0.75rem;
 }
-.component-example-directory-chevron {
-  flex: none;
-}
-.component-example-directory[open] .component-example-directory-chevron {
-  transform: rotate(180deg);
-}
-.component-example-directory[open] summary {
-  border-bottom: 1px solid var(--border);
-}
-.component-example-directory-body {
-  padding: 1rem;
-}
-.component-example-directory-body > p,
-.component-example-directory-footer p {
+.component-variant-index ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.5rem;
   margin: 0;
-  color: var(--muted-foreground);
-  font-size: 0.8125rem;
-  line-height: 1.75;
-}
-.component-example-directory-body > p a {
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
-}
-.component-example-directory ul {
-  display: grid;
-  margin: 1rem 0;
   padding: 0;
   list-style: none;
 }
-.component-example-directory li + li {
-  border-top: 1px solid var(--border);
-}
-.component-example-directory nav a {
-  display: flex;
-  align-items: center;
-  gap: 0.875rem;
-  padding: 0.875rem 0.5rem;
-  border-radius: 0.375rem;
-  color: var(--foreground);
-  text-decoration: none;
-}
-.component-example-directory nav a:hover {
-  background: color-mix(in oklab, var(--primary) 6%, var(--background));
-}
-.component-example-directory nav svg {
-  flex: none;
-  margin-left: auto;
-  color: var(--muted-foreground);
-}
-.component-example-directory-copy {
-  display: grid;
+.component-variant-index li {
   min-width: 0;
-  gap: 0.25rem;
-  font-size: 0.8125rem;
+  max-width: 100%;
 }
-.component-example-directory-copy > span {
-  color: var(--muted-foreground);
-  font-size: 0.75rem;
-  line-height: 1.65;
+.component-variant-index a {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding-block: 0.375rem;
+  border-radius: 0.25rem;
+  color: var(--foreground);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.5;
+  text-decoration: none;
   overflow-wrap: anywhere;
 }
-.component-example-number {
+.component-variant-index-number {
   flex: none;
-  width: 1.25rem;
-  white-space: nowrap;
-  align-self: flex-start;
-  padding-top: 0.15rem;
   color: var(--muted-foreground);
   font-size: 0.6875rem;
+  font-weight: 400;
   font-variant-numeric: tabular-nums;
 }
-.component-example-directory-footer {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.75rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--border);
+.component-variant-index a:hover > span:last-child {
+  text-decoration: underline;
+  text-decoration-color: var(--muted-foreground);
+  text-underline-offset: 0.25em;
 }
-.component-example-directory-footer p {
-  flex: 1 1 16rem;
-}
-.component-example-directory-footer [data-slot="button"] {
-  background: color-mix(in oklab, var(--foreground) 4%, transparent);
+.component-variant-index a:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
 }
 .component-example {
   min-width: 0;
@@ -487,10 +425,7 @@
   font-size: 0.875rem;
   line-height: 1.75;
 }
-.component-example-directory :is(summary, a):focus-visible {
-  outline: 2px solid var(--ring);
-  outline-offset: 3px;
-}
+
 @media (max-width: 639px) {
   .component-example .blocks-showcase-toolbar {
     padding-inline: 0.5rem;

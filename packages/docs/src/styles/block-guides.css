@@ -53,8 +53,6 @@
   text-decoration: none;
 }
 .block-guide-breadcrumb [aria-current="page"] {
-  color: color-mix(in oklab, var(--primary) 18%, var(--foreground));
-  background: color-mix(in oklab, var(--primary) 7%, var(--background));
   font-weight: 600;
 }
 .block-guide-breadcrumb [data-slot="breadcrumb-separator"] {
@@ -62,6 +60,8 @@
 }
 .block-guide-breadcrumb a:hover {
   color: var(--foreground);
+}
+.block-guide-breadcrumb a:not([aria-current="page"]):hover {
   background: color-mix(in oklab, var(--primary) 6%, var(--background));
 }
 .block-guide-breadcrumb a:focus-visible {

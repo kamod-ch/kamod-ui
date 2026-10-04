@@ -85,7 +85,9 @@ test.describe("Forms / Formisch docs", () => {
     await expect(
       preview.locator("iframe").contentFrame().getByLabel("Bug Title", { exact: true }),
     ).toBeVisible();
-    await page.locator(".component-example-directory summary").click();
+    await expect(
+      page.getByRole("navigation", { name: "Formisch examples" }).getByRole("link").first(),
+    ).toBeVisible();
     await expect(
       page.getByRole("navigation", { name: "Formisch examples" }).getByRole("link"),
     ).toHaveCount(10);
