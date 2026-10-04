@@ -15,6 +15,7 @@ import { DocsOverviewContent } from "../../src/docs/DocsOverviewContent";
 import { DocsPackagesOverviewContent } from "../../src/docs/DocsPackagesOverviewContent";
 import { KitchenSinkPage } from "../../src/kitchen-sink/KitchenSinkPage";
 import { useRightSidebarPageMemory } from "../../src/layout/navigation/right-sidebar-memory";
+import { ApplicationTooltips } from "../../src/layout/tooltips/ApplicationTooltips";
 import { usePageReloadScroll } from "../../src/layout/usePageReloadScroll";
 import { blockPage } from "./block-page";
 import "../../src/styles/index.css";
@@ -264,6 +265,7 @@ const PageContent: FunctionalComponent<LayoutProps> = ({ page }) => {
 const Layout: FunctionalComponent<LayoutProps> = (props) => (
   <>
     <PathCopySupport />
+    <ApplicationTooltips page={props.page} />
     <PageContent {...props} />
   </>
 );

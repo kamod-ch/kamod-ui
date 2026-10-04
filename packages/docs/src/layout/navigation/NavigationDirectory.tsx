@@ -129,6 +129,7 @@ function DirectoryGroup({
         aria-controls={id}
         data-navigation-group={group.id}
         data-current={current || undefined}
+        data-tooltip={`${(disclosure.open ?? disclosure.defaultOpen) ? "Collapse" : "Expand"} ${group.label}`}
       >
         <span class="site-navigation-group-icon">
           <Icon size={18} aria-hidden="true" />

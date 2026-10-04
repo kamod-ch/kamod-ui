@@ -1,4 +1,5 @@
 import { type ComponentChildren, render } from "preact";
+import { ApplicationTooltips } from "../layout/tooltips/ApplicationTooltips";
 import { PathCopySupport } from "./components/PathCopySupport";
 import { getDocSections } from "./doc-sections";
 import { docsShowMotion, isMotionDocSlug } from "./docs-feature-flags";
@@ -47,6 +48,7 @@ async function loadPreview() {
   render(
     <>
       <PathCopySupport />
+      <ApplicationTooltips page={slug} />
       {preview}
     </>,
     root,
