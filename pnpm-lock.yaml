@@ -15,8 +15,8 @@ importers:
         specifier: ^2.5.14
         version: 2.5.14
       '@kamod-ch/brand':
-        specifier: ^0.1.12
-        version: 0.1.12(preact@11.0.0)
+        specifier: ^0.3.0
+        version: 0.3.0(preact@11.0.0)
       '@types/node':
         specifier: ^26.6.3
         version: 26.6.3
@@ -149,8 +149,8 @@ importers:
         specifier: workspace:*
         version: link:../blocks
       '@kamod-ch/brand':
-        specifier: ^0.1.12
-        version: 0.1.12(preact@11.0.0)
+        specifier: ^0.3.0
+        version: 0.3.0(preact@11.0.0)
       '@kamod-ch/hooks':
         specifier: ^1.0.0
         version: 1.0.0(preact@11.0.0)
@@ -872,11 +872,11 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@kamod-ch/brand@0.1.12':
-    resolution: {integrity: sha512-ubS0lKHkqSdefC3Nid9H8KQT62jITocsuef/qkDrOYvisEN+R4nQ9KW3w7dQrTkWa8zVmxOMslDNtPtUPpRThA==}
+  '@kamod-ch/brand@0.3.0':
+    resolution: {integrity: sha512-CfzOuBOrRveq87LczrodpEganCZx3RvMhODipt8hJRbbx8Edch+IZw+peLJvt4B21w3C0i0/r4g++TKIxjZh3Q==}
     hasBin: true
     peerDependencies:
-      preact: '>=10'
+      preact: '>=11'
 
   '@kamod-ch/hooks@1.0.0':
     resolution: {integrity: sha512-LzcZ/hXh9/1KuVw1rJeV6V9tGAZ+hbLh2mJlOwjUq0wZzZZ0x4BOPU32JI2uZQX045ChpLdOQ76D8GpQeOiHpw==}
@@ -4918,7 +4918,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.6.0
 
-  '@kamod-ch/brand@0.1.12(preact@11.0.0)':
+  '@kamod-ch/brand@0.3.0(preact@11.0.0)':
     dependencies:
       preact: 11.0.0(preact-render-to-string@6.7.0)
 
