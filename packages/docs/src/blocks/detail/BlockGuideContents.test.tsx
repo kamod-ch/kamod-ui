@@ -1,10 +1,18 @@
 /** @vitest-environment jsdom */
 import { act, cleanup, render } from "@testing-library/preact";
-import { afterEach, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { BlockGuideContents } from "./BlockGuideContents";
+
+beforeEach(() => {
+  vi.useFakeTimers();
+});
 
 afterEach(() => {
   cleanup();
+  // Preact 11 schedules effect work with both RAF and a fallback timeout. Drain
+  // that timeout before jsdom removes cancelAnimationFrame during teardown.
+  vi.runAllTimers();
+  vi.useRealTimers();
   vi.restoreAllMocks();
   vi.unstubAllGlobals();
   history.replaceState(null, "", "/");
