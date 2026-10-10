@@ -14,22 +14,22 @@ export const packageGuideRecipes = {
   "hooks-package": {
     steps: [
       {
-        title: "Separate the value from its actions",
+        title: "Separate the Value from Its Actions",
         code: "const [on, { toggle }] = useToggle(false);",
         note: "The first item describes what to render. The second contains operations that change it. Call the hook at the top level of a component or custom hook; call toggle from the event handler, not while rendering.",
       },
       {
-        title: "Make the limits part of the behavior",
+        title: "Make the Limits Part of the Behavior",
         code: "const [count, { inc, dec, reset }] = useCounter(1, { min: 1, max: 5 });",
         note: "Put the bounds in the hook and reflect them in the controls. A disabled button explains the boundary visually, while the hook keeps programmatic changes inside the same range.",
       },
       {
-        title: "Choose a default for an empty browser",
+        title: "Choose a Default for an Empty Browser",
         code: 'const [theme, setTheme] = useLocalStorageState("theme", { defaultValue: "dark" });',
         note: "The second argument is an options object. A default is used when no saved value exists; it is not a validation rule for old data. Check stored values before treating them as a restricted theme name.",
       },
     ],
-    title: "Connect a bounded quantity control",
+    title: "Connect a Bounded Quantity Control",
     introduction:
       "This example keeps behavior local and uses the same Kamod buttons as the rest of the interface. The disabled states explain the limits, and reset returns to the starting quantity. Render it twice to see that each instance owns its own count.",
     file: "src/components/Quantity.tsx",
@@ -53,22 +53,22 @@ export function Quantity() {
   "i18n-package": {
     steps: [
       {
-        title: "Let the default locale define the shape",
+        title: "Let the Default Locale Define the Shape",
         code: 'const en = { common: { save: "Save" } } as const;',
         note: "Keep keys stable and organize them by meaning. A key such as common.save can be shared where the action means the same thing; two English labels that happen to match do not always need the same translation key.",
       },
       {
-        title: "Check translations while editing",
+        title: "Check Translations While Editing",
         code: 'const de = { common: { save: "Speichern" } } satisfies Messages<typeof en>;',
         note: "The satisfies check catches structural mistakes in this object. It cannot judge translation quality or whether a sentence fits the screen. Review the full message with a speaker of the target language and test it in context.",
       },
       {
-        title: "Resolve text at the point of use",
+        title: "Resolve Text at the Point of Use",
         code: 'i18n.t("common.save"); // "Save" for the starting English locale',
         note: "The selected locale determines the lookup. In a reactive interface, use the package's Preact integration so changing language updates consumers; do not cache translated labels once at module initialization.",
       },
     ],
-    title: "Translate complete messages with named values",
+    title: "Translate Complete Messages with Named Values",
     introduction:
       "Let a translator control the whole sentence instead of joining a greeting, name and punctuation in the view. Named interpolation keeps the data separate from the message and gives another language room to reorder the words.",
     file: "src/i18n/messages.ts",
@@ -89,22 +89,22 @@ messages.t("dashboard.welcome", { name: "Alex" });`,
   "icons-package": {
     steps: [
       {
-        title: "Choose a family deliberately",
+        title: "Choose a Family Deliberately",
         code: 'import { SearchIcon } from "@kamod-ch/icons/shadcn";',
         note: "The subpath is part of the design decision. Check the exact export in the icon catalog and keep related controls in one family; similarly named icons from different families can have different silhouettes and visual weight.",
       },
       {
-        title: "Separate the symbol from the target",
+        title: "Separate the Symbol from the Target",
         code: '<SearchIcon size={20} aria-hidden="true" />',
         note: "The size controls the SVG, not the clickable area. Give the surrounding button enough padding and an obvious focus state. Increasing the icon itself is not a substitute for a comfortable pointer target.",
       },
       {
-        title: "Name the action once",
+        title: "Name the Action Once",
         code: '<Button aria-label="Search"><SearchIcon size={20} aria-hidden="true" /></Button>',
         note: "An icon-only control needs a name on the button. When visible text already names the action, keep the SVG decorative so screen readers do not announce the same meaning twice. A tooltip can clarify an action but does not replace its accessible name.",
       },
     ],
-    title: "Build a consistent search action",
+    title: "Build a Consistent Search Action",
     introduction:
       "Use a core button for interaction and a catalog icon for the visual cue. This keeps keyboard behavior, spacing and themes in the component system. The callback belongs to the surrounding application, so the example can open a dialog or navigate without assuming a router.",
     file: "src/components/SearchAction.tsx",
@@ -125,22 +125,22 @@ export function SearchAction({ onSearch }: { onSearch: () => void }) {
   "signals-package": {
     steps: [
       {
-        title: "Give the saved value a clear owner",
+        title: "Give the Saved Value a Clear Owner",
         code: 'const theme = persistedSignal("theme", "dark", { storage: "local" });',
         note: "The key identifies browser storage, while the variable identifies the live signal. Decide whether it is a device preference or belongs to a signed-in account before sharing the key across screens or sessions.",
       },
       {
-        title: "Read and write through one signal",
+        title: "Read and Write through One Signal",
         code: 'theme.value = "light";',
         note: "Consumers should observe the same instance. Copying the value into unrelated local state creates a second owner that can become stale. Keep derived presentation derived, rather than synchronizing two writable values with effects.",
       },
       {
-        title: "Provide an explicit reset",
+        title: "Provide an Explicit Reset",
         code: "theme.reset();",
         note: "Reset restores the initial value; clearing a stored entry is a separate operation. Use an explicit user action for preference resets, and verify the behavior after reload rather than only checking the currently rendered label.",
       },
     ],
-    title: "Keep a preference local to a component",
+    title: "Keep a Preference Local to a Component",
     introduction:
       "A custom hook can keep the persistent preference close to the settings control. The versioned key below leaves room for a future storage-shape change. This example is intentionally a harmless preference, not authentication or private user data.",
     file: "src/components/DensityPreference.tsx",
@@ -164,22 +164,22 @@ export function DensityPreference() {
   "state-package": {
     steps: [
       {
-        title: "Name the event",
+        title: "Name the Event",
         code: 'const increment = createAction("counter/increment");',
         note: "A named event describes an intention, not a particular button. Multiple controls can dispatch it without teaching the reducer about their markup. Keep naming consistent as the feature grows.",
       },
       {
-        title: "Return a new value only for a handled event",
+        title: "Return a New Value Only for a Handled Event",
         code: "increment.match(action) ? { count: state.count + 1 } : state",
         note: "The matcher selects the branch. Returning the existing state for unrelated actions protects the current value; returning a new object for the matching action makes the transition explicit. Avoid mutation or network work inside the reducer.",
       },
       {
-        title: "Dispatch through the store boundary",
+        title: "Dispatch through the Store Boundary",
         code: "store.dispatch(increment());",
         note: "A dispatch changes the model. A Preact view also needs a subscription, normally through the package's context and selector hooks. Reading a snapshot once does not turn an arbitrary component into a subscriber.",
       },
     ],
-    title: "Define the state and event contract together",
+    title: "Define the State and Event Contract Together",
     introduction:
       "An explicit state type makes the model readable as soon as a second view needs it. A factory gives each test or server request its own store. Decide where the app owns that instance before wiring a provider around its consumers.",
     file: "src/state/counter.ts",

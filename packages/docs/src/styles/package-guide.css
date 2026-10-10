@@ -4,37 +4,74 @@
     padding-inline: 0.25rem;
   }
 }
+/* The header's own width controls density, independently of the page's sidebars. */
+.package-guide .block-guide-header {
+  container: package-header / inline-size;
+}
 .package-guide-resources,
-.package-guide-resources > div,
+.package-guide-resource-actions,
 .package-guide-reference-controls {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
+}
+.package-guide-reference-controls {
+  flex-wrap: wrap;
   gap: 0.75rem 1.25rem;
 }
 .package-guide-resources {
   justify-content: space-between;
-  margin-top: 1.75rem;
-  font-size: 0.8125rem;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
 }
-.package-guide-resources > code {
-  overflow-wrap: anywhere;
+.package-guide-resources + .page-intro-divider {
+  margin-top: 1.125rem;
 }
-.package-guide-resources a {
-  display: inline-flex;
+.package-guide-identity {
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 0.375rem;
-  min-height: 2rem;
-  color: var(--muted-foreground);
-  text-decoration: none;
+  gap: 0.5rem 1.5rem;
+  min-width: 0;
 }
-.package-guide-resources a:hover {
+.package-guide-identity-heading {
+  flex: none;
+  max-width: 100%;
   color: var(--foreground);
+  font-size: calc(var(--inline-code-font) + 0.0625rem);
+  font-weight: 600;
+  line-height: 1.25;
+  white-space: nowrap;
 }
-.package-guide-resources a:focus-visible {
-  outline: 2px solid var(--ring);
-  outline-offset: 4px;
-  border-radius: 0.25rem;
+.package-guide-resources .docs-kamod-link {
+  align-items: center;
+}
+.package-guide-resource-actions {
+  flex: none;
+  gap: 0.375rem;
+}
+/* Match the topbar's labeled theme picker; the shared class owns its surface and focus. */
+.package-guide-resource-action {
+  height: 2.1875rem;
+  min-width: 2.1875rem;
+  padding-inline: 0.65rem;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+}
+.package-guide-resource-action > svg {
+  flex: none;
+  stroke-width: 1.75;
+}
+@container package-header (max-width: 38rem) {
+  .package-guide-resource-action {
+    width: 2.1875rem;
+    padding: 0;
+  }
+  .package-guide-resource-label {
+    display: none;
+  }
 }
 .package-guide-decisions {
   margin-block: 1.5rem 2rem;
@@ -111,22 +148,6 @@
   line-height: 1.8;
   color: var(--muted-foreground);
 }
-.package-guide-callout {
-  margin-top: 1.5rem;
-  padding: 1rem 1.125rem;
-  border-left: 2px solid color-mix(in oklab, var(--primary) 35%, var(--border));
-  background: color-mix(in oklab, var(--primary) 3%, var(--background));
-  font-size: 0.875rem;
-  line-height: 1.8;
-}
-.package-guide-callout strong {
-  font-weight: 600;
-  color: var(--foreground);
-}
-.package-guide-callout p {
-  margin: 0.375rem 0 0;
-  color: var(--muted-foreground);
-}
 .package-guide-reference-action,
 .package-guide-reference-controls {
   display: flex;
@@ -179,10 +200,66 @@
 
 .package-guide-reference-controls [data-slot="toggle-group-item"] {
   gap: 0.375rem;
-  min-height: 2rem;
+  height: var(--package-reference-control-height);
+  min-height: var(--package-reference-control-height);
   padding-inline: 0.625rem;
   font-size: 0.75rem;
 }
 .package-guide-reference-controls svg {
   flex-shrink: 0;
+}
+.package-guide-reference-controls {
+  --package-reference-control-height: 2rem;
+}
+.package-reference-download {
+  height: var(--package-reference-control-height);
+  padding-inline: 0.75rem;
+  gap: 0.5rem;
+  background: color-mix(in oklab, var(--foreground) 75%, transparent);
+  color: var(--background);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  translate: none;
+  transform: none;
+  transition: background-color 150ms ease;
+}
+.package-reference-download:hover {
+  background: color-mix(in oklab, var(--foreground) 80%, transparent);
+  opacity: 1;
+}
+.package-reference-download:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+}
+.package-reference-download > svg {
+  stroke-width: 2;
+}
+.package-reference-download-dot {
+  margin-inline: 0.125rem;
+  opacity: 0.65;
+}
+.package-reference-download-format {
+  color: color-mix(in oklab, var(--background) 90%, transparent);
+  font-size: 0.6875rem;
+  font-weight: 400;
+}
+@media (prefers-reduced-motion: reduce) {
+  .package-reference-download {
+    transition: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .package-guide-reference-controls {
+    gap: 0.5rem;
+    margin-block: 0.875rem;
+  }
+  .package-guide-reference-controls .document-display-label {
+    display: none;
+  }
+  .package-guide-reference-controls .blocks-showcase-segmented {
+    flex-wrap: nowrap;
+  }
 }

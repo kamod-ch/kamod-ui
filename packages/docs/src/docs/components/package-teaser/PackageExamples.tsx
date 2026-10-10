@@ -1,4 +1,5 @@
 import { BlockHeadingLink } from "../../../blocks/BlockHeadingLink";
+import { linkTitle } from "../../../link-title";
 import type { PackageTeaserConfig } from "../../pages/kamod-package-doc-factory";
 import { CodeBlock } from "../CodeBlock";
 import { PackageText } from "./PackageGuideHeader";
@@ -14,7 +15,7 @@ export function PackageExamples({ config }: { config: PackageTeaserConfig }) {
         filePath="src/example.tsx"
       />
       <h3 id="read-the-example" tabIndex={-1}>
-        <BlockHeadingLink id="read-the-example">Read the example</BlockHeadingLink>
+        <BlockHeadingLink id="read-the-example">Read the Example</BlockHeadingLink>
       </h3>
       <p class="block-guide-prose">
         Follow the value from its definition to the interface. Each part below explains a decision
@@ -25,7 +26,7 @@ export function PackageExamples({ config }: { config: PackageTeaserConfig }) {
           <div class="package-guide-reading" key={title}>
             <div class="package-guide-reading-title">
               <span aria-hidden="true">0{index + 1}</span>
-              <strong>{title}</strong>
+              <strong>{linkTitle(title)}</strong>
             </div>
             <div class="block-guide-prose">
               <p>
@@ -45,7 +46,7 @@ export function PackageExamples({ config }: { config: PackageTeaserConfig }) {
       <CodeBlock code={recipe.code} language="tsx" filePath={recipe.file} />
       <div class="block-guide-prose">
         <p>
-          <strong>Try the boundaries.</strong> <PackageText text={recipe.result} />
+          <strong>Try the Boundaries.</strong> <PackageText text={recipe.result} />
         </p>
       </div>
     </>

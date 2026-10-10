@@ -8,6 +8,13 @@ export function packageGuideReference(config: PackageTeaserConfig): string {
   const details = packageGuideDetails[config.slug];
   const practice = packageGuidePractices[config.slug];
   const recipe = packageGuideRecipes[config.slug];
+  // Exported files must keep guide links usable outside the running documentation site.
+  const guideUrl = `https://ui.kamod.ch/docs/${config.slug}/installation`;
+  const portableDescription = (text: string) =>
+    text.replace(
+      /\]\(((?:#|\/(?!\/))[^\s)]+)\)/g,
+      (_, href: string) => `](${new URL(href, guideUrl).href})`,
+    );
   return (
     [
       `# ${config.title} — integration reference`,
@@ -19,9 +26,10 @@ export function packageGuideReference(config: PackageTeaserConfig): string {
         ({ need, approach, boundary }) => `### ${need}\n\n${approach}\n\n${boundary}`,
       ),
       "## Installation",
-      config.installationText,
+      portableDescription(config.installationText),
       `\`\`\`bash\n${config.command}\n\`\`\``,
       "## Starting example",
+      portableDescription(config.usageText),
       `\`\`\`tsx\n${config.quickStart.import}\n\n${config.quickStart.usage}\n\`\`\``,
       ...recipe.steps.map(
         ({ title, code, note }) => `### ${title}\n\n${note}\n\n\`\`\`tsx\n${code}\n\`\`\``,

@@ -11,7 +11,7 @@ export const packageGuideNotes = {
   "hooks-package": {
     introduction: (
       <>
-        Start with <strong>one behavior your screen needs</strong>: a toggle, a counter or a browser
+        Start with <strong>One Behavior Your Screen Needs</strong>: a toggle, a counter or a browser
         preference. Keep the hook close to the component that owns it, then compose its state with
         your existing controls.
       </>
@@ -19,7 +19,7 @@ export const packageGuideNotes = {
     integration: (
       <>
         <p>
-          <strong>Separate behavior from presentation.</strong> A hook can own the value or
+          <strong>Separate Behavior from Presentation.</strong> A hook can own the value or
           lifecycle while a button, field or dialog supplies the interface. Keep labels, disabled
           states and keyboard behavior in the component rather than recreating them inside each
           consumer.
@@ -45,7 +45,7 @@ export const packageGuideNotes = {
   "i18n-package": {
     introduction: (
       <>
-        Build around <strong>one default locale and a clear message schema</strong>. Translate
+        Build around <strong>One Default Locale and a Clear Message Schema</strong>. Translate
         complete messages, keep formatting locale-aware, and plan how the selected language reaches
         both your server-rendered document and your Preact tree.
       </>
@@ -53,7 +53,7 @@ export const packageGuideNotes = {
     integration: (
       <>
         <p>
-          <strong>Organize messages by the task they describe.</strong> Group labels, hints and
+          <strong>Organize Messages by the Task They Describe.</strong> Group labels, hints and
           validation messages together so a form can be translated as a coherent experience. Keep
           user-facing strings out of rendering branches where they are easy to miss.
         </p>
@@ -79,14 +79,14 @@ export const packageGuideNotes = {
     introduction: (
       <>
         Choose a consistent family for related actions and let <code>currentColor</code> connect the
-        icons to your theme. Treat icons as <strong>part of a control’s meaning</strong>, with a
+        icons to your theme. Treat icons as <strong>Part of a Control’s Meaning</strong>, with a
         readable label or an accessible name wherever an action would otherwise be ambiguous.
       </>
     ),
     integration: (
       <>
         <p>
-          <strong>Use one visual language for each group of controls.</strong> Match optical size,
+          <strong>Use One Visual Language for Each Group of Controls.</strong> Match optical size,
           stroke or fill treatment, and spacing across toolbars. The SVG can stay small while the
           surrounding button provides a comfortable target.
         </p>
@@ -111,7 +111,7 @@ export const packageGuideNotes = {
   "signals-package": {
     introduction: (
       <>
-        Decide <strong>which values should survive a reload</strong> before choosing a storage
+        Decide <strong>Which Values Should Survive a Reload</strong> before choosing a storage
         driver. Use a stable key, define a useful initial value, and keep the lifetime of the signal
         aligned with the screen, session or application that owns it.
       </>
@@ -119,7 +119,7 @@ export const packageGuideNotes = {
     integration: (
       <>
         <p>
-          <strong>Persist preferences deliberately.</strong> A color scheme or density setting has a
+          <strong>Persist Preferences Deliberately.</strong> A color scheme or density setting has a
           different lifetime from a draft or an account-specific value. Name keys clearly, decide
           when they should be reset and avoid retaining temporary UI state without a reason.
         </p>
@@ -144,7 +144,7 @@ export const packageGuideNotes = {
   "state-package": {
     introduction: (
       <>
-        Model <strong>meaningful state transitions</strong> with named actions and a focused
+        Model <strong>Meaningful State Transitions</strong> with named actions and a focused
         reducer. Keep one clear source of truth, then connect only the state each component needs
         through your chosen Preact integration.
       </>
@@ -152,7 +152,7 @@ export const packageGuideNotes = {
     integration: (
       <>
         <p>
-          <strong>Name actions for what happened.</strong> Keep reducer transitions predictable and
+          <strong>Name Actions for What Happened.</strong> Keep reducer transitions predictable and
           place network requests or other effects at a deliberate application boundary. This makes
           loading, success and failure states easier to inspect and test.
         </p>

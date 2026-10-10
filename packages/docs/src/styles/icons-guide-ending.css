@@ -1,0 +1,210 @@
+/* Size the closing layout to its article, including between two desktop sidebars. */
+.icons-guide-ending {
+  --icons-ending-secondary: color-mix(in oklab, var(--foreground) 25%, var(--muted-foreground));
+  container: icons-ending / inline-size;
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  color: var(--foreground);
+  font-size: 0.8125rem;
+  line-height: 1.7;
+}
+.icons-guide-ending :is(h2, h3, p, ol) {
+  margin: 0;
+}
+.icons-guide-ending svg {
+  flex: none;
+}
+.icons-guide-ending a {
+  text-decoration: none;
+}
+.icons-guide-ending a:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+  border-radius: 0.5rem;
+}
+.icons-ending-eyebrow,
+.icons-ending-repository-top,
+.icons-ending-repository-links,
+.icons-ending-repository-links a {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.icons-ending-eyebrow {
+  color: var(--icons-ending-secondary);
+  font-size: 0.6875rem;
+  font-weight: 550;
+}
+.icons-ending-eyebrow svg {
+  color: var(--primary);
+}
+.icons-ending-heading h2 {
+  margin-block: 0.375rem 0.625rem;
+  font-size: clamp(1.125rem, 3cqi, 1.5rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.35;
+}
+.icons-guide-ending p,
+.icons-ending-description {
+  color: var(--icons-ending-secondary);
+}
+.icons-guide-ending strong {
+  color: var(--foreground);
+  font-weight: 550;
+}
+.icons-ending-grid {
+  display: grid;
+  gap: 1.5rem;
+  margin-block: 1.5rem;
+}
+/* Preserve mixed colors through the production border-shorthand fallback. */
+.icons-ending-repository {
+  --icons-repository-border: color-mix(in oklab, var(--primary) 14%, var(--border));
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--icons-repository-border);
+  border-radius: 0.75rem;
+  background: linear-gradient(
+    135deg,
+    color-mix(in oklab, var(--primary) 6%, transparent),
+    color-mix(in oklab, var(--foreground) 2%, transparent)
+  );
+}
+.icons-ending-repository-main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.875rem;
+  padding: clamp(1rem, 3cqi, 1.5rem);
+  color: var(--foreground);
+}
+.icons-ending-repository-main:focus-visible {
+  outline-offset: -3px;
+}
+.icons-ending-repository-top {
+  width: 100%;
+  font-size: 0.6875rem;
+  font-weight: 550;
+  color: var(--icons-ending-secondary);
+}
+.icons-ending-repository-top > svg:first-child {
+  color: var(--foreground);
+}
+.icons-ending-repository-top > svg:last-child {
+  margin-inline-start: auto;
+}
+.icons-ending-samples {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0.5rem;
+  width: 100%;
+  margin-block: 0.25rem;
+}
+.icons-ending-samples > span {
+  --icons-sample-border: color-mix(in oklab, var(--border) 70%, transparent);
+  display: grid;
+  place-items: center;
+  height: 2.5rem;
+  border: 1px solid var(--icons-sample-border);
+  border-radius: 0.5rem;
+  background: color-mix(in oklab, var(--background) 45%, transparent);
+  color: var(--icons-ending-secondary);
+}
+.icons-ending-samples > span:nth-child(3n + 2) {
+  --icons-sample-border: color-mix(in oklab, var(--primary) 20%, transparent);
+  color: var(--primary);
+}
+.icons-guide-ending h3 {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+.icons-ending-repository-links {
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.375rem 0.75rem;
+  padding: 0.625rem clamp(1rem, 3cqi, 1.5rem);
+  border-top: 1px solid color-mix(in oklab, var(--border) 65%, transparent);
+  font-size: 0.75rem;
+}
+.icons-ending-repository-links a {
+  min-height: 1.75rem;
+  color: var(--icons-ending-secondary);
+}
+.icons-ending-next {
+  min-width: 0;
+}
+.icons-ending-next h3 {
+  padding-bottom: 0.75rem;
+}
+.icons-ending-next ol {
+  padding: 0;
+  list-style: none;
+}
+.icons-ending-next li + li {
+  border-top: 1px solid var(--border);
+}
+.icons-ending-next a,
+.icons-ending-guides a {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.875rem;
+  padding-block: 1rem;
+  color: var(--foreground);
+}
+.icons-ending-next a > svg,
+.icons-ending-guides a > svg {
+  color: var(--icons-ending-secondary);
+}
+.icons-ending-number {
+  align-self: start;
+  padding-top: 0.1875rem;
+  color: var(--icons-ending-secondary);
+  font-size: 0.6875rem;
+  font-variant-numeric: tabular-nums;
+}
+.icons-ending-description {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  line-height: 1.7;
+}
+.icons-ending-guides {
+  display: grid;
+  border-top: 1px solid var(--border);
+}
+.icons-ending-guides a + a {
+  border-top: 1px solid var(--border);
+}
+@container icons-ending (min-width: 36rem) {
+  .icons-ending-guides {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+  .icons-ending-guides a + a {
+    border-top: 0;
+  }
+}
+@container icons-ending (min-width: 38rem) {
+  .icons-ending-grid {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  }
+}
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  .icons-ending-repository-main:hover {
+    background: color-mix(in oklab, var(--primary) 4%, transparent);
+  }
+  .icons-ending-repository-links a:hover,
+  .icons-ending-next a:hover strong,
+  .icons-ending-guides a:hover strong {
+    color: var(--foreground);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+}

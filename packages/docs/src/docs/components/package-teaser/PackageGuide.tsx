@@ -1,12 +1,14 @@
-import { ArrowUpRightIcon } from "@kamod-ch/icons/lucide";
+import { ArrowUpRightIcon, CheckIcon } from "@kamod-ch/icons/lucide";
 import { Button } from "@kamod-ch/ui";
 import { Fragment } from "preact";
 import { withBasePath } from "../../../base-path";
 import { BlockHeadingLink } from "../../../blocks/BlockHeadingLink";
-import { BlockGuideContents } from "../../../blocks/detail/BlockGuideContents";
 import type { PackageTeaserConfig } from "../../pages/kamod-package-doc-factory";
 import type { DocContentsSection, DocRenderMainContext } from "../../types";
+import { SectionDescription } from "../component-detail/SectionDescription";
+import { DocsCallout } from "../DocsCallout";
 import { LibraryGuideSection } from "../LibraryGuideSection";
+import { IconsIntegrationReview } from "./IconsIntegrationReview";
 import { PackageCapabilities, packageFeatureId } from "./PackageCapabilities";
 import { PackageExamples } from "./PackageExamples";
 import { PackageGuideHeader, PackageText } from "./PackageGuideHeader";
@@ -24,34 +26,37 @@ export function packageGuideContents(config: PackageTeaserConfig): DocContentsSe
   return [
     {
       id: "capabilities",
-      label: "What the package brings",
+      label: "What the Package Brings",
       children: [
-        { id: "choose-your-approach", label: "Choose the right approach" },
+        { id: "choose-your-approach", label: "Choose the Right Approach" },
         ...config.features.map(({ title }) => ({ id: packageFeatureId(title), label: title })),
       ],
     },
     {
       id: "installation",
       label: "Installation",
-      children: [{ id: "check-your-environment", label: "Check your environment" }],
+      children: [{ id: "check-your-environment", label: "Check Your Environment" }],
     },
     {
       id: "usage",
       label: "Usage",
       children: [
-        { id: "read-the-example", label: "Read the example" },
+        { id: "read-the-example", label: "Read the Example" },
         { id: "put-it-to-work", label: packageGuideRecipes[config.slug].title },
       ],
     },
     {
       id: "integration",
-      label: "Integrate with your application",
+      label: "Integrate with Your Application",
       children: [
-        { id: "state-and-lifetime", label: "Choose the owner and lifetime" },
-        { id: "environment-boundaries", label: "Account for the environment" },
+        { id: "state-and-lifetime", label: "Choose the Owner and Lifetime" },
+        { id: "environment-boundaries", label: "Account for the Environment" },
+        ...(config.slug === "icons-package"
+          ? [{ id: "icons-integration-review", label: "Review the Finished Controls" }]
+          : []),
       ],
     },
-    { id: "troubleshooting", label: "When something behaves differently" },
+    { id: "troubleshooting", label: "When Something Behaves Differently" },
     {
       id: "api-reference",
       label: "API Reference",
@@ -60,10 +65,10 @@ export function packageGuideContents(config: PackageTeaserConfig): DocContentsSe
     {
       id: "accessibility",
       label: "Accessibility Notes",
-      children: [{ id: "before-you-ship", label: "Before you ship" }],
+      children: [{ id: "before-you-ship", label: "Before You Ship" }],
     },
-    { id: "portable-reference", label: "Take the guide with you" },
-    { id: "sources-and-attribution", label: "Sources & attribution" },
+    { id: "portable-reference", label: "Take the Guide with You" },
+    { id: "sources-and-attribution", label: "Sources & Attribution" },
   ];
 }
 
@@ -71,31 +76,23 @@ export function packageGuideContents(config: PackageTeaserConfig): DocContentsSe
 export function PackageGuide({
   config,
   context,
-  contents,
 }: {
   config: PackageTeaserConfig;
   context: DocRenderMainContext;
-  contents: DocContentsSection[];
 }) {
   const notes = packageGuideNotes[config.slug];
   const details = packageGuideDetails[config.slug];
   const sections = context.sections.flatMap((section) =>
     section.id === "usage"
-      ? [section, { id: "integration", title: "Integrate with your application", text: "" }]
+      ? [section, { id: "integration", title: "Integrate with Your Application", text: "" }]
       : [section],
   );
   return (
     <article class="block-guide package-guide" id="top">
       <PackageGuideHeader config={config} />
-      <BlockGuideContents
-        id={`${config.slug}-mobile-contents`}
-        sections={contents}
-        pageTitle={config.headline}
-        mobile
-      />
       <div class="block-guide-documentation">
         <div class="blocks-doc-body">
-          <LibraryGuideSection id="capabilities" title="What the package brings">
+          <LibraryGuideSection id="capabilities" title="What the Package Brings">
             <PackageCapabilities config={config} />
           </LibraryGuideSection>
           {sections.map((section) => (
@@ -104,19 +101,31 @@ export function PackageGuide({
               <LibraryGuideSection id={section.id} title={section.title}>
                 {section.text && (
                   <div class="block-guide-prose">
-                    <p>
-                      <PackageText text={section.text} />
-                    </p>
+                    {section.id === "installation" || section.id === "usage" ? (
+                      <SectionDescription text={section.text} paragraphClassName="" />
+                    ) : (
+                      <p>
+                        <PackageText text={section.text} />
+                      </p>
+                    )}
                   </div>
                 )}
                 {section.id === "integration" && (
                   <>
                     <div class="block-guide-prose">{notes.integration}</div>
                     <PackageOwnership config={config} />
-                    <aside class="package-guide-callout" aria-label="Integration goal">
-                      <strong>What a good integration looks like</strong>
-                      <p>{details.outcome}</p>
-                    </aside>
+                    {config.slug === "icons-package" ? (
+                      <IconsIntegrationReview outcome={details.outcome} />
+                    ) : (
+                      <DocsCallout
+                        class="docs-callout-spaced"
+                        icon={<CheckIcon />}
+                        title="What a good integration looks like"
+                        eyebrow="Integration goal"
+                      >
+                        <p>{details.outcome}</p>
+                      </DocsCallout>
+                    )}
                   </>
                 )}
                 {section.id === "installation" && (
@@ -124,7 +133,7 @@ export function PackageGuide({
                     {context.renderSectionExtraContent(section.id)}
                     <h3 id="check-your-environment" tabIndex={-1}>
                       <BlockHeadingLink id="check-your-environment">
-                        Check your environment
+                        Check Your Environment
                       </BlockHeadingLink>
                     </h3>
                     <div class="block-guide-prose">
@@ -135,9 +144,9 @@ export function PackageGuide({
                         the workspace boundary that uses it.
                       </p>
                       <p>
-                        <strong>Keep the first change small.</strong> Start with the usage example,
+                        <strong>Keep the First Change Small.</strong> Start with the usage example,
                         run your project’s typecheck and build, then connect it to a real screen.
-                        The <a href={withBasePath("/docs/packages")}>package overview</a> helps you
+                        The <a href={withBasePath("/docs/packages")}>Package Overview</a> helps you
                         decide how companion libraries fit together.
                       </p>
                     </div>
@@ -149,7 +158,7 @@ export function PackageGuide({
                     <p>
                       Use this page to understand the integration, then consult the{" "}
                       <a href={config.externalDocsUrl} target="_blank" rel="noopener noreferrer">
-                        Full API reference on live docs
+                        Full API Reference on Live Docs
                       </a>{" "}
                       for exact signatures and supported options. Compare those details with the
                       version in your lockfile before adapting an example.
@@ -162,15 +171,15 @@ export function PackageGuide({
                     <p>{config.externalCtaDescription}</p>
                     <ul>
                       <li>
-                        <strong>Before choosing an API:</strong> read its input types, return values
+                        <strong>Before Choosing an API:</strong> read its input types, return values
                         and default behavior.
                       </li>
                       <li>
-                        <strong>Before shipping:</strong> review lifecycle or server-rendering notes
+                        <strong>Before Shipping:</strong> review lifecycle or server-rendering notes
                         for the features you use.
                       </li>
                       <li>
-                        <strong>When behavior differs:</strong> reduce the case to a small example
+                        <strong>When Behavior Differs:</strong> reduce the case to a small example
                         and include your package version in the report.
                       </li>
                     </ul>
@@ -184,7 +193,7 @@ export function PackageGuide({
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        Open live docs <ArrowUpRightIcon size={14} aria-hidden="true" />
+                        Open Live Docs <ArrowUpRightIcon size={14} aria-hidden="true" />
                       </Button>
                     </div>
                   </div>
@@ -192,7 +201,7 @@ export function PackageGuide({
                 {section.id === "accessibility" && (
                   <>
                     <h3 id="before-you-ship" tabIndex={-1}>
-                      <BlockHeadingLink id="before-you-ship">Before you ship</BlockHeadingLink>
+                      <BlockHeadingLink id="before-you-ship">Before You Ship</BlockHeadingLink>
                     </h3>
                     <div class="block-guide-prose">
                       <ul>
@@ -201,7 +210,7 @@ export function PackageGuide({
                         ))}
                       </ul>
                       <p>
-                        Review the result with <strong>real content and keyboard input</strong>.
+                        Review the result with <strong>Real Content and Keyboard Input</strong>.
                         Keep visible labels, loading and error feedback, and focus behavior in sync
                         with the state your application exposes.
                       </p>
@@ -211,7 +220,7 @@ export function PackageGuide({
               </LibraryGuideSection>
             </Fragment>
           ))}
-          <LibraryGuideSection id="portable-reference" title="Take the guide with you">
+          <LibraryGuideSection id="portable-reference" title="Take the Guide with You">
             <PackageReference config={config} />
           </LibraryGuideSection>
           <PackageSources config={config} />

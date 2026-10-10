@@ -1,3 +1,5 @@
+import { linkTitle } from "../../../link-title";
+
 export type PackageFeature = {
   title: string;
   text: string;
@@ -12,7 +14,7 @@ export const PackageFeatureGrid = ({ features }: PackageFeatureGridProps) =>
     <ul class="docs-package-feature-grid">
       {features.map((feature) => (
         <li class="docs-package-feature-card" key={feature.title}>
-          <h3 class="docs-package-feature-title">{feature.title}</h3>
+          <h3 class="docs-package-feature-title">{linkTitle(feature.title)}</h3>
           <p class="docs-package-feature-text">{feature.text}</p>
         </li>
       ))}

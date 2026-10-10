@@ -21,23 +21,30 @@ export function PackageReference({ config }: { config: PackageTeaserConfig }) {
     <div class="package-guide-reference">
       <div class="block-guide-prose">
         <p>
-          Keep the <strong>examples, integration decisions and troubleshooting notes</strong>{" "}
+          Keep the <strong>Examples, Integration Decisions and Troubleshooting Notes</strong>{" "}
           together in your project, or share them with a coding assistant. This reference works with
           any assistant; no model-specific setup is needed. Check the installed version and your
           project’s conventions before applying a suggestion.
         </p>
       </div>
       <div class="package-guide-reference-controls">
-        <DocumentDisplayOptions value={display} onChange={setDisplay} label="Reference display" />
+        <DocumentDisplayOptions value={display} onChange={setDisplay} label="Reference Display" />
         <Button
-          class="docs-icon-button"
-          variant="ghost"
-          size="sm"
+          class="package-reference-download"
+          variant="inverse"
           href={download}
           download={`${config.slug}-reference.md`}
+          aria-label="Download Markdown Reference"
+          data-reference-title="Download reference"
+          data-package-reference={config.title}
+          data-reference-docs={config.externalDocsUrl}
         >
-          <DownloadIcon size={14} aria-hidden="true" />
-          Download<span class="sr-only"> Markdown reference</span>
+          <DownloadIcon size={16} aria-hidden="true" />
+          <span>Download</span>
+          <span class="package-reference-download-dot" aria-hidden="true">
+            ·
+          </span>
+          <span class="package-reference-download-format">Markdown</span>
         </Button>
       </div>
       <p class="package-guide-reference-note">
@@ -51,7 +58,7 @@ export function PackageReference({ config }: { config: PackageTeaserConfig }) {
         renderedContent={
           display === "markdown" ? (
             <Suspense fallback={<p role="status">Formatting reference…</p>}>
-              <Markdown prompt={document} label="Rendered package reference" />
+              <Markdown prompt={document} label="Rendered Package Reference" />
             </Suspense>
           ) : undefined
         }

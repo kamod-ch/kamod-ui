@@ -16,10 +16,21 @@ describe("package guide navigation and static reading", () => {
         expect(html).toContain(`href="#${entry.id}"`);
       }
     }
-    expect(html).not.toContain("View Markdown");
-    expect(html).toContain("Reference display");
+    expect(html.replace(/<[^>]+>/g, "")).not.toContain("View Markdown");
+    expect(html).toContain("Reference Display");
     expect(html).toContain(`download="${slug}-reference.md"`);
     expect(html).toContain("## Troubleshooting");
-    expect(html).toContain("Sources &amp; attribution");
+    expect(html).toContain("Sources &amp; Attribution");
+    const reference = decodeURIComponent(
+      html.match(/href="data:text\/markdown;charset=utf-8,([^"]+)"/)![1],
+    );
+    expect(reference).toContain(`https://ui.kamod.ch/docs/${slug}/installation#usage`);
+    expect(reference).not.toMatch(/\]\((?:#|\/)/);
+    for (const id of ["installation", "usage"]) {
+      const introduction = doc.sections!.find((section) => section.id === id)!.text!;
+      // Exports retain the complete introduction, including its last paragraph before any links.
+      expect(reference).toContain(introduction.split("\n\n").at(-1)!.split("[")[0]);
+    }
+    expect(reference).toContain(`${doc.usageImportSnippet}\n\n${doc.usageExampleSnippet}`);
   });
 });

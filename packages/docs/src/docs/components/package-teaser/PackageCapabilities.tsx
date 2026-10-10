@@ -1,4 +1,5 @@
 import { BlockHeadingLink } from "../../../blocks/BlockHeadingLink";
+import { linkTitle } from "../../../link-title";
 import type { PackageTeaserConfig } from "../../pages/kamod-package-doc-factory";
 import { PackageText } from "./PackageGuideHeader";
 import { packageGuideDetails } from "./package-guide-details";
@@ -16,12 +17,12 @@ export function PackageCapabilities({ config }: { config: PackageTeaserConfig })
         <p>{details.purpose}</p>
       </div>
       <h3 id="choose-your-approach" tabIndex={-1}>
-        <BlockHeadingLink id="choose-your-approach">Choose the right approach</BlockHeadingLink>
+        <BlockHeadingLink id="choose-your-approach">Choose the Right Approach</BlockHeadingLink>
       </h3>
       <div class="package-guide-decisions">
         {packageGuidePractices[config.slug].choices.map(({ need, approach, boundary }) => (
           <div class="package-guide-decision" key={need}>
-            <strong>{need}</strong>
+            <strong>{linkTitle(need)}</strong>
             <div class="block-guide-prose">
               <p>
                 <PackageText text={approach} />

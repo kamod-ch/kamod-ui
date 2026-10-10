@@ -1,4 +1,7 @@
+import { ArrowUpRightIcon, BookOpenIcon } from "@kamod-ch/icons/lucide";
 import { Button } from "@kamod-ch/ui";
+import { linkTitle } from "../../../link-title";
+import { DocsCallout } from "../DocsCallout";
 
 export type PackageExternalDocsCtaProps = {
   title: string;
@@ -13,15 +16,24 @@ export const PackageExternalDocsCta = ({
   externalDocsUrl,
   ctaLabel = "Open live docs",
 }: PackageExternalDocsCtaProps) => (
-  <aside class="docs-package-cta-panel">
-    <div class="docs-package-cta-copy">
-      <h3 class="docs-package-cta-title">{title}</h3>
-      <p class="docs-package-cta-text">{description}</p>
-    </div>
-    <Button variant="default" size="sm" asChild>
-      <a href={externalDocsUrl} target="_blank" rel="noopener noreferrer">
-        {ctaLabel}
-      </a>
-    </Button>
-  </aside>
+  <DocsCallout
+    class="docs-callout-spaced"
+    title={linkTitle(title)}
+    icon={<BookOpenIcon />}
+    eyebrow="Keep exploring"
+    footer={
+      <Button
+        variant="ghost"
+        size="sm"
+        href={externalDocsUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {linkTitle(ctaLabel)}
+        <ArrowUpRightIcon size={14} aria-hidden="true" />
+      </Button>
+    }
+  >
+    <p>{description}</p>
+  </DocsCallout>
 );

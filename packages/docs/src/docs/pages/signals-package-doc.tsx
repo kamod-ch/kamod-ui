@@ -32,9 +32,9 @@ export const signalsDocPage = createPackageTeaserDoc({
     usage: `export const theme = persistedSignal("theme", "dark", { storage: "local" });\n\n// later\ntheme.value = "light";`,
   },
   installationText:
-    "Install @kamod-ch/signals with @preact/signals and Preact as peer dependencies when using the package outside the Kamod UI monorepo.",
+    "**Add persistence to your signals setup.** Install `@kamod-ch/signals` alongside `@preact/signals` and Preact, checking that the versions satisfy the package’s peer requirements. In an existing application, use the same signal runtime already used by your components.\n\n**Decide where the value will live.** The [Usage Example](#usage) starts with a local browser preference. Before choosing a different storage driver, read [Account for the Environment](#environment-boundaries) and the [Driver Reference](#api-reference); browser storage and request-scoped cookies need different setup decisions.",
   usageText:
-    "Create a persisted signal with a storage key and driver, then read or write .value as usual. Use usePersistedSignal inside components for scoped instances.",
+    "**Give the preference a name, a default and an owner.** Create a `persistedSignal` with a specific storage key and driver, then read or write its `.value`. A shared instance lets several consumers observe the same preference; use `usePersistedSignal` when the instance should follow a component’s lifetime.\n\n**Check the saved value, not just the current screen.** Start with a harmless preference, change it, reload and restore its default. The [Component Preference Example](#put-it-to-work) shows this flow with a versioned key. Review [Ownership and Lifetime](#state-and-lifetime) before moving the signal into a shared module, especially when your application renders on the server.",
   apiReferenceText:
     "This page is a Kamod UI overview. Full API docs, driver tables, and SSR cookie examples live on the dedicated kamod-signals docs.",
   accessibilityText:
