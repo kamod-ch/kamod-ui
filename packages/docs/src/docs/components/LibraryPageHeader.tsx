@@ -1,7 +1,8 @@
-import { BookOpenIcon } from "@kamod-ch/icons/lucide";
 import type { ComponentChildren } from "preact";
 import { BlockHeadingLink } from "../../blocks/BlockHeadingLink";
+import { BrandText } from "./brand/BrandText";
 import { PageBreadcrumbs } from "./PageBreadcrumbs";
+import { PageEyebrow } from "./PageEyebrow";
 
 /** Keeps overview and guide introductions aligned while their content stays route-specific. */
 export function LibraryPageHeader({
@@ -18,10 +19,10 @@ export function LibraryPageHeader({
   parent: { label: string; href: string };
   label: string;
   eyebrow: ComponentChildren;
-  focus: ComponentChildren;
+  focus?: ComponentChildren;
   title: string;
   description: ComponentChildren;
-  children: ComponentChildren;
+  children?: ComponentChildren;
 }) {
   return (
     <header class="block-guide-header">
@@ -29,18 +30,15 @@ export function LibraryPageHeader({
         ancestors={parent.href === "/" ? [parent] : [{ label: "Home", href: "/" }, parent]}
         current={label}
       />
-      <p class="block-guide-eyebrow">
-        <span class="block-guide-eyebrow-label">
-          <BookOpenIcon size={16} aria-hidden="true" />
-          <span>{eyebrow}</span>
-        </span>
-        <span class="block-guide-eyebrow-focus">{focus}</span>
-      </p>
+      <PageEyebrow focus={focus}>{eyebrow}</PageEyebrow>
       <h1 id={special ? "page-title" : undefined} tabIndex={special ? -1 : undefined}>
         {special ? <BlockHeadingLink id="page-title">{title}</BlockHeadingLink> : title}
       </h1>
-      <div class="block-guide-description">{description}</div>
+      <div class="block-guide-description">
+        <BrandText>{description}</BrandText>
+      </div>
       {children}
+      <hr class="page-intro-divider" />
     </header>
   );
 }

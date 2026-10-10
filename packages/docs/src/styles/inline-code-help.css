@@ -1,0 +1,207 @@
+/* Keep prose typography and copyable text; the dotted cue only identifies explained terms. */
+code[data-inline-code-help] {
+  cursor: help;
+  text-decoration-line: underline;
+  text-decoration-style: dotted;
+  text-decoration-color: color-mix(in oklab, currentColor 35%, transparent);
+  text-underline-offset: 0.2em;
+}
+code[data-inline-code-help]:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+}
+[data-slot="tooltip"] [data-slot="tooltip-content"].docs-code-explanation {
+  --reference-help-action-gap: 1rem;
+  padding: 0.875rem;
+  border: 1px solid color-mix(in oklab, var(--background) 16%, transparent);
+  border-radius: 0.75rem;
+  line-height: 1.55;
+  font-weight: 400;
+}
+.docs-code-explanation p {
+  margin: 0;
+}
+.docs-code-explanation .docs-code-explanation-path {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.docs-code-explanation strong {
+  font-weight: 600;
+}
+.docs-code-explanation code {
+  padding: 0.05em 0.25em;
+  border-radius: 0.2rem;
+  background: color-mix(
+    in oklab,
+    currentColor calc(12% + 10.56% * var(--docs-highlight-boost, 0)),
+    transparent
+  );
+  color: inherit;
+  font-size: 0.95em;
+}
+.docs-code-explanation a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.docs-code-explanation > a {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-size: 0.6875rem;
+}
+.reference-help-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--reference-help-action-gap);
+  margin-bottom: 0.625rem;
+  padding-bottom: 0.625rem;
+  border-bottom: 1px solid color-mix(in oklab, currentColor 14%, transparent);
+}
+.reference-help-heading {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  gap: 0.375rem;
+  min-width: 0;
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+/* Truncate the text box itself, keeping the full link and its focus ring available. */
+.reference-help-heading .docs-code-explanation-path {
+  flex: 1;
+  overflow: visible;
+}
+.docs-code-explanation-path > a,
+.docs-code-explanation .reference-help-heading .docs-code-explanation-path code {
+  display: block;
+  max-width: 100%;
+}
+.docs-code-explanation .docs-code-explanation-path code {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.reference-help-heading > strong {
+  flex: none;
+}
+.reference-help-separator {
+  flex: none;
+  font-weight: 600;
+  opacity: 0.5;
+}
+.reference-help-actions {
+  display: flex;
+  flex: none;
+  gap: 0.25rem;
+}
+.docs-code-explanation .reference-help-action {
+  --docs-icon-button-background: color-mix(in oklab, var(--background) 10%, transparent);
+  --docs-icon-button-hover-background: color-mix(in oklab, var(--background) 17%, transparent);
+  width: 1.875rem;
+  height: 1.875rem;
+  color: inherit;
+  text-decoration: none;
+}
+.reference-help-action svg {
+  flex: none;
+}
+[data-slot="tooltip-content"].docs-code-explanation
+  .reference-help-action:is(:hover, :focus-visible) {
+  color: var(--background);
+}
+.reference-help-description,
+.reference-help-meta {
+  color: color-mix(in oklab, var(--background) 85%, transparent);
+}
+.reference-help-description strong {
+  color: var(--background);
+}
+.package-reference-help-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.375rem 0.75rem;
+  margin-block: 0.75rem;
+  padding: 0.5rem 0.625rem;
+  border-radius: 0.375rem;
+  background: color-mix(in oklab, currentColor 7%, transparent);
+  font-size: 0.6875rem;
+}
+.package-reference-help h4 {
+  margin: 0 0 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.package-reference-help-contents {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.875rem 1rem;
+  margin: 0;
+}
+.package-reference-help-contents dt {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.6875rem;
+}
+.package-reference-help-contents svg {
+  flex: none;
+}
+.package-reference-help-contents dd {
+  margin: 0.25rem 0 0;
+  color: color-mix(in oklab, var(--background) 85%, transparent);
+  font-size: 0.6875rem;
+  line-height: 1.6;
+}
+.docs-code-explanation .package-reference-help-note {
+  margin-block: 0.875rem 0.625rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid color-mix(in oklab, currentColor 14%, transparent);
+}
+@media (max-width: 399px) {
+  .package-reference-help-contents {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.625rem;
+  }
+}
+.docs-code-explanation > .reference-help-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--reference-help-action-gap);
+  margin-top: 0.75rem;
+  padding-top: 0.625rem;
+  border-top: 1px solid color-mix(in oklab, currentColor 10%, transparent);
+  font-size: 0.6875rem;
+}
+.reference-help-footer > span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.reference-help-footer svg {
+  flex: none;
+  opacity: 0.65;
+}
+.docs-code-explanation a:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+  border-radius: 0.1rem;
+}
+/* The bubble can shift inward at screen edges; keep its arrow attached to the actual term. */
+[data-application-tooltip][data-slot="tooltip"]
+  .docs-code-explanation[data-side][data-align]
+  [data-slot="tooltip-arrow"] {
+  left: var(--tooltip-arrow-x, 50%);
+  transform: translateX(-50%) rotate(45deg);
+}
+[data-application-tooltip][data-slot="tooltip"]
+  .docs-code-explanation[data-side="bottom"][data-align]
+  [data-slot="tooltip-arrow"] {
+  transform: translateX(-50%) rotate(225deg);
+}

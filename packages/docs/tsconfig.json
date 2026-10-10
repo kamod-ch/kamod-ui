@@ -5,6 +5,8 @@
     "noEmit": true,
     "paths": {
       "@kamod-ch/ui": ["../core/src/index.ts"],
+      "@kamod-ch/ui/code": ["../core/src/components/code/index.ts"],
+      "@kamod-ch/ui/code/highlight": ["../core/src/components/code/highlight-code.ts"],
       "@kamod-ch/blocks/application-shell": ["../blocks/src/application-shell/index.ts"],
       "@kamod-ch/blocks": ["../blocks/src/index.ts"],
       "@kamod-ch/blocks/sidebar": ["../blocks/src/sidebar/index.ts"],

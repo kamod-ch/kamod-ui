@@ -1,0 +1,59 @@
+/* One quiet transition from the page introduction into its content. */
+.page-intro-divider,
+:is(
+  .blocks-hero:not(.blocks-page-header),
+  .library-directory-header,
+  .landing-shadcn-intro
+)::after {
+  display: block;
+  flex: none;
+  width: 100%;
+  height: 0;
+  margin: clamp(2rem, 3.5vw, 3rem) 0;
+  padding: 0;
+  border: 0;
+  border-top: 1px solid color-mix(in oklab, var(--border) 65%, transparent);
+}
+
+/* Older collection renderers and the landing page share the same visual treatment. */
+:is(
+  .blocks-hero:not(.blocks-page-header),
+  .library-directory-header,
+  .landing-shadcn-intro
+)::after {
+  content: "";
+}
+
+/* Let the divider own this gap instead of stacking existing section spacing. */
+.block-guide-header + :is(.block-guide-documentation, .component-preview-intro, .docs-section) {
+  margin-top: 0;
+}
+.component-detail .block-guide-header + .docs-section {
+  padding-top: 0;
+  border-top: 0;
+}
+.blocks-page-header > .page-intro-divider + .blocks-page-header-summary {
+  margin-top: 0;
+  padding-top: 0;
+}
+.blocks-hero:not(.blocks-page-header),
+.landing-shadcn-intro {
+  margin-bottom: 0;
+}
+.landing-shadcn-intro {
+  row-gap: 0;
+}
+/* Introductions use the same semantic emphasis as documentation explanations,
+   in both schemes; secondary paragraph color must not flatten bold phrases. */
+:is(
+    .block-guide-description,
+    .blocks-hero-lead,
+    .library-directory-header .docs-components-intro,
+    .landing-shadcn-intro-lead,
+    .home-hero-copy .home-prose,
+    .page-state-description
+  )
+  :is(strong, b) {
+  color: var(--foreground);
+  font-weight: 600;
+}

@@ -8,7 +8,7 @@ import { useRightSidebarScroll } from "../../layout/navigation/right-sidebar-mem
 import type { DocPageModule, DocSection } from "../types";
 import { FeedbackCard } from "./FeedbackCard";
 
-export type DocsSidebarScope = "components" | "blocks" | "forms" | "packages";
+export type DocsSidebarScope = "components" | "blocks" | "forms" | "packages" | "getting-started";
 
 type DocsShellProps = {
   sidebarScope: DocsSidebarScope;
@@ -104,6 +104,7 @@ export const DocsShell = ({
     : sidebarScope === "blocks"
       ? withBasePath(activeBlock ? `/blocks/${activeBlock}` : "/blocks")
       : {
+          "getting-started": withBasePath("/docs/getting-started"),
           components: componentsOverviewHref,
           forms: formsOverviewHref,
           packages: packagesOverviewHref,

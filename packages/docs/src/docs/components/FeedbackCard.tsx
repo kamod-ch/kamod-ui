@@ -44,7 +44,7 @@ export function FeedbackCard() {
   if (dismissed !== false) return null;
 
   return (
-    <Card class="docs-promo feedback-card" role="region" aria-label="Straight talk">
+    <Card class="docs-promo feedback-card" role="region" aria-label="Straight Talk">
       <Button
         type="button"
         variant="ghost"
@@ -56,12 +56,12 @@ export function FeedbackCard() {
         <XIcon size={15} aria-hidden="true" />
       </Button>
       <CardHeader class="gap-1.5">
-        <CardTitle class="pr-5 text-base leading-snug">Straight talk</CardTitle>
+        <CardTitle class="pr-5 text-base leading-snug">Straight Talk</CardTitle>
         <CardDescription class="grid gap-2.5 text-sm leading-snug">
           <span class="text-foreground/90">
             We&apos;re planning a Pro tier with individually unlockable components.
           </span>
-          <span class="font-medium text-foreground">Would that matter to you?</span>
+          <span class="font-medium text-foreground">Would that Matter to You?</span>
         </CardDescription>
       </CardHeader>
       <CardContent class="grid gap-2.5">
@@ -73,7 +73,7 @@ export function FeedbackCard() {
           variant="default"
           class="w-full"
         >
-          2-minute feedback
+          2-minute Feedback
         </Button>
       </CardContent>
     </Card>

@@ -1,6 +1,9 @@
+import { CheckIcon } from "@kamod-ch/icons/lucide";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@kamod-ch/ui";
 import type { ComponentChildren } from "preact";
+import { linkTitle } from "../../link-title";
 import { CodeBlock } from "./CodeBlock";
+import { DocsCallout } from "./DocsCallout";
 
 export type OverviewExample = {
   id: string;
@@ -18,10 +21,13 @@ export function OverviewExamples({
   label,
   examples,
   preview,
+  review,
 }: {
   label: string;
   examples: readonly OverviewExample[];
   preview?: (id: string) => ComponentChildren;
+  /** Optional topic-specific guidance beneath the source. */
+  review?: (example: OverviewExample) => ComponentChildren;
 }) {
   return (
     <Tabs defaultValue={examples[0].id} class="guide-next-exercises">
@@ -35,17 +41,18 @@ export function OverviewExamples({
       {examples.map((example) => (
         <TabsContent key={example.id} value={example.id}>
           <div class="guide-next-example-intro">
-            <strong>{example.title}</strong>
+            <strong>{linkTitle(example.title)}</strong>
             <p>{example.description}</p>
           </div>
           {preview?.(example.id)}
           <CodeBlock code={example.code} language={example.language} filePath={example.filePath} />
-          <div class="guide-next-check">
-            <div>
-              <strong>Check the result</strong>
+          {review ? (
+            review(example)
+          ) : (
+            <DocsCallout class="docs-callout-spaced" icon={<CheckIcon />} title="Check the result">
               <p>{example.check}</p>
-            </div>
-          </div>
+            </DocsCallout>
+          )}
         </TabsContent>
       ))}
     </Tabs>

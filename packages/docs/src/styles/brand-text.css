@@ -1,0 +1,144 @@
+/* Brand references are prose, not calls to action; preserve code and emphasis styling. */
+a.docs-brand-link.docs-brand-link {
+  display: inline-flex;
+  align-items: baseline;
+  max-width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit !important;
+  font: inherit;
+  line-height: 1.35;
+  letter-spacing: inherit;
+  text-decoration: none !important;
+  box-shadow: none;
+}
+/* A quiet prose highlight; code and file paths already provide their own surface. */
+a.docs-brand-link.docs-brand-link:not(:where(code *, pre *, .path-display *)):not(:has(code)) {
+  padding: 0.04em 0.2em;
+  border-radius: 0.2em;
+  background: color-mix(
+    in oklab,
+    var(--foreground) calc(5% + 4.75% * var(--docs-highlight-boost, 0)),
+    transparent
+  );
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.docs-brand-link > .docs-brand-icon {
+  display: inline-block;
+  width: 0.9em;
+  height: 0.9em;
+  margin-inline-end: 0.25em;
+  vertical-align: -0.1em;
+  color: inherit;
+}
+a.docs-brand-link:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: 0.15em;
+}
+
+/* The middle path may shrink; the brand and destination hint always stay visible. */
+:is(a, span).docs-kamod-link.docs-kamod-link {
+  display: inline-flex;
+  align-items: baseline;
+  max-width: 100%;
+  min-width: 0;
+  vertical-align: baseline;
+}
+.docs-kamod-link > svg {
+  flex: none;
+  align-self: center;
+}
+.docs-kamod-link > .path-display {
+  flex: 0 1 auto;
+}
+.docs-kamod-path {
+  grid-template-columns: minmax(0, 1fr);
+}
+.docs-kamod-arrow {
+  width: 0.75em;
+  height: 0.75em;
+  margin-inline-start: 0.2em;
+  opacity: 0.9;
+}
+
+/* Linked names keep the same inline-code surface, with quiet, current-color navigation cues. */
+a.docs-inline-code-link.docs-inline-code-link {
+  color: inherit;
+  text-decoration: none;
+}
+.docs-reference-code {
+  line-height: 1.35;
+  display: inline-flex;
+  align-items: baseline;
+  max-width: 100%;
+  vertical-align: baseline;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  overflow-wrap: anywhere;
+}
+.docs-reference-code > .docs-reference-icon,
+.docs-reference-arrow {
+  display: inline-block;
+  width: 0.9em;
+  height: 0.9em;
+  vertical-align: -0.12em;
+  color: inherit;
+}
+.docs-reference-code > .docs-reference-icon {
+  margin-inline-end: 0.3em;
+}
+.docs-reference-arrow {
+  width: 0.75em;
+  height: 0.75em;
+  margin-inline-start: 0.25em;
+  opacity: 0.9;
+}
+a.docs-inline-code-link:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+  border-radius: 0.2em;
+}
+/* A single rule under the whole code link includes its SVG arrow, which normal
+   text-decoration cannot underline across inline flex children. */
+a > code,
+code > a {
+  position: relative;
+}
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  a.docs-brand-link.docs-brand-link:not(code *):not(:has(code)):hover {
+    text-decoration: underline !important;
+    text-underline-offset: 0.2em;
+  }
+  a:has(> code):hover,
+  code > a:hover,
+  code > a.docs-brand-link.docs-brand-link:hover {
+    text-decoration: none !important;
+  }
+  a:hover > code::after,
+  code > a:hover::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    bottom: -0.12em;
+    border-bottom: 1px solid currentColor;
+    pointer-events: none;
+  }
+}
+
+.docs-reference-code > span {
+  min-width: 0;
+}
+.docs-reference-code > svg,
+.docs-brand-link > svg {
+  flex: none;
+  align-self: center;
+}
+span.docs-brand-link {
+  line-height: 1.35;
+  display: inline-flex;
+  align-items: baseline;
+  max-width: 100%;
+}

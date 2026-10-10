@@ -1,7 +1,10 @@
+import { CheckIcon } from "@kamod-ch/icons/lucide";
 import { Button, Label, Switch, Tabs, TabsContent, TabsList, TabsTrigger } from "@kamod-ch/ui";
 import { useState } from "preact/hooks";
 import { withBasePath } from "../../base-path";
+import { linkTitle } from "../../link-title";
 import { CodeBlock } from "./CodeBlock";
+import { DocsCallout } from "./DocsCallout";
 
 const examples = [
   {
@@ -97,7 +100,7 @@ export function ComponentOverviewExamples() {
       {examples.map((example) => (
         <TabsContent key={example.value} value={example.value}>
           <div class="guide-next-example-intro">
-            <strong>{example.title}</strong>
+            <strong>{linkTitle(example.title)}</strong>
             <p>{example.description}</p>
           </div>
           {example.value === "state" && (
@@ -114,19 +117,22 @@ export function ComponentOverviewExamples() {
             </div>
           )}
           <CodeBlock code={example.code} language="tsx" filePath={example.path} />
-          <div class="guide-next-check">
-            <div>
-              <strong>Check the result</strong>
-              <p>{example.check}</p>
-            </div>
-          </div>
-          <Button
-            variant="ghost"
-            size="sm"
-            href={withBasePath(`/docs/${example.reference}/api-reference`)}
+          <DocsCallout
+            class="docs-callout-spaced"
+            icon={<CheckIcon />}
+            title="Check the result"
+            footer={
+              <Button
+                variant="ghost"
+                size="sm"
+                href={withBasePath(`/docs/${example.reference}/api-reference`)}
+              >
+                Open {linkTitle(example.reference)} API Reference
+              </Button>
+            }
           >
-            Open {example.reference} API reference
-          </Button>
+            <p>{example.check}</p>
+          </DocsCallout>
         </TabsContent>
       ))}
     </Tabs>

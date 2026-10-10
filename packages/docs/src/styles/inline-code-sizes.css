@@ -1,0 +1,103 @@
+/* Exactly two sizes for linked inline code. Rem units still respect browser text scaling. */
+:root {
+  --inline-code-compact-font: 0.75rem;
+  --inline-code-compact-line: 1rem;
+  --inline-code-compact-padding: 0.1875rem;
+  --inline-code-compact-arrow: 0.625rem;
+  --inline-code-regular-font: 0.875rem;
+  --inline-code-regular-line: 1.25rem;
+  --inline-code-regular-padding: 0.25rem;
+  --inline-code-regular-arrow: 0.75rem;
+  --inline-code-font: var(--inline-code-regular-font);
+  --inline-code-line: var(--inline-code-regular-line);
+  --inline-code-padding: var(--inline-code-regular-padding);
+  --inline-code-arrow: var(--inline-code-regular-arrow);
+}
+
+/* Dense supporting content stays compact even when surrounding headings are larger. */
+:where(
+  table,
+  .docs-code-toolbar,
+  .docs-code-explanation,
+  .docs-component-path,
+  .package-directory-identity,
+  .component-example-caption,
+  .home-component-source,
+  .home-demo-parts,
+  .home-small-note,
+  .home-footer,
+  .site-footer
+) {
+  --inline-code-font: var(--inline-code-compact-font);
+  --inline-code-line: var(--inline-code-compact-line);
+  --inline-code-padding: var(--inline-code-compact-padding);
+  --inline-code-arrow: var(--inline-code-compact-arrow);
+}
+@media (max-width: 639px) {
+  :root {
+    --inline-code-font: var(--inline-code-compact-font);
+    --inline-code-line: var(--inline-code-compact-line);
+    --inline-code-padding: var(--inline-code-compact-padding);
+    --inline-code-arrow: var(--inline-code-compact-arrow);
+  }
+}
+@container package-header (max-width: 38rem) {
+  .package-guide-resources {
+    --inline-code-font: var(--inline-code-compact-font);
+    --inline-code-line: var(--inline-code-compact-line);
+    --inline-code-padding: var(--inline-code-compact-padding);
+    --inline-code-arrow: var(--inline-code-compact-arrow);
+  }
+}
+/* Explicit component choices take precedence over contextual defaults. */
+[data-inline-code-size="compact"] {
+  --inline-code-font: var(--inline-code-compact-font);
+  --inline-code-line: var(--inline-code-compact-line);
+  --inline-code-padding: var(--inline-code-compact-padding);
+  --inline-code-arrow: var(--inline-code-compact-arrow);
+}
+[data-inline-code-size="regular"] {
+  --inline-code-font: var(--inline-code-regular-font);
+  --inline-code-line: var(--inline-code-regular-line);
+  --inline-code-padding: var(--inline-code-regular-padding);
+  --inline-code-arrow: var(--inline-code-regular-arrow);
+}
+
+/* Authored Markdown and decorated JSX share this contract. Only geometry is enforced:
+   existing theme surfaces, emphasis and link behavior retain their own styles. */
+:is(
+  a code,
+  code:has(a),
+  code.docs-reference-code,
+  code.docs-kamod-path,
+  code:has(> .docs-brand-link, > .docs-kamod-link),
+  a.docs-brand-link:not(:where(code *, .path-display *)):not(:has(code))
+):not(:where(pre *, .docs-import-label, .docs-code-file-path, [contenteditable] *)) {
+  font-size: var(--inline-code-font) !important;
+  line-height: var(--inline-code-line) !important;
+  padding: 0 var(--inline-code-padding) !important;
+  /* A transparent border gives shadow-only and bordered highlights identical heights. */
+  border-width: 1px !important;
+  border-style: solid;
+  border-color: transparent;
+  border-radius: 0.25rem;
+  vertical-align: baseline;
+
+  &:not(.path-display) {
+    display: inline-flex;
+    align-items: center;
+  }
+  & > :is(a, .docs-brand-link, .docs-kamod-link) {
+    font-size: inherit !important;
+    line-height: inherit !important;
+  }
+  /* Only inline-reference icons follow these sizes; source headers keep their own layout. */
+  & :is(.docs-brand-icon, .docs-reference-icon, .path-display-icon) {
+    width: var(--inline-code-font) !important;
+    height: var(--inline-code-font) !important;
+  }
+  & :is(.docs-reference-arrow, .docs-kamod-arrow) {
+    width: var(--inline-code-arrow) !important;
+    height: var(--inline-code-arrow) !important;
+  }
+}

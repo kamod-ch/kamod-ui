@@ -36,7 +36,11 @@ it.each([
   expect(splitDisplayPath(path)).toEqual({ root, middle, end });
   const { container } = render(<PathDisplay path={path} />);
   expect(container.textContent).toBe(path);
-  expect(container.firstElementChild).toHaveAttribute("title", path);
+  if (container.querySelector("a.docs-kamod-link")) {
+    expect(container.firstElementChild).not.toHaveAttribute("title");
+  } else {
+    expect(container.firstElementChild).toHaveAttribute("title", path);
+  }
 });
 
 it("keeps the filename's separator outside the truncating middle", () => {

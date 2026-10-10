@@ -9,7 +9,14 @@
   justify-content: center;
   border: 0;
   border-radius: 0.5rem;
-  background: color-mix(in oklab, var(--foreground) 6%, transparent);
+  background: var(
+    --docs-icon-button-background,
+    color-mix(
+      in oklab,
+      var(--foreground) calc(6% + 5.64% * var(--docs-highlight-boost, 0)),
+      transparent
+    )
+  );
   color: var(--muted-foreground);
   box-shadow: none;
   text-decoration: none;
@@ -21,9 +28,29 @@
     box-shadow 160ms ease,
     translate 160ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-.docs-icon-button:is(:hover, :focus-visible):not(:disabled, [aria-disabled="true"]) {
-  background: color-mix(in oklab, var(--foreground) 12%, transparent);
+.docs-icon-button:is(:focus-visible):not(:disabled, [aria-disabled="true"]) {
+  background: var(
+    --docs-icon-button-hover-background,
+    color-mix(
+      in oklab,
+      var(--foreground) calc(12% + 10.56% * var(--docs-highlight-boost, 0)),
+      transparent
+    )
+  );
   color: var(--foreground);
+}
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  .docs-icon-button:is(:hover, :focus-visible):not(:disabled, [aria-disabled="true"]) {
+    background: var(
+      --docs-icon-button-hover-background,
+      color-mix(
+        in oklab,
+        var(--foreground) calc(14% + 12.04% * var(--docs-highlight-boost, 0)),
+        transparent
+      )
+    );
+    color: var(--foreground);
+  }
 }
 .docs-icon-button:focus-visible,
 .docs-icon-button:has(select:focus-visible) {
@@ -47,14 +74,94 @@
 .docs-icon-button:is(:disabled, [aria-disabled="true"]) {
   cursor: not-allowed;
 }
+/* Active controls use a neutral hover surface in every palette. */
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  :where([role="group"], [role="tablist"], [data-slot="button-group"], [data-slot="toggle-group"])
+    .docs-icon-button:is(
+      [aria-pressed="true"],
+      [aria-expanded="true"],
+      [data-state="active"],
+      [data-state="on"]
+    ):hover:not(:disabled, [aria-disabled="true"], [aria-busy="true"]) {
+    background: var(
+      --docs-icon-button-selected-hover-background,
+      color-mix(
+        in oklab,
+        var(--foreground) calc(8% + 7.36% * var(--docs-highlight-boost, 0)),
+        var(--background)
+      )
+    );
+    color: var(--foreground);
+  }
+  :is(
+      [data-slot="toggle-group-item"],
+      [data-slot="tabs-list"]:not([data-variant="inset"]) > [data-slot="tabs-trigger"]
+    ):not(.docs-icon-button):hover:not(:disabled, [aria-disabled="true"]) {
+    background: color-mix(
+      in oklab,
+      var(--foreground) calc(8% + 7.36% * var(--docs-highlight-boost, 0)),
+      transparent
+    );
+    color: var(--foreground);
+  }
+  [data-slot="toggle-group-item"][data-state="on"]:not(.docs-icon-button):hover:not(
+      :disabled,
+      [aria-disabled="true"]
+    ) {
+    background: color-mix(
+      in oklab,
+      var(--foreground) calc(10% + 9% * var(--docs-highlight-boost, 0)),
+      var(--background)
+    );
+    color: var(--accent-foreground);
+  }
+  [data-slot="tabs-list"]:not([data-variant="inset"])
+    > [data-slot="tabs-trigger"][aria-selected="true"]:not(.docs-icon-button):hover:not(
+      :disabled,
+      [aria-disabled="true"]
+    ) {
+    background: color-mix(
+      in oklab,
+      var(--foreground) calc(8% + 7.36% * var(--docs-highlight-boost, 0)),
+      var(--background)
+    );
+    color: var(--foreground);
+  }
+  [data-slot="tabs-list"][data-variant="line"]
+    > [data-slot="tabs-trigger"][aria-selected="true"]:not(.docs-icon-button):hover:not(
+      :disabled,
+      [aria-disabled="true"]
+    ) {
+    background: color-mix(
+      in oklab,
+      var(--foreground) calc(8% + 7.36% * var(--docs-highlight-boost, 0)),
+      transparent
+    );
+  }
+}
 .docs-icon-button[aria-busy="true"] {
   cursor: progress;
 }
+/* Grouped controls stay anchored to their shared surface in every documentation layout. */
+:is(
+    [role="group"],
+    [role="tablist"],
+    [data-slot="button-group"],
+    [data-slot="toggle-group"],
+    .blocks-showcase-segmented,
+    .blocks-preview-viewport-switcher
+  )
+  .docs-icon-button {
+  --docs-icon-button-hover-offset: 0;
+}
 /* Lift the surface without moving surrounding layout or disturbing animated icons. */
-@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
   .docs-icon-button:hover:not(:disabled, [aria-disabled="true"], [aria-busy="true"]) {
-    translate: 0 -1px;
-    box-shadow: 0 3px 7px -4px color-mix(in oklab, var(--foreground) 32%, transparent);
+    translate: var(--docs-icon-button-hover-offset, 0 -1px);
+    box-shadow: var(
+      --docs-icon-button-hover-shadow,
+      0 3px 7px -4px color-mix(in oklab, var(--foreground) 32%, transparent)
+    );
   }
   .docs-icon-button:active:not(:disabled, [aria-disabled="true"], [aria-busy="true"]) {
     translate: 0;

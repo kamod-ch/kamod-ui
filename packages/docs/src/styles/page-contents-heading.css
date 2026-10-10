@@ -1,0 +1,87 @@
+.page-contents-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+.page-contents-header .page-contents-heading {
+  margin: 0;
+  color: var(--foreground);
+  font-size: calc(1rem - var(--docs-rightbar-font-reduction, 0rem));
+  font-weight: 600;
+  line-height: 1.5;
+}
+.page-contents-header h3.page-contents-heading {
+  font-size: calc(0.75rem - var(--docs-rightbar-font-reduction, 0rem));
+}
+.page-contents-heading a {
+  display: inline-flex;
+  align-items: center;
+  color: inherit;
+  text-decoration: none;
+}
+.page-contents-heading a:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+  border-radius: 0.25rem;
+}
+.page-contents-header .page-contents-count {
+  flex: none;
+  font-size: calc(0.6875rem - var(--docs-rightbar-font-reduction, 0rem));
+}
+
+/* Keep every contents renderer consistent, with a readable floor at deeper levels. */
+.page-contents-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.page-contents-list [data-contents-depth="3"] {
+  font-size: calc(0.8rem - var(--docs-rightbar-font-reduction, 0rem));
+  font-weight: 400;
+}
+.page-contents-list [data-contents-depth="4"] {
+  font-size: calc(0.75rem - var(--docs-rightbar-font-reduction, 0rem));
+  font-weight: 400;
+}
+.blocks-doc-toc .page-contents-list a[data-contents-depth="3"] {
+  padding-left: 2.65rem;
+  font-size: calc(0.8rem - var(--docs-rightbar-font-reduction, 0rem));
+}
+.blocks-doc-toc .page-contents-list a[data-contents-depth="4"] {
+  padding-left: 3.35rem;
+  font-size: calc(0.75rem - var(--docs-rightbar-font-reduction, 0rem));
+}
+.docs-rightbar-contents > nav .page-contents-list a {
+  display: block;
+  padding-block: 0.375rem;
+  line-height: 1.5;
+  text-decoration: none;
+}
+.docs-rightbar-contents > nav .page-contents-list a[data-contents-depth="2"] {
+  padding-left: 0.75rem;
+}
+.docs-rightbar-contents > nav .page-contents-list a[data-contents-depth="3"] {
+  padding-left: 1.5rem;
+  font-size: calc(0.8rem - var(--docs-rightbar-font-reduction, 0rem));
+}
+.docs-rightbar-contents > nav .page-contents-list a[data-contents-depth="4"] {
+  padding-left: 2.25rem;
+  font-size: calc(0.75rem - var(--docs-rightbar-font-reduction, 0rem));
+}
+.page-contents-list a[aria-current="location"] {
+  font-weight: 600;
+}
+
+/* Ellipsis is visual only: the link retains its full accessible name and destination. */
+@media (1200px <= width < 1536px) {
+  .docs-rightbar-contents > nav a,
+  .blocks-doc-toc li a {
+    display: block;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

@@ -1,0 +1,101 @@
+/* The core AlertCallout owns the surface and structure. These rules keep it
+   independent of each documentation section's heading and paragraph styles. */
+.docs-callout[data-variant="callout"] {
+  min-width: 0;
+  margin-block: 0;
+  padding: 0;
+  background: color-mix(
+    in oklab,
+    var(--muted) calc(16% + 16% * var(--docs-highlight-boost, 0)),
+    var(--card)
+  );
+}
+.docs-callout[data-variant="callout"] [data-slot="alert-title"] {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: var(--foreground);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.015em;
+}
+.docs-callout[data-variant="callout"] [data-slot="alert-description"] {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-size: 0.8125rem;
+  line-height: 1.75;
+}
+.docs-callout[data-variant="callout"] [data-slot="alert-description"] :is(p, li) {
+  margin: 0;
+  color: var(--muted-foreground);
+  font-size: inherit;
+  line-height: inherit;
+}
+.docs-callout[data-variant="callout"] [data-slot="alert-description"] > p + p {
+  margin-top: 0.75rem;
+}
+.docs-callout[data-variant="callout"] strong {
+  color: var(--foreground);
+  font-weight: 600;
+}
+.docs-callout [data-slot="alert-title"] a {
+  text-decoration: none;
+}
+.docs-callout [data-slot="callout-meta"] {
+  overflow-wrap: anywhere;
+}
+.docs-callout-index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.75rem;
+  height: 1.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.45rem;
+  font-size: 0.6875rem;
+}
+.docs-callout-check {
+  display: inline-flex;
+  flex: 1 1 15rem;
+  align-items: center;
+  gap: 0.5rem;
+}
+.docs-callout-check svg {
+  flex: none;
+}
+.docs-callout .docs-callout-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  min-height: 2rem;
+  padding: 0.25rem 0.625rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  background: var(--card);
+  color: var(--foreground);
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition:
+    background-color 150ms,
+    border-color 150ms;
+}
+.docs-callout .docs-callout-action:hover {
+  background: color-mix(in oklab, var(--primary) 6%, var(--card));
+  border-color: color-mix(in oklab, var(--primary) 30%, var(--border));
+}
+.docs-callout a:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+  border-radius: 0.25rem;
+}
+.docs-callout.docs-callout-spaced {
+  margin-top: 1rem;
+}
+@media (prefers-reduced-motion: reduce) {
+  .docs-callout .docs-callout-action {
+    transition: none;
+  }
+}

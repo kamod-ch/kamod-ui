@@ -22,6 +22,10 @@ export default defineConfig({
         replacement: resolve(coreSrc, "lib/interactive/index.ts"),
       },
       {
+        find: "@kamod-ch/ui/code/highlight",
+        replacement: resolve(coreSrc, "components/code/highlight-code.ts"),
+      },
+      {
         find: /^@kamod-ch\/ui\/(.+)$/,
         replacement: `${coreSrc}/components/$1/index.ts`,
       },

@@ -13,6 +13,16 @@
 .path-display[data-path-middle] {
   grid-template-columns: minmax(0, max-content) minmax(1ch, 1fr) minmax(0, max-content);
 }
+.path-display[data-path-icon][data-path-middle] {
+  grid-template-columns: auto minmax(0, max-content) minmax(1ch, 1fr) minmax(0, max-content);
+}
+.path-display > .path-display-icon {
+  align-self: center;
+  width: 0.9em;
+  height: 0.9em;
+  margin-inline-end: 0.35em;
+  color: inherit;
+}
 .path-display > :is([data-path-part="root"], [data-path-part="end"]) {
   min-width: 0;
   white-space: normal;
