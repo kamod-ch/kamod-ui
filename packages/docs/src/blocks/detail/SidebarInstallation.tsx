@@ -18,6 +18,7 @@ import {
 } from "@kamod-ch/ui";
 import { useState } from "preact/hooks";
 import { withBasePath } from "../../base-path";
+import { DocsCallout } from "../../docs/components/DocsCallout";
 import { PathDisplay } from "../../docs/components/PathDisplay";
 import { ShowcaseCodeLink } from "../ShowcaseCodeLink";
 import type { VariantGuide } from "./VariantDocumentation";
@@ -40,12 +41,12 @@ function IncludedFiles({ blockId, paths }: { blockId: string; paths: string[] })
         <FileGroups
           blockId={blockId}
           groups={entries.filter((entry) => !isComponent(entry))}
-          label="Block files, branding and data"
+          label="Block Files, Branding and Data"
         />
         <FileGroups
           blockId={blockId}
           groups={entries.filter(isComponent)}
-          label="Local components"
+          label="Local Components"
         />
       </div>
     </div>
@@ -111,44 +112,34 @@ function DownloadInfo() {
   );
 }
 
-/** One native button toggles the whole row; the folder hint shares its hover/focus target. */
+/** One native button toggles the row; its destination remains visible alongside the label. */
 function IncludedFilesTrigger({ blockId }: { blockId: string }) {
   return (
-    <Tooltip class="w-full" style={{ display: "flex" }}>
-      <TooltipTrigger asChild aria-describedby={`${blockId}-extract-destination`}>
-        <CollapsibleTrigger
-          class="blocks-install-files-heading"
-          aria-label="View included files"
-          aria-controls={`${blockId}-included-files`}
-        >
-          <span class="blocks-install-files-trigger">
-            <FolderTreeIcon aria-hidden="true" size={16} strokeWidth={2} />
-            <span>View included files</span>
-          </span>
-          <span class="blocks-install-destination" id={`${blockId}-extract-destination`}>
-            <span class="blocks-install-destination-dot" aria-hidden="true">
-              ·
-            </span>
-            <span>Extract into</span>
-            <span class="blocks-install-path">
-              <PathDisplay path={`src/components/blocks/${blockId}/`} />
-            </span>
-          </span>
-          <ChevronDownIcon
-            aria-hidden="true"
-            size={16}
-            class="blocks-install-files-chevron transition-transform group-data-[state=open]:rotate-180"
-          />
-        </CollapsibleTrigger>
-      </TooltipTrigger>
-      <TooltipContent
-        side="bottom"
-        align="end"
-        class="max-w-[calc(100vw-2rem)] whitespace-normal text-xs"
-      >
-        Keep this folder together
-      </TooltipContent>
-    </Tooltip>
+    <CollapsibleTrigger
+      class="blocks-install-files-heading"
+      aria-label="View included files"
+      aria-describedby={`${blockId}-extract-destination`}
+      aria-controls={`${blockId}-included-files`}
+    >
+      <span class="blocks-install-files-trigger">
+        <FolderTreeIcon aria-hidden="true" size={16} strokeWidth={2} />
+        <span>View included files</span>
+      </span>
+      <span class="blocks-install-destination" id={`${blockId}-extract-destination`}>
+        <span class="blocks-install-destination-dot" aria-hidden="true">
+          ·
+        </span>
+        <span>Extract into</span>
+        <span class="blocks-install-path">
+          <PathDisplay path={`src/components/blocks/${blockId}/`} />
+        </span>
+      </span>
+      <ChevronDownIcon
+        aria-hidden="true"
+        size={16}
+        class="blocks-install-files-chevron transition-transform group-data-[state=open]:rotate-180"
+      />
+    </CollapsibleTrigger>
   );
 }
 
@@ -175,7 +166,7 @@ export function SidebarInstallation({ guide }: { guide: VariantGuide }) {
                 href={withBasePath(`/blocks/downloads/${block.id}.zip`)}
               >
                 <FolderDownIcon size={16} strokeWidth={2.5} aria-hidden="true" />
-                Download block
+                Download Block
               </a>
             </Button>
             <div class="blocks-install-metadata">
@@ -192,7 +183,7 @@ export function SidebarInstallation({ guide }: { guide: VariantGuide }) {
             class="docs-icon-button blocks-install-next"
             href={`#${anchor("dependencies")}`}
           >
-            Install dependencies
+            Install Dependencies
             <TerminalIcon class="size-3" strokeWidth={2.75} aria-hidden="true" />
           </Button>
         </div>
@@ -203,13 +194,14 @@ export function SidebarInstallation({ guide }: { guide: VariantGuide }) {
           </div>
         </CollapsibleContent>
       </Collapsible>
-      <p class="blocks-doc-note">
-        <strong>Prefer manual copying?</strong>{" "}
-        <ShowcaseCodeLink blockId={block.id}>Open the Showcase’s Code tab</ShowcaseCodeLink> and
-        copy each listed file into the same folder structure above. Its labels are the destination
-        paths inside <PathDisplay path={`${block.id}/`} />, and its imports already match the
-        download. Keep the included license with your copy.
-      </p>
+      <DocsCallout class="docs-callout-spaced" title="Prefer Manual Copying?" icon={<InfoIcon />}>
+        <p>
+          <ShowcaseCodeLink blockId={block.id}>Open the Showcase’s Code tab</ShowcaseCodeLink> and
+          copy each listed file into the same folder structure above. Its labels are the destination
+          paths inside <PathDisplay path={`${block.id}/`} />, and its imports already match the
+          download. Keep the included license with your copy.
+        </p>
+      </DocsCallout>
     </>
   );
 }

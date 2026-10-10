@@ -81,7 +81,7 @@ for (const [category, count] of [
     ).toBeFocused();
     await page.keyboard.press("Enter");
     await expect(
-      page.getByRole("heading", { name: "Add this block", exact: true }),
+      page.getByRole("heading", { name: "Add This Block", exact: true }),
     ).toBeInViewport();
   });
 }
@@ -118,7 +118,7 @@ for (const width of [320, 768, 1024, 1440, 1920]) {
       expect(Math.abs(header!.x - grid!.x)).toBeLessThan(1);
       expect(Math.abs(header!.width - grid!.width)).toBeLessThan(1);
       expect(header!.y + header!.height).toBeLessThan(grid!.y);
-      if (width >= 980) {
+      if (width >= 940) {
         const sidebar = await page.locator("aside.docs-sidebar").boundingBox();
         expect(sidebar).toBeTruthy();
         expect(Math.abs(sidebar!.y - (SHOW_CATEGORY_PREVIEW ? grid!.y : header!.y))).toBeLessThan(
@@ -147,7 +147,7 @@ test("shared sidebar includes available and planned categories", async ({ page }
   const sidebar = page.locator("aside.docs-sidebar");
   const navigation = sidebar.getByRole("navigation", { name: "Browse all pages" });
   await expect(
-    navigation.getByRole("button", { name: /Blocks Layout collections/ }),
+    navigation.getByRole("button", { name: /Blocks Application Layouts/ }),
   ).toHaveAttribute("aria-expanded", "true");
   await expect(navigation.getByRole("link", { name: "Sidebar", exact: true })).toHaveAttribute(
     "aria-current",
@@ -159,9 +159,9 @@ test("shared sidebar includes available and planned categories", async ({ page }
     /\/blocks\/about$/,
   );
   await expect(navigation.locator("a[data-block-placeholder]")).toHaveCount(20);
-  await navigation.getByRole("link", { name: "Blocks overview" }).click();
+  await navigation.getByRole("link", { name: "Blocks Overview" }).click();
   await expect(
-    page.getByRole("navigation", { name: "Planned block categories" }).getByRole("link"),
+    page.getByRole("navigation", { name: "Planned Block Categories" }).getByRole("link"),
   ).toHaveCount(20);
 });
 
@@ -193,7 +193,7 @@ test("preview theme guidance wraps fully and supports activation and dismissal",
       await expect(page.locator(".blocks-category-header")).toBeVisible();
       const header = page.locator(".blocks-category-header");
       const info = header.getByRole("button", { name: "About preview themes" });
-      const popover = page.getByRole("dialog", { name: "Preview guide" });
+      const popover = page.getByRole("dialog", { name: "Preview Guide" });
       await expect(header.locator(".blocks-hero-lead")).toHaveCount(1);
       await expect(header.locator(".blocks-hero-lead")).not.toContainText("Previews use");
       await info.click();
@@ -267,7 +267,7 @@ test("preview guide stays below the sticky header after scrolling and resizing",
   await page.goto("./blocks/sidebar");
   await expect(page.locator(".blocks-category-header")).toBeVisible();
   const trigger = page.getByRole("button", { name: "About preview themes" });
-  const guide = page.getByRole("dialog", { name: "Preview guide" });
+  const guide = page.getByRole("dialog", { name: "Preview Guide" });
   for (const [width, height] of [
     [320, 568],
     [740, 360],
@@ -471,7 +471,7 @@ test("header preview uses a current-category thumbnail and keeps its selection w
     await page.keyboard.press("Tab");
     await expect(captionLink).toBeFocused();
     await expect(captionLink).toHaveCSS("outline-style", "solid");
-    await page.setViewportSize({ width: 979, height: 900 });
+    await page.setViewportSize({ width: 939, height: 900 });
     await expect(preview).toBeHidden();
     await page.setViewportSize({ width: 1440, height: 900 });
     await expect(preview).toHaveAttribute("href", destination!);
@@ -498,7 +498,7 @@ for (const scheme of ["light", "dark"] as const) {
         const layout = await page.evaluate(() => {
           const header = document.querySelector(".blocks-page-header-title-row")!;
           const title = header.querySelector("h1")!.getBoundingClientRect();
-          const badge = header.querySelector('[data-slot="badge"]')!.getBoundingClientRect();
+          const eyebrow = header.querySelector(".block-guide-eyebrow")!.getBoundingClientRect();
           const cards = [...document.querySelectorAll(".blocks-overview-surface")];
           const introduction = document
             .querySelector(".blocks-category-header")!
@@ -508,7 +508,7 @@ for (const scheme of ["light", "dark"] as const) {
           const previewFits = (() => {
             if (!preview) {
               const sidebar = document.querySelector("aside.docs-sidebar")!.getBoundingClientRect();
-              return innerWidth < 980
+              return innerWidth < 940
                 ? sidebar.width === 0
                 : Math.abs(sidebar.top - introduction.top) < 1;
             }
@@ -530,7 +530,7 @@ for (const scheme of ["light", "dark"] as const) {
             const imageFrame = preview
               .querySelector(".blocks-overview-preview")!
               .getBoundingClientRect();
-            return innerWidth < 980
+            return innerWidth < 940
               ? previewFrame.width === 0 && sidebar.width === 0
               : Math.abs(previewFrame.left - navigation.left) < 1 &&
                   Math.abs(previewFrame.right - navigation.right) < 1 &&
@@ -560,7 +560,7 @@ for (const scheme of ["light", "dark"] as const) {
               document.querySelector(".blocks-page-header-summary")!.getBoundingClientRect().top +
               scrollY,
             pageFits: document.documentElement.scrollWidth <= innerWidth,
-            badgeAboveTitle: badge.bottom <= title.top,
+            eyebrowAboveTitle: eyebrow.bottom <= title.top,
             headerAligned:
               Math.abs(introduction.left - grid.left) < 1 &&
               Math.abs(introduction.width - grid.width) < 1 &&
@@ -599,7 +599,7 @@ for (const scheme of ["light", "dark"] as const) {
         expect(layout.headerAligned, `${category} header/grid alignment at ${width}px`).toBe(true);
         expect(layout.previewFits, `${category} header preview at ${width}px`).toBe(true);
         expect(layout.cardsFit, `${category} card paths/actions at ${width}px`).toBe(true);
-        if (width < 640) expect(layout.badgeAboveTitle, `${category} mobile badge`).toBe(true);
+        expect(layout.eyebrowAboveTitle, `${category} page label`).toBe(true);
       }
     }
   });

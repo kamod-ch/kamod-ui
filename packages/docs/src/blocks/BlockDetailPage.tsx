@@ -2,6 +2,7 @@
 import { ArrowLeftIcon } from "@kamod-ch/icons/lucide";
 import type { ComponentChildren } from "preact";
 import { withBasePath } from "../base-path";
+import { GettingStartedReference } from "../docs/components/GettingStartedReference";
 import { DemoShell, demoTopNavItems } from "../layout/DemoShell";
 import { DocsTopbarActions } from "../layout/DocsTopbarActions";
 import { type BlockCategory, blockCategories } from "./block-categories";
@@ -20,6 +21,7 @@ export const BlockDetailPage = ({
     brand="Kamod UI"
     rootClassName="docs-shell"
     topNavItems={demoTopNavItems}
+    activeTopNavHref={withBasePath("/blocks")}
     topbarActions={<DocsTopbarActions />}
     mainContent={
       <section class="docs-components-overview blocks-sidebar-page blocks-sidebar-detail">
@@ -33,11 +35,12 @@ export const BlockDetailPage = ({
                 strokeLinejoin="round"
                 aria-hidden="true"
               />
-              All {blockCategories[category].label} blocks
+              All {blockCategories[category].label} Blocks
             </a>
           </header>
         )}
         {children}
+        <GettingStartedReference scope="blocks" />
       </section>
     }
   />

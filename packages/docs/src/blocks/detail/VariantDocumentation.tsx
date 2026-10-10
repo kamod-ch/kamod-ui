@@ -55,7 +55,7 @@ export function VariantDocumentation({
     return [
       {
         ...heading("installation", "Add this block"),
-        eyebrow: "Getting started",
+        eyebrow: "Getting Started",
         Content: () => <VariantSetup guide={guide} />,
         children: [
           heading("copy", "Copy the block", 1),
@@ -70,7 +70,14 @@ export function VariantDocumentation({
         children:
           category === "sidebar"
             ? [
-                heading("usage-model", "How this composition works"),
+                {
+                  ...heading("usage-model", "How this composition works"),
+                  children: [
+                    heading("composition-file", "Composition file"),
+                    heading("composition-data", "Navigation data"),
+                    heading("composition-content", "Page content"),
+                  ],
+                },
                 heading("render", "Render the block"),
                 heading("customize", "Adapt the local composition"),
                 heading("connect-app", "Connect your application"),
@@ -83,7 +90,7 @@ export function VariantDocumentation({
       },
       {
         ...heading("props", "Props and data"),
-        eyebrow: "API reference",
+        eyebrow: "API Reference",
         Content: () => <VariantApi guide={guide} />,
         children: [
           heading("prop-reference", category === "sidebar" ? "Local props and data" : "Form props"),
@@ -100,12 +107,12 @@ export function VariantDocumentation({
                 ? "Email-only sign-in"
                 : "Sign-in and provider callbacks"),
         ),
-        eyebrow: "Variant details",
+        eyebrow: "Variant Details",
         Content: () => <VariantBehavior guide={guide} />,
       },
       {
         ...heading("about", "About this block"),
-        eyebrow: "A closer look",
+        eyebrow: "A Closer Look",
         Content: () =>
           category === "sidebar" ? <SidebarAbout guide={guide} /> : <VariantAbout guide={guide} />,
         children: [
@@ -126,12 +133,12 @@ export function VariantDocumentation({
       },
       {
         ...heading("source", "Source and customization"),
-        eyebrow: "Keep building",
+        eyebrow: "Keep Building",
         Content: () => <VariantSource guide={guide} />,
       },
       {
         ...heading("reference", "Design reference"),
-        eyebrow: "Design inspiration",
+        eyebrow: "Design Inspiration",
         Content: () => <VariantDesignReference guide={guide} />,
       },
     ] satisfies BlockGuideSection[];

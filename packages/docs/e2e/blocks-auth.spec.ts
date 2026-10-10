@@ -38,7 +38,7 @@ for (const category of ["login", "signup"] as const) {
       showcase.getByRole("button", { name: "auth-cover.svg", exact: true }),
     ).toHaveAttribute("aria-pressed", "true");
     await page
-      .getByRole("navigation", { name: "Block breadcrumb", exact: true })
+      .getByRole("navigation", { name: "Block Breadcrumb", exact: true })
       .getByRole("link", { name: category === "login" ? "Login" : "Signup", exact: true })
       .click();
     await expect(cards).toHaveCount(5);
@@ -89,7 +89,7 @@ for (const category of ["login", "signup"] as const) {
         await page.keyboard.press("Enter");
         const showcase = page.locator("article.blocks-card");
         await expect(showcase).toBeVisible();
-        await showcase.getByRole("button", { name: "Mobile view" }).click();
+        await showcase.getByRole("button", { name: "Mobile View" }).click();
         await expect(showcase.locator("iframe")).toHaveAttribute(
           "src",
           new RegExp(`/blocks/${category}/${category}-01/preview$`),

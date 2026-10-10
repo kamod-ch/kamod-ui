@@ -62,8 +62,9 @@ test("every sidebar download and source-viewer asset has identical installable c
   expect(download.suggestedFilename()).toBe("sidebar-05.zip");
   expect(await download.failure()).toBeNull();
   await page.getByRole("tab", { name: "Code", exact: true }).click();
-  await expect(page.locator("#sidebar-05 .blocks-showcase-import")).toContainText(
-    "src/components/blocks/sidebar-05",
+  await expect(page.locator("#sidebar-05 .docs-code-file-path").first()).toHaveAttribute(
+    "title",
+    "src/components/blocks/sidebar-05/sidebar-05.tsx",
   );
   await expect(page.locator("#sidebar-05 pre").first()).toContainText("export const Sidebar05");
 });

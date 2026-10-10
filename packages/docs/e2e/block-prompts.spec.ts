@@ -27,11 +27,11 @@ for (const [category, id] of [
         .getByRole("tab", { name: "Prompt", exact: true })
         .click();
       const panel = page.getByRole("tabpanel", { name: "Prompt", exact: true });
-      const setup = panel.getByRole("button", { name: "Set up block", exact: true });
-      const adapt = panel.getByRole("button", { name: "Adapt block", exact: true });
+      const setup = panel.getByRole("button", { name: "Set Up Block", exact: true });
+      const adapt = panel.getByRole("button", { name: "Adapt Block", exact: true });
       await expect(setup).toHaveAttribute("aria-pressed", "true");
       await expect(panel.locator("pre")).toContainText("## Installation and integration");
-      const references = panel.getByRole("navigation", { name: "Block guides" });
+      const references = panel.getByRole("navigation", { name: "Block Guides" });
       await expect(references.getByRole("link")).toHaveCount(3);
       await expect(
         references.getByRole("link", { name: "Setup guide", exact: true }),
@@ -53,7 +53,7 @@ for (const [category, id] of [
       ).toHaveCount(0);
       const sourceLink = panel
         .locator(".docs-code-toolbar")
-        .getByRole("link", { name: /source files? included/ });
+        .locator(".blocks-prompt-sources a:visible");
       await expect(sourceLink).toHaveAttribute("href", `#${id}-code`);
       await expect(panel.locator(".blocks-prompt-format")).toContainText("·");
       await sourceLink.click();
@@ -82,9 +82,9 @@ for (const [category, id] of [
       await expect(panel.locator("pre")).toContainText("## My changes");
       await expect(panel.getByRole("button", { name: "Copy code", exact: true })).toBeVisible();
       const raw = await panel.locator("pre code").textContent();
-      for (const name of ["Code (Markdown)", "Markdown", "Plain text"]) {
+      for (const name of ["Code (Markdown)", "Markdown", "Plain Text"]) {
         await panel
-          .getByRole("group", { name: "Prompt display" })
+          .getByRole("group", { name: "Prompt Display" })
           .getByRole("button", { name, exact: true })
           .click();
         if (name === "Markdown") {
@@ -157,7 +157,7 @@ test("source loads only in Prompt and a failed bundle offers retry without Copy"
   await expect(panel.getByRole("alert")).toContainText("source could not be loaded");
   await expect(panel.getByRole("button", { name: "Copy code", exact: true })).toHaveCount(0);
   fail = false;
-  await panel.getByRole("button", { name: "Try again" }).click();
+  await panel.getByRole("button", { name: "Try Again" }).click();
   await expect(panel.locator("pre")).toContainText("## Installation and integration");
   expect(requests).toBe(2);
 });

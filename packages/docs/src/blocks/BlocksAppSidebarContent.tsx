@@ -1,10 +1,13 @@
 import { type AppSidebarBlockId, appSidebarBlocks } from "@kamod-ch/blocks/app-sidebar";
-import { Button, Tabs, TabsContent, TabsList, TabsTrigger } from "@kamod-ch/ui";
-import { Check, Copy, ExternalLink, RefreshCw } from "lucide-preact";
+import { LayersIcon } from "@kamod-ch/icons/lucide";
+import { Button, CopyButton, Tabs, TabsContent, TabsList, TabsTrigger } from "@kamod-ch/ui";
+import { ExternalLink, RefreshCw } from "lucide-preact";
 import { useMemo, useState } from "preact/hooks";
 import { withBasePath } from "../base-path";
+import { BrandText } from "../docs/components/brand/BrandText";
 import { CodeBlock } from "../docs/components/CodeBlock";
 import { DocsShell } from "../docs/components/DocsShell";
+import { PageEyebrow } from "../docs/components/PageEyebrow";
 import { PathDisplay } from "../docs/components/PathDisplay";
 import { getAppSidebarBlockSource } from "./app-sidebar-source";
 import type { BlockPreviewMode } from "./BlockPreview";
@@ -21,10 +24,15 @@ export const BlocksAppSidebarContent = () => (
     mainContent={
       <section class="docs-components-overview blocks-sidebar-page">
         <header class="blocks-hero">
+          <PageEyebrow icon={<LayersIcon size={16} aria-hidden="true" />}>
+            {`${appSidebarBlocks.length} ${appSidebarBlocks.length === 1 ? "variant" : "variants"}`}
+          </PageEyebrow>
           <h1>App Sidebar Blocks</h1>
           <p class="blocks-hero-lead">
-            Preact-native application sidebars ported from the uipkge catalog. Existing Kamod
-            sidebar-01…16 stay on the Sidebar page. Built with Kamod UI tokens and Tailwind v4.
+            <BrandText>
+              Preact-native application sidebars ported from the uipkge catalog. Existing Kamod
+              sidebar-01…16 stay on the Sidebar page. Built with Kamod UI tokens and Tailwind v4.
+            </BrandText>
           </p>
         </header>
         <div class="grid gap-10">
@@ -53,21 +61,10 @@ const buildFileTree = (files: AppSidebarBlock["files"]) => {
 const BlockCard = ({ block }: { block: AppSidebarBlock }) => {
   const [selectedFile, setSelectedFile] = useState(block.files[0]?.label ?? "");
   const [previewKey, setPreviewKey] = useState(0);
-  const [copied, setCopied] = useState(false);
   const previewUrl = withBasePath(`/blocks/app-sidebar/${block.id}/preview`);
   const source = getAppSidebarBlockSource(block.id as AppSidebarBlockId, selectedFile);
   const fileTree = useMemo(() => buildFileTree(block.files), [block.files]);
   const installCommand = block.installCommand;
-
-  const copyInstall = async () => {
-    try {
-      await navigator.clipboard.writeText(installCommand);
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 1600);
-    } catch {
-      /* noop */
-    }
-  };
 
   return (
     <article id={block.id} class="blocks-card">
@@ -129,15 +126,12 @@ const BlockCard = ({ block }: { block: AppSidebarBlock }) => {
           <TabsContent value="code">
             <div class="blocks-install">
               <PathDisplay path={installCommand} />
-              <Button
-                class="docs-icon-button"
-                size="icon-sm"
-                variant="ghost"
+              <CopyButton
+                value={installCommand}
+                subject="block path"
                 aria-label="Copy block path"
-                onClick={copyInstall}
-              >
-                {copied ? <Check size={14} /> : <Copy size={14} />}
-              </Button>
+                iconOnly
+              />
             </div>
             <div class="blocks-code-layout mt-3">
               <aside class="blocks-file-tree" aria-label="Block files">

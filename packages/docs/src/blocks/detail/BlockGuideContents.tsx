@@ -1,9 +1,12 @@
 /** Shared native contents links, active reading position and history restoration. */
 import { useEffect, useState } from "preact/hooks";
+import { PageContentsHeading } from "../../docs/components/PageContentsHeading";
+import { flattenContents, PageContentsList } from "../../docs/components/PageContentsList";
 import { useRightSidebarScroll } from "../../layout/navigation/right-sidebar-memory";
+import { linkTitle } from "../../link-title";
 import type { BlockGuideIdentity, BlockGuideSection } from "./types";
 
-type OverviewChild = { id: string; label: string };
+type OverviewChild = ContentsSection;
 const noOverviewChildren: readonly OverviewChild[] = [];
 
 type ContentsSection = Pick<BlockGuideSection, "id" | "label" | "children">;
@@ -12,7 +15,6 @@ type ContentsSection = Pick<BlockGuideSection, "id" | "label" | "children">;
 const useActiveHeading = (
   blockId: string | undefined,
   sections: readonly ContentsSection[],
-  mobile: boolean,
   overviewId: string,
   overviewChildren: readonly OverviewChild[],
 ) => {
@@ -22,22 +24,23 @@ const useActiveHeading = (
     const ids = [
       overviewId,
       ...(blockId ? [blockId] : []),
-      ...overviewChildren.map(({ id }) => id),
-      ...sections.flatMap((entry) => [entry.id, ...(entry.children?.map(({ id }) => id) ?? [])]),
+      ...flattenContents(overviewChildren).map(({ id }) => id),
+      ...flattenContents(sections).map(({ id }) => id),
     ];
     const headings = ids
       .map((id) => document.getElementById(id))
       .filter((element): element is HTMLElement => element !== null);
     const topbar = document.querySelector<HTMLElement>(".docs-topbar");
-    const desktop = window.matchMedia("(min-width: 1260px)");
-    const visible = () => desktop.matches !== mobile;
+    const desktop = window.matchMedia("(min-width: 1200px)");
+    const visible = () => desktop.matches;
     let frame = 0;
     let offsets: number[] | undefined;
+    let readingLine = 112;
     const update = () => {
       frame = 0;
       if (!visible()) return;
-      const readingLine = (topbar?.getBoundingClientRect().height ?? 64) + 48;
       if (!offsets) {
+        readingLine = (topbar?.getBoundingClientRect().height ?? 64) + 48;
         const padding =
           Number.parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
         // Anchor styles only change with layout breakpoints, not on every scroll frame.
@@ -47,10 +50,20 @@ const useActiveHeading = (
         );
       }
       let current = overviewId;
-      for (const [index, heading] of headings.entries()) {
-        if (heading.getBoundingClientRect().top > Math.max(readingLine, offsets[index]) + 1) break;
-        current = heading.id;
+      // Contents follow document order. Binary search avoids measuring every preceding
+      // heading on every frame, while still handling lazy content changing their positions.
+      let low = 0;
+      let high = headings.length;
+      while (low < high) {
+        const middle = (low + high) >>> 1;
+        if (
+          headings[middle].getBoundingClientRect().top <=
+          Math.max(readingLine, offsets[middle]) + 1
+        )
+          low = middle + 1;
+        else high = middle;
       }
+      if (low) current = headings[low - 1].id;
       // A short final section may never reach the reading line before the page ends.
       if (Math.ceil(window.scrollY + window.innerHeight) >= document.documentElement.scrollHeight) {
         current = headings.at(-1)?.id ?? current;
@@ -65,8 +78,7 @@ const useActiveHeading = (
       schedule();
     };
     const restoreHash = () => {
-      // Guides have two instances; block details have one that also restores mobile history.
-      if (!blockId && !visible()) return;
+      // The single contents instance restores history at every viewport width.
       // PreactPress sets scrollRestoration to manual, including same-page Back/Forward.
       if (window.location.hash === "#top") {
         window.scrollTo({ top: 0, behavior: "instant" });
@@ -88,7 +100,7 @@ const useActiveHeading = (
       window.removeEventListener("hashchange", restoreHash);
       desktop.removeEventListener("change", resize);
     };
-  }, [blockId, overviewId, overviewChildren, sections, mobile]);
+  }, [blockId, overviewId, overviewChildren, sections]);
 
   return activeId;
 };
@@ -98,7 +110,6 @@ export const BlockGuideContents = ({
   block,
   sections,
   id,
-  mobile = false,
   pageTitle,
   overviewChildren = noOverviewChildren,
 }: {
@@ -109,84 +120,40 @@ export const BlockGuideContents = ({
   overviewChildren?: readonly OverviewChild[];
   id: string;
   sections: readonly ContentsSection[];
-  /** Render the same section tree as an inline disclosure instead of a desktop sidebar. */
-  mobile?: boolean;
 }) => {
-  const contentsRef = useRightSidebarScroll<HTMLElement>("block-contents", !mobile);
+  const contentsRef = useRightSidebarScroll<HTMLElement>("block-contents");
   const overviewId = block ? `${block.id}-overview` : pageTitle ? "page-title" : "top";
-  const activeId = useActiveHeading(block?.id, sections, mobile, overviewId, overviewChildren);
-  const links = () => (
-    <ul>
-      <li>
-        <a
-          href={pageTitle && !block ? "#page-title" : "#top"}
-          aria-current={activeId === overviewId ? "location" : undefined}
-        >
-          {pageTitle ?? "Overview"}
-        </a>
-        {!!overviewChildren.length && (
-          <ul>
-            {overviewChildren.map((child) => (
-              <li key={child.id}>
-                <a
-                  href={`#${child.id}`}
-                  aria-current={activeId === child.id ? "location" : undefined}
-                >
-                  {child.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        )}
-        {block && (
-          <ul>
+  const activeId = useActiveHeading(block?.id, sections, overviewId, overviewChildren);
+  const overview = (
+    <li>
+      <a
+        href={pageTitle && !block ? "#page-title" : "#top"}
+        aria-current={activeId === overviewId ? "location" : undefined}
+      >
+        {linkTitle(pageTitle ?? "Overview")}
+      </a>
+      {!!overviewChildren.length && (
+        <PageContentsList entries={overviewChildren} activeId={activeId} depth={2} />
+      )}
+    </li>
+  );
+  return (
+    <aside class="blocks-doc-toc">
+      <nav aria-labelledby={id} ref={contentsRef}>
+        <PageContentsHeading id={id} count={sections.length + (block ? 2 : 1)} />
+        <PageContentsList entries={sections} activeId={activeId}>
+          {overview}
+          {block && (
             <li>
               <a
                 href={`#${block.id}`}
                 aria-current={activeId === block.id ? "location" : undefined}
               >
-                {block.title} <span class="blocks-doc-toc-hint">Showcase</span>
+                Live Preview
               </a>
             </li>
-          </ul>
-        )}
-      </li>
-      {sections.map((entry) => (
-        <li key={entry.id}>
-          <a href={`#${entry.id}`} aria-current={activeId === entry.id ? "location" : undefined}>
-            {entry.label}
-          </a>
-          {!!entry.children?.length && (
-            <ul>
-              {entry.children.map((child) => (
-                <li key={child.id}>
-                  <a
-                    href={`#${child.id}`}
-                    aria-current={activeId === child.id ? "location" : undefined}
-                  >
-                    {child.step ? `${child.step}. ` : ""}
-                    {child.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
           )}
-        </li>
-      ))}
-    </ul>
-  );
-  return mobile ? (
-    <details class="block-guide-mobile-contents">
-      <summary>
-        In this guide <span>{sections.length} sections</span>
-      </summary>
-      <nav aria-label="Guide contents">{links()}</nav>
-    </details>
-  ) : (
-    <aside class="blocks-doc-toc">
-      <nav aria-labelledby={id} ref={contentsRef}>
-        <h2 id={id}>On this page</h2>
-        {links()}
+        </PageContentsList>
       </nav>
     </aside>
   );

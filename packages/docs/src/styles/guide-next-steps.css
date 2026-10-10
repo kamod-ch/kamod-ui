@@ -77,9 +77,11 @@
   font-weight: 500;
   text-decoration: none;
 }
-.guide-next-link:hover {
-  text-decoration: underline;
-  text-underline-offset: 0.25em;
+@media (hover: hover) and (pointer: fine) {
+  .guide-next-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
 }
 .guide-next-exercises {
   min-width: 0;
@@ -88,6 +90,11 @@
 .guide-next-tabs {
   max-width: 100%;
   margin-bottom: 1rem;
+}
+.guide-practice-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: 100%;
 }
 .guide-next-exercises [role="tabpanel"] {
   border: 0;
@@ -101,28 +108,6 @@
 }
 .guide-next-example-intro > p {
   margin-top: 0.625rem;
-}
-.guide-next-check {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-  margin-top: 1.25rem;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  background: color-mix(in oklab, var(--primary) 4%, var(--background));
-}
-.guide-next-check > svg {
-  flex: none;
-  margin-top: 0.125rem;
-  color: var(--muted-foreground);
-}
-.guide-next-check strong {
-  font-size: 0.8125rem;
-  font-weight: 550;
-}
-.guide-next-check p {
-  margin-block: 0.4rem 0;
-  font-size: 0.8125rem;
 }
 .guide-next-review {
   display: grid;

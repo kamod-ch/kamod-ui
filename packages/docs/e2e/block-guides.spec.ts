@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { blockGuides } from "../src/blocks/guides/guide-catalog";
 import { guideExercises } from "../src/blocks/guides/guide-exercises";
+import { linkTitle } from "../src/link-title";
 import { assertNoBlockingA11yViolations } from "./a11y-utils";
 
 for (const guide of blockGuides) {
@@ -9,9 +10,9 @@ for (const guide of blockGuides) {
     context,
   }) => {
     await page.goto(`./blocks/${guide.slug}#continue-building`);
-    const section = page.getByRole("region", { name: "Continue building", exact: true });
+    const section = page.getByRole("region", { name: "Continue Building", exact: true });
     await expect(
-      section.getByRole("heading", { name: "Continue building", exact: true }),
+      section.getByRole("heading", { name: "Continue Building", exact: true }),
     ).toBeVisible();
     const example = guideExercises.find((item) => item.slug === guide.slug)!;
     const tab = section.getByRole("tab", { name: example.label, exact: true });
@@ -33,8 +34,8 @@ for (const guide of blockGuides) {
     await expect(page.locator(".blocks-doc-footer")).toHaveCount(0);
     await expect(
       page
-        .getByRole("navigation", { name: "On this page" })
-        .getByRole("link", { name: "Continue building", exact: true }),
+        .getByRole("navigation", { name: "On This Page" })
+        .getByRole("link", { name: "Continue Building", exact: true }),
     ).toHaveAttribute("href", "#continue-building");
   });
 
@@ -43,12 +44,14 @@ for (const guide of blockGuides) {
     context,
   }) => {
     const response = await page.goto(`./blocks/${guide.slug}`);
-    expect(await response!.text()).toContain(guide.title.replaceAll("&", "&amp;"));
-    await expect(page.getByRole("heading", { level: 1, name: guide.title })).toBeVisible();
+    expect(await response!.text()).toContain(linkTitle(guide.title).replaceAll("&", "&amp;"));
+    await expect(
+      page.getByRole("heading", { level: 1, name: linkTitle(guide.title) }),
+    ).toBeVisible();
     const header = page.locator(".block-guide-header");
     await expect(header.locator(".block-guide-description p")).toHaveCount(2);
     await expect(header.locator(".block-guide-description code").first()).toBeVisible();
-    const cssGuide = header.getByRole("link", { name: "CSS guide", exact: true });
+    const cssGuide = header.getByRole("link", { name: "CSS Guide", exact: true });
     await expect(cssGuide).toHaveAttribute("href", /\/docs\/theming\/css-setup$/);
     await expect(cssGuide.locator("svg")).toHaveCount(2);
     await expect(header.locator(".library-directory-jump-links")).toHaveCSS(
@@ -56,8 +59,8 @@ for (const guide of blockGuides) {
       "1px",
     );
     await expect(
-      header.getByRole("navigation", { name: "Block guides" }).getByRole("link", {
-        name: guide.label,
+      header.getByRole("navigation", { name: "Block Guides" }).getByRole("link", {
+        name: linkTitle(guide.label),
         exact: true,
       }),
     ).toHaveAttribute("aria-current", "page");
@@ -66,27 +69,26 @@ for (const guide of blockGuides) {
       sidebar.locator(".site-navigation-link-overview > span:first-child svg"),
     ).toHaveCount(0);
     await expect(
-      sidebar.getByRole("button", { name: /^Blocks Layout collections/ }),
+      sidebar.getByRole("button", { name: /^Blocks Application Layouts/ }),
     ).toHaveAttribute("aria-expanded", "true");
     const blockGroup = sidebar
       .locator(".site-navigation-group")
-      .filter({ has: page.getByRole("button", { name: /^Blocks Layout collections/ }) });
+      .filter({ has: page.getByRole("button", { name: /^Blocks Application Layouts/ }) });
     await expect(
       blockGroup.locator(".site-navigation-link-overview .site-navigation-special-icon"),
     ).toHaveCount(blockGuides.length + 1);
     await expect(blockGroup.locator(".site-navigation-link-overview")).toHaveText([
-      "Blocks overview",
-      ...blockGuides.map(({ label }) => label),
+      "Blocks Overview",
+      ...blockGuides.map(({ label }) => linkTitle(label)),
     ]);
-    await expect(blockGroup.getByRole("link", { name: guide.label, exact: true })).toHaveAttribute(
-      "aria-current",
-      "page",
-    );
+    await expect(
+      blockGroup.getByRole("link", { name: linkTitle(guide.label), exact: true }),
+    ).toHaveAttribute("aria-current", "page");
     const targets = await page
-      .locator(".blocks-doc-toc a")
+      .locator('.blocks-doc-toc a[href^="#"]')
       .evaluateAll((links) => links.map((link) => link.getAttribute("href")));
     for (const target of targets) await expect(page.locator(target!)).toHaveCount(1);
-    await page.locator(".blocks-doc-toc a").last().click();
+    await page.locator('.blocks-doc-toc a[href^="#"]').last().click();
     await expect(page.locator(targets.at(-1)!)).toBeInViewport();
     if (test.info().project.name === "chromium") {
       await context.grantPermissions(["clipboard-read", "clipboard-write"]);
@@ -99,13 +101,18 @@ for (const guide of blockGuides) {
     await page.getByRole("button", { name: "Open navigation menu" }).click();
     const panel = page.locator(".site-navigation-panel");
     const mobileBlockGroup = panel.locator(".site-navigation-group").filter({
-      has: page.getByRole("button", { name: /^Blocks Layout collections/ }),
+      has: page.getByRole("button", { name: /^Blocks Application Layouts/ }),
     });
-    const active = mobileBlockGroup.getByRole("link", { name: guide.label, exact: true });
+    const active = mobileBlockGroup.getByRole("link", {
+      name: linkTitle(guide.label),
+      exact: true,
+    });
     await expect(active).toHaveAttribute("aria-current", "page");
     const next = blockGuides.find(({ slug }) => slug !== guide.slug)!;
-    await mobileBlockGroup.getByRole("link", { name: next.label, exact: true }).click();
-    await expect(page.getByRole("heading", { level: 1, name: next.title })).toBeVisible();
+    await mobileBlockGroup.getByRole("link", { name: linkTitle(next.label), exact: true }).click();
+    await expect(
+      page.getByRole("heading", { level: 1, name: linkTitle(next.title) }),
+    ).toBeVisible();
     await expect(panel).toBeHidden();
   });
 
@@ -115,7 +122,9 @@ for (const guide of blockGuides) {
       await page.goto(`./blocks/${guide.slug}`);
       for (const width of [320, 768, 980, 1250, 1440]) {
         await page.setViewportSize({ width, height: 900 });
-        await expect(page.getByRole("heading", { level: 1, name: guide.title })).toBeVisible();
+        await expect(
+          page.getByRole("heading", { level: 1, name: linkTitle(guide.title) }),
+        ).toBeVisible();
         const titleWidth = await page.locator(".block-guide-header").evaluate((header) => ({
           header: header.getBoundingClientRect().width,
           title: header.querySelector("h1")!.getBoundingClientRect().width,
@@ -125,13 +134,8 @@ for (const guide of blockGuides) {
           await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
           `overflow at ${width}px`,
         ).toBe(true);
-        if (width < 1260) {
-          const contents = page.locator(".block-guide-mobile-contents");
-          await expect(contents).toBeVisible();
-          await contents.evaluate((node) => {
-            (node as HTMLDetailsElement).open = true;
-          });
-          await expect(contents.locator("a").first()).toBeVisible();
+        if (width < 1200) {
+          await expect(page.locator(".block-guide-mobile-contents")).toHaveCount(0);
         } else {
           await expect(page.locator(".blocks-doc-toc")).toBeVisible();
           const placement = await page.evaluate(() => {
@@ -157,8 +161,8 @@ test("guide contents track subsections, preserve history and keep heading icons 
   page,
 }) => {
   await page.goto("./blocks/getting-started");
-  const toc = page.getByRole("navigation", { name: "On this page" });
-  const target = toc.getByRole("link", { name: "The import path cannot be resolved", exact: true });
+  const toc = page.getByRole("navigation", { name: "On This Page" });
+  const target = toc.getByRole("link", { name: "The Import Path Cannot Be Resolved", exact: true });
   await target.focus();
   await page.keyboard.press("Enter");
   await expect(target).toHaveAttribute("aria-current", "location");
@@ -168,7 +172,7 @@ test("guide contents track subsections, preserve history and keep heading icons 
     "href",
     "#the-import-path-cannot-be-resolved",
   );
-  await toc.getByRole("link", { name: "Connect the global stylesheet", exact: true }).click();
+  await toc.getByRole("link", { name: "Connect the Global Stylesheet", exact: true }).click();
   await page.goBack();
   await expect(target).toHaveAttribute("aria-current", "location");
   await expect(heading).toBeInViewport();

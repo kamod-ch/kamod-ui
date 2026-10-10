@@ -15,7 +15,7 @@ for (const [category, id] of [
     for (const width of [320, 979, 980, 1259, 1260, 1440]) {
       await page.setViewportSize({ width, height: 900 });
       await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
-      if (width < 980) {
+      if (width < 940) {
         await expect(sidebar).toBeHidden();
         await expect(
           page.getByRole("button", { name: "Open navigation menu", exact: true }),

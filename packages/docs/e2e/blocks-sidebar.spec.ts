@@ -22,7 +22,7 @@ test.describe("sidebar blocks docs", () => {
     ).toBeVisible();
     const directory = page.locator("aside.docs-sidebar");
     await expect(
-      directory.getByRole("button", { name: /^Blocks Layout collections/ }),
+      directory.getByRole("button", { name: /^Blocks Application Layouts/ }),
     ).toHaveAttribute("aria-expanded", "true");
     for (const group of ["Components", "Packages", "Forms"]) {
       await expect(
@@ -43,7 +43,7 @@ test.describe("sidebar blocks docs", () => {
     await expect(page.locator("aside.docs-sidebar")).toHaveCount(0);
     await expect(
       page
-        .getByRole("navigation", { name: "Block breadcrumb" })
+        .getByRole("navigation", { name: "Block Breadcrumb" })
         .getByRole("link", { name: "Sidebar", exact: true }),
     ).toBeVisible();
     await expect(page.frameLocator(".blocks-preview-iframe").locator("body")).toContainText(
@@ -58,16 +58,16 @@ test.describe("sidebar blocks docs", () => {
     await expect(panel.getByRole("group", { name: "Preview viewport" })).toBeVisible();
     await expect(panel.locator(".blocks-preview-frame")).not.toHaveClass(/blocks-preview-mobile/);
 
-    await panel.getByRole("button", { name: "Mobile view" }).click();
+    await panel.getByRole("button", { name: "Mobile View" }).click();
     await expect(panel.locator(".blocks-preview-frame")).toHaveClass(/blocks-preview-mobile/);
     const iframe = panel.locator("iframe.blocks-preview-iframe");
     await expect(iframe).toBeVisible();
     await expect(iframe).toHaveAttribute("src", /\/blocks\/sidebar\/sidebar-01\/preview$/);
 
-    await panel.getByRole("button", { name: "Tablet view" }).click();
+    await panel.getByRole("button", { name: "Tablet View" }).click();
     await expect(panel.locator(".blocks-preview-frame")).toHaveClass(/blocks-preview-tablet/);
 
-    await panel.getByRole("button", { name: "Desktop view" }).click();
+    await panel.getByRole("button", { name: "Desktop View" }).click();
     await expect(panel.locator(".blocks-preview-frame")).not.toHaveClass(/blocks-preview-mobile/);
     await expect(panel.locator(".blocks-preview-frame")).not.toHaveClass(/blocks-preview-tablet/);
     await expect(panel.locator("iframe.blocks-preview-iframe")).toBeVisible();

@@ -38,7 +38,7 @@ export function BlockDetailHeader({
       className={`blocks-variant-header ${className}`}
       id={`${block.id}-overview`}
       title={<BlockHeadingLink id="top">{title ?? getBlockDetailTitle(block)}</BlockHeadingLink>}
-      badge={category === "login" || category === "signup" ? "Form block" : "Layout block"}
+      eyebrow={category === "login" || category === "signup" ? "Form block" : "Layout block"}
       description={description ?? <BlockDetailDescription category={category} block={block} />}
       descriptionLink={descriptionLink}
       summaryLabel={<ShowcaseHeading />}

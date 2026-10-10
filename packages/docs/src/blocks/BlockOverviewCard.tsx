@@ -4,6 +4,7 @@ import { BrandGithubIcon } from "@kamod-ch/icons/tabler/filled";
 import { Badge, Button, Card } from "@kamod-ch/ui";
 import { withBasePath } from "../base-path";
 import { PathDisplay } from "../docs/components/PathDisplay";
+import { linkTitle } from "../link-title";
 import { BlockThumbnail } from "./BlockThumbnail";
 import type { BlockCategory, BlockOverviewEntry } from "./block-categories";
 import { getBlockOverviewDetails } from "./block-overview-details";
@@ -35,7 +36,7 @@ export function BlockOverviewCard({
         <div class="blocks-overview-info">
           <div class="blocks-overview-title-row">
             <h2 id={titleId}>
-              <span>{displayName}</span>
+              <span>{linkTitle(displayName)}</span>
               <span class="blocks-overview-code-label">
                 <span class="blocks-overview-title-separator" aria-hidden="true">
                   /

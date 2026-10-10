@@ -1,5 +1,7 @@
+import { InfoIcon } from "@kamod-ch/icons/lucide";
 /** Separate the demo page, reusable form and application-owned authentication flow. */
 import { CodeBlock } from "../../docs/components/CodeBlock";
+import { DocsCallout } from "../../docs/components/DocsCallout";
 import { ShowcaseCodeLink } from "../ShowcaseCodeLink";
 import { BlockDocSection, BlockGuideHeading } from "./BlockDocumentation";
 import type { VariantGuide } from "./VariantDocumentation";
@@ -16,7 +18,7 @@ export function AuthUsage({ guide }: { guide: VariantGuide }) {
       introduction={
         <p>
           Start by rendering the supplied page to check its appearance, then connect its local form
-          to your application. <code>{component}</code> takes <strong>no props</strong>; callbacks
+          to your application. <code>{component}</code> takes <strong>No Props</strong>; callbacks
           belong to <code>{form}</code> inside the copied page. The form owns its input and feedback
           state, while your app owns the authenticated session and destination after success.
         </p>
@@ -45,7 +47,7 @@ export function AuthUsage({ guide }: { guide: VariantGuide }) {
           The example below wraps the form in a component that receives your service functions. Pass
           the same callbacks to the form in <code>page.tsx</code> if you keep the original layout.
           The imported value types describe the submitted payload; they are not configuration props
-          on <code>{component}</code>. See <a href={`#${anchor("prop-reference")}`}>Form props</a>{" "}
+          on <code>{component}</code>. See <a href={`#${anchor("prop-reference")}`}>Form Props</a>{" "}
           for each callback and link destination.
         </p>
         <CodeBlock code={integrationExample(guide)} language="tsx" />
@@ -77,29 +79,31 @@ export function AuthUsage({ guide }: { guide: VariantGuide }) {
         <BlockGuideHeading id={anchor("verify-flow")} />
         <ul class="blocks-doc-integration-notes">
           <li>
-            <strong>Invalid and valid submissions.</strong> Check the first invalid field receives
+            <strong>Invalid and Valid Submissions.</strong> Check the first invalid field receives
             focus, correct its input, then verify a successful request and a rejected request. Local
             field errors are recomputed on submission, not cleared as each character is typed.
           </li>
           <li>
-            <strong>Pending requests.</strong> Buttons disable while loading, but inputs remain
+            <strong>Pending Requests.</strong> Buttons disable while loading, but inputs remain
             editable. Decide whether your app should freeze those fields and prevent repeated submit
             events; a disabled button alone is not a complete request guard. Handle cancellation if
             the form can unmount while a request is pending.
           </li>
           <li>
-            <strong>Alternative paths.</strong> Test every visible provider button and account link.
+            <strong>Alternative Paths.</strong> Test every visible provider button and account link.
             {signup
               ? " Social signup bypasses the email form’s terms and field checks; apply any required consent step in that flow too."
               : " Provider sign-in runs independently of the credential fields; a failed email form should not be mistaken for a failed provider request."}
           </li>
         </ul>
-        <p class="blocks-doc-note">
-          The <a href={`#${anchor("behavior")}`}>variant details</a> explain this form’s payload and
-          provider behavior. Finish with the{" "}
-          <a href={`#${anchor("accessibility")}`}>accessibility checks</a> using your real labels,
-          errors and service responses.
-        </p>
+        <DocsCallout class="docs-callout-spaced" title="Finish the integration" icon={<InfoIcon />}>
+          <p>
+            The <a href={`#${anchor("behavior")}`}>Variant Details</a> explain this form’s payload
+            and provider behavior. Finish with the{" "}
+            <a href={`#${anchor("accessibility")}`}>Accessibility Checks</a> using your real labels,
+            errors and service responses.
+          </p>
+        </DocsCallout>
       </section>
     </BlockDocSection>
   );

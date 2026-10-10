@@ -3,6 +3,7 @@ import { ArrowLeftIcon, BugIcon } from "@kamod-ch/icons/lucide";
 import { BrandGithubIcon } from "@kamod-ch/icons/tabler/filled";
 import { Button } from "@kamod-ch/ui";
 import { withBasePath } from "../../base-path";
+import { linkTitle } from "../../link-title";
 import type { BlockCategory } from "../block-categories";
 import { repositoryUrl } from "../block-links";
 import type { BlockGuideIdentity } from "./types";
@@ -17,11 +18,14 @@ export const BlockGuideFooter = ({
   <footer class="blocks-doc-footer">
     <a
       href={withBasePath(`/blocks/${category}`)}
-      aria-label={`Explore ${category === "application-shell" ? "application shells" : `${category} blocks`}`}
+      aria-label={linkTitle(
+        `Explore ${category === "application-shell" ? "application shells" : `${category} blocks`}`,
+      )}
     >
       <ArrowLeftIcon size={16} strokeWidth={2} aria-hidden="true" />
       <span class="blocks-doc-footer-long" aria-hidden="true">
-        Explore {category === "application-shell" ? "application shells" : `${category} blocks`}
+        Explore{" "}
+        {category === "application-shell" ? "Application Shells" : linkTitle(`${category} blocks`)}
       </span>
       <span class="blocks-doc-footer-short" aria-hidden="true">
         Explore
@@ -47,7 +51,7 @@ export const BlockGuideFooter = ({
         href={`${repositoryUrl}/issues/new`}
         target="_blank"
         rel="noreferrer noopener"
-        aria-label="Report an issue on GitHub (opens in a new tab)"
+        aria-label="Report an Issue on GitHub (opens in a new tab)"
         title="Report an issue on GitHub"
       >
         <BugIcon
@@ -59,9 +63,9 @@ export const BlockGuideFooter = ({
         />
       </Button>
     </nav>
-    <a href={`#${block.id}`} aria-label="Back to showcase">
+    <a href={`#${block.id}`} aria-label="Back to Showcase">
       <span class="blocks-doc-footer-long" aria-hidden="true">
-        Back to showcase
+        Back to Showcase
       </span>
       <span class="blocks-doc-footer-short" aria-hidden="true">
         Showcase

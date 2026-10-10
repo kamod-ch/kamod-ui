@@ -53,7 +53,7 @@ test("every registered variant has a complete guide with valid, unique contents 
       id,
     ).toBe(true);
     expect(
-      await guide.locator(".blocks-doc-toc a").evaluateAll((links) =>
+      await guide.locator('.blocks-doc-toc a[href^="#"]').evaluateAll((links) =>
         links.every((link) => {
           const hash = (link as HTMLAnchorElement).hash;
           return hash === "#top" || !!document.getElementById(hash.slice(1));
@@ -89,7 +89,7 @@ for (const theme of ["light", "dark"]) {
       for (const width of [320, 640, 768, 979, 980, 1024, 1260, 1440, 1920]) {
         await page.setViewportSize({ width, height: 900 });
         const toc = page.locator(".blocks-doc-toc");
-        if (width < 1260) await expect(toc).toBeHidden();
+        if (width < 1200) await expect(toc).toBeHidden();
         else await expect(toc).toBeVisible();
         expect(
           await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1),
@@ -134,10 +134,10 @@ test("guide links, source disclosures and manager tabs work with keyboard and br
 }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto("./blocks/login/login-05");
-  const toc = page.getByRole("navigation", { name: "On this page" });
+  const toc = page.getByRole("navigation", { name: "On This Page" });
   await toc.getByRole("link", { name: "Usage", exact: true }).click();
   await expect(page).toHaveURL(/#login-05-usage$/);
-  await toc.getByRole("link", { name: "Data type reference", exact: true }).click();
+  await toc.getByRole("link", { name: "Data Type Reference", exact: true }).click();
   await page.goBack();
   await expect(page).toHaveURL(/#login-05-usage$/);
   await expect

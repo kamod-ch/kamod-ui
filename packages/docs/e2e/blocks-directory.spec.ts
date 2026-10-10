@@ -3,7 +3,7 @@ import { PLACEHOLDER_BLOCK_CATEGORIES } from "../src/blocks/block-nav-config";
 import { assertNoBlockingA11yViolations } from "./a11y-utils";
 
 const categories = [
-  ["Application Shell", "application-shell", 1],
+  ["Application Shell", "application-shell", 8],
   ["Login", "login", 5],
   ["Sidebar", "sidebar", 16],
   ["Signup", "signup", 5],
@@ -54,18 +54,18 @@ test("the Blocks directory lists published collections and links through the sit
   await page.goto("./blocks");
   await expect(
     page.getByRole("heading", {
-      name: "Blocks for complete application layouts",
+      name: "Blocks for Complete Application Layouts",
       exact: true,
       level: 1,
     }),
   ).toBeVisible();
-  await expect(page.getByText(/Browse 27 reusable Kamod UI blocks/)).toBeVisible();
-  await expect(page.getByText("Straight talk", { exact: true })).toBeVisible();
+  await expect(page.getByText(/Browse 34 reusable/)).toBeVisible();
+  await expect(page.getByText("Straight Talk", { exact: true })).toBeVisible();
   await expect(
     page.locator(".docs-topbar-links").getByRole("link", { name: "Blocks" }),
   ).toHaveAttribute("href", /\/blocks$/);
   await expect(
-    page.locator("aside.docs-sidebar").getByRole("link", { name: "Blocks overview" }),
+    page.locator("aside.docs-sidebar").getByRole("link", { name: "Blocks Overview" }),
   ).toHaveAttribute("aria-current", "page");
   const directory = page.getByRole("navigation", { name: "Block categories", exact: true });
   await expect(directory.getByRole("link")).toHaveCount(categories.length);
@@ -77,7 +77,7 @@ test("the Blocks directory lists published collections and links through the sit
       }),
     ).toHaveAttribute("href", new RegExp(`/blocks/${slug}$`));
   }
-  const planned = page.getByRole("navigation", { name: "Planned block categories" });
+  const planned = page.getByRole("navigation", { name: "Planned Block Categories" });
   await expect(planned.getByRole("link")).toHaveCount(20);
   const placeholderPaths = PLACEHOLDER_BLOCK_CATEGORIES.map(({ key }) => `/blocks/${key}`).sort();
   expect(
@@ -100,17 +100,17 @@ test("the Blocks directory lists published collections and links through the sit
   await page.keyboard.press("Enter");
   await expect(page).toHaveURL(/\/blocks\/sidebar\/?$/);
   await page
-    .getByRole("navigation", { name: "Block breadcrumb" })
+    .getByRole("navigation", { name: "Block Breadcrumb" })
     .getByRole("link", { name: "Blocks", exact: true })
     .click();
   await expect(page).toHaveURL(/\/blocks\/?$/);
 
   await page.goto("./blocks/sidebar/sidebar-05");
   await page
-    .getByRole("navigation", { name: "Block breadcrumb" })
+    .getByRole("navigation", { name: "Block Breadcrumb" })
     .getByRole("link", { name: "Blocks", exact: true })
     .click();
-  await expect(page.getByRole("heading", { name: "All block categories" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "All Block Categories" })).toBeVisible();
 });
 
 for (const theme of ["light", "dark"] as const) {
@@ -139,11 +139,11 @@ for (const theme of ["light", "dark"] as const) {
     });
     await page.getByRole("button", { name: "Open navigation menu" }).click();
     const menu = page.getByRole("navigation", { name: "Browse all pages" });
-    await expect(menu.getByRole("link", { name: "Blocks overview" })).toHaveAttribute(
+    await expect(menu.getByRole("link", { name: "Blocks Overview" })).toHaveAttribute(
       "aria-current",
       "page",
     );
-    await menu.getByRole("link", { name: "Blocks overview" }).click();
+    await menu.getByRole("link", { name: "Blocks Overview" }).click();
     await expect(menu).toBeHidden();
   });
 }
@@ -158,7 +158,7 @@ test("directory links are present in static HTML without JavaScript", async ({
     await page.goto(new URL("./blocks/", baseURL).href);
     await expect(
       page.getByRole("heading", {
-        name: "Blocks for complete application layouts",
+        name: "Blocks for Complete Application Layouts",
         exact: true,
         level: 1,
       }),
@@ -178,21 +178,26 @@ for (const theme of ["light", "dark"] as const) {
     await expect(page.locator(".library-directory")).toBeVisible();
     await expect(
       page
-        .getByRole("navigation", { name: "All components", exact: true })
+        .getByRole("navigation", { name: "All Components", exact: true })
         .getByRole("link")
         .first(),
     ).toBeVisible();
     await expect(
-      page.getByRole("link", { name: "Browse complete layouts", exact: true }),
+      page
+        .locator(".block-guide-description")
+        .getByRole("link", { name: "Explore Blocks", exact: true }),
     ).toHaveAttribute("href", /\/blocks$/);
-    await page
-      .getByRole("navigation", { name: "Directory sections" })
-      .getByRole("link", { name: "Setup & theming" })
-      .click();
-    await expect(page).toHaveURL(/#library-guides$/);
+    await expect(page.getByRole("navigation", { name: "Directory Sections" })).toHaveCount(0);
+    await expect(
+      page
+        .locator(".block-guide-description")
+        .getByRole("link", { name: "CSS Guide", exact: true }),
+    ).toHaveAttribute("href", /\/docs\/theming\/css-setup$/);
+    await page.locator('.blocks-doc-toc a[href="#library-guides-title"]').click();
+    await expect(page).toHaveURL(/#library-guides-title$/);
     const guides = page.getByRole("navigation", { name: "Library guides" });
     await expect(guides).toBeInViewport();
-    await expect(guides.locator(".library-guide-action")).toHaveCount(3);
+    await expect(guides.locator(".docs-callout-action")).toHaveCount(3);
     for (const heading of await page.locator(".library-directory :is(h2, h3)").all()) {
       const id = await heading.getAttribute("id");
       expect(id).toBeTruthy();
@@ -209,7 +214,7 @@ for (const theme of ["light", "dark"] as const) {
         expect(bounds.x).toBeGreaterThanOrEqual(0);
         expect(bounds.x + bounds.width).toBeLessThanOrEqual(width);
       }
-      const cards = await guides.locator(".library-guide-card").evaluateAll((items) =>
+      const cards = await guides.locator(".docs-callout").evaluateAll((items) =>
         items.map((item) => {
           const { y, bottom, width } = item.getBoundingClientRect();
           return { y, bottom, width };
@@ -253,10 +258,10 @@ test("component overview shares guide navigation and supports interactive exampl
   expect(actual).toEqual(reference);
   const contents = page.locator(".docs-rightbar .blocks-doc-toc");
   const targets = await contents
-    .locator("a")
+    .locator('a[href^="#"]:not([href="#"])')
     .evaluateAll((links) => links.map((link) => link.getAttribute("href")!));
   for (const target of targets) await expect(page.locator(target)).toHaveCount(1);
-  await contents.getByRole("link", { name: "Compose an interface", exact: true }).click();
+  await contents.getByRole("link", { name: "Compose an Interface", exact: true }).click();
   await expect(page).toHaveURL(/#compose-components$/);
   const actions = page.getByRole("tab", { name: "Actions", exact: true });
   await actions.focus();
@@ -279,9 +284,8 @@ test("component overview shares guide navigation and supports interactive exampl
     await expect.poll(() => page.evaluate(() => navigator.clipboard.readText())).toBe(code);
   }
   await page.setViewportSize({ width: 375, height: 812 });
-  const mobile = page.locator(".block-guide-mobile-contents");
-  await mobile.locator("summary").click();
-  await mobile.getByRole("link", { name: "Review before shipping", exact: true }).click();
+  await expect(page.locator(".block-guide-mobile-contents")).toHaveCount(0);
+  await page.goto("./docs/components#component-review");
   await expect(page.locator("#component-review")).toBeInViewport();
   await assertNoBlockingA11yViolations(page, "Components reading guide", {
     include: "main.docs-content",

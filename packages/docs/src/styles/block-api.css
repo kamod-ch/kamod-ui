@@ -1,34 +1,5 @@
 /* Source-backed prop and type reference within block detail guides. */
 
-.blocks-api-source-note {
-  container: block-api-note / inline-size;
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 0.65rem;
-  padding: 0.875rem 1rem;
-  border: 1px solid var(--border);
-  border-radius: 0.65rem;
-  background: color-mix(in oklab, var(--muted) 40%, var(--background));
-  color: var(--muted-foreground);
-  font-size: 0.8rem;
-  line-height: 1.65;
-}
-
-/* Stack by available note width, including the narrower column beside the contents. */
-@container block-api-note (max-width: 42rem) {
-  .blocks-api-source-note > span:first-of-type {
-    grid-row: 2;
-    grid-column: 1 / -1;
-  }
-
-  .blocks-api-source-note > [data-slot="badge"] {
-    grid-row: 1;
-    grid-column: 2 / -1;
-    justify-self: end;
-  }
-}
-
 .blocks-api-section + .blocks-api-section {
   margin-top: 2.5rem;
   padding-top: 2rem;
@@ -42,8 +13,10 @@
   text-underline-offset: 0.2em;
 }
 
-.blocks-api a:not(.blocks-doc-heading-link):hover {
-  text-decoration-color: currentColor;
+@media (hover: hover) and (pointer: fine) {
+  .blocks-api a:not(.blocks-doc-heading-link):hover {
+    text-decoration-color: currentColor;
+  }
 }
 
 .blocks-api a:focus-visible,
@@ -102,8 +75,14 @@
   color: var(--color-red-400);
 }
 
-.blocks-api-required:hover {
-  background: color-mix(in oklab, var(--foreground) 8%, var(--muted));
+@media (hover: hover) and (pointer: fine) {
+  .blocks-api-required:hover {
+    background: color-mix(
+      in oklab,
+      var(--foreground) calc(8% + 7.36% * var(--docs-highlight-boost, 0)),
+      var(--muted)
+    );
+  }
 }
 
 .blocks-api-required:focus-visible {
@@ -125,6 +104,16 @@
   flex-shrink: 0;
   align-items: center;
   gap: 0.375rem;
+}
+.blocks-api-type-heading-aside {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 0.75rem;
+}
+.blocks-api-type-language {
+  color: var(--muted-foreground);
+  opacity: 0.35;
 }
 
 .blocks-api-required-label {
@@ -158,6 +147,16 @@
   margin: 1rem 0.25rem 0.25rem;
   font-size: 0.8rem;
   line-height: 1.8;
+}
+
+/* Shell API source paths need their own row beside the full wrap/copy controls on phones. */
+@media (max-width: 639px) {
+  .blocks-doc-guide[aria-label^="application-shell-"] .blocks-api-type .docs-code-toolbar {
+    flex-wrap: wrap;
+  }
+  .blocks-doc-guide[aria-label^="application-shell-"] .blocks-api-type .docs-code-file-path {
+    flex: 1 0 100%;
+  }
 }
 
 .blocks-api .blocks-api-example-intro {
@@ -205,4 +204,118 @@
   margin-top: 0.5rem;
   font-size: 0.75rem;
   font-weight: 400;
+}
+
+/* Keep the wrapper guidance distinct from the expandable signature that follows it. */
+.docs-callout.shell-wrapper-note[data-variant="callout"] {
+  margin-block: 1.25rem 2rem;
+  border-color: color-mix(in oklab, var(--primary) 16%, var(--border));
+  background:
+    linear-gradient(115deg, color-mix(in oklab, var(--primary) 4%, transparent), transparent 65%),
+    color-mix(in oklab, var(--muted) 20%, var(--background));
+  box-shadow: none;
+}
+.shell-wrapper-note [data-slot="callout-header"] {
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.5rem;
+  padding: 1rem 1.25rem 0.75rem;
+}
+.shell-wrapper-note [data-slot="callout-header"]::after {
+  display: none;
+}
+.shell-wrapper-note [data-slot="callout-icon"] {
+  width: 1.125rem;
+  height: 1.125rem;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  color: var(--primary);
+}
+.shell-wrapper-heading,
+.shell-wrapper-heading > span {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.shell-wrapper-heading > span {
+  color: color-mix(in oklab, var(--muted-foreground) 65%, var(--foreground));
+  font-size: 0.6875rem;
+  font-weight: 450;
+  letter-spacing: normal;
+}
+.shell-wrapper-heading i,
+.shell-wrapper-map i {
+  font-style: normal;
+}
+.shell-wrapper-note [data-slot="alert-description"] {
+  padding: 0 1.25rem 1rem;
+}
+.shell-wrapper-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 12rem;
+  align-items: center;
+  gap: 1.5rem;
+}
+.shell-wrapper-note [data-slot="alert-description"] p {
+  color: color-mix(in oklab, var(--muted-foreground) 65%, var(--foreground));
+}
+.shell-wrapper-map {
+  display: grid;
+  gap: 0.5rem;
+  padding: 0.625rem;
+  border: 1px dashed;
+  border-color: color-mix(in oklab, var(--primary) 45%, var(--border));
+  border-radius: 0.5rem;
+  color: color-mix(in oklab, var(--primary) 50%, var(--foreground));
+  font: 500 0.625rem/1.5 var(--font-mono-custom, monospace);
+}
+.shell-wrapper-map > span {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+.shell-wrapper-map > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 0.25rem;
+  background: color-mix(in oklab, var(--card) 65%, transparent);
+  color: var(--foreground);
+}
+.shell-wrapper-map > div > :last-child {
+  color: color-mix(in oklab, var(--muted-foreground) 65%, var(--foreground));
+  font-family: var(--font-primary, inherit);
+  font-weight: 400;
+}
+.shell-wrapper-note [data-slot="callout-footer"] {
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  padding: 0.75rem 1.25rem;
+  background: color-mix(in oklab, var(--primary) 2%, transparent);
+  color: color-mix(in oklab, var(--muted-foreground) 65%, var(--foreground));
+  font-size: 0.6875rem;
+}
+.shell-wrapper-note [data-slot="callout-footer"] a {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  gap: 0.3rem;
+}
+@media (max-width: 600px) {
+  .shell-wrapper-content {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+  .shell-wrapper-map {
+    max-width: 15rem;
+  }
+  .shell-wrapper-note [data-slot="callout-header"],
+  .shell-wrapper-note [data-slot="alert-description"],
+  .shell-wrapper-note [data-slot="callout-footer"] {
+    padding-inline: 1rem;
+  }
 }

@@ -7,8 +7,10 @@
   text-underline-offset: 0.2em;
 }
 
-.blocks-shell-header-about:hover {
-  text-decoration-color: currentColor;
+@media (hover: hover) and (pointer: fine) {
+  .blocks-shell-header-about:hover {
+    text-decoration-color: currentColor;
+  }
 }
 
 .blocks-shell-header-about:focus-visible {
@@ -65,8 +67,10 @@
   height: 0.875rem;
 }
 
-.blocks-doc-footer > a:hover {
-  color: var(--foreground);
+@media (hover: hover) and (pointer: fine) {
+  .blocks-doc-footer > a:hover {
+    color: var(--foreground);
+  }
 }
 
 .blocks-doc-footer > a:focus-visible,
@@ -132,8 +136,10 @@
   text-decoration: none;
 }
 
-.blocks-doc-heading-link:hover {
-  text-decoration: none;
+@media (hover: hover) and (pointer: fine) {
+  .blocks-doc-heading-link:hover {
+    text-decoration: none;
+  }
 }
 
 .blocks-doc-heading-icon {
@@ -159,8 +165,14 @@
   height: 1.25rem;
 }
 
-.blocks-doc-heading-link:is(:hover, :focus-visible) .blocks-doc-heading-icon {
+.blocks-doc-heading-link:is(:focus-visible) .blocks-doc-heading-icon {
   visibility: visible;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .blocks-doc-heading-link:is(:hover, :focus-visible) .blocks-doc-heading-icon {
+    visibility: visible;
+  }
 }
 
 .blocks-doc-heading-link:focus-visible {
@@ -185,16 +197,44 @@
   border-top: 1px solid var(--border);
 }
 
-.blocks-doc-usage > section > .docs-code-wrap {
-  margin-block: 1.25rem;
-}
-
 .blocks-doc-usage > section > :last-child {
   margin-bottom: 0;
 }
 
-.blocks-sidebar-usage-model .blocks-doc-callouts {
+.blocks-sidebar-model-section {
   margin-block: 1.5rem;
+}
+
+.blocks-sidebar-model-section + .blocks-sidebar-model-section {
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.blocks-sidebar-model-section h4 {
+  margin: 0 0 0.75rem;
+  color: var(--foreground);
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.blocks-sidebar-model-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1.25rem;
+  margin-top: 1rem;
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+}
+
+.blocks-sidebar-model-links > span {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
 }
 
 .blocks-doc-integration-notes {
@@ -224,14 +264,14 @@
   color: var(--foreground);
 }
 
-.blocks-doc-section :is(strong, b):not(:where(.component-example-canvas *)) {
+.blocks-doc-section :is(strong, b):not(:where(.component-example-canvas *, .docs-code-label *)) {
   color: inherit;
   font-weight: 500;
 }
 
 .block-guide-description code,
 .package-guide-resources > code,
-.blocks-showcase-import code,
+.blocks-api-type [data-slot="type-definition-description"] code,
 .blocks-doc-section :is(p, td, th, dd) code:not(:where(.component-example-canvas *)),
 .blocks-doc-section [role="paragraph"] code:not(:where(.component-example-canvas *)),
 .blocks-showcase-intro p code,
@@ -243,7 +283,7 @@
 
 .block-guide-description code,
 .package-guide-resources > code,
-.blocks-showcase-import code,
+.icons-ending-repository-main > code,
 .blocks-doc-section
   code:not(pre code, [data-slot="type-definition-name"], .docs-code-file-path):not(
     :where(.component-example-canvas *)
@@ -251,7 +291,11 @@
 .blocks-showcase-intro p code,
 .blocks-showcase-prompt :is(p, li) code:not(pre code) {
   border-radius: 0.25rem;
-  background: color-mix(in oklab, var(--secondary-accent) 10%, var(--muted));
+  background: color-mix(
+    in oklab,
+    var(--secondary-accent) calc(10% + 9% * var(--docs-highlight-boost, 0)),
+    var(--muted)
+  );
   color: color-mix(in oklab, var(--secondary-accent) 35%, var(--foreground));
   box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--secondary-accent) 16%, transparent);
 }
@@ -306,16 +350,6 @@
   font-weight: 600;
 }
 
-.blocks-doc-section .blocks-doc-note {
-  max-width: none;
-  margin-top: 1.25rem;
-  padding: 0.85rem 1rem;
-  border-left: 3px solid var(--border);
-  border-radius: 0 0.5rem 0.5rem 0;
-  background: color-mix(in oklab, var(--muted) 50%, transparent);
-  font-size: 0.85rem;
-}
-
 .blocks-doc-table {
   overflow-x: auto;
   border: 1px solid var(--border);
@@ -355,6 +389,31 @@
   color: var(--muted-foreground);
 }
 
+/* About sections use the same readable emphasis and prose links as the longer guides. */
+.blocks-doc-explanation :is(strong, b):not(:where(.component-example-canvas *)) {
+  color: var(--foreground);
+  font-weight: 600;
+}
+
+.blocks-doc-explanation :is(p, dd, li) a:not(:has(code)) {
+  color: var(--foreground);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, currentColor 35%, transparent);
+  text-underline-offset: 0.2em;
+}
+
+.blocks-doc-explanation :is(p, dd, li) a:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+  border-radius: 0.2rem;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .blocks-doc-explanation :is(p, dd, li) a:not(:has(code)):hover {
+    text-decoration-color: currentColor;
+  }
+}
+
 .blocks-doc-explanation > section {
   margin-top: 2rem;
 }
@@ -384,7 +443,11 @@
   border: 1px solid var(--border);
   border-inline-start: 3px solid color-mix(in oklab, var(--foreground) 35%, var(--border));
   border-radius: 0.65rem;
-  background: color-mix(in oklab, var(--muted) 55%, var(--background));
+  background: color-mix(
+    in oklab,
+    var(--muted) calc(55% + 24.75% * var(--docs-highlight-boost, 0)),
+    var(--background)
+  );
 }
 
 .blocks-doc-attribution-header {
@@ -431,9 +494,11 @@
   text-underline-offset: 0.2em;
 }
 
-.blocks-doc-attribution-note a:hover {
-  color: var(--foreground);
-  text-decoration-color: currentColor;
+@media (hover: hover) and (pointer: fine) {
+  .blocks-doc-attribution-note a:hover {
+    color: var(--foreground);
+    text-decoration-color: currentColor;
+  }
 }
 
 .blocks-doc-attribution-source {
@@ -446,8 +511,14 @@
   text-underline-offset: 0.2em;
 }
 
-.blocks-doc-attribution-title:has(a:is(:hover, :focus-visible)) > a {
+.blocks-doc-attribution-title:has(a:is(:focus-visible)) > a {
   text-decoration-line: underline;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .blocks-doc-attribution-title:has(a:is(:hover, :focus-visible)) > a {
+    text-decoration-line: underline;
+  }
 }
 
 .blocks-doc-attribution-icon {
@@ -472,21 +543,43 @@
 }
 
 /* The title links and external icon share one highlight without changing their destinations. */
-.blocks-doc-attribution-title:has(a:is(:hover, :focus-visible)) .blocks-doc-attribution-icon {
+.blocks-doc-attribution-title:has(a:is(:focus-visible)) .blocks-doc-attribution-icon {
   background: var(--primary);
   color: var(--primary-foreground);
   box-shadow:
     0 0 0 3px color-mix(in oklab, var(--primary) 16%, transparent),
     0 4px 10px color-mix(in oklab, var(--primary) 24%, transparent);
 }
+@media (hover: hover) and (pointer: fine) {
+  .blocks-doc-attribution-title:has(a:is(:hover, :focus-visible)) .blocks-doc-attribution-icon {
+    background: var(--primary);
+    color: var(--primary-foreground);
+    box-shadow:
+      0 0 0 3px color-mix(in oklab, var(--primary) 16%, transparent),
+      0 4px 10px color-mix(in oklab, var(--primary) 24%, transparent);
+  }
+}
 
 @media (prefers-reduced-motion: no-preference) {
-  .blocks-doc-attribution-title:has(a:is(:hover, :focus-visible)) .blocks-doc-attribution-icon {
+  .blocks-doc-attribution-title:has(a:is(:focus-visible)) .blocks-doc-attribution-icon {
     transform: translateY(-1px) rotate(-6deg);
   }
+  @media (hover: hover) and (pointer: fine) {
+    .blocks-doc-attribution-title:has(a:is(:hover, :focus-visible)) .blocks-doc-attribution-icon {
+      transform: translateY(-1px) rotate(-6deg);
+    }
+  }
 
-  .blocks-doc-attribution-title:has(a:is(:hover, :focus-visible)) .blocks-doc-attribution-icon svg {
+  .blocks-doc-attribution-title:has(a:is(:focus-visible)) .blocks-doc-attribution-icon svg {
     transform: translate(1px, -1px) rotate(6deg);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .blocks-doc-attribution-title:has(a:is(:hover, :focus-visible))
+      .blocks-doc-attribution-icon
+      svg {
+      transform: translate(1px, -1px) rotate(6deg);
+    }
   }
 }
 
@@ -536,12 +629,6 @@
   min-width: 0;
 }
 
-.blocks-doc-toc h2 {
-  margin: 0 0 1rem;
-  font-size: 1.05rem;
-  font-weight: 600;
-}
-
 .blocks-doc-toc ul {
   margin: 0;
   padding: 0;
@@ -552,7 +639,7 @@
   border-left: 1px solid var(--border);
 }
 
-.blocks-doc-toc a {
+.blocks-doc-toc li a {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -561,27 +648,33 @@
   padding: 0.5rem 1rem;
   border-left: 2px solid transparent;
   color: var(--muted-foreground);
-  font-size: 0.975rem;
+  font-size: calc(0.925rem - var(--docs-rightbar-font-reduction, 0rem));
   line-height: 1.6;
   text-decoration: none;
 }
 
 .blocks-doc-toc ul ul a {
   padding-left: 1.9rem;
-  font-size: 0.9rem;
+  font-size: calc(0.85rem - var(--docs-rightbar-font-reduction, 0rem));
 }
 
-.blocks-doc-toc a:hover,
-.blocks-doc-toc a[aria-current="location"] {
+.blocks-doc-toc li a[aria-current="location"] {
   color: var(--foreground);
 }
 
-.blocks-doc-toc a[aria-current="location"] {
+@media (hover: hover) and (pointer: fine) {
+  .blocks-doc-toc li a:hover,
+  .blocks-doc-toc li a[aria-current="location"] {
+    color: var(--foreground);
+  }
+}
+
+.blocks-doc-toc li a[aria-current="location"] {
   border-left-color: var(--foreground);
   font-weight: 600;
 }
 
-.blocks-doc-toc a:focus-visible {
+.blocks-doc-toc li a:focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: -2px;
   border-radius: 0.25rem;
@@ -589,7 +682,7 @@
 
 .blocks-doc-toc-hint {
   display: block;
-  font-size: 0.8rem;
+  font-size: calc(0.8rem - var(--docs-rightbar-font-reduction, 0rem));
   font-weight: 400;
   color: var(--muted-foreground);
 }
@@ -626,7 +719,7 @@
 }
 
 /* Keep article spacing consistent as the shared desktop layout opens up. */
-@media (min-width: 980px) {
+@media (min-width: 940px) {
   .blocks-doc-attribution {
     padding-top: 1.1rem;
   }
@@ -652,19 +745,14 @@
   }
 }
 
-@media (max-width: 979px) {
+@media (max-width: 939px) {
   /* Large permalinks need a wider gutter; the heading itself remains a link. */
   :is(.blocks-variant-header h1, .blocks-doc-section h2) .blocks-doc-heading-icon {
     display: none;
   }
-
-  .blocks-sidebar-detail .docs-code-wrap:not(.docs-code-file) .docs-copy-code-button {
-    min-height: 1.75rem;
-    padding: 0.125rem 0.375rem;
-  }
 }
 
-@media (min-width: 1260px) {
+@media (min-width: 1200px) {
   .blocks-detail-documentation {
     grid-template-columns: minmax(0, 1fr) var(--docs-rightbar-width);
     column-gap: var(--docs-column-gap);
@@ -696,7 +784,7 @@
     scrollbar-width: thin;
   }
 
-  .blocks-doc-toc a {
+  .blocks-doc-toc li a {
     min-height: 2.4rem;
   }
 }
@@ -730,12 +818,6 @@
     background: var(--muted);
   }
 
-  .blocks-doc-body .docs-code-wrap:not(.docs-code-file) .docs-copy-code-button {
-    position: static;
-    align-self: flex-end;
-    margin: 0.5rem;
-  }
-
   .blocks-doc-body .docs-code-wrap:not(.docs-code-file) > .docs-code {
     margin: 0;
     border: 0;
@@ -746,12 +828,31 @@
 
 /* Installation metadata stays visible; the exact file inventory is opt-in. */
 .blocks-install-actions {
+  --docs-icon-button-hover-offset: 0;
+  --docs-icon-button-background: color-mix(
+    in oklab,
+    var(--primary) calc(14% + 12.04% * var(--docs-highlight-boost, 0)),
+    var(--background)
+  );
+  --docs-icon-button-hover-background: color-mix(
+    in oklab,
+    var(--primary) calc(22% + 17.16% * var(--docs-highlight-boost, 0)),
+    var(--background)
+  );
+  --docs-icon-button-hover-shadow: inset 0 0 0 1px
+    color-mix(in oklab, var(--primary) 28%, transparent);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 1rem 2rem;
   padding: 1.125rem 1rem;
+}
+
+.blocks-install-actions .docs-icon-button {
+  color: var(--foreground);
+  font-weight: 500;
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--primary) 18%, transparent);
 }
 
 .blocks-install-download {
@@ -816,7 +917,11 @@
   padding-inline-end: 3rem;
   border-top: 1px solid var(--border);
   border-radius: 0 0 0.75rem 0.75rem;
-  background: color-mix(in oklab, var(--muted) 35%, var(--background));
+  background: color-mix(
+    in oklab,
+    var(--muted) calc(35% + 22.75% * var(--docs-highlight-boost, 0)),
+    var(--background)
+  );
   color: var(--muted-foreground);
   text-align: left;
   cursor: pointer;
@@ -831,16 +936,23 @@
   align-items: center;
   gap: 0.625rem;
   min-height: 1.75rem;
-  color: var(--muted-foreground);
+  color: var(--foreground);
   text-align: left;
   font-size: 0.8125rem;
+  font-weight: 500;
   line-height: 1.6;
   cursor: pointer;
 }
 
-.blocks-install-files-heading:hover .blocks-install-files-trigger,
 .blocks-install-files-heading:focus-visible .blocks-install-files-trigger {
   color: var(--foreground);
+}
+
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  .blocks-install-files-heading:hover .blocks-install-files-trigger,
+  .blocks-install-files-heading:focus-visible .blocks-install-files-trigger {
+    color: var(--foreground);
+  }
 }
 
 .blocks-install-files-trigger > svg {
@@ -986,9 +1098,11 @@
   text-underline-offset: 0.2em;
 }
 
-.blocks-doc-note .blocks-showcase-code-link:hover {
-  color: var(--primary);
-  text-decoration-color: currentColor;
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  .blocks-doc-note .blocks-showcase-code-link:hover {
+    color: var(--primary);
+    text-decoration-color: currentColor;
+  }
 }
 
 .blocks-showcase-code-link:focus-visible {
@@ -1006,8 +1120,36 @@
   text-underline-offset: 0.2em;
 }
 
-.blocks-install-folder .blocks-showcase-code-link:hover {
-  text-decoration-line: underline;
-  color: var(--primary);
-  text-decoration-color: currentColor;
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  .blocks-install-folder .blocks-showcase-code-link:hover {
+    text-decoration-line: underline;
+    color: var(--primary);
+    text-decoration-color: currentColor;
+  }
+}
+
+/* Optional Shell 3 setup details keep the first-render path easy to scan. */
+.shell-quickstart-details {
+  margin-block: 1rem 1.5rem;
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--foreground) 3%, transparent);
+}
+
+.shell-quickstart-details > summary {
+  cursor: pointer;
+  color: var(--foreground);
+  font-size: 0.875rem;
+  font-weight: 550;
+}
+
+.shell-quickstart-details > summary:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+.shell-quickstart-details[open] > summary {
+  margin-bottom: 1rem;
 }

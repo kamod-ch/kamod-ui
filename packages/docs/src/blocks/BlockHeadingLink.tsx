@@ -1,6 +1,7 @@
 /** @file Native section permalinks shared by block headers and documentation. */
 import { LinkIcon } from "@kamod-ch/icons/lucide";
 import type { ComponentChildren, MouseEventHandler } from "preact";
+import { linkTitleChildren } from "../link-title";
 
 /**
  * Reveals a decorative link icon on hover or keyboard focus when the page gutter fits it.
@@ -20,6 +21,6 @@ export const BlockHeadingLink = ({
     <span class="blocks-doc-heading-icon" aria-hidden="true">
       <LinkIcon size={14} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
     </span>
-    {children}
+    {linkTitleChildren(children)}
   </a>
 );

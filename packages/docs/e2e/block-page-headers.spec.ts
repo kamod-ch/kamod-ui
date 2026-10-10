@@ -4,7 +4,7 @@ import { expect, type Page, test } from "@playwright/test";
 async function headerMetrics(page: Page) {
   return page.locator(".blocks-page-header").evaluate((header) => {
     const title = header.querySelector("h1")!;
-    const badge = header.querySelector('[data-slot="badge"]')!;
+    const eyebrow = header.querySelector(".block-guide-eyebrow")!;
     const lead = header.querySelector(".blocks-hero-lead")!;
     const description = header.querySelector(".blocks-page-header-description")!;
     const breadcrumbs = header.querySelector('[data-slot="breadcrumb-list"]')!;
@@ -23,16 +23,21 @@ async function headerMetrics(page: Page) {
       top: rect.top + scrollY,
       titleTop: titleRect.top + scrollY,
       title: typography(title),
-      badge: typography(badge),
+      eyebrow: typography(eyebrow),
       description: typography(lead),
       descriptionHeight: description.getBoundingClientRect().height,
       breadcrumbs: typography(breadcrumbs),
       breadcrumbHeight: breadcrumbs.getBoundingClientRect().height,
-      breadcrumbLineHeight: parseFloat(getComputedStyle(breadcrumbs).lineHeight),
+      breadcrumbItemHeight: Math.max(
+        ...Array.from(
+          breadcrumbs.querySelectorAll("li"),
+          (item) => item.getBoundingClientRect().height,
+        ),
+      ),
       button: [button.getBoundingClientRect().width, button.getBoundingClientRect().height],
       iconSize: button.querySelector("svg")!.getBoundingClientRect().width,
       overflow: document.documentElement.scrollWidth > innerWidth,
-      badgeAboveTitle: badge.getBoundingClientRect().bottom <= titleRect.top,
+      eyebrowAboveTitle: eyebrow.getBoundingClientRect().bottom <= titleRect.top,
       actionsFit: actions.getBoundingClientRect().right <= rect.right + 1,
       descriptionFits:
         lead.getBoundingClientRect().bottom <= description.getBoundingClientRect().bottom + 1,
@@ -40,10 +45,12 @@ async function headerMetrics(page: Page) {
         summary.getBoundingClientRect().top - description.getBoundingClientRect().bottom,
       titleFits: titleRect.left >= rect.left - 1 && titleRect.right <= rect.right + 1,
       summaryFits: summary.scrollWidth <= summary.clientWidth + 1,
-      actionCenters: [count, separator, actions].map((element) => {
-        const bounds = element.getBoundingClientRect();
-        return bounds.top + bounds.height / 2;
-      }),
+      actionCenters: [count, separator, actions]
+        .filter((element) => element.getClientRects().length > 0)
+        .map((element) => {
+          const bounds = element.getBoundingClientRect();
+          return bounds.top + bounds.height / 2;
+        }),
     };
   });
 }
@@ -78,13 +85,13 @@ for (const theme of ["light", "dark"] as const) {
       await expect(page.locator(".blocks-page-header-eyebrow")).toHaveCount(0);
       await expect(page.locator(".blocks-page-header > :first-child")).toHaveAttribute(
         "aria-label",
-        "Block breadcrumb",
+        "Block Breadcrumb",
       );
       for (const width of widths) {
         await page.setViewportSize({ width, height: 900 });
         const detail = await headerMetrics(page);
         const reference = overview.get(width)!;
-        for (const key of ["title", "badge", "description", "breadcrumbs", "iconSize"] as const) {
+        for (const key of ["title", "eyebrow", "description", "breadcrumbs", "iconSize"] as const) {
           expect(detail[key], `${category}: ${key} at ${width}px`).toEqual(reference[key]);
         }
         // Phone collection toolbars use larger touch targets; detail controls stay compact.
@@ -108,12 +115,13 @@ for (const theme of ["light", "dark"] as const) {
           expect(metrics.descriptionGap).toBeGreaterThanOrEqual(0);
           expect(metrics.titleFits).toBe(true);
           expect(metrics.summaryFits).toBe(true);
-          for (const center of metrics.actionCenters.slice(0, 2)) {
-            expect(center).toBeCloseTo(metrics.actionCenters[2], 0);
+          for (const center of metrics.actionCenters.slice(0, -1)) {
+            expect(center).toBeCloseTo(metrics.actionCenters.at(-1)!, 0);
           }
         }
-        expect(detail.breadcrumbHeight).toBeLessThanOrEqual(detail.breadcrumbLineHeight + 1);
-        if (width < 640) expect(detail.badgeAboveTitle).toBe(true);
+        expect(detail.breadcrumbHeight).toBeLessThanOrEqual(detail.breadcrumbItemHeight + 1);
+        expect(detail.eyebrowAboveTitle).toBe(true);
+        expect(reference.eyebrowAboveTitle).toBe(true);
         const header = (await page.locator(".blocks-page-header").boundingBox())!;
         const showcase = (await page.locator("article.blocks-card").boundingBox())!;
         if (width < 640) {
@@ -124,7 +132,7 @@ for (const theme of ["light", "dark"] as const) {
           expect(header.x).toBeCloseTo(showcase.x, 0);
           expect(header.width).toBeCloseTo(showcase.width, 0);
         }
-        expect(showcase.y - header.y - header.height).toBeCloseTo(width >= 980 ? 20 : 12, 0);
+        expect(showcase.y - header.y - header.height).toBeCloseTo(width >= 940 ? 20 : 12, 0);
       }
     }
   });
@@ -136,13 +144,13 @@ test("detail headers follow registry neighbours and expose the correct variant s
   await page.goto("./blocks/login/login-01");
   const header = page.locator(".blocks-page-header");
   await expect(header.getByRole("heading", { level: 1 })).toHaveText(
-    "Login 1 — Centered login form with social sign-in",
+    "Login 1 — Centered Login Form with Social Sign-in",
   );
   await expect(header.getByRole("button", { name: "Previous variant unavailable" })).toBeDisabled();
   await header.getByRole("link", { name: "Next variant: login-02" }).click();
   await expect(page).toHaveURL(/\/blocks\/login\/login-02\/?$/);
   await expect(header.getByRole("heading", { level: 1 })).toHaveText(
-    "Login 2 — Split-screen login with a cover image",
+    "Login 2 — Split-Screen Login with a Cover Image",
   );
   await expect(header.getByRole("link", { name: "Previous variant: login-01" })).toHaveAttribute(
     "href",
@@ -154,4 +162,61 @@ test("detail headers follow registry neighbours and expose the correct variant s
   );
   await page.goto("./blocks/login/login-05");
   await expect(header.getByRole("button", { name: "Next variant unavailable" })).toBeDisabled();
+});
+
+test("header action tooltips point to their own buttons near viewport edges", async ({ page }) => {
+  await page.goto("./blocks/sidebar/sidebar-01");
+  await expect(page.locator("html")).toHaveClass(/pp-ready/);
+  await page.waitForLoadState("networkidle");
+  for (const width of [320, 768, 1440]) {
+    await page.setViewportSize({ width, height: 1000 });
+    for (const name of [/Report a bug with/, /View sidebar-01 source/]) {
+      const button = page.locator(".blocks-page-header-links").getByRole("link", { name });
+      await button.scrollIntoViewIfNeeded();
+      for (const input of ["pointer", "keyboard"]) {
+        if (input === "pointer") await button.hover();
+        else {
+          await page.keyboard.press("Tab");
+          await button.focus();
+        }
+        const tooltip = page.locator('[data-application-tooltip] [role="tooltip"]');
+        await expect(tooltip).toBeVisible();
+        await expect(button).toHaveAttribute(
+          "aria-describedby",
+          (await tooltip.getAttribute("id"))!,
+        );
+        await expect
+          .poll(
+            async () => {
+              const trigger = (await button.boundingBox())!;
+              return tooltip.evaluate(
+                (element, center) => {
+                  const rect = element.getBoundingClientRect();
+                  const arrow = element
+                    .querySelector('[data-slot="tooltip-arrow"]')!
+                    .getBoundingClientRect();
+                  return {
+                    insideViewport: rect.left >= 7 && rect.right <= innerWidth - 7,
+                    arrowOffset: Math.round(arrow.left + arrow.width / 2 - center),
+                  };
+                },
+                trigger.x + trigger.width / 2,
+              );
+            },
+            { message: `${width}px, ${name}, ${input}` },
+          )
+          .toEqual({ insideViewport: true, arrowOffset: 1 });
+        await page.keyboard.press("Escape");
+        await page.mouse.move(0, 0);
+        await button.evaluate((element) => element.blur());
+        await expect(tooltip).toHaveCount(0);
+      }
+    }
+    const count = page.locator(".blocks-overview-count");
+    if (await count.isVisible()) {
+      await count.hover();
+      await page.waitForTimeout(500);
+      await expect(page.locator("[data-application-tooltip]")).toHaveCount(0);
+    }
+  }
 });

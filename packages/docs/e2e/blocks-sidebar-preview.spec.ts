@@ -20,10 +20,16 @@ test("sidebar variants fit their isolated preview frames", async ({ page }) => {
       await expect(container).toBeVisible();
       const bounds = await frame.boundingBox();
       const sidebar = await container.boundingBox();
-      expect(sidebar!.x).toBeGreaterThanOrEqual(bounds!.x);
-      expect(sidebar!.y).toBeGreaterThanOrEqual(bounds!.y);
-      expect(sidebar!.x + sidebar!.width).toBeLessThanOrEqual(bounds!.x + bounds!.width);
-      expect(sidebar!.y + sidebar!.height).toBeLessThanOrEqual(bounds!.y + bounds!.height);
+      // The iframe and its scaled contents can round to different fractional CSS pixels.
+      const tolerance = 0.5;
+      expect(sidebar!.x).toBeGreaterThanOrEqual(bounds!.x - tolerance);
+      expect(sidebar!.y).toBeGreaterThanOrEqual(bounds!.y - tolerance);
+      expect(sidebar!.x + sidebar!.width).toBeLessThanOrEqual(
+        bounds!.x + bounds!.width + tolerance,
+      );
+      expect(sidebar!.y + sidebar!.height).toBeLessThanOrEqual(
+        bounds!.y + bounds!.height + tolerance,
+      );
     });
   }
 });
@@ -32,7 +38,7 @@ test("sidebar variants fit their isolated preview frames", async ({ page }) => {
 // Verify the actual pointer target after outer-page scrolling before clicking it.
 for (const block of [
   { route: "application-shell/application-shell-1", trigger: "Playground" },
-  { route: "sidebar/sidebar-01", trigger: "Documentation" },
+  { route: "sidebar/sidebar-01", trigger: "Kamod UI" },
 ]) {
   test(`${block.route} remains usable after page and sidebar scrolling`, async ({
     page,

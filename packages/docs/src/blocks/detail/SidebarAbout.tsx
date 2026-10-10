@@ -1,10 +1,16 @@
+import { InfoIcon } from "@kamod-ch/icons/lucide";
 import type { ComponentChildren } from "preact";
 import type { SidebarBlockId } from "../../../../blocks/src/sidebar/sidebar-data";
 import { withBasePath } from "../../base-path";
+import { BrandText } from "../../docs/components/brand/BrandText";
+import { CodeBlock } from "../../docs/components/CodeBlock";
+import { DocsCallout } from "../../docs/components/DocsCallout";
+import { InlineCodeLink } from "../../docs/components/InlineCodeLink";
 import { PathDisplay } from "../../docs/components/PathDisplay";
 import { ShowcaseCodeLink } from "../ShowcaseCodeLink";
 import { BlockDocSection, BlockGuideHeading } from "./BlockDocumentation";
 import { type SidebarAboutContent, sidebarAboutContent } from "./sidebar-about-content";
+import { sidebarAboutExamples } from "./sidebar-about-examples";
 import type { VariantGuide } from "./VariantDocumentation";
 
 type AboutProps = { guide: VariantGuide; content: SidebarAboutContent };
@@ -22,7 +28,7 @@ function AboutSection({
   return (
     <section aria-labelledby={id}>
       <BlockGuideHeading id={id} />
-      {children}
+      <BrandText>{children}</BrandText>
     </section>
   );
 }
@@ -67,10 +73,21 @@ function SidebarSuitability({ guide, content }: AboutProps) {
 
 function SidebarComposition({ guide, content }: AboutProps) {
   const { block, anchor, component } = guide;
+  const example = sidebarAboutExamples[block.id as SidebarBlockId];
   return (
     <>
       <AboutSection guide={guide} section="structure">
         <p>{content.composition}</p>
+        <p>
+          <strong>The defining composition choice.</strong> This is a focused excerpt from this
+          variant’s{" "}
+          <ShowcaseCodeLink blockId={block.id} file={`${block.id}.tsx`}>
+            composition file
+          </ShowcaseCodeLink>
+          , with its existing imports and data in scope.
+        </p>
+        <CodeBlock code={example.code} language="tsx" defaultWrapped />
+        <p>{example.note}</p>
         <p>
           In the downloaded folder, <code>index.ts</code> exports <code>{component}</code>. Its{" "}
           <ShowcaseCodeLink blockId={block.id} file={`${block.id}.tsx`}>
@@ -82,10 +99,10 @@ function SidebarComposition({ guide, content }: AboutProps) {
           is generated from the actual implementation with its relative imports rewritten together.
         </p>
         <p>
-          <strong>Edit the composition where it is assembled.</strong> The exported wrapper does not
+          <strong>Edit the Composition Where It Is Assembled.</strong> The exported wrapper does not
           accept a navigation configuration or forward <code>children</code>. Its inner components
           still have their own inputs. Replace data at their call sites and insert your content in
-          the existing page area; the <a href={`#${anchor("usage")}`}>Usage guide</a> shows the
+          the existing page area; the <a href={`#${anchor("usage")}`}>Usage Guide</a> shows the
           appropriate insertion point for this variant. You can introduce a typed wrapper API later
           if multiple routes need to reuse your adapted layout.
         </p>
@@ -96,27 +113,34 @@ function SidebarComposition({ guide, content }: AboutProps) {
           <div>
             <dt>Presentation state belongs to the layout</dt>
             <dd>
-              An open menu, expanded branch or selected demo value describes the interface at that
-              moment. It does not automatically load data, authorize access or change the URL.
-              Preserve useful local UI state while letting your application own the current page and
-              real records.
+              <strong>An open menu is local interface state.</strong> An expanded branch or selected
+              demo value describes the interface at that moment. It does not automatically load
+              data, authorize access or change the URL. Preserve useful local UI state while letting
+              your application own the current page and real records.
             </dd>
           </div>
           <div>
             <dt>Route state belongs to your application</dt>
             <dd>
-              Derive active destinations, page content and breadcrumbs from one route or selection
-              model. An <code>isActive</code> flag supplies styling; it is not a router. Where a
-              helper initializes a disclosure with <code>defaultOpen</code>, decide whether later
-              route changes should also update that disclosure.
+              <strong>Derive location from one source.</strong> Active destinations, page content
+              and breadcrumbs should follow the same route or selection model. An{" "}
+              <code>isActive</code> flag supplies styling; it is not a router. Where a helper
+              initializes a disclosure with <code>defaultOpen</code>, decide whether later route
+              changes should also update that disclosure.
             </dd>
           </div>
         </dl>
-        <p class="blocks-doc-note">
-          Inspect <a href={`#${anchor("prop-reference")}`}>Local props and data</a> before wiring a
-          callback. Only the inputs documented for the copied helper are available; introducing
-          another callback also requires updating its implementation.
-        </p>
+        <DocsCallout
+          class="docs-callout-spaced"
+          title="Check the public inputs"
+          icon={<InfoIcon />}
+        >
+          <p>
+            Inspect <a href={`#${anchor("prop-reference")}`}>Local Props and Data</a> before wiring
+            a callback. Only the inputs documented for the copied helper are available; introducing
+            another callback also requires updating its implementation.
+          </p>
+        </DocsCallout>
       </AboutSection>
     </>
   );
@@ -140,17 +164,21 @@ function SidebarAdaptation({ guide, content }: AboutProps) {
             <>
               Below <code>768px</code>, collapsible core sidebars use the mobile sheet. Desktop{" "}
               <code>open</code> and mobile <code>openMobile</code> are separate states in{" "}
-              <code>SidebarProvider</code>; restoring a desktop preference does not open the sheet.
-              Static regions using <code>collapsible="none"</code> follow their own layout and
-              visibility classes instead.
+              <InlineCodeLink href="/docs/sidebar/installation">SidebarProvider</InlineCodeLink>;
+              restoring a desktop preference does not open the sheet. Static regions using{" "}
+              <code>collapsible="none"</code> follow their own layout and visibility classes
+              instead.
             </>
           )}
         </p>
         <p>
-          Test the space left for your actual content, not just the empty panels. Long navigation
-          labels, a wide data table and a short viewport can expose different constraints. Let text
-          wrap where it carries meaning, keep any necessary scrolling local to its content, and
-          offer another way to reach essential controls when a secondary pane is hidden.
+          <strong>Test the space left for your actual content.</strong> Use a{" "}
+          <a href={withBasePath("/docs/data-table/installation")}>data table</a> or{" "}
+          <a href={withBasePath("/docs/forms")}>form</a> instead of only the empty panels. Long
+          navigation labels, a wide data table and a short viewport can expose different
+          constraints. Let text wrap where it carries meaning, keep any necessary scrolling local to
+          its content, and offer another way to reach essential controls when a secondary pane is
+          hidden.
         </p>
       </AboutSection>
       <AboutSection guide={guide} section="accessibility">
@@ -179,26 +207,46 @@ function SidebarAdaptation({ guide, content }: AboutProps) {
             </dd>
           </div>
         </dl>
-        <p class="blocks-doc-note">
-          Validate your finished integration at <code>320px</code>, <code>768px</code>,{" "}
-          <code>1024px</code> and <code>1440px</code>, with keyboard-only input, 200% zoom, both
-          color modes and long real content. Check short screens and the on-screen keyboard as well.
-          Reusing the primitives helps preserve behavior, but cannot guarantee accessibility after
-          your content or structure changes.
-        </p>
+        <DocsCallout
+          class="docs-callout-spaced"
+          title="Try the complete journey"
+          icon={<InfoIcon />}
+        >
+          <p>
+            Validate your finished integration at <code>320px</code>, <code>768px</code>,{" "}
+            <code>1024px</code> and <code>1440px</code>, with keyboard-only input, 200% zoom, both
+            color modes and long real content. Check short screens and the on-screen keyboard as
+            well. Follow the{" "}
+            <a href={withBasePath("/docs/getting-started#verify-the-whole-journey")}>
+              complete journey checklist
+            </a>{" "}
+            with your real content. Reusing the primitives helps preserve behavior, but cannot
+            guarantee accessibility after your structure changes.
+          </p>
+        </DocsCallout>
       </AboutSection>
       <AboutSection guide={guide} section="production">
         <p>{content.adaptation}</p>
+        <p>
+          Keep appearance changes in the{" "}
+          <a href={withBasePath("/blocks/theming#understand-the-sidebar-token-family")}>
+            sidebar token family
+          </a>
+          : pair <code>bg-sidebar</code> with <code>text-sidebar-foreground</code>, and use{" "}
+          <code>border-sidebar-border</code> for its edge. The{" "}
+          <a href={withBasePath("/blocks/styles")}>block styling guide</a> explains when to change a
+          primitive’s props and when to edit the composition.
+        </p>
         <ol class="blocks-doc-integration-notes blocks-sidebar-about-checklist">
           <li>
-            <strong>Replace demo navigation.</strong> Supply real URLs: the shared{" "}
+            <strong>Replace Demo Navigation.</strong> Supply real URLs: the shared{" "}
             <code>stopNavigation</code> helper only cancels links whose destination is{" "}
             <code>#</code>. Add your router’s link handling if needed. Connect actions to your
             services and show useful pending, empty or failure states where they apply. Hiding a
             link does not replace authorization in your application.
           </li>
           <li>
-            <strong>Make state ownership deliberate.</strong> Keep the layout mounted if its UI
+            <strong>Make State Ownership Deliberate.</strong> Keep the layout mounted if its UI
             state should survive route changes.{" "}
             {block.id === "sidebar-13" ? (
               <>
@@ -215,15 +263,15 @@ function SidebarAdaptation({ guide, content }: AboutProps) {
             )}
           </li>
           <li>
-            <strong>Replace placeholders before tuning the layout.</strong> Test your real pages and
+            <strong>Replace Placeholders before Tuning the Layout.</strong> Test your real pages and
             theme first, then adjust widths, spacing and overflow. Use semantic tokens so borders,
             backgrounds and interactive states continue to follow light and dark mode.
           </li>
         </ol>
         <p>
-          Start with <a href={`#${anchor("connect-app")}`}>Connect your application</a> for the
+          Start with <a href={`#${anchor("connect-app")}`}>Connect Your Application</a> for the
           integration point, then use the{" "}
-          <a href={`#${anchor("data-types")}`}>data type reference</a> to shape your inputs. Keep
+          <a href={`#${anchor("data-types")}`}>Data Type Reference</a> to shape your inputs. Keep
           the copied folder together while changing its internals; there is no dependency on another
           sidebar variant’s installation.
         </p>

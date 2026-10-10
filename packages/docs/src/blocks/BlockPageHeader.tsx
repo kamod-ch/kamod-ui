@@ -1,6 +1,7 @@
 /** Shared introduction and toolbar layout for block collections and individual variants. */
-import { Badge } from "@kamod-ch/ui";
+import { LayersIcon } from "@kamod-ch/icons/lucide";
 import type { ComponentChildren } from "preact";
+import { PageEyebrow } from "../docs/components/PageEyebrow";
 import { BlockBreadcrumbs } from "./BlockBreadcrumbs";
 import type { BlockCategory } from "./block-categories";
 
@@ -10,7 +11,7 @@ export type BlockPageHeaderProps = {
   variant?: string;
   title: ComponentChildren;
   description: ComponentChildren;
-  badge: string;
+  eyebrow: string;
   actions: ComponentChildren;
   /** Optional introduction opposite the variant navigation above its showcase. */
   summaryLabel?: ComponentChildren;
@@ -26,7 +27,7 @@ export function BlockPageHeader({
   variant,
   title,
   description,
-  badge,
+  eyebrow,
   actions,
   summaryLabel,
   descriptionLink,
@@ -40,13 +41,11 @@ export function BlockPageHeader({
         variant={variant}
         className="blocks-page-header-breadcrumbs"
       />
+      <PageEyebrow icon={<LayersIcon size={16} aria-hidden="true" />}>{eyebrow}</PageEyebrow>
       <div class="blocks-page-header-title-row">
         <h1 id={id} tabIndex={id ? -1 : undefined}>
           {title}
         </h1>
-        <Badge variant="secondary" size="md">
-          {badge}
-        </Badge>
       </div>
       <div class={`blocks-page-header-description${descriptionLink ? " has-link" : ""}`}>
         <p class="blocks-hero-lead">
@@ -54,6 +53,7 @@ export function BlockPageHeader({
           {descriptionLink && <> {descriptionLink}</>}
         </p>
       </div>
+      <hr class="page-intro-divider" />
       <div class="blocks-page-header-summary">
         {summaryLabel}
         <div class="blocks-page-header-actions">{actions}</div>

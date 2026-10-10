@@ -16,7 +16,7 @@ export function BlockCategoryHeader({ category }: { category: BlockCategory }) {
       category={category}
       className="blocks-category-header"
       title={title}
-      badge={`${blocks.length} ${blocks.length === 1 ? "variant" : "variants"}`}
+      eyebrow={`${blocks.length} ${blocks.length === 1 ? "variant" : "variants"}`}
       description={
         <>
           {/* Small inline markup keeps the metadata independent of JSX. */}

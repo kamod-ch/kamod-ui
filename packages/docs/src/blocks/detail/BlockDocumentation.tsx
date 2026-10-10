@@ -1,6 +1,7 @@
 import { type ComponentChildren, createContext } from "preact";
 import { useContext } from "preact/hooks";
 import { withBasePath } from "../../base-path";
+import { BrandText } from "../../docs/components/brand/BrandText";
 import { DocsSidebarNavigation } from "../../layout/navigation/DocsSidebarNavigation";
 import { BlockHeadingLink } from "../BlockHeadingLink";
 import type { BlockCategory } from "../block-categories";
@@ -49,11 +50,10 @@ export function BlockDocSection({
   return (
     <section class={`blocks-doc-section ${className}`} aria-labelledby={id}>
       <header class="blocks-doc-section-header">
-        <p class="blocks-doc-eyebrow">{section.eyebrow}</p>
         <BlockGuideHeading id={id} level={2} />
-        {introduction}
+        <BrandText>{introduction}</BrandText>
       </header>
-      {children}
+      <BrandText>{children}</BrandText>
     </section>
   );
 }

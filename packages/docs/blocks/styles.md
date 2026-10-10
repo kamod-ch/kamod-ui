@@ -9,7 +9,9 @@ outline: false
 
 ## Separate composition, style and theme
 
-A useful block has several layers of design. Its **composition** decides where the navigation, header, form and page content live. Its **component styles** decide how individual controls express hierarchy and density. Its **theme** supplies the shared colors, surfaces and shape tokens. Understanding that separation helps you make a precise change without restyling the entire screen.
+For the application-wide context, start with [Style Your Interface](/docs/getting-started#style-your-interface). This guide goes deeper into **Local Composition, Hierarchy and Density** after the shared stylesheet is working.
+
+A useful block has several layers of design. Its **Composition** decides where the navigation, header, form and page content live. Its **Component Styles** decide how individual controls express hierarchy and density. Its **Theme** supplies the shared colors, surfaces and shape tokens. Understanding that separation helps you make a precise change without restyling the entire screen.
 
 For example, moving a workspace switcher from the footer to the top is a composition change. Making its trigger smaller is a component-style change. Changing the sidebar surface across the application is a theme change. All three are valid, but they belong in different places and have different effects on future maintenance.
 
@@ -31,7 +33,7 @@ Identify the owner of each visual region. Change navigation-row spacing in its n
 
 Keep the preview open as a reference while adapting the source. Preserve the parts that already solve a difficult interaction, such as a mobile sheet, dropdown focus handling or a collapsible group. You can change their content and presentation without replacing their behavior with a new custom implementation.
 
-For the integration differences between sidebar compositions, configurable shells and authentication pages, read [Getting started](/blocks/getting-started#render-the-block-in-an-existing-screen). For the precise API of an individual primitive, open the [components directory](/docs/components).
+For the integration differences between sidebar compositions, configurable shells and authentication pages, read [Getting Started](/blocks/getting-started#render-the-block-in-an-existing-screen). For the precise API of an individual primitive, open the [Components Directory](/docs/components).
 
 ## Start with supported variants and sizes
 
@@ -124,7 +126,7 @@ export function WorkspaceSummary() {
 
 Use a brand accent sparingly for emphasis, selection or a meaningful action. Do not use color as the only indication of selection, errors or availability. A current navigation item can also have an appropriate `aria-current`, while an error should include readable text connected to the relevant field.
 
-If the same color change is needed in several blocks, move it to the [theme layer](/blocks/theming#customize-a-preset-with-tokens). If it applies only to a specific region, keep it local and document why that region differs. Avoid repeated arbitrary color values that slowly create a second theme system.
+If the same color change is needed in several blocks, move it to the [Theme Layer](/blocks/theming#customize-a-preset-with-tokens). If it applies only to a specific region, keep it local and document why that region differs. Avoid repeated arbitrary color values that slowly create a second theme system.
 
 ## Adapt navigation without losing behavior
 
@@ -197,4 +199,4 @@ Comment on a non-obvious layout constraint or integration decision, rather than 
 
 Compare the adapted screen with the original preview to understand intentional differences, then judge it with your real content and workflow. The goal is a coherent application, not an exact screenshot match after its requirements have changed.
 
-Return to [Getting started](/blocks/getting-started#verify-the-first-real-render) for integration checks, or continue to [Theming & Tailwind](/docs/theming/installation) when the change should apply across every block. The [component references](/docs/components) remain the authority for individual variants, props and interaction contracts.
+Return to [Getting Started](/blocks/getting-started#verify-the-first-real-render) for integration checks, or continue to [Theming & Tailwind](/docs/theming/installation) when the change should apply across every block. The [Component References](/docs/components) remain the authority for individual variants, props and interaction contracts.

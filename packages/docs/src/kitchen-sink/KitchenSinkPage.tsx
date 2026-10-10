@@ -1,3 +1,4 @@
+import { BoxesIcon } from "@kamod-ch/icons/lucide";
 import {
   Avatar,
   AvatarFallback,
@@ -75,6 +76,7 @@ import {
 } from "lucide-preact";
 import { useState } from "preact/hooks";
 import { withBasePath } from "../base-path";
+import { PageEyebrow } from "../docs/components/PageEyebrow";
 import { DemoShell, demoTopNavItems } from "../layout/DemoShell";
 import { DocsTopbarActions } from "../layout/DocsTopbarActions";
 
@@ -96,7 +98,7 @@ const KitchenSinkSliderShowcase = () => {
   return (
     <div class="grid gap-4">
       <div class="landing-price-range-block">
-        <h3 class="landing-price-range-title">Price range</h3>
+        <h3 class="landing-price-range-title">Price Range</h3>
         <p class="muted text-sm">
           Budget ${budget[0]} – ${budget[1]} (dual-thumb <code class="text-xs">Slider</code>).
         </p>
@@ -855,7 +857,7 @@ const KitchenSinkShowcase = () => (
       <div class="landing-showcase-panel">
         <div class="landing-showcase-row items-center">
           <div>
-            <h3 class="!mb-0">Two-factor authentication</h3>
+            <h3 class="!mb-0">Two-Factor Authentication</h3>
             <p class="muted">Verify via email or phone number.</p>
           </div>
           <Button variant="outline">Enable</Button>
@@ -951,7 +953,7 @@ const KitchenSinkShowcase = () => (
         <Card size="sm" class="w-full min-w-0">
           <CardHeader>
             <CardTitle id="hear-about-label" class="text-sm font-semibold leading-snug">
-              How did you hear about us?
+              How Did You Hear about Us?
             </CardTitle>
             <CardDescription id="hear-about-desc">
               Select the option that best describes how you heard about us.
@@ -963,7 +965,7 @@ const KitchenSinkShowcase = () => (
         </Card>
         <div class="rounded-lg border border-border bg-muted/20 px-4 py-6 text-center">
           <Spinner class="mx-auto mb-3" size="md" tone="primary" />
-          <p class="text-sm font-medium">Processing your request</p>
+          <p class="text-sm font-medium">Processing Your Request</p>
           <p class="muted mt-1 mb-3">
             Please wait while we process your request. Do not refresh the page.
           </p>
@@ -985,14 +987,16 @@ export const KitchenSinkPage = () => (
       <div id="kitchen-sink" class="landing-shadcn-main" data-testid="kitchen-sink">
         <section class="landing-shadcn-intro" aria-labelledby="kitchen-sink-title">
           <div>
-            <p class="landing-shadcn-intro-eyebrow">Kitchen Sink</p>
-            <h1 id="kitchen-sink-title">Own your UI. Built for Preact.</h1>
+            <PageEyebrow icon={<BoxesIcon size={16} aria-hidden="true" />}>
+              Kitchen Sink
+            </PageEyebrow>
+            <h1 id="kitchen-sink-title">Own Your UI. Built for Preact.</h1>
             <p class="landing-shadcn-intro-lead">
               A set of beautifully designed components that you can customize, extend, and build on.
               Open Source. Open Code.
             </p>
             <div class="landing-shadcn-intro-ctas">
-              <Button href={withBasePath("/docs/button/installation")}>Get Started</Button>
+              <Button href={withBasePath("/docs/getting-started")}>Get Started</Button>
               <Button href={withBasePath("/docs/components")} variant="outline">
                 View Components
               </Button>
@@ -1004,7 +1008,7 @@ export const KitchenSinkPage = () => (
         <KitchenSinkShowcase />
 
         <p class="landing-shadcn-footer-note">
-          This route is the <span class="font-medium text-foreground">demo kitchen sink</span>.
+          This route is the <span class="font-medium text-foreground">Demo Kitchen Sink</span>.
           Layout inspired by{" "}
           <a href="https://ui.shadcn.com/" target="_blank" rel="noreferrer">
             ui.shadcn.com

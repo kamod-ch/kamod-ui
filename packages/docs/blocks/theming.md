@@ -9,7 +9,9 @@ outline: false
 
 ## Theme foundations
 
-**Blocks inherit your application theme. They do not need a second theme system.** Use the [shared Theming & Tailwind reference](/docs/theming/installation) for installation, CSS setup, semantic tokens, presets and runtime controls. This companion explains the extra checks that matter when those components become a complete screen.
+If this is your first integration, follow [Set Up Your App](/docs/getting-started#set-up-your-app) before customizing presets. The **Getting Started Guide** connects the same styling foundation to components, forms and copied blocks.
+
+**Blocks Inherit Your Application Theme. They Do Not Need a Second Theme System.** Use the [Shared Theming & Tailwind Reference](/docs/theming/installation) for installation, CSS setup, semantic tokens, presets and runtime controls. This companion explains the extra checks that matter when those components become a complete screen.
 
 ### Understand the appearance layers
 
@@ -17,15 +19,15 @@ Set up the foundation once at the application boundary, then let copied layouts 
 
 | Your task                                       | Start here                                                              |
 | ----------------------------------------------- | ----------------------------------------------------------------------- |
-| First Tailwind integration or missing utilities | [Global CSS and source detection](/docs/theming/css-setup)              |
-| Brand colors, radius, typography or presets     | [Shared token reference](/docs/theming/token-overrides)                 |
-| Light, Dark, System or saved appearance         | [Appearance controls and first render](/docs/theming/provider-controls) |
+| First Tailwind integration or missing utilities | [Global CSS and Source Detection](/docs/theming/css-setup)              |
+| Brand colors, radius, typography or presets     | [Shared Token Reference](/docs/theming/token-overrides)                 |
+| Light, Dark, System or saved appearance         | [Appearance Controls and First Render](/docs/theming/provider-controls) |
 | A copied sidebar or shell looks inconsistent    | Continue with this guide                                                |
-| Local spacing, hierarchy or control variants    | [Component styles](/blocks/styles)                                      |
+| Local spacing, hierarchy or control variants    | [Component Styles](/blocks/styles)                                      |
 
 ### Distinguish preview settings from app settings
 
-The showcase’s theme and scheme controls affect its preview, independently of the documentation page. Their saved choices let you compare a variant, but **copying source does not export those preferences**, install fonts or add a theme picker to your app.
+The showcase’s theme and scheme controls affect its preview, independently of the documentation page. Their saved choices let you compare a variant, but **Copying Source Does Not Export Those Preferences**, install fonts or add a theme picker to your app.
 
 The preview’s device controls likewise do not define your application breakpoints. Test the copied block inside your real shell, where surrounding navigation, content and containers determine the available space.
 
@@ -35,11 +37,11 @@ If your components already render correctly, keep that working setup. A copied b
 
 ### Choose a theme entry
 
-The [shared CSS guide](/docs/theming/css-setup#choose-a-theme-entry) explains the two theme entries. For these layouts, prefer `@kamod-ch/themes/theme.css`: it includes the sidebar mappings and preset values used by the block examples. A minimal component setup may need that fuller contract before a sidebar looks correct.
+The [Shared CSS Guide](/docs/theming/css-setup#choose-a-theme-entry) explains the two theme entries. For these layouts, prefer `@kamod-ch/themes/theme.css`: it includes the sidebar mappings and preset values used by the block examples. A minimal component setup may need that fuller contract before a sidebar looks correct.
 
 ### Connect Tailwind CSS v4
 
-Keep Tailwind, the selected theme entry and application overrides in **one global stylesheet**. Follow the [CSS-first setup](/docs/theming/css-setup#connect-tailwind-css-v4) if this is your first integration; do not add those imports again inside every copied block.
+Keep Tailwind, the selected theme entry and application overrides in **One Global Stylesheet**. Follow the [CSS-First Setup](/docs/theming/css-setup#connect-tailwind-css-v4) if this is your first integration; do not add those imports again inside every copied block.
 
 ### Make source detection explicit
 
@@ -50,7 +52,7 @@ Check where you placed the copied source. App-local files normally participate i
 @source "../../shared-layouts/src/**/*.{ts,tsx}";
 ```
 
-This is an addition to an existing setup, not a complete stylesheet. Use the [source detection reference](/docs/theming/css-setup#make-source-detection-explicit) for installed component paths and complete class strings. Build the app and check a class that occurs only in the copied block; a successful dev preview alone is not proof it reaches production CSS.
+This is an addition to an existing setup, not a complete stylesheet. Use the [Source Detection Reference](/docs/theming/css-setup#make-source-detection-explicit) for installed component paths and complete class strings. Build the app and check a class that occurs only in the copied block; a successful dev preview alone is not proof it reaches production CSS.
 
 ## Shape your design with tokens
 
@@ -58,17 +60,17 @@ Theme the composition by role. A single screen can combine page, card, navigatio
 
 ### Work with semantic token pairs
 
-Use `bg-background text-foreground` for the page, `bg-card text-card-foreground` for content surfaces and the popover pair for floating menus. Keep the original component variants when they already express the correct intent. The [token reference](/docs/theming/token-overrides) owns the complete contract and preset override examples.
+Use `bg-background text-foreground` for the page, `bg-card text-card-foreground` for content surfaces and the popover pair for floating menus. Keep the original component variants when they already express the correct intent. The [Token Reference](/docs/theming/token-overrides) owns the complete contract and preset override examples.
 
 ### Understand the sidebar token family
 
 Kamod uses **`--sidebar-background`** for the sidebar surface and **`--sidebar-outline`** for its focus treatment. A copied third-party palette using `--sidebar` or `--sidebar-ring` does not automatically configure those values.
 
-Check navigation text, the selected row, hover feedback and keyboard focus together. Then open an account menu: its floating surface may consume popover tokens rather than sidebar tokens. The [sidebar token table](/docs/theming/token-overrides#understand-the-sidebar-token-family) lists every mapping.
+Check navigation text, the selected row, hover feedback and keyboard focus together. Then open an account menu: its floating surface may consume popover tokens rather than sidebar tokens. The [Sidebar Token Table](/docs/theming/token-overrides#understand-the-sidebar-token-family) lists every mapping.
 
 ### Customize a preset with tokens
 
-Refine the app’s chosen preset in the global stylesheet. The following optional example adjusts only the sidebar surface pair; the shared reference explains the [complete override pattern](/docs/theming/token-overrides#customize-a-preset-with-tokens).
+Refine the app’s chosen preset in the global stylesheet. The following optional example adjusts only the sidebar surface pair; the shared reference explains the [Complete Override Pattern](/docs/theming/token-overrides#customize-a-preset-with-tokens).
 
 ```css src/app.css
 /* After the full theme import; applies only to the Ocean preset. */
@@ -87,7 +89,7 @@ These values are a starting point, not an audited palette. Review the existing a
 
 ### Refine radius, typography and motion
 
-After changing shared typography or radius, check long navigation labels, collapsed icon buttons, menu corners and form errors in the integrated screen. Load your own font assets; the preview’s fonts do not arrive with the source. Keep reduced-motion behavior when adapting transitions. See [shared typography and motion guidance](/docs/theming/token-overrides#refine-radius-typography-and-motion) for the global setup.
+After changing shared typography or radius, check long navigation labels, collapsed icon buttons, menu corners and form errors in the integrated screen. Load your own font assets; the preview’s fonts do not arrive with the source. Keep reduced-motion behavior when adapting transitions. See [Shared Typography and Motion Guidance](/docs/theming/token-overrides#refine-radius-typography-and-motion) for the global setup.
 
 ## Manage appearance preferences
 
@@ -95,17 +97,17 @@ Reuse your app’s existing appearance controls and provider. Copying another la
 
 ### Add preset and scheme controls
 
-Put a [Theme Toggle](/docs/theme-toggle/installation) in an appropriate header, account menu or settings panel when a compact Light/Dark action is enough. Offer a scheme selector when users need an explicit System choice. The [runtime guide](/docs/theming/provider-controls) contains complete provider and selector examples.
+Put a [Theme Toggle](/docs/theme-toggle/installation) in an appropriate header, account menu or settings panel when a compact Light/Dark action is enough. Offer a scheme selector when users need an explicit System choice. The [Runtime Guide](/docs/theming/provider-controls) contains complete provider and selector examples.
 
 Theme state and sidebar state serve different purposes. Retain the block’s sidebar provider for collapse and mobile navigation, and let appearance come from the application theme. Check overlays as well as the sidebar when using a custom `attributeTarget`; a portal outside that target will not inherit its scoped variables.
 
 ### Keep the first render consistent
 
-Visit a nested application route directly with a saved dark preference. The shell, navigation and content should agree from the first paint. Configure the [initialization script](/docs/theming/provider-controls#keep-the-first-render-consistent) at the document boundary with defaults matching your provider, rather than adding scripts inside individual blocks.
+Visit a nested application route directly with a saved dark preference. The shell, navigation and content should agree from the first paint. Configure the [Initialization Script](/docs/theming/provider-controls#keep-the-first-render-consistent) at the document boundary with defaults matching your provider, rather than adding scripts inside individual blocks.
 
 ## Troubleshoot and verify
 
-First determine whether the problem affects every component or only the copied composition. Shared failures belong in the [theme troubleshooting reference](/docs/theming/accessibility); local ones usually involve copied source, scoped styles or container layout.
+First determine whether the problem affects every component or only the copied composition. Shared failures belong in the [Theme Troubleshooting Reference](/docs/theming/accessibility); local ones usually involve copied source, scoped styles or container layout.
 
 ### Diagnose theme problems in order
 
@@ -122,4 +124,4 @@ First determine whether the problem affects every component or only the copied c
 
 Review the expanded and collapsed sidebar, mobile overlay, account menu and main content in both schemes. Use real names, long labels and form errors. Confirm visible focus and readable text on each surface, then refresh with saved settings and repeat the check in a production preview.
 
-Keep **theme configuration shared and layout behavior local**. Return to [Theming & Tailwind](/docs/theming/installation) for foundation changes or [Component styles](/blocks/styles) to refine this composition’s hierarchy and spacing.
+Keep **Theme Configuration Shared and Layout Behavior Local**. Return to [Theming & Tailwind](/docs/theming/installation) for foundation changes or [Component Styles](/blocks/styles) to refine this composition’s hierarchy and spacing.

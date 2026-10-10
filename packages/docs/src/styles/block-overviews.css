@@ -7,7 +7,11 @@
   padding: 0.5rem 0.875rem;
   border: 1px solid color-mix(in oklab, var(--border) 65%, transparent);
   border-radius: 0.75rem;
-  background: color-mix(in oklab, var(--muted) 45%, transparent);
+  background: color-mix(
+    in oklab,
+    var(--muted) calc(45% + 24.75% * var(--docs-highlight-boost, 0)),
+    transparent
+  );
 }
 
 .blocks-category-preview-link {
@@ -70,7 +74,11 @@
 .blocks-category-preview-code code {
   padding: 0.1rem 0.25rem;
   border-radius: 0.25rem;
-  background: color-mix(in oklab, var(--muted) 55%, transparent);
+  background: color-mix(
+    in oklab,
+    var(--muted) calc(55% + 24.75% * var(--docs-highlight-boost, 0)),
+    transparent
+  );
   color: var(--muted-foreground);
   font-size: 0.59375rem;
   overflow-wrap: anywhere;
@@ -102,8 +110,10 @@
   text-underline-offset: 0.15em;
 }
 
-.blocks-category-preview-caption a:hover {
-  text-decoration: underline;
+@media (hover: hover) and (pointer: fine) {
+  .blocks-category-preview-caption a:hover {
+    text-decoration: underline;
+  }
 }
 
 .blocks-category-preview-caption a:focus-visible {
@@ -129,12 +139,6 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 0.625rem 0.875rem;
-}
-
-.blocks-page-header-title-row [data-slot="badge"] {
-  padding: 0.25rem 0.875rem;
-  font-size: 0.9375rem;
-  transition-property: color, background-color, border-color, box-shadow;
 }
 
 .blocks-page-header-description {
@@ -171,23 +175,21 @@
 }
 
 .blocks-sidebar-detail > .blocks-page-header {
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
 }
 
 .blocks-variant-header h1 {
   scroll-margin-top: 1rem;
 }
 
-/* Emphasize key guidance without changing line wrapping or the header height. */
-.blocks-page-header .blocks-hero-lead strong {
-  color: var(--foreground);
-  font-weight: inherit;
-}
-
 .blocks-page-header .blocks-hero-lead code {
   padding: 0.1em 0.3em;
   border-radius: 0.25rem;
-  background: color-mix(in oklab, var(--secondary-accent) 10%, var(--muted));
+  background: color-mix(
+    in oklab,
+    var(--secondary-accent) calc(10% + 9% * var(--docs-highlight-boost, 0)),
+    var(--muted)
+  );
   color: color-mix(in oklab, var(--secondary-accent) 35%, var(--foreground));
   box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--secondary-accent) 16%, transparent);
   font-size: 0.88em;
@@ -240,7 +242,11 @@
 .blocks-preview-theme-info code {
   padding: 0.1rem 0.25rem;
   border-radius: 0.25rem;
-  background: color-mix(in oklab, var(--primary) 7%, var(--muted));
+  background: color-mix(
+    in oklab,
+    var(--primary) calc(7% + 6.51% * var(--docs-highlight-boost, 0)),
+    var(--muted)
+  );
   color: var(--muted-foreground);
   font-family: var(--font-mono-custom);
   font-size: 0.625rem;
@@ -256,9 +262,11 @@
   text-underline-offset: 0.15em;
 }
 
-.blocks-preview-theme-info-link:hover {
-  color: var(--primary);
-  text-decoration-color: currentColor;
+@media (hover: hover) and (pointer: fine) {
+  .blocks-preview-theme-info-link:hover {
+    color: var(--primary);
+    text-decoration-color: currentColor;
+  }
 }
 
 .blocks-preview-theme-info-link:focus-visible {
@@ -377,7 +385,11 @@
 
 .blocks-overview-surface {
   container: block-card / inline-size;
-  --block-card-code-background: color-mix(in oklab, var(--primary) 7%, var(--muted));
+  --block-card-code-background: color-mix(
+    in oklab,
+    var(--primary) calc(7% + 6.51% * var(--docs-highlight-boost, 0)),
+    var(--muted)
+  );
   height: 100%;
   min-width: 0;
   padding: 0;
@@ -393,11 +405,20 @@
     transform 450ms ease;
 }
 
-.blocks-category-preview:is(:hover, :focus-within),
-.blocks-overview-surface:is(:hover, :focus-within) {
+.blocks-category-preview:is(:focus-within),
+.blocks-overview-surface:is(:focus-within) {
   box-shadow:
     0 0 0 1px color-mix(in oklab, var(--primary) 45%, var(--border)),
     0 8px 24px -12px color-mix(in oklab, var(--foreground) 18%, transparent);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .blocks-category-preview:is(:hover, :focus-within),
+  .blocks-overview-surface:is(:hover, :focus-within) {
+    box-shadow:
+      0 0 0 1px color-mix(in oklab, var(--primary) 45%, var(--border)),
+      0 8px 24px -12px color-mix(in oklab, var(--foreground) 18%, transparent);
+  }
 }
 
 .blocks-overview-preview {
@@ -508,9 +529,16 @@
     color 300ms ease;
 }
 
-.blocks-overview-card:is(:hover, :focus-visible) .blocks-overview-open {
+.blocks-overview-card:is(:focus-visible) .blocks-overview-open {
   color: var(--primary);
   opacity: 1;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .blocks-overview-card:is(:hover, :focus-visible) .blocks-overview-open {
+    color: var(--primary);
+    opacity: 1;
+  }
 }
 
 .blocks-overview-info p {
@@ -543,7 +571,11 @@
   margin: 0;
   padding-block: 0.2rem;
   border-color: transparent;
-  background: color-mix(in oklab, var(--primary) 5%, var(--card));
+  background: color-mix(
+    in oklab,
+    var(--primary) calc(5% + 4.75% * var(--docs-highlight-boost, 0)),
+    var(--card)
+  );
   color: var(--muted-foreground);
   font-weight: 400;
   max-width: 100%;
@@ -590,7 +622,11 @@
   max-width: 100%;
   padding: 0.1em 0.3em;
   border-radius: 0.25rem;
-  background: color-mix(in oklab, var(--secondary-accent) 3%, var(--card));
+  background: color-mix(
+    in oklab,
+    var(--secondary-accent) calc(3% + 2.91% * var(--docs-highlight-boost, 0)),
+    var(--card)
+  );
   color: var(--muted-foreground);
   font-size: 0.75rem;
   white-space: nowrap;
@@ -661,9 +697,9 @@
 }
 
 /* Give category navigation its own space without changing detail-page layouts. */
-@media (min-width: 980px) {
+@media (min-width: 940px) {
   .blocks-sidebar-detail > .blocks-page-header {
-    margin-bottom: 1.25rem;
+    margin-bottom: 0.75rem;
   }
 
   /* Share the header's grid-row height without measuring wrapped text in JavaScript. */
@@ -719,10 +755,6 @@
   /* Reserve the same title space when only some collection names wrap. */
   .blocks-page-header-title-row h1 {
     min-block-size: 2lh;
-  }
-
-  .blocks-page-header-title-row [data-slot="badge"] {
-    order: -1;
   }
 }
 
