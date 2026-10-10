@@ -68,7 +68,7 @@ test("prop type links reveal their definition and restore deep links through his
       .getByRole("button", { name: /^Required Fields?:/ }),
   ).toHaveCount(6);
   await expect(
-    dataTypes.locator(".blocks-api-type-required").getByRole("button", { name: /^Required type:/ }),
+    dataTypes.locator(".blocks-api-type-required").getByRole("button", { name: /^Required Type:/ }),
   ).toHaveCount(4);
   for (const [type, prop] of [
     ["ApplicationShellBrand", "brand"],
@@ -80,8 +80,8 @@ test("prop type links reveal their definition and restore deep links through his
       has: page.locator(`#application-shell-type-${type}`),
     });
     const heading = card.locator(".blocks-api-type-required");
-    await expect(heading.locator(".blocks-api-required-label")).toHaveText("Required type");
-    const marker = heading.getByRole("button", { name: `Required type: ${type}`, exact: true });
+    await expect(heading.locator(".blocks-api-required-label")).toHaveText("Required Type");
+    const marker = heading.getByRole("button", { name: `Required Type: ${type}`, exact: true });
     await marker.focus();
     await expect(page.getByRole("tooltip")).toHaveText(`Used by required prop: ${prop}`);
     await expect(marker).toHaveAccessibleDescription(`Used by required prop: ${prop}`);
@@ -90,7 +90,7 @@ test("prop type links reveal their definition and restore deep links through his
   const inherited = dataTypes
     .locator(".blocks-api-type")
     .filter({
-      has: page.getByRole("heading", { name: "Top-level items and branches", exact: true }),
+      has: page.getByRole("heading", { name: "Top-Level Items and Branches", exact: true }),
     })
     .locator('[data-slot="type-definition-intro"]');
   await expect(inherited.locator(".blocks-api-type-fields code")).toHaveText(["id", "label"]);
@@ -108,7 +108,7 @@ test("prop type links reveal their definition and restore deep links through his
   await expect(singleField).toHaveAccessibleDescription("Required Field");
   await page.keyboard.press("Escape");
   const icons = dataTypes.locator(".blocks-api-type").filter({
-    has: page.getByRole("heading", { name: "Navigation icons", exact: true }),
+    has: page.getByRole("heading", { name: "Navigation Icons", exact: true }),
   });
   await expect(icons.getByRole("button", { name: /^Required Fields?:/ })).toHaveCount(0);
   const brand = typePanel(page, "ApplicationShellBrand");
@@ -151,19 +151,20 @@ test("type definitions toggle independently by keyboard and copy their complete 
   const brand = typePanel(page, "ApplicationShellBrand");
   const user = typePanel(page, "ApplicationShellUser");
   await expect(brand.trigger).toHaveAccessibleName(
-    "View definition and field docs: ApplicationShellBrand",
+    "View Definition and Field Docs: ApplicationShellBrand",
   );
   await brand.trigger.focus();
   await page.keyboard.press("Enter");
   await expect(brand.trigger).toHaveAttribute("aria-expanded", "true");
   await expect(brand.trigger).toHaveAccessibleName(
-    "Hide definition and field docs: ApplicationShellBrand",
+    "Hide Definition and Field Docs: ApplicationShellBrand",
   );
   await page.keyboard.press("Tab");
-  await expect(brand.content.locator(".docs-code-file-path")).toHaveAttribute(
-    "title",
+  await expect(brand.content.locator(".docs-code-file-path")).toHaveText(
     "src/components/application-shell-1/types.ts",
   );
+  await expect(brand.content.getByRole("switch", { name: "Wrap code lines" })).toBeFocused();
+  await page.keyboard.press("Tab");
   await expect(brand.content.getByRole("button", { name: /^Required Field/ })).toHaveCount(0);
   const copy = brand.content.getByRole("button", { name: "Copy code", exact: true });
   await expect(copy).toBeFocused();
@@ -174,7 +175,8 @@ test("type definitions toggle independently by keyboard and copy their complete 
     await page.keyboard.press("Enter");
     await expect(brand.content.getByRole("button", { name: "Code copied" })).toBeFocused();
     await expect.poll(() => page.evaluate(() => navigator.clipboard.readText())).toBe(source);
-    await expect(copy).toHaveText("Copy");
+    await expect(copy).toHaveAttribute("data-copy-state", "idle");
+    await expect(copy).toHaveAccessibleName("Copy code");
   }
 
   await page.keyboard.press("Tab");
@@ -194,7 +196,7 @@ test("type definitions toggle independently by keyboard and copy their complete 
 
   const signature = typePanel(page, "ApplicationShell1Props");
   await signature.trigger.click();
-  await expect(signature.trigger).toHaveAccessibleName("Hide definition: ApplicationShell1Props");
+  await expect(signature.trigger).toHaveAccessibleName("Hide Definition: ApplicationShell1Props");
   const signatureSource = await signature.code.textContent();
   expect(signatureSource).toMatch(/^export type ApplicationShell1Props = \{/);
   expect(signatureSource).not.toMatch(/\/\*|\*\/|\/\//);
@@ -231,7 +233,7 @@ test("expanded type documentation keeps overflow inside code and tables at 320px
       .toBe(theme === "dark");
 
     const closedTypes = page.getByRole("button", {
-      name: /^View definition(?: and field docs)?: ApplicationShell/,
+      name: /^View Definition(?: and Field Docs)?: ApplicationShell/,
     });
     while ((await closedTypes.count()) > 0) await closedTypes.first().click();
 
@@ -239,7 +241,7 @@ test("expanded type documentation keeps overflow inside code and tables at 320px
     await expect(cards).toHaveCount(10);
     for (const header of await cards.locator(".docs-code-toolbar").all()) {
       const path = header.locator(".docs-code-file-path");
-      await expect(path).toHaveAttribute("title", "src/components/application-shell-1/types.ts");
+      await expect(path).toHaveText("src/components/application-shell-1/types.ts");
       expect(
         await path
           .locator('[data-path-part="middle"]')
@@ -254,8 +256,8 @@ test("expanded type documentation keeps overflow inside code and tables at 320px
       const copyBox = (await header
         .getByRole("button", { name: "Copy code", exact: true })
         .boundingBox())!;
-      expect(pathBox.x + pathBox.width).toBeLessThanOrEqual(copyBox.x - 8);
-      expect(pathBox.y + pathBox.height / 2).toBeCloseTo(copyBox.y + copyBox.height / 2, 0);
+      expect(pathBox.x + pathBox.width).toBeLessThanOrEqual(320);
+      expect(pathBox.y + pathBox.height).toBeLessThanOrEqual(copyBox.y);
     }
     expect(
       await cards.evaluateAll((elements) =>

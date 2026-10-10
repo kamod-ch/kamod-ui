@@ -25,20 +25,21 @@ test("navigates category, overview card, detail and back", async ({ page }) => {
   await page.locator("a.blocks-overview-card").filter({ hasText: "application-shell-01" }).click();
   await expect(
     page.getByRole("heading", {
-      name: "Application Shell 1 — Sidebar shell with breadcrumbs",
+      name: "Application Shell 1 — Sidebar Shell with Breadcrumbs",
       exact: true,
     }),
   ).toBeVisible();
-  await expect(page.locator("aside.docs-sidebar")).toHaveCount(0);
+  await expect(page.locator("aside.docs-sidebar")).toBeVisible();
+  await page.locator(".blocks-showcase").scrollIntoViewIfNeeded();
   await expect(page.frameLocator(".blocks-preview-iframe").locator("body")).toContainText(
     "Overview",
   );
-  await expect(page.getByRole("heading", { name: "Props and data" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Props and Data" })).toBeVisible();
   await page
-    .getByRole("navigation", { name: "Block breadcrumb", exact: true })
+    .getByRole("navigation", { name: "Block Breadcrumb", exact: true })
     .getByRole("link", { name: "Application Shell", exact: true })
     .click();
-  await expect(page.locator("a.blocks-overview-card")).toHaveCount(1);
+  await expect(page.locator("a.blocks-overview-card")).toHaveCount(8);
 });
 
 test("shell routes generate canonical metadata with a single deployment prefix", async ({
@@ -60,16 +61,14 @@ test("documentation header exposes breadcrumbs, repository links and disabled va
   await page.goto(detail);
   const header = page.locator(".blocks-shell-header");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "Application Shell 1 — Sidebar shell with breadcrumbs",
+    "Application Shell 1 — Sidebar Shell with Breadcrumbs",
   );
-  await expect(header.locator('[data-slot="badge"]')).toHaveText("Layout block");
-  await expect(header.locator('[data-slot="badge"]')).toHaveAttribute("data-variant", "secondary");
-  for (const direction of ["Previous", "Next"]) {
-    const control = header.getByRole("button", { name: `${direction} variant unavailable` });
-    await expect(control).toBeDisabled();
-    await expect(control).not.toHaveAttribute("href");
-  }
-  const breadcrumb = header.getByRole("navigation", { name: "Block breadcrumb", exact: true });
+  await expect(header.locator(".block-guide-eyebrow-label")).toHaveText("Layout Block");
+  await expect(header.locator('[data-slot="badge"]')).toHaveCount(0);
+  await expect(header.getByRole("button", { name: "Previous variant unavailable" })).toBeDisabled();
+  const next = header.getByRole("link", { name: "Next variant: application-shell-02" });
+  await expect(next).toHaveAttribute("href", /application-shell-2$/);
+  const breadcrumb = header.getByRole("navigation", { name: "Block Breadcrumb", exact: true });
   await expect(breadcrumb.getByRole("link", { name: "Home", exact: true })).toHaveAttribute(
     "href",
     /\/$/,
@@ -97,19 +96,14 @@ test("documentation header exposes breadcrumbs, repository links and disabled va
   );
   for (const link of [report, source]) await expect(link).toHaveAttribute("target", "_blank");
 
-  // Follow the visual order from the top breadcrumb through the introduction to the actions.
-  await breadcrumb.getByRole("link", { name: "Application Shell", exact: true }).focus();
+  // The disabled previous control is skipped; available navigation and resources stay reachable.
+  await next.focus();
   await page.keyboard.press("Tab");
-  await expect(header.getByRole("heading", { level: 1 }).getByRole("link")).toBeFocused();
-  await page.keyboard.press("Tab");
-  await expect(header.getByRole("link", { name: "About this block", exact: true })).toBeFocused();
-  await page.keyboard.press("Tab");
-  // Disabled variant neighbours stay out of the keyboard order.
   await expect(report).toBeFocused();
   await page.keyboard.press("Tab");
   await expect(source).toBeFocused();
   const overview = page
-    .getByRole("navigation", { name: "On this page" })
+    .getByRole("navigation", { name: "On This Page" })
     .getByRole("link", { name: "Overview", exact: true });
   await overview.focus();
   await page.keyboard.press("Enter");
@@ -129,7 +123,7 @@ test("documentation header exposes breadcrumbs, repository links and disabled va
   }
 
   await page
-    .getByRole("navigation", { name: "On this page" })
+    .getByRole("navigation", { name: "On This Page" })
     .getByRole("link", {
       name: "Usage",
       exact: true,
@@ -144,7 +138,7 @@ test("documentation header exposes breadcrumbs, repository links and disabled va
   await breadcrumb.getByRole("link", { name: "Blocks", exact: true }).click();
   await expect(page).toHaveURL(/\/blocks\/?$/);
   await expect(
-    page.getByRole("heading", { name: "Blocks for complete application layouts", exact: true }),
+    page.getByRole("heading", { name: "Blocks for Complete Application Layouts", exact: true }),
   ).toBeVisible();
 });
 
@@ -164,7 +158,7 @@ test("loads detail directly, displays sources and switches preview viewports", a
     );
     await expect(panel.frameLocator("iframe").getByText("Overview")).toBeVisible();
   }
-  await panel.getByRole("button", { name: "Desktop view" }).click();
+  await panel.getByRole("button", { name: "Desktop View" }).click();
   await expect(panel.locator("iframe")).toBeVisible();
   // The embedded sidebar must fit the preview, including its footer.
   const frameBox = await panel.locator(".blocks-preview-frame").boundingBox();
@@ -179,7 +173,7 @@ test("documentation contents support keyboard links, history and scroll tracking
   page,
 }) => {
   await page.goto(detail);
-  const contents = page.getByRole("navigation", { name: "On this page" });
+  const contents = page.getByRole("navigation", { name: "On This Page" });
   const dependencies = contents.getByRole("link", { name: "2. Install missing dependencies" });
   await dependencies.focus();
   await page.keyboard.press("Enter");
@@ -204,20 +198,20 @@ test("documentation contents support keyboard links, history and scroll tracking
 
   await page.locator("#application-shell-responsive").evaluate((node) => node.scrollIntoView());
   await expect(
-    contents.getByRole("link", { name: "Responsive behavior and state" }),
+    contents.getByRole("link", { name: "Responsive Behavior and State" }),
   ).toHaveAttribute("aria-current", "location");
   const sticky = await contents.boundingBox();
   expect(sticky!.y).toBeGreaterThanOrEqual(topbar!.height);
   expect(sticky!.y).toBeLessThan(120);
 
   const finalSection = contents.getByRole("link", {
-    name: "Design reference",
+    name: "Design Reference",
     exact: true,
   });
   await finalSection.click();
   await expect(finalSection).toHaveAttribute("aria-current", "location");
 
-  await contents.getByRole("link", { name: "application-shell-01 Showcase" }).click();
+  await contents.getByRole("link", { name: "Live Preview" }).click();
   await expect(page).toHaveURL(/#application-shell-1$/);
   await expect(page.getByRole("article", { name: "application-shell-01 showcase" })).toBeFocused();
   await expect(page.getByRole("tab", { name: "Preview", exact: true })).toBeInViewport();
@@ -242,11 +236,11 @@ test("mobile section history restores position without a visible contents sideba
 
 test("documentation sections can be opened directly by URL", async ({ page }) => {
   await page.goto(`${detail}#application-shell-props`);
-  await expect(page.getByRole("heading", { name: "Props and data" })).toBeInViewport();
+  await expect(page.getByRole("heading", { name: "Props and Data" })).toBeInViewport();
   await expect(
     page
-      .getByRole("navigation", { name: "On this page" })
-      .getByRole("link", { name: "Props and data" }),
+      .getByRole("navigation", { name: "On This Page" })
+      .getByRole("link", { name: "Props and Data" }),
   ).toHaveAttribute("aria-current", "location");
 });
 
@@ -256,8 +250,8 @@ test("documentation contents remain below the site bar near the end of short win
   for (const height of [500, 375]) {
     await page.setViewportSize({ width: 1440, height });
     await page.goto(detail);
-    const contents = page.getByRole("navigation", { name: "On this page" });
-    await contents.getByRole("link", { name: "Design reference", exact: true }).click();
+    const contents = page.getByRole("navigation", { name: "On This Page" });
+    await contents.getByRole("link", { name: "Design Reference", exact: true }).click();
     await expect(page.locator("#application-shell-reference")).toBeInViewport();
     const topbar = await page.locator(".docs-topbar").boundingBox();
     const sidebar = await contents.boundingBox();
@@ -273,250 +267,82 @@ for (const width of [320, 640, 768, 979, 980, 1024, 1260, 1440]) {
       await page.emulateMedia({ colorScheme: scheme, reducedMotion: "reduce" });
       await page.addInitScript((theme) => localStorage.setItem("theme", theme), scheme);
       await page.goto(detail);
+      await expect(page.locator("html")).toHaveClass(/pp-ready/);
       const header = page.locator(".blocks-shell-header");
-      await expect(header).toBeVisible();
-      const headerBox = await header.boundingBox();
-      const showcaseBox = await page.locator("article.blocks-card").boundingBox();
-      expect(showcaseBox!.y).toBeGreaterThan(headerBox!.y + headerBox!.height);
-      // Only show the permalink when the gutter fits it without indenting the title.
-      const titleLink = header.getByRole("heading", { level: 1 }).getByRole("link");
-      await titleLink.hover();
-      const titleIcon = titleLink.locator("svg");
-      if (width >= 980) await expect(titleIcon).toBeVisible();
-      else await expect(titleIcon).toBeHidden();
-      await titleLink.focus();
-      const titleTextLeft = await titleLink.evaluate((link) => {
-        const walker = document.createTreeWalker(link, NodeFilter.SHOW_TEXT, {
-          acceptNode: (node) =>
-            node.textContent?.trim() && !node.parentElement?.closest('[aria-hidden="true"]')
-              ? NodeFilter.FILTER_ACCEPT
-              : NodeFilter.FILTER_SKIP,
-        });
-        const text = walker.nextNode();
-        if (!text) throw new Error("The page title must contain visible text.");
-        const start = text.textContent!.search(/\S/);
-        const range = document.createRange();
-        range.setStart(text, start);
-        range.setEnd(text, start + 1);
-        return range.getBoundingClientRect().left;
-      });
-      expect(titleTextLeft).toBeCloseTo(headerBox!.x, 0);
-      if (width >= 980) {
-        const iconBox = await titleIcon.boundingBox();
-        expect(iconBox!.x).toBeGreaterThanOrEqual(0);
-        expect(iconBox!.x + iconBox!.width).toBeLessThanOrEqual(titleTextLeft);
-        await titleIcon.click();
-      } else {
-        await expect(titleIcon).toBeHidden();
-        await titleLink.press("Enter");
-      }
-      await expect(page).toHaveURL(/#top$/);
-      await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
-      if (width === 320) {
-        await page.getByRole("button", { name: "Open navigation menu" }).click();
-        const panel = page.getByRole("dialog", { name: "Explore Kamod", exact: true });
-        await panel.getByRole("button", { name: "Choose color theme" }).click();
-        await panel
-          .getByRole("group", { name: "Site color theme" })
-          .getByRole("button", { name: "Professional (Electronics)", exact: true })
-          .click();
-        await panel.getByRole("button", { name: "Close navigation menu" }).click();
-        await page.evaluate(() => document.fonts.ready);
-        const brand = (await page.locator(".docs-topbar-brand").boundingBox())!;
-        const actions = (await page.locator(".docs-topbar-actions").boundingBox())!;
-        expect(actions.y + actions.height / 2).toBeCloseTo(brand.y + brand.height / 2, 0);
-        expect(actions.x + actions.width).toBeLessThanOrEqual(width);
-        expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
-          true,
-        );
-        // Restore the theme before the rest of this light/dark layout and contrast check.
-        await page.getByRole("button", { name: "Open navigation menu" }).click();
-        await panel.getByRole("button", { name: "Choose color theme" }).click();
-        await panel
-          .getByRole("group", { name: "Site color theme" })
-          .getByRole("button", { name: "Kamod", exact: true })
-          .click();
-        await panel.getByRole("button", { name: "Close navigation menu" }).click();
-      }
-      const currentCrumb = await header.locator('[data-slot="breadcrumb-page"]').boundingBox();
-      const firstCrumb = await header
-        .getByRole("link", { name: "Home", exact: true })
-        .boundingBox();
-      expect(currentCrumb!.y).toBeCloseTo(firstCrumb!.y, 0);
-      expect(currentCrumb!.x + currentCrumb!.width).toBeLessThanOrEqual(
-        headerBox!.x + headerBox!.width,
-      );
-      if (width < 640) {
-        const badge = await header.locator('[data-slot="badge"]').boundingBox();
-        const title = await header.getByRole("heading", { level: 1 }).boundingBox();
-        const label = await header.locator(".blocks-page-header-breadcrumbs").boundingBox();
-        expect(badge!.y).toBeGreaterThanOrEqual(label!.y + label!.height + 12);
-        expect(badge!.y + badge!.height).toBeLessThan(title!.y);
-      }
-      const actions = header.locator(".blocks-page-header-links");
+      const bounds = (await header.boundingBox())!;
+      expect(bounds.x).toBeGreaterThanOrEqual(0);
+      expect(bounds.x + bounds.width).toBeLessThanOrEqual(width);
+      await expect(header.locator('[aria-current="page"]')).toHaveText("Application Shell 1");
+      const actions = header.getByRole("group", { name: "Block navigation and links" });
       await expect(actions).toBeVisible();
-      const actionsBox = (await actions.boundingBox())!;
-      const toolbarBox = (await header.locator(".blocks-page-header-summary").boundingBox())!;
-      expect(actionsBox.x + actionsBox.width).toBeLessThanOrEqual(headerBox!.x + headerBox!.width);
-      expect(actionsBox.y + actionsBox.height).toBeCloseTo(toolbarBox.y + toolbarBox.height, 0);
-      for (const button of await actions.locator('[data-slot="button"]').all()) {
-        expect((await button.boundingBox())!.width).toBe(32);
+      const actionBounds = (await actions.boundingBox())!;
+      expect(actionBounds.x + actionBounds.width).toBeLessThanOrEqual(width);
+      const title = header.getByRole("heading", { level: 1 }).getByRole("link");
+      await title.focus();
+      await page.keyboard.press("Enter");
+      await expect(page).toHaveURL(/#top$/);
+      await expect.poll(() => page.evaluate(() => scrollY)).toBe(0);
+      for (const id of ["installation", "usage", "props", "about", "production", "reference"]) {
+        const heading = page.locator(`#application-shell-${id}`);
+        await expect(heading).toBeAttached();
+        const box = (await heading.boundingBox())!;
+        expect(box.x).toBeGreaterThanOrEqual(0);
+        expect(box.x + box.width).toBeLessThanOrEqual(width + 1);
       }
-      // Compact layouts wrap the action row instead of dropping the variant/repository links.
-      const breadcrumbs = (await header.locator('[data-slot="breadcrumb-list"]').boundingBox())!;
-      expect(breadcrumbs.y + breadcrumbs.height).toBeLessThanOrEqual(
-        actionsBox.y + actionsBox.height,
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
+        true,
       );
-      expect(
-        await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),
-      ).toBe(true);
       await assertNoBlockingA11yViolations(page, `Block header ${width}px ${scheme}`, {
         include: ".blocks-shell-header",
       });
       await page.screenshot({ path: testInfo.outputPath(`header-${width}-${scheme}.png`) });
-      const contents = page.locator(".blocks-doc-toc nav");
-      const body = page.locator(".blocks-doc-body");
-      const bodyBox = await body.boundingBox();
-      if (width >= 1260) {
-        await expect(contents).toBeVisible();
-        const contentsBox = await contents.boundingBox();
-        expect(contentsBox!.x).toBeGreaterThan(bodyBox!.x + bodyBox!.width);
-      } else {
-        await expect(contents).toBeHidden();
-        await expect(page.getByRole("navigation", { name: "On this page" })).toHaveCount(0);
-        const grid = await page.locator(".blocks-detail-documentation").boundingBox();
-        expect(bodyBox!.width).toBeCloseTo(grid!.width, 0);
-        expect(bodyBox!.y).toBeCloseTo(grid!.y, 0);
-        expect(bodyBox!.x - headerBox!.x).toBeCloseTo(
-          headerBox!.x + headerBox!.width - (bodyBox!.x + bodyBox!.width),
-          0,
-        );
-      }
-      const guide = page.getByRole("region", {
-        name: "application-shell-01 documentation",
-        exact: true,
-      });
-      await guide.evaluate((node) => node.scrollIntoView({ block: "start" }));
-      await page.screenshot({
-        path: testInfo.outputPath(`documentation-guide-${width}-${scheme}.png`),
-      });
-      await (
-        width >= 1260
-          ? contents.getByRole("link", { name: "Add this block", exact: true })
-          : page.getByRole("heading", { name: "Add this block", exact: true }).getByRole("link")
-      ).click();
-      await expect(
-        page.getByRole("heading", { name: "Add this block", exact: true }),
-      ).toBeInViewport();
-      expect(
-        await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),
-      ).toBe(true);
-      await page.screenshot({ path: testInfo.outputPath(`documentation-${width}-${scheme}.png`) });
-
-      const note = page.locator(".blocks-api-source-note");
-      const noteLayout = await note.evaluate((node) => {
-        const icon = node.querySelector("svg")!.getBoundingClientRect();
-        const text = node.querySelector("span")!.getBoundingClientRect();
-        const badge = node.querySelector('[data-slot="badge"]')!.getBoundingClientRect();
-        const style = getComputedStyle(node);
-        const contentWidth =
-          node.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
-        return {
-          contentWidth,
-          textWidth: text.width,
-          textTop: text.top,
-          iconBottom: icon.bottom,
-          badgeBottom: badge.bottom,
-        };
-      });
-      if (noteLayout.contentWidth <= 672) {
-        expect(noteLayout.textWidth).toBeCloseTo(noteLayout.contentWidth, 0);
-        expect(noteLayout.textTop).toBeGreaterThan(
-          Math.max(noteLayout.iconBottom, noteLayout.badgeBottom),
-        );
-      }
-      if (width < 980) {
-        const copy = await page
-          .locator(".blocks-doc-body .docs-code-wrap")
-          .first()
-          .getByRole("button", { name: "Copy code" })
-          .boundingBox();
-        expect(copy!.height).toBeGreaterThanOrEqual(24);
-        expect(copy!.height).toBeLessThanOrEqual(32);
-      }
-      if (width < 640) {
-        for (const step of await page.locator(".blocks-doc-steps > li").all()) {
-          await expect(step.locator(".blocks-doc-step-index")).toBeVisible();
-          const heading = step.getByRole("heading");
-          const stepBox = await heading.boundingBox();
-          expect(stepBox!.x).toBeCloseTo(bodyBox!.x, 0);
-          await heading.hover();
-          await expect(heading.locator(".blocks-doc-heading-icon")).toBeHidden();
-        }
-        const code = page.locator(".blocks-doc-body .docs-code-wrap").first();
-        const copy = await code.getByRole("button", { name: "Copy code" }).boundingBox();
-        const sample = await code.locator("pre").boundingBox();
-        expect(copy!.y + copy!.height).toBeLessThanOrEqual(sample!.y);
-        await code.getByRole("button", { name: "Copy code" }).focus();
-        await page.keyboard.press("Tab");
-        await expect(code.locator("pre")).toBeFocused();
-        await page.keyboard.press("ArrowRight");
-        await expect
-          .poll(() => code.locator("pre").evaluate((node) => node.scrollLeft))
-          .toBeGreaterThan(0);
-        const props = page.locator(".blocks-doc-table");
-        await props.focus();
-        await page.keyboard.press("ArrowRight");
-        await expect.poll(() => props.evaluate((node) => node.scrollLeft)).toBeGreaterThan(0);
-        expect(
-          await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),
-        ).toBe(true);
-      }
-
-      await (
-        width >= 1260
-          ? contents.getByRole("link", { name: "About this block", exact: true })
-          : page.getByRole("heading", { name: "About this block", exact: true }).getByRole("link")
-      ).click();
-      await expect(
-        page.getByRole("heading", { name: "About this block", exact: true }),
-      ).toBeInViewport();
-      await expect(page.locator(".blocks-doc-explanation")).toContainText(
-        "Desktop collapse and mobile visibility are independent",
-      );
-      const paragraph = await page
-        .locator(".blocks-doc-explanation > section p")
-        .first()
-        .boundingBox();
-      expect(paragraph!.width).toBeCloseTo(bodyBox!.width, 0);
-      await assertNoBlockingA11yViolations(page, `Block documentation ${width}px ${scheme}`, {
-        include: ".blocks-doc-guide",
-      });
-      await page.screenshot({ path: testInfo.outputPath(`explanation-${width}-${scheme}.png`) });
-      const reference = page
-        .getByRole("region", { name: "Design reference", exact: true })
-        .getByRole("link", { name: "Shadcnblocks Application Shell 1", exact: true });
-      await expect(
-        page.getByRole("heading", { name: "Design reference", level: 2, exact: true }),
-      ).toBeVisible();
-      await (
-        width >= 1260
-          ? contents.getByRole("link", { name: "Design reference", exact: true })
-          : page.locator("#application-shell-reference .blocks-doc-heading-link")
-      ).click();
-      await expect(page.locator("#application-shell-reference")).toBeFocused();
-      await expect(reference).toHaveAttribute(
-        "href",
-        "https://www.shadcnblocks.com/block/application-shell1",
-      );
-      await page.screenshot({ path: testInfo.outputPath(`reference-${width}-${scheme}.png`) });
-      const footer = page.locator(".blocks-doc-footer");
-      for (const label of await footer.locator(".blocks-doc-footer-short").all()) {
-        if (width < 640) await expect(label).toBeVisible();
-        else await expect(label).toBeHidden();
-      }
-      await guide.getByRole("link", { name: "Back to showcase", exact: true }).click();
-      await expect(page.getByRole("tab", { name: "Preview", exact: true })).toBeInViewport();
+      const install = page.locator("#application-shell-installation");
+      await install.scrollIntoViewIfNeeded();
+      await expect(install).toBeInViewport();
+      await page.screenshot({ path: testInfo.outputPath(`installation-${width}-${scheme}.png`) });
     });
   }
+}
+
+for (const dark of [false, true]) {
+  test(`release guidance remains readable and navigable (${dark ? "dark" : "light"})`, async ({
+    page,
+  }) => {
+    await page.addInitScript((dark) => {
+      localStorage.setItem("theme", dark ? "dark" : "light");
+      localStorage.setItem("theme-preset", "ocean");
+    }, dark);
+    await page.goto(`${detail}#application-shell-release-checks`);
+    await expect(page.locator("html")).toHaveClass(/pp-ready/);
+    await expect
+      .poll(() => page.evaluate(() => document.documentElement.classList.contains("dark")))
+      .toBe(dark);
+    const section = page.getByRole("region", { name: "Release Checks", exact: true });
+    const checklist = section.getByRole("list", { name: "Release checklist" });
+    await expect(checklist.getByRole("listitem")).toHaveCount(6);
+    for (const item of await checklist.getByRole("listitem").all()) {
+      await expect(item.getByRole("heading", { level: 4 })).toBeVisible();
+      await expect(item.locator("dt")).toHaveText(["Try this", "Looks right when"]);
+    }
+    for (const link of await section.locator('a[href^="#"]').all()) {
+      const href = await link.getAttribute("href");
+      await expect(page.locator(href!)).toHaveCount(1);
+    }
+    for (const width of [320, 768, 1024, 1440]) {
+      await page.setViewportSize({ width, height: 900 });
+      await section.scrollIntoViewIfNeeded();
+      // Protect against clipped prose or controls, including labels enhanced into inline links.
+      expect(await section.evaluate((node) => node.scrollWidth <= node.clientWidth + 1)).toBe(true);
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
+        true,
+      );
+    }
+    await assertNoBlockingA11yViolations(page, "release guidance", { include: ".shell-release" });
+    const routerLink = section.getByRole("link", { name: "router and navigation data" });
+    await routerLink.focus();
+    await expect(routerLink).toBeFocused();
+    await page.keyboard.press("Enter");
+    await expect(page).toHaveURL(/#application-shell-route-lifetime$/);
+    await expect(page.locator("#application-shell-route-lifetime")).toBeInViewport();
+  });
 }

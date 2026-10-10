@@ -1,7 +1,9 @@
+import { InfoIcon } from "@kamod-ch/icons/lucide";
+import { BrandText } from "../docs/components/brand/BrandText";
+import { DocsCallout } from "../docs/components/DocsCallout";
 /** @file Guided props and data reference, backed by the block's checked-in types.ts. */
 
-import { CodeIcon } from "@kamod-ch/icons/lucide";
-import { Badge } from "@kamod-ch/ui";
+import { ApiSourceNote } from "../docs/components/ApiSourceNote";
 import {
   ShellCallbacks,
   ShellNavigationData,
@@ -11,6 +13,7 @@ import {
   type ShellTypeDefinitions,
   useShellTypeDefinitions,
 } from "./ApplicationShellTypeDefinition";
+import { ApplicationShellWrapperNote } from "./ApplicationShellWrapperNote";
 import { dataTypes, propDescriptions } from "./application-shell-api-data";
 import { applicationShellPropFields } from "./application-shell-type-source";
 import { BlockDocSection, BlockGuideHeading } from "./detail/BlockDocumentation";
@@ -22,15 +25,17 @@ const ShellComponentProps = ({ renderTypeLink, renderDefinition }: ShellTypeDefi
   <section class="blocks-api-section" aria-labelledby="application-shell-prop-reference">
     <BlockGuideHeading id="application-shell-prop-reference" />
     <p>
-      Each row lists a prop accepted by <code>ApplicationShell1</code>, its TypeScript type and how
-      it affects the shell. Follow a linked type to open its full definition, including individual
-      fields and their documentation. Optional props let you supply page content, connect navigation
-      and account actions, control desktop expansion or adjust wrapper styling.
+      <BrandText>
+        Each row lists a prop accepted by <code>ApplicationShell1</code>, its TypeScript type and
+        how it affects the shell. Follow a linked type to open its full definition, including
+        individual fields and their documentation. Optional props let you supply page content,
+        connect navigation and account actions, control desktop expansion or adjust wrapper styling.
+      </BrandText>
     </p>
     {/* Core Tooltip renders a div; an ARIA paragraph keeps the inline example valid in SSR. */}
     <div role="paragraph">
       The red asterisk{" "}
-      <RequiredIndicator label="Required prop indicator" tooltip="Required component prop" /> marks
+      <RequiredIndicator label="Required Prop Indicator" tooltip="Required component prop" /> marks
       the four required props: <code>brand</code>, <code>navigationGroups</code>, <code>user</code>{" "}
       and <code>breadcrumbs</code>. Supply all four when using the block; the two array props may be
       empty. Props without this marker are optional. Hover, focus or tap the icon to see its label.
@@ -49,27 +54,23 @@ const ShellComponentProps = ({ renderTypeLink, renderDefinition }: ShellTypeDefi
             {row.name === "navigationGroups" && (
               <>
                 {" "}
-                See <a href="#application-shell-navigation-data">Type your navigation data</a>.
+                See <a href="#application-shell-navigation-data">Type Your Navigation Data</a>.
               </>
             )}
             {row.name === "open" && (
               <>
                 {" "}
-                See <a href="#application-shell-state">Sidebar state</a>.
+                See <a href="#application-shell-state">Sidebar State</a>.
               </>
             )}
           </>
         ),
       }))}
     />
-    <p class="blocks-doc-note">
-      <strong>Wrapper styling:</strong> <code>class</code> and <code>className</code> target the
-      shell's outer wrapper. Arbitrary HTML attributes and other provider options are not forwarded.
-      The shell already renders <code>main</code>; do not add another one inside it.
-    </p>
+    <ApplicationShellWrapperNote />
     {renderDefinition({
       name: "ApplicationShell1Props",
-      title: "Complete component signature",
+      title: "Complete Component Signature",
       description: "All required and optional inputs in one copyable declaration.",
     })}
   </section>
@@ -86,24 +87,28 @@ const ShellDataTypes = ({ renderDefinition }: Pick<ShellTypeDefinitions, "render
       inherited ones.
     </p>
     <div role="paragraph">
-      <strong>Required type</strong>{" "}
-      <RequiredIndicator label="Required type indicator" tooltip="Required type" /> marks a type
+      <strong>Required Type</strong>{" "}
+      <RequiredIndicator label="Required Type Indicator" tooltip="Required type" /> marks a type
       used directly by a required shell prop. The prop must be supplied;{" "}
       <code>navigationGroups</code> and <code>breadcrumbs</code> may still be empty arrays.
     </div>
     <p>
-      <code>ComponentChildren</code>, <code>ComponentType</code> and <code>JSX</code> in these
-      definitions are Preact types. The copied <code>types.ts</code> already imports them.
+      <BrandText>
+        <code>ComponentChildren</code>, <code>ComponentType</code> and <code>JSX</code> in these
+        definitions are Preact types. The copied <code>types.ts</code> already imports them.
+      </BrandText>
     </p>
     <div class="blocks-api-types">{dataTypes.map(renderDefinition)}</div>
-    <p class="blocks-doc-note">
-      <strong>Branch selection:</strong> an active child makes the branch start expanded and
-      highlights its icon-mode menu or URL-free disclosure trigger. A parent rendered as a separate
-      link keeps its own active state; a child does not mark that parent link as the current page.
-      Later path changes do not reset an already mounted disclosure. Switching to desktop icon mode
-      replaces the disclosure with a dropdown; expanding the sidebar creates a new disclosure from
-      the current active state.
-    </p>
+    <DocsCallout class="docs-callout-spaced" title="Branch Selection" icon={<InfoIcon />}>
+      <p>
+        An active child makes the branch start expanded and highlights its icon-mode menu or
+        URL-free disclosure trigger. A parent rendered as a separate link keeps its own active
+        state; a child does not mark that parent link as the current page. Later path changes do not
+        reset an already mounted disclosure. Switching to desktop icon mode replaces the disclosure
+        with a dropdown; expanding the sidebar creates a new disclosure from the current active
+        state.
+      </p>
+    </DocsCallout>
   </section>
 );
 
@@ -122,24 +127,12 @@ export const ShellProps = () => {
             desktop state as your app needs them. All ten public types are exported by your local{" "}
             <code>application-shell-1</code> entrypoint.
           </p>
-          <div class="blocks-api-source-note">
-            <CodeIcon
-              size={18}
-              strokeWidth={2}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            />
-            <span>
-              Definitions and field comments below come directly from <code>types.ts</code>, keeping
-              the reference aligned with the block's public API. Explore the{" "}
-              <a href="#application-shell-data-types">Data type reference</a> for complete data
-              shapes, required and optional fields, and practical notes on how each type is used.
-            </span>
-            <Badge variant="secondary" size="sm">
-              TypeScript
-            </Badge>
-          </div>
+          <ApiSourceNote>
+            <strong>Definitions and field comments</strong> below come directly from{" "}
+            <code>types.ts</code>, keeping the reference aligned with the block's public API.
+            Explore the <a href="#application-shell-data-types">Data Type Reference</a> for complete
+            data shapes, required and optional fields, and practical notes on how each type is used.
+          </ApiSourceNote>
         </>
       }
     >

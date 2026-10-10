@@ -25,6 +25,188 @@
       }
     ]
   },
+  "application-shell/application-shell-2": {
+    "light": [
+      {
+        "src": "/block-previews/application-shell--application-shell-2-light-480-d55c78fe64.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/application-shell--application-shell-2-light-960-9c86cc5a68.webp",
+        "width": 960,
+        "height": 600
+      }
+    ],
+    "dark": [
+      {
+        "src": "/block-previews/application-shell--application-shell-2-dark-480-0c30a64913.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/application-shell--application-shell-2-dark-960-6a040864b5.webp",
+        "width": 960,
+        "height": 600
+      }
+    ]
+  },
+  "application-shell/application-shell-3": {
+    "light": [
+      {
+        "src": "/block-previews/application-shell--application-shell-3-light-480-826a593c85.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/application-shell--application-shell-3-light-960-683e7e2352.webp",
+        "width": 960,
+        "height": 600
+      }
+    ],
+    "dark": [
+      {
+        "src": "/block-previews/application-shell--application-shell-3-dark-480-cb5deb57d0.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/application-shell--application-shell-3-dark-960-ad7c95c326.webp",
+        "width": 960,
+        "height": 600
+      }
+    ]
+  },
+  "application-shell/application-shell-4": {
+    "light": [
+      {
+        "src": "/block-previews/application-shell--application-shell-4-light-480-ed9681b7f0.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/application-shell--application-shell-4-light-960-e174f791c4.webp",
+        "width": 960,
+        "height": 600
+      }
+    ],
+    "dark": [
+      {
+        "src": "/block-previews/application-shell--application-shell-4-dark-480-9d50e49066.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/application-shell--application-shell-4-dark-960-d0607fef0a.webp",
+        "width": 960,
+        "height": 600
+      }
+    ]
+  },
+  "application-shell/application-shell-5": {
+    "light": [
+      {
+        "src": "/block-previews/application-shell--application-shell-5-light-480-9e63750471.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/application-shell--application-shell-5-light-960-9faa4e04a4.webp",
+        "width": 960,
+        "height": 600
+      }
+    ],
+    "dark": [
+      {
+        "src": "/block-previews/application-shell--application-shell-5-dark-480-5b76bc524a.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/application-shell--application-shell-5-dark-960-fb2ab183bf.webp",
+        "width": 960,
+        "height": 600
+      }
+    ]
+  },
+  "application-shell/application-shell-6": {
+    "light": [
+      {
+        "src": "/block-previews/application-shell--application-shell-6-light-480-0f507f9fb8.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/application-shell--application-shell-6-light-960-159fddd4d1.webp",
+        "width": 960,
+        "height": 600
+      }
+    ],
+    "dark": [
+      {
+        "src": "/block-previews/application-shell--application-shell-6-dark-480-35c4c181fa.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/application-shell--application-shell-6-dark-960-cf1ddec87b.webp",
+        "width": 960,
+        "height": 600
+      }
+    ]
+  },
+  "application-shell/application-shell-7": {
+    "light": [
+      {
+        "src": "/block-previews/application-shell--application-shell-7-light-480-19fc1c0ce5.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/application-shell--application-shell-7-light-960-5da8d39653.webp",
+        "width": 960,
+        "height": 600
+      }
+    ],
+    "dark": [
+      {
+        "src": "/block-previews/application-shell--application-shell-7-dark-480-91bbbe4224.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/application-shell--application-shell-7-dark-960-d0e8e41655.webp",
+        "width": 960,
+        "height": 600
+      }
+    ]
+  },
+  "application-shell/application-shell-8": {
+    "light": [
+      {
+        "src": "/block-previews/application-shell--application-shell-8-light-480-47356952a7.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/application-shell--application-shell-8-light-960-ef98c7a41f.webp",
+        "width": 960,
+        "height": 600
+      }
+    ],
+    "dark": [
+      {
+        "src": "/block-previews/application-shell--application-shell-8-dark-480-4600f53d63.webp",
+        "width": 480,
+        "height": 300
+      },
+      {
+        "src": "/block-previews/application-shell--application-shell-8-dark-960-b514f86b05.webp",
+        "width": 960,
+        "height": 600
+      }
+    ]
+  },
   "login/login-01": {
     "light": [
       {

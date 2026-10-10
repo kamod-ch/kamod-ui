@@ -38,7 +38,7 @@ describe("block prompts", () => {
     const block = blockCategories.sidebar.blocks[4];
     const setup = createBlockPrompt(block, "setup", []);
     expect(setup).toContain("The outer Sidebar05 component is an editable composition");
-    expect(setup).toContain("@kamod-ch/themes, @preact/signals");
+    expect(setup).toContain("`@kamod-ch/themes`, `@preact/signals`");
     expect(setup).toContain("package is private");
     expect(setup).toContain("#sidebar-05-installation");
     const adapt = createBlockPrompt(block, "adapt", []);
@@ -52,6 +52,23 @@ describe("block prompts", () => {
     const prompt = createBlockPrompt(blockCategories.sidebar.blocks[0], "setup", [
       { destination: "src/README.md", code },
     ]);
-    expect(prompt).toContain(`### src/README.md\n\n\`\`\`\`\n${code}\n\`\`\`\``);
+    expect(prompt).toContain(`### src/README.md\n\n\`\`\`\`markdown\n${code}\n\`\`\`\``);
+  });
+
+  it("labels source fences by file type and leads from setup through verification to source", () => {
+    const prompt = createBlockPrompt(blockCategories.sidebar.blocks[0], "setup", [
+      { destination: "src/demo.tsx", code: "export const Demo = () => <main />;" },
+      { destination: "src/data.ts", code: "export const items = [];" },
+      { destination: "src/theme.css", code: ".demo { color: red; }" },
+      { destination: "src/unknown.asset", code: "literal" },
+    ]);
+    for (const language of ["tsx", "typescript", "css", "text"]) {
+      expect(prompt).toContain(`\`\`\`${language}\n`);
+    }
+    expect(prompt.indexOf("### 1. Understand the project")).toBeLessThan(
+      prompt.indexOf("### 4. Mount this block"),
+    );
+    expect(prompt.indexOf("## Verify the result")).toBeLessThan(prompt.indexOf("## Source files"));
+    expect(prompt).toContain("### Leave a useful handoff");
   });
 });

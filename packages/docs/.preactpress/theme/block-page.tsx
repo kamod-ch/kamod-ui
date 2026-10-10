@@ -25,6 +25,7 @@ type BlockModules = {
   BlocksSidebarContent: typeof import("../../src/blocks/BlocksSidebarContent");
   BlocksAuthContent: typeof import("../../src/blocks/BlocksAuthContent");
   BlocksApplicationShellContent: typeof import("../../src/blocks/BlocksApplicationShellContent");
+  BlocksApplicationShellPreviewContent: typeof import("../../src/blocks/BlocksApplicationShellPreviewContent");
   BlocksAppSidebarContent: typeof import("../../src/blocks/BlocksAppSidebarContent");
   BlocksCatalogAuthContent: typeof import("../../src/blocks/BlocksCatalogAuthContent");
   BlocksCommerceContent: typeof import("../../src/blocks/BlocksCommerceContent");

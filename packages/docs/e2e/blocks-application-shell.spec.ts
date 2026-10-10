@@ -67,7 +67,7 @@ test("collapsed navigation scrolls independently and its menus fit short windows
   await expect(more).toBeFocused();
   await expect(menu).toHaveCount(0);
   await page.getByRole("button", { name: "Open account menu for Alex Morgan" }).click();
-  await expect(page.getByRole("menuitem", { name: "Log out", exact: true })).toBeInViewport();
+  await expect(page.getByRole("menuitem", { name: /^Log out$/i })).toBeInViewport();
 });
 
 for (const mode of ["expanded", "collapsed", "mobile"] as const) {
@@ -78,7 +78,7 @@ for (const mode of ["expanded", "collapsed", "mobile"] as const) {
       await page.getByRole("button", { name: "Toggle Sidebar", exact: true }).click();
     const account = page.getByRole("button", { name: "Open account menu for Alex Morgan" });
     const first = page.getByRole("menuitem", { name: "Account", exact: true });
-    const last = page.getByRole("menuitem", { name: "Log out", exact: true });
+    const last = page.getByRole("menuitem", { name: /^Log out$/i });
     await account.focus();
     await page.keyboard.press("Enter");
     await expect(first).toBeFocused();
@@ -119,7 +119,7 @@ test("mobile sheet traps focus, closes on navigation and returns focus on Escape
   await assertNoBlockingA11yViolations(page, "Application Shell mobile sheet", {
     include: '[role="dialog"]',
   });
-  const brand = dialog.getByRole("link", { name: "Acme Inc", exact: true });
+  const brand = dialog.getByRole("link", { name: "Kamod UI", exact: true });
   const account = dialog.getByRole("button", { name: "Open account menu for Alex Morgan" });
   // Prove both boundaries wrap past the hidden Sheet close button and untabbable rail.
   await brand.focus();
@@ -131,7 +131,7 @@ test("mobile sheet traps focus, closes on navigation and returns focus on Escape
   await expect(dialog).toHaveCount(0);
   await expect(trigger).toBeFocused();
   await trigger.click();
-  await dialog.getByRole("link", { name: "Acme Inc", exact: true }).focus();
+  await dialog.getByRole("link", { name: "Kamod UI", exact: true }).focus();
   await page.keyboard.press("Escape");
   await expect(dialog).toHaveCount(0);
   await expect(trigger).toBeFocused();

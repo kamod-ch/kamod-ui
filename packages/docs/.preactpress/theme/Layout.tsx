@@ -32,7 +32,7 @@ const GettingStartedContent = blockPage("GettingStartedContent", "GettingStarted
 const BlocksGuidesContent = blockPage("BlocksGuidesContent", "BlocksGuidesContent");
 
 const ApplicationShellBlocksPreviewContent = blockPage(
-  "BlocksApplicationShellContent",
+  "BlocksApplicationShellPreviewContent",
   "ApplicationShellBlocksPreviewContent",
 );
 const BlocksApplicationShellDetailContent = blockPage(

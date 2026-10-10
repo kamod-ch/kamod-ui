@@ -1,10 +1,18 @@
-/** Application Shell uses the shared showcase with its flat source file list. */
+/** Application shells share the source browser while preserving each variant’s file closure. */
 import type { ApplicationShellBlock } from "./application-shell-config";
 import { BlockShowcase } from "./BlockShowcase";
-
-const loadSource = async (file: string) =>
-  (await import("./application-shell-source")).applicationShellSources[file] ?? "";
+import { sourceFromManifest } from "./source-manifest";
 
 export const ShellShowcase = ({ block }: { block: ApplicationShellBlock }) => (
-  <BlockShowcase block={block} loadSource={loadSource} groupedFiles={false} />
+  <BlockShowcase
+    block={block}
+    groupedFiles={block.id !== "application-shell-1"}
+    loadSource={async (file) =>
+      sourceFromManifest(
+        block.files,
+        file,
+        (await import("./application-shell-source")).applicationShellSourceFiles,
+      )
+    }
+  />
 );

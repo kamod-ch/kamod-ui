@@ -1,6 +1,7 @@
 /** Serve the same generated installation assets in development and static deployments. */
 import { resolve } from "node:path";
 import type { Plugin } from "vite";
+import { createShellThreeInstallation } from "../scripts/lib/shell-three-download.mjs";
 import {
   blocksRoot,
   createSidebarInstallations,
@@ -16,7 +17,7 @@ export function blockDownloadsPlugin(): Plugin {
     const installations = createSidebarInstallations();
     writeInstallationManifest(installations);
     assets = new Map(
-      installations.flatMap(
+      [...installations, createShellThreeInstallation()].flatMap(
         (installation) =>
           [
             [
@@ -59,7 +60,9 @@ export function blockDownloadsPlugin(): Plugin {
       if (file === resolve(blocksRoot, "src/sidebar/installation-manifest.json")) return;
       if (
         file.startsWith(resolve(blocksRoot, "src/sidebar") + "/") ||
-        file.startsWith(resolve(blocksRoot, "src/shared/branding") + "/")
+        file.startsWith(resolve(blocksRoot, "src/shared/branding") + "/") ||
+        file.startsWith(resolve(blocksRoot, "src/application-shell") + "/") ||
+        file === resolve(blocksRoot, "../../LICENSE.md")
       ) {
         regenerate();
         server.ws.send({ type: "full-reload" });

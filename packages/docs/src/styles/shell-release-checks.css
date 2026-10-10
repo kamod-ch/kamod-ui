@@ -1,0 +1,158 @@
+.blocks-doc-section #application-shell-release-checks {
+  margin-top: 2rem;
+}
+
+/* A reading checklist, not a live report of checks already completed. */
+.shell-release {
+  container-type: inline-size;
+  margin-bottom: 1.5rem;
+}
+
+.shell-release h4 {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  margin: 0 0 0.75rem;
+  color: var(--foreground);
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.shell-release h4 svg {
+  flex-shrink: 0;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  color: color-mix(in oklab, var(--primary) 45%, var(--foreground));
+}
+
+.blocks-doc-section .shell-release strong {
+  color: var(--foreground);
+  font-weight: 600;
+}
+
+.shell-release-setup {
+  margin-block: 1.5rem 0.5rem;
+  padding: 1.125rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: color-mix(in oklab, var(--primary) 3%, var(--background));
+}
+
+.shell-release :is(.shell-release-setup, .shell-release-checks, .shell-release-handoff) p {
+  font-size: 0.875rem;
+  line-height: 1.8;
+}
+
+.shell-release-matrix {
+  display: grid;
+  gap: 0.875rem;
+  margin: 1rem 0 0;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.shell-release :is(dl, dd) {
+  margin-inline: 0;
+}
+
+.shell-release dt {
+  margin-bottom: 0.375rem;
+  color: var(--foreground);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.shell-release code {
+  white-space: nowrap;
+}
+
+.shell-release-matrix dd {
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+  line-height: 1.8;
+}
+
+.shell-release-checks {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.shell-release-checks > li {
+  padding-block: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.shell-release-number {
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.shell-release-outcomes {
+  display: grid;
+  gap: 1rem;
+  margin-block: 0;
+}
+
+.shell-release-outcomes > div {
+  min-width: 0;
+}
+
+.shell-release-outcomes > div:last-child {
+  padding-inline-start: 0.875rem;
+  border-inline-start: 2px solid color-mix(in oklab, var(--primary) 25%, var(--border));
+}
+
+.shell-release-handoff {
+  padding-top: 1.5rem;
+}
+
+.shell-release-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  margin-top: 1rem;
+}
+
+.shell-release-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-height: 2rem;
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+}
+
+.shell-release a {
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, currentColor 35%, transparent);
+  text-underline-offset: 0.2em;
+}
+
+.shell-release a:hover {
+  color: var(--foreground);
+  text-decoration-color: currentColor;
+}
+
+.shell-release a:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+  border-radius: 0.125rem;
+}
+
+@container (min-width: 38rem) {
+  .shell-release-matrix {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .shell-release-outcomes {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+}

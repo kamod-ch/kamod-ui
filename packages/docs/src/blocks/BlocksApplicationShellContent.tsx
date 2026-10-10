@@ -1,29 +1,39 @@
 /**
- * Detail and standalone preview routes for registered application shells.
+ * Detail routes for registered application shells.
  * Each detail section owns its content and interaction state; internal links respect the site base.
- * @see https://www.shadcnblocks.com/blocks/application-shell — related block catalog.
  */
-import { applicationShellBlocks } from "@kamod-ch/blocks/application-shell";
-import { withBasePath } from "../base-path";
+
+import { useMemo } from "preact/hooks";
+import { applicationShellBlockMetadata } from "../../../blocks/src/application-shell/metadata";
 import { ShellPageHeader } from "./ApplicationShellHeader";
 import { ShellShowcase } from "./ApplicationShellShowcase";
-import { type ApplicationShellBlock, categoryPath } from "./application-shell-config";
+import type { ApplicationShellBlock } from "./application-shell-config";
 import { BlockDetailPage } from "./BlockDetailPage";
 import { applicationShellSections } from "./detail/application-shell-sections";
+import { createShellVariantSections } from "./detail/application-shell-variant-guides";
 import { BlockDocumentation } from "./detail/BlockDocumentation";
 
 /** Composes the showcase and guide without owning either component’s interaction state. */
-const ShellDetail = ({ block }: { block: ApplicationShellBlock }) => (
-  <>
-    <ShellShowcase key={block.id} block={block} />
-    <BlockDocumentation
-      block={block}
-      category="application-shell"
-      sections={applicationShellSections}
-      contentsId="application-shell-contents"
-    />
-  </>
-);
+const ShellDetail = ({ block }: { block: ApplicationShellBlock }) => {
+  const sections = useMemo(
+    () =>
+      block.id === "application-shell-1"
+        ? applicationShellSections
+        : createShellVariantSections(block),
+    [block],
+  );
+  return (
+    <>
+      <ShellShowcase key={block.id} block={block} />
+      <BlockDocumentation
+        block={block}
+        category="application-shell"
+        sections={sections}
+        contentsId="application-shell-contents"
+      />
+    </>
+  );
+};
 
 /**
  * Resolves a variant and wraps its detail view in the documentation site's top navigation.
@@ -32,7 +42,7 @@ const ShellDetail = ({ block }: { block: ApplicationShellBlock }) => (
  * @param props - Route data; `blockId` must match a registry ID such as `application-shell-1`.
  */
 export const BlocksApplicationShellDetailContent = ({ blockId }: { blockId?: string }) => {
-  const block = applicationShellBlocks.find((item) => item.id === blockId);
+  const block = applicationShellBlockMetadata.find((item) => item.id === blockId);
   return (
     <BlockDetailPage
       category="application-shell"
@@ -41,23 +51,4 @@ export const BlocksApplicationShellDetailContent = ({ blockId }: { blockId?: str
       {block ? <ShellDetail block={block} /> : <p>Block not found.</p>}
     </BlockDetailPage>
   );
-};
-
-/**
- * Renders a registered demo without site chrome for iframe and new-tab previews.
- * Unknown IDs show a small fallback with a link back to the category overview.
- *
- * @param props - Preview route data; `id` matches the same registry ID as the detail route.
- */
-export const ApplicationShellBlocksPreviewContent = ({ id }: { id?: string }) => {
-  const block = applicationShellBlocks.find((item) => item.id === id);
-  if (!block)
-    return (
-      <main>
-        <p>Block not found.</p>
-        <a href={withBasePath(categoryPath)}>All application shell blocks</a>
-      </main>
-    );
-  const Preview = block.component;
-  return <Preview />;
 };
