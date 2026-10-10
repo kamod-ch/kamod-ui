@@ -57,7 +57,9 @@
   --color-chart-5: var(--chart-5);
 }
 
-:root {
+/* Explicit scopes reset inherited tokens before applying a local preset/scheme. */
+:root,
+[data-theme-scope] {
   --background: var(--color-white);
   --foreground: var(--color-neutral-950);
   --card: var(--color-white);

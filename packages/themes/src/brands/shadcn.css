@@ -1,4 +1,5 @@
-:root[data-theme="shadcn"] {
+:root[data-theme="shadcn"],
+[data-theme-scope][data-theme="shadcn"] {
   --font-sans:
     "Geist Variable", Geist, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
     "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";

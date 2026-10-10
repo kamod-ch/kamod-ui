@@ -3,7 +3,8 @@
  * Tokens aligned with professional-SKILL.md foundations.
  */
 
-:root[data-theme="professional"] {
+:root[data-theme="professional"],
+[data-theme-scope][data-theme="professional"] {
   --font-sans:
     Poppins, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol", "Noto Color Emoji";

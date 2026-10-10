@@ -1,4 +1,5 @@
-:root[data-theme="kamod"] {
+:root[data-theme="kamod"],
+[data-theme-scope][data-theme="kamod"] {
   --radius: 0.625rem;
 }
 

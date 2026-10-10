@@ -1,6 +1,7 @@
 /* Cursor marketing / DESIGN.md — warm cream page, white cards, orange accent, Lato + Source Serif 4
    (Google Fonts: ../theme-fonts.css, first import in index.css) */
-:root[data-theme="cursor-warm"] {
+:root[data-theme="cursor-warm"],
+[data-theme-scope][data-theme="cursor-warm"] {
   --background: #f2f1ed;
   --foreground: #26251e;
   --card: var(--color-white);

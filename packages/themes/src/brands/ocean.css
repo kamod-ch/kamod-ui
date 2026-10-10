@@ -1,4 +1,5 @@
-:root[data-theme="ocean"] {
+:root[data-theme="ocean"],
+[data-theme-scope][data-theme="ocean"] {
   --background: var(--color-slate-50);
   --foreground: var(--color-slate-950);
   --card: var(--color-cyan-50);

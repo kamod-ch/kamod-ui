@@ -96,8 +96,11 @@ export const applyThemePreset = (
   preset: ThemePresetId,
   target: HTMLElement | null = getDefaultTarget(),
 ) => {
-  target?.classList.add("theme-switching");
-  target?.setAttribute("data-theme", preset);
+  // Multiple consumers hydrate the same document. An unchanged theme must not
+  // invalidate its styles or schedule another pair of animation frames.
+  if (!target || target.getAttribute("data-theme") === preset) return;
+  target.classList.add("theme-switching");
+  target.setAttribute("data-theme", preset);
   clearThemeSwitching(target);
 };
 
@@ -118,9 +121,11 @@ export const applyColorScheme = (
   scheme: ColorScheme,
   target: HTMLElement | null = getDefaultTarget(),
 ): ResolvedColorScheme => {
-  target?.classList.add("theme-switching");
   const resolvedScheme = scheme === "system" ? readSystemScheme() : scheme;
-  target?.classList.toggle("dark", resolvedScheme === "dark");
+  if (!target || target.classList.contains("dark") === (resolvedScheme === "dark"))
+    return resolvedScheme;
+  target.classList.add("theme-switching");
+  target.classList.toggle("dark", resolvedScheme === "dark");
   clearThemeSwitching(target);
   return resolvedScheme;
 };

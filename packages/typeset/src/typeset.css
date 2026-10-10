@@ -144,9 +144,11 @@
     text-decoration-thickness: 0.08em;
     text-underline-offset: 0.18em;
   }
-  .typeset
-    :where(a:hover):not(.not-typeset, [data-not-typeset], .not-typeset *, [data-not-typeset] *) {
-    color: var(--foreground, currentColor);
+  @media (hover: hover) and (pointer: fine) {
+    .typeset
+      :where(a:hover):not(.not-typeset, [data-not-typeset], .not-typeset *, [data-not-typeset] *) {
+      color: var(--foreground, currentColor);
+    }
   }
   .typeset
     :where(

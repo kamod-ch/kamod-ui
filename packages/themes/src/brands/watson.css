@@ -259,7 +259,8 @@
 }
 
 /* Demo preset: semantic tokens → Kamod UI variables */
-:root[data-theme="watson"] {
+:root[data-theme="watson"],
+[data-theme-scope][data-theme="watson"] {
   --font-sans:
     "Nunito Sans", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol", "Noto Color Emoji";
