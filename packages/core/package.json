@@ -342,7 +342,7 @@
   },
   "scripts": {
     "prepublishOnly": "node ../../scripts/sync-package-readme.mjs",
-    "build": "NODE_OPTIONS=--max-old-space-size=8192 tsup && tsc --emitDeclarationOnly --declaration --declarationMap false && node ../../scripts/fix-declaration-imports.mjs dist && cp src/theme.css dist/theme.css && mkdir -p dist/components/code && cp src/components/code/code.css dist/components/code/code.css && mkdir -p dist/components/copy-button && cp src/components/copy-button/copy-button.css dist/components/copy-button/copy-button.css",
+    "build": "NODE_OPTIONS=--max-old-space-size=8192 tsup && tsc --emitDeclarationOnly --declaration --declarationMap false && node ../../scripts/fix-declaration-imports.mjs dist && cp src/theme.css dist/theme.css && mkdir -p dist/components/code && cp src/components/code/code.css dist/components/code/code.css && mkdir -p dist/components/copy-button && cp src/components/copy-button/copy-button.css dist/components/copy-button/copy-button.css && mkdir -p dist/components/tabs && cp src/components/tabs/tabs.css dist/components/tabs/tabs.css",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",

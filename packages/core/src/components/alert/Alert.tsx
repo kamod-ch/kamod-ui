@@ -15,6 +15,8 @@ export const alert = tv({
   variants: {
     variant: {
       default: "border-border bg-card text-card-foreground",
+      callout:
+        "block overflow-hidden rounded-xl border-border/80 bg-card text-card-foreground shadow-xs",
       /** shadcn parity — title + icon use `text-destructive`; description muted via descendant selector. */
       destructive:
         "border-border bg-card text-destructive *:data-[slot=alert-description]:text-destructive/90 [&>svg]:text-current",

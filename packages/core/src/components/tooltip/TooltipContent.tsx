@@ -106,49 +106,39 @@ export const TooltipContent = ({
       prevSideRef.current = nextSide;
     }
 
-    const nextClamp: CSSProperties = {};
-    if (nextSide === "top" || nextSide === "bottom") {
-      const left = contentRect.left;
-      const right = contentRect.right;
-      if (left < collisionPadding) {
-        nextClamp.left = `${collisionPadding}px`;
-        nextClamp.transform = "none";
-      } else if (right > viewportWidth - collisionPadding) {
-        nextClamp.right = `${collisionPadding}px`;
-        nextClamp.left = "auto";
-        nextClamp.transform = "none";
-      }
-    } else {
-      const top = contentRect.top;
-      const bottom = contentRect.bottom;
-      if (top < collisionPadding) {
-        nextClamp.top = `${collisionPadding}px`;
-        nextClamp.transform = "none";
-      } else if (bottom > viewportHeight - collisionPadding) {
-        nextClamp.bottom = `${collisionPadding}px`;
-        nextClamp.top = "auto";
-        nextClamp.transform = "none";
-      }
-    }
-    setDynamicClamp(nextClamp);
+    // Compute the intended position before clamping, not the previous rendered
+    // position. Offsets are relative to the trigger; viewport edges are not.
+    const horizontal = nextSide === "top" || nextSide === "bottom";
+    const triggerStart = horizontal ? triggerRect.left : triggerRect.top;
+    const triggerSize = horizontal ? triggerRect.width : triggerRect.height;
+    const contentSize = horizontal ? contentRect.width : contentRect.height;
+    const viewportSize = horizontal ? viewportWidth : viewportHeight;
+    const offset =
+      align === "start"
+        ? alignOffset
+        : align === "end"
+          ? triggerSize - contentSize - alignOffset
+          : (triggerSize - contentSize) / 2 + alignOffset;
+    const position = Math.max(
+      collisionPadding,
+      Math.min(triggerStart + offset, viewportSize - collisionPadding - contentSize),
+    );
+    setDynamicClamp({
+      [horizontal ? "left" : "top"]: `${position - triggerStart}px`,
+      [horizontal ? "right" : "bottom"]: "auto",
+      transform: "none",
+    });
 
     const arrowInset = 12;
-    const nextArrowStyle: CSSProperties = {};
-    if (nextSide === "top" || nextSide === "bottom") {
-      const triggerCenterX = triggerRect.left + triggerRect.width / 2;
-      const desired = triggerCenterX - contentRect.left;
-      const clamped = Math.max(arrowInset, Math.min(contentRect.width - arrowInset, desired));
-      nextArrowStyle["--tooltip-arrow-x"] = `${clamped}px`;
-      nextArrowStyle["--tooltip-arrow-y"] = undefined;
-    } else {
-      const triggerCenterY = triggerRect.top + triggerRect.height / 2;
-      const desired = triggerCenterY - contentRect.top;
-      const clamped = Math.max(arrowInset, Math.min(contentRect.height - arrowInset, desired));
-      nextArrowStyle["--tooltip-arrow-y"] = `${clamped}px`;
-      nextArrowStyle["--tooltip-arrow-x"] = undefined;
-    }
+    const arrowPosition = Math.max(
+      arrowInset,
+      Math.min(contentSize - arrowInset, triggerStart + triggerSize / 2 - position),
+    );
+    const nextArrowStyle: CSSProperties = {
+      [horizontal ? "--tooltip-arrow-x" : "--tooltip-arrow-y"]: `${arrowPosition}px`,
+    };
     setArrowStyle(nextArrowStyle);
-  }, [align, collisionPadding, resolvedSide, side, sideOffset, tooltip.open.value]);
+  }, [align, alignOffset, collisionPadding, resolvedSide, side, sideOffset, tooltip.open.value]);
 
   if (!tooltip.open.value && !forceMount) return null;
 

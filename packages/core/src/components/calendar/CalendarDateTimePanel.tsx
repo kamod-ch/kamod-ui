@@ -115,7 +115,7 @@ export const CalendarDateTimePanel = ({
   const photoCalendarClass =
     "w-full min-w-0 max-w-full border-0 bg-transparent p-0 shadow-none " +
     "[&_[data-slot=calendar-day][data-outside=true]]:!text-neutral-400 dark:[&_[data-slot=calendar-day][data-outside=true]]:!text-neutral-500 " +
-    "[&_[data-slot=calendar-day]]:!rounded-full [&_[data-slot=calendar-day]:not(:disabled):hover]:!bg-neutral-200/90 dark:[&_[data-slot=calendar-day]:not(:disabled):hover]:!bg-white/10 " +
+    "[&_[data-slot=calendar-day]]:!rounded-full [&_[data-slot=calendar-day]:not(:disabled)]:hover:!bg-neutral-200/90 dark:[&_[data-slot=calendar-day]:not(:disabled)]:hover:!bg-white/10 " +
     "[&_[data-slot=calendar-day].bg-primary]:!rounded-xl [&_[data-slot=calendar-day].bg-primary]:!bg-[#1a1a1a] [&_[data-slot=calendar-day].bg-primary]:hover:!bg-[#1a1a1a] [&_[data-slot=calendar-day].bg-primary]:!text-white " +
     "dark:[&_[data-slot=calendar-day].bg-primary]:!bg-primary dark:[&_[data-slot=calendar-day].bg-primary]:!text-primary-foreground dark:[&_[data-slot=calendar-day].bg-primary]:hover:!bg-primary/90 " +
     "[&_[data-slot=calendar-day].bg-accent]:!rounded-full";

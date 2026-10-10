@@ -10,7 +10,7 @@ function TabGroups() {
     <>
       {[false, true].map((forceMount) => (
         <Tabs key={String(forceMount)} defaultValue="one">
-          <TabsList>
+          <TabsList variant="inset">
             <TabsTrigger value="one">One</TabsTrigger>
             <TabsTrigger value="two">Two</TabsTrigger>
           </TabsList>

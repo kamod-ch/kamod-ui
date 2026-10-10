@@ -9,6 +9,8 @@ import { CollapsibleTrigger } from "../collapsible/CollapsibleTrigger";
 export type TypeDefinitionProps = Omit<CollapsibleProps, "title"> & {
   /** Human-readable heading; may contain a permalink supplied by the application. */
   title: ComponentChildren;
+  /** Short, non-interactive context beside the heading, such as a declared field count. */
+  titleMetadata?: string;
   /** Exact identifier, displayed as code and included in the disclosure's accessible name. */
   typeName: string;
   /** Summary content. Links and inline code are welcome; use children for the full definition. */
@@ -26,6 +28,8 @@ export type TypeDefinitionProps = Omit<CollapsibleProps, "title"> & {
   /** Localizable labels; the type name is appended for assistive technology. */
   expandLabel?: string;
   collapseLabel?: string;
+  /** Secondary disclosure text; never place another interactive control inside the trigger. */
+  triggerHint?: string;
   /** Optional utility overrides for the disclosure button and expanded content. */
   triggerClass?: string;
   contentClass?: string;
@@ -42,6 +46,7 @@ export function TypeDefinition({
   onOpenChange,
   class: className,
   title,
+  titleMetadata,
   typeName,
   description,
   metadata,
@@ -49,8 +54,9 @@ export function TypeDefinition({
   headingId,
   headingLevel = 3,
   density = "default",
-  expandLabel = "View definition",
-  collapseLabel = "Hide definition",
+  expandLabel = "View Definition",
+  collapseLabel = "Hide Definition",
+  triggerHint,
   triggerClass,
   contentClass,
   children,
@@ -74,14 +80,25 @@ export function TypeDefinition({
         data-slot="type-definition-intro"
         class={compact ? "p-3" : "px-4 pt-4 pb-3 sm:px-5 sm:pt-5 sm:pb-4"}
       >
-        <div class="mb-1.5 flex flex-wrap items-start justify-between gap-x-4 gap-y-2">
-          <Heading
-            id={titleId}
-            tabIndex={-1}
-            class="m-0 min-w-0 scroll-mt-4 text-[0.95rem] leading-normal font-semibold [overflow-wrap:anywhere]"
-          >
-            {title}
-          </Heading>
+        <div class="mb-1.5 flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
+          <div class="flex min-w-0 flex-wrap items-center gap-x-2.5 gap-y-1">
+            <Heading
+              id={titleId}
+              tabIndex={-1}
+              class="m-0 min-w-0 scroll-mt-4 text-[0.95rem] leading-normal font-semibold [overflow-wrap:anywhere]"
+            >
+              {title}
+            </Heading>
+            {titleMetadata && (
+              <span
+                data-slot="type-definition-title-metadata"
+                class="flex items-center gap-2.5 text-[0.6875rem] font-normal text-muted-foreground"
+              >
+                <span aria-hidden="true">·</span>
+                {titleMetadata}
+              </span>
+            )}
+          </div>
           {headerAction}
         </div>
         <code
@@ -110,6 +127,7 @@ export function TypeDefinition({
         compact={compact}
         expandLabel={expandLabel}
         collapseLabel={collapseLabel}
+        triggerHint={triggerHint}
         triggerClass={triggerClass}
       />
       <CollapsibleContent
@@ -130,6 +148,7 @@ function DefinitionDisclosure({
   compact,
   expandLabel,
   collapseLabel,
+  triggerHint,
   triggerClass,
 }: {
   titleId: string;
@@ -137,6 +156,7 @@ function DefinitionDisclosure({
   compact: boolean;
   expandLabel: string;
   collapseLabel: string;
+  triggerHint?: string;
   triggerClass?: string;
 }) {
   const { open } = useCollapsible();
@@ -148,7 +168,7 @@ function DefinitionDisclosure({
       aria-label={`${label}: ${typeName}`}
       data-slot="type-definition-trigger"
       class={cn(
-        "flex min-h-11 w-full items-center justify-between gap-3 rounded-b-xl border-t border-border bg-muted py-2.5 text-left text-xs leading-relaxed text-muted-foreground transition-colors hover:bg-[color-mix(in_oklab,var(--foreground)_8%,var(--muted))] hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring data-[state=open]:rounded-b-none motion-reduce:transition-none",
+        "flex min-h-11 w-full items-center justify-between gap-3 rounded-b-xl border-t border-border bg-muted py-2.5 text-left text-xs leading-relaxed text-muted-foreground transition-colors hover:bg-[color-mix(in_oklab,var(--foreground)_4%,var(--muted))] hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring data-[state=open]:rounded-b-none motion-reduce:transition-none",
         compact ? "px-3" : "px-4 sm:px-5",
         triggerClass,
       )}
@@ -168,22 +188,40 @@ function DefinitionDisclosure({
         >
           <path d="m16 18 6-6-6-6M8 6l-6 6 6 6" />
         </svg>
-        {label}
+        <span class="flex flex-wrap items-center gap-x-2.5 gap-y-0.5">
+          <span>{label}</span>
+          {triggerHint && (
+            <span
+              data-slot="type-definition-trigger-hint"
+              class="flex items-center gap-2.5 text-[0.6875rem] text-muted-foreground"
+            >
+              <span aria-hidden="true">·</span>
+              {triggerHint}
+            </span>
+          )}
+        </span>
       </span>
-      <svg
-        width="16"
-        height="16"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
+      {/* Decorative button surface inside the single accessible disclosure target. */}
+      <span
+        data-slot="type-definition-chevron"
+        class="inline-flex size-6 shrink-0 items-center justify-center rounded-md bg-foreground/[0.02]"
         aria-hidden="true"
-        class={cn("shrink-0", open && "rotate-180")}
       >
-        <path d="m6 9 6 6 6-6" />
-      </svg>
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+          class={cn("shrink-0", open && "rotate-180")}
+        >
+          <path d="m6 9 6 6 6-6" />
+        </svg>
+      </span>
     </CollapsibleTrigger>
   );
 }

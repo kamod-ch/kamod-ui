@@ -25,7 +25,7 @@ export const tabsComponent = defineComponent({
     const defaultValue = props.defaultValue ?? props.items[0]?.id ?? "tab-0";
     return (
       <Tabs defaultValue={defaultValue}>
-        <TabsList>
+        <TabsList variant="line">
           {props.items.map((item) => (
             <TabsTrigger key={item.id} value={item.id}>
               {item.label}

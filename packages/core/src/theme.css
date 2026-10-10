@@ -1,5 +1,6 @@
 @import "./components/copy-button/copy-button.css";
 @import "./components/code/code.css";
+@import "./components/tabs/tabs.css";
 
 @source "./**/*.{js,mjs}";
 

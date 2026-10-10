@@ -4,7 +4,15 @@ export {
   AccordionItem,
   AccordionTrigger,
 } from "./components/accordion";
-export { Alert, AlertAction, AlertDescription, AlertTitle, alert } from "./components/alert";
+export {
+  Alert,
+  AlertAction,
+  AlertCallout,
+  type AlertCalloutProps,
+  AlertDescription,
+  AlertTitle,
+  alert,
+} from "./components/alert";
 export {
   AlertDialog,
   AlertDialogAction,

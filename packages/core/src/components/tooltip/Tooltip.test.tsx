@@ -5,6 +5,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./inde
 afterEach(() => {
   cleanup();
   vi.useRealTimers();
+  vi.restoreAllMocks();
 });
 
 const DelayedTooltip = ({ controlled }: { controlled: boolean }) => {
@@ -153,4 +154,40 @@ describe("Tooltip", () => {
     await advance(200);
     expect(onOpenChange).not.toHaveBeenCalled();
   });
+});
+
+describe("tooltip viewport positioning", () => {
+  it.each([
+    { side: "bottom", x: 950, y: 200, left: -134, top: null, arrow: 150 },
+    { side: "bottom", x: 4, y: 200, left: 4, top: null, arrow: 12 },
+    { side: "bottom", x: 400, y: 200, left: -84, top: null, arrow: 100 },
+    { side: "right", x: 200, y: 740, left: null, top: -80, arrow: 88 },
+    { side: "right", x: 200, y: 4, left: null, top: 4, arrow: 12 },
+  ] as const)(
+    "keeps the arrow on its trigger at $x,$y ($side)",
+    ({ side, x, y, left, top, arrow }) => {
+      vi.spyOn(window, "innerWidth", "get").mockReturnValue(1024);
+      vi.spyOn(window, "innerHeight", "get").mockReturnValue(768);
+      vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockImplementation(function (
+        this: HTMLElement,
+      ) {
+        return this.dataset.slot === "tooltip"
+          ? new DOMRect(x, y, 32, 32)
+          : new DOMRect(0, 0, 200, 100);
+      });
+      render(
+        <Tooltip defaultOpen>
+          <TooltipTrigger>Source</TooltipTrigger>
+          <TooltipContent side={side}>View source on GitHub</TooltipContent>
+        </Tooltip>,
+      );
+      const tooltip = screen.getByRole("tooltip");
+      if (left !== null) expect(tooltip.style.left).toBe(`${left}px`);
+      if (top !== null) expect(tooltip.style.top).toBe(`${top}px`);
+      expect(
+        tooltip.style.getPropertyValue(left !== null ? "--tooltip-arrow-x" : "--tooltip-arrow-y"),
+      ).toBe(`${arrow}px`);
+      expect(tooltip.style.transform).toBe("none");
+    },
+  );
 });

@@ -134,3 +134,36 @@ describe("Tabs", () => {
     expect(tabsIn(view).getByRole("tab", { name: "One" })).toHaveAttribute("aria-selected", "true");
   });
 });
+
+describe("inset Tabs", () => {
+  it.each(["horizontal", "vertical"] as const)(
+    "preserves %s keyboard selection and disabled states",
+    (orientation) => {
+      render(
+        <Tabs defaultValue="one" orientation={orientation}>
+          <TabsList variant="inset" aria-label="Workspace">
+            <TabsTrigger value="one">Overview</TabsTrigger>
+            <TabsTrigger value="blocked" disabled>
+              Unavailable
+            </TabsTrigger>
+            <TabsTrigger value="two">Activity</TabsTrigger>
+          </TabsList>
+          <TabsContent value="one">Overview panel</TabsContent>
+          <TabsContent value="two">Activity panel</TabsContent>
+        </Tabs>,
+      );
+      const list = screen.getByRole("tablist", { name: "Workspace" });
+      expect(list).toHaveAttribute("data-variant", "inset");
+      const first = within(list).getByRole("tab", { name: "Overview" });
+      const next = within(list).getByRole("tab", { name: "Activity" });
+      first.focus();
+      fireEvent.keyDown(first, { key: orientation === "horizontal" ? "ArrowRight" : "ArrowDown" });
+      expect(next).toHaveFocus();
+      expect(next).toHaveAttribute("aria-selected", "true");
+      expect(screen.getByRole("tabpanel")).toHaveTextContent("Activity panel");
+      fireEvent.keyDown(next, { key: "Home" });
+      expect(first).toHaveFocus();
+      expect(first).toHaveAttribute("aria-selected", "true");
+    },
+  );
+});
