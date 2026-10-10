@@ -10,6 +10,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  type SidebarProps,
   SidebarRail,
   useSidebar,
 } from "@kamod-ch/ui";
@@ -31,10 +32,13 @@ export const AppSidebar = ({
   currentPath,
   onNavigate,
   onUserAction,
+  side = "left",
+  variant = "sidebar",
 }: Pick<
   ApplicationShell1Props,
   "brand" | "navigationGroups" | "user" | "currentPath" | "onNavigate" | "onUserAction"
->) => {
+> &
+  Pick<SidebarProps, "side" | "variant">) => {
   const { state, isMobile, setOpenMobile } = useSidebar();
   /** Forwards a selection, then dismisses mobile navigation for an ordinary primary click. */
   const navigate: ApplicationShellNavigate = (destination, event) => {
@@ -68,6 +72,8 @@ export const AppSidebar = ({
   // Important utilities also override the primitives' state-specific animation rules.
   return (
     <Sidebar
+      side={side}
+      variant={variant}
       collapsible="icon"
       class="motion-reduce:transition-none! motion-reduce:animate-none! motion-reduce:[&_*]:transition-none! motion-reduce:[&_*]:animate-none!"
     >

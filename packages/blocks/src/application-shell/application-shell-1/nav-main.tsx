@@ -42,6 +42,10 @@ type NavBranchProps = NavigationContext & {
   active: boolean;
 };
 
+/** Tint navigation surfaces locally; the active tint also survives hover and open states. */
+const navigationSurface =
+  "[--sidebar-accent:color-mix(in_oklab,var(--primary)_6%,transparent)] [--sidebar-accent-foreground:var(--sidebar-foreground)] data-[active=true]:[--sidebar-accent:color-mix(in_oklab,var(--primary)_12%,transparent)]";
+
 /** Resolves explicit active state first; otherwise requires an exact, defined URL match. */
 const isActive = (item: ApplicationShellNavigationLink, path?: string) =>
   item.active ?? (item.href !== undefined && item.href === path);
@@ -97,13 +101,14 @@ const NavLink = ({
   );
   // Native hover titles remain visible outside the icon column's scroll clipping.
   return sub ? (
-    <SidebarMenuSubButton asChild isActive={active}>
+    <SidebarMenuSubButton asChild isActive={active} class={navigationSurface}>
       {element}
     </SidebarMenuSubButton>
   ) : (
     <SidebarMenuButton
       asChild
       isActive={active}
+      class={navigationSurface}
       title={state === "collapsed" && !isMobile ? item.label : undefined}
     >
       {element}
@@ -128,7 +133,7 @@ const NavMenuItem = ({
       disabled={disabled}
       aria-disabled={disabled || undefined}
       aria-current={isActive(item, currentPath) ? "page" : undefined}
-      class="px-2 py-1.5"
+      class="px-2 py-1.5 [--accent:color-mix(in_oklab,var(--primary)_6%,transparent)] [--accent-foreground:var(--popover-foreground)] aria-[current=page]:bg-primary/12 aria-[current=page]:[--accent:color-mix(in_oklab,var(--primary)_12%,transparent)]"
       onClick={(event: Parameters<ApplicationShellNavigate>[1]) => onNavigate?.(item, event)}
     >
       <span class="truncate">{item.label}</span>
@@ -141,7 +146,7 @@ const CollapsedNavBranch = ({ item, active, ...navigation }: NavBranchProps) => 
   const Icon = item.icon ?? CircleIcon;
   return (
     <Dropdown class="w-full">
-      <SidebarMenuButton asChild isActive={active}>
+      <SidebarMenuButton asChild isActive={active} class={navigationSurface}>
         <MenuTrigger
           disabled={item.disabled}
           aria-label={item.label}
@@ -194,7 +199,12 @@ const ExpandedNavBranch = ({ item, active, ...navigation }: NavBranchProps) => {
         </>
       ) : (
         <CollapsibleTrigger asChild aria-controls={contentId}>
-          <SidebarMenuButton isActive={active} disabled={item.disabled} aria-label={item.label}>
+          <SidebarMenuButton
+            isActive={active}
+            disabled={item.disabled}
+            aria-label={item.label}
+            class={navigationSurface}
+          >
             <Icon strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" />
             <span class="min-w-0 flex-1 truncate">{item.label}</span>
             {chevron}
