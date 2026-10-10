@@ -22,6 +22,7 @@
 @import "@kamod-ch/typeset/typeset.css";
 @import "@kamod-ch/typeset/presets.css";
 @import "./demo-foundation.css";
+@import "./highlight-strength.css";
 @import "./app.css";
 @import "./pages.css";
 @import "./blocks.css";
@@ -61,6 +62,9 @@
 @import "./page-introduction.css";
 @import "./home.css";
 @import "./showcase-background.css";
+
+@import "./page-state.css";
+@import "./not-found.css";
 
 @import "./docs-callout.css";
 @import "./inline-code-sizes.css";

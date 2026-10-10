@@ -26,8 +26,8 @@ for (const { path, selector } of [
     await page.reload({ waitUntil: "domcontentloaded" });
     await page.waitForSelector("html.pp-ready");
     await expect.poll(() => area.evaluate((node) => node.scrollTop)).toBe(180);
-    // A fresh request to the same document, including a section fragment, keeps its place.
-    await page.goto(`./${path}#top`, { waitUntil: "domcontentloaded" });
+    // Revisiting without a section destination keeps its place; followed fragments now align.
+    await page.goto(`./${path}`, { waitUntil: "domcontentloaded" });
     await expect.poll(() => area.evaluate((node) => node.scrollTop)).toBe(180);
     await page.setViewportSize({ width: 390, height: 844 });
     await page.reload({ waitUntil: "domcontentloaded" });

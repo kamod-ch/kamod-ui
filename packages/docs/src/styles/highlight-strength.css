@@ -1,0 +1,36 @@
+/* Preserve light-mode paint. In dark mode, boost a translucent highlight from
+ * alpha to alpha + alpha * (1 - alpha): quiet washes nearly double, while
+ * stronger hover/selected states stay distinct and never exceed 100%.
+ * CSS-only, including portals and live theme changes; no per-element observers.
+ */
+:root,
+.light {
+  --docs-highlight-boost: 0;
+}
+.dark {
+  --docs-highlight-boost: 1;
+}
+
+/* Extend the existing Tailwind opacity utilities without changing their
+ * specificity or state variants. Solid fills and transparent remain untouched.
+ */
+@utility bg-* {
+  background-color: color-mix(
+    in oklab,
+    --value(--color-*, [color])
+      calc(
+        --modifier(integer) * 1% + (100% - --modifier(integer) * 1%) * --modifier(integer) / 100 *
+          var(--docs-highlight-boost, 0)
+      ),
+    transparent
+  );
+  background-color: color-mix(
+    in oklab,
+    --value(--color-*, [color])
+      calc(
+        --modifier([number]) * 100% + (100% - --modifier([number]) * 100%) * --modifier([number]) *
+          var(--docs-highlight-boost, 0)
+      ),
+    transparent
+  );
+}

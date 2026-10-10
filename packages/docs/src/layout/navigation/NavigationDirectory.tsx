@@ -1,4 +1,5 @@
 import {
+  BracesIcon,
   ChevronDownIcon,
   ComponentIcon,
   LayersIcon,
@@ -6,6 +7,7 @@ import {
   TextCursorInputIcon,
 } from "@kamod-ch/icons/lucide";
 import {
+  BulbIcon,
   ComponentsIcon,
   CubeUnfoldedIcon,
   FormsIcon,
@@ -22,6 +24,7 @@ import {
   SheetClose,
 } from "@kamod-ch/ui";
 import { useId } from "preact/hooks";
+import { linkTitle } from "../../link-title";
 import { useNavigationGroup } from "./NavigationScrollArea";
 import { isNavigationCurrent, type NavigationGroup, type NavigationLink } from "./navigation-data";
 
@@ -32,6 +35,13 @@ const groupIcons = {
   packages: PackageIcon,
 };
 
+const groupDescriptions: Record<NavigationGroup["kind"], string> = {
+  components: "UI Building Blocks",
+  blocks: "Application Layouts",
+  forms: "Inputs & Validation",
+  packages: "Tools & Integrations",
+};
+
 const specialLinkIcons = {
   components: ComponentsIcon,
   blocks: LayoutDashboardIcon,
@@ -40,6 +50,13 @@ const specialLinkIcons = {
   "getting-started": RocketIcon,
   styles: WandIcon,
   theming: PaletteIcon,
+  utility: BracesIcon,
+};
+
+const navigationStatuses = {
+  planned: { label: "Planned", icon: BulbIcon },
+  added: { label: "Fresh", icon: RocketIcon },
+  updated: { label: "Updated", icon: WandIcon },
 };
 
 function DirectoryLink({
@@ -55,20 +72,36 @@ function DirectoryLink({
   guide?: boolean;
   closeOnNavigate: boolean;
 }) {
-  const status = link.planned ? "Planned" : link.updated ? "Updated" : undefined;
+  const introductory = overview || guide;
+  const variantCount = introductory ? undefined : link.variantCount;
+  const status = introductory
+    ? undefined
+    : link.planned
+      ? "planned"
+      : link.added
+        ? "added"
+        : link.updated
+          ? "updated"
+          : undefined;
+  const statusDescription =
+    status === "added"
+      ? "Fresh — newly added to the library"
+      : status && navigationStatuses[status].label;
+  const StatusIcon = status ? navigationStatuses[status].icon : undefined;
   const SpecialIcon = link.icon ? specialLinkIcons[link.icon] : undefined;
-  const showCount = link.variantCount !== undefined && !(link.planned && link.variantCount === 0);
+  const showCount = variantCount !== undefined && !(link.planned && variantCount === 0);
   const description =
-    link.variantCount === undefined
-      ? status
-      : `${link.variantCount} ${link.variantCount === 1 ? "variant" : "variants"}${link.planned ? " · Planned collection — page not available yet" : ""}`;
+    variantCount === undefined
+      ? statusDescription
+      : `${variantCount} ${variantCount === 1 ? "variant" : "variants"}${link.planned ? " · Planned collection — page not available yet" : statusDescription ? ` · ${statusDescription}` : ""}`;
   const anchor = (
     <a
       href={link.href}
-      class={`site-navigation-link${overview || guide ? " site-navigation-link-overview" : ""}`}
+      class={`site-navigation-link${introductory ? " site-navigation-link-overview" : ""}`}
       data-block-placeholder={link.planned ? "" : undefined}
-      aria-label={link.variantCount !== undefined ? link.label : undefined}
-      title={description}
+      aria-label={variantCount !== undefined ? linkTitle(link.label) : undefined}
+      aria-description={description}
+      data-tooltip="off"
       aria-current={
         isNavigationCurrent(pathname, link.href)
           ? "page"
@@ -77,25 +110,23 @@ function DirectoryLink({
             : undefined
       }
     >
-      <span>{link.label}</span>
+      <span class="site-navigation-link-label">
+        <span>{linkTitle(link.label)}</span>
+      </span>
       {(status || showCount || SpecialIcon) && (
         <span class="site-navigation-link-meta" aria-hidden="true">
-          {status && (
-            <Badge
-              variant="primary"
-              size="xxs"
-              class="site-navigation-status"
-              data-status={link.planned ? "planned" : "updated"}
-            >
-              <span class="site-navigation-status-dot" aria-hidden="true" />
-              {status}
+          {status && StatusIcon && (
+            <Badge variant="default" size="xxs" class="site-navigation-status" data-status={status}>
+              <StatusIcon size={10} strokeWidth={2} aria-hidden="true" />
+              <span>{navigationStatuses[status].label}</span>
             </Badge>
           )}
-          {showCount && <span class="site-navigation-variant-count">{link.variantCount}</span>}
+          {status && showCount && <span class="site-navigation-status-separator">·</span>}
+          {showCount && <span class="site-navigation-variant-count">{variantCount}</span>}
           {SpecialIcon && (
             <SpecialIcon
               class="site-navigation-special-icon"
-              size={16}
+              size={20}
               strokeWidth={1.75}
               aria-hidden="true"
             />
@@ -122,27 +153,28 @@ function DirectoryGroup({
     isNavigationCurrent(pathname, link.href, link.matchDescendants),
   );
   const disclosure = useNavigationGroup(group.id, current);
+  const count = group.links.length;
   return (
-    <Collapsible class="site-navigation-group" {...disclosure}>
+    <Collapsible class="site-navigation-group" data-kind={group.kind} {...disclosure}>
       <CollapsibleTrigger
         class="site-navigation-group-trigger"
         aria-controls={id}
         data-navigation-group={group.id}
+        data-navigation-count={count}
         data-current={current || undefined}
-        data-tooltip={`${(disclosure.open ?? disclosure.defaultOpen) ? "Collapse" : "Expand"} ${group.label}`}
       >
         <span class="site-navigation-group-icon">
-          <Icon size={18} aria-hidden="true" />
+          <Icon size={18} strokeWidth={1.8} aria-hidden="true" />
         </span>
         <span>
           {group.label}
-          <small>{group.kind === "blocks" ? "Layout collections" : "Documentation"}</small>
+          <small>{groupDescriptions[group.kind]}</small>
         </span>
         <span
           class="site-navigation-count"
-          aria-label={`${group.links.length} ${group.kind === "blocks" ? "collections" : "pages"}`}
+          aria-label={`${count} ${group.kind === "blocks" ? "collections" : "pages"}`}
         >
-          {group.links.length}
+          {count}
         </span>
         <ChevronDownIcon class="site-navigation-chevron" size={16} aria-hidden="true" />
       </CollapsibleTrigger>
@@ -159,7 +191,11 @@ function DirectoryGroup({
           {group.guides?.map((link, index, guides) => (
             <li
               key={link.href}
-              class={index === guides.length - 1 ? "site-navigation-intro-end" : undefined}
+              class={
+                group.links.length > 0 && index === guides.length - 1
+                  ? "site-navigation-intro-end"
+                  : undefined
+              }
             >
               <DirectoryLink
                 link={link}

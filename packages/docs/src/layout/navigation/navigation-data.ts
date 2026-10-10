@@ -1,8 +1,12 @@
 import { withBasePath } from "../../base-path";
 import { type BlockCategory, blockCategories } from "../../blocks/block-categories";
-import { PLACEHOLDER_BLOCK_CATEGORIES, visibleBlockNavItems } from "../../blocks/block-nav-config";
+import {
+  blockCategoryStatuses,
+  PLACEHOLDER_BLOCK_CATEGORIES,
+  visibleBlockNavItems,
+} from "../../blocks/block-nav-config";
 import { blockGuides } from "../../blocks/guides/guide-catalog";
-import { docsUpdatedComponentSlugs } from "../../docs/component-status";
+import { docsAddedComponentSlugs, docsUpdatedComponentSlugs } from "../../docs/component-status";
 import { docsShowMotion, isMotionDocSlug } from "../../docs/docs-feature-flags";
 import { docsNavigation } from "../../docs/generated-navigation";
 
@@ -12,9 +16,18 @@ export type NavigationLink = {
   matchDescendants?: boolean;
   planned?: boolean;
   updated?: boolean;
+  added?: boolean;
   variantCount?: number;
   /** Decorative trailing icon for introductory destinations; regular entries retain their counts. */
-  icon?: "components" | "blocks" | "forms" | "packages" | "getting-started" | "styles" | "theming";
+  icon?:
+    | "components"
+    | "blocks"
+    | "forms"
+    | "packages"
+    | "getting-started"
+    | "styles"
+    | "theming"
+    | "utility";
 };
 export type NavigationGroup = {
   id: string;
@@ -47,19 +60,29 @@ const groups: NavigationGroup[] = [
               icon: "theming" as const,
             },
             {
-              label: "Component styles",
+              label: "Component Styles",
               href: withBasePath("/blocks/styles"),
               icon: "styles" as const,
+            },
+            {
+              label: "cn Utility",
+              href: withBasePath("/docs/cn/installation"),
+              icon: "utility" as const,
             },
           ]
         : undefined,
     links: docsNavigation
-      .filter((doc) => doc.slug !== "theming")
+      .filter((doc) => !["theming", "cn"].includes(doc.slug))
       .filter((doc) => docsShowMotion || !isMotionDocSlug(doc.slug))
       .filter((doc) => doc.group === id || (id === "components" && doc.group === "motion"))
       .map((doc) => ({
         label: doc.label,
         updated: docsUpdatedComponentSlugs.has(doc.slug),
+        added: docsAddedComponentSlugs.has(doc.slug),
+        variantCount:
+          "variantCount" in doc
+            ? doc.variantCount + (docsShowMotion ? doc.motionVariantCount : 0)
+            : undefined,
         href: withBasePath(`/docs/${doc.slug}/installation`),
       })),
   })),
@@ -67,7 +90,7 @@ const groups: NavigationGroup[] = [
     id: "blocks",
     label: "Blocks",
     kind: "blocks",
-    overview: { label: "Blocks overview", href: withBasePath("/blocks"), icon: "blocks" },
+    overview: { label: "Blocks Overview", href: withBasePath("/blocks"), icon: "blocks" },
     guides: blockGuides.map(({ slug, label }) => ({
       label,
       href: withBasePath(`/blocks/${slug}`),
@@ -80,6 +103,8 @@ const groups: NavigationGroup[] = [
           label: item.label,
           href: withBasePath(item.href),
           matchDescendants: true,
+          added: blockCategoryStatuses[item.key] === "added",
+          updated: blockCategoryStatuses[item.key] === "updated",
           variantCount: blockCategories[item.key as BlockCategory].blocks.length,
         })),
       ...PLACEHOLDER_BLOCK_CATEGORIES.map(({ key, label }) => ({
@@ -103,4 +128,4 @@ export function isNavigationCurrent(pathname: string, href: string, matchDescend
   return path === target || (matchDescendants && path.startsWith(`${target}/`));
 }
 
-export const navigationGroups = [groups[0], groups[3], groups[1], groups[2]];
+export const navigationGroups: NavigationGroup[] = [groups[0], groups[3], groups[1], groups[2]];

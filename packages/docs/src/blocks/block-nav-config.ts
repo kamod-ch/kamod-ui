@@ -23,6 +23,18 @@ export const BLOCK_NAV_ITEMS = [
 
 export type BlockNavKey = (typeof BLOCK_NAV_ITEMS)[number]["key"];
 
+/**
+ * Require a new collection/variant or a significant public integration-contract change.
+ * Documentation, styling, source manifests and routine fixes alone do not qualify.
+ * Status never enables hidden categories; retire badges when release notes cover them.
+ */
+export const blockCategoryStatuses: Partial<Record<BlockNavKey, "added" | "updated">> = {
+  // New contributor collection, including additional local shell variants.
+  "application-shell": "added",
+  // ec1e8af3: replace mode-based AppSidebar; require explicit navigation/team data props.
+  sidebar: "updated",
+};
+
 export const visibleBlockNavItems = BLOCK_NAV_ITEMS.filter(
   (item) => !HIDDEN_BLOCK_NAV_KEYS.has(item.key),
 );
@@ -38,7 +50,7 @@ export const PLACEHOLDER_BLOCK_CATEGORIES = [
   { key: "bento", label: "Bento" },
   { key: "blog", label: "Blog" },
   { key: "blog-post", label: "Blog Post" },
-  { key: "book-a-demo", label: "Book A Demo" },
+  { key: "book-a-demo", label: "Book a Demo" },
   { key: "careers", label: "Careers" },
   { key: "case-studies", label: "Case Studies" },
   { key: "case-study", label: "Case Study" },

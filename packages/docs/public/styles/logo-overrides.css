@@ -1,20 +1,52 @@
-.docs-topbar-brand .kamod-logo {
+/* Site-owned styles: brand:sync refreshes logo.css, but leaves this file intact. */
+.kamod-ui-logo {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  height: 2rem;
-  flex-shrink: 0;
-  text-decoration: none;
+  flex: none;
+  gap: 0.4375rem;
+  height: 1.875rem;
+  white-space: nowrap;
+  font-family: "Quicksand", system-ui, sans-serif;
+  font-size: 1.625rem;
+  -webkit-font-smoothing: antialiased;
 }
-
-@media (max-width: 639px) {
-  .docs-topbar-brand .kamod-logo {
-    height: 2.1rem;
+.kamod-ui-logo .kamod-icon {
+  width: 1.625rem;
+  height: 1.625rem;
+  margin-right: 0.125rem;
+}
+.kamod-ui-logo-wordmark,
+.kamod-ui-logo-product {
+  color: color-mix(in oklab, var(--primary) 12%, var(--foreground));
+  font-size: 1em;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1;
+}
+.kamod-ui-logo-dot {
+  flex: none;
+  width: 0.25rem;
+  height: 0.25rem;
+  margin-inline: 0.125rem;
+  border-radius: 50%;
+  background: color-mix(in oklab, var(--primary) 60%, var(--foreground));
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--primary) 7%, transparent);
+}
+.kamod-ui-logo-product {
+  font-size: 0.9em;
+}
+@media (max-width: 479px) {
+  .kamod-ui-logo {
+    gap: 0.375rem;
+    height: 1.625rem;
+    font-size: 1.3125rem;
   }
-
-  .docs-topbar-brand .kamod-logo__mark,
-  .docs-topbar-brand .kamod-logo__mark-img,
-  .docs-topbar-brand .kamod-logo__suffix {
-    height: 2.1rem;
+  .kamod-ui-logo .kamod-icon {
+    width: 1.3125rem;
+    height: 1.3125rem;
+    margin-right: 0;
+  }
+  .kamod-ui-logo-dot {
+    margin-inline: 0;
   }
 }

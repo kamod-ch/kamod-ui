@@ -1,18 +1,12 @@
-import { HouseIcon, MenuIcon, PaletteIcon, XIcon } from "@kamod-ch/icons/lucide";
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetTitle,
-  SheetTrigger,
-} from "@kamod-ch/ui";
+import { MenuIcon } from "@kamod-ch/icons/lucide";
+import { Sheet, SheetContent, SheetTrigger } from "@kamod-ch/ui";
 import { useEffect, useId, useRef, useState } from "preact/hooks";
-import { withBasePath } from "../../base-path";
 import { NavigationDirectory } from "./NavigationDirectory";
-import { NavigationFooter } from "./NavigationFooter";
+import { NavigationHeader } from "./NavigationHeader";
+import { NavigationMenuHeader } from "./NavigationMenuHeader";
 import { NavigationScrollArea } from "./NavigationScrollArea";
 import { navigationGroups } from "./navigation-data";
+import { SidebarResources } from "./SidebarResources";
 
 /** One responsive navigation surface for home, documentation and every block detail page. */
 export function SiteNavigation() {
@@ -46,7 +40,7 @@ export function SiteNavigation() {
   useEffect(() => {
     if (!open) return;
     // Crossing into the desktop layout must also release the modal's scroll lock.
-    const desktop = window.matchMedia("(min-width: 980px)");
+    const desktop = window.matchMedia("(min-width: 940px)");
     const closeOnDesktop = () => {
       if (desktop.matches) setOpen(false);
     };
@@ -79,45 +73,12 @@ export function SiteNavigation() {
         </button>
       </SheetTrigger>
       <SheetContent id={id} class="site-navigation-panel" side="left" showCloseButton={false}>
-        <div class="site-navigation-head">
-          <div class="site-navigation-heading">
-            <div>
-              <span class="site-navigation-eyebrow">KAMOD UI / DOCUMENTATION</span>
-              <SheetTitle>Explore Kamod</SheetTitle>
-            </div>
-            <SheetClose
-              class="docs-icon-button site-navigation-icon-button"
-              aria-label="Close navigation menu"
-            >
-              <XIcon size={19} aria-hidden="true" />
-            </SheetClose>
-          </div>
-          <SheetDescription>
-            Components, complete layouts and the tools to build with them.
-          </SheetDescription>
-        </div>
+        <NavigationMenuHeader />
         <NavigationScrollArea mode="mobile" class="site-navigation-body">
-          <nav class="site-navigation-quick-links" aria-label="Start here">
-            <SheetClose asChild>
-              <a href={withBasePath("/")}>
-                <HouseIcon size={16} aria-hidden="true" />
-                Home
-              </a>
-            </SheetClose>
-            <SheetClose asChild>
-              <a href={withBasePath("/docs/theming/installation")}>
-                <PaletteIcon size={16} aria-hidden="true" />
-                Theming
-              </a>
-            </SheetClose>
-          </nav>
-          <div class="site-navigation-directory-heading">
-            <span>Browse the library</span>
-            <span>Built for Preact</span>
-          </div>
+          <NavigationHeader pathname={pathname} closeOnNavigate />
           <NavigationDirectory groups={navigationGroups} pathname={pathname} closeOnNavigate />
         </NavigationScrollArea>
-        <NavigationFooter />
+        <SidebarResources />
       </SheetContent>
     </Sheet>
   );

@@ -3,11 +3,22 @@ import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { blockCategories } from "../../blocks/block-categories";
 import { PLACEHOLDER_BLOCK_CATEGORIES } from "../../blocks/block-nav-config";
-import { docsUpdatedComponentSlugs } from "../../docs/component-status";
+import { docsAddedComponentSlugs, docsUpdatedComponentSlugs } from "../../docs/component-status";
+import { getComponentExamples } from "../../docs/components/component-detail/component-examples";
+import { getDocSections } from "../../docs/doc-sections";
 import { docsPages } from "../../docs/registry";
 import { isNavigationCurrent, navigationGroups } from "./navigation-data";
 
 describe("site navigation", () => {
+  it("keeps generated component variant counts aligned with the visible examples", () => {
+    const components = navigationGroups.find((group) => group.id === "components")!;
+    for (const link of components.links) {
+      const doc = docsPages.find((page) => link.href === `/docs/${page.slug}/installation`)!;
+      expect(link.variantCount, doc.slug).toBe(
+        getComponentExamples(doc, getDocSections(doc)).length,
+      );
+    }
+  });
   it("exposes every visible docs page with its original label and group", () => {
     for (const doc of docsPages) {
       const group = navigationGroups.find(
@@ -29,12 +40,15 @@ describe("site navigation", () => {
     ).toHaveLength(docsPages.length);
   });
 
-  it("promotes component theming to the introductory links without duplicating it", () => {
+  it("promotes component foundations to the introductory links without duplicates", () => {
     const components = navigationGroups.find((group) => group.id === "components")!;
     expect(components.guides).toEqual([
       { label: "Theming", href: "/docs/theming/installation", icon: "theming" },
-      { label: "Component styles", href: "/blocks/styles", icon: "styles" },
+      { label: "Component Styles", href: "/blocks/styles", icon: "styles" },
+      { label: "cn Utility", href: "/docs/cn/installation", icon: "utility" },
     ]);
+    expect(components.links.some(({ href }) => href.includes("/docs/cn/"))).toBe(false);
+    expect(isNavigationCurrent("/docs/cn/usage", components.guides![2].href)).toBe(true);
     const blocks = navigationGroups.find((group) => group.id === "blocks")!;
     expect(blocks.guides).toContainEqual(components.guides![1]);
     expect(components.links.some(({ href }) => href.includes("/docs/theming/"))).toBe(false);
@@ -44,14 +58,77 @@ describe("site navigation", () => {
     );
   });
 
-  it("marks only the components in the update metadata", () => {
-    const links = navigationGroups.flatMap((group) => group.links);
-    expect(
-      links
-        .filter((link) => link.updated)
-        .map((link) => link.href)
-        .sort(),
-    ).toEqual([...docsUpdatedComponentSlugs].map((slug) => `/docs/${slug}/installation`).sort());
+  it("applies contribution metadata to regular component links", () => {
+    const links = navigationGroups
+      .filter((group) => group.kind !== "blocks")
+      .flatMap((group) => group.links);
+    for (const [status, slugs] of [
+      ["updated", docsUpdatedComponentSlugs],
+      ["added", docsAddedComponentSlugs],
+    ] as const) {
+      expect(
+        links
+          .filter((link) => link[status])
+          .map((link) => link.href)
+          .sort(),
+      ).toEqual([...slugs].map((slug) => `/docs/${slug}/installation`).sort());
+      for (const slug of slugs) {
+        expect(
+          docsPages.some((doc) => doc.slug === slug),
+          slug,
+        ).toBe(true);
+      }
+    }
+    expect([...docsAddedComponentSlugs]).toEqual(["code"]);
+    expect([...docsAddedComponentSlugs].some((slug) => docsUpdatedComponentSlugs.has(slug))).toBe(
+      false,
+    );
+  });
+
+  it("preserves upstream badges and adds only significant contributor changes", () => {
+    const components = navigationGroups.find((group) => group.id === "components")!;
+    expect(components.links.filter((link) => link.updated).map((link) => link.href)).toEqual([
+      "/docs/alert/installation",
+      "/docs/dropdown/installation",
+      "/docs/popover/installation",
+      "/docs/spinner/installation",
+      "/docs/switch/installation",
+      "/docs/tabs/installation",
+      "/docs/textarea/installation",
+      "/docs/toggle/installation",
+      "/docs/toggle-group/installation",
+      "/docs/tooltip/installation",
+      "/docs/tree/installation",
+      "/docs/type-definition/installation",
+      "/docs/typography/installation",
+    ]);
+    // Keep the ten pre-contribution badges; do not mark unrelated local copy/style fixes.
+    for (const slug of ["accordion", "button", "avatar", "theme-toggle"]) {
+      expect(
+        components.links.find((link) => link.href === `/docs/${slug}/installation`)?.updated,
+      ).toBe(false);
+    }
+  });
+
+  it("distinguishes the added shell collection from updated and planned collections", () => {
+    const links = navigationGroups.find((group) => group.kind === "blocks")!.links;
+    expect(links.filter((link) => link.added).map((link) => link.href)).toEqual([
+      "/blocks/application-shell",
+    ]);
+    expect(links.filter((link) => link.updated).map((link) => link.href)).toEqual([
+      "/blocks/sidebar",
+    ]);
+    // Documentation, source manifests, moved branding and heading copy are not API changes.
+    for (const href of ["/blocks/login", "/blocks/signup"]) {
+      const link = links.find((link) => link.href === href)!;
+      expect([link.added, link.updated, link.planned].some(Boolean)).toBe(false);
+    }
+    for (const link of links) {
+      expect(
+        [link.added, link.updated, link.planned].filter(Boolean).length,
+        link.href,
+      ).toBeLessThanOrEqual(1);
+    }
   });
 
   it("includes every available and planned collection exactly once", () => {
@@ -108,6 +185,12 @@ describe("site navigation", () => {
   });
 
   it("keeps the three introductory guides separate from collection counts", () => {
+    for (const group of navigationGroups) {
+      for (const link of [group.overview, ...(group.guides ?? [])]) {
+        expect([link.added, link.updated, link.planned].some(Boolean), link.href).toBe(false);
+        expect(link.variantCount, link.href).toBeUndefined();
+      }
+    }
     const blocks = navigationGroups.find((group) => group.id === "blocks")!;
     expect(blocks.guides?.map(({ href }) => href)).toEqual([
       "/blocks/getting-started",

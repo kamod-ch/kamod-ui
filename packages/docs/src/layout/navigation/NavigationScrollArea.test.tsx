@@ -4,22 +4,30 @@ import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { NavigationScrollArea, useNavigationGroup } from "./NavigationScrollArea";
 
 const key = (mode = "desktop") => `kamod:navigation:/:${mode}`;
-function Group() {
+function Group({ withLink = false }: { withLink?: boolean }) {
   const { open, onOpenChange } = useNavigationGroup("components", true);
   return (
-    <button
-      data-navigation-group="components"
-      aria-expanded={open}
-      onClick={() => onOpenChange?.(!open)}
-    >
-      Components
-    </button>
+    <>
+      <button
+        data-current="true"
+        data-navigation-group="components"
+        aria-expanded={open}
+        onClick={() => onOpenChange?.(!open)}
+      >
+        Components
+      </button>
+      {withLink && open && (
+        <a href="/docs/button/installation" class="site-navigation-link" aria-current="page">
+          Button
+        </a>
+      )}
+    </>
   );
 }
-function mount(mode: "desktop" | "mobile" = "desktop") {
+function mount(mode: "desktop" | "mobile" = "desktop", withLink = false) {
   return render(
     <NavigationScrollArea mode={mode} class="scroll">
-      <Group />
+      <Group withLink={withLink} />
     </NavigationScrollArea>,
   );
 }
@@ -28,6 +36,7 @@ let resize: ResizeObserverCallback;
 const disconnect = vi.fn();
 beforeEach(() => {
   sessionStorage.clear();
+  history.replaceState(null, "", "/");
   visible = true;
   vi.spyOn(HTMLElement.prototype, "clientHeight", "get").mockImplementation(() =>
     visible ? 300 : 0,
@@ -115,4 +124,56 @@ it("keeps group controls usable when storage is blocked", () => {
   mount();
   fireEvent.click(screen.getByRole("button"));
   expect(screen.getByRole("button")).toHaveAttribute("aria-expanded", "false");
+});
+
+function mockDestination() {
+  vi.spyOn(HTMLElement.prototype, "scrollHeight", "get").mockImplementation(function (
+    this: HTMLElement,
+  ) {
+    return 700 + (parseFloat(this.style.getPropertyValue("--navigation-trailing-space")) || 0);
+  });
+  vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockImplementation(function (
+    this: HTMLElement,
+  ) {
+    const area = this.closest<HTMLElement>(".scroll");
+    return { top: this.tagName === "A" ? 600 - (area?.scrollTop ?? 0) : 0 } as DOMRect;
+  });
+}
+
+it("opens a new mobile destination and aligns even its final link, then preserves manual scroll", async () => {
+  mockDestination();
+  history.replaceState(null, "", "/docs/button/installation");
+  sessionStorage.setItem(
+    key("mobile"),
+    JSON.stringify({ page: "/docs/forms", top: 120, groups: { components: false } }),
+  );
+  const first = mount("mobile", true);
+  const area = first.container.querySelector<HTMLElement>(".scroll")!;
+  await vi.waitFor(() => expect(area.scrollTop).toBe(600));
+  expect(screen.getByRole("button")).toHaveAttribute("aria-expanded", "true");
+  expect(area.style.getPropertyValue("--navigation-trailing-space")).toBe("200px");
+  fireEvent.wheel(area);
+  area.scrollTop = 90;
+  fireEvent.scroll(area);
+  first.unmount();
+  const second = mount("mobile", true);
+  expect(second.container.querySelector(".scroll")!.scrollTop).toBe(90);
+});
+
+it("yields to user intent before deferred alignment and ignores modified link clicks", async () => {
+  mockDestination();
+  const view = mount("mobile", true);
+  const area = view.container.querySelector<HTMLElement>(".scroll")!;
+  fireEvent.wheel(area);
+  area.scrollTop = 80;
+  act(() => resize([], {} as ResizeObserver));
+  await new Promise((resolve) => requestAnimationFrame(resolve));
+  expect(area.scrollTop).toBe(80);
+  const link = screen.getByRole("link");
+  // Prevent jsdom navigation while still exercising the menu's capture listener.
+  link.addEventListener("click", (event) => event.preventDefault());
+  fireEvent.click(link, { ctrlKey: true });
+  expect(JSON.parse(sessionStorage.getItem(key("mobile"))!).page).toBe("/");
+  fireEvent.click(link);
+  expect(JSON.parse(sessionStorage.getItem(key("mobile"))!).page).toBe("");
 });

@@ -7,6 +7,9 @@ import { DocsSidebarNavigation } from "../../layout/navigation/DocsSidebarNaviga
 import { useRightSidebarScroll } from "../../layout/navigation/right-sidebar-memory";
 import type { DocPageModule, DocSection } from "../types";
 import { FeedbackCard } from "./FeedbackCard";
+import { GettingStartedReference } from "./GettingStartedReference";
+import { PageContentsHeading } from "./PageContentsHeading";
+import { flattenContents, PageContentsList } from "./PageContentsList";
 
 export type DocsSidebarScope = "components" | "blocks" | "forms" | "packages" | "getting-started";
 
@@ -90,12 +93,29 @@ export const DocsShell = ({
   const exampleSections = tocSections?.examples ?? [];
   const apiReferenceSection = tocSections?.apiReference ?? null;
   const hasActiveExampleSection =
-    tocSections?.examples.some((section) => section.id === activeSection) ?? false;
+    tocSections?.examples.some(
+      (section) =>
+        section.id === activeSection ||
+        flattenContents(section.children ?? []).some(({ id }) => id === activeSection),
+    ) ?? false;
   const showToc = Boolean(!pageContents && !isSectionOverview && activeDoc);
   const showRightSidebar = showToc || isSectionOverview || Boolean(pageContents);
   const contentsRef = useRightSidebarScroll<HTMLDivElement>(
     "contents",
     Boolean(pageContents) || showToc,
+  );
+
+  const sectionLinks = (sections: DocSection[], depth = 1) => (
+    <PageContentsList
+      entries={sections.map(({ title, ...section }) => ({ ...section, label: title }))}
+      activeId={activeSection}
+      depth={depth}
+      getHref={(id) =>
+        activeDoc?.sections.some((section) => section.id === id)
+          ? (getSectionHref?.(id) ?? `#${id}`)
+          : `#${id}`
+      }
+    />
   );
 
   // Derive the current route from page metadata so SSR paints the correct open group.
@@ -115,11 +135,23 @@ export const DocsShell = ({
       brand="Kamod UI"
       rootClassName={`docs-shell${pageContents ? " docs-shell-page-contents" : ""}`}
       topNavItems={demoTopNavItems}
+      activeTopNavHref={withBasePath(
+        sidebarScope === "blocks" ? "/blocks" : `/docs/${sidebarScope}`,
+      )}
       leftSidebar={<DocsSidebarNavigation pathname={navigationPath ?? pathname} />}
       topbarActions={<DocsTopbarActions />}
       contentHeader={contentHeader}
       sidebarHeader={sidebarHeader}
-      mainContent={mainContent}
+      mainContent={
+        <>
+          {mainContent}
+          {activeDoc?.renderFooter ? (
+            activeDoc.renderFooter()
+          ) : (
+            <GettingStartedReference scope={sidebarScope} slug={activeDoc?.slug} />
+          )}
+        </>
+      }
       rightSidebar={
         !showRightSidebar ? null : (
           <>
@@ -128,26 +160,16 @@ export const DocsShell = ({
                 {pageContents}
                 {showToc ? (
                   <>
-                    <h3>On this page</h3>
+                    <PageContentsHeading
+                      level="h3"
+                      count={
+                        [installationSection, usageSection, apiReferenceSection].filter(Boolean)
+                          .length
+                      }
+                    />
                     <nav aria-label="On this page">
-                      {installationSection ? (
-                        <a
-                          class={`docs-toc-link ${activeSection === installationSection.id ? "is-active" : ""}`}
-                          href={
-                            getSectionHref?.(installationSection.id) ?? `#${installationSection.id}`
-                          }
-                        >
-                          {installationSection.title}
-                        </a>
-                      ) : null}
-                      {usageSection ? (
-                        <a
-                          class={`docs-toc-link ${activeSection === usageSection.id ? "is-active" : ""}`}
-                          href={getSectionHref?.(usageSection.id) ?? `#${usageSection.id}`}
-                        >
-                          {usageSection.title}
-                        </a>
-                      ) : null}
+                      {installationSection && sectionLinks([installationSection])}
+                      {usageSection && sectionLinks([usageSection])}
                       {exampleSections.length ? (
                         <div class="docs-toc-group">
                           <span
@@ -155,29 +177,10 @@ export const DocsShell = ({
                           >
                             Examples
                           </span>
-                          <div class="docs-toc-children">
-                            {exampleSections.map((section) => (
-                              <a
-                                key={section.id}
-                                class={`docs-toc-link docs-toc-link-child ${activeSection === section.id ? "is-active" : ""}`}
-                                href={getSectionHref?.(section.id) ?? `#${section.id}`}
-                              >
-                                {section.title}
-                              </a>
-                            ))}
-                          </div>
+                          {sectionLinks(exampleSections, 2)}
                         </div>
                       ) : null}
-                      {apiReferenceSection ? (
-                        <a
-                          class={`docs-toc-link ${activeSection === apiReferenceSection.id ? "is-active" : ""}`}
-                          href={
-                            getSectionHref?.(apiReferenceSection.id) ?? `#${apiReferenceSection.id}`
-                          }
-                        >
-                          {apiReferenceSection.title}
-                        </a>
-                      ) : null}
+                      {apiReferenceSection && sectionLinks([apiReferenceSection])}
                     </nav>
                   </>
                 ) : null}

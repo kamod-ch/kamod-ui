@@ -1,0 +1,202 @@
+.page-state-shell {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--background);
+  color: var(--foreground);
+  padding-inline: clamp(1.25rem, 5vw, 5rem);
+}
+
+.page-state-topbar,
+.page-state-footer {
+  width: min(100%, 76rem);
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-block: 1.5rem;
+}
+
+.page-state-topbar {
+  border-bottom: 1px solid var(--border);
+}
+.page-state-brand,
+.page-state-text-link,
+.page-state-primary,
+.page-state-footer a,
+.page-state-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+.page-state-shell a {
+  text-decoration: none;
+}
+.page-state-brand {
+  font-size: 1rem;
+  font-weight: 650;
+}
+.page-state-brand svg {
+  flex-shrink: 0;
+}
+.page-state-secondary {
+  color: color-mix(in oklab, var(--muted-foreground) 65%, var(--foreground));
+  font-size: 0.8rem;
+  font-weight: 400;
+  margin-left: 0.4rem;
+}
+.page-state-text-link {
+  font-size: 0.875rem;
+  font-weight: 550;
+}
+.page-state-main {
+  width: min(100%, 64rem);
+  margin-inline: auto;
+  flex: 1;
+  padding-block: clamp(3rem, 7vw, 6rem);
+}
+.page-state-hero {
+  max-width: 48rem;
+}
+.page-state-eyebrow {
+  margin: 0 0 1.5rem;
+  color: color-mix(in oklab, var(--muted-foreground) 65%, var(--foreground));
+  font-size: 0.875rem;
+}
+.page-state-eyebrow > span:not(.page-state-pulse) {
+  opacity: 0.65;
+}
+.page-state-hero h1,
+.page-state-loading h1 {
+  margin: 0;
+  font-size: clamp(2rem, 4.5vw, 3.75rem);
+  font-weight: 650;
+  line-height: 1.12;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+}
+.page-state-description {
+  max-width: 57ch;
+  margin: 1.5rem 0 0;
+  color: color-mix(in oklab, var(--muted-foreground) 65%, var(--foreground));
+  font-size: 1rem;
+  line-height: 1.8;
+}
+.page-state-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+.page-state-primary {
+  border: 0;
+  border-radius: 0.65rem;
+  padding: 0.85rem 1.1rem;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+:root:not(.dark) .page-state-primary {
+  background: color-mix(in oklab, var(--primary) 75%, var(--foreground));
+}
+:root.dark[data-theme="cursor-warm"] .page-state-primary {
+  background: color-mix(in oklab, var(--primary) 82%, var(--background));
+}
+.page-state-footer {
+  border-top: 1px solid var(--border);
+  color: color-mix(in oklab, var(--muted-foreground) 65%, var(--foreground));
+  font-size: 0.8rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+.page-state-loading {
+  max-width: 48rem;
+  padding-block: 1rem;
+}
+.page-state-loading h1 {
+  font-size: clamp(1.8rem, 4vw, 3rem);
+}
+.page-state-pulse {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--primary);
+  animation: page-state-breathe 1.8s ease-in-out infinite;
+}
+.page-state-skeleton {
+  margin-top: 3rem;
+  max-width: 38rem;
+  display: grid;
+  gap: 0.75rem;
+}
+.page-state-skeleton > * {
+  display: block;
+  height: 0.6rem;
+  border-radius: 0.25rem;
+  background: color-mix(
+    in oklab,
+    var(--foreground) calc(5% + 4% * var(--docs-highlight-boost, 0)),
+    transparent
+  );
+}
+.page-state-skeleton > :nth-child(2) {
+  width: 88%;
+}
+.page-state-skeleton > :nth-child(3) {
+  width: 62%;
+}
+.page-state-skeleton > div {
+  height: 8rem;
+  margin-top: 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  background: transparent;
+}
+.page-state-loading--compact {
+  padding: 2rem;
+}
+.page-state-loading--compact h1 {
+  font-size: 1.25rem;
+}
+.page-state-loading--compact .page-state-description {
+  font-size: 0.875rem;
+}
+.page-state-loading--compact .page-state-skeleton {
+  margin-top: 1.5rem;
+}
+.page-state-shell :is(a, button):focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 5px;
+}
+@keyframes page-state-breathe {
+  50% {
+    opacity: 0.4;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .page-state-pulse {
+    animation: none;
+  }
+}
+@media (max-width: 600px) {
+  .page-state-secondary {
+    display: none;
+  }
+  .page-state-topbar {
+    gap: 0.75rem;
+  }
+}
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  .page-state-text-link:hover,
+  .page-state-footer a:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+  .page-state-primary:hover {
+    filter: brightness(0.94);
+  }
+}
