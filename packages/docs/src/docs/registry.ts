@@ -16,6 +16,7 @@ import { carouselDocPage } from "./pages/carousel-doc";
 import { chartDocPage } from "./pages/chart-doc";
 import { checkboxDocPage } from "./pages/checkbox-doc";
 import { cnDocPage } from "./pages/cn-doc";
+import { codeDocPage } from "./pages/code-doc";
 import { collapsibleDocPage } from "./pages/collapsible-doc";
 import { comboboxDocPage } from "./pages/combobox-doc";
 import { commandDocPage } from "./pages/command-doc";
@@ -83,7 +84,7 @@ import { typeDefinitionDocPage } from "./pages/type-definition-doc";
 import { typographyDocPage } from "./pages/typography-doc";
 import { uiMotionDocPage } from "./pages/ui-motion-doc";
 import { videoDocPage } from "./pages/video-doc";
-import type { ComponentOverviewItem, DocPageModule } from "./types";
+import type { DocPageModule } from "./types";
 
 export const allDocsPages: DocPageModule[] = [
   accordionDocPage,
@@ -100,6 +101,7 @@ export const allDocsPages: DocPageModule[] = [
   chartDocPage,
   checkboxDocPage,
   cnDocPage,
+  codeDocPage,
   collapsibleDocPage,
   comboboxDocPage,
   commandDocPage,
@@ -214,81 +216,4 @@ export const docsNewMotionSlugs = docsShowMotion
 /** Shown with a "new" badge for form guides. */
 export const docsNewFormSlugs = new Set<string>();
 
-export const componentOverviewItems: ComponentOverviewItem[] = [
-  { label: "Accordion", slug: "accordion" },
-  { label: "Alert", slug: "alert" },
-  { label: "Alert Dialog", slug: "alert-dialog" },
-  { label: "Aspect Ratio", slug: "aspect-ratio" },
-  { label: "Avatar", slug: "avatar" },
-  { label: "Badge", slug: "badge" },
-  { label: "Breadcrumb", slug: "breadcrumb" },
-  { label: "Button", slug: "button" },
-  { label: "Button Group", slug: "button-group" },
-  { label: "Card", slug: "card" },
-  { label: "Carousel", slug: "carousel" },
-  { label: "Calendar", slug: "calendar" },
-  { label: "Chart", slug: "chart" },
-  { label: "Checkbox", slug: "checkbox" },
-  { label: "Collapsible", slug: "collapsible" },
-  { label: "cn Utility", slug: "cn" },
-  { label: "Combobox", slug: "combobox" },
-  { label: "Command", slug: "command" },
-  { label: "Context Menu", slug: "context-menu" },
-  { label: "Data Table", slug: "data-table" },
-  { label: "Date Picker", slug: "date-picker" },
-  { label: "Direction", slug: "direction" },
-  { label: "Dialog", slug: "dialog" },
-  { label: "Dropdown", slug: "dropdown" },
-  { label: "Dropzone", slug: "dropzone" },
-  { label: "Drawer", slug: "drawer" },
-  { label: "Empty", slug: "empty" },
-  { label: "Field", slug: "field" },
-  { label: "Hover Card", slug: "hover-card" },
-  { label: "Image", slug: "image" },
-  { label: "Input", slug: "input" },
-  { label: "Input Group", slug: "input-group" },
-  { label: "Input OTP", slug: "input-otp" },
-  { label: "Item", slug: "item" },
-  { label: "Kbd", slug: "kbd" },
-  { label: "Label", slug: "label" },
-  { label: "Locale Segment Group", slug: "locale-segment-group" },
-  { label: "Menubar", slug: "menubar" },
-  { label: "Native Select", slug: "native-select" },
-  { label: "Navigation Menu", slug: "navigation-menu" },
-  { label: "Pagination", slug: "pagination" },
-  { label: "Popover", slug: "popover" },
-  { label: "Prose", slug: "prose" },
-  { label: "Progress", slug: "progress" },
-  { label: "Radio Group", slug: "radio-group" },
-  { label: "Selectable Card", slug: "selectable-card" },
-  { label: "Scroll Area", slug: "scroll-area" },
-  { label: "Select", slug: "select" },
-  { label: "Sonner", slug: "sonner" },
-  { label: "Separator", slug: "separator" },
-  { label: "Sheet", slug: "sheet" },
-  { label: "Sidebar", slug: "sidebar" },
-  { label: "Skeleton", slug: "skeleton" },
-  { label: "Slider", slug: "slider" },
-  { label: "Spinner", slug: "spinner" },
-  { label: "Switch", slug: "switch" },
-  { label: "Table", slug: "table" },
-  { label: "Tabs", slug: "tabs" },
-  { label: "Textarea", slug: "textarea" },
-  { label: "Theme Toggle", slug: "theme-toggle" },
-  { label: "Theming", slug: "theming" },
-  { label: "Toast", slug: "toast" },
-  { label: "Toggle", slug: "toggle" },
-  { label: "Toggle Group", slug: "toggle-group" },
-  { label: "Tree", slug: "tree" },
-  { label: "Tooltip", slug: "tooltip" },
-  { label: "Typography", slug: "typography" },
-  ...(docsShowMotion ? [{ label: "UI Motion", slug: "ui-motion" } as const] : []),
-  { label: "Video", slug: "video" },
-];
-
-export const motionOverviewItems: ComponentOverviewItem[] = docsShowMotion
-  ? motionComponentEntries.map((entry) => ({
-      label: entry.navLabel,
-      slug: entry.slug,
-    }))
-  : [];
+export { componentOverviewItems, motionOverviewItems } from "./overview-metadata";

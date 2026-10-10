@@ -16,10 +16,12 @@ import {
 import type { ComponentChildren } from "preact";
 import { ApiReference } from "../components/ApiReference";
 import { ComponentDocSection } from "../components/component-detail/ComponentDocSection";
+import { InsetTabsExample, insetTabsCode } from "../examples/tabs/InsetTabsExample";
 import type { DocPageModule, DocRenderMainContext } from "../types";
 
 const TabsSectionType = {
   INSTALLATION: "installation",
+  INSET: "inset-tabs",
   SYNCED_TABS: "synced-tabs",
   DISABLED_TRIGGERS: "disabled-triggers",
   NESTED_TABS: "nested-tabs",
@@ -30,10 +32,11 @@ type TabsSectionId = (typeof TabsSectionType)[keyof typeof TabsSectionType];
 
 const tabsExamplePreviewBySectionId: Record<TabsSectionId, () => ComponentChildren> = {
   [TabsSectionType.INSTALLATION]: () => null,
+  [TabsSectionType.INSET]: () => <InsetTabsExample />,
   [TabsSectionType.SYNCED_TABS]: () => (
     <div class="grid w-full max-w-xl gap-4">
       <Tabs defaultValue="react" syncKey="frameworks" class="w-full">
-        <TabsList class="w-full justify-start">
+        <TabsList variant="line" class="w-full justify-start">
           <TabsTrigger value="react">React</TabsTrigger>
           <TabsTrigger value="vue">Vue</TabsTrigger>
           <TabsTrigger value="svelte">Svelte</TabsTrigger>
@@ -49,7 +52,7 @@ const tabsExamplePreviewBySectionId: Record<TabsSectionId, () => ComponentChildr
         </TabsContent>
       </Tabs>
       <Tabs defaultValue="react" syncKey="frameworks" class="w-full">
-        <TabsList class="w-full justify-start">
+        <TabsList variant="line" class="w-full justify-start">
           <TabsTrigger value="react">React</TabsTrigger>
           <TabsTrigger value="vue">Vue</TabsTrigger>
           <TabsTrigger value="svelte">Svelte</TabsTrigger>
@@ -68,7 +71,7 @@ const tabsExamplePreviewBySectionId: Record<TabsSectionId, () => ComponentChildr
   ),
   [TabsSectionType.DISABLED_TRIGGERS]: () => (
     <Tabs defaultValue="active" class="w-full max-w-xl">
-      <TabsList variant="line" class="w-full justify-start gap-6 border-b">
+      <TabsList variant="line" class="w-full justify-start">
         <TabsTrigger value="active">Overview</TabsTrigger>
         <TabsTrigger value="disabled" disabled>
           Billing (Soon)
@@ -88,7 +91,7 @@ const tabsExamplePreviewBySectionId: Record<TabsSectionId, () => ComponentChildr
   ),
   [TabsSectionType.NESTED_TABS]: () => (
     <Tabs defaultValue="outer-1" class="w-full max-w-xl">
-      <TabsList>
+      <TabsList variant="line">
         <TabsTrigger value="outer-1">Profile</TabsTrigger>
         <TabsTrigger value="outer-2">Notifications</TabsTrigger>
       </TabsList>
@@ -99,7 +102,7 @@ const tabsExamplePreviewBySectionId: Record<TabsSectionId, () => ComponentChildr
         <div class="space-y-3 rounded-lg border bg-card p-4">
           <p class="text-sm text-muted-foreground">Choose how we notify your team:</p>
           <Tabs defaultValue="inner-a" class="w-full">
-            <TabsList>
+            <TabsList variant="line">
               <TabsTrigger value="inner-a">Email</TabsTrigger>
               <TabsTrigger value="inner-b">In-App</TabsTrigger>
             </TabsList>
@@ -118,6 +121,7 @@ const tabsExamplePreviewBySectionId: Record<TabsSectionId, () => ComponentChildr
 };
 
 const tabsCodeBySectionId: Record<TabsSectionId, () => string> = {
+  [TabsSectionType.INSET]: () => insetTabsCode,
   [TabsSectionType.INSTALLATION]: TabsCodeInstallation,
   [TabsSectionType.SYNCED_TABS]: TabsCodeSyncedTabs,
   [TabsSectionType.DISABLED_TRIGGERS]: TabsCodeDisabledTriggers,
@@ -135,7 +139,7 @@ function TabsCodeSyncedTabs(): string {
 export const Example = () => (
   <div class="grid w-full max-w-xl gap-4">
     <Tabs defaultValue="react" syncKey="frameworks" class="w-full">
-      <TabsList class="w-full justify-start">
+      <TabsList variant="line" class="w-full justify-start">
         <TabsTrigger value="react">React</TabsTrigger>
         <TabsTrigger value="vue">Vue</TabsTrigger>
         <TabsTrigger value="svelte">Svelte</TabsTrigger>
@@ -151,7 +155,7 @@ export const Example = () => (
       </TabsContent>
     </Tabs>
     <Tabs defaultValue="react" syncKey="frameworks" class="w-full">
-      <TabsList class="w-full justify-start">
+      <TabsList variant="line" class="w-full justify-start">
         <TabsTrigger value="react">React</TabsTrigger>
         <TabsTrigger value="vue">Vue</TabsTrigger>
         <TabsTrigger value="svelte">Svelte</TabsTrigger>
@@ -175,7 +179,7 @@ function TabsCodeDisabledTriggers(): string {
 
 export const Example = () => (
   <Tabs defaultValue="active" class="w-full max-w-xl">
-    <TabsList variant="line" class="w-full justify-start gap-6 border-b">
+    <TabsList variant="line" class="w-full justify-start">
       <TabsTrigger value="active">Overview</TabsTrigger>
       <TabsTrigger value="disabled" disabled>
         Billing (Soon)
@@ -200,7 +204,7 @@ function TabsCodeNestedTabs(): string {
 
 export const Example = () => (
   <Tabs defaultValue="outer-1" class="w-full max-w-xl">
-    <TabsList>
+    <TabsList variant="line">
       <TabsTrigger value="outer-1">Profile</TabsTrigger>
       <TabsTrigger value="outer-2">Notifications</TabsTrigger>
     </TabsList>
@@ -211,7 +215,7 @@ export const Example = () => (
       <div class="space-y-3 rounded-lg border bg-card p-4">
         <p class="text-sm text-muted-foreground">Choose how we notify your team:</p>
         <Tabs defaultValue="inner-a" class="w-full">
-          <TabsList>
+          <TabsList variant="line">
             <TabsTrigger value="inner-a">Email</TabsTrigger>
             <TabsTrigger value="inner-b">In-App</TabsTrigger>
           </TabsList>
@@ -233,7 +237,7 @@ function TabsCodeApiReference(): string {
 
 export const Example = () => (
   <Tabs defaultValue="account" class="w-full max-w-xl">
-    <TabsList>
+    <TabsList variant="line">
       <TabsTrigger value="account">Account</TabsTrigger>
       <TabsTrigger value="password">Password</TabsTrigger>
     </TabsList>
@@ -289,7 +293,7 @@ const tabsApiRows = {
     { prop: "syncKey", type: "string", defaultValue: "-" },
     { prop: "orientation", type: '"horizontal" | "vertical"', defaultValue: '"horizontal"' },
   ],
-  TabsList: [{ prop: "variant", type: '"default" | "line"', defaultValue: '"default"' }],
+  TabsList: [{ prop: "variant", type: '"default" | "line" | "inset"', defaultValue: '"default"' }],
   TabsTrigger: [
     { prop: "value", type: "string", defaultValue: "required" },
     { prop: "disabled", type: "boolean", defaultValue: "false" },
@@ -341,19 +345,24 @@ export const tabsDocPage: DocPageModule = {
       text: "Install the package and import Tabs, TabsList, TabsTrigger and TabsContent from `@/components/kamod-ui/tabs`.",
     },
     {
+      id: "inset-tabs",
+      title: "Inset Tabs",
+      text: '**A clear choice, with a little breathing room.** Set `variant="inset"` on `TabsList` to opt into rounded tabs with a stronger selected state. The site’s control groups use `variant="line"` for the familiar underlined treatment. The inset variant’s selected tab uses the foreground color with inverse text, a translucent rim and a thick inset stripe; a small theme-primary dot precedes each label. The spaces between tabs grow gently from 6px to a maximum of 10px.\n\n**The same behavior in either direction.** Use the arrow keys, Home and End to change panels, or set `orientation="vertical"` on `Tabs`. Disabled triggers are skipped. The visual variant does not change selection, synchronization or panel mounting, and nested lists keep their own styling.\n\n**Keep customization local.** Adjust `--tabs-inset-height`, `--tabs-inset-padding` and `--tabs-inset-font-size` on an individual list for compact toolbars. Colors follow the [Theme Tokens](/docs/theming/token-overrides), and corners follow `--radius-md`. The original `default` and `line` variants remain available; omitting `variant` still selects `default` for existing consumers.',
+    },
+    {
       id: "synced-tabs",
       title: "Synced Tabs",
-      text: "Use the syncKey prop to synchronize multiple groups with one shared state.",
+      text: "**Synchronize Only Groups that Represent the Same Choice.** Give related tab groups the same `syncKey` when they should share an active value. Their trigger values need to describe the same choices, making a selection in one group meaningful in the other synchronized views.\n\nKeep their values compatible and make each group's purpose clear, so changing one panel does not unexpectedly alter a different workflow elsewhere on the page.",
     },
     {
       id: "disabled-triggers",
       title: "Disabled Triggers",
-      text: "Use the disabled prop on TabsTrigger to prevent a tab from being selected.",
+      text: "**Explain Unavailable Panels without Making Them a Dead End.** Set `disabled` on a `TabsTrigger` when its panel is not currently available for selection. Preserve a clear label and explain the prerequisite where necessary, instead of leaving readers to infer the reason from reduced emphasis alone.\n\nKeep the active value on an available tab, place the reason nearby and avoid storing essential instructions only inside the panel users cannot open.",
     },
     {
       id: "nested-tabs",
       title: "Nested Tabs",
-      text: "Nest tabs inside content panels for layered, app-like navigation patterns.",
+      text: "**Keep Each Level's Question Distinct.** Place an independent tabs group inside a panel when the content has a genuine second level of choices. Keep the nested labels and state scoped to that panel so the inner selection does not compete with the outer navigation.\n\nUse clear group names and independent values or sync keys, and check whether headings or separate pages would make the same content easier to navigate.",
     },
     {
       id: "api-reference",
@@ -367,7 +376,7 @@ export const tabsDocPage: DocPageModule = {
       {context.renderPreviewAndCodeTabs({
         preview: (
           <Tabs defaultValue="account" class="w-full max-w-xl">
-            <TabsList>
+            <TabsList variant="line">
               <TabsTrigger value="account">Account</TabsTrigger>
               <TabsTrigger value="password">Password</TabsTrigger>
             </TabsList>
@@ -423,7 +432,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/kamod-ui/
 
 export const Example = () => (
   <Tabs defaultValue="account" class="w-full max-w-xl">
-    <TabsList>
+    <TabsList variant="line">
       <TabsTrigger value="account">Account</TabsTrigger>
       <TabsTrigger value="password">Password</TabsTrigger>
     </TabsList>

@@ -1,6 +1,7 @@
 import {
   Alert,
   AlertAction,
+  AlertCallout,
   AlertDescription,
   AlertTitle,
   Button,
@@ -19,14 +20,14 @@ function AlertHero() {
     <div class="grid w-full max-w-md items-start gap-4">
       <Alert>
         <CheckCircle2 />
-        <AlertTitle>Payment successful</AlertTitle>
+        <AlertTitle>Payment Successful</AlertTitle>
         <AlertDescription>
           Your payment of $29.99 has been processed. A receipt has been sent to your email address.
         </AlertDescription>
       </Alert>
       <Alert>
         <Info />
-        <AlertTitle>New feature available</AlertTitle>
+        <AlertTitle>New Feature Available</AlertTitle>
         <AlertDescription>
           We&apos;ve added dark mode support. You can enable it in your account settings.
         </AlertDescription>
@@ -54,11 +55,45 @@ export const Example = () => (
 );`;
 
 const sectionBlocks: Record<string, { preview: () => ComponentChildren; code: string }> = {
+  callout: {
+    preview: () => (
+      <AlertCallout
+        class="max-w-xl"
+        title="Start with one working screen"
+        eyebrow="A useful first step"
+        icon={<Info />}
+        meta="01"
+        footer={
+          <Button variant="outline" size="sm" href="#installation">
+            View setup
+          </Button>
+        }
+      >
+        <p>
+          Connect your <strong>shared styles</strong>, then render a single <code>Button</code>.
+          Once it looks right, build the rest of the page around it.
+        </p>
+      </AlertCallout>
+    ),
+    code: `import { AlertCallout, Button } from "@kamod-ch/ui";
+import { InfoIcon } from "@kamod-ch/icons/lucide";
+
+<AlertCallout
+  title="Start with one working screen"
+  eyebrow="A useful first step"
+  icon={<InfoIcon />}
+  meta="01"
+  footer={<Button variant="outline" size="sm" href="#installation">View setup</Button>}
+>
+  <p>Connect your <strong>shared styles</strong>, then render a single <code>Button</code>.
+  Once it looks right, build the rest of the page around it.</p>
+</AlertCallout>`,
+  },
   basic: {
     preview: () => (
       <Alert class="max-w-md">
         <CheckCircle2 />
-        <AlertTitle>Account updated successfully</AlertTitle>
+        <AlertTitle>Account Updated Successfully</AlertTitle>
         <AlertDescription>
           Your profile information has been saved. Changes will be reflected immediately.
         </AlertDescription>
@@ -77,7 +112,7 @@ import { CheckCircle2 } from "lucide-preact";
     preview: () => (
       <Alert variant="destructive" class="max-w-md">
         <AlertCircle />
-        <AlertTitle>Payment failed</AlertTitle>
+        <AlertTitle>Payment Failed</AlertTitle>
         <AlertDescription>
           Your payment could not be processed. Please check your payment method and try again.
         </AlertDescription>
@@ -95,7 +130,7 @@ import { AlertCircle } from "lucide-preact";
   action: {
     preview: () => (
       <Alert class="max-w-md">
-        <AlertTitle>Dark mode is now available</AlertTitle>
+        <AlertTitle>Dark Mode Is Now Available</AlertTitle>
         <AlertDescription>Enable it under your profile settings to get started.</AlertDescription>
         <AlertAction>
           <Button size="xs" variant="default">
@@ -119,7 +154,7 @@ import { Button } from "@/components/kamod-ui/button";
     preview: () => (
       <Alert class="max-w-md border-amber-200 bg-amber-50 text-amber-900 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-50">
         <AlertTriangle />
-        <AlertTitle>Your subscription will expire in 3 days.</AlertTitle>
+        <AlertTitle>Your Subscription Will Expire in 3 Days.</AlertTitle>
         <AlertDescription>
           Renew now to avoid service interruption or upgrade to a paid plan to continue using the
           service.
@@ -229,11 +264,27 @@ const apiSections = [
     rows: [
       {
         prop: "variant",
-        type: '"default" | "destructive" | "primary" | "secondary" | "info" | "success" | "warning" | "error"',
+        type: '"default" | "destructive" | "primary" | "secondary" | "info" | "success" | "warning" | "error" | "callout"',
         defaultValue: '"default"',
       },
       { prop: "class", type: "string", defaultValue: "-" },
       { prop: "children", type: "ComponentChildren", defaultValue: "-" },
+    ],
+  },
+  {
+    title: "AlertCallout",
+    description:
+      "Structured guidance built on Alert variant=callout. Defaults to a non-live note; optional slots are omitted when unused.",
+    rows: [
+      { prop: "title", type: "ComponentChildren", defaultValue: "Required" },
+      { prop: "icon / eyebrow / meta / footer", type: "ComponentChildren", defaultValue: "—" },
+      { prop: "headingId", type: "string", defaultValue: "Generated label ID" },
+      {
+        prop: "headingLevel",
+        type: "2 | 3 | 4 | 5 | 6",
+        defaultValue: "3 with headingId; otherwise a label",
+      },
+      { prop: "role", type: "HTML role", defaultValue: '"note"' },
     ],
   },
   {
@@ -268,26 +319,35 @@ export const alertDocPage: DocPageModule = {
       title: "Usage",
       text: "Put an optional Lucide icon first, then AlertTitle and AlertDescription. Use AlertAction for a corner control.",
     },
-    { id: "basic", title: "Basic", text: "Icon, title, and description in a max-width column." },
+    {
+      id: "basic",
+      title: "Basic",
+      text: "**Keep Persistent Context Close to the Task.** Compose `AlertTitle` and `AlertDescription` beside a supporting icon within one bounded message. The example constrains the width so the status and its explanation read together rather than stretching across the page.\n\nThe icon should reinforce that meaning rather than replace it; this inline pattern stays in the document while the user reads.",
+    },
+    {
+      id: "callout",
+      title: "Structured Callout",
+      text: '**Give Helpful Context a Clear Home.** `AlertCallout` composes the core Alert’s `callout` variant into an icon header, a reading area and an optional footer. Use `eyebrow` for a short category, `meta` for a small index or badge, and `footer` for related links. Keep the useful explanation in the body; emphasize key decisions with `strong` and exact values with inline `code`.\n\nIt defaults to `role="note"`, so persistent guidance does not announce itself as an urgent alert. The title is a named label by default; set `headingLevel` when it belongs in your page’s heading hierarchy, or `headingId` to create a linkable level-three heading. All slots accept Preact content, and the layout wraps naturally for narrow screens and translated text.',
+    },
     {
       id: "destructive",
       title: "Destructive",
-      text: 'Use variant="destructive" for errors and irreversible failures.',
+      text: '**Explain Both the Problem and the Recovery.** Set `variant="destructive"` when the message describes an error that needs attention. Put the actual problem in `AlertTitle` and use the description to explain its effect and the next useful step.\n\nAvoid relying on red alone, and distinguish a correctable field error from a broader failure that affects the whole page or form.',
     },
     {
       id: "action",
       title: "Action",
-      text: "AlertAction pins a button (or group) to the top-inline-end; the root adds padding so text does not overlap.",
+      text: "**Offer One Clear Next Step.** Place the recovery control inside `AlertAction`; the alert reserves space for it at the logical end of the message. This keeps a related action close to its explanation without positioning it over the text.\n\nCheck the layout with a long message and a narrow viewport; if several actions compete, move the less urgent ones into the surrounding page.",
     },
     {
       id: "colors",
-      title: "Custom colors",
-      text: "Override surface and border with utilities (e.g. amber) for marketing or billing warnings.",
+      title: "Custom Colors",
+      text: "**Choose Meaning before Color.** Use `class` utilities to adjust the alert's surface, text and border as a coordinated set. A warning color can distinguish billing or account notices, while the title still states the meaning explicitly.\n\nTest text, icons and borders in both themes, and prefer shared [Theme Tokens](/docs/theming/installation) when the treatment will recur across the product.",
     },
     {
       id: "rtl",
       title: "RTL",
-      text: "Set dir on the stack; icons and AlertAction use logical end positioning.",
+      text: '**Check the Whole Pattern in Its Reading Direction.** Set `dir="rtl"` on the alert collection when its text reads right to left. Icons and `AlertAction` follow logical positioning, allowing the same message structure to serve translated content.\n\nKeep values and keyboard behavior meaningful in the translated interface, and follow [Direction](/docs/direction/installation) when the page and its portaled controls need a shared direction.',
     },
     { id: "api-reference", title: "API Reference", text: "Props overview." },
   ],
