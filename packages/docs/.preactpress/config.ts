@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import path, { resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { defineConfig } from "@kamod-ch/preactpress/config";
 import { getThemeInitScript } from "@kamod-ch/themes";
 import tailwindcss from "@tailwindcss/vite";
@@ -8,6 +9,10 @@ import { blockDownloadsPlugin } from "./block-downloads-plugin";
 import { blockPagesPlugin } from "./block-pages-plugin";
 import { componentApiPlugin } from "./component-api-plugin";
 import { componentPreviewPlugin } from "./component-preview-plugin";
+import { compactGuidePageData } from "./guide-page-data";
+import { pageMetadataPlugin } from "./page-metadata-plugin";
+import { pagePreloader } from "./page-preloader";
+import { runtimePerformancePlugin } from "./runtime-performance-plugin";
 
 const configDir = import.meta.dirname;
 const docsRoot = resolve(configDir, "..");
@@ -50,7 +55,10 @@ function fixDevClientModule(html: string): string {
 }
 
 export default defineConfig({
+  // Wait for loaded stylesheets without forcing computed styles every frame.
+  pageReady: { preloader: pagePreloader, probe: false },
   theme: "./theme/Layout.tsx",
+  transformPageData: compactGuidePageData,
   srcExclude: ["dist/**", "playwright-report/**", "test-results/**", "README.md"],
   site: {
     title: "Kamod UI",
@@ -65,7 +73,56 @@ export default defineConfig({
     emoji: true,
   },
   vite: {
+    // Allow independent dev sessions/cold-start checks without invalidating another server's cache.
+    ...(process.env.KAMOD_DOCS_VITE_CACHE_DIR
+      ? { cacheDir: process.env.KAMOD_DOCS_VITE_CACHE_DIR }
+      : {}),
+    optimizeDeps: {
+      // Virtual routes hide these imports from Vite's initial scan. Discovering them
+      // a few at a time repeatedly reloads the whole page during a cold dev visit.
+      include: [
+        "preact",
+        "preact/hooks",
+        "preact/compat",
+        "preact/jsx-runtime",
+        "@preact/signals",
+        "@kamod-ch/icons/lucide",
+        "@kamod-ch/icons/shadcn",
+        "@kamod-ch/icons/tabler/filled",
+        "@kamod-ch/icons/tabler/outline",
+        "@kamod-ch/brand",
+        "@kamod-ch/hooks",
+        "lucide-preact",
+        "marked",
+        "preact-render-to-string",
+        "prismjs",
+        ...["bash", "css", "diff", "json", "jsx", "markdown", "tsx", "typescript", "yaml"].map(
+          (language) => `prismjs/components/prism-${language}.js`,
+        ),
+        "@blobatar/preact",
+        "@formisch/preact",
+        "@kamod-ch/motion",
+        "@kamod-ch/motion/hooks/use-reduced-motion",
+        "@kamod-ch/motion/motion",
+        "@kamod-ch/motion/presence",
+        "@kamod-ch/motion/presets",
+        "@openuidev/react-lang",
+        "chrono-node",
+        "valibot",
+        "zod",
+        // These dependencies belong to the linked UI package, not the docs package.
+        ...[
+          "clsx",
+          "tailwind-merge",
+          "tailwind-variants",
+          "embla-carousel",
+          "embla-carousel-autoplay",
+        ].map((dependency) => `@kamod-ch/ui > ${dependency}`),
+      ],
+    },
     plugins: [
+      runtimePerformancePlugin(),
+      pageMetadataPlugin(),
       blockPagesPlugin(),
       componentApiPlugin(),
       componentPreviewPlugin(),
@@ -105,6 +162,14 @@ export default defineConfig({
       tailwindcss(),
     ],
     server: {
+      fs: {
+        // pnpm stores this CSS asset outside PreactPress's default docs allowlist.
+        allow: [
+          fileURLToPath(
+            import.meta.resolve("@fontsource-variable/inter/files/inter-latin-wght-normal.woff2"),
+          ),
+        ],
+      },
       watch: {
         ignored: [
           resolve(repoRoot, "tmp"),
@@ -263,13 +328,14 @@ export default defineConfig({
       ],
     },
     ssr: {
+      // Icons are stateless and use the same installed Preact. Leave their large
+      // SVG catalogs external; only hook consumers need the shared aliased runtime.
       noExternal: [
         "@formisch/preact",
         "@formisch/core",
         "@kamod-ch/blocks",
         // Share the aliased Preact runtime with hook consumers during static rendering.
         "@kamod-ch/hooks",
-        "@kamod-ch/icons",
         "@formisch/methods",
         "@preact/signals",
         "@kamod-ch/openui",

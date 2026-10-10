@@ -42,7 +42,7 @@ test.describe("interactive accessibility states", () => {
 
     const dialog = page.getByRole("dialog");
     await expect(dialog).toBeVisible();
-    await expect(dialog.getByRole("heading", { name: "Are you absolutely sure?" })).toBeVisible();
+    await expect(dialog.getByRole("heading", { name: "Are You Absolutely Sure?" })).toBeVisible();
 
     await assertNoBlockingA11yViolations(page, "dialog open state", {
       include: '[role="dialog"]',
@@ -60,7 +60,7 @@ test.describe("interactive accessibility states", () => {
 
     const sheet = page.getByRole("dialog");
     await expect(sheet).toBeVisible();
-    await expect(sheet.getByRole("heading", { name: "Edit profile" })).toBeVisible();
+    await expect(sheet.getByRole("heading", { name: "Edit Profile" })).toBeVisible();
 
     await assertNoBlockingA11yViolations(page, "sheet open state", {
       include: '[role="dialog"]',

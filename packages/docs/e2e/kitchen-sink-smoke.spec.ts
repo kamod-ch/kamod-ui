@@ -1,8 +1,8 @@
 import { expect, test } from "@playwright/test";
 
-test.describe("kitchen sink (demo home) smoke", () => {
+test.describe("kitchen sink playground smoke", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("./");
+    await page.goto("./kitchen-sink");
   });
 
   test("main landmark and hero render", async ({ page }) => {
@@ -54,13 +54,13 @@ test.describe("kitchen sink (demo home) smoke", () => {
 
   test("Get Started navigates into docs", async ({ page }) => {
     await page.getByRole("link", { name: "Get Started" }).click();
-    await expect(page).toHaveURL(/\/docs\/button\//);
-    await expect(page.locator("h1", { hasText: "Button" })).toBeVisible();
+    await expect(page).toHaveURL(/\/docs\/getting-started/);
+    await expect(page.locator("h1", { hasText: "Getting Started" })).toBeVisible();
   });
 
   test("375px viewport stacks showcase panels and payment card/CVV row", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 812 });
-    await page.goto("./");
+    await page.goto("./kitchen-sink");
 
     const showcase = page.getByTestId("kitchen-sink-showcase");
     const panels = showcase.locator(".landing-showcase-panel");
@@ -78,7 +78,7 @@ test.describe("kitchen sink (demo home) smoke", () => {
   });
 
   test("payment Month select opens, selects a value, and closes", async ({ page }) => {
-    await page.goto("./");
+    await page.goto("./kitchen-sink");
     const panel = page.getByTestId("kitchen-sink-payment-panel");
     const monthTrigger = panel.locator('[data-slot="select-trigger"]').first();
 

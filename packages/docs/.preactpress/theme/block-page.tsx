@@ -8,8 +8,19 @@ import { loaders, pages } from "virtual:kamod-block-pages";
 import type { ComponentType } from "preact";
 import { lazy, Suspense } from "preact/compat";
 import { useErrorBoundary } from "preact/hooks";
+import { PageLoadError, PageLoading } from "../../src/layout/PageState";
 
 type BlockModules = {
+  BlockCategoryPage: typeof import("../../src/blocks/BlockCategoryPage");
+  BlockOverviewPage: typeof import("../../src/blocks/BlockOverviewPage");
+  ComponentPreviewPage: typeof import("../../src/docs/components/component-detail/ComponentPreviewPage");
+  DocsComponentContent: typeof import("../../src/docs/DocsComponentContent");
+  DocsFormsOverviewContent: typeof import("../../src/docs/DocsFormsOverviewContent");
+  DocsOverviewContent: typeof import("../../src/docs/DocsOverviewContent");
+  DocsPackagesOverviewContent: typeof import("../../src/docs/DocsPackagesOverviewContent");
+  KitchenSinkPage: typeof import("../../src/kitchen-sink/KitchenSinkPage");
+  HomePage: typeof import("../../src/home/HomePage");
+  GettingStartedContent: typeof import("../../src/docs/GettingStartedContent");
   BlocksGuidesContent: typeof import("../../src/blocks/BlocksGuidesContent");
   BlocksSidebarContent: typeof import("../../src/blocks/BlocksSidebarContent");
   BlocksAuthContent: typeof import("../../src/blocks/BlocksAuthContent");
@@ -29,22 +40,27 @@ export function blockPage<
   Name extends keyof BlockModules[Module] & string,
 >(module: Module, name: Name): ComponentType<PropsOf<BlockModules[Module][Name]>> {
   type Props = PropsOf<BlockModules[Module][Name]>;
-  const path = `/src/blocks/${module}.tsx`;
+  const paths: Partial<Record<keyof BlockModules, string>> = {
+    GettingStartedContent: "/src/docs/GettingStartedContent.tsx",
+    BlockCategoryPage: "/src/blocks/BlockCategoryPage.tsx",
+    BlockOverviewPage: "/src/blocks/BlockOverviewPage.tsx",
+    ComponentPreviewPage: "/src/docs/components/component-detail/ComponentPreviewPage.tsx",
+    DocsComponentContent: "/src/docs/DocsComponentContent.tsx",
+    DocsFormsOverviewContent: "/src/docs/DocsFormsOverviewContent.tsx",
+    DocsOverviewContent: "/src/docs/DocsOverviewContent.tsx",
+    DocsPackagesOverviewContent: "/src/docs/DocsPackagesOverviewContent.tsx",
+    KitchenSinkPage: "/src/kitchen-sink/KitchenSinkPage.tsx",
+    HomePage: "/src/home/HomePage.tsx",
+  };
+  const path = paths[module] ?? `/src/blocks/${module}.tsx`;
   const Page = (pages[path]?.[name] ??
     lazy(async () => ({ default: (await loaders[path]())[name] }))) as ComponentType<Props>;
   return function DeferredBlockPage(props: Props) {
     const [error] = useErrorBoundary();
-    if (error)
-      return (
-        <div role="alert">
-          <p>Could not load this block page.</p>
-          <button type="button" onClick={() => window.location.reload()}>
-            Reload page
-          </button>
-        </div>
-      );
+    const compact = name.includes("Preview");
+    if (error) return <PageLoadError compact={compact} />;
     return (
-      <Suspense fallback={<div role="status">Loading block…</div>}>
+      <Suspense fallback={<PageLoading compact={compact} />}>
         <Page {...props} />
       </Suspense>
     );

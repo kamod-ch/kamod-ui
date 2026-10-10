@@ -1,24 +1,33 @@
 import type { LayoutProps } from "@kamod-ch/preactpress/client";
 import { syncThemeFromStorage } from "@kamod-ch/themes";
 import type { FunctionalComponent } from "preact";
-import { BlockCategoryPage } from "../../src/blocks/BlockCategoryPage";
-import { BlockOverviewPage } from "../../src/blocks/BlockOverviewPage";
 import {
   applyPreviewAppearance,
   previewAppearanceFromSearch,
 } from "../../src/blocks/preview-appearance";
-import { ComponentPreviewPage } from "../../src/docs/components/component-detail/ComponentPreviewPage";
 import { PathCopySupport } from "../../src/docs/components/PathCopySupport";
-import { DocsComponentContent } from "../../src/docs/DocsComponentContent";
-import { DocsFormsOverviewContent } from "../../src/docs/DocsFormsOverviewContent";
-import { DocsOverviewContent } from "../../src/docs/DocsOverviewContent";
-import { DocsPackagesOverviewContent } from "../../src/docs/DocsPackagesOverviewContent";
-import { KitchenSinkPage } from "../../src/kitchen-sink/KitchenSinkPage";
 import { useRightSidebarPageMemory } from "../../src/layout/navigation/right-sidebar-memory";
+import { PageLoading, PageNotFound } from "../../src/layout/PageState";
 import { ApplicationTooltips } from "../../src/layout/tooltips/ApplicationTooltips";
 import { usePageReloadScroll } from "../../src/layout/usePageReloadScroll";
+import { SiteColorSchemeSync } from "../../src/theme/SiteColorSchemeSync";
 import { blockPage } from "./block-page";
 import "../../src/styles/index.css";
+
+const BlockCategoryPage = blockPage("BlockCategoryPage", "BlockCategoryPage");
+const BlockOverviewPage = blockPage("BlockOverviewPage", "BlockOverviewPage");
+const ComponentPreviewPage = blockPage("ComponentPreviewPage", "ComponentPreviewPage");
+const DocsComponentContent = blockPage("DocsComponentContent", "DocsComponentContent");
+const DocsFormsOverviewContent = blockPage("DocsFormsOverviewContent", "DocsFormsOverviewContent");
+const DocsOverviewContent = blockPage("DocsOverviewContent", "DocsOverviewContent");
+const DocsPackagesOverviewContent = blockPage(
+  "DocsPackagesOverviewContent",
+  "DocsPackagesOverviewContent",
+);
+const KitchenSinkPage = blockPage("KitchenSinkPage", "KitchenSinkPage");
+const HomePage = blockPage("HomePage", "HomePage");
+
+const GettingStartedContent = blockPage("GettingStartedContent", "GettingStartedContent");
 
 const BlocksGuidesContent = blockPage("BlocksGuidesContent", "BlocksGuidesContent");
 
@@ -78,9 +87,12 @@ if (typeof window !== "undefined") {
 }
 
 type DemoPageKind =
+  | "not-found"
+  | "home"
   | "kitchen-sink"
   | "blocks-overview"
   | "blocks-guide"
+  | "getting-started-guide"
   | "docs-overview"
   | "docs-forms-overview"
   | "docs-packages-overview"
@@ -143,7 +155,17 @@ const PageContent: FunctionalComponent<LayoutProps> = ({ page }) => {
   const meta = readPageMeta(page);
   const MdxComponent = page?.kind === "mdx" ? page.Component : undefined;
 
+  // PreactPress 2.2 uses this HTML sentinel while route metadata/content loads.
+  // Check it before pageKind: loading views retain the destination's metadata.
+  if (!page || (page.kind === "markdown" && page.html === "<p>Loading...</p>")) {
+    return <PageLoading compact={meta.pageKind?.includes("preview")} />;
+  }
+  if (meta.pageKind === "not-found" || (page.title === "404" && !meta.pageKind)) {
+    return <PageNotFound />;
+  }
+
   if (meta.pageKind === "component-preview") return <ComponentPreviewPage />;
+  if (meta.pageKind === "home") return <HomePage />;
 
   if (meta.pageKind === "kitchen-sink") {
     return <KitchenSinkPage />;
@@ -152,6 +174,8 @@ const PageContent: FunctionalComponent<LayoutProps> = ({ page }) => {
   if (meta.pageKind === "docs-overview") {
     return <DocsOverviewContent />;
   }
+
+  if (meta.pageKind === "getting-started-guide") return <GettingStartedContent />;
 
   if (meta.pageKind === "blocks-guide") {
     return <BlocksGuidesContent slug={meta.slug} />;
@@ -265,6 +289,7 @@ const PageContent: FunctionalComponent<LayoutProps> = ({ page }) => {
 const Layout: FunctionalComponent<LayoutProps> = (props) => (
   <>
     <PathCopySupport />
+    <SiteColorSchemeSync page={props.page} />
     <ApplicationTooltips page={props.page} />
     <PageContent {...props} />
   </>

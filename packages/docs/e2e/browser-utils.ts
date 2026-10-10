@@ -1,4 +1,4 @@
-import type { BrowserContext } from "@playwright/test";
+import type { BrowserContext, Locator } from "@playwright/test";
 
 /** Use the real clipboard in Chromium; WebKit cannot grant clipboard permissions in automation. */
 export async function enableTestClipboard(context: BrowserContext, browserName: string) {
@@ -24,3 +24,11 @@ export async function enableTestClipboard(context: BrowserContext, browserName: 
 /** Safari on macOS includes buttons in its focus order when Option-Tab is used. */
 export const forwardTabKey = (browserName: string) =>
   browserName === "webkit" && process.platform === "darwin" ? "Alt+Tab" : "Tab";
+
+/** Choose a preview preset through the shared, portaled picker. */
+export async function choosePreviewTheme(trigger: Locator, preset: string) {
+  await trigger.click();
+  const picker = trigger.page().getByRole("dialog", { name: "Find your Palette", exact: true });
+  await picker.locator(`[data-theme-preset="${preset}"]`).click();
+  await picker.getByRole("button", { name: "Close color theme picker" }).click();
+}

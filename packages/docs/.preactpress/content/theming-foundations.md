@@ -1,6 +1,8 @@
 ## Set up Tailwind and theme CSS
 
-Connect the foundation in order: choose a theme entry, load it through your existing Tailwind pipeline, then make sure the build can find every utility class. Keep this setup in **one global stylesheet**.
+For a complete first integration, follow [Set Up Your App](/docs/getting-started#set-up-your-app), then return here for the detailed CSS and source-discovery options.
+
+Connect the foundation in order: choose a theme entry, load it through your existing Tailwind pipeline, then make sure the build can find every utility class. Keep this setup in **One Global Stylesheet**.
 
 ### Choose a theme entry
 

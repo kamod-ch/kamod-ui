@@ -2,7 +2,9 @@ import { execSync } from "node:child_process";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import ts from "@typescript/typescript6";
 import { ROUTE_SKIP_SLUGS } from "./docs-hidden-slugs.mjs";
+import { removeStaleComponentRoutes } from "./docs-route-cleanup.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const pagesDir = path.resolve(__dirname, "../src/docs/pages");
@@ -28,6 +30,54 @@ const removeIfExists = async (target) => {
   await fs.rm(target, { recursive: true, force: true });
 };
 
+/** Read actual section literals, never IDs inside code snippets or live demos. */
+const countVariants = (source, file) => {
+  const ast = ts.createSourceFile(file, source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
+  const referenceIds = new Set(["installation", "usage", "api-reference", "accessibility"]);
+  // Guide-heavy component pages explicitly distinguish live examples from explanatory sections.
+  let exampleIds;
+  const findExamples = (node) => {
+    if (
+      ts.isPropertyAssignment(node) &&
+      node.name.getText(ast) === "exampleSectionIds" &&
+      ts.isArrayLiteralExpression(node.initializer)
+    ) {
+      exampleIds = new Set(
+        node.initializer.elements.filter(ts.isStringLiteral).map((id) => id.text),
+      );
+    }
+    ts.forEachChild(node, findExamples);
+  };
+  findExamples(ast);
+  let counts;
+  const visit = (node) => {
+    if (
+      ts.isPropertyAssignment(node) &&
+      ["sections", "exampleSections"].includes(node.name.getText(ast))
+    ) {
+      if (!ts.isArrayLiteralExpression(node.initializer)) return;
+      counts = { variantCount: 0, motionVariantCount: 0 };
+      for (const section of node.initializer.elements) {
+        if (!ts.isObjectLiteralExpression(section))
+          throw new Error(`Nonliteral section in ${file}`);
+        const text = (name) =>
+          section.properties.find(
+            (prop) => ts.isPropertyAssignment(prop) && prop.name.getText(ast) === name,
+          )?.initializer.text;
+        const id = text("id");
+        if (!id) throw new Error(`Missing section ID in ${file}`);
+        if (exampleIds && !exampleIds.has(id)) continue;
+        if (referenceIds.has(id) || /rtl/i.test(id) || /rtl/i.test(text("title") ?? "")) continue;
+        counts[id === "with-motion" ? "motionVariantCount" : "variantCount"]++;
+      }
+      return;
+    }
+    ts.forEachChild(node, visit);
+  };
+  visit(ast);
+  return counts ?? {};
+};
+
 for (const file of files) {
   const source = await fs.readFile(path.join(pagesDir, file), "utf8");
   const slugMatch = source.match(/slug:\s*"([^"]+)"/);
@@ -37,16 +87,18 @@ for (const file of files) {
   const metadata = source.slice(slugMatch.index);
   const title = metadata.match(/title:\s*"([^"]+)"/)?.[1];
   if (!title) throw new Error(`Missing navigation title in ${file}`);
+  const group =
+    metadata.match(/navGroup:\s*"([^"]+)"/)?.[1] ??
+    (source.includes("createPackageTeaserDoc(")
+      ? "packages"
+      : source.includes("createMotionDocPage(")
+        ? "motion"
+        : "components");
   navigation.push({
     slug: slugMatch[1],
     label: metadata.match(/navLabel:\s*"([^"]+)"/)?.[1] ?? title,
-    group:
-      metadata.match(/navGroup:\s*"([^"]+)"/)?.[1] ??
-      (source.includes("createPackageTeaserDoc(")
-        ? "packages"
-        : source.includes("createMotionDocPage(")
-          ? "motion"
-          : "components"),
+    group,
+    ...(group === "components" || group === "motion" ? countVariants(source, file) : {}),
   });
 
   const ids = [...source.matchAll(/id:\s*"([^"]+)"/g)].map((match) => match[1]);
@@ -150,20 +202,7 @@ outline: false
   }
 }
 
-const overviewPages = new Set(["components.md", "forms.md", "packages.md"]);
 const manifestSlugs = new Set(manifest.map((doc) => doc.slug));
-const existingDocs = await fs.readdir(docsDir, { withFileTypes: true });
-
-for (const entry of existingDocs) {
-  if (!entry.isFile() || !entry.name.endsWith(".md") || overviewPages.has(entry.name)) {
-    continue;
-  }
-
-  const slug = entry.name.replace(/\.md$/, "");
-  if (manifestSlugs.has(slug)) continue;
-
-  await removeIfExists(path.join(docsDir, entry.name));
-  await removeIfExists(path.join(docsDir, slug));
-}
+await removeStaleComponentRoutes(docsDir, manifestSlugs);
 
 await fs.copyFile(llmsSource, llmsPublic);
