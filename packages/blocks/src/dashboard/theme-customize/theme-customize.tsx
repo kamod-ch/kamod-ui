@@ -1,4 +1,3 @@
-import { PaletteIcon } from "@kamod-ch/icons/lucide";
 import {
   applyColorScheme,
   applyThemePreset,
@@ -13,21 +12,9 @@ import {
   type ThemeStorage,
   themePresetSignal,
 } from "@kamod-ch/themes";
-import {
-  Button,
-  cn,
-  Label,
-  Popover,
-  PopoverContent,
-  PopoverHeader,
-  PopoverTitle,
-  PopoverTrigger,
-  Slider,
-  ToggleGroup,
-  ToggleGroupItem,
-} from "@kamod-ch/ui";
-import { useEffect, useRef, useState } from "preact/hooks";
-import { canUseDOM, useControllableState } from "../../shared";
+import { Button, CopyButton, Label, Slider } from "@kamod-ch/ui";
+import { useEffect, useRef } from "preact/hooks";
+import { canUseDOM, ThemePicker, useControllableState } from "../../shared";
 
 const RADIUS_STORAGE_KEY = "theme-radius";
 
@@ -63,32 +50,6 @@ const readStoredRadius = (storage: ThemeStorage | null, fallback: number): numbe
   const raw = storage?.getItem(RADIUS_STORAGE_KEY);
   const parsed = raw == null ? Number.NaN : Number(raw);
   return Number.isFinite(parsed) ? parsed : fallback;
-};
-
-const copyText = async (value: string): Promise<boolean> => {
-  if (!canUseDOM()) return false;
-  try {
-    if (navigator.clipboard?.writeText) {
-      await navigator.clipboard.writeText(value);
-      return true;
-    }
-  } catch {
-    /* fall through */
-  }
-  try {
-    const area = document.createElement("textarea");
-    area.value = value;
-    area.setAttribute("readonly", "");
-    area.style.position = "fixed";
-    area.style.opacity = "0";
-    document.body.append(area);
-    area.select();
-    const ok = document.execCommand("copy");
-    area.remove();
-    return ok;
-  } catch {
-    return false;
-  }
 };
 
 export const ThemeCustomize = ({
@@ -129,7 +90,6 @@ export const ThemeCustomize = ({
     defaultValue: persist ? readStoredRadius(resolvedStorage, defaultRadius) : defaultRadius,
     onChange: onRadiusChange,
   });
-  const [copyStatus, setCopyStatus] = useState<ThemeCopyStatus>("idle");
   const originalRadius = useRef<string | null>(null);
 
   useEffect(() => {
@@ -185,11 +145,6 @@ export const ThemeCustomize = ({
     `color-scheme: ${mode};`,
   ].join("\n");
 
-  const onCopy = async () => {
-    const ok = await copyText(cssSnippet);
-    setCopyStatus(ok ? "copied" : "error");
-  };
-
   const onReset = () => {
     setMode(defaultScheme);
     setBrand(defaultPreset);
@@ -211,81 +166,35 @@ export const ThemeCustomize = ({
       data-slot="block-theme-customize"
       class="flex justify-center bg-background p-6 text-foreground"
     >
-      <Popover>
-        <PopoverTrigger asChild>
-          <button
-            type="button"
-            class="inline-flex size-9 items-center justify-center rounded-md border border-border bg-background text-foreground hover:bg-muted"
-            aria-label="Customize theme"
-          >
-            <PaletteIcon size={16} aria-hidden="true" />
-          </button>
-        </PopoverTrigger>
-        <PopoverContent class="w-80" align="end">
-          <PopoverHeader>
-            <PopoverTitle>Theme</PopoverTitle>
-          </PopoverHeader>
-          <div class="grid gap-4 p-1">
-            <div class="grid gap-2">
-              <Label>Mode</Label>
-              <ToggleGroup
-                type="single"
-                value={mode}
-                onValueChange={(value) => {
-                  if (value === "light" || value === "dark" || value === "system") setMode(value);
-                }}
-              >
-                <ToggleGroupItem value="light">Light</ToggleGroupItem>
-                <ToggleGroupItem value="dark">Dark</ToggleGroupItem>
-                <ToggleGroupItem value="system">System</ToggleGroupItem>
-              </ToggleGroup>
-            </div>
-            <div class="grid gap-2">
-              <Label>Preset</Label>
-              <div class="grid grid-cols-3 gap-2">
-                {presets.map((item) => (
-                  <button
-                    key={item.id}
-                    type="button"
-                    class={cn(
-                      "rounded-md border px-2 py-1.5 text-left text-xs",
-                      brand === item.id ? "border-ring ring-2 ring-ring/40" : "border-border",
-                    )}
-                    aria-pressed={brand === item.id}
-                    onClick={() => setBrand(item.id)}
-                  >
-                    {item.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-            <div class="grid gap-2">
-              <Label for="theme-radius">Radius ({corner.toFixed(3)}rem)</Label>
-              <Slider
-                id="theme-radius"
-                min={0}
-                max={1.25}
-                step={0.125}
-                value={corner}
-                onValueChange={(values) => setCorner(values[0] ?? corner)}
-                aria-label="Corner radius"
-              />
-            </div>
-            <div class="flex gap-2">
-              <Button size="sm" onClick={onCopy}>
-                {copyStatus === "copied"
-                  ? "Copied"
-                  : copyStatus === "error"
-                    ? "Copy failed"
-                    : "Copy CSS"}
-              </Button>
-              <Button size="sm" variant="outline" onClick={onReset}>
-                Reset
-              </Button>
-            </div>
+      <ThemePicker
+        preset={brand}
+        onPresetChange={setBrand}
+        scheme={mode}
+        onSchemeChange={setMode}
+        presets={presets}
+        label="Customize theme"
+      >
+        <div class="grid gap-4 p-3">
+          <div class="grid gap-2">
+            <Label for="theme-radius">Radius ({corner.toFixed(3)}rem)</Label>
+            <Slider
+              id="theme-radius"
+              min={0}
+              max={1.25}
+              step={0.125}
+              value={corner}
+              onValueChange={(values) => setCorner(values[0] ?? corner)}
+              aria-label="Corner radius"
+            />
           </div>
-        </PopoverContent>
-      </Popover>
+          <div class="flex gap-2">
+            <CopyButton value={cssSnippet} label="Copy CSS" subject="CSS" />
+            <Button size="sm" variant="outline" onClick={onReset}>
+              Reset
+            </Button>
+          </div>
+        </div>
+      </ThemePicker>
     </div>
   );
 };

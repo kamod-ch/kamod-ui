@@ -134,7 +134,7 @@ export const AuthPasswordReset = ({
         {stage === "request" ? (
           <>
             <CardHeader class="text-center">
-              <CardTitle class="text-2xl">Forgot password?</CardTitle>
+              <CardTitle class="text-2xl">Forgot Password?</CardTitle>
               <CardDescription>
                 Enter your email and we&apos;ll send you a reset link.
               </CardDescription>
@@ -172,7 +172,7 @@ export const AuthPasswordReset = ({
               <MailCheckIcon size={24} />
             </div>
             <div class="space-y-1">
-              <h3 class="text-lg font-semibold">Check your inbox</h3>
+              <h3 class="text-lg font-semibold">Check Your Inbox</h3>
               <p class="text-sm text-muted-foreground" role="status">
                 We&apos;ve sent a reset link to{" "}
                 <span class="font-medium text-foreground">{email}</span>.
@@ -201,7 +201,7 @@ export const AuthPasswordReset = ({
         {stage === "reset" ? (
           <>
             <CardHeader class="text-center">
-              <CardTitle class="text-2xl">Set new password</CardTitle>
+              <CardTitle class="text-2xl">Set New Password</CardTitle>
               <CardDescription>
                 Pick a strong password you haven&apos;t used before.
               </CardDescription>
@@ -255,7 +255,7 @@ export const AuthPasswordReset = ({
               <MailCheckIcon size={24} />
             </div>
             <div class="space-y-1">
-              <h3 class="text-lg font-semibold">All set</h3>
+              <h3 class="text-lg font-semibold">All Set</h3>
               <p class="text-sm text-muted-foreground" role="status">
                 Your password has been updated. You can now sign in with the new password.
               </p>

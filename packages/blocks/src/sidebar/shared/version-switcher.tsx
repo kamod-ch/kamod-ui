@@ -31,7 +31,7 @@ export const VersionSwitcher = ({ versions, defaultVersion }: VersionSwitcherPro
             >
               <KamodIconFrame size="md" />
               <div class="flex flex-col gap-0.5 leading-none">
-                <span class="font-medium">Documentation</span>
+                <span class="font-medium">Kamod UI</span>
                 <span>v{selectedVersion}</span>
               </div>
               <ChevronsUpDownIcon class="ml-auto" />

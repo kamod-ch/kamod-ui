@@ -169,7 +169,7 @@ export const CommandPalette = ({
       ) : null}
 
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <DialogTitle class="sr-only">Command palette</DialogTitle>
+        <DialogTitle class="sr-only">Command Palette</DialogTitle>
         <Command autoHighlight class="border-0 shadow-none">
           <CommandInput placeholder={placeholder} aria-label="Search commands" />
           <CommandList>

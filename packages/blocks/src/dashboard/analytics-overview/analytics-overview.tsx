@@ -166,7 +166,7 @@ export const AnalyticsOverview = ({
         {routes.length === 0 ? (
           <Empty>
             <EmptyHeader>
-              <EmptyTitle>No routes</EmptyTitle>
+              <EmptyTitle>No Routes</EmptyTitle>
               <EmptyDescription>Provide at least one route to plot volume.</EmptyDescription>
             </EmptyHeader>
           </Empty>

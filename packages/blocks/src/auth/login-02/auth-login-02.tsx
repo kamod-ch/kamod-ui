@@ -126,7 +126,7 @@ export const AuthLogin02 = ({
           {eyebrow}
         </p>
         <h2 class="text-3xl leading-tight font-semibold tracking-tight text-balance">
-          {headline} <span class="text-primary">{headlineAccent}</span>, not sprints.
+          {headline} <span class="text-primary">{headlineAccent}</span>, Not Sprints.
         </h2>
         <p class="mt-4 text-sm leading-relaxed text-muted-foreground">{lede}</p>
         <ul class="mt-8 space-y-3 text-sm">

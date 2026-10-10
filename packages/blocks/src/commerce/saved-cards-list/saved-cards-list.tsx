@@ -43,7 +43,7 @@ export const SavedCardsList = ({
       class="bg-background text-foreground mx-auto w-full max-w-lg space-y-3 rounded-xl border p-4"
     >
       <div class="flex items-center justify-between">
-        <h2 class="text-sm font-medium">Saved cards</h2>
+        <h2 class="text-sm font-medium">Saved Cards</h2>
         <Button type="button" size="sm" onClick={() => setAdding(true)}>
           Add card
         </Button>
@@ -51,7 +51,7 @@ export const SavedCardsList = ({
       {cards.length === 0 ? (
         <Empty>
           <EmptyHeader>
-            <EmptyTitle>No saved cards</EmptyTitle>
+            <EmptyTitle>No Saved Cards</EmptyTitle>
             <EmptyDescription>Only masked, tokenized summaries are stored here.</EmptyDescription>
           </EmptyHeader>
         </Empty>
@@ -95,7 +95,7 @@ export const SavedCardsList = ({
       <Dialog open={adding} onOpenChange={setAdding}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Add a card</DialogTitle>
+            <DialogTitle>Add a Card</DialogTitle>
           </DialogHeader>
           <PaymentForm
             onSubmit={async (values) => {
@@ -108,7 +108,7 @@ export const SavedCardsList = ({
       <AlertDialog open={removeId != null} onOpenChange={(open) => !open && setRemoveId(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Remove this card?</AlertDialogTitle>
+            <AlertDialogTitle>Remove This Card?</AlertDialogTitle>
             <AlertDialogDescription>
               The masked summary is removed. PAN and CVC are never kept in this list.
             </AlertDialogDescription>

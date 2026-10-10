@@ -151,7 +151,7 @@ describe("catalog auth blocks", () => {
     expect(screen.queryByRole("button", { name: "I have a reset token" })).toBeNull();
     fireEvent.input(screen.getByLabelText("Email"), { target: { value: "ada@example.com" } });
     fireEvent.click(screen.getByRole("button", { name: "Send reset link" }));
-    expect(document.body.contains(await screen.findByText("Check your inbox"))).toBe(true);
+    expect(document.body.contains(await screen.findByText("Check Your Inbox"))).toBe(true);
     expect(onRequest).toHaveBeenCalledWith("ada@example.com");
     expect(screen.queryByRole("button", { name: "I have a reset token" })).toBeNull();
     unmount();
@@ -172,7 +172,7 @@ describe("catalog auth blocks", () => {
       target: { value: "password123" },
     });
     fireEvent.click(screen.getByRole("button", { name: "Reset password" }));
-    expect(document.body.contains(await screen.findByText("All set"))).toBe(true);
+    expect(document.body.contains(await screen.findByText("All Set"))).toBe(true);
     expect(onReset).toHaveBeenCalledWith("password123");
   });
 

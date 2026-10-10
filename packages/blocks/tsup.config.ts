@@ -1,3 +1,4 @@
+import { copyFile } from "node:fs/promises";
 import { defineConfig } from "tsup";
 
 export default defineConfig({
@@ -76,6 +77,9 @@ export default defineConfig({
     "src/marketing/pricing-01/index.ts",
     "src/marketing/testimonials-01/index.ts",
   ],
+  onSuccess: async () => {
+    await copyFile("src/shared/theme-picker/theme-picker.css", "dist/theme-picker.css");
+  },
   format: ["esm"],
   dts: false,
   sourcemap: true,

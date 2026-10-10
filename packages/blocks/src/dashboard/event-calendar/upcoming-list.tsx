@@ -24,7 +24,7 @@ export const UpcomingList = ({
     return (
       <Empty>
         <EmptyHeader>
-          <EmptyTitle>No upcoming events</EmptyTitle>
+          <EmptyTitle>No Upcoming Events</EmptyTitle>
           <EmptyDescription>Scheduled items appear here after today.</EmptyDescription>
         </EmptyHeader>
       </Empty>

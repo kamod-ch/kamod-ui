@@ -1,5 +1,4 @@
 import {
-  CopyIcon,
   PaperclipIcon,
   RefreshCwIcon,
   SquareIcon,
@@ -8,6 +7,7 @@ import {
 } from "@kamod-ch/icons/lucide";
 import {
   Button,
+  CopyButton,
   cn,
   Empty,
   EmptyDescription,
@@ -173,17 +173,6 @@ export const AiLlmChat = ({
     }
   };
 
-  const copy = async (message: AiChatMessage) => {
-    const text = plainText(message);
-    onCopy?.(message.id, text);
-    if (typeof navigator === "undefined" || !navigator.clipboard?.writeText) return;
-    try {
-      await navigator.clipboard.writeText(text);
-    } catch {
-      /* consumer handles persistence */
-    }
-  };
-
   return (
     <div
       data-slot="block-ai-llm-chat"
@@ -234,7 +223,7 @@ export const AiLlmChat = ({
           {messages.length === 0 ? (
             <Empty>
               <EmptyHeader>
-                <EmptyTitle>Start a prompt</EmptyTitle>
+                <EmptyTitle>Start a Prompt</EmptyTitle>
                 <EmptyDescription>
                   onSend may return a string, a Promise, or an AsyncIterable. Stop uses AbortSignal.
                   Code is rendered as text only.
@@ -260,15 +249,12 @@ export const AiLlmChat = ({
                 )}
                 {message.role === "assistant" ? (
                   <div class="flex flex-wrap gap-1">
-                    <Button
-                      type="button"
-                      size="icon-sm"
-                      variant="ghost"
-                      aria-label="Copy"
-                      onClick={() => copy(message)}
-                    >
-                      <CopyIcon size={14} aria-hidden="true" />
-                    </Button>
+                    <CopyButton
+                      value={plainText(message)}
+                      subject="response"
+                      iconOnly
+                      onClick={() => onCopy?.(message.id, plainText(message))}
+                    />
                     <Button
                       type="button"
                       size="icon-sm"

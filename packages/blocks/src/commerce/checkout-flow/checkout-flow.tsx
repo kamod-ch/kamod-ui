@@ -155,7 +155,7 @@ export const CheckoutFlow = ({
       ) : null}
       {state.stage === "success" ? (
         <div class="space-y-2">
-          <h2 class="text-lg font-semibold">Order confirmed</h2>
+          <h2 class="text-lg font-semibold">Order Confirmed</h2>
           <p class="text-sm">Order ID {state.orderId}</p>
         </div>
       ) : null}

@@ -116,7 +116,7 @@ export const ChatThread = ({
         {groups.length === 0 ? (
           <Empty>
             <EmptyHeader>
-              <EmptyTitle>No messages yet</EmptyTitle>
+              <EmptyTitle>No Messages Yet</EmptyTitle>
             </EmptyHeader>
           </Empty>
         ) : (

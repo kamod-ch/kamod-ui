@@ -127,7 +127,7 @@ export const Header01 = ({
           </SheetTrigger>
           <SheetContent side="right" class="w-72 p-0" showCloseButton={false}>
             <SheetHeader class="sr-only">
-              <SheetTitle>Site menu</SheetTitle>
+              <SheetTitle>Site Menu</SheetTitle>
               <SheetDescription>Primary navigation and account actions</SheetDescription>
             </SheetHeader>
             <div class="flex h-full flex-col">

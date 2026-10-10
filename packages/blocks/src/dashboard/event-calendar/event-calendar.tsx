@@ -133,7 +133,7 @@ export const EventCalendar = ({
 
       {status === "error" ? (
         <Alert>
-          <AlertTitle>Events unavailable</AlertTitle>
+          <AlertTitle>Events Unavailable</AlertTitle>
           <AlertDescription>{errorMessage}</AlertDescription>
         </Alert>
       ) : null}
@@ -214,7 +214,7 @@ export const EventCalendar = ({
               {calendar.selectedEvents.length === 0 && events.length === 0 ? (
                 <Empty>
                   <EmptyHeader>
-                    <EmptyTitle>No events</EmptyTitle>
+                    <EmptyTitle>No Events</EmptyTitle>
                     <EmptyDescription>
                       Pass events and onEventsChange. Fixtures stay in previews.
                     </EmptyDescription>

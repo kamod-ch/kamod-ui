@@ -23,7 +23,7 @@ export const ListView = ({
     return (
       <Empty>
         <EmptyHeader>
-          <EmptyTitle>No tasks</EmptyTitle>
+          <EmptyTitle>No Tasks</EmptyTitle>
           <EmptyDescription>Adjust filters or add a task.</EmptyDescription>
         </EmptyHeader>
       </Empty>

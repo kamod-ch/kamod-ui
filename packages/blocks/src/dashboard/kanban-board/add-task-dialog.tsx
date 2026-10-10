@@ -69,7 +69,7 @@ export const AddTaskDialog = ({
     >
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add task</DialogTitle>
+          <DialogTitle>Add Task</DialogTitle>
         </DialogHeader>
         <div class="grid gap-3">
           <div class="space-y-1">

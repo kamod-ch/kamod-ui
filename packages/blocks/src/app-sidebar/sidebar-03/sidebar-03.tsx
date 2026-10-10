@@ -85,7 +85,7 @@ export const AppSidebar03 = ({
                 aria-label="Switch documentation version"
               >
                 <span class="grid flex-1 text-left text-sm leading-tight">
-                  <span class="font-medium">Documentation</span>
+                  <span class="font-medium">Kamod UI</span>
                   <span class="text-xs">v{selectedVersion}</span>
                 </span>
                 <ChevronsUpDownIcon class="ml-auto size-4" />

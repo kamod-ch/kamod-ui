@@ -302,7 +302,7 @@ export const AppSidebar05 = ({
                     <AppBrandMark />
                   </div>
                   <span class="grid flex-1 text-left text-sm leading-tight">
-                    <span class="truncate font-bold">Kamod</span>
+                    <span class="truncate font-bold">Kamod UI</span>
                     <span class="truncate text-muted-foreground text-xs">{titles[active]}</span>
                   </span>
                   <ChevronsUpDownIcon class="ml-auto size-4" />

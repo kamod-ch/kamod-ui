@@ -140,7 +140,7 @@ export const NotificationsPopover = ({
       return (
         <Empty class="min-h-32 border-0 p-4">
           <EmptyHeader>
-            <EmptyTitle>You're all caught up</EmptyTitle>
+            <EmptyTitle>You're All Caught Up</EmptyTitle>
             <EmptyDescription>{emptyLabel}</EmptyDescription>
           </EmptyHeader>
         </Empty>

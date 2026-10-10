@@ -85,7 +85,7 @@ describe("marketing block interactions", () => {
 
     const dialog = await screen.findByRole("dialog");
     expect(dialog).toBeTruthy();
-    expect(screen.getByText("Site menu")).toBeTruthy();
+    expect(screen.getByText("Site Menu")).toBeTruthy();
     expect(screen.getByRole("button", { name: "Close menu" })).toBeTruthy();
 
     fireEvent.keyDown(document, { key: "Escape" });
