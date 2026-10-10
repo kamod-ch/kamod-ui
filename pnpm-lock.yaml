@@ -78,6 +78,9 @@ importers:
 
   packages/core:
     dependencies:
+      '@kamod-ch/icons':
+        specifier: ^1.1.0
+        version: 1.1.0(preact@11.0.0)
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -90,6 +93,9 @@ importers:
       preact:
         specifier: ^11.0.0
         version: 11.0.0(preact-render-to-string@6.7.0)
+      prismjs:
+        specifier: ^1.30.0
+        version: 1.30.0
       tailwind-merge:
         specifier: ^3.7.0
         version: 3.7.0
@@ -112,6 +118,9 @@ importers:
       '@testing-library/preact':
         specifier: ^3.2.4
         version: 3.2.4(preact@11.0.0)
+      '@types/prismjs':
+        specifier: ^1.26.6
+        version: 1.26.6
       '@vitest/coverage-v8':
         specifier: ^5.0.2
         version: 5.0.2(vitest@5.0.2)

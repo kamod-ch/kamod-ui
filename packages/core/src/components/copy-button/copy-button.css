@@ -1,0 +1,175 @@
+:where(:root, .light) {
+  --copy-success-tone: #000;
+  --copy-success-mix: 60%;
+}
+:where(.dark) {
+  --copy-success-tone: #fff;
+  --copy-success-mix: 70%;
+}
+
+/* Match the shared icon-action surface without depending on documentation CSS. */
+.kamod-copy-button.kamod-copy-button {
+  --copy-success: color-mix(
+    in oklab,
+    var(--success, #16a34a) var(--copy-success-mix, 60%),
+    var(--copy-success-tone, #000)
+  );
+  --docs-icon-button-hover-offset: 0;
+  --docs-icon-button-hover-shadow: none;
+  background: var(
+    --docs-icon-button-background,
+    color-mix(
+      in oklab,
+      var(--foreground) calc(6% + 5.64% * var(--docs-highlight-boost, 0)),
+      transparent
+    )
+  );
+  color: var(--muted-foreground);
+  white-space: nowrap;
+  cursor: pointer;
+  translate: none;
+  box-shadow: none;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+:where(.kamod-copy-button) {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  min-height: 1.75rem;
+  padding: 0.35rem 0.55rem;
+  border: 0;
+  border-radius: 0.5rem;
+  font: inherit;
+  font-size: 0.75rem;
+  line-height: 1;
+}
+.kamod-copy-button.kamod-copy-button:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .kamod-copy-button.kamod-copy-button:hover:not(:disabled) {
+    background: var(
+      --docs-icon-button-hover-background,
+      color-mix(
+        in oklab,
+        var(--foreground) calc(14% + 12.04% * var(--docs-highlight-boost, 0)),
+        transparent
+      )
+    );
+    color: var(--foreground);
+    translate: none;
+    box-shadow: none;
+  }
+}
+.kamod-copy-button.kamod-copy-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+.kamod-copy-button.kamod-copy-button[aria-busy="true"] {
+  cursor: progress;
+}
+:where(.kamod-copy-button > svg) {
+  flex: none;
+  width: 1rem;
+  height: 1rem;
+}
+.kamod-copy-button[data-icon-only] {
+  width: 1.75rem;
+  padding: 0.375rem;
+}
+
+/* Both labels reserve the same space, so feedback never shifts its neighbors. */
+:where(.kamod-copy-label) {
+  display: grid;
+  align-items: center;
+  text-align: center;
+}
+.kamod-copy-label > span {
+  grid-area: 1 / 1;
+  transition: opacity 110ms ease;
+}
+.kamod-copy-button [data-copy-label="feedback"],
+.kamod-copy-button:is([data-copy-state="copied"], [data-copy-state="error"])
+  [data-copy-label="idle"] {
+  opacity: 0;
+}
+.kamod-copy-button:is([data-copy-state="copied"], [data-copy-state="error"])
+  [data-copy-label="feedback"] {
+  opacity: 1;
+}
+.kamod-copy-button.kamod-copy-button[data-copy-state="copied"] {
+  --docs-icon-button-background: color-mix(in oklab, var(--copy-success) 10%, transparent);
+  --docs-icon-button-hover-background: color-mix(in oklab, var(--copy-success) 15%, transparent);
+  background: var(--docs-icon-button-background);
+  color: var(--copy-success);
+  box-shadow: none;
+}
+.kamod-copy-button.kamod-copy-button[data-copy-state="copied"]:is(:hover, :focus-visible) {
+  background: var(--docs-icon-button-hover-background);
+  color: var(--copy-success);
+  box-shadow: none;
+}
+.kamod-copy-button::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--copy-success);
+  border-radius: inherit;
+  opacity: 0;
+  pointer-events: none;
+}
+.kamod-copy-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .kamod-copy-button[data-copy-state="copied"] > svg {
+    animation: kamod-copy-snap 420ms both;
+  }
+  .kamod-copy-button[data-copy-state="copied"]::after {
+    animation: kamod-copy-confirm 580ms ease-out both;
+  }
+}
+@keyframes kamod-copy-snap {
+  0% {
+    opacity: 0.3;
+    transform: scale(0.7) rotate(-12deg);
+  }
+  48% {
+    opacity: 1;
+    transform: scale(1.12) rotate(4deg);
+  }
+  72% {
+    transform: scale(0.97) rotate(-1deg);
+  }
+  100% {
+    transform: scale(1) rotate(0);
+  }
+}
+@keyframes kamod-copy-confirm {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  28% {
+    opacity: 0.35;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .kamod-copy-button.kamod-copy-button,
+  .kamod-copy-label > span {
+    transition: none;
+  }
+}

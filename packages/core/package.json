@@ -112,6 +112,18 @@
       "types": "./dist/components/checkbox/index.d.ts",
       "import": "./dist/components/checkbox/index.js"
     },
+    "./code": {
+      "types": "./dist/components/code/index.d.ts",
+      "import": "./dist/components/code/index.js"
+    },
+    "./code/highlight": {
+      "types": "./dist/components/code/highlight-code.d.ts",
+      "import": "./dist/components/code/highlight-code.js"
+    },
+    "./copy-button": {
+      "types": "./dist/components/copy-button/index.d.ts",
+      "import": "./dist/components/copy-button/index.js"
+    },
     "./collapsible": {
       "types": "./dist/components/collapsible/index.d.ts",
       "import": "./dist/components/collapsible/index.js"
@@ -330,7 +342,7 @@
   },
   "scripts": {
     "prepublishOnly": "node ../../scripts/sync-package-readme.mjs",
-    "build": "NODE_OPTIONS=--max-old-space-size=8192 tsup && tsc --emitDeclarationOnly --declaration --declarationMap false && node ../../scripts/fix-declaration-imports.mjs dist && cp src/theme.css dist/theme.css",
+    "build": "NODE_OPTIONS=--max-old-space-size=8192 tsup && tsc --emitDeclarationOnly --declaration --declarationMap false && node ../../scripts/fix-declaration-imports.mjs dist && cp src/theme.css dist/theme.css && mkdir -p dist/components/code && cp src/components/code/code.css dist/components/code/code.css && mkdir -p dist/components/copy-button && cp src/components/copy-button/copy-button.css dist/components/copy-button/copy-button.css",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",
@@ -341,9 +353,11 @@
     "attw": "attw --pack . --profile esm-only --exclude-entrypoints ./theme.css"
   },
   "dependencies": {
+    "@kamod-ch/icons": "^1.1.0",
     "clsx": "^2.1.1",
     "embla-carousel": "^8.6.0",
     "embla-carousel-autoplay": "^8.6.0",
+    "prismjs": "^1.30.0",
     "tailwind-merge": "^3.7.0",
     "tailwind-variants": "^3.3.1"
   },
@@ -353,6 +367,7 @@
     "@preact/signals": "^2.11.3",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/preact": "^3.2.4",
+    "@types/prismjs": "^1.26.6",
     "@vitest/coverage-v8": "^5.0.2",
     "jsdom": "^30.1.1",
     "preact-render-to-string": "^6.7.0",

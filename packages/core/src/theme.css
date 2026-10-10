@@ -1,3 +1,6 @@
+@import "./components/copy-button/copy-button.css";
+@import "./components/code/code.css";
+
 @source "./**/*.{js,mjs}";
 
 @custom-variant dark (&:where(.dark, .dark *));

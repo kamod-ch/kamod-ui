@@ -1,0 +1,670 @@
+/* Scoped defaults stay below application selectors, including the docs showcase skins. */
+:where(.kamod-code) {
+  --kamod-code-surface: var(--muted);
+  --kamod-code-header: var(--muted);
+  --kamod-code-control: color-mix(in oklab, var(--foreground) 5%, transparent);
+  --kamod-code-control-hover: color-mix(in oklab, var(--foreground) 9%, transparent);
+  --kamod-code-keyword: #1d4ed8;
+  --kamod-code-property: #b91c1c;
+  --kamod-code-number: #92400e;
+  --kamod-code-string: #15803d;
+  --kamod-code-function: #6d28d9;
+  --kamod-code-variable: #9a3412;
+  container: code-snippet / inline-size;
+  position: relative;
+  min-width: 0;
+  max-width: 100%;
+  color: var(--foreground);
+  font-family: var(--font-sans, ui-sans-serif, system-ui, sans-serif);
+}
+
+:where(.dark .kamod-code, .kamod-code.dark) {
+  --kamod-code-keyword: #93c5fd;
+  --kamod-code-property: #fda4af;
+  --kamod-code-number: #fcd34d;
+  --kamod-code-string: #86efac;
+  --kamod-code-function: #c4b5fd;
+  --kamod-code-variable: #fdba74;
+}
+
+/* Optional syntax palettes change source tokens, never the surrounding app theme. */
+:where(.kamod-code[data-syntax-theme="dusk"]) {
+  --kamod-code-keyword: #6d28d9;
+  --kamod-code-property: #a21caf;
+  --kamod-code-number: #a16207;
+  --kamod-code-string: #0f766e;
+  --kamod-code-function: #4338ca;
+  --kamod-code-variable: #be123c;
+}
+
+:where(.dark .kamod-code[data-syntax-theme="dusk"], .kamod-code.dark[data-syntax-theme="dusk"]) {
+  --kamod-code-keyword: #c4b5fd;
+  --kamod-code-property: #f0abfc;
+  --kamod-code-number: #fcd34d;
+  --kamod-code-string: #5eead4;
+  --kamod-code-function: #a5b4fc;
+  --kamod-code-variable: #fda4af;
+}
+
+:where(.kamod-code[data-syntax-theme="forest"]) {
+  --kamod-code-keyword: #166534;
+  --kamod-code-property: #0e7490;
+  --kamod-code-number: #a16207;
+  --kamod-code-string: #3f6212;
+  --kamod-code-function: #92400e;
+  --kamod-code-variable: #9a3412;
+}
+
+:where(
+  .dark .kamod-code[data-syntax-theme="forest"],
+  .kamod-code.dark[data-syntax-theme="forest"]
+) {
+  --kamod-code-keyword: #86efac;
+  --kamod-code-property: #67e8f9;
+  --kamod-code-number: #fde68a;
+  --kamod-code-string: #bef264;
+  --kamod-code-function: #fdba74;
+  --kamod-code-variable: #fca5a5;
+}
+
+:where(.kamod-code[data-syntax-theme="monochrome"]) {
+  --kamod-code-keyword: var(--kamod-code-foreground, var(--foreground));
+  --kamod-code-property: var(--kamod-code-foreground, var(--foreground));
+  --kamod-code-number: var(--kamod-code-foreground, var(--foreground));
+  --kamod-code-string: var(--kamod-code-foreground, var(--foreground));
+  --kamod-code-function: var(--kamod-code-foreground, var(--foreground));
+  --kamod-code-variable: var(--kamod-code-foreground, var(--foreground));
+  --kamod-code-keyword-weight: 600;
+  --kamod-code-function-weight: 600;
+  --kamod-code-comment-style: italic;
+}
+
+:where(.kamod-code[data-variant="subtle"]) {
+  --kamod-code-surface: color-mix(in oklab, var(--muted) 55%, var(--background));
+  --kamod-code-header: var(--kamod-code-surface);
+}
+
+:where(.kamod-code[data-variant="outline"]) {
+  --kamod-code-surface: var(--background);
+  --kamod-code-header: color-mix(in oklab, var(--muted) 45%, var(--background));
+}
+
+:where(.kamod-code.docs-code-file) {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius, 0.625rem) + 0.125rem);
+  background: var(--kamod-code-surface);
+}
+
+:where(.kamod-code .docs-code) {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  margin: 0;
+  padding: 0.9rem 1rem;
+  overflow: auto;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius, 0.625rem) + 0.125rem);
+  background: var(--kamod-code-surface);
+  color: var(--kamod-code-foreground, var(--foreground));
+  font-size: var(--kamod-code-font-size, 0.75rem);
+  text-align: start;
+  tab-size: 2;
+}
+
+:where(.kamod-code.docs-code-file > .docs-code) {
+  border: 0;
+  border-radius: 0 0 calc(var(--radius, 0.625rem) + 0.125rem)
+    calc(var(--radius, 0.625rem) + 0.125rem);
+  background: transparent;
+}
+
+:where(.kamod-code.docs-code-file > .docs-code:first-child) {
+  border-radius: inherit;
+}
+
+:where(.kamod-code) .docs-code-imports-row[data-wrap-only] {
+  justify-content: flex-end;
+}
+
+:where(.kamod-code .docs-code > code, .kamod-code .docs-import-label, .kamod-code .path-display) {
+  font-family:
+    var(--font-mono, ui-monospace), SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+}
+
+:where(.kamod-code .docs-code > code) {
+  display: block;
+  width: max-content;
+  min-width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font-family: var(
+    --kamod-code-font-family,
+    var(--font-mono, ui-monospace),
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    "Liberation Mono",
+    "Courier New",
+    monospace
+  );
+  font-size: inherit;
+  font-weight: 400;
+  line-height: var(--kamod-code-line-height, 1.55);
+  white-space: pre;
+}
+
+:where(.kamod-code .docs-code-toolbar) {
+  --code-file-heading-color: color-mix(in oklab, var(--foreground) 70%, var(--muted-foreground));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-width: 0;
+  padding: 0.5rem 0.75rem;
+}
+
+:where(.kamod-code.docs-code-file > .docs-code-toolbar) {
+  border-bottom: 1px solid var(--border);
+  border-radius: calc(var(--radius, 0.625rem) + 0.125rem) calc(var(--radius, 0.625rem) + 0.125rem) 0
+    0;
+  background: var(--kamod-code-header);
+}
+
+:where(.kamod-code > .docs-code-toolbar:has(.docs-code-wrap-control)) {
+  padding-block: 0.75rem 0.375rem;
+}
+
+:where(.kamod-code .docs-code-file-path) {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+:where(.kamod-code .path-display-icon) {
+  flex: none;
+  width: 1.5em;
+  height: 1.5em;
+  margin-inline-end: 0.35em;
+  color: var(--code-file-heading-color);
+  stroke-width: 1.75;
+}
+
+:where(.kamod-code .kamod-code-file-icon) {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  border-radius: 0.125rem;
+}
+
+:where(.kamod-code .docs-code-file-path > [data-path-part]) {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+:where(.kamod-code .docs-code-file-path > [data-path-part="middle"]) {
+  flex: 0 1 auto;
+}
+
+:where(.kamod-code .docs-code-file-path > [data-path-part="end"]) {
+  flex: 0 1 auto;
+  color: var(--code-file-heading-color);
+  font-weight: 550;
+}
+
+:where(.kamod-code .docs-code-file-meta) {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  min-width: 0;
+}
+
+:where(.kamod-code .docs-code-line-count) {
+  display: inline-flex;
+  align-items: baseline;
+  flex: none;
+  gap: 0.25rem;
+  color: var(--muted-foreground);
+  font-size: 0.6875rem;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+:where(.kamod-code .docs-code-line-count strong) {
+  color: var(--code-file-heading-color);
+  font-weight: 550;
+}
+
+:where(.kamod-code .docs-code-label) {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+:where(.kamod-code .docs-code-label > svg) {
+  flex: none;
+  color: var(--foreground);
+}
+
+:where(.kamod-code .docs-code-label strong) {
+  flex: none;
+  color: var(--foreground);
+  font-weight: 650;
+}
+
+:where(.kamod-code .docs-code-label-dot) {
+  opacity: 0.5;
+}
+
+:where(.kamod-code .docs-code-label-detail) {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  padding-block: 0.125rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+:where(.kamod-code .docs-code-actions) {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  gap: 0.5rem;
+  margin-inline-start: auto;
+}
+
+:where(.kamod-code .docs-copy-code-button) {
+  margin-inline-start: auto;
+}
+
+:where(.kamod-code .docs-code-imports-row) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.375rem 0.5rem;
+  margin-bottom: -0.125rem;
+  padding: 0.625rem 0.75rem 0;
+}
+
+:where(.kamod-code .docs-import-toggle, .kamod-code .docs-code-wrap-control) {
+  --code-control-secondary: var(--muted-foreground);
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  gap: 0.375rem;
+  min-height: 1.75rem;
+  padding: 0.25rem 0.625rem 0.25rem 0.4375rem;
+  border: 0;
+  border-radius: 0.375rem;
+  background: var(--kamod-code-control);
+  color: var(--foreground);
+  font: inherit;
+  font-size: 0.625rem;
+  line-height: 1.2;
+  transition: background-color 150ms ease;
+}
+
+:where(.kamod-code .docs-import-toggle) {
+  cursor: pointer;
+}
+
+:where(.kamod-code .docs-import-label) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  color: inherit;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+:where(.kamod-code .docs-import-chevron) {
+  flex: none;
+  width: 0.875rem;
+  height: 0.875rem;
+  color: var(--foreground);
+  stroke-width: 2.25;
+  transition: rotate 120ms ease;
+}
+
+:where(.kamod-code .docs-import-toggle[aria-expanded="true"] .docs-import-chevron) {
+  rotate: 90deg;
+}
+
+:where(.kamod-code .docs-code-control-dot) {
+  flex: none;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--code-control-secondary);
+}
+
+:where(.kamod-code .docs-import-summary, .kamod-code .docs-code-wrap-state) {
+  color: var(--code-control-secondary);
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+:where(.kamod-code .docs-import-summary strong) {
+  color: var(--foreground);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Reserve the longer state label without hard-coding a width for the active font. */
+:where(.kamod-code .docs-code-control-state) {
+  display: inline-grid;
+  text-align: start;
+}
+
+:where(.kamod-code .docs-code-control-state > span),
+:where(.kamod-code .docs-code-control-state)::after {
+  grid-area: 1 / 1;
+}
+
+:where(.kamod-code .docs-code-control-state)::after {
+  content: attr(data-alternate);
+  visibility: hidden;
+}
+
+:where(.kamod-code .docs-code-wrap-control) {
+  margin-inline-start: auto;
+  cursor: pointer;
+}
+
+:where(.kamod-code .docs-code-wrap-icon, .kamod-code .docs-code-control-end-icon) {
+  display: block;
+  flex: none;
+  align-self: center;
+}
+
+:where(.kamod-code .docs-code-wrap-icon) {
+  width: 0.875rem;
+  height: 0.875rem;
+  margin-inline-end: 0.0625rem;
+  color: var(--code-control-secondary);
+  stroke-width: 1.75;
+}
+
+:where(.kamod-code .docs-code-wrap-state) {
+  margin-inline-start: 0.1875rem;
+}
+
+:where(.kamod-code .docs-code-control-end-icon) {
+  width: 0.75rem;
+  height: 0.75rem;
+  margin-inline-start: auto;
+  color: var(--foreground);
+  stroke-width: 2;
+}
+
+:where(.kamod-code .docs-code-wrap-toggle[data-slot="switch"]) {
+  position: relative;
+  width: 1.625rem;
+  height: 0.9375rem;
+  border-width: 2px;
+}
+
+:where(.kamod-code .docs-code-wrap-toggle[data-state="unchecked"]) {
+  background-color: color-mix(in oklab, var(--foreground) 30%, var(--background));
+}
+
+/* Keep a generous pointer target while the visible switch remains compact. */
+:where(.kamod-code .docs-code-wrap-toggle)::after {
+  content: "";
+  position: absolute;
+  inset: -0.5rem 0;
+}
+
+:where(.kamod-code .docs-code-wrap-toggle [data-slot="switch-thumb"]) {
+  width: 0.6875rem;
+  height: 0.6875rem;
+}
+
+:where(.kamod-code .docs-code-wrap-toggle [data-state="checked"]) {
+  --tw-translate-x: 0.6875rem;
+  translate: 0.6875rem 0;
+}
+
+:where(
+  .kamod-code .docs-copy-code-button,
+  .kamod-code .docs-import-toggle,
+  .kamod-code .docs-code-wrap-toggle,
+  .kamod-code .path-display-icon,
+  .kamod-code .kamod-code-file-icon
+):focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+:where(.kamod-code .docs-code):focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: -3px;
+}
+
+/* Only wrapped continuations receive extra indentation; wide logical lines stay put. */
+:where(.kamod-code.is-wrapped > .docs-code) {
+  overflow-x: hidden;
+}
+
+:where(.kamod-code.is-wrapped > .docs-code > code) {
+  width: 100%;
+  min-width: 0;
+  white-space: normal;
+}
+
+:where(.kamod-code .docs-code-line) {
+  --code-indent: var(--code-indent-ch, 0ch);
+  display: block;
+  min-height: 1lh;
+  padding-inline-start: calc(var(--code-indent) + 1.5ch);
+  text-indent: calc(-1 * (var(--code-indent) + 1.5ch));
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  tab-size: 2;
+}
+
+:where(.kamod-code .docs-code-line > .docs-code-indent) {
+  display: inline-block;
+  width: var(--code-indent);
+  overflow: hidden;
+  vertical-align: top;
+  white-space: pre;
+  text-indent: 0;
+}
+
+/*
+ * Override --kamod-code-font-family, -font-size, -line-height and -foreground on
+ * the Code root to customize source typography without changing the header.
+ * Token groups expose --kamod-code-{group}, -{group}-weight and -{group}-style:
+ * comment, punctuation, property, number, string, operator, keyword, function,
+ * variable. Syntax rules remain local to Code, never global Prism token rules.
+ */
+:where(.kamod-code .docs-code .token:is(.comment, .prolog, .doctype, .cdata)) {
+  color: var(
+    --kamod-code-comment,
+    color-mix(in oklab, var(--muted-foreground) 86%, var(--foreground))
+  );
+  font-weight: var(--kamod-code-comment-weight, inherit);
+  font-style: var(--kamod-code-comment-style, inherit);
+}
+
+:where(.kamod-code .docs-code .token.punctuation) {
+  color: var(
+    --kamod-code-punctuation,
+    color-mix(in oklab, var(--foreground) 74%, var(--muted-foreground))
+  );
+  font-weight: var(--kamod-code-punctuation-weight, inherit);
+  font-style: var(--kamod-code-punctuation-style, inherit);
+}
+
+:where(.kamod-code .docs-code .token:is(.property, .tag, .constant, .symbol, .deleted)) {
+  color: var(--kamod-code-property);
+  font-weight: var(--kamod-code-property-weight, inherit);
+  font-style: var(--kamod-code-property-style, inherit);
+}
+
+:where(.kamod-code .docs-code .token:is(.boolean, .number)) {
+  color: var(--kamod-code-number);
+  font-weight: var(--kamod-code-number-weight, inherit);
+  font-style: var(--kamod-code-number-style, inherit);
+}
+
+:where(
+  .kamod-code .docs-code .token:is(.selector, .attr-name, .string, .char, .builtin, .inserted)
+) {
+  color: var(--kamod-code-string);
+  font-weight: var(--kamod-code-string-weight, inherit);
+  font-style: var(--kamod-code-string-style, inherit);
+}
+
+:where(
+  .kamod-code .docs-code .token:is(.operator, .entity, .url),
+  .kamod-code .docs-code .language-css .token.string,
+  .kamod-code .docs-code .style .token.string
+) {
+  color: var(
+    --kamod-code-operator,
+    color-mix(in oklab, var(--foreground) 82%, var(--muted-foreground))
+  );
+  font-weight: var(--kamod-code-operator-weight, inherit);
+  font-style: var(--kamod-code-operator-style, inherit);
+}
+
+:where(
+  .kamod-code .docs-code .token:is(.atrule, .attr-value, .keyword),
+  .kamod-code .docs-import-keyword
+) {
+  color: var(--kamod-code-keyword);
+}
+
+:where(.kamod-code .docs-code .token:is(.atrule, .attr-value, .keyword)) {
+  font-weight: var(--kamod-code-keyword-weight, inherit);
+  font-style: var(--kamod-code-keyword-style, inherit);
+}
+
+:where(.kamod-code .docs-code .token:is(.function, .class-name)) {
+  color: var(--kamod-code-function);
+  font-weight: var(--kamod-code-function-weight, inherit);
+  font-style: var(--kamod-code-function-style, inherit);
+}
+
+:where(.kamod-code .docs-code .token:is(.regex, .important, .variable)) {
+  color: var(--kamod-code-variable);
+  font-weight: var(--kamod-code-variable-weight, inherit);
+  font-style: var(--kamod-code-variable-style, inherit);
+}
+
+:where(.kamod-code .docs-code .token:is(.important, .bold)) {
+  font-weight: 700;
+}
+
+:where(.kamod-code .docs-code .token.italic) {
+  font-style: italic;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  :where(
+    .kamod-code .docs-import-toggle,
+    .kamod-code .docs-code-wrap-control,
+    .kamod-code .docs-copy-code-button
+  ):hover {
+    background: var(--kamod-code-control-hover);
+  }
+  :where(.kamod-code .docs-copy-code-button):hover {
+    color: var(--foreground);
+  }
+}
+
+@container code-snippet (min-width: 48rem) {
+  :where(.kamod-code .docs-code-toolbar, .kamod-code .docs-code-imports-row) {
+    padding-inline: 1.25rem;
+  }
+  :where(.kamod-code .docs-code-control-dot) {
+    margin-inline: 0.125rem;
+  }
+}
+
+@container code-snippet (max-width: 32rem) {
+  :where(
+    .kamod-code .docs-import-toggle > .docs-code-control-detail,
+    .kamod-code .docs-import-summary > .docs-code-control-detail,
+    .kamod-code .docs-code-wrap-state > .docs-code-control-detail
+  ) {
+    display: none;
+  }
+  :where(.kamod-code .docs-code-line) {
+    --code-indent: min(calc(var(--code-indent-ch, 0ch) / 2), 6ch);
+  }
+  :where(.kamod-code .docs-copy-code-button) {
+    width: 1.75rem;
+    height: 1.75rem;
+    padding: 0.375rem;
+  }
+  :where(.kamod-code .docs-copy-code-button > span) {
+    display: none;
+  }
+  :where(.kamod-code .docs-copy-code-button > svg) {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+  :where(.kamod-code .path-display-icon) {
+    width: 1.375em;
+    height: 1.375em;
+  }
+}
+
+@container code-snippet (max-width: 20rem) {
+  :where(
+    .kamod-code .docs-import-summary,
+    .kamod-code .docs-code-wrap-state,
+    .kamod-code .docs-code-control-dot
+  ) {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :where(
+    .kamod-code .docs-import-chevron,
+    .kamod-code .docs-import-toggle,
+    .kamod-code .docs-code-wrap-control,
+    .kamod-code .docs-copy-code-button,
+    .kamod-code .docs-code-wrap-toggle,
+    .kamod-code .docs-code-wrap-toggle [data-slot="switch-thumb"]
+  ) {
+    transition: none;
+  }
+}
