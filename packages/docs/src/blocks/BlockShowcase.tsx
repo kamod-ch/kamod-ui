@@ -33,12 +33,13 @@ export function BlockShowcase({
   block,
   loadSource,
   groupedFiles = true,
-  copyPath = true,
+  setupHref,
 }: {
   block: ShowcaseBlock;
   loadSource: BlockSourceLoader;
   groupedFiles?: boolean;
-  copyPath?: boolean;
+  /** Full guide destination when the showcase is embedded outside its detail page. */
+  setupHref?: string;
 }) {
   const { previewKey, phase, refresh, complete, cancel } = usePreviewRefresh();
   const { preferences, update, ready } = useShowcasePreferences(block.category, block.id);
@@ -56,7 +57,7 @@ export function BlockShowcase({
       tabIndex={-1}
       aria-label={`${block.title} showcase`}
     >
-      <h2 class="sr-only">Live preview and source</h2>
+      <h2 class="sr-only">Live Preview and Source</h2>
       <div id={`${block.id}-code`} class="blocks-card-body">
         <Tabs defaultValue="preview" class="blocks-showcase-tabs">
           <ShowcaseTabMemory
@@ -90,14 +91,17 @@ export function BlockShowcase({
           </TabsContent>
           {ready && (
             <BlockShowcaseCode
+              appearance={appearance}
               block={block}
               loadSource={loadSource}
               groupedFiles={groupedFiles}
-              copyPath={copyPath}
+              setupHref={setupHref}
             />
           )}
           <TabsContent value="prompt" class="blocks-showcase-prompt">
             <BlockShowcasePrompt
+              appearance={appearance}
+              setupHref={setupHref}
               block={block}
               loadSource={loadSource}
               mode={preferences.promptMode}

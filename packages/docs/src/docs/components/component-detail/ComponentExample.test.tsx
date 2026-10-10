@@ -87,7 +87,9 @@ describe("component example controls", () => {
       "true",
     );
     fireEvent.click(screen.getByRole("tab", { name: "Code", exact: true }));
-    expect(container.querySelector("pre code")?.textContent).toBe("const example = 1;");
+    await waitFor(() =>
+      expect(container.querySelector("pre code")?.textContent).toBe("const example = 1;"),
+    );
     await waitFor(() =>
       expect(screen.getByRole("button", { name: "Reset example" })).toBeEnabled(),
     );
@@ -100,7 +102,7 @@ describe("component example controls", () => {
     expect(disconnect).toHaveBeenCalled();
   });
 
-  it("changes only the frame appearance and includes the actual example in both prompt modes", () => {
+  it("changes only the frame appearance and includes the actual example in both prompt modes", async () => {
     const { container } = example();
     const pageTheme = document.documentElement.outerHTML.split("<head>")[0];
     fireEvent.click(screen.getByRole("button", { name: "Dark preview" }));
@@ -110,9 +112,13 @@ describe("component example controls", () => {
     );
     expect(document.documentElement.outerHTML.split("<head>")[0]).toBe(pageTheme);
     fireEvent.click(screen.getByRole("tab", { name: "Prompt", exact: true }));
-    expect(container.querySelector("pre code")?.textContent).toContain("const example = 1;");
-    expect(container.querySelector("pre code")?.textContent).toContain("Set up and integrate");
-    fireEvent.click(screen.getByRole("button", { name: "Adapt example" }));
+    await waitFor(() =>
+      expect(container.querySelector("pre code")?.textContent).toContain("const example = 1;"),
+    );
+    await waitFor(() =>
+      expect(container.querySelector("pre code")?.textContent).toContain("Set up and integrate"),
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Tailor Example" }));
     expect(container.querySelector("pre code")?.textContent).toContain("[describe the outcome]");
     expect(container.querySelector("pre code")?.textContent).toContain("const example = 1;");
   });

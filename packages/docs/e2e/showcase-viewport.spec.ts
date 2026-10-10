@@ -11,9 +11,9 @@ test("viewport availability follows container width and preserves the preferred 
   await page.goto(route);
   await page.waitForLoadState("networkidle");
   const showcase = page.locator(".blocks-showcase");
-  const mobile = showcase.getByRole("button", { name: "Mobile view", exact: true });
-  const tablet = showcase.getByRole("button", { name: "Tablet view", exact: true });
-  const desktop = showcase.getByRole("button", { name: "Desktop view", exact: true });
+  const mobile = showcase.getByRole("button", { name: "Mobile View", exact: true });
+  const tablet = showcase.getByRole("button", { name: "Tablet View", exact: true });
+  const desktop = showcase.getByRole("button", { name: "Desktop View", exact: true });
   await mobile.click();
   await desktop.click();
   const input = showcase.frameLocator("iframe").getByRole("textbox", { name: "Name", exact: true });
@@ -72,14 +72,14 @@ test("viewport availability also updates while the preview is unmounted", async 
   const showcase = page.locator(".blocks-showcase");
   await showcase.getByRole("tab", { name: "Code", exact: true }).click();
   await page.setViewportSize({ width: 375, height: 900 });
-  await expect(showcase.getByRole("button", { name: "Desktop view" })).toBeDisabled();
-  await expect(showcase.getByRole("button", { name: "Mobile view" })).toHaveAttribute(
+  await expect(showcase.getByRole("button", { name: "Desktop View" })).toBeDisabled();
+  await expect(showcase.getByRole("button", { name: "Mobile View" })).toHaveAttribute(
     "aria-pressed",
     "true",
   );
   await showcase.getByRole("tab", { name: "Preview", exact: true }).click();
   await expect(showcase.locator(".blocks-preview-mobile")).toBeVisible();
   await page.setViewportSize({ width: 1440, height: 900 });
-  await expect(showcase.getByRole("button", { name: "Desktop view" })).toBeEnabled();
+  await expect(showcase.getByRole("button", { name: "Desktop View" })).toBeEnabled();
   await expect(showcase.locator(".blocks-preview-desktop")).toBeVisible();
 });

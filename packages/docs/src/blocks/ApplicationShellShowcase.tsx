@@ -6,5 +6,5 @@ const loadSource = async (file: string) =>
   (await import("./application-shell-source")).applicationShellSources[file] ?? "";
 
 export const ShellShowcase = ({ block }: { block: ApplicationShellBlock }) => (
-  <BlockShowcase block={block} loadSource={loadSource} groupedFiles={false} copyPath={false} />
+  <BlockShowcase block={block} loadSource={loadSource} groupedFiles={false} />
 );

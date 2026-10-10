@@ -64,7 +64,7 @@
 }
 .blocks-prompt-hint p {
   max-width: 120ch;
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
 }
 .blocks-prompt-hint a,
 .blocks-prompt-format a {
@@ -76,10 +76,16 @@
   margin: 0;
 }
 .blocks-prompt-workspace .docs-code-toolbar {
+  --code-toolbar-inset: 0.65rem;
+  flex-wrap: wrap;
   gap: 0.5rem;
   padding: 0.65rem 1rem;
   border-block: 1px solid var(--showcase-border);
-  background: color-mix(in oklab, var(--muted) 65%, var(--background));
+  background: color-mix(
+    in oklab,
+    var(--muted) calc(65% + 22.75% * var(--docs-highlight-boost, 0)),
+    var(--background)
+  );
   color: var(--muted-foreground);
   font-size: 0.6875rem;
 }
@@ -87,13 +93,65 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 0.375rem 0.625rem;
+  gap: 0.5rem 1rem;
   min-width: 0;
+}
+.blocks-showcase .blocks-prompt-document-heading .showcase-metadata-label {
+  gap: 0.5rem;
+  color: var(--foreground);
+  font-size: 0.8125rem;
+  font-weight: 650;
 }
 .blocks-prompt-format {
   display: inline-flex;
   align-items: center;
   gap: 0.625rem;
+}
+.blocks-prompt-sources,
+.blocks-prompt-source-count,
+.blocks-prompt-sources a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+.blocks-prompt-sources {
+  color: var(--muted-foreground);
+  white-space: nowrap;
+}
+.blocks-prompt-source-count strong,
+.blocks-prompt-sources svg {
+  color: color-mix(in oklab, var(--muted-foreground) 55%, var(--foreground));
+  font-weight: 550;
+  font-variant-numeric: tabular-nums;
+}
+.blocks-prompt-sources svg {
+  flex: none;
+}
+.blocks-prompt-format .blocks-prompt-sources a {
+  color: inherit;
+  text-decoration: none;
+}
+.blocks-prompt-source-detail {
+  display: none;
+}
+.blocks-prompt-sources a:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+  border-radius: 0.125rem;
+}
+@media (hover: hover) and (pointer: fine) {
+  .blocks-prompt-format .blocks-prompt-sources a:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+}
+@container block-showcase (min-width: 40rem) {
+  .blocks-prompt-document-heading {
+    column-gap: 1.25rem;
+  }
+  .blocks-prompt-source-detail {
+    display: inline;
+  }
 }
 .blocks-prompt-workspace .blocks-showcase-prompt-code {
   max-height: 32rem;
@@ -101,7 +159,11 @@
   padding: 1.25rem;
   border: 0;
   border-radius: 0;
-  background: color-mix(in oklab, var(--muted) 22%, var(--background));
+  background: color-mix(
+    in oklab,
+    var(--muted) calc(22% + 17.16% * var(--docs-highlight-boost, 0)),
+    var(--background)
+  );
   font-size: 0.75rem;
   line-height: 1.8;
   scrollbar-width: thin;
@@ -109,8 +171,8 @@
 .blocks-showcase-prompt-code code {
   width: 100%;
   min-width: 0;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
+  white-space: pre;
+  overflow-wrap: normal;
 }
 .blocks-prompt-footer {
   display: flex;
@@ -130,18 +192,12 @@
   margin-top: 0.75rem;
 }
 @media (max-width: 639px) {
-  .blocks-prompt-links a {
-    min-height: 2.5rem;
-  }
-  .blocks-prompt-links a {
-    width: 2.5rem;
-  }
   .blocks-prompt-options {
-    padding: 1rem;
+    padding: 0.625rem 0.75rem;
   }
   .blocks-prompt-options [data-slot="toggle-group-item"] {
     padding-inline: 0.375rem;
-    font-size: 0.6875rem;
+    font-size: 0.75rem;
   }
   .blocks-prompt-hint {
     padding-inline: 1rem;
@@ -158,7 +214,11 @@
   max-height: 32rem;
   overflow: auto;
   padding: 1.25rem;
-  background: color-mix(in oklab, var(--muted) 22%, var(--background));
+  background: color-mix(
+    in oklab,
+    var(--muted) calc(22% + 17.16% * var(--docs-highlight-boost, 0)),
+    var(--background)
+  );
   font-size: 0.8125rem;
   line-height: 1.7;
   overflow-wrap: anywhere;
@@ -174,6 +234,40 @@
 }
 .blocks-prompt-rendered h6 {
   font-size: 0.875rem;
+}
+.blocks-prompt-rendered [data-prompt-depth="1"] {
+  font-size: 1.125rem;
+  line-height: 1.4;
+}
+.blocks-prompt-rendered [data-prompt-depth="2"] {
+  margin-top: 2rem;
+  padding-bottom: 0.625rem;
+  border-bottom: 1px solid var(--showcase-border);
+  font-size: 0.9375rem;
+}
+.blocks-prompt-rendered [data-prompt-depth="3"] {
+  margin-top: 1.375rem;
+  font-size: 0.8125rem;
+  overflow-wrap: anywhere;
+}
+.blocks-prompt-rendered strong {
+  font-weight: 600;
+}
+.blocks-prompt-rendered blockquote {
+  margin: 1rem 0 1.5rem;
+  padding: 0.625rem 1rem;
+  border-inline-start: 2px solid color-mix(in oklab, var(--primary) 35%, var(--border));
+  border-radius: 0 0.375rem 0.375rem 0;
+  background: color-mix(
+    in oklab,
+    var(--primary) calc(4% + 4% * var(--docs-highlight-boost, 0)),
+    transparent
+  );
+}
+.blocks-prompt-rendered hr {
+  margin-block: 2rem;
+  border: 0;
+  border-top: 1px solid var(--showcase-border);
 }
 .blocks-prompt-rendered > :first-child {
   margin-top: 0;
@@ -200,16 +294,20 @@
   color: var(--foreground);
 }
 .blocks-prompt-rendered pre {
+  margin-block: 1.25rem;
   padding: 1rem;
   border: 1px solid var(--showcase-border);
   border-radius: 0.375rem;
   font-size: 0.75rem;
 }
 .blocks-prompt-rendered pre code {
+  width: 100%;
+  min-width: 0;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
-.blocks-prompt-rendered:focus-visible {
+.blocks-prompt-rendered:focus-visible,
+.blocks-prompt-rendered pre:focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: -2px;
 }
@@ -222,4 +320,30 @@ html:not(.dark) .blocks-showcase-prompt-code :is(.token.title, .token.bold) {
 }
 html:not(.dark) .blocks-showcase-prompt-code :is(.token.url, .token.code, .token.punctuation) {
   color: var(--color-blue-700, #1d4ed8);
+}
+
+/* Collapse labels by available showcase width, keeping accessible names unchanged. */
+.blocks-prompt-mode-short {
+  display: none;
+}
+@container block-showcase (max-width: 40rem) {
+  .blocks-prompt-mode-label {
+    display: none;
+  }
+  .blocks-prompt-mode-short {
+    display: inline;
+  }
+}
+@container block-showcase (max-width: 32rem) {
+  .blocks-prompt-selectors {
+    flex-wrap: nowrap;
+    column-gap: 0.5rem;
+  }
+  .blocks-prompt-selectors .document-display-label {
+    display: none;
+  }
+  .blocks-prompt-selectors .document-display-options [data-slot="toggle-group-item"] {
+    width: var(--showcase-control-size);
+    padding-inline: 0;
+  }
 }

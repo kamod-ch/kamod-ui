@@ -8,18 +8,30 @@ import {
   ToggleGroup,
   ToggleGroupItem,
 } from "@kamod-ch/ui";
+import { lazy, Suspense } from "preact/compat";
 import { useState } from "preact/hooks";
 import { PreviewAppearanceControls } from "../../../blocks/PreviewAppearanceControls";
 import { PreviewRefreshControl } from "../../../blocks/PreviewRefreshControl";
 import { ShowcaseHeading } from "../../../blocks/ShowcaseHeading";
 import { usePreviewRefresh } from "../../../blocks/usePreviewRefresh";
 import type { DocPageModule } from "../../types";
-import { ComponentExampleCode } from "./ComponentExampleCode";
+import { BrandText } from "../brand/BrandText";
+import { ShowcaseLoading } from "../ShowcaseLoading";
 import { ComponentExampleLinks } from "./ComponentExampleLinks";
-import { ComponentExamplePrompt } from "./ComponentExamplePrompt";
 import { ComponentPreviewFrame } from "./ComponentPreviewFrame";
 import { componentSourceUrl } from "./component-guidance";
 import { useComponentPreview } from "./useComponentPreview";
+
+const ComponentExampleCode = lazy(() =>
+  import("./ComponentExampleCode").then(({ ComponentExampleCode }) => ({
+    default: ComponentExampleCode,
+  })),
+);
+const ComponentExamplePrompt = lazy(() =>
+  import("./ComponentExamplePrompt").then(({ ComponentExamplePrompt }) => ({
+    default: ComponentExamplePrompt,
+  })),
+);
 
 /** Shared controls and isolated previews for every component and Formisch example. */
 export function ComponentExample({
@@ -34,6 +46,7 @@ export function ComponentExample({
   filePath: string;
 }) {
   const { stage, canConstrain, appearance, setAppearance } = useComponentPreview();
+  const showcaseId = `${doc.slug}-example-${index + 1}-showcase`;
   const [narrow, setNarrow] = useState(false);
   const { previewKey: revision, phase, refresh, complete, cancel } = usePreviewRefresh();
   return (
@@ -43,38 +56,28 @@ export function ComponentExample({
         class="component-preview-intro"
         tabIndex={index === 0 ? -1 : undefined}
       >
-        <ShowcaseHeading />
+        <ShowcaseHeading href={`#${showcaseId}`} />
         <ComponentExampleLinks slug={doc.slug} title={doc.title} index={index} />
       </div>
-      <div class="blocks-showcase component-example">
+      <div id={showcaseId} class="blocks-showcase component-example">
         <div ref={stage} class="component-example-size-probe" aria-hidden="true" />
         <Tabs defaultValue="preview" class="blocks-showcase-tabs">
           <div class="blocks-showcase-toolbar">
-            <div class="blocks-showcase-views">
-              <TabsList class="blocks-showcase-segmented" aria-label="Example view">
-                <TabsTrigger
-                  class="docs-icon-button"
-                  value="preview"
-                  aria-label="Preview"
-                  title="Preview"
-                >
-                  <EyeIcon aria-hidden="true" />
-                  <span class="blocks-showcase-control-label">Preview</span>
-                </TabsTrigger>
-                <TabsTrigger class="docs-icon-button" value="code" aria-label="Code" title="Code">
-                  <CodeIcon aria-hidden="true" />
-                  <span class="blocks-showcase-control-label">Code</span>
-                </TabsTrigger>
-                <TabsTrigger
-                  class="docs-icon-button"
-                  value="prompt"
-                  aria-label="Prompt"
-                  title="Prompt"
-                >
-                  <SparklesIcon aria-hidden="true" />
-                  <span class="blocks-showcase-control-label">Prompt</span>
-                </TabsTrigger>
-              </TabsList>
+            <TabsList variant="line" class="blocks-showcase-segmented" aria-label="Example view">
+              <TabsTrigger value="preview" aria-label="Preview" title="Preview">
+                <EyeIcon aria-hidden="true" />
+                <span class="blocks-showcase-control-label">Preview</span>
+              </TabsTrigger>
+              <TabsTrigger value="code" aria-label="Code" title="Code">
+                <CodeIcon aria-hidden="true" />
+                <span class="blocks-showcase-control-label">Code</span>
+              </TabsTrigger>
+              <TabsTrigger value="prompt" aria-label="Prompt" title="Prompt">
+                <SparklesIcon aria-hidden="true" />
+                <span class="blocks-showcase-control-label">Prompt</span>
+              </TabsTrigger>
+            </TabsList>
+            <div class="blocks-showcase-segmented component-example-controls">
               <div
                 class="blocks-showcase-segmented component-example-actions"
                 role="group"
@@ -114,8 +117,6 @@ export function ComponentExample({
                 </ToggleGroup>
                 <PreviewRefreshControl action="reset" phase={phase} onRefresh={refresh} />
               </div>
-            </div>
-            <div class="blocks-showcase-settings">
               <PreviewAppearanceControls value={appearance} onChange={setAppearance} />
             </div>
           </div>
@@ -139,28 +140,37 @@ export function ComponentExample({
             </div>
             <div class="component-example-caption">
               <span class="component-example-caption-text">
-                Live Preact example <span aria-hidden="true">·</span> Local preview theme{" "}
-                <span class="component-example-width-note">
-                  · Responsive styles follow the preview width
-                </span>
+                <BrandText>
+                  Live Preact example <span aria-hidden="true">·</span> Local preview theme{" "}
+                  <span class="component-example-width-note">
+                    · Responsive styles follow the preview width
+                  </span>
+                </BrandText>
               </span>
             </div>
           </TabsContent>
           <TabsContent value="code" class="blocks-showcase-source component-example-source">
-            <ComponentExampleCode code={codeSnippet} filePath={filePath} />
+            <Suspense
+              fallback={<ShowcaseLoading appearance={appearance} view="code" detail={filePath} />}
+            >
+              <ComponentExampleCode code={codeSnippet} filePath={filePath} />
+            </Suspense>
           </TabsContent>
           <TabsContent value="prompt" class="blocks-showcase-prompt">
-            <ComponentExamplePrompt
-              context={{
-                title: doc.title,
-                description: doc.usageLabel,
-                command: doc.command,
-                documentationUrl: `https://ui.kamod.ch/docs/${doc.slug}/installation`,
-                sourceUrl: componentSourceUrl(doc.slug),
-                filePath,
-                codeSnippet,
-              }}
-            />
+            <Suspense fallback={<ShowcaseLoading appearance={appearance} view="prompt" />}>
+              <ComponentExamplePrompt
+                appearance={appearance}
+                context={{
+                  title: doc.title,
+                  description: doc.usageLabel,
+                  command: doc.command,
+                  documentationUrl: `https://ui.kamod.ch/docs/${doc.slug}/installation`,
+                  sourceUrl: componentSourceUrl(doc.slug),
+                  filePath,
+                  codeSnippet,
+                }}
+              />
+            </Suspense>
           </TabsContent>
         </Tabs>
       </div>

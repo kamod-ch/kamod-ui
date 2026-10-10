@@ -49,7 +49,6 @@
     "marked": "18.0.14",
     "motion": "^13.4.6",
     "preact": "^11.0.0",
-    "prismjs": "^1.30.0",
     "valibot": "^1.5.0",
     "zod": "^4.6.5"
   },
@@ -61,7 +60,6 @@
     "@tailwindcss/vite": "^4.3.3",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/preact": "^3.2.4",
-    "@types/prismjs": "^1.26.6",
     "axe-core": "^4.13.0",
     "fflate": "0.8.3",
     "jsdom": "^30.1.1",

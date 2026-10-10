@@ -1,5 +1,10 @@
 /** Render prompt Markdown as inert documentation, keeping source/HTML examples literal. */
+
 import { Marked, Renderer } from "marked";
+import { brandMarkdownRenderer } from "../docs/components/brand/brand-markdown";
+import { codeFenceMarkup } from "../docs/components/code-fence-markup";
+import { resolveCodeLanguage } from "../docs/components/code-language";
+import { highlightCode } from "../docs/components/highlight-code";
 import { isDisplayPath } from "../docs/components/PathDisplay";
 import { renderPathMarkup } from "../docs/components/path-markup";
 
@@ -12,7 +17,14 @@ const escape = (text: string) =>
     .replaceAll("'", "&#39;");
 const markdown = new Marked({
   gfm: true,
-  renderer: {
+  renderer: brandMarkdownRenderer({
+    code({ text, lang }) {
+      const [name, filePath] = (lang ?? "").trim().split(/\s+/);
+      const language = resolveCodeLanguage(text, name, filePath);
+      const source = text.endsWith("\n") ? text : `${text}\n`;
+      const html = language === "text" ? escape(source) : highlightCode(source, language);
+      return codeFenceMarkup(source, language, filePath, html);
+    },
     codespan(token) {
       return isDisplayPath(token.text)
         ? renderPathMarkup(token.text)
@@ -34,9 +46,9 @@ const markdown = new Marked({
     },
     heading({ tokens, depth }) {
       const level = Math.min(6, depth + 4);
-      return `<h${level}>${this.parser.parseInline(tokens)}</h${level}>`;
+      return `<h${level} data-prompt-depth="${depth}">${this.parser.parseInline(tokens)}</h${level}>`;
     },
-  },
+  }),
 });
 
 export function renderPromptMarkdown(prompt: string) {

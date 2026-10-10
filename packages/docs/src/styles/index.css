@@ -28,6 +28,7 @@
 @import "./block-showcase.css";
 @import "./block-prompt.css";
 @import "./block-source.css";
+@import "./showcase-loading.css";
 @import "./block-overviews.css";
 @import "./block-documentation.css";
 @import "./block-api.css";
@@ -56,6 +57,7 @@
 @import "./navigation-hints.css";
 @import "./page-contents-heading.css";
 @import "./page-introduction.css";
+@import "./showcase-background.css";
 
 @import "./docs-callout.css";
 @import "./inline-code-sizes.css";

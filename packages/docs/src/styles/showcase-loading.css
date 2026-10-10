@@ -1,0 +1,357 @@
+/* Shared loading surfaces: quiet structure, real status, no artificial progress. */
+.showcase-loading {
+  --showcase-loading-cycle: 3.6s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  min-width: 0;
+  min-height: var(--source-code-min-height, 20rem);
+  gap: 1.125rem;
+  padding: 1.5rem 1rem;
+  background: color-mix(in oklab, var(--primary) 3%, var(--background));
+  color: var(--muted-foreground);
+  text-align: center;
+  overflow: hidden;
+}
+.showcase-loading-sketch {
+  position: relative;
+  flex: none;
+  width: 10rem;
+  border: 1px solid;
+  border-color: color-mix(in oklab, var(--foreground) 13%, transparent);
+  border-radius: 0.625rem;
+  background: color-mix(in oklab, var(--card) 94%, var(--primary));
+  box-shadow: 0 6px 20px -12px rgb(0 0 0 / 16%);
+  transform: rotate(-2.5deg);
+}
+/* A translucent accent supplies the color beat without repainting the whole surface. */
+.showcase-loading-sketch::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--primary);
+  opacity: 0;
+  pointer-events: none;
+}
+.showcase-loading-chrome {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem 0.625rem;
+  border-bottom: 1px solid var(--border);
+}
+.showcase-loading-chrome .showcase-loading-activity {
+  margin-inline-end: auto;
+  width: 1rem;
+  height: 1rem;
+  color: var(--primary);
+}
+.showcase-loading-chrome-marks {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--primary);
+  opacity: 0.35;
+}
+.showcase-loading-chrome-marks i {
+  width: 0.1875rem;
+  height: 0.1875rem;
+  border-radius: 50%;
+  background: currentColor;
+}
+.showcase-loading-sheet {
+  display: grid;
+  gap: 0.5rem;
+  padding: 0.875rem;
+}
+.showcase-loading-sheet i {
+  display: block;
+  height: 0.25rem;
+  width: 74%;
+  border-radius: 0.125rem;
+  background: color-mix(in oklab, var(--foreground) 12%, transparent);
+}
+.showcase-loading-sheet i:first-child {
+  width: 43%;
+  background: color-mix(in oklab, var(--primary) 30%, transparent);
+}
+.showcase-loading-sheet i:nth-child(2) {
+  margin-inline-start: 0.625rem;
+  width: 65%;
+}
+.showcase-loading-sheet i:nth-child(3) {
+  margin-inline-start: 0.625rem;
+  width: 50%;
+}
+.showcase-loading-sheet i:last-child {
+  width: 30%;
+}
+.showcase-loading[data-view="preview"] .showcase-loading-sheet {
+  grid-template-columns: 1fr 2fr;
+}
+.showcase-loading[data-view="preview"] .showcase-loading-sheet i {
+  width: 100%;
+  height: 1rem;
+  margin: 0;
+}
+.showcase-loading[data-view="preview"] .showcase-loading-sheet i:first-child {
+  grid-row: span 2;
+  height: auto;
+}
+.showcase-loading[data-view="prompt"] .showcase-loading-sheet i:first-child {
+  height: 0.375rem;
+  width: 60%;
+}
+.showcase-loading-seal {
+  position: absolute;
+  right: -0.625rem;
+  bottom: -0.625rem;
+  display: grid;
+  place-items: center;
+  width: 2.125rem;
+  height: 2.125rem;
+  border: 1px solid;
+  border-color: color-mix(in oklab, var(--primary) 20%, var(--border));
+  border-radius: 0.625rem;
+  background: color-mix(in oklab, var(--primary) 8%, var(--card));
+  color: var(--foreground);
+  transform: rotate(6deg);
+}
+.showcase-loading-copy {
+  min-width: 0;
+  width: min(100%, 30rem);
+}
+/* Scope typography above article prose rules, including loaders nested inside documentation. */
+.showcase-loading .showcase-loading-title {
+  display: inline-block;
+  font-size: 0.78125rem;
+  line-height: 1.5;
+  font-weight: 700;
+  color: var(--foreground);
+}
+.showcase-loading .showcase-loading-copy p {
+  margin: 0.5rem 0 0;
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.65;
+  color: var(--muted-foreground);
+}
+.showcase-loading .showcase-loading-description strong {
+  font-size: inherit;
+  font-weight: 600;
+  color: color-mix(in oklab, var(--foreground) 75%, var(--muted-foreground));
+}
+.showcase-loading .showcase-loading-description .docs-reference-code {
+  background: color-mix(in oklab, var(--primary) 8%, var(--background));
+  color: var(--foreground);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--primary) 18%, transparent);
+  font-weight: 500;
+}
+.showcase-loading .showcase-loading-copy .showcase-loading-path {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--font-mono-custom);
+  font-size: 0.6875rem;
+}
+.showcase-preview-surface {
+  position: relative;
+  min-width: 0;
+}
+.showcase-preview-surface > .showcase-loading,
+.showcase-preview-surface > .showcase-preview-error {
+  position: absolute;
+  inset: 0;
+  min-height: 0;
+}
+.showcase-preview-surface[data-loading] > iframe {
+  opacity: 0;
+  pointer-events: none;
+}
+.showcase-preview-error {
+  display: grid;
+  place-content: center;
+  padding: 1rem;
+  background: var(--card);
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+  text-align: center;
+}
+.blocks-code-pane[data-loading] {
+  min-height: var(--source-code-min-height, 22rem);
+}
+.blocks-code-pane[data-loading] > .showcase-loading {
+  min-height: 0;
+}
+.blocks-code-pane[data-loading] > .docs-code-toolbar {
+  flex: none;
+}
+/* Keep the longer guidance inside the existing 320px mobile preview, without resizing it. */
+@media (max-width: 639px) {
+  .showcase-loading {
+    gap: 0.75rem;
+    padding: 0.875rem;
+  }
+  .showcase-loading-sketch {
+    width: 9rem;
+  }
+  .showcase-loading-sheet {
+    padding: 0.625rem;
+    gap: 0.375rem;
+  }
+  .showcase-loading[data-view="preview"] .showcase-loading-sheet i {
+    height: 0.875rem;
+  }
+  .showcase-loading[data-view="preview"] .showcase-loading-sheet i:first-child {
+    height: auto;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* Wind up, flick outward, then settle through two diminishing rebounds. */
+  .showcase-loading-sketch {
+    transform-origin: 65% 75%;
+    animation: showcase-loading-snap var(--showcase-loading-cycle) ease-in-out infinite;
+  }
+  .showcase-loading-sketch::after {
+    animation: showcase-loading-tint var(--showcase-loading-cycle) ease-in-out infinite;
+  }
+  /* The badge follows with a little lag; its glyph has no independent motion. */
+  .showcase-loading-seal {
+    animation: showcase-loading-follow var(--showcase-loading-cycle) ease-in-out infinite;
+  }
+  .showcase-loading-sheet i:first-child {
+    transform-origin: left center;
+    animation: showcase-loading-ink var(--showcase-loading-cycle) ease-in-out infinite;
+  }
+  .showcase-loading-chrome-marks {
+    animation: showcase-loading-chrome-snap var(--showcase-loading-cycle) ease-in-out infinite;
+  }
+  .showcase-loading-title {
+    animation: showcase-loading-title-breathe var(--showcase-loading-cycle) ease-in-out infinite;
+  }
+  .blocks-showcase [data-slot="tabs-content"][data-state="active"],
+  .blocks-code-pane pre,
+  .showcase-preview-surface:not([data-loading]) > iframe {
+    animation: showcase-content-arrive 160ms ease-out;
+  }
+}
+@keyframes showcase-loading-snap {
+  0%,
+  24%,
+  76%,
+  100% {
+    transform: translate(0, 0) rotate(-2.5deg) scale(1);
+  }
+  12% {
+    transform: translate(-1px, -2px) rotate(-3deg) scale(1);
+  }
+  38% {
+    transform: translate(-7px, 3px) rotate(-6deg) scale(0.975);
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  46% {
+    transform: translate(17px, -13px) rotate(7deg) scale(1.025);
+    animation-timing-function: cubic-bezier(0.65, 0, 0.3, 1);
+  }
+  55% {
+    transform: translate(-5px, 2px) rotate(-5.5deg) scale(0.99);
+  }
+  63% {
+    transform: translate(2px, -1px) rotate(-1deg) scale(1.005);
+  }
+}
+@keyframes showcase-loading-follow {
+  0%,
+  26%,
+  78%,
+  100% {
+    transform: translate(0, 0) rotate(6deg);
+  }
+  14% {
+    transform: translate(0, 1px) rotate(5deg);
+  }
+  40% {
+    transform: translate(-3px, 2px) rotate(-4deg);
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  48% {
+    transform: translate(10px, -7px) rotate(17deg);
+    animation-timing-function: cubic-bezier(0.65, 0, 0.3, 1);
+  }
+  57% {
+    transform: translate(-4px, 2px) rotate(-6deg);
+  }
+  66% {
+    transform: translate(1px, -1px) rotate(9deg);
+  }
+}
+@keyframes showcase-loading-tint {
+  0%,
+  30%,
+  72%,
+  100% {
+    opacity: 0;
+  }
+  46% {
+    opacity: 0.07;
+  }
+  57% {
+    opacity: 0.015;
+  }
+}
+@keyframes showcase-loading-ink {
+  0%,
+  100% {
+    transform: scaleX(0.94);
+    opacity: 0.78;
+  }
+  50% {
+    transform: scaleX(1);
+    opacity: 0.95;
+  }
+}
+/* A tiny counterbeat to the sketch's larger flick; pause between each settled snap. */
+@keyframes showcase-loading-chrome-snap {
+  0%,
+  28%,
+  72%,
+  100% {
+    transform: translateX(0);
+    opacity: 0.35;
+  }
+  38% {
+    transform: translateX(-1px);
+  }
+  46% {
+    transform: translateX(3px);
+    opacity: 0.6;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  56% {
+    transform: translateX(-0.75px);
+    opacity: 0.4;
+  }
+  64% {
+    transform: translateX(0.25px);
+  }
+}
+@keyframes showcase-loading-title-breathe {
+  0%,
+  100% {
+    opacity: 0.96;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes showcase-content-arrive {
+  from {
+    opacity: 0.55;
+  }
+  to {
+    opacity: 1;
+  }
+}

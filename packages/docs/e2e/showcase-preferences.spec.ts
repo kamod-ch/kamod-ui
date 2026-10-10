@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { choosePreviewTheme } from "./browser-utils";
 
 const key = "kamod:block-showcase:v1:sidebar/sidebar-05";
 const route = "./blocks/sidebar/sidebar-05";
@@ -24,7 +25,8 @@ for (const { preset, scheme, saved } of [
     const showcase = page.locator(".blocks-showcase");
     const assertAppearance = async () => {
       await expect(page.locator("html")).toHaveAttribute("data-theme", preset);
-      await expect(showcase.getByRole("combobox", { name: "Preview color theme" })).toHaveValue(
+      await expect(showcase.getByRole("button", { name: "Preview color theme" })).toHaveAttribute(
+        "data-preset",
         preset,
       );
       await expect(showcase.getByRole("button", { name: "Dark preview" })).toHaveAttribute(
@@ -37,7 +39,7 @@ for (const { preset, scheme, saved } of [
       else await expect(frame).not.toHaveClass(/dark/);
     };
     await assertAppearance();
-    await showcase.getByRole("button", { name: "Mobile view" }).click();
+    await showcase.getByRole("button", { name: "Mobile View" }).click();
     expect(
       await page.evaluate((key) => JSON.parse(localStorage.getItem(key) ?? "{}"), key),
     ).not.toHaveProperty("appearance");
@@ -54,7 +56,8 @@ test("a saved showcase appearance takes precedence over the page theme", async (
   }, key);
   await page.goto(route);
   const showcase = page.locator(".blocks-showcase");
-  await expect(showcase.getByRole("combobox", { name: "Preview color theme" })).toHaveValue(
+  await expect(showcase.getByRole("button", { name: "Preview color theme" })).toHaveAttribute(
+    "data-preset",
     "ocean",
   );
   await expect(showcase.getByRole("button", { name: "Dark preview" })).toHaveAttribute(
@@ -80,15 +83,15 @@ test("showcase selections survive reloads, stay per-block and yield to source li
     localStorage.getItem("theme"),
     localStorage.getItem("theme-preset"),
   ]);
-  await showcase.getByRole("button", { name: "Tablet view" }).click();
-  await showcase.getByRole("combobox", { name: "Preview color theme" }).selectOption("ocean");
+  await showcase.getByRole("button", { name: "Tablet View" }).click();
+  await choosePreviewTheme(showcase.getByRole("button", { name: "Preview color theme" }), "ocean");
   const dark = showcase.getByRole("button", { name: "Dark preview", exact: true });
   if ((await dark.getAttribute("aria-pressed")) !== "true") await dark.click();
   await showcase.getByRole("tab", { name: "Preview", exact: true }).focus();
   await page.keyboard.press("End");
   await showcase.getByRole("button", { name: "Adapt block", exact: true }).click();
   await showcase
-    .getByRole("group", { name: "Prompt display" })
+    .getByRole("group", { name: "Prompt Display" })
     .getByRole("button", { name: "Markdown", exact: true })
     .click();
   await expect
@@ -105,14 +108,15 @@ test("showcase selections survive reloads, stay per-block and yield to source li
   );
   await expect(
     showcase
-      .getByRole("group", { name: "Prompt display" })
+      .getByRole("group", { name: "Prompt Display" })
       .getByRole("button", { name: "Markdown", exact: true }),
   ).toHaveAttribute("aria-pressed", "true");
-  await expect(showcase.getByRole("button", { name: "Tablet view" })).toHaveAttribute(
+  await expect(showcase.getByRole("button", { name: "Tablet View" })).toHaveAttribute(
     "aria-pressed",
     "true",
   );
-  await expect(showcase.getByRole("combobox", { name: "Preview color theme" })).toHaveValue(
+  await expect(showcase.getByRole("button", { name: "Preview color theme" })).toHaveAttribute(
+    "data-preset",
     "ocean",
   );
   await expect(dark).toHaveAttribute("aria-pressed", "true");
@@ -135,7 +139,7 @@ test("showcase selections survive reloads, stay per-block and yield to source li
     "aria-selected",
     "true",
   );
-  await expect(showcase.getByRole("button", { name: "Desktop view" })).toHaveAttribute(
+  await expect(showcase.getByRole("button", { name: "Desktop View" })).toHaveAttribute(
     "aria-pressed",
     "true",
   );
@@ -168,11 +172,11 @@ test("malformed saved preferences fall back to usable defaults", async ({ page }
     "aria-selected",
     "true",
   );
-  await expect(showcase.getByRole("button", { name: "Desktop view" })).toHaveAttribute(
+  await expect(showcase.getByRole("button", { name: "Desktop View" })).toHaveAttribute(
     "aria-pressed",
     "true",
   );
-  await showcase.getByRole("button", { name: "Mobile view" }).click();
+  await showcase.getByRole("button", { name: "Mobile View" }).click();
   await expect
     .poll(() => page.evaluate((key) => JSON.parse(localStorage.getItem(key)!).viewport, key))
     .toBe("mobile");
@@ -196,8 +200,8 @@ test("blocked storage leaves the controls functional in memory", async ({ page }
   await page.goto(route);
   await page.waitForLoadState("networkidle");
   const showcase = page.locator(".blocks-showcase");
-  await showcase.getByRole("button", { name: "Mobile view" }).click();
-  await expect(showcase.getByRole("button", { name: "Mobile view" })).toHaveAttribute(
+  await showcase.getByRole("button", { name: "Mobile View" }).click();
+  await expect(showcase.getByRole("button", { name: "Mobile View" })).toHaveAttribute(
     "aria-pressed",
     "true",
   );

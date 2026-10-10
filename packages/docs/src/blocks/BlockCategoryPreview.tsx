@@ -84,7 +84,7 @@ export function BlockCategoryPreview({ category }: { category: BlockCategory }) 
           target="_self"
           aria-label={`View ${displayName} preview`}
         >
-          View preview <ArrowUpRightIcon size={10} strokeWidth={1.75} aria-hidden="true" />
+          View Preview <ArrowUpRightIcon size={10} strokeWidth={1.75} aria-hidden="true" />
         </a>
       </p>
     </div>

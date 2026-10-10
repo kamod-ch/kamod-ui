@@ -30,21 +30,16 @@ export function BlockShowcaseToolbar({
   return (
     <div class="blocks-showcase-toolbar">
       <div class="blocks-showcase-views">
-        <TabsList class="blocks-showcase-segmented" aria-label="Showcase view">
-          <TabsTrigger
-            class="docs-icon-button"
-            value="preview"
-            aria-label="Preview"
-            title="Preview"
-          >
+        <TabsList variant="line" class="blocks-showcase-segmented" aria-label="Showcase view">
+          <TabsTrigger value="preview" aria-label="Preview" title="Preview">
             <EyeIcon aria-hidden="true" />
             <span class="blocks-showcase-control-label">Preview</span>
           </TabsTrigger>
-          <TabsTrigger class="docs-icon-button" value="code" aria-label="Code" title="Code">
+          <TabsTrigger value="code" aria-label="Code" title="Code">
             <CodeIcon aria-hidden="true" />
             <span class="blocks-showcase-control-label">Code</span>
           </TabsTrigger>
-          <TabsTrigger class="docs-icon-button" value="prompt" aria-label="Prompt" title="Prompt">
+          <TabsTrigger value="prompt" aria-label="Prompt" title="Prompt">
             <SparklesIcon aria-hidden="true" />
             <span class="blocks-showcase-control-label">Prompt</span>
           </TabsTrigger>
@@ -57,7 +52,7 @@ export function BlockShowcaseToolbar({
             target="_blank"
             rel="noreferrer"
             title="Open the preview in a new tab"
-            aria-label="Open preview in a new tab"
+            aria-label="Open Preview in a New Tab"
           >
             <ArrowsMaximizeIcon aria-hidden="true" />
             <span class="blocks-showcase-control-label">Open</span>

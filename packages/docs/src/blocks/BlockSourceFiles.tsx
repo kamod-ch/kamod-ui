@@ -1,8 +1,10 @@
 /** On-demand source loading: overview and Preview tabs never fetch raw implementation text. */
 import { Button } from "@kamod-ch/ui";
 import { useEffect, useState } from "preact/hooks";
-import { ShowcaseCodePane } from "../docs/components/ShowcaseCodePane";
+import { ShowcaseCodeFooter, ShowcaseCodePane } from "../docs/components/ShowcaseCodePane";
+import { ShowcaseLoading } from "../docs/components/ShowcaseLoading";
 import { BlockSourceExplorer } from "./BlockSourceExplorer";
+import type { PreviewAppearance } from "./preview-appearance";
 
 /** Full source label, including directories, doubles as the stable file identifier. */
 export type BlockSourceFile = { label: string; destination?: string };
@@ -10,12 +12,14 @@ export type BlockSourceFile = { label: string; destination?: string };
 export type BlockSourceLoader = (label: string) => Promise<string>;
 
 export const BlockSourceFiles = ({
+  appearance,
   files,
   loadSource,
   selectedFile,
   onSelect,
   grouped = true,
 }: {
+  appearance: PreviewAppearance;
   files: readonly BlockSourceFile[];
   loadSource: BlockSourceLoader;
   grouped?: boolean;
@@ -35,21 +39,25 @@ export const BlockSourceFiles = ({
         filename={selectedFile}
         filePath={files.find((file) => file.label === selectedFile)?.destination ?? selectedFile}
         code={current?.status === "ready" ? current.code : undefined}
-        footer="Read the supporting files before adapting this composition."
+        loading={!current}
       >
         {current?.status === "error" ? (
           <div class="blocks-source-state" role="alert">
             <p>Could not load the source file.</p>
             <Button size="sm" variant="outline" onClick={retry}>
-              Try again
+              Try Again
             </Button>
           </div>
         ) : (
-          <p class="blocks-source-state" role="status">
-            Loading source…
-          </p>
+          <ShowcaseLoading appearance={appearance} view="file" detail={selectedFile} />
         )}
       </ShowcaseCodePane>
+      <div class="blocks-source-footer-row">
+        <p class="blocks-file-tree-hint">Select a file to explore its source.</p>
+        <ShowcaseCodeFooter>
+          Read the supporting files before adapting this composition.
+        </ShowcaseCodeFooter>
+      </div>
     </div>
   );
 };

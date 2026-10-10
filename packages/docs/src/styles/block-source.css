@@ -5,7 +5,7 @@
 /* All source and prompt views share the same header, sized by their showcase container. */
 .blocks-showcase-intro {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 1rem 1.5rem;
   padding: 1.125rem 1.25rem;
@@ -24,7 +24,7 @@
 .blocks-showcase .blocks-showcase-intro h3 {
   margin: 0;
   color: var(--foreground);
-  font-size: 1.25rem;
+  font-size: 1.0625rem;
   font-weight: 600;
   line-height: 1.4;
   letter-spacing: -0.025em;
@@ -37,10 +37,19 @@
   font-size: 0.6875rem;
   line-height: 1.5;
 }
+@media (max-width: 767px) {
+  .blocks-showcase-intro-note {
+    display: none;
+  }
+}
+/* Keep source paths at the same reading size as showcase descriptions. */
+.blocks-showcase .blocks-showcase-intro p,
+.blocks-source-file-heading .docs-code-file-path {
+  font-size: 0.8125rem;
+}
 .blocks-showcase .blocks-showcase-intro p {
   margin: 0.375rem 0 0;
   color: var(--muted-foreground);
-  font-size: 0.8125rem;
   line-height: 1.7;
 }
 .blocks-showcase-intro strong {
@@ -56,9 +65,6 @@
   outline: 2px solid var(--ring);
   outline-offset: 2px;
 }
-.blocks-showcase-prompt .blocks-showcase-intro .blocks-prompt-links {
-  align-self: flex-start;
-}
 @container block-showcase (min-width: 70rem) {
   .blocks-showcase-intro {
     column-gap: 3rem;
@@ -70,29 +76,52 @@
     gap: 0.875rem;
     padding: 1rem;
   }
+  /* Keep shortcuts beside the title, with the description spanning the row below. */
+  .blocks-showcase-intro-copy {
+    display: contents;
+  }
+  .blocks-showcase-intro-title {
+    flex: 1;
+    min-width: 0;
+    flex-wrap: nowrap;
+    align-self: center;
+  }
+  .blocks-showcase .blocks-showcase-intro h3 {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 1rem;
+  }
+  .blocks-showcase-intro-note {
+    display: none;
+  }
+  .blocks-showcase .blocks-showcase-intro p {
+    order: 1;
+    flex-basis: 100%;
+    margin: 0;
+  }
   .blocks-showcase-intro .blocks-prompt-links {
+    flex-wrap: nowrap;
+    gap: 0.375rem;
     margin-left: auto;
   }
-}
-.blocks-showcase-import {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.375rem 0.625rem;
-  margin-bottom: 0.75rem;
-}
-.blocks-showcase-import-value {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.375rem;
-  min-width: 0;
-  max-width: 100%;
-}
-.blocks-showcase-import code {
-  padding: 0.125rem 0.375rem;
-  font-size: 0.75rem;
+  .blocks-showcase-intro .blocks-prompt-links a {
+    width: 1.75rem;
+    height: 1.75rem;
+    min-width: 1.75rem;
+    min-height: 1.75rem;
+  }
+  .blocks-showcase-intro .blocks-prompt-links svg {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
 }
 .blocks-showcase-source .blocks-code-layout {
+  /* Match both column headers without coupling their content or scroll areas. */
+  --source-header-height: 2.75rem;
+  /* Short files should retain a useful workspace without overwhelming short viewports. */
+  --source-code-min-height: clamp(22rem, 60svh, 32rem);
   border-top: 1px solid var(--showcase-border);
   grid-template-columns: clamp(12rem, 22%, 15rem) minmax(0, 1fr);
 }
@@ -101,54 +130,180 @@
   flex-direction: column;
   gap: 0.875rem;
   min-width: 0;
+  min-height: 0;
   max-height: none;
-  padding: 1rem 0.75rem;
-  overflow: hidden;
+  padding: 0 0.875rem 0.25rem;
+  /* The code pane determines the desktop row height; the whole tree owns scrolling. */
+  contain: size;
+  overflow: hidden auto;
+  overscroll-behavior-y: contain;
+  scrollbar-width: thin;
   border-right: 1px solid var(--showcase-border);
   border-bottom: 0;
-  background: color-mix(in oklab, var(--muted) 35%, var(--background));
+  background: color-mix(
+    in oklab,
+    var(--muted) calc(35% + 22.75% * var(--docs-highlight-boost, 0)),
+    var(--background)
+  );
 }
 .blocks-file-tree-heading {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  flex: none;
+  background: inherit;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
-  padding-inline: 0.375rem;
+  min-height: var(--source-header-height);
+  margin-inline: -0.875rem;
+  padding-inline: 1.125rem;
+  border-bottom: 1px solid var(--showcase-border);
   font-size: 0.875rem;
+  font-weight: 450;
+}
+.blocks-file-tree-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  white-space: nowrap;
+  font-weight: 500;
+  line-height: 1.25;
+}
+.blocks-file-tree-title > svg {
+  flex: none;
+  color: inherit;
+}
+.blocks-file-tree-title .blocks-source-lines {
+  gap: 0.375rem;
+  line-height: inherit;
+}
+.blocks-file-tree-title .blocks-source-line-total {
+  line-height: inherit;
+}
+.blocks-file-tree-title .blocks-source-count {
   font-weight: 500;
 }
-.blocks-file-tree-heading svg {
-  color: var(--muted-foreground);
+.blocks-file-tree-toggle-all {
+  --docs-icon-button-hover-offset: 0;
+  flex: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0.375rem;
 }
-.blocks-file-tree-scroll {
-  max-height: 29rem;
-  overflow: auto;
-  scrollbar-width: thin;
-  padding: 0.125rem;
+.blocks-file-tree-content {
+  /* Folder groups remain in normal flow inside the root scroll container. */
+  flex: none;
+  padding: 0.25rem;
 }
 .blocks-showcase-source .blocks-file-tree-list {
-  gap: 0.25rem;
+  gap: 0.3125rem;
+  grid-template-columns: minmax(0, 1fr);
 }
 .blocks-showcase-source .blocks-file-tree-dir {
   display: flex;
   align-items: center;
   gap: 0.375rem;
-  padding: 0.875rem 0.375rem 0.375rem;
+  min-height: 2rem;
+  margin-block: 0.3125rem;
+  padding: 0.375rem 0.4375rem;
+  border: 1px solid transparent;
+  border-radius: 0.375rem;
+  background: transparent;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: color-mix(in oklab, var(--muted-foreground) 72%, var(--foreground));
+}
+.blocks-showcase-source .blocks-file-tree-dir[data-active="true"] {
+  background: color-mix(
+    in oklab,
+    var(--primary) calc(4% + 3.84% * var(--docs-highlight-boost, 0)),
+    transparent
+  );
+}
+.blocks-showcase-source
+  .blocks-file-tree-list
+  > li:first-child
+  > [data-slot="collapsible"]
+  > .blocks-file-tree-dir {
+  margin-top: 0;
+}
+.blocks-file-tree-list[hidden] {
+  display: none;
+}
+.blocks-file-tree-folder-name {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-width: 0;
+  font-size: inherit;
+}
+.blocks-file-tree-folder-name > span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.blocks-file-tree-folder-slash {
+  margin-inline-end: 0.08em;
+  color: inherit;
+  font: inherit;
+}
+.blocks-file-tree-folder-actions {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  gap: 0.375rem;
+  margin-inline-start: auto;
+  padding-inline-start: 0.375rem;
+}
+.blocks-file-tree-folder-count {
+  min-width: 1.375rem;
+  padding: 0.05rem 0.25rem;
+  border-radius: 0.3rem;
+  background: color-mix(
+    in oklab,
+    var(--foreground) calc(4% + 3.84% * var(--docs-highlight-boost, 0)),
+    transparent
+  );
+  color: var(--muted-foreground);
   font-size: 0.6875rem;
-  overflow-wrap: anywhere;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
 }
-.blocks-showcase-source .blocks-file-tree-list > li:first-child > .blocks-file-tree-dir {
-  padding-top: 0.125rem;
+.blocks-file-tree-folder-dot {
+  color: color-mix(in oklab, var(--muted-foreground) 50%, transparent);
 }
+.blocks-file-tree-collapse {
+  --docs-icon-button-background: transparent;
+  --docs-icon-button-hover-offset: 0;
+  width: 1.375rem;
+  height: 1.375rem;
+  padding: 0;
+}
+.blocks-file-tree-collapse[aria-expanded="false"] > svg {
+  rotate: -90deg;
+}
+.blocks-file-tree-dir .blocks-file-tree-collapse[aria-expanded="true"] {
+  background: transparent;
+  color: var(--muted-foreground);
+  box-shadow: none;
+}
+
 .blocks-showcase-source .blocks-file-tree-btn {
   position: relative;
   display: flex;
   align-items: center;
   gap: 0.5rem;
   min-height: 2rem;
-  padding: 0.375rem 0.5rem 0.375rem 1rem;
+  padding: 0.375rem 0.5rem 0.375rem 0.875rem;
   border: 1px solid transparent;
-  font-size: 0.75rem;
+  font-size: 0.78125rem;
+  font-weight: 400;
   line-height: 1.5;
   color: var(--muted-foreground);
   transition:
@@ -159,25 +314,36 @@
 .blocks-file-tree-dir svg {
   flex-shrink: 0;
 }
-.blocks-file-tree-btn span {
-  overflow-wrap: anywhere;
+.blocks-file-tree-btn > .blocks-file-tree-file-icon,
+.blocks-file-tree-folder-name > .blocks-file-tree-folder-icon {
+  width: 0.875rem;
+  height: 0.875rem;
+  color: inherit;
+  stroke-width: 1.75;
+}
+.blocks-file-tree-filename {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .blocks-showcase-source .blocks-file-tree-btn.is-active {
+  font-weight: 450;
   color: color-mix(in oklab, var(--primary) 20%, var(--foreground));
   border-color: transparent;
-  background: color-mix(in oklab, var(--primary) 5%, transparent);
+  background: color-mix(
+    in oklab,
+    var(--primary) calc(7% + 6.51% * var(--docs-highlight-boost, 0)),
+    transparent
+  );
   box-shadow: none;
 }
 .blocks-file-tree-btn.is-active svg {
-  color: var(--primary);
+  color: inherit;
 }
-/* Scale the navigation's active ring down without moving file labels on selection. */
-.blocks-file-tree-btn.is-active::before {
-  content: "";
-  position: absolute;
-  inset-inline-start: 0.375rem;
-  top: 50%;
-  transform: translateY(-50%);
+/* Occupy the normal filename start, leaving a wider gap before the selected name. */
+.blocks-file-tree-selection {
+  flex: none;
   width: 0.25rem;
   height: 0.25rem;
   border: 1px solid color-mix(in oklab, var(--primary) 65%, var(--background));
@@ -186,8 +352,8 @@
   pointer-events: none;
 }
 .blocks-file-tree-hint {
-  margin: auto 0 0;
-  padding: 0.75rem 0.375rem 0;
+  margin: 0;
+  padding: 0.75rem 1.125rem;
   border-top: 1px solid var(--showcase-border);
   color: var(--muted-foreground);
   font-size: 0.6875rem;
@@ -204,15 +370,15 @@
   container: source-pane / inline-size;
 }
 .blocks-showcase-source .docs-code-toolbar {
+  --code-toolbar-inset: 0.1875rem;
   gap: 1rem;
   min-height: 2.75rem;
   padding: 0.1875rem 1.25rem;
   border-bottom: 1px solid var(--showcase-border);
   background: var(--background);
 }
-.blocks-sidebar-detail .blocks-source-file-heading {
-  min-height: 3.25rem;
-  padding-block: 0.4375rem;
+.blocks-code-layout .blocks-source-file-heading {
+  min-height: var(--source-header-height);
 }
 .blocks-source-file-details {
   display: flex;
@@ -223,7 +389,14 @@
 .blocks-source-file-heading .docs-code-file-path {
   flex: 0 1 auto;
   max-width: 100%;
-  font-size: 0.875rem;
+  color: color-mix(in oklab, var(--muted-foreground) 92%, var(--background));
+}
+.blocks-source-file-heading .docs-code-file-path :is([data-path-part="end"], .path-display-icon) {
+  color: var(--code-file-heading-color);
+  font-weight: 550;
+}
+.blocks-source-file-heading .docs-code-file-path > .path-display-icon {
+  stroke-width: 2;
 }
 .blocks-source-lines {
   display: inline-flex;
@@ -233,41 +406,76 @@
   color: var(--muted-foreground);
   font-size: 0.6875rem;
   font-variant-numeric: tabular-nums;
+  font-weight: 400;
   white-space: nowrap;
 }
-.blocks-showcase .blocks-source-controls {
-  margin-left: auto;
-}
-.blocks-showcase .blocks-source-controls > button {
+.blocks-source-line-count {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
   gap: 0.375rem;
-  flex: none;
-  height: calc(var(--showcase-control-size) - 0.125rem);
-  min-height: 0;
-  margin: 0;
-  padding: 0 0.5rem;
-  font-size: 0.75rem;
+  color: color-mix(in oklab, var(--muted-foreground) 85%, transparent);
   line-height: 1;
-  white-space: nowrap;
-  cursor: pointer;
 }
-/* Keep feedback from moving the neighboring Wrap control. */
+.blocks-source-line-total {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.blocks-source-count {
+  color: var(--foreground);
+  font-weight: 600;
+}
+.blocks-source-line-total .blocks-source-count {
+  color: color-mix(in oklab, var(--muted-foreground) 55%, var(--foreground));
+  font-weight: 550;
+}
+.blocks-source-file-heading .blocks-source-line-total {
+  color: var(--muted-foreground);
+  font-weight: 400;
+}
+.blocks-source-file-heading .blocks-source-count {
+  color: var(--code-file-heading-color);
+  font-weight: 600;
+}
+.blocks-source-controls {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex: none;
+  margin-inline-start: auto;
+}
+/* Copy feedback keeps the file path stationary. */
 .blocks-source-controls .docs-copy-code-button {
   min-width: 5rem;
 }
-.blocks-source-controls > button > svg {
-  width: 0.875rem;
-  height: 0.875rem;
-}
-@container source-pane (max-width: 40rem) {
-  .blocks-source-controls > button > span {
+@media (max-width: 767px) {
+  .blocks-source-controls .docs-code-action {
+    min-height: 2.125rem;
+    min-width: 2.125rem;
+    padding: 0.4375rem;
+  }
+  .blocks-source-controls .docs-copy-code-button > span {
     display: none;
   }
-  .blocks-showcase .blocks-source-controls > button {
-    min-width: calc(var(--showcase-control-size) - 0.125rem);
-    padding-inline: 0.5rem;
+  .blocks-showcase-source .blocks-source-controls .docs-copy-code-button {
+    width: 1.75rem;
+    height: 1.75rem;
+    min-width: 1.75rem;
+    min-height: 1.75rem;
+    padding: 0.375rem;
+  }
+  .blocks-showcase-source .blocks-source-controls .docs-copy-code-button > svg {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+  .blocks-showcase-source .blocks-source-file-heading .path-display-icon {
+    width: 1.375em;
+    height: 1.375em;
+  }
+}
+@container source-pane (max-width: 40rem) {
+  .blocks-source-controls {
+    gap: 0.625rem;
   }
   .blocks-showcase-source .docs-code-toolbar {
     gap: 0.625rem;
@@ -288,40 +496,8 @@
   }
 }
 .blocks-showcase-source .docs-tab-code {
-  min-height: 22rem;
+  min-height: var(--source-code-min-height, 22rem);
   max-height: 32rem;
-  padding: 1rem 1.25rem 1.5rem;
-  background: color-mix(in oklab, var(--muted) 18%, var(--background));
-  scrollbar-width: thin;
-  font-size: 0.75rem;
-  line-height: 1.8;
-}
-.blocks-code-pane.is-wrapped .docs-tab-code code {
-  width: 100%;
-  min-width: 0;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-}
-/* The source surface is lighter than generic docs snippets; use readable light-mode syntax. */
-html:not(.dark) .blocks-showcase-source .token:is(.property, .tag, .constant, .symbol, .deleted) {
-  color: var(--color-rose-700, #be123c);
-}
-html:not(.dark) .blocks-showcase-source .token:is(.boolean, .number) {
-  color: var(--color-amber-800, #92400e);
-}
-html:not(.dark)
-  .blocks-showcase-source
-  .token:is(.selector, .attr-name, .string, .char, .builtin, .inserted) {
-  color: var(--color-green-700, #15803d);
-}
-html:not(.dark) .blocks-showcase-source .token:is(.atrule, .attr-value, .keyword) {
-  color: var(--color-blue-700, #1d4ed8);
-}
-html:not(.dark) .blocks-showcase-source .token:is(.function, .class-name) {
-  color: var(--color-violet-700, #6d28d9);
-}
-html:not(.dark) .blocks-showcase-source .token:is(.regex, .important, .variable) {
-  color: var(--color-orange-800, #9a3412);
 }
 .blocks-source-footer {
   display: flex;
@@ -336,8 +512,35 @@ html:not(.dark) .blocks-showcase-source .token:is(.regex, .important, .variable)
   font-size: 0.6875rem;
   line-height: 1.5;
 }
+.blocks-source-copy-note {
+  color: color-mix(in oklab, var(--muted-foreground) 85%, transparent);
+}
+/* One footer row keeps the separator and first text line aligned in both columns. */
+.blocks-source-footer-row {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: inherit;
+  border-top: 1px solid var(--showcase-border);
+}
+.blocks-source-footer-row > :is(.blocks-file-tree-hint, .blocks-source-footer) {
+  margin: 0;
+  border-top: 0;
+  align-content: start;
+  align-items: flex-start;
+}
+.blocks-source-footer-row .blocks-file-tree-hint {
+  border-right: 1px solid var(--showcase-border);
+  background: color-mix(
+    in oklab,
+    var(--muted) calc(35% + 22.75% * var(--docs-highlight-boost, 0)),
+    var(--background)
+  );
+}
+.blocks-source-footer-row .blocks-source-footer {
+  background: var(--muted);
+}
 .blocks-source-state {
-  min-height: 22rem;
+  min-height: var(--source-code-min-height, 22rem);
   padding: 2rem 1.25rem;
   color: var(--muted-foreground);
   font-size: 0.8125rem;
@@ -348,30 +551,59 @@ html:not(.dark) .blocks-showcase-source .token:is(.regex, .important, .variable)
 }
 @media (max-width: 767px) {
   .blocks-showcase-source .blocks-code-layout {
+    --source-code-min-height: 22rem;
     grid-template-columns: minmax(0, 1fr);
   }
   .blocks-showcase-source .blocks-file-tree {
+    contain: none;
+    max-height: 13.75rem;
+    padding-bottom: 0.25rem;
     border-right: 0;
     border-bottom: 1px solid var(--showcase-border);
-  }
-  .blocks-file-tree-scroll {
-    max-height: 10rem;
   }
   .blocks-file-tree-hint {
     display: none;
   }
 }
-@media (max-width: 479px) {
-  .blocks-showcase-source .docs-tab-code {
-    padding-inline: 1rem;
-  }
+/* Keep mobile density close to desktop, including the source/header insets. */
+@media (max-width: 767px) {
   .blocks-showcase-source .docs-code-toolbar {
     padding-inline: 0.75rem;
   }
-}
-@media (max-width: 639px) {
+  .blocks-showcase-source .blocks-file-tree {
+    gap: 0.75rem;
+    padding-inline: 0.75rem;
+  }
+  .blocks-file-tree-heading {
+    gap: 0.625rem;
+    margin-inline: -0.75rem;
+    padding-inline: 1rem;
+    font-size: 0.84375rem;
+  }
   .blocks-showcase-source .blocks-file-tree-btn {
-    min-height: 2.5rem;
+    gap: 0.4375rem;
+    padding: 0.3125rem 0.4375rem 0.3125rem 0.75rem;
+    font-size: 0.75rem;
+  }
+  .blocks-showcase-source .blocks-file-tree-dir {
+    gap: 0.3125rem;
+    margin-block: 0.25rem;
+    padding: 0.3125rem 0.375rem;
+    font-size: 0.78125rem;
+  }
+  .blocks-file-tree-folder-name,
+  .blocks-file-tree-folder-actions {
+    gap: 0.3125rem;
+  }
+  .blocks-file-tree-folder-count {
+    font-size: 0.65625rem;
+    padding-inline: 0.1875rem;
+  }
+  .blocks-file-tree-btn > .blocks-file-tree-file-icon,
+  .blocks-file-tree-folder-name > .blocks-file-tree-folder-icon,
+  .blocks-file-tree-title > svg {
+    width: 0.8125rem;
+    height: 0.8125rem;
   }
 }
 @media (prefers-reduced-motion: reduce) {

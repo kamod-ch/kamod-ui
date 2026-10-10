@@ -1,7 +1,5 @@
-import { TextWrapIcon } from "@kamod-ch/icons/lucide";
-import { TextWrapDisabledIcon } from "@kamod-ch/icons/tabler/outline";
 import type { ComponentChildren } from "preact";
-import { useState } from "preact/hooks";
+import { useLayoutEffect, useRef } from "preact/hooks";
 import { CodeBlock } from "./CodeBlock";
 import { PathDisplay } from "./PathDisplay";
 
@@ -12,59 +10,61 @@ export function ShowcaseCodePane({
   code,
   footer,
   children,
+  loading = false,
 }: {
   filename: string;
   filePath: string;
   code?: string;
-  footer: ComponentChildren;
+  /** Omit when the surrounding file browser provides a shared footer row. */
+  footer?: ComponentChildren;
   /** Loading/error content supplied by asynchronous source browsers. */
   children?: ComponentChildren;
+  loading?: boolean;
 }) {
-  const [wrapped, setWrapped] = useState(false);
-  const extension = filename.split(".").at(-1)?.toLowerCase();
-  const language = extension === "md" ? "markdown" : extension === "svg" ? "text" : "tsx";
+  const pane = useRef<HTMLDivElement>(null);
+  const lastHeight = useRef<number | undefined>(undefined);
+  // Retain the previous file's footprint while fetching, without observing every scroll/resize.
+  useLayoutEffect(() => {
+    if (code !== undefined && pane.current)
+      lastHeight.current = pane.current.getBoundingClientRect().height;
+  }, [code, filename]);
   const lineCount = code === undefined ? 0 : code.trimEnd().split("\n").length;
-  const WrapIcon = wrapped ? TextWrapIcon : TextWrapDisabledIcon;
   const renderToolbar = (copyButton?: ComponentChildren) => (
     <div class="docs-code-toolbar blocks-source-file-heading">
       <div class="blocks-source-file-details">
-        <PathDisplay class="docs-code-file-path" path={filePath} />
+        <PathDisplay class="docs-code-file-path" path={filePath} file fileTypeTooltip />
         {code !== undefined && (
           <span class="blocks-source-lines">
             <span aria-hidden="true">·</span>
-            {lineCount} {lineCount === 1 ? "line" : "lines"}
+            <span class="blocks-source-line-count">
+              <span class="blocks-source-line-total">
+                <strong class="blocks-source-count">{lineCount}</strong>{" "}
+                {lineCount === 1 ? "line" : "lines"}
+              </span>
+            </span>
           </span>
         )}
       </div>
       {copyButton && (
-        <div
-          class="blocks-showcase-segmented blocks-source-controls"
-          role="group"
-          aria-label="Source controls"
-        >
-          <button
-            type="button"
-            class="docs-icon-button blocks-source-wrap"
-            aria-pressed={wrapped}
-            aria-label="Wrap code lines"
-            title={`Line wrapping ${wrapped ? "on" : "off"}`}
-            onClick={() => setWrapped((value) => !value)}
-          >
-            <WrapIcon size={16} strokeWidth={1.75} aria-hidden="true" />
-            <span>Wrap {wrapped ? "on" : "off"}</span>
-          </button>
+        <div class="blocks-source-controls" role="group" aria-label="Source controls">
           {copyButton}
         </div>
       )}
     </div>
   );
   return (
-    <div class={`blocks-code-pane ${wrapped ? "is-wrapped" : ""}`}>
+    <div
+      ref={pane}
+      class="blocks-code-pane"
+      data-loading={loading || undefined}
+      aria-busy={loading}
+      style={loading && lastHeight.current ? { height: lastHeight.current } : undefined}
+    >
       {code !== undefined ? (
         <CodeBlock
           key={filename}
           code={code}
-          language={language}
+          filePath={filePath}
           renderToolbar={renderToolbar}
           className="docs-tab-code"
         />
@@ -74,10 +74,17 @@ export function ShowcaseCodePane({
           {children}
         </>
       )}
-      <div class="blocks-source-footer">
-        <span>{footer}</span>
-        <span>Copy preserves source formatting.</span>
-      </div>
+      {footer && <ShowcaseCodeFooter>{footer}</ShowcaseCodeFooter>}
+    </div>
+  );
+}
+
+/** Shared footer copy for standalone examples and the block browser's aligned footer row. */
+export function ShowcaseCodeFooter({ children }: { children: ComponentChildren }) {
+  return (
+    <div class="blocks-source-footer">
+      <span>{children}</span>
+      <span class="blocks-source-copy-note">Copy preserves source formatting.</span>
     </div>
   );
 }

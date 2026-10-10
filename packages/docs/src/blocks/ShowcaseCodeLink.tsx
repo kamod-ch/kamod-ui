@@ -2,6 +2,7 @@
 import { useTabs } from "@kamod-ch/ui/tabs";
 import type { ComponentChildren } from "preact";
 import { useEffect, useRef } from "preact/hooks";
+import { linkTitleChildren } from "../link-title";
 import type { BlockSourceFile } from "./BlockSourceFiles";
 
 const openCodeEvent = "blocks:open-showcase-code";
@@ -44,7 +45,7 @@ export function ShowcaseCodeLink({
         window.dispatchEvent(new CustomEvent(openCodeEvent, { detail: { blockId, file } }));
       }}
     >
-      {children}
+      {linkTitleChildren(children)}
     </a>
   );
 }

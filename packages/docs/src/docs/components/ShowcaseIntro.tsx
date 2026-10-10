@@ -1,4 +1,6 @@
 import type { ComponentChildren } from "preact";
+import { linkTitle } from "../../link-title";
+import { BrandText } from "./brand/BrandText";
 import { ShowcaseGuideLinks } from "./ShowcaseGuideLinks";
 
 /** Shared Code/Prompt header; each showcase supplies its own copy and installation target. */
@@ -7,29 +9,27 @@ export function ShowcaseIntro({
   note,
   setupHref,
   guideLabel = "Example guides",
-  metadata,
   children,
 }: {
   title: string;
   note: string;
   setupHref: string;
   guideLabel?: string;
-  /** Optional compact context above the heading, such as a block's import path. */
-  metadata?: ComponentChildren;
   children: ComponentChildren;
 }) {
   return (
     <div class="blocks-showcase-intro">
       <div class="blocks-showcase-intro-copy">
-        {metadata}
         <div class="blocks-showcase-intro-title">
-          <h3>{title}</h3>
+          <h3>{linkTitle(title)}</h3>
           <span class="blocks-showcase-intro-note">
             <span aria-hidden="true">·</span>
             {note}
           </span>
         </div>
-        <p>{children}</p>
+        <p>
+          <BrandText>{children}</BrandText>
+        </p>
       </div>
       <ShowcaseGuideLinks setupHref={setupHref} label={guideLabel} />
     </div>

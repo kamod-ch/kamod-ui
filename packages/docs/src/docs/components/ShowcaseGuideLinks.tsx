@@ -6,17 +6,17 @@ import { withBasePath } from "../../base-path";
 export function ShowcaseGuideLinks({ setupHref, label }: { setupHref: string; label: string }) {
   const links = [
     {
-      label: "Refine component styles",
+      label: "Refine Component Styles",
       href: withBasePath("/blocks/styles"),
       Icon: BookOpenIcon,
     },
     {
-      label: "Explore theming and Tailwind",
+      label: "Explore Theming and Tailwind",
       href: withBasePath("/docs/theming/installation"),
       Icon: SwatchBookIcon,
     },
     {
-      label: "Setup guide",
+      label: "Setup Guide",
       href: setupHref,
       Icon: RocketIcon,
     },

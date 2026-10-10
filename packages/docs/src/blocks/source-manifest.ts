@@ -4,7 +4,10 @@ export function blockSourceDestination(
   file: { path: string; label: string },
 ) {
   if (block.category === "sidebar") return `src/components/blocks/${block.id}/${file.label}`;
-  if (block.category === "application-shell") return `src/components/${block.id}/${file.label}`;
+  if (block.category === "application-shell")
+    return block.id === "application-shell-1"
+      ? `src/components/${block.id}/${file.label}`
+      : `src/components/application-shell/${file.label}`;
   return `src/components/blocks/${file.path.replace(/^src\//, "")}`;
 }
 

@@ -1,4 +1,5 @@
-import { CheckIcon, RefreshCwIcon } from "@kamod-ch/icons/lucide";
+import { RefreshCwIcon } from "@kamod-ch/icons/lucide";
+import { CircleCheckIcon } from "@kamod-ch/icons/tabler/outline";
 import { useTabs } from "@kamod-ch/ui/tabs";
 import type { PreviewRefreshPhase } from "./usePreviewRefresh";
 
@@ -37,8 +38,8 @@ export function PreviewRefreshControl({
         }}
       >
         <span class="blocks-showcase-refresh-icon" aria-hidden="true">
-          <RefreshCwIcon class="blocks-showcase-refresh-spinner" />
-          <CheckIcon class="blocks-showcase-refresh-check" />
+          <RefreshCwIcon size={15} class="blocks-showcase-refresh-spinner" />
+          <CircleCheckIcon size={15} class="blocks-showcase-refresh-check" />
         </span>
         <span
           class={`blocks-showcase-refresh-label blocks-showcase-control-label${reset ? " component-example-reset-label" : ""}`}

@@ -5,8 +5,20 @@ import type { BlockPromptMode } from "./block-prompts";
 import type { PromptDisplay } from "./PromptDocument";
 
 const modes = [
-  { value: "setup", label: "Set up", Icon: PackagePlusIcon },
-  { value: "adapt", label: "Adapt", Icon: SlidersHorizontalIcon },
+  {
+    value: "setup",
+    label: "Set Up",
+    exampleLabel: "Add to Project",
+    shortLabel: "Add",
+    Icon: PackagePlusIcon,
+  },
+  {
+    value: "adapt",
+    label: "Adapt",
+    exampleLabel: "Tailor Example",
+    shortLabel: "Tailor",
+    Icon: SlidersHorizontalIcon,
+  },
 ] as const;
 
 /** Keep purpose and format controls identical across block and component prompts. */
@@ -37,14 +49,32 @@ export function PromptOptions({
           if (next === "setup" || next === "adapt") onModeChange(next);
         }}
       >
-        {modes.map(({ value, label, Icon }) => (
-          <ToggleGroupItem class="docs-icon-button" key={value} value={value}>
-            <Icon size={14} aria-hidden="true" />
-            {label} {subject}
-          </ToggleGroupItem>
-        ))}
+        {modes.map(({ value, label, exampleLabel, shortLabel, Icon }) => {
+          const fullLabel = subject === "example" ? exampleLabel : `${label} ${subject}`;
+          return (
+            <ToggleGroupItem
+              class="docs-icon-button"
+              key={value}
+              value={value}
+              aria-label={fullLabel}
+              title={
+                value === "setup"
+                  ? `Add this ${subject} to your project`
+                  : `Adapt this ${subject} to your needs`
+              }
+            >
+              <Icon size={14} aria-hidden="true" />
+              <span class="blocks-prompt-mode-label" aria-hidden="true">
+                {fullLabel}
+              </span>
+              <span class="blocks-prompt-mode-short" aria-hidden="true">
+                {subject === "example" ? shortLabel : label}
+              </span>
+            </ToggleGroupItem>
+          );
+        })}
       </ToggleGroup>
-      <DocumentDisplayOptions value={display} onChange={onDisplayChange} label="Prompt display" />
+      <DocumentDisplayOptions value={display} onChange={onDisplayChange} label="Prompt Display" />
     </div>
   );
 }

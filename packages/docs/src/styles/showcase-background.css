@@ -1,0 +1,74 @@
+/* One page-owned canvas for every live preview. Values resolve here, before any
+   locally themed example can replace --background or --primary on a descendant. */
+:root {
+  --showcase-canvas-base: var(--background);
+  --showcase-canvas-accent: var(--primary);
+  --showcase-canvas-wash: color-mix(in oklab, var(--showcase-canvas-accent) 4.5%, transparent);
+  --showcase-canvas-dot: color-mix(in oklab, var(--showcase-canvas-accent) 21%, transparent);
+  --showcase-canvas-line: color-mix(in oklab, var(--showcase-canvas-accent) 9%, transparent);
+  --showcase-canvas-dot-radius: 1.1px;
+  --showcase-canvas-line-width: 1.25px;
+  --showcase-canvas-dot-grid: 16px;
+  --showcase-canvas-line-grid: 64px;
+}
+
+:root.dark {
+  --showcase-canvas-wash: color-mix(in oklab, var(--showcase-canvas-accent) 15%, transparent);
+  --showcase-canvas-dot: color-mix(in oklab, var(--showcase-canvas-accent) 31.5%, transparent);
+  --showcase-canvas-line: color-mix(in oklab, var(--showcase-canvas-accent) 17.25%, transparent);
+}
+
+/* Static CSS tiles: no images, animation, blending layers or per-preview observers. */
+.showcase-preview-background,
+.component-example-stage,
+.blocks-preview-panel,
+.home-workspace-preview,
+.overview-form-preview,
+.overview-hook-preview,
+.home-form-body,
+.home-token-grid,
+.kitchen-sink-showcase {
+  background-color: var(--showcase-canvas-base);
+  background-image:
+    radial-gradient(
+      circle,
+      var(--showcase-canvas-dot) var(--showcase-canvas-dot-radius),
+      transparent calc(var(--showcase-canvas-dot-radius) + 0.35px)
+    ),
+    linear-gradient(var(--showcase-canvas-line) var(--showcase-canvas-line-width), transparent 0),
+    linear-gradient(
+      90deg,
+      var(--showcase-canvas-line) var(--showcase-canvas-line-width),
+      transparent 0
+    ),
+    linear-gradient(var(--showcase-canvas-wash), var(--showcase-canvas-wash));
+  background-size:
+    var(--showcase-canvas-dot-grid) var(--showcase-canvas-dot-grid),
+    var(--showcase-canvas-line-grid) var(--showcase-canvas-line-grid),
+    var(--showcase-canvas-line-grid) var(--showcase-canvas-line-grid),
+    auto;
+  background-position: center;
+}
+
+.kitchen-sink-showcase > .landing-showcase-grid--4 {
+  background: transparent;
+}
+
+/* Give full-screen blocks a small canvas rim; keep their own application surfaces intact. */
+.blocks-showcase-preview {
+  padding: clamp(0.5rem, 1.25vw, 1rem);
+}
+
+/* A transparent embedded document reveals its parent page's canvas, regardless
+   of the example's independent color scheme. Actual demo cards keep their surfaces. */
+html.showcase-embedded-document,
+.showcase-embedded-document body,
+.showcase-embedded-document #component-preview-root {
+  background: transparent;
+}
+
+/* The home form is a card on the same canvas, rather than another tiled canvas. */
+.home-workspace-document #component-preview-root,
+.home-form-body .overview-form-preview {
+  background: var(--background);
+}

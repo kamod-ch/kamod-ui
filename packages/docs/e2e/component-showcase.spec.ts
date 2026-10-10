@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { enableTestClipboard } from "./browser-utils";
+import { choosePreviewTheme, enableTestClipboard } from "./browser-utils";
 
 for (const slug of ["accordion", "tabs", "video", "formisch"]) {
   test(`${slug}: all examples expose prompts with setup, adapt and identical copy formats`, async ({
@@ -22,18 +22,18 @@ for (const slug of ["accordion", "tabs", "video", "formisch"]) {
       await expect(
         example
           .getByRole("navigation", { name: "Example guides" })
-          .getByRole("link", { name: "Setup guide", exact: true }),
+          .getByRole("link", { name: "Setup Guide", exact: true }),
       ).toHaveAttribute("href", "#installation");
       const source = await example.locator("pre code").innerText();
       const controls = example.getByRole("group", { name: "Source controls" });
       await expect(controls).toBeVisible();
-      await expect(
-        example.locator(".blocks-source-file-heading .docs-code-file-path"),
-      ).toHaveAttribute("title", /^src\//);
+      await expect(example.locator(".blocks-source-file-heading .docs-code-file-path")).toHaveText(
+        /^src\//,
+      );
       await controls.getByRole("button", { name: "Copy code", exact: true }).click();
       await expect.poll(() => page.evaluate(() => navigator.clipboard.readText())).toBe(source);
-      await controls.getByRole("button", { name: "Wrap code lines" }).click();
-      await expect(example.locator("pre code")).toHaveCSS("white-space", "pre-wrap");
+      await example.getByRole("switch", { name: "Wrap code lines" }).click();
+      await expect(example.locator(".docs-code-line").first()).toHaveCSS("white-space", "pre-wrap");
       await example.getByRole("tab", { name: "Prompt", exact: true }).click();
       await expect(example.locator("pre code")).toContainText(source);
       await expect(
@@ -41,23 +41,24 @@ for (const slug of ["accordion", "tabs", "video", "formisch"]) {
       ).toHaveAttribute("href", "#installation");
       const guides = example.getByRole("navigation", { name: "Example guides" });
       await expect(guides.getByRole("link")).toHaveCount(3);
-      await expect(guides.getByRole("link", { name: "Setup guide", exact: true })).toHaveAttribute(
+      await expect(guides.getByRole("link", { name: "Setup Guide", exact: true })).toHaveAttribute(
         "href",
         "#installation",
       );
       await expect(example.getByText("Example snippet included", { exact: true })).toHaveCount(0);
-      await example.getByRole("button", { name: "Adapt example", exact: true }).click();
-      const prompt = await example.locator("pre code").innerText();
+      await example.getByRole("button", { name: "Tailor Example", exact: true }).click();
+      // Wrapped line boxes affect innerText; copying preserves the literal source whitespace.
+      const prompt = await example.locator("pre code").textContent();
       expect(prompt).toContain("[describe the outcome]");
-      for (const format of ["Code (Markdown)", "Markdown", "Plain text"]) {
+      for (const format of ["Code (Markdown)", "Markdown", "Plain Text"]) {
         await example
-          .getByRole("group", { name: "Prompt display" })
+          .getByRole("group", { name: "Prompt Display" })
           .getByRole("button", { name: format, exact: true })
           .click();
         await example.getByRole("button", { name: "Copy code", exact: true }).click();
         await expect.poll(() => page.evaluate(() => navigator.clipboard.readText())).toBe(prompt);
       }
-      await example.getByRole("button", { name: "Set up example", exact: true }).click();
+      await example.getByRole("button", { name: "Add to Project", exact: true }).click();
       await expect(example.locator("pre code")).toContainText("Set up and integrate");
     }
   });
@@ -80,7 +81,7 @@ test("appearance is local, preserves form state, and width availability follows 
     dark: document.documentElement.classList.contains("dark"),
     storage: JSON.stringify(localStorage),
   }));
-  await first.getByRole("combobox", { name: "Preview color theme" }).selectOption("ocean");
+  await choosePreviewTheme(first.getByRole("button", { name: "Preview color theme" }), "ocean");
   await first.getByRole("button", { name: "Dark preview" }).click();
   await expect(frame.locator("html")).toHaveAttribute("data-theme", "ocean");
   await expect(frame.locator("html")).toHaveClass(/dark/);
@@ -92,7 +93,8 @@ test("appearance is local, preserves form state, and width availability follows 
       storage: JSON.stringify(localStorage),
     })),
   ).toEqual(pageState);
-  await expect(next.getByRole("combobox", { name: "Preview color theme" })).not.toHaveValue(
+  await expect(next.getByRole("button", { name: "Preview color theme" })).not.toHaveAttribute(
+    "data-preset",
     "ocean",
   );
   await first.getByRole("button", { name: "Narrow container" }).click();
@@ -127,7 +129,7 @@ test("portalled controls use the example theme and keyboard focus stays inside t
   const example = page.locator("#select .component-example");
   await example.locator("iframe").scrollIntoViewIfNeeded();
   const frame = example.locator("iframe").contentFrame();
-  await example.getByRole("combobox", { name: "Preview color theme" }).selectOption("sunset");
+  await choosePreviewTheme(example.getByRole("button", { name: "Preview color theme" }), "sunset");
   await example.getByRole("button", { name: "Dark preview" }).click();
   await frame.getByRole("button", { name: "Spoken Language" }).click();
   await expect(frame.getByRole("option", { name: "German" })).toBeVisible();

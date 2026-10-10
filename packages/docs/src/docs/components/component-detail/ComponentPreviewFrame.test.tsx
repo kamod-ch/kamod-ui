@@ -1,5 +1,5 @@
 /** @vitest-environment jsdom */
-import { act, cleanup, render } from "@testing-library/preact";
+import { act, cleanup, fireEvent, render, screen } from "@testing-library/preact";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { ComponentPreviewFrame } from "./ComponentPreviewFrame";
 
@@ -10,6 +10,45 @@ afterEach(() => {
   vi.runOnlyPendingTimers();
   vi.useRealTimers();
   vi.unstubAllGlobals();
+});
+
+it("keeps loading until the example is ready, and removes pending listeners on teardown", () => {
+  vi.stubGlobal("IntersectionObserver", undefined);
+  vi.stubGlobal(
+    "ResizeObserver",
+    class {
+      observe() {}
+      disconnect() {}
+    },
+  );
+  const onLoad = vi.fn();
+  const { container, unmount } = render(
+    <ComponentPreviewFrame
+      slug="button"
+      index={0}
+      title="Button"
+      appearance={{ preset: "kamod", scheme: "light" }}
+      onLoad={onLoad}
+    />,
+  );
+  expect(screen.getByRole("status")).toHaveTextContent("Setting the scene");
+  const frame = container.querySelector("iframe")!;
+  const preview = document.implementation.createHTMLDocument();
+  preview.body.innerHTML = '<main id="component-preview-root"></main>';
+  Object.defineProperty(frame, "contentDocument", { value: preview });
+  fireEvent.load(frame);
+  expect(onLoad).not.toHaveBeenCalled();
+  expect(frame).toHaveAttribute("aria-hidden", "true");
+  act(() => {
+    preview.dispatchEvent(new Event("kamod:preview-ready"));
+  });
+  expect(screen.queryByRole("status")).not.toBeInTheDocument();
+  expect(frame).not.toHaveAttribute("aria-hidden");
+  expect(onLoad).toHaveBeenCalledOnce();
+  fireEvent.load(frame);
+  unmount();
+  preview.dispatchEvent(new Event("kamod:preview-ready"));
+  expect(onLoad).toHaveBeenCalledOnce();
 });
 
 it("loads after a batched hidden-to-visible jump and disconnects on teardown", () => {
