@@ -41,12 +41,12 @@ const sections = [
   {
     id: "demo",
     title: "Demo",
-    text: "This bug-report form validates on submit and revalidates as you edit after the first submit.",
+    text: "**Follow the Complete Submission Cycle.** The bug-report demo begins validation on submission and checks edited fields again after that first attempt. It combines schema-backed values with Kamod field presentation, letting you follow one form through invalid input, correction and a submission attempt.\n\nReplace the demonstration submission with your own request and distinguish **Field Errors** from **Service Failures**. Preserve useful input after a failed save, give the user an actionable message and verify that a retry cannot create duplicate work.",
   },
   {
     id: "approach",
-    title: "Approach",
-    text: "The integration is headless: Formisch supplies typed input, errors, and methods; Kamod UI supplies accessible Field, Input, Select, Checkbox, RadioGroup, Switch, Button, and Card primitives.",
+    title: "How the Pieces Work Together",
+    text: "Build around **One Form Store**, with a clear role for each layer. `Valibot` describes valid data, `Formisch` coordinates the interaction, and Kamod UI gives it a familiar interface. Your application connects the result to a real service. Start with the [Complete Example](#demo), then use these boundaries as you adapt it.",
   },
   {
     id: "form-methods",
@@ -86,43 +86,47 @@ const sections = [
   {
     id: "input",
     title: "Input",
-    text: "Native inputs can spread field.props and normalize undefined to an empty string for controlled rendering.",
+    text: "**Keep Browser Input and Form State Synchronized.** Spread `field.props` onto the native input so its events stay connected to the form store. Normalize an absent text value to `''` for controlled rendering while keeping the user's actual input as the source of the displayed value.\n\nPreserve the label, description and error associations when adding styling; changing the wrapper should not break the field's validation or event binding.",
   },
   {
     id: "textarea",
     title: "Textarea",
-    text: "Textareas use the same binding model as inputs and can display length counters next to validation feedback.",
+    text: "**Guide the Answer without Competing with Validation.** Bind a textarea to the same Formisch field model used for a single-line input. A nearby character counter can explain how the answer relates to a limit, provided it reads the same value that validation checks.\n\nExplain whether the limit counts characters, words or another unit, and ensure the counter follows that rule. Leave room for longer answers and visible error messages, then test the point where an answer becomes valid again after editing.",
   },
   {
     id: "select",
     title: "Select",
-    text: "Composite controls use their value callback. Read field.input, pass it to the control, and call field.onChange with the next value.",
+    text: "**Bridge the Composite Control Explicitly.** Pass `field.input` into a composite select and forward its value callback to `field.onChange`. This explicit bridge connects the control's selection model to Formisch rather than expecting native input events from a custom trigger.\n\nUse stable option values, handle an initially empty selection deliberately, and keep the label attached to the trigger rather than only to the surrounding layout.",
   },
   {
     id: "checkbox",
     title: "Checkbox",
-    text: "For checkbox groups, keep arrays immutable: add with a new array and remove with filter.",
+    text: "**Treat the Selected Options as One Field Value.** Store a checkbox collection as an array of selected values and create a new array for every change. Adding with a spread and removing with `filter` keeps updates explicit for the form store and its validation.\n\nUse stable values for each checkbox, derive checked state from that array, and place collection-level validation where it is clear which group needs attention.",
   },
   {
     id: "radio-group",
     title: "Radio Group",
-    text: "RadioGroup maps one selected string to a Valibot picklist.",
+    text: "**Keep the Allowed Values Aligned with the Schema.** Connect `RadioGroup` to one field value whose allowed strings match a Valibot picklist. The selected option and submitted data then share the same vocabulary, avoiding a separate translation between visual labels and accepted values.\n\nDrive the group from the field's current input and forward changes directly, rather than maintaining another selection state beside the form.",
   },
-  { id: "switch", title: "Switch", text: "Switch maps a controlled boolean to Formisch state." },
+  {
+    id: "switch",
+    title: "Switch",
+    text: "**Preserve a Boolean Throughout the Binding.** Drive `Switch` from the field's boolean input and send changes back to that same field. The visual on/off state becomes a direct view of the value Formisch will validate and include in submission.\n\nExplain the enabled state in the label and distinguish immediate settings from preferences saved on submit; the visual toggle alone does not decide that workflow.",
+  },
   {
     id: "complex-forms",
     title: "Complex Forms",
-    text: "Larger forms compose the same primitives for plan, billing, add-ons, and email preferences.",
+    text: "**Compose Larger Workflows from the Same Small Bindings.** Build a larger form by grouping the same field primitives around plan, billing and preference choices. Each section adds context to the shared form state rather than creating independent stores for pieces of one submission.\n\nInspect the submitted shape alongside the schema, and avoid duplicating form state in presentation components when a value already belongs to Formisch.",
   },
   {
     id: "resetting-form",
     title: "Resetting the Form",
-    text: "Call reset(form) to restore initial inputs and clear validation state. Reset buttons are type=button so they do not submit.",
+    text: '**Make the Reset Destination Predictable.** Call `reset(form)` to restore the initial inputs and clear validation state when the user deliberately starts over. Give the reset control `type="button"` so activating it does not also trigger the form\'s submit path.\n\nKeep reset separate from submission, and verify that validation feedback and derived summaries reflect the restored values rather than retaining stale state outside the form.',
   },
   {
     id: "array-fields",
     title: "Array Fields",
-    text: "FieldArray exposes stable item IDs. Use insert and remove to manage dynamic rows and let Valibot enforce min and max lengths.",
+    text: "**Preserve Identity While Rows Move or Disappear.** Use `FieldArray` item IDs as stable row keys, and manage the collection with `insert` and `remove`. Valibot can enforce allowed lengths while each row retains its identity as neighboring entries are added or removed.\n\nAssociate each row's labels and errors with the correct field, and test removing a middle row so another person's entered values do not appear to jump between controls.",
   },
   {
     id: "accessibility",
@@ -254,13 +258,13 @@ export const formischDocPage: DocPageModule = {
           return (
             <ul class="docs-copy mt-4 list-disc pl-5">
               <li>
-                <a href="https://ui.shadcn.com/docs/forms/formisch">shadcn/ui Formisch forms</a>
+                <a href="https://ui.shadcn.com/docs/forms/formisch">shadcn/ui Formisch Forms</a>
               </li>
               <li>
-                <a href="https://formisch.dev/">Formisch documentation</a>
+                <a href="https://formisch.dev/">Formisch Documentation</a>
               </li>
               <li>
-                <a href="https://valibot.dev/">Valibot documentation</a>
+                <a href="https://valibot.dev/">Valibot Documentation</a>
               </li>
             </ul>
           );

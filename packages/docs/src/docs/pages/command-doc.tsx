@@ -10,13 +10,13 @@ import {
   CommandSeparator,
   CommandShortcut,
 } from "@kamod-ch/ui";
+import { CopyButton } from "@kamod-ch/ui/copy-button";
 import {
   Bell,
   Calculator,
   Calendar,
   ClipboardPaste,
   Code,
-  Copy,
   CreditCard,
   FileText,
   Folder,
@@ -239,11 +239,16 @@ const CommandScrollableDialogPreview = () => {
                 <span>New Folder</span>
                 <CommandShortcut>⇧⌘N</CommandShortcut>
               </CommandItem>
-              <CommandItem value="copy">
-                <Copy class="size-4" />
-                <span>Copy</span>
-                <CommandShortcut>⌘C</CommandShortcut>
-              </CommandItem>
+              <CopyButton
+                value="Command palette example"
+                subject="example"
+                renderControl={({ defaultControl }) => (
+                  <CommandItem {...defaultControl.props} value="copy" data-slot="command-item">
+                    {defaultControl.props.children}
+                    <CommandShortcut>⌘C</CommandShortcut>
+                  </CommandItem>
+                )}
+              />
               <CommandItem value="cut">
                 <Scissors class="size-4" />
                 <span>Cut</span>
@@ -476,43 +481,43 @@ export const Example = () => (
   exampleSections: [
     {
       id: "demo-inline",
-      title: "Inline demo",
-      text: "Groups, separator, shortcuts, icons, and disabled row — aligned with the shadcn overview example.",
+      title: "Inline Demo",
+      text: "**Organize Commands Around Tasks.** Compose a command list from groups, separators, shortcuts and icons to make available actions searchable. The inline example keeps the list in the page, allowing you to inspect its organization before adding a dialog layer.\n\nConnect each item's selection handler to a real action, provide a clear empty state, and remember that a displayed shortcut does not register a keyboard listener by itself.",
       code: "// command-doc.tsx — CommandDemoPreview",
       renderPreview: () => <CommandDemoPreview />,
     },
     {
       id: "dialog-basic",
-      title: "Dialog: basic",
-      text: "`CommandDialog` + controlled `open` / `onOpenChange`.",
+      title: "Dialog: Basic",
+      text: "**Keep the Command Surface Easy to Enter and Leave.** Use `CommandDialog` with controlled `open` and `onOpenChange` when the command palette should appear over the current screen. The command list owns its choices while the parent decides when the palette is available.\n\nName the launcher, preserve dismissal and focus return, and keep command execution separate from the dialog's visibility state so actions do not accidentally run twice.",
       code: "// CommandBasicDialogPreview",
       renderPreview: () => <CommandBasicDialogPreview />,
     },
     {
       id: "dialog-shortcuts",
-      title: "Dialog: shortcuts",
-      text: "Settings group with `CommandShortcut` trailing hints.",
+      title: "Dialog: Shortcuts",
+      text: "**Advertise Shortcuts that Actually Exist.** Add `CommandShortcut` beside an action label to show a keyboard hint in a consistent trailing position. The hint documents a shortcut; the application must still register and handle that key combination where appropriate.\n\nAvoid conflicting with browser or assistive-technology shortcuts, and keep a normal selectable command available for people who do not use the advertised key sequence.",
       code: "// CommandShortcutsDialogPreview",
       renderPreview: () => <CommandShortcutsDialogPreview />,
     },
     {
       id: "dialog-groups",
-      title: "Dialog: groups",
-      text: "Suggestions + Settings with `CommandSeparator`.",
+      title: "Dialog: Groups",
+      text: "**Separate Frequent Suggestions from Broader Settings.** Separate suggestions and settings with named groups and `CommandSeparator`. This preserves the relationship between related actions, helping readers interpret the list even before they begin filtering its contents.\n\nKeep category names stable and remove empty groups when appropriate; commands should remain understandable when search results appear outside their original context.",
       code: "// CommandGroupsDialogPreview",
       renderPreview: () => <CommandGroupsDialogPreview />,
     },
     {
       id: "dialog-scrollable",
-      title: "Dialog: scrollable",
-      text: "Many items; `CommandList` uses `max-h-80` for scroll.",
+      title: "Dialog: Scrollable",
+      text: "**Constrain the List without Hiding Navigation.** Constrain `CommandList` with `max-h-80` when many actions would otherwise make the palette too tall. The surrounding dialog stays compact while the results form a scrollable area within it.\n\nTest keyboard movement into offscreen items and long labels, and keep the search field and empty-result feedback visible without requiring users to scroll the entire page.",
       code: "// CommandScrollableDialogPreview",
       renderPreview: () => <CommandScrollableDialogPreview />,
     },
     {
       id: "rtl",
       title: "RTL",
-      text: "`dir` on `Command` and `CommandInput`; localized strings EN/AR/HE.",
+      text: "**Check the Whole Pattern in Its Reading Direction.** Set matching `dir` values on `Command` and `CommandInput` for translated search and results. Check shortcut hints, icons and item labels together so their order remains understandable in each language.\n\nKeep values and keyboard behavior meaningful in the translated interface, and follow [Direction](/docs/direction/installation) when the page and its portaled controls need a shared direction.",
       code: "// CommandRtlPreview",
       renderPreview: () => <CommandRtlPreview />,
     },

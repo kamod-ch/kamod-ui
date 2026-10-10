@@ -40,6 +40,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@kamod-ch/ui";
+import { CopyButton } from "@kamod-ch/ui/copy-button";
 import {
   AlertTriangle,
   Archive,
@@ -52,7 +53,6 @@ import {
   Check,
   ChevronDown,
   Clock,
-  Copy,
   ListFilter,
   MailCheck,
   Minus,
@@ -284,10 +284,13 @@ function DropdownSplitDemo() {
               <Share2 class="size-4" />
               Share conversation
             </DropdownItem>
-            <DropdownItem>
-              <Copy class="size-4" />
-              Copy conversation
-            </DropdownItem>
+            <CopyButton
+              value="Conversation example"
+              label="Copy conversation"
+              subject="conversation"
+              role="menuitem"
+              class="w-full"
+            />
           </DropdownGroup>
           <DropdownSeparator />
           <DropdownGroup>
@@ -353,7 +356,7 @@ function PopoverCopilotDemo() {
         </PopoverTrigger>
         <PopoverContent side="bottom" align="end" class="w-80 rounded-xl text-sm">
           <PopoverHeader>
-            <PopoverTitle>Start a new task with Copilot</PopoverTitle>
+            <PopoverTitle>Start a New Task with Copilot</PopoverTitle>
             <PopoverDescription>Describe your task in natural language.</PopoverDescription>
           </PopoverHeader>
           <Field>
@@ -596,9 +599,7 @@ export const Example = () => (
   separator: {
     preview: () => (
       <ButtonGroup>
-        <Button variant="secondary" size="sm">
-          Copy
-        </Button>
+        <CopyButton value="A shared clipboard action" />
         <ButtonGroupSeparator />
         <Button variant="secondary" size="sm">
           Paste
@@ -606,11 +607,12 @@ export const Example = () => (
       </ButtonGroup>
     ),
     code: `import { Button } from "@/components/kamod-ui/button"
+import { CopyButton } from "@kamod-ch/ui/copy-button";
 import { ButtonGroup, ButtonGroupSeparator } from "@/components/kamod-ui/button-group";
 
 export const Example = () => (
   <ButtonGroup>
-    <Button variant="secondary" size="sm">Copy</Button>
+    <CopyButton value="A shared clipboard action" />
     <ButtonGroupSeparator />
     <Button variant="secondary" size="sm">Paste</Button>
   </ButtonGroup>
@@ -806,68 +808,68 @@ export const buttonGroupDocPage: DocPageModule = {
     },
     {
       id: "toggle-group",
-      title: "Button group vs toggle group",
-      text: "Use ButtonGroup for actions (submit, navigate, open menus). Use a toggle group pattern when buttons represent exclusive or multi selection state — Kamod exposes separate primitives for that use case.",
+      title: "Button Group vs Toggle Group",
+      text: "**Distinguish Actions from Selection.** `ButtonGroup` arranges related actions; [Toggle Group](/docs/toggle-group/installation) represents selected choices. Compare the two when designing a toolbar so pressing an action and changing a persistent selection use the appropriate primitives.\n\nIn the preview, distinguish **Doing Something** from **Choosing a Setting**. Opening a menu or submitting a form is an action; choosing alignment or an active view needs a value the rest of the interface can read.",
     },
     {
       id: "group-text",
-      title: "Group text",
-      text: "Optional label text before actions, or ButtonGroupText asChild with Label for form fields.",
+      title: "Group Text",
+      text: "**Label the Whole Interaction Clearly.** Use `ButtonGroupText` for a short prefix or context label within the joined control. With `asChild`, it can style a `Label` associated with a nearby field instead of adding an unrelated text wrapper.\n\nWhen it labels a form input, preserve the actual label association; visual proximity alone does not connect the text to the field for assistive technology.",
     },
     {
       id: "orientation",
       title: "Orientation",
-      text: 'Set orientation="vertical" for stacked controls (for example media + / −).',
+      text: '**Adapt the Group to Its Available Space.** Set `orientation="vertical"` to stack the controls and join their adjacent edges. This works for compact increase/decrease actions when the vertical arrangement clearly conveys their relationship to the same value.\n\nKeep the order meaningful from top to bottom, use consistent sizes, and verify that the grouped border treatment still distinguishes separate actions without adding unnecessary dividers.',
     },
     {
       id: "size",
       title: "Size",
-      text: "Control density with each Button’s size prop (sm, default, lg, icon variants).",
+      text: "**Size the Children as a Coherent Set.** Set `size` on each child `Button` to coordinate the group's density. Matching text and icon sizes keeps joined edges and heights aligned without making the parent group responsible for each action's typography.\n\nCheck the entire group with its longest label before tightening the layout, especially when the controls will appear in a responsive toolbar.",
     },
     {
       id: "nested",
       title: "Nested",
-      text: "Nest ButtonGroup components to add gap between clusters while keeping flush joins inside each cluster.",
+      text: "**Separate Clusters inside One Tool.** Nest `ButtonGroup` elements when one toolbar contains distinct clusters. Each inner group keeps its own joined buttons, while the outer composition leaves a deliberate gap between different sets of actions.\n\nKeep the hierarchy shallow and leave enough space between clusters to make the distinction visible; use a toolbar label when the purpose is not obvious from the individual actions.",
     },
     {
       id: "separator",
       title: "Separator",
-      text: "Use ButtonGroupSeparator between solid (non-outline) buttons so the hierarchy stays clear. Outline buttons usually do not need a separator.",
+      text: "**Divide Actions Only Where the Surface Needs It.** Insert `ButtonGroupSeparator` between filled controls when their shared edge needs clarification. Outlined buttons already provide a boundary, so compare the result before introducing an additional line between every action.\n\nKeep it decorative, match its orientation to the group, and avoid doubling borders when an outlined child already provides a clear boundary.",
     },
     {
       id: "split",
       title: "Split",
-      text: "Primary action plus a compact icon action, separated by ButtonGroupSeparator.",
+      text: "**Separate the Common Action from Its Alternatives.** Place a main action beside a compact icon action and divide them with `ButtonGroupSeparator`. This split pattern makes the default operation immediately available while reserving the adjacent control for related alternatives.\n\nGive the icon trigger a descriptive name and avoid making both halves open the same menu unless that behavior is clearly intentional.",
     },
     {
       id: "input",
       title: "Input",
-      text: "Place a full-width Input beside a button; the group applies flex-1 to direct input children.",
+      text: "**Keep Entry and Submission Together.** Place `Input` directly beside its related button inside the group. Direct input children can grow with `flex-1`, leaving the action a stable width while the editable value takes the remaining space.\n\nSupply a real label or accessible name, use the correct button type in forms, and allow the input to shrink without hiding the action.",
     },
     {
       id: "input-group",
-      title: "Input group",
-      text: "Pill-shaped bar with nested groups: icon button + InputGroup with addons (voice toggle example).",
+      title: "Input Group",
+      text: "**Compose Nested Controls without Losing Their Roles.** Compose nested groups with [Input Group](/docs/input-group/installation) to place addons and a voice control in one rounded bar. The example shows which boundaries belong to the field and which belong to neighboring actions.\n\nTry the composition at its narrowest useful width and confirm that the editable value still has room. Give the voice toggle a meaningful accessible name, and keep its pressed state separate from the text input's value.",
     },
     {
       id: "dropdown",
       title: "Dropdown",
-      text: "Split row: text button plus dropdown trigger sharing one continuous outline.",
+      text: "**Offer Alternatives Beside the Main Command.** Use the dropdown trigger as the compact half of a split button. Both controls share an outline, but one performs the primary action and the other opens a list of alternatives.\n\nPreserve a separate accessible name for the dropdown trigger, and review the [Dropdown Examples](/docs/dropdown/installation#component-examples) for selection and submenu behavior.",
     },
     {
       id: "select",
       title: "Select",
-      text: "Currency (or similar) Select next to an amount field and a send button.",
+      text: "**Make the Selected Context Explicit.** Join a currency `Select`, an amount input and a send action into a single task. Each control still has its own value and label, even though the shared outline presents them as one composition.\n\nKeep validation attached to the relevant field and ensure the submit action uses the current selection rather than a separate hard-coded assumption.",
     },
     {
       id: "popover",
       title: "Popover",
-      text: "Split control with a popover panel on the trailing chevron button.",
+      text: "**Reveal Supporting Choices in Place.** Attach a [Popover](/docs/popover/installation) to the trailing chevron when the secondary control needs a small panel rather than a menu. The main button remains directly available beside that configuration entry point.\n\nKeep the trigger named, preserve focus behavior, and use [Popover](/docs/popover/installation) examples when the panel contains multiple form controls.",
     },
     {
       id: "rtl",
       title: "RTL",
-      text: "Wrap with DirectionProvider and set dir on the document subtree; mirror directional icons (e.g. back arrow) in RTL.",
+      text: "**Check the Whole Pattern in Its Reading Direction.** Provide the translated direction to the group and review any back or forward symbols separately. Logical layout preserves the joined control order, while directional icons may need an explicit mirrored treatment.\n\nKeep values and keyboard behavior meaningful in the translated interface, and follow [Direction](/docs/direction/installation) when the page and its portaled controls need a shared direction.",
     },
     {
       id: "api-reference",

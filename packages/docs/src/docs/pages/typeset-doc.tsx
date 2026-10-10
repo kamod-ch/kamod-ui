@@ -9,6 +9,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
+  CopyButton,
   Input,
   Label,
   NativeSelect,
@@ -24,6 +25,7 @@ import {
 } from "@kamod-ch/ui";
 import type { ComponentChildren } from "preact";
 import { useMemo, useState } from "preact/hooks";
+import { linkTitle } from "../../link-title";
 import { ApiReference } from "../components/ApiReference";
 import { CodeBlock } from "../components/CodeBlock";
 import { PathDisplay } from "../components/PathDisplay";
@@ -130,19 +132,6 @@ const COMPACT_SECTIONS = new Set([
   "api-reference",
 ]);
 
-function CopyButton({ value, label = "Copy" }: { value: string; label?: string }) {
-  return (
-    <Button
-      type="button"
-      size="sm"
-      variant="outline"
-      onClick={() => navigator.clipboard?.writeText(value)}
-    >
-      {label}
-    </Button>
-  );
-}
-
 function TypesetDemo({
   className = "typeset typeset-docs",
   variant = "full",
@@ -153,26 +142,26 @@ function TypesetDemo({
   return (
     <article class={className}>
       <h1 id="demo-title">
-        Kamod Typeset demo{" "}
+        Kamod Typeset Demo{" "}
         <a class="heading-anchor" href="#demo-title">
           #
         </a>
       </h1>
       <p>
-        Typeset formats <strong>plain HTML</strong> and <em>rendered Markdown</em> with Kamod theme
+        Typeset formats <strong>Plain HTML</strong> and <em>Rendered Markdown</em> with Kamod theme
         tokens. It supports{" "}
         <a href="https://ui.shadcn.com/docs/typeset" target="_blank" rel="noreferrer">
           external links
         </a>
-        , long URLs, <code>inlineCode()</code>, <mark>marks</mark>,{" "}
+        , long URLs, <code>inlineCode()</code>, <mark>Marks</mark>,{" "}
         <abbr title="Application Programming Interface">API</abbr>, H<sub>2</sub>O and x<sup>2</sup>
         .
       </p>
       <h2>Headings</h2>
-      <h3>Third level</h3>
-      <h4>Fourth level</h4>
-      <h5>Fifth level</h5>
-      <h6>Sixth level</h6>
+      <h3>Third Level</h3>
+      <h4>Fourth Level</h4>
+      <h5>Fifth Level</h5>
+      <h6>Sixth Level</h6>
       <p>
         <small>Small text</small>, <del>deleted</del>, <ins>inserted</ins> and <s>struck</s> content
         keep the rhythm.
@@ -219,11 +208,17 @@ function TypesetDemo({
       </dl>
       <h2>Code</h2>
       <p>
-        Press <kbd>⌘</kbd> + <kbd>K</kbd> and paste a preset.
+        Press <kbd>⌘</kbd> + <kbd>K</kbd> and paste a preset. Syntax colors here come from the
+        documentation highlighter; Typeset handles the surrounding typography.
       </p>
-      <pre tabIndex={0}>
-        <code>{`generateTypesetPreset({\n  name: "product-docs",\n  size: "15px",\n  leading: 1.75,\n  flow: "1.5em",\n  measure: "72ch",\n})`}</code>
-      </pre>
+      <div class="not-typeset">
+        <CodeBlock
+          code={`generateTypesetPreset({\n  name: "product-docs",\n  size: "15px",\n  leading: 1.75,\n  flow: "1.5em",\n  measure: "72ch",\n})`}
+          language="typescript"
+          renderToolbar={() => null}
+          showWrapControl={false}
+        />
+      </div>
       <h2>Tables</h2>
       <table>
         <caption>Preset overview</caption>
@@ -574,14 +569,14 @@ function SectionNav({
     <nav class="docs-section-nav" aria-label="Section navigation">
       {prev ? (
         <a class="docs-section-nav-link docs-section-nav-prev" href={getSectionHref(prev.id)}>
-          ← {prev.title}
+          ← {linkTitle(prev.title)}
         </a>
       ) : (
         <span />
       )}
       {next ? (
         <a class="docs-section-nav-link docs-section-nav-next" href={getSectionHref(next.id)}>
-          {next.title} →
+          {linkTitle(next.title)} →
         </a>
       ) : null}
     </nav>
@@ -596,7 +591,7 @@ function renderSectionBody(sectionId: string, context: DocRenderMainContext): Co
           <div class="docs-step">
             <h3 class="docs-step-title">
               <span class="docs-step-number">1</span>
-              Install the package
+              Install the Package
             </h3>
             {context.renderSectionExtraContent("installation")}
           </div>
@@ -610,7 +605,7 @@ function renderSectionBody(sectionId: string, context: DocRenderMainContext): Co
           <div class="docs-step">
             <h3 class="docs-step-title">
               <span class="docs-step-number">3</span>
-              Apply the container class
+              Apply the Container Class
             </h3>
             <CodeBlock code={containerMarkup} language="tsx" className="docs-tab-code" />
           </div>
@@ -835,7 +830,7 @@ export const typesetDocPage: DocPageModule = {
       text: "Use .typeset-scroll for wide content.",
     },
     { id: "overrides", title: "Overrides", text: "Low specificity keeps utilities in control." },
-    { id: "opt-out", title: "Opt-out", text: "Exclude embedded components." },
+    { id: "opt-out", title: "Opt-Out", text: "Exclude embedded components." },
     {
       id: "accessibility",
       title: "Accessibility",

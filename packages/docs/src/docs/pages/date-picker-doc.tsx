@@ -435,14 +435,14 @@ export const Example = () => <DatePicker placeholder="Pick a date" />;`,
     {
       id: "demo-composed",
       title: "Demo",
-      text: "Composed Popover + Button + Calendar with chevron — matches the shadcn overview snippet.",
+      text: "**Own the Composition When the Workflow Needs Flexibility.** Compose [Popover](/docs/popover/installation), `Button` and `Calendar` when you need direct control over the date picker's trigger and panel. The button displays the chosen date while the calendar provides the selection interface.\n\nStore the selected date in one place, format its display deliberately, and preserve dismissal and focus behavior when adapting the panel.",
       code: `// See date-picker-doc.tsx — Popover + Button + Calendar + ChevronDown`,
       renderPreview: () => <DatePickerDemoComposedPreview />,
     },
     {
       id: "date-picker-convenience",
-      title: "DatePicker component",
-      text: "Shortcut with `triggerIcon` (`chevron` | `calendar` | `none`), `align`, and `format`.",
+      title: "DatePicker Component",
+      text: "**Use the Shortcut for a Standard Single-Date Field.** Use the `DatePicker` convenience component for a standard date-selection field. Options such as `triggerIcon`, `align` and `format` customize common presentation needs without rebuilding the trigger, popover and calendar composition.\n\nCheck the [API Reference](#api-reference) before reaching for a custom composition, particularly when formatting, alignment or the trigger symbol is the only difference you need.",
       code: `import { DatePicker } from "@/components/kamod-ui/date-picker";
 
 export const Example = () => (
@@ -460,22 +460,22 @@ export const Example = () => (
     },
     {
       id: "calendar-icon-composed",
-      title: "Calendar icon trigger",
-      text: "Leading calendar icon with left-aligned label (composed).",
+      title: "Calendar Icon Trigger",
+      text: "**Make the Date Affordance Recognizable at Rest.** Place a calendar icon before a left-aligned date label to make the trigger recognizable as a date field. The composed version keeps that trigger design separate from the calendar shown inside the popover.\n\nKeep the field's actual label outside the value display and avoid making the icon a second, competing popup trigger.",
       code: `// PopoverTrigger asChild + Button with CalendarIcon — see date-picker-doc.tsx`,
       renderPreview: () => <DatePickerWithCalendarIconPreview />,
     },
     {
       id: "basic-field",
       title: "Basic",
-      text: "Label + full-width trigger inside `Field`.",
+      text: "**Give the Picker the Same Structure as Other Fields.** Place a labeled date trigger inside `Field` and let it fill the available width. The field supplies the question and supporting context, while the popover offers the calendar interaction for choosing its value.\n\nKeep validation associated with the trigger, and distinguish an empty value from a selected date that the application no longer accepts.",
       code: `// Field + FieldLabel + Popover + Button + Calendar — see date-picker-doc.tsx`,
       renderPreview: () => <BasicFieldPreview />,
     },
     {
       id: "range-picker",
-      title: "Range picker",
-      text: '`Calendar` with `mode="range"` and `numberOfMonths={2}`.',
+      title: "Range Picker",
+      text: '**Show a Clear Start and End Value.** Use `mode="range"` with `numberOfMonths={2}` to show a period across adjacent months. The selected value represents a start and end, so the trigger should communicate both boundaries rather than a single date.\n\nExplain inclusive or exclusive end-date rules where relevant, and verify the layout at narrow widths before adopting the wider panel.',
       code: `import { Calendar } from "@/components/kamod-ui/calendar";
 import type { DateRange } from "@/components/kamod-ui/calendar";
 // Popover + range Calendar — see date-picker-doc.tsx`,
@@ -483,29 +483,29 @@ import type { DateRange } from "@/components/kamod-ui/calendar";
     },
     {
       id: "date-of-birth",
-      title: "Date of birth",
-      text: "Dropdown month/year caption and popover closes after a day is chosen (`open` state).",
+      title: "Date of Birth",
+      text: "**Make Distant Years Easy to Reach.** Use month and year dropdowns when users commonly choose dates far from today, such as a birth date. Control `open` so selecting a day can close the popover after the value has been accepted.\n\nChoose appropriate year bounds, avoid silently substituting today's date for an empty answer, and confirm that closing after selection does not prevent users from correcting a mistaken choice.",
       code: `// captionLayout="dropdown" + controlled Popover — see date-picker-doc.tsx`,
       renderPreview: () => <DateOfBirthPreview />,
     },
     {
       id: "input-picker",
-      title: "With input",
-      text: "Typed date string plus `InputGroup` calendar button; Arrow Down opens the popover.",
+      title: "With Input",
+      text: "**Support Typing and Calendar Selection Together.** Combine a typed date field with an `InputGroup` calendar button when people should be able to type or browse. The example also opens the calendar with Arrow Down, keeping both entry paths connected to the same value.\n\nHandle incomplete or invalid input without silently replacing it, and preserve the keyboard shortcut for opening the calendar alongside ordinary input editing.",
       code: `// InputGroup + controlled Calendar month — see date-picker-doc.tsx`,
       renderPreview: () => <InputPickerPreview />,
     },
     {
       id: "time-picker",
-      title: "Date and time",
-      text: 'Date field next to native `Input type="time"` (shadcn-style layout).',
+      title: "Date and Time",
+      text: '**Keep Date, Time and Zone Decisions Explicit.** Place a date field next to a native `Input type="time"` when the task requires both parts. The browser supplies time entry, while your application determines the combined value and any timezone interpretation.\n\nDefine how incomplete values and time-zone conversion are handled, and test daylight-saving boundaries when the result represents an appointment rather than a date-only record.',
       code: `// FieldGroup + Calendar dropdown caption + Input time — see date-picker-doc.tsx`,
       renderPreview: () => <TimePickerPreview />,
     },
     {
       id: "natural-language",
-      title: "Natural language",
-      text: "Uses `chrono-node` in the demo app to parse phrases like “In 2 days”.",
+      title: "Natural Language",
+      text: "**Show What the Phrase Resolved to.** The demo uses `chrono-node` to interpret phrases such as “In 2 days” before displaying the resulting date. Treat that parser as an additional integration and let users review the resolved date before committing it.\n\nConfirm the interpreted result before submission, handle unrecognized phrases, and remember that `chrono-node` is an additional demo dependency rather than built-in calendar behavior.",
       code: `import { parseDate } from "chrono-node";
 // InputGroup + parseDate — see date-picker-doc.tsx`,
       renderPreview: () => <NaturalLanguagePreview />,
@@ -513,7 +513,7 @@ import type { DateRange } from "@/components/kamod-ui/calendar";
     {
       id: "rtl",
       title: "RTL",
-      text: "`dir` on trigger, content, and calendar; localized placeholder and `formatDatePickerDisplay` with locale.",
+      text: "**Check the Whole Pattern in Its Reading Direction.** Keep `dir` consistent across the date trigger, popup and calendar, and format the displayed value with the appropriate locale. The translated placeholder and selected date should follow the same conventions as the calendar itself.\n\nKeep values and keyboard behavior meaningful in the translated interface, and follow [Direction](/docs/direction/installation) when the page and its portaled controls need a shared direction.",
       code: `// EN / AR / HE toggles — see date-picker-doc.tsx DatePickerRtlPreview`,
       renderPreview: () => <DatePickerRtlPreview />,
     },

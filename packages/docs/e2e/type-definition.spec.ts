@@ -33,9 +33,8 @@ for (const width of [320, 768, 1440]) {
       await expect(trigger).toHaveCSS("background-color", muted);
       await expect(
         page
-          .locator("#application-shell-type-ApplicationShellBrand")
-          .locator("..")
-          .locator("..")
+          .locator('[data-slot="type-definition"]')
+          .filter({ has: page.locator("#application-shell-type-ApplicationShellBrand") })
           .locator('[data-slot="type-definition-name"]'),
       ).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
       await trigger.hover();
@@ -63,7 +62,7 @@ test("the new component page exposes examples, source-backed props and accessibl
 }) => {
   await page.goto("./docs/type-definition/installation");
   await expect(page.getByRole("heading", { level: 1 })).toContainText("Type Definition");
-  await expect(page.locator("#component-data-types")).toContainText("Data type reference");
+  await expect(page.locator("#component-data-types")).toContainText("Data Type Reference");
   await expect(page.locator("#accessibility")).toContainText("aria-controls");
   await expect(
     page.locator('a[href*="/docs/type-definition/installation"]').first(),
@@ -81,11 +80,11 @@ test("standalone examples support controlled reveal and independent compact card
 }) => {
   await page.goto("./component-preview-frame.htm?component=type-definition&example=2");
   await expect(page.locator('[data-preview-ready="true"]')).toBeAttached();
-  const toggle = page.getByRole("button", { name: "View definition: NavigationItem" });
+  const toggle = page.getByRole("button", { name: "View Definition: NavigationItem" });
   await expect(toggle).toHaveAttribute("aria-expanded", "false");
   await page.getByRole("button", { name: "Inspect navigation contract" }).click();
   await expect(
-    page.getByRole("button", { name: "Hide definition: NavigationItem" }),
+    page.getByRole("button", { name: "Hide Definition: NavigationItem" }),
   ).toHaveAttribute("aria-expanded", "true");
   await page.goto("./component-preview-frame.htm?component=type-definition&example=3");
   const first = page.getByRole("button", { name: /definition: DisplayMode/ });

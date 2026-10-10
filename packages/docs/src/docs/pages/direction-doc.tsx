@@ -167,8 +167,8 @@ export const Example = () => (
   exampleSections: [
     {
       id: "card-rtl",
-      title: "Card (RTL preview)",
-      text: "Login card with EN / AR / HE toggle — mirrors the shadcn Direction doc preview (Card + ms-auto link).",
+      title: "Card (RTL Preview)",
+      text: "**Inspect the Whole Composition, Not Only Text Alignment.** Compare a login card in English, Arabic and Hebrew to see direction affect a complete composition. Utilities such as `ms-auto` keep supporting actions at the logical end without separate physical-left and physical-right layouts.\n\nTry the language controls, then inspect the field labels, supporting link and action order at a narrow width. Also check mixed-direction values such as email addresses, which may need different text-direction handling from their labels.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/kamod-ui/card"
 import { DirectionProvider } from "@/components/kamod-ui/direction"
@@ -181,7 +181,7 @@ import { Label } from "@/components/kamod-ui/label";
     {
       id: "direction-provider",
       title: "DirectionProvider",
-      text: "shadcn-style API: `direction` prop sets context and wraps children in a `div` with `dir`.",
+      text: "**Keep Direction Available to Nested Components.** Set the `direction` prop on `DirectionProvider` to share the reading direction with descendants. The provider also renders a `div` with `dir`, connecting component context to the browser's ordinary layout direction.\n\nPlace it around the relevant application region and verify portaled overlays too; a correctly mirrored trigger is not enough if its popup still uses another direction.",
       code: `import { DirectionProvider } from "@/components/kamod-ui/direction";
 
 export const Example = () => (
@@ -199,8 +199,8 @@ export const Example = () => (
     },
     {
       id: "direction-legacy",
-      title: "Direction (dir)",
-      text: "Legacy Kamod API — same behavior using the `dir` prop.",
+      title: "Direction (Dir)",
+      text: "**Use the Legacy Spelling Consistently Where It Already Exists.** The legacy `dir` prop supplies the same directional value through `DirectionProvider`. Use this example when maintaining an existing composition, and keep one consistent convention across new code rather than passing competing direction values.\n\nFor new compositions, compare [DirectionProvider](#direction-provider) and avoid nesting contradictory direction settings that make child behavior difficult to predict.",
       code: `import { Direction } from "@/components/kamod-ui/direction";
 
 export const Example = () => (
@@ -217,7 +217,7 @@ export const Example = () => (
     {
       id: "hook-usage",
       title: "useDirection",
-      text: "Read the current direction inside any descendant.",
+      text: "**Read Direction When Behavior Must Adapt.** Read the current direction from the provider inside a descendant when its behavior depends on reading order. This is useful for directional symbols or positioning decisions that cannot be expressed through logical CSS alone.\n\nPrefer logical CSS for ordinary spacing, and avoid copying the direction into unrelated state that can become stale when the language changes.",
       code: `import { useDirection } from "lucide-preact"
 import { DirectionProvider } from "@/components/kamod-ui/direction";
 
@@ -239,8 +239,8 @@ export const Example = () => (
     },
     {
       id: "html-note",
-      title: "Document + provider",
-      text: "For production RTL, set `dir` on the root `<html>` element and still use DirectionProvider so hooks and portaled UI see the same value.",
+      title: "Document + Provider",
+      text: "**Align document flow with component context.** Set `dir` on the document's `html` element for the overall language direction, then keep `DirectionProvider` in agreement. Components that read context and UI rendered through portals should receive the same directional intent.\n\nUpdate both from the same locale decision and test overlays, navigation and mixed-direction content rather than validating only a single text block.",
       code: `<!-- index.html -->
 <html dir="rtl">
   <body>

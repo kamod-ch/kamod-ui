@@ -86,7 +86,7 @@ export function MotionAlertDialogDestructivePreview() {
               <AlertDialogMedia class="bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive">
                 <Trash2 />
               </AlertDialogMedia>
-              <AlertDialogTitle>Delete this project?</AlertDialogTitle>
+              <AlertDialogTitle>Delete This Project?</AlertDialogTitle>
               <AlertDialogDescription>
                 This permanently removes the project and all deployments. This action cannot be
                 undone.

@@ -8,12 +8,12 @@ export const labelDocPage = createGenericDocPage({
     "Accessible captions for form controls — Radix/shadcn-aligned typography and disabled-state pairing.",
   installationText: "Import Label from `@/components/kamod-ui/label`.",
   usageText:
-    "Associate controls with htmlFor/id. Put the control **before** the label when you rely on Tailwind `peer-disabled` styling on the label. For full forms with legends and errors, prefer a Field pattern when your app provides it.",
+    "Associate controls with htmlFor/id. Put the control **Before** the label when you rely on Tailwind `peer-disabled` styling on the label. For full forms with legends and errors, prefer a Field pattern when your app provides it.",
   exampleSections: [
     {
       id: "label-demo",
       title: "Demo",
-      text: "Checkbox before label so peer-disabled styles apply when the input is disabled.",
+      text: "**Keep Visual State Tied to the Real Input.** Place the checkbox before its associated `Label` so peer-based disabled styling can reflect the control's state. The label then serves both as visible explanation and as the named target associated with that checkbox.\n\nTest clicking the text and reading the field name, not only whether the disabled color looks right.",
       code: `import { Checkbox } from "@/components/kamod-ui/checkbox"
 import { Label } from "@/components/kamod-ui/label";
 
@@ -33,7 +33,7 @@ export const Example = () => (
     {
       id: "label-usage",
       title: "Usage",
-      text: "Minimal htmlFor association (shadcn usage block).",
+      text: "**Connect a Readable Name to One Control.** Connect `Label` through `htmlFor` to the control's matching `id`. This small association makes the visible field name meaningful to the browser and assistive technology, rather than merely placing text near an input.\n\nRepeated examples need distinct identifiers so activating one label cannot accidentally focus or toggle another field.",
       code: `import { Label } from "@/components/kamod-ui/label";
 
 export const Example = () => (
@@ -53,8 +53,8 @@ export const Example = () => (
     },
     {
       id: "label-with-checkbox",
-      title: "Label with checkbox",
-      text: "Pair checkbox and label; use disabled on the checkbox to dim the label via peer.",
+      title: "Label with Checkbox",
+      text: "**Make the Words Activate the Choice.** Pair `Label` with a checkbox using the same identifier, and let the control's `disabled` state drive its peer styling. The label remains readable while communicating that the corresponding choice cannot currently be changed.\n\nKeep the disabled state on the actual control, preserve any explanatory text nearby, and avoid placing unrelated links inside a label when their action could conflict with toggling.",
       code: `import { Checkbox } from "@/components/kamod-ui/checkbox"
 import { Label } from "@/components/kamod-ui/label";
 
@@ -85,8 +85,8 @@ export const Example = () => (
     },
     {
       id: "label-with-input",
-      title: "Label with input",
-      text: "Stack label above the field (shadcn input-with-label).",
+      title: "Label with Input",
+      text: "**Keep the Name Visible While the Value Changes.** Stack `Label` above `Input` when the field needs a persistent name independent of its placeholder. Keep `htmlFor` and the input's `id` aligned so the visual arrangement also has a programmatic association.\n\nUse a stable identifier, add hints separately and avoid putting formatting instructions into an excessively long field name.",
       code: `import { Input } from "@/components/kamod-ui/input"
 import { Label } from "@/components/kamod-ui/label";
 
@@ -105,8 +105,8 @@ export const Example = () => (
     },
     {
       id: "label-with-textarea",
-      title: "Label with textarea",
-      text: "Label + multiline control.",
+      title: "Label with Textarea",
+      text: "**Explain What Belongs in the Longer Response.** Associate `Label` with a textarea through its `id`, giving a longer answer a stable field name. The label should explain the requested content while any format or length guidance remains nearby as supporting text.\n\nKeep both available during editing and ensure the multiline control's identifier remains unique when the pattern appears several times.",
       code: `import { Label } from "@/components/kamod-ui/label"
 import { Textarea } from "@/components/kamod-ui/textarea";
 
@@ -125,8 +125,8 @@ export const Example = () => (
     },
     {
       id: "label-field-hint",
-      title: "Label in a form stack",
-      text: "Without a dedicated Field primitive, stack Label, Input, and helper text with muted typography.",
+      title: "Label in a Form Stack",
+      text: "**Associate Help as Well as the Name.** Compose `Label`, `Input` and a muted help paragraph when building a field without the higher-level `Field` wrapper. Give the help text an identifier and associate it with the input where that explanation is needed.\n\nUse [Field](/docs/field/installation) when repeated descriptions and validation messages would otherwise require the same surrounding structure throughout a form.",
       code: `import { Input } from "@/components/kamod-ui/input"
 import { Label } from "@/components/kamod-ui/label";
 
@@ -148,7 +148,7 @@ export const Example = () => (
     {
       id: "label-sizes",
       title: "Sizes",
-      text: "Optional size variants for typography scale.",
+      text: "**Choose a Readable Hierarchy for the Form.** Use the label's size options to match its typography to the surrounding controls. Changing the visual scale should preserve the wording and identifier association that make the label useful for understanding and focusing the field.\n\nKeep size choices consistent across related fields and avoid reducing contrast at the same time that you reduce the text size.",
       code: `import { Label } from "@/components/kamod-ui/label";
 
 export const Example = () => (
@@ -169,7 +169,7 @@ export const Example = () => (
     {
       id: "label-rtl",
       title: "RTL",
-      text: "Set dir on the row; keep checkbox before label for peer styling.",
+      text: "**Check the Whole Pattern in Its Reading Direction.** Set the row's `dir` for translated label layouts while preserving the control-before-label relationship needed by peer styling. Logical spacing can mirror the presentation without breaking the checkbox's named association.\n\nKeep values and keyboard behavior meaningful in the translated interface, and follow [Direction](/docs/direction/installation) when the page and its portaled controls need a shared direction.",
       code: `import { Checkbox } from "@/components/kamod-ui/checkbox"
 import { Label } from "@/components/kamod-ui/label";
 

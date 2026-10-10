@@ -13,7 +13,7 @@ export function MotionComponentCatalog() {
           >
             <span class="docs-motion-catalog-label">{entry.navLabel}</span>
             <span class="docs-motion-catalog-summary">{entry.summary}</span>
-            <PathDisplay class="docs-motion-catalog-path" path={entry.packagePath} />
+            <PathDisplay class="docs-motion-catalog-path" path={entry.packagePath} link={false} />
           </a>
         </li>
       ))}

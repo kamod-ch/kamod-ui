@@ -53,7 +53,7 @@ export function MotionSheetSidesPreview() {
             class={side === "left" || side === "right" ? "max-w-sm" : undefined}
           >
             <SheetHeader>
-              <SheetTitle class="capitalize">{side} sheet</SheetTitle>
+              <SheetTitle class="capitalize">{side} Sheet</SheetTitle>
               <SheetDescription>
                 Slides from the {side} edge with safe-area padding on top and bottom sheets.
               </SheetDescription>

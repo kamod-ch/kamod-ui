@@ -82,7 +82,7 @@ export const BugReportForm = ({ idPrefix }: ExampleProps) => {
   return (
     <Card class={cardClass}>
       <CardHeader>
-        <CardTitle>Bug report</CardTitle>
+        <CardTitle>Bug Report</CardTitle>
         <CardDescription>Share a concise title and a reproducible description.</CardDescription>
       </CardHeader>
       <CardContent>
@@ -198,7 +198,7 @@ export const ProfileSettingsForm = ({ idPrefix }: ExampleProps) => {
   });
   const [submitted, setSubmitted] = useState<v.InferOutput<typeof ProfileSchema> | null>(null);
   return (
-    <ExampleCard title="Profile settings" description="A native input bound to a Formisch field.">
+    <ExampleCard title="Profile Settings" description="A native input bound to a Formisch field.">
       <FormischForm of={form} onSubmit={(output) => setSubmitted(output)} class="grid gap-5">
         <FormischField of={form} path={["username"]}>
           {(field) => (
@@ -311,7 +311,7 @@ export const LanguagePreferencesForm = ({ idPrefix }: ExampleProps) => {
   const [submitted, setSubmitted] = useState<v.InferOutput<typeof LanguageSchema> | null>(null);
   return (
     <ExampleCard
-      title="Language preferences"
+      title="Language Preferences"
       description="Component controls call field.onInput with their selected value."
     >
       <FormischForm of={form} onSubmit={(output) => setSubmitted(output)} class="grid gap-5">
@@ -449,7 +449,7 @@ export const SubscriptionPlanForm = ({ idPrefix }: ExampleProps) => {
   const [submitted, setSubmitted] = useState<v.InferOutput<typeof PlanSchema> | null>(null);
   return (
     <ExampleCard
-      title="Subscription plan"
+      title="Subscription Plan"
       description="RadioGroup keeps the selected value in Formisch state."
     >
       <FormischForm of={form} onSubmit={(output) => setSubmitted(output)} class="grid gap-5">
@@ -494,7 +494,7 @@ export const SecuritySettingsForm = ({ idPrefix }: ExampleProps) => {
   const form = useForm({ schema: SecuritySchema, initialInput: { mfa: false }, validate: "input" });
   const [submitted, setSubmitted] = useState<v.InferOutput<typeof SecuritySchema> | null>(null);
   return (
-    <ExampleCard title="Security settings" description="Switch controls pass booleans to Formisch.">
+    <ExampleCard title="Security Settings" description="Switch controls pass booleans to Formisch.">
       <FormischForm of={form} onSubmit={(output) => setSubmitted(output)} class="grid gap-5">
         <FormischField of={form} path={["mfa"]}>
           {(field) => (
@@ -544,7 +544,7 @@ export const SubscriptionPreferencesForm = ({ idPrefix }: ExampleProps) => {
   const [submitted, setSubmitted] = useState<v.InferOutput<typeof ComplexSchema> | null>(null);
   return (
     <ExampleCard
-      title="Complex subscription form"
+      title="Complex Subscription Form"
       description="A larger form combines radio groups, select, checkbox arrays, and switches."
     >
       <FormischForm of={form} onSubmit={(output) => setSubmitted(output)} class="grid gap-5">
@@ -655,7 +655,7 @@ export const ContactEmailsForm = ({ idPrefix }: ExampleProps) => {
   const [submitted, setSubmitted] = useState<v.InferOutput<typeof EmailsSchema> | null>(null);
   return (
     <ExampleCard
-      title="Contact emails"
+      title="Contact Emails"
       description="FieldArray supplies stable item keys while insert and remove update the array."
     >
       <FormischForm of={form} onSubmit={(output) => setSubmitted(output)} class="grid gap-5">

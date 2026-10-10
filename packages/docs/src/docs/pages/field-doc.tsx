@@ -32,7 +32,7 @@ const FieldSliderPreview = () => {
   const [v, setV] = useState(50);
   return (
     <Field class="w-full max-w-xs">
-      <FieldTitle>Price cap</FieldTitle>
+      <FieldTitle>Price Cap</FieldTitle>
       <FieldDescription>
         Max budget: <span class="font-medium tabular-nums">{v}</span> (demo slider).
       </FieldDescription>
@@ -80,7 +80,7 @@ export const Example = () => (
     {
       id: "field-anatomy",
       title: "Anatomy",
-      text: "FieldSet, FieldGroup, label, control, description, error (shadcn Usage).",
+      text: "**Build the Relationships before the Styling.** Compose `FieldSet`, `FieldGroup`, the label, control, description and error in their intended reading order. The example shows which wrapper organizes a question and which element owns the actual editable value.\n\nPreserve stable identifiers and accessible associations when rearranging these parts; the [Accessibility Notes](#accessibility) describe what to verify after composing a complete form.",
       code: `import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel, FieldLegend, FieldSet } from "@/components/kamod-ui/field";
 import { Input } from "@/components/kamod-ui/input";
 
@@ -131,8 +131,8 @@ export const Example = () => (
     },
     {
       id: "field-legacy",
-      title: "Legacy props",
-      text: "Field with label, description, and error props (backward compatible).",
+      title: "Legacy Props",
+      text: "**Keep Simple Field Composition Concise.** Use `Field` with `label`, `description` and `error` props when maintaining the compact wrapper API. It packages common field content while the child control remains responsible for its own value and interaction behavior.\n\nUse the compound pieces for richer layouts, and check the resulting associations rather than assuming that visible proximity alone connects the text to a custom control.",
       code: `import { Field } from "@/components/kamod-ui/field"
 import { Input } from "@/components/kamod-ui/input";
 
@@ -150,7 +150,7 @@ export const Example = () => (
     {
       id: "field-input",
       title: "Input",
-      text: "Username and password fields (shadcn Field Input).",
+      text: "**Choose Input Semantics for the Actual Value.** Group username and password inputs with their visible labels and supporting instructions. Each `Field` describes one value, making it possible to attach validation feedback locally rather than explaining every problem at the form's top.\n\nKeep hints outside placeholder text and let the field wrapper organize the message; the underlying input still owns its value, type and browser behavior.",
       code: `import { Field, FieldDescription, FieldGroup, FieldLabel, FieldSet } from "@/components/kamod-ui/field";
 import { Input } from "@/components/kamod-ui/input";
 
@@ -190,7 +190,7 @@ export const Example = () => (
     {
       id: "field-textarea",
       title: "Textarea",
-      text: "shadcn Field Textarea.",
+      text: "**Leave Room for a Longer Answer.** Place a multiline control in `Field` when the answer needs more room than a single line. Pair its label with concise instructions about the expected content, keeping those instructions separate from any validation error.\n\nKeep the label visible while typing, associate errors with the textarea, and avoid making the initial height so small that ordinary responses become difficult to review.",
       code: `import { Field, FieldDescription, FieldGroup, FieldLabel, FieldSet } from "@/components/kamod-ui/field";
 import { Textarea } from "@/components/kamod-ui/textarea";
 
@@ -220,7 +220,7 @@ export const Example = () => (
     {
       id: "field-select",
       title: "Select",
-      text: "shadcn Field Select.",
+      text: "**Label the Selection Rather than Its Placeholder.** Wrap `Select` in a field structure that names the question and describes the available choice. Associate the label with the select trigger so the surrounding layout and the interactive control communicate the same purpose.\n\nConnect help and validation to the control, use stable option values, and inspect [Select](/docs/select/installation) for grouped and unavailable-choice patterns.",
       code: `import { Field, FieldDescription, FieldLabel } from "@/components/kamod-ui/field";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/kamod-ui/select";
 
@@ -262,7 +262,7 @@ export const Example = () => (
     {
       id: "field-slider",
       title: "Slider",
-      text: "FieldTitle + FieldDescription + Slider (shadcn Field Slider, single value).",
+      text: "**Explain the Value and Its Unit.** Use `FieldTitle` and `FieldDescription` around a `Slider` when the value is chosen along a range. Explain the scale and current value in text so the thumb's position is not the only way to interpret the setting.\n\nName the actual slider control as well as the surrounding field, choose a meaningful step, and avoid requiring precise values that are difficult to select by dragging alone.",
       code: `import { Field, FieldDescription, FieldTitle } from "@/components/kamod-ui/field"
 import { Slider } from "@/components/kamod-ui/slider";
 import { useState } from "preact/hooks";
@@ -282,7 +282,7 @@ export const Example = () => {
     {
       id: "field-fieldset",
       title: "Fieldset",
-      text: "Legend, description, grid of inputs (shadcn Fieldset).",
+      text: "**Group Controls that Answer One Larger Question.** Use a fieldset legend to introduce several inputs that answer one larger question. A description and grid layout can then organize the individual values without repeating the group's explanation beside every control.\n\nKeep the shared description separate from field-specific errors and preserve a sensible reading order when changing the grid from multiple columns to a narrow single-column layout.",
       code: `import { Field, FieldDescription, FieldGroup, FieldLabel, FieldLegend, FieldSet } from "@/components/kamod-ui/field";
 import { Input } from "@/components/kamod-ui/input";
 
@@ -334,7 +334,7 @@ export const Example = () => (
     {
       id: "field-checkbox",
       title: "Checkbox",
-      text: "Horizontal Field rows + FieldContent (shadcn Field Checkbox).",
+      text: "**Keep the Choice and Its Explanation Together.** Arrange checkbox fields horizontally with `FieldContent` holding the label and explanation beside each control. This gives longer preference descriptions room to wrap while preserving a clear association with the corresponding checked state.\n\nPreserve label activation and description associations, and ensure wrapped copy aligns naturally without shrinking the checkbox or separating it from the words that explain its state.",
       code: `import { Checkbox } from "@/components/kamod-ui/checkbox"
 import { Field, FieldContent, FieldDescription, FieldGroup, FieldLabel, FieldLegend, FieldSeparator, FieldSet } from "@/components/kamod-ui/field";
 
@@ -404,7 +404,7 @@ export const Example = () => (
     {
       id: "field-radio",
       title: "Radio",
-      text: "RadioGroup inside FieldSet (shadcn Field Radio).",
+      text: "**Name the Question and Each Exclusive Answer.** Place `RadioGroup` inside `FieldSet` when several options answer one mutually exclusive question. The legend names the choice, while each option's label explains one value that may be selected.\n\nKeep the options in one logical group, use stable submitted values, and avoid presenting several independently labeled controls when only one answer is allowed.",
       code: `import { Field, FieldDescription, FieldLabel, FieldLegend, FieldSet } from "@/components/kamod-ui/field";
 import { RadioGroup, RadioGroupItem } from "@/components/kamod-ui/radio-group";
 
@@ -452,7 +452,7 @@ export const Example = () => (
     {
       id: "field-switch",
       title: "Switch",
-      text: "Label + Switch horizontal (shadcn Field Switch).",
+      text: "**Describe the Setting in Its Enabled State.** Pair a `Switch` with a label in a horizontal field for a boolean preference. The label explains what enabling the setting does, while the switch displays the current value supplied by the application.\n\nExplain whether changes apply immediately or require saving, and keep the label tied to the actual switch so both the wording and control activate the same setting.",
       code: `import { Field, FieldLabel } from "@/components/kamod-ui/field";
 import { Switch } from "@/components/kamod-ui/switch";
 
@@ -471,8 +471,8 @@ export const Example = () => (
     },
     {
       id: "field-choice-card",
-      title: "Choice card",
-      text: "FieldLabel wraps Field + Radio (shadcn Choice Card).",
+      title: "Choice Card",
+      text: "**Make a Larger Option Easier to Scan and Select.** Wrap the radio field in `FieldLabel` to make the choice-card surface part of the labeled option. The larger target accommodates supporting details while the radio control still represents one value in the shared group.\n\nKeep the entire selection relationship clear, avoid nested unrelated actions, and make selected state visible through more than a subtle background change.",
       code: `import { Field, FieldContent, FieldDescription, FieldGroup, FieldLabel, FieldLegend, FieldSet, FieldTitle } from "@/components/kamod-ui/field";
 import { RadioGroup, RadioGroupItem } from "@/components/kamod-ui/radio-group";
 
@@ -535,8 +535,8 @@ export const Example = () => (
     },
     {
       id: "field-group-sep",
-      title: "Field group + separator",
-      text: "Stacked FieldSets with FieldSeparator (shadcn Field Group).",
+      title: "Field Group + Separator",
+      text: "**Break Long Forms into Meaningful Sections.** Stack related fieldsets and insert `FieldSeparator` between distinct topics in a longer form. This adds a quiet structural break without changing the association between each group's legend and its controls.\n\nPreserve the same logical order on narrow screens, and keep validation messages near their fields instead of collecting all feedback between sections.",
       code: `import { Checkbox } from "@/components/kamod-ui/checkbox"
 import { Field, FieldDescription, FieldGroup, FieldLabel, FieldSeparator, FieldSet } from "@/components/kamod-ui/field";
 
@@ -613,8 +613,8 @@ export const Example = () => (
     },
     {
       id: "field-error-array",
-      title: "FieldError (errors array)",
-      text: "FieldError can derive text from an errors array (forms integration).",
+      title: "FieldError (Errors Array)",
+      text: "**Show Useful Validation Feedback without Duplication.** Pass an `errors` array to `FieldError` when validation produces structured messages for a field. The error component presents that feedback; the form integration remains responsible for deciding which messages belong to the current value.\n\nConnect the rendered error to its control and decide when it appears, especially after the first unsuccessful submit.",
       code: `import { Field, FieldError, FieldLabel } from "@/components/kamod-ui/field";
 import { Input } from "@/components/kamod-ui/input";
 
@@ -635,8 +635,8 @@ export const Example = () => (
     },
     {
       id: "field-responsive",
-      title: "Responsive orientation",
-      text: "Field orientation responsive stacks until @md inside @container FieldGroup.",
+      title: "Responsive Orientation",
+      text: "**Adapt to the Form Container, Not Only the Screen.** Use the responsive field orientation inside a container-aware `FieldGroup`. The layout stacks at narrow widths and changes at `@md`, adapting to its actual available space rather than assuming the full page width.\n\nTest long labels and errors in each arrangement, and preserve the DOM reading order so the visual switch does not change the meaning of the form.",
       code: `import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/kamod-ui/field";
 import { Input } from "@/components/kamod-ui/input";
 
@@ -662,7 +662,7 @@ export const Example = () => (
     {
       id: "field-rtl",
       title: "RTL",
-      text: 'dir="rtl" on FieldSet for mirrored flow.',
+      text: '**Check the Whole Pattern in Its Reading Direction.** Set `dir="rtl"` on the fieldset for a translated group of controls. Review labels, descriptions, error text and logical spacing together so the form remains one coherent reading sequence.\n\nKeep values and keyboard behavior meaningful in the translated interface, and follow [Direction](/docs/direction/installation) when the page and its portaled controls need a shared direction.',
       code: `import { Field, FieldDescription, FieldGroup, FieldLabel, FieldLegend, FieldSet } from "@/components/kamod-ui/field";
 import { Input } from "@/components/kamod-ui/input";
 
@@ -693,8 +693,8 @@ export const Example = () => (
     },
     {
       id: "field-legacy-error",
-      title: "Legacy error",
-      text: "Validation with legacy error prop.",
+      title: "Legacy Error",
+      text: "**Keep the Correction Close to the Input.** Supply the legacy `error` prop when using the compact `Field` wrapper's validation presentation. Keep the message tied to the actual failed rule and update it when the underlying value is corrected.\n\nAssociate the feedback with the control through `aria-describedby` where appropriate, and expose its invalid state with `aria-invalid`. Try submitting an empty value and then correcting it to check the entire feedback cycle.",
       code: `import { Field } from "@/components/kamod-ui/field"
 import { Input } from "@/components/kamod-ui/input";
 

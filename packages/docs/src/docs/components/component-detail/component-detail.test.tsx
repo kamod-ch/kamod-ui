@@ -5,6 +5,7 @@ import { describe, expect, it } from "vitest";
 import { DocsComponentContent } from "../../DocsComponentContent";
 import { docsPages } from "../../registry";
 import { accessibilityContents, componentAccessibility } from "./accessibility";
+import { ComponentReferences } from "./ComponentReferences";
 import { componentApiTypes, componentTypeId } from "./component-api";
 import { getComponentExamples } from "./component-examples";
 import { componentDesignReference, componentSourceUrl } from "./component-guidance";
@@ -24,8 +25,8 @@ describe("component detail documentation", () => {
         " ",
       );
       expect(text).toMatch(/Usage requirement\s+Required/);
-      expect(text).not.toMatch(/Documented default\s+required/i);
-      if (slug === "type-definition") expect(text).toMatch(/Documented default\s+false/);
+      expect(text).not.toMatch(/Default\s+required/i);
+      if (slug === "type-definition") expect(text).toMatch(/Default\s+false/);
     },
   );
 
@@ -56,6 +57,17 @@ describe("component detail documentation", () => {
       expect(html.includes('class="blocks-doc-toc"')).toBe(true);
       expect(html).toContain('id="integration-guide"');
       expect(html).toContain('id="component-references"');
+      const references = render(<ComponentReferences doc={doc} />);
+      // Shared reference copy must never send readers to a missing page section.
+      for (const [, anchor] of references.matchAll(/href="#([^"]+)"/g)) {
+        expect(html, `${doc.slug}: #${anchor}`).toContain(`id="${anchor}"`);
+      }
+      for (const [link] of references.matchAll(
+        /<a class="docs-inline-code-link"[^>]*>[\s\S]*?<\/a>/g,
+      )) {
+        expect((link.match(/<svg\b/g) ?? []).length, doc.slug).toBe(2);
+        expect((link.match(/<a\b/g) ?? []).length, doc.slug).toBe(1);
+      }
       expect(html).toContain('id="integration-compose"');
       expect(html).toContain('id="component-props"');
       expect(html).toContain('id="component-data-types"');
@@ -80,6 +92,34 @@ describe("component detail documentation", () => {
         expect((html.match(/id="component-examples"/g) ?? []).length).toBe(1);
         for (const example of examples) {
           expect(html).toContain(`<h3 id="${example.id}-title"`);
+          // Authored example links must remain reachable after sections or routes change.
+          for (const [, href] of example.text.matchAll(/\[[^\]]+\]\(([^)]+)\)/g)) {
+            if (href.startsWith("#")) {
+              expect(html, `${doc.slug}/${example.id}: ${href}`).toContain(`id="${href.slice(1)}"`);
+            } else if (href.startsWith("/docs/")) {
+              const slug = href.split("/")[2].split("#")[0];
+              const target = docsPages.find((page) => page.slug === slug);
+              // Special guides live in Markdown instead of the component registry.
+              if (!target) {
+                expect(
+                  existsSync(resolve(import.meta.dirname, "../../../../docs", `${slug}.md`)),
+                  href,
+                ).toBe(true);
+                continue;
+              }
+              expect(target, href).toBeDefined();
+              const anchor = href.split("#")[1];
+              if (anchor && anchor !== "component-examples") {
+                expect(
+                  target.sections.some(
+                    ({ id, children }) =>
+                      id === anchor || children?.some((child) => child.id === anchor),
+                  ),
+                  href,
+                ).toBe(true);
+              }
+            }
+          }
         }
         expect(html.indexOf('id="component-examples"')).toBeLessThan(
           html.indexOf(`id="${examples[0].id}"`),
@@ -87,15 +127,15 @@ describe("component detail documentation", () => {
       }
       const contents = html.split('class="blocks-doc-toc"')[1];
       expect(contents).toMatch(
-        /href="#api-reference"[^>]*>Props and data<\/a><ul><li><a href="#component-props"/,
+        /href="#api-reference"[^>]*>Props and Data<\/a><ul[^>]*><li><a href="#component-props"/,
       );
       expect(contents).toContain('href="#component-data-types"');
 
       expect(contents).toMatch(
-        /href="#top"[^>]*>Overview<\/a><ul><li><a href="#component-preview"/,
+        /href="#top"[^>]*>Overview<\/a><ul[^>]*><li><a href="#component-preview"/,
       );
       if (examples.length) {
-        expect(contents).toMatch(/href="#component-examples"[^>]*>[^<]+<\/a><ul>/);
+        expect(contents).toMatch(/href="#component-examples"[^>]*>[^<]+<\/a><ul[^>]*>/);
       }
 
       for (const section of doc.sections.filter(
@@ -116,7 +156,11 @@ describe("component detail documentation", () => {
     expect(html).not.toContain("component-detail-actions");
     expect(html.replace(/<[^>]+>/g, "")).toContain("pnpm add @formisch/preact valibot");
     expect(html).toContain(componentSourceUrl("formisch"));
-    const directory = html.split('aria-label="Formisch examples"')[1].split("</nav>")[0];
+    expect(html).not.toContain("component-variant-index");
+    const directory = html
+      .split('class="blocks-doc-toc"')[1]
+      .split('href="#component-examples"')[1]
+      .split("</ul>")[0];
     expect(directory).toContain('href="#array-fields"');
     expect(directory).not.toContain('href="#sources"');
     expect(directory).not.toContain('href="#approach"');

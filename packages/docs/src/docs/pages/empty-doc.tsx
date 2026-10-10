@@ -56,7 +56,7 @@ export const Example = () => (
     {
       id: "empty-demo",
       title: "Demo",
-      text: "Icon, title, description, actions, and footer link (shadcn EmptyDemo).",
+      text: "**Explain the Absence and Offer a Useful Next Step.** Compose `EmptyMedia`, a title, a description and a useful action to explain why a region has no content yet. The footer link can offer secondary guidance without competing with the main step toward creating or finding content.\n\nUse one clear primary action and keep the footer link secondary; an empty state should reduce uncertainty rather than simply fill unused space.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/kamod-ui/empty";
 import { ArrowUpRight, Folder } from "lucide-preact";
@@ -109,7 +109,7 @@ export const Example = () => (
     {
       id: "empty-usage",
       title: "Usage",
-      text: "Minimal structure.",
+      text: "**Start with the Message before Adding Decoration.** Start with the empty-state title and description before adding decoration or controls. This establishes what is missing and why, giving the surrounding screen a useful explanation even when no records are available.\n\nDistinguish a genuinely empty collection from loading or failure, and add media only when it reinforces the purpose rather than delaying the first useful instruction.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/kamod-ui/empty";
 
@@ -131,7 +131,7 @@ export const Example = () => (
             <EmptyMedia variant="icon">
               <span aria-hidden>◇</span>
             </EmptyMedia>
-            <EmptyTitle>No data</EmptyTitle>
+            <EmptyTitle>No Data</EmptyTitle>
             <EmptyDescription>No data found</EmptyDescription>
           </EmptyHeader>
           <EmptyContent>
@@ -142,21 +142,21 @@ export const Example = () => (
     },
     {
       id: "empty-legacy",
-      title: "Legacy props",
-      text: "title + description + children (dashed border) for quick screens.",
+      title: "Legacy Props",
+      text: "**Use the Shorthand for Straightforward Messages.** Use the legacy `title` and `description` props when a compact empty-state composition is sufficient. The dashed surface groups the explanation, and any children can supply the next step beneath that message.\n\nChoose the compound structure when the layout needs richer media or multiple regions, and avoid mixing both approaches without checking where content renders.",
       code: `import { Empty } from "@/components/kamod-ui/empty";
 
 export const Example = () => (
   <Empty title="No projects yet" description="Create your first project to get started." />
 );`,
       renderPreview: () => (
-        <Empty title="No projects yet" description="Create your first project to get started." />
+        <Empty title="No Projects Yet" description="Create your first project to get started." />
       ),
     },
     {
       id: "empty-legacy-action",
-      title: "Legacy + action",
-      text: "Children render below description.",
+      title: "Legacy + Action",
+      text: "**Place the Recovery Action after Its Explanation.** Add a meaningful action as children of the legacy empty-state composition. It renders after the description, so the reader first learns what happened and then encounters the control that can change the situation.\n\nMake the action specific to the state, such as creating the first item or clearing a filter, rather than using an unexplained generic “Continue”.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Empty } from "@/components/kamod-ui/empty";
 
@@ -166,7 +166,7 @@ export const Example = () => (
   </Empty>
 );`,
       renderPreview: () => (
-        <Empty title="No invoices" description="Create an invoice to start billing customers.">
+        <Empty title="No Invoices" description="Create an invoice to start billing customers.">
           <Button>Create invoice</Button>
         </Empty>
       ),
@@ -174,7 +174,7 @@ export const Example = () => (
     {
       id: "empty-outline",
       title: "Outline",
-      text: "border border-dashed on Empty (shadcn Outline).",
+      text: "**Mark the Boundary of a Missing Collection.** Add `border border-dashed` to `Empty` when the missing content needs a clearly defined region. The outline gives the placeholder a boundary while leaving the message and recovery action responsible for explaining its purpose.\n\nKeep the surface secondary and the instruction readable; the border alone should not imply that users can drag files into it unless that behavior exists.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/kamod-ui/empty";
 import { Cloud } from "lucide-preact";
@@ -217,7 +217,7 @@ export const Example = () => (
     {
       id: "empty-background",
       title: "Background",
-      text: "Muted panel height (shadcn Background).",
+      text: "**Separate the Message from the Surrounding Page.** Use a muted background and a deliberate panel height to reserve space for an empty region. This keeps the layout recognizable before data arrives without presenting an empty surface as if it were a loading skeleton.\n\nAvoid fixing an excessive height merely to fill space, and check that the message still feels connected to the controls that produced the empty result.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/kamod-ui/empty";
 import { Bell, RefreshCw } from "lucide-preact";
@@ -264,7 +264,7 @@ export const Example = () => (
     {
       id: "empty-avatar",
       title: "Avatar",
-      text: "EmptyMedia variant default for larger media (shadcn Avatar).",
+      text: "**Add a Human Cue Where It Fits the Task.** Place an `Avatar` inside the default `EmptyMedia` treatment when the message concerns a person or account. The larger media region identifies the context while the title explains the missing connection or content.\n\nKeep identity text available and avoid using an unexplained portrait as the only indication of who the empty state concerns.",
       code: `import { Avatar, AvatarFallback, AvatarImage } from "@/components/kamod-ui/avatar"
 import { Button } from "@/components/kamod-ui/button"
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/kamod-ui/empty";
@@ -306,8 +306,8 @@ export const Example = () => (
     },
     {
       id: "empty-avatar-group",
-      title: "Avatar group",
-      text: "Stacked avatars in EmptyMedia (shadcn Avatar Group).",
+      title: "Avatar Group",
+      text: "**Suggest Collaboration without Implying Real Membership.** Compose an avatar group inside `EmptyMedia` when the empty state concerns collaboration or membership. The people-related visual establishes context, while the description should still explain why the actual list or activity is absent.\n\nKeep the message and invitation action primary, and make additional counts or identities accurate when using live data.",
       code: `import { Avatar, AvatarFallback, AvatarImage } from "@/components/kamod-ui/avatar"
 import { Button } from "@/components/kamod-ui/button"
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/kamod-ui/empty";
@@ -376,8 +376,8 @@ export const Example = () => (
     },
     {
       id: "empty-input-group",
-      title: "Input group",
-      text: "Search UI inside EmptyContent (shadcn InputGroup).",
+      title: "Input Group",
+      text: "**Offer a Direct Way to Recover Results.** Put a search control inside `EmptyContent` when changing the query is a useful recovery path. [Input Group](/docs/input-group/installation) keeps the field and its action together without replacing the explanation of the empty result.\n\nKeep the field labeled, preserve the current search text, and distinguish no matches from an empty dataset that searching cannot fix.",
       code: `import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/kamod-ui/empty"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/kamod-ui/input-group"
 import { Kbd } from "@/components/kamod-ui/kbd";
@@ -436,7 +436,7 @@ export const Example = () => (
     {
       id: "empty-rtl",
       title: "RTL",
-      text: 'dir="rtl" on Empty for mirrored layout.',
+      text: '**Check the Whole Pattern in Its Reading Direction.** Set `dir="rtl"` on `Empty` for translated right-to-left content. Keep the media, explanation and next action in the same conceptual order while text alignment and logical spacing follow the language.\n\nKeep values and keyboard behavior meaningful in the translated interface, and follow [Direction](/docs/direction/installation) when the page and its portaled controls need a shared direction.',
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/kamod-ui/empty";
 import { ArrowUpRight, Folder } from "lucide-preact";

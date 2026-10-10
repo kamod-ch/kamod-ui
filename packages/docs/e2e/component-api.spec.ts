@@ -23,7 +23,11 @@ test("component prop links open the source definition, including after it was cl
   await page.reload();
   await expect(toggle).toHaveAttribute("aria-expanded", "true");
   await expect(page.locator("#integration-guide")).toContainText("TaskProgress");
-  await expect(page.locator(".component-composition")).toContainText("recovery instructions");
+  await expect(
+    page
+      .locator(".component-composition")
+      .getByRole("heading", { name: "Keep the Explanation Beside the Recovery", exact: true }),
+  ).toBeAttached();
 });
 
 test("Formisch distinguishes local required props from library integration contracts", async ({
@@ -31,7 +35,7 @@ test("Formisch distinguishes local required props from library integration contr
 }) => {
   await page.goto("./docs/formisch/installation#component-props");
   await expect(
-    page.getByRole("heading", { name: "Form props and contracts", exact: true }),
+    page.getByRole("heading", { name: "Form Props and Contracts", exact: true }),
   ).toBeVisible();
   await expect(
     page.getByRole("button", { name: "Required prop: idPrefix", exact: true }),

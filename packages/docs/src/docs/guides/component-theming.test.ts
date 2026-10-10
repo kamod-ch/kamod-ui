@@ -10,6 +10,16 @@ const source = readFileSync(
 );
 
 describe("component theming guide", () => {
+  it("offers manager alternatives for the theme installation dependencies", () => {
+    const installation = createComponentThemingSections(source).find(
+      ({ id }) => id === "installation",
+    );
+    expect(installation?.parts).toContainEqual({
+      kind: "dependencies",
+      dependencies: ["@kamod-ch/ui", "@kamod-ch/themes", "@preact/signals"],
+    });
+  });
+
   it("preserves existing section routes and gives every contents entry a unique target", () => {
     const sections = createComponentThemingSections(source);
     expect(sections.map(({ id }) => id)).toEqual([

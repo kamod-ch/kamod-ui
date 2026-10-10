@@ -13,7 +13,7 @@ export const radioGroupDocPage = createGenericDocPage({
     {
       id: "radio-default-labels",
       title: "Default",
-      text: "Classic row layout with visible focus rings and clear typography, similar to shadcn/ui.",
+      text: "**Ask One Question with Several Exclusive Answers.** Place each `RadioGroup` option beside a visible label to present one choice among alternatives. The selected value answers the shared question, while the labels make the consequence of each available option understandable.\n\nKeep a visible label for every control, choose an initial selection deliberately, and avoid using radios for independent settings that users may enable in combination.",
       code: `import { Label } from "@/components/kamod-ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/kamod-ui/radio-group";
 
@@ -53,7 +53,7 @@ export const Example = () => (
     {
       id: "radio-description",
       title: "Description",
-      text: "Stack a title and helper line beside each control for settings-style lists.",
+      text: "**Explain the Tradeoff between Choices.** Give each radio choice a short title and a secondary explanation when the options need more context. The extra line helps readers compare consequences without turning the primary label into a dense block of text.\n\nKeep the primary option name concise and associate the supporting text with the relevant control, so the added context remains available beyond the visual layout.",
       code: `import { RadioGroup, RadioGroupItem } from "@/components/kamod-ui/radio-group";
 
 export const Example = () => (
@@ -107,8 +107,8 @@ export const Example = () => (
     },
     {
       id: "radio-choice-card",
-      title: "Choice card",
-      text: "Clickable cards with the control aligned to the primary label.",
+      title: "Choice Card",
+      text: "**Give Complex Choices More Room to Breathe.** Use a card-like label surface around each radio option when the choice includes supporting details. The larger presentation helps comparison, while the radio group still allows one selected value for the shared question.\n\nUse a concise option title with the details needed to compare it against its neighbors. Test label activation across the whole surface, and keep secondary links or actions from competing with the radio choice.",
       code: `import { RadioGroup, RadioGroupItem } from "@/components/kamod-ui/radio-group";
 
 export const Example = () => (
@@ -194,8 +194,8 @@ export const Example = () => (
     },
     {
       id: "radio-fieldset-field",
-      title: "Field group",
-      text: "Use Field for a group heading, description, and stacked options.",
+      title: "Field Group",
+      text: "**Name the Collection before the Individual Answers.** Use `FieldSet` and field content to introduce the radio group's heading and description before listing its options. This gives the collection a shared purpose while each radio retains its own individual label.\n\nKeep group-level validation close to the options and preserve the underlying radio relationships when rearranging the layout or adding richer labels.",
       code: `import { Field } from "@/components/kamod-ui/field";
 import { RadioGroup, RadioGroupItem } from "@/components/kamod-ui/radio-group";
 
@@ -228,8 +228,8 @@ export const Example = () => (
     },
     {
       id: "radio-disabled-invalid",
-      title: "Disabled & invalid",
-      text: "Per-item disabled state and aria-invalid for validation feedback.",
+      title: "Disabled & Invalid",
+      text: "**Distinguish Unavailable Choices from a Missing Answer.** Disable unavailable radio options and expose invalid selection through `aria-invalid` when needed. Keep the explanation adjacent to the group so users can distinguish an unavailable choice from a correctable validation problem.\n\nAdd text describing the constraint and recovery, and avoid relying on a similar muted treatment for both situations.",
       code: `import { RadioGroup, RadioGroupItem } from "@/components/kamod-ui/radio-group";
 
 export const Example = () => (
@@ -268,7 +268,7 @@ export const Example = () => (
             <RadioGroupItem value="d3">Option 3</RadioGroupItem>
           </RadioGroup>
           <div class="rounded-xl border border-destructive/40 bg-card p-4">
-            <p class="mb-3 text-sm font-medium text-destructive">Notification preferences</p>
+            <p class="mb-3 text-sm font-medium text-destructive">Notification Preferences</p>
             <p class="mb-3 text-xs text-muted-foreground">
               Choose how you want to receive notifications.
             </p>
@@ -289,8 +289,8 @@ export const Example = () => (
     },
     {
       id: "radio-inline-sm",
-      title: "Inline & small",
-      text: "Horizontal groups and compact indicators for toolbars.",
+      title: "Inline & Small",
+      text: "**Use a Compact Row for Short, Familiar Options.** Arrange concise radio choices horizontally with compact indicators when they fit a toolbar-like setting. Preserve a clear group label and enough room for translated text before choosing this denser layout.\n\nLet the choices wrap or stack before their labels become cramped. Test activation through both the indicator and its text, and retain a visible focus treatment when the group sits among other toolbar controls.",
       code: `import { RadioGroup, RadioGroupItem } from "@/components/kamod-ui/radio-group";
 
 export const Example = () => (

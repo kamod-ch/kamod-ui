@@ -10,10 +10,10 @@ describe("buildComponentDocMarkdown", () => {
       "progress",
     );
     expect(markdown).not.toContain("Legacy short description.");
-    expect(markdown).toContain("### Built-in behavior and defaults");
+    expect(markdown).toContain("### Built-in Behavior and Defaults");
     expect(markdown).toContain('role="progressbar"');
     expect(markdown).toContain("```tsx");
-    expect(markdown).toContain("### Verify the complete interaction");
+    expect(markdown).toContain("### Verify the Complete Interaction");
     expect(markdown).toContain("3. Enable reduced motion");
   });
   it("puts the alias note before section content", () => {

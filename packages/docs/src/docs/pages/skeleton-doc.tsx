@@ -12,7 +12,7 @@ export const skeletonDocPage = createGenericDocPage({
     {
       id: "pulse-skeleton",
       title: "Pulse Variant (Default)",
-      text: "Use the default pulse variant for clean, minimal loading placeholders.",
+      text: "**Represent Content that Is Genuinely Loading.** Use the default pulse skeleton while a known content shape is loading. Match its dimensions to the expected result so the placeholder explains the reserved space without suggesting that real information is already available.\n\nMatch the approximate final dimensions, keep placeholders out of the meaningful reading order and provide a separate status message when users need to understand the pending operation.",
       code: `import { Skeleton } from "@/components/kamod-ui/skeleton";
 
 export const Example = () => (
@@ -33,7 +33,7 @@ export const Example = () => (
     {
       id: "shimmer-skeleton",
       title: "Shimmer Variant",
-      text: "Use the shimmer variant for a more premium loading feel.",
+      text: "**Use Movement Sparingly Across Large Surfaces.** Choose the shimmer skeleton when a moving highlight fits the surrounding loading treatment. Apply it consistently to the anticipated content regions, keeping the final layout and reduced-motion experience in mind.\n\nKeep the final layout's shape, respect reduced-motion needs and replace the placeholders with a clear error or empty state if the content cannot arrive.",
       code: `import { Skeleton } from "@/components/kamod-ui/skeleton";
 
 export const Example = () => (
@@ -54,7 +54,7 @@ export const Example = () => (
     {
       id: "glass-skeleton",
       title: "Glass Variant",
-      text: "Use the glass variant for soft, subtle placeholders in dark and mixed surfaces.",
+      text: "**Check the Placeholder Against Its Actual Surface.** Use the glass skeleton for a softer translucent placeholder on a suitable surface. Compare it in both themes so the reserved content remains visible without relying on a background treatment that disappears against the page.\n\nTest both themes and avoid using visual subtlety to hide an indefinite wait; provide meaningful status and recovery outside the decorative shapes.",
       code: `import { Skeleton } from "@/components/kamod-ui/skeleton";
 
 export const Example = () => (
@@ -75,7 +75,7 @@ export const Example = () => (
     {
       id: "avatar-skeleton",
       title: "Avatar Skeleton",
-      text: "Use circle + text lines to represent profile loading states.",
+      text: "**Reserve the Profile's Layout before Data Arrives.** Combine a circular placeholder with short text lines for a profile that has not loaded yet. The circle reserves the avatar's area, while the lines suggest the position of the name and supporting identity information.\n\nKeep their dimensions close to the final content and replace the entire loading state when the real profile or an explicit failure becomes available.",
       code: `import { Skeleton } from "@/components/kamod-ui/skeleton";
 
 export const Example = () => (
@@ -100,7 +100,7 @@ export const Example = () => (
     {
       id: "text-skeleton",
       title: "Text Skeleton",
-      text: "Create varying text line widths to mimic natural paragraph rhythm.",
+      text: "**Suggest Paragraph Shape without Imitating Readable Content.** Vary skeleton line widths to suggest a paragraph's shape rather than repeating identical full-width bars. Match the number and spacing of lines to the likely content, keeping the placeholder a useful approximation of the final region.\n\nMatch the expected number of lines conservatively, avoid exposing decorative bars as text to assistive technology and let the real content determine its natural height after loading.",
       code: `import { Skeleton } from "@/components/kamod-ui/skeleton";
 
 export const Example = () => (
@@ -121,7 +121,7 @@ export const Example = () => (
     {
       id: "card-skeleton",
       title: "Card Skeleton",
-      text: "Layer avatar, title, metadata, and content placeholders in card form.",
+      text: "**Mirror the Card's Actual Information Hierarchy.** Arrange avatar, heading, metadata and body placeholders in the same positions as the eventual card content. This lets the loading state preserve the card's hierarchy instead of replacing it with one undifferentiated block.\n\nAvoid adding placeholder regions the finished card will not contain, and handle partial or failed data explicitly rather than leaving isolated animated fragments behind.",
       code: `import { Skeleton } from "@/components/kamod-ui/skeleton";
 
 export function SkeletonCard() {
@@ -162,7 +162,7 @@ export function SkeletonCard() {
     {
       id: "form-skeleton",
       title: "Form Skeleton",
-      text: "Mirror label/input/button spacing to prevent layout shift while forms load.",
+      text: "**Avoid Making Loading Placeholders Look Editable.** Reserve the positions of labels, inputs and actions with form-shaped skeletons while required data loads. The placeholders should resemble the layout without inviting typing into controls that are not yet ready to accept values.\n\nExplain that the form is loading, preserve its surrounding context and only expose real controls when their initial values and required configuration are ready.",
       code: `import { Skeleton } from "@/components/kamod-ui/skeleton";
 
 export function SkeletonForm() {
@@ -197,7 +197,7 @@ export function SkeletonForm() {
     {
       id: "table-skeleton",
       title: "Table Skeleton",
-      text: "Keep row height and column rhythm consistent with the final data table.",
+      text: "**Keep Row and Column Geometry Stable.** Use consistent row heights and column widths for a loading table. Preserving that structure helps readers recognize the expected result and reduces movement when the actual headers, values and row actions appear.\n\nPreserve headers where useful, keep decorative cells out of the reading order and replace the loading body with a clear empty or error state when appropriate.",
       code: `import { Skeleton } from "@/components/kamod-ui/skeleton";
 
 export function SkeletonTable() {

@@ -4,8 +4,8 @@ import { MotionTabsIndicator } from "@kamod-ch/ui-motion/tabs";
 export function MotionTabsDemo() {
   return (
     <Tabs defaultValue="account" class="w-full max-w-md">
-      <TabsList class="relative w-full">
-        <MotionTabsIndicator />
+      <TabsList variant="line" class="relative w-full">
+        <MotionTabsIndicator class="rounded-none border-b-2 border-foreground bg-transparent shadow-none ring-0" />
         <TabsTrigger value="account">Account</TabsTrigger>
         <TabsTrigger value="password">Password</TabsTrigger>
         <TabsTrigger value="billing">Billing</TabsTrigger>

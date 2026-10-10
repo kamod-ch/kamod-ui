@@ -25,7 +25,7 @@ export const popoverDocPage = createGenericDocPage({
     {
       id: "basic-popover",
       title: "Basic",
-      text: "A simple popover with title and description, triggered by a button.",
+      text: "**Reveal a Small Amount of Context Beside Its Trigger.** Pair `PopoverTrigger` with content containing a title and short explanation. This creates an anchored detail surface that remains related to its trigger, suitable for a focused task that does not need a full dialog.\n\nKeep the panel's purpose clear, preserve focus and dismissal behavior, and use a [Dialog](/docs/dialog/installation) when the task needs a larger, more focused surface.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Popover, PopoverContent, PopoverDescription, PopoverHeader, PopoverTitle, PopoverTrigger } from "@/components/kamod-ui/popover";
 
@@ -59,7 +59,7 @@ export const Example = () => (
     {
       id: "popover-form",
       title: "With Form",
-      text: "Embed a compact settings form inside the popover. This mirrors the classic shadcn/ui dimensions example.",
+      text: "**Keep Inline Configuration Narrowly Scoped.** Place a small settings form inside the popover when several closely related values can be edited in context. The panel contains the fields, while the application still defines how their changes are stored or applied.\n\nDecide whether edits apply immediately or on confirmation, and avoid silently discarding changes when the user dismisses the panel.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Input } from "@/components/kamod-ui/input"
 import { Label } from "@/components/kamod-ui/label"
@@ -131,7 +131,7 @@ export const Example = () => (
     {
       id: "popover-placement",
       title: "Placement",
-      text: "Control which side the popover appears on using the side prop.",
+      text: "**Choose a Preferred Edge that Supports the Workflow.** Set `side` on `PopoverContent` to choose the preferred edge of the trigger for the popup. Compare placements with the real panel content, since a useful location depends on both the anchor and the available viewport space.\n\nTest triggers near viewport boundaries and in scrolling containers; a placement that works in the center of a demo may need more care in a toolbar.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Popover, PopoverContent, PopoverTitle, PopoverTrigger } from "@/components/kamod-ui/popover";
 
@@ -171,7 +171,7 @@ export const Example = () => (
     {
       id: "popover-alignment",
       title: "Align",
-      text: "Use the align prop on PopoverContent to control alignment along the cross axis (mirrors shadcn/ui).",
+      text: "**Align the Panel with the Content It Belongs to.** Use `align` on `PopoverContent` to line up the panel's edge or center with the trigger. This tunes its position along the cross axis without changing which physical side the popup is placed on.\n\nCheck long labels and narrow screens before adding offsets, and keep enough separation that the trigger remains recognizable while the panel is open.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/kamod-ui/popover";
 
@@ -240,8 +240,8 @@ export const Example = () => (
     },
     {
       id: "popover-form-compact",
-      title: "With Form (compact)",
-      text: "Narrow popover with horizontal label and field rows, matching the newer shadcn/ui dimensions example layout.",
+      title: "With Form (Compact)",
+      text: "**Use Density Only for Genuinely Short Settings.** Arrange labels and inputs in short horizontal rows inside a narrow settings popover. This saves vertical space for concise values, but the field names and editable areas still need enough room when content becomes longer.\n\nKeep labels associated with inputs and allow the layout to adapt before narrowing the editable value or clipping helpful feedback.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Input } from "@/components/kamod-ui/input"
 import { Label } from "@/components/kamod-ui/label"
@@ -301,7 +301,7 @@ export const Example = () => (
     {
       id: "popover-rtl",
       title: "RTL",
-      text: "Set dir on PopoverContent (and your page root) for right-to-left layouts. Uses physical side values like the shadcn/ui RTL example.",
+      text: "**Check the Whole Pattern in Its Reading Direction.** Set the content's `dir` to match the page language and consider popup placement separately. The `side` values are physical directions, so an RTL reading flow does not by itself change which edge should host the panel.\n\nKeep values and keyboard behavior meaningful in the translated interface, and follow [Direction](/docs/direction/installation) when the page and its portaled controls need a shared direction.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Popover, PopoverContent, PopoverDescription, PopoverHeader, PopoverTitle, PopoverTrigger } from "@/components/kamod-ui/popover";
 
@@ -354,7 +354,7 @@ export const Example = () => (
     {
       id: "popover-close",
       title: "With Close Button",
-      text: "Use PopoverClose to add an explicit dismiss control inside the content.",
+      text: "**Provide a Visible Dismissal Affordance Where It Helps.** Add `PopoverClose` inside the panel when an explicit Done or Close action makes completion clearer. This complements the anchored interaction and gives the reader a visible way to leave the temporary content.\n\nGive it a clear name and preserve focus return; closing should not imply that unsaved form changes were submitted.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Popover, PopoverClose, PopoverContent, PopoverDescription, PopoverHeader, PopoverTitle, PopoverTrigger } from "@/components/kamod-ui/popover";
 
@@ -418,7 +418,7 @@ export const Example = () => (
     {
       id: "popover-default-open",
       title: "Default Open",
-      text: "Render the popover in its open state by default.",
+      text: "**Use Initial Visibility Deliberately.** Use `defaultOpen` when the initial screen deliberately needs to expose the popover's content. This establishes only the initial state; use controlled state if other actions must determine its visibility afterward.\n\nDistinguish `defaultOpen` from controlled state, and give users a clear dismissal route without immediately reopening the panel on the next render.",
       code: `import { Popover, PopoverContent, PopoverDescription, PopoverHeader, PopoverTitle, PopoverTrigger } from "@/components/kamod-ui/popover";
 
 export const Example = () => (
@@ -437,7 +437,7 @@ export const Example = () => (
       renderPreview: () => (
         <Popover defaultOpen>
           <PopoverTrigger class="inline-flex items-center rounded-md border px-3 py-2 text-sm font-medium">
-            Already open
+            Already Open
           </PopoverTrigger>
           <PopoverContent class="w-64">
             <PopoverHeader>
@@ -451,7 +451,7 @@ export const Example = () => (
     {
       id: "popover-settings",
       title: "Settings Panel",
-      text: "A rich settings popover combining switches and fields for inline configuration.",
+      text: "**Keep Related Preferences Together.** Combine switches and fields inside a settings popover when the options belong to one local configuration task. Keep each control tied to the same application settings model so closing the panel does not obscure whether changes were applied.\n\nLabel each control, explain whether changes are immediate, and move the workflow to a larger surface if the panel grows into several independent sections.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Input } from "@/components/kamod-ui/input"
 import { Label } from "@/components/kamod-ui/label"

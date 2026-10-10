@@ -21,7 +21,7 @@ export const motionDialogDocPage = createMotionDocPage({
     {
       id: "basic",
       title: "Basic",
-      text: "Open a dialog with enter/exit animations. Focus trap and dismiss behavior come from the underlying Dialog primitive.",
+      text: "**Keep Motion Separate from the Interaction Contract.** Add entry and exit transitions to a dialog while keeping its underlying focus and dismissal behavior. The motion wrapper controls visual presence; the core dialog remains responsible for the interaction within the temporary panel.\n\nTest repeated activation and reduced-motion preferences, keep the underlying controlled state in one place and avoid making application logic depend on a decorative transition finishing.",
       code: MOTION_DIALOG_EXAMPLE_CODE,
       renderPreview: () => <MotionDialogDemo />,
     },

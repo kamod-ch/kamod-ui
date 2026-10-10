@@ -225,8 +225,8 @@ export const Example = () => (
   exampleSections: [
     {
       id: "presentation-slot",
-      title: 'Custom layout: presentation="slot"',
-      text: "Use when you own the full-screen overlay (fixed inset-0, dimmed backdrop, flex center). Without slot, the default modal adds its own overlay + panel on top.",
+      title: 'Custom Layout: Presentation="slot"',
+      text: "**Own the Visual Shell without Duplicating It.** Use `presentation=\"slot\"` on `DialogContent` when the composition provides its own fixed overlay, backdrop and centered panel. This avoids stacking your layout inside the default modal's already-provided overlay and surface.\n\nKeep the dialog's title, description, focus containment and dismissal behavior intact while supplying your own surface; test scrolling and narrow screens as carefully as the centered desktop state.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Dialog, DialogClose, DialogContent, DialogTrigger } from "@/components/kamod-ui/dialog";
 
@@ -274,7 +274,7 @@ export const Example = () => (
     {
       id: "dialog-demo",
       title: "Demo",
-      text: "Form in a dialog with FieldGroup — matches shadcn DialogDemo structure.",
+      text: "**Keep a Short Editing Task in Context.** Place the related fields in `FieldGroup` beneath the dialog's title and description. The modal provides a focused editing context; your form still owns the values, validation and behavior of its save action.\n\nConnect labels and errors to the fields, choose explicit submit and cancel behavior, and decide whether closing should discard unsaved values before copying the demonstration handlers.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/kamod-ui/dialog"
 import { Field, FieldGroup, FieldLabel } from "@/components/kamod-ui/field"
@@ -293,7 +293,7 @@ import { Input } from "@/components/kamod-ui/input";
             </DialogTrigger>
             <DialogContent class="sm:max-w-sm">
               <DialogHeader>
-                <DialogTitle>Edit profile</DialogTitle>
+                <DialogTitle>Edit Profile</DialogTitle>
                 <DialogDescription>
                   Make changes to your profile here. Click save when you&apos;re done.
                 </DialogDescription>
@@ -322,7 +322,7 @@ import { Input } from "@/components/kamod-ui/input";
     {
       id: "basic-dialog",
       title: "Basic",
-      text: "Minimal title and description.",
+      text: "**Establish the Dialog's Purpose First.** Start with `DialogTitle` and `DialogDescription` to give the opened panel a clear purpose and explanation. This minimal composition makes naming and dismissal easier to inspect before adding forms or secondary actions.\n\nKeep the content focused on one task and preserve a discoverable way to close it; use [Alert Dialog](/docs/alert-dialog/installation) for a consequential confirmation rather than ordinary supporting information.",
       code: `import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/kamod-ui/dialog";
 
 export const Example = () => (
@@ -343,7 +343,7 @@ export const Example = () => (
           <DialogTrigger>Open dialog</DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Are you absolutely sure?</DialogTitle>
+              <DialogTitle>Are You Absolutely Sure?</DialogTitle>
               <DialogDescription>
                 This action cannot be undone. This will permanently delete your account.
               </DialogDescription>
@@ -354,8 +354,8 @@ export const Example = () => (
     },
     {
       id: "custom-close",
-      title: "Custom close",
-      text: "Primary dismiss control in the footer; `showCloseButton={false}` removes the corner X.",
+      title: "Custom Close",
+      text: "**Make Dismissal Fit the Task.** Set `showCloseButton={false}` when a clearly labeled footer control should provide the visible dismissal action. The custom button becomes part of the dialog's reading order rather than competing with an additional corner control.\n\nGive that control an explicit label and retain the primitive's keyboard behavior; removing the standard corner button should not leave users guessing how to return.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/kamod-ui/dialog"
 import { Input } from "@/components/kamod-ui/input"
@@ -392,7 +392,7 @@ export const Example = () => (
           </DialogTrigger>
           <DialogContent class="sm:max-w-md" showCloseButton={false}>
             <DialogHeader>
-              <DialogTitle>Share link</DialogTitle>
+              <DialogTitle>Share Link</DialogTitle>
               <DialogDescription>
                 Anyone who has this link will be able to view this.
               </DialogDescription>
@@ -420,8 +420,8 @@ export const Example = () => (
     },
     {
       id: "no-close-button",
-      title: "No close button",
-      text: "`showCloseButton={false}` hides the corner control — provide another way to dismiss.",
+      title: "No Close Button",
+      text: "**Replace the Missing Affordance Intentionally.** Hiding the corner button with `showCloseButton={false}` changes the visible controls, not the need for a way out. Supply an understandable alternative inside the panel and preserve the dialog's expected keyboard dismissal behavior.\n\nCheck cancellation, Escape behavior and focus return, and avoid using a hidden close control as a substitute for proper pending-state handling.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/kamod-ui/dialog";
 
@@ -445,7 +445,7 @@ export const Example = () => (
           </DialogTrigger>
           <DialogContent showCloseButton={false}>
             <DialogHeader>
-              <DialogTitle>No close button</DialogTitle>
+              <DialogTitle>No Close Button</DialogTitle>
               <DialogDescription>Use Escape or click the backdrop to dismiss.</DialogDescription>
             </DialogHeader>
           </DialogContent>
@@ -454,8 +454,8 @@ export const Example = () => (
     },
     {
       id: "sticky-footer",
-      title: "Sticky footer",
-      text: "Scroll the body; footer stays in the dialog layout.",
+      title: "Sticky Footer",
+      text: "**Keep the Next Step Visible During Reading.** Keep the footer outside the dialog's scrolling body when important actions should stay available during reading. The content can scroll independently while the surrounding title and action area retain their positions in the panel.\n\nEnsure focused fields are not obscured by the footer and test short viewports; the dialog should not require scrolling the underlying page to reach its controls.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/kamod-ui/dialog";
 
@@ -491,7 +491,7 @@ export const Example = () => (
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Sticky footer</DialogTitle>
+              <DialogTitle>Sticky Footer</DialogTitle>
               <DialogDescription>Footer stays visible while content scrolls.</DialogDescription>
             </DialogHeader>
             <div class="-mx-6 max-h-[50vh] overflow-y-auto px-6 text-sm leading-normal">
@@ -513,8 +513,8 @@ export const Example = () => (
     },
     {
       id: "scrollable-content",
-      title: "Scrollable content",
-      text: "Long content in a scroll region; header stays above.",
+      title: "Scrollable Content",
+      text: "**Constrain Long Content to a Readable Region.** Give long dialog content its own constrained scroll region beneath the header. This keeps the title available as context while allowing the reader to reach the full explanation without extending the modal beyond the viewport.\n\nTest keyboard scrolling, links near the end and narrow screens, and consider a full page when the content grows into a multi-step or reference-heavy workflow.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/kamod-ui/dialog";
 
@@ -543,7 +543,7 @@ export const Example = () => (
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Scrollable content</DialogTitle>
+              <DialogTitle>Scrollable Content</DialogTitle>
               <DialogDescription>This dialog has a scrollable body.</DialogDescription>
             </DialogHeader>
             <div class="-mx-6 max-h-[50vh] overflow-y-auto px-6 text-sm leading-normal">
@@ -561,7 +561,7 @@ export const Example = () => (
     {
       id: "dialog-rtl",
       title: "RTL",
-      text: "Set `dir` on `DialogContent` for localized layouts (EN / AR / HE toggle).",
+      text: "**Check the Whole Pattern in Its Reading Direction.** Set `dir` on `DialogContent` to match the selected language of the modal's content. Because the panel is portaled, review its layout directly rather than assuming it inherits every property of the trigger's surrounding page.\n\nKeep values and keyboard behavior meaningful in the translated interface, and follow [Direction](/docs/direction/installation) when the page and its portaled controls need a shared direction.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/kamod-ui/dialog";
 
@@ -570,8 +570,8 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/kamod-ui/dial
     },
     {
       id: "dialog-actions",
-      title: "Destructive actions",
-      text: "Footer with cancel and destructive confirm.",
+      title: "Destructive Actions",
+      text: "**Keep Confirmation Specific to the Pending Operation.** Place a cancel action beside a clearly labeled destructive confirmation in the footer. The visual hierarchy should distinguish leaving the dialog from executing the operation while the description explains what the confirmation affects.\n\nIf the panel only asks users to confirm a risky decision, compare [Alert Dialog](/docs/alert-dialog/installation) before building a custom confirmation flow inside a general dialog.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/kamod-ui/dialog";
 
@@ -594,7 +594,7 @@ export const Example = () => (
           <DialogTrigger>Delete item</DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Delete this item?</DialogTitle>
+              <DialogTitle>Delete This Item?</DialogTitle>
             </DialogHeader>
             <DialogFooter>
               <Button variant="outline">Cancel</Button>
@@ -607,7 +607,7 @@ export const Example = () => (
     {
       id: "with-motion",
       title: "With Motion",
-      text: "Replace DialogContent with MotionDialogPortal, MotionDialogOverlay, and MotionDialogContent for Presence-managed exit. Escape, focus return, and close button semantics match core Dialog.",
+      text: "**Keep Motion Separate from the Interaction Contract.** Compose `MotionDialogPortal`, `MotionDialogOverlay` and `MotionDialogContent` for coordinated entry and exit transitions. The motion layer changes how the panel appears and disappears, while the dialog primitives continue to own focus and dismissal.\n\nTest repeated activation and reduced-motion preferences, keep the underlying controlled state in one place and avoid making application logic depend on a decorative transition finishing.",
       code: MOTION_DIALOG_EXAMPLE_CODE,
       renderPreview: () => <MotionDialogProfilePreview />,
     },

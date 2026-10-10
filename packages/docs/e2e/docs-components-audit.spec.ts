@@ -246,11 +246,11 @@ test("docs /docs/components full link audit (writes tmp report)", async ({ page,
       .toBeVisible();
 
     const componentGridHrefs = await page
-      .getByRole("navigation", { name: "All components", exact: true })
+      .getByRole("navigation", { name: "All Components", exact: true })
       .getByRole("link")
       .evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).getAttribute("href") ?? ""));
     const motionGridHrefs = await page
-      .getByRole("navigation", { name: "Motion components", exact: true })
+      .getByRole("navigation", { name: "Motion Components", exact: true })
       .getByRole("link")
       .evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).getAttribute("href") ?? ""));
     gridHrefsClean = componentGridHrefs.filter(Boolean);
@@ -294,12 +294,12 @@ test("docs /docs/components full link audit (writes tmp report)", async ({ page,
     await gotoDocsPath(page, overviewPath);
     const sidebar = page.locator("aside.docs-sidebar");
     await expect
-      .soft(sidebar.getByRole("button", { name: /Components Documentation/ }))
+      .soft(sidebar.getByRole("button", { name: /Components UI Building Blocks/ }))
       .toHaveAttribute("aria-expanded", "true");
     const componentSidebarEntries = sidebar
       .locator(".site-navigation-group")
       .filter({
-        has: page.getByRole("button", { name: /Components Documentation/ }),
+        has: page.getByRole("button", { name: /Components UI Building Blocks/ }),
       })
       .getByRole("link");
     const componentSidebarCount = await componentSidebarEntries.count();
@@ -330,7 +330,7 @@ test("docs /docs/components full link audit (writes tmp report)", async ({ page,
     await gotoDocsPath(page, overviewPath);
     await page.getByRole("button", { name: "Open navigation menu" }).click();
     const mobileNav = page.locator(".site-navigation-panel .site-navigation-group").filter({
-      has: page.getByRole("button", { name: /Components Documentation/ }),
+      has: page.getByRole("button", { name: /Components UI Building Blocks/ }),
     });
     let mobileCount = 0;
     try {

@@ -268,14 +268,14 @@ export const Example = () => (
     {
       id: "carousel-demo",
       title: "Demo",
-      text: "Card slides with previous and next controls (shadcn-style layout).",
+      text: "**Keep Slide Navigation Discoverable.** Compose `CarouselItem` slides with previous and next controls around the viewport. Each slide remains a card-like content unit; the carousel manages which part of the sequence is visible and how readers move through it.\n\nMake each slide useful independently, and avoid putting essential sequential instructions into a carousel that encourages readers to skip directly between items.",
       code: `// See previewCode hero — CarouselContent + Items + Prev/Next.`,
       renderPreview: () => <CarouselDemoPreview />,
     },
     {
       id: "carousel-sizes",
       title: "Sizes",
-      text: 'Use basis utilities on CarouselItem; align slides with opts.align "start".',
+      text: "**Show Enough of the Next Item to Suggest Continuation.** Use `basis-*` utilities on `CarouselItem` to control how many slides fit at once. Set `opts.align` to `start` when the leading edge should anchor each scroll position rather than centering the selected slide.\n\nCheck the longest content at each breakpoint, and keep the chosen alignment consistent with how the surrounding page reads.",
       code: `<Carousel opts={{ align: "start" }} class="w-full max-w-sm">
   <CarouselContent>
     {items.map((n) => (
@@ -290,7 +290,7 @@ export const Example = () => (
     {
       id: "carousel-spacing",
       title: "Spacing",
-      text: "Negative margin on CarouselContent and matching padding on items (shadcn spacing pattern).",
+      text: "**Treat Spacing as a Paired Adjustment.** Pair a negative margin on `CarouselContent` with matching padding on each item. This creates regular gaps between slides while keeping the first slide aligned with the outer viewport boundary.\n\nChange both sides consistently, and inspect the outer edges so the carousel does not appear indented or clipped relative to nearby content.",
       code: `<CarouselContent class="-ml-1">
   <CarouselItem class="basis-1/2 pl-1 lg:basis-1/3">…</CarouselItem>
 </CarouselContent>`,
@@ -299,7 +299,7 @@ export const Example = () => (
     {
       id: "carousel-orientation",
       title: "Orientation",
-      text: "Vertical axis: set a fixed height (or h-full inside a sized parent) on CarouselContent, use min-h-0 on the viewport, basis + pt on items, and vertical padding on the wrapper so top/bottom arrows stay visible.",
+      text: "**Give the Vertical Viewport an Explicit Boundary.** A vertical carousel needs a constrained height as well as an orientation change. Size `CarouselContent`, allow its viewport to shrink with `min-h-0`, and reserve space for the controls above and below the slides.\n\nTest wheel, touch and keyboard interaction when the carousel sits inside another scrolling region. Avoid trapping long slide text in a viewport too short to read, and confirm that both navigation controls remain reachable.",
       code: `<div class="py-14">
   <Carousel orientation="vertical" class="max-w-xs">
     <CarouselContent class="-mt-1 h-[270px] min-h-0">
@@ -314,14 +314,14 @@ export const Example = () => (
     {
       id: "carousel-opts",
       title: "Options",
-      text: "opts forwards to Embla (e.g. loop). axis and direction are merged from orientation and dir.",
+      text: "**Choose Movement Rules for the Content.** Pass behavior options such as `loop` through `opts` to configure the underlying Embla instance. The wrapper combines those settings with its own orientation and direction, keeping the outer component responsible for the layout contract.\n\nReview the forwarded options alongside the [API Reference](#api-reference), and test boundary navigation after changing alignment, direction or looping.",
       code: `<Carousel opts={{ align: "start", loop: true }}>…</Carousel>`,
       renderPreview: () => <CarouselOptsPreview />,
     },
     {
       id: "carousel-api",
       title: "API",
-      text: "setApi receives the Embla instance for slide counts and select events.",
+      text: "**Observe the Carousel without Duplicating Its State.** Use `setApi` to access the carousel instance when an external counter or control needs its current position. Subscribe to selection changes to keep the supporting UI synchronized with dragging as well as button navigation.\n\nRemove event listeners when the instance changes or the component unmounts, and initialize derived text before the first user interaction so it does not start out stale.",
       code: `const [api, setApi] = useState<CarouselApi | null>(null);
 // useEffect: api.scrollSnapList().length, api.selectedScrollSnap(), api.on("select", …)
 <Carousel setApi={setApi}>…</Carousel>`,
@@ -330,14 +330,14 @@ export const Example = () => (
     {
       id: "carousel-autoplay",
       title: "Autoplay",
-      text: "Use autoplay prop or pass plugins when you need full Embla plugin control (see core Carousel).",
+      text: "**Keep Automatic Movement under User Control.** Use the `autoplay` prop for the built-in playback option, or supply `plugins` when the integration needs additional Embla behavior. Movement should remain understandable alongside the same manual previous and next controls.\n\nProvide an appropriate pause strategy, consider reduced-motion preferences, and stop any application-owned timers during cleanup; use manual navigation when the content requires sustained attention.",
       code: `<Carousel autoplay={{ delay: 2000, stopOnInteraction: true }}>…</Carousel>`,
       renderPreview: () => <CarouselAutoplayPreview />,
     },
     {
       id: "carousel-rtl",
       title: "RTL",
-      text: "Set dir on Carousel and direction in opts to match DirectionProvider (logical prev/next + chevron rotation).",
+      text: "**Check the Whole Pattern in Its Reading Direction.** Keep `dir`, the carousel options and `DirectionProvider` consistent for RTL content. This lets slide movement and the previous/next symbols communicate the same reading order instead of mirroring only the text.\n\nKeep values and keyboard behavior meaningful in the translated interface, and follow [Direction](/docs/direction/installation) when the page and its portaled controls need a shared direction.",
       code: `<Carousel dir={dir} opts={{ direction: dir }}>…</Carousel>`,
       renderPreview: () => <CarouselRtlPreview />,
     },

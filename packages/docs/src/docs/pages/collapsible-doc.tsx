@@ -58,7 +58,7 @@ const CollapsibleDemoPreview = () => {
       </div>
       <CollapsibleContent class="flex flex-col gap-2">
         <div class="rounded-md border px-4 py-2 text-sm">
-          <p class="font-medium">Shipping address</p>
+          <p class="font-medium">Shipping Address</p>
           <p class="text-muted-foreground">100 Market St, San Francisco</p>
         </div>
         <div class="rounded-md border px-4 py-2 text-sm">
@@ -222,7 +222,7 @@ const CollapsibleFileTreePreview = () => {
     <Card class="mx-auto w-full max-w-[16rem] gap-2" size="sm">
       <CardHeader class="pb-2">
         <Tabs defaultValue="explorer">
-          <TabsList class="w-full">
+          <TabsList variant="line" class="w-full">
             <TabsTrigger value="explorer">Explorer</TabsTrigger>
             <TabsTrigger value="settings">Outline</TabsTrigger>
           </TabsList>
@@ -389,14 +389,14 @@ export const Example = () => {
     {
       id: "collapsible-demo",
       title: "Demo",
-      text: "Controlled order card with ghost icon trigger (shadcn CollapsibleDemo).",
+      text: "**Reveal Supporting Detail on Demand.** Control a `Collapsible` within an order card to reveal supporting details only when needed. A ghost icon trigger keeps the summary compact, while the expanded area provides context without replacing the main order information.\n\nThe order-card composition suits optional detail rather than required instructions; important next steps should remain visible without asking users to discover the disclosure.",
       code: `// See previewCode hero — open + onOpenChange, asChild Button, ChevronsUpDown.`,
       renderPreview: () => <CollapsibleDemoPreview />,
     },
     {
       id: "collapsible-usage",
       title: "Usage",
-      text: "Minimal default button trigger and unstyled content.",
+      text: "**Separate the Trigger from the Revealed Content.** Pair `CollapsibleTrigger` with `CollapsibleContent` for a minimal disclosure. The trigger changes visibility and the content contains the optional explanation, giving you a small foundation before adding card surfaces or custom controls.\n\nPreserve the trigger's keyboard behavior and expanded state, and avoid hiding the only explanation of its purpose inside the closed content.",
       code: `import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/kamod-ui/collapsible";
 
 export const Example = () => (
@@ -418,8 +418,8 @@ export const Example = () => (
     },
     {
       id: "collapsible-controlled",
-      title: "Controlled state",
-      text: "Use open and onOpenChange to control visibility from outside.",
+      title: "Controlled State",
+      text: "**Coordinate Visibility with Application State.** Supply `open` and `onOpenChange` when the disclosure must coordinate with external controls or application state. The parent owns the boolean value, and the collapsible reports requests to change it through the callback.\n\nKeep `onOpenChange` connected to that source of truth and consider where focus should remain when another part of the page opens or closes the panel.",
       code: `import { useState } from "preact/hooks";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/kamod-ui/collapsible";
 
@@ -437,7 +437,7 @@ export const Example = () => {
     {
       id: "collapsible-basic",
       title: "Basic",
-      text: "Card with full-width ghost trigger and rotating chevron (shadcn Basic).",
+      text: "**Make the Whole Summary Easy to Activate.** Use a full-width ghost trigger inside a card so the summary row clearly opens the details below. A rotating chevron reinforces the expanded state without making the icon the only indicator of the interaction.\n\nKeep nested links or buttons outside that trigger to avoid conflicting interactive targets, and ensure the label still describes the content when the icon is not visible.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Card, CardContent } from "@/components/kamod-ui/card"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/kamod-ui/collapsible";
@@ -446,22 +446,22 @@ import { ChevronDown } from "lucide-preact";`,
     },
     {
       id: "collapsible-settings",
-      title: "Settings panel",
-      text: "Extra fields in a subgrid with maximize/minimize trigger (shadcn Settings).",
+      title: "Settings Panel",
+      text: "**Keep Advanced Settings Optional and Understandable.** Keep common settings visible and reveal less frequently used fields inside `CollapsibleContent`. The maximize/minimize control explains that the same settings area can show more detail while preserving the surrounding form context.\n\nDecide whether hidden fields retain their values, explain any dependencies outside the disclosure, and ensure validation does not strand an error inside an unnoticed closed panel.",
       code: `// Collapsible + FieldGroup grid-cols-2, CollapsibleContent col-span-full grid-cols-subgrid`,
       renderPreview: () => <CollapsibleSettingsPreview />,
     },
     {
       id: "collapsible-file-tree",
-      title: "File tree",
-      text: "Nested collapsibles with folder chevrons and Tabs header (shadcn File Tree).",
+      title: "File Tree",
+      text: "**Keep Folder Disclosure Distinct from File Actions.** Nest collapsibles to represent folder branches, with a separate trigger for each expandable level. The tree example combines these disclosures with a tabbed header, illustrating how local expansion can coexist with another navigation choice.\n\nUse stable keys and test deep nesting; choose [Tree](/docs/tree/installation) when you need dedicated tree selection and keyboard navigation.",
       code: `// Recursive Collapsible per folder; ChevronRight rotates when open.`,
       renderPreview: () => <CollapsibleFileTreePreview />,
     },
     {
       id: "collapsible-rtl",
       title: "RTL",
-      text: "DirectionProvider + dir on Collapsible for EN / AR / HE (shadcn RTL).",
+      text: "**Check the Whole Pattern in Its Reading Direction.** Apply the translated `dir` value to the collapsible and share it with `DirectionProvider`. Labels, spacing and directional symbols should describe the same disclosure in each language without changing its open-state model.\n\nKeep values and keyboard behavior meaningful in the translated interface, and follow [Direction](/docs/direction/installation) when the page and its portaled controls need a shared direction.",
       code: `import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/kamod-ui/collapsible"
 import { DirectionProvider } from "@/components/kamod-ui/direction";`,
       renderPreview: () => <CollapsibleRtlPreview />,
@@ -469,7 +469,7 @@ import { DirectionProvider } from "@/components/kamod-ui/direction";`,
     {
       id: "with-motion",
       title: "With Motion",
-      text: "Replace CollapsibleContent with MotionCollapsibleContent for measured height and opacity reveal. aria-expanded and visible status text stay on the trigger.",
+      text: "**Keep Motion Separate from the Interaction Contract.** Replace the content region with `MotionCollapsibleContent` to animate its measured height and opacity. Keep `aria-expanded` and meaningful status text on the trigger so the disclosure remains understandable independently of the transition.\n\nTest repeated activation and reduced-motion preferences, keep the underlying controlled state in one place and avoid making application logic depend on a decorative transition finishing.",
       code: MOTION_COLLAPSIBLE_EXAMPLE_CODE,
       renderPreview: () => <MotionCollapsibleFileTreePreview />,
     },

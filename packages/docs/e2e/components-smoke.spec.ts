@@ -147,7 +147,7 @@ test.describe("core component docs smoke", () => {
     await preview.getByRole("button", { name: "Open dialog" }).click();
     const dialog = preview.getByRole("dialog");
     await expect(dialog).toBeVisible();
-    await expect(dialog.getByRole("heading", { name: "Are you absolutely sure?" })).toBeVisible();
+    await expect(dialog.getByRole("heading", { name: "Are You Absolutely Sure?" })).toBeVisible();
     await page.keyboard.press("Escape");
     await expect(dialog).toBeHidden();
   });
@@ -158,7 +158,7 @@ test.describe("core component docs smoke", () => {
     await preview.getByRole("button", { name: "Open" }).click();
     const sheet = preview.getByRole("dialog");
     await expect(sheet).toBeVisible();
-    await expect(sheet.getByRole("heading", { name: "Edit profile" })).toBeVisible();
+    await expect(sheet.getByRole("heading", { name: "Edit Profile" })).toBeVisible();
   });
 
   test("Context menu opens on right-click in basic example", async ({ page }) => {

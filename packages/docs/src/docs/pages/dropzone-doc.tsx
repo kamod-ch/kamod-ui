@@ -12,7 +12,7 @@ export const dropzoneDocPage = createGenericDocPage({
     {
       id: "basic-dropzone",
       title: "Basic Dropzone",
-      text: "Drop files or click to open the file picker.",
+      text: "**Keep File Selection Available without Dragging.** Use `Dropzone` to offer both drag-and-drop and a click-to-select file picker. The selected files are inputs to your application; accepting a file into the control is separate from validating or uploading it.\n\nExplain accepted types and size limits, validate files in your application, and distinguish selecting a local file from actually uploading it to a server.",
       code: `import { Dropzone } from "@/components/kamod-ui/dropzone";
 
 export const Example = () => (
@@ -29,7 +29,7 @@ export const Example = () => (
     {
       id: "dropzone-indicators",
       title: "Dropzone Indicators",
-      text: "Use helper indicators to communicate upload state.",
+      text: "**Communicate Each Stage of the Upload.** Place helper indicators near the dropzone to explain whether files are waiting, uploading or complete. Derive those messages from the actual operation, keeping selection feedback distinct from a confirmed upload result.\n\nKeep retry and removal actions clear, and clean up application-owned object URLs or requests when previews are replaced or the upload is cancelled.",
       code: `import { Dropzone, DropzoneLoadingIndicator, DropzoneUploadIndicator } from "@/components/kamod-ui/dropzone";
 
 export const Example = () => (

@@ -22,7 +22,7 @@ export const selectDocPage = createGenericDocPage({
     {
       id: "basic-select",
       title: "Basic Select",
-      text: "Select one option from a compact modern dropdown list.",
+      text: "**Keep the Chosen Value Separate from Its Label.** Compose a select trigger and option list for one choice from a known set. The trigger displays the selected label, while each option's stable value provides the data your application stores or submits.\n\nUse stable option values, decide how an empty selection is represented and connect the change callback to the application state that will actually be submitted.",
       code: `import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/kamod-ui/select";
 
 export const Example = () => (
@@ -53,7 +53,7 @@ export const Example = () => (
     {
       id: "select-groups",
       title: "Groups and Separators",
-      text: "Use labels and separators to organize larger option sets.",
+      text: "**Make a Longer Collection Easier to Scan.** Use group labels and separators to organize a longer select list into meaningful categories. This provides context for similar options without requiring every label to repeat the category name.\n\nKeep group names short and consider [Combobox](/docs/combobox/installation) when users need to search rather than inspect a long sequence manually.",
       code: `import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectSeparator, SelectTrigger, SelectValue } from "@/components/kamod-ui/select";
 
 export const Example = () => (
@@ -100,7 +100,7 @@ export const Example = () => (
     {
       id: "select-disabled",
       title: "Disabled Items",
-      text: "Disable unavailable entries while keeping the same list structure.",
+      text: "**Preserve Context for Unavailable Choices.** Mark unavailable options as disabled while retaining their place in the selection list. This preserves the shape of the option set and lets the surrounding form explain why some choices cannot currently be made.\n\nPut relevant prerequisites nearby, and handle a previously selected value becoming unavailable rather than leaving the trigger and application state inconsistent.",
       code: `import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/kamod-ui/select";
 
 export const Example = () => (
@@ -137,7 +137,7 @@ export const Example = () => (
     {
       id: "select-scrollable",
       title: "Scrollable Content",
-      text: "Use the default max-height content to keep long lists usable.",
+      text: "**Keep the Popup within a Manageable Height.** Let the select content's maximum height constrain a long option list into a scrollable popup. The control can remain close to its trigger while readers move through more choices than fit on screen at once.\n\nTest keyboard navigation into offscreen items and the longest labels, and consider searchable selection when scrolling no longer provides an efficient way to find the desired value.",
       code: `import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/kamod-ui/select";
 
 const timezones = [
@@ -188,7 +188,7 @@ export const Example = () => (
     {
       id: "select-invalid",
       title: "Invalid State",
-      text: "Combine with Field and ARIA invalid attributes for error presentation.",
+      text: "**Make the Correction Clear.** Coordinate the surrounding `Field` with invalid ARIA attributes on the select's interactive control. The message should identify the problem with the chosen value, while the visual state directs attention to the field that needs correction.\n\nKeep the field label visible, preserve the current value for review, and update the feedback when the selection is validated rather than using color as the only signal.",
       code: `import { Field } from "@/components/kamod-ui/field"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/kamod-ui/select";
 

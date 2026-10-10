@@ -36,7 +36,7 @@ export const toggleGroupDocPage = createGenericDocPage({
     {
       id: "single-selection",
       title: "Single Selection",
-      text: "Allow one active option at a time with a segmented control look.",
+      text: "**Use One Value to Describe the Current Mode.** Use single selection when the options represent alternative views or settings within one question. Each `ToggleGroupItem` value identifies a choice, and the selected presentation lets the reader see which one is currently active.\n\nDecide whether an empty selection is acceptable and handle it deliberately, keep item values stable, and use radios when the surrounding form's question is better expressed as a standard exclusive choice.",
       code: `import { ToggleGroup, ToggleGroupItem } from "@/components/kamod-ui/toggle-group";
 import { AlignCenter, AlignLeft, AlignRight } from "lucide-preact";
 
@@ -72,7 +72,7 @@ export const Example = () => (
     {
       id: "sizes",
       title: "Sizes",
-      text: "Use a compact or prominent size depending on your context.",
+      text: "**Choose a Density that Fits the Labels.** Choose a compact or larger group size to match adjacent controls and the available label space. Apply one consistent scale to the local set of choices instead of resizing individual segments independently.\n\nCheck the longest translation and icon combination before shrinking the group, and maintain enough spacing around it for comfortable touch interaction.",
       code: `import { ToggleGroup, ToggleGroupItem } from "@/components/kamod-ui/toggle-group";
 
 export const Example = () => (
@@ -104,7 +104,7 @@ export const Example = () => (
     {
       id: "spacing",
       title: "Spacing",
-      text: "Tune the density between items with spacing presets.",
+      text: "**Tune the Relationship between Choices.** Use the group's spacing options to tune how closely its choices sit together. A tight arrangement emphasizes their relationship, while more separation can help longer labels remain readable without changing their selection behavior.\n\nKeep related groups visually consistent and avoid using spacing alone to explain whether the selection is exclusive or multiple.",
       code: `import { ToggleGroup, ToggleGroupItem } from "@/components/kamod-ui/toggle-group";
 
 export const Example = () => (
@@ -129,7 +129,7 @@ export const Example = () => (
     {
       id: "vertical",
       title: "Vertical",
-      text: "Set orientation to vertical for stacked controls.",
+      text: '**Stack Choices When the Container Is Narrow.** Set `orientation="vertical"` when the choices form a short stack alongside content. The layout still represents one related selection group, so its labels and focus order should remain understandable from top to bottom.\n\nKeep labels aligned and meaningful, verify keyboard movement for the chosen orientation and avoid changing the order simply to fit the visual layout.',
       code: `import { ToggleGroup, ToggleGroupItem } from "@/components/kamod-ui/toggle-group";
 
 export const Example = () => (
@@ -152,7 +152,7 @@ export const Example = () => (
     {
       id: "disabled",
       title: "Disabled",
-      text: "Disable a full group or single items to reflect unavailable actions.",
+      text: "**Keep Unavailable Choices Understandable.** Disable the whole group when the setting is unavailable, or individual items when only some choices are restricted. Keep those choices in context and explain any prerequisite that users can act on.\n\nIf the whole group is disabled, keep its current value readable and make clear whether it is a temporary pending state or a lasting restriction.",
       code: `import { ToggleGroup, ToggleGroupItem } from "@/components/kamod-ui/toggle-group";
 
 export const Example = () => (
@@ -188,7 +188,7 @@ export const Example = () => (
     {
       id: "custom-font-weight",
       title: "Custom Font Weight",
-      text: "Use custom item classes to build segmented font-weight selectors.",
+      text: "**Preview a Choice without Losing Legibility.** Apply custom item classes to preview different font weights within a segmented selector. Store a stable value for the chosen weight, letting the visible typography illustrate the option without becoming the data model itself.\n\nKeep the stored values separate from the visual sample and make selected state distinct from the weight itself.",
       code: `import { ToggleGroup, ToggleGroupItem } from "@/components/kamod-ui/toggle-group";
 
 export const Example = () => (
@@ -219,7 +219,7 @@ export const Example = () => (
     {
       id: "icon-only",
       title: "Icon Only",
-      text: "Build dense, icon-only controls for editor-like toolbars.",
+      text: "**Name Every Mode Explicitly.** Use icon-only items for a compact editor-style toolbar when the symbols are recognizable. Provide an accessible name for every choice and consider a [Tooltip](/docs/tooltip/installation) when the icon's meaning benefits from a short explanation.\n\nChoose symbols that distinguish the options, preserve pressed and focus states, and avoid relying on subtle icon differences that become ambiguous at compact sizes.",
       code: `import { ToggleGroup, ToggleGroupItem } from "@/components/kamod-ui/toggle-group";
 import { Bold, Italic, Underline } from "lucide-preact";
 
@@ -253,7 +253,7 @@ export const Example = () => (
     {
       id: "multi-selection",
       title: "Multiple Selection",
-      text: "Allow many active options in one modern toolbar group.",
+      text: "**Allow a Combination Only When It Has Meaning.** Use multiple selection when several formatting options can be active together. Treat the selected values as one collection so external controls and the content being formatted reflect the same combination of choices.\n\nKeep the selected collection synchronized with the application, handle clearing deliberately and make it clear that activating one item does not automatically replace the others.",
       code: `import { ToggleGroup, ToggleGroupItem } from "@/components/kamod-ui/toggle-group";
 import { Bold, Italic, Underline } from "lucide-preact";
 
@@ -289,7 +289,7 @@ export const Example = () => (
     {
       id: "pill-style",
       title: "Pill Style",
-      text: 'Use `variant="pill"` for a modern, chip-like segmented control.',
+      text: '**Use Shape to Support a Lightweight Set of Choices.** Set `variant="pill"` for rounded segments with a chip-like appearance. This changes the group\'s silhouette while its selection mode and values continue to define whether the options are exclusive or independently selectable.\n\nKeep the pressed state visible in both themes and preserve the same selection semantics as other variants; a change in silhouette should not imply a different behavior.',
       code: `import { ToggleGroup, ToggleGroupItem } from "@/components/kamod-ui/toggle-group";
 
 export const Example = () => (
@@ -310,7 +310,7 @@ export const Example = () => (
     {
       id: "controlled",
       title: "Controlled",
-      text: "Control selection with external state using `value` and `onValueChange`.",
+      text: "**Keep Selection Owned by the Feature It Changes.** Pass `value` and update it through `onValueChange` when another part of the interface needs the selected options. The group then renders parent-owned state rather than maintaining a second copy of the same preference.\n\nForward changes to the same state source, distinguish single values from multiple selections, and test updates made outside the group as well as direct activation.",
       code: `import { ToggleGroup, ToggleGroupItem } from "@/components/kamod-ui/toggle-group";
 import { useState } from "preact/hooks";
 
@@ -336,7 +336,7 @@ export const Example = () => {
     {
       id: "rtl",
       title: "RTL",
-      text: 'Use `dir="rtl"` to display Toggle Group correctly in right-to-left layouts.',
+      text: '**Check the Whole Pattern in Its Reading Direction.** Set `dir="rtl"` for a group used in a right-to-left interface. Check the option order and any directional icons together, keeping the meaning of the selected value consistent across translated presentations.\n\nKeep values and keyboard behavior meaningful in the translated interface, and follow [Direction](/docs/direction/installation) when the page and its portaled controls need a shared direction.',
       code: `import { ToggleGroup, ToggleGroupItem } from "@/components/kamod-ui/toggle-group";
 
 export const Example = () => (

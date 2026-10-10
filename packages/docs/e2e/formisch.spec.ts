@@ -29,10 +29,9 @@ test.describe("Forms / Formisch docs", () => {
     await page.locator(".docs-topbar-links").getByRole("link", { name: "Forms" }).click();
     await expect(page).toHaveURL(/\/docs\/forms/);
     const sidebar = page.locator("aside.docs-sidebar");
-    await expect(sidebar.getByRole("button", { name: /Forms Documentation/ })).toHaveAttribute(
-      "aria-expanded",
-      "true",
-    );
+    await expect(
+      sidebar.getByRole("button", { name: /Forms Inputs & Validation/ }),
+    ).toHaveAttribute("aria-expanded", "true");
     await sidebar.getByRole("link", { name: "Formisch", exact: true }).click();
     await expect(
       page.getByRole("heading", { level: 1, name: "Schema-first forms with Formisch" }),
@@ -45,7 +44,7 @@ test.describe("Forms / Formisch docs", () => {
     await expect(
       page
         .getByRole("dialog", { name: "Explore Kamod", exact: true })
-        .getByRole("button", { name: /Forms Documentation/ }),
+        .getByRole("button", { name: /Forms Inputs & Validation/ }),
     ).toBeVisible();
     await page
       .locator("[aria-label='Browse all pages']")

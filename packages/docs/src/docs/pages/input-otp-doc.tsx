@@ -63,7 +63,7 @@ export const inputOtpDocPage = createGenericDocPage({
     {
       id: "otp-demo",
       title: "Demo",
-      text: "Six slots with defaultValue (shadcn InputOTPDemo).",
+      text: "**Match the Code Length to the Actual Challenge.** Use six `InputOTPSlot` positions to display one code value, optionally prefilled through `defaultValue`. The slots divide the presentation into readable characters while the verification flow still treats the code as one input.\n\nSupport a clear verification and retry flow, and avoid treating a fully filled input as proof that the code is valid.",
       code: `import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/kamod-ui/input-otp";
 
 const slots = [0, 1, 2, 3, 4, 5] as const;
@@ -86,7 +86,7 @@ export const Example = () => (
     {
       id: "otp-usage",
       title: "Usage",
-      text: "Group + separator pattern for 3+3 codes.",
+      text: "**Group Characters to Help Scanning.** Arrange two groups of three slots with a separator to make a six-character code easier to scan. The visual grouping does not add a separator character to the code that the user enters or submits.\n\nKeep the group structure consistent with the message users receive, and test pasting a complete code as well as entering each character individually.",
       code: `import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "@/components/kamod-ui/input-otp";
 
 const slots = [0, 1, 2, 3, 4, 5] as const;
@@ -127,7 +127,7 @@ export const Example = () => (
     {
       id: "otp-pattern",
       title: "Pattern",
-      text: "Digits-only or alphanumeric filtering via exported RegExp constants.",
+      text: "**Filter Entry without Replacing Verification.** Pass an exported pattern constant to restrict the permitted characters, choosing digits or a mixed alphanumeric code. Keep that restriction consistent with the actual code issued by the service rather than only its visual example.\n\nExplain the accepted alphabet, handle incomplete entry clearly, and avoid rejecting legitimate characters merely because the visual example uses digits.",
       code: `import { REGEXP_ONLY_DIGITS } from "lucide-preact"
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/kamod-ui/input-otp"
 import { Label } from "@/components/kamod-ui/label";
@@ -160,7 +160,7 @@ export const Example = () => (
     {
       id: "otp-separator-multi",
       title: "Separator",
-      text: "Multiple groups and separators (2+2+2).",
+      text: "**Choose a Rhythm that Matches the Source.** Split six slots into three groups of two when that rhythm matches the code users receive. Separators improve recognition of the displayed pattern while the stored value remains a single sequence of characters.\n\nKeep separator marks decorative, preserve a single logical value, and verify that pasting and keyboard editing work naturally across group boundaries.",
       code: `// Three groups of two slots with InputOTPSeparator between — see preview`,
       renderPreview: () => (
         <div class="flex justify-center py-2">
@@ -186,7 +186,7 @@ export const Example = () => (
     {
       id: "otp-disabled",
       title: "Disabled",
-      text: "disabled + value shows a filled, non-editable code.",
+      text: "**Explain When Verification Cannot Proceed.** Combine `disabled` with an existing `value` to show a code that is currently unavailable for editing. The filled slots preserve context, while the surrounding message should explain whether verification is pending or the entry step has ended.\n\nRestore an editable path after a recoverable error and avoid leaving a stale code visible as if verification had succeeded.",
       code: `import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "@/components/kamod-ui/input-otp";
 
 export const Example = () => (
@@ -225,7 +225,7 @@ export const Example = () => (
     {
       id: "otp-controlled",
       title: "Controlled",
-      text: "value + onChange (or onValueChange) with live hint text.",
+      text: "**Keep Feedback Derived from the Entered Code.** Pass `value` and update it through `onChange` or `onValueChange` when a parent owns code entry. Derive any length or completion hint from that value so the feedback remains synchronized with the visible slots.\n\nUse the same value for display and submission, and keep request state separate so an in-flight response cannot incorrectly validate a later edit.",
       code: `import { useState } from "preact/hooks";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/kamod-ui/input-otp";
 
@@ -251,7 +251,7 @@ export const Example = () => {
     {
       id: "otp-invalid",
       title: "Invalid",
-      text: "Pass aria-invalid on slots for error styling (manual / server validation).",
+      text: "**Provide a Useful Retry Message.** Apply `aria-invalid` to the slots when validation rejects the entered code and show the reason nearby. Visual error styling communicates which entry needs attention, while your validation flow decides whether another attempt is allowed.\n\nDecide whether to preserve the entered value for correction or clear it deliberately, and keep focus behavior predictable after the failure.",
       code: `// <InputOTPSlot index={0} aria-invalid class="border-destructive" />`,
       renderPreview: () => (
         <div class="flex justify-center py-2">
@@ -300,8 +300,8 @@ export const Example = () => {
     },
     {
       id: "otp-four",
-      title: "Four digits",
-      text: "PIN length 4 with digits pattern.",
+      title: "Four Digits",
+      text: "**Use Four Slots Only for a Four-Character Contract.** Use four slots and a digits pattern when the issued PIN has exactly four numeric characters. The number of visible slots should match the expected value, avoiding an interface that suggests extra characters are required.\n\nLabel the field, support paste and provide a clear retry route; a shorter visual pattern does not define security requirements.",
       code: `import { REGEXP_ONLY_DIGITS } from "lucide-preact"
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/kamod-ui/input-otp";
 
@@ -331,7 +331,7 @@ export const Example = () => (
     {
       id: "otp-alphanumeric",
       title: "Alphanumeric",
-      text: "REGEXP_ONLY_DIGITS_AND_CHARS for mixed codes.",
+      text: "**Make the Accepted Alphabet Clear.** Use `REGEXP_ONLY_DIGITS_AND_CHARS` when the verification code may contain letters as well as numbers. Explain that format before entry so users do not mistake alphabetic characters for a numeric-only PIN.\n\nKeep the displayed groups readable and test pasted values; input filtering should prevent obvious mistakes without silently changing a valid code into a different value.",
       code: `import { REGEXP_ONLY_DIGITS_AND_CHARS } from "lucide-preact"
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "@/components/kamod-ui/input-otp";
 
@@ -371,12 +371,12 @@ export const Example = () => (
     {
       id: "otp-form",
       title: "Form",
-      text: "Verification card layout (shadcn InputOTPForm) with larger slots via group class.",
+      text: "**Build the Surrounding Verification Journey.** Place the OTP entry in a verification card with instructions and an explicit action. Larger slots can improve readability, while the surrounding form explains which code to enter and what happens when it is submitted.\n\nConnect submission to actual verification, provide pending and failure feedback, and make resend or change-destination actions distinct from confirming the current code.",
       code: `// Card + Label + InputOTP with InputOTPGroup className for h-12 w-11 text-xl slots`,
       renderPreview: () => (
         <Card class="mx-auto w-full max-w-md">
           <CardHeader>
-            <CardTitle>Verify your login</CardTitle>
+            <CardTitle>Verify Your Login</CardTitle>
             <CardDescription>
               Enter the code we sent to <span class="font-medium">m@example.com</span>.
             </CardDescription>
@@ -421,7 +421,7 @@ export const Example = () => (
     {
       id: "otp-rtl",
       title: "RTL",
-      text: 'Set dir="rtl" on InputOTP for right-to-left entry.',
+      text: '**Check the Whole Pattern in Its Reading Direction.** Set `dir="rtl"` on `InputOTP` when the intended entry order is right to left. Verify the code format with the actual delivery channel, since a translated interface does not automatically imply that every code reverses direction.\n\nKeep values and keyboard behavior meaningful in the translated interface, and follow [Direction](/docs/direction/installation) when the page and its portaled controls need a shared direction.',
       code: `import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/kamod-ui/input-otp"
 import { Label } from "@/components/kamod-ui/label";
 

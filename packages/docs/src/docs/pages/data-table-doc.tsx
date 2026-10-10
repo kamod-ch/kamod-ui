@@ -61,8 +61,8 @@ export const Example = () => <PaymentsDataTableDemo />;`,
   exampleSections: [
     {
       id: "full-demo",
-      title: "Payments demo",
-      text: "End-to-end example aligned with the shadcn data-table guide (filter, columns menu, sorting, actions, selection, pagination). Source: `data-table-payments-demo.tsx`.",
+      title: "Payments Demo",
+      text: "**Follow How the Table Features Interact.** The payments example combines filtering, sorting, column visibility, row selection and pagination around the same records. Read `data-table-payments-demo.tsx` to see how those states work together before copying only the visible table markup.\n\nUse stable record identifiers, define the scope of bulk actions, and replace demonstration handlers with your own data-loading and mutation logic before shipping.",
       code: `import { PaymentsDataTableDemo } from "./data-table-payments-demo";
 
 export const Example = () => <PaymentsDataTableDemo />;`,
@@ -70,8 +70,8 @@ export const Example = () => <PaymentsDataTableDemo />;`,
     },
     {
       id: "basic-table",
-      title: "Basic table",
-      text: "Static headers and mapped rows — starting point before adding sorting and filters.",
+      title: "Basic Table",
+      text: "**Build the Readable Structure First.** Start with static column headings and mapped rows when the task only needs a readable record list. This establishes the relationship between each header and cell before adding stateful sorting, filtering or pagination.\n\nKeep actions in clearly named controls, provide stable row keys, and compare [Table](/docs/table/installation) when a static dataset does not need a larger table-state abstraction.",
       code: `import { DataTable } from "@/components/kamod-ui/data-table"
 import { TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/kamod-ui/table";
 import { paymentRows } from "./data-table-payments-demo";
@@ -102,8 +102,8 @@ export const Example = () => (
     },
     {
       id: "empty-state",
-      title: "Empty state",
-      text: "Single body row with `colSpan` when there are no records.",
+      title: "Empty State",
+      text: "**Explain Why There Are No Rows.** Render one body row with a spanning `colSpan` cell when there are no records to display. The table headers remain visible, while the message explains whether the collection is empty or the current filter found nothing.\n\nSpan the full set of visible columns, offer an appropriate next step, and keep the table's surrounding controls useful for recovering results.",
       code: `import { DataTable } from "@/components/kamod-ui/data-table"
 import { TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/kamod-ui/table";
 

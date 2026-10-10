@@ -14,7 +14,7 @@ export const selectableCardDocPage = createGenericDocPage({
     {
       id: "selectable-card-demo",
       title: "Demo",
-      text: "A pair of card-style radio options for choosing an infrastructure target.",
+      text: "**Compare Options with More Context than a Short Label.** Use `SelectableCard` for radio-like infrastructure choices that benefit from a title and supporting details. The card surface makes comparison easier while the selected value still represents one option in a shared decision.\n\nKeep the group question clear, use stable option identifiers and avoid adding nested actions that compete with selecting the card.",
       code: `import { RadioGroup } from "@/components/kamod-ui/radio-group";
 import { SelectableCard } from "@/components/kamod-ui/selectable-card";
 
@@ -46,7 +46,7 @@ export const Example = () => (
           </SelectableCard>
           <SelectableCard value="virtual-machine">
             <div class="grid gap-1">
-              <p class="text-sm font-medium leading-none">Virtual machine</p>
+              <p class="text-sm font-medium leading-none">Virtual Machine</p>
               <p class="text-sm text-muted-foreground">
                 Good for predictable apps and direct control.
               </p>
@@ -57,8 +57,8 @@ export const Example = () => (
     },
     {
       id: "selectable-card-disabled",
-      title: "Disabled state",
-      text: "Disabled cards keep the same structure and dim themselves automatically.",
+      title: "Disabled State",
+      text: "**Explain the Unavailable Option without Hiding It.** Disable a selectable card when its option cannot currently be chosen. Keep its content in the same structure as available choices so readers can compare the alternatives and understand the reason for the restriction.\n\nKeep that reason readable outside an inaccessible action, and ensure the active selection remains valid if available choices change during the workflow.",
       code: `import { RadioGroup } from "@/components/kamod-ui/radio-group";
 import { SelectableCard } from "@/components/kamod-ui/selectable-card";
 

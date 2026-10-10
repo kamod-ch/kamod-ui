@@ -33,7 +33,7 @@ export const Example = () => (
     {
       id: "hover-demo",
       title: "Demo",
-      text: "Link-style Button trigger and structured body (shadcn HoverCardDemo).",
+      text: "**Offer Supplementary Context without Requiring It.** Use a link-style trigger with a structured hover-card body to reveal supplementary context about a person or resource. The compact preview adds detail near the reference without turning the page into a permanently expanded profile.\n\nKeep essential information available elsewhere for touch and keyboard users, and choose [Popover](/docs/popover/installation) when the panel must contain a deliberate interactive workflow.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/kamod-ui/hover-card";
 
@@ -65,7 +65,7 @@ export const Example = () => (
     {
       id: "hover-usage",
       title: "Usage",
-      text: "Minimal unstyled trigger (default button chrome).",
+      text: "**Keep the Trigger Understandable without the Preview.** Start with `HoverCardTrigger` and `HoverCardContent` to understand their relationship before adding a custom trigger style. The content should remain supplemental, with the page's main meaning available even when the card is closed.\n\nDo not put the only explanation of an unfamiliar action inside a hover-only surface, and verify how the surrounding page behaves without pointer hover.",
       code: `import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/kamod-ui/hover-card";
 
 export const Example = () => (
@@ -85,8 +85,8 @@ export const Example = () => (
     },
     {
       id: "hover-delays",
-      title: "Trigger delays",
-      text: "openDelay and closeDelay on HoverCard (shadcn Trigger Delays).",
+      title: "Trigger Delays",
+      text: "**Balance Responsiveness with Accidental Activation.** Set `openDelay` and `closeDelay` on `HoverCard` to tune how quickly the preview appears and disappears. A short delay can reduce accidental openings while leaving enough time to move toward the displayed content.\n\nTune delays with realistic pointer movement and content length, and keep the preview supplementary rather than extending it into a hidden task interface.",
       code: `import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/kamod-ui/hover-card";
 
 export const Example = () => (
@@ -107,7 +107,7 @@ export const Example = () => (
     {
       id: "hover-positioning",
       title: "Positioning",
-      text: "side and align on HoverCardContent (shadcn Positioning).",
+      text: "**Keep the Preview Visually Attached to Its Trigger.** Set `side` and `align` on `HoverCardContent` to place the preview relative to its trigger. Choose a position that leaves room for the content and does not obscure the information that prompted the hover.\n\nTest triggers near viewport edges and inside scrolling regions, and avoid large offsets that make it unclear which link produced the card.",
       code: `import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/kamod-ui/hover-card";
 
 export const Example = () => (
@@ -130,7 +130,7 @@ export const Example = () => (
     {
       id: "hover-sides",
       title: "Sides",
-      text: "All four sides (shadcn Sides).",
+      text: "**Compare Placement Using Realistic Content.** Compare top, right, bottom and left placement using the same hover-card content. The `side` choice affects where the supplemental panel fits, while its label, purpose and underlying reference remain unchanged.\n\nInspect each edge of the viewport and choose a consistent default; placement should support reading rather than alternate arbitrarily between nearby triggers.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/kamod-ui/hover-card";
 
@@ -178,7 +178,7 @@ export const Example = () => (
     {
       id: "hover-rtl",
       title: "RTL",
-      text: 'dir="rtl" on content for mirrored layout (shadcn RTL).',
+      text: '**Check the Whole Pattern in Its Reading Direction.** Set `dir="rtl"` on the hover-card content when its text reads right to left. Check any metadata rows and directional symbols within the popup, since their meaning needs to agree with the translated trigger.\n\nKeep values and keyboard behavior meaningful in the translated interface, and follow [Direction](/docs/direction/installation) when the page and its portaled controls need a shared direction.',
       code: `import { Button } from "@/components/kamod-ui/button"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/kamod-ui/hover-card";
 

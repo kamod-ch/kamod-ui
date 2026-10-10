@@ -323,7 +323,7 @@ test.describe("UI Motion docs polish QA", () => {
     await page.goto(docsRoute("docs/ui-motion/dialog"));
     const trigger = page.getByRole("button", { name: "Edit profile" });
     await trigger.click();
-    const dialog = page.getByRole("dialog", { name: "Edit profile" });
+    const dialog = page.getByRole("dialog", { name: "Edit Profile" });
     await expect(dialog).toBeVisible();
 
     const overflowWhileOpen = await page.evaluate(() => document.body.style.overflow);

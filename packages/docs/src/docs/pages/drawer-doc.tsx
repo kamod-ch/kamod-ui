@@ -161,7 +161,7 @@ const ResponsiveProfilePreview = () => {
         {/* Default presentation="modal": only max-width override; use presentation="slot" only with your own fixed inset-0 overlay */}
         <DialogContent class="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Edit profile</DialogTitle>
+            <DialogTitle>Edit Profile</DialogTitle>
             <DialogDescription>
               Make changes to your profile here. Click save when you&apos;re done.
             </DialogDescription>
@@ -179,7 +179,7 @@ const ResponsiveProfilePreview = () => {
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader class="text-left">
-          <DrawerTitle>Edit profile</DrawerTitle>
+          <DrawerTitle>Edit Profile</DrawerTitle>
           <DrawerDescription>
             Make changes to your profile here. Click save when you&apos;re done.
           </DrawerDescription>
@@ -230,14 +230,14 @@ export const Example = () => (
     {
       id: "drawer-demo",
       title: "Demo",
-      text: "Goal stepper and simple bar strip (shadcn DrawerDemo pattern, no Recharts).",
+      text: "**Keep the Bottom Panel Focused on One Adjustment.** The drawer example combines a goal stepper, a simple bar display and footer actions in one temporary surface. Adjusting the goal changes local demonstration state, letting you inspect the composition before connecting a real save operation.\n\nConnect the displayed value to real application state, define confirmation versus cancellation, and keep the controls usable when the available height is small.",
       code: `// See repo drawer-doc.tsx — Drawer + DrawerTrigger asChild + DrawerContent + header/footer`,
       renderPreview: () => <GoalDemoPreview />,
     },
     {
       id: "basic-example",
       title: "Basic",
-      text: "Trigger opens a bottom drawer with title and description.",
+      text: "**Introduce the Task before Adding Controls.** Start with a trigger and bottom drawer containing a title and description. This establishes the temporary panel's purpose before adding fields or actions, while leaving the main page recognizable behind it.\n\nPreserve a visible dismissal path and keyboard focus handling, and avoid treating the slide-in presentation as a reason to omit labels or task context.",
       code: `import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/kamod-ui/drawer";
 
 export const Example = () => (
@@ -256,7 +256,7 @@ export const Example = () => (
           <DrawerTrigger>Open drawer</DrawerTrigger>
           <DrawerContent>
             <DrawerHeader>
-              <DrawerTitle>Edit profile</DrawerTitle>
+              <DrawerTitle>Edit Profile</DrawerTitle>
               <DrawerDescription>Update account settings.</DrawerDescription>
             </DrawerHeader>
           </DrawerContent>
@@ -265,8 +265,8 @@ export const Example = () => (
     },
     {
       id: "footer-actions",
-      title: "Footer actions",
-      text: "Submit and cancel via DrawerClose asChild.",
+      title: "Footer Actions",
+      text: "**Separate Completion from Dismissal.** Use `DrawerClose asChild` to compose a visible dismissal action with your own button. If an action also submits data, decide explicitly whether the drawer should close immediately or only after the operation succeeds.\n\nSet button types deliberately inside forms and connect successful submission to closing only when appropriate; closing the drawer itself does not perform an application mutation.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerTrigger } from "@/components/kamod-ui/drawer";
 
@@ -299,8 +299,8 @@ export const Example = () => (
     },
     {
       id: "scrollable",
-      title: "Scrollable content",
-      text: "Right drawer with scroll region; footer stays in the sheet layout (shadcn Scrollable Content).",
+      title: "Scrollable Content",
+      text: "**Keep Actions Reachable While the Body Grows.** Place long content in a scroll region inside a right-side drawer and keep the footer in the surrounding layout. This allows readers to browse the details while retaining access to the next action.\n\nCheck that focused controls remain visible above the footer and test short screens; avoid nesting several competing vertical scroll areas in the same drawer.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/kamod-ui/drawer";
 
@@ -361,7 +361,7 @@ export const Example = () => (
     {
       id: "sides",
       title: "Sides",
-      text: "Each `direction` opens from that edge (shadcn Sides).",
+      text: "**Choose the Edge According to the Surrounding Layout.** Choose the drawer's `direction` according to the edge it should emerge from. Compare all sides with the same content to understand how panel dimensions and available reading space change with that placement.\n\nKeep the content and dismissal behavior consistent across directions, and verify that panel dimensions leave enough space for real labels and actions.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/kamod-ui/drawer";
 
@@ -426,15 +426,15 @@ export const Example = () => (
     },
     {
       id: "responsive-dialog",
-      title: "Responsive dialog",
-      text: "Dialog from md breakpoint up, Drawer below (shared `open` / `onOpenChange`). Resize the viewport to compare.",
+      title: "Responsive Dialog",
+      text: "**Preserve the Task Across Breakpoints.** Use a `Dialog` at wider sizes and a `Drawer` below the `md` breakpoint while sharing `open` and `onOpenChange`. The presentation adapts to the viewport, but the task and its state remain one interaction.\n\nKeep form values outside presentation-specific branches when they must survive a switch, and test resizing while the panel is open rather than only its initial layout.",
       code: `// See drawer-doc.tsx — useMediaQuery (min-width: 768px), Dialog vs Drawer`,
       renderPreview: () => <ResponsiveProfilePreview />,
     },
     {
       id: "rtl-drawer",
       title: "RTL",
-      text: 'Set dir="rtl" on DrawerContent when the page is RTL.',
+      text: '**Check the Whole Pattern in Its Reading Direction.** Set `dir="rtl"` on `DrawerContent` when its language reads right to left. Review the text, action order and any directional graphics inside the panel independently of the physical edge from which it opens.\n\nKeep values and keyboard behavior meaningful in the translated interface, and follow [Direction](/docs/direction/installation) when the page and its portaled controls need a shared direction.',
       code: `import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/kamod-ui/drawer";
 
 export const Example = () => (

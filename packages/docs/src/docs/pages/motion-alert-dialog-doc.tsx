@@ -25,7 +25,7 @@ export const motionAlertDialogDocPage = createMotionDocPage({
     {
       id: "basic",
       title: "Basic",
-      text: "Destructive confirmation with scale enter/exit on the panel and fade on the overlay.",
+      text: "**Keep Motion Separate from the Interaction Contract.** Combine a panel scale transition with an overlay fade around a destructive confirmation. The motion illustrates the temporary dialog appearing and leaving; the title, consequence and cancel/confirm actions still define the actual decision.\n\nTest repeated activation and reduced-motion preferences, keep the underlying controlled state in one place and avoid making application logic depend on a decorative transition finishing.",
       code: MOTION_ALERT_DIALOG_EXAMPLE_CODE,
       renderPreview: () => <MotionAlertDialogDemo />,
     },

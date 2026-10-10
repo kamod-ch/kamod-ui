@@ -4,7 +4,7 @@ export const formExamples: readonly OverviewExample[] = [
   {
     id: "native",
     label: "Native",
-    title: "Start with the browser’s form semantics",
+    title: "Start with the Browser’s Form Semantics",
     description:
       "A visible label, a named field and a submit button are enough for a small form. Native required and email validation run before the submit handler. The callback below belongs to your application; the live demo only checks the form locally.",
     filePath: "src/components/EmailForm.tsx",
@@ -59,7 +59,7 @@ export function parseContact(input: unknown) {
   {
     id: "formisch",
     label: "Formisch",
-    title: "Connect a schema to a Kamod input",
+    title: "Connect a Schema to a Kamod Input",
     description:
       "Formisch owns values, validation and submission; Kamod supplies the controls. This self-contained example validates on submit and revalidates while editing. The async save callback lets your application provide the service boundary.",
     filePath: "src/forms/ContactForm.tsx",
@@ -102,7 +102,7 @@ export const packageExamples: readonly OverviewExample[] = [
   {
     id: "hooks",
     label: "Hooks",
-    title: "Pair reusable behavior with a semantic control",
+    title: "Pair Reusable Behavior with a Semantic Control",
     description:
       "useToggle keeps the state transition small. A core Button still provides the control, while aria-expanded and aria-controls explain which content it reveals. The live example stays local and resets on reload.",
     filePath: "src/components/DetailsToggle.tsx",
@@ -130,7 +130,7 @@ export function DetailsToggle() {
   {
     id: "icons",
     label: "Icons",
-    title: "Make an icon action understandable",
+    title: "Make an Icon Action Understandable",
     description:
       "Import a named icon from a documented family. Let the icon inherit the theme color and put the accessible name on the button. Keep the callback explicit so the component works with any router or service.",
     filePath: "src/components/OpenSearch.tsx",
@@ -152,7 +152,7 @@ export function OpenSearch({ onOpen }: { onOpen: () => void }) {
   {
     id: "signals",
     label: "Signals",
-    title: "Persist a small, non-sensitive preference",
+    title: "Persist a Small, Non-Sensitive Preference",
     description:
       "For a client-rendered preference, usePersistedSignal connects a scoped signal to local storage and disposes its controller on unmount. For SSR, follow the package’s initialization and cookie guidance so the server and first client render agree.",
     filePath: "src/components/DensityPreference.tsx",

@@ -12,7 +12,7 @@ export const separatorDocPage = createGenericDocPage({
     {
       id: "horizontal-separator",
       title: "Horizontal Separator",
-      text: "Klassische Trennung zwischen Content-Bloecken in einer vertikalen Sektion.",
+      text: "**Separate Related Content without Adding Another Surface.** Place a horizontal `Separator` between distinct blocks of related content. It creates a quiet visual boundary within the reading flow without requiring a separate card surface or additional heading for every division.\n\nKeep it visually secondary and decide whether it conveys a meaningful structural boundary or is purely decorative before choosing its accessible treatment.",
       code: `import { Separator } from "@/components/kamod-ui/separator";
 
 export const Example = () => (
@@ -45,7 +45,7 @@ export const Example = () => (
     {
       id: "vertical-separator",
       title: "Vertical Separator",
-      text: 'Nutze `orientation="vertical"` fuer kompakte Inline-Navigation.',
+      text: '**Give Inline Groups a Quiet Boundary.** Set `orientation="vertical"` for a separator between compact inline groups. Give the surrounding row a meaningful height so the line can distinguish neighboring content without becoming an oversized decorative element.\n\nSet a usable surrounding height, keep spacing balanced on both sides and let narrow layouts adapt instead of leaving an isolated divider on a wrapped line.',
       code: `import { Separator } from "@/components/kamod-ui/separator";
 
 export const Example = () => (
@@ -70,7 +70,7 @@ export const Example = () => (
     {
       id: "menu-separator",
       title: "Menu",
-      text: "Vertikale Separatoren zwischen Menuepunkten mit zusaetzlichen Beschreibungen.",
+      text: "**Group Navigation by Meaning.** Use vertical separators to distinguish adjacent menu-like entries that include supporting descriptions. The line clarifies their boundaries, while the wording and navigation semantics still explain what each entry represents.\n\nKeep the link text primary, avoid placing a rule between every small fragment, and verify that the arrangement remains understandable when the items wrap.",
       code: `import { Separator } from "@/components/kamod-ui/separator";
 
 export const Example = () => (
@@ -113,7 +113,7 @@ export const Example = () => (
     {
       id: "list-separator",
       title: "List",
-      text: "Horizontale Trenner zwischen Zeilen in einer kompakten Liste.",
+      text: "**Create a Consistent Rhythm in Dense Lists.** Insert horizontal separators between compact list rows when full borders would add unnecessary visual weight. Keep the spacing consistent so each item remains a recognizable unit rather than appearing attached to the following row.\n\nAlign it with the content structure, preserve enough vertical space for wrapped text and avoid duplicating a border already supplied by the row component.",
       code: `import { Separator } from "@/components/kamod-ui/separator";
 
 export const Example = () => (

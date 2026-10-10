@@ -114,7 +114,7 @@ export const navigationMenuDocPage = createGenericDocPage({
     {
       id: "demo",
       title: "Demo",
-      text: "Full example from the shadcn/ui docs: Getting started list, responsive Components grid, and a trigger-styled Docs link.",
+      text: "**Group Destinations Around How People Explore the Site.** Compose introductory links, a responsive component grid and a direct documentation destination within one navigation menu. The example shows how dropdown content and ordinary links can share a visual hierarchy without behaving identically.\n\nKeep destination labels specific, preserve ordinary anchor behavior and provide a responsive navigation alternative when the full panel layout no longer fits.",
       code: `// See shadcn NavigationMenuDemo — ListItem helper + components grid + navigationMenuTriggerStyle on Docs link`,
       renderPreview: () => (
         <div class="flex w-full justify-center py-2">
@@ -125,7 +125,7 @@ export const navigationMenuDocPage = createGenericDocPage({
     {
       id: "basic",
       title: "Basic",
-      text: "Minimal trigger and content pair inside a list.",
+      text: "**Start with One Clearly Named Navigation Group.** Start with one `NavigationMenuTrigger` and its associated content inside the menu list. This establishes the expandable navigation relationship before adding multi-column collections, descriptions or standalone destinations.\n\nKeep the list short enough to scan and test keyboard opening, movement and dismissal before adding richer panel content.",
       code: `import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "@/components/kamod-ui/navigation-menu";
 
 export const Example = () => (
@@ -157,8 +157,8 @@ export const Example = () => (
     },
     {
       id: "link-as-trigger-style",
-      title: "Link with trigger style",
-      text: "Use `navigationMenuTriggerStyle()` on NavigationMenuLink so a plain anchor matches submenu triggers (shadcn Link composition pattern).",
+      title: "Link with Trigger Style",
+      text: "**Make Direct Destinations Fit Beside Expandable Groups.** Apply `navigationMenuTriggerStyle()` to `NavigationMenuLink` when a direct destination should visually align with neighboring dropdown triggers. The element remains a link, so matching its appearance does not imply that it opens another panel.\n\nKeep its destination real and avoid presenting a disclosure indicator when there is no panel; consistent styling should not imply identical interaction.",
       code: `import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, navigationMenuTriggerStyle } from "@/components/kamod-ui/navigation-menu";
 
 export const Example = () => (
@@ -189,7 +189,7 @@ export const Example = () => (
     {
       id: "rtl",
       title: "RTL",
-      text: 'Set `dir="rtl"` on NavigationMenu for right-to-left layouts; chevron rotation follows logical start/end.',
+      text: '**Check the Whole Pattern in Its Reading Direction.** Set `dir="rtl"` on `NavigationMenu` for a translated navigation hierarchy. Review the opened content and directional chevrons along with the top-level labels so both navigation layers follow the same reading order.\n\nKeep values and keyboard behavior meaningful in the translated interface, and follow [Direction](/docs/direction/installation) when the page and its portaled controls need a shared direction.',
       code: `import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle } from "@/components/kamod-ui/navigation-menu";
 
 export const Example = () => (
@@ -245,8 +245,8 @@ export const Example = () => (
     },
     {
       id: "delays",
-      title: "Delay tuning",
-      text: "Adjust hover open delay and rapid-switch skip window (defaults 200ms / 300ms, Radix-like).",
+      title: "Delay Tuning",
+      text: "**Tune Hover Behavior for Real Pointer Travel.** Tune the opening delay and the rapid-switch skip window when moving between adjacent menus. These timing options affect how hover navigation feels; they should leave deliberate keyboard and pointer selection predictable.\n\nTest the menu with its actual spacing and panel sizes, and retain keyboard access independently of the pointer timing choices.",
       code: `import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "@/components/kamod-ui/navigation-menu";
 
 export const Example = () => (

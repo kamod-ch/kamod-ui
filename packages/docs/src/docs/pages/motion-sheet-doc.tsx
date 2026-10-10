@@ -18,7 +18,7 @@ export const motionSheetDocPage = createMotionDocPage({
     {
       id: "basic",
       title: "Basic",
-      text: "Open a sheet from the right edge with coordinated overlay fade and panel slide.",
+      text: "**Keep Motion Separate from the Interaction Contract.** Open the motion sheet from the right with a coordinated panel slide and backdrop fade. The transition explains where the temporary surface enters, while its content should still provide a clear title and dismissal action.\n\nTest repeated activation and reduced-motion preferences, keep the underlying controlled state in one place and avoid making application logic depend on a decorative transition finishing.",
       code: `import { MotionSheetContent } from "@kamod-ch/ui-motion/sheet";
 import { Sheet, SheetTitle, SheetTrigger } from "@kamod-ch/ui/sheet";
 import { Button } from "@kamod-ch/ui/button";
@@ -36,7 +36,7 @@ import { Button } from "@kamod-ch/ui/button";
     {
       id: "side",
       title: "Side",
-      text: 'Pass side="top" | "right" | "bottom" | "left". Motion presets match the chosen edge.',
+      text: "**Keep Motion Separate from the Interaction Contract.** Choose `side=\"top\"`, `right`, `bottom` or `left` to align the motion preset with the sheet's edge. Compare the same content in each placement to verify both the transition direction and the panel's usable dimensions.\n\nTest repeated activation and reduced-motion preferences, keep the underlying controlled state in one place and avoid making application logic depend on a decorative transition finishing.",
       code: MOTION_SHEET_EXAMPLE_CODE,
       renderPreview: () => <MotionSheetSidesDemo />,
     },

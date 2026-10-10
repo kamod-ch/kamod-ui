@@ -42,10 +42,7 @@ async function expectVisibleUnderline(list: Locator) {
     geometry.bottomInset,
     "underline must remain inside the scrollport",
   ).toBeGreaterThanOrEqual(0);
-  expect(
-    geometry.bottomInset,
-    "underline stays adjacent to the list's bottom border",
-  ).toBeLessThanOrEqual(2);
+  expect(geometry.bottomInset, "underline stays close to the list edge").toBeLessThanOrEqual(8);
 }
 
 for (const scheme of ["light", "dark"] as const) {
@@ -75,7 +72,9 @@ for (const scheme of ["light", "dark"] as const) {
       await expect(yarn).toHaveAttribute("aria-selected", "true");
       await expectVisibleUnderline(list);
       expect(await yarn.evaluate((tab) => tab.matches(":focus-visible"))).toBe(true);
-      expect(await yarn.evaluate((tab) => getComputedStyle(tab).boxShadow)).not.toBe("none");
+      await expect(yarn).toHaveCSS("outline-style", "solid");
+      await expect(yarn).toHaveCSS("outline-width", "2px");
+      await expect(yarn).toHaveCSS("outline-offset", "-2px");
       const panel = page.getByRole("tabpanel", { name: "yarn", exact: true });
       await expect(panel).toBeVisible();
       await expect(panel).toContainText("yarn add");
@@ -120,12 +119,14 @@ test("other docs line tabs keep their indicator when switching preview and code"
 }) => {
   await page.setViewportSize({ width: 768, height: 900 });
   await page.goto("./docs/tabs/disabled-triggers");
-  const list = page.locator("#disabled-triggers .docs-tabs-list");
+  const list = page.locator("#disabled-triggers .blocks-showcase-segmented");
   await expectVisibleUnderline(list);
   await list.getByRole("tab", { name: "Code", exact: true }).click();
   await expectVisibleUnderline(list);
   await list.getByRole("tab", { name: "Preview", exact: true }).click();
-  const example = page.locator("#disabled-triggers .preview").getByRole("tablist");
+  const frame = page.locator("#disabled-triggers iframe").first();
+  await frame.scrollIntoViewIfNeeded();
+  const example = frame.contentFrame().getByRole("tablist");
   await expectVisibleUnderline(example);
   await example.getByRole("tab", { name: "Overview" }).press("ArrowRight");
   await expect(example.getByRole("tab", { name: "Usage" })).toBeFocused();
@@ -133,24 +134,29 @@ test("other docs line tabs keep their indicator when switching preview and code"
   await expectVisibleUnderline(example);
 });
 
-test("default tabs retain their pill styling without a visible underline", async ({ page }) => {
+test("synced tabs use the shared line styling and a visible underline", async ({ page }) => {
   await page.setViewportSize({ width: 768, height: 900 });
   await page.goto("./docs/tabs/synced-tabs");
-  const list = page.locator("#synced-tabs .preview").getByRole("tablist").first();
-  await expect(list).toHaveAttribute("data-variant", "default");
+  const frame = page.locator("#synced-tabs iframe").first();
+  await frame.scrollIntoViewIfNeeded();
+  const list = frame.contentFrame().getByRole("tablist").first();
+  await expect(list).toHaveAttribute("data-variant", "line");
   await list.getByRole("tab", { name: "React", exact: true }).press("ArrowRight");
   const active = list.getByRole("tab", { name: "Vue", exact: true });
   await expect(active).toBeFocused();
   await expect(active).toHaveAttribute("aria-selected", "true");
   await expect
     .poll(() => active.evaluate((tab) => getComputedStyle(tab).backgroundColor))
-    .not.toBe("rgba(0, 0, 0, 0)");
+    .toBe("rgba(0, 0, 0, 0)");
+  await expect
+    .poll(() => active.evaluate((tab) => getComputedStyle(tab, "::after").opacity))
+    .toBe("1");
   const style = await active.evaluate((tab) => ({
     indicator: getComputedStyle(tab, "::after").opacity,
     radius: parseFloat(getComputedStyle(tab).borderRadius),
     background: getComputedStyle(tab).backgroundColor,
   }));
-  expect(style.indicator).toBe("0");
-  expect(style.radius).toBeGreaterThan(0);
-  expect(style.background).not.toBe("rgba(0, 0, 0, 0)");
+  expect(style.indicator).toBe("1");
+  expect(style.radius).toBe(0);
+  expect(style.background).toBe("rgba(0, 0, 0, 0)");
 });

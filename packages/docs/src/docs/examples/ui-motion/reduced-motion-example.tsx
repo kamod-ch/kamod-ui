@@ -76,7 +76,7 @@ export function ReducedMotionPreview() {
       <p class="text-sm text-muted-foreground" data-testid="ui-motion-reduced-status">
         policy: <strong>{policy}</strong>
         {" · "}
-        reduced: <strong>{reduced ? "yes" : "no"}</strong>
+        reduced: <strong>{reduced ? "Yes" : "No"}</strong>
       </p>
       <Motion
         class="flex h-28 items-center justify-center rounded-xl border border-dashed bg-muted/30 text-sm"

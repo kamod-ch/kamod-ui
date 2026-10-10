@@ -225,22 +225,22 @@ export const aspectRatioDocPage: DocPageModule = {
     {
       id: "demo",
       title: "Demo",
-      text: "Default widescreen frame with muted background and rounded corners.",
+      text: "**Reserve the Media Space before It Loads.** Use `AspectRatio` to reserve a widescreen frame before the image loads. A muted background and rounded corners define the media area; the ratio determines its height from the available width.\n\nChoose whether the image should crop with `object-cover` or remain fully visible with `object-contain`; the ratio controls the frame, not which content may safely be cropped.",
     },
     {
       id: "square",
       title: "Square",
-      text: "Use ratio={1 / 1} for square thumbnails or avatars.",
+      text: "**Use a Predictable Thumbnail Rhythm.** Set `ratio={1 / 1}` to keep the media frame square as its container grows or shrinks. Use this for consistent thumbnails, then choose how the image should fit inside that reserved space.\n\nCheck the focal point before cropping, provide useful alternative text, and avoid treating a decorative thumbnail as the only label for its destination.",
     },
     {
       id: "portrait",
       title: "Portrait",
-      text: "Use ratio={9 / 16} for vertical media.",
+      text: "**Make Room for Vertical Content.** Set `ratio={9 / 16}` for portrait media such as a vertical video preview. The frame remains proportional to its width, so the surrounding layout can reserve room without hard-coding a height.\n\nSet a sensible surrounding width and inspect the crop with real media; use [Video](/docs/video/installation) when the content also needs playback controls.",
     },
     {
       id: "rtl",
       title: "RTL",
-      text: "Aspect ratio is direction-agnostic; wrap copy and DirectionProvider for RTL layouts like shadcn’s RTL guide.",
+      text: "**Check the Whole Pattern in Its Reading Direction.** `AspectRatio` controls dimensions independently of reading direction. Apply `DirectionProvider` to the surrounding labels and actions, keeping their translated order separate from the media's width-to-height relationship.\n\nKeep values and keyboard behavior meaningful in the translated interface, and follow [Direction](/docs/direction/installation) when the page and its portaled controls need a shared direction.",
     },
     { id: "api-reference", title: "API Reference", text: "Component overview." },
   ],

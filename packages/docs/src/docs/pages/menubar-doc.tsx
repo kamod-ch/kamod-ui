@@ -14,6 +14,7 @@ import {
   MenubarSubTrigger,
   MenubarTrigger,
 } from "@kamod-ch/ui";
+import { CopyButton } from "@kamod-ch/ui/copy-button";
 import { FileText, FolderOpen, HelpCircle, Save, Settings, Trash2 } from "lucide-preact";
 import { useState } from "preact/hooks";
 import { createGenericDocPage } from "./create-generic-doc-page";
@@ -85,7 +86,7 @@ function MenubarDemo() {
           <MenubarSeparator />
           <MenubarGroup>
             <MenubarItem>Cut</MenubarItem>
-            <MenubarItem>Copy</MenubarItem>
+            <CopyButton value="Menubar example" subject="example" role="menuitem" class="w-full" />
             <MenubarItem>Paste</MenubarItem>
           </MenubarGroup>
         </MenubarContent>
@@ -338,7 +339,7 @@ export const menubarDocPage = createGenericDocPage({
     {
       id: "demo",
       title: "Demo",
-      text: "Full shadcn-style sample: File / Edit / View / Profiles with submenus, shortcuts, checkboxes, and a static radio group.",
+      text: "**Organize Application Commands into Familiar Categories.** Compose File, Edit, View and profile menus to explore a complete application menubar. Submenus, checkbox settings and radio choices demonstrate different action types; the displayed shortcut hints and sample values still need application behavior behind them.\n\nReplace static demonstration values with real state, and keep displayed keyboard shortcuts synchronized with the handlers your application actually registers.",
       code: `// Mirrors https://ui.shadcn.com/docs/components/radix/menubar — see MenubarDemo in menubar-doc.tsx`,
       renderPreview: () => (
         <div class="flex w-full justify-center py-2">
@@ -349,7 +350,7 @@ export const menubarDocPage = createGenericDocPage({
     {
       id: "minimal",
       title: "Minimal",
-      text: "Minimal pattern with Group and Shortcut.",
+      text: "**Start with One Coherent Command Category.** Begin with a small menubar group and one shortcut hint to establish the relationship between a top-level trigger and its commands. Additional menus can follow the same structure when their actions form distinct categories.\n\nKeep the trigger meaningful, connect items to real actions and treat shortcut text as documentation of behavior rather than as a shortcut implementation.",
       code: `import { Menubar, MenubarContent, MenubarGroup, MenubarItem, MenubarMenu, MenubarSeparator, MenubarShortcut, MenubarTrigger } from "@/components/kamod-ui/menubar";
 
 export const Example = () => (
@@ -398,7 +399,7 @@ export const Example = () => (
     {
       id: "checkbox",
       title: "Checkbox",
-      text: "MenubarCheckboxItem for toggles; optional checked / onCheckedChange for controlled usage.",
+      text: "**Represent Independent Preferences within a Menu.** Use `MenubarCheckboxItem` for an independent boolean preference inside a menu. Supply `checked` and `onCheckedChange` when its value belongs in parent state, allowing other controls to reflect the same setting.\n\nKeep each label clear about the enabled behavior, and decide whether changes take effect immediately or must be saved in a separate workflow.",
       code: `import { Menubar, MenubarCheckboxItem, MenubarContent, MenubarItem, MenubarMenu, MenubarSeparator, MenubarShortcut, MenubarTrigger } from "@/components/kamod-ui/menubar";
 
 export const Example = () => (
@@ -425,7 +426,7 @@ export const Example = () => (
     {
       id: "radio",
       title: "Radio",
-      text: "MenubarRadioGroup with value and onValueChange for controlled selection.",
+      text: "**Show One Selected Mode Among Alternatives.** Use `MenubarRadioGroup` with `value` and `onValueChange` when only one option may be active. The menu shows the current choice while the parent can apply that same value to the rest of the application.\n\nBind the selection to a single source of truth and use stable values; the displayed checked item should agree with the application's current behavior after reopening the menu.",
       code: `import { useState } from "preact/hooks";
 import { Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarRadioGroup, MenubarRadioItem, MenubarSeparator, MenubarTrigger } from "@/components/kamod-ui/menubar";
 
@@ -455,7 +456,7 @@ export const Example = () => {
     {
       id: "submenu",
       title: "Submenu",
-      text: "MenubarSub, MenubarSubTrigger, and MenubarSubContent for nested panels.",
+      text: "**Move Related Secondary Choices into a Clear Branch.** Compose `MenubarSub`, `MenubarSubTrigger` and `MenubarSubContent` for a named group of secondary commands. The nested panel keeps related operations together without expanding every choice into the first menu level.\n\nVerify keyboard navigation and dismissal across levels, especially when the menu contains both commands and settings that should behave differently after selection.",
       code: `import { Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarSeparator, MenubarShortcut, MenubarSub, MenubarSubContent, MenubarSubTrigger, MenubarTrigger } from "@/components/kamod-ui/menubar";
 
 export const Example = () => (
@@ -486,8 +487,8 @@ export const Example = () => (
     },
     {
       id: "icons",
-      title: "With icons",
-      text: "Place icons before label text; destructive variant on MenubarItem.",
+      title: "With Icons",
+      text: "**Make Scanning Faster without Changing Meaning.** Place recognizable icons before menu labels and use the destructive variant only for actions with that consequence. The visual treatment supplements the text, keeping the menu understandable even when an icon is unfamiliar.\n\nKeep decorative icons out of the accessible name and separate risky operations through clear wording and grouping rather than relying on a red icon alone.",
       code: `import { FileText, Trash2 } from "lucide-preact";
 import { Menubar, MenubarContent, MenubarGroup, MenubarItem, MenubarMenu, MenubarSeparator, MenubarShortcut, MenubarTrigger } from "@/components/kamod-ui/menubar";
 
@@ -520,7 +521,7 @@ export const Example = () => (
     {
       id: "rtl",
       title: "RTL",
-      text: 'Set dir="rtl" on Menubar; submenus use logical start/end (e.g. MenubarSubContent start-full).',
+      text: '**Check the Whole Pattern in Its Reading Direction.** Set `dir="rtl"` on `Menubar` for a translated command surface. Logical submenu placement follows the reading direction, while shortcut text and directional symbols still need review within the opened panels.\n\nKeep values and keyboard behavior meaningful in the translated interface, and follow [Direction](/docs/direction/installation) when the page and its portaled controls need a shared direction.',
       code: `import { Menubar, MenubarCheckboxItem, MenubarContent, MenubarGroup, MenubarItem, MenubarMenu, MenubarSeparator, MenubarShortcut, MenubarSub, MenubarSubContent, MenubarSubTrigger, MenubarTrigger } from "@/components/kamod-ui/menubar";
 
 export const Example = () => (

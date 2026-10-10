@@ -17,6 +17,7 @@ import {
   TableHeader,
   TableRow,
 } from "@kamod-ch/ui";
+import { CopyButton } from "@kamod-ch/ui/copy-button";
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-preact";
 import { useEffect, useMemo, useRef, useState } from "preact/hooks";
 
@@ -246,13 +247,13 @@ export const PaymentsDataTableDemo = () => {
                     <DropdownContent align="end" class="w-40">
                       <DropdownGroup>
                         <DropdownLabel>Actions</DropdownLabel>
-                        <DropdownItem
-                          onClick={() => {
-                            void navigator.clipboard?.writeText?.(row.id);
-                          }}
-                        >
-                          Copy payment ID
-                        </DropdownItem>
+                        <CopyButton
+                          value={row.id}
+                          label="Copy payment ID"
+                          subject="payment ID"
+                          role="menuitem"
+                          class="w-full"
+                        />
                       </DropdownGroup>
                       <DropdownSeparator />
                       <DropdownGroup>

@@ -92,7 +92,7 @@ export const Example = () => (
 const CardDemoPreview = () => (
   <Card class="w-full max-w-sm">
     <CardHeader>
-      <CardTitle>Login to your account</CardTitle>
+      <CardTitle>Login to Your Account</CardTitle>
       <CardDescription>Enter your email below to login to your account</CardDescription>
       <CardAction>
         <Button variant="link">Sign Up</Button>
@@ -167,7 +167,7 @@ const CardImagePreview = () => (
       <CardAction>
         <Badge variant="secondary">Featured</Badge>
       </CardAction>
-      <CardTitle>Design systems meetup</CardTitle>
+      <CardTitle>Design Systems Meetup</CardTitle>
       <CardDescription>
         A practical talk on component APIs, accessibility, and shipping faster.
       </CardDescription>
@@ -342,14 +342,14 @@ export const cardDocPage = createGenericDocPage({
     {
       id: "card-demo",
       title: "Demo",
-      text: "Login-style layout with header action, form fields, and stacked footer buttons (shadcn CardDemo).",
+      text: "**Structure a Small Task within One Surface.** Arrange the login fields between `CardHeader` and `CardFooter`, with a header action for a related destination. The card defines the reading order and shared surface; the fields and buttons retain their own form behavior.\n\nKeep labels and validation connected to their inputs; the card supplies layout, while your form owns submission, loading and error behavior.",
       code: LOGIN_DEMO_CODE,
       renderPreview: () => <CardDemoPreview />,
     },
     {
       id: "card-size",
       title: "Size",
-      text: 'Use `size="sm"` for reduced vertical padding and smaller type scale on the card.',
+      text: '**Use Compact Cards Where Density Helps.** Set `size="sm"` for a card with reduced spacing and typography. Compare it with the regular treatment using the same content to decide whether the denser surface still leaves room for descriptions and actions.\n\nCompare the result with real content and buttons rather than judging the empty shell; compact presentation should preserve the same information hierarchy.',
       code: `import { Button } from "@/components/kamod-ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/kamod-ui/card";
 
@@ -379,7 +379,7 @@ export const Example = () => (
     {
       id: "card-image",
       title: "Image",
-      text: "Hero image with overlay, badge action in the header, and a full-width primary button (shadcn CardImage).",
+      text: "**Let Media Support the Message.** Place a prominent image above the card's explanation, with a badge action in the header and a full-width action below. Each region has a distinct role, helping the media support the decision rather than obscure it.\n\nGive meaningful images alternative text, keep decorative overlays out of the reading order, and make the primary action's destination clear without relying on the image alone.",
       code: `import { Badge } from "@/components/kamod-ui/badge";
 import { Button } from "@/components/kamod-ui/button";
 import { Card, CardAction, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/kamod-ui/card";
@@ -412,7 +412,7 @@ export const Example = () => (
     {
       id: "card-rtl",
       title: "RTL",
-      text: "English, Arabic, and Hebrew samples with `DirectionProvider` and logical `ms-auto` on the forgot-password link (shadcn RTL guide).",
+      text: "**Check the Whole Pattern in Its Reading Direction.** Use `DirectionProvider` to compare the same card in English, Arabic and Hebrew. Logical utilities such as `ms-auto` position the supporting link relative to the reading direction instead of a fixed physical side.\n\nKeep values and keyboard behavior meaningful in the translated interface, and follow [Direction](/docs/direction/installation) when the page and its portaled controls need a shared direction.",
       code: `import { useState } from "preact/hooks";
 import { Button } from "@/components/kamod-ui/button"
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/kamod-ui/card"

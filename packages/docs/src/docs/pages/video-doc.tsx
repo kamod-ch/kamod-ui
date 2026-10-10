@@ -10,8 +10,8 @@ export const videoDocPage = createGenericDocPage({
   exampleSections: [
     {
       id: "video-with-source",
-      title: "Video With Source",
-      text: "Provide a source file and keep controls enabled.",
+      title: "Video with Source",
+      text: "**Keep Playback under Understandable Controls.** Supply a video source and keep native controls available when the reader should choose how to play the media. Reserve an appropriate frame and provide the surrounding title or description needed to understand what the video contains.\n\nTest the media when loading fails and avoid depending on the video alone for essential instructions; nearby text should explain what viewers can expect to learn.",
       code: `import { Video } from "@/components/kamod-ui/video";
 
 export const Example = () => (
@@ -31,7 +31,7 @@ export const Example = () => (
     {
       id: "muted-preview",
       title: "Muted Preview",
-      text: "Use muted autoplay previews in media galleries.",
+      text: "**Use Automatic Playback Only as a Supplementary Preview.** Use a muted autoplay preview for a visual gallery only when motion is supplementary to the item itself. Keep a useful static presentation available and avoid relying on the preview to communicate information that requires sound.\n\nConsider motion preferences, offer an appropriate way to pause persistent movement and avoid downloading many large previews before users need them.",
       code: `import { Video } from "@/components/kamod-ui/video";
 
 export const Example = () => (

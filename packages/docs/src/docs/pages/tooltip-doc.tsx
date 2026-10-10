@@ -13,7 +13,7 @@ export const tooltipDocPage = createGenericDocPage({
     {
       id: "basic-tooltip",
       title: "Basic",
-      text: "Standard hover and focus tooltip.",
+      text: "**Add a Brief Explanation, Not Hidden Instructions.** Pair a tooltip trigger with a brief explanation that appears on hover or keyboard focus. Use it for supplemental help around an already understandable control, keeping essential task instructions visible in the main interface.\n\nKeep essential information visible elsewhere and avoid placing actions or long content inside a surface intended for short hints.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/kamod-ui/tooltip";
 
@@ -41,7 +41,7 @@ export const Example = () => (
     {
       id: "side-tooltip",
       title: "Side",
-      text: "Choose top, right, bottom, or left placement.",
+      text: "**Choose a Preferred Side that Leaves Room to Read.** Choose the tooltip's `side` from top, right, bottom or left according to the trigger's location. Compare the same hint at each edge so the preferred placement leaves room without obscuring the control it explains.\n\nTest near viewport edges and in dense toolbars, and keep the tooltip short enough that its position does not become a layout problem.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/kamod-ui/tooltip";
 
@@ -82,8 +82,8 @@ export const Example = () => (
     },
     {
       id: "align-tooltip",
-      title: "Align and offset",
-      text: "Fine-tune edge alignment and nudge the position.",
+      title: "Align and Offset",
+      text: "**Use Offsets to Refine a Clear Relationship.** Use alignment and position offsets to fine-tune the tooltip's relationship to its trigger. These adjustments are useful near edges or grouped controls, where a centered popup may compete with neighboring content.\n\nCheck real text lengths and narrow containers before adding special-case positions for individual buttons.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/kamod-ui/tooltip";
 
@@ -130,8 +130,8 @@ export const Example = () => (
     },
     {
       id: "provider-delay-tooltip",
-      title: "Provider delay",
-      text: "Set shared open/close timing once for a whole area.",
+      title: "Provider Delay",
+      text: "**Keep Timing Consistent within a Control Area.** Set shared tooltip timing through the provider when a toolbar or region should use one consistent delay. This avoids configuring every hint independently while allowing the opening behavior to suit the density of the surrounding controls.\n\nBalance quick discovery with accidental activation, and preserve keyboard focus behavior independently of pointer timing; longer delays should not hide essential explanations.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/kamod-ui/tooltip";
 
@@ -158,8 +158,8 @@ export const Example = () => (
     },
     {
       id: "non-hoverable-content-tooltip",
-      title: "Disable hoverable content",
-      text: "Close immediately when leaving trigger, even if pointer enters content.",
+      title: "Disable Hoverable Content",
+      text: "**Use This for Short, Non-Interactive Hints.** Use the non-hoverable content option when leaving the trigger should dismiss a brief passive hint immediately. Keep that content nonessential and noninteractive, since users are not being given time to move into it.\n\nKeep the text brief and choose [Popover](/docs/popover/installation) when users need to move into the panel or interact with its contents.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/kamod-ui/tooltip";
 
@@ -186,8 +186,8 @@ export const Example = () => (
     },
     {
       id: "shortcut-tooltip",
-      title: "With keyboard shortcut",
-      text: "Provide compact command hints in the tooltip body.",
+      title: "With Keyboard Shortcut",
+      text: "**Pair the Action Name with an Accurate Key Hint.** Include a compact keyboard hint alongside the tooltip's action name when the application supports that command. The visible key sequence documents a real shortcut, rather than adding keyboard behavior to the trigger automatically.\n\nKeep the trigger usable without the shortcut and ensure platform-specific modifiers match the behavior users actually receive.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/kamod-ui/tooltip";
 
@@ -218,8 +218,8 @@ export const Example = () => (
     },
     {
       id: "disabled-button-tooltip",
-      title: "Disabled button",
-      text: "Wrap disabled controls so tooltip still gets hover and focus events.",
+      title: "Disabled Button",
+      text: "**Explain the Restriction without Enabling the Action.** Wrap a disabled button with a suitable tooltip trigger because the disabled control may not receive the necessary events. Give the wrapper appropriate focus behavior so the reason for the restriction is available beyond pointer hover.\n\nKeep the reason concise, test both pointer and keyboard access, and put important prerequisites in persistent text when the tooltip would otherwise be the only way to discover them.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/kamod-ui/tooltip";
 

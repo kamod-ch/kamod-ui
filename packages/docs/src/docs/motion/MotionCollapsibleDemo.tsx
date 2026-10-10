@@ -28,7 +28,7 @@ export function MotionCollapsibleDemo() {
       </div>
       <MotionCollapsibleContent class="flex flex-col gap-2">
         <div class="rounded-md border px-4 py-2 text-sm">
-          <p class="font-medium">Shipping address</p>
+          <p class="font-medium">Shipping Address</p>
           <p class="text-muted-foreground">100 Market St, San Francisco</p>
         </div>
       </MotionCollapsibleContent>

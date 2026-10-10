@@ -11,7 +11,7 @@ export const themeToggleDocPage = createGenericDocPage({
     {
       id: "basic-theme-toggle",
       title: "Basic Theme Toggle",
-      text: "Toggle between light and dark mode states.",
+      text: "**Keep the Chosen Appearance Consistent Across the Application.** Use `ThemeToggle` to switch between the interface's light and dark appearances. The control should reflect the currently applied mode, allowing the same page content and semantic tokens to be inspected in both themes.\n\nCheck the initial server-rendered appearance and preference persistence, and ensure the control's accessible name describes the action or available mode clearly.",
       code: `import { ThemeToggle } from "@/components/kamod-ui/theme-toggle";
 
 export const Example = () => <ThemeToggle />;`,
@@ -20,7 +20,7 @@ export const Example = () => <ThemeToggle />;`,
     {
       id: "custom-toggle-label",
       title: "Custom Toggle Label",
-      text: "Provide explicit custom label content.",
+      text: "**Use Wording that Makes the Next Change Predictable.** Provide custom label content when an explicit phrase explains the theme action better than an icon alone. Keep that wording consistent with the current mode and what activating the control will change.\n\nKeep the text useful when icons are unavailable and verify both light and dark states rather than checking only the initial label.",
       code: `import { ThemeToggle } from "@/components/kamod-ui/theme-toggle";
 
 export const Example = () => <ThemeToggle>Toggle theme</ThemeToggle>;`,
@@ -29,7 +29,7 @@ export const Example = () => <ThemeToggle>Toggle theme</ThemeToggle>;`,
     {
       id: "ripple-theme-toggle",
       title: "Ripple Theme Transition",
-      text: 'Set `transition="ripple"` for a circular View Transition from the click origin. Defaults to `"instant"`. Falls back to an immediate switch when View Transitions, `Element.animate`, or motion are unavailable (SSR, older browsers, or `prefers-reduced-motion: reduce`). Import `@kamod-ch/ui/theme.css` or `@kamod-ch/themes/theme.css` so ripple view-transition styles apply.',
+      text: '**Treat the Transition as Progressive Enhancement.** Set `transition="ripple"` for a circular theme transition from the click origin; the default is `instant`. Import the theme stylesheet for its transition rules. Unsupported environments and reduced-motion preferences fall back to an immediate change.\n\nTest both directions and rapid repeated activation, and avoid making surrounding state changes depend on a decorative transition completing successfully.',
       code: `import { ThemeToggle } from "@/components/kamod-ui/theme-toggle";
 import "@kamod-ch/ui/theme.css";
 

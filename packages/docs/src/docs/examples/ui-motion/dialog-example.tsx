@@ -93,7 +93,7 @@ export function MotionDialogProfilePreview() {
           <MotionDialogOverlay />
           <MotionDialogContent class="sm:max-w-sm">
             <DialogHeader>
-              <DialogTitle>Edit profile</DialogTitle>
+              <DialogTitle>Edit Profile</DialogTitle>
               <DialogDescription>
                 Make changes to your profile here. Click save when you are done.
               </DialogDescription>

@@ -84,8 +84,8 @@ export const sliderDocPage = createGenericDocPage({
   exampleSections: [
     {
       id: "basic-slider",
-      title: "Basic (shadcn-style array)",
-      text: "Single thumb using array syntax, matching the Radix/shadcn API.",
+      title: "Basic (Shadcn-Style Array)",
+      text: "**Expose a Value that Users Can Understand.** Use an array containing one number for a single-thumb `Slider`, such as `defaultValue={[50]}`. The shared array-based value model also supports range and multi-thumb examples, so the control's data shape stays consistent as the pattern grows.\n\nProvide an accessible name and a visible value with units, and choose bounds that match the actual setting rather than the demonstration's arbitrary scale.",
       code: BASIC_SLIDER_CODE,
       renderPreview: () => (
         <div class="docs-slider-demo !p-3 w-full max-w-md">
@@ -101,7 +101,7 @@ export const sliderDocPage = createGenericDocPage({
     {
       id: "range-slider",
       title: "Range",
-      text: "Two values produce a range slider with a filled track between the thumbs.",
+      text: "**Explain the Lower and Upper Bounds Separately.** Pass two values to represent the lower and upper bounds of a range. The filled track between the thumbs visualizes that interval, while nearby labels should explain the units and the meaning of both boundaries.\n\nGive each endpoint a meaningful name, show the current interval in text and decide how the application handles adjacent or equal values before connecting the control to filtering or pricing logic.",
       code: `import { Slider } from "@/components/kamod-ui/slider";
 
 export const Example = () => (
@@ -123,8 +123,8 @@ export const Example = () => (
     },
     {
       id: "multiple-thumbs",
-      title: "Multiple thumbs",
-      text: "Use three or more values for multiple thumbs along the same track.",
+      title: "Multiple Thumbs",
+      text: "**Use Several Handles Only When Their Roles Are Clear.** Supply three or more values when the task needs several positions on one scale. Each thumb represents an entry in the array, so the surrounding explanation must distinguish their roles instead of presenting an ambiguous collection of handles.\n\nLabel the values distinctly, keep the ordering rules explicit and offer another input method when precise adjustments become difficult.",
       code: `import { Slider } from "@/components/kamod-ui/slider";
 
 export const Example = () => (
@@ -147,7 +147,7 @@ export const Example = () => (
     {
       id: "stepped-slider",
       title: "Stepped",
-      text: "Use step values for discrete increments.",
+      text: "**Make Each Increment Meaningful.** Set `step` to restrict the slider to meaningful increments rather than every possible point on the scale. Align the step with the units shown to users so the displayed value and allowed adjustments describe the same precision.\n\nShow the current value, check the relationship between minimum, maximum and step, and verify keyboard adjustments alongside pointer dragging.",
       code: `import { Slider } from "@/components/kamod-ui/slider";
 
 export const Example = () => (
@@ -169,8 +169,8 @@ export const Example = () => (
     },
     {
       id: "controlled-slider",
-      title: "Controlled (single)",
-      text: "Store the value in state; `onValueChange` receives a number array (length 1 for a single thumb).",
+      title: "Controlled (Single)",
+      text: "**Keep the Setting Synchronized with External State.** Pass a state-backed value array and update it through `onValueChange` for a controlled slider. Even one thumb produces a `number[]`, allowing another control or readout to share exactly the same selected value.\n\nAvoid firing expensive work for every drag update without considering the workflow, and distinguish live preview from committing a persisted preference.",
       code: `import { Slider } from "@/components/kamod-ui/slider";
 import { useState } from "preact/hooks";
 
@@ -197,8 +197,8 @@ export const Example = () => {
     },
     {
       id: "controlled-range-slider",
-      title: "Controlled (range)",
-      text: "Controlled range on a fractional scale, similar to the shadcn docs demo.",
+      title: "Controlled (Range)",
+      text: "**Keep Fractional Endpoints Readable.** Control both range values in parent state and choose a fractional step when the measurement requires finer precision. The two thumbs describe one interval, so supporting readouts should use the same units and rounding conventions.\n\nTest the smallest and largest permitted intervals, including adjustments made with the keyboard. Check the submitted numbers against the displayed endpoints so formatting does not silently change the measurement the user chose.",
       code: `import { Slider } from "@/components/kamod-ui/slider";
 import { useState } from "preact/hooks";
 
@@ -221,7 +221,7 @@ export const Example = () => {
     {
       id: "disabled-slider",
       title: "Disabled",
-      text: "Disable interaction for single or range sliders.",
+      text: "**Explain Why the Value Cannot Change.** Set `disabled` on a single or range slider when its value is temporarily unavailable for editing. Keep the current position and explanation visible so the interface communicates the setting even while interaction is blocked.\n\nPlace prerequisites outside the control and restore the appropriate state when they are met; disabled appearance should not be the only explanation.",
       code: `import { Slider } from "@/components/kamod-ui/slider";
 
 export const Example = () => (
