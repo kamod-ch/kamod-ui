@@ -16,7 +16,7 @@ export const typeDefinitionAccessibility: AccessibilityProfile = {
     "Try long identifiers, translated action labels and linked metadata at 320px and enlarged text in both themes. Verify hover and focus remain distinct and the expanded source stays inside the card.",
   ],
   example: {
-    title: "Match the surrounding heading hierarchy",
+    title: "Match the Surrounding Heading Hierarchy",
     note: "This section already has an h2, so the card uses h3. Generated IDs are sufficient when there are no external permalink targets.",
     code: `import { TypeDefinition } from "@kamod-ch/ui";
 

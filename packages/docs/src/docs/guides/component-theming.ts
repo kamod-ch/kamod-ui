@@ -1,4 +1,6 @@
 import { type GuideSection, parseGuide } from "../../blocks/guides/guide-markdown";
+import { themeRuntimeReference } from "./theme-runtime-reference";
+import { renderThemeRuntimeTable } from "./theme-runtime-table";
 
 const introduction = `
 ## Choose your theme foundation
@@ -9,9 +11,9 @@ Keep three responsibilities separate: **Tailwind generates utilities**, **theme 
 
 ### Install the packages you need
 
-Add only missing dependencies to your existing Preact application. This guide uses the full theme so components and [complete blocks](/blocks/theming) share the same preset and sidebar tokens.
+Add only missing dependencies to your existing Preact application. This guide uses the full theme so components and [Complete Blocks](/blocks/theming) share the same preset and sidebar tokens.
 
-\`\`\`bash
+\`\`\`bash package-manager
 pnpm add @kamod-ch/ui @kamod-ch/themes @preact/signals
 \`\`\`
 
@@ -35,13 +37,13 @@ export function AccountActions() {
 }
 \`\`\`
 
-Connect the buttons to your application’s actions. Use the [Button reference](/docs/button/installation) for supported variants and [Theme Toggle](/docs/theme-toggle/installation) for accessible labels and the optional ripple transition.
+Connect the buttons to your application’s actions. Use the [Button Reference](/docs/button/installation) for supported variants and [Theme Toggle](/docs/theme-toggle/installation) for accessible labels and the optional ripple transition.
 
 ### Keep local changes local
 
 Use utilities such as \`gap-3\`, \`w-full\` and \`items-center\` for composition. Use pairs such as \`bg-card text-card-foreground\` for surfaces. Avoid overriding every button with a fixed color when a shared token can express the same decision across the interface.
 
-Review changes inside real cards, dialogs and menus, including hover, focus, disabled and error states. The [component styles guide](/blocks/styles) explains how to separate composition decisions from theme changes.
+Review changes inside real cards, dialogs and menus, including hover, focus, disabled and error states. The [Component Styles Guide](/blocks/styles) explains how to separate composition decisions from theme changes.
 `;
 
 const reference = `
@@ -49,7 +51,7 @@ const reference = `
 
 Tailwind CSS v4 uses the CSS-first setup above. The exported configuration preset is for projects that deliberately use a compatible config-driven pipeline; it does not replace loading theme values or scanning your component source.
 
-\`\`\`text tailwind.config.ts
+\`\`\`ts tailwind.config.ts
 import kamodThemes from "@kamod-ch/themes/tailwind-preset";
 
 export default { presets: [kamodThemes] };
@@ -57,31 +59,6 @@ export default { presets: [kamodThemes] };
 
 Keep your existing build conventions. Do not add a second Tailwind configuration simply to follow this optional example.
 
-## Theme runtime reference
-
-These are public exports of \`@kamod-ch/themes\`. Use the provider when building controls with \`useTheme()\`; the standalone [Theme Toggle](/docs/theme-toggle/installation) uses the same shared scheme state.
-
-| API | Purpose |
-| --- | --- |
-| \`ThemeProvider\` | Makes preset and scheme controls available to descendants using \`useTheme()\`. |
-| \`defaultPreset\` | Initial built-in preset, defaulting to \`kamod\`; a saved preference can take precedence. |
-| \`defaultScheme\` | Initial \`light\`, \`dark\` or \`system\` preference, defaulting to \`system\`. |
-| \`storage\` | Optional storage adapter; \`null\` disables provider storage access. |
-| \`attributeTarget\` | Optional element receiving theme attributes and scheme classes. |
-| \`useTheme()\` | Returns \`preset\`, \`presets\`, \`setPreset\`, \`scheme\`, \`setScheme\` and \`resolvedScheme\`. |
-| \`isThemePresetId\` | Validates a string before passing it to \`setPreset\`. |
-| \`getThemeInitScript\` | Produces early initialization script text with configurable defaults. |
-| \`ThemeScript\` | Renders initialization using package defaults, with an optional CSP \`nonce\`. |
-
-### Storage and initial appearance
-
-The runtime uses \`theme-preset\` for the preset and \`theme\` for the scheme; the scheme is also reflected in a cookie. **Stored preference and resolved appearance differ:** System follows the device, while \`resolvedScheme\` is always Light or Dark.
-
-For custom provider defaults, emit \`getThemeInitScript()\` with the same defaults in your framework’s document head. Merely defining the script string does not execute it. Avoid browser-only reads during server rendering, and do not introduce another system listener when the provider already manages it.
-
-### CSS entrypoints
-
-\`theme.css\` combines mappings, defaults and presets. The package also exports \`tokens.css\` and \`brands.css\` for deliberately assembled setups; most applications should start with the complete entry and scope their overrides after it.
 `;
 
 /** Assemble the canonical theme reference while retaining established section routes. */
@@ -93,7 +70,7 @@ export function createComponentThemingSections(foundationSource: string): GuideS
     return { ...section, id };
   };
   const [installation, usage] = parseGuide(introduction);
-  const [preset, api] = parseGuide(reference);
+  const [preset, api] = parseGuide(reference + themeRuntimeReference, renderThemeRuntimeTable);
   return [
     { ...installation, id: "installation" },
     { ...usage, id: "usage" },

@@ -61,7 +61,7 @@ export const feedbackAccessibility: AccessibilityProfiles = {
       "Enable reduced motion and verify the interface still communicates that work is underway.",
     ],
     example: {
-      title: "Name the operation and describe its units",
+      title: "Name the Operation and Describe Its Units",
       note: "This standalone example uses a known total. In your application, derive completed and total from the real operation; use indeterminate mode when the total is unknown.",
       code: 'import { Progress } from "@kamod-ch/ui";\nimport { useId } from "preact/hooks";\n\nexport function UploadProgress() {\n  const labelId = useId();\n  return (\n    <div>\n      <p id={labelId}>Uploading documents</p>\n      <Progress value={3} max={8} aria-labelledby={labelId}\n        aria-valuetext="3 of 8 documents uploaded" />\n    </div>\n  );\n}',
     },

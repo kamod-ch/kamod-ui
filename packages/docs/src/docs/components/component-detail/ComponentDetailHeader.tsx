@@ -1,6 +1,6 @@
 import { withBasePath } from "../../../base-path";
 import type { DocPageModule } from "../../types";
-import { LibraryJumpLinks } from "../LibraryJumpLinks";
+import { BrandText } from "../brand/BrandText";
 import { LibraryPageHeader } from "../LibraryPageHeader";
 import { PathDisplay } from "../PathDisplay";
 import { componentGuidance } from "./component-guidance";
@@ -34,34 +34,22 @@ export function ComponentDetailHeader({
               connecting it to your application's data.
             </p>
             <p>
-              The examples use <PathDisplay path={sourcePath} /> in a <code>Preact</code> project.
-              Follow the live result and its source together: compare supported options in the{" "}
-              <a href="#api-reference">API reference</a>, refine presentation with the{" "}
-              <a href={withBasePath("/blocks/styles")}>component styles guide</a>, and use{" "}
-              <a href={withBasePath("/docs/theming/installation")}>shared theme tokens</a> for
-              consistent colors and surfaces.{" "}
-              <strong>Preserve keyboard behavior and meaningful labels</strong> as you replace the
-              sample content.
+              <BrandText>
+                The examples use <PathDisplay path={sourcePath} /> in a <code>Preact</code> project.
+                Follow the live result and its source together: compare supported options in the{" "}
+                <a href="#api-reference">API Reference</a>, refine presentation with the{" "}
+                <a href={withBasePath("/blocks/styles")}>Component Styles Guide</a>, and use{" "}
+                <a href={withBasePath("/docs/theming/installation")}>Shared Theme Tokens</a> for
+                consistent colors and surfaces.{" "}
+                <strong>Preserve Keyboard Behavior and Meaningful Labels</strong> as you replace the
+                sample content. See the{" "}
+                <a href={withBasePath("/docs/theming/installation")}>Theming Guide</a> for setup and
+                customization.
+              </BrandText>
             </p>
           </>
         }
-      >
-        <LibraryJumpLinks
-          class="block-guide-switcher"
-          label={`${doc.title} documentation`}
-          reference={{ label: "Theming guide", href: withBasePath("/docs/theming/installation") }}
-        >
-          <li>
-            <a href="#component-preview">Live preview</a>
-          </li>
-          <li>
-            <a href="#usage">Usage</a>
-          </li>
-          <li>
-            <a href="#api-reference">API reference</a>
-          </li>
-        </LibraryJumpLinks>
-      </LibraryPageHeader>
+      />
     </>
   );
 }

@@ -2,12 +2,13 @@ import type { ComponentChildren } from "preact";
 import { useContext } from "preact/hooks";
 import { BlockHeadingLink } from "../../../blocks/BlockHeadingLink";
 import type { DocSection } from "../../types";
-import { InlineCode } from "../PathDisplay";
+import { BrandText } from "../brand/BrandText";
 import { componentAccessibility } from "./accessibility";
 import { ComponentAccessibilitySection } from "./ComponentAccessibilitySection";
 import { ComponentApiSection } from "./ComponentApiSection";
 import { ComponentExamplesSection } from "./ComponentExamplesSection";
 import { ComponentExamplesContext } from "./component-examples";
+import { SectionDescription } from "./SectionDescription";
 
 /** Keep existing section anchors while sharing the block documentation's heading and prose styles. */
 export function ComponentDocSection({
@@ -25,14 +26,14 @@ export function ComponentDocSection({
   if (collection && accessibility) {
     return (
       <ComponentAccessibilitySection doc={collection.doc} profile={accessibility}>
-        {children}
+        <BrandText>{children}</BrandText>
       </ComponentAccessibilitySection>
     );
   }
   if (collection && section.id === "api-reference") {
     return (
       <ComponentApiSection doc={collection.doc} introduction={section.text}>
-        {children}
+        <BrandText>{children}</BrandText>
       </ComponentApiSection>
     );
   }
@@ -49,20 +50,8 @@ export function ComponentDocSection({
         <Heading id={`${section.id}-title`} tabIndex={-1}>
           <BlockHeadingLink id={section.id}>{section.title}</BlockHeadingLink>
         </Heading>
-        <p class="docs-copy">
-          {section.text
-            .split(/(`[^`]+`|\b[\w-]+="[^"]+")/g)
-            .map((part, index) =>
-              part.startsWith("`") ? (
-                <InlineCode key={index}>{part.slice(1, -1)}</InlineCode>
-              ) : /^[\w-]+="/.test(part) ? (
-                <InlineCode key={index}>{part}</InlineCode>
-              ) : (
-                part
-              ),
-            )}
-        </p>
-        {children}
+        <SectionDescription text={section.text} />
+        <BrandText>{children}</BrandText>
       </section>
     </>
   );

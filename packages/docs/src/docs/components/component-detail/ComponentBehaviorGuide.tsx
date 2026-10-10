@@ -43,15 +43,15 @@ export function ComponentBehaviorGuide({ doc }: { doc: DocPageModule }) {
   return (
     <>
       <p>
-        <strong>Give each piece of state one owner.</strong> Keep a temporary selection inside the
+        <strong>Give Each Piece of State One Owner.</strong> Keep a temporary selection inside the
         interface when nothing else needs it; lift shared values into a parent when other controls
-        depend on them. Read the <a href="#component-props">prop reference</a> before combining
+        depend on them. Read the <a href="#component-props">Prop Reference</a> before combining
         controlled values with defaults. A default normally initializes a control; it is not a
         substitute for updating its current value.
       </p>
       <p>
         Connect requests in an event handler or your application’s data layer, never as a side
-        effect of rendering. Keep <strong>pending, completed and failed</strong> outcomes distinct,
+        effect of rendering. Keep <strong>Pending, Completed and Failed</strong> outcomes distinct,
         preserve useful input after an error, and offer a clear recovery action. If the integration
         subscribes to an external source, remove that subscription when its owner unmounts; cancel
         or ignore obsolete requests so an earlier response cannot replace newer results.
@@ -59,7 +59,7 @@ export function ComponentBehaviorGuide({ doc }: { doc: DocPageModule }) {
       {doc.slug === "progress" && (
         <>
           <p>
-            <strong>Report work that actually happened.</strong> Feed <code>completed</code> from
+            <strong>Report Work that Actually Happened.</strong> Feed <code>completed</code> from
             your task and supply a positive <code>total</code> when it becomes known. Until then,
             <code> value={"{null}"}</code> communicates an unknown duration. This wrapper derives
             the visible label and accessible value from the same numbers; it does not start a timer
@@ -82,7 +82,7 @@ export function ComponentBehaviorGuide({ doc }: { doc: DocPageModule }) {
         <>
           <p>
             Keep the schema’s output type at the service boundary. The example below uses the
-            <code> ContactSchema</code> from <a href="#schema-and-setup">Schema and setup</a>;
+            <code> ContactSchema</code> from <a href="#schema-and-setup">Schema and Setup</a>;
             supply your own service through <code>onSubmit</code> and return its promise so the form
             can track the submission. Display request errors near the form and reset only after a
             confirmed success or an explicit user action.
@@ -95,8 +95,8 @@ export function ComponentBehaviorGuide({ doc }: { doc: DocPageModule }) {
         </>
       )}
       <p>
-        Start with the <a href="#component-preview">live preview</a>, then exercise the same
-        interaction with your actual data. The <a href="#component-data-types">type definitions</a>{" "}
+        Start with the <a href="#component-preview">Live Preview</a>, then exercise the same
+        interaction with your actual data. The <a href="#component-data-types">Type Definitions</a>{" "}
         describe accepted values; they do not implement persistence, navigation or server-side
         validation for you. Keep those responsibilities in the application that composes the UI.
       </p>

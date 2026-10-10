@@ -8,8 +8,21 @@
   width: 2rem;
   height: 2rem;
 }
+.feedback-card [data-slot="card-title"] {
+  font-size: calc(1rem - var(--docs-rightbar-font-reduction, 0rem));
+}
+.feedback-card :is([data-slot="card-description"], [data-slot="button"]) {
+  font-size: calc(0.875rem - var(--docs-rightbar-font-reduction, 0rem));
+}
 
-@media (min-width: 1260px) {
+@media (min-width: 1200px) {
+  /* Reserve enough scroll range to align even the final followed link with the top. */
+  .docs-rightbar-contents::after,
+  .blocks-doc-toc nav::after {
+    content: "";
+    display: block;
+    height: calc(100dvh - var(--docs-sidebar-top));
+  }
   .docs-rightbar-contents {
     min-height: 8rem;
     max-height: var(--docs-sidebar-height);

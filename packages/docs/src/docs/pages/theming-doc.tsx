@@ -1,7 +1,6 @@
 import foundationSource from "virtual:kamod-theming-guide";
 import { withBasePath } from "../../base-path";
 import { GuideArticle } from "../components/GuideArticle";
-import { LibraryJumpLinks } from "../components/LibraryJumpLinks";
 import { LibraryPageHeader } from "../components/LibraryPageHeader";
 import { PathDisplay } from "../components/PathDisplay";
 import { createComponentThemingSections } from "../guides/component-theming";
@@ -22,42 +21,42 @@ export const themingDocPage: DocPageModule = {
   sections: [
     {
       id: "installation",
-      title: "Choose your theme foundation",
+      title: "Choose Your Theme Foundation",
       text: "Install missing packages and choose one theme CSS entry.",
     },
     {
       id: "usage",
-      title: "Style components through their roles",
+      title: "Style Components through Their Roles",
       text: "Combine component variants, local layout utilities and semantic colors.",
     },
     {
       id: "css-setup",
-      title: "Set up Tailwind and theme CSS",
+      title: "Set Up Tailwind and Theme CSS",
       text: "Connect global styles and source detection.",
     },
     {
       id: "token-overrides",
-      title: "Shape your design with tokens",
+      title: "Shape Your Design with Tokens",
       text: "Pair surfaces and foregrounds, then refine presets, typography and radius.",
     },
     {
       id: "provider-controls",
-      title: "Manage appearance preferences",
+      title: "Manage Appearance Preferences",
       text: "Connect preset and scheme controls and keep the first render consistent.",
     },
     {
       id: "tailwind-preset",
-      title: "Optional Tailwind preset",
+      title: "Optional Tailwind Preset",
       text: "Use configuration-based integration only when your project needs it.",
     },
     {
       id: "api-reference",
-      title: "Theme runtime reference",
+      title: "Theme Runtime Reference",
       text: "Public theme exports, provider options and persistence behavior.",
     },
     {
       id: "accessibility",
-      title: "Troubleshoot and verify",
+      title: "Troubleshoot and Verify",
       text: "Check production styles, contrast, focus and saved appearance choices.",
     },
   ],
@@ -65,10 +64,7 @@ export const themingDocPage: DocPageModule = {
   guideTitle: title,
   renderMain: () => (
     <GuideArticle
-      id="component-theming"
-      title={title}
       sections={sections}
-      contents={contents}
       header={
         <LibraryPageHeader
           parent={{ label: "Components", href: "/docs/components" }}
@@ -82,44 +78,25 @@ export const themingDocPage: DocPageModule = {
                 Give buttons, forms, cards and menus a consistent foundation with{" "}
                 <code>Tailwind CSS v4</code>, semantic tokens and{" "}
                 <PathDisplay path={"@kamod-ch/themes"} />. Connect your stylesheet once, then choose{" "}
-                <strong>shared colors, typography and appearance preferences</strong> that work
+                <strong>Shared Colors, Typography and Appearance Preferences</strong> that work
                 across the interface. Start with a built-in preset and refine its roles rather than
                 repeating individual color values in every component.
               </p>
               <p>
-                This is the shared reference for <strong>components and complete blocks</strong>.
+                This is the shared reference for <strong>Components and Complete Blocks</strong>.
                 Follow the CSS setup, token and runtime steps here once, then use the{" "}
-                <a href={withBasePath("/blocks/theming")}>block theming guide</a> for copied-source
+                <a href={withBasePath("/blocks/theming")}>Block Theming Guide</a> for copied-source
                 checks, sidebar surfaces and preview behavior. There is no separate block theme to
-                install. Add a{" "}
-                <a href={withBasePath("/docs/theme-toggle/installation")}>Theme Toggle</a> for a
-                compact Light/Dark action, or offer <strong>Light, Dark and System</strong> through
-                your own settings. Keep paired tokens such as <code>--card</code> and{" "}
-                <code>--card-foreground</code> readable, preserve focus feedback and verify the
-                first render as well as saved preferences.
+                install. Add a compact Light/Dark action, or offer{" "}
+                <strong>Light, Dark and System</strong> through your own settings. Keep paired
+                tokens such as <code>--card</code> and <code>--card-foreground</code> readable,
+                preserve focus feedback and verify the first render as well as saved preferences.
+                For the control’s API and examples, see{" "}
+                <a href={withBasePath("/docs/theme-toggle/installation")}>Theme Toggle</a>.
               </p>
             </>
           }
-        >
-          <LibraryJumpLinks
-            class="block-guide-switcher"
-            label="Theming guide sections"
-            reference={{
-              label: "Theme Toggle",
-              href: withBasePath("/docs/theme-toggle/installation"),
-            }}
-          >
-            <li>
-              <a href="#css-setup">CSS setup</a>
-            </li>
-            <li>
-              <a href="#token-overrides">Tokens & presets</a>
-            </li>
-            <li>
-              <a href="#provider-controls">Appearance controls</a>
-            </li>
-          </LibraryJumpLinks>
-        </LibraryPageHeader>
+        />
       }
     />
   ),

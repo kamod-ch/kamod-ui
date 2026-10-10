@@ -2,6 +2,7 @@ import type { ComponentChildren } from "preact";
 import { withBasePath } from "../../../base-path";
 import { BlockHeadingLink } from "../../../blocks/BlockHeadingLink";
 import type { DocPageModule } from "../../types";
+import { BrandText } from "../brand/BrandText";
 import { CodeBlock } from "../CodeBlock";
 import { InlineCode } from "../PathDisplay";
 import { accessibilitySections } from "./accessibility";
@@ -13,7 +14,11 @@ function AccessibilityText({ text }: { text: string }) {
   return text
     .split(/(`[^`]+`)/g)
     .map((part, index) =>
-      part.startsWith("`") ? <InlineCode key={index}>{part.slice(1, -1)}</InlineCode> : part,
+      part.startsWith("`") ? (
+        <InlineCode key={index}>{part.slice(1, -1)}</InlineCode>
+      ) : (
+        <BrandText key={index}>{part}</BrandText>
+      ),
     );
 }
 
@@ -37,10 +42,10 @@ export function ComponentAccessibilitySection({
         <BlockHeadingLink id="accessibility">Accessibility</BlockHeadingLink>
       </h2>
       <p class="docs-copy">
-        <strong>Build the complete interaction, including the parts outside {doc.title}.</strong>{" "}
+        <strong>Build the Complete Interaction, Including the Parts Outside {doc.title}.</strong>{" "}
         The notes below distinguish the current implementation from the labels, content and behavior
-        your application supplies. Start with the <a href="#component-preview">live preview</a>,
-        check the <a href="#api-reference">props and data reference</a>, and test the finished
+        your application supplies. Start with the <a href="#component-preview">Live Preview</a>,
+        check the <a href="#api-reference">Props and Data Reference</a>, and test the finished
         composition with real content rather than assuming that an unchanged visual example covers
         every use case.
       </p>
@@ -67,11 +72,11 @@ export function ComponentAccessibilitySection({
       {children}
       <h3 id="accessibility-review" tabIndex={-1}>
         <BlockHeadingLink id="accessibility-review">
-          Verify the complete interaction
+          Verify the Complete Interaction
         </BlockHeadingLink>
       </h3>
       <p class="docs-copy">
-        <strong>Check behavior as well as markup.</strong> Work through these scenarios in the
+        <strong>Check Behavior as Well as Markup.</strong> Work through these scenarios in the
         application where the component will be used. Automated checks can help find structural
         problems; also review the reading experience with a screen reader, keyboard focus and the
         actual feedback from your application.
@@ -85,24 +90,24 @@ export function ComponentAccessibilitySection({
       </ol>
       <p class="docs-copy">
         Recheck the result after changing{" "}
-        <a href={withBasePath("/docs/theming/installation")}>theme tokens</a>, translations or{" "}
+        <a href={withBasePath("/docs/theming/installation")}>Theme Tokens</a>, translations or{" "}
         <code>class</code> overrides. Include text enlargement, narrow layouts and reduced-motion
         settings where animation is present. Inspect the{" "}
-        <a href={componentSourceUrl(doc.slug)}>component source</a> when a behavior differs from
+        <a href={componentSourceUrl(doc.slug)}>Component Source</a> when a behavior differs from
         your expectation; a role or state attribute does not implement keyboard interaction by
         itself.
       </p>
       <p class="docs-copy">
         For background, read the{" "}
         <a href="https://www.w3.org/WAI/ARIA/apg/practices/read-me-first/">
-          WAI-ARIA authoring guidance
+          WAI-ARIA Authoring Guidance
         </a>
         {doc.slug === "formisch" ? (
           <>
             {" "}
             and the{" "}
             <a href="https://www.w3.org/WAI/tutorials/forms/notifications/">
-              WAI guide to form feedback
+              WAI Guide to Form Feedback
             </a>
           </>
         ) : (
@@ -110,7 +115,7 @@ export function ComponentAccessibilitySection({
             {" "}
             and{" "}
             <a href="https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/">
-              keyboard interface guidance
+              Keyboard Interface Guidance
             </a>
           </>
         )}

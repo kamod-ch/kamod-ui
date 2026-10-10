@@ -8,9 +8,9 @@
 }
 
 /* Keep contents and feedback together in one scrollable, sticky reading column. */
-@media (min-width: 1260px) {
+@media (min-width: 1200px) {
   .docs-shell-page-contents .docs-rightbar {
-    top: 5.5rem;
+    top: var(--docs-sidebar-top);
     max-height: calc(100dvh - 7rem);
     overflow-y: auto;
     overscroll-behavior: contain;
@@ -20,6 +20,9 @@
     position: static;
     max-height: none;
     overflow: visible;
+  }
+  .docs-shell-page-contents .blocks-doc-toc nav::after {
+    content: none;
   }
 }
 .library-directory-header {
@@ -83,7 +86,11 @@
 .library-directory :where(:not(pre)) > code {
   padding: 0.1em 0.3em;
   border-radius: 0.25rem;
-  background: color-mix(in oklab, var(--secondary-accent) 10%, var(--muted));
+  background: color-mix(
+    in oklab,
+    var(--secondary-accent) calc(10% + 9% * var(--docs-highlight-boost, 0)),
+    var(--muted)
+  );
   color: color-mix(in oklab, var(--secondary-accent) 35%, var(--foreground));
   box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--secondary-accent) 16%, transparent);
   overflow-wrap: anywhere;
@@ -115,24 +122,6 @@
 .library-directory-actions .library-directory-browse {
   padding-inline: 0.75rem;
   font-weight: 500;
-}
-.library-directory-jump-links {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 0.5rem 1.5rem;
-  padding-block: 0.6rem;
-  margin-top: 0.75rem;
-  border-bottom: 1px solid var(--border);
-}
-.library-directory-jump-links a {
-  display: inline-flex;
-  align-items: center;
-  min-height: 2.5rem;
-  color: var(--muted-foreground);
-  font-size: 0.75rem;
-  text-decoration: none;
 }
 .library-directory :where(.library-heading, #library-guides) {
   scroll-margin-top: calc(var(--docs-topbar-height, 64px) + 1.5rem);
@@ -243,7 +232,11 @@
   width: 3rem;
   height: 2px;
   border-radius: 1px;
-  background: color-mix(in oklab, var(--primary) 35%, var(--border));
+  background: color-mix(
+    in oklab,
+    var(--primary) calc(35% + 22.75% * var(--docs-highlight-boost, 0)),
+    var(--border)
+  );
 }
 .library-directory-items {
   margin-top: 2rem;
@@ -268,7 +261,11 @@
   width: 0.3rem;
   height: 0.3rem;
   border-radius: 50%;
-  background: color-mix(in oklab, var(--primary) 45%, var(--background));
+  background: color-mix(
+    in oklab,
+    var(--primary) calc(45% + 24.75% * var(--docs-highlight-boost, 0)),
+    var(--background)
+  );
 }
 .library-section-description {
   width: 100%;
@@ -289,45 +286,23 @@
   grid-template-columns: minmax(0, 1fr);
   gap: 1rem;
 }
-.library-guide-card {
-  min-width: 0;
-  padding: 0.875rem 1rem;
-  border: 1px solid color-mix(in oklab, var(--border) 70%, transparent);
-  border-radius: 0.65rem;
-  background: color-mix(in oklab, var(--primary) 2%, var(--background));
-  text-decoration: none;
-  overflow-wrap: anywhere;
-}
-.library-guide-eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: var(--muted-foreground);
-  font-size: 0.6875rem;
-}
-.library-guide-step {
-  margin-left: auto;
-}
 .library-directory-resources h3 {
   margin: 0.625rem 0 0.5rem;
   font-size: 1rem;
   font-weight: 550;
   color: var(--foreground);
 }
-.library-guide-card > p {
-  margin: 0;
-  font-size: 0.75rem;
-  line-height: 1.7;
-  color: var(--muted-foreground);
-}
 .library-directory a:not(.docs-icon-button):focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 3px;
 }
-@media (hover: hover) {
-  .library-directory .library-directory-item:hover,
-  .library-guide-card:has(a:hover) {
-    background: color-mix(in oklab, var(--primary) 4%, var(--background));
+@media (hover: hover) and (pointer: fine) {
+  .library-directory .library-directory-item:hover {
+    background: color-mix(
+      in oklab,
+      var(--primary) calc(4% + 3.84% * var(--docs-highlight-boost, 0)),
+      var(--background)
+    );
     border-color: color-mix(in oklab, var(--primary) 20%, var(--border));
   }
   .library-directory a:not(.library-directory-browse, .docs-icon-button):hover {
@@ -369,9 +344,6 @@
   .library-directory-actions .library-directory-browse {
     padding-inline: 0.5rem;
   }
-  .library-directory-jump-links {
-    gap: 0.25rem 1rem;
-  }
   .library-directory-eyebrow > .library-directory-platform {
     display: none;
   }
@@ -397,40 +369,11 @@
   font-size: 0.75rem;
   line-height: 1.7;
 }
-.library-directory
-  :is(.library-directory-start-note, .library-guide-check, .library-section-description)
-  a {
+.library-directory :is(.library-directory-start-note, .library-section-description) a {
   color: var(--foreground);
   text-decoration: underline;
   text-decoration-color: color-mix(in oklab, var(--foreground) 35%, transparent);
   text-underline-offset: 0.2em;
-}
-.library-directory-jump-links ul {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.2rem 1rem;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.library-directory-jump-links li {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-.library-directory-jump-links li + li::before {
-  content: "";
-  width: 3px;
-  height: 3px;
-  flex: none;
-  border-radius: 50%;
-  background: color-mix(in oklab, var(--muted-foreground) 45%, transparent);
-}
-.library-directory-jump-links .library-directory-start-link {
-  gap: 0.4rem;
-  margin-inline-start: auto;
-  font-size: 0.6875rem;
 }
 .library-heading .blocks-doc-heading-link {
   display: inline-block;
@@ -459,64 +402,14 @@
     height: 0.75rem;
   }
 }
-.library-heading .blocks-doc-heading-link:is(:hover, :focus-visible) .blocks-doc-heading-icon {
+.library-heading .blocks-doc-heading-link:is(:focus-visible) .blocks-doc-heading-icon {
   opacity: 1;
 }
-.library-guide-step {
-  font-variant-numeric: tabular-nums;
-  opacity: 0.7;
+@media (hover: hover) and (pointer: fine) {
+  .library-heading .blocks-doc-heading-link:is(:hover, :focus-visible) .blocks-doc-heading-icon {
+    opacity: 1;
+  }
 }
-.library-guide-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 0.5rem 1rem;
-  margin-top: 0.75rem;
-  padding-top: 0.5rem;
-  border-top: 1px solid color-mix(in oklab, var(--border) 65%, transparent);
-}
-.library-guide-footer > span {
-  display: flex;
-  align-items: baseline;
-  gap: 0.4rem;
-  flex: 1 1 16rem;
-  color: var(--muted-foreground);
-  font-size: 0.6875rem;
-  line-height: 1.6;
-}
-.library-guide-footer svg,
-.library-guide-check > svg {
-  flex: none;
-}
-.library-guide-action {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  min-height: 2rem;
-  margin-inline-start: auto;
-  color: var(--foreground);
-  font-size: 0.75rem;
-  font-weight: 500;
-  text-decoration: none;
-}
-.library-guide-check {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.65rem;
-  margin-top: 1rem;
-  padding: 0.75rem 0;
-  color: var(--muted-foreground);
-}
-.library-guide-check > svg {
-  margin-top: 0.2rem;
-}
-.library-guide-check p {
-  margin: 0;
-  font-size: 0.75rem;
-  line-height: 1.75;
-}
-
 .library-source-resources {
   margin-top: 1.5rem;
   padding-top: 1.5rem;
@@ -556,9 +449,15 @@
   text-decoration: none;
   overflow-wrap: anywhere;
 }
-.library-source-grid a:hover {
-  background: color-mix(in oklab, var(--primary) 3%, var(--background));
-  border-color: color-mix(in oklab, var(--primary) 20%, var(--border));
+@media (hover: hover) and (pointer: fine) {
+  .library-source-grid a:hover {
+    background: color-mix(
+      in oklab,
+      var(--primary) calc(3% + 2.91% * var(--docs-highlight-boost, 0)),
+      var(--background)
+    );
+    border-color: color-mix(in oklab, var(--primary) 20%, var(--border));
+  }
 }
 .library-source-label {
   color: var(--muted-foreground);
@@ -599,21 +498,4 @@
 .library-source-footer > a {
   flex: none;
   margin-left: auto;
-}
-@media (max-width: 639px) {
-  .library-directory-jump-links {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 0.1rem 0.65rem;
-  }
-  .library-directory-jump-links ul {
-    display: contents;
-  }
-  .library-directory-jump-links li + li::before {
-    display: none;
-  }
-  .library-directory-jump-links .library-directory-start-link {
-    grid-column: 2;
-    min-height: 1.75rem;
-  }
 }

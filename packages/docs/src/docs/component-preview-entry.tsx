@@ -1,4 +1,5 @@
 import { type ComponentChildren, render } from "preact";
+import { applyPreviewAppearance, previewAppearanceFromSearch } from "../blocks/preview-appearance";
 import { ApplicationTooltips } from "../layout/tooltips/ApplicationTooltips";
 import { PathCopySupport } from "./components/PathCopySupport";
 import { getDocSections } from "./doc-sections";
@@ -7,12 +8,23 @@ import type { DocPageModule } from "./types";
 
 const pages = import.meta.glob<Record<string, DocPageModule>>("./pages/*-doc.{ts,tsx}");
 const root = document.getElementById("component-preview-root")!;
+// Only the outer documentation page owns the showcase backdrop; local themes style the demo.
+if (window.self !== window.top)
+  document.documentElement.classList.add("showcase-embedded-document");
 const params = new URLSearchParams(location.search);
+const appearance = previewAppearanceFromSearch(location.search);
+if (appearance) applyPreviewAppearance(document.documentElement, appearance);
 const slug = params.get("component") ?? "";
 const rawIndex = params.get("example") ?? "";
 const index = /^\d+$/.test(rawIndex) ? Number(rawIndex) : -1;
 
 async function loadPreview() {
+  if (slug === "home-workspace" && index === 0) {
+    document.documentElement.classList.add("home-workspace-document");
+    const { WorkspaceDemo } = await import("../home/WorkspaceDemo");
+    render(<WorkspaceDemo />, root);
+    return;
+  }
   const load = pages[`./pages/${slug}-doc.tsx`] ?? pages[`./pages/${slug}-doc.ts`];
   if (
     !load ||

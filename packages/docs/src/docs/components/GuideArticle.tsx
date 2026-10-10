@@ -1,35 +1,23 @@
 import type { ComponentChildren } from "preact";
 import { BlockHeadingLink } from "../../blocks/BlockHeadingLink";
-import { BlockGuideContents } from "../../blocks/detail/BlockGuideContents";
+import { DependencyCommands } from "../../blocks/detail/DependencyCommands";
 import type { GuideSection } from "../../blocks/guides/guide-markdown";
-import type { DocContentsSection } from "../types";
 import { CodeBlock } from "./CodeBlock";
+import { HighlightedProse } from "./HighlightedProse";
 
 /** One reading layout for Markdown-backed block and component guides. */
 export function GuideArticle({
-  id,
-  title,
   header,
   sections,
-  contents,
   children,
 }: {
-  id: string;
-  title: string;
   header: ComponentChildren;
   sections: readonly GuideSection[];
-  contents: readonly DocContentsSection[];
   children?: ComponentChildren;
 }) {
   return (
     <article class="block-guide" id="top">
       {header}
-      <BlockGuideContents
-        id={`${id}-mobile-contents`}
-        sections={contents}
-        pageTitle={title}
-        mobile
-      />
       <div class="block-guide-documentation">
         <div class="blocks-doc-body">
           {sections.map((section) => (
@@ -43,15 +31,11 @@ export function GuideArticle({
               </h2>
               {section.parts.map((part, index) =>
                 part.kind === "html" ? (
-                  <div
-                    key={index}
-                    class="block-guide-prose"
-                    dangerouslySetInnerHTML={{ __html: part.html }}
-                  />
+                  <HighlightedProse key={index} className="block-guide-prose" html={part.html} />
                 ) : part.kind === "heading" ? (
-                  <h3 key={part.id} id={part.id} tabIndex={-1}>
-                    <BlockHeadingLink id={part.id}>{part.title}</BlockHeadingLink>
-                  </h3>
+                  <GuideSubheading key={part.id} part={part} />
+                ) : part.kind === "dependencies" ? (
+                  <DependencyCommands key={index} dependencies={part.dependencies} />
                 ) : (
                   <CodeBlock
                     key={index}
@@ -67,5 +51,18 @@ export function GuideArticle({
         </div>
       </div>
     </article>
+  );
+}
+
+function GuideSubheading({
+  part,
+}: {
+  part: Extract<GuideSection["parts"][number], { kind: "heading" }>;
+}) {
+  const Heading = `h${part.level ?? 3}` as "h3" | "h4" | "h5" | "h6";
+  return (
+    <Heading id={part.id} tabIndex={-1}>
+      <BlockHeadingLink id={part.id}>{part.title}</BlockHeadingLink>
+    </Heading>
   );
 }

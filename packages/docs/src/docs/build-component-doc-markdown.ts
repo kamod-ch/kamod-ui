@@ -10,11 +10,14 @@ export function buildComponentDocMarkdown(
   command: string,
   sections: DocSection[],
   slug?: string,
+  snippetImports: "local" | "package" = "local",
 ): string {
   const parts: string[] = [
     `# ${title}`,
     "",
-    "> Demo snippets in this app use the local `@/components/kamod-ui/*` alias. For real app code, install `@kamod-ch/ui` and import from that package.",
+    snippetImports === "package"
+      ? "> These examples use the public `@kamod-ch/ui` package exports. Install the package and connect its theme stylesheet before rendering."
+      : "> Demo snippets in this app use the local `@/components/kamod-ui/*` alias. For real app code, install `@kamod-ch/ui` and import from that package.",
     "",
   ];
 
@@ -31,7 +34,7 @@ export function buildComponentDocMarkdown(
         }
       }
       parts.push(
-        "### Verify the complete interaction",
+        "### Verify the Complete Interaction",
         "",
         ...accessibility.checks.map((check, index) => `${index + 1}. ${check}`),
         "",

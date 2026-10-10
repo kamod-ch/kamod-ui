@@ -1,4 +1,5 @@
 /** Shared source-backed API disclosure; callers own selection and deep-link state. */
+import { BrandTypescriptIcon } from "@kamod-ch/icons/tabler/outline";
 import { TypeDefinition } from "@kamod-ch/ui";
 import type { ComponentChildren } from "preact";
 import { CodeBlock } from "../../docs/components/CodeBlock";
@@ -37,6 +38,7 @@ export function BlockTypeDefinition({
   source,
   filePath,
   requiredFields = [],
+  fieldCount,
   requiredProp,
   showFieldDocs = true,
   open,
@@ -48,6 +50,8 @@ export function BlockTypeDefinition({
   source: string;
   filePath: string;
   requiredFields?: readonly string[];
+  /** Number of fields declared directly in this source type; inherited fields are excluded. */
+  fieldCount?: number;
   requiredProp?: { name: string };
   showFieldDocs?: boolean;
   open: boolean;
@@ -66,28 +70,45 @@ export function BlockTypeDefinition({
         </BlockHeadingLink>
       }
       typeName={entry.name}
-      description={entry.description}
+      titleMetadata={
+        fieldCount
+          ? `${fieldCount} declared ${fieldCount === 1 ? "field" : "fields"}`
+          : "Declaration"
+      }
+      description={
+        <>
+          {entry.description} Inspect the{" "}
+          <a href={`#${id}`} onClick={onReveal} data-tooltip="Expand this type’s source definition">
+            <strong>Complete Definition</strong>
+          </a>{" "}
+          of <code>{entry.name}</code> before adapting it.
+        </>
+      }
       metadata={
         requiredFields.length > 0 ? (
           <RequiredTypeFields typeName={entry.name} fields={requiredFields} />
         ) : undefined
       }
       headerAction={
-        requiredProp && (
-          <div class="blocks-api-type-required">
-            <span class="blocks-api-required-label">Required type</span>
-            <RequiredIndicator
-              label={`Required type: ${entry.name}`}
-              tooltip={`Used by required prop: ${requiredProp.name}`}
-              align="end"
-            />
-          </div>
-        )
+        <div class="blocks-api-type-heading-aside">
+          {requiredProp && (
+            <div class="blocks-api-type-required">
+              <span class="blocks-api-required-label">Required Type</span>
+              <RequiredIndicator
+                label={`Required Type: ${entry.name}`}
+                tooltip={`Used by required prop: ${requiredProp.name}`}
+                align="end"
+              />
+            </div>
+          )}
+          <BrandTypescriptIcon class="blocks-api-type-language" size={15} aria-hidden="true" />
+        </div>
       }
       open={open}
       onOpenChange={onOpenChange}
-      expandLabel={`View definition${showFieldDocs ? " and field docs" : ""}`}
-      collapseLabel={`Hide definition${showFieldDocs ? " and field docs" : ""}`}
+      expandLabel={`View Definition${showFieldDocs ? " and Field Docs" : ""}`}
+      collapseLabel={`Hide Definition${showFieldDocs ? " and Field Docs" : ""}`}
+      triggerHint="TypeScript Source"
       triggerClass="blocks-api-type-trigger"
       contentClass="blocks-api-type-content"
     >

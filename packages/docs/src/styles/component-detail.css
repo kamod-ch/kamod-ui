@@ -24,6 +24,9 @@
 .component-detail .block-guide-prose h3 {
   margin-top: 1.75rem;
 }
+.component-detail .blocks-api-section[aria-labelledby="code-reading-model"] {
+  padding-top: clamp(3rem, 5vw, 4rem);
+}
 .component-detail .blocks-api-source-note {
   margin-bottom: 2rem;
 }
@@ -36,54 +39,72 @@
   font-size: inherit;
   line-height: inherit;
 }
-.component-detail .blocks-api-props-table td .component-api-default {
-  display: flex;
-  flex-wrap: wrap;
+.component-detail .blocks-api-props-table .component-api-default {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
   align-items: baseline;
-  gap: 0.25rem 0.625rem;
-  margin: 0.625rem 0 0;
+  gap: 0.375rem 0.75rem;
+  margin: 0.75rem 0 0;
+  padding-top: 0.625rem;
+  border-top: 1px solid color-mix(in oklab, var(--border) 55%, transparent);
   color: var(--muted-foreground);
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   line-height: 1.6;
 }
-.component-api-default > span:first-child {
-  font-size: 0.6875rem;
+.component-api-default dt {
+  font-weight: 400;
+}
+.component-api-default dd {
+  min-width: 0;
+  margin: 0;
 }
 /* Defaults are supporting metadata; keep them quieter than prop-name code chips. */
 .component-detail .blocks-api-props-table .component-api-default code {
-  padding: 0;
+  padding: 0.1em 0.35em;
   border: 0;
-  border-radius: 0;
-  background: transparent;
+  border-radius: 0.25rem;
+  background: color-mix(
+    in oklab,
+    var(--secondary-accent) calc(5% + 4.75% * var(--docs-highlight-boost, 0)),
+    var(--muted)
+  );
   box-shadow: none;
   color: inherit;
   font-size: inherit;
   overflow-wrap: anywhere;
 }
+.component-api-owners {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.75rem;
+  margin-top: 0.375rem;
+  font-size: 0.6875rem;
+}
 .component-detail .block-guide-prose .blocks-doc-heading-link {
   text-decoration: none;
 }
 .component-preview-intro {
+  container: showcase-summary / inline-size;
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  margin: 1.5rem 0 0.75rem;
+  margin: 1.5rem 0 0.625rem;
   color: var(--muted-foreground);
   font-size: 0.75rem;
   scroll-margin-top: 6rem;
 }
 .component-preview-intro .showcase-heading {
   flex: 1;
+  flex-wrap: nowrap;
   min-width: 0;
 }
-.component-preview-intro .showcase-heading strong {
-  color: var(--foreground);
-  font-weight: 650;
-}
-.component-preview-intro .showcase-heading > span:last-child {
-  white-space: normal;
+/* The shorter hint fits beside the title before the generic showcase threshold. */
+@container showcase-summary (min-width: 32rem) {
+  .component-preview-intro :is(.showcase-heading-description, .showcase-heading-separator) {
+    display: inline;
+  }
 }
 .component-preview-intro + .component-example {
   margin-top: 0;
@@ -97,59 +118,8 @@
   margin-top: 2rem;
   padding-top: 2rem;
 }
-/* A lightweight, always-visible index shares the order of the examples below. */
-.component-variant-index {
-  margin-top: 1.5rem;
-  padding-block: 1rem;
-  border-block: 1px solid var(--border);
-}
-.component-variant-index > p {
-  margin: 0 0 0.5rem;
-  color: var(--muted-foreground);
-  font-size: 0.75rem;
-}
-.component-variant-index ol {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem 1.5rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.component-variant-index li {
-  min-width: 0;
-  max-width: 100%;
-}
-.component-variant-index a {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 0.5rem;
-  padding-block: 0.375rem;
-  border-radius: 0.25rem;
-  color: var(--foreground);
-  font-size: 0.8125rem;
-  font-weight: 500;
-  line-height: 1.5;
-  text-decoration: none;
-  overflow-wrap: anywhere;
-}
-.component-variant-index-number {
-  flex: none;
-  color: var(--muted-foreground);
-  font-size: 0.6875rem;
-  font-weight: 400;
-  font-variant-numeric: tabular-nums;
-}
-.component-variant-index a:hover > span:last-child {
-  text-decoration: underline;
-  text-decoration-color: var(--muted-foreground);
-  text-underline-offset: 0.25em;
-}
-.component-variant-index a:focus-visible {
-  outline: 2px solid var(--ring);
-  outline-offset: 3px;
-}
 .component-example {
+  scroll-margin-top: 6rem;
   min-width: 0;
   margin-block: 1rem;
 }
@@ -213,10 +183,61 @@
   border-top: 1px solid var(--showcase-border);
 }
 .component-example .blocks-showcase-toolbar {
-  gap: 0.625rem;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  gap: clamp(0.25rem, 2cqi, 0.875rem);
 }
-.component-example .blocks-showcase-settings {
-  gap: 0.5rem;
+.component-example .component-example-controls {
+  display: contents;
+  margin-inline-start: auto;
+}
+.component-example .component-example-actions {
+  margin-inline-start: auto;
+}
+@container block-showcase (min-width: 34rem) {
+  .component-example .blocks-showcase-toolbar [data-slot="tabs-trigger"] {
+    width: auto;
+    padding-inline: 0.625rem;
+  }
+  .component-example [data-slot="tabs-trigger"] .blocks-showcase-control-label {
+    display: inline;
+  }
+}
+@media (min-width: 980px) {
+  .component-preview-intro {
+    padding-inline: calc(var(--showcase-control-inset, 0.875rem) + 1px);
+  }
+}
+/* Keep one appearance picker mounted; merge it into the actions when space is tight. */
+@container block-showcase (max-width: 21.999rem) {
+  .component-example .blocks-showcase-toolbar {
+    --showcase-control-size: clamp(1.75rem, calc((100cqi - 3.5rem) / 7), 2.125rem);
+    gap: 0.25rem;
+    padding-inline: 0.375rem;
+  }
+  .component-example .component-example-controls {
+    display: inline-flex;
+  }
+  .component-example .component-example-actions {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+  }
+  .component-example .blocks-showcase-appearance {
+    display: contents;
+  }
+  .component-example .blocks-showcase-appearance > button {
+    display: none;
+  }
+  .component-example .blocks-showcase-toolbar .docs-icon-button {
+    width: var(--showcase-control-size);
+    min-width: var(--showcase-control-size);
+    height: var(--showcase-control-size);
+    min-height: var(--showcase-control-size);
+    padding-inline: 0;
+  }
 }
 .component-review-list li::marker {
   color: var(--primary);
@@ -245,6 +266,49 @@
 .component-references {
   display: grid;
   gap: 1.5rem;
+}
+.component-reference-bridge {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 0.875rem;
+  padding-block: 0.75rem;
+}
+.component-reference-bridge > svg {
+  margin-top: 0.25rem;
+  color: var(--muted-foreground);
+}
+.component-reference-bridge .component-reference-bridge-title {
+  margin-top: 0;
+  color: var(--foreground);
+}
+.component-reference-bridge p:last-child {
+  margin-bottom: 0;
+}
+.component-reference-decisions {
+  margin-block: 1.25rem;
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+  line-height: 1.75;
+}
+.component-reference-decisions > div {
+  display: grid;
+  gap: 0.25rem 1.25rem;
+  padding-block: 0.875rem;
+  border-top: 1px solid var(--border);
+}
+.component-reference-decisions dt {
+  color: var(--foreground);
+  font-weight: 550;
+}
+.component-reference-decisions dd {
+  min-width: 0;
+  margin: 0;
+}
+@media (min-width: 640px) {
+  .component-reference-decisions > div {
+    grid-template-columns: minmax(8rem, 1fr) minmax(0, 3fr);
+  }
 }
 .formisch-references {
   display: grid;
@@ -314,28 +378,6 @@
     grid-template-columns: minmax(0, 1fr);
   }
 }
-.component-reference-panel {
-  gap: 1rem;
-  padding: clamp(1rem, 2.5vw, 1.75rem);
-  border: 1px solid var(--border);
-  border-left: 3px solid color-mix(in oklab, var(--primary) 25%, var(--border));
-  border-radius: 0.75rem;
-  background: color-mix(in oklab, var(--foreground) 2%, var(--background));
-  box-shadow: none;
-}
-.component-references .blocks-doc-heading-link {
-  text-decoration: none;
-}
-.component-reference-label {
-  color: var(--muted-foreground);
-  font-size: 0.625rem;
-  font-weight: 600;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-}
-.component-detail .component-reference-panel :is(h3, p) {
-  margin: 0;
-}
 .component-reference-location {
   display: flex;
   flex-wrap: wrap;
@@ -349,21 +391,94 @@
 .component-reference-location code {
   overflow-wrap: anywhere;
 }
-.component-reference-actions {
+/* Reference cards keep the core callout semantics with a quieter, compact frame. */
+.docs-callout.component-reference-panel[data-variant="callout"] {
+  background: color-mix(in oklab, var(--muted) 16%, transparent);
+}
+.component-reference-panel [data-slot="callout-header"] {
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 0.5rem;
+  padding: 0.875rem 1rem;
+}
+.component-reference-panel [data-slot="callout-header"]::after {
+  inset-inline: 1rem;
+}
+.component-reference-panel [data-slot="callout-icon"] {
+  width: 1rem;
+  height: 1rem;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+.component-reference-panel [data-slot="callout-icon"] > svg {
+  width: 1rem;
+  height: 1rem;
+}
+.component-reference-panel [data-slot="callout-meta"] {
+  grid-column-start: auto;
+}
+.component-reference-heading {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.75rem 1.25rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--border);
-  font-size: 0.75rem;
+  gap: 0.25rem 0.625rem;
 }
-.component-reference-actions [data-slot="button"] {
-  height: auto;
-  min-height: 2rem;
-  padding: 0.375rem 0.625rem;
-  white-space: normal;
+.component-reference-category {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  color: var(--muted-foreground);
+  font-size: 0.6875rem;
+  font-weight: 450;
+  line-height: 1.5;
+  letter-spacing: normal;
+}
+.component-reference-dot {
+  display: none;
+}
+.component-reference-open[data-slot="button"] {
+  height: 1.875rem;
+  gap: 0.375rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.6875rem;
+}
+.component-reference-panel [data-slot="alert-description"] {
+  padding: 0.875rem 1rem;
+}
+.component-reference-panel [data-slot="callout-footer"] {
+  padding: 0.625rem 1rem;
+  background: color-mix(in oklab, var(--muted) 6%, transparent);
+  border-color: color-mix(in oklab, var(--border) 60%, transparent);
+}
+.component-reference-actions {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  font-size: 0.6875rem;
+}
+.component-reference-actions a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  color: var(--muted-foreground);
   text-decoration: none;
+}
+.component-reference-actions a:hover {
+  color: var(--foreground);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.component-reference-actions svg {
+  flex: none;
+}
+@media (min-width: 640px) {
+  .component-reference-dot {
+    display: inline;
+  }
 }
 .component-reference-next {
   padding-top: 0.5rem;
@@ -394,6 +509,7 @@
   font-variant-numeric: tabular-nums;
 }
 .component-composition {
+  container: component-composition / inline-size;
   margin-top: 3rem;
   padding-top: 2rem;
   border-top: 1px solid var(--border);
@@ -402,36 +518,147 @@
   margin-top: 0;
 }
 .component-companion-list {
-  display: grid;
-  gap: 0;
-  margin-block: 1.5rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  overflow: hidden;
+  margin-block: 2rem;
 }
 .component-companion {
   min-width: 0;
-  padding: 1rem 1.25rem;
-  background: color-mix(in oklab, var(--muted) 18%, transparent);
+  padding-block: 1.5rem;
+  border-top: 1px solid color-mix(in oklab, var(--border) 65%, transparent);
 }
-.component-companion + .component-companion {
-  border-top: 1px solid var(--border);
+.component-companion-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.625rem 1.25rem;
 }
-.component-companion-link {
-  margin-left: -0.5rem;
+.component-detail .component-companion-heading h4,
+.component-detail .component-composition-next > h4 {
+  margin: 0;
+  color: var(--foreground);
+  font-size: 0.9375rem;
+  font-weight: 550;
+  line-height: 1.5;
+}
+.component-companion-heading > .docs-inline-code-link {
+  flex: none;
+  font-size: 0.75rem;
 }
 .component-detail .component-companion p {
-  margin: 0.5rem 0 0;
+  margin: 0.875rem 0 0;
   font-size: 0.875rem;
-  line-height: 1.75;
+  line-height: 1.8;
+}
+.component-detail .component-companion .component-companion-connection {
+  font-size: 0.8125rem;
+}
+.component-composition-next {
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+.component-detail .component-composition-next > h4 + p {
+  margin-top: 0.875rem;
+}
+.component-composition-kicker {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  margin-bottom: 0.875rem;
+  color: var(--muted-foreground);
+  font-size: 0.6875rem;
+}
+.component-composition-kicker > span:first-child {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.component-composition-paths {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+.component-composition-path {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  border-top: 1px solid color-mix(in oklab, var(--border) 65%, transparent);
+  padding-top: 1rem;
+}
+.component-composition-step {
+  margin-bottom: 0.5rem;
+  color: var(--muted-foreground);
+  font-size: 0.6875rem;
+  font-variant-numeric: tabular-nums;
+}
+.component-composition-path h5 {
+  margin: 0;
+  color: var(--foreground);
+  font-size: 0.8125rem;
+  font-weight: 550;
+}
+.component-detail .component-composition-path p,
+.component-detail .component-composition-handoff p,
+.component-detail .component-composition-exit {
+  margin: 0.5rem 0 0;
+  font-size: 0.8125rem;
+  line-height: 1.8;
+}
+.component-composition .component-composition-resource {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-height: 2rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-underline-offset: 0.25em;
+}
+.component-composition-resource svg {
+  flex: none;
+}
+.component-composition-path > a {
+  margin-top: auto;
+  padding-top: 0.625rem;
+}
+.component-composition-handoff {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  margin-top: 1.75rem;
+  padding: 1rem 1.125rem;
+  border-radius: 0.625rem;
+  background: color-mix(
+    in oklab,
+    var(--muted) calc(35% + 22.75% * var(--docs-highlight-boost, 0)),
+    transparent
+  );
+}
+.component-composition-handoff > div {
+  flex: 1 1 18rem;
+  font-size: 0.8125rem;
+}
+.component-composition-handoff nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  color: var(--muted-foreground);
+}
+.component-detail .component-composition-exit {
+  margin-top: 1rem;
+}
+@container component-composition (min-width: 36rem) {
+  .component-composition-paths {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 639px) {
   .component-example .blocks-showcase-toolbar {
     padding-inline: 0.5rem;
-  }
-  .component-example .blocks-showcase-settings {
-    margin-left: 0;
   }
   .component-example-reset-label {
     display: none;
@@ -477,4 +704,186 @@
   margin-bottom: -1px;
   visibility: hidden;
   padding-inline: clamp(1rem, 3vw, 2rem);
+}
+
+/* Open responsibility grid: subtle dividers keep the integration notes in the guide's flow. */
+.formisch-approach-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 2rem;
+}
+.formisch-approach-layer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-block: 1.25rem;
+  border-top: 1px solid var(--border);
+  min-width: 0;
+}
+.formisch-approach-meta,
+.formisch-approach-bindings {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  color: var(--muted-foreground);
+  font-size: 0.6875rem;
+}
+.formisch-approach-meta > span:first-child {
+  color: var(--foreground);
+  font-weight: 500;
+}
+.component-detail .formisch-approach h3 {
+  margin: 0.5rem 0;
+  font-size: 0.9375rem;
+  font-weight: 550;
+  letter-spacing: -0.01em;
+}
+.component-detail .formisch-approach p {
+  margin: 0 0 0.875rem;
+  font-size: 0.8125rem;
+  line-height: 1.85;
+}
+.formisch-approach-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin-top: auto;
+  font-size: 0.75rem;
+}
+.formisch-approach-takeaway {
+  margin-top: 0.5rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid color-mix(in oklab, var(--border) 65%, transparent);
+  border-radius: 0.75rem;
+  background: color-mix(
+    in oklab,
+    var(--foreground) calc(2% + 1.96% * var(--docs-highlight-boost, 0)),
+    transparent
+  );
+}
+.component-detail .formisch-approach-takeaway h3 {
+  margin-top: 0;
+}
+.formisch-approach-bindings {
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+}
+@media (max-width: 639px) {
+  .formisch-approach-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .formisch-approach-takeaway {
+    padding: 1rem;
+  }
+}
+
+/* cn is a utility guide: open source notes and a compact supporting column, without card shells. */
+.cn-reference-guide > section {
+  min-width: 0;
+}
+.cn-reference-heading,
+.cn-reference-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+}
+.cn-reference-heading {
+  margin-bottom: 0.875rem;
+}
+.cn-reference-heading > div {
+  min-width: 0;
+}
+.component-detail .cn-reference-heading h3 {
+  margin: 0.375rem 0 0;
+}
+.cn-reference-heading > a,
+.cn-reference-meta {
+  font-size: 0.75rem;
+}
+.cn-reference-eyebrow,
+.cn-reference-meta > span {
+  color: var(--muted-foreground);
+}
+.cn-reference-eyebrow {
+  font-size: 0.6875rem;
+}
+.cn-reference-eyebrow > span {
+  margin-inline: 0.375rem;
+}
+.cn-reference-meta {
+  flex-wrap: wrap;
+  padding-top: 0.875rem;
+}
+.cn-reference-meta > span,
+.cn-reference-meta > a {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  min-width: 0;
+}
+.component-detail .cn-reference-note {
+  margin-top: 0.75rem;
+  font-size: 0.75rem;
+}
+.cn-reference-section {
+  margin-top: 1.75rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+.cn-reference-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(10rem, 0.55fr);
+  gap: 1.5rem;
+}
+.cn-reference-order {
+  margin: 0 0 1rem;
+  padding-left: 1rem;
+  border-left: 1px solid var(--border);
+  font-size: 0.75rem;
+}
+.cn-reference-order > div + div {
+  margin-top: 0.75rem;
+}
+.cn-reference-order dt {
+  color: var(--foreground);
+  font-weight: 500;
+}
+.cn-reference-order dt > span {
+  margin-right: 0.5rem;
+  color: var(--muted-foreground);
+  font-size: 0.625rem;
+  font-variant-numeric: tabular-nums;
+}
+.cn-reference-order dd {
+  margin: 0.25rem 0 0;
+  color: var(--muted-foreground);
+  line-height: 1.7;
+}
+.cn-reference-boundary {
+  padding: 0.875rem 1rem;
+  border-radius: 0.5rem;
+  background: color-mix(
+    in oklab,
+    var(--foreground) calc(3% + 2.91% * var(--docs-highlight-boost, 0)),
+    transparent
+  );
+  font-size: 0.8125rem;
+}
+@media (max-width: 639px) {
+  .cn-reference-heading {
+    flex-wrap: wrap;
+  }
+  .cn-reference-split {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+}
+
+/* Shift this compact usage example down slightly without lengthening the section. */
+.docs-button-usage-preview {
+  justify-content: center;
+  margin-block: 0.5rem -0.5rem;
 }

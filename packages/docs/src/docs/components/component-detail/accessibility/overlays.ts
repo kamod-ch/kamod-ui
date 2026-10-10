@@ -3,7 +3,7 @@ import type { AccessibilityProfiles } from "./types";
 export const overlayAccessibility: AccessibilityProfiles = {
   dialog: {
     example: {
-      title: "Use the built-in title and description relationship",
+      title: "Use the Built-in Title and Description Relationship",
       note: "The trigger uses a real button and the dialog keeps its default close control. Add the actual task controls inside the content and verify initial focus for that task.",
       code: `import {
   Button, Dialog, DialogTrigger, DialogContent,

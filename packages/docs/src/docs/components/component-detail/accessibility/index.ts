@@ -1,3 +1,4 @@
+import { codeAccessibility } from "./code";
 import { feedbackAccessibility } from "./feedback";
 import { formischAccessibility } from "./formisch";
 import { inputAccessibility } from "./inputs";
@@ -8,6 +9,7 @@ import { typeDefinitionAccessibility } from "./type-definition";
 import type { AccessibilityProfile, AccessibilityProfiles } from "./types";
 
 const profiles: AccessibilityProfiles = {
+  code: codeAccessibility,
   ...inputAccessibility,
   ...navigationAccessibility,
   ...overlayAccessibility,
@@ -23,11 +25,11 @@ export function componentAccessibility(slug: string): AccessibilityProfile | und
 }
 
 export const accessibilityContents = [
-  { id: "accessibility-foundation", label: "Built-in behavior and defaults" },
-  { id: "accessibility-naming", label: "Labels and relationships" },
-  { id: "accessibility-interaction", label: "Keyboard and focus" },
-  { id: "accessibility-pitfalls", label: "States and integration details" },
-  { id: "accessibility-review", label: "Verify the complete interaction" },
+  { id: "accessibility-foundation", label: "Built-in Behavior and Defaults" },
+  { id: "accessibility-naming", label: "Labels and Relationships" },
+  { id: "accessibility-interaction", label: "Keyboard and Focus" },
+  { id: "accessibility-pitfalls", label: "States and Integration Details" },
+  { id: "accessibility-review", label: "Verify the Complete Interaction" },
 ];
 
 /** Keep rendered subsections and portable Markdown in the same order. */

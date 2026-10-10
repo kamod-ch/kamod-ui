@@ -9,6 +9,38 @@ export type ComponentGuidance = {
 
 const families: { slugs: string[]; guide: ComponentGuidance }[] = [
   {
+    slugs: ["code"],
+    guide: {
+      family: "Source & documentation",
+      purpose:
+        "Help readers understand a real source example, reveal its imports when needed and take an exact copy into their project. Keep reading preferences separate from the source itself.",
+      integration:
+        "Pass the original source string and a useful filename. Load the shared theme stylesheet once, then choose an explicit language when you know it. Code owns wrapping, import disclosure and clipboard feedback; your app supplies the source, surrounding explanation and any custom toolbar content.",
+      checks: [
+        "Collapse a multiline import and enable wrapping, then copy: the clipboard should still contain the entire original source, including whitespace.",
+        "Use the disclosure, wrap switch and copy button with a keyboard. Check long paths, focus visibility and horizontal scrolling on a narrow screen.",
+        "Try a denied clipboard request and a snippet without a supported grammar. Readers should retain readable source and an honest recovery action.",
+      ],
+      related: ["tabs", "collapsible", "switch", "typography"],
+    },
+  },
+  {
+    slugs: ["cn"],
+    guide: {
+      family: "Styling Utilities",
+      purpose:
+        "Keep class composition readable as defaults, visual state and consumer overrides meet on the same element.",
+      integration:
+        "Compose complete class names in a deliberate order: base styles, conditional state, then consumer overrides. cn returns a string; your control still owns its behavior and your stylesheet supplies the CSS.",
+      checks: [
+        "Compare the returned class string for conflicting spacing utilities and breakpoint-prefixed overrides.",
+        "Confirm the Tailwind build generates every complete utility used in each condition.",
+        "Inspect the rendered element in both themes and at narrow widths; visual disabled styling must remain paired with the control's disabled behavior.",
+      ],
+      related: ["button", "badge", "card"],
+    },
+  },
+  {
     slugs: ["type-definition"],
     guide: {
       family: "Reference & disclosure",

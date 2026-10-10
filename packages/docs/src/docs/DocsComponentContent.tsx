@@ -1,3 +1,4 @@
+import { docs, loaders } from "virtual:kamod-doc-pages";
 import {
   Button,
   ButtonGroup,
@@ -12,11 +13,14 @@ import {
   TabsList,
   TabsTrigger,
 } from "@kamod-ch/ui";
-import type { ComponentChildren } from "preact";
+import type { ComponentChildren, ComponentType } from "preact";
+import { lazy, Suspense } from "preact/compat";
 import { useEffect, useMemo, useState } from "preact/hooks";
 import { withBasePath } from "../base-path";
 import { BlockGuideContents } from "../blocks/detail/BlockGuideContents";
+import { PageLoading } from "../layout/PageState";
 import { buildComponentDocMarkdown } from "./build-component-doc-markdown";
+import { BrandText } from "./components/brand/BrandText";
 import { CodeBlock } from "./components/CodeBlock";
 import {
   accessibilityContents,
@@ -26,23 +30,25 @@ import { ComponentDetailHeader } from "./components/component-detail/ComponentDe
 import { ComponentExample } from "./components/component-detail/ComponentExample";
 import {
   ComponentIntegrationGuide,
-  componentIntegrationContents,
+  getComponentIntegrationContents,
 } from "./components/component-detail/ComponentIntegrationGuide";
+import { loadComponentApi } from "./components/component-detail/component-api";
 import {
   ComponentExamplesContext,
   componentExamplesTitle,
   getComponentExamples,
 } from "./components/component-detail/component-examples";
 import { DocsShell } from "./components/DocsShell";
+import { flattenContents } from "./components/PageContentsList";
+import { PageEyebrow } from "./components/PageEyebrow";
 import { PathDisplay } from "./components/PathDisplay";
 import { getDocSections } from "./doc-sections";
 import { docImportFrom, rewriteKamodCoreImportsInDocString } from "./doc-snippet-imports";
 import { docsShowMotion, isMotionDocSlug } from "./docs-feature-flags";
-import { docsBySlug, docsPages } from "./registry";
 import { scheduleSectionScroll } from "./scroll-to-section";
-import type { DocRenderMainContext, DocSection } from "./types";
+import type { DocContentsSection, DocPageModule, DocRenderMainContext, DocSection } from "./types";
 
-const previewContents = [{ id: "component-preview", label: "Live preview" }];
+const previewContents = [{ id: "component-preview", label: "Live Preview" }];
 
 const toPascalCase = (value: string) =>
   value
@@ -51,23 +57,43 @@ const toPascalCase = (value: string) =>
     .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
     .join("");
 
-export const DocsComponentContent = ({
-  slug,
+type ContentProps = { section?: string; previewIndex?: number };
+const loadedPages = new Map<string, ComponentType<ContentProps>>();
+
+/** Keep unrelated examples out of both the article and its isolated preview frames. */
+export function DocsComponentContent({
+  slug = "accordion",
+  ...props
+}: ContentProps & { slug?: string }) {
+  const selected =
+    (!docsShowMotion && isMotionDocSlug(slug)) || !(docs[slug] || loaders[slug])
+      ? "accordion"
+      : slug;
+  if (docs[selected]) return <ComponentContent {...props} activeDoc={docs[selected]} />;
+  let Page = loadedPages.get(selected);
+  if (!Page) {
+    Page = lazy(async () => {
+      // Resolve the selected API alongside its page, never the complete source catalog.
+      const [activeDoc] = await Promise.all([loaders[selected](), loadComponentApi(selected)]);
+      return {
+        default: (props: ContentProps) => <ComponentContent {...props} activeDoc={activeDoc} />,
+      };
+    });
+    loadedPages.set(selected, Page);
+  }
+  return (
+    <Suspense fallback={<PageLoading compact={props.previewIndex != null} />}>
+      <Page {...props} />
+    </Suspense>
+  );
+}
+
+const ComponentContent = ({
+  activeDoc,
   section,
   previewIndex,
-}: {
-  slug?: string;
-  section?: string;
-  previewIndex?: number;
-}) => {
+}: ContentProps & { activeDoc: DocPageModule }) => {
   const [activeSection, setActiveSection] = useState(section ?? "");
-  const fallbackDoc = docsPages[0];
-  const activeDoc =
-    slug && !docsShowMotion && isMotionDocSlug(slug)
-      ? fallbackDoc
-      : slug
-        ? (docsBySlug[slug] ?? fallbackDoc)
-        : fallbackDoc;
   const isComponentDetail =
     !activeDoc.guideContents &&
     (!activeDoc.navGroup ||
@@ -95,14 +121,15 @@ export const DocsComponentContent = ({
       activeDoc.guideContents ??
       (isComponentDetail
         ? [
-            ...docSections.flatMap(({ id, title }) => {
+            ...docSections.flatMap<DocContentsSection>(({ id, title, children }) => {
               if (id === exampleCollection.examples[0]?.id)
                 return [
                   {
                     id: "component-examples",
                     label: componentExamplesTitle(activeDoc),
-                    children: exampleCollection.examples.map(({ id, title }) => ({
+                    children: exampleCollection.examples.map(({ id, title, children }) => ({
                       id,
+                      children,
                       label: title,
                     })),
                   },
@@ -112,6 +139,7 @@ export const DocsComponentContent = ({
                 : [
                     {
                       id,
+                      children,
                       label:
                         id === "api-reference"
                           ? "Props and data"
@@ -128,7 +156,7 @@ export const DocsComponentContent = ({
                                     ? "Form props and contracts"
                                     : "Component props",
                               },
-                              { id: "component-data-types", label: "Data type reference" },
+                              { id: "component-data-types", label: "Data Type Reference" },
                             ],
                           }
                         : id === "accessibility" && componentAccessibility(activeDoc.slug)
@@ -137,7 +165,7 @@ export const DocsComponentContent = ({
                     },
                   ];
             }),
-            ...componentIntegrationContents,
+            ...getComponentIntegrationContents(activeDoc),
           ]
         : undefined),
     [activeDoc, isComponentDetail, docSections, exampleCollection],
@@ -147,13 +175,15 @@ export const DocsComponentContent = ({
     if (previewIndex !== undefined) return;
     setActiveSection(activeSectionId);
     // Guide entry routes open at the introduction; legacy section URLs still reach their target.
-    if (contents && (activeSectionId === "installation" || window.location.hash)) return;
+    if (window.location.hash || (contents && activeSectionId === "installation")) return;
     return scheduleSectionScroll(activeSectionId);
   }, [activeDoc.slug, contents, activeSectionId, previewIndex]);
 
   useEffect(() => {
     if (contents || previewIndex !== undefined) return;
-    const ids = docSections.map((docSection) => docSection.id);
+    const ids = flattenContents(
+      docSections.map(({ id, title, children }) => ({ id, label: title, children })),
+    ).map(({ id }) => id);
     const elements = ids
       .map((id) => document.getElementById(id))
       .filter((element): element is HTMLElement => element !== null);
@@ -208,13 +238,26 @@ export const DocsComponentContent = ({
         </Tabs>
         {isComponentDetail && (
           <p class="docs-copy">
-            The <PathDisplay path={"@/components/kamod-ui/…"} /> imports in these examples refer to
-            local source files. Configure that alias when copying source, or use the corresponding
-            exports from <PathDisplay path={"@kamod-ch/ui"} /> when installing the package. Connect{" "}
-            <a href={withBasePath("/docs/theming/css-setup")}>
-              the global theme CSS and Tailwind source detection
-            </a>{" "}
-            before your first render.
+            <BrandText>
+              {activeDoc.snippetImports === "package" ? (
+                <>
+                  These examples use the published exports from <PathDisplay path="@kamod-ch/ui" />.
+                  Install the package once, then import the component directly.{" "}
+                </>
+              ) : (
+                <>
+                  The <PathDisplay path={"@/components/kamod-ui/…"} /> imports in these examples
+                  refer to local source files. Configure that alias when copying source, or use the
+                  corresponding exports from <PathDisplay path={"@kamod-ch/ui"} /> when installing
+                  the package.{" "}
+                </>
+              )}
+              Connect{" "}
+              <a href={withBasePath("/docs/theming/css-setup")}>
+                The Global Theme CSS and Tailwind Source Detection
+              </a>{" "}
+              before your first render.
+            </BrandText>
           </p>
         )}
       </>
@@ -246,7 +289,7 @@ export const DocsComponentContent = ({
           : isButtonGroupDoc
             ? `<ButtonGroup>\n  <Button>Button 1</Button>\n  <Button>Button 2</Button>\n</ButtonGroup>`
             : isTabsDoc
-              ? `<Tabs defaultValue="overview">\n  <TabsList>\n    <TabsTrigger value="overview">Overview</TabsTrigger>\n    <TabsTrigger value="details">Details</TabsTrigger>\n  </TabsList>\n  <TabsContent value="overview">Overview content</TabsContent>\n  <TabsContent value="details">Details content</TabsContent>\n</Tabs>`
+              ? `<Tabs defaultValue="overview">\n  <TabsList variant="line">\n    <TabsTrigger value="overview">Overview</TabsTrigger>\n    <TabsTrigger value="details">Details</TabsTrigger>\n  </TabsList>\n  <TabsContent value="overview">Overview content</TabsContent>\n  <TabsContent value="details">Details content</TabsContent>\n</Tabs>`
               : isAlertDialogDoc
                 ? `<AlertDialog>\n  <AlertDialogTrigger>Delete account</AlertDialogTrigger>\n  <AlertDialogContent>\n    <AlertDialogHeader>\n      <AlertDialogTitle>Delete account?</AlertDialogTitle>\n      <AlertDialogDescription>\n        This action is permanent.\n      </AlertDialogDescription>\n    </AlertDialogHeader>\n    <AlertDialogFooter>\n      <AlertDialogCancel>Cancel</AlertDialogCancel>\n      <AlertDialogAction>Continue</AlertDialogAction>\n    </AlertDialogFooter>\n  </AlertDialogContent>\n</AlertDialog>`
                 : undefined);
@@ -263,7 +306,7 @@ export const DocsComponentContent = ({
             </p>
           )}
           {isButtonDoc ? (
-            <div class="docs-usage-row">
+            <div class="docs-usage-row docs-button-usage-preview">
               <Button disabled>
                 <Spinner size="sm" data-icon="inline-start" />
                 Generating
@@ -279,7 +322,7 @@ export const DocsComponentContent = ({
           ) : isTabsDoc ? (
             <div class="docs-usage-row w-full max-w-xl">
               <Tabs defaultValue="overview">
-                <TabsList>
+                <TabsList variant="line">
                   <TabsTrigger value="overview">Overview</TabsTrigger>
                   <TabsTrigger value="details">Details</TabsTrigger>
                 </TabsList>
@@ -321,7 +364,11 @@ export const DocsComponentContent = ({
       <ComponentExample
         doc={activeDoc}
         index={index}
-        codeSnippet={rewriteKamodCoreImportsInDocString(codeSnippet, activeDoc.slug)}
+        codeSnippet={
+          activeDoc.snippetImports === "package"
+            ? codeSnippet
+            : rewriteKamodCoreImportsInDocString(codeSnippet, activeDoc.slug)
+        }
         filePath={filePath ?? `src/components/${toPascalCase(activeDoc.slug)}Example.tsx`}
       />
     ) : (
@@ -372,6 +419,7 @@ export const DocsComponentContent = ({
                 activeDoc.command,
                 docSections,
                 activeDoc.slug,
+                activeDoc.snippetImports,
               )}
               language="markdown"
               className="docs-tab-code !max-h-none"
@@ -384,18 +432,13 @@ export const DocsComponentContent = ({
 
   const renderTitleRow = () =>
     isComponentDetail ? (
-      <>
-        <ComponentDetailHeader doc={activeDoc} sourcePath={componentSourcePath} />
-        <BlockGuideContents
-          id={`${activeDoc.slug}-mobile-contents`}
-          sections={contents!}
-          overviewChildren={previewContents}
-          mobile
-        />
-      </>
+      <ComponentDetailHeader doc={activeDoc} sourcePath={componentSourcePath} />
     ) : (
       <div class="docs-title-row">
         <div class="docs-title-stack">
+          <PageEyebrow>
+            {activeDoc.navGroup === "forms" ? "Form Guide" : "Component Guide"}
+          </PageEyebrow>
           <h1>{activeDoc.title}</h1>
           <p class="docs-component-path">
             <PathDisplay path={componentSourcePath} />

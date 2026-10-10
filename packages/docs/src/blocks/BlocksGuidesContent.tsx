@@ -2,8 +2,8 @@ import sources from "virtual:kamod-block-guides";
 import { withBasePath } from "../base-path";
 import { DocsShell } from "../docs/components/DocsShell";
 import { GuideArticle } from "../docs/components/GuideArticle";
-import { LibraryJumpLinks } from "../docs/components/LibraryJumpLinks";
 import { LibraryPageHeader } from "../docs/components/LibraryPageHeader";
+import { PageEyebrow } from "../docs/components/PageEyebrow";
 import { BlockPageEnding } from "./BlockPageEnding";
 import { BlockGuideContents } from "./detail/BlockGuideContents";
 import { BlockGuideIntroduction } from "./guides/BlockGuideIntroduction";
@@ -30,8 +30,9 @@ export function BlocksGuidesContent({ slug }: { slug?: string }) {
   if (!guide)
     return (
       <main>
-        <h1>Guide not found</h1>
-        <a href={withBasePath("/blocks")}>Browse blocks</a>
+        <PageEyebrow>Block Guides</PageEyebrow>
+        <h1>Guide Not Found</h1>
+        <a href={withBasePath("/blocks")}>Browse Blocks</a>
       </main>
     );
   return (
@@ -49,32 +50,16 @@ export function BlocksGuidesContent({ slug }: { slug?: string }) {
       }
       mainContent={
         <GuideArticle
-          id={guide.slug}
-          title={guide.title}
           sections={guide.sections}
-          contents={guide.contents}
           header={
             <LibraryPageHeader
               parent={{ label: "Blocks", href: "/blocks" }}
               label={guide.label}
-              eyebrow="Block guides"
+              eyebrow="Block Guides"
               focus={guide.focus}
               title={guide.title}
               description={<BlockGuideIntroduction slug={guide.slug} />}
-            >
-              <LibraryJumpLinks class="block-guide-switcher" label="Block guides">
-                {blockGuides.map((item) => (
-                  <li key={item.slug}>
-                    <a
-                      href={withBasePath(`/blocks/${item.slug}`)}
-                      aria-current={item.slug === slug ? "page" : undefined}
-                    >
-                      {item.label}
-                    </a>
-                  </li>
-                ))}
-              </LibraryJumpLinks>
-            </LibraryPageHeader>
+            />
           }
         >
           <ContinueBuilding slug={guide.slug} />

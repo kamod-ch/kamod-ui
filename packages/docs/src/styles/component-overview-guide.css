@@ -4,9 +4,6 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
   width: 100%;
 }
-.component-overview-tabs [role="tab"] {
-  font-size: 0.9375rem;
-}
 .library-overview-guide .library-directory-resources h3 {
   font-size: 1.05rem;
   font-weight: 600;
@@ -43,7 +40,7 @@
   border-top: 1px solid color-mix(in oklab, var(--border) 65%, transparent);
 }
 .library-overview-guide .guide-next-example-intro p,
-.library-overview-guide .guide-next-check p {
+.library-overview-guide .docs-callout [data-slot="alert-description"] p {
   margin-block: 0.625rem;
   color: var(--muted-foreground);
   font-size: 0.875rem;
@@ -107,4 +104,257 @@
 }
 .docs-forms-overview .library-directory-grid {
   grid-template-columns: minmax(0, 1fr);
+}
+
+.docs-forms-overview .form-control-reference {
+  container: form-controls / inline-size;
+}
+.docs-forms-overview .form-control-reference table {
+  min-width: 36rem;
+}
+.docs-forms-overview .form-control-reference thead th {
+  font-weight: 600;
+}
+.form-control-compact {
+  display: none;
+}
+/* Merge the first two columns when the table itself runs out of reading space. */
+@container form-controls (max-width: 35.999rem) {
+  .docs-forms-overview .form-control-reference table {
+    min-width: 0;
+    table-layout: fixed;
+  }
+  .docs-forms-overview .form-control-reference :is(th, td) {
+    min-width: 0;
+    padding: 0.625rem 0.5rem;
+    overflow-wrap: anywhere;
+  }
+  .docs-forms-overview .form-control-reference th:first-child {
+    width: 35%;
+  }
+  .form-control-reference .form-control-start,
+  .form-control-wide-label {
+    display: none;
+  }
+  .form-control-compact {
+    display: block;
+  }
+  .form-control-reference tbody .form-control-compact {
+    margin-top: 0.5rem;
+    font-weight: 400;
+  }
+}
+/* Reference links inherit the existing code surface, without an additional link treatment. */
+.library-overview-guide a.docs-inline-code-link {
+  color: inherit;
+  text-decoration: none;
+}
+.library-overview-guide a.docs-inline-code-link code {
+  font-weight: 500;
+}
+.docs-code-reference {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+}
+.docs-code-reference small {
+  color: var(--muted-foreground);
+  font-size: 0.6875rem;
+  line-height: 1.5;
+}
+
+/* The example follow-up uses the same open reading layout as the surrounding guide. */
+.form-example-walkthrough {
+  margin-top: 1.5rem;
+}
+.form-walkthrough-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.library-overview-guide .form-walkthrough-header h3 {
+  margin: 0;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+.form-walkthrough-header .docs-icon-button {
+  flex: none;
+}
+.form-example-walkthrough .form-walkthrough-introduction {
+  margin-top: 0.625rem;
+}
+.form-walkthrough-stages {
+  display: grid;
+  gap: 1.375rem;
+  margin-block: 1.5rem;
+}
+.form-walkthrough-stage-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.625rem;
+}
+.form-walkthrough-stage-heading h4 {
+  margin: 0;
+  color: var(--foreground);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.6;
+}
+.form-walkthrough-stage-heading > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  color: var(--muted-foreground);
+  font-size: 0.6875rem;
+}
+.form-example-walkthrough .form-walkthrough-stage p {
+  margin: 0.5rem 0 0;
+}
+.form-walkthrough-takeaway {
+  padding: 0.875rem 1rem;
+  border-left: 2px solid color-mix(in oklab, var(--primary) 18%, var(--border));
+  border-radius: 0 0.375rem 0.375rem 0;
+  background: color-mix(
+    in oklab,
+    var(--primary) calc(3% + 2.91% * var(--docs-highlight-boost, 0)),
+    var(--background)
+  );
+}
+.form-walkthrough-takeaway > span {
+  color: var(--muted-foreground);
+  font-size: 0.6875rem;
+}
+.form-example-walkthrough .form-walkthrough-takeaway p {
+  margin: 0.375rem 0 0;
+  font-size: 0.8125rem;
+}
+.form-walkthrough-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.375rem 0.625rem;
+  margin-top: 1.125rem;
+  padding-top: 0.875rem;
+  border-top: 1px solid color-mix(in oklab, var(--border) 65%, transparent);
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+}
+.form-walkthrough-footer :is(a, span) {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Open documentation flow; guide references sit beside the explanation when space allows. */
+.formisch-integration {
+  container-type: inline-size;
+}
+.formisch-integration-step {
+  display: grid;
+  gap: 0.75rem 2rem;
+  padding-block: 1.5rem;
+  border-top: 1px solid color-mix(in oklab, var(--border) 60%, transparent);
+}
+.formisch-integration-step > * {
+  min-width: 0;
+}
+.formisch-integration-step h3 {
+  margin: 0 0 0.625rem;
+}
+.formisch-integration-step p:last-child {
+  margin-bottom: 0;
+}
+.formisch-integration-links {
+  display: grid;
+  align-content: start;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  line-height: 1.65;
+}
+.formisch-integration-links > span {
+  color: var(--muted-foreground);
+  font-size: 0.6875rem;
+}
+.formisch-integration-links a,
+.formisch-integration-next > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: fit-content;
+}
+.formisch-integration-links svg,
+.formisch-integration-next svg {
+  flex-shrink: 0;
+}
+.formisch-integration-next {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid color-mix(in oklab, var(--border) 60%, transparent);
+  font-size: 0.8125rem;
+}
+.formisch-integration-next > span {
+  font-size: 0.75rem;
+}
+@container (min-width: 42rem) {
+  .formisch-integration-step {
+    grid-template-columns: minmax(0, 1fr) 11.5rem;
+  }
+  .formisch-integration-links {
+    padding-top: 0.25rem;
+  }
+}
+
+.docs-forms-overview .guide-next-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: 100%;
+}
+.form-example-handoff {
+  margin-top: 1rem;
+}
+.form-example-handoff > p {
+  margin: 0;
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+  line-height: 1.75;
+}
+.form-example-handoff strong {
+  color: var(--foreground);
+  font-weight: 550;
+}
+.form-example-handoff-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  margin-block: 0.875rem 1.25rem;
+  color: var(--muted-foreground);
+  font-size: 0.6875rem;
+}
+.form-example-handoff-footer :is(a, span) {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+.form-example-handoff-footer a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, currentColor 40%, transparent);
+  text-underline-offset: 0.2em;
+}
+.form-example-handoff .form-example-handoff-divider {
+  background: color-mix(
+    in oklab,
+    var(--border) calc(65% + 22.75% * var(--docs-highlight-boost, 0)),
+    transparent
+  );
 }

@@ -15,7 +15,7 @@ export const formischAccessibility: AccessibilityProfile = {
     "Simulate slow submission, server validation failure, network rejection, retry and reset. Keep values recoverable, feedback understandable and all actions reachable at narrow widths, enlarged text and in both themes.",
   ],
   example: {
-    title: "Connect the visible error to the real input",
+    title: "Connect the Visible Error to the Real Input",
     note: "This is a fragment for an existing FormischField render callback, not a standalone form. Your store must include a string email field; define a unique id in the owning component. Preserve the native handlers while adding explicit label/error relationships.",
     code: 'import { Field, FieldLabel, FieldError, Input } from "@kamod-ch/ui";\n\n// Inside your existing typed FormischField render callback:\n// field is supplied by <FormischField of={form} path={["email"]}>.\nconst invalid = Boolean(field.errors.value?.length);\nconst helpId = `${id}-help`;\nconst errorId = `${id}-error`;\n\nreturn (\n  <Field invalid={invalid}>\n    <FieldLabel htmlFor={id}>Email address</FieldLabel>\n    <Input {...field.props} id={id} type="email" autoComplete="email"\n      value={typeof field.input.value === "string" ? field.input.value : ""}\n      aria-invalid={invalid || undefined}\n      aria-describedby={[helpId, invalid ? errorId : undefined].filter(Boolean).join(" ")} />\n    <p id={helpId}>Use an address where you can receive account updates.</p>\n    {invalid && <FieldError id={errorId}\n      errors={field.errors.value?.map((message) => ({ message }))} />}\n  </Field>\n);',
   },
