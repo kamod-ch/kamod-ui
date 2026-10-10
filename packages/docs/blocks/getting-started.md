@@ -9,21 +9,23 @@ outline: false
 
 ## Understand what you are adding
 
-A Kamod block is a **complete, editable composition** built from Kamod UI components. A component gives you a control such as a button, sheet or sidebar primitive. A block arranges those controls into a useful screen: grouped navigation, an application frame, a login form or a registration page. You start with a working layout and then make its content and behavior belong to your application.
+New to Kamod UI itself? Complete the [First Working Screen](/docs/getting-started#your-first-working-screen) in the **Getting Started Guide**, then use this page to bring a complete block into that foundation.
 
-The source is the integration contract. Read the variant’s **About this block**, **Usage**, and **Props and data** sections alongside its preview. Two blocks that look similar can accept data in different places. Do not assume that every page export forwards props to the components inside it.
+A Kamod block is a **Complete, Editable Composition** built from Kamod UI components. A component gives you a control such as a button, sheet or sidebar primitive. A block arranges those controls into a useful screen: grouped navigation, an application frame, a login form or a registration page. You start with a working layout and then make its content and behavior belong to your application.
 
-The blocks package in this repository is private. Paths such as `@kamod-ch/blocks/sidebar/sidebar-05` identify repository source; they are **not published installation commands**. The supported documentation workflow is to copy the supplied files into your app and use local imports. You do not need a shadcn registry, `components.json`, a Pro key or a React compatibility layer for these Kamod examples.
+The source is the integration contract. Read the variant’s **About This Block**, **Usage**, and **Props and Data** sections alongside its preview. Two blocks that look similar can accept data in different places. Do not assume that every page export forwards props to the components inside it.
+
+The blocks package in this repository is private. Paths such as `@kamod-ch/blocks/sidebar/sidebar-05` identify repository source; they are **Not Published Installation Commands**. The supported documentation workflow is to copy the supplied files into your app and use local imports. You do not need a shadcn registry, `components.json`, a Pro key or a React compatibility layer for these Kamod examples.
 
 | Starting point    | What you change                                                               | Where to read next                                                   |
 | ----------------- | ----------------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| Sidebar           | Edit the local composition, navigation data and inner helper props.           | [Sidebar collection](/blocks/sidebar)                                |
+| Sidebar           | Edit the local composition, navigation data and inner helper props.           | [Sidebar Collection](/blocks/sidebar)                                |
 | Application Shell | Pass typed navigation, breadcrumbs, user data and page content to the shell.  | [Application Shell 1](/blocks/application-shell/application-shell-1) |
 | Login or signup   | Connect the inner form’s supported callbacks and replace the page’s branding. | [Login](/blocks/login) and [Signup](/blocks/signup)                  |
 
 ## Choose a variant before copying
 
-Start in the [blocks directory](/blocks) and open a published collection. Planned collections describe future categories; they do not yet provide source or installation pages. Compare the actual navigation structure, content area and interaction model of the available variants rather than choosing only by thumbnail.
+Start in the [Blocks Directory](/blocks) and open a published collection. Planned collections describe future categories; they do not yet provide source or installation pages. Compare the actual navigation structure, content area and interaction model of the available variants rather than choosing only by thumbnail.
 
 In a detail page’s **Preview** tab, try the interactions your users will need. Open nested navigation, collapse a sidebar where supported, and inspect the mobile drawer. Change the preview’s screen size, color scheme and preset to see whether the composition suits your content. Larger screen controls are disabled when the available showcase width cannot fit them. Open the preview in its own tab when you need more room.
 
@@ -65,7 +67,7 @@ Kamod uses Preact’s types, hooks and rendering. If your app is React-only, imp
 
 ## Bring the complete source into your app
 
-Open the variant’s setup section and follow its **destination paths**. The Code tab may show a friendly source label such as `app/login/page.tsx`; that label does not mean your project needs a Next.js app directory. Use the installation paths documented for that particular variant.
+Open the variant’s setup section and follow its **Destination Paths**. The Code tab may show a friendly source label such as `app/login/page.tsx`; that label does not mean your project needs a Next.js app directory. Use the installation paths documented for that particular variant.
 
 Sidebar pages offer a source ZIP. Extract its variant folder into `src/components/blocks/`, keeping the internal structure intact. The archive includes source and license information, but dependencies are installed separately. Other variants list the files to copy manually. Keep supporting components, data modules and any referenced assets together; a successful download of the main file is not a complete installation.
 
@@ -122,9 +124,9 @@ export function App() {
 }
 ```
 
-This renders the supplied demo composition. It does **not** pass your routes or page content into it. Open `sidebar-05.tsx`, locate the existing content area, and replace its placeholder content there. Then edit the supplied data and the props passed to its inner helpers. Keep the surrounding provider, sidebar and inset structure while you learn which element owns each part of the layout.
+This renders the supplied demo composition. It does **Not** pass your routes or page content into it. Open `sidebar-05.tsx`, locate the existing content area, and replace its placeholder content there. Then edit the supplied data and the props passed to its inner helpers. Keep the surrounding provider, sidebar and inset structure while you learn which element owns each part of the layout.
 
-Application Shell 1 follows a different approach: its reusable component exposes configuration props and `children`. It can wrap your own page without editing the shell’s internal composition for every route. Its [typed usage examples](/blocks/application-shell/application-shell-1#application-shell-usage) show the required shape and callback contracts. Read those definitions rather than applying a guessed `items` or `content` prop to a sidebar wrapper.
+Application Shell 1 follows a different approach: its reusable component exposes configuration props and `children`. It can wrap your own page without editing the shell’s internal composition for every route. Its [Typed Usage Examples](/blocks/application-shell/application-shell-1#application-shell-usage) show the required shape and callback contracts. Read those definitions rather than applying a guessed `items` or `content` prop to a sidebar wrapper.
 
 For login and signup, the exported page composes a form with branding and optional illustration. Configure the inner form where it is rendered, or use that form directly if you already have a page layout. Follow the chosen form’s real props; the outer page is not necessarily a configurable forwarding wrapper.
 
@@ -133,21 +135,21 @@ For login and signup, the exported page composes a form with branding and option
 Work from content toward behavior. Replace visible labels and sample records first, then map destinations to real routes, then connect actions. Keeping those steps separate makes it easier to tell a data-shape error from a router or service problem.
 
 - **Navigation:** replace placeholder destinations, preserve stable item identifiers and use the app’s actual active-route logic. Connect client-side routing only through the supported callback or link integration for that helper.
-- **Page content:** put the real screen inside the intended content region. Avoid mounting another complete application shell inside a shell you already have unless the nested layout is deliberate.
-- **Account actions:** connect profile, settings and sign-out behavior to your application. A menu item with a demo callback is not an account service.
+- **Page Content:** put the real screen inside the intended content region. Avoid mounting another complete application shell inside a shell you already have unless the nested layout is deliberate.
+- **Account Actions:** connect profile, settings and sign-out behavior to your application. A menu item with a demo callback is not an account service.
 - **Forms:** wire supported submit/provider callbacks to your existing service, preserve pending and error feedback, and redirect only after the service confirms success.
 
 Keep server authorization separate from navigation visibility. Hiding a link can simplify the interface, but it does not enforce access to a route or endpoint. Likewise, a successful demo form message does not create a user, authenticate a session or persist submitted data.
 
-Use the detail page’s **Local props and data** and **Data type reference** sections when changing data structures. Required fields, optional callbacks and return types come from the source. Keep the intended async contract instead of discarding a returned promise merely to satisfy a UI handler.
+Use the detail page’s **Local Props and Data** and **Data Type Reference** sections when changing data structures. Required fields, optional callbacks and return types come from the source. Keep the intended async contract instead of discarding a returned promise merely to satisfy a UI handler.
 
 ## Use the setup prompt when it helps
 
-The showcase’s **Set up block** prompt packages installation guidance and reference source for a coding assistant with access to your project. Copy the complete prompt so it includes supporting files, not just the opening task. The Plain, Code and Markdown views are different presentations of the same underlying prompt; the copy action supplies its source text.
+The showcase’s **Set Up Block** prompt packages installation guidance and reference source for a coding assistant with access to your project. Copy the complete prompt so it includes supporting files, not just the opening task. The Plain, Code and Markdown views are different presentations of the same underlying prompt; the copy action supplies its source text.
 
 Tell the assistant where the block should appear and which existing routes or services to use. Ask it to inspect `package.json`, the app entry, global CSS and current conventions before making changes. It should reuse your setup, preserve unrelated edits and report any integration gaps. No assistant-specific package is required to use the prompt.
 
-Use **Adapt block** after the initial integration when you have a defined change. Replace its bracketed fields with your content, layout goals and behavior requirements. Include the current local source if it has diverged from the original. An assistant cannot preserve edits it has not been shown, and a screenshot alone does not describe the component API.
+Use **Adapt Block** after the initial integration when you have a defined change. Replace its bracketed fields with your content, layout goals and behavior requirements. Include the current local source if it has diverged from the original. An assistant cannot preserve edits it has not been shown, and a screenshot alone does not describe the component API.
 
 Review the resulting diff and run your app’s checks. If the assistant cannot execute commands in your project, apply the changes and run them yourself; generated instructions are not evidence that the integration works.
 
@@ -190,4 +192,4 @@ Treat the copied source as application code. Give local changes a clear purpose,
 
 When updating from the repository, compare the new source with your local version rather than replacing the folder blindly. Preserve your routes, content and callbacks while reviewing changes to the supporting components. Re-run the interaction and theme checks affected by the update.
 
-Continue with [Component styles](/blocks/styles) for density, hierarchy and reusable treatments, or [Theming & Tailwind](/docs/theming/installation) for application-wide colors and runtime appearance. When a general guide and a variant differ in their local file shape, the variant’s current source and setup list are the more specific reference.
+Continue with [Component Styles](/blocks/styles) for density, hierarchy and reusable treatments, or [Theming & Tailwind](/docs/theming/installation) for application-wide colors and runtime appearance. When a general guide and a variant differ in their local file shape, the variant’s current source and setup list are the more specific reference.
