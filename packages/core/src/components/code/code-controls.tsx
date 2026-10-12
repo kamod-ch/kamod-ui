@@ -65,10 +65,19 @@ export function CodeWrapControl({
         aria-describedby={`${codeId}-wrap-state`}
         title={wrapped ? "Turn off line wrapping" : "Wrap lines with readable indentation"}
       />
-      <span class="docs-code-wrap-state" id={`${codeId}-wrap-state`}>
-        <span class="docs-code-control-detail">wrap </span>
-        <span class="docs-code-control-state" data-alternate={wrapped ? "disabled" : "enabled"}>
-          <span>{wrapped ? "enabled" : "disabled"}</span>
+      <span class="docs-code-wrap-state">
+        <span class="docs-code-wrap-state-full" id={`${codeId}-wrap-state`}>
+          wrap{" "}
+          <span class="docs-code-control-state" data-alternate={wrapped ? "disabled" : "enabled"}>
+            <span>{wrapped ? "enabled" : "disabled"}</span>
+          </span>
+        </span>
+        <span
+          class="docs-code-wrap-state-short docs-code-control-state"
+          data-alternate={wrapped ? "scroll" : "wrapped"}
+          aria-hidden="true"
+        >
+          <span>{wrapped ? "wrapped" : "scroll"}</span>
         </span>
       </span>
       <FoldIcon class="docs-code-control-end-icon" size={12} />

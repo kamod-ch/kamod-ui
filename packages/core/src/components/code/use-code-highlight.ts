@@ -1,13 +1,6 @@
 import { useLayoutEffect, useMemo, useRef, useState } from "preact/hooks";
 import type { CodeLanguage } from "./code-language";
-
-const escapeHtml = (value: string) =>
-  value
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#39;");
+import { escapeCodeHtml } from "./code-markup";
 
 /** Plain escaped source is complete during SSR and before the optional grammar chunk arrives. */
 export function useCodeHighlight(
@@ -25,7 +18,8 @@ export function useCodeHighlight(
   const highlightedHtml =
     highlight?.code === code && highlight.language === language ? highlight.html : undefined;
   const html = useMemo(
-    () => (enabled ? ((highlightSource ? highlightedHtml : undefined) ?? escapeHtml(code)) : ""),
+    () =>
+      enabled ? ((highlightSource ? highlightedHtml : undefined) ?? escapeCodeHtml(code)) : "",
     [code, enabled, highlightSource, highlightedHtml],
   );
   useLayoutEffect(() => {
@@ -48,7 +42,8 @@ export function useCodeHighlight(
           if (!cancelled) setHighlight({ code, language, html: highlightCode(code, language) });
         })
         .catch(() => {
-          // Loading/coloring is optional: the original source remains selectable and copyable.
+          // Coloring is optional; release any placeholder and reveal the complete escaped source.
+          if (!cancelled) setHighlight({ code, language, html: escapeCodeHtml(code) });
         });
     };
     const observer =
@@ -67,5 +62,9 @@ export function useCodeHighlight(
       observer?.disconnect();
     };
   }, [code, language, enabled, highlightSource]);
-  return { element, html };
+  return {
+    element,
+    html,
+    pending: enabled && highlightSource && language !== "text" && highlightedHtml === undefined,
+  };
 }

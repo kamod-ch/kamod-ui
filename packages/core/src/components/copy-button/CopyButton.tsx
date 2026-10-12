@@ -40,8 +40,8 @@ export function CopyButton({
       data-slot="copy-button"
       {...props}
       class={cn(
-        "docs-icon-button kamod-copy-button",
-        copied && "is-copied",
+        "docs-icon-button kamod-copy-button kamod-action-feedback",
+        copied && "is-copied is-complete",
         className,
         aliasClassName,
       )}
@@ -66,7 +66,23 @@ export function CopyButton({
         if (!event.defaultPrevented) void copy();
       }}
     >
-      <Icon key={copied ? "copied" : "copy"} size={16} strokeWidth={2} aria-hidden="true" />
+      <span class="kamod-copy-glyph kamod-action-glyph" aria-hidden="true">
+        {copied && (
+          <CopyIcon
+            class="kamod-copy-outgoing kamod-action-outgoing"
+            size={16}
+            strokeWidth={2}
+            aria-hidden="true"
+          />
+        )}
+        <Icon
+          key={copied ? "copied" : "copy"}
+          class="kamod-copy-symbol kamod-action-confirmation"
+          size={16}
+          strokeWidth={2}
+          aria-hidden="true"
+        />
+      </span>
       {!iconOnly && (
         <span class="kamod-copy-label" aria-hidden="true">
           <span data-copy-label="idle">{label}</span>

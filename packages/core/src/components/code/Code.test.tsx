@@ -1,6 +1,6 @@
 /** @vitest-environment jsdom */
 import { act, cleanup, fireEvent, render, waitFor } from "@testing-library/preact";
-import { afterEach, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { Code } from "./Code";
 import { readableCodeLines } from "./code-wrap";
 import { highlightCode } from "./highlight-code";
@@ -13,10 +13,16 @@ vi.mock("./code-wrap", async (original) => {
   const module = await original<typeof import("./code-wrap")>();
   return { ...module, readableCodeLines: vi.fn(module.readableCodeLines) };
 });
+beforeEach(() => {
+  // jsdom has no layout; these tests exercise controls on an overflowing source surface.
+  vi.spyOn(HTMLElement.prototype, "clientWidth", "get").mockReturnValue(320);
+  vi.spyOn(HTMLElement.prototype, "scrollWidth", "get").mockReturnValue(800);
+});
 afterEach(() => {
   cleanup();
   vi.clearAllMocks();
   vi.unstubAllGlobals();
+  vi.restoreAllMocks();
 });
 
 it("keeps off-screen code readable without highlighting, then highlights on approach", async () => {
@@ -47,6 +53,69 @@ it("keeps off-screen code readable without highlighting, then highlights on appr
 it("does not parse plain text or a rendered document", () => {
   render(<Code code="plain text" language="text" />);
   render(<Code code="# Heading" language="markdown" renderedContent={<p>Heading</p>} />);
+  expect(highlightCode).not.toHaveBeenCalled();
+});
+
+it("shows an opted-in placeholder while preserving source and Copy, then reveals formatted code", async () => {
+  let notify: IntersectionObserverCallback;
+  vi.stubGlobal(
+    "IntersectionObserver",
+    class {
+      constructor(callback: IntersectionObserverCallback) {
+        notify = callback;
+      }
+      observe() {}
+      disconnect() {}
+    },
+  );
+  const writeText = vi.fn().mockResolvedValue(undefined);
+  vi.stubGlobal("navigator", { clipboard: { writeText } });
+  const code = 'const value = "<literal>";';
+  const view = render(<Code code={code} loadingContent={<p role="status">Formatting source</p>} />);
+  const source = view.container.querySelector("pre")!;
+  expect(view.getByText("Formatting source")).toBeVisible();
+  expect(source).not.toBeVisible();
+  expect(source).toHaveAttribute("tabindex", "-1");
+  expect(source.textContent).toBe(code);
+  fireEvent.click(view.getByRole("button", { name: "Copy code" }));
+  await waitFor(() => expect(writeText).toHaveBeenCalledWith(code));
+  act(() =>
+    notify([{ isIntersecting: true } as IntersectionObserverEntry], {} as IntersectionObserver),
+  );
+  await waitFor(() => expect(view.queryByText("Formatting source")).toBeNull());
+  expect(source).toBeVisible();
+  expect(source).toHaveAttribute("tabindex", "0");
+  expect(source.querySelector(".token")).not.toBeNull();
+});
+
+it("releases an opted-in placeholder if syntax formatting fails", async () => {
+  vi.stubGlobal("IntersectionObserver", undefined);
+  vi.mocked(highlightCode).mockImplementationOnce(() => {
+    throw new Error("Unavailable grammar");
+  });
+  const code = 'const source = "<script> & text";';
+  const view = render(<Code code={code} loadingContent={<p>Formatting source</p>} />);
+  await waitFor(() => expect(view.queryByText("Formatting source")).toBeNull());
+  expect(view.container.querySelector("pre")).toBeVisible();
+  expect(view.container.querySelector("code")?.textContent).toBe(code);
+  expect(view.container.querySelector("script")).toBeNull();
+});
+
+it("does not show syntax placeholders for plain text, disabled coloring or custom documents", () => {
+  const loadingContent = <p>Formatting source</p>;
+  const view = render(
+    <>
+      <Code code="Plain text" inferLanguage={false} loadingContent={loadingContent} />
+      <Code code="export const value = 1;" highlight={false} loadingContent={loadingContent} />
+      <Code
+        code="# Heading"
+        renderedContent={<p>Ready document</p>}
+        loadingContent={loadingContent}
+      />
+    </>,
+  );
+  expect(view.queryByText("Formatting source")).toBeNull();
+  expect(view.getByText("Ready document")).toBeVisible();
   expect(highlightCode).not.toHaveBeenCalled();
 });
 
@@ -181,6 +250,49 @@ it("does not rerun the syntax highlighter when wrapping changes", async () => {
   fireEvent.click(toggle);
   expect(highlightCode).toHaveBeenCalledTimes(1);
 });
+
+it.each([false, true])(
+  "folds imports immediately with complete colored source and no repeated work (wrapped: %s)",
+  async (wrapped) => {
+    const highlighter =
+      await vi.importActual<typeof import("./highlight-code")>("./highlight-code");
+    vi.mocked(highlightCode).mockImplementationOnce(highlighter.highlightCode);
+    const observers: IntersectionObserverCallback[] = [];
+    vi.stubGlobal(
+      "IntersectionObserver",
+      class {
+        constructor(notify: IntersectionObserverCallback) {
+          observers.push(notify);
+        }
+        observe() {}
+        disconnect() {}
+      },
+    );
+    const source =
+      'import { Button } from "ui";\n\nexport const Save = () => <Button title="a & b">Save</Button>;';
+    const body = 'export const Save = () => <Button title="a & b">Save</Button>;';
+    const view = render(<Code code={source} language="tsx" defaultWrapped={wrapped} />);
+    act(() =>
+      observers[0](
+        [{ isIntersecting: true } as IntersectionObserverEntry],
+        {} as IntersectionObserver,
+      ),
+    );
+    await waitFor(() => expect(view.container.querySelector("pre .token.keyword")).not.toBeNull());
+    vi.mocked(readableCodeLines).mockClear();
+    for (let index = 0; index < 8; index += 1) {
+      fireEvent.click(
+        view.getByRole("button", { name: index % 2 ? "Show imports" : "Hide imports" }),
+      );
+      expect(view.container.querySelector("pre code")?.textContent).toBe(index % 2 ? source : body);
+      expect(view.container.querySelector("pre .token.keyword")).not.toBeNull();
+    }
+    await act(() => vi.dynamicImportSettled());
+    expect(highlightCode).toHaveBeenCalledExactlyOnceWith(source, "tsx");
+    expect(observers).toHaveLength(1);
+    expect(readableCodeLines).not.toHaveBeenCalled();
+  },
+);
 
 it("changes syntax palettes and typography without repeating highlighting", async () => {
   vi.stubGlobal("IntersectionObserver", undefined);

@@ -1,9 +1,13 @@
 import { act, cleanup, fireEvent, render, waitFor } from "@testing-library/preact";
 import { renderToString } from "preact-render-to-string";
-import { afterEach, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { CodeWrapControl } from "./code-controls";
 import { Code, CodeFileHeader } from "./index";
 
+beforeEach(() => {
+  vi.spyOn(HTMLElement.prototype, "clientWidth", "get").mockReturnValue(320);
+  vi.spyOn(HTMLElement.prototype, "scrollWidth", "get").mockReturnValue(800);
+});
 afterEach(() => {
   cleanup();
   vi.unstubAllGlobals();
@@ -21,6 +25,7 @@ it("activates the wrap switch exactly once from every part of its label", () => 
     "label",
     ".docs-code-wrap-icon",
     ".docs-code-wrap-state",
+    ".docs-code-wrap-state-short",
     ".docs-code-control-end-icon",
     '[role="switch"]',
     '[data-slot="switch-thumb"]',

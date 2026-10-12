@@ -1,4 +1,5 @@
 import type { CodeLanguage } from "./code-language";
+import type { CodeSourcePart } from "./code-markup";
 
 const trivia = String.raw`(?:\s|//[^\r\n]*|/\*[\s\S]*?\*/)*`;
 const identifier = String.raw`[$\p{ID_Start}][$\p{ID_Continue}]*(?![$\p{ID_Continue}])`;
@@ -16,9 +17,9 @@ const leadingTrivia = new RegExp(`^${trivia}`, "u");
 const directive = new RegExp(String.raw`^${quoted}[\t ]*(?:;|(?=\r?\n|$))`, "u");
 
 /** Only normalize a join created by folding, never blank lines inside retained code. */
-function joinRetainedSource(before: string, after: string) {
+function retainedJoin(before: string, after: string) {
   const leading = after.match(/^(?:[\t ]*\r?\n)+/)?.[0];
-  if (!leading) return before + after;
+  if (!leading) return null;
   // Scan only the suffix: an unanchored repeated-newline regex retries every
   // earlier blank line when a preserved comment separates it from the suffix.
   let cursor = before.length;
@@ -30,10 +31,26 @@ function joinRetainedSource(before: string, after: string) {
     if (before[cursor - 1] === "\r") cursor -= 1;
     trailingStart = cursor;
   }
-  if (trailingStart === before.length) return before + after;
+  if (trailingStart === before.length) return null;
   const trailing = before.slice(trailingStart);
   const newline = trailing.includes("\r\n") ? "\r\n" : "\n";
-  return before.slice(0, trailingStart) + newline.repeat(2) + after.slice(leading.length);
+  return { beforeEnd: trailingStart, afterStart: leading.length, separator: newline.repeat(2) };
+}
+
+/** Trim normalized whitespace from the offset map as well as the displayed source. */
+function trimParts(parts: CodeSourcePart[], length: number, fromStart = false) {
+  while (length > 0 && parts.length) {
+    const index = fromStart ? 0 : parts.length - 1;
+    const part = parts[index];
+    const size = typeof part === "string" ? part.length : part.end - part.start;
+    const removed = Math.min(length, size);
+    if (removed === size) parts.splice(index, 1);
+    else if (typeof part === "string")
+      parts[index] = fromStart ? part.slice(removed) : part.slice(0, -removed);
+    else if (fromStart) part.start += removed;
+    else part.end -= removed;
+    length -= removed;
+  }
 }
 
 /**
@@ -75,10 +92,25 @@ export function findCodeImports(code: string, language: CodeLanguage) {
   if (!ranges.length) return null;
   let previous = 0;
   let folded = "";
+  const parts: CodeSourcePart[] = [];
+  const retain = (start: number, end: number) => {
+    if (start === end) return;
+    const after = code.slice(start, end);
+    const join = retainedJoin(folded, after);
+    if (join) {
+      trimParts(parts, folded.length - join.beforeEnd);
+      parts.push(join.separator);
+      start += join.afterStart;
+      folded = folded.slice(0, join.beforeEnd) + join.separator + after.slice(join.afterStart);
+    } else folded += after;
+    if (start < end) parts.push({ start, end });
+  };
   for (const { start, end } of ranges) {
-    folded = joinRetainedSource(folded, code.slice(previous, start));
+    retain(previous, start);
     previous = end;
   }
-  folded = joinRetainedSource(folded, code.slice(previous));
-  return { count: ranges.length, folded: folded.replace(/^(?:[\t ]*\r?\n)+/, "") };
+  retain(previous, code.length);
+  const leading = folded.match(/^(?:[\t ]*\r?\n)+/)?.[0].length ?? 0;
+  trimParts(parts, leading, true);
+  return { count: ranges.length, folded: folded.slice(leading), parts };
 }

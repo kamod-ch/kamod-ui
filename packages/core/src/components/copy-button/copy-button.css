@@ -1,19 +1,31 @@
 :where(:root, .light) {
-  --copy-success-tone: #000;
-  --copy-success-mix: 60%;
+  --action-feedback-tone: #000;
+  --action-feedback-mix: 62%;
 }
 :where(.dark) {
-  --copy-success-tone: #fff;
-  --copy-success-mix: 70%;
+  --action-feedback-tone: #fff;
+  --action-feedback-mix: 88%;
+}
+
+/* Copy and preview refresh share completion paint/motion; callers own size and state. */
+.kamod-action-feedback {
+  /* A crisp green stays related to each palette and readable in either scheme. */
+  --action-feedback-vivid: color-mix(
+    in oklab,
+    var(--color-emerald-500, #00bc7d) 72%,
+    var(--success, #16a34a)
+  );
+  --action-feedback-success: color-mix(
+    in oklab,
+    var(--action-feedback-vivid) var(--action-feedback-mix, 62%),
+    var(--action-feedback-tone, #000)
+  );
+  --action-feedback-accent: var(--action-feedback-vivid);
+  position: relative;
 }
 
 /* Match the shared icon-action surface without depending on documentation CSS. */
 .kamod-copy-button.kamod-copy-button {
-  --copy-success: color-mix(
-    in oklab,
-    var(--success, #16a34a) var(--copy-success-mix, 60%),
-    var(--copy-success-tone, #000)
-  );
   --docs-icon-button-hover-offset: 0;
   --docs-icon-button-hover-shadow: none;
   background: var(
@@ -74,10 +86,27 @@
 .kamod-copy-button.kamod-copy-button[aria-busy="true"] {
   cursor: progress;
 }
-:where(.kamod-copy-button > svg) {
+:where(.kamod-copy-glyph) {
+  position: relative;
+  display: inline-grid;
   flex: none;
   width: 1rem;
   height: 1rem;
+}
+.kamod-action-glyph {
+  position: relative;
+}
+.kamod-action-glyph > svg {
+  display: block;
+  grid-area: 1 / 1;
+  width: 100%;
+  height: 100%;
+  transform-origin: center;
+}
+.kamod-action-outgoing {
+  color: var(--muted-foreground);
+  opacity: 0;
+  pointer-events: none;
 }
 .kamod-copy-button[data-icon-only] {
   width: 1.75rem;
@@ -86,6 +115,7 @@
 
 /* Both labels reserve the same space, so feedback never shifts its neighbors. */
 :where(.kamod-copy-label) {
+  position: relative;
   display: grid;
   align-items: center;
   text-align: center;
@@ -93,6 +123,9 @@
 .kamod-copy-label > span {
   grid-area: 1 / 1;
   transition: opacity 110ms ease;
+}
+.kamod-copy-button [data-copy-label="feedback"] {
+  font-weight: 600;
 }
 .kamod-copy-button [data-copy-label="feedback"],
 .kamod-copy-button:is([data-copy-state="copied"], [data-copy-state="error"])
@@ -103,26 +136,51 @@
   [data-copy-label="feedback"] {
   opacity: 1;
 }
-.kamod-copy-button.kamod-copy-button[data-copy-state="copied"] {
-  --docs-icon-button-background: color-mix(in oklab, var(--copy-success) 10%, transparent);
-  --docs-icon-button-hover-background: color-mix(in oklab, var(--copy-success) 15%, transparent);
+.kamod-action-feedback.kamod-action-feedback.is-complete {
+  --docs-icon-button-background: color-mix(
+    in oklab,
+    var(--action-feedback-accent) 18%,
+    transparent
+  );
+  --docs-icon-button-hover-background: color-mix(
+    in oklab,
+    var(--action-feedback-accent) 22%,
+    transparent
+  );
   background: var(--docs-icon-button-background);
-  color: var(--copy-success);
+  color: var(--action-feedback-success);
   box-shadow: none;
 }
-.kamod-copy-button.kamod-copy-button[data-copy-state="copied"]:is(:hover, :focus-visible) {
+.kamod-action-feedback.kamod-action-feedback.is-complete:is(:hover, :focus-visible) {
   background: var(--docs-icon-button-hover-background);
-  color: var(--copy-success);
+  color: var(--action-feedback-success);
   box-shadow: none;
 }
-.kamod-copy-button::after {
+/* A quiet button rim and a small icon ring keep the confirmation inside its footprint. */
+.kamod-action-feedback::after,
+.kamod-action-glyph::after {
   content: "";
   position: absolute;
-  inset: 0;
-  border: 1px solid var(--copy-success);
-  border-radius: inherit;
-  opacity: 0;
   pointer-events: none;
+  opacity: 0;
+}
+.kamod-action-feedback::after {
+  inset: 0;
+  border: 1px solid var(--action-feedback-accent);
+  border-radius: inherit;
+  transition: opacity 120ms ease;
+}
+.kamod-action-feedback.is-complete::after {
+  opacity: 0.45;
+}
+.kamod-action-glyph::after {
+  inset: -0.1875rem;
+  border: 1.5px solid var(--action-feedback-accent);
+  border-radius: 50%;
+  transform-origin: center;
+}
+.kamod-copy-button[data-copy-state="copying"] .kamod-copy-symbol {
+  opacity: 0.55;
 }
 .kamod-copy-status {
   position: absolute;
@@ -135,40 +193,86 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .kamod-copy-button[data-copy-state="copied"] > svg {
-    animation: kamod-copy-snap 420ms both;
+  .kamod-action-feedback.is-complete .kamod-action-outgoing {
+    animation: kamod-action-turn-out 190ms both;
   }
-  .kamod-copy-button[data-copy-state="copied"]::after {
-    animation: kamod-copy-confirm 580ms ease-out both;
+  .kamod-action-feedback.is-complete .kamod-action-confirmation {
+    animation: kamod-action-stamp 460ms 70ms both;
+  }
+  .kamod-action-feedback.is-complete .kamod-action-glyph::after {
+    animation: kamod-action-stamp-ring 320ms 150ms ease-out both;
   }
 }
-@keyframes kamod-copy-snap {
+@keyframes kamod-action-turn-out {
   0% {
-    opacity: 0.3;
-    transform: scale(0.7) rotate(-12deg);
-  }
-  48% {
     opacity: 1;
-    transform: scale(1.12) rotate(4deg);
+    transform: none;
+    animation-timing-function: cubic-bezier(0.5, 0, 0.8, 0.4);
+  }
+  26% {
+    opacity: 1;
+    transform: rotate(-18deg) scale(0.82);
+    animation-timing-function: cubic-bezier(0.2, 0.7, 0.3, 1);
   }
   72% {
-    transform: scale(0.97) rotate(-1deg);
+    opacity: 0.25;
+    transform: rotate(104deg) scale(0.48);
   }
-  100% {
-    transform: scale(1) rotate(0);
-  }
-}
-@keyframes kamod-copy-confirm {
-  0%,
   100% {
     opacity: 0;
+    transform: rotate(138deg) scale(0.32);
   }
-  28% {
-    opacity: 0.35;
+}
+@keyframes kamod-action-stamp {
+  0% {
+    opacity: 0;
+    transform: rotate(-100deg) scale(0.35);
+    animation-timing-function: cubic-bezier(0.12, 0.9, 0.24, 1);
+  }
+  14% {
+    opacity: 1;
+    transform: rotate(-64deg) scale(0.65);
+  }
+  41% {
+    opacity: 1;
+    transform: rotate(14deg) scale(1.16);
+    animation-timing-function: cubic-bezier(0.4, 0, 0.3, 1);
+  }
+  60% {
+    transform: rotate(-8deg) scale(0.95);
+    animation-timing-function: cubic-bezier(0.15, 0.8, 0.3, 1);
+  }
+  76% {
+    transform: rotate(2deg) scale(1.02);
+  }
+  /* Hold the exact resting pose before finishing, including the compact 14px glyph. */
+  84%,
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes kamod-action-stamp-ring {
+  0% {
+    opacity: 0;
+    transform: scale(0.35);
+  }
+  24% {
+    opacity: 0.65;
+    transform: scale(0.8);
+  }
+  60% {
+    opacity: 0.15;
+    transform: scale(1.14);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.25);
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .kamod-copy-button.kamod-copy-button,
+  .kamod-action-feedback.kamod-action-feedback,
+  .kamod-action-feedback::after,
   .kamod-copy-label > span {
     transition: none;
   }

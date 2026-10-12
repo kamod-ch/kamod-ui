@@ -1,6 +1,6 @@
 import { act, cleanup, fireEvent, render, waitFor } from "@testing-library/preact";
 import { renderToString } from "preact-render-to-string";
-import { afterEach, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { highlightCode } from "./highlight-code";
 import {
   Code,
@@ -14,6 +14,10 @@ import {
 const source = 'import { Button } from "ui";\n\nexport const Save = () => <Button>Save</Button>;';
 const body = "export const Save = () => <Button>Save</Button>;";
 
+beforeEach(() => {
+  vi.spyOn(HTMLElement.prototype, "clientWidth", "get").mockReturnValue(320);
+  vi.spyOn(HTMLElement.prototype, "scrollWidth", "get").mockReturnValue(800);
+});
 afterEach(() => {
   cleanup();
   vi.unstubAllGlobals();

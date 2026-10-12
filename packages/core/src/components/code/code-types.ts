@@ -54,7 +54,7 @@ export interface CodeProps extends Omit<
   highlight?: boolean;
   /** Lightweight syntax-token palette, independent of the semantic surface variant. */
   syntaxTheme?: CodeSyntaxTheme;
-  /** Optional exact source path in the joined header; also informs language inference. */
+  /** Optional exact source path in the joined header, with a responsive full-source line count; also informs language inference. */
   filePath?: string;
   /** Replace only the path presentation, retaining its language-inference metadata. */
   renderFilePath?: (filePath: string) => ComponentChildren;
@@ -68,6 +68,8 @@ export interface CodeProps extends Omit<
   showToolbar?: boolean;
   /** Custom document view. Copy still uses `code`; highlighting and reading controls are skipped. */
   renderedContent?: ComponentChildren;
+  /** Optional placeholder while deferred coloring loads. Plain text and custom documents skip it; failures reveal readable source. */
+  loadingContent?: ComponentChildren;
   /** Content immediately before the source/document, after reading controls. Never copied. */
   beforeCode?: ComponentChildren;
   /** Content immediately after the source/document. Never copied. */
@@ -78,11 +80,11 @@ export interface CodeProps extends Omit<
   wrapped?: boolean;
   /** Called when a reader requests a wrapping change, in controlled or uncontrolled mode. */
   onWrappedChange?: (wrapped: boolean) => void;
-  /** Allow wrapping controls for file-backed or recognized code, excluding commands and unfiled prose. False hides the switch; `defaultWrapped` still sets fixed wrapping. */
+  /** Show wrapping controls only when complete, unwrapped source would overflow. Pairs with eligible import folding. Excludes commands and unfiled prose. False hides the switch; `defaultWrapped` still sets fixed wrapping. */
   showWrapControl?: boolean;
-  /** Replace an eligible wrap control; return null to omit it. Retains the same state behavior. */
+  /** Replace the wrap control when complete source would overflow; return null to omit it. Retains the same state behavior. */
   renderWrapControl?: (context: CodeWrapControlContext) => ComponentChildren;
-  /** Show import folding when leading static JS/TS imports leave a nonempty body. */
+  /** Show import folding alongside wrapping when complete source would overflow and leading static JS/TS imports leave a nonempty body. */
   showImportControl?: boolean;
   /** Replace an eligible import control; return null to omit it while retaining folding state. */
   renderImportControl?: (context: CodeImportControlContext) => ComponentChildren;

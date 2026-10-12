@@ -1,5 +1,5 @@
 import type { RefObject } from "preact";
-import { useLayoutEffect, useState } from "preact/hooks";
+import { useLayoutEffect, useRef, useState } from "preact/hooks";
 
 type Side = "top" | "bottom" | "left" | "right";
 type Align = "start" | "center" | "end";
@@ -74,16 +74,23 @@ export const useDropdownPlacement = ({
 }): Placement => {
   const [placement, setPlacement] = useState<Placement>({ left: 0, top: 0, side });
   const [mountRevision, setMountRevision] = useState(0);
+  const retriedMount = useRef(false);
 
   useLayoutEffect(() => {
     // Inline menus use CSS positioning; their composite triggers need no DOM measurement.
-    if (!enabled) return;
+    if (!enabled) {
+      retriedMount.current = false;
+      return;
+    }
     const content = contentRef.current;
     const trigger = triggerRef.current;
     const view = trigger?.ownerDocument.defaultView;
     if (!content || !trigger || !view) {
       // Preact 11 commits core portal children after their parent layout effects.
       // Retry once the portal ref has been attached without relying on compat internals.
+      // A removed/composite trigger may never attach; do not spin a microtask render loop.
+      if (retriedMount.current) return;
+      retriedMount.current = true;
       let cancelled = false;
       queueMicrotask(() => {
         if (!cancelled) setMountRevision((revision) => revision + 1);
@@ -92,6 +99,7 @@ export const useDropdownPlacement = ({
         cancelled = true;
       };
     }
+    retriedMount.current = false;
 
     const update = () => {
       // Layout dimensions avoid the opening animation's temporary scale affecting placement.

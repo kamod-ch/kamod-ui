@@ -1,7 +1,7 @@
-import type { ComponentChildren, HTMLAttributes } from "preact";
+import type { ComponentChildren, ThHTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 
-export type TableHeadProps = HTMLAttributes<HTMLTableCellElement> & {
+export type TableHeadProps = ThHTMLAttributes<HTMLTableCellElement> & {
   children?: ComponentChildren;
 };
 

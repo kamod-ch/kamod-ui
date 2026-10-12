@@ -5,9 +5,11 @@ import { CodeSnippetLabel } from "./CodeSnippetLabel";
 import { CodeImportControl, CodeWrapControl } from "./code-controls";
 import { findCodeImports } from "./code-imports";
 import { isCommandCode, normalizeCodeLanguage, resolveCodeLanguage } from "./code-language";
+import { selectCodeMarkup } from "./code-markup";
 import type { CodeProps } from "./code-types";
 import { readableCodeLines } from "./code-wrap";
 import { useCodeHighlight } from "./use-code-highlight";
+import { useCodeOverflow } from "./use-code-overflow";
 
 /**
  * Read-only, SSR-safe code with optional deferred highlighting and source-preserving controls.
@@ -26,6 +28,7 @@ export function Code({
   renderToolbar,
   showToolbar = true,
   renderedContent,
+  loadingContent,
   beforeCode,
   afterCode,
   defaultWrapped = false,
@@ -63,7 +66,7 @@ export function Code({
     onWrappedChange?.(next);
   };
   const rendersCode = renderedContent === undefined;
-  const canWrap = useMemo(
+  const wrapEligible = useMemo(
     () =>
       rendersCode &&
       showWrapControl &&
@@ -92,13 +95,30 @@ export function Code({
       current.code === code ? current : { code, hidden: defaultImportsCollapsed },
     );
   }, [code]);
-  const displayedCode = importsHidden ? imports!.folded : code;
   const codeId = useId();
-  const { element, html } = useCodeHighlight(displayedCode, language, rendersCode, highlight);
-  const displayedHtml = useMemo(
-    () => (rendersCode && wrapped ? readableCodeLines(html, displayedCode) : html),
-    [rendersCode, wrapped, html, displayedCode],
+  const { element, html, pending } = useCodeHighlight(code, language, rendersCode, highlight);
+  const showLoading = Boolean(loadingContent) && pending;
+  const sourceMarkup = useMemo(() => {
+    // Folding selects existing tokens; clicks never load grammars or recolor the source.
+    const foldedHtml = canFoldImports ? selectCodeMarkup(html, imports!.parts) : html;
+    return rendersCode && wrapped
+      ? {
+          full: readableCodeLines(html, code),
+          folded: canFoldImports ? readableCodeLines(foldedHtml, imports!.folded) : html,
+        }
+      : { full: html, folded: foldedHtml };
+  }, [rendersCode, wrapped, html, code, imports, canFoldImports]);
+  const displayedHtml = importsHidden ? sourceMarkup.folded : sourceMarkup.full;
+  const showReadingControls = useCodeOverflow(
+    element,
+    wrapEligible || canFoldImports,
+    html,
+    wrapped,
+    importsHidden,
+    syntaxTheme,
   );
+  const canWrap = wrapEligible && showReadingControls;
+  const showImports = canFoldImports && showReadingControls;
   const defaultWrapControl = (
     <CodeWrapControl wrapped={wrapped} codeId={codeId} onChange={setWrapped} />
   );
@@ -112,7 +132,7 @@ export function Code({
         })
       : defaultWrapControl
     : null;
-  const defaultImportControl = canFoldImports ? (
+  const defaultImportControl = showImports ? (
     <CodeImportControl
       hidden={importsHidden}
       count={imports!.count}
@@ -120,7 +140,7 @@ export function Code({
       onToggle={() => setImportsHidden(!importsHidden)}
     />
   ) : null;
-  const importToggle = canFoldImports
+  const importToggle = showImports
     ? renderImportControl
       ? renderImportControl({
           codeId,
@@ -151,6 +171,23 @@ export function Code({
         {copyButton}
       </div>
     );
+  const source = rendersCode && (
+    <pre
+      id={codeId}
+      class={`docs-code ${preClassName ?? className ?? ""}`.trim()}
+      data-slot="code-content"
+      data-language={language}
+      tabIndex={showLoading ? -1 : 0}
+      aria-hidden={showLoading || undefined}
+      style={showLoading ? { visibility: "hidden" } : undefined}
+    >
+      <code
+        ref={element}
+        class={`language-${language}`}
+        dangerouslySetInnerHTML={{ __html: displayedHtml }}
+      />
+    </pre>
+  );
   return (
     <div
       {...rest}
@@ -164,8 +201,11 @@ export function Code({
           renderToolbar(toolbarActions)
         ) : (
           <div class="docs-code-toolbar" data-slot="code-toolbar">
-            {filePath &&
-              (renderFilePath ? renderFilePath(filePath) : <CodeFileHeader path={filePath} />)}
+            {filePath && (
+              <CodeFileHeader path={filePath} code={code}>
+                {renderFilePath ? renderFilePath(filePath) : undefined}
+              </CodeFileHeader>
+            )}
             {!filePath && !toolbarContent && (
               <CodeSnippetLabel
                 code={code}
@@ -190,19 +230,14 @@ export function Code({
       )}
       {beforeCode}
       {rendersCode ? (
-        <pre
-          id={codeId}
-          class={`docs-code ${preClassName ?? className ?? ""}`.trim()}
-          data-slot="code-content"
-          data-language={language}
-          tabIndex={0}
-        >
-          <code
-            ref={element}
-            class={`language-${language}`}
-            dangerouslySetInnerHTML={{ __html: displayedHtml }}
-          />
-        </pre>
+        loadingContent ? (
+          <div class="kamod-code-content" data-loading={showLoading || undefined}>
+            {source}
+            {showLoading && <div class="kamod-code-loading">{loadingContent}</div>}
+          </div>
+        ) : (
+          source
+        )
       ) : (
         renderedContent
       )}
