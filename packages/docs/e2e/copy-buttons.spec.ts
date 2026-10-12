@@ -41,16 +41,17 @@ for (const dark of [false, true]) {
         );
         await expect(button).toHaveAttribute("data-copy-state", "idle");
         await button.scrollIntoViewIfNeeded();
+        await expect(button.locator(".kamod-copy-symbol")).toBeVisible();
         await page.mouse.move(0, 0);
         const before = await button.boundingBox();
         const iconSize = await button
-          .locator("svg")
+          .locator(".kamod-copy-symbol")
           .evaluate((node) => getComputedStyle(node).width);
         await button.hover();
         const hovered = await button.boundingBox();
         expect(Math.abs(hovered!.y - before!.y)).toBeLessThan(0.1);
         expect(Math.abs(hovered!.x - before!.x)).toBeLessThan(0.1);
-        await expect(button.locator("svg")).toHaveCSS("transform", "none");
+        await expect(button.locator(".kamod-copy-symbol")).toHaveCSS("transform", "none");
         await button.click();
         await expect(button).toHaveAttribute("data-copy-state", "copied");
         await expect
@@ -69,8 +70,11 @@ for (const dark of [false, true]) {
         await expect
           .poll(() => page.evaluate(() => navigator.clipboard.readText()))
           .toBe(await snippet.locator("pre code").textContent());
-        await expect(button.locator("svg")).toHaveCSS("width", iconSize);
-        await expect(button.locator("svg")).toHaveCSS("animation-name", "kamod-copy-snap");
+        await expect(button.locator(".kamod-copy-symbol")).toHaveCSS("width", iconSize);
+        await expect(button.locator(".kamod-copy-symbol")).toHaveCSS(
+          "animation-name",
+          "kamod-action-stamp",
+        );
         const after = await button.boundingBox();
         expect(Math.abs(after!.width - before!.width)).toBeLessThan(0.1);
         expect(Math.abs(after!.height - before!.height)).toBeLessThan(0.1);
@@ -91,7 +95,8 @@ for (const dark of [false, true]) {
             color: css.color,
             background: css.backgroundColor,
             position: css.position,
-            pulse: getComputedStyle(node, "::after").animationName,
+            ring: getComputedStyle(node.querySelector(".kamod-copy-glyph")!, "::after")
+              .animationName,
           };
         });
         colors.add(style.color);
@@ -101,7 +106,10 @@ for (const dark of [false, true]) {
         expect(style.backgroundAlpha).toBeLessThan(80);
         expect(style.background).not.toBe("rgba(0, 0, 0, 0)");
         expect(style.position).toBe("relative");
-        expect(style.pulse).toBe("kamod-copy-confirm");
+        expect(style.ring).toBe("kamod-action-stamp-ring");
+        // Both sheets settle before feedback resets, including the compact icon-only layout.
+        await expect(button.locator(".kamod-copy-symbol")).toHaveCSS("transform", "none");
+        await expect(button.locator(".kamod-copy-outgoing")).toHaveCSS("opacity", "0");
       }
     }
     expect(colors.size).toBeGreaterThan(3);
@@ -125,7 +133,9 @@ test("reduced motion, keyboard copying, and denied clipboard access retain usefu
   await page.keyboard.press("Enter");
   await expect(button).toHaveAttribute("data-copy-state", "copied");
   await expect(button).toBeFocused();
-  await expect(button.locator("svg")).toHaveCSS("animation-name", "none");
+  await expect(button.locator(".kamod-copy-symbol")).toHaveCSS("animation-name", "none");
+  await expect(button.locator(".kamod-copy-outgoing")).toHaveCSS("opacity", "0");
+  expect(await button.evaluate((node) => node.getAnimations({ subtree: true }).length)).toBe(0);
   await expect(button).toHaveCSS("transition-duration", "0s");
   await page.evaluate(() => {
     Object.defineProperty(navigator, "clipboard", {

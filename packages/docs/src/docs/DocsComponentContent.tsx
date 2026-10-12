@@ -373,9 +373,13 @@ const ComponentContent = ({
       />
     ) : (
       <Tabs defaultValue="preview" class="docs-tabs">
-        <TabsList class="docs-tabs-list" variant="line">
-          <TabsTrigger value="preview">Preview</TabsTrigger>
-          <TabsTrigger value="code">Code</TabsTrigger>
+        <TabsList class="docs-tabs-list blocks-showcase-segmented">
+          <TabsTrigger value="preview" class="docs-icon-button">
+            Preview
+          </TabsTrigger>
+          <TabsTrigger value="code" class="docs-icon-button">
+            Code
+          </TabsTrigger>
         </TabsList>
         <TabsContent value="preview">
           <div

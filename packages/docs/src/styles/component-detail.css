@@ -160,6 +160,12 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.component-example-caption .component-example-caption-mode {
+  flex: none;
+  color: color-mix(in oklab, var(--muted-foreground) 60%, var(--foreground));
+  font-weight: 550;
+  white-space: nowrap;
+}
 .component-example-links {
   display: flex;
   flex: none;

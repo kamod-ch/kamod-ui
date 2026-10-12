@@ -64,7 +64,6 @@
 }
 .blocks-prompt-hint p {
   max-width: 120ch;
-  font-size: 0.8125rem;
 }
 .blocks-prompt-hint a,
 .blocks-prompt-format a {
@@ -81,13 +80,20 @@
   gap: 0.5rem;
   padding: 0.65rem 1rem;
   border-block: 1px solid var(--showcase-border);
-  background: color-mix(
-    in oklab,
-    var(--muted) calc(65% + 22.75% * var(--docs-highlight-boost, 0)),
-    var(--background)
-  );
   color: var(--muted-foreground);
   font-size: 0.6875rem;
+}
+.blocks-prompt-document > .docs-code-toolbar {
+  background: color-mix(
+    in oklab,
+    color-mix(
+        in oklab,
+        var(--muted) calc(65% + 22.75% * var(--docs-highlight-boost, 0)),
+        var(--background)
+      )
+      96%,
+    var(--color-white, #fff)
+  );
 }
 .blocks-prompt-document-heading {
   display: flex;

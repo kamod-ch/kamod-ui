@@ -1,0 +1,112 @@
+/* Ecosystem content shares the guide rhythm and adapts to its reading column. */
+.ecosystem-guide {
+  --ecosystem-secondary: color-mix(in oklab, var(--muted-foreground) 75%, var(--foreground));
+  --ecosystem-control-ink: color-mix(in oklab, var(--muted-foreground) 60%, var(--foreground));
+  container: ecosystem-guide / inline-size;
+}
+.ecosystem-guide
+  :is(.block-guide-prose, .block-guide-description, .block-guide-breadcrumb, .block-guide-eyebrow),
+.ecosystem-guide .block-guide-prose > p,
+.ecosystem-guide .ecosystem-reference-table td {
+  color: var(--ecosystem-secondary);
+}
+.ecosystem-guide .block-guide-breadcrumb {
+  color: var(--ecosystem-control-ink);
+}
+.ecosystem-guide
+  :is(.ecosystem-project, .ecosystem-source)
+  .docs-icon-button:not(:hover, :focus-visible),
+.ecosystem-guide :is(.docs-code-terminal-label, .docs-code-file-path) {
+  color: var(--ecosystem-control-ink);
+}
+.ecosystem-guide :is(.docs-import-toggle, .docs-code-wrap-control) {
+  --code-control-secondary: var(--ecosystem-control-ink);
+}
+.ecosystem-guide [data-slot="tabs-trigger"]:not([data-state="active"]) {
+  color: var(--ecosystem-control-ink);
+}
+.ecosystem-guide .docs-import-label > .docs-import-keyword {
+  color: color-mix(in oklab, var(--primary) 40%, var(--foreground));
+}
+.ecosystem-projects {
+  display: grid;
+  gap: 1rem;
+  margin-block: 1.25rem;
+}
+.ecosystem-guide :is(.ecosystem-project, .ecosystem-source) {
+  gap: 0.875rem;
+  background: color-mix(in oklab, var(--card) 75%, var(--background));
+}
+.ecosystem-project [data-slot="card-content"] {
+  flex: 1;
+}
+.ecosystem-project-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  color: var(--foreground);
+}
+.ecosystem-project-heading > svg {
+  flex: none;
+  color: inherit;
+}
+.ecosystem-guide .ecosystem-project-heading h3 {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.ecosystem-guide .ecosystem-project-role {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--ecosystem-secondary);
+}
+.ecosystem-guide .ecosystem-project-description,
+.ecosystem-source [data-slot="card-content"] p {
+  margin: 0.75rem 0 0;
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: var(--ecosystem-secondary);
+}
+.ecosystem-guide :is(.ecosystem-project, .ecosystem-source) [data-slot="card-footer"] {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding-block: 0.625rem;
+  background: color-mix(in oklab, var(--foreground) 3%, transparent);
+}
+.ecosystem-project [data-slot="card-footer"] .docs-icon-button {
+  font-size: 0.75rem;
+}
+.ecosystem-reference-table {
+  margin-block: 1.25rem;
+}
+.ecosystem-reference-table table {
+  min-width: 34rem;
+}
+.ecosystem-guide .ecosystem-reference-table :is(th, td) {
+  padding: 1rem;
+  line-height: 1.65;
+}
+.ecosystem-reference-table th {
+  color: var(--foreground);
+}
+.ecosystem-reference-table tbody th {
+  width: 28%;
+  font-weight: 500;
+}
+.ecosystem-source {
+  margin-top: 1.25rem;
+  border-top: 2px solid color-mix(in oklab, var(--primary) 45%, var(--border));
+}
+.ecosystem-source [data-slot="card-footer"] > a:not(.docs-icon-button) {
+  font-size: 0.75rem;
+  color: var(--foreground);
+}
+@container ecosystem-guide (min-width: 40rem) {
+  .ecosystem-projects {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

@@ -60,11 +60,6 @@ const groups: NavigationGroup[] = [
               icon: "theming" as const,
             },
             {
-              label: "Component Styles",
-              href: withBasePath("/blocks/styles"),
-              icon: "styles" as const,
-            },
-            {
               label: "cn Utility",
               href: withBasePath("/docs/cn/installation"),
               icon: "utility" as const,

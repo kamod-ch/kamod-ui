@@ -1,5 +1,6 @@
 import type { ComponentChildren } from "preact";
 import { BlockHeadingLink } from "../../blocks/BlockHeadingLink";
+import { utilityName } from "../../link-title";
 import { BrandText } from "./brand/BrandText";
 import { PageBreadcrumbs } from "./PageBreadcrumbs";
 import { PageEyebrow } from "./PageEyebrow";
@@ -9,7 +10,6 @@ export function LibraryPageHeader({
   parent,
   label,
   eyebrow,
-  focus,
   title,
   description,
   children,
@@ -19,7 +19,6 @@ export function LibraryPageHeader({
   parent: { label: string; href: string };
   label: string;
   eyebrow: ComponentChildren;
-  focus?: ComponentChildren;
   title: string;
   description: ComponentChildren;
   children?: ComponentChildren;
@@ -30,9 +29,13 @@ export function LibraryPageHeader({
         ancestors={parent.href === "/" ? [parent] : [{ label: "Home", href: "/" }, parent]}
         current={label}
       />
-      <PageEyebrow focus={focus}>{eyebrow}</PageEyebrow>
+      <PageEyebrow>{eyebrow}</PageEyebrow>
       <h1 id={special ? "page-title" : undefined} tabIndex={special ? -1 : undefined}>
-        {special ? <BlockHeadingLink id="page-title">{title}</BlockHeadingLink> : title}
+        {special ? (
+          <BlockHeadingLink id="page-title">{title}</BlockHeadingLink>
+        ) : (
+          utilityName(title)
+        )}
       </h1>
       <div class="block-guide-description">
         <BrandText>{description}</BrandText>

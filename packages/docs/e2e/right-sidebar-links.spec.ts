@@ -1,11 +1,59 @@
 import { expect, test } from "@playwright/test";
 
 for (const path of [
+  "docs/components",
+  "docs/accordion/installation",
+  "blocks/sidebar/sidebar-01",
+]) {
+  test(`${path}: compact contents action copies the active section without navigating`, async ({
+    page,
+    context,
+  }) => {
+    await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(`./${path}`);
+    await expect(page.locator("html")).toHaveClass(/pp-ready/);
+    const area = page.locator(
+      path.startsWith("blocks/")
+        ? ".blocks-detail-documentation .blocks-doc-toc nav"
+        : ".docs-rightbar",
+    );
+    const entry = area
+      .locator('a[href^="#"]')
+      .filter({ hasNotText: /^(On This Page|Overview)$/ })
+      .nth(1);
+    const href = (await entry.getAttribute("href"))!;
+    const id = decodeURIComponent(href.slice(1));
+    await page
+      .locator(`[id="${id}"]`)
+      .evaluate((node) => node.scrollIntoView({ block: "start", behavior: "instant" }));
+    await expect(area.locator('a[aria-current="location"]')).toHaveAttribute("href", href);
+    const originalUrl = page.url();
+    const action = area.locator(".page-contents-copy");
+    await expect(action).toHaveAccessibleName("Copy page or section link");
+    await expect(action).toHaveCSS("width", "28px");
+    await expect(action.locator(".kamod-copy-symbol")).toHaveCSS("width", "14px");
+    await action.focus();
+    const beforeCopy = await page.evaluate(() => scrollY);
+    await page.keyboard.press("Enter");
+    const expected = new URL(originalUrl);
+    expected.hash = id;
+    await expect
+      .poll(() => page.evaluate(() => navigator.clipboard.readText()))
+      .toBe(expected.href);
+    await expect(action).toHaveAttribute("data-copy-state", "copied");
+    await expect(action.locator(".kamod-copy-symbol")).toHaveCSS("width", "14px");
+    expect(page.url()).toBe(originalUrl);
+    expect(await page.evaluate(() => scrollY)).toBe(beforeCopy);
+  });
+}
+
+for (const path of [
   "docs/pagination/installation",
   "docs/hooks-package/installation",
   "blocks/sidebar/sidebar-01",
 ]) {
-  test(`${path}: followed contents links reach the top without overriding manual scroll`, async ({
+  test(`${path}: followed contents links respect the natural scroll range and manual scroll`, async ({
     page,
   }) => {
     await page.route("https://matomo.kamod.ch/**", (route) => route.fulfill({ status: 204 }));
@@ -31,7 +79,13 @@ for (const path of [
             const link = Array.from(node.querySelectorAll("a")).find(
               (link) => link.getAttribute("href") === target,
             )!;
-            return Math.abs(link.getBoundingClientRect().top - node.getBoundingClientRect().top);
+            const offset =
+              link.getBoundingClientRect().top -
+              node.getBoundingClientRect().top -
+              node.clientTop +
+              node.scrollTop;
+            const maximum = Math.max(0, node.scrollHeight - node.clientHeight);
+            return Math.abs(node.scrollTop - Math.min(maximum, Math.max(0, offset)));
           }, href),
         )
         .toBeLessThan(1);
@@ -45,26 +99,43 @@ for (const path of [
       .toBe(breadcrumbTop);
     await last.click();
     await aligned(lastHref);
+    await expect
+      .poll(() =>
+        area.evaluate((node) => {
+          const last = Array.from(node.querySelectorAll("a[href]")).at(-1)!;
+          const end =
+            last.getBoundingClientRect().bottom -
+            node.getBoundingClientRect().top -
+            node.clientTop +
+            node.scrollTop;
+          // Short lists may fill a flex pane, but must not acquire extra scrollable space.
+          return node.scrollHeight - Math.max(node.clientHeight, end);
+        }),
+      )
+      .toBeLessThanOrEqual(1);
     await page.goBack();
     await aligned(middleHref);
 
+    const manualTop = await area.evaluate((node) =>
+      Math.min(80, node.scrollHeight - node.clientHeight),
+    );
     await area.dispatchEvent("wheel");
     await area.evaluate((node) => {
-      node.scrollTop = 80;
+      node.scrollTop = Math.min(80, node.scrollHeight - node.clientHeight);
       node.dispatchEvent(new Event("scroll"));
     });
-    await expect.poll(() => area.evaluate((node) => node.scrollTop)).toBe(80);
+    await expect.poll(() => area.evaluate((node) => node.scrollTop)).toBe(manualTop);
     // The same fragment must realign when followed from an article permalink too.
     await page.locator(`a.blocks-doc-heading-link[href="${middleHref}"]`).first().click();
     await aligned(middleHref);
     await area.dispatchEvent("wheel");
     await area.evaluate((node) => {
-      node.scrollTop = 80;
+      node.scrollTop = Math.min(80, node.scrollHeight - node.clientHeight);
       node.dispatchEvent(new Event("scroll"));
     });
     await page.reload();
     await expect(page.locator("html")).toHaveClass(/pp-ready/);
-    await expect.poll(() => area.evaluate((node) => node.scrollTop)).toBe(80);
+    await expect.poll(() => area.evaluate((node) => node.scrollTop)).toBe(manualTop);
     await page.goto(`./${path}${lastHref}`);
     await aligned(lastHref);
   });
@@ -114,8 +185,12 @@ for (const path of [
             const bounds = pane.getBoundingClientRect();
             const item = link.getBoundingClientRect();
             const bottom = Math.min(innerHeight, bounds.top + pane.clientHeight);
-            // The full active entry and a glimpse of the following entry should be readable.
-            return item.top >= Math.max(0, bounds.top) + 15 && item.bottom <= bottom - 55;
+            // Reserve next-entry space where possible; at the end, prioritize the active link.
+            const atEnd = pane.scrollTop >= pane.scrollHeight - pane.clientHeight - 1;
+            return (
+              item.top >= Math.max(0, bounds.top) - 1 &&
+              item.bottom <= bottom - (atEnd ? 0 : 55) + 1
+            );
           }),
         )
         .toBe(true);

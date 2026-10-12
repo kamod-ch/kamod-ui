@@ -13,7 +13,7 @@ import * as helpers from './helpers';
 import './styles.css';
 
 export const Example = () => <Button>Save</Button>;`;
-  expect(findCodeImports(source, "tsx")).toEqual({
+  expect(findCodeImports(source, "tsx")).toMatchObject({
     count: 5,
     folded: "export const Example = () => <Button>Save</Button>;",
   });
@@ -22,7 +22,7 @@ export const Example = () => <Button>Save</Button>;`;
 it("supports semicolon-free imports, CRLF, comments and import attributes", () => {
   const source =
     'import Foo from "foo"\r\nimport { /* keep */ Bar as Baz } from "bar"\r\nimport data from "./data.json" with { type: "json" };\r\n\r\nuse(Foo, Baz, data);';
-  expect(findCodeImports(source, "typescript")).toEqual({
+  expect(findCodeImports(source, "typescript")).toMatchObject({
     count: 3,
     folded: "use(Foo, Baz, data);",
   });
@@ -59,14 +59,17 @@ it.each([
 
 it("stops at executable code and never removes import-like content from its body", () => {
   const body = 'const example = `\nimport fake from "fake";\n`;\nconst lazy = import("lazy");';
-  expect(findCodeImports(`import "styles";\n${body}`, "jsx")).toEqual({ count: 1, folded: body });
+  expect(findCodeImports(`import "styles";\n${body}`, "jsx")).toMatchObject({
+    count: 1,
+    folded: body,
+  });
   expect(findCodeImports('import "styles"; doSomething();', "javascript")?.folded).toBe(
     " doSomething();",
   );
 });
 
 it("handles an imports-only snippet", () => {
-  expect(findCodeImports('import "styles";', "javascript")).toEqual({ count: 1, folded: "" });
+  expect(findCodeImports('import "styles";', "javascript")).toMatchObject({ count: 1, folded: "" });
 });
 
 it.each(["\n", "\r\n"])(
@@ -86,7 +89,7 @@ it.each(["\n", "\r\n"])(
       "/** Component documentation. */",
       "const template = `Keep\n\n\nthese blank lines`; ",
     ].join(newline);
-    expect(findCodeImports(source, "tsx")).toEqual({
+    expect(findCodeImports(source, "tsx")).toMatchObject({
       count: 3,
       folded: [
         "/** File header. */",

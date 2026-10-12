@@ -24,7 +24,6 @@ export function ComponentDetailHeader({
         }
         label={doc.title}
         eyebrow={guidance.family}
-        focus="Explore · Adapt · Compose"
         title={doc.headline ?? doc.title}
         description={
           <>

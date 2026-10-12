@@ -1,15 +1,20 @@
 /** @vitest-environment jsdom */
 import { cleanup, fireEvent, render, waitFor } from "@testing-library/preact";
 import { renderToString } from "preact-render-to-string";
-import { afterEach, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { CodeBlock } from "./CodeBlock";
 import { ShowcaseCodePane } from "./ShowcaseCodePane";
 
 const source =
   'import { Button } from "@kamod-ch/ui";\n\nexport const Example = () => <Button>Save</Button>;';
+beforeEach(() => {
+  vi.spyOn(HTMLElement.prototype, "clientWidth", "get").mockReturnValue(320);
+  vi.spyOn(HTMLElement.prototype, "scrollWidth", "get").mockReturnValue(800);
+});
 afterEach(() => {
   cleanup();
   vi.unstubAllGlobals();
+  vi.restoreAllMocks();
 });
 
 it("folds and restores highlighted imports while Copy always retains the original source", async () => {
@@ -44,12 +49,17 @@ it("folds and restores highlighted imports while Copy always retains the origina
 it("toggles wrapping from its whole label and keeps visible state labels in sync", () => {
   const view = render(<CodeBlock code={source} language="tsx" />);
   const wrap = view.getByRole("switch", { name: "Wrap code lines" });
-  const state = view.container.querySelector(".docs-code-wrap-state")!;
+  const state = view.container.querySelector(".docs-code-wrap-state-full")!;
+  const compact = view.container.querySelector(".docs-code-wrap-state-short")!;
   expect(wrap.getAttribute("aria-describedby")).toBe(state.id);
   expect(state.textContent).toBe("wrap disabled");
+  expect(wrap).toHaveAccessibleDescription("wrap disabled");
+  expect(compact.textContent).toBe("scroll");
   fireEvent.click(view.container.querySelector(".docs-code-wrap-icon")!);
   expect(wrap.getAttribute("aria-checked")).toBe("true");
   expect(state.textContent).toBe("wrap enabled");
+  expect(wrap).toHaveAccessibleDescription("wrap enabled");
+  expect(compact.textContent).toBe("wrapped");
   fireEvent.click(state);
   expect(wrap.getAttribute("aria-checked")).toBe("false");
   fireEvent.click(view.container.querySelector(".docs-code-wrap-control")!);
@@ -86,7 +96,7 @@ it("omits import controls for prose and snippets without imports", () => {
 
 it("server-renders the complete readable source with imports expanded", () => {
   const html = renderToString(<CodeBlock code={source} language="tsx" />);
-  expect(html).toContain('aria-expanded="true"');
+  expect(html).not.toContain('data-slot="code-import-toggle"');
   expect(html).toContain("import { Button }");
 });
 

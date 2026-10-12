@@ -75,7 +75,7 @@ test("single-line sidebar links stay tooltip-free and mobile group help stays us
     await expect(
       root.locator(".site-navigation-link-overview .site-navigation-status"),
     ).toHaveCount(0);
-    await expect(root.locator(".site-navigation-special-icon").first()).toHaveCSS("width", "20px");
+    await expect(root.locator(".site-navigation-special-icon").first()).toHaveCSS("width", "18px");
     await page.keyboard.press("Escape");
     if (mobile) {
       // Reopen if Escape also dismissed the menu's simple text hint.
@@ -139,14 +139,8 @@ test("sidebar entry help offers useful references without taking over navigation
       await expect(root).toBeVisible();
     }
     const ecosystem = root.locator('[data-navigation-help="ecosystem"]');
-    await ecosystem.click();
-    await expect(ecosystem).toHaveAttribute("aria-expanded", "true");
-    const repository = root.getByRole("link", { name: "Icons on GitHub (opens in a new tab)" });
-    await repository.hover();
-    await page.waitForTimeout(550);
-    await expect(page.locator("[data-application-tooltip]")).toHaveCount(0);
-    await ecosystem.click();
-    await expect(ecosystem).toHaveAttribute("aria-expanded", "false");
+    await expect(ecosystem).toHaveAttribute("href", /\/docs\/ecosystem$/);
+    await expect(ecosystem).not.toHaveAttribute("aria-expanded");
     await root.getByRole("link", { name: "Getting Started" }).click();
     await expect(page).toHaveURL(/\/docs\/getting-started/);
   }

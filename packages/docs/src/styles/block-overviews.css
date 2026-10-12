@@ -316,6 +316,29 @@
   align-items: center;
 }
 
+.blocks-category-header .showcase-heading {
+  display: none;
+}
+
+/* Share the showcase's responsive hint without crowding compact collection actions. */
+@media (min-width: 1024px) {
+  .blocks-category-header .blocks-page-header-summary {
+    container: showcase-summary / inline-size;
+    flex-wrap: nowrap;
+    align-items: center;
+  }
+
+  .blocks-category-header .showcase-heading {
+    display: flex;
+    flex-wrap: nowrap;
+    min-width: 0;
+  }
+
+  .blocks-category-header .blocks-page-header-actions {
+    align-items: center;
+  }
+}
+
 .blocks-overview-summary-separator {
   align-self: center;
   color: var(--muted-foreground);

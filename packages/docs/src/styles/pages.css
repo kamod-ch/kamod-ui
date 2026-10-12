@@ -3156,8 +3156,7 @@ html.dark .landing-shadcn-brand-logo--dark-theme {
 /* Adapt to the code pane's width, including narrow columns on desktop. */
 @container code-snippet (max-width: 32rem) {
   .docs-import-toggle > .docs-code-control-detail,
-  .docs-import-summary > .docs-code-control-detail,
-  .docs-code-wrap-state > .docs-code-control-detail {
+  .docs-import-summary > .docs-code-control-detail {
     display: none;
   }
 }
@@ -3173,10 +3172,12 @@ html.dark .landing-shadcn-brand-logo--dark-theme {
 .docs-code {
   tab-size: 2;
 }
-.docs-code-wrap.is-wrapped > .docs-code {
+.docs-code-wrap.is-wrapped > .docs-code,
+.docs-code-wrap.is-wrapped > .kamod-code-content > .docs-code {
   overflow-x: hidden;
 }
-.docs-code-wrap.is-wrapped > .docs-code > code {
+.docs-code-wrap.is-wrapped > .docs-code > code,
+.docs-code-wrap.is-wrapped > .kamod-code-content > .docs-code > code {
   display: block;
   width: 100%;
   min-width: 0;

@@ -44,6 +44,20 @@ export function linkTitle(text: string, capitalizeFirst = true): string {
   });
 }
 
+/** Render the utility identifier as code while keeping metadata and accessible text plain. */
+export function utilityName(text: string): ComponentChildren {
+  if (!/\bcn\b/.test(text)) return text;
+  return text.split(/(\bcn\b)/g).map((part, index) =>
+    part === "cn" ? (
+      <code class="docs-code-name" data-code-help="off" key={index}>
+        cn
+      </code>
+    ) : (
+      part
+    ),
+  );
+}
+
 /** Preserve code, icons and custom components when a linked heading contains rich text. */
 export function linkTitleChildren(children: ComponentChildren): ComponentChildren {
   let first = true;
@@ -51,7 +65,7 @@ export function linkTitleChildren(children: ComponentChildren): ComponentChildre
     if (typeof child === "string") {
       const text = linkTitle(child, first);
       if (/[a-zA-Z]/.test(child)) first = false;
-      return text;
+      return utilityName(text);
     }
     if (Array.isArray(child)) return child.map(visit);
     if (!child || typeof child !== "object" || !("type" in child)) return child;

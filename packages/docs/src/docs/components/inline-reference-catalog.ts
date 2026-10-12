@@ -197,7 +197,6 @@ const escapePattern = (text: string) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$
 // These also name ordinary concepts ("Source Tree", "Table of Contents", etc.).
 // Link them in explicit code or authored anchors, rather than guessing from title case alone.
 const ambiguousProseNames = new Set([
-  "cn",
   "Tree",
   "Item",
   "Image",

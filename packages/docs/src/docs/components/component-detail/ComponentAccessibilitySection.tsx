@@ -1,6 +1,7 @@
 import type { ComponentChildren } from "preact";
 import { withBasePath } from "../../../base-path";
 import { BlockHeadingLink } from "../../../blocks/BlockHeadingLink";
+import { utilityName } from "../../../link-title";
 import type { DocPageModule } from "../../types";
 import { BrandText } from "../brand/BrandText";
 import { CodeBlock } from "../CodeBlock";
@@ -42,7 +43,9 @@ export function ComponentAccessibilitySection({
         <BlockHeadingLink id="accessibility">Accessibility</BlockHeadingLink>
       </h2>
       <p class="docs-copy">
-        <strong>Build the Complete Interaction, Including the Parts Outside {doc.title}.</strong>{" "}
+        <strong>
+          Build the Complete Interaction, Including the Parts Outside {utilityName(doc.title)}.
+        </strong>{" "}
         The notes below distinguish the current implementation from the labels, content and behavior
         your application supplies. Start with the <a href="#component-preview">Live Preview</a>,
         check the <a href="#api-reference">Props and Data Reference</a>, and test the finished

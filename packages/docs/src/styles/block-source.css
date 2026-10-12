@@ -14,6 +14,10 @@
   min-width: 0;
   max-width: 94ch;
 }
+.blocks-showcase-intro[data-view="prompt"] .blocks-showcase-intro-copy {
+  flex: 1;
+  max-width: none;
+}
 .blocks-showcase-intro-title {
   display: flex;
   align-items: center;
@@ -22,12 +26,27 @@
 }
 /* Keep surrounding documentation prose from resizing the embedded header. */
 .blocks-showcase .blocks-showcase-intro h3 {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   margin: 0;
   color: var(--foreground);
-  font-size: 1.0625rem;
+  font-size: 1rem;
   font-weight: 600;
   line-height: 1.4;
   letter-spacing: -0.025em;
+}
+.blocks-showcase-intro-icon {
+  flex: none;
+  width: 0.9em;
+  height: 0.9em;
+  color: inherit;
+  stroke-width: 2;
+}
+.blocks-showcase-intro-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .blocks-showcase-intro-note {
   display: inline-flex;
@@ -42,8 +61,9 @@
     display: none;
   }
 }
-/* Keep source paths at the same reading size as showcase descriptions. */
+/* Intro and prompt guidance share one reading size, including source-path metadata. */
 .blocks-showcase .blocks-showcase-intro p,
+.blocks-showcase .blocks-prompt-hint p,
 .blocks-source-file-heading .docs-code-file-path {
   font-size: 0.8125rem;
 }
@@ -77,7 +97,7 @@
     padding: 1rem;
   }
   /* Keep shortcuts beside the title, with the description spanning the row below. */
-  .blocks-showcase-intro-copy {
+  .blocks-showcase-intro[data-view="code"] .blocks-showcase-intro-copy {
     display: contents;
   }
   .blocks-showcase-intro-title {
@@ -91,12 +111,12 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-size: 1rem;
+    font-size: 0.9375rem;
   }
   .blocks-showcase-intro-note {
     display: none;
   }
-  .blocks-showcase .blocks-showcase-intro p {
+  .blocks-showcase .blocks-showcase-intro[data-view="code"] p {
     order: 1;
     flex-basis: 100%;
     margin: 0;
@@ -429,14 +449,6 @@
   color: color-mix(in oklab, var(--muted-foreground) 55%, var(--foreground));
   font-weight: 550;
 }
-.blocks-source-file-heading .blocks-source-line-total {
-  color: var(--muted-foreground);
-  font-weight: 400;
-}
-.blocks-source-file-heading .blocks-source-count {
-  color: var(--code-file-heading-color);
-  font-weight: 600;
-}
 .blocks-source-controls {
   display: flex;
   align-items: center;
@@ -454,7 +466,7 @@
     min-width: 2.125rem;
     padding: 0.4375rem;
   }
-  .blocks-source-controls .docs-copy-code-button > span {
+  .blocks-source-controls .docs-copy-code-button > .kamod-copy-label {
     display: none;
   }
   .blocks-showcase-source .blocks-source-controls .docs-copy-code-button {
@@ -464,7 +476,7 @@
     min-height: 1.75rem;
     padding: 0.375rem;
   }
-  .blocks-showcase-source .blocks-source-controls .docs-copy-code-button > svg {
+  .blocks-showcase-source .blocks-source-controls .docs-copy-code-button > .kamod-copy-glyph {
     width: 0.875rem;
     height: 0.875rem;
   }

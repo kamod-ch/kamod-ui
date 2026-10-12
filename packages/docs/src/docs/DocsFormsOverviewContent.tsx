@@ -52,7 +52,6 @@ export const DocsFormsOverviewContent = () => (
     scope="forms"
     label="Forms"
     title="Forms that Guide People from Input to Completion"
-    focus="Structure · Validate · Submit"
     contents={contents}
     description={
       <>

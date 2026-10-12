@@ -140,7 +140,11 @@ export const BlockGuideContents = ({
   return (
     <aside class="blocks-doc-toc">
       <nav aria-labelledby={id} ref={contentsRef}>
-        <PageContentsHeading id={id} count={sections.length + (block ? 2 : 1)} />
+        <PageContentsHeading
+          id={id}
+          count={sections.length + (block ? 2 : 1)}
+          activeId={activeId}
+        />
         <PageContentsList entries={sections} activeId={activeId}>
           {overview}
           {block && (

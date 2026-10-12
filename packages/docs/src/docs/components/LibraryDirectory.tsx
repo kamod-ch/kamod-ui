@@ -1,7 +1,7 @@
 import { ArrowRightIcon, ArrowUpRightIcon, BookOpenIcon, CodeIcon } from "@kamod-ch/icons/lucide";
 import type { ComponentChildren } from "preact";
 import { withBasePath } from "../../base-path";
-import { linkTitle } from "../../link-title";
+import { linkTitle, linkTitleChildren } from "../../link-title";
 import { BrandText } from "./brand/BrandText";
 import { LibraryDirectoryResources } from "./LibraryDirectoryResources";
 import { LibrarySection } from "./LibrarySection";
@@ -41,13 +41,7 @@ export function LibraryDirectory({
       {header ?? (
         <>
           <header class="library-directory-header">
-            <PageEyebrow
-              focus={
-                <BrandText>
-                  Built for <strong>Preact</strong>
-                </BrandText>
-              }
-            >
+            <PageEyebrow>
               {items.length} {isBlocks ? "Collections" : "Components"}
             </PageEyebrow>
             <div class="library-directory-title">
@@ -199,7 +193,7 @@ export function LibraryGrid({
             }
           >
             <span class="library-directory-item-title">
-              {linkTitle(item.label)}
+              {linkTitleChildren(item.label)}
               <ArrowUpRightIcon size={14} aria-hidden="true" />
             </span>
             {item.detail && <span class="library-directory-item-description">{item.detail}</span>}

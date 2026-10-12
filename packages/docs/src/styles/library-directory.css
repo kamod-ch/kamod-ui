@@ -21,9 +21,6 @@
     max-height: none;
     overflow: visible;
   }
-  .docs-shell-page-contents .blocks-doc-toc nav::after {
-    content: none;
-  }
 }
 .library-directory-header {
   padding: 1.15rem 1.25rem;

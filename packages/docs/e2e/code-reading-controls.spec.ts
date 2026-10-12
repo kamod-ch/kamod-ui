@@ -66,6 +66,7 @@ for (const scheme of ["light", "dark"] as const) {
   }) => {
     await enableTestClipboard(context, browserName);
     await page.addInitScript((scheme) => localStorage.setItem("theme", scheme), scheme);
+    await page.setViewportSize({ width: 768, height: 900 });
     await page.goto("./blocks/application-shell/application-shell-1");
     await page.locator(".blocks-showcase").getByRole("tab", { name: "Code", exact: true }).click();
     const panel = page.locator(".blocks-showcase-source");
@@ -82,7 +83,7 @@ for (const scheme of ["light", "dark"] as const) {
     await wrap.focus();
     await page.keyboard.press("Space");
     await expect(wrap).toBeChecked();
-    await expect(panel.locator(".docs-code-wrap-state")).toHaveText("wrap enabled");
+    await expect(wrap).toHaveAccessibleDescription("wrap enabled");
     expect(await code.textContent()).toBe(`${header}\n\n${body}`);
     await panel.locator(".docs-code-wrap-icon").click();
     await expect(wrap).not.toBeChecked();
@@ -100,6 +101,21 @@ for (const scheme of ["light", "dark"] as const) {
     expect(thumb.x + thumb.width).toBeLessThanOrEqual(track.x + track.width);
     for (const width of [320, 375, 640, 768, 1024, 1440]) {
       await page.setViewportSize({ width, height: 900 });
+      const needsWrapping = await code.evaluate((element) => {
+        const pre = element.parentElement!;
+        const style = getComputedStyle(pre);
+        const available =
+          pre.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+        element.setAttribute("data-code-measure", "");
+        const intrinsic = element.scrollWidth;
+        element.removeAttribute("data-code-measure");
+        return intrinsic > available + 1;
+      });
+      await expect(wrap).toHaveCount(needsWrapping ? 1 : 0);
+      if (!needsWrapping) {
+        await expect(panel.locator(".kamod-code")).toHaveClass(/is-wrapped/);
+        continue;
+      }
       const left = (await disclosure.boundingBox())!;
       const right = (await panel.locator(".docs-code-wrap-control").boundingBox())!;
       expect(left.height).toBeCloseTo(right.height, 0);
@@ -115,12 +131,21 @@ for (const scheme of ["light", "dark"] as const) {
       if (snippetWidth <= 512) await expect(importLabel).toBeHidden();
       else await expect(importLabel).toBeVisible();
       if (snippetWidth <= 320) await expect(wrapState).toBeHidden();
-      else await expect(wrapState).toBeVisible();
+      else {
+        await expect(wrapState).toBeVisible();
+        const visibleLabel = wrapState.locator(
+          snippetWidth <= 512 ? ".docs-code-wrap-state-short" : ".docs-code-wrap-state-full",
+        );
+        await expect(visibleLabel).toBeVisible();
+        await expect(visibleLabel).toHaveText(snippetWidth <= 512 ? "wrapped" : "wrap enabled");
+      }
       const iconPositions = await endIcons.evaluateAll((icons) =>
         icons.map((icon) => icon.getBoundingClientRect().x),
       );
       await disclosure.click();
       await wrap.click();
+      await expect(wrap).toHaveAccessibleDescription("wrap disabled");
+      await expect(panel.locator(".docs-code-wrap-state-short")).toHaveText("scroll");
       const shown = (await disclosure.boundingBox())!;
       const unwrapped = (await panel.locator(".docs-code-wrap-control").boundingBox())!;
       expect(shown.width).toBeCloseTo(left.width, 1);
@@ -136,6 +161,7 @@ for (const scheme of ["light", "dark"] as const) {
     }
     await panel.getByRole("button", { name: "Copy code", exact: true }).click();
     expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(original);
+    await page.setViewportSize({ width: 768, height: 900 });
     await disclosure.click();
     expect(await code.textContent()).toBe(original);
   });
@@ -206,7 +232,11 @@ test("wrapping preserves existing indentation when the code pane has room", asyn
     });
   const original = await code.textContent();
   const before = await positions();
+  await expect(snippet.getByRole("switch", { name: "Wrap code lines" })).toHaveCount(0);
+  await page.setViewportSize({ width: 320, height: 1000 });
   await snippet.getByRole("switch", { name: "Wrap code lines" }).click();
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await expect(snippet.getByRole("switch", { name: "Wrap code lines" })).toHaveCount(0);
   await expect(snippet.locator(".docs-code-line").first()).toBeVisible();
   const after = await positions();
   after.forEach((x, index) => expect(x).toBeCloseTo(before[index], 0));

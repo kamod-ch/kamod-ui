@@ -2,7 +2,7 @@
 import { act, cleanup, fireEvent, render, screen } from "@testing-library/preact";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { PathDisplay } from "../../docs/components/PathDisplay";
-import { KamodRepositories } from "../navigation/KamodRepositories";
+import { EcosystemLink } from "../navigation/EcosystemLink";
 import { NavigationHeader } from "../navigation/NavigationHeader";
 import { ApplicationTooltips } from "./ApplicationTooltips";
 import { tooltipLabel } from "./tooltip-label";
@@ -388,12 +388,18 @@ it.each(["Getting Started", "Kamod Ecosystem"])(
       <>
         <ApplicationTooltips page="navigation" />
         <NavigationHeader pathname="/docs/components" />
-        <KamodRepositories />
+        <EcosystemLink pathname="/docs/components" />
       </>,
     );
-    const trigger = screen.getByRole(name === "Getting Started" ? "link" : "button", {
+    const trigger = screen.getByRole("link", {
       name: new RegExp(name),
     });
+    hover(trigger);
+    advance(1499);
+    expect(screen.queryByRole("dialog")).toBeNull();
+    advance(1);
+    expect(screen.getByRole("dialog", { name: `${name} explained` })).toBeVisible();
+    fireEvent.keyDown(trigger, { key: "Escape" });
     act(() => trigger.focus());
     const help = screen.getByRole("dialog", { name: `${name} explained` });
     expect(help.querySelectorAll("dt")).toHaveLength(2);
@@ -404,17 +410,11 @@ it.each(["Getting Started", "Kamod Ecosystem"])(
     fireEvent.keyDown(link, { key: "Escape" });
     expect(trigger).toHaveFocus();
     expect(screen.queryByRole("dialog")).toBeNull();
-    if (name === "Getting Started")
-      expect(trigger).toHaveAttribute("href", "/docs/getting-started");
-    else {
-      fireEvent.click(trigger);
-      expect(trigger).toHaveAttribute("aria-expanded", "true");
-      const repository = screen.getByRole("link", { name: "Icons on GitHub (opens in a new tab)" });
-      hover(repository);
-      advance();
-      expect(screen.queryByRole("tooltip")).toBeNull();
-      expect(screen.queryByRole("dialog")).toBeNull();
-    }
+    expect(trigger).toHaveAttribute(
+      "href",
+      name === "Getting Started" ? "/docs/getting-started" : "/docs/ecosystem",
+    );
+    expect(trigger).not.toHaveAttribute("aria-expanded");
   },
 );
 
@@ -430,6 +430,12 @@ it.each(["components", "blocks", "forms", "packages"])(
       </>,
     );
     const trigger = screen.getByRole("button");
+    hover(trigger);
+    advance(1499);
+    expect(screen.queryByRole("dialog")).toBeNull();
+    advance(1);
+    expect(screen.getByRole("dialog")).toBeVisible();
+    fireEvent.keyDown(trigger, { key: "Escape" });
     act(() => trigger.focus());
     const hint = screen.getByRole("dialog");
     expect(hint.querySelectorAll("dt")).toHaveLength(2);
@@ -462,12 +468,13 @@ it("keeps group-help flybys and touch activation free of extra overlays", () => 
   );
   const trigger = screen.getByRole("button");
   hover(trigger);
-  advance(100);
+  advance(1000);
+  expect(screen.queryByRole("dialog")).toBeNull();
   fireEvent.pointerOut(trigger);
-  advance();
+  advance(1500);
   expect(screen.queryByRole("dialog")).toBeNull();
   hover(trigger, "touch");
-  advance();
+  advance(1500);
   fireEvent.click(trigger);
   expect(toggle).toHaveBeenCalledOnce();
   expect(screen.queryByRole("dialog")).toBeNull();

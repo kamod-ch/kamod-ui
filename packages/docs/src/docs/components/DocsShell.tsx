@@ -11,7 +11,13 @@ import { GettingStartedReference } from "./GettingStartedReference";
 import { PageContentsHeading } from "./PageContentsHeading";
 import { flattenContents, PageContentsList } from "./PageContentsList";
 
-export type DocsSidebarScope = "components" | "blocks" | "forms" | "packages" | "getting-started";
+export type DocsSidebarScope =
+  | "components"
+  | "blocks"
+  | "forms"
+  | "packages"
+  | "getting-started"
+  | "ecosystem";
 
 type DocsShellProps = {
   sidebarScope: DocsSidebarScope;
@@ -125,6 +131,7 @@ export const DocsShell = ({
       ? withBasePath(activeBlock ? `/blocks/${activeBlock}` : "/blocks")
       : {
           "getting-started": withBasePath("/docs/getting-started"),
+          ecosystem: withBasePath("/docs/ecosystem"),
           components: componentsOverviewHref,
           forms: formsOverviewHref,
           packages: packagesOverviewHref,
@@ -162,6 +169,7 @@ export const DocsShell = ({
                   <>
                     <PageContentsHeading
                       level="h3"
+                      activeId={activeSection}
                       count={
                         [installationSection, usageSection, apiReferenceSection].filter(Boolean)
                           .length

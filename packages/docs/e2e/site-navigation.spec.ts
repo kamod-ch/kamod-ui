@@ -19,80 +19,38 @@ const routes = [
   "blocks/signup/signup-01",
 ];
 
-test("sidebar project links stay reachable while the directory scrolls", async ({
-  page,
-  browserName,
-}) => {
+test("ecosystem entry stays pinned while the directory scrolls", async ({ page, browserName }) => {
   await page.setViewportSize({ width: 940, height: 480 });
   await page.goto("./docs/components");
   const sidebar = page.locator("aside.docs-sidebar");
-  const resources = sidebar.getByRole("navigation", { name: "Kamod repositories" });
-  const initial = await resources.boundingBox();
+  const resources = sidebar.getByRole("navigation", { name: "Kamod Ecosystem", exact: true });
+  const initial = (await resources.boundingBox())!;
   const lastGroup = sidebar.getByRole("button", { name: /^Packages Tools & Integrations/ });
   await lastGroup.focus();
   await expect(lastGroup).toBeInViewport();
   expect(
     await sidebar.locator(".docs-sidebar-scroll").evaluate((node) => node.scrollTop),
   ).toBeGreaterThan(0);
-  expect((await resources.boundingBox())!.y).toBeCloseTo(initial!.y, 0);
-  const ecosystem = sidebar.getByRole("navigation", { name: "Kamod repositories" });
-  const trigger = ecosystem.getByRole("button", { name: /Kamod Ecosystem/ });
-  await expect(trigger).toHaveAttribute("aria-expanded", "false");
-  await expect(ecosystem.getByRole("link")).toHaveCount(0);
-  // Group help has its own Tab-reachable links; dismiss it before following the directory order.
+  expect((await resources.boundingBox())!.y).toBeCloseTo(initial.y, 0);
+  const link = resources.getByRole("link", { name: /Kamod Ecosystem/ });
+  await expect(link).toHaveAttribute("href", /\/docs\/ecosystem$/);
+  await expect(link).not.toHaveAttribute("aria-expanded");
   await page.keyboard.press("Escape");
   await page.keyboard.press(forwardTabKey(browserName));
-  await expect(trigger).toBeFocused();
-  await page.keyboard.press("Space");
-  await expect(trigger).toHaveAttribute("aria-expanded", "true");
-  await expect(ecosystem.getByRole("link")).toHaveCount(9);
-  await expect.poll(async () => (await resources.boundingBox())!.y).toBeLessThan(initial!.y - 50);
-  const opened = (await resources.boundingBox())!;
-  expect(opened.y + opened.height).toBeCloseTo(initial!.y + initial!.height, 0);
-  for (const link of await ecosystem.getByRole("link").all()) {
-    await page.keyboard.press(forwardTabKey(browserName));
-    await expect(link).toBeFocused();
-    await expect(link).toBeInViewport();
-    await expect(link).toHaveAttribute("target", "_blank");
-    await expect(link).toHaveAttribute("rel", "noopener noreferrer");
-  }
-  await expect(sidebar.locator(".docs-sidebar-resource-actions")).toHaveCount(0);
-  await expect(resources.locator("li code")).toHaveCount(8);
-  await expect(resources.locator("li code").first()).toHaveText("@kamod-ch/icons");
-  for (const row of await resources.locator(".docs-sidebar-repository").all()) {
-    const content = (await row.locator(".docs-sidebar-repository-content").boundingBox())!;
-    const arrow = (await row.locator(":scope > svg").last().boundingBox())!;
-    expect(arrow.x - content.x - content.width).toBeGreaterThanOrEqual(8);
-    expect(await row.evaluate((node) => node.scrollWidth <= node.clientWidth)).toBe(true);
-  }
-  const heading = resources.locator(".docs-sidebar-ecosystem-heading");
-  const title = (await heading.locator("strong").boundingBox())!;
-  const action = (await heading.locator(".docs-sidebar-ecosystem-toggle").boundingBox())!;
+  await expect(link).toBeFocused();
+  const title = (await link.locator("strong").boundingBox())!;
+  const action = (await link.locator(".sidebar-entry-action").boundingBox())!;
   expect(Math.abs(title.y + title.height / 2 - action.y - action.height / 2)).toBeLessThan(1);
-  await assertNoBlockingA11yViolations(page, "Sidebar project links", {
+  await assertNoBlockingA11yViolations(page, "Pinned ecosystem link", {
     include: "aside.docs-sidebar",
   });
-  await trigger.focus();
+  await link.focus();
   await page.keyboard.press("Enter");
-  await expect(trigger).toHaveAttribute("aria-expanded", "false");
-  await expect(ecosystem.getByRole("link")).toHaveCount(0);
-  await page.setViewportSize({ width: 390, height: 844 });
-  await expect(resources).toBeHidden();
-  await page.getByRole("button", { name: "Open navigation menu" }).click();
-  const mobile = page
-    .locator(".site-navigation-panel")
-    .getByRole("navigation", { name: "Kamod repositories" });
-  const mobileTrigger = mobile.getByRole("button", { name: /Kamod Ecosystem/ });
-  await expect(mobileTrigger).toHaveAttribute("aria-expanded", "false");
-  const closedMobile = (await mobile.boundingBox())!;
-  await mobileTrigger.click();
-  await expect(mobile.getByRole("link")).toHaveCount(9);
-  await expect.poll(async () => (await mobile.boundingBox())!.y).toBeLessThan(closedMobile.y - 50);
-  const openMobile = (await mobile.boundingBox())!;
-  expect(openMobile.y + openMobile.height).toBeCloseTo(closedMobile.y + closedMobile.height, 0);
-  await mobile.getByRole("link", { name: /^All Kamod repositories/ }).focus();
-  await expect(mobile.getByRole("link", { name: /^All Kamod repositories/ })).toBeInViewport();
-  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("The Kamod Ecosystem");
+  await expect(sidebar.locator('[data-navigation-help="ecosystem"]')).toHaveAttribute(
+    "aria-current",
+    "page",
+  );
 });
 
 test("desktop sidebars share the mobile directory and current destination", async ({ page }) => {
@@ -356,12 +314,15 @@ test("collection navigation, keyboard focus and theme picker", async ({ page, br
   await assertNoBlockingA11yViolations(page, "Collection navigation", {
     include: ".site-navigation-panel",
   });
-  await panel.getByRole("button", { name: "Kamod Ecosystem Toolkit", exact: true }).click();
-  const last = panel.getByRole("link", {
-    name: "All Kamod repositories (opens in a new tab)",
-    exact: true,
-  });
-  await last.focus();
+  const ecosystem = panel.getByRole("link", { name: /Kamod Ecosystem/ });
+  await expect(ecosystem).toHaveAttribute("href", /\/docs\/ecosystem$/);
+  await expect(ecosystem).not.toHaveAttribute("aria-expanded");
+  await page.keyboard.press("Shift");
+  await ecosystem.focus();
+  const ecosystemHelp = page.getByRole("dialog", { name: "Kamod Ecosystem explained" });
+  await expect(ecosystemHelp).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(ecosystemHelp).toBeHidden();
   await page.keyboard.press(forwardTabKey(browserName));
   await expect(panel.getByRole("button", { name: "Close navigation menu" })).toBeFocused();
   await panel.getByRole("link", { name: "Sidebar", exact: true }).click();

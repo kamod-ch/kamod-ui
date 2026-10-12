@@ -41,6 +41,7 @@ export function BlockSourceExplorer({
   const treeId = useId();
   const setFolderOpen = (folder: string, open: boolean) => {
     setClosedFolders((previous) => {
+      if (previous.has(folder) === !open) return previous;
       const next = new Set(previous);
       if (open) next.delete(folder);
       else next.add(folder);

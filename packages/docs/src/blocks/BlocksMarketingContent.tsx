@@ -104,11 +104,19 @@ const BlockCard = ({ block }: { block: MarketingBlock }) => {
           </table>
         </div>
         <Tabs defaultValue="preview" class="docs-tabs">
-          <TabsList class="docs-tabs-list" variant="line">
-            <TabsTrigger value="preview">Preview</TabsTrigger>
-            <TabsTrigger value="dark">Dark Mode</TabsTrigger>
-            <TabsTrigger value="usage">Usage</TabsTrigger>
-            <TabsTrigger value="code">Code</TabsTrigger>
+          <TabsList class="docs-tabs-list blocks-showcase-segmented">
+            <TabsTrigger value="preview" class="docs-icon-button">
+              Preview
+            </TabsTrigger>
+            <TabsTrigger value="dark" class="docs-icon-button">
+              Dark Mode
+            </TabsTrigger>
+            <TabsTrigger value="usage" class="docs-icon-button">
+              Usage
+            </TabsTrigger>
+            <TabsTrigger value="code" class="docs-icon-button">
+              Code
+            </TabsTrigger>
           </TabsList>
           <TabsContent value="preview">
             <BlockPreviewPanel

@@ -4,7 +4,9 @@ for (const route of [
   "blocks/application-shell/application-shell-1",
   "docs/formisch/installation",
 ]) {
-  test(`${route}: code and prompt shortcuts stay beside narrow headings`, async ({ page }) => {
+  test(`${route}: prompt descriptions fill the header and code shortcuts stay beside headings`, async ({
+    page,
+  }) => {
     await page.goto(`./${route}`);
     await page.waitForSelector("html.pp-ready");
     const showcase = page.locator(".blocks-showcase").first();
@@ -15,12 +17,22 @@ for (const route of [
         const intro = showcase.locator(".blocks-showcase-intro");
         const heading = intro.getByRole("heading");
         const links = intro.getByRole("navigation").getByRole("link");
-        await expect(links).toHaveCount(3);
+        await expect(links).toHaveCount(tab === "Prompt" ? 0 : 3);
         const bounds = (await intro.boundingBox())!;
         expect(await intro.evaluate((node) => node.scrollWidth <= node.clientWidth)).toBe(true);
         const showcaseWidth = (await showcase.boundingBox())!.width;
         const compact = showcaseWidth <= 640;
         if (tab === "Prompt") {
+          const description = intro.locator("p");
+          const textWidth = (await description.boundingBox())!.width;
+          const availableWidth = await intro.evaluate((node) => {
+            const style = getComputedStyle(node);
+            return (
+              node.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight)
+            );
+          });
+          expect(textWidth).toBeCloseTo(availableWidth, 0);
+          await expect(intro.locator(".blocks-showcase-intro-copy")).toHaveCSS("max-width", "none");
           const purpose = showcase.getByRole("group", { name: "Prompt purpose" });
           const format = showcase.getByRole("group", { name: "Prompt Display" });
           const left = (await purpose.boundingBox())!;
@@ -31,7 +43,7 @@ for (const route of [
             await showcase
               .locator(".blocks-prompt-hint p")
               .evaluate((node) => getComputedStyle(node).fontSize),
-          ).toBe(await intro.locator("P").evaluate((node) => getComputedStyle(node).fontSize));
+          ).toBe(await description.evaluate((node) => getComputedStyle(node).fontSize));
           for (const button of await format.getByRole("button").all()) {
             await expect(button).toHaveAccessibleName(/.+/);
             await expect(button).toHaveAttribute("title", /.+/);
@@ -57,7 +69,7 @@ for (const route of [
         if (compact) {
           await expect(heading).toHaveCSS("text-overflow", "ellipsis");
           await expect(heading).toHaveCSS("white-space", "nowrap");
-          await expect(heading).toHaveAttribute("title", (await heading.textContent())!);
+          await expect(heading).toHaveAccessibleName((await heading.textContent())!);
         }
       }
     }

@@ -31,9 +31,9 @@ export function OverviewExamples({
 }) {
   return (
     <Tabs defaultValue={examples[0].id} class="guide-next-exercises">
-      <TabsList variant="line" aria-label={label} class="guide-next-tabs">
+      <TabsList aria-label={label} class="guide-next-tabs blocks-showcase-segmented">
         {examples.map(({ id, label }) => (
-          <TabsTrigger key={id} value={id}>
+          <TabsTrigger key={id} value={id} class="docs-icon-button">
             {label}
           </TabsTrigger>
         ))}

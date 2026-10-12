@@ -3,10 +3,12 @@ import { withBasePath } from "../../../base-path";
 import { CodeBlock } from "../../components/CodeBlock";
 import { DocsCallout } from "../../components/DocsCallout";
 import { CodeGuideTopic as Topic } from "./CodeGuideTopic";
+import { CodePartsPlayground } from "./CodePartsPlayground";
+import { CodeVisibilityReference } from "./CodeVisibilityReference";
 import {
   CodeControlSlotsPlayground,
-  CodePartsPlayground,
   CodePreferencesPlayground,
+  playgroundSource,
 } from "./code-playgrounds";
 
 export const controlledCodeSnippet = String.raw`import { Code } from "@kamod-ch/ui/code";
@@ -67,61 +69,8 @@ export function CodeModularityGuide() {
           embedded source excerpt might need no header at all. Try the switches below to see exactly
           which pieces belong together.
         </p>
-        <CodePartsPlayground />
-        <div class="docs-api-table-wrap">
-          <table class="docs-api-table">
-            <thead>
-              <tr>
-                <th>What you want</th>
-                <th>Option</th>
-                <th>What stays</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>A source-only headerless panel</td>
-                <td>
-                  <code>{"showToolbar={false}"}</code>
-                </td>
-                <td>
-                  Eligible reading controls stay above the source. Copy is part of the hidden
-                  header.
-                </td>
-              </tr>
-              <tr>
-                <td>No clipboard action</td>
-                <td>
-                  <code>{"showCopy={false}"}</code>
-                </td>
-                <td>The header, source selection and reading controls.</td>
-              </tr>
-              <tr>
-                <td>Always-visible imports</td>
-                <td>
-                  <code>{"showImportControl={false}"}</code>
-                </td>
-                <td>The complete source, including its declarations.</td>
-              </tr>
-              <tr>
-                <td>A fixed wrapping choice</td>
-                <td>
-                  <code>{"showWrapControl={false}"}</code>
-                </td>
-                <td>
-                  <code>defaultWrapped</code> or controlled <code>wrapped</code> still determines
-                  the layout.
-                </td>
-              </tr>
-              <tr>
-                <td>Source without syntax colors</td>
-                <td>
-                  <code>{"highlight={false}"}</code>
-                </td>
-                <td>Language metadata, reading controls, selection and exact copying.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <CodePartsPlayground code={playgroundSource} />
+        <CodeVisibilityReference />
         <CodeBlock
           language="tsx"
           code={

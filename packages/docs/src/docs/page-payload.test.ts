@@ -15,7 +15,7 @@ const guide: HtmlPageView = {
 
 describe("guide page payloads", () => {
   it("removes duplicate guide HTML while retaining search text and complete page metadata", () => {
-    for (const pageKind of ["getting-started-guide", "blocks-guide"]) {
+    for (const pageKind of ["getting-started-guide", "ecosystem-guide", "blocks-guide"]) {
       const original = { ...guide, meta: { ...guide.meta, pageKind } };
       const compact = compactGuidePageData(original) as HtmlPageView;
       expect(excerptFromHtml(compact.html)).toBe(excerptFromHtml(original.html));

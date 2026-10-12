@@ -55,6 +55,8 @@ describe("component example controls", () => {
     const narrow = screen.getByRole("button", { name: "Narrow container" });
     width(360);
     expect(narrow).toHaveProperty("disabled", true);
+    const caption = container.querySelector(".component-example-caption-mode");
+    expect(caption).toHaveTextContent("Full width");
     act(() =>
       resize(
         [
@@ -65,6 +67,7 @@ describe("component example controls", () => {
       ),
     );
     fireEvent.click(narrow);
+    expect(caption).toHaveTextContent("Narrow view");
     expect(container.querySelector(".component-example-frame-wrap")).toHaveAttribute(
       "data-narrow",
       "true",
@@ -78,10 +81,12 @@ describe("component example controls", () => {
     );
     width(320);
     expect(narrow).toHaveProperty("disabled", true);
+    expect(caption).toHaveTextContent("Full width");
     expect(container.querySelector(".component-example-frame-wrap")).not.toHaveAttribute(
       "data-narrow",
     );
     width(500);
+    expect(caption).toHaveTextContent("Narrow view");
     expect(container.querySelector(".component-example-frame-wrap")).toHaveAttribute(
       "data-narrow",
       "true",

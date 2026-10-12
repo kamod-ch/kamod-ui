@@ -1,5 +1,6 @@
 import { withBasePath } from "../../../base-path";
 import { BlockHeadingLink } from "../../../blocks/BlockHeadingLink";
+import { utilityName } from "../../../link-title";
 import type { DocPageModule } from "../../types";
 import { InlineCodeLink } from "../InlineCodeLink";
 import { CompositionNextSteps } from "./CompositionNextSteps";
@@ -20,9 +21,9 @@ export function ComponentRelatedComponents({
       </h3>
       <p>
         <strong>Give Each Piece One Responsibility.</strong> Start with what{" "}
-        <strong>{doc.title}</strong> already provides, then add a companion only when the task needs
-        another action, explanation or boundary. Follow the references for that component’s own API;
-        neighboring components do not necessarily share the same props.
+        <strong>{utilityName(doc.title)}</strong> already provides, then add a companion only when
+        the task needs another action, explanation or boundary. Follow the references for that
+        component’s own API; neighboring components do not necessarily share the same props.
       </p>
       <p>
         Keep{" "}

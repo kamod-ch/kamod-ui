@@ -2,7 +2,7 @@ import { BookOpenIcon, RocketIcon, SwatchBookIcon } from "@kamod-ch/icons/lucide
 import { Button, Tooltip, TooltipContent, TooltipTrigger } from "@kamod-ch/ui";
 import { withBasePath } from "../../base-path";
 
-/** Shared guide shortcuts for the Code and Prompt headers, including the local setup anchor. */
+/** Shared guide shortcuts for Code headers, including the local setup anchor. */
 export function ShowcaseGuideLinks({ setupHref, label }: { setupHref: string; label: string }) {
   const links = [
     {

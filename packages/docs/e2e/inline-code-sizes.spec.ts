@@ -12,7 +12,9 @@ const routes = [
 ];
 
 for (const width of [320, 1440]) {
-  test(`linked inline code uses only the two shared sizes at ${width}px`, async ({ page }) => {
+  test(`linked inline code uses shared sizes and inherits preview captions at ${width}px`, async ({
+    page,
+  }) => {
     test.setTimeout(90_000);
     await page.setViewportSize({ width, height: 1000 });
     const seen = new Set<number>();
@@ -24,25 +26,43 @@ for (const width of [320, 1440]) {
           ...document.querySelectorAll<HTMLElement>(
             "a code, code:has(a), code.docs-reference-code, code.docs-kamod-path",
           ),
-        ].filter((code) => !code.closest("pre") && code.getClientRects().length > 0);
+        ].filter(
+          (code) =>
+            !code.closest("pre") &&
+            !code.classList.contains("docs-code-name") &&
+            code.getClientRects().length > 0,
+        );
         return codes.map((code) => {
           const style = getComputedStyle(code);
+          const caption = code.closest(".component-example-caption");
+          const captionStyle = caption ? getComputedStyle(caption) : null;
           return {
             text: code.textContent?.slice(0, 70),
             font: parseFloat(style.fontSize),
             line: parseFloat(style.lineHeight),
             padding: parseFloat(style.paddingInlineStart),
             border: parseFloat(style.borderTopWidth),
+            caption: captionStyle
+              ? {
+                  font: parseFloat(captionStyle.fontSize),
+                  line: parseFloat(captionStyle.lineHeight),
+                }
+              : null,
           };
         });
       });
       expect(result.length, route).toBeGreaterThan(0);
       for (const code of result) {
-        expect([12, 14], `${route}: ${code.text}`).toContain(code.font);
-        expect(code.line).toBe(code.font === 12 ? 16 : 20);
-        expect(code.padding).toBe(code.font === 12 ? 3 : 4);
+        if (code.caption) {
+          expect(code.font, `${route}: ${code.text} caption`).toBe(code.caption.font);
+          expect(code.line).toBe(code.caption.line);
+        } else {
+          expect([12, 14], `${route}: ${code.text}`).toContain(code.font);
+          expect(code.line).toBe(code.font === 12 ? 16 : 20);
+          seen.add(code.font);
+        }
+        expect(code.padding).toBe(code.caption || code.font === 12 ? 3 : 4);
         expect(code.border).toBe(1);
-        seen.add(code.font);
       }
       expect(
         await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),

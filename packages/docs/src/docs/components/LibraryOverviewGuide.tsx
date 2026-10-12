@@ -9,7 +9,6 @@ type Props = {
   scope: "forms" | "packages";
   label: string;
   title: string;
-  focus: string;
   description: ComponentChildren;
   contents: ComponentProps<typeof BlockGuideContents>["sections"];
   children: ComponentChildren;
@@ -20,7 +19,6 @@ export function LibraryOverviewGuide({
   scope,
   label,
   title,
-  focus,
   description,
   contents,
   children,
@@ -46,7 +44,6 @@ export function LibraryOverviewGuide({
             parent={{ label: "Home", href: "/" }}
             label={label}
             eyebrow={`${label} library`}
-            focus={focus}
             title={title}
             description={
               <>

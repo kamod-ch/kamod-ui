@@ -36,6 +36,7 @@ export const BlockSourceFiles = ({
         grouped={grouped}
       />
       <ShowcaseCodePane
+        appearance={appearance}
         filename={selectedFile}
         filePath={files.find((file) => file.label === selectedFile)?.destination ?? selectedFile}
         code={current?.status === "ready" ? current.code : undefined}

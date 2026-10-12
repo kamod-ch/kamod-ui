@@ -78,7 +78,7 @@ export function SiteNavigation() {
           <NavigationHeader pathname={pathname} closeOnNavigate />
           <NavigationDirectory groups={navigationGroups} pathname={pathname} closeOnNavigate />
         </NavigationScrollArea>
-        <SidebarResources />
+        <SidebarResources pathname={pathname} closeOnNavigate />
       </SheetContent>
     </Sheet>
   );

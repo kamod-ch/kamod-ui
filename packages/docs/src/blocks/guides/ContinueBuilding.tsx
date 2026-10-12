@@ -129,12 +129,11 @@ export function ContinueBuilding({ slug }: { slug: (typeof blockGuides)[number][
         </p>
         <Tabs key={slug} defaultValue={slug} class="guide-next-exercises">
           <TabsList
-            variant="line"
             aria-label="Practice examples"
-            class="guide-next-tabs guide-practice-tabs"
+            class="guide-next-tabs guide-practice-tabs blocks-showcase-segmented"
           >
             {guideExercises.map((example) => (
-              <TabsTrigger key={example.slug} value={example.slug}>
+              <TabsTrigger key={example.slug} value={example.slug} class="docs-icon-button">
                 {example.label}
               </TabsTrigger>
             ))}

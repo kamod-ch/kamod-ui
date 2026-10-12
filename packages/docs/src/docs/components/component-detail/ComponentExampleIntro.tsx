@@ -6,6 +6,7 @@ export function ComponentExampleIntro({ view }: { view: "code" | "prompt" }) {
   const isPrompt = view === "prompt";
   return (
     <ShowcaseIntro
+      view={view}
       title={isPrompt ? "Integration prompt" : "Example source"}
       note={isPrompt ? "Build with your assistant" : "Source & behavior"}
       setupHref="#installation"

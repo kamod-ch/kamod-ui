@@ -12,7 +12,7 @@ export function DocsSidebarNavigation({ pathname }: { pathname: string }) {
         <NavigationHeader pathname={pathname} />
         <NavigationDirectory groups={navigationGroups} pathname={pathname} />
       </NavigationScrollArea>
-      <SidebarResources />
+      <SidebarResources pathname={pathname} />
     </>
   );
 }

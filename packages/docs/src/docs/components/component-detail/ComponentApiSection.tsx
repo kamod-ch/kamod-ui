@@ -5,6 +5,7 @@ import { BlockHeadingLink } from "../../../blocks/BlockHeadingLink";
 import { BlockTypeDefinition } from "../../../blocks/detail/BlockTypeDefinition";
 import { useTypeDefinitions } from "../../../blocks/detail/useTypeDefinitions";
 import { RequiredIndicator } from "../../../blocks/RequiredIndicator";
+import { utilityName } from "../../../link-title";
 import type { DocPageModule } from "../../types";
 import { ApiSourceNote } from "../ApiSourceNote";
 import { BrandText } from "../brand/BrandText";
@@ -39,11 +40,11 @@ export function ComponentApiSection({
         <BlockHeadingLink id="api-reference">Props and Data</BlockHeadingLink>
       </h2>
       <p>
-        Configure <strong>{doc.title}</strong> using the contracts below. Read the documented
-        options alongside the <a href="#component-data-types">Source Definitions</a> to understand
-        which values your application supplies and which details the component owns. Start with a
-        prop or helper, then follow its type link to inspect the declaration without leaving the
-        page.
+        Configure <strong>{utilityName(doc.title)}</strong> using the contracts below. Read the
+        documented options alongside the <a href="#component-data-types">Source Definitions</a> to
+        understand which values your application supplies and which details the component owns.
+        Start with a prop or helper, then follow its type link to inspect the declaration without
+        leaving the page.
       </p>
       {introduction && <p>{introduction}</p>}
       <ApiSourceNote>

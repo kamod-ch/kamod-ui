@@ -142,7 +142,7 @@ export function PageLoading({ compact = false }: { compact?: boolean }) {
     >
       <div role="status" aria-live="polite" aria-atomic="true">
         <p class="page-state-eyebrow">
-          <span class="page-state-pulse" aria-hidden="true" /> Kamod UI{" "}
+          <span class="page-state-pulse page-loading-pulse" aria-hidden="true" /> Kamod UI{" "}
           <span aria-hidden="true">·</span> {compact ? "Preview" : "Documentation"}
         </p>
         <h1>{compact ? "Loading Preview…" : "Opening Your Next Page…"}</h1>
@@ -153,10 +153,25 @@ export function PageLoading({ compact = false }: { compact?: boolean }) {
         </p>
       </div>
       <div class="page-state-skeleton" aria-hidden="true">
+        <span class="page-loading-track" />
         <span />
         <span />
-        <span />
-        <div />
+        <div class={compact ? undefined : "page-loading-card"}>
+          {!compact && (
+            <>
+              <span class="page-loading-paper">
+                <KamodMarkIcon size={16} accentColor="var(--primary)" />
+                <i />
+                <i />
+              </span>
+              <span class="page-loading-card-copy">
+                <span>Next up</span>
+                <strong>A fresh page is on its way.</strong>
+              </span>
+              <ArrowRightIcon class="page-loading-card-arrow" size={16} />
+            </>
+          )}
+        </div>
       </div>
     </section>
   );

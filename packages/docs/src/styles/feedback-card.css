@@ -16,13 +16,6 @@
 }
 
 @media (min-width: 1200px) {
-  /* Reserve enough scroll range to align even the final followed link with the top. */
-  .docs-rightbar-contents::after,
-  .blocks-doc-toc nav::after {
-    content: "";
-    display: block;
-    height: calc(100dvh - var(--docs-sidebar-top));
-  }
   .docs-rightbar-contents {
     min-height: 8rem;
     max-height: var(--docs-sidebar-height);

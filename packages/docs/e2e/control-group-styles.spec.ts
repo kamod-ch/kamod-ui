@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 
 for (const width of [320, 768, 1440]) {
   for (const mode of ["light", "dark"] as const) {
-    test(`line controls stay legible and keyboard usable at ${width}px in ${mode}`, async ({
+    test(`rounded controls stay legible and keyboard usable at ${width}px in ${mode}`, async ({
       page,
     }) => {
       await page.setViewportSize({ width, height: 1000 });
@@ -18,36 +18,37 @@ for (const width of [320, 768, 1440]) {
         .filter({ has: page.getByRole("tab", { name: "Native", exact: true }) })
         .first();
       await list.scrollIntoViewIfNeeded();
-      await expect(list).toHaveAttribute("data-variant", "line");
+      await expect(list).toHaveAttribute("data-variant", "default");
       const first = list.getByRole("tab", { name: "Native", exact: true });
       const second = list.getByRole("tab", { name: "Schema", exact: true });
       const styles = await first.evaluate((tab) => {
         const style = getComputedStyle(tab);
-        const stripe = getComputedStyle(tab, "::after");
-        const list = tab.parentElement!;
+        const list = getComputedStyle(tab.parentElement!);
         return {
           radius: parseFloat(style.borderRadius),
-          border: parseFloat(style.borderWidth),
-          stripe: parseFloat(stripe.height),
-          inset: parseFloat(stripe.bottom),
-          side: parseFloat(stripe.left),
-          indicator: stripe.opacity,
+          listRadius: parseFloat(list.borderRadius),
+          border: parseFloat(list.borderWidth),
+          padding: parseFloat(list.padding),
+          background: list.backgroundColor,
+          selection: style.backgroundColor,
+          stripe: getComputedStyle(tab, "::after").content,
           dot: getComputedStyle(tab, "::before").content,
           size: parseFloat(style.fontSize),
-          gap: parseFloat(getComputedStyle(list).gap),
+          gap: parseFloat(list.gap),
           aligned: style.alignItems === "center" && style.justifyContent === "center",
           overflow: document.documentElement.scrollWidth > innerWidth,
         };
       });
-      expect(styles.radius).toBe(0);
-      expect(styles.border).toBeGreaterThanOrEqual(1);
-      expect(styles.stripe).toBe(2);
-      expect(styles.inset).toBe(0);
-      expect(styles.side).toBe(0);
-      expect(styles.indicator).toBe("1");
+      expect(styles.radius).toBe(8);
+      expect(styles.listRadius).toBe(8);
+      expect(styles.border).toBe(1);
+      expect(styles.padding).toBe(2);
+      expect(styles.background).not.toBe("rgba(0, 0, 0, 0)");
+      expect(styles.selection).not.toBe("rgba(0, 0, 0, 0)");
+      expect(styles.stripe).toBe("none");
       expect(styles.dot).toBe("none");
-      expect(styles.size).toBeLessThanOrEqual(14);
-      expect(styles.gap).toBe(4);
+      expect(styles.size).toBe(12);
+      expect(styles.gap).toBe(2);
       expect(styles.aligned).toBe(true);
       expect(styles.overflow).toBe(false);
       await second.hover();
@@ -65,12 +66,12 @@ for (const width of [320, 768, 1440]) {
       ).toBeVisible();
       await second.press("Home");
       await expect(first).toBeFocused();
-      await page.screenshot({ path: `/tmp/line-controls-${mode}-${width}.png` });
+      await page.screenshot({ path: `/tmp/rounded-controls-${mode}-${width}.png` });
     });
   }
 }
 
-test("showcases use line tabs while the optional inset variant keeps its own styling", async ({
+test("showcases use rounded controls while the optional inset variant keeps its own styling", async ({
   page,
 }) => {
   await page.goto("./docs/tabs/inset-tabs", { waitUntil: "domcontentloaded" });
@@ -88,15 +89,19 @@ test("showcases use line tabs while the optional inset variant keeps its own sty
     "aria-selected",
     "true",
   );
-  await expect(page.locator('[data-slot="tabs-list"]:not([data-variant="line"])')).toHaveCount(0);
+  for (const list of await page
+    .locator('.blocks-showcase-segmented[data-slot="tabs-list"]')
+    .all()) {
+    await expect(list).toHaveAttribute("data-variant", "default");
+  }
   await page.goto("./", { waitUntil: "domcontentloaded" });
   const showcase = page
     .getByRole("tablist", { name: "Workspace example view", exact: true })
     .first();
   await showcase.scrollIntoViewIfNeeded();
-  await expect(showcase).toHaveAttribute("data-variant", "line");
+  await expect(showcase).toHaveAttribute("data-variant", "default");
   const gap = await showcase.evaluate((list) => parseFloat(getComputedStyle(list).gap));
-  expect(gap).toBe(4);
+  expect(gap).toBe(2);
   await expect
     .poll(() =>
       showcase
@@ -113,15 +118,18 @@ test("showcases use line tabs while the optional inset variant keeps its own sty
   const appearance = page
     .locator(".home-workspace")
     .getByRole("group", { name: "Preview appearance", exact: true });
-  await expect(appearance).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
-  await expect(appearance).toHaveCSS("border-top-width", "0px");
+  expect(await appearance.evaluate((node) => getComputedStyle(node).backgroundColor)).not.toBe(
+    "rgba(0, 0, 0, 0)",
+  );
+  await expect(appearance).toHaveCSS("border-top-width", "1px");
   const scheme = appearance.getByRole("button", { name: "Dark preview", exact: true });
   if ((await scheme.getAttribute("aria-pressed")) === "false") await scheme.click();
   await expect(scheme).toHaveAttribute("aria-pressed", "true");
-  expect(
-    await scheme.evaluate((button) => ({
-      height: getComputedStyle(button, "::after").height,
-      visible: getComputedStyle(button, "::after").opacity,
-    })),
-  ).toEqual({ height: "2px", visible: "1" });
+  await expect
+    .poll(() => scheme.evaluate((button) => getComputedStyle(button).backgroundColor))
+    .not.toBe("rgba(0, 0, 0, 0)");
+  await expect(scheme).toHaveCSS("border-radius", "8px");
+  expect(await scheme.evaluate((button) => getComputedStyle(button, "::after").content)).toBe(
+    "none",
+  );
 });

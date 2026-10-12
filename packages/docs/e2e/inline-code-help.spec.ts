@@ -27,10 +27,14 @@ test("inline explanations keep keyboard flow, working links and source text inta
   await page.keyboard.press("Escape");
   await term.focus();
   await expect(help).toBeVisible();
-  await page.keyboard.press("Tab");
-  await expect(help.getByRole("link", { name: "@kamod-ch/ui/utils" })).toBeFocused();
-  await page.keyboard.press("Tab");
-  await expect(help.getByRole("link", { name: "Explore cn" })).toBeFocused();
+  const links = help.getByRole("link");
+  await expect(links.first()).toHaveAccessibleName("@kamod-ch/ui/utils");
+  await expect(links.last()).toHaveAccessibleName("Explore cn");
+  // Detailed help also has header shortcuts; include every link in the keyboard journey.
+  for (const link of await links.all()) {
+    await page.keyboard.press("Tab");
+    await expect(link).toBeFocused();
+  }
   await page.keyboard.press("Tab");
   expect(
     await page.evaluate(() => !!document.activeElement?.closest("[data-application-tooltip]")),

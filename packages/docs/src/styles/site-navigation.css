@@ -17,6 +17,25 @@
     var(--foreground) calc(6% + 5.64% * var(--docs-highlight-boost, 0)),
     transparent
   );
+  --navigation-entry-muted: color-mix(in oklab, var(--muted-foreground) 75%, var(--foreground));
+  --navigation-highlight-background: var(--color-neutral-800);
+  --navigation-highlight-foreground: var(--foreground);
+  --navigation-highlight-muted: color-mix(in oklab, var(--foreground) 90%, var(--muted-foreground));
+  --navigation-highlight-wash: color-mix(in oklab, var(--background) 60%, transparent);
+  /* Background layers paint beneath content; the first gradient is the uppermost layer. */
+  --navigation-highlight-overlays:
+    linear-gradient(
+      to bottom right,
+      color-mix(in oklab, var(--background) 30%, transparent),
+      color-mix(in oklab, var(--background) 0%, transparent)
+    ),
+    linear-gradient(var(--navigation-highlight-wash), var(--navigation-highlight-wash));
+}
+
+.site-navigation-group-trigger,
+.sidebar-entry-row,
+.site-navigation-link[aria-current] {
+  background-image: var(--navigation-highlight-overlays);
 }
 
 /* The shared navigation takes over where the desktop navigation disappears. */
@@ -108,6 +127,11 @@
 .site-navigation-body,
 .docs-sidebar-resources {
   padding-inline: var(--navigation-content-inset) max(0.5rem, var(--navigation-content-inset));
+}
+
+/* The head script sets this only for saved offsets; SSR/no-JS navigation stays available. */
+html[data-navigation-restoring] .docs-sidebar-scroll {
+  visibility: hidden;
 }
 
 .site-navigation-group + .site-navigation-group {
@@ -221,9 +245,14 @@
 }
 
 .site-navigation-link-overview {
-  color: color-mix(in oklab, var(--muted-foreground) 80%, var(--foreground));
-  font-size: 0.84375rem;
-  font-weight: 500;
+  --navigation-special-foreground: color-mix(
+    in oklab,
+    var(--muted-foreground) 65%,
+    var(--foreground)
+  );
+  color: var(--navigation-special-foreground);
+  font-size: 0.859375rem;
+  font-weight: 550;
 }
 
 .site-navigation-links > .site-navigation-intro-end {
@@ -291,22 +320,12 @@
 
 .site-navigation-special-icon {
   flex: none;
-  width: 1.25rem;
-  height: 1.25rem;
-  stroke-width: 1.75;
-  color: color-mix(in oklab, var(--muted-foreground) 80%, var(--foreground));
-  opacity: 0.8;
-  transition: opacity 150ms ease;
+  width: 1.125rem;
+  height: 1.125rem;
+  color: var(--navigation-special-foreground);
 }
 .site-navigation-link:is(:focus-visible, [aria-current]) .site-navigation-special-icon {
   color: inherit;
-  opacity: 1;
-}
-@media (hover: hover) and (pointer: fine) {
-  .site-navigation-link:not([aria-current]):not(:focus-visible):hover
-    .site-navigation-special-icon {
-    opacity: 0.82;
-  }
 }
 
 .site-navigation-variant-count {
@@ -325,31 +344,34 @@
   text-align: center;
 }
 
-/* The current destination and its owning group share one inverse selection surface. */
+/* Current destinations and their owning group share the same layered neutral selection. */
 .site-navigation-group-trigger[data-current],
-.site-navigation-link[aria-current] {
-  background: color-mix(in oklab, var(--foreground) 75%, transparent);
-  color: var(--background);
+.site-navigation-link[aria-current],
+.sidebar-entry-row[aria-current] {
+  background-color: var(--navigation-highlight-background);
+  color: var(--navigation-highlight-foreground);
 }
 .site-navigation-link[aria-current] {
   font-weight: 450;
 }
 
-/* Invert metadata along with the label so it remains legible on the selected surface. */
-.site-navigation-group-trigger[data-current] small {
-  color: color-mix(in oklab, var(--background) 85%, transparent);
+/* Selected metadata and icons use page ink over the softened selection surface. */
+.site-navigation-group-trigger[data-current] small,
+.sidebar-entry-row[aria-current] .sidebar-entry-caption {
+  color: var(--navigation-highlight-muted);
 }
 .site-navigation-group-trigger[data-current] .site-navigation-chevron {
   color: inherit;
 }
 .site-navigation-link[aria-current] .site-navigation-status {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--navigation-highlight-foreground);
+  color: var(--background);
 }
 .site-navigation-link[aria-current] .site-navigation-variant-count,
+.sidebar-entry-row[aria-current] .sidebar-entry-action,
 .site-navigation-group-trigger[data-current]
   :is(.site-navigation-group-icon, .site-navigation-count) {
-  background: color-mix(in oklab, var(--background) 12%, transparent);
+  background: color-mix(in oklab, var(--navigation-highlight-foreground) 5%, transparent);
   color: inherit;
 }
 .site-navigation-link[aria-current] .site-navigation-status-separator {
@@ -357,7 +379,7 @@
 }
 
 .site-navigation-link-overview[aria-current] {
-  font-weight: 500;
+  font-weight: 550;
 }
 
 .site-navigation-panel :is(a, button):focus-visible,
@@ -370,11 +392,12 @@
   .site-navigation-group-trigger:not([data-current]):hover,
   .site-navigation-link:not([aria-current]):hover {
     color: var(--foreground);
-    background: var(--navigation-link-hover-background);
+    background-color: var(--navigation-link-hover-background);
+    background-image: var(--navigation-highlight-overlays);
   }
 
   .site-navigation-group-trigger:not([data-current]):hover {
-    background: var(--navigation-entry-hover-background);
+    background-color: var(--navigation-entry-hover-background);
   }
 }
 

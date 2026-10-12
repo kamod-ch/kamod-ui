@@ -1,13 +1,14 @@
 import { DownloadIcon } from "@kamod-ch/icons/lucide";
 import { Button } from "@kamod-ch/ui";
-import { lazy, Suspense } from "preact/compat";
 import { useMemo, useState } from "preact/hooks";
 import type { PackageTeaserConfig } from "../../pages/kamod-package-doc-factory";
 import { CodeBlock } from "../CodeBlock";
 import { type DocumentDisplay, DocumentDisplayOptions } from "../DocumentDisplayOptions";
+import { lazyShowcase } from "../lazy-showcase";
+import { ShowcaseLoading } from "../ShowcaseLoading";
 import { packageGuideReference } from "./package-guide-reference";
 
-const Markdown = lazy(() => import("../../../blocks/PromptMarkdown"));
+const Markdown = lazyShowcase(() => import("../../../blocks/PromptMarkdown"));
 
 /** Copy and download always carry the complete Markdown, regardless of display format. */
 export function PackageReference({ config }: { config: PackageTeaserConfig }) {
@@ -17,6 +18,7 @@ export function PackageReference({ config }: { config: PackageTeaserConfig }) {
     () => `data:text/markdown;charset=utf-8,${encodeURIComponent(document)}`,
     [document],
   );
+  const loading = <ShowcaseLoading view="markdown" detail={`${config.title} reference`} />;
   return (
     <div class="package-guide-reference">
       <div class="block-guide-prose">
@@ -53,13 +55,18 @@ export function PackageReference({ config }: { config: PackageTeaserConfig }) {
       <CodeBlock
         code={document}
         language={display === "code" ? "markdown" : "text"}
+        inferLanguage={display !== "text"}
         filePath={`${config.slug}-reference.md`}
         className="package-guide-reference-code"
+        loadingContent={display === "code" ? loading : undefined}
         renderedContent={
           display === "markdown" ? (
-            <Suspense fallback={<p role="status">Formatting reference…</p>}>
-              <Markdown prompt={document} label="Rendered Package Reference" />
-            </Suspense>
+            <Markdown
+              prompt={document}
+              label="Rendered Package Reference"
+              pendingContent={loading}
+              fallback={loading}
+            />
           ) : undefined
         }
       />

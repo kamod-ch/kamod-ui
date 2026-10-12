@@ -21,6 +21,7 @@ type BlockModules = {
   KitchenSinkPage: typeof import("../../src/kitchen-sink/KitchenSinkPage");
   HomePage: typeof import("../../src/home/HomePage");
   GettingStartedContent: typeof import("../../src/docs/GettingStartedContent");
+  EcosystemContent: typeof import("../../src/docs/EcosystemContent");
   BlocksGuidesContent: typeof import("../../src/blocks/BlocksGuidesContent");
   BlocksSidebarContent: typeof import("../../src/blocks/BlocksSidebarContent");
   BlocksAuthContent: typeof import("../../src/blocks/BlocksAuthContent");
@@ -43,6 +44,7 @@ export function blockPage<
   type Props = PropsOf<BlockModules[Module][Name]>;
   const paths: Partial<Record<keyof BlockModules, string>> = {
     GettingStartedContent: "/src/docs/GettingStartedContent.tsx",
+    EcosystemContent: "/src/docs/EcosystemContent.tsx",
     BlockCategoryPage: "/src/blocks/BlockCategoryPage.tsx",
     BlockOverviewPage: "/src/blocks/BlockOverviewPage.tsx",
     ComponentPreviewPage: "/src/docs/components/component-detail/ComponentPreviewPage.tsx",

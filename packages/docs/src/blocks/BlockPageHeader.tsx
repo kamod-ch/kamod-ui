@@ -13,7 +13,7 @@ export type BlockPageHeaderProps = {
   description: ComponentChildren;
   eyebrow: string;
   actions: ComponentChildren;
-  /** Optional introduction opposite the variant navigation above its showcase. */
+  /** Optional introduction opposite collection actions or variant navigation. */
   summaryLabel?: ComponentChildren;
   /** Optional inline navigation; its description expands to keep the link reachable. */
   descriptionLink?: ComponentChildren;

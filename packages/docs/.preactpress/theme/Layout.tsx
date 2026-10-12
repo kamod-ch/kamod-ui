@@ -28,6 +28,7 @@ const KitchenSinkPage = blockPage("KitchenSinkPage", "KitchenSinkPage");
 const HomePage = blockPage("HomePage", "HomePage");
 
 const GettingStartedContent = blockPage("GettingStartedContent", "GettingStartedContent");
+const EcosystemContent = blockPage("EcosystemContent", "EcosystemContent");
 
 const BlocksGuidesContent = blockPage("BlocksGuidesContent", "BlocksGuidesContent");
 
@@ -93,6 +94,7 @@ type DemoPageKind =
   | "blocks-overview"
   | "blocks-guide"
   | "getting-started-guide"
+  | "ecosystem-guide"
   | "docs-overview"
   | "docs-forms-overview"
   | "docs-packages-overview"
@@ -176,6 +178,7 @@ const PageContent: FunctionalComponent<LayoutProps> = ({ page }) => {
   }
 
   if (meta.pageKind === "getting-started-guide") return <GettingStartedContent />;
+  if (meta.pageKind === "ecosystem-guide") return <EcosystemContent />;
 
   if (meta.pageKind === "blocks-guide") {
     return <BlocksGuidesContent slug={meta.slug} />;

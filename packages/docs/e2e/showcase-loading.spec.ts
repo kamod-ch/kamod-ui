@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, type Locator, test } from "@playwright/test";
 import { choosePreviewTheme } from "./browser-utils";
 
 function deferred() {
@@ -9,16 +9,92 @@ function deferred() {
   return { promise, release };
 }
 
+/** Sample painted frames through fast tab changes, rather than only their settled state. */
+async function samplePanelHeights(showcase: Locator) {
+  return showcase.evaluate(async (element) => {
+    const samples: { view: string; height: number }[] = [];
+    for (const view of ["Code", "Preview", "Prompt", "Code", "Prompt", "Preview"]) {
+      const tab = Array.from(element.querySelectorAll<HTMLButtonElement>('[role="tab"]')).find(
+        (tab) => (tab.getAttribute("aria-label") ?? tab.textContent?.trim()) === view,
+      );
+      if (!tab) throw new Error(`Missing ${view} showcase tab`);
+      tab.click();
+      for (let frame = 0; frame < 4; frame++) {
+        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+        const panel = element.querySelector(
+          '.blocks-showcase-tabs > [data-slot="tabs-content"][data-state="active"]',
+        );
+        samples.push({ view, height: panel?.getBoundingClientRect().height ?? 0 });
+      }
+    }
+    return samples;
+  });
+}
+
+for (const width of [320, 1440]) {
+  for (const { name, route, selector } of [
+    { name: "component", route: "./docs/button/installation", selector: ".component-example" },
+    { name: "workspace", route: "./", selector: ".home-workspace" },
+    {
+      name: "block",
+      route: "./blocks/application-shell/application-shell-1",
+      selector: ".blocks-showcase",
+    },
+  ]) {
+    test(`${name} panels keep content height while loading and switching at ${width}px`, async ({
+      page,
+    }) => {
+      await page.setViewportSize({ width, height: 900 });
+      const module = deferred();
+      await page.route(
+        /\/(?:ComponentExample(?:Code|Prompt)|Workspace(?:Source|Prompt)|application-shell-source)-[^/]+\.js$/,
+        async (request) => {
+          await module.promise;
+          await request.continue();
+        },
+      );
+      try {
+        await page.goto(route, { waitUntil: "domcontentloaded" });
+        const showcase = page.locator(selector).first();
+        await showcase.getByRole("tab", { name: "Preview", exact: true }).waitFor();
+        await showcase.scrollIntoViewIfNeeded();
+        const panel = showcase.locator(
+          '.blocks-showcase-tabs > [data-slot="tabs-content"][data-state="active"]',
+        );
+        await showcase.getByRole("tab", { name: "Code", exact: true }).click();
+        await expect(panel.locator(".showcase-loading")).toBeVisible();
+        const pending = await samplePanelHeights(showcase);
+        expect(pending.filter(({ height }) => height <= 1)).toEqual([]);
+        await showcase.getByRole("tab", { name: "Code", exact: true }).click();
+        await expect(panel.locator(".showcase-loading")).toBeVisible();
+        module.release();
+        await expect(panel.locator(".showcase-loading")).toHaveCount(0);
+        await expect(panel.locator("pre")).toBeVisible();
+        await showcase.getByRole("tab", { name: "Prompt", exact: true }).click();
+        await expect(panel.locator(".showcase-loading")).toHaveCount(0);
+        await expect(panel.locator("pre")).toBeVisible();
+        const ready = await samplePanelHeights(showcase);
+        expect(ready.filter(({ height }) => height <= 1)).toEqual([]);
+      } finally {
+        module.release();
+      }
+    });
+  }
+}
+
 test("component views show real loading feedback until their frame or module is ready", async ({
   page,
 }) => {
   const preview = deferred();
   const code = deferred();
   const prompt = deferred();
-  await page.route(/component-preview-frame\.htm\?component=button&example=0$/, async (route) => {
-    await preview.promise;
-    await route.continue();
-  });
+  await page.route(
+    /component-preview-frame\.htm\?component=button&example=0(?:&|$)/,
+    async (route) => {
+      await preview.promise;
+      await route.continue();
+    },
+  );
   await page.route(/\/ComponentExample(Code|Prompt)-[^/]+\.js$/, async (route) => {
     await (route.request().url().includes("ComponentExampleCode-") ? code : prompt).promise;
     await route.continue();
@@ -158,10 +234,13 @@ test("loaders use every local palette in both schemes independently of the page"
   page,
 }) => {
   const preview = deferred();
-  await page.route(/component-preview-frame\.htm\?component=button&example=0$/, async (route) => {
-    await preview.promise;
-    await route.continue();
-  });
+  await page.route(
+    /component-preview-frame\.htm\?component=button&example=0(?:&|$)/,
+    async (route) => {
+      await preview.promise;
+      await route.continue();
+    },
+  );
   try {
     await page.goto("./docs/button/installation", { waitUntil: "domcontentloaded" });
     const example = page.locator(".component-example").first();
@@ -241,3 +320,109 @@ test("loaders use every local palette in both schemes independently of the page"
     preview.release();
   }
 });
+
+test("code formatting shows themed feedback and folding ready imports never restarts it", async ({
+  page,
+}) => {
+  const grammar = deferred();
+  await page.route(/\/highlight-code-[^/]+\.js$/, async (route) => {
+    await grammar.promise;
+    await route.continue();
+  });
+  try {
+    await page.goto("./docs/button/installation", { waitUntil: "domcontentloaded" });
+    const example = page.locator(".component-example").first();
+    await example.scrollIntoViewIfNeeded();
+    await choosePreviewTheme(example.getByRole("button", { name: "Preview color theme" }), "ocean");
+    const dark = example.getByRole("button", { name: "Dark preview", exact: true });
+    if ((await dark.getAttribute("aria-pressed")) !== "true") await dark.click();
+    await example.getByRole("tab", { name: "Code", exact: true }).click();
+    const content = example.locator(".kamod-code-content[data-loading]");
+    const loading = content.locator('.showcase-loading[data-view="code"]');
+    await expect(loading).toBeVisible();
+    await expect(loading).toHaveAttribute("data-theme", "ocean");
+    await expect(loading).toHaveCSS("color-scheme", "dark");
+    await expect(loading.locator(".showcase-loading-sketch")).not.toHaveCSS(
+      "animation-name",
+      "none",
+    );
+    await expect(content.locator("pre")).toHaveCSS("visibility", "hidden");
+    expect((await content.boundingBox())!.height).toBeGreaterThan(0);
+    grammar.release();
+    await expect(example.locator(".kamod-code-loading")).toHaveCount(0);
+    await expect(example.locator("pre")).toBeVisible();
+    await expect(example.locator("pre .token").first()).toBeVisible();
+    for (const label of ["Hide imports", "Show imports", "Hide imports"]) {
+      await example.getByRole("button", { name: label, exact: true }).click();
+      await expect(example.locator(".showcase-loading")).toHaveCount(0);
+      await expect(example.locator("pre")).toBeVisible();
+    }
+  } finally {
+    grammar.release();
+  }
+});
+
+for (const { route, selector, displayLabel, region } of [
+  {
+    route: "./docs/button/installation",
+    selector: ".component-example",
+    displayLabel: "Prompt Display",
+    region: "Rendered prompt",
+  },
+  {
+    route: "./blocks/application-shell/application-shell-1",
+    selector: ".blocks-showcase",
+    displayLabel: "Prompt Display",
+    region: "Rendered prompt",
+  },
+  {
+    route: "./docs/hooks-package/installation",
+    selector: ".package-guide-reference",
+    displayLabel: "Reference Display",
+    region: "Rendered Package Reference",
+  },
+]) {
+  test(`${route}: Markdown keeps the animated reading loader until the renderer is ready`, async ({
+    page,
+  }) => {
+    const markdown = deferred();
+    await page.route(/\/PromptMarkdown-[^/]+\.js$/, async (route) => {
+      await markdown.promise;
+      await route.continue();
+    });
+    try {
+      await page.goto(route, { waitUntil: "domcontentloaded" });
+      const section = page.locator(selector).first();
+      await section.scrollIntoViewIfNeeded();
+      if (displayLabel === "Prompt Display")
+        await section.getByRole("tab", { name: "Prompt", exact: true }).click();
+      await section
+        .getByRole("group", { name: displayLabel, exact: true })
+        .getByRole("button", { name: "Markdown", exact: true })
+        .click();
+      const loading = section.locator('.showcase-loading[data-view="markdown"]');
+      await expect(loading).toBeVisible();
+      await expect(loading.getByRole("status")).toContainText("Formatting the reading view");
+      await expect(loading.locator(".showcase-loading-sketch")).not.toHaveCSS(
+        "animation-name",
+        "none",
+      );
+      await expect(loading.locator(".showcase-loading-seal > svg")).toHaveCSS(
+        "animation-name",
+        "none",
+      );
+      await page.emulateMedia({ reducedMotion: "reduce" });
+      await expect
+        .poll(() => loading.evaluate((node) => node.getAnimations({ subtree: true }).length))
+        .toBe(0);
+      markdown.release();
+      await expect(loading).toHaveCount(0);
+      await expect(section.getByRole("region", { name: region, exact: true })).toBeVisible();
+      expect(
+        await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1),
+      ).toBe(true);
+    } finally {
+      markdown.release();
+    }
+  });
+}

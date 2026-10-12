@@ -88,7 +88,11 @@ export function connectTooltips(doc: Document, onChange: (hint: TooltipHint | nu
       }
     };
     if (immediate) open();
-    else opening = setTimeout(open, 450);
+    else {
+      // Navigation help should require a deliberate pause while browsing the directory.
+      const delay = next.matches("[data-navigation-group], [data-navigation-help]") ? 1500 : 450;
+      opening = setTimeout(open, delay);
+    }
   };
   const leave = () => {
     if (!target) return;

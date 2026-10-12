@@ -20,6 +20,7 @@ import { ShowcaseCodePane } from "../docs/components/ShowcaseCodePane";
 import { FormOverviewPreview } from "../docs/overview/OverviewPreviews";
 import { DemoShell, demoTopNavItems } from "../layout/DemoShell";
 import { DocsTopbarActions } from "../layout/DocsTopbarActions";
+import { utilityName } from "../link-title";
 import { ThemePresetPicker } from "../theme/ThemePresetPicker";
 import { HomeComponentDirectory } from "./HomeComponentDirectory";
 import { HomeBlockExamples, WorkspaceExample } from "./HomeExamples";
@@ -493,7 +494,7 @@ export function HomePage() {
                   <span class="home-guide-tag">{entry.tag}</span>
                   <h3>
                     <a href={withBasePath(entry.href)}>
-                      {entry.title}
+                      {utilityName(entry.title)}
                       <ArrowUpRightIcon size={16} aria-hidden="true" />
                     </a>
                   </h3>

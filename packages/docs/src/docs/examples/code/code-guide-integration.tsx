@@ -158,10 +158,13 @@ export function CodeTroubleshootingGuide() {
         <p>
           Import folding requires recognizable leading static imports and visible content after
           them. A snippet containing only imports, a Bash command or a document view will not get an
-          import control. Check <code>showImportControl</code> too. The wrapping switch requires an
-          actual filename or path, or a recognized coding language. Bash, terminal, Git and other
-          commands always omit it, as do unfiled prose and Markdown prompts. It is also omitted for{" "}
-          <code>renderedContent</code> or when <code>{"showWrapControl={false}"}</code>.
+          import control. Check <code>showImportControl</code> too. The wrapping switch requires a
+          source line that would overflow without wrapping, and an actual filename or path, or a
+          recognized coding language. Lines that already fit do not need the switch; folded imports
+          still count so you can expand them again. Both eligible controls share the same
+          visibility. Bash, terminal, Git and other commands always omit wrapping, as do unfiled
+          prose and Markdown prompts. It is also omitted for <code>renderedContent</code> or when{" "}
+          <code>{"showWrapControl={false}"}</code>.
         </p>
         <p>
           On very narrow panels, control labels simplify to preserve room for the icons and switch.

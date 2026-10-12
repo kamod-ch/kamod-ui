@@ -1,5 +1,5 @@
 import type { ComponentChildren } from "preact";
-import { linkTitle } from "../../link-title";
+import { linkTitleChildren } from "../../link-title";
 import type { DocContentsSection } from "../types";
 
 /** Reading order, including descendants, for active headings and history restoration. */
@@ -32,7 +32,7 @@ export function PageContentsList({
             aria-current={activeId === entry.id ? "location" : undefined}
           >
             {entry.step ? `${entry.step}. ` : ""}
-            {linkTitle(entry.label)}
+            {linkTitleChildren(entry.label)}
           </a>
           {!!entry.children?.length && (
             <PageContentsList

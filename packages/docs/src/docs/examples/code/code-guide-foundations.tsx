@@ -89,8 +89,9 @@ export function CodeUsageGuide() {
         <p>
           A normal code panel has a file or purpose label, a copy action, and the relevant reading
           controls. The import control appears only when there are supported leading declarations
-          and remaining content worth showing. Actual files and recognized coding languages can show
-          the wrap switch; commands and unfiled prose or Markdown prompts omit it. Without a
+          and remaining content worth showing. Actual files and recognized coding languages show the
+          wrap switch when a source line would otherwise overflow; eligible import and wrap controls
+          appear together. Commands and unfiled prose or Markdown prompts omit it. Without a
           separate import row, an eligible wrap switch sits with the header actions. In a{" "}
           <a href="#document">Rendered Document</a>, code-only controls disappear.
         </p>

@@ -6,6 +6,7 @@ import { blockGuides } from "../src/blocks/guides/guide-catalog";
 
 const docsId = "virtual:kamod-doc-pages";
 const gettingStartedId = "virtual:kamod-getting-started";
+const ecosystemId = "virtual:kamod-ecosystem";
 const moduleId = "virtual:kamod-block-pages";
 const guidesId = "virtual:kamod-block-guides";
 const themingId = "virtual:kamod-theming-guide";
@@ -23,6 +24,7 @@ export function blockPagesPlugin(): Plugin {
     resolveId(id) {
       if (id === docsId) return `\0${docsId}`;
       if (id === gettingStartedId) return `\0${gettingStartedId}`;
+      if (id === ecosystemId) return `\0${ecosystemId}`;
       if (id === moduleId) return resolvedId;
       if (id === guidesId) return resolvedGuidesId;
       if (id === themingId) return resolvedThemingId;
@@ -46,8 +48,9 @@ export function blockPagesPlugin(): Plugin {
         return `export const docs = {}; export const loaders = {${entries.join(",")}};`;
       }
 
-      if (id === `\0${gettingStartedId}`) {
-        const path = resolve(import.meta.dirname, "../docs/getting-started.md");
+      if (id === `\0${gettingStartedId}` || id === `\0${ecosystemId}`) {
+        const slug = id === `\0${gettingStartedId}` ? "getting-started" : "ecosystem";
+        const path = resolve(import.meta.dirname, `../docs/${slug}.md`);
         this.addWatchFile(path);
         return `export default ${JSON.stringify(readFileSync(path, "utf8"))};`;
       }
@@ -69,7 +72,7 @@ export function blockPagesPlugin(): Plugin {
       }
       if (id !== resolvedId) return;
       const glob =
-        '["/src/blocks/Blocks*Content.tsx", "/src/docs/GettingStartedContent.tsx", "/src/blocks/BlockCategoryPage.tsx", "/src/blocks/BlockOverviewPage.tsx", "/src/docs/components/component-detail/ComponentPreviewPage.tsx", "/src/docs/DocsComponentContent.tsx", "/src/docs/DocsFormsOverviewContent.tsx", "/src/docs/DocsOverviewContent.tsx", "/src/docs/DocsPackagesOverviewContent.tsx", "/src/kitchen-sink/KitchenSinkPage.tsx", "/src/home/HomePage.tsx"]';
+        '["/src/blocks/Blocks*Content.tsx", "/src/docs/GettingStartedContent.tsx", "/src/docs/EcosystemContent.tsx", "/src/blocks/BlockCategoryPage.tsx", "/src/blocks/BlockOverviewPage.tsx", "/src/docs/components/component-detail/ComponentPreviewPage.tsx", "/src/docs/DocsComponentContent.tsx", "/src/docs/DocsFormsOverviewContent.tsx", "/src/docs/DocsOverviewContent.tsx", "/src/docs/DocsPackagesOverviewContent.tsx", "/src/kitchen-sink/KitchenSinkPage.tsx", "/src/home/HomePage.tsx"]';
       return options?.ssr
         ? `export const pages = import.meta.glob(${glob}, { eager: true }); export const loaders = {};`
         : `export const pages = {}; export const loaders = import.meta.glob(${glob});`;

@@ -70,7 +70,6 @@ export const themingDocPage: DocPageModule = {
           parent={{ label: "Components", href: "/docs/components" }}
           label="Theming"
           eyebrow="Shared design foundation"
-          focus="Configure · Customize · Check"
           title={title}
           description={
             <>

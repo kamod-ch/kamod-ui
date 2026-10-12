@@ -8,7 +8,6 @@ import {
   ToggleGroup,
   ToggleGroupItem,
 } from "@kamod-ch/ui";
-import { lazy, Suspense } from "preact/compat";
 import { useState } from "preact/hooks";
 import { PreviewAppearanceControls } from "../../../blocks/PreviewAppearanceControls";
 import { PreviewRefreshControl } from "../../../blocks/PreviewRefreshControl";
@@ -16,22 +15,19 @@ import { ShowcaseHeading } from "../../../blocks/ShowcaseHeading";
 import { usePreviewRefresh } from "../../../blocks/usePreviewRefresh";
 import type { DocPageModule } from "../../types";
 import { BrandText } from "../brand/BrandText";
+import { lazyShowcase } from "../lazy-showcase";
 import { ShowcaseLoading } from "../ShowcaseLoading";
 import { ComponentExampleLinks } from "./ComponentExampleLinks";
 import { ComponentPreviewFrame } from "./ComponentPreviewFrame";
 import { componentSourceUrl } from "./component-guidance";
 import { useComponentPreview } from "./useComponentPreview";
 
-const ComponentExampleCode = lazy(() =>
-  import("./ComponentExampleCode").then(({ ComponentExampleCode }) => ({
-    default: ComponentExampleCode,
-  })),
-);
-const ComponentExamplePrompt = lazy(() =>
-  import("./ComponentExamplePrompt").then(({ ComponentExamplePrompt }) => ({
-    default: ComponentExamplePrompt,
-  })),
-);
+const ComponentExampleCode = lazyShowcase(async () => ({
+  default: (await import("./ComponentExampleCode")).ComponentExampleCode,
+}));
+const ComponentExamplePrompt = lazyShowcase(async () => ({
+  default: (await import("./ComponentExamplePrompt")).ComponentExamplePrompt,
+}));
 
 /** Shared controls and isolated previews for every component and Formisch example. */
 export function ComponentExample({
@@ -48,6 +44,7 @@ export function ComponentExample({
   const { stage, canConstrain, appearance, setAppearance } = useComponentPreview();
   const showcaseId = `${doc.slug}-example-${index + 1}-showcase`;
   const [narrow, setNarrow] = useState(false);
+  const isNarrow = narrow && canConstrain;
   const { previewKey: revision, phase, refresh, complete, cancel } = usePreviewRefresh();
   return (
     <>
@@ -63,16 +60,26 @@ export function ComponentExample({
         <div ref={stage} class="component-example-size-probe" aria-hidden="true" />
         <Tabs defaultValue="preview" class="blocks-showcase-tabs">
           <div class="blocks-showcase-toolbar">
-            <TabsList variant="line" class="blocks-showcase-segmented" aria-label="Example view">
-              <TabsTrigger value="preview" aria-label="Preview" title="Preview">
+            <TabsList class="blocks-showcase-segmented" aria-label="Example view">
+              <TabsTrigger
+                class="docs-icon-button"
+                value="preview"
+                aria-label="Preview"
+                title="Preview"
+              >
                 <EyeIcon aria-hidden="true" />
                 <span class="blocks-showcase-control-label">Preview</span>
               </TabsTrigger>
-              <TabsTrigger value="code" aria-label="Code" title="Code">
+              <TabsTrigger class="docs-icon-button" value="code" aria-label="Code" title="Code">
                 <CodeIcon aria-hidden="true" />
                 <span class="blocks-showcase-control-label">Code</span>
               </TabsTrigger>
-              <TabsTrigger value="prompt" aria-label="Prompt" title="Prompt">
+              <TabsTrigger
+                class="docs-icon-button"
+                value="prompt"
+                aria-label="Prompt"
+                title="Prompt"
+              >
                 <SparklesIcon aria-hidden="true" />
                 <span class="blocks-showcase-control-label">Prompt</span>
               </TabsTrigger>
@@ -85,7 +92,7 @@ export function ComponentExample({
               >
                 <ToggleGroup
                   type="single"
-                  value={narrow && canConstrain ? "narrow" : "full"}
+                  value={isNarrow ? "narrow" : "full"}
                   onValueChange={(value) => {
                     if (value) setNarrow(value === "narrow");
                   }}
@@ -122,10 +129,7 @@ export function ComponentExample({
           </div>
           <TabsContent value="preview">
             <div class="component-example-stage" aria-busy={phase === "loading"}>
-              <div
-                class="component-example-frame-wrap"
-                data-narrow={(narrow && canConstrain) || undefined}
-              >
+              <div class="component-example-frame-wrap" data-narrow={isNarrow || undefined}>
                 <ComponentPreviewFrame
                   key={revision}
                   slug={doc.slug}
@@ -147,30 +151,33 @@ export function ComponentExample({
                   </span>
                 </BrandText>
               </span>
+              <strong class="component-example-caption-mode">
+                {isNarrow ? "Narrow view" : "Full width"}
+              </strong>
             </div>
           </TabsContent>
           <TabsContent value="code" class="blocks-showcase-source component-example-source">
-            <Suspense
+            <ComponentExampleCode
+              appearance={appearance}
+              code={codeSnippet}
+              filePath={filePath}
               fallback={<ShowcaseLoading appearance={appearance} view="code" detail={filePath} />}
-            >
-              <ComponentExampleCode code={codeSnippet} filePath={filePath} />
-            </Suspense>
+            />
           </TabsContent>
           <TabsContent value="prompt" class="blocks-showcase-prompt">
-            <Suspense fallback={<ShowcaseLoading appearance={appearance} view="prompt" />}>
-              <ComponentExamplePrompt
-                appearance={appearance}
-                context={{
-                  title: doc.title,
-                  description: doc.usageLabel,
-                  command: doc.command,
-                  documentationUrl: `https://ui.kamod.ch/docs/${doc.slug}/installation`,
-                  sourceUrl: componentSourceUrl(doc.slug),
-                  filePath,
-                  codeSnippet,
-                }}
-              />
-            </Suspense>
+            <ComponentExamplePrompt
+              appearance={appearance}
+              context={{
+                title: doc.title,
+                description: doc.usageLabel,
+                command: doc.command,
+                documentationUrl: `https://ui.kamod.ch/docs/${doc.slug}/installation`,
+                sourceUrl: componentSourceUrl(doc.slug),
+                filePath,
+                codeSnippet,
+              }}
+              fallback={<ShowcaseLoading appearance={appearance} view="prompt" />}
+            />
           </TabsContent>
         </Tabs>
       </div>

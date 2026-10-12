@@ -2,6 +2,38 @@ import { readFileSync } from "node:fs";
 import { expect, test } from "@playwright/test";
 import { enableTestClipboard } from "./browser-utils";
 
+test("import toggles retain complete colored source in the first frame", async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 900 });
+  await page.goto("./docs/getting-started");
+  const snippet = page.locator(".kamod-code").filter({ hasText: "CompactPreference.tsx" }).first();
+  await snippet.scrollIntoViewIfNeeded();
+  await expect(snippet.locator("pre code .token.keyword").first()).toBeVisible();
+  const samples = await snippet.evaluate(async (root) => {
+    const code = root.querySelector<HTMLElement>("pre code")!;
+    const toggle = root.querySelector<HTMLButtonElement>(".docs-import-toggle")!;
+    const full = code.textContent!;
+    const body = full.slice(full.indexOf("function readCompact"));
+    const frames: { folded: boolean; text: string; tokens: number }[] = [];
+    for (let index = 0; index < 8; index += 1) {
+      toggle.click();
+      await Promise.resolve();
+      await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+      frames.push({
+        folded: toggle.getAttribute("aria-expanded") === "false",
+        text: code.textContent!,
+        tokens: code.querySelectorAll(".token").length,
+      });
+    }
+    return { full, body, frames };
+  });
+  expect(samples.body).toContain("function readCompact");
+  for (const [index, frame] of samples.frames.entries()) {
+    expect(frame.folded).toBe(index % 2 === 0);
+    expect(frame.tokens).toBeGreaterThan(0);
+    expect(frame.text).toBe(frame.folded ? samples.body : samples.full);
+  }
+});
+
 for (const variant of ["block", "component", "guide"] as const) {
   test(`${variant}: imports fold without changing copied source`, async ({
     page,
@@ -9,6 +41,7 @@ for (const variant of ["block", "component", "guide"] as const) {
     browserName,
   }) => {
     await enableTestClipboard(context, browserName);
+    await page.setViewportSize({ width: 320, height: 1000 });
     const path =
       variant === "block"
         ? "blocks/application-shell/application-shell-1"
@@ -25,11 +58,17 @@ for (const variant of ["block", "component", "guide"] as const) {
       region = showcase;
       await showcase.getByRole("tab", { name: "Code", exact: true }).click();
     }
-    const snippet = region
+    const candidate = region
       .locator(".docs-code-wrap")
       .filter({ has: page.getByRole("button", { name: "Hide imports", exact: true }) })
       .filter({ visible: true })
       .first();
+    await candidate.locator("pre").scrollIntoViewIfNeeded();
+    await expect(candidate.locator("pre code")).toBeVisible();
+    const codeId = await candidate.locator("pre").getAttribute("id");
+    const snippet = region
+      .locator(".docs-code-wrap")
+      .filter({ has: page.locator(`pre[id="${codeId}"]`) });
     const code = snippet.locator("pre code");
     await expect(code).toBeVisible();
     const original = await code.textContent();
@@ -37,11 +76,33 @@ for (const variant of ["block", "component", "guide"] as const) {
     for (const width of [320, 768, 1440]) {
       await page.setViewportSize({ width, height: 1000 });
       await snippet.scrollIntoViewIfNeeded();
+      const needsControls = await code.evaluate((element) => {
+        const pre = element.parentElement!;
+        const style = getComputedStyle(pre);
+        const available =
+          pre.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+        element.setAttribute("data-code-measure", "");
+        const intrinsic = element.scrollWidth;
+        element.removeAttribute("data-code-measure");
+        return intrinsic > available + 1;
+      });
+      await expect(snippet.getByRole("button", { name: "Hide imports", exact: true })).toHaveCount(
+        needsControls ? 1 : 0,
+      );
       for (const dark of [false, true]) {
         await page.evaluate(
           (dark) => document.documentElement.classList.toggle("dark", dark),
           dark,
         );
+        if (!needsControls) {
+          await expect(snippet.getByRole("switch", { name: "Wrap code lines" })).toHaveCount(0);
+          await expect(code).toHaveText(original!);
+          await snippet.getByRole("button", { name: "Copy code", exact: true }).click();
+          await expect
+            .poll(() => page.evaluate(() => navigator.clipboard.readText()))
+            .toBe(original);
+          continue;
+        }
         const importColor = await snippet
           .locator(".docs-import-keyword")
           .evaluate((element) => getComputedStyle(element).color);

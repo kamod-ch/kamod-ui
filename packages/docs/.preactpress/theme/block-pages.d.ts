@@ -23,6 +23,11 @@ declare module "virtual:kamod-getting-started" {
   export default source;
 }
 
+declare module "virtual:kamod-ecosystem" {
+  const source: string;
+  export default source;
+}
+
 declare module "virtual:kamod-doc-pages" {
   type Doc = import("../../src/docs/types").DocPageModule;
   export const docs: Record<string, Doc>;

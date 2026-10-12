@@ -3,6 +3,7 @@
 :root {
   --showcase-canvas-base: var(--background);
   --showcase-canvas-accent: var(--primary);
+  --showcase-canvas-overlay: color-mix(in oklab, var(--showcase-canvas-base) 35%, transparent);
   --showcase-canvas-wash: color-mix(in oklab, var(--showcase-canvas-accent) 4.5%, transparent);
   --showcase-canvas-dot: color-mix(in oklab, var(--showcase-canvas-accent) 21%, transparent);
   --showcase-canvas-line: color-mix(in oklab, var(--showcase-canvas-accent) 9%, transparent);
@@ -18,7 +19,7 @@
   --showcase-canvas-line: color-mix(in oklab, var(--showcase-canvas-accent) 17.25%, transparent);
 }
 
-/* Static CSS tiles: no images, animation, blending layers or per-preview observers. */
+/* A page-colored top layer softens only the backdrop; preview content stays untouched. */
 .showcase-preview-background,
 .component-example-stage,
 .blocks-preview-panel,
@@ -30,6 +31,7 @@
 .kitchen-sink-showcase {
   background-color: var(--showcase-canvas-base);
   background-image:
+    linear-gradient(var(--showcase-canvas-overlay), var(--showcase-canvas-overlay)),
     radial-gradient(
       circle,
       var(--showcase-canvas-dot) var(--showcase-canvas-dot-radius),
@@ -43,6 +45,7 @@
     ),
     linear-gradient(var(--showcase-canvas-wash), var(--showcase-canvas-wash));
   background-size:
+    auto,
     var(--showcase-canvas-dot-grid) var(--showcase-canvas-dot-grid),
     var(--showcase-canvas-line-grid) var(--showcase-canvas-line-grid),
     var(--showcase-canvas-line-grid) var(--showcase-canvas-line-grid),

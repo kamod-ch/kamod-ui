@@ -7,7 +7,7 @@ import {
 } from "@kamod-ch/ui";
 import { Fragment } from "preact";
 import { withBasePath } from "../../base-path";
-import { linkTitle } from "../../link-title";
+import { linkTitle, linkTitleChildren } from "../../link-title";
 import { KamodMarkIcon } from "./brand/KamodMarkIcon";
 
 /** Shared quiet, slash-separated trail above library and block page introductions. */
@@ -34,7 +34,7 @@ export function PageBreadcrumbs({
                 class={item.href === "/" ? "page-breadcrumb-home" : undefined}
               >
                 {item.href === "/" && <KamodMarkIcon size="0.92em" />}
-                {linkTitle(item.label)}
+                {linkTitleChildren(item.label)}
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator>/</BreadcrumbSeparator>
@@ -42,7 +42,7 @@ export function PageBreadcrumbs({
         ))}
         <BreadcrumbItem>
           <BreadcrumbLink href="#" aria-current="page" title={linkTitle(current)}>
-            {linkTitle(current)}
+            {linkTitleChildren(current)}
           </BreadcrumbLink>
         </BreadcrumbItem>
       </BreadcrumbList>

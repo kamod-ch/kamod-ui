@@ -18,6 +18,7 @@ export function BlockShowcaseIntro({
   const guideHref = setupHref ?? `#${setupId}-installation`;
   return (
     <ShowcaseIntro
+      view={view}
       title={isPrompt ? "Integration prompt" : "Block source"}
       note={isPrompt ? "Build with your assistant" : "Source & structure"}
       setupHref={guideHref}

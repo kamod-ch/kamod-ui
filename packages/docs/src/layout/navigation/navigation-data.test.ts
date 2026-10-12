@@ -44,13 +44,10 @@ describe("site navigation", () => {
     const components = navigationGroups.find((group) => group.id === "components")!;
     expect(components.guides).toEqual([
       { label: "Theming", href: "/docs/theming/installation", icon: "theming" },
-      { label: "Component Styles", href: "/blocks/styles", icon: "styles" },
       { label: "cn Utility", href: "/docs/cn/installation", icon: "utility" },
     ]);
     expect(components.links.some(({ href }) => href.includes("/docs/cn/"))).toBe(false);
-    expect(isNavigationCurrent("/docs/cn/usage", components.guides![2].href)).toBe(true);
-    const blocks = navigationGroups.find((group) => group.id === "blocks")!;
-    expect(blocks.guides).toContainEqual(components.guides![1]);
+    expect(isNavigationCurrent("/docs/cn/usage", components.guides![1].href)).toBe(true);
     expect(components.links.some(({ href }) => href.includes("/docs/theming/"))).toBe(false);
     expect(isNavigationCurrent("/docs/theming/css-setup", components.guides![0].href)).toBe(true);
     expect(components.links.some(({ href }) => href === "/docs/theme-toggle/installation")).toBe(

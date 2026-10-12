@@ -62,7 +62,6 @@ export function BlockOverviewPage() {
               parent={{ label: "Home", href: "/" }}
               label="Blocks"
               eyebrow="Block Collections"
-              focus="Explore · Preview · Build"
               title={title}
               description={
                 <>

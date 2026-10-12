@@ -1,13 +1,13 @@
 import { ZapIcon } from "@kamod-ch/icons/lucide";
 import type { ComponentChildren } from "preact";
-import { lazy, Suspense } from "preact/compat";
 import { CodeBlock } from "../docs/components/CodeBlock";
+import { lazyShowcase } from "../docs/components/lazy-showcase";
 import { ShowcaseLoading } from "../docs/components/ShowcaseLoading";
 import type { BlockPromptMode } from "./block-prompts";
 import type { PreviewAppearance } from "./preview-appearance";
 
 export type PromptDisplay = "text" | "code" | "markdown";
-const Markdown = lazy(() => import("./PromptMarkdown"));
+const Markdown = lazyShowcase(() => import("./PromptMarkdown"));
 
 /** Display changes never change the complete source-backed text sent to the clipboard. */
 export function PromptDocument({
@@ -27,14 +27,22 @@ export function PromptDocument({
   /** Compact embedded prompts can keep wrapping enabled without exposing a switch. */
   showWrapControl?: boolean;
 }) {
+  const loading = (
+    <ShowcaseLoading
+      appearance={appearance}
+      view={display === "markdown" ? "markdown" : "prompt"}
+    />
+  );
   return (
     <CodeBlock
+      class="blocks-prompt-document"
       key={`${mode}-${display}`}
       code={prompt}
       language={display === "code" ? "markdown" : "text"}
       inferLanguage={display !== "text"}
       defaultWrapped
       showWrapControl={showWrapControl}
+      loadingContent={display === "code" ? loading : undefined}
       toolbarContent={
         <div class="blocks-prompt-document-heading">
           <h4 class="showcase-metadata-label">
@@ -52,17 +60,7 @@ export function PromptDocument({
       className="blocks-showcase-prompt-code"
       renderedContent={
         display === "markdown" ? (
-          <Suspense
-            fallback={
-              <ShowcaseLoading
-                appearance={appearance}
-                view="prompt"
-                detail="Formatting the reading view"
-              />
-            }
-          >
-            <Markdown prompt={prompt} />
-          </Suspense>
+          <Markdown prompt={prompt} pendingContent={loading} fallback={loading} />
         ) : undefined
       }
     />

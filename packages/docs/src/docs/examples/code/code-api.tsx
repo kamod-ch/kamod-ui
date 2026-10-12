@@ -117,6 +117,7 @@ const sections: readonly ApiReferenceSection[] = [
         description: (
           <>
             Offer the compact wrapping switch for actual file paths or recognized coding languages.
+            It appears alongside eligible import folding only when complete source would overflow.
             Commands, unfiled prose and Markdown prompts omit it. Set false with{" "}
             <code>defaultWrapped</code> to present a fixed wrapped layout for eligible source.
           </>
@@ -140,7 +141,8 @@ const sections: readonly ApiReferenceSection[] = [
         description: (
           <>
             Allow eligible leading static imports to be folded. If disabled, the declarations remain
-            visible even when the collapsed default is set.
+            visible even when the collapsed default is set. The control appears alongside wrapping
+            only when complete source would overflow; hidden imports still count.
           </>
         ),
       },
@@ -256,14 +258,34 @@ const sections: readonly ApiReferenceSection[] = [
         ),
       },
       {
+        prop: "code",
+        type: "string",
+        defaultValue: "—",
+        description: (
+          <>
+            Complete source for automatic line counting. Counts include hidden imports and exclude
+            trailing blank space; wrapping does not change the total.
+          </>
+        ),
+      },
+      {
         prop: "lineCount",
         type: "number",
         defaultValue: "—",
         description: (
           <>
-            An optional line total supplied by your file viewer. Code does not calculate this header
-            metadata automatically.
+            An explicit line total for a custom file viewer, overriding the count from code. Code's
+            standard filename header calculates its total automatically. The count hides when the
+            snippet container is 640px wide or narrower.
           </>
+        ),
+      },
+      {
+        prop: "children",
+        type: "ComponentChildren",
+        defaultValue: "File path and icon",
+        description: (
+          <>Custom path content, retaining the shared separator and line-count styling.</>
         ),
       },
       {

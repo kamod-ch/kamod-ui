@@ -94,7 +94,7 @@
 }
 
 :is(.blocks-showcase-segmented, .blocks-preview-viewport-switcher) {
-  /* Match the original line tabs, including neighboring appearance and display controls. */
+  /* Shared rounded surfaces for view, viewport, appearance and document controls. */
   --docs-icon-button-background: transparent;
   --docs-icon-button-hover-background: color-mix(
     in oklab,
@@ -107,42 +107,16 @@
   align-items: center;
   height: auto;
   margin: 0;
-  gap: 0.25rem;
-  padding: 0;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
+  gap: 0.125rem;
+  padding: 0.125rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  background: color-mix(in oklab, var(--foreground) 5.5%, var(--background));
   box-shadow: none;
   color: var(--muted-foreground);
 }
 
-/* Toggle groups retain their pressed semantics while sharing the tabs' quiet underline. */
-:is(.blocks-showcase-segmented, .blocks-preview-viewport-switcher) > .docs-icon-button {
-  position: relative;
-  border-radius: 0;
-  box-shadow: none;
-}
-:is(.blocks-showcase-segmented, .blocks-preview-viewport-switcher)
-  > .docs-icon-button:is([aria-pressed="true"], [aria-expanded="true"], [data-state="on"]) {
-  background: transparent;
-  color: var(--foreground);
-  font-weight: 600;
-}
-:is(.blocks-showcase-segmented, .blocks-preview-viewport-switcher) > .docs-icon-button::after {
-  content: "";
-  position: absolute;
-  inset: auto 0 0;
-  height: 2px;
-  background: var(--foreground);
-  opacity: 0;
-  pointer-events: none;
-}
-:is(.blocks-showcase-segmented, .blocks-preview-viewport-switcher)
-  > .docs-icon-button:is([aria-pressed="true"], [aria-expanded="true"], [data-state="on"])::after {
-  opacity: 1;
-}
-
-.blocks-showcase-toolbar [data-slot="tabs-trigger"],
+.blocks-showcase-segmented > [data-slot="tabs-trigger"],
 :is(.blocks-showcase-toolbar, .blocks-prompt-options) [data-slot="toggle-group-item"],
 .blocks-showcase-control,
 .site-theme-picker-button.blocks-showcase-control {
@@ -151,7 +125,7 @@
   align-items: center;
   justify-content: center;
   gap: 0.375rem;
-  height: var(--showcase-control-size);
+  height: var(--showcase-control-size, 2rem);
   min-height: 0;
   padding: 0 0.625rem;
   font-size: 0.75rem;
@@ -161,8 +135,14 @@
   white-space: nowrap;
   cursor: pointer;
 }
-.blocks-showcase-toolbar [data-slot="tabs-trigger"][data-state="active"] {
+.blocks-showcase-segmented > [data-slot="tabs-trigger"][data-state="active"] {
   font-weight: 600;
+}
+
+.blocks-showcase-segmented > [data-slot="tabs-trigger"]::before,
+.blocks-showcase-segmented > [data-slot="tabs-trigger"]::after {
+  display: none;
+  content: none;
 }
 
 :is(.blocks-showcase-toolbar, .blocks-prompt-options) [data-slot="toggle-group-item"],
@@ -208,13 +188,13 @@
   grid-area: 1 / 1;
   width: 100%;
   height: 100%;
+  transform-origin: center;
   transition: opacity 180ms ease;
 }
 .blocks-showcase-refresh-check {
   opacity: 0;
 }
-.blocks-showcase-refresh:is([data-refresh-state="loading"], [data-refresh-state="complete"])
-  .blocks-showcase-refresh-spinner {
+.blocks-showcase-refresh[data-refresh-state="loading"] .blocks-showcase-refresh-spinner {
   animation: blocks-refresh-spin 1.2s linear infinite;
 }
 .blocks-showcase-refresh[data-refresh-state="complete"] .blocks-showcase-refresh-spinner {
@@ -222,6 +202,10 @@
 }
 .blocks-showcase-refresh[data-refresh-state="complete"] .blocks-showcase-refresh-check {
   opacity: 1;
+  transition: none;
+}
+.blocks-showcase-refresh[data-refresh-state="complete"] .blocks-showcase-refresh-label {
+  font-weight: 600;
 }
 @keyframes blocks-refresh-spin {
   to {

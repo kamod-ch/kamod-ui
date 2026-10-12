@@ -170,7 +170,7 @@ it("counts only main links and links the heading to the current document without
       ]}
     />,
   );
-  expect(view.getByLabelText("3 main links").textContent).toBe("3");
+  expect(view.getByLabelText("3 main page sections")).toHaveTextContent("3 Page Sections");
   const headingLink = view.getByRole("link", { name: "On This Page" }) as HTMLAnchorElement;
   expect(new URL(headingLink.href).pathname).toBe("/docs/forms");
   expect(new URL(headingLink.href).hash).toBe("");
@@ -229,7 +229,7 @@ it("renders and tracks fourth-level links, including hash restoration", () => {
     "#rules",
   );
   expect(view.getByRole("link", { name: "1. Rules" })).toHaveAttribute("data-contents-depth", "3");
-  expect(view.getByLabelText("2 main links")).toHaveTextContent("2");
+  expect(view.getByLabelText("2 main page sections")).toHaveTextContent("2 Page Sections");
   const scroll = vi.fn();
   document.getElementById("retry")!.scrollIntoView = scroll;
   act(() => {

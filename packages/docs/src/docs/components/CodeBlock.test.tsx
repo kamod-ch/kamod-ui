@@ -12,6 +12,7 @@ afterEach(() => {
   cleanup();
   vi.clearAllMocks();
   vi.unstubAllGlobals();
+  vi.restoreAllMocks();
 });
 
 it("keeps off-screen code readable without highlighting, then highlights on approach", async () => {
@@ -90,6 +91,9 @@ it("preserves file and custom toolbar content without adding fallback labels", (
 it("does not rerun the syntax highlighter when wrapping changes", async () => {
   const { fireEvent } = await import("@testing-library/preact");
   vi.stubGlobal("IntersectionObserver", undefined);
+  // jsdom has no layout; wrapping is available only for an overflowing source.
+  vi.spyOn(HTMLElement.prototype, "clientWidth", "get").mockReturnValue(320);
+  vi.spyOn(HTMLElement.prototype, "scrollWidth", "get").mockReturnValue(800);
   const view = render(<CodeBlock code="const answer = 42" language="tsx" />);
   await waitFor(() => expect(view.container.querySelector(".token")).not.toBeNull());
   expect(highlightCode).toHaveBeenCalledTimes(1);

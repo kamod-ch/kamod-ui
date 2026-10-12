@@ -2,6 +2,7 @@ import { ArrowUpRightIcon, BookOpenIcon, GlobeIcon } from "@kamod-ch/icons/lucid
 import { BrandGithubIcon } from "@kamod-ch/icons/tabler/filled";
 import { withBasePath } from "../../base-path";
 import { BrandLink } from "../../docs/components/brand/BrandText";
+import { utilityName } from "../../link-title";
 import type { InlineCodeExplanation } from "./inline-code-glossary";
 
 type HelpReference = { label: string; href?: string };
@@ -25,7 +26,7 @@ export function ReferenceHelpHeader({
   return (
     <div class="reference-help-header">
       <div class="reference-help-heading">
-        <strong>{title}</strong>
+        <strong>{utilityName(title)}</strong>
         <span class="reference-help-separator" aria-hidden="true">
           /
         </span>
@@ -93,11 +94,13 @@ export function ReferenceHelp({
         reference={reference}
         actions={actions}
       />
-      <p class="reference-help-description">{description}</p>
+      <p class="reference-help-description">
+        {typeof description === "string" ? utilityName(description) : description}
+      </p>
       {details}
       {destination && (
         <a class="reference-help-footer" href={resolveHref(destination)}>
-          <span>{website ? destination : (linkLabel ?? "Explore the reference")}</span>
+          <span>{utilityName(website ? destination : (linkLabel ?? "Explore the reference"))}</span>
           <ArrowUpRightIcon size={13} aria-hidden="true" />
         </a>
       )}

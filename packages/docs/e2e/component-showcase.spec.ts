@@ -39,12 +39,7 @@ for (const slug of ["accordion", "tabs", "video", "formisch"]) {
       await expect(
         example.getByRole("link", { name: "Setup and Integration", exact: true }),
       ).toHaveAttribute("href", "#installation");
-      const guides = example.getByRole("navigation", { name: "Example guides" });
-      await expect(guides.getByRole("link")).toHaveCount(3);
-      await expect(guides.getByRole("link", { name: "Setup Guide", exact: true })).toHaveAttribute(
-        "href",
-        "#installation",
-      );
+      await expect(example.getByRole("navigation", { name: "Example guides" })).toHaveCount(0);
       await expect(example.getByText("Example snippet included", { exact: true })).toHaveCount(0);
       await example.getByRole("button", { name: "Tailor Example", exact: true }).click();
       // Wrapped line boxes affect innerText; copying preserves the literal source whitespace.

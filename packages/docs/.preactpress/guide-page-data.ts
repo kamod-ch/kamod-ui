@@ -9,7 +9,9 @@ import { excerptFromHtml } from "@kamod-ch/preactpress/shared";
 export function compactGuidePageData(page: PageView): PageView {
   if (
     page.kind !== "markdown" ||
-    !["getting-started-guide", "blocks-guide"].includes(String(page.meta?.pageKind))
+    !["getting-started-guide", "ecosystem-guide", "blocks-guide"].includes(
+      String(page.meta?.pageKind),
+    )
   )
     return page;
   const excerpt = excerptFromHtml(page.html)

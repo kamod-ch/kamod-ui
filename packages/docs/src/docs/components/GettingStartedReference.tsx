@@ -7,6 +7,7 @@ const chapters = {
   blocks: ["blocks", "Bring a Complete Layout into Your App"],
   forms: ["forms", "Connect Fields, Validation and Submission"],
   packages: ["packages", "Choose Your Companion Packages"],
+  ecosystem: ["packages", "Connect the Toolkit to Your First Screen"],
 } as const;
 
 /** A contextual route back to the complete guide, without importing its prose. */

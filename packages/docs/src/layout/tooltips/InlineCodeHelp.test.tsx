@@ -205,6 +205,48 @@ it("does not inspect unrelated prose when syntax highlighting replaces source to
   }
 });
 
+it("does not sweep page references when unrelated UI text changes", async () => {
+  const root = document.createElement("section");
+  root.innerHTML = "<p><code>Button</code></p><span>0</span>";
+  document.body.append(root);
+  const stop = connectInlineCode(document);
+  const term = root.querySelector("code")!;
+  const connected = vi.spyOn(term, "isConnected", "get");
+  try {
+    const counter = root.querySelector("span")!;
+    for (let index = 1; index <= 10; index++) {
+      counter.textContent = String(index);
+      await settle();
+    }
+    expect(connected).not.toHaveBeenCalled();
+    expect(term).toHaveAttribute("data-inline-code-help", "Button");
+    root.remove();
+    await settle();
+    expect(term).not.toHaveAttribute("data-inline-code-help");
+  } finally {
+    connected.mockRestore();
+    stop();
+    root.remove();
+  }
+});
+
+it("scans a changed prose subtree once per mutation batch", async () => {
+  const root = document.createElement("p");
+  root.innerHTML = "<code>Button</code>";
+  document.body.append(root);
+  const stop = connectInlineCode(document);
+  const scan = vi.spyOn(root, "querySelectorAll");
+  try {
+    for (let index = 0; index < 32; index++) root.append(document.createTextNode(" more"));
+    await settle();
+    expect(scan).toHaveBeenCalledTimes(1);
+  } finally {
+    scan.mockRestore();
+    stop();
+    root.remove();
+  }
+});
+
 it("preserves brand links and accepts explicit glossary keys without guessing arbitrary names", () => {
   render(
     <>

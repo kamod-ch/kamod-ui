@@ -1,6 +1,7 @@
 import { ArrowRightIcon, ArrowUpRightIcon } from "@kamod-ch/icons/lucide";
 import { withBasePath } from "../base-path";
 import { KamodUiBrandLogo } from "../layout/KamodUiBrandLogo";
+import { utilityName } from "../link-title";
 import { footerGroups } from "./home-content";
 
 export function HomeFooter() {
@@ -26,7 +27,7 @@ export function HomeFooter() {
               {group.links.map(([label, href]) => (
                 <li key={href}>
                   <a href={href.startsWith("/") ? withBasePath(href) : href}>
-                    {label}
+                    {utilityName(label)}
                     {href.startsWith("https:") && <ArrowUpRightIcon size={12} aria-hidden="true" />}
                   </a>
                 </li>

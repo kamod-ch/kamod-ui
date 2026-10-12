@@ -894,7 +894,6 @@ html {
   .docs-rightbar-contents > nav {
     display: grid;
     gap: 0.45rem;
-    margin-bottom: 1.25rem;
     width: 100%;
   }
 

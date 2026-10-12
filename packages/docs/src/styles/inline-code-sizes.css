@@ -1,4 +1,4 @@
-/* Exactly two sizes for linked inline code. Rem units still respect browser text scaling. */
+/* Two shared linked-code sizes; preview footers inherit caption typography below. */
 :root {
   --inline-code-compact-font: 0.75rem;
   --inline-code-compact-line: 1rem;
@@ -20,6 +20,10 @@
   .docs-code-toolbar,
   .docs-code-explanation,
   .docs-component-path,
+  .blocks-showcase-intro,
+  .blocks-code-pane,
+  .blocks-prompt-workspace,
+  .blocks-prompt-rendered,
   .package-directory-identity,
   .component-example-caption,
   .home-component-source,
@@ -49,7 +53,7 @@
     --inline-code-arrow: var(--inline-code-compact-arrow);
   }
 }
-/* Explicit component choices take precedence over contextual defaults. */
+/* Explicit sizes override ordinary prose defaults; showcases stay compact below. */
 [data-inline-code-size="compact"] {
   --inline-code-font: var(--inline-code-compact-font);
   --inline-code-line: var(--inline-code-compact-line);
@@ -63,6 +67,61 @@
   --inline-code-arrow: var(--inline-code-regular-arrow);
 }
 
+/* Utility names inside headings and navigation are labels, not reference chips. */
+code.docs-code-name {
+  font-family: var(--font-mono-custom);
+  font-size: inherit !important;
+  font-weight: inherit;
+  line-height: inherit !important;
+  color: inherit !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+}
+
+/* Code/Prompt owners enforce compact references even outside a showcase wrapper.
+   Explicit regular choices also stay compact here; source, file labels and editors keep their type. */
+:where(
+    .blocks-showcase,
+    .blocks-showcase-intro,
+    .blocks-code-pane,
+    .blocks-prompt-workspace,
+    .blocks-prompt-rendered,
+    .showcase-loading,
+    .blocks-preview-panel,
+    #component-preview-root,
+    .kitchen-sink-showcase,
+    .overview-form-preview,
+    .overview-hook-preview,
+    .home-form-body,
+    .home-token-grid
+  )
+  :is(code, a.docs-brand-link):not(
+    :where(
+      pre *,
+      .docs-import-label,
+      .docs-import-label *,
+      .docs-code-file-path,
+      .docs-code-file-path *,
+      [contenteditable] *
+    )
+  ) {
+  --inline-code-font: var(--inline-code-compact-font);
+  --inline-code-line: var(--inline-code-compact-line);
+  --inline-code-padding: var(--inline-code-compact-padding);
+  --inline-code-arrow: var(--inline-code-compact-arrow);
+  font-size: var(--inline-code-font) !important;
+  line-height: var(--inline-code-line) !important;
+}
+
+/* Preview-footer references inherit their small caption text, including both icons. */
+.component-example-caption :is(code, a.docs-brand-link) {
+  --inline-code-font: 1em;
+  --inline-code-line: 1.6;
+  --inline-code-arrow: 0.8em;
+}
+
 /* Authored Markdown and decorated JSX share this contract. Only geometry is enforced:
    existing theme surfaces, emphasis and link behavior retain their own styles. */
 :is(
@@ -72,7 +131,9 @@
   code.docs-kamod-path,
   code:has(> .docs-brand-link, > .docs-kamod-link),
   a.docs-brand-link:not(:where(code *, .path-display *)):not(:has(code))
-):not(:where(pre *, .docs-import-label, .docs-code-file-path, [contenteditable] *)) {
+):not(
+  :where(pre *, .docs-import-label, .docs-code-file-path, .docs-code-name, [contenteditable] *)
+) {
   font-size: var(--inline-code-font) !important;
   line-height: var(--inline-code-line) !important;
   padding: 0 var(--inline-code-padding) !important;

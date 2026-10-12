@@ -66,7 +66,6 @@ export const DocsOverviewContent = () => (
           parent={{ label: "Home", href: "/" }}
           label="Components"
           eyebrow="Component Library"
-          focus="Choose · Compose · Refine"
           title={title}
           description={
             <>

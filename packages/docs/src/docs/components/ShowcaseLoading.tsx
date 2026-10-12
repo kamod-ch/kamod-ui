@@ -59,6 +59,20 @@ const views = {
       </>
     ),
   },
+  markdown: {
+    title: "Formatting the reading view",
+    hint: (
+      <>
+        Arranging the <strong>headings, steps and source examples</strong> into a readable document.
+        The content stays the same in every display mode; <strong>Copy</strong> keeps the complete
+        Markdown. Switch to <strong>Code</strong> to inspect the original text, or follow the{" "}
+        <InlineCodeLink href="/docs/getting-started" size="compact">
+          Getting Started Guide
+        </InlineCodeLink>{" "}
+        for the project foundations.
+      </>
+    ),
+  },
 };
 
 /** Actual pending work, with a decorative miniature and no timers or fabricated progress. */
@@ -68,8 +82,8 @@ export function ShowcaseLoading({
   detail,
   className = "",
 }: {
-  /** Always the owning showcase’s current controls, initialized from the page on mount. */
-  appearance: PreviewAppearance;
+  /** Owning showcase controls; page-scoped references without preview settings inherit their theme. */
+  appearance?: PreviewAppearance;
   view: keyof typeof views;
   detail?: string;
   className?: string;
@@ -77,10 +91,10 @@ export function ShowcaseLoading({
   const { title, hint } = views[view];
   return (
     <div
-      class={`showcase-loading ${appearance.scheme} ${className}`}
-      data-theme-scope=""
-      data-theme={appearance.preset}
-      style={{ colorScheme: appearance.scheme }}
+      class={`showcase-loading ${appearance?.scheme ?? ""} ${className}`}
+      data-theme-scope={appearance ? "" : undefined}
+      data-theme={appearance?.preset}
+      style={appearance ? { colorScheme: appearance.scheme } : undefined}
       data-view={view}
     >
       <div class="showcase-loading-sketch" aria-hidden="true">

@@ -1735,7 +1735,6 @@ html.home-workspace-document {
   gap: 0.625rem;
   padding: 0.5rem 1rem;
   border-bottom: 1px solid var(--border);
-  background: var(--workspace-header-background);
   flex: none;
 }
 .home-workspace-source .blocks-source-file-details {
@@ -1826,10 +1825,10 @@ html.home-workspace-document {
     min-height: 1.75rem;
     padding: 0.375rem;
   }
-  .home-workspace .docs-code-toolbar .docs-copy-code-button > span {
+  .home-workspace .docs-code-toolbar .docs-copy-code-button > .kamod-copy-label {
     display: none;
   }
-  .home-workspace .docs-code-toolbar .docs-copy-code-button > svg {
+  .home-workspace .docs-code-toolbar .docs-copy-code-button > .kamod-copy-glyph {
     width: 0.875rem;
     height: 0.875rem;
   }

@@ -1,6 +1,6 @@
 /** Retains file selection across tab switches, but mounts the source loader only in Code. */
 import { TabsContent } from "@kamod-ch/ui";
-import { useState } from "preact/hooks";
+import { useMemo, useState } from "preact/hooks";
 import type { ShowcaseBlock } from "./BlockShowcase";
 import { BlockShowcaseIntro } from "./BlockShowcaseIntro";
 import { BlockSourceFiles, type BlockSourceLoader } from "./BlockSourceFiles";
@@ -23,16 +23,21 @@ export function BlockShowcaseCode({
 }) {
   const [selectedFile, setSelectedFile] = useState(block.files[0]?.label ?? "");
   useShowcaseCodeNavigation(block.id, block.files, setSelectedFile);
+  const files = useMemo(
+    () =>
+      block.files.map((file) => ({
+        ...file,
+        destination: blockSourceDestination(block, file),
+      })),
+    [block],
+  );
 
   return (
     <TabsContent value="code" class="blocks-showcase-source">
       <BlockShowcaseIntro block={block} view="code" setupHref={setupHref} />
       <BlockSourceFiles
         appearance={appearance}
-        files={block.files.map((file) => ({
-          ...file,
-          destination: blockSourceDestination(block, file),
-        }))}
+        files={files}
         loadSource={loadSource}
         selectedFile={selectedFile}
         onSelect={setSelectedFile}

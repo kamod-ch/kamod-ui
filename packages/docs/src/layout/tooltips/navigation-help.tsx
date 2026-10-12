@@ -22,14 +22,14 @@ const groups = {
   },
   ecosystem: {
     title: "Kamod Ecosystem",
-    lead: "A toolkit, not a shopping list.",
+    lead: "Find the right tool for your next feature.",
     description:
-      "Kamod’s companion projects cover icons, reusable behavior, state, translations and more. Open this group to visit their source repositories; you can use just the tools your app needs.",
+      "Explore the ecosystem guide for components, shared styles, reusable behavior, state and translations. Follow a small integration, compare responsibilities and visit each project's source when you need more detail.",
     explore:
       "Start with the package guides for setup and focused examples. Each repository has its own README, exports and release history—check those against the version you install.",
     next: "Choose by responsibility: hooks for reusable behavior, signals or state for changing data, and i18n for language support. Add one capability, then connect it to your existing components.",
-    note: "Repository links open GitHub in a new tab, keeping your place in these docs. The Packages overview helps you compare the documented integrations before choosing.",
-    href: "/docs/packages",
+    note: "The guide connects the toolkit to real features and links to the repositories that own each capability. Its package cards lead to the focused installation and usage references, while your application keeps its own routing and services.",
+    href: "/docs/ecosystem",
     unit: "",
     links: [
       ["Kamod Hooks", "/docs/hooks-package/installation"],
@@ -149,7 +149,7 @@ export function NavigationTooltipContent({ hint }: { hint: NavigationHint }) {
       <a class="navigation-hint-overview" href={withBasePath(group.href)}>
         <BookOpenIcon size={14} aria-hidden="true" />{" "}
         {hint.group === "ecosystem"
-          ? "Compare the packages"
+          ? "Explore the ecosystem"
           : hint.group === "getting-started"
             ? "Open the setup guide"
             : `Browse ${group.title.toLowerCase()}`}

@@ -20,20 +20,45 @@ test("language selection changes the grammar without changing or losing source",
   expect(await source.textContent()).toBe(original);
 });
 
-test("visible parts and externally owned preferences stay independent", async ({ page }) => {
+test("visible parts and externally owned preferences stay independent", async ({
+  page,
+  context,
+  browserName,
+}) => {
+  await enableTestClipboard(context, browserName);
   await page.goto("./docs/code/installation#code-visible-parts");
   const parts = page.locator('[data-code-demo="parts"]');
   await parts.scrollIntoViewIfNeeded();
-  await parts.getByLabel("Header", { exact: true }).uncheck();
+  const header = parts.getByRole("switch", { name: "Header", exact: true });
+  const reset = parts.getByRole("button", { name: "Reset visible parts" });
+  await expect(reset).toBeDisabled();
+  await expect(header).toHaveAccessibleDescription("A shared home for the file and actions.");
+  await header.focus();
+  await page.keyboard.press("Space");
+  await expect(header).not.toBeChecked();
   await expect(parts.locator('[data-slot="code-toolbar"]')).toHaveCount(0);
+  await expect(parts.getByRole("switch", { name: "File label", exact: true })).toBeChecked();
+  await expect(parts.getByRole("switch", { name: "Copy action", exact: true })).toBeChecked();
   await expect(parts.getByRole("switch", { name: "Wrap code lines" })).toBeVisible();
-  await parts.getByLabel("Import folding", { exact: true }).uncheck();
+  await parts.getByRole("switch", { name: "Import folding", exact: true }).click();
   await expect(parts.locator("pre code")).toContainText("import { Button }");
-  await parts.getByLabel("Syntax colors", { exact: true }).uncheck();
+  const completeSource = await parts.locator("pre code").textContent();
+  await parts.getByRole("switch", { name: "Syntax colors", exact: true }).click();
   await expect(parts.locator("pre .token")).toHaveCount(0);
-  await parts.getByLabel("Wrap control", { exact: true }).uncheck();
+  await parts.getByRole("switch", { name: "Wrap control", exact: true }).click();
   await expect(parts.locator('[data-slot="code-imports"]')).toHaveCount(0);
   await expect(parts.locator(".kamod-code")).toHaveClass(/is-wrapped/);
+  await parts.getByRole("switch", { name: "Context before and after source", exact: true }).click();
+  await expect(parts.locator(".code-parts-source-note")).toHaveCount(2);
+  await expect(parts.locator("pre code")).not.toContainText("A reusable action");
+  await reset.click();
+  await expect(reset).toBeDisabled();
+  await expect(header).toBeChecked();
+  await expect(parts.locator(".code-parts-source-note")).toHaveCount(0);
+  await expect(parts.locator("pre .token.keyword").first()).toBeVisible();
+  await expect(parts.locator("pre code")).not.toContainText("import { Button }");
+  await parts.getByRole("button", { name: "Copy code", exact: true }).click();
+  await expect.poll(() => page.evaluate(() => navigator.clipboard.readText())).toBe(completeSource);
 
   const preferences = page.locator('[data-code-demo="preferences"]');
   await preferences.scrollIntoViewIfNeeded();

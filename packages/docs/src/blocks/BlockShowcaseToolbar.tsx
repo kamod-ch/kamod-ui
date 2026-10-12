@@ -30,16 +30,21 @@ export function BlockShowcaseToolbar({
   return (
     <div class="blocks-showcase-toolbar">
       <div class="blocks-showcase-views">
-        <TabsList variant="line" class="blocks-showcase-segmented" aria-label="Showcase view">
-          <TabsTrigger value="preview" aria-label="Preview" title="Preview">
+        <TabsList class="blocks-showcase-segmented" aria-label="Showcase view">
+          <TabsTrigger
+            class="docs-icon-button"
+            value="preview"
+            aria-label="Preview"
+            title="Preview"
+          >
             <EyeIcon aria-hidden="true" />
             <span class="blocks-showcase-control-label">Preview</span>
           </TabsTrigger>
-          <TabsTrigger value="code" aria-label="Code" title="Code">
+          <TabsTrigger class="docs-icon-button" value="code" aria-label="Code" title="Code">
             <CodeIcon aria-hidden="true" />
             <span class="blocks-showcase-control-label">Code</span>
           </TabsTrigger>
-          <TabsTrigger value="prompt" aria-label="Prompt" title="Prompt">
+          <TabsTrigger class="docs-icon-button" value="prompt" aria-label="Prompt" title="Prompt">
             <SparklesIcon aria-hidden="true" />
             <span class="blocks-showcase-control-label">Prompt</span>
           </TabsTrigger>

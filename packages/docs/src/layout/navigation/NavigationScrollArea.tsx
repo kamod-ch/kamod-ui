@@ -1,6 +1,7 @@
 import { type ComponentChildren, createContext } from "preact";
 import { useContext, useLayoutEffect, useRef, useState } from "preact/hooks";
 import { basePrefix } from "../../base-path";
+import { revealRestoredNavigation } from "./navigation-restore";
 
 type NavigationMemory = {
   top: number;
@@ -130,6 +131,7 @@ export function NavigationScrollArea({
         memory.current.page = page;
       }
       node.scrollTop = memory.current.top;
+      if (mode === "desktop") revealRestoredNavigation(node, memory.current.groups);
       if (aligning) persist();
     };
     const scheduleRestore = () => {

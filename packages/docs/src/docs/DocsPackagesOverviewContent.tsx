@@ -42,7 +42,6 @@ export const DocsPackagesOverviewContent = () => (
     scope="packages"
     label="Packages"
     title="Focused Packages for the Rest of Your Preact App"
-    focus="Choose · Integrate · Verify"
     contents={contents}
     description={
       <>

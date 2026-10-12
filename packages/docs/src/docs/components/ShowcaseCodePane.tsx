@@ -1,7 +1,10 @@
+import { CodeFileHeader } from "@kamod-ch/ui/code";
 import type { ComponentChildren } from "preact";
 import { useLayoutEffect, useRef } from "preact/hooks";
+import type { PreviewAppearance } from "../../blocks/preview-appearance";
 import { CodeBlock } from "./CodeBlock";
 import { PathDisplay } from "./PathDisplay";
+import { ShowcaseLoading } from "./ShowcaseLoading";
 
 /** Shared source surface for block files and standalone component/form examples. */
 export function ShowcaseCodePane({
@@ -11,6 +14,7 @@ export function ShowcaseCodePane({
   footer,
   children,
   loading = false,
+  appearance,
 }: {
   filename: string;
   filePath: string;
@@ -20,6 +24,8 @@ export function ShowcaseCodePane({
   /** Loading/error content supplied by asynchronous source browsers. */
   children?: ComponentChildren;
   loading?: boolean;
+  /** The owning showcase's appearance for pending syntax formatting. */
+  appearance?: PreviewAppearance;
 }) {
   const pane = useRef<HTMLDivElement>(null);
   const lastHeight = useRef<number | undefined>(undefined);
@@ -28,23 +34,11 @@ export function ShowcaseCodePane({
     if (code !== undefined && pane.current)
       lastHeight.current = pane.current.getBoundingClientRect().height;
   }, [code, filename]);
-  const lineCount = code === undefined ? 0 : code.trimEnd().split("\n").length;
   const renderToolbar = (copyButton?: ComponentChildren) => (
     <div class="docs-code-toolbar blocks-source-file-heading">
-      <div class="blocks-source-file-details">
+      <CodeFileHeader path={filePath} code={code} class="blocks-source-file-details">
         <PathDisplay class="docs-code-file-path" path={filePath} file fileTypeTooltip />
-        {code !== undefined && (
-          <span class="blocks-source-lines">
-            <span aria-hidden="true">·</span>
-            <span class="blocks-source-line-count">
-              <span class="blocks-source-line-total">
-                <strong class="blocks-source-count">{lineCount}</strong>{" "}
-                {lineCount === 1 ? "line" : "lines"}
-              </span>
-            </span>
-          </span>
-        )}
-      </div>
+      </CodeFileHeader>
       {copyButton && (
         <div class="blocks-source-controls" role="group" aria-label="Source controls">
           {copyButton}
@@ -67,6 +61,7 @@ export function ShowcaseCodePane({
           filePath={filePath}
           renderToolbar={renderToolbar}
           className="docs-tab-code"
+          loadingContent={<ShowcaseLoading appearance={appearance} view="code" detail={filePath} />}
         />
       ) : (
         <>

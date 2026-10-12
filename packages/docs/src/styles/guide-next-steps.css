@@ -103,8 +103,6 @@
 }
 .guide-next-tabs [role="tab"] {
   min-width: 0;
-  padding-inline: 0.75rem;
-  font-size: 0.8125rem;
 }
 .guide-next-example-intro > p {
   margin-top: 0.625rem;

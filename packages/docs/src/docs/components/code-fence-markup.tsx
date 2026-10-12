@@ -1,4 +1,9 @@
-import { type CodeLanguage, CodeSnippetLabel, findCodeImports } from "@kamod-ch/ui/code";
+import {
+  CodeFileHeader,
+  type CodeLanguage,
+  CodeSnippetLabel,
+  findCodeImports,
+} from "@kamod-ch/ui/code";
 import render from "preact-render-to-string";
 import { CodeLanguageLink } from "./CodeLanguageLink";
 import { PathDisplay } from "./PathDisplay";
@@ -15,7 +20,9 @@ export function codeFenceMarkup(
     <div class="kamod-code docs-code-wrap docs-code-file" data-syntax-theme="default">
       <div class="docs-code-toolbar">
         {filePath ? (
-          <PathDisplay class="docs-code-file-path" path={filePath} file />
+          <CodeFileHeader path={filePath} code={source}>
+            <PathDisplay class="docs-code-file-path" path={filePath} file />
+          </CodeFileHeader>
         ) : (
           <CodeSnippetLabel
             code={source}

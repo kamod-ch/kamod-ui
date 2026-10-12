@@ -71,7 +71,7 @@ code[data-inline-code-help]:focus-visible {
 }
 /* Truncate the text box itself, keeping the full link and its focus ring available. */
 .reference-help-heading .docs-code-explanation-path {
-  flex: 1;
+  flex: 0 1 auto;
   overflow: visible;
 }
 .docs-code-explanation-path > a,

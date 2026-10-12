@@ -54,6 +54,61 @@ test("desktop navigation retains its place across reloads and different page gro
   await expect(groups.nth(1)).toHaveCSS("margin-top", "10px");
 });
 
+test("reload never paints the sidebar at the top before restoring saved groups", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("./docs/packages");
+  const sidebar = page.locator(".docs-sidebar-scroll");
+  for (const id of ["components", "blocks"]) {
+    await sidebar.locator(`[data-navigation-group="${id}"]`).click();
+  }
+  await scrollTo(sidebar, 650);
+  await expectSaved(page, "desktop", 650);
+
+  // Make the SSR-to-hydration interval deterministic instead of relying on a flaky reload race.
+  await page.route("**/*.js", async (route) => {
+    await new Promise((resolve) => setTimeout(resolve, 150));
+    await route.continue();
+  });
+  await page.addInitScript(() => {
+    const offsets: number[] = [];
+    Reflect.set(window, "sidebarPaintOffsets", offsets);
+    const sample = () => {
+      const area = document.querySelector<HTMLElement>(".docs-sidebar-scroll");
+      if (
+        area &&
+        document.documentElement.classList.contains("pp-ready") &&
+        getComputedStyle(area).visibility === "visible"
+      ) {
+        offsets.push(area.scrollTop);
+      }
+      if (performance.now() < 5000) requestAnimationFrame(sample);
+    };
+    requestAnimationFrame(sample);
+  });
+  for (let reload = 0; reload < 3; reload++) {
+    if (reload === 1) {
+      // The server opens the current package group; saved state may explicitly close it.
+      await sidebar.locator('[data-navigation-group="packages"]').click();
+      await scrollTo(sidebar, 650);
+      await expectSaved(page, "desktop", 650);
+    }
+    await page.reload();
+    await expectOffset(sidebar, 650);
+    await expect(sidebar).toBeVisible({ timeout: 1000 });
+    await expect
+      .poll(() => page.evaluate(() => Reflect.get(window, "sidebarPaintOffsets").length))
+      .toBeGreaterThan(0);
+    const offsets = await page.evaluate<number[]>(() => Reflect.get(window, "sidebarPaintOffsets"));
+    expect(
+      offsets.every((top) => top === 650),
+      JSON.stringify(offsets),
+    ).toBe(true);
+    await expect(page.locator("html")).not.toHaveAttribute("data-navigation-restoring");
+  }
+});
+
 test("responsive navigation remembers reopening and reloads without overwriting desktop position", async ({
   page,
 }) => {

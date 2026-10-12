@@ -5,6 +5,7 @@ import { defineConfig } from "@kamod-ch/preactpress/config";
 import { getThemeInitScript } from "@kamod-ch/themes";
 import tailwindcss from "@tailwindcss/vite";
 import type { Connect } from "vite";
+import { navigationRestoreScript } from "../src/layout/navigation/navigation-restore";
 import { blockDownloadsPlugin } from "./block-downloads-plugin";
 import { blockPagesPlugin } from "./block-pages-plugin";
 import { componentApiPlugin } from "./component-api-plugin";
@@ -95,10 +96,6 @@ export default defineConfig({
         "lucide-preact",
         "marked",
         "preact-render-to-string",
-        "prismjs",
-        ...["bash", "css", "diff", "json", "jsx", "markdown", "tsx", "typescript", "yaml"].map(
-          (language) => `prismjs/components/prism-${language}.js`,
-        ),
         "@blobatar/preact",
         "@formisch/preact",
         "@kamod-ch/motion",
@@ -117,6 +114,10 @@ export default defineConfig({
           "tailwind-variants",
           "embla-carousel",
           "embla-carousel-autoplay",
+          "prismjs",
+          ...["bash", "css", "diff", "json", "jsx", "markdown", "tsx", "typescript", "yaml"].map(
+            (language) => `prismjs/components/prism-${language}.js`,
+          ),
         ].map((dependency) => `@kamod-ch/ui > ${dependency}`),
       ],
     },
@@ -371,5 +372,6 @@ export default defineConfig({
     ["link", { rel: "stylesheet", href: publicUrl("styles/logo.css") }],
     ["link", { rel: "stylesheet", href: publicUrl("styles/logo-overrides.css") }],
     ["script", { type: "text/javascript" }, getThemeInitScript({ defaultScheme: "system" })],
+    ["script", { type: "text/javascript" }, navigationRestoreScript(basePrefix || "/")],
   ],
 });

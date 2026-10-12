@@ -51,7 +51,9 @@ export function CodeReadingGuide() {
           Folding removes the declarations from the displayed source and closes the whitespace at
           those joins. It does not leave an empty box for each hidden line. If the entire snippet
           only contains imports, a collapse control would hide the useful example, so it is omitted.
-          Use <code>{"showImportControl={false}"}</code> when every declaration should stay visible.
+          Eligible import and wrap controls appear together when the complete source would overflow;
+          long hidden imports still count, so you can always expand them again. Use{" "}
+          <code>{"showImportControl={false}"}</code> when every declaration should stay visible.
         </p>
       </Topic>
       <Topic id="code-wrapping-rules" title="Wrap for reading, preserve the real line">
@@ -65,10 +67,12 @@ export function CodeReadingGuide() {
           <strong>A wrapped continuation is not a new source line.</strong> Copy still returns the
           original line, not the visual layout. Use <code>defaultWrapped</code> for prose-like
           prompts and long attributes; leave it off when exact columns matter, such as an aligned
-          text report. The switch appears for snippets with an actual filename or path, or a
-          recognized coding language. Commands never show it; prose and Markdown prompts without a
-          file keep their default wrapping without a switch. Use{" "}
-          <code>{"showWrapControl={false}"}</code> to hide it for eligible source too.
+          text report. The switch appears only when a source line would overflow without wrapping,
+          for snippets with an actual filename or path, or a recognized coding language. Widening
+          the panel can hide both controls without resetting your reading choices. Folding imports
+          keeps the pair available when the complete source still needs it. Commands never show it;
+          prose and Markdown prompts without a file keep their default wrapping without a switch.
+          Use <code>{"showWrapControl={false}"}</code> to hide it for eligible source too.
         </p>
         <CodeBlock
           language="tsx"

@@ -6,11 +6,9 @@ import { linkTitleChildren } from "../../link-title";
 export function PageEyebrow({
   children,
   icon = <BookOpenIcon size={16} aria-hidden="true" />,
-  focus,
 }: {
   children: ComponentChildren;
   icon?: ComponentChildren;
-  focus?: ComponentChildren;
 }) {
   return (
     <p class="block-guide-eyebrow">
@@ -18,7 +16,6 @@ export function PageEyebrow({
         {icon}
         <span>{linkTitleChildren(children)}</span>
       </span>
-      {focus && <span class="block-guide-eyebrow-focus">{focus}</span>}
     </p>
   );
 }

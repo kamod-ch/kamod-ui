@@ -10,6 +10,7 @@ const ownedPageKinds = new Set([
   "blocks-overview",
   "blocks-guide",
   "getting-started-guide",
+  "ecosystem-guide",
   "docs-overview",
   "docs-forms-overview",
   "docs-packages-overview",

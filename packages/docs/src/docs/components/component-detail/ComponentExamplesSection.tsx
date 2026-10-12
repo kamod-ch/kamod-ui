@@ -1,6 +1,6 @@
 import { withBasePath } from "../../../base-path";
 import { BlockHeadingLink } from "../../../blocks/BlockHeadingLink";
-import { linkTitle } from "../../../link-title";
+import { linkTitleChildren, utilityName } from "../../../link-title";
 import type { DocPageModule, DocSection } from "../../types";
 import { componentExamplesTitle } from "./component-examples";
 
@@ -24,10 +24,11 @@ export function ComponentExamplesSection({
       </h2>
       <div class="block-guide-prose">
         <p>
-          Explore <strong>{doc.title} in Different Contexts</strong>, from the starting pattern to
-          the compositions below. Begin with <a href={`#${first.id}`}>{linkTitle(first.title)}</a>,
-          then compare the examples that match your content, state and layout. These are working
-          patterns to adapt, not a list of interchangeable <code>variant</code> values: check the{" "}
+          Explore <strong>{utilityName(doc.title)} in Different Contexts</strong>, from the starting
+          pattern to the compositions below. Begin with{" "}
+          <a href={`#${first.id}`}>{linkTitleChildren(first.title)}</a>, then compare the examples
+          that match your content, state and layout. These are working patterns to adapt, not a list
+          of interchangeable <code>variant</code> values: check the{" "}
           <a href="#api-reference">API Reference</a> before using a prop or combining behaviors.
           {doc.navGroup === "forms"
             ? " Pay particular attention to validation feedback, field relationships and what happens after submission."

@@ -24,7 +24,7 @@ import {
   SheetClose,
 } from "@kamod-ch/ui";
 import { useId } from "preact/hooks";
-import { linkTitle } from "../../link-title";
+import { linkTitle, linkTitleChildren } from "../../link-title";
 import { useNavigationGroup } from "./NavigationScrollArea";
 import { isNavigationCurrent, type NavigationGroup, type NavigationLink } from "./navigation-data";
 
@@ -111,7 +111,7 @@ function DirectoryLink({
       }
     >
       <span class="site-navigation-link-label">
-        <span>{linkTitle(link.label)}</span>
+        <span>{linkTitleChildren(link.label)}</span>
       </span>
       {(status || showCount || SpecialIcon) && (
         <span class="site-navigation-link-meta" aria-hidden="true">
@@ -126,8 +126,8 @@ function DirectoryLink({
           {SpecialIcon && (
             <SpecialIcon
               class="site-navigation-special-icon"
-              size={20}
-              strokeWidth={1.75}
+              size={18}
+              strokeWidth={1.9}
               aria-hidden="true"
             />
           )}

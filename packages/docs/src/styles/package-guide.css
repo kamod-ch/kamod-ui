@@ -215,7 +215,7 @@
   height: var(--package-reference-control-height);
   padding-inline: 0.75rem;
   gap: 0.5rem;
-  background: color-mix(in oklab, var(--foreground) 75%, transparent);
+  background: var(--foreground);
   color: var(--background);
   font-size: 0.75rem;
   font-weight: 600;
@@ -226,7 +226,7 @@
   transition: background-color 150ms ease;
 }
 .package-reference-download:hover {
-  background: color-mix(in oklab, var(--foreground) 80%, transparent);
+  background: var(--foreground);
   opacity: 1;
 }
 .package-reference-download:focus-visible {

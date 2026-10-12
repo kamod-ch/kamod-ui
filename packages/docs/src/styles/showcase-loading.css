@@ -1,6 +1,6 @@
 /* Shared loading surfaces: quiet structure, real status, no artificial progress. */
 .showcase-loading {
-  --showcase-loading-cycle: 3.6s;
+  --showcase-loading-cycle: 6.4s;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,7 +10,15 @@
   min-height: var(--source-code-min-height, 20rem);
   gap: 1.125rem;
   padding: 1.5rem 1rem;
+  border-radius: var(--showcase-radius, var(--radius-lg));
   background: color-mix(in oklab, var(--primary) 3%, var(--background));
+  background-image: radial-gradient(
+    circle,
+    color-mix(in oklab, var(--foreground) 4%, transparent) 0.04rem,
+    transparent 0.07rem
+  );
+  background-size: 1.25rem 1.25rem;
+  background-position: center;
   color: var(--muted-foreground);
   text-align: center;
   overflow: hidden;
@@ -101,9 +109,32 @@
   grid-row: span 2;
   height: auto;
 }
-.showcase-loading[data-view="prompt"] .showcase-loading-sheet i:first-child {
+.showcase-loading:is([data-view="prompt"], [data-view="markdown"])
+  .showcase-loading-sheet
+  i:first-child {
   height: 0.375rem;
   width: 60%;
+}
+/* A miniature reading layout shares the preview motion instead of adding another animation loop. */
+.showcase-loading[data-view="markdown"] .showcase-loading-sheet i:nth-child(2) {
+  width: 84%;
+  margin-inline-start: 0;
+}
+.showcase-loading[data-view="markdown"] .showcase-loading-sheet i:nth-child(3),
+.showcase-loading[data-view="markdown"] .showcase-loading-sheet i:nth-child(4) {
+  position: relative;
+  margin-inline-start: 0.625rem;
+}
+.showcase-loading[data-view="markdown"]
+  .showcase-loading-sheet
+  :is(i:nth-child(3), i:nth-child(4))::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: -0.625rem;
+  width: 0.25rem;
+  height: 0.25rem;
+  border-radius: 50%;
+  background: color-mix(in oklab, var(--primary) 30%, transparent);
 }
 .showcase-loading-seal {
   position: absolute;
@@ -210,7 +241,7 @@
   }
 }
 @media (prefers-reduced-motion: no-preference) {
-  /* Wind up, flick outward, then settle through two diminishing rebounds. */
+  /* A restrained nudge and settle, with quiet pauses between cycles. */
   .showcase-loading-sketch {
     transform-origin: 65% 75%;
     animation: showcase-loading-snap var(--showcase-loading-cycle) ease-in-out infinite;
@@ -246,21 +277,21 @@
     transform: translate(0, 0) rotate(-2.5deg) scale(1);
   }
   12% {
-    transform: translate(-1px, -2px) rotate(-3deg) scale(1);
+    transform: translate(-0.3px, -0.6px) rotate(-2.65deg) scale(1);
   }
   38% {
-    transform: translate(-7px, 3px) rotate(-6deg) scale(0.975);
+    transform: translate(-2px, 1px) rotate(-3.5deg) scale(0.9925);
     animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   }
   46% {
-    transform: translate(17px, -13px) rotate(7deg) scale(1.025);
+    transform: translate(5px, -4px) rotate(0.5deg) scale(1.0075);
     animation-timing-function: cubic-bezier(0.65, 0, 0.3, 1);
   }
   55% {
-    transform: translate(-5px, 2px) rotate(-5.5deg) scale(0.99);
+    transform: translate(-1.5px, 0.6px) rotate(-3.4deg) scale(0.997);
   }
   63% {
-    transform: translate(2px, -1px) rotate(-1deg) scale(1.005);
+    transform: translate(0.6px, -0.3px) rotate(-2deg) scale(1.0015);
   }
 }
 @keyframes showcase-loading-follow {
@@ -271,21 +302,21 @@
     transform: translate(0, 0) rotate(6deg);
   }
   14% {
-    transform: translate(0, 1px) rotate(5deg);
+    transform: translate(0, 0.3px) rotate(5.7deg);
   }
   40% {
-    transform: translate(-3px, 2px) rotate(-4deg);
+    transform: translate(-1px, 0.6px) rotate(3deg);
     animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   }
   48% {
-    transform: translate(10px, -7px) rotate(17deg);
+    transform: translate(3px, -2px) rotate(9.5deg);
     animation-timing-function: cubic-bezier(0.65, 0, 0.3, 1);
   }
   57% {
-    transform: translate(-4px, 2px) rotate(-6deg);
+    transform: translate(-1.2px, 0.6px) rotate(2.5deg);
   }
   66% {
-    transform: translate(1px, -1px) rotate(9deg);
+    transform: translate(0.3px, -0.3px) rotate(7deg);
   }
 }
 @keyframes showcase-loading-tint {
@@ -305,7 +336,7 @@
 @keyframes showcase-loading-ink {
   0%,
   100% {
-    transform: scaleX(0.94);
+    transform: scaleX(0.98);
     opacity: 0.78;
   }
   50% {
@@ -313,7 +344,7 @@
     opacity: 0.95;
   }
 }
-/* A tiny counterbeat to the sketch's larger flick; pause between each settled snap. */
+/* Keep the chrome's counterbeat proportional to the sketch's gentle nudge. */
 @keyframes showcase-loading-chrome-snap {
   0%,
   28%,
@@ -323,19 +354,19 @@
     opacity: 0.35;
   }
   38% {
-    transform: translateX(-1px);
+    transform: translateX(-0.3px);
   }
   46% {
-    transform: translateX(3px);
+    transform: translateX(1px);
     opacity: 0.6;
     animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   }
   56% {
-    transform: translateX(-0.75px);
+    transform: translateX(-0.25px);
     opacity: 0.4;
   }
   64% {
-    transform: translateX(0.25px);
+    transform: translateX(0.1px);
   }
 }
 @keyframes showcase-loading-title-breathe {

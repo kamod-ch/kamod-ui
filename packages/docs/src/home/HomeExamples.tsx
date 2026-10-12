@@ -9,7 +9,6 @@ import {
 } from "@kamod-ch/icons/lucide";
 import { BlocksIcon } from "@kamod-ch/icons/tabler/outline";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@kamod-ch/ui";
-import { lazy, Suspense } from "preact/compat";
 import { useCallback, useEffect, useRef, useState } from "preact/hooks";
 import { withBasePath } from "../base-path";
 import { PreviewAppearanceControls } from "../blocks/PreviewAppearanceControls";
@@ -17,11 +16,12 @@ import { PreviewRefreshControl } from "../blocks/PreviewRefreshControl";
 import { usePreviewRefresh } from "../blocks/usePreviewRefresh";
 import { ComponentPreviewFrame } from "../docs/components/component-detail/ComponentPreviewFrame";
 import { useComponentPreview } from "../docs/components/component-detail/useComponentPreview";
+import { lazyShowcase } from "../docs/components/lazy-showcase";
 import { InlineCode } from "../docs/components/PathDisplay";
 import { WorkspaceLoading } from "./WorkspaceLoading";
 
-const WorkspaceSource = lazy(() => import("./WorkspaceSource"));
-const WorkspacePrompt = lazy(() => import("./WorkspacePrompt"));
+const WorkspaceSource = lazyShowcase(() => import("./WorkspaceSource"));
+const WorkspacePrompt = lazyShowcase(() => import("./WorkspacePrompt"));
 
 /** Shared showcase controls around an isolated, resettable workspace composition. */
 export function WorkspaceExample() {
@@ -54,20 +54,16 @@ export function WorkspaceExample() {
       </div>
       <Tabs defaultValue="preview" class="blocks-showcase-tabs">
         <div class="blocks-showcase-toolbar">
-          <TabsList
-            variant="line"
-            class="blocks-showcase-segmented"
-            aria-label="Workspace example view"
-          >
-            <TabsTrigger value="preview" aria-label="Preview">
+          <TabsList class="blocks-showcase-segmented" aria-label="Workspace example view">
+            <TabsTrigger class="docs-icon-button" value="preview" aria-label="Preview">
               <EyeIcon aria-hidden="true" />
               <span class="blocks-showcase-control-label">Preview</span>
             </TabsTrigger>
-            <TabsTrigger value="code" aria-label="Code">
+            <TabsTrigger class="docs-icon-button" value="code" aria-label="Code">
               <CodeIcon aria-hidden="true" />
               <span class="blocks-showcase-control-label">Code</span>
             </TabsTrigger>
-            <TabsTrigger value="prompt" aria-label="Prompt">
+            <TabsTrigger class="docs-icon-button" value="prompt" aria-label="Prompt">
               <SparklesIcon aria-hidden="true" />
               <span class="blocks-showcase-control-label">Prompt</span>
             </TabsTrigger>
@@ -128,21 +124,23 @@ export function WorkspaceExample() {
           </div>
         </TabsContent>
         <TabsContent value="code" class="home-workspace-source">
-          <Suspense fallback={<WorkspaceLoading appearance={appearance} view="code" />}>
-            <WorkspaceSource />
-          </Suspense>
+          <WorkspaceSource
+            appearance={appearance}
+            fallback={<WorkspaceLoading appearance={appearance} view="code" />}
+          />
         </TabsContent>
         <TabsContent value="prompt" class="home-workspace-prompt">
-          <Suspense fallback={<WorkspaceLoading appearance={appearance} view="prompt" />}>
-            <WorkspacePrompt appearance={appearance} />
-          </Suspense>
+          <WorkspacePrompt
+            appearance={appearance}
+            fallback={<WorkspaceLoading appearance={appearance} view="prompt" />}
+          />
         </TabsContent>
       </Tabs>
     </section>
   );
 }
 
-const ShellShowcase = lazy(() => import("./HomeShellShowcase"));
+const ShellShowcase = lazyShowcase(() => import("./HomeShellShowcase"));
 
 /** Load the full block tools only as this lower-page section approaches the viewport. */
 function HomeShellPreview() {
@@ -176,13 +174,7 @@ function HomeShellPreview() {
   );
   return (
     <div ref={container} class="home-shell-showcase">
-      {visible ? (
-        <Suspense fallback={loading}>
-          <ShellShowcase />
-        </Suspense>
-      ) : (
-        loading
-      )}
+      {visible ? <ShellShowcase fallback={loading} /> : loading}
     </div>
   );
 }

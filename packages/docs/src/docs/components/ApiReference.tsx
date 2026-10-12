@@ -2,7 +2,7 @@ import type { ComponentChildren } from "preact";
 import { useContext, useId } from "preact/hooks";
 import { BlockHeadingLink } from "../../blocks/BlockHeadingLink";
 import { BlockPropsTable } from "../../blocks/detail/BlockPropsTable";
-import { linkTitle } from "../../link-title";
+import { linkTitle, utilityName } from "../../link-title";
 import { ComponentTypeRevealContext } from "./component-detail/ComponentApiSection";
 import { componentApiRowOwners, componentTypeId } from "./component-detail/component-api";
 import { ComponentExamplesContext } from "./component-detail/component-examples";
@@ -34,7 +34,7 @@ function ApiReferenceTable({ section }: { section: ApiReferenceSection }) {
         <h4 id={id} tabIndex={-1}>
           <BlockHeadingLink id={id}>{section.title}</BlockHeadingLink>
         </h4>
-        {section.description && <p class="docs-copy">{section.description}</p>}
+        {section.description && <p class="docs-copy">{utilityName(section.description)}</p>}
         <BlockPropsTable
           labelledBy={id}
           caption={`${section.title} documented props`}
@@ -69,9 +69,9 @@ function ApiReferenceTable({ section }: { section: ApiReferenceSection }) {
                   <p>
                     {row.description || field?.description || (
                       <>
-                        Configure <code>{row.prop}</code> for <strong>{section.title}</strong>.
-                        Compare its accepted type with the <a href="#usage">Usage Guidance</a>{" "}
-                        before supplying a value.
+                        Configure <code>{row.prop}</code> for{" "}
+                        <strong>{utilityName(section.title)}</strong>. Compare its accepted type
+                        with the <a href="#usage">Usage Guidance</a> before supplying a value.
                       </>
                     )}
                   </p>
@@ -102,7 +102,7 @@ function ApiReferenceTable({ section }: { section: ApiReferenceSection }) {
       <h3 id={id} tabIndex={-1}>
         <BlockHeadingLink id={id}>{section.title}</BlockHeadingLink>
       </h3>
-      {section.description ? <p class="docs-copy">{section.description}</p> : null}
+      {section.description ? <p class="docs-copy">{utilityName(section.description)}</p> : null}
       <div class="docs-api-table-wrap">
         <table class="docs-api-table">
           <thead>

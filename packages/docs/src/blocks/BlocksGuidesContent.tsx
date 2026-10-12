@@ -56,7 +56,6 @@ export function BlocksGuidesContent({ slug }: { slug?: string }) {
               parent={{ label: "Blocks", href: "/blocks" }}
               label={guide.label}
               eyebrow="Block Guides"
-              focus={guide.focus}
               title={guide.title}
               description={<BlockGuideIntroduction slug={guide.slug} />}
             />

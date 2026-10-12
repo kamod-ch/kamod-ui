@@ -84,16 +84,26 @@ export function connectInlineCode(doc: Document) {
     owned.set(target, { code, term, attributes });
     targetByCode.set(code, target);
   };
-  const scan = (node: Node) => {
+  const scanRoot = (node: Node) => {
     const element = node instanceof HTMLElement ? node : node.parentElement;
-    if (!element || element.closest(ignoredContent)) return;
-    const code = element.closest<HTMLElement>("code");
-    if (code) enhance(code);
-    else element.querySelectorAll<HTMLElement>("code").forEach(enhance);
+    return !element || element.closest(ignoredContent)
+      ? null
+      : (element.closest<HTMLElement>("code") ?? element);
+  };
+  const scan = (node: Node) => {
+    const root = scanRoot(node);
+    if (!root) return;
+    if (root.tagName === "CODE") enhance(root);
+    else root.querySelectorAll<HTMLElement>("code").forEach(enhance);
   };
   scan(doc.body);
   const observer = new MutationObserver((records) => {
-    let removed = false;
+    const changed = new Set<HTMLElement>();
+    const removed = new Set<HTMLElement>();
+    const queue = (node: Node) => {
+      const root = scanRoot(node);
+      if (root) changed.add(root);
+    };
     for (const record of records) {
       const element =
         record.target instanceof Element ? record.target : record.target.parentElement;
@@ -101,15 +111,23 @@ export function connectInlineCode(doc: Document) {
       // prose hints. Do not scan them or sweep unrelated references for removals.
       if (element?.closest(ignoredContent)) continue;
       if (record.type === "childList") {
-        removed ||= record.removedNodes.length > 0;
-        if (record.target instanceof Element && record.target.closest("code")) scan(record.target);
-        else record.addedNodes.forEach(scan);
-      } else scan(record.target);
+        for (const node of record.removedNodes) if (node instanceof HTMLElement) removed.add(node);
+        if (record.target instanceof Element && record.target.closest("code")) queue(record.target);
+        else for (const node of record.addedNodes) queue(node);
+      } else queue(record.target);
     }
-    // Drop removed terms so client-side navigation cannot retain detached page trees.
-    if (removed)
-      for (const [target, { code }] of owned)
-        if (!target.isConnected || !code.isConnected) restore(target);
+    // One prose edit can emit several records for the same term. Enhance it once per batch.
+    changed.forEach(scan);
+    // Inspect only removed code trees. Unrelated counters/icons must not sweep every
+    // enhanced reference on a long page, while route changes still release detached terms.
+    for (const element of removed) {
+      const codes =
+        element.tagName === "CODE" ? [element] : element.querySelectorAll<HTMLElement>("code");
+      for (const code of codes) {
+        const target = targetByCode.get(code);
+        if (target && (!target.isConnected || !code.isConnected)) restore(target);
+      }
+    }
   });
   observer.observe(doc.body, {
     childList: true,

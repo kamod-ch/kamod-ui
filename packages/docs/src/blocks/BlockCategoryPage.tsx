@@ -43,7 +43,11 @@ export const BlockCategoryPage = ({ category }: { category: BlockCategory }) => 
       mainContent={
         <section class="docs-components-overview blocks-sidebar-page blocks-category-page">
           {!SHOW_CATEGORY_PREVIEW && <BlockCategoryHeader category={category} />}
-          <ul class="blocks-overview-grid" aria-label={`${label} block variants`}>
+          <ul
+            id={`${category}-variants`}
+            class="blocks-overview-grid"
+            aria-label={`${label} block variants`}
+          >
             {blocks.map((block, index) => (
               <li key={block.id} id={block.id}>
                 <BlockOverviewCard block={block} category={category} eager={index < 3} />

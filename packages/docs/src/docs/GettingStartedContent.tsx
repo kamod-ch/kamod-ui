@@ -28,7 +28,6 @@ export function GettingStartedContent() {
               parent={{ label: "Home", href: "/" }}
               label="Getting Started"
               eyebrow="Your First Kamod Interface"
-              focus="Set Up · Build · Connect · Ship"
               title={title}
               description={
                 <>

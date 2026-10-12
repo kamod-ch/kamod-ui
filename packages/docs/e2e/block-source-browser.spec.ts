@@ -72,9 +72,13 @@ for (const scheme of ["light", "dark"] as const) {
           true,
         );
         await expect(panel.getByRole("group", { name: "Source controls" })).toBeVisible();
-        await expect(
-          panel.locator(".blocks-source-file-heading .blocks-source-lines"),
-        ).toContainText("·");
+        const lineCount = panel.locator(".blocks-source-file-heading .docs-code-line-count");
+        await expect(lineCount).toContainText("·");
+        const snippetWidth = await lineCount.evaluate(
+          (node) => node.closest<HTMLElement>(".kamod-code")!.clientWidth,
+        );
+        if (snippetWidth <= 640) await expect(lineCount).toBeHidden();
+        else await expect(lineCount).toBeVisible();
         if (width < 768) expect(pane.y).toBeGreaterThanOrEqual(tree.y + tree.height - 1);
         else {
           expect(pane.y).toBeCloseTo(tree.y, 0);
@@ -103,6 +107,8 @@ for (const scheme of ["light", "dark"] as const) {
         }
       }
 
+      // Exercise reading controls at an overflowing width, after checking the wide fitted layout.
+      await page.setViewportSize({ width: 768, height: 1000 });
       const original = await code.textContent();
       const wrap = panel.getByRole("switch", { name: "Wrap code lines" });
       await expect(wrap).not.toBeChecked();
