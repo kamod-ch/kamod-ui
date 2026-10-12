@@ -8,7 +8,7 @@ import { SidebarResources } from "./SidebarResources";
 export function DocsSidebarNavigation({ pathname }: { pathname: string }) {
   return (
     <>
-      <NavigationScrollArea mode="desktop" class="docs-sidebar-scroll">
+      <NavigationScrollArea mode="desktop" pathname={pathname} class="docs-sidebar-scroll">
         <NavigationHeader pathname={pathname} />
         <NavigationDirectory groups={navigationGroups} pathname={pathname} />
       </NavigationScrollArea>

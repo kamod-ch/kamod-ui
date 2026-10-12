@@ -224,6 +224,11 @@
   max-width: 34rem;
   justify-self: end;
 }
+@media (min-width: 1200px) {
+  .home-hero-example {
+    margin-inline-end: -1rem;
+  }
+}
 .home-workspace {
   border: 1px solid var(--home-line);
   border-radius: 1rem;

@@ -74,7 +74,7 @@ export function SiteNavigation() {
       </SheetTrigger>
       <SheetContent id={id} class="site-navigation-panel" side="left" showCloseButton={false}>
         <NavigationMenuHeader />
-        <NavigationScrollArea mode="mobile" class="site-navigation-body">
+        <NavigationScrollArea mode="mobile" pathname={pathname} class="site-navigation-body">
           <NavigationHeader pathname={pathname} closeOnNavigate />
           <NavigationDirectory groups={navigationGroups} pathname={pathname} closeOnNavigate />
         </NavigationScrollArea>

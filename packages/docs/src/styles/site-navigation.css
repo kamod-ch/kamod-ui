@@ -18,9 +18,13 @@
     transparent
   );
   --navigation-entry-muted: color-mix(in oklab, var(--muted-foreground) 75%, var(--foreground));
-  --navigation-highlight-background: var(--color-neutral-800);
   --navigation-highlight-foreground: var(--foreground);
   --navigation-highlight-muted: color-mix(in oklab, var(--foreground) 90%, var(--muted-foreground));
+  --navigation-highlight-accent: color-mix(in oklab, var(--primary) 25%, transparent);
+  --navigation-highlight-overlay: linear-gradient(
+    var(--navigation-highlight-accent),
+    var(--navigation-highlight-accent)
+  );
   --navigation-highlight-wash: color-mix(in oklab, var(--background) 60%, transparent);
   /* Background layers paint beneath content; the first gradient is the uppermost layer. */
   --navigation-highlight-overlays:
@@ -33,8 +37,7 @@
 }
 
 .site-navigation-group-trigger,
-.sidebar-entry-row,
-.site-navigation-link[aria-current] {
+.sidebar-entry-row {
   background-image: var(--navigation-highlight-overlays);
 }
 
@@ -229,6 +232,12 @@ html[data-navigation-restoring] .docs-sidebar-scroll {
   list-style: none;
 }
 
+.site-navigation-links
+  > li:has(> .site-navigation-link-overview)
+  + li:has(> .site-navigation-link-overview) {
+  margin-block-start: 0.125rem;
+}
+
 .site-navigation-link {
   display: flex;
   justify-content: space-between;
@@ -245,6 +254,7 @@ html[data-navigation-restoring] .docs-sidebar-scroll {
 }
 
 .site-navigation-link-overview {
+  --navigation-special-weight: 525;
   --navigation-special-foreground: color-mix(
     in oklab,
     var(--muted-foreground) 65%,
@@ -252,7 +262,7 @@ html[data-navigation-restoring] .docs-sidebar-scroll {
   );
   color: var(--navigation-special-foreground);
   font-size: 0.859375rem;
-  font-weight: 550;
+  font-weight: var(--navigation-special-weight);
 }
 
 .site-navigation-links > .site-navigation-intro-end {
@@ -322,6 +332,8 @@ html[data-navigation-restoring] .docs-sidebar-scroll {
   flex: none;
   width: 1.125rem;
   height: 1.125rem;
+  /* Keep the stroke reduction proportional to the link's original 550 weight. */
+  stroke-width: calc(1.9 * var(--navigation-special-weight) / 550);
   color: var(--navigation-special-foreground);
 }
 .site-navigation-link:is(:focus-visible, [aria-current]) .site-navigation-special-icon {
@@ -344,18 +356,22 @@ html[data-navigation-restoring] .docs-sidebar-scroll {
   text-align: center;
 }
 
-/* Current destinations and their owning group share the same layered neutral selection. */
+/* Current items keep their default base and add the same primary accent above it. */
 .site-navigation-group-trigger[data-current],
 .site-navigation-link[aria-current],
 .sidebar-entry-row[aria-current] {
-  background-color: var(--navigation-highlight-background);
+  background-image: var(--navigation-highlight-overlay);
   color: var(--navigation-highlight-foreground);
+}
+.site-navigation-group-trigger[data-current],
+.sidebar-entry-row[aria-current] {
+  background-image: var(--navigation-highlight-overlay), var(--navigation-highlight-overlays);
 }
 .site-navigation-link[aria-current] {
   font-weight: 450;
 }
 
-/* Selected metadata and icons use page ink over the softened selection surface. */
+/* Selected metadata and icons use page ink over the accent while keeping default chip surfaces. */
 .site-navigation-group-trigger[data-current] small,
 .sidebar-entry-row[aria-current] .sidebar-entry-caption {
   color: var(--navigation-highlight-muted);
@@ -363,15 +379,10 @@ html[data-navigation-restoring] .docs-sidebar-scroll {
 .site-navigation-group-trigger[data-current] .site-navigation-chevron {
   color: inherit;
 }
-.site-navigation-link[aria-current] .site-navigation-status {
-  background: var(--navigation-highlight-foreground);
-  color: var(--background);
-}
 .site-navigation-link[aria-current] .site-navigation-variant-count,
 .sidebar-entry-row[aria-current] .sidebar-entry-action,
 .site-navigation-group-trigger[data-current]
   :is(.site-navigation-group-icon, .site-navigation-count) {
-  background: color-mix(in oklab, var(--navigation-highlight-foreground) 5%, transparent);
   color: inherit;
 }
 .site-navigation-link[aria-current] .site-navigation-status-separator {
@@ -379,7 +390,7 @@ html[data-navigation-restoring] .docs-sidebar-scroll {
 }
 
 .site-navigation-link-overview[aria-current] {
-  font-weight: 550;
+  font-weight: var(--navigation-special-weight);
 }
 
 .site-navigation-panel :is(a, button):focus-visible,

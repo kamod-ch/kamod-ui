@@ -66,6 +66,7 @@ export function useRightSidebarScroll<T extends HTMLElement>(area: ScrollArea, e
     let visible = node.clientHeight > 0;
     let restoreFrame = 0;
     let saveTimer: ReturnType<typeof setTimeout> | undefined;
+    let links: ReturnType<typeof connectRightSidebarLinks> | undefined;
 
     const persist = () => {
       // An outgoing component must never replace the new page's memory during teardown.
@@ -76,18 +77,24 @@ export function useRightSidebarScroll<T extends HTMLElement>(area: ScrollArea, e
       writeMemory(memory);
     };
     const restore = () => {
-      if (restoring && node.clientHeight) node.scrollTop = top;
+      if (!node.clientHeight) return;
+      if (restoring) node.scrollTop = top;
+      links?.revealDestination();
     };
     const resize = () => {
       const nowVisible = node.clientHeight > 0;
       if (nowVisible && !visible) restoring = true;
       visible = nowVisible;
       cancelAnimationFrame(restoreFrame);
-      if (restoring && nowVisible) restoreFrame = requestAnimationFrame(restore);
+      if (nowVisible) restoreFrame = requestAnimationFrame(restore);
     };
-    const interact = () => {
+    const stopRestoring = () => {
       restoring = false;
       cancelAnimationFrame(restoreFrame);
+    };
+    const interact = () => {
+      stopRestoring();
+      links?.stopInitialReveal();
     };
     const scroll = () => {
       if (restoring || !node.clientHeight) return;
@@ -108,6 +115,7 @@ export function useRightSidebarScroll<T extends HTMLElement>(area: ScrollArea, e
       top = currentMemory().offsets[area] ?? 0;
       restoring = true;
       restore();
+      links?.revealDestination(true);
       resize();
     };
     const observer = new ResizeObserver(resize);
@@ -119,13 +127,12 @@ export function useRightSidebarScroll<T extends HTMLElement>(area: ScrollArea, e
     node.addEventListener("scroll", scroll, { passive: true });
     window.addEventListener("pagehide", flush);
     window.addEventListener("pageshow", show);
+    links = area === "column" ? undefined : connectRightSidebarLinks(node, stopRestoring, top);
     restore();
     resize();
-    const disconnectLinks =
-      area === "column" ? undefined : connectRightSidebarLinks(node, interact);
     return () => {
       flush();
-      disconnectLinks?.();
+      links?.disconnect();
       observer.disconnect();
       cancelAnimationFrame(restoreFrame);
       clearTimeout(saveTimer);

@@ -15,13 +15,13 @@ beforeEach(() => {
   node = document.querySelector("nav")!;
   link = document.getElementById("prose") as HTMLAnchorElement;
   link.onclick = (event) => event.preventDefault();
-  Object.defineProperty(node, "clientHeight", { value: 300 });
+  Object.defineProperty(node, "clientHeight", { value: 300, configurable: true });
   vi.spyOn(node, "getBoundingClientRect").mockReturnValue({ top: 84 } as DOMRect);
   vi.spyOn(node.firstElementChild!, "getBoundingClientRect").mockImplementation(
     () => ({ top: 484 - node.scrollTop }) as DOMRect,
   );
   navigate = vi.fn();
-  disconnect = connectRightSidebarLinks(node, navigate);
+  disconnect = connectRightSidebarLinks(node, navigate).disconnect;
 });
 afterEach(() => {
   disconnect();
@@ -86,6 +86,127 @@ it("cancels pending alignment and removes its listeners on cleanup", () => {
   expect(navigate).not.toHaveBeenCalled();
 });
 
+it("reveals the restored active section on reload instead of aligning an old fragment", () => {
+  disconnect();
+  history.replaceState(null, "", "#last");
+  vi.spyOn(window, "performance", "get").mockReturnValue({
+    getEntriesByType: () => [{ type: "reload" }],
+  } as unknown as Performance);
+  const target = node.firstElementChild as HTMLAnchorElement;
+  target.setAttribute("aria-current", "location");
+  vi.spyOn(target, "getBoundingClientRect").mockImplementation(
+    () => ({ top: 484 - node.scrollTop, bottom: 524 - node.scrollTop }) as DOMRect,
+  );
+  const connection = connectRightSidebarLinks(node, navigate);
+  disconnect = connection.disconnect;
+  connection.revealDestination();
+  vi.runAllTimers();
+  expect(node.scrollTop).toBe(156);
+
+  document.dispatchEvent(new Event("wheel"));
+  node.scrollTop = 0;
+  connection.revealDestination();
+  expect(node.scrollTop).toBe(0);
+  // Back/Forward cache restoration explicitly begins a new destination reveal.
+  connection.revealDestination(true);
+  expect(node.scrollTop).toBe(156);
+});
+
+it("preserves a saved offset when the initial active link is fully visible", () => {
+  disconnect();
+  const target = node.firstElementChild as HTMLAnchorElement;
+  target.setAttribute("aria-current", "location");
+  vi.spyOn(target, "getBoundingClientRect").mockReturnValue({ top: 100, bottom: 140 } as DOMRect);
+  node.scrollTop = 120;
+  const connection = connectRightSidebarLinks(node, navigate);
+  disconnect = connection.disconnect;
+  connection.revealDestination();
+  expect(node.scrollTop).toBe(120);
+  expect(navigate).not.toHaveBeenCalled();
+});
+
+it("checks late active headings against the saved offset rather than an intermediate reveal", async () => {
+  disconnect();
+  const first = node.firstElementChild as HTMLAnchorElement;
+  first.setAttribute("aria-current", "location");
+  vi.spyOn(first, "getBoundingClientRect").mockImplementation(
+    () => ({ top: 484 - node.scrollTop, bottom: 524 - node.scrollTop }) as DOMRect,
+  );
+  const next = document.createElement("a");
+  next.href = "#next";
+  node.append(next);
+  vi.spyOn(next, "getBoundingClientRect").mockImplementation(
+    () => ({ top: 260 - node.scrollTop, bottom: 300 - node.scrollTop }) as DOMRect,
+  );
+  const connection = connectRightSidebarLinks(node, navigate, 120);
+  disconnect = connection.disconnect;
+  connection.revealDestination();
+  expect(node.scrollTop).toBe(156);
+  first.removeAttribute("aria-current");
+  next.setAttribute("aria-current", "location");
+  await Promise.resolve();
+  vi.runAllTimers();
+  expect(node.scrollTop).toBe(120);
+});
+
+it("waits for reload restoration and its heading tracker before revealing a destination", () => {
+  disconnect();
+  history.replaceState({ ppScrollY: 900 }, "");
+  vi.spyOn(window, "performance", "get").mockReturnValue({
+    getEntriesByType: () => [{ type: "reload" }],
+  } as unknown as Performance);
+  vi.spyOn(document.documentElement, "scrollHeight", "get").mockReturnValue(5000);
+  const target = node.firstElementChild as HTMLAnchorElement;
+  target.setAttribute("aria-current", "location");
+  const bounds = vi.spyOn(target, "getBoundingClientRect").mockReturnValue({
+    top: -50,
+    bottom: -10,
+  } as DOMRect);
+  node.scrollTop = 120;
+  const connection = connectRightSidebarLinks(node, navigate);
+  disconnect = connection.disconnect;
+  connection.revealDestination();
+  expect(node.scrollTop).toBe(120);
+  expect(navigate).not.toHaveBeenCalled();
+  vi.spyOn(window, "scrollY", "get").mockReturnValue(900);
+  window.dispatchEvent(new Event("scroll"));
+  // The tracker updates during the first frame; reveal follows it on the next frame.
+  requestAnimationFrame(() => bounds.mockReturnValue({ top: 100, bottom: 140 } as DOMRect));
+  vi.runAllTimers();
+  expect(node.scrollTop).toBe(120);
+  expect(navigate).not.toHaveBeenCalled();
+});
+
+it("retries an initial fragment when its scroll container becomes visible", () => {
+  disconnect();
+  history.replaceState(null, "", "#last");
+  Object.defineProperty(node, "clientHeight", { value: 0, configurable: true });
+  const connection = connectRightSidebarLinks(node, navigate);
+  disconnect = connection.disconnect;
+  vi.runAllTimers();
+  expect(node.scrollTop).toBe(0);
+  Object.defineProperty(node, "clientHeight", { value: 300, configurable: true });
+  connection.revealDestination();
+  expect(node.scrollTop).toBe(400);
+});
+
+it("prepares a contents pane below the viewport without scrolling the article", () => {
+  disconnect();
+  const target = node.firstElementChild as HTMLAnchorElement;
+  target.setAttribute("aria-current", "location");
+  node.scrollTop = 120;
+  vi.spyOn(node, "getBoundingClientRect").mockReturnValue({ top: 1500 } as DOMRect);
+  vi.spyOn(target, "getBoundingClientRect").mockImplementation(
+    () => ({ top: 1500 - node.scrollTop, bottom: 1540 - node.scrollTop }) as DOMRect,
+  );
+  const pageScroll = vi.spyOn(window, "scrollTo");
+  const connection = connectRightSidebarLinks(node, navigate);
+  disconnect = connection.disconnect;
+  connection.revealDestination();
+  expect(node.scrollTop).toBe(0);
+  expect(pageScroll).not.toHaveBeenCalled();
+});
+
 it("reveals reading links in both directions without moving the page or overriding manual browsing", async () => {
   const target = node.firstElementChild as HTMLAnchorElement;
   const pageScroll = vi.spyOn(window, "scrollTo");
@@ -113,12 +234,18 @@ it("reveals reading links in both directions without moving the page or overridi
   expect(node.scrollTop).toBe(384);
 });
 
-it("leaves initial active state and already-visible reading links in place", async () => {
+it("reveals an initial active destination, then leaves visible reading links in place", async () => {
   const target = node.firstElementChild as HTMLAnchorElement;
+  vi.spyOn(target, "getBoundingClientRect").mockImplementation(
+    () => ({ top: 484 - node.scrollTop, bottom: 524 - node.scrollTop }) as DOMRect,
+  );
   target.setAttribute("aria-current", "location");
   await Promise.resolve();
   vi.runAllTimers();
-  expect(node.scrollTop).toBe(0);
+  expect(node.scrollTop).toBe(156);
+  navigate.mockClear();
+  document.dispatchEvent(new Event("wheel"));
+  node.scrollTop = 0;
   target.removeAttribute("aria-current");
   await Promise.resolve();
   vi.runAllTimers();

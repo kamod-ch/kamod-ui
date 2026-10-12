@@ -6,7 +6,7 @@ import { revealRestoredNavigation } from "./navigation-restore";
 type NavigationMemory = {
   top: number;
   groups: Record<string, boolean>;
-  /** Mobile menus align a new destination once, then retain the reader's position. */
+  /** Last rendered destination; mobile menus align a new page once, then retain manual scroll. */
   page?: string;
 };
 const NavigationMemoryContext = createContext<{
@@ -44,17 +44,38 @@ function readMemory(key: string): NavigationMemory {
   return { top: 0, groups: {} };
 }
 
+/** Reveal a loaded desktop destination without moving the document or an already visible link. */
+function revealCurrentLink(node: HTMLElement, active: HTMLElement, style: CSSStyleDeclaration) {
+  if (active.closest("[inert]")) return;
+  const link = active.getBoundingClientRect();
+  if (!link.height) return;
+  const viewportTop = node.getBoundingClientRect().top + node.clientTop;
+  const top = viewportTop + (parseFloat(style.paddingTop) || 0);
+  const bottom = viewportTop + node.clientHeight - (parseFloat(style.paddingBottom) || 0);
+  const delta = link.top < top ? link.top - top : link.bottom > bottom ? link.bottom - bottom : 0;
+  if (!delta) return;
+  node.scrollTop = Math.max(
+    0,
+    Math.min(node.scrollHeight - node.clientHeight, node.scrollTop + Math.round(delta)),
+  );
+  return node.scrollTop;
+}
+
 /** Per-tab navigation memory, isolated by site base path and desktop/mobile presentation. */
 export function NavigationScrollArea({
   mode,
+  pathname,
   class: className,
   children,
 }: {
   mode: "desktop" | "mobile";
+  /** The rendered route also changes when cached SPA navigation reuses this scroll area. */
+  pathname: string;
   class: string;
   children: ComponentChildren;
 }) {
   const key = `kamod:navigation:${basePrefix() || "/"}:${mode}`;
+  const page = pathname.replace(/\/+$/, "") || "/";
   const container = useRef<HTMLDivElement>(null);
   const memory = useRef<NavigationMemory>({ top: 0, groups: {} });
   const [groups, setGroups] = useState<Record<string, boolean>>({});
@@ -81,18 +102,23 @@ export function NavigationScrollArea({
   useLayoutEffect(() => {
     const node = container.current!;
     memory.current = readMemory(key);
-    const page = window.location.pathname.replace(/\/$/, "") || "/";
     let aligning = mode === "mobile" && memory.current.page !== page;
-    if (aligning) {
-      memory.current.top = 0;
-      // A newly visited page must be reachable even if its group was previously collapsed.
-      for (const trigger of node.querySelectorAll<HTMLElement>(
-        "[data-navigation-group][data-current]",
-      )) {
-        memory.current.groups[trigger.dataset.navigationGroup!] = true;
+    if (aligning) memory.current.top = 0;
+    if (mode === "desktop") memory.current.page = page;
+    const restoreGroups = () => {
+      const restored = { ...memory.current.groups };
+      if (mode === "desktop" || aligning) {
+        // Loading a desktop destination also reopens a previously collapsed owning group.
+        for (const trigger of node.querySelectorAll<HTMLElement>(
+          "[data-navigation-group][data-current]",
+        )) {
+          restored[trigger.dataset.navigationGroup!] = true;
+        }
       }
-    }
-    setGroups(memory.current.groups);
+      memory.current.groups = restored;
+      setGroups(restored);
+    };
+    restoreGroups();
     let restoring = true;
     let frame = 0;
     let saveTimer: ReturnType<typeof setTimeout> | undefined;
@@ -102,12 +128,14 @@ export function NavigationScrollArea({
     // Recheck during disclosure/font layout; add only the space needed to align a final link.
     const restore = () => {
       if (!restoring || !node.clientHeight) return;
-      const padding = parseFloat(getComputedStyle(node).paddingTop) || 0;
-      const active = aligning
-        ? (node.querySelector<HTMLElement>(".site-navigation-link[aria-current]") ??
-          node.querySelector<HTMLElement>(".navigation-header-link[aria-current]"))
-        : null;
-      if (active) {
+      const style = getComputedStyle(node);
+      const padding = parseFloat(style.paddingTop) || 0;
+      const active =
+        mode === "desktop" || aligning
+          ? (node.querySelector<HTMLElement>(".site-navigation-link[aria-current]") ??
+            node.querySelector<HTMLElement>(".navigation-header-link[aria-current]"))
+          : null;
+      if (active && aligning) {
         memory.current.top = Math.max(
           0,
           Math.round(
@@ -131,7 +159,13 @@ export function NavigationScrollArea({
         memory.current.page = page;
       }
       node.scrollTop = memory.current.top;
-      if (mode === "desktop") revealRestoredNavigation(node, memory.current.groups);
+      if (mode === "desktop") {
+        if (active) {
+          const revealedTop = revealCurrentLink(node, active, style);
+          if (revealedTop !== undefined) memory.current.top = revealedTop;
+        }
+        revealRestoredNavigation(node, memory.current.groups);
+      }
       if (aligning) persist();
     };
     const scheduleRestore = () => {
@@ -188,6 +222,13 @@ export function NavigationScrollArea({
       }
       persist();
     };
+    const resume = (event: PageTransitionEvent) => {
+      if (!event.persisted || mode !== "desktop") return;
+      restoring = true;
+      restoreGroups();
+      restore();
+      scheduleRestore();
+    };
     const observer = new ResizeObserver(scheduleRestore);
     observer.observe(node);
     // The inner wrapper resizes as groups open, even when the viewport height is unchanged.
@@ -200,7 +241,9 @@ export function NavigationScrollArea({
     node.addEventListener("keydown", interact);
     node.addEventListener("focusin", interact);
     window.addEventListener("pagehide", saveBeforeLeaving);
+    window.addEventListener("pageshow", resume);
     restore();
+    if (mode === "desktop") persist();
     scheduleRestore();
     return () => {
       saveBeforeLeaving();
@@ -216,8 +259,9 @@ export function NavigationScrollArea({
       node.removeEventListener("keydown", interact);
       node.removeEventListener("focusin", interact);
       window.removeEventListener("pagehide", saveBeforeLeaving);
+      window.removeEventListener("pageshow", resume);
     };
-  }, [key, mode]);
+  }, [key, mode, page]);
 
   const setGroup = (id: string, open: boolean) => {
     // Capture untouched default-open groups too, before leaving their original page.

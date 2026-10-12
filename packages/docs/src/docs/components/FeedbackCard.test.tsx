@@ -5,7 +5,7 @@ import { FeedbackCard } from "./FeedbackCard";
 
 beforeEach(() => localStorage.clear());
 afterEach(() => {
-  cleanup();
+  act(() => cleanup());
   vi.restoreAllMocks();
 });
 
@@ -13,7 +13,9 @@ it("removes the card and preserves dismissal when another page mounts it", async
   const first = render(<FeedbackCard />);
   fireEvent.click(await screen.findByRole("button", { name: "Dismiss feedback card" }));
   expect(screen.queryByRole("region", { name: "Straight Talk" })).not.toBeInTheDocument();
-  first.unmount();
+  act(() => {
+    first.unmount();
+  });
   render(<FeedbackCard />);
   expect(screen.queryByText("Straight Talk")).not.toBeInTheDocument();
   expect(localStorage.getItem("kamod:feedback-dismissed")).toBe("true");
@@ -40,6 +42,8 @@ it("syncs dismissal from another tab and removes its listener on unmount", async
     window.dispatchEvent(new StorageEvent("storage", { key: "kamod:feedback-dismissed" }));
   });
   expect(screen.queryByText("Straight Talk")).not.toBeInTheDocument();
-  view.unmount();
+  act(() => {
+    view.unmount();
+  });
   expect(remove).toHaveBeenCalledWith("storage", expect.any(Function));
 });

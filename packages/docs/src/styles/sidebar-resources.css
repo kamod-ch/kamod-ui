@@ -6,9 +6,9 @@
 .navigation-header + .site-navigation-directory {
   border-top: 0;
 }
-/* Entry cards and inactive groups share the default quiet surface. */
+/* Active and inactive cards share their base; selection adds a separate accent layer. */
 .sidebar-entry-row,
-.site-navigation-group-trigger:where(:not([data-current])) {
+.site-navigation-group-trigger {
   background-color: var(--navigation-entry-background);
 }
 .sidebar-entry-row {

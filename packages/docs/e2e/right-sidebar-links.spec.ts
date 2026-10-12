@@ -133,9 +133,40 @@ for (const path of [
       node.scrollTop = Math.min(80, node.scrollHeight - node.clientHeight);
       node.dispatchEvent(new Event("scroll"));
     });
+    const visibleBeforeReload = await area.evaluate((node) => {
+      const active = node.querySelector<HTMLAnchorElement>('a[aria-current="location"]')!;
+      const bounds = node.getBoundingClientRect();
+      const item = active.getBoundingClientRect();
+      return (
+        item.top >= Math.max(0, bounds.top + node.clientTop) - 1 &&
+        item.bottom <= Math.min(innerHeight, bounds.top + node.clientTop + node.clientHeight) + 1
+      );
+    });
+    const activeBeforeReload = await area
+      .locator('a[aria-current="location"]')
+      .getAttribute("href");
     await page.reload();
     await expect(page.locator("html")).toHaveClass(/pp-ready/);
-    await expect.poll(() => area.evaluate((node) => node.scrollTop)).toBe(manualTop);
+    // Back/Forward can restore a different article position than its remaining URL fragment.
+    const activeAfterReload = await area.locator('a[aria-current="location"]').getAttribute("href");
+    if (visibleBeforeReload && activeAfterReload === activeBeforeReload) {
+      await expect.poll(() => area.evaluate((node) => node.scrollTop)).toBe(manualTop);
+    } else {
+      await expect
+        .poll(() =>
+          area.evaluate((node) => {
+            const active = node.querySelector<HTMLAnchorElement>('a[aria-current="location"]')!;
+            const bounds = node.getBoundingClientRect();
+            const item = active.getBoundingClientRect();
+            return (
+              item.top >= Math.max(0, bounds.top + node.clientTop) - 1 &&
+              item.bottom <=
+                Math.min(innerHeight, bounds.top + node.clientTop + node.clientHeight) + 1
+            );
+          }),
+        )
+        .toBe(true);
+    }
     await page.goto(`./${path}${lastHref}`);
     await aligned(lastHref);
   });
