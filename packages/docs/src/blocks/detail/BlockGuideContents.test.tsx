@@ -9,8 +9,10 @@ beforeEach(() => {
 
 afterEach(() => {
   cleanup();
+  // Preact 11 schedules effect work with both RAF and a fallback timeout. Drain
+  // that timeout before jsdom removes cancelAnimationFrame during teardown.
   act(() => {
-    vi.runOnlyPendingTimers();
+    vi.runAllTimers();
   });
   vi.useRealTimers();
   vi.restoreAllMocks();

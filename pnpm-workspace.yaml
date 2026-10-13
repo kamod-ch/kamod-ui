@@ -13,5 +13,5 @@ peerDependencyRules:
     preact: ">=10 <12"
 minimumReleaseAgeExclude:
   - "@kamod-ch/preactpress@2.2.1"
-  - "@kamod-ch/brand@0.1.0 || 0.1.11 || 0.1.12"
+  - "@kamod-ch/brand@0.1.0 || 0.1.11 || 0.1.12 || 0.3.0"
   - "@kamod-ch/motion@0.1.0"
