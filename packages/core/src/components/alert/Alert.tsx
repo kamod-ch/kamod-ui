@@ -16,7 +16,7 @@ export const alert = tv({
     variant: {
       default: "border-border bg-card text-card-foreground",
       callout:
-        "block overflow-hidden rounded-xl border-border/80 bg-card text-card-foreground shadow-xs",
+        "block overflow-hidden rounded-xl border-foreground/8 bg-[color-mix(in_oklab,var(--foreground)_2%,var(--background))] text-foreground shadow-none dark:bg-[color-mix(in_oklab,var(--foreground)_4%,var(--background))]",
       /** shadcn parity — title + icon use `text-destructive`; description muted via descendant selector. */
       destructive:
         "border-border bg-card text-destructive *:data-[slot=alert-description]:text-destructive/90 [&>svg]:text-current",

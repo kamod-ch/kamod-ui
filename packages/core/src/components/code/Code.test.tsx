@@ -314,6 +314,22 @@ it("changes syntax palettes and typography without repeating highlighting", asyn
   expect(highlightCode).toHaveBeenCalledOnce();
 });
 
+it("changes source appearance without replacing tokens or repeating highlighting", async () => {
+  vi.stubGlobal("IntersectionObserver", undefined);
+  const code = "export const answer = 42;";
+  const view = render(<Code code={code} />);
+  await waitFor(() => expect(view.container.querySelector(".token")).not.toBeNull());
+  const token = view.container.querySelector(".token");
+  const pre = view.container.querySelector("pre");
+  for (const colorMode of ["light", "dark", "inherit", "inverse"] as const) {
+    view.rerender(<Code code={code} colorMode={colorMode} />);
+    expect(view.container.querySelector("pre")).toBe(pre);
+    expect(pre).toHaveAttribute("data-color-mode", colorMode);
+    expect(view.container.querySelector(".token")).toBe(token);
+  }
+  expect(highlightCode).toHaveBeenCalledOnce();
+});
+
 it("infers unlabelled source and uses the inferred grammar in the visible label", async () => {
   vi.stubGlobal("IntersectionObserver", undefined);
   const source = "const enabled = true;";

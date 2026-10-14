@@ -206,7 +206,7 @@ export const useThemePreset = (
     syncThemeFromStorage(storage, target, defaultPreset);
 
     const dispose = signalEffect(() => {
-      themePresetSignal.value;
+      void themePresetSignal.value;
       setRevision((count) => count + 1);
     });
 

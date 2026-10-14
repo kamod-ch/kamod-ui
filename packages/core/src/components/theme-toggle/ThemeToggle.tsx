@@ -1,7 +1,6 @@
 import { resolvedColorSchemeSignal, setColorScheme, syncThemeFromStorage } from "@kamod-ch/themes";
 import type { ButtonHTMLAttributes, ComponentChildren } from "preact";
 import { useEffect, useState } from "preact/hooks";
-import { cn } from "../../lib/utils";
 import { Button } from "../button";
 import { applyColorSchemeWithTransition, type ThemeToggleTransition } from "./theme-toggle-ripple";
 
@@ -11,9 +10,10 @@ export type ThemeToggleProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "cl
   transition?: ThemeToggleTransition;
 };
 
-const SunIcon = ({ class: className }: { class?: string }) => (
+const SunIcon = ({ visible }: { visible: boolean }) => (
   <svg
-    class={cn("size-4 shrink-0", className)}
+    class="col-start-1 row-start-1 size-4 shrink-0"
+    style={{ visibility: visible ? "visible" : "hidden" }}
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
@@ -34,9 +34,10 @@ const SunIcon = ({ class: className }: { class?: string }) => (
   </svg>
 );
 
-const MoonIcon = ({ class: className }: { class?: string }) => (
+const MoonIcon = ({ visible }: { visible: boolean }) => (
   <svg
-    class={cn("size-4 shrink-0", className)}
+    class="col-start-1 row-start-1 size-4 shrink-0"
+    style={{ visibility: visible ? "visible" : "hidden" }}
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
@@ -89,7 +90,12 @@ export const ThemeToggle = ({
         applyColorSchemeWithTransition(next, transition, setColorScheme, event, origin);
       }}
     >
-      {children ?? (darkMode ? <SunIcon /> : <MoonIcon />)}
+      {children ?? (
+        <span class="inline-grid size-4 shrink-0" aria-hidden="true">
+          <SunIcon visible={darkMode} />
+          <MoonIcon visible={!darkMode} />
+        </span>
+      )}
     </Button>
   );
 };

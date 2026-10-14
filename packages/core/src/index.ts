@@ -79,6 +79,7 @@ export { Chart } from "./components/chart";
 export { Checkbox, type CheckboxCheckedState } from "./components/checkbox";
 export {
   Code,
+  type CodeColorMode,
   type CodeCopyActionContext,
   type CodeCopyStatus,
   CodeFileHeader,

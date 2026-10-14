@@ -1,8 +1,43 @@
 import { cleanup, fireEvent, render, screen, within } from "@testing-library/preact";
 import { afterEach, expect, it, vi } from "vitest";
 import { ThemePicker } from "./ThemePicker";
+import { ThemePickerActions } from "./ThemePickerActions";
 
 afterEach(cleanup);
+
+it("keeps the mode button and both SVGs mounted across controlled appearance changes", () => {
+  const onSchemeChange = vi.fn();
+  const view = render(<ThemePickerActions scheme="light" onSchemeChange={onSchemeChange} />);
+  const button = screen.getByRole("button", { name: "Switch to dark mode" });
+  const glyph = button.querySelector(".site-theme-picker-action-icon")!;
+  const icons = Array.from(glyph.querySelectorAll("svg"));
+  expect(icons).toHaveLength(2);
+  button.focus();
+
+  for (const [scheme, dark] of [
+    ["light", false],
+    ["dark", true],
+    ["system", false],
+    ["dark", true],
+    ["light", false],
+  ] as const) {
+    view.rerender(<ThemePickerActions scheme={scheme} onSchemeChange={onSchemeChange} />);
+    const next = dark ? "light" : "dark";
+    expect(screen.getByRole("button", { name: `Switch to ${next} mode` })).toBe(button);
+    expect(document.activeElement).toBe(button);
+    expect(button.querySelector(".site-theme-picker-action-icon")).toBe(glyph);
+    icons.forEach((icon, index) => {
+      expect(glyph.children[index]).toBe(icon);
+      expect(icon.getAttribute("data-active")).toBe(String(index === 0 ? dark : !dark));
+      expect(icon.getAttribute("aria-hidden")).toBe("true");
+    });
+    fireEvent.click(button);
+    expect(onSchemeChange).toHaveBeenLastCalledWith(next);
+    expect(
+      screen.getByRole("button", { name: "Use system color mode" }).getAttribute("aria-pressed"),
+    ).toBe(String(scheme === "system"));
+  }
+});
 
 it("delegates appearance changes without modifying the page or storage", async () => {
   const onPresetChange = vi.fn();
@@ -46,6 +81,7 @@ it("supports host controls, preset subsets, local URLs and close focus restorati
       scheme="dark"
       onSchemeChange={() => {}}
       presets={[{ id: "ocean", label: "Ocean" }]}
+      showLabel
       resolveHref={(href) => `/library${href}`}
       label="Preview color theme"
     >
@@ -53,6 +89,7 @@ it("supports host controls, preset subsets, local URLs and close focus restorati
     </ThemePicker>,
   );
   const trigger = screen.getByRole("button", { name: "Preview color theme" });
+  expect(trigger.textContent).toBe("Ocean");
   fireEvent.click(trigger);
   const dialog = await screen.findByRole("dialog", { name: "Find your Palette" });
   const picker = within(dialog);

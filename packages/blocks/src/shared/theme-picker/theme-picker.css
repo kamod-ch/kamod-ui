@@ -58,18 +58,56 @@
   color: color-mix(in oklab, var(--muted-foreground) 85%, var(--popover));
 }
 .site-theme-options {
+  --theme-option-height: 2.125rem;
+  --theme-option-gap: 0.125rem;
+  --theme-selection-accent: var(
+    --navigation-highlight-accent,
+    color-mix(in oklab, var(--primary) 14%, transparent)
+  );
+  --theme-selection-base: var(--navigation-entry-background, transparent);
+  isolation: isolate;
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 0.125rem;
+  grid-auto-rows: var(--theme-option-height);
+  gap: var(--theme-option-gap);
   padding: 0.5rem;
 }
+/* Two synchronized layers keep the sidebar washes below a smoothly changing accent. */
+.site-theme-options[data-selected]::before,
+.site-theme-options[data-selected]::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0.5rem 0.5rem auto;
+  height: var(--theme-option-height);
+  border-radius: 0.5rem;
+  pointer-events: none;
+  transform: translateY(
+    calc(var(--theme-index) * (var(--theme-option-height) + var(--theme-option-gap)))
+  );
+  transition:
+    transform 700ms cubic-bezier(0.2, 1.2, 0.35, 1),
+    background-color 350ms ease;
+}
+.site-theme-options[data-selected]::before {
+  /* Anchor the neutral tint to the page color, independent of the popover's own surface. */
+  background-color: var(--background);
+  background-image:
+    var(--navigation-highlight-overlays, none),
+    linear-gradient(var(--theme-selection-base), var(--theme-selection-base));
+}
+.site-theme-options[data-selected]::after {
+  background-color: var(--theme-selection-accent);
+}
 .site-theme-options button {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
   min-width: 0;
-  min-height: 2.125rem;
+  min-height: var(--theme-option-height);
   padding: 0.375rem 0.5rem;
   border: 0;
   border-radius: 0.5rem;
@@ -77,6 +115,7 @@
   color: var(--muted-foreground);
   text-align: left;
   font-size: 0.765625rem;
+  line-height: 1.25rem;
   cursor: pointer;
   transition:
     background-color 150ms ease,
@@ -92,15 +131,20 @@
     color: var(--foreground);
   }
 }
-.site-theme-options button[aria-pressed="true"] {
-  background: color-mix(
-    in oklab,
-    var(--primary) calc(12% + 10.56% * var(--docs-highlight-boost, 0)),
-    transparent
-  );
+.site-theme-options button:is([aria-pressed="true"], [aria-checked="true"]) {
+  background: transparent;
   color: var(--foreground);
   font-weight: 600;
-  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--primary) 10%, transparent);
+}
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  .site-theme-options button:is([aria-pressed="true"], [aria-checked="true"]):hover {
+    /* Tint above the moving selection plate without replacing its palette accent. */
+    background: color-mix(
+      in oklab,
+      var(--foreground) calc(2% + 1.92% * var(--docs-highlight-boost, 0)),
+      transparent
+    );
+  }
 }
 .site-theme-option-label {
   display: flex;
@@ -144,7 +188,9 @@
 .site-theme-selection-check {
   opacity: 0;
 }
-.site-theme-options button[aria-pressed="true"] .site-theme-selection-check {
+.site-theme-options
+  button:is([aria-pressed="true"], [aria-checked="true"])
+  .site-theme-selection-check {
   opacity: 1;
 }
 .site-theme-picker-content [data-slot="popover-description"] strong {
@@ -182,11 +228,22 @@
   gap: 0.625rem;
   padding-top: 0.625rem;
 }
-.site-theme-picker-action-slot,
-.site-theme-picker-action-icon {
+.site-theme-picker-action-slot {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+}
+.site-theme-picker-action-icon {
+  display: inline-grid;
+  align-items: center;
+  justify-content: center;
+}
+/* Keep both mode SVGs mounted in the existing animated icon slot. */
+.site-theme-picker-action-icon > svg {
+  grid-area: 1 / 1;
+}
+.site-theme-picker-action-icon > svg[data-active="false"] {
+  opacity: 0;
 }
 .site-theme-picker-action {
   width: 1.75rem;
@@ -247,7 +304,9 @@
   .site-theme-picker-content {
     animation: none;
   }
-  .site-theme-options button {
+  .site-theme-options button,
+  .site-theme-options[data-selected]::before,
+  .site-theme-options[data-selected]::after {
     transition: none;
   }
 }

@@ -4,7 +4,8 @@
  * Chris Kempson's Tomorrow Night Eighties; Twilight: Remy Bach;
  * Solarized: Ethan Schoonover, Prism port by Hector Matos.
  * https://github.com/PrismJS/prism/tree/v1.30.0/themes
- * Low-contrast tokens are adjusted for small source text. Layout, fonts,
+ * Paired light/dark adaptations follow the source colorMode. Low-contrast
+ * tokens are adjusted for small source text. Layout, fonts,
  * shadows and plugin decorations remain owned by Code.
  *
  * Copyright (c) 2012 Lea Verou
@@ -24,143 +25,296 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+/* Each viewer owns its Prism exceptions, including nested prepared-document readers. */
+:where(.kamod-code) {
+  --kamod-code-prism-atrule-light: initial;
+  --kamod-code-prism-atrule-dark: initial;
+  --kamod-code-prism-attr-value-light: initial;
+  --kamod-code-prism-attr-value-dark: initial;
+  --kamod-code-prism-variable-light: initial;
+  --kamod-code-prism-variable-dark: initial;
+  --kamod-code-prism-tag-light: initial;
+  --kamod-code-prism-tag-dark: initial;
+  --kamod-code-prism-attr-name-light: initial;
+  --kamod-code-prism-attr-name-dark: initial;
+  --kamod-code-prism-namespace-light: initial;
+  --kamod-code-prism-namespace-dark: initial;
+  --kamod-code-prism-class-name-light: initial;
+  --kamod-code-prism-class-name-dark: initial;
+  --kamod-code-prism-constant-light: initial;
+  --kamod-code-prism-constant-dark: initial;
+  --kamod-code-prism-selector-light: initial;
+  --kamod-code-prism-selector-dark: initial;
+  --kamod-code-prism-important-light: initial;
+  --kamod-code-prism-important-dark: initial;
+  --kamod-code-prism-function-name-light: initial;
+  --kamod-code-prism-function-name-dark: initial;
+  --kamod-code-prism-url-light: initial;
+  --kamod-code-prism-url-dark: initial;
+  --kamod-code-prism-selection-background-light: initial;
+  --kamod-code-prism-selection-background-dark: initial;
+  --kamod-code-prism-selection-foreground-light: initial;
+  --kamod-code-prism-selection-foreground-dark: initial;
+}
+
 .kamod-code:where([data-syntax-theme="okaidia"]) {
-  --kamod-code-source-surface: #272822;
-  --kamod-code-prism-foreground: #f8f8f2;
-  --kamod-code-comment: #8292a2;
-  --kamod-code-punctuation: #f8f8f2;
-  --kamod-code-property: #ff5a91;
-  --kamod-code-number: #ae81ff;
-  --kamod-code-string: #a6e22e;
-  --kamod-code-operator: #f8f8f2;
-  --kamod-code-keyword: #66d9ef;
-  --kamod-code-function: #e6db74;
-  --kamod-code-variable: #fd971f;
+  --kamod-code-source-surface-light: #fafaf5;
+  --kamod-code-source-surface-dark: #272822;
+  --kamod-code-foreground-light: #34352e;
+  --kamod-code-foreground-dark: #f8f8f2;
+  --kamod-code-comment-light: #66717d;
+  --kamod-code-comment-dark: #8292a2;
+  --kamod-code-punctuation-light: #34352e;
+  --kamod-code-punctuation-dark: #f8f8f2;
+  --kamod-code-property-light: #b51f55;
+  --kamod-code-property-dark: #ff5a91;
+  --kamod-code-number-light: #7342bc;
+  --kamod-code-number-dark: #ae81ff;
+  --kamod-code-string-light: #527500;
+  --kamod-code-string-dark: #a6e22e;
+  --kamod-code-operator-light: #34352e;
+  --kamod-code-operator-dark: #f8f8f2;
+  --kamod-code-keyword-light: #007080;
+  --kamod-code-keyword-dark: #66d9ef;
+  --kamod-code-function-light: #756613;
+  --kamod-code-function-dark: #e6db74;
+  --kamod-code-variable-light: #9d5300;
+  --kamod-code-variable-dark: #fd971f;
+  --kamod-code-chrome-keyword: var(--foreground);
+  --kamod-code-prism-atrule-light: var(--kamod-code-function, var(--kamod-code-function-light));
+  --kamod-code-prism-atrule-dark: var(--kamod-code-function, var(--kamod-code-function-dark));
+  --kamod-code-prism-attr-value-light: var(--kamod-code-function, var(--kamod-code-function-light));
+  --kamod-code-prism-attr-value-dark: var(--kamod-code-function, var(--kamod-code-function-dark));
+  --kamod-code-prism-variable-light: var(--kamod-code-operator, var(--kamod-code-operator-light));
+  --kamod-code-prism-variable-dark: var(--kamod-code-operator, var(--kamod-code-operator-dark));
+  --kamod-code-prism-selection-background-light: #d4dae2;
+  --kamod-code-prism-selection-background-dark: #4b4b4b;
+  --kamod-code-prism-selection-foreground-light: #1f2937;
+  --kamod-code-prism-selection-foreground-dark: #ffffff;
 }
 .kamod-code:where([data-syntax-theme="tomorrow"]) {
-  --kamod-code-source-surface: #2d2d2d;
-  --kamod-code-prism-foreground: #cccccc;
-  --kamod-code-comment: #999999;
-  --kamod-code-punctuation: #cccccc;
-  --kamod-code-property: #f8c555;
-  --kamod-code-number: #f08d49;
-  --kamod-code-string: #7ec699;
-  --kamod-code-operator: #67cdcc;
-  --kamod-code-keyword: #cc99cd;
-  --kamod-code-function: #f08d49;
-  --kamod-code-variable: #7ec699;
+  --kamod-code-source-surface-light: #f6f6f6;
+  --kamod-code-source-surface-dark: #2d2d2d;
+  --kamod-code-foreground-light: #3b3b3b;
+  --kamod-code-foreground-dark: #cccccc;
+  --kamod-code-comment-light: #656565;
+  --kamod-code-comment-dark: #999999;
+  --kamod-code-punctuation-light: #3b3b3b;
+  --kamod-code-punctuation-dark: #cccccc;
+  --kamod-code-property-light: #886000;
+  --kamod-code-property-dark: #f8c555;
+  --kamod-code-number-light: #ad4d08;
+  --kamod-code-number-dark: #f08d49;
+  --kamod-code-string-light: #397146;
+  --kamod-code-string-dark: #7ec699;
+  --kamod-code-operator-light: #087777;
+  --kamod-code-operator-dark: #67cdcc;
+  --kamod-code-keyword-light: #855188;
+  --kamod-code-keyword-dark: #cc99cd;
+  --kamod-code-function-light: #ad4d08;
+  --kamod-code-function-dark: #f08d49;
+  --kamod-code-variable-light: #397146;
+  --kamod-code-variable-dark: #7ec699;
+  --kamod-code-chrome-keyword: var(--foreground);
+  --kamod-code-prism-tag-light: #ad4447;
+  --kamod-code-prism-tag-dark: #e2777a;
+  --kamod-code-prism-attr-name-light: #ad4447;
+  --kamod-code-prism-attr-name-dark: #e2777a;
+  --kamod-code-prism-namespace-light: #ad4447;
+  --kamod-code-prism-namespace-dark: #e2777a;
+  --kamod-code-prism-class-name-light: var(--kamod-code-property, var(--kamod-code-property-light));
+  --kamod-code-prism-class-name-dark: var(--kamod-code-property, var(--kamod-code-property-dark));
+  --kamod-code-prism-selector-light: var(--kamod-code-keyword, var(--kamod-code-keyword-light));
+  --kamod-code-prism-selector-dark: var(--kamod-code-keyword, var(--kamod-code-keyword-dark));
+  --kamod-code-prism-important-light: var(--kamod-code-keyword, var(--kamod-code-keyword-light));
+  --kamod-code-prism-important-dark: var(--kamod-code-keyword, var(--kamod-code-keyword-dark));
+  --kamod-code-prism-attr-value-light: var(--kamod-code-string, var(--kamod-code-string-light));
+  --kamod-code-prism-attr-value-dark: var(--kamod-code-string, var(--kamod-code-string-dark));
+  --kamod-code-prism-function-name-light: #3e6c9c;
+  --kamod-code-prism-function-name-dark: #7ca8d8;
+  --kamod-code-prism-selection-background-light: #d4dae2;
+  --kamod-code-prism-selection-background-dark: #4b4b4b;
+  --kamod-code-prism-selection-foreground-light: #1f2937;
+  --kamod-code-prism-selection-foreground-dark: #ffffff;
 }
 .kamod-code:where([data-syntax-theme="twilight"]) {
-  --kamod-code-source-surface: #141414;
-  --kamod-code-prism-foreground: #ffffff;
-  --kamod-code-comment: #858585;
-  --kamod-code-punctuation: #bfbfbf;
-  --kamod-code-property: #f9ee98;
-  --kamod-code-number: #cf6a4c;
-  --kamod-code-string: #8f9d6a;
-  --kamod-code-operator: #8f9d6a;
-  --kamod-code-keyword: #f9ee98;
-  --kamod-code-function: #ffffff;
-  --kamod-code-variable: #e9c062;
+  --kamod-code-source-surface-light: #faf8f5;
+  --kamod-code-source-surface-dark: #141414;
+  --kamod-code-foreground-light: #38312b;
+  --kamod-code-foreground-dark: #ffffff;
+  --kamod-code-comment-light: #6d6660;
+  --kamod-code-comment-dark: #858585;
+  --kamod-code-punctuation-light: #655d55;
+  --kamod-code-punctuation-dark: #bfbfbf;
+  --kamod-code-property-light: #75620d;
+  --kamod-code-property-dark: #f9ee98;
+  --kamod-code-number-light: #ac442c;
+  --kamod-code-number-dark: #cf6a4c;
+  --kamod-code-string-light: #53643b;
+  --kamod-code-string-dark: #8f9d6a;
+  --kamod-code-operator-light: #53643b;
+  --kamod-code-operator-dark: #8f9d6a;
+  --kamod-code-keyword-light: #75620d;
+  --kamod-code-keyword-dark: #f9ee98;
+  --kamod-code-function-light: #38312b;
+  --kamod-code-function-dark: #ffffff;
+  --kamod-code-variable-light: #866017;
+  --kamod-code-variable-dark: #e9c062;
+  --kamod-code-chrome-keyword: var(--foreground);
+  --kamod-code-prism-tag-light: var(--kamod-code-number, var(--kamod-code-number-light));
+  --kamod-code-prism-tag-dark: var(--kamod-code-number, var(--kamod-code-number-dark));
+  --kamod-code-prism-selector-light: var(--kamod-code-keyword, var(--kamod-code-keyword-light));
+  --kamod-code-prism-selector-dark: var(--kamod-code-keyword, var(--kamod-code-keyword-dark));
+  --kamod-code-prism-constant-light: var(--kamod-code-keyword, var(--kamod-code-keyword-light));
+  --kamod-code-prism-constant-dark: var(--kamod-code-keyword, var(--kamod-code-keyword-dark));
+  --kamod-code-prism-attr-value-light: var(--kamod-code-string, var(--kamod-code-string-light));
+  --kamod-code-prism-attr-value-dark: var(--kamod-code-string, var(--kamod-code-string-dark));
+  --kamod-code-prism-variable-light: var(--kamod-code-string, var(--kamod-code-string-light));
+  --kamod-code-prism-variable-dark: var(--kamod-code-string, var(--kamod-code-string-dark));
+  --kamod-code-prism-atrule-light: #4b6082;
+  --kamod-code-prism-atrule-dark: #8499bc;
+  --kamod-code-prism-selection-background-light: #d4dae2;
+  --kamod-code-prism-selection-background-dark: #4b4b4b;
+  --kamod-code-prism-selection-foreground-light: #1f2937;
+  --kamod-code-prism-selection-foreground-dark: #ffffff;
 }
 .kamod-code:where([data-syntax-theme="solarized-light"]) {
-  --kamod-code-source-surface: #fdf6e3;
-  --kamod-code-prism-foreground: #586e75;
-  --kamod-code-comment: #586e75;
-  --kamod-code-punctuation: #586e75;
-  --kamod-code-property: #1e6ca1;
-  --kamod-code-number: #1e6ca1;
-  --kamod-code-string: #20756f;
-  --kamod-code-operator: #586e75;
-  --kamod-code-keyword: #5d6c00;
-  --kamod-code-function: #846600;
-  --kamod-code-variable: #a33a10;
+  --kamod-code-source-surface-light: #fdf6e3;
+  --kamod-code-source-surface-dark: #002b36;
+  --kamod-code-foreground-light: #586e75;
+  --kamod-code-foreground-dark: #b7c9c9;
+  --kamod-code-comment-light: #586e75;
+  --kamod-code-comment-dark: #b7c9c9;
+  --kamod-code-punctuation-light: #586e75;
+  --kamod-code-punctuation-dark: #b7c9c9;
+  --kamod-code-property-light: #1e6ca1;
+  --kamod-code-property-dark: #6ab0dd;
+  --kamod-code-number-light: #1e6ca1;
+  --kamod-code-number-dark: #6ab0dd;
+  --kamod-code-string-light: #20756f;
+  --kamod-code-string-dark: #5fc3b8;
+  --kamod-code-operator-light: #586e75;
+  --kamod-code-operator-dark: #b7c9c9;
+  --kamod-code-keyword-light: #5d6c00;
+  --kamod-code-keyword-dark: #c0c568;
+  --kamod-code-function-light: #846600;
+  --kamod-code-function-dark: #e0bb58;
+  --kamod-code-variable-light: #a33a10;
+  --kamod-code-variable-dark: #f0956d;
+  --kamod-code-chrome-keyword: var(--foreground);
+  --kamod-code-prism-url-light: var(--kamod-code-string, var(--kamod-code-string-light));
+  --kamod-code-prism-url-dark: var(--kamod-code-string, var(--kamod-code-string-dark));
+  --kamod-code-prism-selection-background-light: #073642;
+  --kamod-code-prism-selection-background-dark: #b7c9c9;
+  --kamod-code-prism-selection-foreground-light: #fdf6e3;
+  --kamod-code-prism-selection-foreground-dark: #002b36;
 }
 
-/* Preserve Prism's exceptional token groups inside this viewer's own source only. */
-.kamod-code:where([data-syntax-theme="okaidia"])
-  > :is(.docs-code, .kamod-code-content)
-  .token:is(.atrule, .attr-value) {
-  color: var(--kamod-code-function);
+/* Resolve exceptions at each token, after the nearest source has selected its mode. */
+.kamod-code-source :where(.token.atrule) {
+  color: color-mix(
+    in oklab,
+    var(--kamod-code-prism-atrule-light, var(--kamod-code-resolved-keyword))
+      var(--kamod-code-light-weight),
+    var(--kamod-code-prism-atrule-dark, var(--kamod-code-resolved-keyword))
+  );
 }
-.kamod-code:where([data-syntax-theme="okaidia"])
-  > :is(.docs-code, .kamod-code-content)
-  .token.variable {
-  color: var(--kamod-code-operator);
+.kamod-code-source :where(.token.attr-value) {
+  color: color-mix(
+    in oklab,
+    var(--kamod-code-prism-attr-value-light, var(--kamod-code-resolved-keyword))
+      var(--kamod-code-light-weight),
+    var(--kamod-code-prism-attr-value-dark, var(--kamod-code-resolved-keyword))
+  );
 }
-.kamod-code:where([data-syntax-theme="tomorrow"])
-  > :is(.docs-code, .kamod-code-content)
-  .token:is(.tag, .attr-name, .namespace, .deleted) {
-  color: #e2777a;
+.kamod-code-source :where(.token.variable) {
+  color: color-mix(
+    in oklab,
+    var(--kamod-code-prism-variable-light, var(--kamod-code-resolved-variable))
+      var(--kamod-code-light-weight),
+    var(--kamod-code-prism-variable-dark, var(--kamod-code-resolved-variable))
+  );
 }
-.kamod-code:where([data-syntax-theme="tomorrow"])
-  > :is(.docs-code, .kamod-code-content)
-  .token:is(.class-name, .constant, .symbol) {
-  color: var(--kamod-code-property);
+.kamod-code-source :where(.token:is(.tag, .deleted)) {
+  color: color-mix(
+    in oklab,
+    var(--kamod-code-prism-tag-light, var(--kamod-code-resolved-property))
+      var(--kamod-code-light-weight),
+    var(--kamod-code-prism-tag-dark, var(--kamod-code-resolved-property))
+  );
 }
-.kamod-code:where([data-syntax-theme="tomorrow"])
-  > :is(.docs-code, .kamod-code-content)
-  .token:is(.selector, .important, .builtin) {
-  color: var(--kamod-code-keyword);
+.kamod-code-source :where(.token.attr-name) {
+  color: color-mix(
+    in oklab,
+    var(--kamod-code-prism-attr-name-light, var(--kamod-code-resolved-string))
+      var(--kamod-code-light-weight),
+    var(--kamod-code-prism-attr-name-dark, var(--kamod-code-resolved-string))
+  );
 }
-.kamod-code:where([data-syntax-theme="tomorrow"])
-  > :is(.docs-code, .kamod-code-content)
-  .token.attr-value {
-  color: var(--kamod-code-string);
+.kamod-code-source :where(.token.namespace) {
+  color: color-mix(
+    in oklab,
+    var(--kamod-code-prism-namespace-light, var(--foreground)) var(--kamod-code-light-weight),
+    var(--kamod-code-prism-namespace-dark, var(--foreground))
+  );
 }
-.kamod-code:where([data-syntax-theme="tomorrow"])
-  > :is(.docs-code, .kamod-code-content)
-  .token.function-name {
-  color: #7ca8d8;
+.kamod-code-source :where(.token.class-name) {
+  color: color-mix(
+    in oklab,
+    var(--kamod-code-prism-class-name-light, var(--kamod-code-resolved-function))
+      var(--kamod-code-light-weight),
+    var(--kamod-code-prism-class-name-dark, var(--kamod-code-resolved-function))
+  );
 }
-.kamod-code:where([data-syntax-theme="twilight"])
-  > :is(.docs-code, .kamod-code-content)
-  .token:is(.tag, .deleted) {
-  color: var(--kamod-code-number);
+.kamod-code-source :where(.token:is(.constant, .symbol)) {
+  color: color-mix(
+    in oklab,
+    var(--kamod-code-prism-constant-light, var(--kamod-code-resolved-property))
+      var(--kamod-code-light-weight),
+    var(--kamod-code-prism-constant-dark, var(--kamod-code-resolved-property))
+  );
 }
-.kamod-code:where([data-syntax-theme="twilight"])
-  > :is(.docs-code, .kamod-code-content)
-  .token:is(.selector, .constant, .symbol, .builtin) {
-  color: var(--kamod-code-keyword);
+.kamod-code-source :where(.token:is(.selector, .builtin)) {
+  color: color-mix(
+    in oklab,
+    var(--kamod-code-prism-selector-light, var(--kamod-code-resolved-string))
+      var(--kamod-code-light-weight),
+    var(--kamod-code-prism-selector-dark, var(--kamod-code-resolved-string))
+  );
 }
-.kamod-code:where([data-syntax-theme="twilight"])
-  > :is(.docs-code, .kamod-code-content)
-  .token:is(.attr-value, .variable) {
-  color: var(--kamod-code-string);
+.kamod-code-source :where(.token.important) {
+  color: color-mix(
+    in oklab,
+    var(--kamod-code-prism-important-light, var(--kamod-code-resolved-variable))
+      var(--kamod-code-light-weight),
+    var(--kamod-code-prism-important-dark, var(--kamod-code-resolved-variable))
+  );
 }
-.kamod-code:where([data-syntax-theme="twilight"])
-  > :is(.docs-code, .kamod-code-content)
-  .token.atrule {
-  color: #7587a6;
+.kamod-code-source :where(.token.function-name) {
+  color: color-mix(
+    in oklab,
+    var(--kamod-code-prism-function-name-light, var(--foreground)) var(--kamod-code-light-weight),
+    var(--kamod-code-prism-function-name-dark, var(--foreground))
+  );
 }
-.kamod-code:where([data-syntax-theme="solarized-light"])
-  > :is(.docs-code, .kamod-code-content)
-  .token.url {
-  color: var(--kamod-code-string);
+.kamod-code-source :where(.token.url) {
+  color: color-mix(
+    in oklab,
+    var(--kamod-code-prism-url-light, var(--kamod-code-resolved-operator))
+      var(--kamod-code-light-weight),
+    var(--kamod-code-prism-url-dark, var(--kamod-code-resolved-operator))
+  );
 }
 
-.kamod-code:where(
-    [data-syntax-theme="okaidia"],
-    [data-syntax-theme="tomorrow"],
-    [data-syntax-theme="twilight"],
-    [data-syntax-theme="solarized-light"]
-  )
-  .docs-import-keyword {
-  color: var(--foreground);
-}
-.kamod-code:where(
-    [data-syntax-theme="okaidia"],
-    [data-syntax-theme="tomorrow"],
-    [data-syntax-theme="twilight"]
-  )
-  > :is(.docs-code, .kamod-code-content)
-  ::selection {
-  background: #4b4b4b;
-  color: #ffffff;
-}
-.kamod-code:where([data-syntax-theme="solarized-light"])
-  > :is(.docs-code, .kamod-code-content)
-  ::selection {
-  background: #073642;
-  color: #fdf6e3;
+.kamod-code-source ::selection {
+  background-color: color-mix(
+    in oklab,
+    var(--kamod-code-prism-selection-background-light, Highlight) var(--kamod-code-light-weight),
+    var(--kamod-code-prism-selection-background-dark, Highlight)
+  );
+  color: color-mix(
+    in oklab,
+    var(--kamod-code-prism-selection-foreground-light, HighlightText) var(--kamod-code-light-weight),
+    var(--kamod-code-prism-selection-foreground-dark, HighlightText)
+  );
 }

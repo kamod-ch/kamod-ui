@@ -4,6 +4,9 @@ import type { CodeLanguage } from "./code-language";
 import type { CodeReferenceResolver } from "./code-references";
 import type { CodeSyntaxTheme } from "./code-themes";
 
+/** Source-only appearance, resolved against the nearest light/dark theme scope. */
+export type CodeColorMode = "inverse" | "inherit" | "light" | "dark";
+
 /** State and behavior supplied to a replacement import-folding control. */
 export interface CodeImportControlContext {
   /** ID of the source element, for `aria-controls`. */
@@ -54,11 +57,12 @@ export interface CodeProps extends Omit<
   /** Enable deferred syntax coloring. False keeps escaped source, language metadata and reading controls. */
   highlight?: boolean;
   /**
-   * Lightweight syntax palette. Kamod presets follow light/dark mode; Prism presets
-   * also set a fixed source canvas. Headers, controls and semantic surface variants
-   * retain application styling.
+   * Lightweight syntax palette with light/dark colors adapted to `colorMode`.
+   * Headers, controls and semantic surface variants retain application styling.
    */
   syntaxTheme?: CodeSyntaxTheme;
+  /** Source appearance: inverse (default), surrounding mode, or an explicit light/dark mode. Headers and controls stay in the surrounding theme. */
+  colorMode?: CodeColorMode;
   /** Resolve imported symbols/module strings to verified destinations. Inherits CodeReferenceProvider; null disables links for this panel. Never changes clipboard text. */
   resolveReference?: CodeReferenceResolver | null;
   /** Optional exact source path in the joined header, with a responsive full-source line count; also informs language inference. */
@@ -73,7 +77,7 @@ export interface CodeProps extends Omit<
   renderToolbar?: (actions: ComponentChildren) => ComponentChildren;
   /** Show the header and its copy action. False retains eligible reading controls in a separate row. */
   showToolbar?: boolean;
-  /** Custom document view. Copy still uses `code`; highlighting and reading controls are skipped. */
+  /** Custom document view, isolated in a source-only colorMode container. Copy still uses `code`; highlighting and reading controls are skipped. */
   renderedContent?: ComponentChildren;
   /** Optional placeholder while deferred coloring loads. Plain text and custom documents skip it; failures reveal readable source. */
   loadingContent?: ComponentChildren;

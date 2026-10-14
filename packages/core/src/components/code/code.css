@@ -1,38 +1,55 @@
 @import "./code-prism-themes.css";
 
+@import "./code-color-mode.css";
+
+/* Import metadata stays in the surrounding theme, independently of source colors. */
+:where(.kamod-code .docs-import-keyword) {
+  color: var(--kamod-code-chrome-keyword, #1d4ed8);
+}
+
 /* Scoped defaults stay below application selectors, including the docs showcase skins. */
 :where(.kamod-code) {
+  --kamod-code-chrome-keyword: color-mix(
+    in oklab,
+    #1d4ed8 calc(var(--kamod-code-chrome-light, 1) * 100%),
+    #93c5fd
+  );
   --kamod-code-surface: var(--muted);
   --kamod-code-header: var(--muted);
-  --kamod-code-source-surface: initial;
-  --kamod-code-prism-foreground: initial;
+  --kamod-code-source-surface-light: #f8fafc;
+  --kamod-code-source-surface-dark: #161b22;
+  --kamod-code-foreground-light: #1f2937;
+  --kamod-code-foreground-dark: #e6edf3;
+  --kamod-code-keyword-weight: initial;
+  --kamod-code-function-weight: initial;
+  --kamod-code-comment-style: initial;
   /* Reset every token at the reader boundary, including nested palette previews. */
-  --kamod-code-comment: color-mix(in oklab, var(--muted-foreground) 86%, var(--foreground));
-  --kamod-code-punctuation: color-mix(in oklab, var(--foreground) 74%, var(--muted-foreground));
-  --kamod-code-operator: color-mix(in oklab, var(--foreground) 82%, var(--muted-foreground));
+  --kamod-code-comment-light: #64748b;
+  --kamod-code-comment-dark: #98a6b5;
+  --kamod-code-punctuation-light: #475569;
+  --kamod-code-punctuation-dark: #c2cbd6;
+  --kamod-code-operator-light: #334155;
+  --kamod-code-operator-dark: #cbd5e1;
   --kamod-code-control: color-mix(in oklab, var(--foreground) 5%, transparent);
   --kamod-code-control-hover: color-mix(in oklab, var(--foreground) 9%, transparent);
-  --kamod-code-keyword: #1d4ed8;
-  --kamod-code-property: #b91c1c;
-  --kamod-code-number: #92400e;
-  --kamod-code-string: #15803d;
-  --kamod-code-function: #6d28d9;
-  --kamod-code-variable: #9a3412;
+  --kamod-code-keyword-light: #1d4ed8;
+  --kamod-code-keyword-dark: #93c5fd;
+  --kamod-code-property-light: #b91c1c;
+  --kamod-code-property-dark: #fda4af;
+  --kamod-code-number-light: #92400e;
+  --kamod-code-number-dark: #fdba74;
+  --kamod-code-string-light: #15803d;
+  --kamod-code-string-dark: #86efac;
+  --kamod-code-function-light: #6d28d9;
+  --kamod-code-function-dark: #c4b5fd;
+  --kamod-code-variable-light: #9a3412;
+  --kamod-code-variable-dark: #fca5a5;
   container: code-snippet / inline-size;
   position: relative;
   min-width: 0;
   max-width: 100%;
   color: var(--foreground);
   font-family: var(--font-sans, ui-sans-serif, system-ui, sans-serif);
-}
-
-:where(.dark .kamod-code, .kamod-code.dark) {
-  --kamod-code-keyword: #93c5fd;
-  --kamod-code-property: #fda4af;
-  --kamod-code-number: #fcd34d;
-  --kamod-code-string: #86efac;
-  --kamod-code-function: #c4b5fd;
-  --kamod-code-variable: #fdba74;
 }
 
 /* Keep the source footprint and visibility observer while a supplied placeholder is painted. */
@@ -50,51 +67,95 @@
 
 /* Optional syntax palettes change source tokens, never the surrounding app theme. */
 :where(.kamod-code[data-syntax-theme="dusk"]) {
-  --kamod-code-keyword: #6d28d9;
-  --kamod-code-property: #a21caf;
-  --kamod-code-number: #a16207;
-  --kamod-code-string: #0f766e;
-  --kamod-code-function: #4338ca;
-  --kamod-code-variable: #be123c;
-}
-
-:where(.dark .kamod-code[data-syntax-theme="dusk"], .kamod-code.dark[data-syntax-theme="dusk"]) {
-  --kamod-code-keyword: #c4b5fd;
-  --kamod-code-property: #f0abfc;
-  --kamod-code-number: #fcd34d;
-  --kamod-code-string: #5eead4;
-  --kamod-code-function: #a5b4fc;
-  --kamod-code-variable: #fda4af;
+  --kamod-code-chrome-keyword: color-mix(
+    in oklab,
+    #6d28d9 calc(var(--kamod-code-chrome-light, 1) * 100%),
+    #c4b5fd
+  );
+  --kamod-code-keyword-light: #6d28d9;
+  --kamod-code-keyword-dark: #c4b5fd;
+  --kamod-code-property-light: #a21caf;
+  --kamod-code-property-dark: #f0abfc;
+  --kamod-code-number-light: #a16207;
+  --kamod-code-number-dark: #fcd34d;
+  --kamod-code-string-light: #0f766e;
+  --kamod-code-string-dark: #5eead4;
+  --kamod-code-function-light: #4338ca;
+  --kamod-code-function-dark: #a5b4fc;
+  --kamod-code-variable-light: #be123c;
+  --kamod-code-variable-dark: #fda4af;
 }
 
 :where(.kamod-code[data-syntax-theme="forest"]) {
-  --kamod-code-keyword: #166534;
-  --kamod-code-property: #0e7490;
-  --kamod-code-number: #a16207;
-  --kamod-code-string: #3f6212;
-  --kamod-code-function: #92400e;
-  --kamod-code-variable: #9a3412;
-}
-
-:where(
-  .dark .kamod-code[data-syntax-theme="forest"],
-  .kamod-code.dark[data-syntax-theme="forest"]
-) {
-  --kamod-code-keyword: #86efac;
-  --kamod-code-property: #67e8f9;
-  --kamod-code-number: #fde68a;
-  --kamod-code-string: #bef264;
-  --kamod-code-function: #fdba74;
-  --kamod-code-variable: #fca5a5;
+  --kamod-code-chrome-keyword: color-mix(
+    in oklab,
+    #166534 calc(var(--kamod-code-chrome-light, 1) * 100%),
+    #86efac
+  );
+  --kamod-code-keyword-light: #166534;
+  --kamod-code-keyword-dark: #86efac;
+  --kamod-code-property-light: #0e7490;
+  --kamod-code-property-dark: #67e8f9;
+  --kamod-code-number-light: #a16207;
+  --kamod-code-number-dark: #fcd34d;
+  --kamod-code-string-light: #3f6212;
+  --kamod-code-string-dark: #bef264;
+  --kamod-code-function-light: #92400e;
+  --kamod-code-function-dark: #fdba74;
+  --kamod-code-variable-light: #9a3412;
+  --kamod-code-variable-dark: #fca5a5;
 }
 
 :where(.kamod-code[data-syntax-theme="monochrome"]) {
-  --kamod-code-keyword: var(--kamod-code-foreground, var(--foreground));
-  --kamod-code-property: var(--kamod-code-foreground, var(--foreground));
-  --kamod-code-number: var(--kamod-code-foreground, var(--foreground));
-  --kamod-code-string: var(--kamod-code-foreground, var(--foreground));
-  --kamod-code-function: var(--kamod-code-foreground, var(--foreground));
-  --kamod-code-variable: var(--kamod-code-foreground, var(--foreground));
+  --kamod-code-chrome-keyword: var(--foreground);
+  --kamod-code-keyword-light: var(
+    --kamod-code-foreground,
+    var(--kamod-code-foreground-light, #1f2937)
+  );
+  --kamod-code-keyword-dark: var(
+    --kamod-code-foreground,
+    var(--kamod-code-foreground-dark, #e6edf3)
+  );
+  --kamod-code-property-light: var(
+    --kamod-code-foreground,
+    var(--kamod-code-foreground-light, #1f2937)
+  );
+  --kamod-code-property-dark: var(
+    --kamod-code-foreground,
+    var(--kamod-code-foreground-dark, #e6edf3)
+  );
+  --kamod-code-number-light: var(
+    --kamod-code-foreground,
+    var(--kamod-code-foreground-light, #1f2937)
+  );
+  --kamod-code-number-dark: var(
+    --kamod-code-foreground,
+    var(--kamod-code-foreground-dark, #e6edf3)
+  );
+  --kamod-code-string-light: var(
+    --kamod-code-foreground,
+    var(--kamod-code-foreground-light, #1f2937)
+  );
+  --kamod-code-string-dark: var(
+    --kamod-code-foreground,
+    var(--kamod-code-foreground-dark, #e6edf3)
+  );
+  --kamod-code-function-light: var(
+    --kamod-code-foreground,
+    var(--kamod-code-foreground-light, #1f2937)
+  );
+  --kamod-code-function-dark: var(
+    --kamod-code-foreground,
+    var(--kamod-code-foreground-dark, #e6edf3)
+  );
+  --kamod-code-variable-light: var(
+    --kamod-code-foreground,
+    var(--kamod-code-foreground-light, #1f2937)
+  );
+  --kamod-code-variable-dark: var(
+    --kamod-code-foreground,
+    var(--kamod-code-foreground-dark, #e6edf3)
+  );
   --kamod-code-keyword-weight: 600;
   --kamod-code-function-weight: 600;
   --kamod-code-comment-style: italic;
@@ -128,8 +189,6 @@
   overflow: auto;
   border: 1px solid var(--border);
   border-radius: calc(var(--radius, 0.625rem) + 0.125rem);
-  background: var(--kamod-code-source-surface, var(--kamod-code-surface));
-  color: var(--kamod-code-foreground, var(--kamod-code-prism-foreground, var(--foreground)));
   font-size: var(--kamod-code-font-size, 0.75rem);
   text-align: start;
   tab-size: 2;
@@ -139,10 +198,15 @@
   border: 0;
   border-radius: 0 0 calc(var(--radius, 0.625rem) + 0.125rem)
     calc(var(--radius, 0.625rem) + 0.125rem);
-  background: var(--kamod-code-source-surface, transparent);
 }
 
-:where(.kamod-code.docs-code-file > .docs-code:first-child) {
+:where(.kamod-code.docs-code-file > [data-slot="code-document"]) {
+  min-width: 0;
+  border-radius: 0 0 calc(var(--radius, 0.625rem) + 0.125rem)
+    calc(var(--radius, 0.625rem) + 0.125rem);
+}
+
+:where(.kamod-code.docs-code-file > .kamod-code-source:first-child) {
   border-radius: inherit;
 }
 
@@ -574,86 +638,69 @@
  * comment, punctuation, property, number, string, operator, keyword, function,
  * variable. Syntax rules remain local to Code, never global Prism token rules.
  */
-:where(.kamod-code .docs-code .token:is(.comment, .prolog, .doctype, .cdata)) {
-  color: var(
-    --kamod-code-comment,
-    color-mix(in oklab, var(--muted-foreground) 86%, var(--foreground))
-  );
+:where(.kamod-code-source .token:is(.comment, .prolog, .doctype, .cdata)) {
+  color: var(--kamod-code-resolved-comment);
   font-weight: var(--kamod-code-comment-weight, inherit);
   font-style: var(--kamod-code-comment-style, inherit);
 }
 
-:where(.kamod-code .docs-code .token.punctuation) {
-  color: var(
-    --kamod-code-punctuation,
-    color-mix(in oklab, var(--foreground) 74%, var(--muted-foreground))
-  );
+:where(.kamod-code-source .token.punctuation) {
+  color: var(--kamod-code-resolved-punctuation);
   font-weight: var(--kamod-code-punctuation-weight, inherit);
   font-style: var(--kamod-code-punctuation-style, inherit);
 }
 
-:where(.kamod-code .docs-code .token:is(.property, .tag, .constant, .symbol, .deleted)) {
-  color: var(--kamod-code-property);
+:where(.kamod-code-source .token:is(.property, .tag, .constant, .symbol, .deleted)) {
+  color: var(--kamod-code-resolved-property);
   font-weight: var(--kamod-code-property-weight, inherit);
   font-style: var(--kamod-code-property-style, inherit);
 }
 
-:where(.kamod-code .docs-code .token:is(.boolean, .number)) {
-  color: var(--kamod-code-number);
+:where(.kamod-code-source .token:is(.boolean, .number)) {
+  color: var(--kamod-code-resolved-number);
   font-weight: var(--kamod-code-number-weight, inherit);
   font-style: var(--kamod-code-number-style, inherit);
 }
 
-:where(
-  .kamod-code .docs-code .token:is(.selector, .attr-name, .string, .char, .builtin, .inserted)
-) {
-  color: var(--kamod-code-string);
+:where(.kamod-code-source .token:is(.selector, .attr-name, .string, .char, .builtin, .inserted)) {
+  color: var(--kamod-code-resolved-string);
   font-weight: var(--kamod-code-string-weight, inherit);
   font-style: var(--kamod-code-string-style, inherit);
 }
 
 :where(
-  .kamod-code .docs-code .token:is(.operator, .entity, .url),
-  .kamod-code .docs-code .language-css .token.string,
-  .kamod-code .docs-code .style .token.string
+  .kamod-code-source .token:is(.operator, .entity, .url),
+  .kamod-code-source .language-css .token.string,
+  .kamod-code-source .style .token.string
 ) {
-  color: var(
-    --kamod-code-operator,
-    color-mix(in oklab, var(--foreground) 82%, var(--muted-foreground))
-  );
+  color: var(--kamod-code-resolved-operator);
   font-weight: var(--kamod-code-operator-weight, inherit);
   font-style: var(--kamod-code-operator-style, inherit);
 }
 
-:where(
-  .kamod-code .docs-code .token:is(.atrule, .attr-value, .keyword),
-  .kamod-code .docs-import-keyword
-) {
-  color: var(--kamod-code-keyword);
-}
-
-:where(.kamod-code .docs-code .token:is(.atrule, .attr-value, .keyword)) {
+:where(.kamod-code-source .token:is(.atrule, .attr-value, .keyword)) {
+  color: var(--kamod-code-resolved-keyword);
   font-weight: var(--kamod-code-keyword-weight, inherit);
   font-style: var(--kamod-code-keyword-style, inherit);
 }
 
-:where(.kamod-code .docs-code .token:is(.function, .class-name)) {
-  color: var(--kamod-code-function);
+:where(.kamod-code-source .token:is(.function, .class-name)) {
+  color: var(--kamod-code-resolved-function);
   font-weight: var(--kamod-code-function-weight, inherit);
   font-style: var(--kamod-code-function-style, inherit);
 }
 
-:where(.kamod-code .docs-code .token:is(.regex, .important, .variable)) {
-  color: var(--kamod-code-variable);
+:where(.kamod-code-source .token:is(.regex, .important, .variable)) {
+  color: var(--kamod-code-resolved-variable);
   font-weight: var(--kamod-code-variable-weight, inherit);
   font-style: var(--kamod-code-variable-style, inherit);
 }
 
-:where(.kamod-code .docs-code .token:is(.important, .bold)) {
+:where(.kamod-code-source .token:is(.important, .bold)) {
   font-weight: 700;
 }
 
-:where(.kamod-code .docs-code .token.italic) {
+:where(.kamod-code-source .token.italic) {
   font-style: italic;
 }
 
@@ -755,13 +802,13 @@
 
 /* An inline border keeps the dashed link cue visible across code fonts and browser engines. */
 pre code a.kamod-code-reference {
-  --code-reference-dash: var(--primary, currentColor);
   color: inherit;
   font: inherit;
   background: none;
   padding: 0;
   border: 0;
-  border-bottom: 1.5px dashed color-mix(in oklab, var(--code-reference-dash) 25%, transparent);
+  border-bottom: 1.5px dashed
+    color-mix(in oklab, var(--code-reference-dash, var(--primary, currentColor)) 25%, transparent);
   border-radius: 0;
   text-decoration: none;
   -webkit-box-decoration-break: clone;
@@ -771,11 +818,11 @@ pre code a.kamod-code-reference {
 pre code a.kamod-code-reference:focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 2px;
-  border-bottom-color: var(--code-reference-dash);
+  border-bottom-color: var(--code-reference-dash, var(--primary, currentColor));
 }
 @media (hover: hover) and (pointer: fine) {
   pre code a.kamod-code-reference:hover {
-    border-bottom-color: var(--code-reference-dash);
+    border-bottom-color: var(--code-reference-dash, var(--primary, currentColor));
   }
 }
 @media (prefers-reduced-motion: reduce) {

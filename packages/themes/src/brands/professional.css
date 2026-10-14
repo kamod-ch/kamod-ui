@@ -3,8 +3,16 @@
  * Tokens aligned with professional-SKILL.md foundations.
  */
 
+:root,
+[data-theme-scope] {
+  --theme-professional-primary-light: #fece14;
+  --theme-professional-primary-dark: #fece14;
+}
+
 :root[data-theme="professional"],
 [data-theme-scope][data-theme="professional"] {
+  --primary-light: var(--theme-professional-primary-light);
+  --primary-dark: var(--theme-professional-primary-dark);
   --font-sans:
     Poppins, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol", "Noto Color Emoji";
@@ -23,7 +31,7 @@
   --popover: #ffffff;
   --popover-foreground: #111827;
 
-  --primary: #fece14;
+  --primary: var(--theme-professional-primary-light);
   --primary-foreground: #000000;
   --primary-accent: #e6b800;
 
@@ -87,7 +95,7 @@
   --popover: #111827;
   --popover-foreground: #f9fafb;
 
-  --primary: #fece14;
+  --primary: var(--theme-professional-primary-dark);
   --primary-foreground: #000000;
   --primary-accent: #ffd54a;
 

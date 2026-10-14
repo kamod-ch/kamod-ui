@@ -80,6 +80,7 @@ export function ThemePicker({
 }: ThemePickerProps) {
   const titleId = useId();
   const descriptionId = useId();
+  const selectedIndex = presets.findIndex(({ id }) => id === preset);
   return (
     <Dropdown class="site-theme-picker">
       <DropdownTrigger
@@ -90,9 +91,7 @@ export function ThemePicker({
         data-preset={preset}
       >
         <PaletteIcon size={18} aria-hidden="true" />
-        {showLabel && (
-          <span class={labelClass}>{presets.find(({ id }) => id === preset)?.label}</span>
-        )}
+        {showLabel && <span class={labelClass}>{presets[selectedIndex]?.label}</span>}
       </DropdownTrigger>
       <DropdownContent
         portal
@@ -127,7 +126,13 @@ export function ThemePicker({
         <div class="site-theme-picker-separator">
           <Separator decorative />
         </div>
-        <div class="site-theme-options" role="group" aria-label={label}>
+        <div
+          class="site-theme-options"
+          role="group"
+          aria-label={label}
+          data-selected={selectedIndex >= 0 || undefined}
+          style={{ "--theme-index": selectedIndex }}
+        >
           {presets.map(({ id, label }) => (
             <button
               key={id}

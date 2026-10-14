@@ -46,7 +46,7 @@ export function AlertCallout({
       <div
         data-slot="callout-header"
         class={cn(
-          "relative grid items-center gap-x-3 gap-y-2 px-4 pt-4 pb-3 after:absolute after:inset-x-4 after:bottom-0 after:h-px after:bg-linear-to-r after:from-border after:to-transparent sm:px-5 sm:after:inset-x-5",
+          "relative grid items-center gap-2.5 px-4 py-3 after:absolute after:inset-x-4 after:bottom-0 after:h-px after:bg-[color-mix(in_oklab,var(--foreground)_8%,transparent)]",
           icon
             ? "grid-cols-[auto_minmax(0,1fr)] @sm/callout:grid-cols-[auto_minmax(0,1fr)_auto]"
             : "grid-cols-1 @sm/callout:grid-cols-[minmax(0,1fr)_auto]",
@@ -56,7 +56,7 @@ export function AlertCallout({
           <span
             data-slot="callout-icon"
             aria-hidden="true"
-            class="flex size-9 shrink-0 items-center justify-center rounded-lg border border-primary/15 bg-primary/5 text-foreground shadow-xs [&>svg]:size-4.5 [&>svg]:stroke-[1.75]"
+            class="flex size-4 shrink-0 items-center justify-center text-muted-foreground [&_svg]:size-4 [&_svg]:stroke-[1.75]"
           >
             {icon}
           </span>
@@ -93,14 +93,14 @@ export function AlertCallout({
       </div>
       <div
         data-slot="alert-description"
-        class="px-4 pt-3 pb-4 text-[0.8125rem] leading-relaxed text-pretty text-muted-foreground sm:px-5 [&_p]:m-0 [&>p+p]:mt-3 [&_strong]:font-semibold [&_strong]:text-foreground [&_a]:underline [&_a]:decoration-border [&_a]:underline-offset-4 hover:[&_a]:decoration-current [&_code]:rounded [&_code]:bg-primary/5 [&_code]:px-1 [&_code]:text-[0.92em] [&_code]:text-foreground"
+        class="px-4 pt-3 pb-4 text-[0.8125rem] leading-relaxed text-pretty text-muted-foreground [&_p]:m-0 [&>p+p]:mt-3 [&_strong]:font-semibold [&_strong]:text-foreground [&_a]:underline [&_a]:decoration-border [&_a]:underline-offset-4 hover:[&_a]:decoration-current [&_code]:rounded [&_code]:bg-primary/5 [&_code]:px-1 [&_code]:text-[0.92em] [&_code]:text-foreground"
       >
         {children}
       </div>
       {footer && (
         <div
           data-slot="callout-footer"
-          class="flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-border/70 bg-muted/25 px-4 py-2.5 text-xs leading-relaxed text-muted-foreground sm:px-5"
+          class="mx-4 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-foreground/8 py-2.5 text-xs leading-relaxed text-muted-foreground"
         >
           {footer}
         </div>

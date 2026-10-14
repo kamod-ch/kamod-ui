@@ -1,0 +1,171 @@
+/* Inherited scheme names respect the nearest boundary, including nested opposite previews. */
+:where(.light) {
+  --kamod-code-context-scheme: initial;
+  --kamod-code-context-light: initial;
+  --kamod-code-chrome-scheme: light;
+  --kamod-code-chrome-light: 1;
+  --kamod-code-chrome-keyword: #1d4ed8;
+  --kamod-code-inherit-scheme: light;
+  --kamod-code-inherit-light: 1;
+  --kamod-code-inverse-light: 0;
+  --kamod-code-inverse-scheme: dark;
+}
+:where(.dark) {
+  --kamod-code-context-scheme: initial;
+  --kamod-code-context-light: initial;
+  --kamod-code-chrome-scheme: dark;
+  --kamod-code-chrome-light: 0;
+  --kamod-code-chrome-keyword: #93c5fd;
+  --kamod-code-inherit-scheme: dark;
+  --kamod-code-inherit-light: 0;
+  --kamod-code-inverse-light: 1;
+  --kamod-code-inverse-scheme: light;
+}
+
+/*
+ * Reusable on raw <pre> or a prepared document: omitted data-color-mode means inverse.
+ * Keep ambient scheme names inherited so nested Markdown fences do not invert twice.
+ * Local semantic colors let document prose follow its canvas without recoloring siblings.
+ */
+:where(.kamod-code-source) {
+  --kamod-code-source-scheme: var(--kamod-code-inverse-scheme, dark);
+  color-scheme: var(--kamod-code-source-scheme);
+  --kamod-code-is-light: var(--kamod-code-inverse-light, 0);
+  --kamod-code-light-weight: calc(var(--kamod-code-is-light) * 100%);
+  /* Theme scopes may supply both primary endpoints; 0%/100% selects one without blending hues. */
+  --code-reference-dash: color-mix(
+    in oklab,
+    var(--kamod-code-primary-light, var(--primary-light, #0a0a0a)) var(--kamod-code-light-weight),
+    var(--kamod-code-primary-dark, var(--primary-dark, #fafafa))
+  );
+  --kamod-code-resolved-comment: var(
+    --kamod-code-comment,
+    color-mix(
+      in oklab,
+      var(--kamod-code-comment-light, #64748b) var(--kamod-code-light-weight),
+      var(--kamod-code-comment-dark, #98a6b5)
+    )
+  );
+  --kamod-code-resolved-punctuation: var(
+    --kamod-code-punctuation,
+    color-mix(
+      in oklab,
+      var(--kamod-code-punctuation-light, #475569) var(--kamod-code-light-weight),
+      var(--kamod-code-punctuation-dark, #c2cbd6)
+    )
+  );
+  --kamod-code-resolved-operator: var(
+    --kamod-code-operator,
+    color-mix(
+      in oklab,
+      var(--kamod-code-operator-light, #334155) var(--kamod-code-light-weight),
+      var(--kamod-code-operator-dark, #cbd5e1)
+    )
+  );
+  --kamod-code-resolved-property: var(
+    --kamod-code-property,
+    color-mix(
+      in oklab,
+      var(--kamod-code-property-light, #b91c1c) var(--kamod-code-light-weight),
+      var(--kamod-code-property-dark, #fda4af)
+    )
+  );
+  --kamod-code-resolved-number: var(
+    --kamod-code-number,
+    color-mix(
+      in oklab,
+      var(--kamod-code-number-light, #92400e) var(--kamod-code-light-weight),
+      var(--kamod-code-number-dark, #fdba74)
+    )
+  );
+  --kamod-code-resolved-string: var(
+    --kamod-code-string,
+    color-mix(
+      in oklab,
+      var(--kamod-code-string-light, #15803d) var(--kamod-code-light-weight),
+      var(--kamod-code-string-dark, #86efac)
+    )
+  );
+  --kamod-code-resolved-keyword: var(
+    --kamod-code-keyword,
+    color-mix(
+      in oklab,
+      var(--kamod-code-keyword-light, #1d4ed8) var(--kamod-code-light-weight),
+      var(--kamod-code-keyword-dark, #93c5fd)
+    )
+  );
+  --kamod-code-resolved-function: var(
+    --kamod-code-function,
+    color-mix(
+      in oklab,
+      var(--kamod-code-function-light, #6d28d9) var(--kamod-code-light-weight),
+      var(--kamod-code-function-dark, #c4b5fd)
+    )
+  );
+  --kamod-code-resolved-variable: var(
+    --kamod-code-variable,
+    color-mix(
+      in oklab,
+      var(--kamod-code-variable-light, #9a3412) var(--kamod-code-light-weight),
+      var(--kamod-code-variable-dark, #fca5a5)
+    )
+  );
+  --background: var(
+    --kamod-code-source-surface,
+    color-mix(
+      in oklab,
+      var(--kamod-code-source-surface-light, #f8fafc) var(--kamod-code-light-weight),
+      var(--kamod-code-source-surface-dark, #161b22)
+    )
+  );
+  --foreground: var(
+    --kamod-code-foreground,
+    var(
+      --kamod-code-prism-foreground,
+      color-mix(
+        in oklab,
+        var(--kamod-code-foreground-light, #1f2937) var(--kamod-code-light-weight),
+        var(--kamod-code-foreground-dark, #e6edf3)
+      )
+    )
+  );
+  --card: var(--background);
+  --card-foreground: var(--foreground);
+  --popover: var(--background);
+  --popover-foreground: var(--foreground);
+  --muted: color-mix(in oklab, #e8edf3 var(--kamod-code-light-weight), #252e3b);
+  --muted-foreground: color-mix(in oklab, #5a6a7e var(--kamod-code-light-weight), #a8b5c7);
+  --border: color-mix(in oklab, #cbd5e1 var(--kamod-code-light-weight), #3b4759);
+  --input: var(--border);
+  --secondary: var(--muted);
+  --secondary-foreground: var(--foreground);
+  --accent: var(--muted);
+  --accent-foreground: var(--foreground);
+  background: var(--background);
+  color: var(--foreground);
+}
+:where(.kamod-code-source[data-color-mode="inherit"]) {
+  --kamod-code-source-scheme: var(--kamod-code-inherit-scheme, light);
+  --kamod-code-is-light: var(--kamod-code-inherit-light, 1);
+}
+:where(.kamod-code-source[data-color-mode="light"]) {
+  --kamod-code-source-scheme: light;
+  --kamod-code-is-light: 1;
+}
+:where(.kamod-code-source[data-color-mode="dark"]) {
+  --kamod-code-source-scheme: dark;
+  --kamod-code-is-light: 0;
+}
+
+/* Prepared-document fences follow their owner's choice until a new theme/mode boundary. */
+:where(.kamod-code-source[data-color-mode]) {
+  --kamod-code-context-scheme: var(--kamod-code-source-scheme);
+  --kamod-code-context-light: var(--kamod-code-is-light);
+}
+:where(.kamod-code-source:not([data-color-mode])) {
+  --kamod-code-source-scheme: var(
+    --kamod-code-context-scheme,
+    var(--kamod-code-inverse-scheme, dark)
+  );
+  --kamod-code-is-light: var(--kamod-code-context-light, var(--kamod-code-inverse-light, 0));
+}

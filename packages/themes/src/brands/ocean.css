@@ -1,12 +1,20 @@
+:root,
+[data-theme-scope] {
+  --theme-ocean-primary-light: var(--color-cyan-700);
+  --theme-ocean-primary-dark: var(--color-cyan-400);
+}
+
 :root[data-theme="ocean"],
 [data-theme-scope][data-theme="ocean"] {
+  --primary-light: var(--theme-ocean-primary-light);
+  --primary-dark: var(--theme-ocean-primary-dark);
   --background: var(--color-slate-50);
   --foreground: var(--color-slate-950);
   --card: var(--color-cyan-50);
   --card-foreground: var(--color-slate-950);
   --popover: var(--color-white);
   --popover-foreground: var(--color-slate-950);
-  --primary: var(--color-cyan-700);
+  --primary: var(--theme-ocean-primary-light);
   --primary-accent: var(--color-cyan-600);
   --secondary: var(--color-indigo-600);
   --secondary-accent: var(--color-indigo-500);
@@ -42,7 +50,7 @@
   --card-foreground: var(--color-slate-50);
   --popover: var(--color-slate-900);
   --popover-foreground: var(--color-slate-50);
-  --primary: var(--color-cyan-400);
+  --primary: var(--theme-ocean-primary-dark);
   --primary-accent: var(--color-cyan-300);
   --secondary: var(--color-indigo-400);
   --secondary-accent: var(--color-indigo-300);

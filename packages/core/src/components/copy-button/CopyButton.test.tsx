@@ -11,7 +11,7 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
-it("copies exact text, announces success, and resets the shared feedback", async () => {
+it("copies exact text and resets feedback without replacing either icon", async () => {
   vi.useFakeTimers();
   const writeText = vi.fn().mockResolvedValue(undefined);
   vi.stubGlobal("navigator", { clipboard: { writeText } });
@@ -19,6 +19,8 @@ it("copies exact text, announces success, and resets the shared feedback", async
   const view = render(
     <CopyButton value={"  source\n"} label="Copy source" subject="source" onCopy={onCopy} />,
   );
+  const glyph = view.container.querySelector(".kamod-copy-glyph")!;
+  const icons = Array.from(glyph.children);
   await act(async () => {
     fireEvent.click(view.getByRole("button", { name: "Copy source" }));
     await vi.advanceTimersByTimeAsync(0);
@@ -30,6 +32,7 @@ it("copies exact text, announces success, and resets the shared feedback", async
     "copied",
   );
   expect(view.getByRole("status")).toHaveTextContent("Source copied to clipboard.");
+  icons.forEach((icon, index) => expect(glyph.children[index]).toBe(icon));
   act(() => {
     vi.advanceTimersByTime(1500);
   });
@@ -38,6 +41,7 @@ it("copies exact text, announces success, and resets the shared feedback", async
     "idle",
   );
   expect(view.getByRole("status").textContent).toBe("");
+  icons.forEach((icon, index) => expect(glyph.children[index]).toBe(icon));
 });
 
 it("prevents duplicate writes while a composed control is still pending", async () => {

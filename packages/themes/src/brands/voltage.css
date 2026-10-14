@@ -3,8 +3,16 @@
  * Abyss black + emerald signal green, warm charcoal borders, Inter + system-ui + SFMono.
  */
 
+:root,
+[data-theme-scope] {
+  --theme-voltage-primary-light: #00a06c;
+  --theme-voltage-primary-dark: #00d992;
+}
+
 :root[data-theme="voltage"],
 [data-theme-scope][data-theme="voltage"] {
+  --primary-light: var(--theme-voltage-primary-light);
+  --primary-dark: var(--theme-voltage-primary-dark);
   --font-sans:
     "Inter Variable", Inter, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
     "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -26,7 +34,7 @@
   --card-foreground: #181816;
   --popover: #ffffff;
   --popover-foreground: #181816;
-  --primary: #00a06c;
+  --primary: var(--theme-voltage-primary-light);
   --primary-foreground: #f2f2f2;
   --primary-accent: #008f5f;
   --secondary: color-mix(in srgb, #818cf8 22%, #f4f3f0);
@@ -83,7 +91,7 @@
   --card-foreground: #f2f2f2;
   --popover: #101010;
   --popover-foreground: #f2f2f2;
-  --primary: #00d992;
+  --primary: var(--theme-voltage-primary-dark);
   --primary-foreground: #050507;
   --primary-accent: #2fd6a1;
   --secondary: color-mix(in srgb, #818cf8 18%, #101010);

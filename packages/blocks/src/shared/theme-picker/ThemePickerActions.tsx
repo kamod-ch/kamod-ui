@@ -48,7 +48,6 @@ export function ThemePickerActions({
   const resolvedScheme = scheme === "system" ? systemScheme : scheme;
   const dark = resolvedScheme === "dark";
   const system = scheme === "system";
-  const ModeIcon = dark ? SunIcon : MoonIcon;
   const modeLabel = dark ? "Switch to light mode" : "Switch to dark mode";
   const modeHint = `${modeLabel}. Uses a manual preference.`;
   const systemHint = system
@@ -92,7 +91,8 @@ export function ThemePickerActions({
             onClick={() => onSchemeChange(dark ? "light" : "dark")}
           >
             <span class="site-theme-picker-action-icon">
-              <ModeIcon size={15} strokeWidth={1.75} aria-hidden="true" />
+              <SunIcon size={15} strokeWidth={1.75} aria-hidden="true" data-active={dark} />
+              <MoonIcon size={15} strokeWidth={1.75} aria-hidden="true" data-active={!dark} />
             </span>
           </button>
         </span>

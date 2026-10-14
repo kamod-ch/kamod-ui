@@ -8,14 +8,19 @@ export type MenubarRadioItemProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 const CircleIcon = ({ filled }: { filled: boolean }) => (
-  <span class="flex size-3.5 items-center justify-center" aria-hidden>
-    {filled ? (
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="size-2 fill-current">
-        <circle cx="12" cy="12" r="6" />
-      </svg>
-    ) : (
-      <span class="size-2 rounded-full border border-current opacity-60" />
-    )}
+  <span class="inline-grid size-3.5 place-items-center" aria-hidden>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      class="col-start-1 row-start-1 size-2 fill-current"
+      style={{ visibility: filled ? "visible" : "hidden" }}
+    >
+      <circle cx="12" cy="12" r="6" />
+    </svg>
+    <span
+      class="col-start-1 row-start-1 size-2 rounded-full border border-current opacity-60"
+      style={{ visibility: filled ? "hidden" : "visible" }}
+    />
   </span>
 );
 

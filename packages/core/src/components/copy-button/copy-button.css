@@ -108,6 +108,12 @@
   opacity: 0;
   pointer-events: none;
 }
+.kamod-copy-confirmation {
+  opacity: 0;
+}
+.kamod-copy-symbol {
+  opacity: 1;
+}
 .kamod-copy-button[data-icon-only] {
   width: 1.75rem;
   padding: 0.375rem;
@@ -194,27 +200,31 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .kamod-action-feedback.is-complete .kamod-action-outgoing {
-    animation: kamod-action-turn-out 190ms both;
+    animation: kamod-action-turn-out 190ms backwards;
   }
   .kamod-action-feedback.is-complete .kamod-action-confirmation {
-    animation: kamod-action-stamp 460ms 70ms both;
+    animation: kamod-action-stamp 460ms 70ms backwards;
   }
   .kamod-action-feedback.is-complete .kamod-action-glyph::after {
-    animation: kamod-action-stamp-ring 320ms 150ms ease-out both;
+    animation: kamod-action-stamp-ring 320ms 150ms ease-out backwards;
   }
 
-  /* Rotate the shared slot so the icon handoff follows one continuous turn. */
+  /* Release transform/opacity layers before feedback resets; static endpoints
+     keep SVG paint stable between cycles without scroll-driven invalidation. */
   .kamod-copy-button.is-complete {
     --copy-turn-duration: 520ms;
   }
   .kamod-copy-button.is-complete .kamod-copy-glyph {
-    animation: kamod-copy-orbit var(--copy-turn-duration) both;
+    animation: kamod-copy-orbit var(--copy-turn-duration) backwards;
   }
   .kamod-copy-button.is-complete .kamod-copy-outgoing {
-    animation: kamod-copy-handoff var(--copy-turn-duration) linear both;
+    animation: kamod-copy-handoff var(--copy-turn-duration) linear backwards;
   }
   .kamod-copy-button.is-complete .kamod-copy-symbol {
-    animation: kamod-copy-handoff var(--copy-turn-duration) linear reverse both;
+    animation: kamod-copy-handoff var(--copy-turn-duration) linear reverse backwards;
+  }
+  .kamod-copy-button.is-complete .kamod-copy-glyph::after {
+    animation-fill-mode: backwards;
   }
   /* Paint the small glow once; only its opacity changes, never layout or shadow blur. */
   .kamod-copy-button.is-complete::before {
@@ -223,10 +233,11 @@
     inset: 0;
     border-radius: inherit;
     pointer-events: none;
+    opacity: 0;
     box-shadow:
       0 0 14px 2px color-mix(in oklab, var(--action-feedback-accent) 30%, transparent),
       inset 0 0 9px color-mix(in oklab, var(--action-feedback-accent) 20%, transparent);
-    animation: kamod-copy-glow 700ms ease-out both;
+    animation: kamod-copy-glow 700ms ease-out backwards;
   }
 }
 @keyframes kamod-copy-orbit {

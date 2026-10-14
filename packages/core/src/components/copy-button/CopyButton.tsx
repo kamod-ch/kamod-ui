@@ -27,7 +27,6 @@ export function CopyButton({
   const { status, copy } = useCopy(value, onCopy, onCopyError);
   const copied = status === "copied";
   const failed = status === "error";
-  const Icon = copied ? CopyCheckIcon : CopyIcon;
   const name = subject.charAt(0).toUpperCase() + subject.slice(1);
   const actionLabel = copied
     ? `${name} copied`
@@ -67,17 +66,21 @@ export function CopyButton({
       }}
     >
       <span class="kamod-copy-glyph kamod-action-glyph" aria-hidden="true">
-        {copied && (
-          <CopyIcon
-            class="kamod-copy-outgoing kamod-action-outgoing"
-            size={16}
-            strokeWidth={2}
-            aria-hidden="true"
-          />
-        )}
-        <Icon
-          key={copied ? "copied" : "copy"}
-          class="kamod-copy-symbol kamod-action-confirmation"
+        {/* Keep SVG paint stable across clicks and resets; only their animation roles change. */}
+        <CopyIcon
+          class={cn(
+            "kamod-copy-original",
+            copied ? "kamod-copy-outgoing kamod-action-outgoing" : "kamod-copy-symbol",
+          )}
+          size={16}
+          strokeWidth={2}
+          aria-hidden="true"
+        />
+        <CopyCheckIcon
+          class={cn(
+            "kamod-copy-confirmation",
+            copied && "kamod-copy-symbol kamod-action-confirmation",
+          )}
           size={16}
           strokeWidth={2}
           aria-hidden="true"
