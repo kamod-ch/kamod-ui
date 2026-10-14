@@ -50,6 +50,41 @@ function width(value: number) {
 }
 
 describe("component example controls", () => {
+  it("shows preview feedback before visibility arrives while keeping the frame request lazy", () => {
+    vi.useFakeTimers();
+    vi.stubGlobal("requestIdleCallback", undefined);
+    let reveal!: IntersectionObserverCallback;
+    const stop = vi.fn();
+    vi.stubGlobal(
+      "IntersectionObserver",
+      class {
+        constructor(callback: IntersectionObserverCallback) {
+          reveal = callback;
+        }
+        observe() {}
+        disconnect = stop;
+      },
+    );
+    const { container, unmount } = example();
+    const surface = container.querySelector(".showcase-preview-surface")!;
+    const frame = surface.querySelector("iframe")!;
+    expect(surface).toHaveAttribute("data-deferred");
+    expect(surface.querySelector('[role="status"]')).toHaveTextContent("Setting the scene");
+    expect(frame).toHaveAttribute("src", "about:blank");
+    act(() =>
+      reveal([{ isIntersecting: true } as IntersectionObserverEntry], {} as IntersectionObserver),
+    );
+    expect(frame).toHaveAttribute("src", "about:blank");
+    act(() => {
+      vi.advanceTimersByTime(50);
+    });
+    expect(surface).not.toHaveAttribute("data-deferred");
+    expect(frame.getAttribute("src")).toContain("component=button&example=0");
+    expect(surface.querySelector('[role="status"]')).toHaveTextContent("Setting the scene");
+    unmount();
+    expect(stop).toHaveBeenCalled();
+  });
+
   it("disables ineffective widths, retains a narrow preference and resets only the example", async () => {
     const { container, unmount } = example();
     const narrow = screen.getByRole("button", { name: "Narrow container" });
@@ -142,6 +177,9 @@ it("uses the block refresh phases and only completes after the replacement frame
   // A blank iframe load is not successful completion of an example reset.
   fireEvent.load(frame);
   expect(control).toHaveAttribute("data-refresh-state", "loading");
+  act(() => {
+    vi.advanceTimersByTime(50);
+  });
   const preview = document.implementation.createHTMLDocument("Example");
   preview.body.innerHTML = '<main id="component-preview-root">Example</main>';
   Object.defineProperty(frame, "contentDocument", { value: preview });
@@ -164,6 +202,9 @@ it("uses the block refresh phases and only completes after the replacement frame
   expect(control).toHaveAttribute("data-refresh-state", "idle");
   expect(control).toBeEnabled();
   fireEvent.click(control);
+  act(() => {
+    vi.advanceTimersByTime(50);
+  });
   fireEvent.error(container.querySelector("iframe")!);
   expect(control).toHaveAttribute("data-refresh-state", "resetting");
 });

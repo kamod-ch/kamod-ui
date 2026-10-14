@@ -97,32 +97,35 @@ it("restores hashes at desktop and mobile widths and cleans up queued work on un
   }
 });
 
-it("links a special page’s main title and restores its heading target", () => {
-  vi.stubGlobal("matchMedia", () => ({
-    matches: true,
-    addEventListener: vi.fn(),
-    removeEventListener: vi.fn(),
-  }));
-  const title = "From a Block Preview to Your Application";
-  const view = render(
-    <>
-      <h1 id="page-title">{title}</h1>
-      <BlockGuideContents id="guide-contents" pageTitle={title} sections={[]} />
-    </>,
-  );
-  const scroll = vi.fn();
-  document.getElementById("page-title")!.scrollIntoView = scroll;
-  expect(
-    view
-      .getByRole("link", { name: "From a Block Preview to Your Application" })
-      .getAttribute("href"),
-  ).toBe("#page-title");
-  act(() => {
-    history.replaceState(null, "", "#page-title");
-    window.dispatchEvent(new HashChangeEvent("hashchange"));
-  });
-  expect(scroll).toHaveBeenCalledOnce();
-});
+it.each([undefined, { id: "example", title: "Example Block" }])(
+  "links a page's main title and restores its heading target with block %o",
+  (block) => {
+    vi.stubGlobal("matchMedia", () => ({
+      matches: true,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+    }));
+    const title = "From a Block Preview to Your Application";
+    const view = render(
+      <>
+        <h1 id="page-title">{title}</h1>
+        <BlockGuideContents id="guide-contents" block={block} pageTitle={title} sections={[]} />
+      </>,
+    );
+    const scroll = vi.fn();
+    document.getElementById("page-title")!.scrollIntoView = scroll;
+    expect(
+      view
+        .getByRole("link", { name: "From a Block Preview to Your Application" })
+        .getAttribute("href"),
+    ).toBe("#page-title");
+    act(() => {
+      history.replaceState(null, "", "#page-title");
+      window.dispatchEvent(new HashChangeEvent("hashchange"));
+    });
+    expect(scroll).toHaveBeenCalledOnce();
+  },
+);
 
 it("reuses anchor style offsets while scrolling and refreshes them after resizing", () => {
   vi.stubGlobal("matchMedia", () => ({
@@ -172,7 +175,7 @@ it("counts only main links and links the heading to the current document without
       ]}
     />,
   );
-  expect(view.getByLabelText("3 main page sections")).toHaveTextContent("3 Page Sections");
+  expect(view.getByLabelText("3 main page sections")).toHaveTextContent("3 Sections");
   const headingLink = view.getByRole("link", { name: "On This Page" }) as HTMLAnchorElement;
   expect(new URL(headingLink.href).pathname).toBe("/docs/forms");
   expect(new URL(headingLink.href).hash).toBe("");
@@ -231,7 +234,7 @@ it("renders and tracks fourth-level links, including hash restoration", () => {
     "#rules",
   );
   expect(view.getByRole("link", { name: "1. Rules" })).toHaveAttribute("data-contents-depth", "3");
-  expect(view.getByLabelText("2 main page sections")).toHaveTextContent("2 Page Sections");
+  expect(view.getByLabelText("2 main page sections")).toHaveTextContent("2 Sections");
   const scroll = vi.fn();
   document.getElementById("retry")!.scrollIntoView = scroll;
   act(() => {

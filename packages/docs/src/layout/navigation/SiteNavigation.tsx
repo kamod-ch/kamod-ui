@@ -1,12 +1,9 @@
 import { MenuIcon } from "@kamod-ch/icons/lucide";
 import { Sheet, SheetContent, SheetTrigger } from "@kamod-ch/ui";
 import { useEffect, useId, useRef, useState } from "preact/hooks";
-import { NavigationDirectory } from "./NavigationDirectory";
-import { NavigationHeader } from "./NavigationHeader";
+import { DocsSidebarNavigation } from "./DocsSidebarNavigation";
+import { NavigationMenuFooter } from "./NavigationMenuFooter";
 import { NavigationMenuHeader } from "./NavigationMenuHeader";
-import { NavigationScrollArea } from "./NavigationScrollArea";
-import { navigationGroups } from "./navigation-data";
-import { SidebarResources } from "./SidebarResources";
 
 /** One responsive navigation surface for home, documentation and every block detail page. */
 export function SiteNavigation() {
@@ -74,11 +71,8 @@ export function SiteNavigation() {
       </SheetTrigger>
       <SheetContent id={id} class="site-navigation-panel" side="left" showCloseButton={false}>
         <NavigationMenuHeader />
-        <NavigationScrollArea mode="mobile" pathname={pathname} class="site-navigation-body">
-          <NavigationHeader pathname={pathname} closeOnNavigate />
-          <NavigationDirectory groups={navigationGroups} pathname={pathname} closeOnNavigate />
-        </NavigationScrollArea>
-        <SidebarResources pathname={pathname} closeOnNavigate />
+        <DocsSidebarNavigation pathname={pathname} mode="mobile" />
+        <NavigationMenuFooter />
       </SheetContent>
     </Sheet>
   );

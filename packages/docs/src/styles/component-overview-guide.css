@@ -1,9 +1,4 @@
 /* Reuse the block reading layout; only overview examples need extra styling. */
-.component-overview-tabs {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  width: 100%;
-}
 .library-overview-guide .library-directory-resources h3 {
   font-size: 1.05rem;
   font-weight: 600;
@@ -27,7 +22,7 @@
 .library-overview-guide .block-guide-table th:nth-child(2) {
   width: 28%;
 }
-.library-overview-guide .block-guide-table a {
+.library-overview-guide .block-guide-table a:not(:where(pre *)) {
   color: var(--foreground);
   text-decoration: underline;
   text-underline-offset: 0.2em;
@@ -149,7 +144,7 @@
   color: inherit;
   text-decoration: none;
 }
-.library-overview-guide a.docs-inline-code-link code {
+.library-overview-guide :where(a.docs-inline-code-link) code {
   font-weight: 500;
 }
 .docs-code-reference {

@@ -5,7 +5,7 @@
 
 import { useMemo } from "preact/hooks";
 import { applicationShellBlockMetadata } from "../../../blocks/src/application-shell/metadata";
-import { ShellPageHeader } from "./ApplicationShellHeader";
+import { getShellPageTitle, ShellPageHeader } from "./ApplicationShellHeader";
 import { ShellShowcase } from "./ApplicationShellShowcase";
 import type { ApplicationShellBlock } from "./application-shell-config";
 import { BlockDetailPage } from "./BlockDetailPage";
@@ -27,6 +27,7 @@ const ShellDetail = ({ block }: { block: ApplicationShellBlock }) => {
       <ShellShowcase key={block.id} block={block} />
       <BlockDocumentation
         block={block}
+        pageTitle={getShellPageTitle(block)}
         category="application-shell"
         sections={sections}
         contentsId="application-shell-contents"

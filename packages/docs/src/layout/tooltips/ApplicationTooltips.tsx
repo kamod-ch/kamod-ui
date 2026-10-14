@@ -1,8 +1,9 @@
 import { Tooltip, TooltipContent } from "@kamod-ch/ui";
 import { createPortal } from "preact/compat";
 import { useId, useLayoutEffect, useState } from "preact/hooks";
+import { connectInlineCode } from "../../references/connect-inline-references";
+import { ReferenceTooltip } from "../../references/ReferenceTooltip";
 import { connectTooltips, type TooltipHint } from "./connect-tooltips";
-import { connectInlineCode } from "./inline-code-targets";
 import { NavigationTooltipContent } from "./navigation-help";
 import { ReferenceHelp } from "./ReferenceHelp";
 
@@ -25,15 +26,20 @@ export function ApplicationTooltips({ page }: { page: unknown }) {
   return hint ? <ActiveTooltip hint={hint} /> : null;
 }
 
-function ActiveTooltip({ hint: { target, text, explanation, navigation } }: { hint: TooltipHint }) {
+function ActiveTooltip({
+  hint: { target, text, explanation, navigation, source },
+}: {
+  hint: TooltipHint;
+}) {
   const id = useId();
   const rect = target.getBoundingClientRect();
-  const interactive = !!(explanation || navigation?.group);
-  const detailed = !!(explanation || navigation);
+  const interactive = !!(source || explanation || navigation?.group);
+  const detailed = !!(source || explanation || navigation);
+  const maxWidth = source ? 480 : 400;
   useLayoutEffect(() => {
     const ids = (target.getAttribute("aria-describedby") ?? "").split(/\s+/).filter(Boolean);
     target.setAttribute("aria-describedby", [...ids, id].join(" "));
-    if (explanation && target.matches('code[role="button"]'))
+    if ((explanation || source) && target.matches('code[role="button"]'))
       target.setAttribute("aria-expanded", "true");
     return () => {
       // Remove only our ID: validation messages or other descriptions may change while open.
@@ -42,10 +48,10 @@ function ActiveTooltip({ hint: { target, text, explanation, navigation } }: { hi
         .filter((value) => value && value !== id);
       if (remaining.length) target.setAttribute("aria-describedby", remaining.join(" "));
       else target.removeAttribute("aria-describedby");
-      if (explanation && target.matches('code[role="button"]'))
+      if ((explanation || source) && target.matches('code[role="button"]'))
         target.setAttribute("aria-expanded", "false");
     };
-  }, [target, id, explanation]);
+  }, [target, id, explanation, source]);
   return createPortal(
     <Tooltip
       open
@@ -65,13 +71,15 @@ function ActiveTooltip({ hint: { target, text, explanation, navigation } }: { hi
         key={`${rect.top}:${rect.left}:${rect.width}:${rect.height}:${text}`}
         id={id}
         role={interactive ? "dialog" : "tooltip"}
-        aria-label={interactive ? `${text} explained` : undefined}
+        aria-label={interactive ? `${text} ${source ? "reference" : "explained"}` : undefined}
         class={
-          navigation
-            ? "docs-code-explanation navigation-hint"
-            : explanation
-              ? "docs-code-explanation"
-              : undefined
+          source
+            ? "docs-code-explanation code-reference-help"
+            : navigation
+              ? "docs-code-explanation navigation-hint"
+              : explanation
+                ? "docs-code-explanation"
+                : undefined
         }
         side={detailed && rect.top > window.innerHeight / 2 ? "top" : "bottom"}
         align={detailed ? "start" : "center"}
@@ -79,7 +87,10 @@ function ActiveTooltip({ hint: { target, text, explanation, navigation } }: { hi
           detailed
             ? Math.max(
                 16,
-                Math.min(rect.left, window.innerWidth - Math.min(400, window.innerWidth - 32) - 16),
+                Math.min(
+                  rect.left,
+                  window.innerWidth - Math.min(maxWidth, window.innerWidth - 32) - 16,
+                ),
               ) - rect.left
             : 0
         }
@@ -89,14 +100,16 @@ function ActiveTooltip({ hint: { target, text, explanation, navigation } }: { hi
           width: "max-content",
           whiteSpace: "normal",
           overflowWrap: "anywhere",
-          ...(detailed && { maxWidth: "min(400px, calc(100vw - 32px))" }),
+          ...(detailed && { maxWidth: `min(${maxWidth}px, calc(100vw - 32px))` }),
           ...(detailed && {
             maxHeight: `${Math.max(80, rect.top > window.innerHeight / 2 ? rect.top - 24 : window.innerHeight - rect.bottom - 24)}px`,
             overflowY: "auto",
           }),
         }}
       >
-        {navigation ? (
+        {source ? (
+          <ReferenceTooltip request={source} />
+        ) : navigation ? (
           <NavigationTooltipContent hint={navigation} />
         ) : explanation ? (
           <ReferenceHelp term={text} explanation={explanation} />

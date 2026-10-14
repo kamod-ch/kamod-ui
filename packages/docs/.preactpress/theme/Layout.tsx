@@ -5,11 +5,13 @@ import {
   applyPreviewAppearance,
   previewAppearanceFromSearch,
 } from "../../src/blocks/preview-appearance";
+import { HighlightedProse } from "../../src/docs/components/HighlightedProse";
 import { PathCopySupport } from "../../src/docs/components/PathCopySupport";
 import { useRightSidebarPageMemory } from "../../src/layout/navigation/right-sidebar-memory";
 import { PageLoading, PageNotFound } from "../../src/layout/PageState";
 import { ApplicationTooltips } from "../../src/layout/tooltips/ApplicationTooltips";
 import { usePageReloadScroll } from "../../src/layout/usePageReloadScroll";
+import { ReferenceCodeProvider } from "../../src/references/ReferenceCode";
 import { SiteColorSchemeSync } from "../../src/theme/SiteColorSchemeSync";
 import { blockPage } from "./block-page";
 import "../../src/styles/index.css";
@@ -286,16 +288,20 @@ const PageContent: FunctionalComponent<LayoutProps> = ({ page }) => {
     return <MdxComponent />;
   }
 
-  return <main dangerouslySetInnerHTML={{ __html: page?.kind === "markdown" ? page.html : "" }} />;
+  return (
+    <main>
+      <HighlightedProse html={page?.kind === "markdown" ? page.html : ""} />
+    </main>
+  );
 };
 
 const Layout: FunctionalComponent<LayoutProps> = (props) => (
-  <>
+  <ReferenceCodeProvider>
     <PathCopySupport />
     <SiteColorSchemeSync page={props.page} />
     <ApplicationTooltips page={props.page} />
     <PageContent {...props} />
-  </>
+  </ReferenceCodeProvider>
 );
 
 export default Layout;

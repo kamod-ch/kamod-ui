@@ -1,6 +1,88 @@
 /* Also embedded in the first-paint preloader, before the site stylesheet is available. */
-.page-loading-pulse {
-  animation: page-loading-breathe 2.6s ease-in-out infinite;
+.page-loading-label {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.page-loading-label,
+.page-loading-description {
+  color: var(
+    --muted-foreground,
+    color-mix(in oklab, var(--foreground, var(--pp-preloader-accent, #171717)) 65%, transparent)
+  );
+  font-weight: 400;
+}
+
+.page-loading-label > span[aria-hidden="true"] {
+  opacity: 0.65;
+}
+
+.page-loading-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex: none;
+  color: var(--foreground, var(--pp-preloader-accent, currentColor));
+}
+
+.page-loading-brand > strong {
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.page-loading-spinner {
+  box-sizing: border-box;
+  width: 1.125rem;
+  height: 1.125rem;
+  flex: none;
+  border: 2px solid;
+  border-color: color-mix(in oklab, currentColor 20%, transparent);
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: page-loading-spin 1.15s linear infinite;
+}
+
+.page-loading-ending {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.page-loading-ellipsis {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.1em;
+  margin-inline-start: 0.24em;
+}
+
+.page-loading-ellipsis > i {
+  display: block;
+  width: 0.13em;
+  height: 0.13em;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.45;
+  animation: page-loading-dot 4.8s ease-in-out infinite;
+}
+
+.page-loading-ellipsis > i:nth-child(2) {
+  animation-delay: 0.38s;
+}
+
+.page-loading-ellipsis > i:nth-child(3) {
+  animation-delay: 0.76s;
+}
+
+/* Keep one ordinary ellipsis in the heading's accessible name and status text. */
+.page-loading-ellipsis-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .page-loading-track {
@@ -16,18 +98,12 @@
   border-radius: inherit;
   background: linear-gradient(90deg, transparent, var(--primary, currentColor), transparent);
   opacity: var(--page-loading-sheen-opacity, 0.65);
-  animation: page-loading-sweep 2.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  animation: page-loading-sweep 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
-@keyframes page-loading-breathe {
-  0%,
-  100% {
-    opacity: 0.55;
-    transform: scale(0.92);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.05);
+@keyframes page-loading-spin {
+  to {
+    transform: rotate(1turn);
   }
 }
 
@@ -42,8 +118,27 @@
   }
 }
 
+@keyframes page-loading-dot {
+  0%,
+  12%,
+  54%,
+  100% {
+    opacity: 0.45;
+    transform: none;
+  }
+  26% {
+    opacity: 0.85;
+    transform: translateY(-0.11em) scale(1.12);
+  }
+  40% {
+    opacity: 0.6;
+    transform: translateY(0.02em) scale(0.96);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .page-loading-pulse,
+  .page-loading-spinner,
+  .page-loading-ellipsis > i,
   .page-loading-track::after {
     animation: none;
   }

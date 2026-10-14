@@ -62,12 +62,12 @@ export function CustomReader({ source }: { source: string }) {
 export function CodeModularityGuide() {
   return (
     <>
-      <Topic id="code-visible-parts" title="Start complete, then remove the distractions">
+      <Topic id="code-visible-parts" title="Choose how much of the reader to show">
         <p>
-          <strong>Every example starts with useful defaults.</strong> Hide a part only when the
-          surrounding interface already covers its job. A compact report might need only Copy; an
-          embedded source excerpt might need no header at all. Try the switches below to see exactly
-          which pieces belong together.
+          <strong>Start with the source, then choose the surrounding tools.</strong> The earlier
+          plain examples need no extra bar; a file viewer may benefit from a path, Copy and reading
+          preferences. Try the switches below to compare those compositions and keep only the parts
+          your interface needs.
         </p>
         <CodePartsPlayground code={playgroundSource} />
         <CodeVisibilityReference />

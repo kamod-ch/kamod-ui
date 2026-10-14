@@ -3,7 +3,10 @@ import { act, cleanup, fireEvent, render, screen } from "@testing-library/preact
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { ComponentPreviewFrame } from "./ComponentPreviewFrame";
 
-beforeEach(() => vi.useFakeTimers());
+beforeEach(() => {
+  vi.useFakeTimers();
+  vi.stubGlobal("requestIdleCallback", undefined);
+});
 
 afterEach(() => {
   cleanup();
@@ -32,6 +35,9 @@ it("keeps loading until the example is ready, and removes pending listeners on t
     />,
   );
   expect(screen.getByRole("status")).toHaveTextContent("Setting the scene");
+  act(() => {
+    vi.advanceTimersByTime(50);
+  });
   const frame = container.querySelector("iframe")!;
   const preview = document.implementation.createHTMLDocument();
   preview.body.innerHTML = '<main id="component-preview-root"></main>';
@@ -73,7 +79,7 @@ it("loads after a batched hidden-to-visible jump and disconnects on teardown", (
     />,
   );
   const frame = container.querySelector("iframe")!;
-  expect(frame.hasAttribute("src")).toBe(false);
+  expect(frame).toHaveAttribute("src", "about:blank");
   act(() =>
     notify(
       [
@@ -83,12 +89,15 @@ it("loads after a batched hidden-to-visible jump and disconnects on teardown", (
       {} as IntersectionObserver,
     ),
   );
+  act(() => {
+    vi.advanceTimersByTime(50);
+  });
   expect(frame.getAttribute("src")).toBe(
     "/component-preview-frame.htm?component=formisch&example=4",
   );
-  expect(disconnect).toHaveBeenCalledTimes(1);
+  expect(disconnect).not.toHaveBeenCalled();
   unmount();
-  expect(disconnect).toHaveBeenCalledTimes(2);
+  expect(disconnect).toHaveBeenCalledOnce();
 });
 
 it("replaces resize observers on reload and cancels pending measurements on unmount", () => {
@@ -123,6 +132,9 @@ it("replaces resize observers on reload and cancels pending measurements on unmo
     />,
   );
   const frame = container.querySelector("iframe")!;
+  act(() => {
+    vi.advanceTimersByTime(50);
+  });
   const previewDocument = document.implementation.createHTMLDocument();
   previewDocument.body.innerHTML =
     '<main id="component-preview-root" data-preview-ready="true"></main>';

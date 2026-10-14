@@ -191,6 +191,9 @@
   line-height: 1.5;
   overflow-wrap: anywhere;
 }
+.library-directory-item-title > span {
+  min-width: 0;
+}
 .library-directory-item-title svg {
   flex: none;
   color: var(--muted-foreground);
@@ -302,7 +305,7 @@
     );
     border-color: color-mix(in oklab, var(--primary) 20%, var(--border));
   }
-  .library-directory a:not(.library-directory-browse, .docs-icon-button):hover {
+  .library-directory a:not(.library-directory-browse, .docs-icon-button):not(:where(pre *)):hover {
     color: var(--foreground);
   }
 }
@@ -366,7 +369,9 @@
   font-size: 0.75rem;
   line-height: 1.7;
 }
-.library-directory :is(.library-directory-start-note, .library-section-description) a {
+.library-directory
+  :is(.library-directory-start-note, .library-section-description)
+  a:not(:where(pre *)) {
   color: var(--foreground);
   text-decoration: underline;
   text-decoration-color: color-mix(in oklab, var(--foreground) 35%, transparent);

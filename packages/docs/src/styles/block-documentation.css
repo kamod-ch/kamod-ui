@@ -248,9 +248,9 @@
   list-style: disc;
 }
 
-.blocks-sidebar-usage-model a:not(.blocks-doc-heading-link),
-.blocks-doc-usage .blocks-doc-note a,
-.blocks-doc-integration-notes a {
+.blocks-sidebar-usage-model a:not(.blocks-doc-heading-link):not(:where(pre *)),
+.blocks-doc-usage .blocks-doc-note a:not(:where(pre *)),
+.blocks-doc-integration-notes a:not(:where(pre *)) {
   text-decoration: underline;
   text-underline-offset: 0.2em;
 }
@@ -395,7 +395,7 @@
   font-weight: 600;
 }
 
-.blocks-doc-explanation :is(p, dd, li) a:not(:has(code)) {
+.blocks-doc-explanation :is(p, dd, li) a:not(:has(code)):not(:where(pre *)) {
   color: var(--foreground);
   text-decoration: underline;
   text-decoration-color: color-mix(in oklab, currentColor 35%, transparent);
@@ -409,7 +409,7 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .blocks-doc-explanation :is(p, dd, li) a:not(:has(code)):hover {
+  .blocks-doc-explanation :is(p, dd, li) a:not(:has(code)):not(:where(pre *)):hover {
     text-decoration-color: currentColor;
   }
 }
@@ -432,7 +432,7 @@
   list-style: decimal;
 }
 
-.blocks-sidebar-about a:not(.blocks-doc-heading-link) {
+.blocks-sidebar-about a:not(.blocks-doc-heading-link):not(:where(pre *)) {
   text-decoration: underline;
   text-underline-offset: 0.2em;
 }

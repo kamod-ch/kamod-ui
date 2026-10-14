@@ -4,6 +4,10 @@
  * no dimensions, padding, gap, font size or SVG size; each usage supplies those.
  */
 .docs-icon-button {
+  --docs-control-hover-step: var(
+    --docs-icon-button-hover-step,
+    calc(8% + 6.4% * var(--docs-highlight-boost, 0))
+  );
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -28,7 +32,15 @@
     box-shadow 160ms ease,
     translate 160ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-.docs-icon-button:is(:focus-visible):not(:disabled, [aria-disabled="true"]) {
+.docs-icon-button:is(:focus-visible):not(:disabled, [aria-disabled="true"]):not(
+    :where(
+      [aria-pressed="true"],
+      [aria-expanded="true"],
+      [aria-selected="true"],
+      [data-state="active"],
+      [data-state="on"]
+    )
+  ) {
   background: var(
     --docs-icon-button-hover-background,
     color-mix(
@@ -40,12 +52,21 @@
   color: var(--foreground);
 }
 @media (min-width: 768px) and (hover: hover) and (pointer: fine) {
-  .docs-icon-button:is(:hover, :focus-visible):not(:disabled, [aria-disabled="true"]) {
+  .docs-icon-button:is(:hover, :focus-visible):not(:disabled, [aria-disabled="true"]):not(
+      :where(
+        [aria-pressed="true"],
+        [aria-expanded="true"],
+        [aria-selected="true"],
+        [data-state="active"],
+        [data-state="on"]
+      )
+    ) {
     background: var(
       --docs-icon-button-hover-background,
       color-mix(
         in oklab,
-        var(--foreground) calc(14% + 12.04% * var(--docs-highlight-boost, 0)),
+        var(--foreground)
+          calc(6% + 5.64% * var(--docs-highlight-boost, 0) + var(--docs-control-hover-step)),
         transparent
       )
     );
@@ -61,6 +82,7 @@
 .docs-icon-button:is(
   [aria-pressed="true"],
   [aria-expanded="true"],
+  [aria-selected="true"],
   [data-state="active"],
   [data-state="on"],
   [data-refresh-state="loading"],
@@ -74,68 +96,47 @@
 .docs-icon-button:is(:disabled, [aria-disabled="true"]) {
   cursor: not-allowed;
 }
-/* Active controls use a neutral hover surface in every palette. */
+/* Tabs own their selection/hover fills; keep the site's light/dark tint strength. */
+[data-slot="tabs-list"] {
+  --tabs-hover-strength: calc(8% + 7.36% * var(--docs-highlight-boost, 0));
+}
+/* Plain controls use their transparent-to-hover increment; icon actions can override it. */
+[data-slot="toggle-group-item"]:not(.docs-icon-button) {
+  --docs-control-hover-step: calc(8% + 7.36% * var(--docs-highlight-boost, 0));
+}
 @media (min-width: 768px) and (hover: hover) and (pointer: fine) {
-  :where([role="group"], [role="tablist"], [data-slot="button-group"], [data-slot="toggle-group"])
-    .docs-icon-button:is(
+  [data-slot="toggle-group-item"]:not(.docs-icon-button):hover:not(
+      :disabled,
+      [aria-disabled="true"]
+    ):not(
+      :where(
+        [aria-pressed="true"],
+        [aria-selected="true"],
+        [data-state="active"],
+        [data-state="on"]
+      )
+    ) {
+    background: color-mix(in oklab, var(--foreground) var(--docs-control-hover-step), transparent);
+    color: var(--foreground);
+  }
+  /* Paint the same hover increment above the selected fill, without replacing it
+     or introducing an overlay element that could cover the icon or label. */
+  :is(.docs-icon-button, [data-slot="toggle-group-item"]):not(
+      :where([data-slot="tabs-trigger"])
+    ):is(
       [aria-pressed="true"],
       [aria-expanded="true"],
+      [aria-selected="true"],
       [data-state="active"],
       [data-state="on"]
     ):hover:not(:disabled, [aria-disabled="true"], [aria-busy="true"]) {
-    background: var(
+    --docs-selected-hover-wash: var(
       --docs-icon-button-selected-hover-background,
-      color-mix(
-        in oklab,
-        var(--foreground) calc(8% + 7.36% * var(--docs-highlight-boost, 0)),
-        var(--background)
-      )
+      color-mix(in oklab, var(--foreground) var(--docs-control-hover-step), transparent)
     );
-    color: var(--foreground);
-  }
-  :is(
-      [data-slot="toggle-group-item"],
-      [data-slot="tabs-list"]:not([data-variant="inset"]) > [data-slot="tabs-trigger"]
-    ):not(.docs-icon-button):hover:not(:disabled, [aria-disabled="true"]) {
-    background: color-mix(
-      in oklab,
-      var(--foreground) calc(8% + 7.36% * var(--docs-highlight-boost, 0)),
-      transparent
-    );
-    color: var(--foreground);
-  }
-  [data-slot="toggle-group-item"][data-state="on"]:not(.docs-icon-button):hover:not(
-      :disabled,
-      [aria-disabled="true"]
-    ) {
-    background: color-mix(
-      in oklab,
-      var(--foreground) calc(10% + 9% * var(--docs-highlight-boost, 0)),
-      var(--background)
-    );
-    color: var(--accent-foreground);
-  }
-  [data-slot="tabs-list"]:not([data-variant="inset"])
-    > [data-slot="tabs-trigger"][aria-selected="true"]:not(.docs-icon-button):hover:not(
-      :disabled,
-      [aria-disabled="true"]
-    ) {
-    background: color-mix(
-      in oklab,
-      var(--foreground) calc(8% + 7.36% * var(--docs-highlight-boost, 0)),
-      var(--background)
-    );
-    color: var(--foreground);
-  }
-  [data-slot="tabs-list"][data-variant="line"]
-    > [data-slot="tabs-trigger"][aria-selected="true"]:not(.docs-icon-button):hover:not(
-      :disabled,
-      [aria-disabled="true"]
-    ) {
-    background: color-mix(
-      in oklab,
-      var(--foreground) calc(8% + 7.36% * var(--docs-highlight-boost, 0)),
-      transparent
+    background-image: linear-gradient(
+      var(--docs-selected-hover-wash),
+      var(--docs-selected-hover-wash)
     );
   }
 }

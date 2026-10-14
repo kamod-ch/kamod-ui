@@ -1,15 +1,7 @@
-import { CopyButton } from "@kamod-ch/ui/copy-button";
+import { ListTreeIcon, LocateFixedIcon } from "@kamod-ch/icons/lucide";
+import { SidebarEntryContent } from "../../layout/navigation/SidebarEntryContent";
 
-/** Reuse the contents' existing reading state; never observe or measure the document again. */
-function sectionLink(activeId?: string) {
-  if (typeof window === "undefined") return "";
-  const url = new URL(window.location.href);
-  if (activeId !== undefined)
-    url.hash = activeId === "top" || activeId === "page-title" ? "" : activeId;
-  return url.href;
-}
-
-/** Shared contents heading, page-top link and compact action for sharing the reading position. */
+/** Match the pinned navigation rows; the existing reading state supplies a native section shortcut. */
 export function PageContentsHeading({
   id,
   count,
@@ -22,34 +14,40 @@ export function PageContentsHeading({
   activeId?: string;
   level?: "h2" | "h3";
 }) {
-  const Heading = level;
   const sectionLabel = count === 1 ? "Section" : "Sections";
   return (
-    <div class="page-contents-header" data-heading-level={level}>
-      <div class="page-contents-label">
-        <Heading id={id} class="page-contents-heading">
-          <a href="" title="Return to the start of this page">
-            On This Page
-          </a>
-        </Heading>
-        <span class="page-contents-separator" aria-hidden="true">
-          ·
-        </span>
-        <span
-          class="page-contents-count"
-          aria-label={`${count} main page ${sectionLabel.toLowerCase()}`}
-        >
-          {count} <span class="page-contents-count-page">Page </span>
-          {sectionLabel}
-        </span>
+    <div class="page-contents-header navigation-header">
+      <div class="sidebar-entry-row">
+        <SidebarEntryContent
+          id={id}
+          heading={level}
+          icon={<ListTreeIcon size={16} strokeWidth={1.8} aria-hidden="true" />}
+          title={
+            <a class="page-contents-top-link" href="" title="Return to the start of this page">
+              On This Page
+            </a>
+          }
+          caption={
+            <span
+              class="page-contents-count"
+              aria-label={`${count} main page ${sectionLabel.toLowerCase()}`}
+            >
+              {count} {sectionLabel}
+            </span>
+          }
+          action={
+            <a
+              class="sidebar-entry-action page-contents-locate"
+              href={activeId && activeId !== "top" ? `#${activeId}` : ""}
+              aria-label="Jump to the current section"
+              data-tooltip="Jump to the current section"
+              data-contents-action=""
+            >
+              <LocateFixedIcon size={14} strokeWidth={1.75} aria-hidden="true" />
+            </a>
+          }
+        />
       </div>
-      <CopyButton
-        value={sectionLink(activeId)}
-        label="Copy page or section link"
-        subject="section link"
-        iconOnly
-        class="page-contents-copy"
-      />
     </div>
   );
 }

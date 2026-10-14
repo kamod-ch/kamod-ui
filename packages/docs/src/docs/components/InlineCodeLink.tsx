@@ -16,6 +16,8 @@ import {
 import { BrandGithubIcon } from "@kamod-ch/icons/tabler/filled";
 import { RouteIcon, ToggleLeftIcon } from "@kamod-ch/icons/tabler/outline";
 import { withBasePath } from "../../base-path";
+import { InlineCodeReference } from "../../references/InlineCodeReference";
+import { inlineSourceReference } from "../../references/inline-references";
 import { hasKamodNamespace } from "./brand/kamod-references";
 import { inlineReference } from "./inline-reference-catalog";
 import { type PackageApiIcon, packageApiReferences } from "./package-api-references";
@@ -86,7 +88,12 @@ export function InlineCodeLink({
   /** Omit to use the shared prose or compact-context size. */
   size?: InlineCodeSize;
 }) {
-  const link = (
+  const source = inlineSourceReference(children, href.startsWith("/") ? withBasePath(href) : href);
+  const link = source ? (
+    <InlineCodeReference reference={source} size={size}>
+      {children}
+    </InlineCodeReference>
+  ) : (
     <a
       class="docs-inline-code-link"
       href={href.startsWith("/") ? withBasePath(href) : href}

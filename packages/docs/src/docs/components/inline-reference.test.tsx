@@ -24,17 +24,19 @@ describe("documentation references", () => {
     );
     for (const [label, href] of [
       ["Components", "/docs/components"],
-      ["Button", "/docs/button/installation"],
-      ["Input", "/docs/input/installation"],
-      ["Dialog", "/docs/dialog/installation"],
-      ["Sidebar", "/docs/sidebar/installation"],
+      ["button", "/docs/button/installation#api-reference"],
+      ["Input", "/docs/input/installation#api-reference"],
+      ["dialog", "/docs/dialog/installation#api-reference"],
+      ["Sidebar", "/docs/sidebar/installation#api-reference"],
       ["Application Shell 3", "/blocks/application-shell/application-shell-3"],
-      ["Preact", "https://preactjs.com/"],
+      ["preact", "https://github.com/preactjs/preact"],
       ["@formisch/preact", "/docs/formisch/installation"],
     ]) {
       const link = getByRole("link", { name: label, exact: true });
       expect(link).toHaveAttribute("href", href);
-      expect(link.querySelectorAll('svg[aria-hidden="true"]')).toHaveLength(2);
+      expect(link.querySelectorAll('svg[aria-hidden="true"]')).toHaveLength(
+        link.classList.contains("kamod-code-reference") ? 0 : 2,
+      );
     }
     expect(container.querySelector("code code, a a")).toBeNull();
   });
@@ -47,14 +49,14 @@ describe("documentation references", () => {
         <a href="https://preactjs.com/guide/v10/hooks/">Preact</a>
       </BrandText>,
     );
-    expect(getByRole("link", { name: "Button" })).toHaveAttribute(
+    expect(getByRole("link", { name: "button" })).toHaveAttribute(
       "href",
       "/docs/button/installation#sizes",
     );
     expect(getByRole("link", { name: "Preact" }).querySelectorAll("svg")).toHaveLength(2);
     expect(container.querySelector("a a, code code")).toBeNull();
   });
-  it("links companion hooks to their implementations with two decorative icons and specific help", () => {
+  it("links companion hooks to their implementations with private source metadata", () => {
     const { getByRole, container } = render(
       <BrandText>
         <p>
@@ -70,7 +72,9 @@ describe("documentation references", () => {
       const href = `https://github.com/kamod-ch/kamod-hooks/blob/main/packages/core/src/${name}/index.ts`;
       const link = getByRole("link", { name, exact: true });
       expect(link).toHaveAttribute("href", href);
-      expect(link.querySelectorAll('svg[aria-hidden="true"]')).toHaveLength(2);
+      expect(link.querySelectorAll('svg[aria-hidden="true"]')).toHaveLength(
+        link.classList.contains("kamod-code-reference") ? 0 : 2,
+      );
       expect(inlineReferenceHelp(name)).toMatchObject({ path: { label: name, href }, href });
     }
     expect(container.querySelectorAll("a")).toHaveLength(3);
@@ -93,21 +97,25 @@ describe("documentation references", () => {
         <h2>Input</h2>
       </BrandText>,
     );
-    expect(container.querySelector("a")).toBeNull();
+    expect(container.querySelectorAll("a")).toHaveLength(1);
+    expect(container.querySelector("a")).toHaveTextContent("ButtonProps");
+    expect(container.querySelector("pre a, button a, h2 a")).toBeNull();
   });
   it("uses the same references in Markdown while preserving fences and authored links", () => {
     const source =
       "Use **Components**, `button`, Input and `TypeScript`. [Sidebar](https://example.com/sidebar#usage) and [`dialog`](https://example.com/dialog#usage).\n\n```tsx\n<Button>Input</Button>\n```";
     const container = document.createElement("div");
     container.innerHTML = renderPromptMarkdown(source);
-    expect(container.querySelector('a[href="/docs/button/installation"]')).toHaveTextContent(
-      "Button",
-    );
     expect(
-      container.querySelector('a[href="https://example.com/sidebar#usage"] svg'),
+      container.querySelector('a[href="/docs/button/installation#api-reference"]'),
+    ).toHaveTextContent("button");
+    expect(
+      container.querySelector(
+        'a[href="https://example.com/sidebar#usage"][data-code-imported="Sidebar"]',
+      ),
     ).not.toBeNull();
     expect(container.querySelector('a[href="https://example.com/dialog#usage"]')).toHaveTextContent(
-      "Dialog",
+      "dialog",
     );
     expect(container.querySelector("a a, code code, pre a")).toBeNull();
     expect(container.querySelector("pre")?.textContent).toBe("<Button>Input</Button>\n");
@@ -115,7 +123,9 @@ describe("documentation references", () => {
       "## Choose\n\n**Components** are a `Button`, `Input`, `Dialog` or `Sidebar`.",
     );
     const html = guide[0].parts.find((part) => part.kind === "html");
-    expect(html?.kind === "html" && html.html).toContain('href="/docs/button/installation"');
+    expect(html?.kind === "html" && html.html).toContain(
+      'href="/docs/button/installation#api-reference"',
+    );
   });
   it("normalizes named references without changing package paths or inventing targets", () => {
     expect(inlineReference("sIdEbArPrOvIdEr")?.label).toBe("SidebarProvider");

@@ -7,16 +7,20 @@ import { withBasePath } from "../base-path";
 import { CodeBlock } from "../docs/components/CodeBlock";
 import { DocsShell } from "../docs/components/DocsShell";
 import { PageEyebrow } from "../docs/components/PageEyebrow";
+import { PageTitle } from "../docs/components/PageTitle";
 import { PathDisplay } from "../docs/components/PathDisplay";
 import { BlockPreviewPanel } from "./BlockPreviewPanel";
 import { getCommerceBlockSource } from "./commerce-source";
 
 type CommerceBlock = (typeof commerceBlocks)[number];
 
+const pageTitle = "Commerce Blocks";
+
 export const BlocksCommerceContent = () => (
   <DocsShell
     sidebarScope="blocks"
     activeDoc={null}
+    pageTitle={pageTitle}
     activeSection=""
     activeBlock="commerce"
     mainContent={
@@ -25,7 +29,7 @@ export const BlocksCommerceContent = () => (
           <PageEyebrow icon={<LayersIcon size={16} aria-hidden="true" />}>
             {`${commerceBlocks.length} ${commerceBlocks.length === 1 ? "variant" : "variants"}`}
           </PageEyebrow>
-          <h1>Commerce Blocks</h1>
+          <PageTitle>{pageTitle}</PageTitle>
           <p class="blocks-hero-lead">
             Payment UI, saved tokenized cards, and a checkout state machine. PAN/CVC never persist.
             These blocks do not make an app PCI compliant — use PSP-hosted fields in production.

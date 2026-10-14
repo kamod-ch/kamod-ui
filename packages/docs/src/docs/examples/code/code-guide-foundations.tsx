@@ -12,10 +12,17 @@ const componentImport = `import { Code } from "@kamod-ch/ui/code";
 
 const firstExample = `import { Code } from "@kamod-ch/ui/code";
 
-const source = 'const greeting = "Hello, workspace";';
+const source = 'const greeting = "Hello";';
 
 export function GettingStartedExample() {
-  return <Code code={source} language="typescript" />;
+  return (
+    <Code
+      code={source}
+      language="typescript"
+      showToolbar={false}
+      showWrapControl={false}
+    />
+  );
 }`;
 
 export function CodeInstallationGuide() {
@@ -45,8 +52,8 @@ export function CodeInstallationGuide() {
       <Topic id="code-install-styles" title="2. Connect the shared stylesheet">
         <p>
           Import the theme <strong>once, at the application entry</strong>. Code’s surfaces, source
-          typography, syntax colors and compact controls are included in the shared theme
-          stylesheet. Keep your overrides after these imports so the same design decisions apply to{" "}
+          typography and syntax colors are included in the shared theme stylesheet. Keep your
+          overrides after these imports so the same design decisions apply to{" "}
           <a href={withBasePath("/docs/button/installation")}>Button</a>,{" "}
           <a href={withBasePath("/docs/switch/installation")}>Switch</a> and the rest of your
           interface.
@@ -67,8 +74,8 @@ export function CodeInstallationGuide() {
       <Topic id="code-first-render" title="3. Render one useful example">
         <p>
           Pass the source as a string through <code>code</code>. It remains selectable and readable
-          before the optional highlighter loads. Use an explicit language when you know it; add a{" "}
-          <code>filePath</code> when the reader needs to know where the snippet belongs.
+          before the highlighter loads. Choose a language when you know it; the example below keeps
+          the presentation plain so it can sit beside a paragraph, response value or small demo.
         </p>
         <CodeBlock code={firstExample} filePath="src/GettingStartedExample.tsx" />
       </Topic>
@@ -79,49 +86,49 @@ export function CodeInstallationGuide() {
 export function CodeUsageGuide() {
   return (
     <>
-      <Topic id="code-reading-model" title="Source first, reading preferences second">
+      <Topic id="code-reading-model" title="Display the string your application supplies">
         <p>
           The <code>code</code> string is the source of truth. Syntax colors help a reader recognize
-          tokens, the import control can hide introductory declarations, and wrapping keeps long
-          lines inside a narrow panel. <strong>None of those choices rewrites the source.</strong>{" "}
-          Copy uses the complete original string, including imports, indentation and line endings.
+          tokens; spaces, indentation and newlines come from your string. A snippet can be a short
+          expression, a configuration value or a complete function.{" "}
+          <strong>Code displays it; it does not execute or format it.</strong> Prepare an object's
+          JSON or an excerpt from a log before passing it to the component.
         </p>
         <p>
-          A normal code panel has a file or purpose label, a copy action, and the relevant reading
-          controls. The import control appears only when there are supported leading declarations
-          and remaining content worth showing. Actual files and recognized coding languages show the
-          wrap switch when a source line would otherwise overflow; eligible import and wrap controls
-          appear together. Commands and unfiled prose or Markdown prompts omit it. Without a
-          separate import row, an eligible wrap switch sits with the header actions. In a{" "}
-          <a href="#document">Rendered Document</a>, code-only controls disappear.
+          Start with the source and its language. The early examples use a plain presentation:
+          <code>{"showToolbar={false}"}</code> removes the optional top bar, and{" "}
+          <code>{"showWrapControl={false}"}</code> keeps long lines in the native horizontal scroll
+          area. The later <a href="#source-file">Optional File Header</a> and{" "}
+          <a href="#reading-behavior">Reading Preferences</a> sections explain when extra context
+          and interactive tools become useful.
         </p>
-        <DocsCallout title="One component, three responsibilities" icon={<InfoIcon />}>
+        <DocsCallout title="A code surface that fits your interface" icon={<InfoIcon />}>
           <p>
-            <strong>Your application provides the source.</strong> Code provides the reading surface
-            and clipboard action. Your surrounding page provides the explanation, file selection and
-            integration context. Keep those boundaries clear when composing a larger{" "}
-            <a href={withBasePath("/blocks")}>Block Showcase</a> or a documentation page.
+            <strong>Your application provides the source and its purpose.</strong> Use Code beside
+            an API response, in a help article or beneath a working example. Its surface and syntax
+            colors follow the same shared stylesheet as the rest of your interface. Add a short
+            explanation outside the snippet so readers know what they are looking at.
           </p>
         </DocsCallout>
       </Topic>
       <Topic id="code-choose-language" title="Prefer the information you already have">
         <p>
-          For a known file, <code>filePath="src/WelcomeAction.tsx"</code> supplies both its label
-          and a useful language hint. For a command with no meaningful filename, use{" "}
-          <code>language="bash"</code>. For generated output that should remain literal, pair{" "}
-          <code>language="text"</code> with <code>{"inferLanguage={false}"}</code>.
+          Use <code>language="typescript"</code> for typed source, <code>language="json"</code> for
+          serialized values and <code>language="bash"</code> for commands. For generated output that
+          should remain literal, pair <code>language="text"</code> with{" "}
+          <code>{"inferLanguage={false}"}</code>.
         </p>
         <CodeBlock
           language="tsx"
           code={
-            '<Code code={source} filePath="src/WelcomeAction.tsx" />\n<Code code="pnpm build" language="bash" />\n<Code code={report} language="text" inferLanguage={false} />'
+            '<Code code={source} language="typescript" showToolbar={false} showWrapControl={false} />\n<Code code={response} language="json" showToolbar={false} showWrapControl={false} />\n<Code code={report} language="text" inferLanguage={false} showToolbar={false} />'
           }
         />
         <p>
-          These are three alternative render expressions; <code>source</code> and{" "}
-          <code>report</code> are strings supplied by your app. Choose the least surprising label
-          for the reader, then use the <a href="#language-detection">Language Selection Guide</a>{" "}
-          when the source arrives without metadata.
+          These are alternative render expressions; <code>source</code>, <code>response</code> and{" "}
+          <code>report</code> are strings supplied by your app. Choose the matching grammar, then
+          use the <a href="#language-detection">Language Selection Guide</a> when the source arrives
+          without metadata.
         </p>
       </Topic>
     </>

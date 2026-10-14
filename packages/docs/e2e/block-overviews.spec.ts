@@ -1,10 +1,11 @@
 import { expect, test } from "@playwright/test";
+import { applicationShellBlockMetadata } from "../../blocks/src/application-shell/metadata";
 import { SHOW_CATEGORY_PREVIEW } from "../src/blocks/block-display-options";
 import { assertNoBlockingA11yViolations } from "./a11y-utils";
 
 for (const [category, count] of [
   ["sidebar", 16],
-  ["application-shell", 1],
+  ["application-shell", applicationShellBlockMetadata.length],
   ["login", 5],
   ["signup", 5],
 ] as const) {
@@ -64,7 +65,13 @@ for (const [category, count] of [
     await page.keyboard.press("Enter");
     await expect(page.locator("article.blocks-card")).toBeVisible();
     await page.goBack();
+    await expect(page.locator("article.blocks-card")).toHaveCount(0);
+    await expect(cards).toHaveCount(count);
     await cards.first().focus();
+    await page.keyboard.press("Tab");
+    await expect(cards.first().locator("..").locator(".blocks-overview-path a")).toBeFocused();
+    // Dismiss the package link's keyboard-accessible reference before the footer actions.
+    await page.keyboard.press("Escape");
     await page.keyboard.press("Tab");
     await expect(
       cards
@@ -320,7 +327,7 @@ test("header actions use subtle hover feedback and respect reduced motion", asyn
   const icon = button.locator("svg");
   await button.hover();
   await expect(icon).toHaveCSS("animation-name", "none");
-  await expect(icon).not.toHaveCSS("transform", "none");
+  await expect(icon).toHaveCSS("transform", "none");
   await page.mouse.move(0, 0);
   await expect(icon).toHaveCSS("transform", "none");
   await button.hover();
@@ -498,7 +505,9 @@ for (const scheme of ["light", "dark"] as const) {
         const layout = await page.evaluate(() => {
           const header = document.querySelector(".blocks-page-header-title-row")!;
           const title = header.querySelector("h1")!.getBoundingClientRect();
-          const eyebrow = header.querySelector(".block-guide-eyebrow")!.getBoundingClientRect();
+          const eyebrow = document
+            .querySelector(".blocks-category-header .block-guide-eyebrow")!
+            .getBoundingClientRect();
           const cards = [...document.querySelectorAll(".blocks-overview-surface")];
           const introduction = document
             .querySelector(".blocks-category-header")!

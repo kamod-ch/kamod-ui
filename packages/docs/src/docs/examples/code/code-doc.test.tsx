@@ -8,7 +8,7 @@ import { ComponentExample } from "../../components/component-detail/ComponentExa
 import { ComponentExampleCode } from "../../components/component-detail/ComponentExampleCode";
 import { DocsComponentContent } from "../../DocsComponentContent";
 import { codeDocPage } from "../../pages/code-doc";
-import { codeExamples, codeHeroSnippet } from "./code-examples";
+import { CodeHero, codeExamples, codeHeroSnippet } from "./code-examples";
 import { languageSelectorSnippet } from "./code-guide-languages";
 import { controlledCodeSnippet, customControlsSnippet } from "./code-guide-modularity";
 import { syntaxThemeSnippet } from "./code-guide-themes";
@@ -45,8 +45,24 @@ it("preserves package imports in the actual page's rendered showcase source", ()
     expect(html).not.toContain("@/components/kamod-ui/code");
   }
   // Inner source is data, not another consumer import to rewrite.
-  expect(snippets[0]).toContain("@kamod-ch/ui/button");
-  expect(snippets[0]).not.toContain("@/components/kamod-ui/code/button");
+  const fileExample = snippets.find((snippet) => snippet.includes("WelcomeAction"));
+  expect(fileExample).toContain("@kamod-ch/ui/button");
+  expect(fileExample).not.toContain("@/components/kamod-ui/code/button");
+});
+
+it("introduces plain code before optional file headers and reading tools", () => {
+  const plainExamples = ["terminal", "data", "styles", "literal", "appearance"];
+  const ids = codeDocPage.sections.map((section) => section.id);
+  for (const id of [...plainExamples, "language-detection"])
+    expect(ids.indexOf(id)).toBeLessThan(ids.indexOf("source-file"));
+  for (const id of ["imports", "wrapping", "reading-behavior", "modularity"])
+    expect(ids.indexOf(id)).toBeGreaterThan(ids.indexOf("document"));
+  for (const preview of [<CodeHero />, ...plainExamples.map((id) => codeExamples[id].preview())]) {
+    const html = render(<>{preview}</>);
+    expect(html).toContain('data-slot="code-content"');
+    expect(html).not.toContain('data-slot="code-toolbar"');
+    expect(html).not.toContain('data-slot="code-imports"');
+  }
 });
 
 it("keeps the nested reading guide and every example reference reachable", () => {

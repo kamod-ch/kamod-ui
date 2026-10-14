@@ -6,6 +6,7 @@ import { BrandText } from "./brand/BrandText";
 import { LibraryDirectoryResources } from "./LibraryDirectoryResources";
 import { LibrarySection } from "./LibrarySection";
 import { PageEyebrow } from "./PageEyebrow";
+import { PageTitle } from "./PageTitle";
 import { PathDisplay } from "./PathDisplay";
 
 export type LibraryEntry = {
@@ -45,13 +46,11 @@ export function LibraryDirectory({
               {items.length} {isBlocks ? "Collections" : "Components"}
             </PageEyebrow>
             <div class="library-directory-title">
-              <h1>
-                <BrandText>
-                  {isBlocks
-                    ? "Blocks for Complete Application Layouts"
-                    : "Components for Flexible Preact Interfaces"}
-                </BrandText>
-              </h1>
+              <PageTitle>
+                {isBlocks
+                  ? "Blocks for Complete Application Layouts"
+                  : "Components for Flexible Preact Interfaces"}
+              </PageTitle>
             </div>
             <p class="docs-components-intro">{description}</p>
             <p class="library-directory-start-note">
@@ -193,7 +192,7 @@ export function LibraryGrid({
             }
           >
             <span class="library-directory-item-title">
-              {linkTitleChildren(item.label)}
+              <span>{linkTitleChildren(item.label)}</span>
               <ArrowUpRightIcon size={14} aria-hidden="true" />
             </span>
             {item.detail && <span class="library-directory-item-description">{item.detail}</span>}

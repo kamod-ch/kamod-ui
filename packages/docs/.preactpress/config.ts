@@ -8,6 +8,7 @@ import type { Connect } from "vite";
 import { navigationRestoreScript } from "../src/layout/navigation/navigation-restore";
 import { blockDownloadsPlugin } from "./block-downloads-plugin";
 import { blockPagesPlugin } from "./block-pages-plugin";
+import { codeReferencePlugin } from "./code-reference-plugin";
 import { componentApiPlugin } from "./component-api-plugin";
 import { componentPreviewPlugin } from "./component-preview-plugin";
 import { compactGuidePageData } from "./guide-page-data";
@@ -126,6 +127,7 @@ export default defineConfig({
       pageMetadataPlugin(),
       blockPagesPlugin(),
       componentApiPlugin(),
+      codeReferencePlugin(),
       componentPreviewPlugin(),
       blockDownloadsPlugin(),
       {

@@ -32,22 +32,42 @@ test("Code documentation exposes complete examples, reading guides and the publi
 });
 
 for (const scheme of ["light", "dark"] as const) {
-  test(`Code preserves source and responsive controls in ${scheme} mode`, async ({
+  test(`Code starts plain and preserves optional reading tools in ${scheme} mode`, async ({
     page,
     context,
     browserName,
   }) => {
     await enableTestClipboard(context, browserName);
     await page.goto("./docs/code/installation");
-    const showcase = page.locator(".component-example").first();
+    const plainShowcase = page.locator(".component-example").first();
+    await plainShowcase.scrollIntoViewIfNeeded();
+    const plainToggle = plainShowcase.getByRole("button", { name: "Dark preview", exact: true });
+    if (((await plainToggle.getAttribute("aria-pressed")) === "true") !== (scheme === "dark"))
+      await plainToggle.click();
+    const plainCode = plainShowcase.locator("iframe").contentFrame().locator(".kamod-code");
+    await expect(plainCode.locator("pre code")).toContainText("console.log(greeting)");
+    for (const width of [320, 768, 1440]) {
+      await page.setViewportSize({ width, height: 1000 });
+      await expect(plainCode.locator('[data-slot="code-toolbar"]')).toHaveCount(0);
+      await expect(plainCode.locator('[data-slot="code-imports"]')).toHaveCount(0);
+      await expect(plainCode.getByRole("button", { name: "Copy code", exact: true })).toHaveCount(
+        0,
+      );
+    }
+
+    const showcase = page.locator("#imports .component-example");
     await showcase.scrollIntoViewIfNeeded();
     const darkToggle = showcase.getByRole("button", { name: "Dark preview", exact: true });
     if (((await darkToggle.getAttribute("aria-pressed")) === "true") !== (scheme === "dark"))
       await darkToggle.click();
+    await page.setViewportSize({ width: 320, height: 1000 });
+    await showcase.scrollIntoViewIfNeeded();
     const preview = showcase.locator("iframe").contentFrame();
     const code = preview.locator(".kamod-code");
     const source = code.locator("pre code");
     await expect(source.locator(".token.keyword").first()).toBeVisible();
+    await code.getByRole("button", { name: "Show imports", exact: true }).focus();
+    await page.keyboard.press("Enter");
     const original = await source.textContent();
     expect(original).toContain("import { Button }");
 
@@ -59,9 +79,16 @@ for (const scheme of ["light", "dark"] as const) {
     await expect(code.getByRole("switch", { name: "Wrap code lines" })).toBeChecked();
     for (const width of [320, 768, 1440]) {
       await page.setViewportSize({ width, height: 1000 });
-      await expect(code.locator(".docs-code-control-end-icon")).toHaveCount(2);
-      for (const icon of await code.locator(".docs-code-control-end-icon").all())
-        await expect(icon).toBeVisible();
+      // Complete, unwrapped source can fit at wider sizes; controls stay paired when needed.
+      const controls = await code.evaluate((node) => {
+        const icons = [...node.querySelectorAll(".docs-code-control-end-icon")];
+        return {
+          count: icons.length,
+          visible: icons.every((icon) => getComputedStyle(icon).display !== "none"),
+        };
+      });
+      expect([0, 2]).toContain(controls.count);
+      expect(controls.visible).toBe(true);
       expect(await code.evaluate((node) => node.scrollWidth <= node.clientWidth + 1)).toBe(true);
       expect(
         await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1),
@@ -80,7 +107,7 @@ test("Code surface variants remain distinct inside documentation previews", asyn
   const preview = example.locator("iframe").contentFrame();
   await expect(preview.locator(".kamod-code")).toHaveCount(3);
   const surfaces = await preview
-    .locator(".kamod-code pre")
+    .locator(".kamod-code")
     .evaluateAll((nodes) => nodes.map((node) => getComputedStyle(node).backgroundColor));
   expect(new Set(surfaces).size).toBe(3);
 });

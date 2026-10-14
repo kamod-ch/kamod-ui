@@ -25,7 +25,13 @@ export function LanguageSelector() {
           ))}
         </select>
       </label>
-      <Code code={source} language={language} inferLanguage={false} />
+      <Code
+        code={source}
+        language={language}
+        inferLanguage={false}
+        showToolbar={false}
+        showWrapControl={false}
+      />
     </section>
   );
 }`;
@@ -95,8 +101,8 @@ export function CodeLanguageGuide() {
         <p>
           Choose any grammar below to inspect the same TSX source. The selector treats named
           languages as strict choices. Its Automatic option restores inference from the filename and
-          source. Try <code>text</code>, then <code>tsx</code>, and copy either view: both produce
-          the same complete component.
+          source. Try <code>text</code>, then <code>tsx</code>: the same string switches between
+          plain text and syntax highlighting, with no extra reading controls.
         </p>
         <CodeLanguagePlayground />
         <p>
@@ -111,8 +117,8 @@ export function CodeLanguageGuide() {
           Keep the source string stable while changing the preference. Code updates highlighting
           when <code>language</code> changes and ignores results from an older highlighting request.
           A selector can change presentation immediately without fetching or rebuilding the source.
-          Changing the grammar can also change which import or wrapping controls are eligible; those
-          follow the <a href="#reading-behavior">reading rules</a>.
+          The later <a href="#reading-behavior">Reading Preferences</a> section covers optional
+          tools for larger source viewers.
         </p>
       </Topic>
       <Topic id="code-language-list" title="Supported languages, aliases and file hints">

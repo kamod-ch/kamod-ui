@@ -213,6 +213,89 @@ test("workspace views retain their height and Open preserves preview appearance"
   await popup.close();
 });
 
+for (const dark of [false, true]) {
+  test(`workspace code and prompt content scroll without moving their headers (${dark ? "dark" : "light"})`, async ({
+    page,
+  }) => {
+    await page.goto("./");
+    await expect(page.locator("html")).toHaveClass(/pp-ready/);
+    await page.evaluate((dark) => document.documentElement.classList.toggle("dark", dark), dark);
+    const showcase = page.getByRole("region", { name: "Interactive workspace example" });
+
+    for (const width of [320, 1440]) {
+      await page.setViewportSize({ width, height: 900 });
+      for (const view of ["Code", "Prompt"]) {
+        await showcase.getByRole("tab", { name: view, exact: true }).click();
+        const source = showcase.locator("pre");
+        await expect(source).toBeVisible();
+        await showcase.scrollIntoViewIfNeeded();
+        // Compare scrolling after the tab's entrance motion has reached its resting position.
+        await showcase
+          .getByRole("tabpanel", { name: view, exact: true })
+          .evaluate(async (panel) => {
+            await Promise.all(panel.getAnimations().map((animation) => animation.finished));
+          });
+        const height = (await showcase.boundingBox())!.height;
+        const header = showcase.locator(".docs-code-toolbar");
+        const footer = showcase.locator(".home-workspace-footnote");
+        const headerBox = (await header.boundingBox())!;
+        const footerBox = (await footer.boundingBox())!;
+        const completeSource = await source.textContent();
+        await expect
+          .poll(() => source.evaluate((node) => node.scrollHeight - node.clientHeight))
+          .toBeGreaterThan(100);
+
+        await source.evaluate((node) => {
+          node.scrollTop = 0;
+        });
+        await source.hover();
+        const pageTop = await page.evaluate(() => scrollY);
+        await page.mouse.wheel(0, 300);
+        await expect.poll(() => source.evaluate((node) => node.scrollTop)).toBeGreaterThan(0);
+        expect(await page.evaluate(() => scrollY)).toBe(pageTop);
+
+        await source.evaluate((node) => {
+          node.scrollTop = 0;
+        });
+        await source.focus();
+        await page.keyboard.press("PageDown");
+        await expect.poll(() => source.evaluate((node) => node.scrollTop)).toBeGreaterThan(0);
+
+        // Reach the last painted character, not merely an oversized clipped source node.
+        await source.evaluate((node) => {
+          node.scrollTop = node.scrollHeight;
+        });
+        const endingVisible = await source.evaluate((node) => {
+          const walker = document.createTreeWalker(
+            node.querySelector("code")!,
+            NodeFilter.SHOW_TEXT,
+          );
+          let last: Text | undefined;
+          while (walker.nextNode()) {
+            const text = walker.currentNode as Text;
+            if (text.data.trim()) last = text;
+          }
+          const offset = last!.data.trimEnd().length - 1;
+          const range = document.createRange();
+          range.setStart(last!, offset);
+          range.setEnd(last!, offset + 1);
+          const character = range.getBoundingClientRect();
+          const viewport = node.getBoundingClientRect();
+          return character.top >= viewport.top - 1 && character.bottom <= viewport.bottom + 1;
+        });
+        expect(endingVisible).toBe(true);
+        await expect(source).toHaveText(completeSource!);
+        expect(await header.boundingBox()).toEqual(headerBox);
+        expect(await footer.boundingBox()).toEqual(footerBox);
+        expect((await showcase.boundingBox())!.height).toBe(height);
+        expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
+          true,
+        );
+      }
+    }
+  });
+}
+
 test("workspace loading states reserve the full panel while each view arrives", async ({
   page,
 }) => {
@@ -287,45 +370,89 @@ test("workspace loading states reserve the full panel while each view arrives", 
   }
 });
 
-test("faded component cards reveal individually and remain navigable", async ({ page }) => {
+test("one matching component row fades and remains individually navigable", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("./");
-  const continuation = page.locator(".home-component-continuation");
-  const links = continuation.getByRole("link");
+  const directory = page.locator(".home-component-directory");
+  const continuation = directory.locator(".home-component-continuation");
+  const cards = continuation.locator(".home-component-card");
+  const guides = continuation.locator(".home-component-guide");
   await continuation.scrollIntoViewIfNeeded();
-  await expect(links).toHaveCount(6);
+  await expect(cards).toHaveCount(3);
   const veilOpacity = (index: number) =>
-    links.nth(index).evaluate((link) => getComputedStyle(link, "::after").opacity);
-  await links.first().hover();
+    cards.nth(index).evaluate((card) => getComputedStyle(card, "::after").opacity);
+  await cards.first().hover();
   expect(await veilOpacity(0)).toBe("0.55");
   expect(await veilOpacity(1)).toBe("1");
-  await links.first().focus();
+  await guides.first().focus();
   expect(await veilOpacity(0)).toBe("0");
-  await links.last().focus();
-  expect(await veilOpacity(5)).toBe("0");
+  await continuation.locator(".home-component-source").first().focus();
+  expect(await veilOpacity(0)).toBe("0");
+  await guides.last().focus();
+  expect(await veilOpacity(2)).toBe("0");
   await page.keyboard.press("Enter");
-  await expect(page).toHaveURL(/\/docs\/slider\/installation$/);
-  await expect(page.locator("h1")).toContainText("Slider");
-
-  await page.goto("./");
-  await links.nth(3).click();
-  await expect(page).toHaveURL(/\/docs\/calendar\/installation$/);
+  await expect(page).toHaveURL(/\/docs\/select\/installation$/);
+  await expect(page.locator("h1")).toContainText("Select");
 
   await page.goto("./");
   for (const [width, count] of [
-    [768, 4],
-    [320, 2],
+    [1440, 3],
+    [768, 2],
+    [320, 1],
   ]) {
     await page.setViewportSize({ width, height: 900 });
-    const visibleLinks = continuation.locator("a:visible");
-    await expect(visibleLinks).toHaveCount(count);
-    await visibleLinks.last().focus();
-    await expect(visibleLinks.last()).toBeFocused();
-    await expect(visibleLinks.last()).toBeInViewport();
+    const visibleCards = continuation.locator(".home-component-card:visible");
+    await expect(visibleCards).toHaveCount(count);
+    const geometry = await directory.evaluate((grid) => {
+      const main = grid.querySelector(".home-component-card")!;
+      const last = grid.querySelector(".home-component-continuation")!;
+      const lastCards = [...last.querySelectorAll(".home-component-card")].filter(
+        (card) => getComputedStyle(card).display !== "none",
+      );
+      const style = (card: Element) => {
+        const css = getComputedStyle(card);
+        return [
+          css.padding,
+          css.gap,
+          css.borderRadius,
+          getComputedStyle(card.querySelector("strong")!).fontSize,
+          getComputedStyle(card.querySelector("small")!).fontSize,
+        ];
+      };
+      return {
+        main: {
+          width: main.getBoundingClientRect().width,
+          height: main.getBoundingClientRect().height,
+          style: style(main),
+        },
+        continuation: lastCards.map((card) => ({
+          width: card.getBoundingClientRect().width,
+          height: card.getBoundingClientRect().height,
+          top: card.getBoundingClientRect().top,
+          style: style(card),
+        })),
+        gap: getComputedStyle(grid).gap,
+        continuationGap: getComputedStyle(last).gap,
+        fade: getComputedStyle(lastCards[0], "::after").backgroundImage,
+      };
+    });
+    expect(geometry.continuationGap).toBe(geometry.gap);
+    expect(geometry.fade).toContain("33.333%");
+    expect(geometry.fade).toContain("80%");
+    for (const card of geometry.continuation) {
+      expect(card.width).toBeCloseTo(geometry.main.width, 1);
+      expect(card.height).toBeCloseTo(geometry.main.height, 1);
+      expect(card.style).toEqual(geometry.main.style);
+      expect(card.top).toBeCloseTo(geometry.continuation[0].top, 1);
+    }
+    const guide = visibleCards.last().locator(".home-component-guide");
+    await guide.focus();
+    await expect(guide).toBeFocused();
+    await expect(guide).toBeInViewport();
     expect(
-      await visibleLinks.last().evaluate((link) => getComputedStyle(link, "::after").opacity),
+      await visibleCards.last().evaluate((card) => getComputedStyle(card, "::after").opacity),
     ).toBe("0");
   }
   await page.keyboard.press("Enter");
-  await expect(page).toHaveURL(/\/docs\/popover\/installation$/);
+  await expect(page).toHaveURL(/\/docs\/tooltip\/installation$/);
 });

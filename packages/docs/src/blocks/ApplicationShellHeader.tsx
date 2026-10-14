@@ -7,6 +7,10 @@ import { BlockDetailHeader } from "./BlockDetailHeader";
 import { getBlockDisplayName } from "./block-overview-details";
 import { type ShellVariantId, shellVariantGuides } from "./detail/application-shell-profiles";
 
+/** Keep the shell's header and contents entry on the same variant-specific wording. */
+export const getShellPageTitle = (block: ApplicationShellBlock) =>
+  `${getBlockDisplayName(block.title)} — ${shellVariantGuides[block.id as ShellVariantId]?.name ?? "Sidebar shell with breadcrumbs"}`;
+
 /** Retain the shell's detailed introduction, overview anchor and About destination. */
 export const ShellPageHeader = ({ block }: { block: ApplicationShellBlock }) => {
   const profile = shellVariantGuides[block.id as ShellVariantId];
@@ -15,7 +19,7 @@ export const ShellPageHeader = ({ block }: { block: ApplicationShellBlock }) => 
       category="application-shell"
       block={block}
       className="blocks-shell-header"
-      title={`${getBlockDisplayName(block.title)} — ${profile?.name ?? "Sidebar shell with breadcrumbs"}`}
+      title={getShellPageTitle(block)}
       description={
         profile ? (
           <>

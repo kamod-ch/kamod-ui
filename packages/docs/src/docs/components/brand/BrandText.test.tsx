@@ -21,7 +21,7 @@ const githubIcons = (root: Element) =>
   );
 
 describe("inline brand references", () => {
-  it("links Kamod packages and aliases with inherited icon styling and unchanged text", () => {
+  it("links verified packages and modules with private source metadata and unchanged text", () => {
     const alias = "@/components/kamod-ui/accordion";
     const { container, getByRole } = render(
       <>
@@ -34,26 +34,21 @@ describe("inline brand references", () => {
     );
     expect(getByRole("link", { name: "@kamod-ch/signals" })).toHaveAttribute(
       "href",
-      "https://github.com/kamod-ch/kamod-signals",
+      "/docs/signals-package/installation",
     );
     expect(getByRole("link", { name: alias })).toHaveAttribute(
       "href",
-      "https://github.com/kamod-ch/kamod-ui/tree/main/packages/core/src/components/accordion",
+      "/docs/accordion/installation#api-reference",
     );
-    expect(getByRole("link", { name: "@kamod-ch/ui" })).toHaveAttribute(
-      "href",
-      "https://github.com/kamod-ch/kamod-ui",
-    );
+    expect(getByRole("link", { name: "@kamod-ch/ui" })).toHaveAttribute("href", "/docs/components");
     expect(container.textContent).toBe(
       `Use @kamod-ch/signals with @kamod-ch/icons.${alias}@kamod-ch/ui`,
     );
     for (const link of container.querySelectorAll("a")) {
-      expect(link.querySelectorAll('svg[aria-hidden="true"]')).toHaveLength(2);
-      expect(link.querySelector("svg")).toHaveAttribute("viewBox", "0 0 24 24");
-      expect(link.querySelector("svg")).toHaveAttribute("fill", "currentColor");
-      expect(githubIcons(link)).toHaveLength(1);
+      expect(link).toHaveClass("kamod-code-reference");
+      expect(link).toHaveAttribute("data-code-module");
+      expect(link.querySelector("svg")).toBeNull();
     }
-    expect(container.querySelector('[data-path-part="end"]')).toHaveTextContent("/accordion");
   });
   it.each([
     "@kamod-ch",
@@ -125,14 +120,17 @@ describe("inline brand references", () => {
     );
     const container = document.createElement("div");
     container.innerHTML = html;
-    // Fenced snippets have their own linked language label; count prose separately.
-    expect(container.querySelectorAll("a:not(.docs-code-label a)")).toHaveLength(2);
+    // Source navigation and language metadata are independent of prose decoration.
+    expect(container.querySelectorAll("a:not(.docs-code-label a, pre a)")).toHaveLength(2);
     expect(container.querySelector(".docs-code-label a")).toHaveTextContent("TypeScript");
     expect(container.querySelector("a a")).toBeNull();
     expect(container.querySelector('a[href="https://example.com/guide"]')).toHaveTextContent(
       "@kamod-ch/icons",
     );
-    expect(container.querySelector("pre a")).toBeNull();
+    expect(container.querySelectorAll("pre a.kamod-code-reference")).toHaveLength(2);
+    expect(container.querySelector("pre code")?.textContent).toBe(
+      'import { Button } from "@kamod-ch/ui";\n',
+    );
     expect(container.querySelector("pre")?.textContent).toBe(
       'import { Button } from "@kamod-ch/ui";\n',
     );

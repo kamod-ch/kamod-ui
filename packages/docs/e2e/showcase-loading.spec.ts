@@ -12,7 +12,13 @@ function deferred() {
 /** Sample painted frames through fast tab changes, rather than only their settled state. */
 async function samplePanelHeights(showcase: Locator) {
   return showcase.evaluate(async (element) => {
-    const samples: { view: string; height: number }[] = [];
+    const samples: {
+      view: string;
+      height: number;
+      reserved: number;
+      loading: boolean;
+      selected: boolean;
+    }[] = [];
     for (const view of ["Code", "Preview", "Prompt", "Code", "Prompt", "Preview"]) {
       const tab = Array.from(element.querySelectorAll<HTMLButtonElement>('[role="tab"]')).find(
         (tab) => (tab.getAttribute("aria-label") ?? tab.textContent?.trim()) === view,
@@ -24,7 +30,15 @@ async function samplePanelHeights(showcase: Locator) {
         const panel = element.querySelector(
           '.blocks-showcase-tabs > [data-slot="tabs-content"][data-state="active"]',
         );
-        samples.push({ view, height: panel?.getBoundingClientRect().height ?? 0 });
+        const tabs = element.querySelector(".blocks-showcase-tabs")!;
+        const toolbar = tabs.querySelector(".blocks-showcase-toolbar")!;
+        samples.push({
+          view,
+          height: panel?.getBoundingClientRect().height ?? 0,
+          reserved: tabs.getBoundingClientRect().bottom - toolbar.getBoundingClientRect().bottom,
+          loading: !!panel?.querySelector(".showcase-loading"),
+          selected: tab.getAttribute("aria-selected") === "true",
+        });
       }
     }
     return samples;
@@ -55,16 +69,22 @@ for (const width of [320, 1440]) {
       );
       try {
         await page.goto(route, { waitUntil: "domcontentloaded" });
+        await expect(page.locator("html")).toHaveClass(/pp-ready/);
         const showcase = page.locator(selector).first();
         await showcase.getByRole("tab", { name: "Preview", exact: true }).waitFor();
         await showcase.scrollIntoViewIfNeeded();
         const panel = showcase.locator(
           '.blocks-showcase-tabs > [data-slot="tabs-content"][data-state="active"]',
         );
-        await showcase.getByRole("tab", { name: "Code", exact: true }).click();
-        await expect(panel.locator(".showcase-loading")).toBeVisible();
+        // Include the first Code/Prompt selection, before any lazy module has been visited.
         const pending = await samplePanelHeights(showcase);
-        expect(pending.filter(({ height }) => height <= 1)).toEqual([]);
+        expect(
+          pending.filter(
+            // Compositor translations can round a 448px box down by a few millionths of a pixel.
+            ({ height, reserved, selected }) => height < 447.99 || reserved < 447.99 || !selected,
+          ),
+        ).toEqual([]);
+        expect(pending.filter(({ view, loading }) => view !== "Preview" && !loading)).toEqual([]);
         await showcase.getByRole("tab", { name: "Code", exact: true }).click();
         await expect(panel.locator(".showcase-loading")).toBeVisible();
         module.release();
@@ -74,7 +94,22 @@ for (const width of [320, 1440]) {
         await expect(panel.locator(".showcase-loading")).toHaveCount(0);
         await expect(panel.locator("pre")).toBeVisible();
         const ready = await samplePanelHeights(showcase);
-        expect(ready.filter(({ height }) => height <= 1)).toEqual([]);
+        expect(
+          ready.filter(
+            ({ height, reserved, selected }) => height < 447.99 || reserved < 447.99 || !selected,
+          ),
+        ).toEqual([]);
+        const icon = showcase.locator(
+          '.blocks-showcase-toolbar [data-slot="tabs-trigger"][data-state="active"] > svg',
+        );
+        await expect(panel).toHaveCSS("animation-duration", "0.34s");
+        await expect(icon).toHaveCSS("animation-duration", "0.34s");
+        await expect(panel).toHaveCSS("transform", "none");
+        await expect(icon).toHaveCSS("transform", "none");
+        await page.emulateMedia({ reducedMotion: "reduce" });
+        await showcase.getByRole("tab", { name: "Code", exact: true }).click();
+        await expect(panel).toHaveCSS("animation-name", "none");
+        await expect(icon).toHaveCSS("animation-name", "none");
       } finally {
         module.release();
       }
@@ -134,7 +169,8 @@ test("component views show real loading feedback until their frame or module is 
       ).toHaveCount(1);
       await expect(activity).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
       await expect(activity).toHaveCSS("border-width", "0px");
-      await expect(activity.locator("svg")).not.toHaveCSS("animation-name", "none");
+      await expect(activity.locator(":scope > span")).not.toHaveCSS("animation-name", "none");
+      await expect(activity.locator("svg")).toHaveCSS("animation-name", "none");
       await expect(loading.locator(".showcase-loading-sketch")).not.toHaveCSS(
         "animation-name",
         "none",
@@ -336,8 +372,11 @@ test("code formatting shows themed feedback and folding ready imports never rest
     await choosePreviewTheme(example.getByRole("button", { name: "Preview color theme" }), "ocean");
     const dark = example.getByRole("button", { name: "Dark preview", exact: true });
     if ((await dark.getAttribute("aria-pressed")) !== "true") await dark.click();
+    // Narrow only after using the desktop appearance controls; this guarantees reading overflow.
+    await page.setViewportSize({ width: 320, height: 900 });
     await example.getByRole("tab", { name: "Code", exact: true }).click();
     const content = example.locator(".kamod-code-content[data-loading]");
+    await content.scrollIntoViewIfNeeded();
     const loading = content.locator('.showcase-loading[data-view="code"]');
     await expect(loading).toBeVisible();
     await expect(loading).toHaveAttribute("data-theme", "ocean");
@@ -418,6 +457,21 @@ for (const { route, selector, displayLabel, region } of [
       markdown.release();
       await expect(loading).toHaveCount(0);
       await expect(section.getByRole("region", { name: region, exact: true })).toBeVisible();
+      if (displayLabel === "Prompt Display") {
+        const reader = section.getByRole("region", { name: region, exact: true });
+        await expect(reader).toHaveCSS("min-height", "448px");
+        await expect(reader).toHaveCSS("max-height", "448px");
+        const scroll = await reader.evaluate((element) => {
+          element.scrollTop = element.scrollHeight;
+          return {
+            height: element.clientHeight,
+            content: element.scrollHeight,
+            top: element.scrollTop,
+          };
+        });
+        expect(scroll.content).toBeGreaterThan(scroll.height);
+        expect(scroll.top).toBeGreaterThan(0);
+      }
       expect(
         await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1),
       ).toBe(true);

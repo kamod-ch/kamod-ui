@@ -1,0 +1,43 @@
+/* Inline prose uses the same primary dashed cue as source tokens, preserving code text colors. */
+.docs-inline-source-reference,
+a.docs-inline-source-reference:is(:hover, :focus-visible),
+code.docs-inline-source-reference[data-inline-code-help] {
+  --code-reference-dash: var(--primary, currentColor);
+  color: inherit;
+  text-decoration: none !important;
+  border-bottom: 1.5px dashed color-mix(in oklab, var(--code-reference-dash) 25%, transparent);
+  border-radius: 0;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  transition: border-color 120ms ease;
+}
+.docs-inline-source-reference > code,
+code > a.docs-inline-source-reference {
+  color: inherit;
+  font-weight: inherit;
+  text-decoration: none !important;
+}
+/* Prose branding's hover pseudo-underline must not duplicate the reference's dashed border. */
+.docs-inline-source-reference > code::after,
+code > a.docs-inline-source-reference::after {
+  content: none !important;
+}
+.docs-inline-source-reference:is(:hover, :focus-visible),
+a.docs-inline-source-reference:is(:hover, :focus-visible),
+code.docs-inline-source-reference[data-inline-code-help]:is(:hover, :focus-visible) {
+  border-bottom-color: var(--code-reference-dash);
+}
+.docs-inline-source-reference:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+}
+/* Authored legacy references keep their text/layout ownership while adopting the shared trigger. */
+.docs-inline-source-reference
+  :is(.docs-brand-icon, .docs-reference-icon, .docs-reference-arrow, .docs-kamod-arrow) {
+  display: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .docs-inline-source-reference {
+    transition: none;
+  }
+}

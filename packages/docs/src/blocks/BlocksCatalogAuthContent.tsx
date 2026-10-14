@@ -8,6 +8,7 @@ import { BrandText } from "../docs/components/brand/BrandText";
 import { CodeBlock } from "../docs/components/CodeBlock";
 import { DocsShell } from "../docs/components/DocsShell";
 import { PageEyebrow } from "../docs/components/PageEyebrow";
+import { PageTitle } from "../docs/components/PageTitle";
 import { PathDisplay } from "../docs/components/PathDisplay";
 import { BlockPreviewPanel } from "./BlockPreviewPanel";
 import { catalogAuthPreviewProps } from "./catalog-auth-fixtures";
@@ -15,10 +16,13 @@ import { getCatalogAuthBlockSource } from "./catalog-auth-source";
 
 type CatalogAuthBlock = (typeof catalogAuthBlocks)[number];
 
+const pageTitle = "Auth Blocks";
+
 export const BlocksCatalogAuthContent = () => (
   <DocsShell
     sidebarScope="blocks"
     activeDoc={null}
+    pageTitle={pageTitle}
     activeSection=""
     activeBlock="auth"
     mainContent={
@@ -27,7 +31,7 @@ export const BlocksCatalogAuthContent = () => (
           <PageEyebrow icon={<LayersIcon size={16} aria-hidden="true" />}>
             {`${catalogAuthBlocks.length} ${catalogAuthBlocks.length === 1 ? "variant" : "variants"}`}
           </PageEyebrow>
-          <h1>Auth Blocks</h1>
+          <PageTitle>{pageTitle}</PageTitle>
           <p class="blocks-hero-lead">
             <BrandText>
               Preact-native authentication screens ported from the uipkge catalog. The consumer owns

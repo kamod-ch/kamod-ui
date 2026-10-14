@@ -7,15 +7,30 @@ import { ThemePickerActions } from "./ThemePickerActions";
 
 // Representative light-palette colors from packages/themes/src/brands and tokens.css.
 // These stay stable while the surrounding picker follows the active appearance.
-const paletteSamples: Record<ThemePresetId, readonly [string, string]> = {
-  kamod: ["var(--color-neutral-950)", "var(--color-fuchsia-700)"],
-  shadcn: ["#09090b", "#e4e4e7"],
-  ocean: ["var(--color-cyan-700)", "var(--color-indigo-600)"],
-  sunset: ["var(--color-rose-600)", "var(--color-orange-600)"],
-  "cursor-warm": ["#f54e00", "#ebeae5"],
-  voltage: ["#00a06c", "#818cf8"],
-  watson: ["#f40f97", "#00c6ff"],
-  professional: ["#fece14", "#000000"],
+const paletteSamples: Record<ThemePresetId, readonly [string, string, string, string]> = {
+  kamod: [
+    "var(--color-neutral-950)",
+    "var(--color-fuchsia-700)",
+    "var(--color-neutral-100)",
+    "var(--color-white)",
+  ],
+  shadcn: ["#09090b", "#e4e4e7", "#f4f4f5", "#ffffff"],
+  ocean: [
+    "var(--color-cyan-700)",
+    "var(--color-indigo-600)",
+    "var(--color-indigo-500)",
+    "var(--color-slate-100)",
+  ],
+  sunset: [
+    "var(--color-rose-600)",
+    "var(--color-orange-600)",
+    "var(--color-amber-600)",
+    "var(--color-orange-100)",
+  ],
+  "cursor-warm": ["#f54e00", "#ebeae5", "#cf2d56", "#f2f1ed"],
+  voltage: ["#00a06c", "#818cf8", "#6366f1", "#e8e6e1"],
+  watson: ["#f40f97", "#00c6ff", "#4cd7ff", "color-mix(in srgb, #f40f97 11%, #ececec)"],
+  professional: ["#fece14", "#000000", "#1f2937", "#f3f4f6"],
 };
 
 const paletteDescriptions: Record<ThemePresetId, string> = {
@@ -92,11 +107,14 @@ export function ThemePicker({
         <header class="site-theme-picker-header">
           <div class="site-theme-picker-heading">
             <h2 id={titleId} data-slot="popover-title">
-              <PaletteIcon size={12} strokeWidth={2} aria-hidden="true" />
+              <PaletteIcon size={16} strokeWidth={2} aria-hidden="true" />
               Find your Palette
             </h2>
             <span class="site-theme-picker-count">
-              <span aria-hidden="true">·</span> {presets.length} presets
+              <span aria-hidden="true">·</span>
+              <span>
+                <strong>{presets.length}</strong> presets
+              </span>
             </span>
             <ThemePickerClose />
           </div>

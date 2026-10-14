@@ -122,12 +122,13 @@ export const BlockGuideContents = ({
   sections: readonly ContentsSection[];
 }) => {
   const contentsRef = useRightSidebarScroll<HTMLElement>("block-contents");
-  const overviewId = block ? `${block.id}-overview` : pageTitle ? "page-title" : "top";
+  const overviewId = pageTitle ? "page-title" : block ? `${block.id}-overview` : "top";
   const activeId = useActiveHeading(block?.id, sections, overviewId, overviewChildren);
   const overview = (
     <li>
       <a
-        href={pageTitle && !block ? "#page-title" : "#top"}
+        href={pageTitle ? "#page-title" : "#top"}
+        data-contents-depth="1"
         aria-current={activeId === overviewId ? "location" : undefined}
       >
         {linkTitle(pageTitle ?? "Overview")}
@@ -151,6 +152,7 @@ export const BlockGuideContents = ({
             <li>
               <a
                 href={`#${block.id}`}
+                data-contents-depth="1"
                 aria-current={activeId === block.id ? "location" : undefined}
               >
                 Live Preview

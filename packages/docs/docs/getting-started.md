@@ -305,7 +305,7 @@ Keep finite choices as **Complete Class Strings**, and use a validated CSS custo
 
 #### Choose Presets and Appearance Controls
 
-Use the [Theme Provider and Controls](/docs/theming/provider-controls) when your app needs a preset picker or light/dark control. Treat the **Preset** and **Color Scheme** as separate choices. A system preference should resolve to the current device appearance while still remembering that the person chose the system option.
+Compare the [Color Theme Presets](/docs/theming/installation#color-theme-presets) to choose a starting palette, then use the [Theme Provider and Controls](/docs/theming/provider-controls) when your app needs a preset picker or light/dark control. Treat the **Preset** and **Color Scheme** as separate choices. A system preference should resolve to the current device appearance while still remembering that the person chose the system option.
 
 Keep one appearance owner for the application. A preview's local theme selection is not automatically your app's global preference. If you render on the server, align the initial scheme and preset with hydration; read [Initial Appearance](/docs/theming/provider-controls#keep-the-first-render-consistent) before adding browser storage reads to component rendering.
 

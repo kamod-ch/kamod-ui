@@ -1,4 +1,4 @@
-/* One page-owned canvas for every live preview. Values resolve here, before any
+/* One page-owned canvas for live previews and block thumbnails. Values resolve here, before any
    locally themed example can replace --background or --primary on a descendant. */
 :root {
   --showcase-canvas-base: var(--background);
@@ -23,6 +23,7 @@
 .showcase-preview-background,
 .component-example-stage,
 .blocks-preview-panel,
+.blocks-overview-preview,
 .home-workspace-preview,
 .overview-form-preview,
 .overview-hook-preview,
@@ -51,6 +52,11 @@
     var(--showcase-canvas-line-grid) var(--showcase-canvas-line-grid),
     auto;
   background-position: center;
+}
+
+/* Image galleries use a quieter version of the same canvas behind their previews. */
+.blocks-overview-preview {
+  --showcase-canvas-overlay: color-mix(in oklab, var(--showcase-canvas-base) 60%, transparent);
 }
 
 .kitchen-sink-showcase > .landing-showcase-grid--4 {

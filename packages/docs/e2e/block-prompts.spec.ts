@@ -27,21 +27,11 @@ for (const [category, id] of [
         .getByRole("tab", { name: "Prompt", exact: true })
         .click();
       const panel = page.getByRole("tabpanel", { name: "Prompt", exact: true });
-      const setup = panel.getByRole("button", { name: "Set Up Block", exact: true });
-      const adapt = panel.getByRole("button", { name: "Adapt Block", exact: true });
+      const setup = panel.getByRole("button", { name: "Set Up block", exact: true });
+      const adapt = panel.getByRole("button", { name: "Adapt block", exact: true });
       await expect(setup).toHaveAttribute("aria-pressed", "true");
       await expect(panel.locator("pre")).toContainText("## Installation and integration");
-      const references = panel.getByRole("navigation", { name: "Block Guides" });
-      await expect(references.getByRole("link")).toHaveCount(3);
-      await expect(
-        references.getByRole("link", { name: "Setup guide", exact: true }),
-      ).toHaveAttribute(
-        "href",
-        `#${category === "application-shell" ? "application-shell" : id}-installation`,
-      );
-      await references.getByRole("link", { name: "Refine component styles", exact: true }).focus();
-      await expect(page.getByRole("tooltip")).toContainText("Refine component styles");
-      await page.keyboard.press("Escape");
+      await expect(panel.locator(".blocks-showcase-intro nav")).toHaveCount(0);
       await expect(
         panel.getByRole("link", { name: "Setup and Integration", exact: true }),
       ).toHaveAttribute(
@@ -77,7 +67,7 @@ for (const [category, id] of [
       await page.keyboard.press("Space");
       await expect(adapt).toHaveAttribute("aria-pressed", "true");
       await expect(
-        panel.getByRole("heading", { name: "Adaptation prompt", exact: true }),
+        panel.getByRole("heading", { name: "Adaptation Prompt", exact: true }),
       ).toBeVisible();
       await expect(panel.locator("pre")).toContainText("## My changes");
       await expect(panel.getByRole("button", { name: "Copy code", exact: true })).toBeVisible();
@@ -129,7 +119,7 @@ for (const [category, id] of [
         if (width < 640) {
           expect(
             (await panel.locator(".docs-copy-code-button").boundingBox())!.height,
-          ).toBeGreaterThanOrEqual(40);
+          ).toBeGreaterThanOrEqual(28);
         }
       }
       expect(

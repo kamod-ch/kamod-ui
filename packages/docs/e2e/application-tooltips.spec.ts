@@ -8,10 +8,10 @@ for (const route of [
   test(`${route}: shared hints support hover, focus and dismissal`, async ({ page }) => {
     await page.goto(`./${route}`);
     await expect(page.locator("html")).toHaveClass(/pp-ready/);
-    const control = page.locator('button[aria-label="Toggle color scheme"]:visible').first();
+    const control = page.locator('button[aria-label="Choose color mode"]:visible').first();
     const hint = page.locator('[data-application-tooltip] [role="tooltip"]');
     await control.hover();
-    await expect(hint).toHaveText("Toggle color scheme");
+    await expect(hint).toHaveText("Choose color mode");
     await hint.hover();
     await expect(hint).toBeVisible();
     const bounds = await hint.boundingBox();
@@ -29,9 +29,7 @@ for (const route of [
   });
 }
 
-test("showcase tabs still activate and authored guide tooltips are not duplicated", async ({
-  page,
-}) => {
+test("showcase tabs still activate without obsolete guide shortcuts", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 900 });
   await page.goto("./docs/formisch/installation");
   await expect(page.locator("html")).toHaveClass(/pp-ready/);
@@ -46,12 +44,7 @@ test("showcase tabs still activate and authored guide tooltips are not duplicate
   await expect(code).not.toHaveAttribute("title");
   await code.click();
   await expect(code).toHaveAttribute("aria-selected", "true");
-  const setup = showcase
-    .getByRole("navigation", { name: "Example guides" })
-    .getByRole("link", { name: "Setup Guide", exact: true });
-  await setup.hover();
-  await expect(page.getByRole("tooltip")).toHaveText("Setup Guide");
-  await expect(page.locator("[data-application-tooltip]")).toHaveCount(0);
+  await expect(showcase.locator(".blocks-showcase-intro nav")).toHaveCount(0);
 });
 
 test("touch navigation opens without an automatic hint covering the menu", async ({
@@ -102,11 +95,17 @@ test("text controls stay quiet while responsive icon-only controls retain hints"
   await page.waitForTimeout(550);
   await expect(hint).toHaveCount(0);
   await code.click();
+  await expect(showcase.locator("pre")).toContainText("ApplicationShell1");
   const copy = showcase.getByRole("button", { name: "Copy code", exact: true });
   await copy.hover();
   await page.waitForTimeout(550);
   await expect(hint).toHaveCount(0);
   await page.setViewportSize({ width: 375, height: 850 });
+  await expect(code.locator(".blocks-showcase-control-label")).toBeHidden();
+  await code.scrollIntoViewIfNeeded();
+  await page.evaluate(
+    () => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))),
+  );
   await page.mouse.move(0, 0);
   await code.hover();
   await expect(hint).toHaveText("Code");

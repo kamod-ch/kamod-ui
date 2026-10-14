@@ -38,7 +38,17 @@ test("a pending page module shows the loading view and then yields to its conten
     await page.goto("./404");
     await page.getByRole("link", { name: "Getting Started", exact: true }).click();
     await expect(page.getByRole("status")).toContainText("Opening Your Next Page…");
-    await expect(page.getByLabel("Loading content")).toHaveAttribute("aria-busy", "true");
+    const loading = page.getByLabel("Loading content");
+    await expect(loading).toHaveAttribute("aria-busy", "true");
+    await expect(
+      loading.getByRole("heading", { name: "Opening Your Next Page…", exact: true }),
+    ).toBeVisible();
+    await expect(loading.locator(".page-loading-spinner")).toBeVisible();
+    await expect(loading.locator(".page-loading-label")).toContainText(
+      "Your next page is taking shape",
+    );
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    expect(await loading.evaluate((node) => node.getAnimations({ subtree: true }).length)).toBe(0);
   } finally {
     release();
   }

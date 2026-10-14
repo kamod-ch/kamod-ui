@@ -126,13 +126,15 @@ describe("component detail documentation", () => {
         );
       }
       const contents = html.split('class="blocks-doc-toc"')[1];
+      expect((html.match(/<h1 id="page-title"/g) ?? []).length).toBe(1);
+      expect(html).toMatch(/<h1 id="page-title"[^>]*><a[^>]*href="#page-title"/);
       expect(contents).toMatch(
         /href="#api-reference"[^>]*>Props and Data<\/a><ul[^>]*><li><a href="#component-props"/,
       );
       expect(contents).toContain('href="#component-data-types"');
 
       expect(contents).toMatch(
-        /href="#top"[^>]*>Overview<\/a><ul[^>]*><li><a href="#component-preview"/,
+        /href="#page-title"[^>]*>[\s\S]*?<\/a><ul[^>]*><li><a href="#component-preview"/,
       );
       if (examples.length) {
         expect(contents).toMatch(/href="#component-examples"[^>]*>[^<]+<\/a><ul[^>]*>/);

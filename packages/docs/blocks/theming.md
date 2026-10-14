@@ -13,6 +13,8 @@ If this is your first integration, follow [Set Up Your App](/docs/getting-starte
 
 **Blocks Inherit Your Application Theme. They Do Not Need a Second Theme System.** Use the [Shared Theming & Tailwind Reference](/docs/theming/installation) for installation, CSS setup, semantic tokens, presets and runtime controls. This companion explains the extra checks that matter when those components become a complete screen.
 
+Compare the eight [Color Theme Presets](/docs/theming/installation#color-theme-presets) in light and dark before adapting a block. The palette studies explain their surface and action roles; the checks below focus on applying those roles to a complete layout.
+
 ### Understand the appearance layers
 
 Set up the foundation once at the application boundary, then let copied layouts consume it. Keep the block’s navigation state, routing and data separate from appearance preferences.

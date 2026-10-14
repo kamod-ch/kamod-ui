@@ -4,15 +4,30 @@ import { NavigationScrollArea } from "./NavigationScrollArea";
 import { navigationGroups } from "./navigation-data";
 import { SidebarResources } from "./SidebarResources";
 
-/** Shared desktop directory, scroll memory and project links for either documentation layout. */
-export function DocsSidebarNavigation({ pathname }: { pathname: string }) {
+/** One sidebar composition; each presentation keeps its own scroll/expansion memory. */
+export function DocsSidebarNavigation({
+  pathname,
+  mode = "desktop",
+}: {
+  pathname: string;
+  mode?: "desktop" | "mobile";
+}) {
+  const mobile = mode === "mobile";
   return (
     <>
-      <NavigationScrollArea mode="desktop" pathname={pathname} class="docs-sidebar-scroll">
-        <NavigationHeader pathname={pathname} />
-        <NavigationDirectory groups={navigationGroups} pathname={pathname} />
+      <NavigationScrollArea
+        mode={mode}
+        pathname={pathname}
+        class={mobile ? "site-navigation-body" : "docs-sidebar-scroll"}
+      >
+        <NavigationHeader pathname={pathname} closeOnNavigate={mobile} />
+        <NavigationDirectory
+          groups={navigationGroups}
+          pathname={pathname}
+          closeOnNavigate={mobile}
+        />
       </NavigationScrollArea>
-      <SidebarResources pathname={pathname} />
+      <SidebarResources pathname={pathname} closeOnNavigate={mobile} />
     </>
   );
 }

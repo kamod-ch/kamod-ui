@@ -1,5 +1,11 @@
-import { BookOpenIcon, MoonIcon, SlidersHorizontalIcon, SunIcon } from "@kamod-ch/icons/lucide";
-import { BrandGithubIcon, DeviceDesktopIcon } from "@kamod-ch/icons/tabler/outline";
+import {
+  BookOpenIcon,
+  MoonIcon,
+  PaletteIcon,
+  SlidersHorizontalIcon,
+  SunIcon,
+} from "@kamod-ch/icons/lucide";
+import { DeviceDesktopIcon } from "@kamod-ch/icons/tabler/outline";
 import type { ColorScheme } from "@kamod-ch/themes";
 import { Separator } from "@kamod-ch/ui";
 import { useSystemColorScheme } from "./useSystemColorScheme";
@@ -18,14 +24,17 @@ const resources = [
     icon: SlidersHorizontalIcon,
   },
   {
-    label: "Kamod UI Repository",
-    hint: "Explore the Kamod UI source on GitHub",
-    href: "https://github.com/kamod-ch/kamod-ui",
-    icon: BrandGithubIcon,
+    label: "Explore Color Themes",
+    hint: "Compare every palette in light and dark, and learn how page and preview themes work",
+    href: "/docs/theming/installation#color-theme-presets",
+    icon: PaletteIcon,
   },
 ];
 
-/** Footer presentation is shared; scheme changes are delegated to the owning scope. */
+/**
+ * Shared footer with appearance changes delegated to its owner. Section links use native
+ * same-tab navigation so a host router's page-top reset cannot discard their fragments.
+ */
 export function ThemePickerActions({
   scheme,
   onSchemeChange,
@@ -62,6 +71,7 @@ export function ThemePickerActions({
             <a
               class="site-theme-picker-button docs-icon-button site-theme-picker-action"
               href={href.startsWith("/") ? resolveHref(href) : href}
+              target={href.includes("#") ? "_self" : undefined}
               aria-label={label}
               data-tooltip={hint}
               title={hint}

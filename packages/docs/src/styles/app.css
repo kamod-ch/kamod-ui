@@ -7,7 +7,7 @@
   /* Shared gutters grow only after the three-column layout has room to breathe. */
   --docs-column-gap: clamp(0.75rem, calc(4vw - 2.25rem), 2.5rem);
   --docs-topbar-height: 58px;
-  --docs-sidebar-top: calc(var(--docs-topbar-height) + 1.25rem);
+  --docs-sidebar-top: calc(var(--docs-topbar-offset, var(--docs-topbar-height)) + 1.25rem);
   --docs-sidebar-height: calc(100dvh - var(--docs-sidebar-top) - 1rem);
 }
 
@@ -21,7 +21,7 @@
    sits under the sticky docs topbar and range/slider thumbs become unclickable. Offset the
    scroll snap so interactive demos remain below the bar. */
 html {
-  scroll-padding-top: calc(var(--docs-topbar-height) + 1rem);
+  scroll-padding-top: calc(var(--docs-topbar-offset, var(--docs-topbar-height)) + 1rem);
   scrollbar-gutter: stable;
 }
 
@@ -750,6 +750,27 @@ html {
   .preview [data-slot="alert"] {
     max-width: 42rem;
     margin-inline: auto;
+  }
+}
+
+/* Enlarged phone text can wrap the tools without painting them over the wordmark. */
+@media (max-width: 479px) {
+  .docs-topbar {
+    height: auto;
+    min-height: var(--docs-topbar-height);
+    border-bottom-width: 1px;
+  }
+  .docs-topbar-inner {
+    min-height: calc(var(--docs-topbar-height) - 1px);
+    flex-wrap: wrap;
+    padding-block: 0.5rem;
+  }
+  .docs-topbar-leading {
+    flex: 0 1 auto;
+    flex-wrap: wrap;
+  }
+  .docs-topbar-actions {
+    flex-shrink: 0;
   }
 }
 

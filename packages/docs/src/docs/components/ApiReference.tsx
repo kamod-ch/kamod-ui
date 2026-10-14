@@ -5,6 +5,7 @@ import { BlockPropsTable } from "../../blocks/detail/BlockPropsTable";
 import { linkTitle, utilityName } from "../../link-title";
 import { ComponentTypeRevealContext } from "./component-detail/ComponentApiSection";
 import { componentApiRowOwners, componentTypeId } from "./component-detail/component-api";
+import { componentPropsId } from "./component-detail/component-api-id";
 import { ComponentExamplesContext } from "./component-detail/component-examples";
 
 type ApiReferenceRow = {
@@ -30,7 +31,7 @@ function ApiReferenceTable({ section }: { section: ApiReferenceSection }) {
   const reveal = useContext(ComponentTypeRevealContext);
   if (collection) {
     return (
-      <div class="docs-api-reference">
+      <div id={componentPropsId(collection.doc.slug, section.title)} class="docs-api-reference">
         <h4 id={id} tabIndex={-1}>
           <BlockHeadingLink id={id}>{section.title}</BlockHeadingLink>
         </h4>

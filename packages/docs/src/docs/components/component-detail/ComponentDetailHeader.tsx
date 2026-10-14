@@ -16,7 +16,6 @@ export function ComponentDetailHeader({
   return (
     <>
       <LibraryPageHeader
-        special={false}
         parent={
           doc.navGroup === "forms"
             ? { label: "Forms", href: "/docs/forms" }

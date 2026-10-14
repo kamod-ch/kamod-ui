@@ -2,9 +2,13 @@ import {
   CodeFileHeader,
   type CodeLanguage,
   CodeSnippetLabel,
+  escapeCodeHtml,
   findCodeImports,
+  findCodeReferences,
+  linkCodeMarkup,
 } from "@kamod-ch/ui/code";
 import render from "preact-render-to-string";
+import { resolveCodeReference } from "../../references/destinations";
 import { CodeLanguageLink } from "./CodeLanguageLink";
 import { PathDisplay } from "./PathDisplay";
 
@@ -16,6 +20,10 @@ export function codeFenceMarkup(
   highlightedHtml?: string,
 ) {
   const imports = findCodeImports(source, language);
+  const html = linkCodeMarkup(
+    highlightedHtml ?? escapeCodeHtml(source),
+    findCodeReferences(source, language, resolveCodeReference, filePath),
+  );
   return render(
     <div class="kamod-code docs-code-wrap docs-code-file" data-syntax-theme="default">
       <div class="docs-code-toolbar">
@@ -33,14 +41,7 @@ export function codeFenceMarkup(
         )}
       </div>
       <pre class="docs-code" data-language={language} tabIndex={0}>
-        {highlightedHtml === undefined ? (
-          <code class={`language-${language}`}>{source}</code>
-        ) : (
-          <code
-            class={`language-${language}`}
-            dangerouslySetInnerHTML={{ __html: highlightedHtml }}
-          />
-        )}
+        <code class={`language-${language}`} dangerouslySetInnerHTML={{ __html: html }} />
       </pre>
     </div>,
   );

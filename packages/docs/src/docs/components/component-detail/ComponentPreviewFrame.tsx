@@ -2,8 +2,9 @@ import { useEffect, useLayoutEffect, useRef, useState } from "preact/hooks";
 import { withBasePath } from "../../../base-path";
 import { applyPreviewAppearance, type PreviewAppearance } from "../../../blocks/preview-appearance";
 import { ShowcaseLoading } from "../ShowcaseLoading";
+import { usePreviewActivation } from "./usePreviewActivation";
 
-/** Each example has its own document, including portal content and responsive styles. */
+/** Isolated examples share an initialization budget, retaining state once their document is ready. */
 export function ComponentPreviewFrame({
   slug,
   index,
@@ -25,7 +26,6 @@ export function ComponentPreviewFrame({
   showLoading?: boolean;
 }) {
   const frame = useRef<HTMLIFrameElement>(null);
-  const [visible, setVisible] = useState(false);
   const [phase, setPhase] = useState<"loading" | "ready" | "error">("loading");
   const observer = useRef<ResizeObserver | null>(null);
   const resizeFrame = useRef<number | null>(null);
@@ -39,6 +39,14 @@ export function ComponentPreviewFrame({
     resizeFrame.current = null;
   };
   const [height, setHeight] = useState(320);
+  const {
+    active: visible,
+    isActive,
+    complete,
+  } = usePreviewActivation(frame, () => {
+    stopMeasuring();
+    onCancel?.(previewKey);
+  });
   const applyAppearance = () => {
     const root = frame.current?.contentDocument?.documentElement;
     if (root) applyPreviewAppearance(root, appearance);
@@ -47,31 +55,12 @@ export function ComponentPreviewFrame({
   useLayoutEffect(() => stopMeasuring, []);
   // Leaving Preview cancels loading; stale events are ignored by the shared refresh state machine.
   useEffect(() => () => onCancel?.(previewKey), [previewKey, onCancel]);
-  useLayoutEffect(() => {
-    const node = frame.current;
-    if (!node) return;
-    if (typeof IntersectionObserver === "undefined") {
-      setVisible(true);
-      return;
-    }
-    // Native iframe lazy loading can eagerly load several screens of examples at once.
-    const visibility = new IntersectionObserver(
-      (entries) => {
-        // A fast section jump can batch the initial hidden and final visible entries together.
-        if (!entries.at(-1)?.isIntersecting) return;
-        setVisible(true);
-        visibility.disconnect();
-      },
-      { rootMargin: "100px" },
-    );
-    visibility.observe(node);
-    return () => visibility.disconnect();
-  }, []);
 
   return (
     <div
       class="showcase-preview-surface"
       data-loading={phase === "loading" || undefined}
+      data-deferred={!visible || undefined}
       aria-busy={phase === "loading"}
     >
       <iframe
@@ -82,23 +71,35 @@ export function ComponentPreviewFrame({
         aria-hidden={phase === "loading" || undefined}
         tabIndex={phase === "loading" ? -1 : undefined}
         src={
+          // An empty src resolves to this page; deferred previews need an explicit blank URL.
           visible
             ? withBasePath(
                 `/component-preview-frame.htm?component=${encodeURIComponent(slug)}&example=${index}`,
               )
-            : undefined
+            : "about:blank"
         }
         style={{ height }}
         onError={() => {
+          if (!isActive()) return;
+          complete();
           setPhase("error");
           onCancel?.(previewKey);
         }}
         onLoad={() => {
+          if (!isActive()) return;
           applyAppearance();
           stopMeasuring();
           const root = frame.current?.contentDocument?.getElementById("component-preview-root");
-          if (!root) return;
+          if (!root) {
+            // A cancelled or not-yet-navigated frame can still deliver its blank load event.
+            if (frame.current?.contentDocument?.URL === "about:blank") return;
+            complete();
+            setPhase("error");
+            onCancel?.(previewKey);
+            return;
+          }
           const ready = () => {
+            complete();
             setPhase("ready");
             onLoad?.(previewKey);
           };
@@ -123,7 +124,7 @@ export function ComponentPreviewFrame({
           measure();
         }}
       />
-      {showLoading && visible && phase === "loading" && (
+      {showLoading && phase === "loading" && (
         <ShowcaseLoading appearance={appearance} view="preview" />
       )}
       {phase === "error" && (

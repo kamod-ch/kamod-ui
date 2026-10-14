@@ -16,6 +16,8 @@ import {
   BrandYarnIcon,
 } from "@kamod-ch/icons/tabler/outline";
 import { type ComponentChildren, cloneElement, Fragment, type VNode } from "preact";
+import { InlineCodeReference } from "../../../references/InlineCodeReference";
+import { inlineSourceReference, referenceAttributes } from "../../../references/inline-references";
 import { InlineCodeLink, InlineReferenceCode } from "../InlineCodeLink";
 import { inlineReference, proseReferencePattern } from "../inline-reference-catalog";
 import { brandLabel, brandName, brandReferences, industryProsePattern } from "./brand-references";
@@ -76,6 +78,8 @@ export function BrandLink({ children, link = true }: { children: string; link?: 
 }
 
 export function ReferenceLink({ children }: { children: string }) {
+  const source = inlineSourceReference(children);
+  if (source) return <InlineCodeReference reference={source}>{children}</InlineCodeReference>;
   const reference = inlineReference(children);
   if (reference) return <InlineCodeLink href={reference.href}>{children}</InlineCodeLink>;
   return isBrandLabel(children) ? (
@@ -129,6 +133,13 @@ export function BrandText({ children }: { children: ComponentChildren }): Compon
           ? (child.props as { children?: ComponentChildren }).children
           : undefined;
     if (typeof label !== "string" || (!inlineReference(label) && !isBrandLabel(label))) return node;
+    const source = inlineSourceReference(label, node.props.href);
+    if (source)
+      return cloneElement(node, {
+        ...referenceAttributes(source),
+        class: `${node.props.class ?? ""} kamod-code-reference docs-inline-source-reference`.trim(),
+        children: <code>{label}</code>,
+      });
     return cloneElement(node, {
       class: `${node.props.class ?? ""} docs-inline-code-link`.trim(),
       children: inlineReference(label) ? (
@@ -143,6 +154,8 @@ export function BrandText({ children }: { children: ComponentChildren }): Compon
   if (node.type === "code") {
     const label = node.props.children;
     if (typeof label !== "string") return node;
+    const source = inlineSourceReference(label);
+    if (source) return <InlineCodeReference reference={source}>{label}</InlineCodeReference>;
     const reference = inlineReference(label);
     if (reference) return <InlineCodeLink href={reference.href}>{label}</InlineCodeLink>;
     return isBrandLabel(label)

@@ -1,4 +1,6 @@
+import { findCodeReferences, linkCodeMarkup } from "@kamod-ch/ui/code";
 import { useLayoutEffect, useRef } from "preact/hooks";
+import { resolveCodeReference } from "../../references/destinations";
 import { resolveCodeLanguage } from "./code-language";
 
 /** Render already-sanitized Markdown HTML; load grammars only for nearby, nested code blocks. */
@@ -28,7 +30,10 @@ export function HighlightedProse({ html, className }: { html: string; className?
           const oldLanguages = code.className.match(/\blanguage-[^\s]+/g) ?? [];
           code.classList.remove(...oldLanguages);
           code.classList.add(`language-${language}`);
-          code.innerHTML = highlightCode(source, language);
+          code.innerHTML = linkCodeMarkup(
+            highlightCode(source, language),
+            findCodeReferences(source, language, resolveCodeReference),
+          );
         })
         .catch(() => {
           // Source remains complete and readable when an optional grammar chunk cannot load.

@@ -1,18 +1,19 @@
 /**
  * All demo theme font sources (@font-face + Google Fonts).
  * Import first in index.css so faces resolve before Tailwind / foundation / themes.
+ * Optional display keeps slow fonts from reflowing already-visible text.
  */
 
-@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=optional");
 
 /* Poppins + IBM Plex Mono — professional theme (electronics shop preset) */
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@100;200;300;400;500;600;700&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@100;200;300;400;500;600;700&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=optional");
 
 /* inter-latin-wght-normal — default / shadcn / ocean / sunset / kamod stacks */
 @font-face {
   font-family: "Inter Variable";
   font-style: normal;
-  font-display: swap;
+  font-display: optional;
   font-weight: 100 900;
   src: url("@fontsource-variable/inter/files/inter-latin-wght-normal.woff2")
     format("woff2-variations");
@@ -25,7 +26,7 @@
 @font-face {
   font-family: "Geist Variable";
   font-style: normal;
-  font-display: swap;
+  font-display: optional;
   font-weight: 100 900;
   src: url(https://cdn.jsdelivr.net/npm/@fontsource-variable/geist/files/geist-latin-wght-normal.woff2)
     format("woff2-variations");
@@ -38,7 +39,7 @@
 @font-face {
   font-family: "Fira Code Variable";
   font-style: normal;
-  font-display: swap;
+  font-display: optional;
   font-weight: 100 900;
   src: url(https://cdn.jsdelivr.net/npm/@fontsource-variable/fira-code/files/fira-code-latin-wght-normal.woff2)
     format("woff2-variations");
@@ -51,7 +52,7 @@
 @font-face {
   font-family: "Nunito Sans";
   font-style: normal;
-  font-display: swap;
+  font-display: optional;
   font-weight: 200 1000;
   src: url(https://cdn.jsdelivr.net/npm/@fontsource-variable/nunito-sans/files/nunito-sans-latin-wght-normal.woff2)
     format("woff2-variations");
@@ -64,7 +65,7 @@
 @font-face {
   font-family: Onest;
   font-style: normal;
-  font-display: swap;
+  font-display: optional;
   font-weight: 100 900;
   src: url(https://cdn.jsdelivr.net/npm/@fontsource-variable/onest/files/onest-latin-wght-normal.woff2)
     format("woff2-variations");

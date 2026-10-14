@@ -41,6 +41,7 @@ import {
 import { DocsShell } from "./components/DocsShell";
 import { flattenContents } from "./components/PageContentsList";
 import { PageEyebrow } from "./components/PageEyebrow";
+import { PageTitle } from "./components/PageTitle";
 import { PathDisplay } from "./components/PathDisplay";
 import { getDocSections } from "./doc-sections";
 import { docImportFrom, rewriteKamodCoreImportsInDocString } from "./doc-snippet-imports";
@@ -100,6 +101,7 @@ const ComponentContent = ({
       activeDoc.navGroup === "components" ||
       activeDoc.navGroup === "motion" ||
       activeDoc.navGroup === "forms");
+  const pageTitle = activeDoc.guideTitle ?? activeDoc.headline ?? activeDoc.title;
   const docSections = useMemo<DocSection[]>(() => {
     return getDocSections(activeDoc, isComponentDetail);
   }, [activeDoc, isComponentDetail]);
@@ -443,7 +445,7 @@ const ComponentContent = ({
           <PageEyebrow>
             {activeDoc.navGroup === "forms" ? "Form Guide" : "Component Guide"}
           </PageEyebrow>
-          <h1>{activeDoc.title}</h1>
+          <PageTitle>{pageTitle}</PageTitle>
           <p class="docs-component-path">
             <PathDisplay path={componentSourcePath} />
           </p>
@@ -489,13 +491,14 @@ const ComponentContent = ({
       sidebarScope={sidebarScope}
       activeDoc={activeDocView}
       activeSection={activeSection}
+      pageTitle={pageTitle}
       pageContents={
         contents ? (
           <BlockGuideContents
             id={`${activeDoc.slug}-contents`}
             sections={contents}
             overviewChildren={isComponentDetail ? previewContents : undefined}
-            pageTitle={activeDoc.guideTitle}
+            pageTitle={pageTitle}
           />
         ) : undefined
       }

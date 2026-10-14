@@ -1,13 +1,12 @@
 /** @vitest-environment jsdom */
-import { act, cleanup, fireEvent, render, screen } from "@testing-library/preact";
+import { act, cleanup, fireEvent, render, screen, waitFor } from "@testing-library/preact";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { BrandLink } from "../../docs/components/brand/BrandText";
 import { brandReferences } from "../../docs/components/brand/brand-references";
-import { kamodReferenceHref } from "../../docs/components/brand/kamod-references";
 import { PathDisplay } from "../../docs/components/PathDisplay";
+import { connectInlineCode } from "../../references/connect-inline-references";
 import { ApplicationTooltips } from "./ApplicationTooltips";
 import { inlineCodeExplanation } from "./inline-code-glossary";
-import { connectInlineCode } from "./inline-code-targets";
 
 const settle = () =>
   act(async () => {
@@ -34,10 +33,10 @@ it("explains known prose while leaving snippets, unknown identifiers and authore
     <>
       <ApplicationTooltips page="one" />
       <p>
-        <code>cn</code> <code>unknownValue</code>
+        <code data-code-help="cn">cn</code> <code>unknownValue</code>
       </p>
       <pre>
-        <code>cn</code>
+        <code data-code-help="cn">cn</code>
       </pre>
       <div class="docs-code-wrap">
         <code>package.json</code>
@@ -71,7 +70,9 @@ it("lets keyboard users reach help links, then dismiss and return to the term", 
   render(
     <>
       <ApplicationTooltips page="one" />
-      <code aria-describedby="other-help">cn</code>
+      <code data-code-help="cn" aria-describedby="other-help">
+        cn
+      </code>
     </>,
   );
   const code = screen.getByRole("button", { name: "cn" });
@@ -100,7 +101,7 @@ it("supports tap on plain code without changing existing link activation", () =>
   render(
     <>
       <ApplicationTooltips page="one" />
-      <code>cn</code>
+      <code data-code-help="cn">cn</code>
       <a href="/guide" onClick={navigate}>
         <code>class</code>
       </a>
@@ -127,7 +128,7 @@ it("supports tap on plain code without changing existing link activation", () =>
 it("enhances dynamic prose, updates changed terms, and releases removed nodes and attributes", async () => {
   const { unmount } = render(<ApplicationTooltips page="one" />);
   const prose = document.createElement("p");
-  prose.innerHTML = "<code>cn</code>";
+  prose.innerHTML = "<code>class</code>";
   document.body.append(prose);
   await settle();
   const code = prose.querySelector("code")!;
@@ -157,7 +158,7 @@ it("keeps persistent terms prepared across routes while enhancing newly mounted 
   const { rerender } = render(
     <>
       <ApplicationTooltips page="one" />
-      <code>cn</code>
+      <code data-code-help="cn">cn</code>
     </>,
   );
   const term = screen.getByRole("button", { name: "cn" });
@@ -166,7 +167,7 @@ it("keeps persistent terms prepared across routes while enhancing newly mounted 
   rerender(
     <>
       <ApplicationTooltips page="two" />
-      <code>cn</code>
+      <code data-code-help="cn">cn</code>
       <p>
         <code>children</code>
       </p>
@@ -337,7 +338,8 @@ it.each([
   "@kamod-ch/themes",
   "@kamod-ch/blocks",
   "@/components/kamod-ui/accordion",
-])("keeps %s source destinations and keyboard navigation intact", (path) => {
+])("keeps %s source destinations and keyboard navigation intact", async (path) => {
+  vi.useRealTimers();
   render(
     <>
       <ApplicationTooltips page="sources" />
@@ -346,12 +348,12 @@ it.each([
   );
   const trigger = screen.getByRole("link", { name: path });
   act(() => trigger.focus());
-  const help = screen.getByRole("dialog", { name: `${path} explained` });
+  const help = screen.getByRole("dialog", { name: `${path} reference` });
+  await waitFor(() => expect(help.querySelector(".code-reference-help-layout")).not.toBeNull());
   const link = help.querySelector("a")!;
-  expect(link).toHaveAttribute("href", kamodReferenceHref(path));
-  expect(trigger).toHaveAttribute("href", link.getAttribute("href"));
-  expect(trigger.closest("code")).not.toHaveAttribute("title");
-  expect(trigger.closest("code")).not.toHaveAttribute("tabindex");
+  expect(trigger).toHaveAttribute("data-code-module", path);
+  expect(trigger.querySelector("code")).not.toHaveAttribute("title");
+  expect(trigger.querySelector("code")).not.toHaveAttribute("tabindex");
   fireEvent.keyDown(trigger, { key: "Tab" });
   expect(link).toHaveFocus();
   fireEvent.keyDown(link, { key: "Escape" });
@@ -388,7 +390,8 @@ it.each([
   ["Packages", "/docs/packages", "packages", "packages"],
 ])(
   "explains %s with a linked source path without changing its navigation",
-  (label, href, path, source) => {
+  async (label, href, path, source) => {
+    vi.useRealTimers();
     const { container } = render(
       <>
         <ApplicationTooltips page="references" />
@@ -401,7 +404,21 @@ it.each([
     );
     const trigger = container.querySelector("p a") as HTMLAnchorElement;
     act(() => trigger.focus());
-    const help = screen.getByRole("dialog", { name: `${label} explained` });
+    const semantic = ["Button", "SidebarProvider"].includes(label);
+    const help = screen.getByRole("dialog", {
+      name: `${label} ${semantic ? "reference" : "explained"}`,
+    });
+    if (semantic) {
+      await waitFor(() => expect(help.querySelector(".code-reference-help-layout")).not.toBeNull());
+      expect(help.querySelector(".code-reference-help-summary")).not.toBeEmptyDOMElement();
+      expect(trigger).toHaveAttribute("href", href);
+      const readingLink = help.querySelector("a")!;
+      fireEvent.keyDown(trigger, { key: "Tab" });
+      expect(readingLink).toHaveFocus();
+      fireEvent.keyDown(readingLink, { key: "Escape" });
+      expect(trigger).toHaveFocus();
+      return;
+    }
     const sourceLink = help.querySelector(".docs-code-explanation-path a")!;
     expect(sourceLink).toHaveTextContent(path);
     expect(sourceLink).toHaveAttribute(

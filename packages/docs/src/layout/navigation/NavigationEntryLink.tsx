@@ -3,6 +3,7 @@ import { SheetClose } from "@kamod-ch/ui";
 import type { ComponentChildren } from "preact";
 import { withBasePath } from "../../base-path";
 import { isNavigationCurrent } from "./navigation-data";
+import { SidebarEntryContent } from "./SidebarEntryContent";
 
 /** The two pinned entries share their geometry, current-page state and mobile close behavior. */
 export function NavigationEntryLink({
@@ -27,7 +28,6 @@ export function NavigationEntryLink({
   closeOnNavigate?: boolean;
 }) {
   const target = withBasePath(href);
-  const Title = heading ? "h2" : "strong";
   const link = (
     <a
       class={`${className} sidebar-entry-row`}
@@ -35,16 +35,17 @@ export function NavigationEntryLink({
       data-navigation-help={help}
       aria-current={isNavigationCurrent(pathname, target) ? "page" : undefined}
     >
-      {icon}
-      <div class="navigation-header-heading sidebar-entry-heading">
-        <Title class="sidebar-entry-title">{title}</Title>
-        <span class="sidebar-entry-caption">
-          <span aria-hidden="true">·</span> {caption}
-        </span>
-      </div>
-      <span class="sidebar-entry-action" aria-hidden="true">
-        <ArrowUpRightIcon size={14} strokeWidth={1.75} />
-      </span>
+      <SidebarEntryContent
+        icon={icon}
+        title={title}
+        caption={caption}
+        heading={heading ? "h2" : "strong"}
+        action={
+          <span class="sidebar-entry-action" aria-hidden="true">
+            <ArrowUpRightIcon size={14} strokeWidth={1.75} />
+          </span>
+        }
+      />
     </a>
   );
   return closeOnNavigate ? <SheetClose asChild>{link}</SheetClose> : link;

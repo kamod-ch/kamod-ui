@@ -1,7 +1,8 @@
 /** @vitest-environment jsdom */
 import { act, cleanup, render } from "@testing-library/preact";
 import { afterEach, expect, it, vi } from "vitest";
-import { InlineCode, isDisplayPath, PathDisplay, splitDisplayPath } from "./PathDisplay";
+import { splitDisplayPath } from "./display-path";
+import { InlineCode, isDisplayPath, PathDisplay } from "./PathDisplay";
 
 afterEach(() => {
   cleanup();
@@ -36,7 +37,7 @@ it.each([
   expect(splitDisplayPath(path)).toEqual({ root, middle, end });
   const { container } = render(<PathDisplay path={path} />);
   expect(container.textContent).toBe(path);
-  if (container.querySelector("a.docs-kamod-link")) {
+  if (container.querySelector("a.docs-kamod-link, a.kamod-code-reference")) {
     expect(container.firstElementChild).not.toHaveAttribute("title");
   } else {
     expect(container.firstElementChild).toHaveAttribute("title", path);

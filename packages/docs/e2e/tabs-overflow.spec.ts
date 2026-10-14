@@ -36,7 +36,7 @@ async function expectVisibleUnderline(list: Locator) {
 
   expect(geometry.scrollTop, "tab list must not scroll vertically").toBe(0);
   expect(geometry.overflow, "indicator must not enlarge scroll height").toBe(0);
-  expect(geometry.height).toBe(2);
+  expect(geometry.height).toBe(2.5);
   expect(geometry.topInset).toBeGreaterThanOrEqual(0);
   expect(
     geometry.bottomInset,
@@ -114,15 +114,23 @@ test("overflowing labels still scroll horizontally without hiding the underline"
   await expect.poll(() => list.evaluate((node) => node.scrollLeft)).toBe(0);
 });
 
-test("other docs line tabs keep their indicator when switching preview and code", async ({
+test("rounded showcase controls and nested line tabs retain independent styling", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 768, height: 900 });
   await page.goto("./docs/tabs/disabled-triggers");
-  const list = page.locator("#disabled-triggers .blocks-showcase-segmented");
-  await expectVisibleUnderline(list);
+  const list = page.locator('#disabled-triggers .blocks-showcase-segmented[role="tablist"]');
+  await expect(list).toHaveAttribute("data-variant", "default");
   await list.getByRole("tab", { name: "Code", exact: true }).click();
-  await expectVisibleUnderline(list);
+  await expect(list.getByRole("tab", { name: "Code", exact: true })).toHaveAttribute(
+    "aria-selected",
+    "true",
+  );
+  expect(
+    await list
+      .getByRole("tab", { name: "Code", exact: true })
+      .evaluate((tab) => getComputedStyle(tab, "::after").content),
+  ).toBe("none");
   await list.getByRole("tab", { name: "Preview", exact: true }).click();
   const frame = page.locator("#disabled-triggers iframe").first();
   await frame.scrollIntoViewIfNeeded();
@@ -147,7 +155,7 @@ test("synced tabs use the shared line styling and a visible underline", async ({
   await expect(active).toHaveAttribute("aria-selected", "true");
   await expect
     .poll(() => active.evaluate((tab) => getComputedStyle(tab).backgroundColor))
-    .toBe("rgba(0, 0, 0, 0)");
+    .not.toBe("rgba(0, 0, 0, 0)");
   await expect
     .poll(() => active.evaluate((tab) => getComputedStyle(tab, "::after").opacity))
     .toBe("1");
@@ -157,6 +165,109 @@ test("synced tabs use the shared line styling and a visible underline", async ({
     background: getComputedStyle(tab).backgroundColor,
   }));
   expect(style.indicator).toBe("1");
-  expect(style.radius).toBe(0);
-  expect(style.background).toBe("rgba(0, 0, 0, 0)");
+  expect(style.radius).toBe(8);
+  expect(style.background).not.toBe("rgba(0, 0, 0, 0)");
 });
+
+for (const scheme of ["light", "dark"] as const) {
+  test(`tabs retain selection with matching hover increments in ${scheme} mode`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.addInitScript((theme) => localStorage.setItem("theme", theme), scheme);
+    await page.goto("./docs/tabs/inset-tabs");
+    const showcase = page.locator("#inset-tabs");
+    const frame = showcase.locator("iframe").first();
+    await frame.scrollIntoViewIfNeeded();
+    const inset = frame
+      .contentFrame()
+      .getByRole("tablist", { name: "horizontal workspace example" });
+    const vertical = frame
+      .contentFrame()
+      .getByRole("tablist", { name: "vertical workspace example" });
+    const variants = [
+      page.locator('[data-slot="tabs-list"][data-variant="line"]').first(),
+      showcase.locator('.blocks-showcase-segmented[role="tablist"]').first(),
+      inset,
+      vertical,
+    ];
+
+    for (const list of variants) {
+      const active = list.locator('[role="tab"][aria-selected="true"]');
+      const inactive = list.locator('[role="tab"][aria-selected="false"]:not(:disabled)').first();
+      await active.scrollIntoViewIfNeeded();
+      await page.mouse.move(0, 0);
+      // Resolve colors through the browser rather than assuming a theme's RGB values.
+      const expected = await list.evaluate((node) => {
+        const probe = document.createElement("span");
+        node.append(probe);
+        const colors = [
+          "--tabs-selected-background",
+          "--tabs-hover-background",
+          "--tabs-selected-hover-background",
+        ].map((token) => {
+          probe.style.background = `var(${token})`;
+          return getComputedStyle(probe).backgroundColor;
+        });
+        probe.remove();
+        return { selected: colors[0], hovered: colors[1], selectedHovered: colors[2] };
+      });
+      expect(expected.selected).not.toBe(expected.hovered);
+      expect(expected.selectedHovered).not.toBe(expected.hovered);
+      await expect(active).toHaveCSS("background-color", expected.selected);
+      const idleBackground = await inactive.evaluate(
+        (node) => getComputedStyle(node).backgroundColor,
+      );
+      const alpha = (color: string) =>
+        parseFloat(
+          color.startsWith("rgba")
+            ? color.slice(color.lastIndexOf(",") + 1)
+            : (color.split("/")[1] ?? "1"),
+        );
+      expect(alpha(expected.selectedHovered) - alpha(expected.selected)).toBeCloseTo(
+        alpha(expected.hovered) - alpha(idleBackground),
+        5,
+      );
+      const restingLine = await active.evaluate(
+        (node) => getComputedStyle(node, "::after").transform,
+      );
+      await active.hover();
+      await expect(active).toHaveCSS("background-color", expected.selectedHovered);
+      await expect(active).toHaveCSS("background-image", "none");
+      expect(await active.evaluate((node) => getComputedStyle(node, "::after").transform)).toBe(
+        restingLine,
+      );
+      expect(restingLine).toBe("none");
+      await inactive.hover();
+      await expect(inactive).toHaveCSS("background-color", expected.hovered);
+      await expect(active).toHaveCSS("background-color", expected.selected);
+    }
+
+    const appearance = showcase.getByRole("button", { name: "Dark preview", exact: true });
+    if ((await appearance.getAttribute("aria-pressed")) === "true") await appearance.click();
+    await page.mouse.move(0, 0);
+    await expect(appearance).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
+    await appearance.hover();
+    const hoverTint = await appearance.evaluate((node) => {
+      const probe = document.createElement("span");
+      probe.style.background = "var(--docs-icon-button-hover-background)";
+      probe.style.backgroundImage =
+        "linear-gradient(var(--docs-icon-button-hover-background), var(--docs-icon-button-hover-background))";
+      node.append(probe);
+      const style = getComputedStyle(probe);
+      const tint = { color: style.backgroundColor, gradient: style.backgroundImage };
+      probe.style.background = "var(--background)";
+      const selected = getComputedStyle(probe).backgroundColor;
+      probe.remove();
+      return { ...tint, selected };
+    });
+    await expect(appearance).toHaveCSS("background-color", hoverTint.color);
+    await appearance.click();
+    await expect(appearance).toHaveAttribute("aria-pressed", "true");
+    await expect(appearance).toHaveCSS("background-image", hoverTint.gradient);
+    await expect(appearance).toHaveCSS("background-color", hoverTint.selected);
+    await page.mouse.move(0, 0);
+    await expect(appearance).toHaveCSS("background-image", "none");
+    await expect(appearance).toHaveCSS("background-color", hoverTint.selected);
+  });
+}

@@ -42,6 +42,12 @@ for (const width of [320, 1440]) {
             line: parseFloat(style.lineHeight),
             padding: parseFloat(style.paddingInlineStart),
             border: parseFloat(style.borderTopWidth),
+            weight: style.fontWeight,
+            introduction: Boolean(
+              code.closest(
+                ".block-guide-description, .blocks-hero-lead, .library-directory-header, .home-hero-copy .home-prose",
+              ),
+            ),
             caption: captionStyle
               ? {
                   font: parseFloat(captionStyle.fontSize),
@@ -53,6 +59,10 @@ for (const width of [320, 1440]) {
       });
       expect(result.length, route).toBeGreaterThan(0);
       for (const code of result) {
+        if (code.introduction) {
+          expect(code.font, `${route}: ${code.text} introduction`).toBe(12);
+          expect(code.weight).toBe("400");
+        }
         if (code.caption) {
           expect(code.font, `${route}: ${code.text} caption`).toBe(code.caption.font);
           expect(code.line).toBe(code.caption.line);
@@ -73,12 +83,12 @@ for (const width of [320, 1440]) {
   });
 }
 
-test("explicit size choices override context without changing text or destinations", async ({
+test("explicit size choices work in body prose without changing text or destinations", async ({
   page,
 }) => {
   await page.goto("./docs/forms", { waitUntil: "domcontentloaded" });
   await expect(page.locator("html")).toHaveClass(/pp-ready/);
-  const code = page.locator("a.docs-inline-code-link > code").first();
+  const code = page.locator(".block-guide-section a.docs-inline-code-link > code").first();
   const text = await code.textContent();
   const href = await code.locator("..").getAttribute("href");
   for (const [size, pixels] of [

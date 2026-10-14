@@ -36,11 +36,19 @@ for (const scheme of ["light", "dark"] as const) {
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
           true,
         );
-        const guides = panel.getByRole("navigation", { name: "Block Guides" }).getByRole("link");
-        for (const guide of await guides.all()) {
-          await expect(guide).toHaveText("");
-          await expect(guide).toHaveAccessibleName(/.+/);
-        }
+        const intro = panel.locator(".blocks-showcase-intro");
+        await expect(intro.locator("nav")).toHaveCount(0);
+        const fullWidth = await intro.evaluate((node) => {
+          const css = getComputedStyle(node);
+          const copy = node.querySelector(".blocks-showcase-intro-copy")!;
+          return (
+            Math.abs(
+              copy.getBoundingClientRect().width -
+                (node.clientWidth - parseFloat(css.paddingLeft) - parseFloat(css.paddingRight)),
+            ) < 1
+          );
+        });
+        expect(fullWidth).toBe(true);
         const tree = (await panel.locator(".blocks-file-tree").boundingBox())!;
         const treeRoot = panel.locator(".blocks-file-tree");
         await expect(treeRoot).toHaveCSS("overflow-y", "auto");
@@ -136,12 +144,10 @@ for (const scheme of ["light", "dark"] as const) {
         `/${path!.split("/").at(-1)}`,
       );
       await expect(code).not.toHaveText(original!);
-      await expect(
-        panel.getByRole("navigation", { name: "Block Guides" }).getByRole("link"),
-      ).toHaveCount(3);
+      await expect(panel.locator(".blocks-showcase-intro nav")).toHaveCount(0);
       await expect(
         panel
-          .getByRole("navigation", { name: "Block Guides" })
+          .locator(".blocks-showcase-intro")
           .getByRole("link", { name: "Setup Guide", exact: true }),
       ).toHaveAttribute(
         "href",

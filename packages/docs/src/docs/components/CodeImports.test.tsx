@@ -97,7 +97,9 @@ it("omits import controls for prose and snippets without imports", () => {
 it("server-renders the complete readable source with imports expanded", () => {
   const html = renderToString(<CodeBlock code={source} language="tsx" />);
   expect(html).not.toContain('data-slot="code-import-toggle"');
-  expect(html).toContain("import { Button }");
+  const node = document.createElement("div");
+  node.innerHTML = html;
+  expect(node.querySelector("pre code")?.textContent).toBe(source);
 });
 
 it("keeps import-only snippets readable without an empty collapse state and copies exact source", async () => {

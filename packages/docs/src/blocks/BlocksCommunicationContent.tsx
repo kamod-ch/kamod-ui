@@ -8,16 +8,20 @@ import { BrandText } from "../docs/components/brand/BrandText";
 import { CodeBlock } from "../docs/components/CodeBlock";
 import { DocsShell } from "../docs/components/DocsShell";
 import { PageEyebrow } from "../docs/components/PageEyebrow";
+import { PageTitle } from "../docs/components/PageTitle";
 import { PathDisplay } from "../docs/components/PathDisplay";
 import { BlockPreviewPanel } from "./BlockPreviewPanel";
 import { getCommunicationBlockSource } from "./communication-source";
 
 type CommunicationBlock = (typeof communicationBlocks)[number];
 
+const pageTitle = "Communication Blocks";
+
 export const BlocksCommunicationContent = () => (
   <DocsShell
     sidebarScope="blocks"
     activeDoc={null}
+    pageTitle={pageTitle}
     activeSection=""
     activeBlock="communication"
     mainContent={
@@ -26,7 +30,7 @@ export const BlocksCommunicationContent = () => (
           <PageEyebrow icon={<LayersIcon size={16} aria-hidden="true" />}>
             {`${communicationBlocks.length} ${communicationBlocks.length === 1 ? "variant" : "variants"}`}
           </PageEyebrow>
-          <h1>Communication Blocks</h1>
+          <PageTitle>{pageTitle}</PageTitle>
           <p class="blocks-hero-lead">
             <BrandText>
               Preact-native chat, inbox, and LLM blocks. Consumer data is controlled; fixtures live

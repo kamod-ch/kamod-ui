@@ -4,19 +4,13 @@
 }
 /* All source and prompt views share the same header, sized by their showcase container. */
 .blocks-showcase-intro {
+  --showcase-intro-emphasis: color-mix(in oklab, var(--foreground) 70%, var(--muted-foreground));
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 1rem 1.5rem;
   padding: 1.125rem 1.25rem;
 }
 .blocks-showcase-intro-copy {
-  min-width: 0;
-  max-width: 94ch;
-}
-.blocks-showcase-intro[data-view="prompt"] .blocks-showcase-intro-copy {
   flex: 1;
-  max-width: none;
+  min-width: 0;
 }
 .blocks-showcase-intro-title {
   display: flex;
@@ -31,7 +25,7 @@
   gap: 0.5rem;
   margin: 0;
   color: var(--foreground);
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 600;
   line-height: 1.4;
   letter-spacing: -0.025em;
@@ -41,7 +35,7 @@
   width: 0.9em;
   height: 0.9em;
   color: inherit;
-  stroke-width: 2;
+  stroke-width: 2.25;
 }
 .blocks-showcase-intro-label {
   min-width: 0;
@@ -53,8 +47,12 @@
   align-items: center;
   gap: 0.875rem;
   color: var(--muted-foreground);
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
   line-height: 1.5;
+}
+.blocks-showcase-intro-separator {
+  font-size: 1rem;
+  line-height: 1;
 }
 @media (max-width: 767px) {
   .blocks-showcase-intro-note {
@@ -72,76 +70,44 @@
   color: var(--muted-foreground);
   line-height: 1.7;
 }
-.blocks-showcase-intro strong {
-  color: var(--foreground);
-  font-weight: 500;
+.blocks-showcase .blocks-showcase-intro p :is(strong, b) {
+  color: var(--showcase-intro-emphasis);
+  font-weight: 475;
 }
 .blocks-showcase-intro p a {
-  color: var(--foreground);
+  color: var(--showcase-intro-emphasis);
   text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, currentColor 50%, transparent);
   text-underline-offset: 0.2em;
+}
+/* Soften prose reference chips without changing their shared compact geometry or source tokens. */
+.blocks-showcase .blocks-showcase-intro p code {
+  color: color-mix(in oklab, var(--secondary-accent) 25%, var(--showcase-intro-emphasis));
+  font-weight: 450;
+  background: color-mix(in oklab, var(--secondary-accent) 6%, var(--muted));
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--secondary-accent) 10%, transparent);
 }
 .blocks-showcase-intro p a:focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 2px;
 }
-@container block-showcase (min-width: 70rem) {
-  .blocks-showcase-intro {
-    column-gap: 3rem;
-  }
-}
 @container block-showcase (max-width: 40rem) {
   .blocks-showcase-intro {
-    flex-wrap: wrap;
-    gap: 0.875rem;
     padding: 1rem;
   }
-  /* Keep shortcuts beside the title, with the description spanning the row below. */
-  .blocks-showcase-intro[data-view="code"] .blocks-showcase-intro-copy {
-    display: contents;
-  }
   .blocks-showcase-intro-title {
-    flex: 1;
     min-width: 0;
-    flex-wrap: nowrap;
-    align-self: center;
   }
   .blocks-showcase .blocks-showcase-intro h3 {
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-size: 0.9375rem;
+    font-size: 0.8125rem;
   }
   .blocks-showcase-intro-note {
     display: none;
-  }
-  .blocks-showcase .blocks-showcase-intro[data-view="code"] p {
-    order: 1;
-    flex-basis: 100%;
-    margin: 0;
-  }
-  .blocks-showcase-intro .blocks-prompt-links {
-    flex-wrap: nowrap;
-    gap: 0.375rem;
-    margin-left: auto;
-  }
-  .blocks-showcase-intro .blocks-prompt-links a {
-    width: 1.75rem;
-    height: 1.75rem;
-    min-width: 1.75rem;
-    min-height: 1.75rem;
-  }
-  .blocks-showcase-intro .blocks-prompt-links svg {
-    width: 0.875rem;
-    height: 0.875rem;
   }
 }
 .blocks-showcase-source .blocks-code-layout {
   /* Match both column headers without coupling their content or scroll areas. */
   --source-header-height: 2.75rem;
-  /* Short files should retain a useful workspace without overwhelming short viewports. */
-  --source-code-min-height: clamp(22rem, 60svh, 32rem);
   border-top: 1px solid var(--showcase-border);
   grid-template-columns: clamp(12rem, 22%, 15rem) minmax(0, 1fr);
 }
@@ -563,7 +529,6 @@
 }
 @media (max-width: 767px) {
   .blocks-showcase-source .blocks-code-layout {
-    --source-code-min-height: 22rem;
     grid-template-columns: minmax(0, 1fr);
   }
   .blocks-showcase-source .blocks-file-tree {

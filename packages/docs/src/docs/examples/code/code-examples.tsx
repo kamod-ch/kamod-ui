@@ -1,6 +1,9 @@
 import { Code } from "@kamod-ch/ui/code";
 import type { ComponentChildren } from "preact";
 
+const basicSource = `const greeting = "Hello";
+console.log(greeting);`;
+
 export const welcomeSource = `import { Button } from "@kamod-ch/ui/button";
 
 export function WelcomeAction() {
@@ -86,82 +89,99 @@ function exampleSource(source: string, props = "") {
 }
 
 const surfaceSource = `const label = "A small, useful example";`;
+const plainPresentation = "      showToolbar={false}\n      showWrapControl={false}";
 const toolbarSource = `export const workspace = {
   name: "Design workspace",
   visibility: "private",
 } as const;`;
 
 export const codeHeroSnippet = exampleSource(
-  welcomeSource,
-  '      filePath="src/WelcomeAction.tsx"',
+  basicSource,
+  `      language="typescript"\n${plainPresentation}`,
 );
 
 export function CodeHero() {
-  return <Code class="w-full" code={welcomeSource} filePath="src/WelcomeAction.tsx" />;
+  return (
+    <Code
+      class="w-full"
+      code={basicSource}
+      language="typescript"
+      showToolbar={false}
+      showWrapControl={false}
+    />
+  );
 }
 
 type CodeExample = { preview: () => ComponentChildren; code: string };
 
 /** Each demo has one source of truth for its preview text and copyable consumer example. */
 export const codeExamples: Record<string, CodeExample> = {
-  "source-file": {
-    preview: () => (
-      <Code class="w-full" code={welcomeSource} filePath="src/actions/WelcomeAction.tsx" />
-    ),
-    code: exampleSource(welcomeSource, '      filePath="src/actions/WelcomeAction.tsx"'),
-  },
-  imports: {
-    preview: () => (
-      <Code
-        class="w-full"
-        code={importsSource}
-        filePath="src/WorkspaceCard.tsx"
-        defaultImportsCollapsed
-      />
-    ),
-    code: exampleSource(
-      importsSource,
-      '      filePath="src/WorkspaceCard.tsx"\n      defaultImportsCollapsed',
-    ),
-  },
-  wrapping: {
-    preview: () => <Code class="w-full" code={wrappedSource} language="tsx" defaultWrapped />,
-    code: exampleSource(wrappedSource, '      language="tsx"\n      defaultWrapped'),
-  },
   terminal: {
     preview: () => (
       <Code
         class="w-full"
-        code="pnpm add @kamod-ch/ui preact @preact/signals @kamod-ch/themes"
+        code="pnpm build"
         language="bash"
-        defaultWrapped
+        showToolbar={false}
+        showWrapControl={false}
+      />
+    ),
+    code: exampleSource("pnpm build", `      language="bash"\n${plainPresentation}`),
+  },
+  data: {
+    preview: () => (
+      <Code
+        class="w-full"
+        code={dataSource}
+        language="json"
+        showToolbar={false}
+        showWrapControl={false}
+      />
+    ),
+    code: exampleSource(dataSource, `      language="json"\n${plainPresentation}`),
+  },
+  styles: {
+    preview: () => (
+      <Code
+        class="w-full"
+        code={stylesSource}
+        language="css"
+        showToolbar={false}
+        showWrapControl={false}
+      />
+    ),
+    code: exampleSource(stylesSource, `      language="css"\n${plainPresentation}`),
+  },
+  literal: {
+    preview: () => (
+      <Code
+        class="w-full"
+        code={literalSource}
+        language="text"
+        inferLanguage={false}
+        showToolbar={false}
+        showWrapControl={false}
       />
     ),
     code: exampleSource(
-      "pnpm add @kamod-ch/ui preact @preact/signals @kamod-ch/themes",
-      '      language="bash"\n      defaultWrapped',
+      literalSource,
+      `      language="text"\n      inferLanguage={false}\n${plainPresentation}`,
     ),
-  },
-  data: {
-    preview: () => <Code class="w-full" code={dataSource} filePath="workspace.json" />,
-    code: exampleSource(dataSource, '      filePath="workspace.json"'),
-  },
-  styles: {
-    preview: () => <Code class="w-full" code={stylesSource} filePath="src/workspace.css" />,
-    code: exampleSource(stylesSource, '      filePath="src/workspace.css"'),
   },
   appearance: {
     preview: () => (
       <div class="grid w-full gap-4">
         {(["default", "subtle", "outline"] as const).map((variant) => (
-          <Code
-            key={variant}
-            code={surfaceSource}
-            language="typescript"
-            variant={variant}
-            toolbarContent={<span class="text-sm font-medium capitalize">{variant}</span>}
-            showWrapControl={false}
-          />
+          <div key={variant} class="space-y-2">
+            <p class="text-sm font-medium capitalize">{variant}</p>
+            <Code
+              code={surfaceSource}
+              language="typescript"
+              variant={variant}
+              showToolbar={false}
+              showWrapControl={false}
+            />
+          </div>
         ))}
       </div>
     ),
@@ -173,18 +193,35 @@ export function CodeSurfaces() {
   return (
     <div class="grid gap-4">
       {(["default", "subtle", "outline"] as const).map((variant) => (
-        <Code
-          key={variant}
-          code={source}
-          language="typescript"
-          variant={variant}
-          toolbarContent={<span class="text-sm font-medium capitalize">{variant}</span>}
-          showWrapControl={false}
-        />
+        <div key={variant} class="space-y-2">
+          <p class="text-sm font-medium capitalize">{variant}</p>
+          <Code
+            code={source}
+            language="typescript"
+            variant={variant}
+            showToolbar={false}
+            showWrapControl={false}
+          />
+        </div>
       ))}
     </div>
   );
 }`,
+  },
+  "source-file": {
+    preview: () => (
+      <Code
+        class="w-full"
+        code={welcomeSource}
+        filePath="src/actions/WelcomeAction.tsx"
+        showImportControl={false}
+        showWrapControl={false}
+      />
+    ),
+    code: exampleSource(
+      welcomeSource,
+      '      filePath="src/actions/WelcomeAction.tsx"\n      showImportControl={false}\n      showWrapControl={false}',
+    ),
   },
   toolbar: {
     preview: () => (
@@ -280,19 +317,22 @@ export function WorkspaceBrief() {
   );
 }`,
   },
-  literal: {
+  imports: {
     preview: () => (
       <Code
         class="w-full"
-        code={literalSource}
-        language="text"
-        inferLanguage={false}
-        toolbarContent={<span class="text-sm font-medium">Build report</span>}
+        code={importsSource}
+        filePath="src/WorkspaceCard.tsx"
+        defaultImportsCollapsed
       />
     ),
     code: exampleSource(
-      literalSource,
-      '      language="text"\n      inferLanguage={false}\n      toolbarContent={<span class="text-sm font-medium">Build report</span>}',
+      importsSource,
+      '      filePath="src/WorkspaceCard.tsx"\n      defaultImportsCollapsed',
     ),
+  },
+  wrapping: {
+    preview: () => <Code class="w-full" code={wrappedSource} language="tsx" defaultWrapped />,
+    code: exampleSource(wrappedSource, '      language="tsx"\n      defaultWrapped'),
   },
 };

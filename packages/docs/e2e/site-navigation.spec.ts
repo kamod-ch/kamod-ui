@@ -249,7 +249,7 @@ for (const scheme of ["light", "dark"] as const) {
       expect(await panel.evaluate((element) => element.scrollWidth <= element.clientWidth)).toBe(
         true,
       );
-      await expect(panel.locator(".site-navigation-footer")).toHaveCount(0);
+      await expect(panel.locator(".site-navigation-footer")).toBeVisible();
       await expect(panel.getByRole("link", { name: "Sidebar", exact: true })).toHaveAttribute(
         "aria-current",
         "location",
@@ -303,7 +303,13 @@ test("collection navigation, keyboard focus and theme picker", async ({ page, br
   await expect(panel.locator(".site-navigation-head [data-slot=dialog-description]")).toHaveCount(
     0,
   );
-  await expect(panel.locator(".site-navigation-footer-actions a")).toHaveCount(0);
+  await expect(panel.locator(".site-navigation-footer-actions a")).toHaveCount(2);
+  await expect(
+    panel.locator(".site-navigation-footer").getByRole("button", { name: "Choose color mode" }),
+  ).toBeVisible();
+  await expect(
+    panel.locator(".site-navigation-footer").getByRole("button", { name: "Choose color theme" }),
+  ).toBeVisible();
   await expect(panel.getByRole("button", { name: "Close navigation menu" })).toHaveCSS(
     "width",
     "28px",
@@ -324,7 +330,7 @@ test("collection navigation, keyboard focus and theme picker", async ({ page, br
   await page.keyboard.press("Escape");
   await expect(ecosystemHelp).toBeHidden();
   await page.keyboard.press(forwardTabKey(browserName));
-  await expect(panel.getByRole("button", { name: "Close navigation menu" })).toBeFocused();
+  await expect(panel.getByRole("button", { name: "Choose color mode" })).toBeFocused();
   await panel.getByRole("link", { name: "Sidebar", exact: true }).click();
   await expect(page).toHaveURL(/\/blocks\/sidebar\/?$/);
   await expect(panel).toBeHidden();
@@ -442,6 +448,46 @@ test("backdrop dismissal and desktop resize release the navigation and scroll lo
   await expect(
     page.locator(".docs-topbar-links").getByRole("link", { name: "Components" }),
   ).toBeVisible();
+});
+
+test("mobile reuses the desktop inventory and keeps compact footer tools accessible", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("./docs/getting-started");
+  await expect(page.locator("html")).toHaveClass(/pp-ready/);
+  const desktop = await page
+    .locator(".docs-sidebar .site-navigation-directory a")
+    .evaluateAll((links) =>
+      links.map((link) => ({ href: link.getAttribute("href"), label: link.textContent?.trim() })),
+    );
+  await page.setViewportSize({ width: 320, height: 568 });
+  await page.getByRole("button", { name: "Open navigation menu", exact: true }).click();
+  const sidebar = page.getByRole("dialog", { name: "Explore Kamod", exact: true });
+  const mobile = await sidebar
+    .locator(".site-navigation-directory a")
+    .evaluateAll((links) =>
+      links.map((link) => ({ href: link.getAttribute("href"), label: link.textContent?.trim() })),
+    );
+  expect(mobile).toEqual(desktop);
+  const footer = sidebar.locator(".site-navigation-footer");
+  expect((await footer.boundingBox())!.height).toBeLessThanOrEqual(54);
+  await expect(footer.getByRole("button", { name: "Choose color theme" })).not.toHaveText(/\S/);
+  await footer.getByRole("button", { name: "Choose color mode" }).click();
+  const modes = page.locator(".site-color-mode-menu");
+  await modes.getByRole("menuitemradio", { name: "Dark", exact: true }).click();
+  await expect(page.locator("html")).toHaveClass(/dark/);
+  await page.keyboard.press("Escape");
+  await expect(sidebar).toBeVisible();
+  await footer.getByRole("button", { name: "Choose color theme" }).click();
+  const palette = page.getByRole("dialog", { name: "Find your Palette", exact: true });
+  await palette.getByRole("button", { name: "Ocean", exact: true }).click();
+  await palette.getByRole("button", { name: "Close color theme picker" }).click();
+  await expect(sidebar).toBeVisible();
+  await expect(footer.getByRole("button", { name: "Choose color theme" })).toBeFocused();
+  await footer.getByRole("link", { name: "Go to the homepage", exact: true }).click();
+  await expect(page.getByTestId("home-page")).toBeVisible();
+  await expect(sidebar).toHaveCount(0);
 });
 
 test("desktop navigation fills its column and shares the navbar content edge", async ({ page }) => {

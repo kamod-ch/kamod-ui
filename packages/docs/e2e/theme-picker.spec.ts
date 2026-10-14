@@ -69,9 +69,9 @@ for (const width of [320, 768, 1440]) {
         "href",
         /\/docs\/theming\/token-overrides$/,
       );
-      await expect(picker.getByRole("link", { name: "Kamod UI Repository" })).toHaveAttribute(
+      await expect(picker.getByRole("link", { name: "Explore Color Themes" })).toHaveAttribute(
         "href",
-        "https://github.com/kamod-ch/kamod-ui",
+        /\/docs\/theming\/installation#color-theme-presets$/,
       );
       await expect(picker.locator(".site-theme-picker-action")).toHaveCount(5);
       const selected = picker.getByRole("button", {
@@ -141,8 +141,8 @@ test("system mode stays synchronized after closing, OS changes and reloads", asy
   await picker.getByRole("button", { name: "Close color theme picker" }).click();
   await page.emulateMedia({ colorScheme: "dark" });
   await expect(page.locator("html")).toHaveClass(/dark/);
-  await expect(page.locator('.docs-topbar [data-slot="theme-toggle"]')).toHaveAttribute(
-    "data-state",
+  await expect(page.locator(".docs-topbar .site-color-mode-trigger")).toHaveAttribute(
+    "data-resolved-mode",
     "dark",
   );
   await page.reload();

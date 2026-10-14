@@ -67,6 +67,27 @@
   --inline-code-arrow: var(--inline-code-regular-arrow);
 }
 
+/* Page descriptions keep code quiet, including references inside emphasized phrases. */
+:is(
+    .block-guide-description,
+    .blocks-hero-lead,
+    .library-directory-header :is(.docs-components-intro, .library-directory-start-note),
+    .docs-component-path,
+    .landing-shadcn-intro-lead,
+    .home-hero-copy .home-prose,
+    .page-state-description
+  )
+  code:not(:where(pre *)) {
+  --inline-code-font: var(--inline-code-compact-font);
+  --inline-code-line: var(--inline-code-compact-line);
+  --inline-code-padding: var(--inline-code-compact-padding);
+  --inline-code-arrow: var(--inline-code-compact-arrow);
+  font-size: var(--inline-code-font);
+  line-height: var(--inline-code-line);
+  padding: 0 var(--inline-code-padding);
+  font-weight: 400;
+}
+
 /* Utility names inside headings and navigation are labels, not reference chips. */
 code.docs-code-name {
   font-family: var(--font-mono-custom);

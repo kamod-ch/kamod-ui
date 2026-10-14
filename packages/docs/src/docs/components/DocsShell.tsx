@@ -1,6 +1,7 @@
 import type { ComponentChildren } from "preact";
 import { withBasePath } from "../../base-path";
 import type { BlockNavKey } from "../../blocks/block-nav-config";
+import { BlockGuideContents } from "../../blocks/detail/BlockGuideContents";
 import { DemoShell, demoTopNavItems } from "../../layout/DemoShell";
 import { DocsTopbarActions } from "../../layout/DocsTopbarActions";
 import { DocsSidebarNavigation } from "../../layout/navigation/DocsSidebarNavigation";
@@ -25,6 +26,8 @@ type DocsShellProps = {
   isSectionOverview?: boolean;
   /** Optional page-local contents above the feedback card. */
   pageContents?: ComponentChildren;
+  /** Main heading for collection pages without component-document metadata. */
+  pageTitle?: string;
   /** Current route for pages that do not use component-document metadata. */
   navigationPath?: string;
   activeDoc: DocPageModule | null;
@@ -41,6 +44,8 @@ type DocsShellProps = {
   getSectionHref?: (sectionId: string) => string;
   activeBlock?: BlockNavKey;
 };
+
+const noPageSections = [] as const;
 
 type TocSectionGroups = {
   installation: DocSection | null;
@@ -80,6 +85,7 @@ export const DocsShell = ({
   sidebarScope,
   isSectionOverview = false,
   pageContents,
+  pageTitle,
   navigationPath,
   activeDoc,
   activeSection,
@@ -93,6 +99,7 @@ export const DocsShell = ({
   getSectionHref,
   activeBlock,
 }: DocsShellProps) => {
+  const title = pageTitle ?? activeDoc?.guideTitle ?? activeDoc?.headline ?? activeDoc?.title;
   const tocSections = activeDoc ? groupTocSections(activeDoc.sections) : null;
   const installationSection = tocSections?.installation ?? null;
   const usageSection = tocSections?.usage ?? null;
@@ -104,11 +111,20 @@ export const DocsShell = ({
         section.id === activeSection ||
         flattenContents(section.children ?? []).some(({ id }) => id === activeSection),
     ) ?? false;
-  const showToc = Boolean(!pageContents && !isSectionOverview && activeDoc);
-  const showRightSidebar = showToc || isSectionOverview || Boolean(pageContents);
+  const contents =
+    pageContents ??
+    (pageTitle && !activeDoc ? (
+      <BlockGuideContents
+        id={`${sidebarScope}-page-contents`}
+        pageTitle={pageTitle}
+        sections={noPageSections}
+      />
+    ) : undefined);
+  const showToc = Boolean(!contents && !isSectionOverview && activeDoc);
+  const showRightSidebar = showToc || isSectionOverview || Boolean(contents);
   const contentsRef = useRightSidebarScroll<HTMLDivElement>(
     "contents",
-    Boolean(pageContents) || showToc,
+    Boolean(contents) || showToc,
   );
 
   const sectionLinks = (sections: DocSection[], depth = 1) => (
@@ -140,7 +156,7 @@ export const DocsShell = ({
   return (
     <DemoShell
       brand="Kamod UI"
-      rootClassName={`docs-shell${pageContents ? " docs-shell-page-contents" : ""}`}
+      rootClassName={`docs-shell${contents ? " docs-shell-page-contents" : ""}`}
       topNavItems={demoTopNavItems}
       activeTopNavHref={withBasePath(
         sidebarScope === "blocks" ? "/blocks" : `/docs/${sidebarScope}`,
@@ -162,20 +178,30 @@ export const DocsShell = ({
       rightSidebar={
         !showRightSidebar ? null : (
           <>
-            {(pageContents || showToc) && (
+            {(contents || showToc) && (
               <div class="docs-rightbar-contents" ref={contentsRef}>
-                {pageContents}
+                {contents}
                 {showToc ? (
                   <>
                     <PageContentsHeading
                       level="h3"
                       activeId={activeSection}
                       count={
+                        1 +
                         [installationSection, usageSection, apiReferenceSection].filter(Boolean)
                           .length
                       }
                     />
                     <nav aria-label="On this page">
+                      <PageContentsList
+                        entries={[
+                          {
+                            id: "page-title",
+                            label: title ?? "Overview",
+                          },
+                        ]}
+                        activeId={activeSection}
+                      />
                       {installationSection && sectionLinks([installationSection])}
                       {usageSection && sectionLinks([usageSection])}
                       {exampleSections.length ? (

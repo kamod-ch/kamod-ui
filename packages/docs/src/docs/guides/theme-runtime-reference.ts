@@ -224,7 +224,7 @@ Keep those defaults app-controlled. Do not construct script contents from untrus
 
 Pass an actual \`HTMLElement\` only for an integration that deliberately manages another target. Acquire that element after mounting, through a ref or an effect; do not read \`document\` at module scope in server-rendered code. Passing \`null\` supplies no target and skips those attribute writes until a real target is provided.
 
-A custom target is **not an independent theme sandbox**. It still uses the shared runtime state, and the built-in preset CSS includes \`:root[data-theme="…"]\` selectors. Moving attributes onto an arbitrary wrapper alone will not move those root-only color definitions with them. Plan custom scoped CSS and any portalled overlays together. Read [Token Overrides](/docs/theming/installation#token-overrides) before choosing this advanced option.
+A custom target is **not an independent theme sandbox**. It still uses the shared runtime state. The full theme CSS supports an explicit \`data-theme-scope\` wrapper: it resets inherited color tokens before the wrapper’s \`data-theme\` and \`dark\` class select local values. Merely moving runtime attributes to an unmarked wrapper does not establish that reset. Portalled overlays outside the wrapper do not inherit its tokens. Compare the [Local Palette Studies](/docs/theming/installation#themes-on-this-page) and [Token Overrides](/docs/theming/installation#token-overrides) before choosing this advanced option.
 
 ### CSS entrypoints
 

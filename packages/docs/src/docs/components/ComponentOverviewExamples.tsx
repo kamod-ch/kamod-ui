@@ -88,10 +88,11 @@ export function ComponentOverviewExamples() {
     <Tabs defaultValue="actions" class="guide-next-exercises">
       <TabsList
         aria-label="Component examples"
-        class="guide-next-tabs component-overview-tabs blocks-showcase-segmented"
+        class="docs-tabs-list guide-next-tabs"
+        variant="line"
       >
         {examples.map(({ value, label }) => (
-          <TabsTrigger key={value} value={value} class="docs-icon-button">
+          <TabsTrigger key={value} value={value}>
             {label}
           </TabsTrigger>
         ))}

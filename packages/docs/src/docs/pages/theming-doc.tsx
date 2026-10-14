@@ -3,6 +3,7 @@ import { withBasePath } from "../../base-path";
 import { GuideArticle } from "../components/GuideArticle";
 import { LibraryPageHeader } from "../components/LibraryPageHeader";
 import { PathDisplay } from "../components/PathDisplay";
+import { ColorThemeGallery } from "../guides/color-themes/ColorThemeGallery";
 import { createComponentThemingSections } from "../guides/component-theming";
 import type { DocPageModule } from "../types";
 
@@ -65,6 +66,7 @@ export const themingDocPage: DocPageModule = {
   renderMain: () => (
     <GuideArticle
       sections={sections}
+      sectionContent={{ "color-theme-presets": <ColorThemeGallery /> }}
       header={
         <LibraryPageHeader
           parent={{ label: "Components", href: "/docs/components" }}

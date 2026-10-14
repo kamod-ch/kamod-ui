@@ -270,12 +270,13 @@ test("component overview shares guide navigation and supports interactive exampl
     "aria-selected",
     "true",
   );
-  const toggle = page.getByRole("switch", { name: "Email notifications" });
+  const preview = page.locator(".component-guide-preview");
+  const toggle = preview.getByRole("switch", { name: "Email notifications" });
   await expect(toggle).not.toBeChecked();
   await toggle.focus();
   await page.keyboard.press("Space");
   await expect(toggle).toBeChecked();
-  await expect(page.getByRole("status")).toHaveText("Demo preference: on");
+  await expect(preview.getByRole("status")).toHaveText("Demo preference: on");
   const panel = page.getByRole("tabpanel");
   if (test.info().project.name === "chromium") {
     await context.grantPermissions(["clipboard-read", "clipboard-write"]);

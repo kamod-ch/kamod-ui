@@ -841,13 +841,13 @@ html.dark .kamod-code:where([data-syntax-theme="default"]) {
   max-width: 100%;
   min-width: 0;
   padding: 0.9rem 1rem;
-  background: var(--kamod-code-surface, var(--muted));
+  background: var(--kamod-code-source-surface, var(--kamod-code-surface, var(--muted)));
   font-size: var(--kamod-code-font-size, 0.88rem);
   overflow-x: auto;
   overflow-y: auto;
   border: 1px solid var(--border);
   border-radius: 0.75rem;
-  color: var(--kamod-code-foreground, var(--foreground));
+  color: var(--kamod-code-foreground, var(--kamod-code-prism-foreground, var(--foreground)));
 }
 
 html.dark .docs-code {
@@ -1077,9 +1077,8 @@ html.dark .docs-code .token.variable {
 .blocks-code-pane .docs-tab-code {
   margin-block: 0;
   border: 0;
-  /* The enclosing surface owns the fill in both modes; avoid a second tint
-     beneath the import/wrap controls. */
-  background: transparent;
+  /* App palettes share the enclosing fill; Prism owns only the source canvas. */
+  background: var(--kamod-code-source-surface, transparent);
   font-size: var(--kamod-code-font-size, 0.75rem);
 }
 

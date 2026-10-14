@@ -1,4 +1,5 @@
 import { type GuideSection, parseGuide } from "../../blocks/guides/guide-markdown";
+import { presetStudies, presetStudyId } from "./color-themes/preset-studies";
 import { themeRuntimeReference } from "./theme-runtime-reference";
 import { renderThemeRuntimeTable } from "./theme-runtime-table";
 
@@ -71,10 +72,24 @@ export function createComponentThemingSections(foundationSource: string): GuideS
   };
   const [installation, usage] = parseGuide(introduction);
   const [preset, api] = parseGuide(reference + themeRuntimeReference, renderThemeRuntimeTable);
+  const [palettes] = parseGuide(`
+## Color theme presets
+
+Explore **Eight Palettes with the Same Component Roles**. Each study shows the same miniature workspace in light and dark: sidebar, page, card, primary action, secondary label and success feedback. Compare the relationships between these surfaces rather than choosing from an isolated accent color.
+
+**Use theme** applies a palette to this documentation while keeping your current appearance preference. The paired samples remain fixed so you can compare schemes without repeatedly switching the entire page. The suggested uses below are design starting points, not restrictions on what you can build.
+`);
   return [
     { ...installation, id: "installation" },
     { ...usage, id: "usage" },
     select("set-up-tailwind-and-theme-css", "css-setup"),
+    {
+      ...palettes,
+      children: [
+        ...presetStudies.map(({ id, label }) => ({ id: presetStudyId(id), label })),
+        { id: "themes-on-this-page", label: "How Themes Work on This Page" },
+      ],
+    },
     select("shape-your-design-with-tokens", "token-overrides"),
     select("manage-appearance-preferences", "provider-controls"),
     { ...preset, id: "tailwind-preset" },

@@ -18,6 +18,7 @@ export function BlockCategoryHeader({ category }: { category: BlockCategory }) {
       className="blocks-category-header"
       title={title}
       eyebrow={`${blocks.length} ${blocks.length === 1 ? "variant" : "variants"}`}
+      summaryId={`${category}-variants`}
       description={
         <>
           {/* Small inline markup keeps the metadata independent of JSX. */}

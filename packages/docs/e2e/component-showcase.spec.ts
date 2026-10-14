@@ -19,9 +19,15 @@ for (const slug of ["accordion", "tabs", "video", "formisch"]) {
     for (const index of [0, count - 1]) {
       const example = examples.nth(index);
       await example.getByRole("tab", { name: "Code", exact: true }).click();
+      await expect(example.locator(".blocks-showcase-intro nav")).toHaveCount(0);
       await expect(
         example
-          .getByRole("navigation", { name: "Example guides" })
+          .locator(".blocks-showcase-intro")
+          .getByRole("heading", { name: "Source in Action", exact: true }),
+      ).toBeVisible();
+      await expect(
+        example
+          .locator(".blocks-showcase-intro")
           .getByRole("link", { name: "Setup Guide", exact: true }),
       ).toHaveAttribute("href", "#installation");
       const source = await example.locator("pre code").innerText();
@@ -32,8 +38,20 @@ for (const slug of ["accordion", "tabs", "video", "formisch"]) {
       );
       await controls.getByRole("button", { name: "Copy code", exact: true }).click();
       await expect.poll(() => page.evaluate(() => navigator.clipboard.readText())).toBe(source);
-      await example.getByRole("switch", { name: "Wrap code lines" }).click();
-      await expect(example.locator(".docs-code-line").first()).toHaveCSS("white-space", "pre-wrap");
+      const wrap = example.getByRole("switch", { name: "Wrap code lines" });
+      if (await wrap.count()) {
+        await wrap.click();
+        await expect(example.locator(".docs-code-line").first()).toHaveCSS(
+          "white-space",
+          "pre-wrap",
+        );
+      } else {
+        // Short examples intentionally omit reading controls when every line already fits.
+        const fits = await example
+          .locator("pre")
+          .evaluate((node) => node.scrollWidth <= node.clientWidth + 1);
+        expect(fits).toBe(true);
+      }
       await example.getByRole("tab", { name: "Prompt", exact: true }).click();
       await expect(example.locator("pre code")).toContainText(source);
       await expect(
@@ -133,3 +151,50 @@ test("portalled controls use the example theme and keyboard focus stays inside t
   await page.keyboard.press("Escape");
   await expect(frame.getByRole("button", { name: "Spoken Language" })).toBeFocused();
 });
+
+for (const scheme of ["light", "dark"] as const) {
+  test(`showcase heading actions match control-group surfaces in ${scheme} mode`, async ({
+    page,
+  }) => {
+    await page.addInitScript((theme) => localStorage.setItem("theme", theme), scheme);
+    for (const slug of ["accordion", "formisch"]) {
+      await page.goto(`./docs/${slug}/installation`);
+      await expect(page.locator("html")).toHaveClass(/pp-ready/);
+      const actions = page.locator(".component-example-links").first();
+      const group = page.locator('.component-example [data-slot="tabs-list"]').first();
+      for (const width of [320, 1440]) {
+        await page.setViewportSize({ width, height: 900 });
+        await actions.scrollIntoViewIfNeeded();
+        await page.mouse.move(0, 0);
+        const surface = await group.evaluate((node) => getComputedStyle(node).backgroundColor);
+        for (const action of await actions.locator(".docs-icon-button").all()) {
+          await expect(action).toHaveCSS("background-color", surface);
+          await expect(action).toHaveCSS("background-image", "none");
+          await expect(action).toHaveCSS("height", "32px");
+        }
+        if (width === 320) continue;
+        // Compare the actual group hover paint with the same layer on the separate links.
+        const hover = await actions.evaluate((node) => {
+          const probe = document.createElement("span");
+          node.append(probe);
+          probe.style.background = "var(--showcase-control-hover-tint)";
+          const tint = getComputedStyle(probe).backgroundColor;
+          probe.style.backgroundImage =
+            "linear-gradient(var(--showcase-control-hover-tint), var(--showcase-control-hover-tint))";
+          const gradient = getComputedStyle(probe).backgroundImage;
+          probe.remove();
+          return { tint, gradient };
+        });
+        const inactive = group.getByRole("tab", { selected: false }).first();
+        await inactive.hover();
+        await expect(inactive).toHaveCSS("background-color", hover.tint);
+        for (const action of await actions.locator(".docs-icon-button").all()) {
+          await action.hover();
+          await expect(action).toHaveCSS("background-color", surface);
+          await expect(action).toHaveCSS("background-image", hover.gradient);
+          await expect(action).toHaveCSS("box-shadow", "none");
+        }
+      }
+    }
+  });
+}

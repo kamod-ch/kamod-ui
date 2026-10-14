@@ -5,6 +5,7 @@ import { linkTitle } from "../link-title";
 import { KamodUiBrandLogo } from "./KamodUiBrandLogo";
 import { useRightSidebarScroll } from "./navigation/right-sidebar-memory";
 import { SiteNavigation } from "./navigation/SiteNavigation";
+import { useTopbarOffset } from "./useTopbarOffset";
 
 export type DemoTopNavItem = {
   label: string;
@@ -54,6 +55,7 @@ export const DemoShell = ({
   rootClassName,
   footer,
 }: DemoShellProps) => {
+  const topbar = useTopbarOffset();
   const rightSidebarRef = useRightSidebarScroll<HTMLElement>("column", rightSidebar != null);
   const layoutClass = [
     "docs-layout",
@@ -68,7 +70,7 @@ export const DemoShell = ({
   const Content = contentHeader != null ? "div" : "main";
   return (
     <div class={`${rootClassName ?? ""}`.trim()}>
-      <header class="docs-topbar">
+      <header ref={topbar} class="docs-topbar">
         <div class="docs-topbar-inner">
           <div class="docs-topbar-leading">
             <SiteNavigation />

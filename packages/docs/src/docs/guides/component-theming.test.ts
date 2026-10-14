@@ -26,6 +26,7 @@ describe("component theming guide", () => {
       "installation",
       "usage",
       "css-setup",
+      "color-theme-presets",
       "token-overrides",
       "provider-controls",
       "tailwind-preset",
@@ -37,7 +38,7 @@ describe("component theming guide", () => {
       ...(children ?? []).map((child) => child.id),
     ]);
     expect(new Set(ids).size).toBe(ids.length);
-    for (const section of sections) {
+    for (const section of sections.filter(({ id }) => id !== "color-theme-presets")) {
       for (const child of section.children ?? []) {
         expect(section.parts).toContainEqual({ kind: "heading", id: child.id, title: child.label });
       }

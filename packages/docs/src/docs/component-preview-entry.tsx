@@ -1,3 +1,4 @@
+import { CodeReferenceProvider } from "@kamod-ch/ui/code";
 import { type ComponentChildren, render } from "preact";
 import { applyPreviewAppearance, previewAppearanceFromSearch } from "../blocks/preview-appearance";
 import { ApplicationTooltips } from "../layout/tooltips/ApplicationTooltips";
@@ -57,6 +58,13 @@ async function loadPreview() {
     },
   });
   if (preview === undefined) throw new Error("Unknown example index");
+  if (slug === "code") {
+    // Only source-reader demos need this catalog; ordinary previews retain their small entry.
+    const { resolveCodeReference } = await import("../references/destinations");
+    preview = (
+      <CodeReferenceProvider resolve={resolveCodeReference}>{preview}</CodeReferenceProvider>
+    );
+  }
   render(
     <>
       <PathCopySupport />

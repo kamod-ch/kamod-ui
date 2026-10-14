@@ -12,23 +12,6 @@
   color: var(--foreground);
   font-weight: 500;
 }
-.blocks-prompt-links {
-  display: flex;
-  flex-shrink: 0;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-.blocks-prompt-links a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-  width: 2rem;
-  min-height: 2rem;
-  padding: 0;
-  font-size: 0.75rem;
-  text-decoration: none;
-}
 .blocks-prompt-workspace {
   border-top: 1px solid var(--showcase-border);
 }
@@ -160,7 +143,8 @@
   }
 }
 .blocks-prompt-workspace .blocks-showcase-prompt-code {
-  max-height: 32rem;
+  min-height: var(--showcase-reader-height, 28rem);
+  max-height: var(--showcase-reader-height, 28rem);
   margin: 0;
   padding: 1.25rem;
   border: 0;
@@ -229,6 +213,11 @@
   line-height: 1.7;
   overflow-wrap: anywhere;
   scrollbar-width: thin;
+}
+/* All prompt formats retain the loading footprint and scroll instead of growing the page. */
+.blocks-prompt-workspace .blocks-prompt-rendered {
+  min-height: var(--showcase-reader-height, 28rem);
+  max-height: var(--showcase-reader-height, 28rem);
 }
 .blocks-prompt-rendered :is(h5, h6) {
   margin: 1.5rem 0 0.625rem;

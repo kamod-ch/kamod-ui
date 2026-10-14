@@ -1,0 +1,63 @@
+/* Real source canvases supply the color; surrounding study cards stay in the page's language. */
+.code-prism-studies {
+  container: syntax-studies / inline-size;
+  margin-block: 1.25rem;
+}
+.code-prism-studies-grid {
+  display: grid;
+  gap: 1rem;
+}
+.code-prism-study {
+  background: var(--background);
+  gap: 0.875rem;
+}
+.code-prism-study .code-prism-study-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+.code-prism-study-heading > div {
+  min-width: 0;
+}
+.code-prism-study .code-prism-study-heading h4 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+.code-prism-study-heading svg {
+  flex: none;
+}
+.code-prism-study .code-prism-study-heading p {
+  margin: 0.25rem 0 0;
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+}
+.code-prism-study .docs-code {
+  min-height: 12rem;
+}
+.code-prism-study [data-slot="card-content"] {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.code-prism-study .code-prism-study-description {
+  margin: 0.875rem 0 0.625rem;
+  font-size: 0.8125rem;
+  line-height: 1.75;
+  color: var(--muted-foreground);
+}
+.code-prism-study .code-prism-study-prop {
+  margin: auto 0 0;
+  font-size: 0.75rem;
+}
+/* Read the existing guide column rather than the page's sidebar-inclusive viewport. */
+@container syntax-studies (min-width: 40rem) {
+  .code-prism-studies-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

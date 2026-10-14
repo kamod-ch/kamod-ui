@@ -157,14 +157,14 @@ Review the resulting diff and run your app’s checks. If the assistant cannot e
 
 Check the integrated screen with representative data, not only the short demo labels. Long organization names, empty groups, validation messages and slow service responses often reveal problems that a static preview cannot.
 
-| Check              | What to confirm                                                                                                                        |
-| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
-| Styles             | Page, sidebar, borders and controls use the same theme. Missing utilities are fixed at source detection, not with scattered overrides. |
-| Responsive layout  | At 320, 768, 1024 and 1440px, navigation remains reachable and content does not force the entire document to scroll horizontally.      |
-| Keyboard           | Focus is visible, menus and dialogs can close, and focus returns to their trigger where appropriate.                                   |
-| Data and routes    | Links go to real destinations, active items match the route, and empty data does not leave misleading controls.                        |
-| Forms and services | Pending, error and success states reflect the real request, with no duplicate submission or invented authentication.                   |
-| Production build   | Imports, assets and generated styles still resolve outside the development server.                                                     |
+| Check              | What to confirm                                                                                                                                                                                                                                                  |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Styles             | Page, sidebar, borders and controls use the same theme. Missing utilities are fixed at source detection, not with scattered overrides.                                                                                                                           |
+| Responsive layout  | At 320, 768, 1024 and 1440px, navigation remains reachable and content does not force the entire document to scroll horizontally. Follow [Responsiveness](/blocks/styles#responsiveness) for preview modes, breakpoints, container examples and boundary checks. |
+| Keyboard           | Focus is visible, menus and dialogs can close, and focus returns to their trigger where appropriate.                                                                                                                                                             |
+| Data and routes    | Links go to real destinations, active items match the route, and empty data does not leave misleading controls.                                                                                                                                                  |
+| Forms and services | Pending, error and success states reflect the real request, with no duplicate submission or invented authentication.                                                                                                                                             |
+| Production build   | Imports, assets and generated styles still resolve outside the development server.                                                                                                                                                                               |
 
 Run the typecheck, lint, tests and production build scripts that your project actually defines. Test interactions touched by your changes. A spacing adjustment does not require a test that asserts each class string, but a new navigation callback or submission contract deserves behavior coverage.
 

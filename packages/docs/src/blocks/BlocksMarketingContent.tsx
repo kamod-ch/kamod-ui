@@ -8,16 +8,20 @@ import { BrandText } from "../docs/components/brand/BrandText";
 import { CodeBlock } from "../docs/components/CodeBlock";
 import { DocsShell } from "../docs/components/DocsShell";
 import { PageEyebrow } from "../docs/components/PageEyebrow";
+import { PageTitle } from "../docs/components/PageTitle";
 import { PathDisplay } from "../docs/components/PathDisplay";
 import { BlockPreviewPanel } from "./BlockPreviewPanel";
 import { getMarketingBlockSource } from "./marketing-source";
 
 type MarketingBlock = (typeof marketingBlocks)[number];
 
+const pageTitle = "Marketing Blocks";
+
 export const BlocksMarketingContent = () => (
   <DocsShell
     sidebarScope="blocks"
     activeDoc={null}
+    pageTitle={pageTitle}
     activeSection=""
     activeBlock="marketing"
     mainContent={
@@ -26,7 +30,7 @@ export const BlocksMarketingContent = () => (
           <PageEyebrow icon={<LayersIcon size={16} aria-hidden="true" />}>
             {`${marketingBlocks.length} ${marketingBlocks.length === 1 ? "variant" : "variants"}`}
           </PageEyebrow>
-          <h1>Marketing Blocks</h1>
+          <PageTitle>{pageTitle}</PageTitle>
           <p class="blocks-hero-lead">
             <BrandText>
               Preact-native landing-page sections ported from the uipkge catalog. Contents are typed

@@ -297,7 +297,7 @@
 .blocks-page-header-summary {
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
   gap: 1rem 1.5rem;
   margin-top: auto;
@@ -306,18 +306,17 @@
 
 .blocks-page-header-actions {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   flex-shrink: 0;
   gap: clamp(0.625rem, 1.5vw, 1.5rem);
   margin-inline-start: auto;
 }
 
-.blocks-variant-header .blocks-page-header-summary {
-  align-items: center;
-}
-
 .blocks-category-header .showcase-heading {
   display: none;
+}
+.blocks-category-header .showcase-heading-link {
+  display: inline-flex;
 }
 
 /* Share the showcase's responsive hint without crowding compact collection actions. */
@@ -325,17 +324,12 @@
   .blocks-category-header .blocks-page-header-summary {
     container: showcase-summary / inline-size;
     flex-wrap: nowrap;
-    align-items: center;
   }
 
   .blocks-category-header .showcase-heading {
     display: flex;
     flex-wrap: nowrap;
     min-width: 0;
-  }
-
-  .blocks-category-header .blocks-page-header-actions {
-    align-items: center;
   }
 }
 
@@ -370,7 +364,7 @@
 
 /* Without the discovery preview, the introduction belongs to the standard content column. */
 .blocks-category-page > .blocks-category-header {
-  margin-bottom: var(--docs-column-gap);
+  margin-bottom: clamp(0.75rem, 2vw, 1.5rem);
 }
 
 .blocks-overview-grid > li {
@@ -445,6 +439,7 @@
 }
 
 .blocks-overview-preview {
+  --block-thumbnail-inset: clamp(0.375rem, 1vw, 0.625rem);
   display: block;
   position: relative;
   aspect-ratio: 16 / 9;
@@ -452,14 +447,14 @@
   overflow: hidden;
   margin: 0.65rem 0.65rem 0;
   border-radius: 0.5rem;
-  background: var(--muted);
 }
 
 .blocks-overview-preview img {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  inset: var(--block-thumbnail-inset);
+  width: calc(100% - 2 * var(--block-thumbnail-inset));
+  height: calc(100% - 2 * var(--block-thumbnail-inset));
+  border-radius: 0.25rem;
   object-fit: cover;
   object-position: top;
   background: var(--background);

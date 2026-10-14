@@ -64,7 +64,7 @@
   color: var(--foreground);
   font-weight: 550;
 }
-.home-page :is(p, li) a:not([data-slot], .docs-brand-link, .docs-kamod-link) {
+.home-page :is(p, li) a:not([data-slot], .docs-brand-link, .docs-kamod-link):not(:where(pre *)) {
   color: var(--foreground);
   text-decoration: underline;
   text-decoration-color: var(--border);
@@ -224,7 +224,98 @@
   max-width: 34rem;
   justify-self: end;
 }
+.home-hero-stage {
+  position: relative;
+  isolation: isolate;
+}
+.home-hero-backdrop {
+  display: none;
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+}
+.home-hero-skeleton {
+  --hero-skeleton-scale: 0.9;
+  position: absolute;
+  top: 50%;
+  left: -30%;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid;
+  border-color: color-mix(in oklab, var(--foreground) 16%, transparent);
+  border-radius: 1rem;
+  background: color-mix(in oklab, var(--foreground) 2%, var(--background));
+  opacity: 0.36;
+  transform-origin: left center;
+  transform: translateY(-50%) scale(var(--hero-skeleton-scale));
+}
+/* Back to front: each left edge reveals one-third of that layer's scaled width. */
+.home-hero-skeleton:nth-child(1) {
+  --hero-skeleton-scale: 0.6;
+  left: -100%;
+  opacity: 0.07;
+}
+.home-hero-skeleton:nth-child(2) {
+  --hero-skeleton-scale: 0.7;
+  left: -80%;
+  opacity: 0.13;
+}
+.home-hero-skeleton:nth-child(3) {
+  --hero-skeleton-scale: 0.8;
+  left: -56.666667%;
+  opacity: 0.22;
+}
+.home-hero-skeleton-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  height: 3.5rem;
+  padding-inline: 1.25rem;
+  border-bottom: 1px solid;
+  border-color: color-mix(in oklab, var(--foreground) 10%, transparent);
+}
+.home-hero-skeleton span {
+  display: block;
+  height: 0.5rem;
+  border-radius: 0.25rem;
+  background: color-mix(in oklab, var(--foreground) 9%, transparent);
+}
+.home-hero-skeleton-header > span:first-child {
+  width: 32%;
+}
+.home-hero-skeleton-header > span:last-child {
+  width: 12%;
+}
+.home-hero-skeleton-body {
+  display: grid;
+  align-content: center;
+  gap: 0.875rem;
+  height: calc(100% - 3.5rem);
+  padding: 2rem;
+}
+.home-hero-skeleton-body > span:first-child {
+  width: 45%;
+}
+.home-hero-skeleton-body > span:nth-child(2) {
+  width: 70%;
+}
+.home-hero-skeleton-body > span:last-child {
+  height: 5rem;
+  margin-top: 0.5rem;
+  border-radius: 0.75rem;
+  background: color-mix(in oklab, var(--foreground) 4%, transparent);
+}
 @media (min-width: 1200px) {
+  .home-hero-copy {
+    position: relative;
+    z-index: 1;
+  }
+  .home-hero-backdrop {
+    display: block;
+  }
   .home-hero-example {
     margin-inline-end: -1rem;
   }
@@ -329,7 +420,8 @@
 }
 .home-workspace.component-example,
 .home-action-source {
-  margin-block: 0;
+  /* Home cards keep their own gutter instead of inheriting detail-page bleed. */
+  margin: 0;
   border: 5px solid var(--border);
   border-color: color-mix(in oklab, var(--foreground) 12%, var(--card));
   outline: 3px solid color-mix(in oklab, var(--foreground) 32%, transparent);
@@ -385,10 +477,6 @@
   overflow: hidden;
   margin: 0;
 }
-.home-workspace .blocks-showcase-tabs > [data-slot="tabs-content"][data-state="active"] {
-  display: flex;
-  flex-direction: column;
-}
 .home-workspace-preview {
   position: relative;
   display: flex;
@@ -430,6 +518,14 @@ html.home-workspace-document {
   overflow: hidden;
   background: var(--home-showcase-background);
 }
+/* Bound the optional loading wrapper so the source scrolls inside the fixed panel. */
+.home-workspace :is(.home-workspace-source, .home-workspace-prompt) .kamod-code-content {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr);
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+}
 .home-workspace :is(.home-workspace-source, .home-workspace-prompt) pre {
   flex: 1;
   min-height: 0;
@@ -437,7 +533,7 @@ html.home-workspace-document {
   overflow: auto;
   background: transparent;
 }
-:is(.home-workspace-source, .home-action-source) .docs-code-toolbar {
+.home-action-source .docs-code-toolbar {
   background: var(--workspace-header-background);
   border-bottom: 1px solid var(--border);
   flex: none;
@@ -474,6 +570,9 @@ html.home-workspace-document {
     gap: 0.25rem;
   }
   .home-workspace .blocks-showcase-appearance {
+    display: inline-flex;
+  }
+  .home-workspace .blocks-showcase-appearance > button {
     display: inline-flex;
   }
 }
@@ -665,60 +764,34 @@ html.home-workspace-document {
   --home-component-columns: 3;
   display: grid;
   grid-template-columns: repeat(var(--home-component-columns), minmax(0, 1fr));
+  grid-auto-rows: 1fr;
   gap: 0.75rem;
   margin-top: 2.5rem;
 }
-/* Per-card veils can reveal a link without removing the surrounding fade. */
+/* A single continuation row shares the main grid's card sizing and column gaps. */
 .home-component-continuation {
-  --continuation-row-offset: 0rem;
-  --continuation-height: 6.5rem;
   grid-column: 1 / -1;
   display: grid;
   grid-template-columns: repeat(var(--home-component-columns), minmax(0, 1fr));
-  grid-auto-rows: 3rem;
-  gap: 0.5rem 0.75rem;
-}
-.home-component-continuation > .home-component-card {
-  min-width: 0;
-  padding: 0.375rem 0.75rem;
-}
-.home-component-continuation > :nth-child(n + 4) {
-  --continuation-row-offset: 3.5rem;
+  gap: inherit;
 }
 .home-component-continuation .home-component-card::after {
   content: "";
   position: absolute;
-  /* Cover antialiased borders too, so the final third disappears completely. */
-  inset: -2px;
+  /* Cover the border and both links; interaction can reveal just the focused card. */
+  inset: -1px;
+  z-index: 2;
   pointer-events: none;
-  background-image: linear-gradient(
-    to bottom,
-    color-mix(in oklab, var(--background) 60%, transparent),
-    var(--background) 66.667%
-  );
-  background-size: 100% calc(var(--continuation-height) + 2px);
-  background-position: 0 calc(-1 * var(--continuation-row-offset));
-}
-.home-component-continuation .home-component-card strong {
-  font-size: 0.8125rem;
-  line-height: 1.25;
-}
-.home-component-continuation .home-component-card small {
-  margin-top: 0.125rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: 0.625rem;
-  line-height: 1.25;
+  background: linear-gradient(to bottom, transparent 33.333%, var(--background) 80%);
 }
 .home-component-continuation .home-component-card:active::after {
   opacity: 0.55;
 }
-.home-component-continuation .home-component-card:focus-visible::after {
+.home-component-continuation .home-component-card:focus-within::after {
   opacity: 0;
 }
 @media (min-width: 768px) and (hover: hover) and (pointer: fine) {
-  .home-component-continuation .home-component-card:hover:not(:focus-visible)::after {
+  .home-component-continuation .home-component-card:hover:not(:focus-within)::after {
     opacity: 0.55;
   }
 }
@@ -1138,6 +1211,7 @@ html.home-workspace-document {
   min-width: 0;
 }
 .home-shell-showcase .blocks-showcase {
+  margin-inline: 0;
   border-inline: 0;
   border-radius: 0;
 }
@@ -1563,9 +1637,6 @@ html.home-workspace-document {
     --home-component-columns: 2;
   }
   .home-component-continuation > :nth-child(n + 3) {
-    --continuation-row-offset: 3.5rem;
-  }
-  .home-component-continuation > :nth-child(n + 5) {
     display: none;
   }
   .home-block-caption {
@@ -1624,9 +1695,6 @@ html.home-workspace-document {
     --home-component-columns: 1;
   }
   .home-component-continuation > :nth-child(n + 2) {
-    --continuation-row-offset: 3.5rem;
-  }
-  .home-component-continuation > :nth-child(n + 3) {
     display: none;
   }
   .home-library-map {
@@ -1740,17 +1808,25 @@ html.home-workspace-document {
   gap: 0.625rem;
   padding: 0.5rem 1rem;
   border-bottom: 1px solid var(--border);
+  background: var(--workspace-header-background);
   flex: none;
+}
+.home-workspace .docs-code-toolbar .docs-copy-code-button {
+  min-width: 5rem;
 }
 .home-workspace-source .blocks-source-file-details {
   display: flex;
   min-width: 0;
-  gap: 0.375rem;
 }
 .home-workspace-source .docs-code-file-path > [data-path-part] {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+@container code-snippet (min-width: 32rem) {
+  .home-workspace-source .docs-code-line-count {
+    display: inline-flex;
+  }
 }
 .home-workspace-prompt .blocks-prompt-document-heading {
   flex: 0 1 auto;
@@ -1761,9 +1837,6 @@ html.home-workspace-document {
 .home-workspace-prompt .blocks-prompt-format {
   min-width: 0;
   gap: 0.5rem;
-}
-.home-workspace-prompt .docs-copy-code-button {
-  margin-inline-start: auto;
 }
 .home-workspace-source-link {
   display: inline-flex;
@@ -1817,6 +1890,16 @@ html.home-workspace-document {
 .dark :is(.home-workspace, .home-action-source) {
   --workspace-header-background: color-mix(in oklab, var(--foreground) 11%, var(--card));
   --home-showcase-background: color-mix(in oklab, white 6%, var(--card));
+}
+@media (max-width: 767px) {
+  .home-workspace .docs-code-toolbar .docs-copy-code-button {
+    min-width: 2.125rem;
+    min-height: 2.125rem;
+    padding: 0.4375rem;
+  }
+  .home-workspace .docs-code-toolbar .docs-copy-code-button > .kamod-copy-label {
+    display: none;
+  }
 }
 @container block-showcase (max-width: 32rem) {
   .home-workspace :is(.home-workspace-source, .home-workspace-prompt) .docs-code-toolbar {

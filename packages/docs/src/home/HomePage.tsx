@@ -25,6 +25,7 @@ import { ThemePresetPicker } from "../theme/ThemePresetPicker";
 import { HomeComponentDirectory } from "./HomeComponentDirectory";
 import { HomeBlockExamples, WorkspaceExample } from "./HomeExamples";
 import { HomeFooter } from "./HomeFooter";
+import { HomeHeroBackdrop } from "./HomeHeroBackdrop";
 import { ecosystemEntries, guideEntries, libraryEntries } from "./home-content";
 
 const buttonExample = `import { Button } from "@kamod-ch/ui";
@@ -142,7 +143,10 @@ export function HomePage() {
               </p>
             </div>
             <div class="home-hero-example">
-              <WorkspaceExample />
+              <div class="home-hero-stage">
+                <HomeHeroBackdrop />
+                <WorkspaceExample />
+              </div>
               <p class="home-example-note">
                 Try the controls, explore the code, or reset and start again. Theme changes stay in
                 this preview.

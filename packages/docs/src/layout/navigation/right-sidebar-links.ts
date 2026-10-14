@@ -162,7 +162,9 @@ export function connectRightSidebarLinks(
   const follow = (url: URL) => {
     if (!url.hash || documentKey(url) !== documentKey(new URL(win.location.href))) return;
     const id = fragment(url);
-    const link = Array.from(node.querySelectorAll<HTMLAnchorElement>("a[href]")).find((entry) => {
+    const link = Array.from(
+      node.querySelectorAll<HTMLAnchorElement>("a[href]:not([data-contents-action])"),
+    ).find((entry) => {
       const target = new URL(entry.href, win.location.href);
       return documentKey(target) === documentKey(url) && fragment(target) === id;
     });

@@ -1,5 +1,7 @@
 import { Renderer, type RendererObject } from "marked";
 import render from "preact-render-to-string";
+import { InlineCodeReference } from "../../../references/InlineCodeReference";
+import { inlineSourceReference, referenceAttributes } from "../../../references/inline-references";
 import { InlineCodeLink, InlineReferenceCode } from "../InlineCodeLink";
 import { inlineReference } from "../inline-reference-catalog";
 import { PathDisplay } from "../PathDisplay";
@@ -21,6 +23,15 @@ export function brandMarkdownRenderer(renderer: RendererObject): RendererObject 
           );
     },
     codespan(token) {
+      const source = inlineSourceReference(token.text);
+      if (source)
+        return render(
+          linkDepth ? (
+            <code>{token.text}</code>
+          ) : (
+            <InlineCodeReference reference={source}>{token.text}</InlineCodeReference>
+          ),
+        );
       const reference = inlineReference(token.text);
       if (reference)
         return render(
@@ -37,6 +48,11 @@ export function brandMarkdownRenderer(renderer: RendererObject): RendererObject 
       return (renderer.codespan ?? Renderer.prototype.codespan).call(this, token);
     },
     link(token) {
+      const child = token.tokens.length === 1 ? token.tokens[0] : undefined;
+      const label =
+        child && (child.type === "text" || child.type === "codespan") ? child.text : undefined;
+      const source =
+        typeof label === "string" ? inlineSourceReference(label, token.href) : undefined;
       // Retain the author's destination while decorating exact named labels.
       if (
         token.tokens.length === 1 &&
@@ -48,6 +64,18 @@ export function brandMarkdownRenderer(renderer: RendererObject): RendererObject 
       linkDepth++;
       try {
         const html = (renderer.link ?? Renderer.prototype.link).call(this, token);
+        if (source) {
+          // Serialize attributes with Preact so authored paths and labels stay escaped.
+          const opening = render(
+            <a
+              class="kamod-code-reference docs-inline-source-reference"
+              {...referenceAttributes(source)}
+            />,
+          )
+            .replace(/<\/a>$/, "")
+            .replace(/>$/, " ");
+          return html.replace(/^<a /, opening);
+        }
         return /docs-reference-code|docs-brand-link/.test(html)
           ? html.replace(/^<a /, '<a class="docs-inline-code-link" ')
           : html;

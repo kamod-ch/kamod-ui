@@ -27,15 +27,15 @@ code[data-inline-code-help]:focus-visible {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.docs-code-explanation strong {
-  font-weight: 600;
+.docs-code-explanation :is(strong, b) {
+  font-weight: 525;
 }
 .docs-code-explanation code {
   padding: 0.05em 0.25em;
   border-radius: 0.2rem;
   background: color-mix(
     in oklab,
-    currentColor calc(12% + 10.56% * var(--docs-highlight-boost, 0)),
+    currentColor calc(8% + 7.04% * var(--docs-highlight-boost, 0)),
     transparent
   );
   color: inherit;
@@ -44,6 +44,7 @@ code[data-inline-code-help]:focus-visible {
 .docs-code-explanation a {
   color: inherit;
   text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, currentColor 45%, transparent);
   text-underline-offset: 0.2em;
 }
 .docs-code-explanation > a {
@@ -86,6 +87,7 @@ code[data-inline-code-help]:focus-visible {
 }
 .reference-help-heading > strong {
   flex: none;
+  font-weight: 550;
 }
 .reference-help-separator {
   flex: none;
@@ -117,7 +119,7 @@ code[data-inline-code-help]:focus-visible {
   color: color-mix(in oklab, var(--background) 85%, transparent);
 }
 .reference-help-description strong {
-  color: var(--background);
+  color: color-mix(in oklab, var(--background) 92%, transparent);
 }
 .package-reference-help-summary {
   display: flex;

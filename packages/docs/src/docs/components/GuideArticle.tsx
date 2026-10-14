@@ -9,10 +9,13 @@ import { HighlightedProse } from "./HighlightedProse";
 export function GuideArticle({
   header,
   sections,
+  sectionContent,
   children,
 }: {
   header: ComponentChildren;
   sections: readonly GuideSection[];
+  /** Supplement a named section with live examples, retaining its prose and heading. */
+  sectionContent?: Readonly<Record<string, ComponentChildren>>;
   children?: ComponentChildren;
 }) {
   return (
@@ -45,6 +48,7 @@ export function GuideArticle({
                   />
                 ),
               )}
+              {sectionContent?.[section.id]}
             </section>
           ))}
           {children}

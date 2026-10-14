@@ -1,18 +1,13 @@
 import type { HTMLAttributes } from "preact";
+import { InlineCodeReference } from "../../references/InlineCodeReference";
+import { inlineSourceReference } from "../../references/inline-references";
 import { BrandText } from "./brand/BrandText";
 import { KamodReference } from "./brand/KamodReference";
 import { hasKamodNamespace, kamodReferenceHref } from "./brand/kamod-references";
+import { splitDisplayPath } from "./display-path";
 import { fileIconForPath, fileTypeForPath } from "./file-icon";
 import { InlineCodeLink, type InlineCodeSize } from "./InlineCodeLink";
 import { inlineReference } from "./inline-reference-catalog";
-
-/** Split without normalizing: separators, relative prefixes and trailing slashes remain copyable. */
-export function splitDisplayPath(path: string) {
-  const root = path.match(/^(?:[\\/]+|(?:\.{1,2}|[A-Za-z]:)[\\/]+)?[^\\/]+[\\/]+/)?.[0] ?? "";
-  const endIndex = path.replace(/[\\/]+$/, "").search(/[\\/][^\\/]*$/);
-  if (!root || endIndex < root.length) return { root, middle: "", end: path.slice(root.length) };
-  return { root, middle: path.slice(root.length, endIndex), end: path.slice(endIndex) };
-}
 
 /** Identify standalone paths in prose, never commands, URLs or source expressions. */
 export function isDisplayPath(value: string) {
@@ -53,6 +48,8 @@ export function PathDisplay({
   size,
   ...props
 }: PathDisplayProps) {
+  const reference =
+    Tag === "code" && link && !fileTypeTooltip ? inlineSourceReference(path) : undefined;
   const { root, middle, end } = splitDisplayPath(path);
   const href = kamodReferenceHref(path);
   const kamod = Boolean(href) || hasKamodNamespace(path);
@@ -66,6 +63,22 @@ export function PathDisplay({
       {end && <span data-path-part="end">{end}</span>}
     </>
   );
+  if (reference)
+    return (
+      <InlineCodeReference
+        reference={reference}
+        size={size}
+        content={parts}
+        codeProps={{
+          ...props,
+          class: `path-display ${className ?? ""}`,
+          dir: "ltr",
+          "data-path-middle": middle ? "true" : undefined,
+        }}
+      >
+        {path}
+      </InlineCodeReference>
+    );
   return (
     <Tag
       {...props}
@@ -106,6 +119,13 @@ export function PathDisplay({
 
 /** Inline prose keeps normal code styling unless its entire value is a standalone path. */
 export function InlineCode({ children }: { children: string }) {
+  const source = inlineSourceReference(children);
+  if (source)
+    return isDisplayPath(children) ? (
+      <PathDisplay path={children} />
+    ) : (
+      <InlineCodeReference reference={source}>{children}</InlineCodeReference>
+    );
   const reference = inlineReference(children);
   if (reference) return <InlineCodeLink href={reference.href}>{children}</InlineCodeLink>;
   return isDisplayPath(children) ? (

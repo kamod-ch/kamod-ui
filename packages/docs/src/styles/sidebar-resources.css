@@ -40,7 +40,7 @@
   gap: 0.375rem;
   min-width: 0;
 }
-.sidebar-entry-title,
+.sidebar-entry-heading > .sidebar-entry-title,
 .navigation-header-heading h2 {
   flex: none;
   margin: 0;
@@ -73,11 +73,7 @@
   width: 1.5rem;
   height: 1.5rem;
   border-radius: 0.375rem;
-  background: color-mix(
-    in oklab,
-    var(--foreground) calc(5% + 4.75% * var(--docs-highlight-boost, 0)),
-    transparent
-  );
+  background: var(--navigation-icon-background);
   color: var(--navigation-entry-muted);
 }
 .sidebar-entry-row:focus-visible {

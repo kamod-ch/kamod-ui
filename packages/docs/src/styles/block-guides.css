@@ -62,14 +62,6 @@
 .block-guide-breadcrumb [aria-current="page"] {
   font-weight: 600;
 }
-.block-guide-breadcrumb .page-breadcrumb-home {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3125rem;
-}
-.page-breadcrumb-home > svg {
-  flex-shrink: 0;
-}
 .block-guide-breadcrumb [data-slot="breadcrumb-separator"] {
   color: color-mix(in oklab, var(--foreground) 35%, var(--background));
 }
@@ -174,6 +166,8 @@
 .block-guide-table {
   max-width: 100%;
   overflow-x: auto;
+  /* Preserve readable words; the local scroll region handles intrinsic table width. */
+  overflow-wrap: normal;
   margin: 1.5rem 0;
   border: 1px solid var(--border);
   border-radius: 0.625rem;
@@ -218,7 +212,7 @@
 }
 
 :is(.block-guide-prose, .block-guide-description)
-  a:not(.docs-icon-button, .getting-started-check-link) {
+  a:not(.docs-icon-button, .getting-started-check-link):not(:where(pre *)) {
   color: var(--foreground);
   text-decoration: underline;
   text-decoration-color: color-mix(in oklab, currentColor 35%, transparent);
@@ -226,7 +220,7 @@
 }
 @media (hover: hover) and (pointer: fine) {
   :is(.block-guide-prose, .block-guide-description)
-    a:not(.docs-icon-button, .getting-started-check-link):hover {
+    a:not(.docs-icon-button, .getting-started-check-link):not(:where(pre *)):hover {
     text-decoration-color: currentColor;
   }
 }

@@ -44,6 +44,18 @@ it("aligns prose links and repeated fragments without scrolling the document", (
   expect(pageScroll).not.toHaveBeenCalled();
 });
 
+it("aligns the section entry rather than a header shortcut with the same destination", () => {
+  const shortcut = document.createElement("a");
+  shortcut.href = "#last";
+  shortcut.dataset.contentsAction = "";
+  shortcut.textContent = "Jump to the current section";
+  node.prepend(shortcut);
+  vi.spyOn(shortcut, "getBoundingClientRect").mockReturnValue({ top: 84 } as DOMRect);
+  link.click();
+  vi.runAllTimers();
+  expect(node.scrollTop).toBe(400);
+});
+
 it("follows history fragment changes but ignores passive scroll tracking", () => {
   node.dispatchEvent(new Event("scroll"));
   expect(navigate).not.toHaveBeenCalled();

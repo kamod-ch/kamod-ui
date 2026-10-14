@@ -1,5 +1,5 @@
 import { useTabs } from "@kamod-ch/ui/tabs";
-import { useEffect, useState } from "preact/hooks";
+import { useEffect, useLayoutEffect, useRef, useState } from "preact/hooks";
 import type { BlockSourceFile } from "./BlockSourceFiles";
 import { getShowcaseCodeTarget } from "./ShowcaseCodeLink";
 import type { ShowcasePreferences } from "./useShowcasePreferences";
@@ -20,9 +20,15 @@ export function ShowcaseTabMemory({
 }) {
   const { value, setValue } = useTabs();
   const [restored, setRestored] = useState(false);
+  const selectedEarly = useRef(false);
+  // A user's first selection wins over saved controls that arrive after hydration.
+  useLayoutEffect(() => {
+    if (!restored && value !== "preview") selectedEarly.current = true;
+  }, [value, restored]);
   useEffect(() => {
     if (!ready || restored) return;
-    setValue(getShowcaseCodeTarget(blockId, files, window.location.hash) ? "code" : view);
+    if (!selectedEarly.current)
+      setValue(getShowcaseCodeTarget(blockId, files, window.location.hash) ? "code" : view);
     setRestored(true);
   }, [ready, restored, blockId, files, view, setValue]);
   useEffect(() => {

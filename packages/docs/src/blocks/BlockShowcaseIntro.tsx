@@ -21,8 +21,6 @@ export function BlockShowcaseIntro({
       view={view}
       title={isPrompt ? "Integration prompt" : "Block source"}
       note={isPrompt ? "Build with your assistant" : "Source & structure"}
-      setupHref={guideHref}
-      guideLabel="Block guides"
     >
       {isPrompt ? (
         <>

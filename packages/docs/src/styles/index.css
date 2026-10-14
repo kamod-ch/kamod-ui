@@ -36,6 +36,7 @@
 @import "./block-api.css";
 @import "./site-footer.css";
 @import "./site-navigation.css";
+@import "./site-color-mode.css";
 @import "../../../blocks/src/shared/theme-picker/theme-picker.css";
 @import "./sidebar-resources.css";
 @import "./library-directory.css";
@@ -54,12 +55,15 @@
 
 @import "./component-detail.css";
 @import "./code-parts-playground.css";
+@import "./code-syntax-studies.css";
 
 @import "./path-display.css";
 @import "./icon-button.css";
 
 @import "./brand-text.css";
 @import "./inline-code-help.css";
+@import "../references/help/help.css";
+@import "../references/references.css";
 @import "./navigation-hints.css";
 @import "./page-contents-heading.css";
 @import "./page-introduction.css";

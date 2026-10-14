@@ -7,6 +7,19 @@ export const codeCustomizationApi: readonly ApiReferenceSection[] = [
     description: "Modularity: hide presentation, share state or replace individual controls.",
     rows: [
       {
+        prop: "resolveReference",
+        type: "CodeReferenceResolver | null",
+        defaultValue: "Inherited provider or no links",
+        description: (
+          <>
+            Resolve imported names and module strings to verified local or HTTP(S) destinations.
+            Return undefined for unknown references; null disables links for this panel. Aliases
+            retain the original export name. Copy still uses the unchanged source. See{" "}
+            <a href="#code-reference-resolver">Source Reference Links</a>.
+          </>
+        ),
+      },
+      {
         prop: "showToolbar",
         type: "boolean",
         defaultValue: "true",
@@ -34,9 +47,10 @@ export const codeCustomizationApi: readonly ApiReferenceSection[] = [
         defaultValue: '"default"',
         description: (
           <>
-            One of <code>default</code>, <code>dusk</code>, <code>forest</code> or{" "}
-            <code>monochrome</code>. Changes source token styling; surface variants and application
-            appearance remain independent.
+            Choose one of the eight IDs in <code>codeSyntaxThemes</code>. Kamod palettes follow the
+            application scheme; Okaidia, Tomorrow, Twilight and Solarized Light also select a fixed
+            source canvas. The header, controls and application appearance remain independent. See{" "}
+            <a href="#code-prism-palettes">Prism Palette Studies</a>.
           </>
         ),
       },

@@ -27,7 +27,7 @@
 .component-detail .blocks-api-section[aria-labelledby="code-reading-model"] {
   padding-top: clamp(3rem, 5vw, 4rem);
 }
-.component-detail .blocks-api-source-note {
+.component-detail .blocks-api-source-note[data-variant="callout"] {
   margin-bottom: 2rem;
 }
 .component-detail .docs-api-reference h4 {
@@ -127,6 +127,7 @@
   width: 100%;
 }
 .component-example-stage {
+  flex: 1;
   padding: clamp(1rem, 3vw, 2rem);
   min-width: 0;
 }

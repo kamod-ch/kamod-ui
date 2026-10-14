@@ -8,6 +8,7 @@ import {
 import { CodeLanguageGuide } from "./code-guide-languages";
 import { CodeModularityGuide } from "./code-guide-modularity";
 import { CodeCopyGuide, CodeReadingGuide } from "./code-guide-reading";
+import { CodeReferenceGuide } from "./code-guide-references";
 import { CodeSyntaxThemeGuide } from "./code-guide-themes";
 
 const guides: Readonly<Record<string, ComponentType | undefined>> = {
@@ -17,6 +18,7 @@ const guides: Readonly<Record<string, ComponentType | undefined>> = {
   "language-detection": CodeLanguageGuide,
   "syntax-themes": CodeSyntaxThemeGuide,
   "reading-behavior": CodeReadingGuide,
+  "source-links": CodeReferenceGuide,
   "copy-and-content": CodeCopyGuide,
   customization: CodeCustomizationGuide,
   performance: CodePerformanceGuide,

@@ -101,10 +101,9 @@ a.docs-inline-code-link:focus-visible {
   outline-offset: 3px;
   border-radius: 0.2em;
 }
-/* A single rule under the whole code link includes its SVG arrow, which normal
-   text-decoration cannot underline across inline flex children. */
-a > code,
-code > a {
+/* Prose code chips share a rule under text and SVG; source links own their decoration. */
+a > code:not(:where(pre *)),
+code > a:not(:where(pre *)) {
   position: relative;
 }
 @media (min-width: 768px) and (hover: hover) and (pointer: fine) {
@@ -112,13 +111,13 @@ code > a {
     text-decoration: underline !important;
     text-underline-offset: 0.2em;
   }
-  a:has(> code):hover,
-  code > a:hover,
-  code > a.docs-brand-link.docs-brand-link:hover {
+  a:has(> code):not(:where(pre *)):hover,
+  code > a:not(:where(pre *)):hover,
+  code > a.docs-brand-link.docs-brand-link:not(:where(pre *)):hover {
     text-decoration: none !important;
   }
-  a:hover > code::after,
-  code > a:hover::after {
+  a:not(:where(pre *)):hover > code::after,
+  code > a:not(:where(pre *)):hover::after {
     content: "";
     position: absolute;
     inset-inline: 0;

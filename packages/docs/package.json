@@ -5,7 +5,7 @@
   "description": "PreactPress documentation site for @kamod-ch/ui",
   "type": "module",
   "scripts": {
-    "brand:sync": "kamod-brand-sync-docs --target public",
+    "brand:sync": "node ./scripts/sync-brand-assets.mjs",
     "docs:routes": "node ./scripts/generate-docs-route-manifest.mjs",
     "dev": "pnpm brand:sync && pnpm docs:routes && preactpress dev",
     "build": "pnpm brand:sync && pnpm docs:routes && preactpress build",

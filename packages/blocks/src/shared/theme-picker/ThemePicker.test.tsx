@@ -61,6 +61,13 @@ it("supports host controls, preset subsets, local URLs and close focus restorati
   expect(picker.getByRole("link", { name: "Theming Guide" }).getAttribute("href")).toBe(
     "/library/docs/theming/installation",
   );
+  expect(picker.getByRole("link", { name: "Explore Color Themes" }).getAttribute("href")).toBe(
+    "/library/docs/theming/installation#color-theme-presets",
+  );
+  expect(picker.getByRole("link", { name: "Explore Color Themes" }).getAttribute("target")).toBe(
+    "_self",
+  );
+  expect(picker.queryByRole("link", { name: "Kamod UI Repository" })).toBeNull();
   fireEvent.click(picker.getByRole("button", { name: "Close color theme picker" }));
   expect(screen.queryByRole("dialog")).toBeNull();
   expect(document.activeElement).toBe(trigger);

@@ -104,22 +104,21 @@ test("documentation header exposes breadcrumbs, repository links and disabled va
   await expect(source).toBeFocused();
   const overview = page
     .getByRole("navigation", { name: "On This Page" })
-    .getByRole("link", { name: "Overview", exact: true });
+    .locator('a[href="#page-title"]');
   await overview.focus();
   await page.keyboard.press("Enter");
-  await expect(page).toHaveURL(/#top$/);
-  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
+  await expect(page).toHaveURL(/#page-title$/);
+  await expect(page.locator("h1#page-title")).toBeInViewport();
   await expect(overview).toHaveAttribute("aria-current", "location");
 
-  // Both links return above the introductory breadcrumbs, even when the URL already ends in #top.
+  // Repeated title activation remains usable at every width, including the same fragment.
   for (const width of [320, 768, 1024, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     const titleLink = page.getByRole("heading", { level: 1 }).getByRole("link");
     await titleLink.focus();
     await page.evaluate(() => window.scrollTo({ top: 200, behavior: "instant" }));
     await page.keyboard.press("Enter");
-    await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
-    await expect(header.locator(".blocks-page-header-breadcrumbs")).toBeInViewport();
+    await expect(page.locator("h1#page-title")).toBeInViewport();
   }
 
   await page
@@ -131,10 +130,10 @@ test("documentation header exposes breadcrumbs, repository links and disabled va
     .click();
   await expect(page).toHaveURL(/#application-shell-usage$/);
   await page.goBack();
-  await expect(page).toHaveURL(/#top$/);
-  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
+  await expect(page).toHaveURL(/#page-title$/);
+  await expect(page.locator("h1#page-title")).toBeInViewport();
   await page.reload();
-  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
+  await expect(page.locator("h1#page-title")).toBeInViewport();
   await breadcrumb.getByRole("link", { name: "Blocks", exact: true }).click();
   await expect(page).toHaveURL(/\/blocks\/?$/);
   await expect(
@@ -280,8 +279,8 @@ for (const width of [320, 640, 768, 979, 980, 1024, 1260, 1440]) {
       const title = header.getByRole("heading", { level: 1 }).getByRole("link");
       await title.focus();
       await page.keyboard.press("Enter");
-      await expect(page).toHaveURL(/#top$/);
-      await expect.poll(() => page.evaluate(() => scrollY)).toBe(0);
+      await expect(page).toHaveURL(/#page-title$/);
+      await expect(header.locator("h1#page-title")).toBeInViewport();
       for (const id of ["installation", "usage", "props", "about", "production", "reference"]) {
         const heading = page.locator(`#application-shell-${id}`);
         await expect(heading).toBeAttached();

@@ -1,5 +1,7 @@
-import { inlineCodeExplanation } from "./inline-code-glossary";
-import { packageReferenceHelp } from "./package-reference-help";
+import { inlineCodeExplanation } from "../layout/tooltips/inline-code-glossary";
+import { packageReferenceHelp } from "../layout/tooltips/package-reference-help";
+import { inlineSourceReference, referenceAttributes } from "./inline-references";
+import { sourceReferenceHelp } from "./source-reference-target";
 
 const excluded =
   'pre, .docs-code-wrap, button, summary, [role="button"], [contenteditable], [data-slot="tooltip"], [data-slot="popover"], [data-application-tooltip], [data-tooltip], [data-code-help="off"], .component-example-canvas';
@@ -9,6 +11,7 @@ const ignoredContent =
 
 /** Read a prepared code term or an explicitly authored resource link; no DOM scans. */
 export function inlineCodeHelp(target: HTMLElement) {
+  if (sourceReferenceHelp(target)) return;
   const download = packageReferenceHelp(target);
   if (download) return download;
   const { referenceTitle, referenceDescription, referencePath } = target.dataset;
@@ -62,12 +65,14 @@ export function connectInlineCode(doc: Document) {
     const term = code.getAttribute("data-code-help") ?? code.textContent?.trim() ?? "";
     if (previous && previous.term === term) return;
     if (previousTarget) restore(previousTarget);
-    if (!inlineCodeExplanation(term)) return;
+    const source = code.hasAttribute("data-code-help") ? undefined : inlineSourceReference(term);
+    if (!source && !inlineCodeExplanation(term)) return;
     const target =
       code.closest<HTMLAnchorElement>("a[href]") ??
       code.querySelector<HTMLAnchorElement>("a[href]") ??
       code;
     if (target !== code && target.textContent?.trim() !== code.textContent?.trim()) return;
+    if (!previous && sourceReferenceHelp(target)) return;
     if (owned.has(target)) restore(target);
     const attributes = new Map<string, string | null>();
     const set = (name: string, value: string) => {
@@ -75,6 +80,15 @@ export function connectInlineCode(doc: Document) {
       target.setAttribute(name, value);
     };
     set(marker, term);
+    if (source) {
+      const request = { ...source, href: target.getAttribute("href") ?? source.href };
+      set(
+        "class",
+        `${target.getAttribute("class") ?? ""} kamod-code-reference docs-inline-source-reference`.trim(),
+      );
+      for (const [name, value] of Object.entries(referenceAttributes(request)))
+        if (value !== undefined) set(name, value);
+    }
     if (target === code) {
       if (!target.hasAttribute("tabindex")) set("tabindex", "0");
       set("role", "button");

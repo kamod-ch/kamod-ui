@@ -8,6 +8,7 @@ import { BrandText } from "../docs/components/brand/BrandText";
 import { CodeBlock } from "../docs/components/CodeBlock";
 import { DocsShell } from "../docs/components/DocsShell";
 import { PageEyebrow } from "../docs/components/PageEyebrow";
+import { PageTitle } from "../docs/components/PageTitle";
 import { PathDisplay } from "../docs/components/PathDisplay";
 import { getAppSidebarBlockSource } from "./app-sidebar-source";
 import type { BlockPreviewMode } from "./BlockPreview";
@@ -15,10 +16,13 @@ import { BlockPreviewPanel } from "./BlockPreviewPanel";
 
 type AppSidebarBlock = (typeof appSidebarBlocks)[number];
 
+const pageTitle = "App Sidebar Blocks";
+
 export const BlocksAppSidebarContent = () => (
   <DocsShell
     sidebarScope="blocks"
     activeDoc={null}
+    pageTitle={pageTitle}
     activeSection=""
     activeBlock="app-sidebar"
     mainContent={
@@ -27,7 +31,7 @@ export const BlocksAppSidebarContent = () => (
           <PageEyebrow icon={<LayersIcon size={16} aria-hidden="true" />}>
             {`${appSidebarBlocks.length} ${appSidebarBlocks.length === 1 ? "variant" : "variants"}`}
           </PageEyebrow>
-          <h1>App Sidebar Blocks</h1>
+          <PageTitle>{pageTitle}</PageTitle>
           <p class="blocks-hero-lead">
             <BrandText>
               Preact-native application sidebars ported from the uipkge catalog. Existing Kamod

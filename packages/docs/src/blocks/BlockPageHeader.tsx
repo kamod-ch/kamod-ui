@@ -2,6 +2,7 @@
 import { LayersIcon } from "@kamod-ch/icons/lucide";
 import type { ComponentChildren } from "preact";
 import { PageEyebrow } from "../docs/components/PageEyebrow";
+import { PageTitle } from "../docs/components/PageTitle";
 import { BlockBreadcrumbs } from "./BlockBreadcrumbs";
 import type { BlockCategory } from "./block-categories";
 
@@ -15,8 +16,11 @@ export type BlockPageHeaderProps = {
   actions: ComponentChildren;
   /** Optional introduction opposite collection actions or variant navigation. */
   summaryLabel?: ComponentChildren;
+  /** Optional anchor at the divider so a collection jump includes its toolbar. */
+  summaryId?: string;
   /** Optional inline navigation; its description expands to keep the link reachable. */
   descriptionLink?: ComponentChildren;
+  /** Retain an existing title bookmark alongside the canonical page-title heading. */
   id?: string;
   className?: string;
 };
@@ -30,22 +34,26 @@ export function BlockPageHeader({
   eyebrow,
   actions,
   summaryLabel,
+  summaryId,
   descriptionLink,
   id,
   className = "",
 }: BlockPageHeaderProps) {
+  const titleAlias = id === "page-title" ? undefined : id;
   return (
-    <header class={`blocks-hero blocks-page-header ${className}`} aria-labelledby={id}>
+    <header class={`blocks-hero blocks-page-header ${className}`} aria-labelledby="page-title">
       <BlockBreadcrumbs
         category={category}
         variant={variant}
         className="blocks-page-header-breadcrumbs"
       />
       <PageEyebrow icon={<LayersIcon size={16} aria-hidden="true" />}>{eyebrow}</PageEyebrow>
-      <div class="blocks-page-header-title-row">
-        <h1 id={id} tabIndex={id ? -1 : undefined}>
-          {title}
-        </h1>
+      <div
+        class="blocks-page-header-title-row"
+        id={titleAlias}
+        tabIndex={titleAlias ? -1 : undefined}
+      >
+        <PageTitle>{title}</PageTitle>
       </div>
       <div class={`blocks-page-header-description${descriptionLink ? " has-link" : ""}`}>
         <p class="blocks-hero-lead">
@@ -53,7 +61,7 @@ export function BlockPageHeader({
           {descriptionLink && <> {descriptionLink}</>}
         </p>
       </div>
-      <hr class="page-intro-divider" />
+      <hr id={summaryId} class="page-intro-divider" />
       <div class="blocks-page-header-summary">
         {summaryLabel}
         <div class="blocks-page-header-actions">{actions}</div>

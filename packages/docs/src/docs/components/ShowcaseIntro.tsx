@@ -2,22 +2,17 @@ import { CodeIcon, SparklesIcon } from "@kamod-ch/icons/lucide";
 import type { ComponentChildren } from "preact";
 import { linkTitle } from "../../link-title";
 import { BrandText } from "./brand/BrandText";
-import { ShowcaseGuideLinks } from "./ShowcaseGuideLinks";
 
-/** Shared introduction with full-width prompt guidance and Code-only guide shortcuts. */
+/** Shared full-width introduction for source and prompt views. */
 export function ShowcaseIntro({
   view,
   title,
   note,
-  setupHref,
-  guideLabel = "Example guides",
   children,
 }: {
   view: "code" | "prompt";
   title: string;
   note: string;
-  setupHref: string;
-  guideLabel?: string;
   children: ComponentChildren;
 }) {
   const Icon = view === "code" ? CodeIcon : SparklesIcon;
@@ -30,7 +25,9 @@ export function ShowcaseIntro({
             <span class="blocks-showcase-intro-label">{linkTitle(title)}</span>
           </h3>
           <span class="blocks-showcase-intro-note">
-            <span aria-hidden="true">·</span>
+            <span class="blocks-showcase-intro-separator" aria-hidden="true">
+              ·
+            </span>
             {note}
           </span>
         </div>
@@ -38,7 +35,6 @@ export function ShowcaseIntro({
           <BrandText>{children}</BrandText>
         </p>
       </div>
-      {view === "code" && <ShowcaseGuideLinks setupHref={setupHref} label={guideLabel} />}
     </div>
   );
 }

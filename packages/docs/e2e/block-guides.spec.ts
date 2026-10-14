@@ -53,13 +53,9 @@ for (const guide of blockGuides) {
     await expect(header.locator(".block-guide-description code").first()).toBeVisible();
     const cssGuide = header.getByRole("link", { name: "CSS Guide", exact: true });
     await expect(cssGuide).toHaveAttribute("href", /\/docs\/theming\/css-setup$/);
-    await expect(cssGuide.locator("svg")).toHaveCount(2);
-    await expect(header.locator(".library-directory-jump-links")).toHaveCSS(
-      "border-bottom-width",
-      "1px",
-    );
+    await expect(header.locator(".page-intro-divider")).toHaveCSS("border-top-width", "1px");
     await expect(
-      header.getByRole("navigation", { name: "Block Guides" }).getByRole("link", {
+      header.getByRole("navigation", { name: "Breadcrumb" }).getByRole("link", {
         name: linkTitle(guide.label),
         exact: true,
       }),

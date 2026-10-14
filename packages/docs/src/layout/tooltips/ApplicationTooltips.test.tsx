@@ -439,8 +439,12 @@ it.each(["components", "blocks", "forms", "packages"])(
     act(() => trigger.focus());
     const hint = screen.getByRole("dialog");
     expect(hint.querySelectorAll("dt")).toHaveLength(2);
-    const reference = hint.querySelector<HTMLAnchorElement>("a.docs-inline-code-link")!;
-    expect(reference.querySelectorAll("svg")).toHaveLength(2);
+    const reference = hint.querySelector<HTMLAnchorElement>(
+      "a.docs-inline-code-link, a.docs-inline-source-reference",
+    )!;
+    expect(reference.querySelectorAll("svg")).toHaveLength(
+      reference.classList.contains("kamod-code-reference") ? 0 : 2,
+    );
     fireEvent.keyDown(trigger, { key: "Tab" });
     const shortcut = hint.querySelector<HTMLAnchorElement>(".reference-help-action")!;
     expect(shortcut).toHaveFocus();

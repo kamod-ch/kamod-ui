@@ -8,6 +8,8 @@
   --showcase-border: color-mix(in oklab, var(--border) 65%, transparent);
   --showcase-control-size: 2rem;
   --showcase-radius: 0.875rem;
+  --showcase-reader-height: clamp(24rem, 55svh, 28rem);
+  --source-code-min-height: var(--showcase-reader-height);
   padding: 0;
   border: 1px solid var(--showcase-border);
   border-radius: var(--showcase-radius);
@@ -28,6 +30,10 @@
 }
 
 .blocks-showcase-tabs {
+  /* The track exists before a selected lazy panel mounts; reserve space at the shell. */
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(var(--showcase-reader-height), auto);
   gap: 0;
 }
 
@@ -49,6 +55,9 @@
 }
 
 .blocks-showcase-tabs > [data-slot="tabs-content"] {
+  grid-column: 1;
+  grid-row: 2;
+  min-height: var(--showcase-reader-height);
   margin: 0;
   padding: 0;
   /* The frame and toolbar own the borders; keep tab panels from doubling them. */
@@ -58,8 +67,14 @@
   min-width: 0;
   max-width: 100%;
 }
+.blocks-showcase-tabs > [data-slot="tabs-content"][data-state="active"] {
+  display: flex;
+  flex-direction: column;
+}
 
 .blocks-showcase-toolbar {
+  grid-column: 1;
+  grid-row: 1;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -93,15 +108,29 @@
   margin-left: auto;
 }
 
-:is(.blocks-showcase-segmented, .blocks-preview-viewport-switcher) {
-  /* Shared rounded surfaces for view, viewport, appearance and document controls. */
-  --docs-icon-button-background: transparent;
-  --docs-icon-button-hover-background: color-mix(
+:is(.blocks-showcase-segmented, .blocks-preview-viewport-switcher, .component-example-links) {
+  --showcase-control-surface: color-mix(in oklab, var(--foreground) 5.5%, var(--background));
+  --docs-icon-button-hover-step: calc(8% + 7.36% * var(--docs-highlight-boost, 0));
+  --showcase-control-hover-tint: color-mix(
     in oklab,
-    var(--foreground) calc(8% + 7.36% * var(--docs-highlight-boost, 0)),
+    var(--foreground) var(--docs-icon-button-hover-step),
     transparent
   );
   --docs-icon-button-hover-shadow: none;
+}
+.component-example-links {
+  --docs-icon-button-background: var(--showcase-control-surface);
+  /* Standalone links reproduce the group's surface plus its translucent item hover. */
+  --docs-icon-button-hover-background: linear-gradient(
+      var(--showcase-control-hover-tint),
+      var(--showcase-control-hover-tint)
+    )
+    var(--showcase-control-surface);
+}
+:is(.blocks-showcase-segmented, .blocks-preview-viewport-switcher) {
+  /* Shared rounded surfaces for view, viewport, appearance and document controls. */
+  --docs-icon-button-background: transparent;
+  --docs-icon-button-hover-background: var(--showcase-control-hover-tint);
   display: inline-flex;
   flex-shrink: 0;
   align-items: center;
@@ -111,7 +140,7 @@
   padding: 0.125rem;
   border: 1px solid var(--border);
   border-radius: 0.5rem;
-  background: color-mix(in oklab, var(--foreground) 5.5%, var(--background));
+  background: var(--showcase-control-surface);
   box-shadow: none;
   color: var(--muted-foreground);
 }

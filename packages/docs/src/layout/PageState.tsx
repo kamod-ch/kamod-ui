@@ -8,10 +8,11 @@ import {
   PackageIcon,
   RouteIcon,
 } from "@kamod-ch/icons/lucide";
+import { BrandGithubIcon } from "@kamod-ch/icons/tabler/filled";
 import { Button } from "@kamod-ch/ui/button";
 import type { ComponentChildren } from "preact";
 import { withBasePath } from "../base-path";
-import { KamodMarkIcon } from "../docs/components/brand/KamodMarkIcon";
+import { KamodUiBrandLogo } from "./KamodUiBrandLogo";
 
 /** Deliberately independent of the demo registry: recovery must load with the router. */
 function PageStateFrame({
@@ -25,9 +26,7 @@ function PageStateFrame({
     <div class={`page-state-shell${notFound ? " page-state-shell--not-found" : ""}`}>
       <header class="page-state-topbar">
         <a class="page-state-brand" href={withBasePath("/")} aria-label="Kamod UI home">
-          <KamodMarkIcon size={24} />
-          <span>Kamod UI</span>
-          <span class="page-state-secondary">Documentation</span>
+          <KamodUiBrandLogo />
         </a>
         <a class="page-state-text-link" href={withBasePath("/docs/getting-started")}>
           Get Started <ArrowRightIcon size={16} aria-hidden="true" />
@@ -39,6 +38,7 @@ function PageStateFrame({
       <footer class="page-state-footer">
         <span>Made for Preact. Built to be yours.</span>
         <a href="https://github.com/kamod-ch/kamod-ui">
+          <BrandGithubIcon size={14} aria-hidden="true" />
           Explore the Source <ArrowRightIcon size={14} aria-hidden="true" />
         </a>
       </footer>
@@ -141,12 +141,29 @@ export function PageLoading({ compact = false }: { compact?: boolean }) {
       aria-busy="true"
     >
       <div role="status" aria-live="polite" aria-atomic="true">
-        <p class="page-state-eyebrow">
-          <span class="page-state-pulse page-loading-pulse" aria-hidden="true" /> Kamod UI{" "}
-          <span aria-hidden="true">·</span> {compact ? "Preview" : "Documentation"}
+        <p class="page-state-eyebrow page-loading-label">
+          <span class="page-loading-brand">
+            <span class="page-loading-spinner" aria-hidden="true" />
+            <strong>Kamod</strong>
+          </span>
+          <span aria-hidden="true">·</span>
+          <span>
+            {compact ? "Preparing your interactive preview" : "Your next page is taking shape"}
+          </span>
         </p>
-        <h1>{compact ? "Loading Preview…" : "Opening Your Next Page…"}</h1>
-        <p class="page-state-description">
+        <h1 aria-label={compact ? "Loading Preview…" : "Opening Your Next Page…"}>
+          {compact ? "Loading " : "Opening Your Next "}
+          <span class="page-loading-ending">
+            {compact ? "Preview" : "Page"}
+            <span class="page-loading-ellipsis" aria-hidden="true">
+              <i />
+              <i />
+              <i />
+            </span>
+            <span class="page-loading-ellipsis-label">…</span>
+          </span>
+        </h1>
+        <p class="page-state-description page-loading-description">
           {compact
             ? "Preparing the interactive example."
             : "Loading the guide and its examples. The page will appear here when it’s ready."}
@@ -156,21 +173,22 @@ export function PageLoading({ compact = false }: { compact?: boolean }) {
         <span class="page-loading-track" />
         <span />
         <span />
-        <div class={compact ? undefined : "page-loading-card"}>
-          {!compact && (
-            <>
-              <span class="page-loading-paper">
-                <KamodMarkIcon size={16} accentColor="var(--primary)" />
-                <i />
-                <i />
-              </span>
-              <span class="page-loading-card-copy">
-                <span>Next up</span>
-                <strong>A fresh page is on its way.</strong>
-              </span>
-              <ArrowRightIcon class="page-loading-card-arrow" size={16} />
-            </>
-          )}
+        <div class="page-loading-panel">
+          <div class="page-loading-panel-header">
+            <span class="page-loading-panel-icon" />
+            <div class="page-loading-panel-lines">
+              <span />
+              <span />
+            </div>
+            <span class="page-loading-panel-action" />
+          </div>
+          <span class="page-loading-panel-line" />
+          <span class="page-loading-panel-line" />
+          <div class="page-loading-panel-footer">
+            <span />
+            <span />
+            <span />
+          </div>
         </div>
       </div>
     </section>

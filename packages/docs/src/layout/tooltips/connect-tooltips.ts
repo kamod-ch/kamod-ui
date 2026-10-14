@@ -1,5 +1,7 @@
+import { inlineCodeHelp } from "../../references/connect-inline-references";
+import { sourceReferenceHelp } from "../../references/source-reference-target";
+import type { CodeReferenceHelpRequest } from "../../references/types";
 import type { InlineCodeExplanation } from "./inline-code-glossary";
-import { inlineCodeHelp } from "./inline-code-targets";
 import { type NavigationHint, navigationHelp } from "./navigation-help";
 import { tooltipLabel, tooltipTarget } from "./tooltip-label";
 
@@ -8,6 +10,7 @@ export type TooltipHint = {
   text: string;
   explanation?: InlineCodeExplanation;
   navigation?: NavigationHint;
+  source?: CodeReferenceHelpRequest;
 };
 const overlaySelector = "[data-application-tooltip]";
 const insideOverlay = (node: EventTarget | null) =>
@@ -63,34 +66,48 @@ export function connectTooltips(doc: Document, onChange: (hint: TooltipHint | nu
       }
       // Responsive labels require style/layout reads. Defer them until the
       // intentional hover delay so passing over controls never blocks hover paint.
+      const source = sourceReferenceHelp(next);
       const explanation = inlineCodeHelp(next);
       const navigation = navigationHelp(next);
       const text =
+        source?.label ??
         navigation?.title ??
         next.dataset.referenceTitle ??
         (explanation ? (next.textContent?.trim() ?? "Code") : tooltipLabel(next, savedTitle));
       if (!text) return;
       opened = true;
-      onChange({ target: next, text, explanation, navigation });
+      onChange({ target: next, text, explanation, navigation, source });
       observer = new ResizeObserver(() => {
         if (!next.isConnected || next.getClientRects().length === 0) clear();
       });
       observer.observe(next);
-      if (explanation) {
+      if (explanation || source) {
         contentObserver = new MutationObserver(clear);
         contentObserver.observe(next, {
           childList: true,
           subtree: true,
           characterData: true,
           attributes: true,
-          attributeFilter: ["data-inline-code-help"],
+          attributeFilter: [
+            "data-inline-code-help",
+            "data-code-module",
+            "data-code-imported",
+            "data-code-local",
+            "data-code-file",
+            "data-code-href",
+            "href",
+          ],
         });
       }
     };
     if (immediate) open();
     else {
       // Navigation help should require a deliberate pause while browsing the directory.
-      const delay = next.matches("[data-navigation-group], [data-navigation-help]") ? 1500 : 450;
+      const delay = next.matches("[data-navigation-group], [data-navigation-help]")
+        ? 1500
+        : next.matches(".kamod-code-reference")
+          ? 800
+          : 450;
       opening = setTimeout(open, delay);
     }
   };
@@ -149,7 +166,10 @@ export function connectTooltips(doc: Document, onChange: (hint: TooltipHint | nu
       show(code, true);
       return;
     }
-    if (target && (inlineCodeHelp(target) || navigationHelp(target)?.group)) {
+    if (
+      target &&
+      (sourceReferenceHelp(target) || inlineCodeHelp(target) || navigationHelp(target)?.group)
+    ) {
       if (event.key === "Tab" && opened) {
         const links = doc.querySelectorAll<HTMLAnchorElement>(`${overlaySelector} a[href]`);
         if (!event.shiftKey && event.target === target && links.length) {
@@ -195,12 +215,13 @@ export function connectTooltips(doc: Document, onChange: (hint: TooltipHint | nu
   };
   const scroll = (event: Event) => {
     if (insideOverlay(event.target)) return;
+    const source = target && sourceReferenceHelp(target);
     const explanation = target && inlineCodeHelp(target);
     const navigation = target && navigationHelp(target);
     // Browser focus can scroll a term into view after opening its help. Keep that help usable.
     if (
       target &&
-      (explanation || navigation) &&
+      (source || explanation || navigation) &&
       opened &&
       keyboard &&
       doc.activeElement === target
@@ -212,6 +233,7 @@ export function connectTooltips(doc: Document, onChange: (hint: TooltipHint | nu
           text: navigation?.title ?? target.textContent?.trim() ?? "Code",
           explanation: explanation ?? undefined,
           navigation: navigation ?? undefined,
+          source: source ?? undefined,
         });
         return;
       }

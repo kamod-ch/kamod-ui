@@ -6,7 +6,7 @@
   border-top: 1px solid var(--border);
 }
 
-.blocks-api a:not(.blocks-doc-heading-link) {
+.blocks-api a:not(.blocks-doc-heading-link):not(:where(pre *)) {
   color: var(--foreground);
   text-decoration: underline;
   text-decoration-color: color-mix(in oklab, currentColor 35%, transparent);
@@ -14,7 +14,7 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .blocks-api a:not(.blocks-doc-heading-link):hover {
+  .blocks-api a:not(.blocks-doc-heading-link):not(:where(pre *)):hover {
     text-decoration-color: currentColor;
   }
 }

@@ -1,9 +1,8 @@
 import type { ComponentChildren } from "preact";
-import { BlockHeadingLink } from "../../blocks/BlockHeadingLink";
-import { utilityName } from "../../link-title";
 import { BrandText } from "./brand/BrandText";
 import { PageBreadcrumbs } from "./PageBreadcrumbs";
 import { PageEyebrow } from "./PageEyebrow";
+import { PageTitle } from "./PageTitle";
 
 /** Keeps overview and guide introductions aligned while their content stays route-specific. */
 export function LibraryPageHeader({
@@ -13,9 +12,7 @@ export function LibraryPageHeader({
   title,
   description,
   children,
-  special = true,
 }: {
-  special?: boolean;
   parent: { label: string; href: string };
   label: string;
   eyebrow: ComponentChildren;
@@ -30,13 +27,7 @@ export function LibraryPageHeader({
         current={label}
       />
       <PageEyebrow>{eyebrow}</PageEyebrow>
-      <h1 id={special ? "page-title" : undefined} tabIndex={special ? -1 : undefined}>
-        {special ? (
-          <BlockHeadingLink id="page-title">{title}</BlockHeadingLink>
-        ) : (
-          utilityName(title)
-        )}
-      </h1>
+      <PageTitle>{title}</PageTitle>
       <div class="block-guide-description">
         <BrandText>{description}</BrandText>
       </div>
