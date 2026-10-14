@@ -27,6 +27,15 @@ type TooltipContentCommonProps = HTMLAttributes<HTMLDivElement> & {
   "data-flip-animating"?: "true" | "false";
 };
 
+/** Equivalent resize measurements must not rerender the popup's content. */
+function stableStyle(previous: CSSProperties, next: CSSProperties): CSSProperties {
+  const entries = Object.entries(next);
+  return Object.keys(previous).length === entries.length &&
+    entries.every(([key, value]) => previous[key as keyof CSSProperties] === value)
+    ? previous
+    : next;
+}
+
 export const TooltipContent = ({
   asChild = false,
   side = "top",
@@ -73,71 +82,80 @@ export const TooltipContent = ({
   useLayoutEffect(() => {
     if (!tooltip.open.value || !contentRef.current) return;
     const contentEl = contentRef.current;
-    const triggerRect = contentEl.parentElement?.getBoundingClientRect();
-    const contentRect = contentEl.getBoundingClientRect();
-    if (!triggerRect) return;
+    const measure = () => {
+      const triggerRect = contentEl.parentElement?.getBoundingClientRect();
+      const contentRect = contentEl.getBoundingClientRect();
+      if (!triggerRect) return;
 
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
-    const fitsTop = triggerRect.top >= contentRect.height + sideOffset + collisionPadding;
-    const fitsBottom =
-      viewportHeight - triggerRect.bottom >= contentRect.height + sideOffset + collisionPadding;
-    const fitsLeft = triggerRect.left >= contentRect.width + sideOffset + collisionPadding;
-    const fitsRight =
-      viewportWidth - triggerRect.right >= contentRect.width + sideOffset + collisionPadding;
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+      const fitsTop = triggerRect.top >= contentRect.height + sideOffset + collisionPadding;
+      const fitsBottom =
+        viewportHeight - triggerRect.bottom >= contentRect.height + sideOffset + collisionPadding;
+      const fitsLeft = triggerRect.left >= contentRect.width + sideOffset + collisionPadding;
+      const fitsRight =
+        viewportWidth - triggerRect.right >= contentRect.width + sideOffset + collisionPadding;
 
-    let nextSide = side;
-    if (side === "top" && !fitsTop && fitsBottom) nextSide = "bottom";
-    if (side === "bottom" && !fitsBottom && fitsTop) nextSide = "top";
-    if (side === "left" && !fitsLeft && fitsRight) nextSide = "right";
-    if (side === "right" && !fitsRight && fitsLeft) nextSide = "left";
-    if (nextSide !== resolvedSide) {
-      setResolvedSide(nextSide);
-    }
-    if (tooltip.open.value && nextSide !== prevSideRef.current) {
-      setIsFlipAnimating(true);
-      if (flipTimerRef.current !== null) {
-        window.clearTimeout(flipTimerRef.current);
+      let nextSide = side;
+      if (side === "top" && !fitsTop && fitsBottom) nextSide = "bottom";
+      if (side === "bottom" && !fitsBottom && fitsTop) nextSide = "top";
+      if (side === "left" && !fitsLeft && fitsRight) nextSide = "right";
+      if (side === "right" && !fitsRight && fitsLeft) nextSide = "left";
+      if (nextSide !== resolvedSide) {
+        setResolvedSide(nextSide);
       }
-      flipTimerRef.current = window.setTimeout(() => {
-        setIsFlipAnimating(false);
-        flipTimerRef.current = null;
-      }, 140);
-      prevSideRef.current = nextSide;
-    }
+      if (tooltip.open.value && nextSide !== prevSideRef.current) {
+        setIsFlipAnimating(true);
+        if (flipTimerRef.current !== null) {
+          window.clearTimeout(flipTimerRef.current);
+        }
+        flipTimerRef.current = window.setTimeout(() => {
+          setIsFlipAnimating(false);
+          flipTimerRef.current = null;
+        }, 140);
+        prevSideRef.current = nextSide;
+      }
 
-    // Compute the intended position before clamping, not the previous rendered
-    // position. Offsets are relative to the trigger; viewport edges are not.
-    const horizontal = nextSide === "top" || nextSide === "bottom";
-    const triggerStart = horizontal ? triggerRect.left : triggerRect.top;
-    const triggerSize = horizontal ? triggerRect.width : triggerRect.height;
-    const contentSize = horizontal ? contentRect.width : contentRect.height;
-    const viewportSize = horizontal ? viewportWidth : viewportHeight;
-    const offset =
-      align === "start"
-        ? alignOffset
-        : align === "end"
-          ? triggerSize - contentSize - alignOffset
-          : (triggerSize - contentSize) / 2 + alignOffset;
-    const position = Math.max(
-      collisionPadding,
-      Math.min(triggerStart + offset, viewportSize - collisionPadding - contentSize),
-    );
-    setDynamicClamp({
-      [horizontal ? "left" : "top"]: `${position - triggerStart}px`,
-      [horizontal ? "right" : "bottom"]: "auto",
-      transform: "none",
-    });
+      // Compute the intended position before clamping, not the previous rendered
+      // position. Offsets are relative to the trigger; viewport edges are not.
+      const horizontal = nextSide === "top" || nextSide === "bottom";
+      const triggerStart = horizontal ? triggerRect.left : triggerRect.top;
+      const triggerSize = horizontal ? triggerRect.width : triggerRect.height;
+      const contentSize = horizontal ? contentRect.width : contentRect.height;
+      const viewportSize = horizontal ? viewportWidth : viewportHeight;
+      const offset =
+        align === "start"
+          ? alignOffset
+          : align === "end"
+            ? triggerSize - contentSize - alignOffset
+            : (triggerSize - contentSize) / 2 + alignOffset;
+      const position = Math.max(
+        collisionPadding,
+        Math.min(triggerStart + offset, viewportSize - collisionPadding - contentSize),
+      );
+      const nextClamp: CSSProperties = {
+        [horizontal ? "left" : "top"]: `${position - triggerStart}px`,
+        [horizontal ? "right" : "bottom"]: "auto",
+        transform: "none",
+      };
+      setDynamicClamp((previous) => stableStyle(previous, nextClamp));
 
-    const arrowInset = 12;
-    const arrowPosition = Math.max(
-      arrowInset,
-      Math.min(contentSize - arrowInset, triggerStart + triggerSize / 2 - position),
-    );
-    const nextArrowStyle: CSSProperties = {
-      [horizontal ? "--tooltip-arrow-x" : "--tooltip-arrow-y"]: `${arrowPosition}px`,
+      const arrowInset = 12;
+      const arrowPosition = Math.max(
+        arrowInset,
+        Math.min(contentSize - arrowInset, triggerStart + triggerSize / 2 - position),
+      );
+      const nextArrowStyle: CSSProperties = {
+        [horizontal ? "--tooltip-arrow-x" : "--tooltip-arrow-y"]: `${arrowPosition}px`,
+      };
+      setArrowStyle((previous) => stableStyle(previous, nextArrowStyle));
     };
-    setArrowStyle(nextArrowStyle);
+    measure();
+    // Lazy help can grow after opening; observe only this visible popup, never the page.
+    const observer =
+      typeof ResizeObserver === "undefined" ? undefined : new ResizeObserver(measure);
+    observer?.observe(contentEl);
+    return () => observer?.disconnect();
   }, [align, alignOffset, collisionPadding, resolvedSide, side, sideOffset, tooltip.open.value]);
 
   if (!tooltip.open.value && !forceMount) return null;

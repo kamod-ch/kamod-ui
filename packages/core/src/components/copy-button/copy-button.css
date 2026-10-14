@@ -202,6 +202,79 @@
   .kamod-action-feedback.is-complete .kamod-action-glyph::after {
     animation: kamod-action-stamp-ring 320ms 150ms ease-out both;
   }
+
+  /* Rotate the shared slot so the icon handoff follows one continuous turn. */
+  .kamod-copy-button.is-complete {
+    --copy-turn-duration: 520ms;
+  }
+  .kamod-copy-button.is-complete .kamod-copy-glyph {
+    animation: kamod-copy-orbit var(--copy-turn-duration) both;
+  }
+  .kamod-copy-button.is-complete .kamod-copy-outgoing {
+    animation: kamod-copy-handoff var(--copy-turn-duration) linear both;
+  }
+  .kamod-copy-button.is-complete .kamod-copy-symbol {
+    animation: kamod-copy-handoff var(--copy-turn-duration) linear reverse both;
+  }
+  /* Paint the small glow once; only its opacity changes, never layout or shadow blur. */
+  .kamod-copy-button.is-complete::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    box-shadow:
+      0 0 14px 2px color-mix(in oklab, var(--action-feedback-accent) 30%, transparent),
+      inset 0 0 9px color-mix(in oklab, var(--action-feedback-accent) 20%, transparent);
+    animation: kamod-copy-glow 700ms ease-out both;
+  }
+}
+@keyframes kamod-copy-orbit {
+  0% {
+    transform: rotate(0deg);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.75, 0.4);
+  }
+  50% {
+    transform: rotate(180deg) scale(0.88);
+    animation-timing-function: cubic-bezier(0.12, 0.75, 0.25, 1);
+  }
+  76% {
+    transform: rotate(382deg) scale(1.1);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.3, 1);
+  }
+  90% {
+    transform: rotate(354deg) scale(0.98);
+    animation-timing-function: cubic-bezier(0.16, 0.8, 0.3, 1);
+  }
+  /* 360 degrees is the exact resting pose; hold it to avoid a final settling shift. */
+  96%,
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes kamod-copy-handoff {
+  0%,
+  44% {
+    opacity: 1;
+  }
+  56%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes kamod-copy-glow {
+  0% {
+    opacity: 0;
+  }
+  28% {
+    opacity: 0.95;
+  }
+  62% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 @keyframes kamod-action-turn-out {
   0% {

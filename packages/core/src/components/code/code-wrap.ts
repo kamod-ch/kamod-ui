@@ -1,17 +1,24 @@
 /** Split trusted highlighter markup without breaking tokens that span source lines. */
 export function readableCodeLines(html: string, source: string) {
-  const stack: string[] = [];
+  const stack: { open: string; close: string }[] = [];
   const lines: string[] = [];
   const endings = source.match(/\r\n|\r|\n/g) ?? [];
   let line = "";
-  for (const part of html.split(/(<span\b[^>]*>|<\/span>|\r\n|\r|\n)/g)) {
+  for (const part of html.split(/(<(?:span|a)\b[^>]*>|<\/(?:span|a)>|\r\n|\r|\n)/g)) {
     if (/^[\r\n]+$/.test(part)) {
-      lines.push(line + "</span>".repeat(stack.length));
-      line = stack.join("");
+      lines.push(
+        line +
+          stack
+            .map(({ close }) => close)
+            .reverse()
+            .join(""),
+      );
+      line = stack.map(({ open }) => open).join("");
     } else {
       line += part;
-      if (part.startsWith("<span")) stack.push(part);
-      else if (part === "</span>") stack.pop();
+      if (/^<(span|a)\b/.test(part))
+        stack.push({ open: part, close: part.startsWith("<a ") ? "</a>" : "</span>" });
+      else if (/^<\/(?:span|a)>$/.test(part)) stack.pop();
     }
   }
   lines.push(line);

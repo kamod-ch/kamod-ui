@@ -1,6 +1,7 @@
 import type { ComponentChildren, HTMLAttributes } from "preact";
 import type { CopyStatus } from "../copy-button";
 import type { CodeLanguage } from "./code-language";
+import type { CodeReferenceResolver } from "./code-references";
 import type { CodeSyntaxTheme } from "./code-themes";
 
 /** State and behavior supplied to a replacement import-folding control. */
@@ -52,8 +53,14 @@ export interface CodeProps extends Omit<
   inferLanguage?: boolean;
   /** Enable deferred syntax coloring. False keeps escaped source, language metadata and reading controls. */
   highlight?: boolean;
-  /** Lightweight syntax-token palette, independent of the semantic surface variant. */
+  /**
+   * Lightweight syntax palette. Kamod presets follow light/dark mode; Prism presets
+   * also set a fixed source canvas. Headers, controls and semantic surface variants
+   * retain application styling.
+   */
   syntaxTheme?: CodeSyntaxTheme;
+  /** Resolve imported symbols/module strings to verified destinations. Inherits CodeReferenceProvider; null disables links for this panel. Never changes clipboard text. */
+  resolveReference?: CodeReferenceResolver | null;
   /** Optional exact source path in the joined header, with a responsive full-source line count; also informs language inference. */
   filePath?: string;
   /** Replace only the path presentation, retaining its language-inference metadata. */

@@ -1,7 +1,15 @@
+@import "./code-prism-themes.css";
+
 /* Scoped defaults stay below application selectors, including the docs showcase skins. */
 :where(.kamod-code) {
   --kamod-code-surface: var(--muted);
   --kamod-code-header: var(--muted);
+  --kamod-code-source-surface: initial;
+  --kamod-code-prism-foreground: initial;
+  /* Reset every token at the reader boundary, including nested palette previews. */
+  --kamod-code-comment: color-mix(in oklab, var(--muted-foreground) 86%, var(--foreground));
+  --kamod-code-punctuation: color-mix(in oklab, var(--foreground) 74%, var(--muted-foreground));
+  --kamod-code-operator: color-mix(in oklab, var(--foreground) 82%, var(--muted-foreground));
   --kamod-code-control: color-mix(in oklab, var(--foreground) 5%, transparent);
   --kamod-code-control-hover: color-mix(in oklab, var(--foreground) 9%, transparent);
   --kamod-code-keyword: #1d4ed8;
@@ -120,8 +128,8 @@
   overflow: auto;
   border: 1px solid var(--border);
   border-radius: calc(var(--radius, 0.625rem) + 0.125rem);
-  background: var(--kamod-code-surface);
-  color: var(--kamod-code-foreground, var(--foreground));
+  background: var(--kamod-code-source-surface, var(--kamod-code-surface));
+  color: var(--kamod-code-foreground, var(--kamod-code-prism-foreground, var(--foreground)));
   font-size: var(--kamod-code-font-size, 0.75rem);
   text-align: start;
   tab-size: 2;
@@ -131,7 +139,7 @@
   border: 0;
   border-radius: 0 0 calc(var(--radius, 0.625rem) + 0.125rem)
     calc(var(--radius, 0.625rem) + 0.125rem);
-  background: transparent;
+  background: var(--kamod-code-source-surface, transparent);
 }
 
 :where(.kamod-code.docs-code-file > .docs-code:first-child) {
@@ -741,6 +749,37 @@
     .kamod-code .docs-code-wrap-toggle,
     .kamod-code .docs-code-wrap-toggle [data-slot="switch-thumb"]
   ) {
+    transition: none;
+  }
+}
+
+/* An inline border keeps the dashed link cue visible across code fonts and browser engines. */
+pre code a.kamod-code-reference {
+  --code-reference-dash: var(--primary, currentColor);
+  color: inherit;
+  font: inherit;
+  background: none;
+  padding: 0;
+  border: 0;
+  border-bottom: 1.5px dashed color-mix(in oklab, var(--code-reference-dash) 25%, transparent);
+  border-radius: 0;
+  text-decoration: none;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  transition: border-color 120ms ease;
+}
+pre code a.kamod-code-reference:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-bottom-color: var(--code-reference-dash);
+}
+@media (hover: hover) and (pointer: fine) {
+  pre code a.kamod-code-reference:hover {
+    border-bottom-color: var(--code-reference-dash);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  pre code a.kamod-code-reference {
     transition: none;
   }
 }

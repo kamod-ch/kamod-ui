@@ -2,6 +2,7 @@
 import { act, cleanup, fireEvent, render, waitFor } from "@testing-library/preact";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { Code } from "./Code";
+import { codeSyntaxThemes } from "./code-themes";
 import { readableCodeLines } from "./code-wrap";
 import { highlightCode } from "./highlight-code";
 import { useCodeHighlight } from "./use-code-highlight";
@@ -299,13 +300,18 @@ it("changes syntax palettes and typography without repeating highlighting", asyn
   const code = "export const answer = 42;";
   const view = render(<Code code={code} syntaxTheme="dusk" />);
   await waitFor(() => expect(view.container.querySelector(".token")).not.toBeNull());
-  view.rerender(<Code code={code} syntaxTheme="forest" style="--kamod-code-line-height: 1.8" />);
-  view.rerender(<Code code={code} syntaxTheme="monochrome" />);
+  const token = view.container.querySelector(".token");
+  for (const syntaxTheme of codeSyntaxThemes) {
+    view.rerender(
+      <Code code={code} syntaxTheme={syntaxTheme} style="--kamod-code-line-height: 1.8" />,
+    );
+    expect(view.container.querySelector(".kamod-code")).toHaveAttribute(
+      "data-syntax-theme",
+      syntaxTheme,
+    );
+    expect(view.container.querySelector(".token")).toBe(token);
+  }
   expect(highlightCode).toHaveBeenCalledOnce();
-  expect(view.container.querySelector(".kamod-code")).toHaveAttribute(
-    "data-syntax-theme",
-    "monochrome",
-  );
 });
 
 it("infers unlabelled source and uses the inferred grammar in the visible label", async () => {

@@ -14,14 +14,21 @@ export const escapeCodeHtml = (value: string) =>
  * Reopen spanning tokens at retained boundaries; never parse the language again.
  */
 export function selectCodeMarkup(html: string, parts: readonly CodeSourcePart[]) {
-  const stack: string[] = [];
+  const stack: { open: string; close: string }[] = [];
   const output: string[] = [];
   let partIndex = 0;
   let sourceOffset = 0;
   let writing = false;
   const setWriting = (next: boolean) => {
     if (writing === next) return;
-    output.push(next ? stack.join("") : "</span>".repeat(stack.length));
+    output.push(
+      next
+        ? stack.map(({ open }) => open).join("")
+        : stack
+            .map(({ close }) => close)
+            .reverse()
+            .join(""),
+    );
     writing = next;
   };
   const nextRange = () => {
@@ -33,13 +40,13 @@ export function selectCodeMarkup(html: string, parts: readonly CodeSourcePart[])
   };
   let range = nextRange();
   for (const match of html.matchAll(
-    /<span\b[^>]*>|<\/span>|&(?:#\d+|#x[\da-f]+|\w+);|[^<&]+|[<&]/gi,
+    /<(?:span|a)\b[^>]*>|<\/(?:span|a)>|&(?:#\d+|#x[\da-f]+|\w+);|[^<&]+|[<&]/gi,
   )) {
     const fragment = match[0];
-    if (fragment.startsWith("<span")) {
+    if (/^<(span|a)\b/.test(fragment)) {
       if (writing) output.push(fragment);
-      stack.push(fragment);
-    } else if (fragment === "</span>") {
+      stack.push({ open: fragment, close: fragment.startsWith("<a ") ? "</a>" : "</span>" });
+    } else if (/^<\/(?:span|a)>$/.test(fragment)) {
       if (writing) output.push(fragment);
       stack.pop();
     } else {

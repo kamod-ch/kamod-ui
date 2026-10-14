@@ -1,4 +1,5 @@
 import { act, cleanup, fireEvent, render, screen } from "@testing-library/preact";
+import { options } from "preact";
 import { useState } from "preact/hooks";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./index";
 
@@ -157,6 +158,77 @@ describe("Tooltip", () => {
 });
 
 describe("tooltip viewport positioning", () => {
+  it("does not rerender for repeated identical resize measurements", () => {
+    let measure: ResizeObserverCallback | undefined;
+    vi.spyOn(globalThis, "ResizeObserver").mockImplementation(
+      class {
+        constructor(callback: ResizeObserverCallback) {
+          measure = callback;
+        }
+        observe() {}
+        unobserve() {}
+        disconnect() {}
+      },
+    );
+    vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockReturnValue(
+      new DOMRect(200, 200, 100, 40),
+    );
+    render(
+      <Tooltip defaultOpen>
+        <TooltipContent side="bottom">Stable source help</TooltipContent>
+      </Tooltip>,
+    );
+    const previous = options.diffed;
+    let renders = 0;
+    options.diffed = (vnode) => {
+      previous?.(vnode);
+      if (vnode.type === TooltipContent) renders++;
+    };
+    try {
+      for (let index = 0; index < 5; index++) act(() => measure?.([], {} as ResizeObserver));
+      expect(renders).toBe(0);
+    } finally {
+      options.diffed = previous;
+    }
+  });
+
+  it("remeasures lazy content only while open and disconnects its resize observer", () => {
+    let measure: ResizeObserverCallback | undefined;
+    const disconnect = vi.fn();
+    vi.spyOn(globalThis, "ResizeObserver").mockImplementation(
+      class {
+        constructor(callback: ResizeObserverCallback) {
+          measure = callback;
+        }
+        observe() {}
+        unobserve() {}
+        disconnect = disconnect;
+      },
+    );
+    vi.spyOn(window, "innerWidth", "get").mockReturnValue(1024);
+    let width = 200;
+    vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockImplementation(function (
+      this: HTMLElement,
+    ) {
+      return this.dataset.slot === "tooltip"
+        ? new DOMRect(950, 200, 32, 32)
+        : new DOMRect(0, 0, width, 100);
+    });
+    const view = render(
+      <Tooltip defaultOpen>
+        <TooltipContent side="bottom" align="start">
+          Lazy source help
+        </TooltipContent>
+      </Tooltip>,
+    );
+    expect(screen.getByRole("tooltip").style.left).toBe("-134px");
+    width = 360;
+    act(() => measure?.([], {} as ResizeObserver));
+    expect(screen.getByRole("tooltip").style.left).toBe("-294px");
+    view.unmount();
+    expect(disconnect).toHaveBeenCalled();
+  });
+
   it.each([
     { side: "bottom", x: 950, y: 200, left: -134, top: null, arrow: 150 },
     { side: "bottom", x: 4, y: 200, left: 4, top: null, arrow: 12 },

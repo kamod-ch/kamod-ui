@@ -1,11 +1,14 @@
-import { useId, useLayoutEffect, useMemo, useState } from "preact/hooks";
+import { useContext, useId, useLayoutEffect, useMemo, useState } from "preact/hooks";
 import { CodeCopyAction } from "./CodeCopyAction";
 import { CodeFileHeader } from "./CodeFileHeader";
+import { CodeReferenceContext } from "./CodeReferenceProvider";
 import { CodeSnippetLabel } from "./CodeSnippetLabel";
 import { CodeImportControl, CodeWrapControl } from "./code-controls";
 import { findCodeImports } from "./code-imports";
 import { isCommandCode, normalizeCodeLanguage, resolveCodeLanguage } from "./code-language";
 import { selectCodeMarkup } from "./code-markup";
+import { linkCodeMarkup } from "./code-reference-markup";
+import { findCodeReferences } from "./code-references";
 import type { CodeProps } from "./code-types";
 import { readableCodeLines } from "./code-wrap";
 import { useCodeHighlight } from "./use-code-highlight";
@@ -21,6 +24,7 @@ export function Code({
   inferLanguage = true,
   highlight = true,
   syntaxTheme = "default",
+  resolveReference: resolveReferenceProp,
   filePath,
   renderFilePath,
   renderLanguage,
@@ -95,19 +99,30 @@ export function Code({
       current.code === code ? current : { code, hidden: defaultImportsCollapsed },
     );
   }, [code]);
+  const inheritedResolver = useContext(CodeReferenceContext);
+  const resolveReference =
+    resolveReferenceProp === undefined ? inheritedResolver : resolveReferenceProp;
+  const references = useMemo(
+    () =>
+      rendersCode && resolveReference
+        ? findCodeReferences(code, language, resolveReference, filePath)
+        : [],
+    [code, language, resolveReference, filePath, rendersCode],
+  );
   const codeId = useId();
   const { element, html, pending } = useCodeHighlight(code, language, rendersCode, highlight);
+  const linkedHtml = useMemo(() => linkCodeMarkup(html, references), [html, references]);
   const showLoading = Boolean(loadingContent) && pending;
   const sourceMarkup = useMemo(() => {
     // Folding selects existing tokens; clicks never load grammars or recolor the source.
-    const foldedHtml = canFoldImports ? selectCodeMarkup(html, imports!.parts) : html;
+    const foldedHtml = canFoldImports ? selectCodeMarkup(linkedHtml, imports!.parts) : linkedHtml;
     return rendersCode && wrapped
       ? {
-          full: readableCodeLines(html, code),
-          folded: canFoldImports ? readableCodeLines(foldedHtml, imports!.folded) : html,
+          full: readableCodeLines(linkedHtml, code),
+          folded: canFoldImports ? readableCodeLines(foldedHtml, imports!.folded) : linkedHtml,
         }
-      : { full: html, folded: foldedHtml };
-  }, [rendersCode, wrapped, html, code, imports, canFoldImports]);
+      : { full: linkedHtml, folded: foldedHtml };
+  }, [rendersCode, wrapped, linkedHtml, code, imports, canFoldImports]);
   const displayedHtml = importsHidden ? sourceMarkup.folded : sourceMarkup.full;
   const showReadingControls = useCodeOverflow(
     element,
