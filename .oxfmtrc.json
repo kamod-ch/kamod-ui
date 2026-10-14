@@ -12,6 +12,8 @@
     "**/proofshot-artifacts/**",
     "**/*.tsbuildinfo",
     "pnpm-lock.yaml",
+    ".docs/context/build-with-kamod/**",
+    ".docs/context/application-shell-1.md",
     "packages/docs/tsconfig.json"
   ]
 }
