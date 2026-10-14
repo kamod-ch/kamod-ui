@@ -61,7 +61,7 @@ export function SiteNavigation() {
           }}
           type="button"
           disabled={!ready}
-          class="docs-icon-button site-navigation-trigger site-icon-button"
+          class="docs-icon-button docs-icon-button-menu-trigger site-navigation-trigger site-icon-button"
           aria-label="Open navigation menu"
           aria-haspopup="dialog"
           aria-controls={open ? id : undefined}

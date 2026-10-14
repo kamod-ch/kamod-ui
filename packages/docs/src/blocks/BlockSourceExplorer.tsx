@@ -9,6 +9,7 @@ import { ChevronDownIcon } from "@kamod-ch/icons/tabler/outline";
 import { Collapsible, CollapsibleTrigger } from "@kamod-ch/ui";
 import { useEffect, useId, useMemo, useState } from "preact/hooks";
 import { fileIconForPath } from "../docs/components/file-icon";
+import { StateIcon } from "../docs/components/StateIcon";
 import type { BlockSourceFile } from "./BlockSourceFiles";
 
 export function BlockSourceExplorer({
@@ -36,7 +37,6 @@ export function BlockSourceExplorer({
 
   const [closedFolders, setClosedFolders] = useState<Set<string>>(() => new Set());
   const allOpen = groups.every(([folder]) => !closedFolders.has(folder));
-  const ToggleIcon = allOpen ? ChevronsDownUpIcon : ChevronsUpDownIcon;
   const toggleLabel = allOpen ? "Collapse all folders" : "Expand all folders";
   const treeId = useId();
   const setFolderOpen = (folder: string, open: boolean) => {
@@ -79,7 +79,12 @@ export function BlockSourceExplorer({
               setClosedFolders(allOpen ? new Set(groups.map(([folder]) => folder)) : new Set())
             }
           >
-            <ToggleIcon size={13} strokeWidth={1.75} aria-hidden="true" />
+            <StateIcon active={allOpen ? 0 : 1}>
+              {[
+                <ChevronsDownUpIcon size={13} strokeWidth={1.75} aria-hidden="true" />,
+                <ChevronsUpDownIcon size={13} strokeWidth={1.75} aria-hidden="true" />,
+              ]}
+            </StateIcon>
           </button>
         )}
       </div>
@@ -133,7 +138,7 @@ function SourceFolder({
             <span class="blocks-file-tree-folder-name" title={name}>
               <FolderIcon
                 class="blocks-file-tree-folder-icon"
-                size={13}
+                size={12}
                 strokeWidth={1.75}
                 aria-hidden="true"
               />

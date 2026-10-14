@@ -6,7 +6,7 @@
   gap: 0.4375rem;
   height: 1.875rem;
   white-space: nowrap;
-  font-family: "Quicksand", system-ui, sans-serif;
+  font-family: var(--docs-font-sans, system-ui, sans-serif);
   font-size: 1.625rem;
   -webkit-font-smoothing: antialiased;
 }

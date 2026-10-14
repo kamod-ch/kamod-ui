@@ -3,7 +3,7 @@
 :root {
   --showcase-canvas-base: var(--background);
   --showcase-canvas-accent: var(--primary);
-  --showcase-canvas-overlay: color-mix(in oklab, var(--showcase-canvas-base) 35%, transparent);
+  --showcase-canvas-overlay: color-mix(in oklab, var(--showcase-canvas-base) 25%, transparent);
   --showcase-canvas-wash: color-mix(in oklab, var(--showcase-canvas-accent) 4.5%, transparent);
   --showcase-canvas-dot: color-mix(in oklab, var(--showcase-canvas-accent) 21%, transparent);
   --showcase-canvas-line: color-mix(in oklab, var(--showcase-canvas-accent) 9%, transparent);

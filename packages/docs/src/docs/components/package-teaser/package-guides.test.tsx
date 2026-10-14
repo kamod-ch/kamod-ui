@@ -2,6 +2,7 @@ import render from "preact-render-to-string";
 import { describe, expect, it } from "vitest";
 import { DocsComponentContent } from "../../DocsComponentContent";
 import { docsPages } from "../../registry";
+import { packageGuideConnections, packageGuideIdentities } from "./package-guide-connections";
 import { packageGuideRecipes } from "./package-guide-recipes";
 
 const packages = Object.keys(packageGuideRecipes);
@@ -32,5 +33,28 @@ describe("package guide navigation and static reading", () => {
       expect(reference).toContain(introduction.split("\n\n").at(-1)!.split("[")[0]);
     }
     expect(reference).toContain(`${doc.usageImportSnippet}\n\n${doc.usageExampleSnippet}`);
+    const ending = packageGuideConnections[slug as keyof typeof packageGuideConnections];
+    const companions = ending.companions.map((companion) => companion.package);
+    expect(new Set(companions).size).toBe(3);
+    expect(companions).not.toContain(slug);
+    expect(html).toContain('aria-label="Companion packages"');
+    for (const companion of ending.companions) {
+      const target = docsPages.find((page) => page.slug === companion.package)!;
+      expect(target.navGroup).toBe("packages");
+      expect(html).toContain(`href="/docs/${target.slug}/installation"`);
+      expect(reference).toContain(`https://ui.kamod.ch/docs/${target.slug}/installation`);
+      expect(reference).toContain(companion.text);
+      expect(reference).toContain(packageGuideIdentities[companion.package].path);
+    }
+    expect(docsPages.some((page) => ending.next.href.includes(`/docs/${page.slug}/`))).toBe(true);
+    expect(reference).toContain(ending.next.text);
+    expect(reference).toContain(ending.next.check);
+    expect(reference).toContain("retain the applicable license and attribution notices");
+    if (slug === "hooks-package") expect(reference).toContain("https://github.com/alibaba/hooks");
+    if (slug === "icons-package") {
+      expect(reference).toContain("individual icon sets");
+      expect(html).toContain('id="icons-next-steps"');
+      expect(html).not.toContain('class="icons-guide-ending"');
+    }
   });
 });

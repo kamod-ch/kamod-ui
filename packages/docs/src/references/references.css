@@ -2,14 +2,12 @@
 .docs-inline-source-reference,
 a.docs-inline-source-reference:is(:hover, :focus-visible),
 code.docs-inline-source-reference[data-inline-code-help] {
-  --code-reference-dash: var(--primary, currentColor);
   color: inherit;
   text-decoration: none !important;
-  border-bottom: 1.5px dashed color-mix(in oklab, var(--code-reference-dash) 25%, transparent);
+  border-bottom: 0;
   border-radius: 0;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
-  transition: border-color 120ms ease;
 }
 .docs-inline-source-reference > code,
 code > a.docs-inline-source-reference {
@@ -22,10 +20,33 @@ code > a.docs-inline-source-reference {
 code > a.docs-inline-source-reference::after {
   content: none !important;
 }
-.docs-inline-source-reference:is(:hover, :focus-visible),
-a.docs-inline-source-reference:is(:hover, :focus-visible),
-code.docs-inline-source-reference[data-inline-code-help]:is(:hover, :focus-visible) {
-  border-bottom-color: var(--code-reference-dash);
+/* Paint on the highlighted chip: its background can cover an outer inline link's border. */
+:is(
+  .docs-inline-source-reference > code,
+  code.docs-inline-source-reference,
+  code:has(> a.docs-inline-source-reference)
+) {
+  position: relative;
+}
+:is(
+  .docs-inline-source-reference > code,
+  code.docs-inline-source-reference,
+  code:has(> a.docs-inline-source-reference)
+)::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 1;
+  border-bottom: 1.5px dashed
+    color-mix(in oklab, var(--code-reference-dash, var(--primary, currentColor)) 25%, transparent);
+  pointer-events: none;
+  transition: border-color 120ms ease;
+}
+.docs-inline-source-reference:is(:hover, :focus-visible) > code::before,
+code.docs-inline-source-reference:is(:hover, :focus-visible)::before,
+code:has(> a.docs-inline-source-reference:is(:hover, :focus-visible))::before {
+  border-bottom-color: var(--code-reference-dash, var(--primary, currentColor));
 }
 .docs-inline-source-reference:focus-visible {
   outline: 2px solid var(--ring);
@@ -37,7 +58,11 @@ code.docs-inline-source-reference[data-inline-code-help]:is(:hover, :focus-visib
   display: none;
 }
 @media (prefers-reduced-motion: reduce) {
-  .docs-inline-source-reference {
+  :is(
+    .docs-inline-source-reference > code,
+    code.docs-inline-source-reference,
+    code:has(> a.docs-inline-source-reference)
+  )::before {
     transition: none;
   }
 }

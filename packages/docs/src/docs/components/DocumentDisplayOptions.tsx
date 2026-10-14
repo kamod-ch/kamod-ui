@@ -3,7 +3,7 @@ import { MarkdownIcon } from "@kamod-ch/icons/tabler/outline";
 import { ToggleGroup, ToggleGroupItem } from "@kamod-ch/ui";
 
 export type DocumentDisplay = "text" | "code" | "markdown";
-const formats = [
+export const documentDisplayFormats = [
   { value: "text", label: "Plain Text", Icon: FileTextIcon },
   { value: "code", label: "Code", Icon: CodeIcon },
   { value: "markdown", label: "Markdown", Icon: MarkdownIcon },
@@ -32,7 +32,7 @@ export function DocumentDisplayOptions({
         if (next === "text" || next === "code" || next === "markdown") onChange(next);
       }}
     >
-      {formats.map(({ value: format, label: text, Icon }) => (
+      {documentDisplayFormats.map(({ value: format, label: text, Icon }) => (
         <ToggleGroupItem
           class="docs-icon-button"
           key={format}

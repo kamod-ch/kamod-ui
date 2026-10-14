@@ -433,16 +433,12 @@
   --workspace-header-background: color-mix(in oklab, var(--foreground) 4%, var(--card));
   --home-showcase-background: color-mix(in oklab, white 70%, var(--card));
 }
-/* Reading panels share their showcase's control-bar surface, including rendered prompts. */
+/* Code chrome shares the showcase surface; source canvases own their reading scheme. */
 .home-page .kamod-code {
   --kamod-code-surface: var(--home-showcase-background);
 }
 .home-page .blocks-showcase-toolbar,
-.home-page .blocks-code-pane,
-.home-page
-  .blocks-showcase
-  .blocks-prompt-workspace
-  :is(.blocks-showcase-prompt-code, .blocks-prompt-rendered) {
+.home-page .blocks-code-pane {
   background: var(--home-showcase-background);
 }
 .home-workspace .home-demo-caption {
@@ -519,19 +515,24 @@ html.home-workspace-document {
   background: var(--home-showcase-background);
 }
 /* Bound the optional loading wrapper so the source scrolls inside the fixed panel. */
-.home-workspace :is(.home-workspace-source, .home-workspace-prompt) .kamod-code-content {
+.home-workspace
+  :is(.home-workspace-source, .home-workspace-prompt)
+  :is(.kamod-code-content, [data-slot="code-document"]) {
   display: grid;
   grid-template-rows: minmax(0, 1fr);
   flex: 1;
   min-width: 0;
   min-height: 0;
 }
+.home-workspace [data-slot="code-document"] > .blocks-prompt-rendered {
+  min-height: 0;
+  max-height: none;
+}
 .home-workspace :is(.home-workspace-source, .home-workspace-prompt) pre {
   flex: 1;
   min-height: 0;
   max-height: none;
   overflow: auto;
-  background: transparent;
 }
 .home-action-source .docs-code-toolbar {
   background: var(--workspace-header-background);
@@ -1752,7 +1753,6 @@ html.home-workspace-document {
 
 /* Keep small labels legible on the home page's tinted controls and surfaces. */
 .home-shell .docs-topbar-links a,
-.home-shell .site-theme-picker-button:not(:where(.home-theme-controls *)),
 .home-form-body .overview-form-preview > p {
   color: var(--home-secondary);
 }

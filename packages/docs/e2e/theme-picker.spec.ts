@@ -1,5 +1,39 @@
-import { expect, test } from "@playwright/test";
+import { expect, type Locator, test } from "@playwright/test";
 import { assertNoBlockingA11yViolations } from "./a11y-utils";
+
+/** Sample completed browser paint, including the separate moving selection layers. */
+async function optionPaint(option: Locator) {
+  return option.evaluate(async (button) => {
+    getComputedStyle(button).getPropertyValue("background-color");
+    await Promise.all(
+      button
+        .parentElement!.getAnimations({ subtree: true })
+        .map((animation) => animation.finished.catch(() => undefined)),
+    );
+    const context = Object.assign(document.createElement("canvas"), {
+      width: 1,
+      height: 1,
+    }).getContext("2d")!;
+    const alpha = (color: string) => {
+      context.clearRect(0, 0, 1, 1);
+      context.fillStyle = color;
+      context.fillRect(0, 0, 1, 1);
+      return context.getImageData(0, 0, 1, 1).data[3];
+    };
+    const css = getComputedStyle(button);
+    const check = getComputedStyle(button.querySelector(".site-theme-selection-check")!);
+    return {
+      wash: alpha(css.backgroundColor),
+      ink: css.color,
+      weight: css.fontWeight,
+      check: [check.color, check.opacity],
+      plates: ["::before", "::after"].map((pseudo) => {
+        const plate = getComputedStyle(button.parentElement!, pseudo);
+        return [alpha(plate.backgroundColor), plate.backgroundImage, plate.transform];
+      }),
+    };
+  });
+}
 
 test("preview system mode stays local and follows the device after closing the picker", async ({
   page,
@@ -96,14 +130,29 @@ for (const width of [320, 768, 1440]) {
       expect(spacing.truncated).toBe(true);
       expect(spacing.overflow).toBe(false);
       if (width === 1440) {
+        if (dark) await expect(page.locator("html")).toHaveClass(/dark/);
+        else await expect(page.locator("html")).not.toHaveClass(/dark/);
         await page.mouse.move(0, 0);
+        const resting = await optionPaint(selected);
+        expect(resting.wash).toBe(0);
+        expect(resting.plates[1][0]).toBeGreaterThan(0);
+        expect(resting.check[1]).toBe("1");
         await selected.hover();
+        const hovered = await optionPaint(selected);
+        expect(hovered.wash).toBeGreaterThan(0);
+        expect(hovered).toEqual({ ...resting, wash: hovered.wash });
         await expect(
           page.getByRole("tooltip").filter({
             hasText:
               "Yellow and black accents with geometric Poppins type: confident and purposeful.",
           }),
         ).toBeVisible();
+        const ordinary = picker.locator('[data-theme-preset="ocean"]');
+        expect((await optionPaint(ordinary)).wash).toBe(0);
+        await ordinary.hover();
+        expect((await optionPaint(ordinary)).wash).toBeGreaterThan(hovered.wash);
+        await page.mouse.move(0, 0);
+        expect(await optionPaint(selected)).toEqual(resting);
       }
       const box = (await picker.boundingBox())!;
       expect(box.x).toBeGreaterThanOrEqual(0);
@@ -162,10 +211,10 @@ test("entry animation is staggered and respects reduced motion", async ({ page }
     page.getByRole("button", { name: "Choose color theme" }).filter({ visible: true }).click();
   await open();
   const slots = page.locator(".site-theme-picker-content:visible .site-theme-picker-action-slot");
+  await expect(slots).toHaveCount(5);
   const delays = await slots.evaluateAll((nodes) =>
     nodes.map((node) => parseFloat(getComputedStyle(node).animationDelay)),
   );
-  expect(delays).toHaveLength(5);
   expect(delays[0]).toBeGreaterThan(0);
   expect(delays.every((delay, index) => index === 0 || delay > delays[index - 1])).toBe(true);
   await page.getByRole("button", { name: "Close color theme picker" }).click();
@@ -177,4 +226,89 @@ test("entry animation is staggered and respects reduced motion", async ({ page }
     "none",
   );
   await expect(slots.first()).toHaveCSS("opacity", "1");
+});
+
+test("preset highlight travels between rows, redirects smoothly and respects reduced motion", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto("/docs/components");
+  await expect(page.locator("html")).toHaveClass(/pp-ready/);
+  const open = () =>
+    page.locator(".docs-topbar").getByRole("button", { name: "Choose color theme" }).click();
+  await open();
+  const picker = page.getByRole("dialog", { name: "Find your Palette", exact: true });
+  const options = picker.locator(".site-theme-options");
+  const position = () =>
+    options.evaluate((node) => new DOMMatrix(getComputedStyle(node, "::before").transform).m42);
+  await options.locator('[data-theme-preset="kamod"]').click();
+  await expect.poll(position).toBeCloseTo(0, 3);
+  await options.locator('[data-theme-preset="professional"]').click();
+  await expect(options.locator('[data-theme-preset="professional"]')).toHaveAttribute(
+    "aria-pressed",
+    "true",
+  );
+  // Sample the browser's real transition at a fixed time, independent of test-runner speed.
+  const crossing = await options.evaluate((node) => {
+    getComputedStyle(node, "::before").getPropertyValue("transform");
+    const motion = node
+      .getAnimations({ subtree: true })
+      .find(
+        (animation) =>
+          animation instanceof CSSTransition && animation.transitionProperty === "transform",
+      );
+    if (!motion) throw new Error("Missing preset selection transition");
+    motion.pause();
+    const duration = Number(motion.effect!.getTiming().duration);
+    motion.currentTime = duration * 0.2;
+    const css = getComputedStyle(node, "::before");
+    return {
+      duration,
+      position: new DOMMatrix(css.transform).m42,
+      target:
+        node.querySelector<HTMLElement>('[aria-pressed="true"]')!.offsetTop - parseFloat(css.top),
+      pointerEvents: css.pointerEvents,
+    };
+  });
+  expect(crossing.duration).toBe(700);
+  expect(crossing.position).toBeGreaterThan(0);
+  expect(crossing.position).toBeLessThan(crossing.target);
+  expect(crossing.pointerEvents).toBe("none");
+  await options.locator('[data-theme-preset="ocean"]').click();
+  await expect(options.locator('[data-theme-preset="ocean"]')).toHaveAttribute(
+    "aria-pressed",
+    "true",
+  );
+  const redirected = await options.evaluate((node) => {
+    getComputedStyle(node, "::before").getPropertyValue("transform");
+    const motion = node
+      .getAnimations({ subtree: true })
+      .find(
+        (animation) =>
+          animation instanceof CSSTransition && animation.transitionProperty === "transform",
+      );
+    if (!motion) throw new Error("Missing redirected selection transition");
+    motion.pause();
+    motion.currentTime = 0;
+    const start = new DOMMatrix(getComputedStyle(node, "::before").transform).m42;
+    motion.currentTime = Number(motion.effect!.getTiming().duration);
+    const css = getComputedStyle(node, "::before");
+    return {
+      start,
+      end: new DOMMatrix(css.transform).m42,
+      target:
+        node.querySelector<HTMLElement>('[aria-pressed="true"]')!.offsetTop - parseFloat(css.top),
+    };
+  });
+  expect(redirected.start).toBeCloseTo(crossing.position, 1);
+  expect(redirected.end).toBeCloseTo(redirected.target, 3);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await options.locator('[data-theme-preset="professional"]').click();
+  expect(
+    await options.evaluate((node) => getComputedStyle(node, "::before").transitionDuration),
+  ).toBe("0s");
+  await expect.poll(position).toBeCloseTo(crossing.target, 3);
+  await picker.getByRole("button", { name: "Close color theme picker" }).click();
+  await open();
+  await expect.poll(position).toBeCloseTo(crossing.target, 3);
 });

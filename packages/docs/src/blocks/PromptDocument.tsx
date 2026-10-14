@@ -4,7 +4,7 @@ import { CodeBlock } from "../docs/components/CodeBlock";
 import { lazyShowcase } from "../docs/components/lazy-showcase";
 import { ShowcaseLoading } from "../docs/components/ShowcaseLoading";
 import type { BlockPromptMode } from "./block-prompts";
-import type { PreviewAppearance } from "./preview-appearance";
+import { type PreviewAppearance, previewCodeStyle } from "./preview-appearance";
 
 export type PromptDisplay = "text" | "code" | "markdown";
 const Markdown = lazyShowcase(() => import("./PromptMarkdown"));
@@ -36,6 +36,7 @@ export function PromptDocument({
   return (
     <CodeBlock
       class="blocks-prompt-document"
+      style={previewCodeStyle(appearance)}
       key={`${mode}-${display}`}
       code={prompt}
       language={display === "code" ? "markdown" : "text"}

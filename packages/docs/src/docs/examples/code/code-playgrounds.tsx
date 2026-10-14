@@ -1,6 +1,7 @@
 import { Button } from "@kamod-ch/ui/button";
 import {
   Code,
+  type CodeColorMode,
   type CodeLanguage,
   type CodeSyntaxTheme,
   codeLanguages,
@@ -147,11 +148,12 @@ export function CodeControlSlotsPlayground() {
 
 export function CodeThemePlayground() {
   const [syntaxTheme, setSyntaxTheme] = useState<CodeSyntaxTheme>("okaidia");
+  const [colorMode, setColorMode] = useState<CodeColorMode>("inverse");
   const [variant, setVariant] = useState<"default" | "subtle" | "outline">("default");
   const [roomier, setRoomier] = useState(false);
   return (
     <div class="my-5 min-w-0 space-y-4" data-code-demo="theme">
-      <div class="grid gap-4 sm:grid-cols-2">
+      <div class="grid gap-4 sm:grid-cols-3">
         <label class="grid gap-2 text-sm font-medium">
           Syntax palette
           <select
@@ -164,6 +166,19 @@ export function CodeThemePlayground() {
                 {syntaxThemeLabels[theme]}
               </option>
             ))}
+          </select>
+        </label>
+        <label class="grid gap-2 text-sm font-medium">
+          Source color mode
+          <select
+            class={selectClass}
+            value={colorMode}
+            onChange={(event) => setColorMode(event.currentTarget.value as CodeColorMode)}
+          >
+            <option value="inverse">inverse (default)</option>
+            <option value="inherit">inherit</option>
+            <option value="light">light</option>
+            <option value="dark">dark</option>
           </select>
         </label>
         <label class="grid gap-2 text-sm font-medium">
@@ -194,6 +209,7 @@ export function CodeThemePlayground() {
         code={playgroundSource}
         filePath="src/Welcome.tsx"
         syntaxTheme={syntaxTheme}
+        colorMode={colorMode}
         variant={variant}
         showImportControl={false}
         showWrapControl={false}

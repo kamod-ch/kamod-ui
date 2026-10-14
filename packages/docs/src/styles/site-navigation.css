@@ -1,8 +1,9 @@
-/* Shared surfaces keep entry points, navigation and project resources consistent. */
+/* Share navigation and appearance surfaces, resolving colors at each local theme boundary. */
 .docs-sidebar,
 .docs-rightbar,
 .blocks-doc-toc,
-.site-navigation-panel {
+.site-navigation-panel,
+.site-theme-picker-content {
   --navigation-content-inset: 0px;
   --navigation-sublink-foreground: var(--muted-foreground);
   --navigation-link-hover-background: color-mix(
@@ -10,14 +11,20 @@
     var(--foreground) calc(3% + 2.91% * var(--docs-highlight-boost, 0)),
     var(--background)
   );
+  --navigation-entry-strength: calc(4.5% + 4.2975% * var(--docs-highlight-boost, 0));
+  /* Keep the original entry strength separate from the stronger card surfaces. */
+  --navigation-entry-surface-strength: calc(var(--navigation-entry-strength) * 2.25);
   --navigation-entry-background: color-mix(
     in oklab,
-    var(--foreground) calc(4.5% + 4.2975% * var(--docs-highlight-boost, 0)),
+    var(--foreground) var(--navigation-entry-surface-strength),
     transparent
   );
   --navigation-entry-hover-background: color-mix(
     in oklab,
-    var(--foreground) calc(6% + 5.64% * var(--docs-highlight-boost, 0)),
+    var(--foreground)
+      calc(
+        var(--navigation-entry-surface-strength) + 1.5% + 1.3425% * var(--docs-highlight-boost, 0)
+      ),
     transparent
   );
   --navigation-icon-background: color-mix(
@@ -46,6 +53,7 @@
 .site-navigation-group-trigger,
 .sidebar-entry-row {
   background-image: var(--navigation-highlight-overlays);
+  transition: background-color 150ms ease;
 }
 
 /* The shared navigation takes over where the desktop navigation disappears. */
@@ -199,7 +207,6 @@ html[data-navigation-restoring] .docs-sidebar-scroll {
   font-size: 0.875rem;
   font-weight: 650;
   cursor: pointer;
-  transition: background-color 150ms ease;
 }
 
 .site-navigation-group-trigger small {
@@ -222,18 +229,24 @@ html[data-navigation-restoring] .docs-sidebar-scroll {
   color: var(--foreground);
 }
 
+/* Counts and statuses share the highlighted inline-code palette in every state. */
+.site-navigation-count,
+.site-navigation-variant-count,
+.site-navigation-status {
+  background: color-mix(
+    in oklab,
+    var(--secondary-accent) calc(10% + 9% * var(--docs-highlight-boost, 0)),
+    var(--muted)
+  );
+  color: color-mix(in oklab, var(--secondary-accent) 35%, var(--foreground));
+}
+
 .site-navigation-count {
   flex: none;
   min-width: 1.375rem;
   margin-left: auto;
   padding: 0.0625rem 0.3125rem;
   border-radius: 0.3125rem;
-  background: color-mix(
-    in oklab,
-    var(--foreground) calc(3.5% + 3.3775% * var(--docs-highlight-boost, 0)),
-    transparent
-  );
-  color: color-mix(in oklab, var(--muted-foreground) 65%, var(--foreground));
   font-size: 0.6875rem;
   font-variant-numeric: tabular-nums;
   font-weight: 650;
@@ -323,7 +336,6 @@ html[data-navigation-restoring] .docs-sidebar-scroll {
   margin-left: auto;
 }
 
-/* All entry statuses share a compact inverse surface in every page theme. */
 .site-navigation-status {
   display: inline-flex;
   align-items: center;
@@ -331,8 +343,6 @@ html[data-navigation-restoring] .docs-sidebar-scroll {
   gap: 0.125rem;
   padding: 0.0625rem 0.3125rem;
   border-radius: 0.35rem;
-  background: var(--foreground);
-  color: var(--background);
   font-size: 0.59375rem;
   font-weight: 650;
   line-height: 1rem;
@@ -373,8 +383,6 @@ html[data-navigation-restoring] .docs-sidebar-scroll {
   min-width: 1.375rem;
   padding: 0.05rem 0.25rem;
   border-radius: 0.3rem;
-  background: var(--navigation-entry-background);
-  color: var(--muted-foreground);
   font-size: 0.6875rem;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
@@ -400,10 +408,8 @@ html[data-navigation-restoring] .docs-sidebar-scroll {
 .site-navigation-group-trigger[data-current] .site-navigation-chevron {
   color: inherit;
 }
-.site-navigation-link[aria-current] .site-navigation-variant-count,
 .sidebar-entry-row[aria-current] .sidebar-entry-action,
-.site-navigation-group-trigger[data-current]
-  :is(.site-navigation-group-icon, .site-navigation-count) {
+.site-navigation-group-trigger[data-current] .site-navigation-group-icon {
   color: inherit;
 }
 .site-navigation-link[aria-current] .site-navigation-status-separator {
@@ -421,14 +427,14 @@ html[data-navigation-restoring] .docs-sidebar-scroll {
 }
 
 @media (min-width: 768px) and (hover: hover) and (pointer: fine) {
-  .site-navigation-group-trigger:not([data-current]):hover,
   .site-navigation-link:not([aria-current]):hover {
     color: var(--foreground);
     background-color: var(--navigation-link-hover-background);
     background-image: var(--navigation-highlight-overlays);
   }
 
-  .site-navigation-group-trigger:not([data-current]):hover {
+  .site-navigation-group-trigger:hover,
+  .sidebar-entry-row:hover {
     background-color: var(--navigation-entry-hover-background);
   }
 }
@@ -464,6 +470,7 @@ html[data-navigation-restoring] .docs-sidebar-scroll {
 @media (prefers-reduced-motion: reduce) {
   .site-navigation-panel *,
   .site-navigation-directory *,
+  .sidebar-entry-row,
   .site-navigation-trigger {
     transition: none;
   }

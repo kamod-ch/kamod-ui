@@ -9,6 +9,7 @@ import { ComponentExampleCode } from "../../components/component-detail/Componen
 import { DocsComponentContent } from "../../DocsComponentContent";
 import { codeDocPage } from "../../pages/code-doc";
 import { CodeHero, codeExamples, codeHeroSnippet } from "./code-examples";
+import { colorModeSnippet } from "./code-guide-color-mode";
 import { languageSelectorSnippet } from "./code-guide-languages";
 import { controlledCodeSnippet, customControlsSnippet } from "./code-guide-modularity";
 import { syntaxThemeSnippet } from "./code-guide-themes";
@@ -53,13 +54,14 @@ it("preserves package imports in the actual page's rendered showcase source", ()
 it("introduces plain code before optional file headers and reading tools", () => {
   const plainExamples = ["terminal", "data", "styles", "literal", "appearance"];
   const ids = codeDocPage.sections.map((section) => section.id);
-  for (const id of [...plainExamples, "language-detection"])
+  for (const id of [...plainExamples, "language-detection", "color-mode"])
     expect(ids.indexOf(id)).toBeLessThan(ids.indexOf("source-file"));
   for (const id of ["imports", "wrapping", "reading-behavior", "modularity"])
     expect(ids.indexOf(id)).toBeGreaterThan(ids.indexOf("document"));
   for (const preview of [<CodeHero />, ...plainExamples.map((id) => codeExamples[id].preview())]) {
     const html = render(<>{preview}</>);
     expect(html).toContain('data-slot="code-content"');
+    expect(html).toContain('data-color-mode="inverse"');
     expect(html).not.toContain('data-slot="code-toolbar"');
     expect(html).not.toContain('data-slot="code-imports"');
   }
@@ -113,6 +115,7 @@ it("typechecks all copyable variants against the real core Code API", () => {
       controlledCodeSnippet,
       customControlsSnippet,
       syntaxThemeSnippet,
+      colorModeSnippet,
     ];
     const files = snippets.map((snippet, index) => {
       const file = resolve(directory, `example-${index}.tsx`);

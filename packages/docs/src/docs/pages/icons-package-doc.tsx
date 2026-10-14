@@ -1,6 +1,7 @@
-import { IconsGuideEnding } from "../components/package-teaser/IconsGuideEnding";
-import type { DocPageModule } from "../types";
 import { createPackageTeaserDoc } from "./kamod-package-doc-factory";
+
+/** Route generation retains the previous ending URL; the shared finish owns its fragment. */
+export const iconsGuideLegacyEnding = { id: "icons-next-steps" };
 
 const resources = {
   externalDocsUrl: "https://kamod-ch.github.io/kamod-icons/",
@@ -8,7 +9,7 @@ const resources = {
   npmUrl: "https://www.npmjs.com/package/@kamod-ch/icons",
 };
 
-const iconsGuide = createPackageTeaserDoc({
+export const iconsDocPage = createPackageTeaserDoc({
   slug: "icons-package",
   title: "Icons",
   packagePath: "@kamod-ch/icons",
@@ -52,12 +53,3 @@ const iconsGuide = createPackageTeaserDoc({
   externalCtaDescription:
     "Open the kamod-icons docs for set tables, usage guides, and a searchable icon browser.",
 });
-
-export const iconsDocPage: DocPageModule = {
-  ...iconsGuide,
-  guideContents: [
-    ...(iconsGuide.guideContents ?? []),
-    { id: "icons-next-steps", label: "Make It Your Own" },
-  ],
-  renderFooter: () => <IconsGuideEnding {...resources} />,
-};

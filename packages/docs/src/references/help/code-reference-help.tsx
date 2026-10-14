@@ -2,23 +2,26 @@ import {
   ArrowUpRightIcon,
   BookOpenIcon,
   BracesIcon,
-  CodeXmlIcon,
   ComponentIcon,
   FileCodeIcon,
   LayersIcon,
+  LockKeyholeIcon,
   PackageIcon,
+  Share2Icon,
   SparklesIcon,
+  SquareFunctionIcon,
 } from "@kamod-ch/icons/lucide";
 import { BrandGithubIcon } from "@kamod-ch/icons/tabler/filled";
+import { Badge } from "@kamod-ch/ui/badge";
 import { splitDisplayPath } from "../../docs/components/display-path";
 import type { CodeReferenceHelp } from "../types";
 
 const kindIcons = {
   component: ComponentIcon,
-  export: BracesIcon,
+  export: Share2Icon,
   type: BracesIcon,
-  function: CodeXmlIcon,
-  constant: CodeXmlIcon,
+  function: SquareFunctionIcon,
+  constant: LockKeyholeIcon,
   icon: SparklesIcon,
   module: LayersIcon,
   package: PackageIcon,
@@ -154,7 +157,10 @@ export function CodeReferenceHelpContent({ reference }: { reference: CodeReferen
         <strong>
           <code>{name}</code>
         </strong>
-        <span class="code-reference-help-kind">{kindLabels[kind]}</span>
+        <Badge class="code-reference-help-kind" size="xxs">
+          <Icon size={11} aria-hidden="true" />
+          {kindLabels[kind]}
+        </Badge>
       </header>
       <div class="code-reference-help-origin">
         <span>
@@ -204,9 +210,9 @@ export function CodeReferenceHelpContent({ reference }: { reference: CodeReferen
                   target="_top"
                   class="code-reference-help-related-link"
                 >
-                  <RelatedIcon size={12} aria-hidden="true" />
+                  <RelatedIcon size={11} aria-hidden="true" />
                   <code>{link.label}</code>
-                  <ArrowUpRightIcon size={11} aria-hidden="true" />
+                  <ArrowUpRightIcon size={10} aria-hidden="true" />
                 </a>
               );
             })}

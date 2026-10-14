@@ -1,24 +1,19 @@
-import { DownloadIcon } from "@kamod-ch/icons/lucide";
+import { DownloadIcon, FileDownIcon } from "@kamod-ch/icons/lucide";
 import { Button } from "@kamod-ch/ui";
-import { useMemo, useState } from "preact/hooks";
+import { Tabs, TabsList, TabsTrigger } from "@kamod-ch/ui/tabs";
+import { useMemo } from "preact/hooks";
 import type { PackageTeaserConfig } from "../../pages/kamod-package-doc-factory";
-import { CodeBlock } from "../CodeBlock";
-import { type DocumentDisplay, DocumentDisplayOptions } from "../DocumentDisplayOptions";
-import { lazyShowcase } from "../lazy-showcase";
-import { ShowcaseLoading } from "../ShowcaseLoading";
+import { documentDisplayFormats } from "../DocumentDisplayOptions";
+import { PackageReferenceDocument } from "./PackageReferenceDocument";
 import { packageGuideReference } from "./package-guide-reference";
-
-const Markdown = lazyShowcase(() => import("../../../blocks/PromptMarkdown"));
 
 /** Copy and download always carry the complete Markdown, regardless of display format. */
 export function PackageReference({ config }: { config: PackageTeaserConfig }) {
-  const [display, setDisplay] = useState<DocumentDisplay>("text");
   const document = useMemo(() => packageGuideReference(config), [config]);
   const download = useMemo(
     () => `data:text/markdown;charset=utf-8,${encodeURIComponent(document)}`,
     [document],
   );
-  const loading = <ShowcaseLoading view="markdown" detail={`${config.title} reference`} />;
   return (
     <div class="package-guide-reference">
       <div class="block-guide-prose">
@@ -30,7 +25,12 @@ export function PackageReference({ config }: { config: PackageTeaserConfig }) {
         </p>
       </div>
       <div class="package-guide-reference-controls">
-        <DocumentDisplayOptions value={display} onChange={setDisplay} label="Reference Display" />
+        <div class="package-reference-heading">
+          <FileDownIcon size={13} strokeWidth={2} aria-hidden="true" />
+          <strong>Keep It Handy</strong>
+          <span aria-hidden="true">·</span>
+          <span class="package-reference-caption">Ready for your project</span>
+        </div>
         <Button
           class="package-reference-download"
           variant="inverse"
@@ -41,7 +41,9 @@ export function PackageReference({ config }: { config: PackageTeaserConfig }) {
           data-package-reference={config.title}
           data-reference-docs={config.externalDocsUrl}
         >
-          <DownloadIcon size={16} aria-hidden="true" />
+          <span class="package-reference-download-icon" aria-hidden="true">
+            <DownloadIcon size={16} strokeWidth={2} />
+          </span>
           <span>Download</span>
           <span class="package-reference-download-dot" aria-hidden="true">
             ·
@@ -49,27 +51,31 @@ export function PackageReference({ config }: { config: PackageTeaserConfig }) {
           <span class="package-reference-download-format">Markdown</span>
         </Button>
       </div>
-      <p class="package-guide-reference-note">
-        Display changes only the view. Copy and download include the complete Markdown reference.
-      </p>
-      <CodeBlock
-        code={document}
-        language={display === "code" ? "markdown" : "text"}
-        inferLanguage={display !== "text"}
-        filePath={`${config.slug}-reference.md`}
-        className="package-guide-reference-code"
-        loadingContent={display === "code" ? loading : undefined}
-        renderedContent={
-          display === "markdown" ? (
-            <Markdown
-              prompt={document}
-              label="Rendered Package Reference"
-              pendingContent={loading}
-              fallback={loading}
-            />
-          ) : undefined
-        }
-      />
+      <div class="package-reference-workspace">
+        <Tabs defaultValue="text" class="docs-tabs package-reference-tabs">
+          <TabsList variant="line" class="docs-tabs-list" aria-label="Reference Display">
+            {documentDisplayFormats.map(({ value, label, Icon }) => (
+              <TabsTrigger
+                value={value}
+                key={value}
+                aria-label={value === "code" ? "Code (Markdown)" : label}
+              >
+                <Icon class="size-[14px]" size={14} aria-hidden="true" />
+                {label}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+          <PackageReferenceDocument
+            document={document}
+            title={config.title}
+            filePath={`${config.slug}-reference.md`}
+          />
+        </Tabs>
+        <footer class="package-guide-reference-note">
+          Display changes only the view. Copy and download include the{" "}
+          <strong>complete Markdown reference.</strong>
+        </footer>
+      </div>
     </div>
   );
 }

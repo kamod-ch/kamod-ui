@@ -26,6 +26,7 @@ for (const dark of [false, true]) {
       .locator(".kamod-code")
       .filter({ has: page.locator(".docs-code-file-path", { hasText: "src/example.tsx" }) })
       .first();
+    await expect(snippet.locator("pre .token").first()).toBeVisible();
     const button = snippet.locator(".kamod-copy-button");
     const colors = new Set<string>();
     for (const width of [320, 1440]) {
@@ -67,9 +68,6 @@ for (const dark of [false, true]) {
             ),
           )
           .toBe(0);
-        await expect
-          .poll(() => page.evaluate(() => navigator.clipboard.readText()))
-          .toBe(await snippet.locator("pre code").textContent());
         await expect(button.locator(".kamod-copy-symbol")).toHaveCSS("width", iconSize);
         await expect(button.locator(".kamod-copy-symbol")).toHaveCSS(
           "animation-name",
@@ -110,6 +108,9 @@ for (const dark of [false, true]) {
         // The shared slot settles before feedback resets, including the compact icon-only layout.
         await expect(button.locator(".kamod-copy-symbol")).toHaveCSS("transform", "none");
         await expect(button.locator(".kamod-copy-outgoing")).toHaveCSS("opacity", "0");
+        await expect
+          .poll(() => page.evaluate(() => navigator.clipboard.readText()))
+          .toBe(await snippet.locator("pre code").textContent());
       }
     }
     expect(colors.size).toBeGreaterThan(3);
@@ -128,6 +129,7 @@ test("reduced motion, keyboard copying, and denied clipboard access retain usefu
     .locator(".kamod-code")
     .filter({ has: page.locator(".docs-code-file-path", { hasText: "src/example.tsx" }) })
     .first();
+  await expect(snippet.locator("pre .token").first()).toBeVisible();
   const button = snippet.locator(".kamod-copy-button");
   await button.focus();
   await page.keyboard.press("Enter");
@@ -200,6 +202,10 @@ test("copy feedback swaps icons halfway through one turn, snaps back and fades i
       settled: frame(duration),
       faded: frame(700),
       restingTransform: getComputedStyle(glyph).transform,
+      contributingHandoff: animations
+        .filter((animation) => /kamod-copy-(?:orbit|handoff)/.test(animation.animationName))
+        .filter((animation) => animation.effect?.getComputedTiming().progress !== null)
+        .map((animation) => animation.animationName),
     };
   });
   expect(frames.duration).toBeLessThan(600);
@@ -221,6 +227,8 @@ test("copy feedback swaps icons halfway through one turn, snaps back and fades i
   expect(frames.faded.glow).toBe(0);
   expect(frames.faded.outgoing).toBe(0);
   expect(frames.faded.incoming).toBe(1);
+  expect(frames.restingTransform).toBe("none");
+  expect(frames.contributingHandoff).toEqual([]);
   const after = await button.boundingBox();
   expect(after!.x).toBeCloseTo(before!.x, 1);
   expect(after!.y).toBeCloseTo(before!.y, 1);
@@ -232,3 +240,82 @@ test("copy feedback swaps icons halfway through one turn, snaps back and fades i
   });
   await expect(button.locator(".kamod-copy-glyph")).toHaveCSS("transform", frames.restingTransform);
 });
+
+for (const width of [320, 1440]) {
+  for (const scheme of ["light", "dark"] as const) {
+    test(`copy glyph remains visible through natural completion and reset at ${width}px in ${scheme}`, async ({
+      page,
+      context,
+      browserName,
+    }) => {
+      await enableTestClipboard(context, browserName);
+      await page.setViewportSize({ width, height: 900 });
+      await page.emulateMedia({ colorScheme: scheme, reducedMotion: "no-preference" });
+      await page.addInitScript((scheme) => {
+        localStorage.setItem("theme", scheme);
+        localStorage.setItem("theme-preset", "kamod");
+      }, scheme);
+      await page.goto("./docs/icons-package/installation#usage");
+      const snippet = page
+        .locator(".kamod-code")
+        .filter({ has: page.locator(".docs-code-file-path", { hasText: "src/example.tsx" }) })
+        .first();
+      // Highlighting confirms the source reader has hydrated before its first copy action.
+      await expect(snippet.locator("pre .token").first()).toBeVisible();
+      const button = snippet.locator(".kamod-copy-button");
+      const glyph = button.locator(".kamod-copy-glyph");
+      const incoming = button.locator(".kamod-copy-symbol");
+      await button.scrollIntoViewIfNeeded();
+      await button.hover();
+      await expect(button).toHaveAttribute("data-copy-state", "idle");
+      await button.evaluate(async (node) => {
+        await Promise.all(
+          node.getAnimations({ subtree: true }).map((animation) => animation.finished),
+        );
+      });
+      const idleColor = await incoming.evaluate((node) => getComputedStyle(node).color);
+      const before = await glyph.screenshot({ animations: "allow" });
+      const scroll = await page.evaluate(() => [scrollX, scrollY]);
+
+      await button.click();
+      await expect(button).toHaveAttribute("data-copy-state", "copied");
+      const completed = await button.evaluate(async (node) => {
+        const animations = node
+          .getAnimations({ subtree: true })
+          .filter((animation): animation is CSSAnimation => animation instanceof CSSAnimation);
+        // Wait for the real motion to complete, retaining references to detect filled effects.
+        await Promise.all(animations.map((animation) => animation.finished));
+        return {
+          names: animations.map((animation) => animation.animationName),
+          contributing: animations
+            .filter((animation) => animation.effect?.getComputedTiming().progress !== null)
+            .map((animation) => animation.animationName),
+          state: node.getAttribute("data-copy-state"),
+          transform: getComputedStyle(node.querySelector(".kamod-copy-glyph")!).transform,
+          incoming: getComputedStyle(node.querySelector(".kamod-copy-symbol")!).opacity,
+          outgoing: getComputedStyle(node.querySelector(".kamod-copy-outgoing")!).opacity,
+          scroll: [scrollX, scrollY],
+        };
+      });
+      expect(completed.names).toContain("kamod-copy-orbit");
+      expect(completed.names).toContain("kamod-copy-handoff");
+      expect(completed.contributing).toEqual([]);
+      expect(completed.state).toBe("copied");
+      expect(completed.transform).toBe("none");
+      expect(completed.incoming).toBe("1");
+      expect(completed.outgoing).toBe("0");
+      expect(completed.scroll).toEqual(scroll);
+
+      // The actual 1500ms feedback timer resets the icon; no scroll or second click intervenes.
+      await expect(button).toHaveAttribute("data-copy-state", "idle");
+      await expect(glyph).toHaveCSS("transform", "none");
+      await expect(incoming).toHaveCSS("opacity", "1");
+      await expect(incoming).toHaveCSS("color", idleColor);
+      await expect(button.locator(".kamod-copy-outgoing")).toHaveCount(0);
+      expect(await page.evaluate(() => [scrollX, scrollY])).toEqual(scroll);
+      // Screenshots can force painting, so released effects above are the primary regression check.
+      expect((await glyph.screenshot({ animations: "allow" })).equals(before)).toBe(true);
+      expect(await page.evaluate(() => [scrollX, scrollY])).toEqual(scroll);
+    });
+  }
+}

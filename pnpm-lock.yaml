@@ -7,6 +7,9 @@ settings:
 overrides:
   react: 19.2.8
 
+patchedDependencies:
+  '@kamod-ch/preactpress@2.2.1': ed27c68fd5f6218d2d0c9a37778668bcc5549bc6f9f7be79d26123df231ecad6
+
 importers:
 
   .:
@@ -148,9 +151,6 @@ importers:
       '@blobatar/preact':
         specifier: ^2.7.0
         version: 2.7.0(blobatar@2.7.0(react@19.2.8))(preact@11.0.0)
-      '@fontsource-variable/inter':
-        specifier: ^5.3.0
-        version: 5.3.0
       '@formisch/preact':
         specifier: 1.1.0
         version: 1.1.0(@preact/signals@2.11.3(preact@11.0.0))(preact@11.0.0)(typescript@7.0.2)(valibot@1.5.0(typescript@7.0.2))
@@ -226,7 +226,7 @@ importers:
         version: 4.13.0(playwright-core@1.63.0)
       '@kamod-ch/preactpress':
         specifier: ^2.2.1
-        version: 2.2.1(@babel/core@7.29.7(supports-color@7.2.0))(@types/node@26.6.3)(esbuild@0.27.7)(jiti@2.7.0)(rollup@4.63.5)(supports-color@7.2.0)(yaml@2.9.1)
+        version: 2.2.1(patch_hash=ed27c68fd5f6218d2d0c9a37778668bcc5549bc6f9f7be79d26123df231ecad6)(@babel/core@7.29.7(supports-color@7.2.0))(@types/node@26.6.3)(esbuild@0.27.7)(jiti@2.7.0)(rollup@4.63.5)(supports-color@7.2.0)(yaml@2.9.1)
       '@playwright/test':
         specifier: ^1.63.0
         version: 1.63.0
@@ -838,9 +838,6 @@ packages:
     peerDependenciesMeta:
       '@noble/hashes':
         optional: true
-
-  '@fontsource-variable/inter@5.3.0':
-    resolution: {integrity: sha512-OupL48va4JNofb97w6NYeF9S7W/kHNKM0Er8Dem5nqi4jeOLrVJDoE8tZEpnMJmtkvNbB1EIPPwHcdkF6b1oUA==}
 
   '@formisch/preact@1.1.0':
     resolution: {integrity: sha512-MROa2GeOcMFs50j7h8IqdvELJBksQ4TO1Ln4GCewC5JaJimDoGaAiMoyxoT8xzmK8KhyPW7cqvHMIdm2+3zccw==}
@@ -4884,8 +4881,6 @@ snapshots:
 
   '@exodus/bytes@1.16.0': {}
 
-  '@fontsource-variable/inter@5.3.0': {}
-
   '@formisch/preact@1.1.0(@preact/signals@2.11.3(preact@11.0.0))(preact@11.0.0)(typescript@7.0.2)(valibot@1.5.0(typescript@7.0.2))':
     dependencies:
       '@preact/signals': 2.11.3(preact@11.0.0)
@@ -4938,7 +4933,7 @@ snapshots:
       motion: 13.4.6(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       preact: 11.0.0(preact-render-to-string@6.7.0)
 
-  '@kamod-ch/preactpress@2.2.1(@babel/core@7.29.7(supports-color@7.2.0))(@types/node@26.6.3)(esbuild@0.27.7)(jiti@2.7.0)(rollup@4.63.5)(supports-color@7.2.0)(yaml@2.9.1)':
+  '@kamod-ch/preactpress@2.2.1(patch_hash=ed27c68fd5f6218d2d0c9a37778668bcc5549bc6f9f7be79d26123df231ecad6)(@babel/core@7.29.7(supports-color@7.2.0))(@types/node@26.6.3)(esbuild@0.27.7)(jiti@2.7.0)(rollup@4.63.5)(supports-color@7.2.0)(yaml@2.9.1)':
     dependencies:
       '@docsearch/css': 4.7.0
       '@docsearch/js': 4.7.0

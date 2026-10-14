@@ -62,7 +62,9 @@ for (const scheme of ["light", "dark"] as const) {
     const appearance = () =>
       term.evaluate((node) => {
         const css = getComputedStyle(node);
-        const code = getComputedStyle(node.querySelector("code")!);
+        const chip = node.querySelector("code")!;
+        const code = getComputedStyle(chip);
+        const cue = getComputedStyle(chip, "::before");
         const probe = document.createElement("span");
         probe.style.color = "var(--primary)";
         node.append(probe);
@@ -70,8 +72,10 @@ for (const scheme of ["light", "dark"] as const) {
         probe.remove();
         return {
           color: code.color,
-          line: css.borderBottomColor,
-          style: css.borderBottomStyle,
+          line: cue.borderBottomColor,
+          style: cue.borderBottomStyle,
+          thickness: cue.borderBottomWidth,
+          outerBorder: css.borderBottomWidth,
           decoration: css.textDecorationLine,
           codeDecoration: code.textDecorationLine,
           primary,
@@ -84,10 +88,20 @@ for (const scheme of ["light", "dark"] as const) {
       await expect.poll(async () => (await appearance()).line).toMatch(/\/ 0\.25\)/);
       const before = await appearance();
       expect(before.style).toBe("dashed");
+      expect(before.thickness).toBe("1.5px");
+      expect(before.outerBorder).toBe("0px");
       expect(before.decoration).toBe("none");
       expect(before.codeDecoration).toBe("none");
       expect(before.line).toMatch(/\/ 0\.25\)/);
       expect(await term.locator("svg").count()).toBe(0);
+      // Computed border styles alone missed a dash hidden behind the chip's background.
+      const chip = term.locator("code");
+      const painted = await chip.screenshot({ animations: "disabled" });
+      const hideCue = await page.addStyleTag({
+        content: ".docs-inline-source-reference > code::before { visibility: hidden !important; }",
+      });
+      expect(await chip.screenshot({ animations: "disabled" })).not.toEqual(painted);
+      await hideCue.evaluate((node) => node.remove());
       await term.hover();
       await expect.poll(async () => (await appearance()).line).toBe(before.primary);
       expect((await appearance()).color).toBe(before.color);

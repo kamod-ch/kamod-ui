@@ -1,15 +1,16 @@
 import {
   ArrowRightIcon,
+  ArrowUpRightIcon,
   BookOpenIcon,
-  CompassIcon,
   ComponentIcon,
   HouseIcon,
   LayersIcon,
   PackageIcon,
+  RotateCcwIcon,
   RouteIcon,
+  WaypointsIcon,
 } from "@kamod-ch/icons/lucide";
 import { BrandGithubIcon } from "@kamod-ch/icons/tabler/filled";
-import { Button } from "@kamod-ch/ui/button";
 import type { ComponentChildren } from "preact";
 import { withBasePath } from "../base-path";
 import { KamodUiBrandLogo } from "./KamodUiBrandLogo";
@@ -79,42 +80,36 @@ export function PageNotFound() {
     <PageStateFrame notFound>
       <section class="not-found-hero" aria-labelledby="page-state-title">
         <div class="not-found-art" aria-hidden="true">
-          <div class="not-found-grid" />
-          <span class="not-found-digit">4</span>
-          <div class="not-found-zero">
-            <span class="not-found-coordinate">N</span>
-            <CompassIcon class="not-found-compass" strokeWidth={1.2} />
-            <span class="not-found-orbit">
-              <i />
-            </span>
+          <div class="not-found-sheet">
+            <span>404</span>
+            <span class="not-found-sheet-line" />
           </div>
-          <span class="not-found-digit">4</span>
-          <span class="not-found-detour">
-            <RouteIcon size={14} /> A slight detour
-          </span>
         </div>
         <p class="not-found-status">
-          <span /> Error 404 <i aria-hidden="true">/</i> Page not found
+          <strong>Error 404</strong> <i aria-hidden="true">/</i> <span>Page not found</span>
         </p>
         <h1 id="page-state-title">This page is off the map.</h1>
         <p class="not-found-description">
-          A moved link, a mistyped address, or a little detour.
-          <br />
-          There’s no page here. Let’s find you a better starting point.
+          A moved link or a mistyped address may have brought you here. This page isn’t available,
+          but there’s plenty still to explore. Head{" "}
+          <a class="not-found-inline-link" href={withBasePath("/")}>
+            <HouseIcon size={14} aria-hidden="true" />
+            Back to Home
+            <ArrowUpRightIcon size={12} aria-hidden="true" />
+          </a>{" "}
+          to find your next idea, or open{" "}
+          <a class="not-found-inline-link" href={withBasePath("/docs/getting-started")}>
+            <BookOpenIcon size={14} aria-hidden="true" />
+            Getting Started
+            <ArrowUpRightIcon size={12} aria-hidden="true" />
+          </a>{" "}
+          for a clear path from your first component to a working interface.
         </p>
-        <div class="not-found-actions">
-          <Button href={withBasePath("/")} variant="inverse" size="lg">
-            <HouseIcon data-icon="inline-start" aria-hidden="true" /> Back to Home
-          </Button>
-          <Button href={withBasePath("/docs/getting-started")} variant="outline" size="lg">
-            Getting Started <ArrowRightIcon data-icon="inline-end" aria-hidden="true" />
-          </Button>
-        </div>
       </section>
       <section class="not-found-destinations" aria-labelledby="page-state-explore">
         <div class="not-found-divider">
           <h2 id="page-state-explore">Good places to get lost in</h2>
-          <span aria-hidden="true">↓</span>
+          <WaypointsIcon size={19} strokeWidth={1.7} aria-hidden="true" />
         </div>
         <nav class="not-found-links" aria-label="Explore the documentation">
           {destinations.map(({ label, description, href, Icon }) => (
@@ -166,7 +161,7 @@ export function PageLoading({ compact = false }: { compact?: boolean }) {
         <p class="page-state-description page-loading-description">
           {compact
             ? "Preparing the interactive example."
-            : "Loading the guide and its examples. The page will appear here when it’s ready."}
+            : "Loading the guide and preparing its examples for you to explore. The page will appear here automatically when it’s ready, so you can keep this view open without refreshing."}
         </p>
       </div>
       <div class="page-state-skeleton" aria-hidden="true">
@@ -196,27 +191,51 @@ export function PageLoading({ compact = false }: { compact?: boolean }) {
   return compact ? content : <PageStateFrame>{content}</PageStateFrame>;
 }
 
+/** A static first-paint-sized message; a full reload also clears a rejected lazy import. */
 export function PageLoadError({ compact = false }: { compact?: boolean }) {
-  const content = (
-    <section class="page-state-hero" role="alert">
-      <p class="page-state-eyebrow">
-        <RouteIcon size={17} aria-hidden="true" /> Loading Interrupted
-      </p>
-      <h1>Let’s Try That Again.</h1>
-      <p class="page-state-description">
-        We couldn’t load this content. Check your connection, then reload to try again.
-      </p>
-      <div class="page-state-actions">
-        <button class="page-state-primary" type="button" onClick={() => window.location.reload()}>
-          Reload Page <ArrowRightIcon size={18} aria-hidden="true" />
-        </button>
-        {!compact && (
-          <a class="page-state-text-link" href={withBasePath("/")}>
-            Back to Home
-          </a>
-        )}
-      </div>
-    </section>
+  const Shell = compact ? "div" : "main";
+  return (
+    <Shell
+      class={`page-state-recovery${compact ? " page-state-recovery--compact" : ""}`}
+      id={compact ? undefined : "content"}
+      tabIndex={compact ? undefined : -1}
+    >
+      <section class="page-state-message" role="alert">
+        <p class="page-state-message-label">
+          <span class="page-state-message-brand">
+            <RouteIcon size={18} aria-hidden="true" />
+            <strong>Kamod</strong>
+          </span>
+          <span aria-hidden="true">·</span>
+          <span>Loading interrupted</span>
+        </p>
+        <h1 class="page-state-message-title">Let’s Try That Again.</h1>
+        <p class="page-state-message-description">
+          Something interrupted this {compact ? "preview" : "page"} before it was ready. Check your
+          connection, then try loading it again.
+          {!compact && " You can also head home and pick up from there."}
+        </p>
+        <div class="page-recovery-actions">
+          <button class="page-recovery-link" type="button" onClick={() => window.location.reload()}>
+            <RotateCcwIcon size={14} aria-hidden="true" />
+            <span>Reload Page</span>
+            <ArrowRightIcon size={12} aria-hidden="true" />
+          </button>
+          {!compact && (
+            <>
+              <span class="page-recovery-action-divider" aria-hidden="true">
+                /
+              </span>
+              <a class="page-recovery-link" href={withBasePath("/")}>
+                <HouseIcon size={14} aria-hidden="true" />
+                <span>Back to Home</span>
+                <ArrowUpRightIcon size={12} aria-hidden="true" />
+              </a>
+            </>
+          )}
+        </div>
+        <hr class="page-recovery-divider" />
+      </section>
+    </Shell>
   );
-  return compact ? content : <PageStateFrame>{content}</PageStateFrame>;
 }

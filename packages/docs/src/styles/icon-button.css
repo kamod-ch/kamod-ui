@@ -21,7 +21,7 @@
       transparent
     )
   );
-  color: var(--muted-foreground);
+  color: var(--docs-icon-button-foreground, var(--muted-foreground));
   box-shadow: none;
   text-decoration: none;
   cursor: pointer;
@@ -35,7 +35,7 @@
 .docs-icon-button:is(:focus-visible):not(:disabled, [aria-disabled="true"]):not(
     :where(
       [aria-pressed="true"],
-      [aria-expanded="true"],
+      [aria-expanded="true"]:where(:not(.docs-icon-button-menu-trigger)),
       [aria-selected="true"],
       [data-state="active"],
       [data-state="on"]
@@ -55,7 +55,7 @@
   .docs-icon-button:is(:hover, :focus-visible):not(:disabled, [aria-disabled="true"]):not(
       :where(
         [aria-pressed="true"],
-        [aria-expanded="true"],
+        [aria-expanded="true"]:where(:not(.docs-icon-button-menu-trigger)),
         [aria-selected="true"],
         [data-state="active"],
         [data-state="on"]
@@ -78,10 +78,10 @@
   outline: 2px solid var(--ring);
   outline-offset: 2px;
 }
-/* Selection and completed actions remain distinct from a transient hover. */
+/* Opening a settings menu keeps its trigger neutral; selection and completed actions stay distinct. */
 .docs-icon-button:is(
   [aria-pressed="true"],
-  [aria-expanded="true"],
+  [aria-expanded="true"]:where(:not(.docs-icon-button-menu-trigger)),
   [aria-selected="true"],
   [data-state="active"],
   [data-state="on"],
@@ -89,7 +89,7 @@
   [data-refresh-state="complete"],
   .is-copied
 ) {
-  background: var(--background);
+  background: var(--docs-icon-button-selected-background, var(--background));
   color: var(--foreground);
   box-shadow: 0 1px 3px rgb(0 0 0 / 8%);
 }
@@ -125,7 +125,7 @@
       :where([data-slot="tabs-trigger"])
     ):is(
       [aria-pressed="true"],
-      [aria-expanded="true"],
+      [aria-expanded="true"]:where(:not(.docs-icon-button-menu-trigger)),
       [aria-selected="true"],
       [data-state="active"],
       [data-state="on"]
@@ -154,6 +154,11 @@
   )
   .docs-icon-button {
   --docs-icon-button-hover-offset: 0;
+}
+/* Navbar hover feedback stays stationary, including the responsive menu trigger. */
+.docs-topbar .docs-icon-button {
+  --docs-icon-button-hover-offset: 0;
+  transition-property: background-color, color, box-shadow;
 }
 /* Lift the surface without moving surrounding layout or disturbing animated icons. */
 @media (min-width: 768px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {

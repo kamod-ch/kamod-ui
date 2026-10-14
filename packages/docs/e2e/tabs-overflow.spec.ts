@@ -170,7 +170,7 @@ test("synced tabs use the shared line styling and a visible underline", async ({
 });
 
 for (const scheme of ["light", "dark"] as const) {
-  test(`tabs retain selection with matching hover increments in ${scheme} mode`, async ({
+  test(`tabs and showcase controls retain their own selected and hover styles in ${scheme} mode`, async ({
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
@@ -187,7 +187,6 @@ for (const scheme of ["light", "dark"] as const) {
       .getByRole("tablist", { name: "vertical workspace example" });
     const variants = [
       page.locator('[data-slot="tabs-list"][data-variant="line"]').first(),
-      showcase.locator('.blocks-showcase-segmented[role="tablist"]').first(),
       inset,
       vertical,
     ];
@@ -251,23 +250,35 @@ for (const scheme of ["light", "dark"] as const) {
     const hoverTint = await appearance.evaluate((node) => {
       const probe = document.createElement("span");
       probe.style.background = "var(--docs-icon-button-hover-background)";
-      probe.style.backgroundImage =
-        "linear-gradient(var(--docs-icon-button-hover-background), var(--docs-icon-button-hover-background))";
       node.append(probe);
-      const style = getComputedStyle(probe);
-      const tint = { color: style.backgroundColor, gradient: style.backgroundImage };
-      probe.style.background = "var(--background)";
+      const color = getComputedStyle(probe).backgroundColor;
+      probe.style.background = "var(--docs-icon-button-selected-hover-background)";
+      probe.style.backgroundImage =
+        "linear-gradient(var(--docs-icon-button-selected-hover-background), var(--docs-icon-button-selected-hover-background))";
+      const selectedHovered = getComputedStyle(probe).backgroundColor;
+      const selectedGradient = getComputedStyle(probe).backgroundImage;
+      probe.style.background = "var(--docs-icon-button-selected-background, var(--background))";
       const selected = getComputedStyle(probe).backgroundColor;
       probe.remove();
-      return { ...tint, selected };
+      return { color, selected, selectedHovered, selectedGradient };
     });
     await expect(appearance).toHaveCSS("background-color", hoverTint.color);
     await appearance.click();
     await expect(appearance).toHaveAttribute("aria-pressed", "true");
-    await expect(appearance).toHaveCSS("background-image", hoverTint.gradient);
+    await expect(appearance).toHaveCSS("background-image", hoverTint.selectedGradient);
     await expect(appearance).toHaveCSS("background-color", hoverTint.selected);
     await page.mouse.move(0, 0);
     await expect(appearance).toHaveCSS("background-image", "none");
     await expect(appearance).toHaveCSS("background-color", hoverTint.selected);
+
+    const view = showcase
+      .locator('.blocks-showcase-segmented[role="tablist"]')
+      .first()
+      .getByRole("tab", { selected: true });
+    await expect(view).toHaveCSS("background-color", hoverTint.selected);
+    await view.hover();
+    await expect(view).toHaveCSS("background-color", hoverTint.selectedHovered);
+    await expect(view).toHaveCSS("background-image", "none");
+    expect(hoverTint.selectedHovered).not.toBe(hoverTint.color);
   });
 }

@@ -209,27 +209,9 @@
 /* Keep the wrapper guidance distinct from the expandable signature that follows it. */
 .docs-callout.shell-wrapper-note[data-variant="callout"] {
   margin-block: 1.25rem 2rem;
-  border-color: color-mix(in oklab, var(--primary) 16%, var(--border));
-  background:
-    linear-gradient(115deg, color-mix(in oklab, var(--primary) 4%, transparent), transparent 65%),
-    color-mix(in oklab, var(--muted) 20%, var(--background));
-  box-shadow: none;
 }
 .shell-wrapper-note [data-slot="callout-header"] {
   grid-template-columns: auto minmax(0, 1fr);
-  gap: 0.5rem;
-  padding: 1rem 1.25rem 0.75rem;
-}
-.shell-wrapper-note [data-slot="callout-header"]::after {
-  display: none;
-}
-.shell-wrapper-note [data-slot="callout-icon"] {
-  width: 1.125rem;
-  height: 1.125rem;
-  border: 0;
-  background: none;
-  box-shadow: none;
-  color: var(--primary);
 }
 .shell-wrapper-heading,
 .shell-wrapper-heading > span {
@@ -247,9 +229,6 @@
 .shell-wrapper-heading i,
 .shell-wrapper-map i {
   font-style: normal;
-}
-.shell-wrapper-note [data-slot="alert-description"] {
-  padding: 0 1.25rem 1rem;
 }
 .shell-wrapper-content {
   display: grid;
@@ -294,8 +273,6 @@
 .shell-wrapper-note [data-slot="callout-footer"] {
   justify-content: space-between;
   gap: 0.5rem 1rem;
-  padding: 0.75rem 1.25rem;
-  background: color-mix(in oklab, var(--primary) 2%, transparent);
   color: color-mix(in oklab, var(--muted-foreground) 65%, var(--foreground));
   font-size: 0.6875rem;
 }
@@ -312,10 +289,5 @@
   }
   .shell-wrapper-map {
     max-width: 15rem;
-  }
-  .shell-wrapper-note [data-slot="callout-header"],
-  .shell-wrapper-note [data-slot="alert-description"],
-  .shell-wrapper-note [data-slot="callout-footer"] {
-    padding-inline: 1rem;
   }
 }

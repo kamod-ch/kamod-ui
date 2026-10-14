@@ -125,6 +125,7 @@ code.docs-code-name {
       .docs-import-label *,
       .docs-code-file-path,
       .docs-code-file-path *,
+      .code-reference-help *,
       [contenteditable] *
     )
   ) {
@@ -153,7 +154,14 @@ code.docs-code-name {
   code:has(> .docs-brand-link, > .docs-kamod-link),
   a.docs-brand-link:not(:where(code *, .path-display *)):not(:has(code))
 ):not(
-  :where(pre *, .docs-import-label, .docs-code-file-path, .docs-code-name, [contenteditable] *)
+  :where(
+    pre *,
+    .docs-import-label,
+    .docs-code-file-path,
+    .docs-code-name,
+    .code-reference-help *,
+    [contenteditable] *
+  )
 ) {
   font-size: var(--inline-code-font) !important;
   line-height: var(--inline-code-line) !important;

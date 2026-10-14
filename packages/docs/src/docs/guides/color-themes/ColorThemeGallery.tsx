@@ -6,6 +6,7 @@ import { withBasePath } from "../../../base-path";
 import { BlockHeadingLink } from "../../../blocks/BlockHeadingLink";
 import { useSiteThemePreset } from "../../../theme/useSiteThemePreset";
 import { CodeBlock } from "../../components/CodeBlock";
+import { StateIcon } from "../../components/StateIcon";
 import { presetStudies, presetStudyId } from "./preset-studies";
 import { ThemePalettePreview } from "./ThemePalettePreview";
 import "./color-themes.css";
@@ -26,7 +27,6 @@ export function ColorThemeGallery() {
     <div class="theme-studies">
       {presetStudies.map(({ id, label, character, palette, schemes, application, review }) => {
         const selected = ready && id === current;
-        const Icon = selected ? CheckIcon : PaletteIcon;
         return (
           <Card
             key={id}
@@ -52,7 +52,9 @@ export function ColorThemeGallery() {
                 aria-pressed={selected}
                 onClick={() => setThemePreset(id)}
               >
-                <Icon size={14} aria-hidden="true" />
+                <StateIcon active={selected ? 1 : 0}>
+                  {[<PaletteIcon size={14} />, <CheckIcon size={14} />]}
+                </StateIcon>
                 {selected ? "In use" : "Use theme"}
               </Button>
             </div>
@@ -129,9 +131,10 @@ export function ColorThemeGallery() {
         <p>
           <strong>The preset is a starting point.</strong> Some presets declare font stacks or a
           radius as well as colors. Font names do not download font files, and any application
-          override can change the result. These examples show shipped defaults, not a contrast
-          certification for every combination. Compare real text, focus, disabled and error states,
-          then follow{" "}
+          override can change the result. This documentation uses built-in system fonts across
+          palettes to keep text visible and stable without font downloads. These examples show the
+          shipped color tokens, not a contrast certification for every combination. Compare real
+          text, focus, disabled and error states, then follow{" "}
           <a href={withBasePath("/docs/theming/token-overrides#customize-a-preset-with-tokens")}>
             Customize a Preset
           </a>{" "}

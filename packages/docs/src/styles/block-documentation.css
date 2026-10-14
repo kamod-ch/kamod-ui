@@ -283,7 +283,6 @@
 
 .block-guide-description code,
 .package-guide-resources > code,
-.icons-ending-repository-main > code,
 .blocks-doc-section
   code:not(pre code, [data-slot="type-definition-name"], .docs-code-file-path):not(
     :where(.component-example-canvas *)

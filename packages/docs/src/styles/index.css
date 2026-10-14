@@ -1,4 +1,3 @@
-@import "./theme-fonts.css";
 @import "tailwindcss";
 @import "tw-animate-css";
 @plugin "@tailwindcss/forms";
@@ -48,7 +47,8 @@
 @import "./component-overview-guide.css";
 @import "./block-page-ending.css";
 @import "./package-guide.css";
-@import "./icons-guide-ending.css";
+@import "./package-reference.css";
+@import "./package-sources.css";
 @import "./icons-integration-review.css";
 @import "./package-overview.css";
 @import "./ecosystem-guide.css";
@@ -59,6 +59,7 @@
 
 @import "./path-display.css";
 @import "./icon-button.css";
+@import "./control-group.css";
 
 @import "./brand-text.css";
 @import "./inline-code-help.css";
@@ -76,3 +77,4 @@
 
 @import "./docs-callout.css";
 @import "./inline-code-sizes.css";
+@import "./typography.css";

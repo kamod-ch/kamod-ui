@@ -114,30 +114,12 @@ html {
 }
 
 .docs-topbar-github {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   /* Match ThemeToggle `size="icon"` (size-8) in the top bar */
   width: 2rem;
   height: 2rem;
   min-width: 2rem;
   padding: 0;
-  border: 0;
-  border-radius: 0.55rem;
-  background: color-mix(
-    in oklab,
-    var(--foreground) calc(6% + 5.64% * var(--docs-highlight-boost, 0)),
-    transparent
-  );
-  color: var(--muted-foreground);
-  text-decoration: none;
   flex-shrink: 0;
-}
-
-@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
-  .docs-topbar-github:hover {
-    color: var(--foreground);
-  }
 }
 
 .docs-topbar-github-mark {
@@ -380,8 +362,8 @@ html {
   margin-bottom: 0.6rem;
 }
 
-/* Icon-sized dropdown triggers (e.g. breadcrumb ellipsis) use component styles only — a border here looked like an unwanted gray frame. */
-[data-slot="dropdown-trigger"]:not([data-size^="icon"]) {
+/* Icon actions own their chrome, including native menu buttons without a core size attribute. */
+[data-slot="dropdown-trigger"]:not([data-size^="icon"], .docs-icon-button) {
   padding: 0.55rem 0.8rem;
   border-radius: var(--radius-md);
   border: 1px solid var(--border);
@@ -945,23 +927,6 @@ html {
 .docs-topbar .site-icon-button svg {
   width: 1.125rem;
   height: 1.125rem;
-}
-
-/* Opening a palette menu is not a selected navigation state. Use the shared
-   neutral action surface instead of the generic dropdown's raised card. */
-.docs-topbar .site-theme-picker-button.docs-icon-button {
-  border: 0;
-  border-radius: 0.5rem;
-  background: var(
-    --docs-icon-button-background,
-    color-mix(
-      in oklab,
-      var(--foreground) calc(6% + 5.64% * var(--docs-highlight-boost, 0)),
-      transparent
-    )
-  );
-  color: var(--muted-foreground);
-  box-shadow: none;
 }
 
 @media (min-width: 940px) {

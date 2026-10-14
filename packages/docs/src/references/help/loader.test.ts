@@ -148,6 +148,39 @@ it("keeps unresolved exports distinct from their verified owning module", async 
   expect(unknown.fields).toBeUndefined();
 });
 
+it("module source links use the scanned folder or utility file rather than a guide slug or repository root", () => {
+  const component = createCodeReferenceSourceModule("renamed-button", [
+    {
+      file: "packages/core/src/components/button/Button.tsx",
+      source: "export const Button = () => null;",
+    },
+  ]);
+  for (const module of ["@/components/kamod-ui/button", "@kamod-ch/ui/button"]) {
+    const help = describeCodeReference(
+      { module, label: module, href: "/docs/button/installation" },
+      empty,
+      component,
+    );
+    expect(help.source).toEqual({
+      label: "Source directory",
+      href: "https://github.com/kamod-ch/kamod-ui/tree/main/packages/core/src/components/button",
+    });
+  }
+  const utility = createCodeReferenceSourceModule("cn", [
+    { file: "packages/core/src/lib/utils.ts", source: "export function cn() {}" },
+  ]);
+  expect(
+    describeCodeReference(
+      { module: "@/lib/utils", label: "@/lib/utils", href: "/docs/cn" },
+      empty,
+      utility,
+    ).source,
+  ).toEqual({
+    label: "Implementation",
+    href: "https://github.com/kamod-ch/kamod-ui/blob/main/packages/core/src/lib/utils.ts",
+  });
+});
+
 it("recognizes relative component imports only when the checkout path and destination both match", async () => {
   const request: CodeReferenceHelpRequest = {
     module: "./components/button/Button",

@@ -4,6 +4,68 @@ import { enableTestClipboard } from "./browser-utils";
 import { showcaseWidths } from "./showcase-viewports";
 
 for (const scheme of ["light", "dark"] as const) {
+  for (const width of [320, 1440]) {
+    test(`folder toggle keeps its icons painted without scrolling at ${width}px in ${scheme}`, async ({
+      page,
+    }) => {
+      await page.setViewportSize({ width, height: 1000 });
+      await page.addInitScript((value) => localStorage.setItem("theme", value), scheme);
+      await page.goto("./blocks/sidebar/sidebar-01");
+      await page.waitForLoadState("networkidle");
+      const showcase = page.locator(".blocks-showcase");
+      await showcase.getByRole("tab", { name: "Code", exact: true }).click();
+      await expect(showcase.locator(".blocks-showcase-source pre .token").first()).toBeVisible();
+      const tree = showcase.locator(".blocks-file-tree");
+      const toggle = tree.locator(".blocks-file-tree-toggle-all");
+      await expect(toggle).toHaveAccessibleName("Collapse all folders");
+      await toggle.scrollIntoViewIfNeeded();
+      await toggle.hover();
+      await page.evaluate(() => document.fonts.ready);
+      await toggle.evaluate(async (node) => {
+        await Promise.all(node.getAnimations().map((animation) => animation.finished));
+      });
+      const icons = await toggle.locator("svg").elementHandles();
+      expect(icons).toHaveLength(2);
+      const position = await tree.evaluate((node) => ({
+        page: window.scrollY,
+        tree: node.scrollTop,
+      }));
+      const originalGlyph = await toggle.locator(".docs-state-icon").screenshot();
+      // Repeat real clicks without a scroll/reflow workaround between state changes.
+      for (let cycle = 0; cycle < 3; cycle++) {
+        await toggle.click();
+        await expect(toggle).toHaveAccessibleName("Expand all folders");
+        await expect(tree.locator(".blocks-file-tree-btn").first()).toBeHidden();
+        await expect(toggle.locator('svg[data-active="true"]')).toHaveCSS("visibility", "visible");
+        await expect(toggle.locator('svg[data-active="false"]')).toHaveCSS("visibility", "hidden");
+        const collapsedGlyph = await toggle.locator(".docs-state-icon").screenshot();
+        expect(collapsedGlyph.equals(originalGlyph)).toBe(false);
+        await toggle.click();
+        await expect(toggle).toHaveAccessibleName("Collapse all folders");
+        await expect(tree.locator(".blocks-file-tree-btn").first()).toBeVisible();
+        expect((await toggle.locator(".docs-state-icon").screenshot()).equals(originalGlyph)).toBe(
+          true,
+        );
+        for (const [index, icon] of icons.entries()) {
+          expect(
+            await toggle.evaluate(
+              (node, { icon, index }) => node.querySelectorAll("svg")[index] === icon,
+              {
+                icon,
+                index,
+              },
+            ),
+          ).toBe(true);
+        }
+        expect(
+          await tree.evaluate((node) => ({ page: window.scrollY, tree: node.scrollTop })),
+        ).toEqual(position);
+      }
+    });
+  }
+}
+
+for (const scheme of ["light", "dark"] as const) {
   for (const category of ["application-shell", "sidebar", "login", "signup"]) {
     test(`${category}: source browser layout and controls in ${scheme} mode`, async ({
       page,

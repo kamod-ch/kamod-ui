@@ -148,7 +148,7 @@ export const OpenUIPlayground = () => {
 
       <div class="openui-playground-log">
         <p class="openui-playground-label">Host event log</p>
-        <pre class="openui-playground-log-output">
+        <pre class="kamod-code kamod-code-source openui-playground-log-output" tabIndex={0}>
           {log.length ? log.join("\n") : "Click buttons or submit forms to see host callbacks."}
         </pre>
       </div>

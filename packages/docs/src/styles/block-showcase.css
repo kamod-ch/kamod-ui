@@ -21,11 +21,8 @@
   padding: 0;
 }
 
-/* Carry the source pane's reading surface through both introductions and prompt formats. */
-.blocks-showcase .blocks-showcase-intro,
-.blocks-showcase
-  .blocks-prompt-workspace
-  :is(.blocks-showcase-prompt-code, .blocks-prompt-rendered) {
+/* Introductions remain in the interface scheme; Code owns the reading canvas. */
+.blocks-showcase .blocks-showcase-intro {
   background: var(--muted);
 }
 
@@ -109,13 +106,7 @@
 }
 
 :is(.blocks-showcase-segmented, .blocks-preview-viewport-switcher, .component-example-links) {
-  --showcase-control-surface: color-mix(in oklab, var(--foreground) 5.5%, var(--background));
   --docs-icon-button-hover-step: calc(8% + 7.36% * var(--docs-highlight-boost, 0));
-  --showcase-control-hover-tint: color-mix(
-    in oklab,
-    var(--foreground) var(--docs-icon-button-hover-step),
-    transparent
-  );
   --docs-icon-button-hover-shadow: none;
 }
 .component-example-links {
@@ -131,6 +122,8 @@
   /* Shared rounded surfaces for view, viewport, appearance and document controls. */
   --docs-icon-button-background: transparent;
   --docs-icon-button-hover-background: var(--showcase-control-hover-tint);
+  /* Filled selection is shared by tabs and toggles; hovering it adds only a faint wash. */
+  --tabs-selected-hover-background: var(--tabs-selected-background);
   display: inline-flex;
   flex-shrink: 0;
   align-items: center;
@@ -143,6 +136,13 @@
   background: var(--showcase-control-surface);
   box-shadow: none;
   color: var(--muted-foreground);
+}
+
+/* Match icon actions: narrow/touch controls keep their resting selection fill. */
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  :is(.blocks-showcase-segmented, .blocks-preview-viewport-switcher) {
+    --tabs-selected-hover-background: var(--docs-icon-button-selected-hover-background);
+  }
 }
 
 .blocks-showcase-segmented > [data-slot="tabs-trigger"],

@@ -50,7 +50,6 @@
         "@preact/preset-vite",
         "tailwindcss",
         "tw-animate-css",
-        "@fontsource-variable/inter",
         "@tailwindcss/forms",
         "@kamod-ch/signals"
       ]

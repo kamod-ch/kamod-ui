@@ -12,12 +12,9 @@ import { IconsIntegrationReview } from "./IconsIntegrationReview";
 import { PackageCapabilities, packageFeatureId } from "./PackageCapabilities";
 import { PackageExamples } from "./PackageExamples";
 import { PackageGuideHeader, PackageText } from "./PackageGuideHeader";
-import {
-  PackageOwnership,
-  PackageSources,
-  PackageTroubleshooting,
-} from "./PackagePracticalSections";
+import { PackageOwnership, PackageTroubleshooting } from "./PackagePracticalSections";
 import { PackageReference } from "./PackageReference";
+import { PackageSources } from "./PackageSources";
 import { packageGuideDetails } from "./package-guide-details";
 import { packageGuideNotes } from "./package-guide-notes";
 import { packageGuideRecipes } from "./package-guide-recipes";
@@ -68,7 +65,15 @@ export function packageGuideContents(config: PackageTeaserConfig): DocContentsSe
       children: [{ id: "before-you-ship", label: "Before You Ship" }],
     },
     { id: "portable-reference", label: "Take the Guide with You" },
-    { id: "sources-and-attribution", label: "Sources & Attribution" },
+    {
+      id: "sources-and-attribution",
+      label: "Sources & Attribution",
+      children: [
+        { id: "source-resources", label: "Keep the Source Close" },
+        { id: "companion-packages", label: "Companion Packages" },
+        { id: "keep-going", label: "Your Next Small Build" },
+      ],
+    },
   ];
 }
 

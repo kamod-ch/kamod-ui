@@ -193,10 +193,8 @@ export function describeCodeReference(
     };
   }
   if (module && (!name || name === "*")) {
-    const directory =
-      module.slug === "cn"
-        ? "packages/core/src/lib/utils.ts"
-        : `packages/core/src/components/${module.slug}`;
+    const path = module.sourcePath;
+    const isFile = path && /\.[cm]?[jt]sx?$/.test(path);
     return {
       kind: "module",
       name: request.label || request.module,
@@ -204,10 +202,12 @@ export function describeCodeReference(
       description:
         module.description ||
         `This module groups the ${module.title} exports and their TypeScript contracts. Import only the parts your composition uses.`,
-      source: resource(
-        module.slug === "cn" ? "Implementation" : "Source directory",
-        module.slug === "cn" ? sourceUrl(directory) : `${repository}/tree/main/${directory}`,
-      ),
+      source: path
+        ? resource(
+            isFile ? "Implementation" : "Source directory",
+            isFile ? sourceUrl(path) : `${repository}/tree/main/${path}`,
+          )
+        : undefined,
       docs: guide ? resource("Module reference", `${guide}#api-reference`) : undefined,
       related: guide
         ? module.symbols

@@ -284,5 +284,7 @@ export function createCodeReferenceSourceModule(
   const names = new Set(symbols.filter(({ typeId }) => typeId).map(({ name }) => name));
   for (const symbol of symbols)
     symbol.typeNames = symbol.typeNames.filter((name) => names.has(name));
-  return { slug, ...guide, symbols };
+  const file = sources[0]?.file;
+  const sourcePath = file?.match(/^packages\/core\/src\/components\/[^/]+/)?.[0] ?? file;
+  return { slug, sourcePath, ...guide, symbols };
 }

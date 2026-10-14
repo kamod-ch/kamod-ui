@@ -28,6 +28,7 @@ import {
 } from "lucide-preact";
 import type { ComponentChildren } from "preact";
 import { useState } from "preact/hooks";
+import { StateIcon } from "../components/StateIcon";
 import {
   MOTION_COLLAPSIBLE_EXAMPLE_CODE,
   MotionCollapsibleFileTreePreview,
@@ -137,7 +138,9 @@ const CollapsibleSettingsPreview = () => {
               class="shrink-0"
               aria-label={isOpen ? "Collapse" : "Expand"}
             >
-              {isOpen ? <Minimize2 class="size-4" /> : <Maximize2 class="size-4" />}
+              <StateIcon active={isOpen ? 1 : 0}>
+                {[<Maximize2 class="size-4" />, <Minimize2 class="size-4" />]}
+              </StateIcon>
             </Button>
           </CollapsibleTrigger>
         </Collapsible>

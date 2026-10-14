@@ -1,7 +1,7 @@
 import { CodeFileHeader } from "@kamod-ch/ui/code";
 import type { ComponentChildren } from "preact";
 import { useLayoutEffect, useRef } from "preact/hooks";
-import type { PreviewAppearance } from "../../blocks/preview-appearance";
+import { type PreviewAppearance, previewCodeStyle } from "../../blocks/preview-appearance";
 import { CodeBlock } from "./CodeBlock";
 import { PathDisplay } from "./PathDisplay";
 import { ShowcaseLoading } from "./ShowcaseLoading";
@@ -57,6 +57,7 @@ export function ShowcaseCodePane({
       {code !== undefined ? (
         <CodeBlock
           key={filename}
+          style={previewCodeStyle(appearance)}
           code={code}
           filePath={filePath}
           renderToolbar={renderToolbar}

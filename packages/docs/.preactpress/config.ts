@@ -1,6 +1,5 @@
 import fs from "node:fs/promises";
 import path, { resolve } from "node:path";
-import { fileURLToPath } from "node:url";
 import { defineConfig } from "@kamod-ch/preactpress/config";
 import { getThemeInitScript } from "@kamod-ch/themes";
 import tailwindcss from "@tailwindcss/vite";
@@ -165,14 +164,6 @@ export default defineConfig({
       tailwindcss(),
     ],
     server: {
-      fs: {
-        // pnpm stores this CSS asset outside PreactPress's default docs allowlist.
-        allow: [
-          fileURLToPath(
-            import.meta.resolve("@fontsource-variable/inter/files/inter-latin-wght-normal.woff2"),
-          ),
-        ],
-      },
       watch: {
         ignored: [
           resolve(repoRoot, "tmp"),

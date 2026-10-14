@@ -100,12 +100,30 @@ for (const scheme of ["light", "dark"] as const) {
     const keyword = source.locator(".token.keyword").first();
     await expect(keyword).toBeVisible();
     const original = await source.textContent();
+    // This reader exposes actual import controls; the palette study deliberately hides them.
+    const metadataReader = page.locator('[data-code-demo="parts"] .kamod-code');
+    await metadataReader.scrollIntoViewIfNeeded();
+    const importKeyword = metadataReader.locator(".docs-import-keyword");
+    await expect(importKeyword).toBeVisible();
+    const importSource = metadataReader.locator("pre");
+    const importPaint = () =>
+      importKeyword.evaluate((node) => ({
+        color: getComputedStyle(node).color,
+        background: getComputedStyle(node.closest("button")!).backgroundColor,
+      }));
     const colors = new Set<string>();
     for (const palette of ["default", "dusk", "forest", "monochrome"]) {
       await demo.getByLabel("Syntax palette").selectOption(palette);
+      await demo.getByLabel("Source color mode").selectOption("inverse");
       const color = await keyword.evaluate((node) => getComputedStyle(node).color);
       colors.add(color);
-      await expect(demo.locator(".docs-import-keyword")).toHaveCSS("color", color);
+      await metadataReader.evaluate((node, value) => (node.dataset.syntaxTheme = value), palette);
+      const ambient = await importPaint();
+      for (const mode of ["light", "dark", "inherit", "inverse"]) {
+        await demo.getByLabel("Source color mode").selectOption(mode);
+        await importSource.evaluate((node, value) => (node.dataset.colorMode = value), mode);
+        expect(await importPaint()).toEqual(ambient);
+      }
       expect(await source.textContent()).toBe(original);
     }
     expect(colors.size).toBe(4);

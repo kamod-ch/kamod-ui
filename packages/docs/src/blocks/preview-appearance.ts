@@ -8,6 +8,20 @@ import {
 
 export type PreviewAppearance = { preset: ThemePresetId; scheme: "light" | "dark" };
 
+/** Scope source appearance without recoloring the surrounding showcase controls. */
+export function previewCodeStyle(appearance?: PreviewAppearance) {
+  if (!appearance) return undefined;
+  const light = appearance.scheme === "light";
+  return {
+    "--kamod-code-inherit-scheme": appearance.scheme,
+    "--kamod-code-inverse-scheme": light ? "dark" : "light",
+    "--kamod-code-inherit-light": light ? 1 : 0,
+    "--kamod-code-inverse-light": light ? 0 : 1,
+    "--kamod-code-primary-light": `var(--theme-${appearance.preset}-primary-light)`,
+    "--kamod-code-primary-dark": `var(--theme-${appearance.preset}-primary-dark)`,
+  };
+}
+
 export function previewAppearanceFromSearch(search: string): PreviewAppearance | undefined {
   const params = new URLSearchParams(search);
   const preset = params.get("previewTheme") ?? "";

@@ -432,13 +432,25 @@ for (const { route, selector, displayLabel, region } of [
     try {
       await page.goto(route, { waitUntil: "domcontentloaded" });
       const section = page.locator(selector).first();
-      await section.scrollIntoViewIfNeeded();
-      if (displayLabel === "Prompt Display")
+      if (displayLabel === "Prompt Display") {
+        await section.scrollIntoViewIfNeeded();
         await section.getByRole("tab", { name: "Prompt", exact: true }).click();
-      await section
-        .getByRole("group", { name: displayLabel, exact: true })
-        .getByRole("button", { name: "Markdown", exact: true })
-        .click();
+      }
+      if (displayLabel === "Reference Display") {
+        const tab = section
+          .getByRole("tablist", { name: displayLabel, exact: true })
+          .getByRole("tab", { name: "Markdown", exact: true });
+        // Wait for the SSR-to-interactive handoff through selection, not stylesheet readiness.
+        await expect(async () => {
+          await tab.click({ timeout: 2000 });
+          await expect(tab).toHaveAttribute("aria-selected", "true", { timeout: 1000 });
+        }).toPass({ timeout: 15000 });
+      } else {
+        await section
+          .getByRole("group", { name: displayLabel, exact: true })
+          .getByRole("button", { name: "Markdown", exact: true })
+          .click();
+      }
       const loading = section.locator('.showcase-loading[data-view="markdown"]');
       await expect(loading).toBeVisible();
       await expect(loading.getByRole("status")).toContainText("Formatting the reading view");
@@ -457,21 +469,25 @@ for (const { route, selector, displayLabel, region } of [
       markdown.release();
       await expect(loading).toHaveCount(0);
       await expect(section.getByRole("region", { name: region, exact: true })).toBeVisible();
-      if (displayLabel === "Prompt Display") {
-        const reader = section.getByRole("region", { name: region, exact: true });
-        await expect(reader).toHaveCSS("min-height", "448px");
-        await expect(reader).toHaveCSS("max-height", "448px");
-        const scroll = await reader.evaluate((element) => {
-          element.scrollTop = element.scrollHeight;
-          return {
-            height: element.clientHeight,
-            content: element.scrollHeight,
-            top: element.scrollTop,
-          };
-        });
-        expect(scroll.content).toBeGreaterThan(scroll.height);
-        expect(scroll.top).toBeGreaterThan(0);
-      }
+      const reader = section.getByRole("region", { name: region, exact: true });
+      // Portable references reserve space on the wrapper; its inner grid child must shrink to scroll.
+      const surface =
+        displayLabel === "Reference Display"
+          ? section.locator('[data-slot="code-document"]')
+          : reader;
+      await expect(surface).toHaveCSS("min-height", "448px");
+      await expect(surface).toHaveCSS("max-height", "448px");
+      expect((await reader.boundingBox())!.height).toBeCloseTo(448, 1);
+      const scroll = await reader.evaluate((element) => {
+        element.scrollTop = element.scrollHeight;
+        return {
+          height: element.clientHeight,
+          content: element.scrollHeight,
+          top: element.scrollTop,
+        };
+      });
+      expect(scroll.content).toBeGreaterThan(scroll.height);
+      expect(scroll.top).toBeGreaterThan(0);
       expect(
         await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1),
       ).toBe(true);
@@ -479,4 +495,126 @@ for (const { route, selector, displayLabel, region } of [
       markdown.release();
     }
   });
+}
+
+for (const width of [320, 1440]) {
+  for (const scheme of ["light", "dark"] as const) {
+    test(`portable reference paints pending feedback through rapid switches at ${width}px in ${scheme}`, async ({
+      page,
+      context,
+    }) => {
+      await page.setViewportSize({ width, height: 900 });
+      await page.addInitScript((theme) => localStorage.setItem("theme", theme), scheme);
+      const modules = deferred();
+      let markdownRequested = false;
+      await page.route(/\/(?:highlight-code|PromptMarkdown)-[^/]+\.js$/, async (route) => {
+        if (/\/PromptMarkdown-[^/]+\.js$/.test(route.request().url())) markdownRequested = true;
+        await modules.promise;
+        await route.continue();
+      });
+      try {
+        await page.goto("./docs/hooks-package/installation#portable-reference", {
+          waitUntil: "domcontentloaded",
+        });
+        await expect(page.locator("html")).toHaveClass(/pp-ready/);
+        const reference = page.locator(".package-guide-reference");
+        const tabs = reference.getByRole("tablist", { name: "Reference Display", exact: true });
+        await tabs.scrollIntoViewIfNeeded();
+        const document = await reference.locator("pre code").textContent();
+        const originalHeight = (await reference.locator("pre").boundingBox())!.height;
+        expect(originalHeight).toBeGreaterThanOrEqual(447.99);
+
+        // Visit both asynchronous readers before racing them, so their work is genuinely pending.
+        await tabs.getByRole("tab", { name: "Code (Markdown)", exact: true }).click();
+        await expect(reference.locator(".kamod-code-content[data-loading]")).toHaveCount(1);
+        await expect(reference.locator(".showcase-loading")).toBeVisible();
+        expect((await reference.locator(".showcase-loading").boundingBox())!.height).toBeCloseTo(
+          originalHeight,
+          1,
+        );
+        await tabs.getByRole("tab", { name: "Markdown", exact: true }).click();
+        await expect.poll(() => markdownRequested).toBe(true);
+        await expect(reference.locator(".showcase-loading")).toBeVisible();
+
+        const samples = await reference.evaluate(async (element) => {
+          const samples: {
+            phase: string;
+            view: string;
+            selected: boolean;
+            loading: boolean;
+            content: boolean;
+            height: number;
+          }[] = [];
+          const capture = (view: string, phase: string) => {
+            const panel = element.querySelector<HTMLElement>('[role="tabpanel"]');
+            const loader = panel?.querySelector<HTMLElement>(".showcase-loading");
+            const body =
+              loader ??
+              panel?.querySelector<HTMLElement>(".blocks-prompt-rendered, pre:not([aria-hidden])");
+            const tab = element.querySelector(`[role="tab"][data-value="${view}"]`);
+            samples.push({
+              phase,
+              view,
+              selected: tab?.getAttribute("aria-selected") === "true",
+              loading: !!loader && getComputedStyle(loader).visibility !== "hidden",
+              content: !!body?.textContent?.trim(),
+              height: body?.getBoundingClientRect().height ?? 0,
+            });
+          };
+          for (const view of ["code", "markdown", "text", "markdown", "code", "text"]) {
+            const tab = element.querySelector<HTMLButtonElement>(
+              `[role="tab"][data-value="${view}"]`,
+            );
+            if (!tab) throw new Error(`Missing ${view} reference tab`);
+            tab.click();
+            // Drain Preact's selection commit before the browser has painted another frame.
+            await Promise.resolve();
+            capture(view, "commit");
+            await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+            capture(view, "frame");
+          }
+          return samples;
+        });
+        expect(samples.filter(({ selected, content }) => !selected || !content)).toEqual([]);
+        expect(samples.filter(({ phase, loading }) => phase === "commit" && !loading)).toEqual([]);
+        expect(
+          samples.filter(
+            ({ view, phase, loading }) => phase === "frame" && view !== "text" && !loading,
+          ),
+        ).toEqual([]);
+        expect(samples.filter(({ height }) => Math.abs(height - originalHeight) > 1)).toEqual([]);
+
+        // Resolve work started by now-inactive views; it must never replace the final Plain Text.
+        const markdownResponse = page.waitForResponse(/\/PromptMarkdown-[^/]+\.js$/);
+        modules.release();
+        await (await markdownResponse).finished();
+        await expect(tabs.getByRole("tab", { name: "Plain Text", exact: true })).toHaveAttribute(
+          "aria-selected",
+          "true",
+        );
+        await expect(reference.locator(".showcase-loading")).toHaveCount(0);
+        await expect(reference.locator("pre")).toBeVisible();
+        await expect(reference.locator("pre code")).toHaveText(document!);
+        await expect(
+          reference.getByRole("region", { name: "Rendered Package Reference" }),
+        ).toHaveCount(0);
+        expect((await reference.locator("pre").boundingBox())!.height).toBeCloseTo(
+          originalHeight,
+          1,
+        );
+        if (test.info().project.name === "chromium" || test.info().project.name === "chrome") {
+          await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+          await reference.getByRole("button", { name: /Copy code|Code copied/ }).click();
+          await expect
+            .poll(() => page.evaluate(() => navigator.clipboard.readText()))
+            .toBe(document);
+        }
+        expect(
+          await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1),
+        ).toBe(true);
+      } finally {
+        modules.release();
+      }
+    });
+  }
 }

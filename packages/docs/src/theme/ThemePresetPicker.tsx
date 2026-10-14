@@ -16,7 +16,7 @@ export function ThemePresetPicker({
       onSchemeChange={setColorScheme}
       side={side}
       showLabel={showLabel}
-      triggerClass={`site-icon-button${showLabel ? " site-theme-picker-labeled" : ""}`}
+      triggerClass={`site-icon-button docs-icon-button-menu-trigger${showLabel ? " site-theme-picker-labeled" : ""}`}
       resolveHref={withBasePath}
     />
   );

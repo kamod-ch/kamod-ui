@@ -60,10 +60,11 @@ export function CodeCustomizationGuide() {
       </Topic>
       <Topic id="code-theme-integration" title="Let the theme carry the visual language">
         <p>
-          The component follows the shared semantic surface, foreground and border tokens, with
-          syntax colors that remain legible in light and dark modes. Change the site theme to
-          compare them in the examples. You do not need a separate code theme provider or a
-          hard-coded dark background.
+          Headers, controls and borders follow the surrounding semantic theme. The reading area
+          defaults to the opposite light/dark appearance through <code>colorMode="inverse"</code>;
+          choose <code>inherit</code>, <code>light</code> or <code>dark</code> when needed. The
+          nearest appearance scope applies, including a locally themed showcase. See{" "}
+          <a href="#color-mode">Source Color Mode</a> for the complete boundary.
         </p>
         <p>
           To give source tokens a different palette, use <code>syntaxTheme</code>. The{" "}

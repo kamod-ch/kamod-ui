@@ -56,6 +56,8 @@ export type CodeReferenceSourceSymbol = {
 
 export type CodeReferenceSourceModule = {
   slug: string;
+  /** Verified repository folder, or implementation file for a single-file utility. */
+  sourcePath?: string;
   title: string;
   description: string;
   propsTitles: string[];

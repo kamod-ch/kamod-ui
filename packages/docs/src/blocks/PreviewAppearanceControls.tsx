@@ -3,6 +3,7 @@ import { MoonIcon, SunIcon } from "@kamod-ch/icons/lucide";
 import type { ColorScheme } from "@kamod-ch/themes";
 import { useEffect, useState } from "preact/hooks";
 import { withBasePath } from "../base-path";
+import { StateIcon } from "../docs/components/StateIcon";
 import type { PreviewAppearance } from "./preview-appearance";
 
 /** Local adapter: preview changes never write the site's theme preferences. */
@@ -16,7 +17,6 @@ export function PreviewAppearanceControls({
   const [system, setSystem] = useState(false);
   const systemScheme = useSystemColorScheme(system);
   const isDark = value.scheme === "dark";
-  const SchemeIcon = isDark ? MoonIcon : SunIcon;
   useEffect(() => {
     if (system && value.scheme !== systemScheme) onChange({ ...value, scheme: systemScheme });
   }, [system, systemScheme, value, onChange]);
@@ -38,7 +38,9 @@ export function PreviewAppearanceControls({
         title={`Switch preview to ${isDark ? "light" : "dark"} mode`}
         onClick={() => changeScheme(isDark ? "light" : "dark")}
       >
-        <SchemeIcon size={17} aria-hidden="true" />
+        <StateIcon active={isDark ? 1 : 0}>
+          {[<SunIcon size={17} />, <MoonIcon size={17} />]}
+        </StateIcon>
       </button>
       <ThemePicker
         preset={value.preset}

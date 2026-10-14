@@ -9,7 +9,7 @@ const examples = [
   },
   {
     name: "package",
-    path: "docs/icons-package/installation",
+    path: "docs/hooks-package/installation",
     selector: ".package-guide .docs-callout",
   },
   {

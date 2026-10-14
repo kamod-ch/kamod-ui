@@ -81,12 +81,20 @@ it("toggles all folders from mixed states without changing the selected file", a
   const { rerender } = render(
     <BlockSourceExplorer files={files} selectedFile="index.ts" onSelect={onSelect} grouped />,
   );
-  fireEvent.click(screen.getByRole("button", { name: "Collapse all folders" }));
+  const toggle = screen.getByRole("button", { name: "Collapse all folders" });
+  const icons = [...toggle.querySelectorAll("svg")];
+  expect(icons).toHaveLength(2);
+  const expectStableIcons = () => {
+    icons.forEach((icon, index) => expect(toggle.querySelectorAll("svg")[index]).toBe(icon));
+  };
+  fireEvent.click(toggle);
+  expectStableIcons();
   expect(screen.queryByRole("button", { name: "index.ts" })).not.toBeInTheDocument();
   expect(screen.queryByRole("button", { name: "a.tsx" })).not.toBeInTheDocument();
   expect(screen.queryByRole("button", { name: "b.tsx" })).not.toBeInTheDocument();
   fireEvent.click(screen.getByRole("button", { name: "Expand /components" }));
   fireEvent.click(screen.getByRole("button", { name: "Expand all folders" }));
+  expectStableIcons();
   for (const name of ["index.ts", "a.tsx", "b.tsx"]) {
     expect(screen.getByRole("button", { name })).toBeVisible();
   }
@@ -96,6 +104,7 @@ it("toggles all folders from mixed states without changing the selected file", a
     <BlockSourceExplorer files={files} selectedFile="demo/b.tsx" onSelect={onSelect} grouped />,
   );
   await vi.waitFor(() => expect(screen.getByRole("button", { name: "b.tsx" })).toBeVisible());
+  expectStableIcons();
   expect(screen.queryByRole("button", { name: "a.tsx" })).not.toBeInTheDocument();
   expect(screen.getByRole("button", { name: "Expand all folders" })).toBeVisible();
   expect(onSelect).not.toHaveBeenCalled();
