@@ -253,19 +253,54 @@ API reference; `useTheme()` opens its appearance-controls section and receives
 lazy declaration-backed function help. One package list drives both name indexing
 and lazy loading, and declared function-valued exports retain their signatures.
 
-Five additional inline families extend the original nine kinds: commands, blocks,
-guides, technologies and pages/sections. The catalog includes 76 curated technology
+Four additional inline families extend the original nine kinds: commands, blocks,
+technologies and pages/sections. Named guides use the same Page / section category. The catalog includes 76 curated technology
 labels, twenty CLI tools, registry-derived block identities, verified route titles
 and real fragments. Aliases resolve conservatively; unknown or ambiguous labels
 stay literal. Command parsing is bounded and rejects shell composition or expansion;
 it never executes text. These additions do not broaden source-code detection into
 arbitrary word matching.
 
-The eager index contains lightweight identity/destination data. Five lazy family
+The eager index contains lightweight identity/destination data. Four lazy family
 modules provide descriptions and facts, sharing bounded promises and evicting
 failures for retry. Kind icons, labels and optional contract headings have one
 owner, and the inverted kind badges use nearly square 1px corners. Existing
 stale-result and delegated-event boundaries remain in place.
+
+### Reference identity and package source accuracy
+
+Source-backed component display labels resolve to their canonical exports before
+page-title aliases. `Theme Toggle` therefore shows `ThemeToggle` component props,
+related types and its implementation; an explicit documentation path still means
+a page. Named guides reuse canonical Page / section facts and one lazy family.
+Unambiguous package/product names retain package identity, and an authored local
+href cannot turn a real package specifier into a generic page reference. Explicit
+navigation stays intact while tooltip resources are selected independently.
+
+A shared map covers fifteen verified Kamod package owners and their workspace
+folders, including the actual `kamod-ch/kamod-signals` repository where installed
+metadata is stale. One build collector reads workspace/installed manifests and
+verifies checked-out public export targets. `@kamod-ch/ui/theme.css` links to
+`packages/core/src/theme.css`; other CSS exports likewise use their real files.
+External monorepo links use declared directories with GitHub's `HEAD` alias;
+unverified subpaths retain the package owner rather than an invented source file.
+
+The authored Signals guide/ecosystem URLs now use that same canonical repository.
+Motion package resources use the real `packages/motion` workspace and each adapter
+source directory; the cn resource points directly to its implementation.
+
+Package/module cards lead with source in their origin and footer, alongside an
+independently chosen local integration link. Specific destinations cover global
+CSS, Code stylesheet ownership, presets, tokens and known third-party integrations.
+Stylesheet imports avoid unrelated JavaScript contracts. Private Blocks/Docs
+workspaces are described honestly, factory-produced values remain constants, and
+context Provider exports retain component help. These corrections add no browser
+scraping, network lookup, per-token observer or new runtime dependency.
+
+Catalogue tests audit all component display labels, all curated owners, filesystem
+source targets and local route/fragment destinations. Production regressions cover
+the reported examples, original authored links, Page / section consolidation,
+source-first resources, keyboard flow and 320/1440px layouts in both appearances.
 
 ### Showcase Prompts and download feedback
 
@@ -443,6 +478,8 @@ branding and navigation changes. The public color-mode prop/type, inversion
 wrappers, paired theme values and mode-specific routes/tests are removed; the
 nine supported syntax palettes and normal application appearance remain.
 
+Earlier full audit (before the reference-source follow-up below):
+
 | Check                | Final local result                                                                                                                     |
 | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
 | Workspace typecheck  | `corepack pnpm typecheck` passed.                                                                                                      |
@@ -484,7 +521,24 @@ historical measurements from the energy investigation, not a fresh full Safari
 run. They did not reproduce automatic tab termination. Playwright WebKit and
 physical iPhone coverage remain subject to the explicit platform limit below.
 
-### Merge-readiness review
+### Reference-source follow-up validation
+
+Implementation `b3442111` passes workspace typecheck/build and a final documentation
+rebuild/typecheck. The final `corepack pnpm test:ci` passes **1,545 tests in 185
+files**, including **875 documentation tests in 92 files** (fourteen additional
+unit cases). Root Oxlint, Oxfmt, Biome, README sync, Knip/Syncpack, Publint and ATTW
+pass. All **16 production Chrome reference cases pass in one isolated final run**,
+covering both appearances, narrow/desktop widths, lazy loading, original source,
+keyboard flow and the reported examples. The committed build receives a final
+focused rerun as well.
+
+An earlier browser run collided with another audit while saving its trace file;
+the final isolated run removes that harness conflict. It was not an application
+assertion failure. The older Safari/WebKit limits above remain unchanged. Current
+[PR checks](https://github.com/kamod-ch/kamod-ui/pull/80/checks) report CI for the
+pushed follow-up rather than the historical implementation listed in the matrix.
+
+### Earlier merge-readiness review (before the reference follow-up)
 
 The implementation head `1f97720d` is present on the fork and PR #80. After
 refreshing both remotes, current upstream `main` (`c20aa880`) is already an ancestor
@@ -492,8 +546,9 @@ of the branch. GitHub reports a clean merge state and a non-draft PR; there are 
 unresolved review threads or change-request reviews, and a maintainer approval is
 recorded. Full-branch whitespace and conflict-marker checks also pass.
 
-This final review records the verified implementation without changing code or
-dependencies. [PR checks](https://github.com/kamod-ch/kamod-ui/pull/80/checks) remain
+That earlier review recorded the implementation without changing code or
+dependencies. The subsequent reference correction described above has separate
+validation evidence; the current [PR checks](https://github.com/kamod-ch/kamod-ui/pull/80/checks) remain
 the source for the latest documentation revision's CI result. Existing conditional
 browser skips retain their documented feature/platform gates; no focused tests
 or unmerged index entries were found.

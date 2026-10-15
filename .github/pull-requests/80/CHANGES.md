@@ -92,14 +92,14 @@ the protected local `.gitignore` edit remain outside the commits.
 ### Documentation-owned destinations and help
 
 - **Dedicated private feature area.** Move documentation references into src/references with reader, inline-link, resolver, request, and help responsibilities. The site-specific catalog and tooltip implementation do not enter the public core API.
-- **Verified destination extraction.** Build reference destinations from checked-in exports, rendered documentation/API anchors, and installed package declarations. Prefer meaningful local documentation when it exists and source repositories when appropriate.
+- **Verified destination extraction.** Build reference destinations from checked-in exports, rendered documentation/API anchors, and installed package declarations. Symbols prefer their local API; package roots and import subpaths prefer verified source files or package directories, with independent local documentation links.
 - **Shared API anchor generation.** Reuse component API IDs between extraction and rendered reference sections. Links to props and types use the same anchor contract as their actual destination page.
 - **Small initial destination catalog.** Separate lightweight destinations from detailed help facts and card rendering. Rendering an ordinary source block does not load the full description for every documented symbol.
 - **On-demand help.** Request detailed reference metadata only when a user opens the corresponding help. Keep the lazy card module separate from the everyday source reader import path.
 - **Shared pending requests.** Deduplicate manifest and module requests, cache completed facts, and retry failed requests. Multiple references to one module do not each start independent metadata loads.
 - **Stale help guards.** Ignore requests that complete after their tooltip has closed or been superseded. Late data cannot reopen an unrelated popup.
 - **Useful failure states.** Retain a usable destination link while help is loading or unavailable. A metadata failure does not prevent normal source navigation.
-- **Kind-specific explanations.** Present fourteen kinds through a compact common structure: components, exports, types, functions, constants, icons, modules, packages, files, commands, blocks, guides, technologies, and pages/sections. Include the available signature, description, source, documentation, and related-type facts for each kind.
+- **Kind-specific explanations.** Present thirteen kinds through a compact common structure: components, exports, types, functions, constants, icons, modules, packages, files, commands, blocks, technologies, and pages/sections. Include the available signature, description, source, documentation, and related-type facts for each kind.
 - **Shared rendering entrypoints.** Apply the same private reference behavior to Code readers, static fences, highlighted prose, inline code, brand references, and displayed paths. Avoid separate route maps for each entrypoint.
 - **Inline empty-call references.** Resolve recognized functions and hooks with a trailing () like their bare identifiers, preserving the visible call syntax and shared lazy help. Link cn() to its API reference and useTheme() to its documented appearance controls, indexing theme exports from their installed declarations.
 - **Shared declaration registration.** Use one package list for reference-name indexing, lazy help loaders, and dependency validation. Theme references receive their detailed facts only when help opens, following the same loading boundary as other package exports.
@@ -663,11 +663,12 @@ individual commits is historical evidence, not a substitute for the final matrix
 | 24b05645 | Contributor guides, supplied issue briefs, formatting exclusions, and source artwork.                                                            |
 | 8363c56d | Site integration, responsive utility pages, stable fonts, portable guides, catalog patch, and corrected CI build order.                          |
 
-## 25. Final verification and review boundaries
+## 25. Verification and review boundaries
 
-These results cover the completed working tree, including the follow-up features
-listed below. Historical measurements describe their stated workload; they are
-not substitutes for this final check matrix.
+The following matrix records the earlier full audit through section 35. The
+reference follow-up in section 36 has its own validation record below. Historical
+measurements describe their stated workload; they are not substitutes for the
+latest focused checks.
 
 | Check                                  | Final local result                                                                                                                     |
 | -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
@@ -786,7 +787,7 @@ no additional external font, iframe, animation loop or state store is introduced
 
 ### Detection and trustworthy destinations
 
-- **Five additional families.** Extend the existing nine reference kinds with terminal commands, block variants, guides, technology labels and page/section destinations. Keep one shared type/presentation contract for all fourteen kinds.
+- **Four additional families.** Extend the existing nine reference kinds with terminal commands, block variants, technology labels and page/section destinations. Named guides share Page / section, keeping one presentation contract for all thirteen kinds.
 - **Twenty recognized command tools.** Recognize supported package managers, executable runners, source-control tools, build tools, linters and container/registry commands. Link to the tool's official command documentation while preserving the literal invocation.
 - **Conservative command parsing.** Bound parsing to 1,024 characters and reject shell operators, command expansion and multiline input. Detection never runs a command or implies that arbitrary arguments have been validated.
 - **Exact block identities.** Derive block and variant aliases from the actual registry, including verified local installation/source targets. Preserve the private-source distinction instead of pretending every block identity is a published package.
@@ -800,9 +801,9 @@ no additional external font, iframe, animation loop or state store is introduced
 ### Lazy facts and common presentation
 
 - **Lightweight eager index.** Keep aliases, routes, destination IDs and supported command names in the initial index. Descriptions, examples and detailed facts remain in lazy family modules.
-- **Bounded family loading.** Share a request/cache per additional family, with at most five family entries. Remove failed requests so opening the help again can retry without retaining a rejected result forever.
-- **Family-specific help.** Show useful command, block, guide, technology or page facts with official/local reading actions. Keep these private cards independent of the reusable core Code API.
-- **Centralized kind styling.** Share icon, label and optional contract-heading metadata across all fourteen kinds. New kinds do not each create a parallel tooltip implementation.
+- **Bounded family loading.** Share a request/cache per additional family, with at most four family entries. Remove failed requests so opening the help again can retry without retaining a rejected result forever.
+- **Family-specific help.** Show useful command, block, technology or page facts with official/local reading actions. Keep these private cards independent of the reusable core Code API.
+- **Centralized kind styling.** Share icon, label and optional contract-heading metadata across all thirteen kinds. New kinds do not each create a parallel tooltip implementation.
 - **Almost-square type badges.** Give the top-right reference-kind badge a barely visible 1px radius on every corner. Preserve its distinct inverted surface, icon and compact alignment.
 - **One underline treatment.** Use the same dashed cue at 35% opacity for inline and source references, strengthening fully on hover or keyboard focus. A slow text-shadow emphasis adds visual weight without changing glyph widths or causing layout shifts.
 - **Paint above code highlights.** Retain the pointer-inert underline layer above inline chip backgrounds. The emphasis and cue keep original Prism token colors and clickable text bounds.
@@ -913,3 +914,52 @@ no additional external font, iframe, animation loop or state store is introduced
 - **Full-diff hygiene.** Check the complete branch for whitespace errors, unresolved conflict markers, unmerged index entries and focused tests. Retain intentional existing feature/platform browser skips and keep protected local files outside the contribution.
 - **Current review description.** Correct the earlier published summary's obsolete scope, test totals and unverified-CI statement through the completed PR narrative. Link its feature ledger to the actual checked-in file when publishing, rather than a relative URL that is meaningful only inside the repository.
 - **No speculative code churn.** Keep the already validated implementation and dependencies unchanged when the final review reveals no additional defect. Limit this follow-up commit to the two PR documents and their verified readiness evidence.
+
+## 36. Reference classification and package-destination correction
+
+### Source identity before page labels
+
+- **Component display titles.** Resolve source-backed names such as `Theme Toggle` to their canonical `ThemeToggle` export before considering page titles. The shared card now shows component props, related contracts and the actual implementation even when the same words name a documentation page.
+- **Catalogue-wide precedence audit.** Exercise every generated component display label against its source-backed help kind and implementation. Keep literal documentation routes as Page / section rather than treating every link to a component page as a component symbol.
+- **One destination category.** Fold named guides into Page / section and reuse canonical page facts and lazy data. Remove the separate Guide badge and chunk without splitting page destinations into further categories.
+- **Stable page facts.** Add guide aliases without overwriting their canonical page's title or summary. Preserve explicit authored section navigation and the existing fragment-validation boundaries.
+- **Unambiguous product names.** Classify twelve explicit package/product names through their verified package identities, including Kamod UI, companion libraries, UI Motion, Typeset, OpenUI and Formisch. Ordinary technology spellings retain their existing technology help unless a real export establishes a narrower meaning.
+- **Package paths retain identity.** Prevent a scoped package or module from being relabeled as a page merely because its authored href is local. Preserve that authored navigation while deriving accurate source and documentation actions independently.
+- **Registered block precedence.** Check registered workspace block targets before generic package fallback. Existing exact variants still receive block facts rather than a broad package card.
+
+### Verified ownership and useful resources
+
+- **Fifteen verified Kamod owners.** Share a repository/workspace map across source resolution, brand fallbacks and tooltip facts. Cover the seven local workspaces and the external Icons, Hooks, Signals, State, i18n, Motion, Charts and PreactPress packages without deriving repository names from package spellings.
+- **Canonical Signals repository.** Correct the stale installed manifest URL to the actual `kamod-ch/kamod-signals` repository. Update the authored Signals guide and ecosystem links as well as automatic links and tooltip source actions.
+- **Exact checked-out export files.** Resolve public package exports against existing source files during the build. Link stylesheet entrypoints such as `@kamod-ch/ui/theme.css` to the actual CSS file and component entrypoints to their actual source directory.
+- **Honest external fallbacks.** Use declared external monorepo directories where available, with GitHub's `HEAD` alias instead of assuming a branch name. Unknown subpaths retain the verified package owner instead of an invented file URL.
+- **Independent local integrations.** Choose local guide destinations separately from source navigation. Add specific CSS setup, Code CSS ownership, preset, token, class-merging and runtime links, plus relevant integrations for known third-party packages.
+- **Source-first package cards.** Put package/module source in the origin link and primary footer action, retaining a distinct secondary local documentation action. Component/type/function cards continue to prioritize their actual API or definition.
+- **Authored source repairs.** Correct nonexistent `packages/ui-motion` destinations to the real `packages/motion` workspace. Point motion component resources at each adapter directory and the cn component resource at its actual implementation.
+- **Stylesheet-specific facts.** Keep CSS and JSON entries out of similarly named JavaScript module loaders. Stylesheets receive an accurate CSS-entry explanation rather than unrelated component signatures or props.
+- **Private workspace clarity.** Identify Blocks and Docs as private source workspaces. A declared license no longer makes the card claim they are published registry packages.
+- **Value classification.** Keep factory-produced context/state values as constants unless source declarations establish a callable. Recognize context `.Provider` exports as components and preserve actual hook/function signatures.
+
+### Structure, cost and regression coverage
+
+- **Shared build collector.** Extract manifest and public-export collection into a focused build helper, reused by navigation and lazy help through one cached promise. Workspace manifests win over installed copies; no runtime registry or GitHub request is added.
+- **Small runtime additions.** Add only component-display aliases and verified source destinations to the eager index. Full descriptions, contracts and the four contextual families remain lazy; no per-term listeners or observers are introduced.
+- **Meaningful catalogue tests.** Cover all component display labels, verified package owners, real checked-out source targets, local integration routes/fragments, ambiguous category collisions, private package facts and CSS/API separation. Update intentional source-link and Page / section expectations across existing suites.
+- **Production regressions.** Exercise the reported Theme Toggle and stylesheet examples, preserved authored links, explicit guide sections, source-first footer actions and keyboard return. Cover narrow and desktop layouts in both appearances alongside existing lazy-loading, source-fidelity and tooltip tests.
+- **Updated reference documentation.** Revise the private detection, tooltip, architecture and proposal references, and update both checked-in PR records. Keep contributor-local documentation outside the published change as required by project guidance.
+
+### Follow-up validation
+
+The source correction is committed as `b3442111`. Workspace typecheck and build,
+final documentation typecheck/build and `corepack pnpm test:ci` pass: **1,545
+tests in 185 files**, including **875 documentation tests in 92 files**. The reference audit adds fourteen unit cases compared
+with the earlier 861-test docs suite; the remaining workspace suites pass as well.
+Root Oxlint, Oxfmt, Biome, README sync, Knip/Syncpack, Publint and ATTW pass.
+
+All **16 production Chrome reference cases pass in one isolated final run**, covering
+both appearances, 320/1440px layouts, lazy requests, original source text, keyboard
+navigation and the reported categorization/resource examples. An earlier trace-save
+collision between overlapping audit runs was isolated by giving the final run its
+own output directory; it was not a failed application assertion. The final focused
+rerun uses the rebuilt committed implementation. Platform limits remain as stated
+in section 25; these results do not claim a new native Safari or WebKit run.
