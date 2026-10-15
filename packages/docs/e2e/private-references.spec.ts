@@ -1,5 +1,105 @@
 import { expect, test } from "@playwright/test";
 
+for (const scheme of ["light", "dark"] as const) {
+  test(`new inline families use lazy shared help and fit narrow screens (${scheme})`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 320, height: 780 });
+    await page.addInitScript((scheme) => localStorage.setItem("theme", scheme), scheme);
+    const requests: string[] = [];
+    page.on("request", (request) => {
+      if (/\/assets\/(?:command|block|guide|technology|page)-[\w-]{8}\.js/.test(request.url()))
+        requests.push(request.url());
+    });
+    await page.goto("/docs/getting-started");
+    await expect(page.locator("html")).toHaveClass(/pp-ready/);
+    // A controlled raw-prose fixture exercises the same incremental controller as route insertion.
+    await page.evaluate(() => {
+      const fixture = document.createElement("p");
+      fixture.id = "reference-families";
+      for (const label of [
+        "pnpm run build",
+        "sidebar-05.tsx",
+        "Getting Started Guide",
+        "valibot",
+        "/docs/components#library-items",
+      ]) {
+        const code = document.createElement("code");
+        code.textContent = label;
+        fixture.append(code, document.createTextNode(" "));
+      }
+      document.querySelector("main")!.prepend(fixture);
+    });
+    expect(requests).toHaveLength(0);
+    await page.keyboard.press("Tab");
+    for (const [name, kind] of [
+      ["pnpm run build", "command"],
+      ["sidebar-05.tsx", "block"],
+      ["Getting Started Guide", "guide"],
+      ["valibot", "technology"],
+      ["/docs/components#library-items", "page"],
+    ]) {
+      const term = page.locator("#reference-families code").filter({ hasText: name });
+      await expect(term).toHaveAttribute("data-code-reference", new RegExp(`^${kind}:`));
+      await term.focus();
+      const card = page.getByRole("dialog", { name: `${name} reference`, exact: true });
+      await expect(card.locator(`[data-reference-kind="${kind}"]`)).toBeVisible();
+      const bounds = await card.boundingBox();
+      expect(bounds!.x).toBeGreaterThanOrEqual(0);
+      expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(320);
+      await expect(card.locator("a").first()).toBeVisible();
+      await page.keyboard.press("Escape");
+      await expect(card).toHaveCount(0);
+    }
+    for (const family of ["command", "block", "guide", "technology", "page"])
+      expect(
+        requests.filter((url) => new URL(url).pathname.split("/").at(-1)!.startsWith(`${family}-`)),
+      ).toHaveLength(1);
+  });
+}
+
+for (const { name, pagePath, href } of [
+  {
+    name: "cn",
+    pagePath: "/docs/cn/installation",
+    href: "/docs/cn/installation#api-reference",
+  },
+  {
+    name: "useTheme",
+    pagePath: "/docs/getting-started",
+    href: "/docs/theming/installation#read-and-change-appearance",
+  },
+]) {
+  test(`${name}() keeps its call syntax, opens shared lazy help and navigates to its API`, async ({
+    page,
+  }) => {
+    const helpRequests: string[] = [];
+    page.on("request", (request) => {
+      if (/\/assets\/code-reference-help-[^/]+\.js/.test(request.url()))
+        helpRequests.push(request.url());
+    });
+    await page.goto(pagePath);
+    await expect(page.locator("html")).toHaveClass(/pp-ready/);
+    const term = page
+      .locator(`a.docs-inline-source-reference[data-code-imported="${name}"]`)
+      .filter({ hasText: `${name}()` })
+      .first();
+    await term.scrollIntoViewIfNeeded();
+    await expect(term).toHaveText(`${name}()`);
+    await expect(term).toHaveAttribute("href", href);
+    expect(helpRequests).toHaveLength(0);
+    await term.hover();
+    const card = page.getByRole("dialog", { name: `${name}() reference`, exact: true });
+    await expect(card.locator('[data-reference-kind="function"]')).toBeVisible();
+    await expect(card.locator("a").first()).toBeVisible();
+    expect(helpRequests).not.toHaveLength(0);
+    await page.keyboard.press("Escape");
+    await term.click();
+    await expect(page).toHaveURL((url) => `${url.pathname}${url.hash}` === href);
+    await expect(page.locator(href.slice(href.indexOf("#")))).toBeAttached();
+  });
+}
+
 test("inline source help loads on demand and shares the snippet loading boundary", async ({
   page,
 }) => {
@@ -79,20 +179,26 @@ for (const scheme of ["light", "dark"] as const) {
           decoration: css.textDecorationLine,
           codeDecoration: code.textDecorationLine,
           primary,
+          emphasis: code.webkitTextStrokeWidth,
+          strokeColor: code.webkitTextStrokeColor,
+          width: chip.getBoundingClientRect().width,
+          transition: css.transitionDuration,
         };
       });
     for (const width of [320, 1440]) {
       await page.setViewportSize({ width, height: 1000 });
       await term.scrollIntoViewIfNeeded();
       await page.mouse.move(1, 1);
-      await expect.poll(async () => (await appearance()).line).toMatch(/\/ 0\.25\)/);
+      await expect.poll(async () => (await appearance()).line).toMatch(/\/ 0\.35\)/);
       const before = await appearance();
+      expect(before.emphasis).toBe("0px");
+      expect(before.transition).toContain("0.52s");
       expect(before.style).toBe("dashed");
       expect(before.thickness).toBe("1.5px");
       expect(before.outerBorder).toBe("0px");
       expect(before.decoration).toBe("none");
       expect(before.codeDecoration).toBe("none");
-      expect(before.line).toMatch(/\/ 0\.25\)/);
+      expect(before.line).toMatch(/\/ 0\.35\)/);
       expect(await term.locator("svg").count()).toBe(0);
       // Computed border styles alone missed a dash hidden behind the chip's background.
       const chip = term.locator("code");
@@ -104,13 +210,48 @@ for (const scheme of ["light", "dark"] as const) {
       await hideCue.evaluate((node) => node.remove());
       await term.hover();
       await expect.poll(async () => (await appearance()).line).toBe(before.primary);
+      await expect.poll(async () => (await appearance()).emphasis).toBe("0.2px");
       expect((await appearance()).color).toBe(before.color);
+      expect((await appearance()).strokeColor).toBe(before.color);
+      expect((await appearance()).width).toBe(before.width);
       const card = page.getByRole("dialog", { name: "useCounter reference", exact: true });
       await expect(card.locator('[data-reference-kind="function"]')).toBeVisible();
+      const badge = card.locator(".code-reference-help-kind");
+      for (const corner of ["top-left", "top-right", "bottom-left", "bottom-right"])
+        await expect(badge).toHaveCSS(`border-${corner}-radius`, "1px");
       const bounds = await card.boundingBox();
       expect(bounds!.x).toBeGreaterThanOrEqual(0);
       expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(width);
       await page.keyboard.press("Escape");
     }
+    // Legacy authored code > a must paint on its outer chip, above the background too.
+    await term.evaluate((node) => {
+      const code = document.createElement("code");
+      code.id = "legacy-code-reference";
+      const link = document.createElement("a");
+      link.href = "https://www.typescriptlang.org/";
+      link.textContent = "TypeScript";
+      code.append(link);
+      node.after(code);
+    });
+    const legacy = page.locator("#legacy-code-reference");
+    await expect(legacy.locator("a")).toHaveAttribute(
+      "data-code-reference",
+      "technology:typescript",
+    );
+    const legacyCue = () =>
+      legacy.evaluate((node) => getComputedStyle(node, "::before").borderBottomColor);
+    await expect.poll(legacyCue).toMatch(/\/ 0\.35\)/);
+    await legacy.locator("a").focus();
+    await expect.poll(legacyCue).not.toMatch(/\/ 0\.35\)/);
+    await page.keyboard.press("Escape");
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await term.focus();
+    await expect(term).toHaveCSS("transition-duration", "0s");
+    expect(
+      await term
+        .locator("code")
+        .evaluate((node) => getComputedStyle(node, "::before").transitionDuration),
+    ).toBe("0s");
   });
 }

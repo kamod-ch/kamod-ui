@@ -2,21 +2,23 @@ import catalog from "virtual:kamod-code-references";
 import { inlineReference } from "../docs/components/inline-reference-catalog";
 import { packageApiReferences } from "../docs/components/package-api-references";
 import { resolveCodeReference } from "./destinations";
+import { inlineContextReference } from "./inline-context-reference";
 import type { CodeReferenceHelpRequest } from "./types";
 
 const componentSlugs = new Set(Object.values(catalog.components).map(({ slug }) => slug));
 const files = new Set(catalog.files);
 
-/** Recognize exact, verified code names; prose concepts, commands and ambiguous exports stay plain. */
+/** Resolve verified symbols or whole context labels, preserving the exact visible code. */
 export function inlineSourceReference(
   label: string,
   href?: string,
 ): CodeReferenceHelpRequest | undefined {
-  const text = label.trim();
-  if (!text || /\s|[<>"'`{}=()]/.test(text)) return;
+  const text = label.trim().replace(/^([A-Za-z_$][\w$]*)\(\)$/, "$1");
+  if (!text) return;
   if (href !== undefined && !/^(?:https?:\/\/|\/(?!\/)|#)/i.test(href)) return;
   let module: string;
   let imported: string | undefined;
+  let contextual: CodeReferenceHelpRequest | undefined;
   const named = inlineReference(text);
   if (Object.hasOwn(catalog.components, text) || text === "cn") {
     module = "@kamod-ch/ui";
@@ -35,6 +37,13 @@ export function inlineSourceReference(
     const entries = catalog.symbols[text];
     if (entries.length !== 1) return;
     ({ module, imported } = entries[0]);
+  } else if (text !== label.trim()) {
+    // Empty-call normalization applies to verified symbols, never a product or package name.
+    return;
+  } else if ((contextual = inlineContextReference(catalog.inline, label, href))) {
+    return contextual;
+  } else if (/\s|[<>"'`{}=()]/.test(text)) {
+    return;
   } else if (text.startsWith("@/components/kamod-ui/") || text === "@/lib/utils") {
     const slug = text.split("/").at(-1);
     if (text !== "@/lib/utils" && !componentSlugs.has(slug ?? "")) return;
@@ -60,5 +69,6 @@ export const referenceAttributes = (request: CodeReferenceHelpRequest) => ({
   "data-code-imported": request.imported,
   "data-code-local": request.local,
   "data-code-file": request.filePath,
+  "data-code-reference": request.referenceId,
   "data-code-href": request.href,
 });

@@ -1,7 +1,7 @@
 import { expect, type Page, test } from "@playwright/test";
 import { assertNoBlockingA11yViolations } from "./a11y-utils";
 
-async function openGuide(page: Page, name = "cn") {
+async function openGuide(page: Page, name = "className") {
   await page.goto("./docs/cn/installation");
   const term = page.locator(`[data-inline-code-help="${name}"]`).first();
   await term.scrollIntoViewIfNeeded();
@@ -14,13 +14,14 @@ test("inline explanations keep keyboard flow, working links and source text inta
   page,
 }) => {
   const term = await openGuide(page);
-  const help = page.getByRole("dialog", { name: "cn explained" });
+  // cn now uses private source-reference help; keep this regression on a glossary term.
+  const help = page.getByRole("dialog", { name: "className explained" });
   await term.hover();
-  await expect(help).toContainText("Combine Class Names.");
+  await expect(help).toContainText("Often a local name");
   await expect(
     page.locator("pre [data-inline-code-help], .docs-code-wrap [data-inline-code-help]"),
   ).toHaveCount(0);
-  await expect(term).toHaveText("cn");
+  await expect(term).toHaveText("className");
   await assertNoBlockingA11yViolations(page, "Inline code explanation", {
     include: "[data-application-tooltip]",
   });
@@ -28,8 +29,8 @@ test("inline explanations keep keyboard flow, working links and source text inta
   await term.focus();
   await expect(help).toBeVisible();
   const links = help.getByRole("link");
-  await expect(links.first()).toHaveAccessibleName("@kamod-ch/ui/utils");
-  await expect(links.last()).toHaveAccessibleName("Explore cn");
+  await expect(links.first()).toHaveAccessibleName("className");
+  await expect(links.last()).toHaveAccessibleName("See the Pattern");
   // Detailed help also has header shortcuts; include every link in the keyboard journey.
   for (const link of await links.all()) {
     await page.keyboard.press("Tab");
@@ -45,13 +46,13 @@ test("inline explanations keep keyboard flow, working links and source text inta
   await page.keyboard.press("Escape");
   await expect(term).toBeFocused();
   await expect(help).toBeHidden();
-  // Linked identifiers retain normal navigation; focusing reopens their explanation.
+  // A glossary term can reopen after dismissal and navigate through its resource action.
   await page.keyboard.press("Tab");
   await term.focus();
   await expect(help).toBeVisible();
-  await help.getByRole("link", { name: "Explore cn" }).click();
+  await help.getByRole("link", { name: "See the Pattern" }).click();
   await expect(help).toBeHidden();
-  await expect(page).toHaveURL(/\/docs\/cn\/installation$/);
+  await expect(page).toHaveURL(/\/docs\/cn\/installation\/?#preact-component$/);
 });
 
 test("inline explanations open on tap, fit a narrow screen and dismiss outside", async ({

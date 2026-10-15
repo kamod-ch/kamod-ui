@@ -20,6 +20,9 @@ it("prefers real on-site references for components, aliases, package guides and 
   expect(resolveCodeReference({ module: "@/lib/utils", imported: "cn" })).toBe(
     "/docs/cn/installation#api-reference",
   );
+  expect(resolveCodeReference({ module: "@kamod-ch/themes", imported: "useTheme" })).toBe(
+    "/docs/theming/installation#read-and-change-appearance",
+  );
 });
 
 it("uses checkout files and installed repository metadata without guessing unknown packages", () => {

@@ -1,6 +1,6 @@
 import type { CodeReferenceHelpRequest } from "./types";
 
-/** Read only the active source anchor; no source parsing or document-wide token scan. */
+/** Read the active trigger's shared metadata; no source parsing or document-wide scan. */
 export function sourceReferenceHelp(target: HTMLElement): CodeReferenceHelpRequest | undefined {
   if (!target.matches(".kamod-code-reference[data-code-module]")) return;
   const href = target.getAttribute("href") ?? target.dataset.codeHref;
@@ -12,5 +12,6 @@ export function sourceReferenceHelp(target: HTMLElement): CodeReferenceHelpReque
     imported: target.dataset.codeImported,
     local: target.dataset.codeLocal,
     filePath: target.dataset.codeFile,
+    referenceId: target.dataset.codeReference,
   };
 }

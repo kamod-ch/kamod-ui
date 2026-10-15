@@ -55,7 +55,6 @@ describe("inline brand references", () => {
     "@/kamod-ch/anything/deep/file.ts",
     "@kamod-ch/ui@next",
     "@kamod-ch/unknown/many/more/segments",
-    "pnpm add @kamod-ch/ui @kamod-ch/themes",
     'import { Button } from "@kamod-ch/ui";',
     "https://github.com/kamod-ch/another-project/tree/main/README.md",
     "before kamod-ch and any amount of text afterwards",
@@ -148,17 +147,15 @@ describe("inline brand references", () => {
       "href",
       "https://tailwindcss.com/",
     );
-    expect(container.querySelector("code > a > svg")).toHaveAttribute("aria-hidden", "true");
-    expect(container.querySelector("strong code > a")).toHaveAttribute(
-      "href",
-      "https://preactjs.com/",
-    );
+    expect(container.querySelector("svg")).toBeNull();
+    expect(container.querySelector("strong a > code")).toHaveTextContent("Preact");
+    expect(container.querySelector("strong a")).toHaveAttribute("href", "https://preactjs.com/");
     expect(getByRole("link", { name: "TypeScript" })).toHaveAttribute(
       "href",
       "https://www.typescriptlang.org/",
     );
   });
-  it("does not link paths, identifiers, executable code or nested controls", () => {
+  it("keeps paths, identifiers and nested controls untouched while recognizing complete commands", () => {
     const { container } = render(
       <BrandText>
         <p>
@@ -170,7 +167,11 @@ describe("inline brand references", () => {
       </BrandText>,
     );
     expect(container.querySelectorAll(".docs-brand-link")).toHaveLength(0);
-    expect(container.querySelectorAll("a")).toHaveLength(1);
+    expect(container.querySelectorAll("a")).toHaveLength(2);
+    expect(container.querySelector('[data-code-reference="command:npm"]')).toHaveTextContent(
+      "npm add preact",
+    );
+    expect(container.querySelector("button a, pre a")).toBeNull();
   });
   it("is idempotent when prose components are composed", () => {
     const { container } = render(
@@ -179,7 +180,23 @@ describe("inline brand references", () => {
       </BrandText>,
     );
     expect(container.querySelectorAll("a")).toHaveLength(1);
-    expect(container.querySelectorAll("svg")).toHaveLength(2);
+    expect(container.querySelectorAll("svg")).toHaveLength(0);
+  });
+  it("enhances authored inline code destinations while keeping ordinary prose links as prose", () => {
+    const { container, getByRole } = render(
+      <BrandText>
+        <a href="/docs/components#library-items">Read this section</a>
+        <a href="/docs/components#library-items">
+          <code>Page destination</code>
+        </a>
+      </BrandText>,
+    );
+    expect(getByRole("link", { name: "Read this section" }).querySelector("code")).toBeNull();
+    expect(getByRole("link", { name: "Page destination" })).toHaveAttribute(
+      "data-code-reference",
+      "page:/docs/components",
+    );
+    expect(container.querySelector("a a")).toBeNull();
   });
   it("brands Markdown prose without nested anchors or changes to code and escaping", () => {
     const source =
@@ -187,7 +204,9 @@ describe("inline brand references", () => {
     const html = renderPromptMarkdown(source);
     const container = document.createElement("div");
     container.innerHTML = html;
-    expect(container.querySelectorAll(".docs-brand-link:not(.docs-code-label *)")).toHaveLength(2);
+    expect(
+      container.querySelectorAll(".docs-inline-source-reference:not(.docs-code-label *)"),
+    ).toHaveLength(2);
     expect(container.querySelector(".docs-code-label a")).toHaveTextContent("TypeScript");
     expect(container.querySelector("a a")).toBeNull();
     expect(container.querySelector("pre")?.textContent).toBe('const name = "Preact";\n');
@@ -195,7 +214,7 @@ describe("inline brand references", () => {
     const guide = parseGuide("## Intro\n\nUse `Preact` and **TypeScript**.");
     expect(guide[0].parts[0]).toMatchObject({
       kind: "html",
-      html: expect.stringContaining('class="docs-brand-link"'),
+      html: expect.stringContaining('data-code-reference="technology:preact"'),
     });
   });
 });

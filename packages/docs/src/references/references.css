@@ -38,15 +38,21 @@ code > a.docs-inline-source-reference::after {
   inset-inline: 0;
   bottom: 0;
   z-index: 1;
-  border-bottom: 1.5px dashed
-    color-mix(in oklab, var(--code-reference-dash, var(--primary, currentColor)) 25%, transparent);
+  border-bottom: 1.5px dashed var(--code-reference-rest-color);
   pointer-events: none;
-  transition: border-color 120ms ease;
+  transition: border-color 160ms ease;
 }
-.docs-inline-source-reference:is(:hover, :focus-visible) > code::before,
-code.docs-inline-source-reference:is(:hover, :focus-visible)::before,
-code:has(> a.docs-inline-source-reference:is(:hover, :focus-visible))::before {
+.docs-inline-source-reference:focus-visible > code::before,
+code.docs-inline-source-reference:focus-visible::before,
+code:has(> a.docs-inline-source-reference:focus-visible)::before {
   border-bottom-color: var(--code-reference-dash, var(--primary, currentColor));
+}
+@media (hover: hover) and (pointer: fine) {
+  .docs-inline-source-reference:hover > code::before,
+  code.docs-inline-source-reference:hover::before,
+  code:has(> a.docs-inline-source-reference:hover)::before {
+    border-bottom-color: var(--code-reference-dash, var(--primary, currentColor));
+  }
 }
 .docs-inline-source-reference:focus-visible {
   outline: 2px solid var(--ring);

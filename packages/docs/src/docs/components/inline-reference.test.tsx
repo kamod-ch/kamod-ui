@@ -28,8 +28,8 @@ describe("documentation references", () => {
       ["Input", "/docs/input/installation#api-reference"],
       ["dialog", "/docs/dialog/installation#api-reference"],
       ["Sidebar", "/docs/sidebar/installation#api-reference"],
-      ["Application Shell 3", "/blocks/application-shell/application-shell-3"],
-      ["preact", "https://github.com/preactjs/preact"],
+      ["application-shell-3", "/blocks/application-shell/application-shell-3"],
+      ["preact", "https://preactjs.com/"],
       ["@formisch/preact", "/docs/formisch/installation"],
     ]) {
       const link = getByRole("link", { name: label, exact: true });
@@ -53,7 +53,7 @@ describe("documentation references", () => {
       "href",
       "/docs/button/installation#sizes",
     );
-    expect(getByRole("link", { name: "Preact" }).querySelectorAll("svg")).toHaveLength(2);
+    expect(getByRole("link", { name: "Preact" }).querySelectorAll("svg")).toHaveLength(0);
     expect(container.querySelector("a a, code code")).toBeNull();
   });
   it("links companion hooks to their implementations with private source metadata", () => {

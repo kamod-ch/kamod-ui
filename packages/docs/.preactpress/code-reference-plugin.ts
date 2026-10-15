@@ -8,12 +8,14 @@ import {
   createCodeReferenceSourceModule,
   extractPackageReferenceSymbols,
 } from "./code-reference-help";
+import { buildInlineReferenceCatalog } from "./inline-reference-catalog";
 
 const id = "virtual:kamod-code-references";
 const resolvedId = `\0${id}`;
 const helpId = "virtual:kamod-code-reference-help";
 const resolvedHelpId = `\0${helpId}`;
 const workspaces = ["core", "blocks", "docs", "themes", "typeset", "motion", "openui"];
+const declarationPackages = ["preact", "@preact/signals", "@kamod-ch/themes"];
 
 /** GitHub only: registry strings and executable/non-web manifest URLs are not destinations. */
 export function repositoryUrl(repository: unknown): string | undefined {
@@ -29,6 +31,8 @@ export function codeReferencePlugin(): Plugin {
   const root = resolve(import.meta.dirname, "../../..");
   let catalog: ReturnType<typeof buildCatalog> | undefined;
   let helpCatalog: ReturnType<typeof buildHelpCatalog> | undefined;
+  let inlineCatalog: ReturnType<typeof buildInlineReferenceCatalog> | undefined;
+  const inline = () => (inlineCatalog ??= buildInlineReferenceCatalog(root));
   const sourceHelp = new Map<string, ReturnType<typeof buildSourceHelp>>();
   const packageHelp = new Map<string, ReturnType<typeof buildPackageHelp>>();
   const buildCatalog = async () => {
@@ -98,7 +102,7 @@ export function codeReferencePlugin(): Plugin {
       .sort();
     // A small name-to-module index enables prose detection without shipping declaration details.
     const symbols: Record<string, { module: string; imported: string }[]> = {};
-    for (const name of ["preact", "@preact/signals"]) {
+    for (const name of declarationPackages) {
       const pending = packageHelp.get(name) ?? buildPackageHelp(name);
       packageHelp.set(name, pending);
       const declarations = await pending;
@@ -109,7 +113,7 @@ export function codeReferencePlugin(): Plugin {
             entries.push({ module, imported: symbol.name });
         }
     }
-    return { repositories, components, files, symbols };
+    return { repositories, components, files, symbols, inline: (await inline()).index };
   };
   const buildHelpCatalog = async () => {
     const navigation = await (catalog ??= buildCatalog());
@@ -239,7 +243,13 @@ export function codeReferencePlugin(): Plugin {
         return `export default ${JSON.stringify(await (catalog ??= buildCatalog()))}`;
       if (source === resolvedHelpId) {
         const { packages, groups } = await (helpCatalog ??= buildHelpCatalog());
-        return `export default {packages:${JSON.stringify(packages)},packageLoaders:{${["preact", "@preact/signals"].map((name) => `${JSON.stringify(name)}:()=>import(${JSON.stringify(`${helpId}/dependency/${name}`)}).then(module=>module.default)`).join(",")}},loaders:{${Object.keys(
+        const familyLoaders = Object.keys((await inline()).families)
+          .map(
+            (kind) =>
+              `${JSON.stringify(kind)}:()=>import(${JSON.stringify(`${helpId}/inline/${kind}`)}).then(module=>module.default)`,
+          )
+          .join(",");
+        return `export default {packages:${JSON.stringify(packages)},inlineLoaders:{${familyLoaders}},packageLoaders:{${declarationPackages.map((name) => `${JSON.stringify(name)}:()=>import(${JSON.stringify(`${helpId}/dependency/${name}`)}).then(module=>module.default)`).join(",")}},loaders:{${Object.keys(
           groups,
         )
           .sort()
@@ -249,9 +259,16 @@ export function codeReferencePlugin(): Plugin {
           )
           .join(",")}}};`;
       }
+      if (source.startsWith(`${resolvedHelpId}/inline/`)) {
+        const kind = source.slice(`${resolvedHelpId}/inline/`.length);
+        const families = (await inline()).families;
+        if (!Object.hasOwn(families, kind))
+          throw new Error(`Unknown inline-reference family: ${kind}`);
+        return `export default ${JSON.stringify(families[kind])};`;
+      }
       if (source.startsWith(`${resolvedHelpId}/dependency/`)) {
         const name = source.slice(`${resolvedHelpId}/dependency/`.length);
-        if (!["preact", "@preact/signals"].includes(name))
+        if (!declarationPackages.includes(name))
           throw new Error(`Unknown reference package: ${name}`);
         const result = packageHelp.get(name) ?? buildPackageHelp(name);
         packageHelp.set(name, result);
@@ -269,12 +286,13 @@ export function codeReferencePlugin(): Plugin {
     configureServer(server) {
       const invalidate = (_event: string, path: string) => {
         if (
-          !/package\.json$|packages\/(core|blocks)\/src\/.*\.(ts|tsx|css)$|packages\/docs\/src\/docs\/pages\/.*-doc\.tsx$/.test(
+          !/package\.json$|packages\/(core|blocks)\/src\/.*\.(ts|tsx|css|json)$|packages\/docs\/(?:docs|blocks)\/.*\.md$|packages\/docs\/src\/(?:references\/catalog\/|docs\/|blocks\/(?:detail\/|BlockOverviewPage)).*\.(ts|tsx)$/.test(
             path,
           )
         )
           return;
         catalog = undefined;
+        inlineCatalog = undefined;
         helpCatalog = undefined;
         sourceHelp.clear();
         packageHelp.clear();

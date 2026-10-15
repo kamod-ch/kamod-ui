@@ -56,3 +56,16 @@ it("keeps a usable destination after a failed optional request", async () => {
     request.href,
   );
 });
+
+it("forwards the inline identity through the shared loading boundary", async () => {
+  const inline = {
+    label: "preact",
+    module: "Preact",
+    referenceId: "technology:preact",
+    href: "https://preactjs.com/",
+  };
+  load.mockResolvedValueOnce({ ...facts, kind: "technology", description: "Technology details." });
+  render(<ReferenceTooltip request={inline} />);
+  await screen.findByText("Technology details.");
+  expect(load).toHaveBeenCalledWith(expect.objectContaining(inline));
+});

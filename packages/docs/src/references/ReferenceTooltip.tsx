@@ -20,13 +20,13 @@ export function ReferenceTooltip({ request }: { request: CodeReferenceHelpReques
 function ReferenceTooltipRequest({ request }: { request: CodeReferenceHelpRequest }) {
   const [content, setContent] = useState<Content | null>(null);
   const [failed, setFailed] = useState(false);
-  const { label, module, imported, local, filePath, href } = request;
+  const { label, module, imported, local, filePath, referenceId, href } = request;
   useEffect(() => {
     let active = true;
     void Promise.all([
       import("./help/code-reference-help"),
       import("./help/loader").then(({ loadCodeReferenceHelp }) =>
-        loadCodeReferenceHelp({ label, module, imported, local, filePath, href }),
+        loadCodeReferenceHelp({ label, module, imported, local, filePath, referenceId, href }),
       ),
     ])
       .then(([ui, reference]) => {
@@ -42,7 +42,7 @@ function ReferenceTooltipRequest({ request }: { request: CodeReferenceHelpReques
     return () => {
       active = false;
     };
-  }, [label, module, imported, local, filePath, href]);
+  }, [label, module, imported, local, filePath, referenceId, href]);
   if (failed)
     return <CodeReferenceHelpUnavailable name={label} module={module ?? label} href={href} />;
   if (!content) return <CodeReferenceHelpLoading name={label} module={module ?? label} />;

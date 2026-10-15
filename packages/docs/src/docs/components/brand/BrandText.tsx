@@ -132,7 +132,8 @@ export function BrandText({ children }: { children: ComponentChildren }): Compon
         : child && typeof child === "object" && "type" in child && child.type === "code"
           ? (child.props as { children?: ComponentChildren }).children
           : undefined;
-    if (typeof label !== "string" || (!inlineReference(label) && !isBrandLabel(label))) return node;
+    if (typeof label !== "string") return node;
+    if (typeof child === "string" && !inlineReference(label) && !isBrandLabel(label)) return node;
     const source = inlineSourceReference(label, node.props.href);
     if (source)
       return cloneElement(node, {
@@ -140,6 +141,7 @@ export function BrandText({ children }: { children: ComponentChildren }): Compon
         class: `${node.props.class ?? ""} kamod-code-reference docs-inline-source-reference`.trim(),
         children: <code>{label}</code>,
       });
+    if (!inlineReference(label) && !isBrandLabel(label)) return node;
     return cloneElement(node, {
       class: `${node.props.class ?? ""} docs-inline-code-link`.trim(),
       children: inlineReference(label) ? (

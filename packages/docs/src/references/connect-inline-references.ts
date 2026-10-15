@@ -65,13 +65,15 @@ export function connectInlineCode(doc: Document) {
     const term = code.getAttribute("data-code-help") ?? code.textContent?.trim() ?? "";
     if (previous && previous.term === term) return;
     if (previousTarget) restore(previousTarget);
-    const source = code.hasAttribute("data-code-help") ? undefined : inlineSourceReference(term);
-    if (!source && !inlineCodeExplanation(term)) return;
     const target =
       code.closest<HTMLAnchorElement>("a[href]") ??
       code.querySelector<HTMLAnchorElement>("a[href]") ??
       code;
     if (target !== code && target.textContent?.trim() !== code.textContent?.trim()) return;
+    const source = code.hasAttribute("data-code-help")
+      ? undefined
+      : inlineSourceReference(term, target.getAttribute("href") ?? undefined);
+    if (!source && !inlineCodeExplanation(term)) return;
     if (!previous && sourceReferenceHelp(target)) return;
     if (owned.has(target)) restore(target);
     const attributes = new Map<string, string | null>();

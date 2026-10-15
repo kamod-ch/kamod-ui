@@ -4,59 +4,18 @@ import {
   BracesIcon,
   ComponentIcon,
   FileCodeIcon,
-  LayersIcon,
-  LockKeyholeIcon,
-  PackageIcon,
-  Share2Icon,
-  SparklesIcon,
-  SquareFunctionIcon,
 } from "@kamod-ch/icons/lucide";
 import { BrandGithubIcon } from "@kamod-ch/icons/tabler/filled";
 import { Badge } from "@kamod-ch/ui/badge";
 import { splitDisplayPath } from "../../docs/components/display-path";
 import type { CodeReferenceHelp } from "../types";
-
-const kindIcons = {
-  component: ComponentIcon,
-  export: Share2Icon,
-  type: BracesIcon,
-  function: SquareFunctionIcon,
-  constant: LockKeyholeIcon,
-  icon: SparklesIcon,
-  module: LayersIcon,
-  package: PackageIcon,
-  file: FileCodeIcon,
-};
+import { referenceKinds } from "./reference-kinds";
 
 const relatedIcons = {
   type: BracesIcon,
   props: ComponentIcon,
   guide: BookOpenIcon,
   source: FileCodeIcon,
-};
-
-const kindLabels = {
-  component: "Component",
-  export: "Export",
-  type: "Type definition",
-  function: "Function",
-  constant: "Constant",
-  icon: "Icon",
-  module: "Module",
-  package: "Package",
-  file: "Source file",
-};
-
-const contractLabels = {
-  component: "Props at a glance",
-  export: "Declared shape",
-  type: "Shape at a glance",
-  function: "Arguments at a glance",
-  constant: "Value at a glance",
-  icon: "Icon options",
-  module: "Exported shape",
-  package: "Exported shape",
-  file: "Exported shape",
 };
 
 /** Render authored/source-derived emphasis as text, never as arbitrary HTML. */
@@ -78,7 +37,7 @@ function ReferenceSentence({ text }: { text: string }) {
   );
 }
 
-/** Keep exact import text; only the middle of longer paths yields to the tooltip width. */
+/** Keep the exact origin; only the middle of longer paths yields to the tooltip width. */
 function ReferencePath({ path }: { path: string }) {
   const { root, middle, end } = splitDisplayPath(path);
   return (
@@ -99,9 +58,12 @@ function ReferenceContract({ reference }: { reference: CodeReferenceHelp }) {
   if (!fields?.length && !reference.signature) return null;
   const signature = reference.kind === "type" && fields?.length ? undefined : reference.signature;
   return (
-    <section class="code-reference-help-contract" aria-label={contractLabels[reference.kind]}>
+    <section
+      class="code-reference-help-contract"
+      aria-label={referenceKinds[reference.kind].contract}
+    >
       <div class="code-reference-help-section-label">
-        <strong>{contractLabels[reference.kind]}</strong>
+        <strong>{referenceKinds[reference.kind].contract}</strong>
         {!!fields?.length && (
           <span>
             {reference.fields!.length > 3
@@ -142,7 +104,7 @@ function ReferenceContract({ reference }: { reference: CodeReferenceHelp }) {
 /** One compact reading layout, with verified contracts and destinations tailored to each kind. */
 export function CodeReferenceHelpContent({ reference }: { reference: CodeReferenceHelp }) {
   const { kind, name, module, description, detail, source, docs } = reference;
-  const Icon = kindIcons[kind];
+  const { Icon, label } = referenceKinds[kind];
   const moduleDestination = docs ?? source;
   const related = reference.related?.slice(0, 4);
   const SourceIcon = source?.href.startsWith("https://github.com/")
@@ -159,16 +121,17 @@ export function CodeReferenceHelpContent({ reference }: { reference: CodeReferen
         </strong>
         <Badge class="code-reference-help-kind" size="xxs">
           <Icon size={11} aria-hidden="true" />
-          {kindLabels[kind]}
+          {label}
         </Badge>
       </header>
       <div class="code-reference-help-origin">
         <span>
-          {kind === "file"
-            ? "Source path"
-            : kind === "module" || kind === "package"
-              ? "Import path"
-              : "Import from"}
+          {reference.originLabel ??
+            (kind === "file"
+              ? "Source path"
+              : kind === "module" || kind === "package"
+                ? "Import path"
+                : "Import from")}
         </span>
         {moduleDestination ? (
           <a href={moduleDestination.href} target="_top" aria-label={`Open ${module} reference`}>
@@ -189,6 +152,18 @@ export function CodeReferenceHelpContent({ reference }: { reference: CodeReferen
         )}
       </div>
       <ReferenceContract reference={reference} />
+      {!!reference.facts?.length && (
+        <section aria-label="Reference details">
+          <dl class="code-reference-help-fields">
+            {reference.facts.map(({ label, value }) => (
+              <div key={label}>
+                <dt>{label}</dt>
+                <dd>{value}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+      )}
       {!!related?.length && (
         <section class="code-reference-help-related" aria-label="Related references">
           <div class="code-reference-help-section-label">

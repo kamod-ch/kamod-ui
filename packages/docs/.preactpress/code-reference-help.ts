@@ -167,6 +167,17 @@ export function extractPackageReferenceSymbols(source: string, filePath: string)
   const symbols = extractCodeReferenceSymbols(source, filePath);
   const signatures = new Set<string>();
   for (const statement of file.statements) {
+    if (ts.isVariableStatement(statement)) {
+      for (const declaration of statement.declarationList.declarations) {
+        if (!declaration.type || !ts.isFunctionTypeNode(declaration.type)) continue;
+        const symbol = symbols.find(({ name }) => name === declaration.name.getText(file));
+        if (!symbol) continue;
+        // Declaration files represent arrow-function exports as typed constants, without an initializer.
+        symbol.kind = /^[A-Z]/.test(symbol.name) ? "component" : "function";
+        symbol.signature = compact(`${symbol.name}: ${declaration.type.getText(file)}`, 220);
+      }
+      continue;
+    }
     if (!ts.isFunctionDeclaration(statement) && !ts.isClassDeclaration(statement)) continue;
     const symbol = symbols.find(({ name }) => name === statement.name?.text);
     if (!symbol || signatures.has(symbol.name)) continue;

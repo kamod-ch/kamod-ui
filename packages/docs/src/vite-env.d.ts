@@ -15,6 +15,7 @@ declare module "virtual:kamod-code-references" {
     files: string[];
     components: Record<string, { slug: string; file: string }>;
     symbols: Record<string, { module: string; imported: string }[]>;
+    inline: import("./references/types").InlineReferenceIndex;
   };
   export default catalog;
 }

@@ -271,7 +271,8 @@ it("preserves brand links and accepts explicit glossary keys without guessing ar
 
 it.each(Object.entries(brandReferences))(
   "explains the branded %s link with its official destination",
-  (name, reference) => {
+  async (name, reference) => {
+    vi.useRealTimers();
     render(
       <>
         <ApplicationTooltips page="brands" />
@@ -281,16 +282,15 @@ it.each(Object.entries(brandReferences))(
       </>,
     );
     const trigger = screen.getByRole("link", { name });
-    hover(trigger);
-    const help = screen.getByRole("dialog", { name: `${name} explained` });
-    expect(help).toHaveTextContent(reference.description);
-    expect(help.querySelector(".reference-help-heading strong")).toHaveTextContent(name);
-    expect(help.querySelector(".reference-help-action")).toHaveAccessibleName(
-      `Open reference for ${name}`,
+    act(() => trigger.focus());
+    const help = screen.getByRole("dialog", { name: `${name} reference` });
+    await waitFor(() =>
+      expect(help.querySelector('[data-reference-kind="technology"]')).not.toBeNull(),
     );
-    expect(help.querySelector(".reference-help-footer")).not.toHaveTextContent(
-      "Visit Official Website",
+    expect(help.querySelector(".code-reference-help-summary")).toHaveTextContent(
+      reference.description,
     );
+    expect(help.querySelector(".code-reference-help-header strong")).toHaveTextContent(name);
     expect(help.querySelector("a")).toHaveAttribute("href", reference.href);
     expect(trigger).toHaveAttribute("href", reference.href);
     expect(trigger).not.toHaveAttribute("title");
@@ -362,35 +362,15 @@ it.each([
 });
 
 it.each([
-  [
-    "Button",
-    "/docs/button/installation",
-    "@/components/kamod-ui/button",
-    "packages/core/src/components/button",
-  ],
-  [
-    "SidebarProvider",
-    "/docs/sidebar/installation",
-    "@/components/kamod-ui/sidebar",
-    "packages/core/src/components/sidebar",
-  ],
-  [
-    "Application Shell 3",
-    "/blocks/application-shell/application-shell-3",
-    "packages/blocks/src/application-shell/application-shell-3",
-    "packages/blocks/src/application-shell/application-shell-3",
-  ],
-  [
-    "Components",
-    "/docs/components",
-    "packages/core/src/components",
-    "packages/core/src/components",
-  ],
-  ["Blocks", "/blocks", "packages/blocks/src", "packages/blocks/src"],
-  ["Packages", "/docs/packages", "packages", "packages"],
+  ["Button", "/docs/button/installation", "component"],
+  ["SidebarProvider", "/docs/sidebar/installation", "component"],
+  ["Application Shell 3", "/blocks/application-shell/application-shell-3", "block"],
+  ["Components", "/docs/components", "guide"],
+  ["Blocks", "/blocks", "guide"],
+  ["Packages", "/docs/packages", "guide"],
 ])(
-  "explains %s with a linked source path without changing its navigation",
-  async (label, href, path, source) => {
+  "explains %s through shared lazy help without changing its navigation",
+  async (label, href, kind) => {
     vi.useRealTimers();
     const { container } = render(
       <>
@@ -404,33 +384,17 @@ it.each([
     );
     const trigger = container.querySelector("p a") as HTMLAnchorElement;
     act(() => trigger.focus());
-    const semantic = ["Button", "SidebarProvider"].includes(label);
-    const help = screen.getByRole("dialog", {
-      name: `${label} ${semantic ? "reference" : "explained"}`,
-    });
-    if (semantic) {
-      await waitFor(() => expect(help.querySelector(".code-reference-help-layout")).not.toBeNull());
-      expect(help.querySelector(".code-reference-help-summary")).not.toBeEmptyDOMElement();
-      expect(trigger).toHaveAttribute("href", href);
-      const readingLink = help.querySelector("a")!;
-      fireEvent.keyDown(trigger, { key: "Tab" });
-      expect(readingLink).toHaveFocus();
-      fireEvent.keyDown(readingLink, { key: "Escape" });
-      expect(trigger).toHaveFocus();
-      return;
-    }
-    const sourceLink = help.querySelector(".docs-code-explanation-path a")!;
-    expect(sourceLink).toHaveTextContent(path);
-    expect(sourceLink).toHaveAttribute(
-      "href",
-      `https://github.com/kamod-ch/kamod-ui/tree/main/${source}`,
+    const help = screen.getByRole("dialog", { name: `${label} reference` });
+    await waitFor(() =>
+      expect(help.querySelector(`[data-reference-kind="${kind}"]`)).not.toBeNull(),
     );
-    expect(help.querySelector(".reference-help-description")).not.toBeEmptyDOMElement();
+    expect(help.querySelector(".code-reference-help-summary")).not.toBeEmptyDOMElement();
     expect(trigger).toHaveAttribute("href", href);
     expect(trigger.querySelector("code")).not.toHaveAttribute("tabindex");
+    const readingLink = help.querySelector("a")!;
     fireEvent.keyDown(trigger, { key: "Tab" });
-    expect(sourceLink).toHaveFocus();
-    fireEvent.keyDown(sourceLink, { key: "Escape" });
+    expect(readingLink).toHaveFocus();
+    fireEvent.keyDown(readingLink, { key: "Escape" });
     expect(trigger).toHaveFocus();
   },
 );

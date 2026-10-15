@@ -9,7 +9,7 @@ export function CodeReferenceHelpLoading({ name, module }: { name: string; modul
           <i />
         </span>
         <div class="code-reference-help-loading-heading">
-          <strong>Following the source</strong>
+          <strong>Following the reference</strong>
           <code>{name}</code>
         </div>
         <span class="code-reference-help-loading-pulse" aria-hidden="true" />
@@ -44,7 +44,7 @@ export function CodeReferenceHelpUnavailable({
       <strong>
         <code>{name}</code>
       </strong>
-      <p>Extra details could not be opened. The source link is still available.</p>
+      <p>Extra details could not be opened. The reference link is still available.</p>
       <p class="code-reference-help-loading-module" dir="ltr">
         {module}
       </p>

@@ -9,7 +9,7 @@ import { sourceReferenceHelp } from "./source-reference-target";
 
 afterEach(cleanup);
 
-it("resolves current reference kinds from verified names without enabling proposed categories", () => {
+it("resolves source references without enabling unrelated proposal families", () => {
   for (const [label, module, imported] of [
     ["Button", "@kamod-ch/ui", "Button"],
     ["DirectionProviderProps", "@kamod-ch/ui", "DirectionProviderProps"],
@@ -28,15 +28,41 @@ it("resolves current reference kinds from verified names without enabling propos
     "unknownPackage",
     "@unknown/package",
     "constructor",
-    "npm add preact",
+    "unknown-tool add preact",
     "--primary",
     "aria-label",
     "package.json",
     "window",
-    "Application Shell 3",
+    "Application Shell 999",
   ])
     expect(inlineSourceReference(label)).toBeUndefined();
   expect(inlineSourceReference("Button", "javascript:alert(1)")).toBeUndefined();
+});
+
+it.each(["cn", "useTheme", "useCounter", "useState", "createStore", "persistedSignal"])(
+  "resolves %s() like its bare name while preserving its visible call syntax",
+  (name) => {
+    const bare = inlineSourceReference(name);
+    expect(bare).toBeDefined();
+    expect(inlineSourceReference(`${name}()`)).toEqual({ ...bare, label: `${name}()` });
+  },
+);
+
+it.each(["useAnything()", "cn(value)", "cn()()", "cn ()", "preact/hooks()", "constructor()"])(
+  "leaves the unverified or non-standalone expression %s plain",
+  (label) => expect(inlineSourceReference(label)).toBeUndefined(),
+);
+
+it("renders cn() with its API destination, original text and shared source-help metadata", () => {
+  const { getByRole } = render(<InlineCodeReference>cn()</InlineCodeReference>);
+  const link = getByRole("link", { name: "cn()", exact: true });
+  expect(link).toHaveAttribute("href", "/docs/cn/installation#api-reference");
+  expect(link.querySelector("code")).toHaveTextContent("cn()");
+  expect(sourceReferenceHelp(link)).toMatchObject({
+    label: "cn()",
+    module: "@kamod-ch/ui",
+    imported: "cn",
+  });
 });
 
 it("keeps explicit destinations and exact text with no decorative icons or nested anchors", () => {
@@ -87,6 +113,7 @@ it("enhances raw JSX/Markdown terms without rewriting DOM, and restores detached
     <>
       <p>
         <code>Button</code>
+        <code>useTheme()</code>
         <a href="#mine">
           <code>@kamod-ch/hooks</code>
         </a>
@@ -106,7 +133,12 @@ it("enhances raw JSX/Markdown terms without rewriting DOM, and restores detached
   const link = container.querySelector<HTMLAnchorElement>("p a")!;
   expect(sourceReferenceHelp(code)).toMatchObject({ imported: "Button" });
   expect(sourceReferenceHelp(link)).toMatchObject({ module: "@kamod-ch/hooks", href: "#mine" });
-  expect(container.querySelectorAll(".kamod-code-reference")).toHaveLength(2);
+  expect(sourceReferenceHelp(container.querySelectorAll<HTMLElement>("p code")[1])).toMatchObject({
+    label: "useTheme()",
+    module: "@kamod-ch/themes",
+    imported: "useTheme",
+  });
+  expect(container.querySelectorAll(".kamod-code-reference")).toHaveLength(3);
   expect(container.textContent).toBe(before);
   code.textContent = "unknownName";
   await Promise.resolve();

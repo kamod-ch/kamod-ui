@@ -10,6 +10,7 @@ import type {
   CodeReferenceSourceModule,
   CodeReferenceSourceSymbol,
 } from "../types";
+import { loadInlineReferenceHelp } from "./inline-help";
 
 const repository = "https://github.com/kamod-ch/kamod-ui";
 const routes = new Set<string>(docsNavigation.map(({ slug }) => slug));
@@ -276,11 +277,12 @@ export function describeCodeReference(
   };
 }
 
-/** Load the hovered module's compact help chunk, never a page runtime or source-code compiler. */
+/** Load compact source or inline-family help, never a page runtime or source-code compiler. */
 export async function loadCodeReferenceHelp(
   request: CodeReferenceHelpRequest,
 ): Promise<CodeReferenceHelp> {
   const data = await helpCatalog();
+  if (request.referenceId) return loadInlineReferenceHelp(data, request);
   const [module, declaration] = await Promise.all([
     sourceModule(data, moduleSlug(request)),
     packageSymbol(data, request),

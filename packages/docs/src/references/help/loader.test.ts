@@ -8,6 +8,7 @@ import {
 } from "../../../.preactpress/code-reference-help";
 import { withBasePath } from "../../base-path";
 import { componentPropsId } from "../../docs/components/component-detail/component-api-id";
+import { inlineSourceReference } from "../inline-references";
 import type { CodeReferenceHelpCatalog, CodeReferenceHelpRequest } from "../types";
 import { describeCodeReference, loadCodeReferenceHelp } from "./loader";
 
@@ -18,6 +19,26 @@ const directionRequest: CodeReferenceHelpRequest = {
   label: "DirectionProvider",
   href: "/docs/direction/installation#api-reference",
 };
+
+it("classifies declared callable values by their function type, preserving ordinary constants", () => {
+  const symbols = extractPackageReferenceSymbols(
+    "export declare const useTheme: () => ThemeContextValue; export declare const version: string;",
+    "index.d.ts",
+  );
+  expect(symbols.find(({ name }) => name === "useTheme")).toMatchObject({
+    kind: "function",
+    signature: "useTheme: () => ThemeContextValue",
+  });
+  expect(symbols.find(({ name }) => name === "version")?.kind).toBe("constant");
+});
+
+it("loads the verified theme hook declaration for its parenthesized inline reference", async () => {
+  const request = inlineSourceReference("useTheme()")!;
+  const help = await loadCodeReferenceHelp(request);
+  expect(help).toMatchObject({ kind: "function", name: "useTheme()", module: "@kamod-ch/themes" });
+  expect(help.signature).toContain("ThemeContextValue");
+  expect(help.docs?.href).toBe("/docs/theming/installation#read-and-change-appearance");
+});
 
 it("extracts declaration kinds, actual JSDoc and only directly declared fields", () => {
   const symbols = extractCodeReferenceSymbols(

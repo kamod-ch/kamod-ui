@@ -1,4 +1,4 @@
-/** Source facts extracted at build time, requested only after a code-reference tooltip opens. */
+/** Private source/context facts, requested only after a reference tooltip opens. */
 export type CodeReferenceHelpKind =
   | "component"
   | "export"
@@ -8,7 +8,12 @@ export type CodeReferenceHelpKind =
   | "icon"
   | "module"
   | "package"
-  | "file";
+  | "file"
+  | "command"
+  | "block"
+  | "guide"
+  | "technology"
+  | "page";
 
 export type CodeReferenceHelpLink = { label: string; href: string };
 
@@ -24,6 +29,7 @@ export type CodeReferenceHelp = {
   kind: CodeReferenceHelpKind;
   name: string;
   module: string;
+  originLabel?: string;
   description: string;
   detail?: string;
   signature?: string;
@@ -31,6 +37,7 @@ export type CodeReferenceHelp = {
   docs?: CodeReferenceHelpLink;
   related?: (CodeReferenceHelpLink & { kind: "type" | "props" | "guide" | "source" })[];
   fields?: CodeReferenceHelpField[];
+  facts?: { label: string; value: string }[];
 };
 
 /** Keep aliases tied to their original exports; label is the exact visible source token. */
@@ -39,6 +46,8 @@ export type CodeReferenceHelpRequest = {
   imported?: string;
   local?: string;
   filePath?: string;
+  /** Build-index identity for an inline family; never inferred from a source-code token. */
+  referenceId?: string;
   href: string;
   label: string;
 };
@@ -76,4 +85,12 @@ export type CodeReferenceHelpCatalog = {
   packages: Record<string, CodeReferencePackage>;
   loaders: Record<string, () => Promise<CodeReferenceSourceModule>>;
   packageLoaders?: Record<string, () => Promise<Record<string, CodeReferenceSourceSymbol[]>>>;
+  inlineLoaders?: Record<string, () => Promise<Record<string, CodeReferenceHelp>>>;
+};
+
+/** Only identities and destinations are eager; descriptions and contracts stay in lazy chunks. */
+export type InlineReferenceIndex = {
+  aliases: Record<string, [id: string, origin: string, href: string]>;
+  routes: Record<string, string[]>;
+  commands: Record<string, string>;
 };

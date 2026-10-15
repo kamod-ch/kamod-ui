@@ -83,6 +83,8 @@ export const resolveCodeReference: CodeReferenceResolver = ({
   }
   if (name === "@formisch/preact" && imported)
     return withBasePath("/docs/formisch/installation#anatomy");
+  if (name === "@kamod-ch/themes" && exportName === "useTheme")
+    return withBasePath("/docs/theming/installation#read-and-change-appearance");
   if (!imported || imported === "*") return guide ? withBasePath(guide) : repository;
   // These package guides have no separate on-site source for each imported helper/icon.
   const reference = exportName ? inlineReference(exportName) : undefined;

@@ -39,20 +39,26 @@ test("import links preserve syntax/source, follow aliases and navigate to local 
         arrow: arrow.content,
         width: node.getBoundingClientRect().width,
         background: css.backgroundColor,
+        emphasis: css.webkitTextStrokeWidth,
+        transition: css.transitionDuration,
       };
     });
   // Direct code children and nested syntax tokens must both escape prose-chip hover rules.
   for (const target of [aliases.first(), link, module]) {
     await page.mouse.move(0, 0);
+    await expect.poll(async () => (await appearance(target)).underline).toMatch(/\/ 0\.35\)/);
+    await expect.poll(async () => (await appearance(target)).emphasis).toBe("0px");
     const before = await appearance(target);
     expect(before.thickness).toBe("1.5px");
-    expect(before.underline).toMatch(/\/ 0\.25\)/);
+    expect(before.underline).toMatch(/\/ 0\.35\)/);
     expect(before.decoration).toBe("none");
     expect(before.color).toBe(before.syntaxColor);
     expect(before.arrow).toBe("none");
     expect(before.style).toBe("dashed");
+    expect(before.transition).toContain("0.52s");
     await target.hover();
     await expect.poll(async () => (await appearance(target)).underline).toBe(before.primary);
+    await expect.poll(async () => (await appearance(target)).emphasis).toBe("0.2px");
     const hovered = await appearance(target);
     expect(hovered.decoration).toBe("none");
     expect(hovered.color).toBe(before.color);
@@ -62,7 +68,7 @@ test("import links preserve syntax/source, follow aliases and navigate to local 
     expect(hovered.arrow).toBe("none");
     expect(hovered.style).toBe("dashed");
     expect(hovered.underline).toBe(before.primary);
-    expect(hovered.underline).not.toMatch(/\/ 0\.25\)/);
+    expect(hovered.underline).not.toMatch(/\/ 0\.35\)/);
   }
   const text = await code.textContent();
   expect(text).toContain("import { Button as SaveButton }");
@@ -70,6 +76,9 @@ test("import links preserve syntax/source, follow aliases and navigate to local 
   expect(text).not.toContain("↗");
   await link.focus();
   await expect(link).toHaveCSS("outline-style", "solid");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(link).toHaveCSS("transition-duration", "0s");
+  await expect(link).toHaveCSS("-webkit-text-stroke-width", "0.2px");
   const focused = await appearance(link);
   expect(focused.decoration).toBe("none");
   expect(focused.color).toBe(focused.syntaxColor);
