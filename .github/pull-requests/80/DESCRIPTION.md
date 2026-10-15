@@ -264,7 +264,7 @@ arbitrary word matching.
 The eager index contains lightweight identity/destination data. Four lazy family
 modules provide descriptions and facts, sharing bounded promises and evicting
 failures for retry. Kind icons, labels and optional contract headings have one
-owner, and the inverted kind badges use nearly square 1px corners. Existing
+owner, and the inverted kind badges use nearly square 2px corners. Existing
 stale-result and delegated-event boundaries remain in place.
 
 ### Reference identity and package source accuracy
@@ -301,6 +301,37 @@ Catalogue tests audit all component display labels, all curated owners, filesyst
 source targets and local route/fragment destinations. Production regressions cover
 the reported examples, original authored links, Page / section consolidation,
 source-first resources, keyboard flow and 320/1440px layouts in both appearances.
+
+### ReferenceTooltip reading layout
+
+The shared private tooltip retains its icon/name heading while adding a quiet
+origin badge, a dot and an inverse type badge with 2px corners. The exact path uses
+the ordinary page inline-code highlight. Up to two verified, deduplicated shortcuts
+follow immediately with slash separators; the row stays on one line and yields to
+narrow screens without losing its underlying text or destinations.
+
+Descriptions retain source-backed content and support safe code, emphasis and
+explicit HTTP(S)/local links. Smaller, quieter supporting detail explains aliases,
+licenses or the limits of a declaration summary. Contract fields, reference facts
+and related reading each have their own compact bordered panel. Required/optional
+labels, actual counts, highlighted types and role captions make the content easier
+to scan. Related resources use two columns when space allows and stack on narrow
+screens; a bare props type name stays an inline chip instead of a nested code box.
+
+The footer has one primary link on the right and a subtle family-specific context
+note on the left. It stays visible when long contents scroll, while secondary
+source/guide resources remain in the location row or related panel. Existing
+package-source priority, accessible names, top-frame navigation, focus return and
+failure/loading behavior remain intact.
+
+Tiny declarations reuse the existing grammar in a separate lazy module, requested
+only for references with a contract. Literal text is the immediate fallback, and
+these fragments mount no reader toolbar, observers or token-level listeners.
+A local error boundary retains plain code and navigation if the optional syntax
+chunk fails, keeping that failure away from the page boundary.
+Focused presentation helpers own resource selection, safe prose, contracts and
+related reading. Production checks cover seven families at 320/768/1440px in both
+appearances, plus the existing loading, source, keyboard and dismissal cases.
 
 ### Showcase Prompts and download feedback
 
@@ -537,6 +568,16 @@ the final isolated run removes that harness conflict. It was not an application
 assertion failure. The older Safari/WebKit limits above remain unchanged. Current
 [PR checks](https://github.com/kamod-ch/kamod-ui/pull/80/checks) report CI for the
 pushed follow-up rather than the historical implementation listed in the matrix.
+
+### Tooltip redesign validation
+
+The complete `corepack pnpm test:ci` passes **1,550 tests in 185 files**, including
+**880 documentation tests in 92 files**. Documentation typecheck/build and root
+Oxlint, Oxfmt and Biome pass. All **21 affected production Chrome cases** pass,
+including seven families at 320/768/1440px in both appearances, keyboard return,
+one-line locations, shared chip paint and a deliberately blocked optional syntax
+module. Desktop/mobile component and stylesheet cards were visually inspected.
+The earlier Safari/WebKit boundaries remain unchanged.
 
 ### Earlier merge-readiness review (before the reference follow-up)
 

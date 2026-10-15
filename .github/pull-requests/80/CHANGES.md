@@ -804,7 +804,7 @@ no additional external font, iframe, animation loop or state store is introduced
 - **Bounded family loading.** Share a request/cache per additional family, with at most four family entries. Remove failed requests so opening the help again can retry without retaining a rejected result forever.
 - **Family-specific help.** Show useful command, block, technology or page facts with official/local reading actions. Keep these private cards independent of the reusable core Code API.
 - **Centralized kind styling.** Share icon, label and optional contract-heading metadata across all thirteen kinds. New kinds do not each create a parallel tooltip implementation.
-- **Almost-square type badges.** Give the top-right reference-kind badge a barely visible 1px radius on every corner. Preserve its distinct inverted surface, icon and compact alignment.
+- **Almost-square type badges.** Give the top-right reference-kind badge a barely visible 2px radius on every corner. Preserve its distinct inverted surface, icon and compact alignment.
 - **One underline treatment.** Use the same dashed cue at 35% opacity for inline and source references, strengthening fully on hover or keyboard focus. A slow text-shadow emphasis adds visual weight without changing glyph widths or causing layout shifts.
 - **Paint above code highlights.** Retain the pointer-inert underline layer above inline chip backgrounds. The emphasis and cue keep original Prism token colors and clickable text bounds.
 - **Detection and cleanup coverage.** Exercise all new families, malformed commands, unknown/ambiguous aliases, version labels, verified anchors and fallback destinations. Cover lazy loading, retries, stale tooltip completion, accessible kind labels and keyboard navigation.
@@ -963,3 +963,44 @@ collision between overlapping audit runs was isolated by giving the final run it
 own output directory; it was not a failed application assertion. The final focused
 rerun uses the rebuilt committed implementation. Platform limits remain as stated
 in section 25; these results do not claim a new native Safari or WebKit run.
+
+## 37. ReferenceTooltip reading-surface redesign
+
+### Header and resource hierarchy
+
+- **Preserved heading identity.** Keep the existing icon-led name row and inverse kind badge. Add a subtle origin badge for the verified package, consumer alias, tool or technology role, separated from the kind by a small dot.
+- **Barely rounded badges.** Use consistent 2px corners for both badges and retain restrained secondary paint for the origin. Clamp long names and origin labels while preserving their complete accessible text.
+- **One-line locations.** Keep the exact import/source path and add up to two slash-separated resource shortcuts directly after it. Paths and shortcut labels yield to narrow space without wrapping or inventing destinations.
+- **Distinct verified resources.** Put secondary source, guide, props or type destinations in that location row. Deduplicate shortcut URLs and retain the source-first package policy from the preceding correction.
+- **Shared inline-code paint.** Reuse the actual page inline-code highlight for the path, property names, contract names and related code links. Use the paired page foreground so those chips stay readable on the inverse tooltip in every preset.
+
+### Useful prose and compact panels
+
+- **Safe rich descriptions.** Keep source-derived prose and add a small vocabulary for code, bold emphasis and explicit HTTP(S)/root-local Markdown links. Render unsupported URLs and HTML as literal text and preserve deployment prefixes on local links.
+- **Quieter supporting detail.** Place existing alias/license/context details or a truthful declaration-scope caption under the description at a smaller size and lower emphasis. Add inline-code/emphasis to generated type, alias and stylesheet explanations without inventing APIs.
+- **Structured contract panel.** Give props/signatures an icon-led heading, actual field count, clear required/optional labels, formatted types and compact separators. Preserve the three-field bound and avoid expanding inherited contracts into speculative props.
+- **Compact type names.** Present a bare props type name as an inline chip. Reserve a wrapping declaration surface for fuller signatures and commands, keeping tiny contracts from adding an unnecessary nested box.
+- **Separate reference details.** Give command, block, technology and page facts their own quiet bordered section with a real count. Use semantic definition lists without styling those facts as declared component props.
+- **Related-reading panel.** Give related types, props, guides and sources their own bordered section. Pair each highlighted code link with its useful role caption, use two columns where space allows and one column on narrow screens, and preserve full accessible link names.
+- **Single footer action.** Replace the two-link footer with one primary API/source/reading link on the right. On the left, show a small contextual note about installed versions, declarations, copied source or the current reference family.
+- **Persistent footer.** Keep that footer visible when the existing bounded tooltip must scroll. Use CSS positioning within the existing scroll container, without another observer or placement system.
+
+### Cost, ownership and verification
+
+- **Contract-only syntax loading.** Reuse the existing TypeScript/Bash highlighter through a separate lazy declaration module. Non-contract reference types do not request it; literal code remains visible while it loads.
+- **Optional-highlighting failure isolation.** Keep a local error boundary around declaration coloring so a missing grammar chunk leaves plain code and working links. A network failure in this visual enhancement cannot trigger the page error boundary.
+- **Small source fragments.** Highlight tiny declarations without mounting a complete Code reader, controls or its observers. Memoize each mounted fragment's markup, keep source text unchanged, and scope syntax ink to inverse-card theme roles.
+- **Focused presentation owners.** Split origin/resource selection, safe prose, contracts, declarations and related reading into small feature files. Keep the public core API, reference detection, lazy fact caches and shared tooltip controller unchanged.
+- **Interaction and layout regressions.** Add unit cases for one footer action, source-first resources, shortcut deduplication, missing resources, safe prose and literal-to-highlighted declarations. Update existing source/classification expectations for the moved resources and the 2px badge corners.
+- **Production browser matrix.** Verify 320/768/1440px in both appearances across seven reference families, including one-line locations, exact shared highlight paint, viewport bounds, grammar loading and keyboard return. Preserve deliberate-hover, failed-chunk, dismissed-request and original-source checks in the twenty-one-case affected suite, including blocked declaration highlighting.
+- **Visual and documentation review.** Inspect desktop/mobile component and stylesheet cards, refine shortcut spacing and compact contract names, and update the private tooltip/architecture references. Record this redesign in both checked-in PR documents while leaving private contributor context excluded.
+
+### Redesign verification
+
+The full `corepack pnpm test:ci` command passes **1,550 tests in 185 files**,
+including **880 documentation tests in 92 files**. Documentation typecheck and
+production build, root Oxlint, Oxfmt and Biome pass. All **21 affected production
+Chrome cases** pass, including seven reference families at 320/768/1440px in both
+appearances and a deliberately blocked syntax module. Desktop/mobile component
+and stylesheet cards were also inspected visually. These are new Chrome checks;
+the earlier documented WebKit/native Safari scope is unchanged.
