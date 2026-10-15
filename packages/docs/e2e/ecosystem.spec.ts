@@ -10,10 +10,54 @@ test("ecosystem guide has complete static content and valid internal references"
   const response = await page.goto("./docs/ecosystem", { waitUntil: "domcontentloaded" });
   expect(response?.ok()).toBe(true);
   expect(await response!.text()).toContain('id="build-one-small-feature"');
+  expect(await response!.text()).toContain('id="your-next-step"');
   await expect(page.locator("html")).toHaveClass(/pp-ready/);
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("The Kamod Ecosystem");
   await expect(page.locator(".ecosystem-project")).toHaveCount(14);
+  await expect(page.locator(".ecosystem-foundation-project")).toHaveCount(4);
+  const components = page.getByRole("group", { name: "UI Components", exact: true });
+  await expect(components).toContainText("Labels, validation and what each action does.");
+  const references = components.getByRole("group", { name: "UI Components references" });
+  const guide = references.getByRole("link", { name: "Open UI Components guide" });
+  await expect(guide).toHaveAttribute("href", /\/docs\/components$/);
+  const source = references.getByRole("link", { name: /View UI Components source on GitHub/ });
+  await expect(source).toHaveAttribute(
+    "href",
+    "https://github.com/kamod-ch/kamod-ui/tree/main/packages/core",
+  );
+  await expect(source).toHaveAttribute("target", "_blank");
+  await expect(source).toHaveAttribute("rel", "noopener noreferrer");
+  await source.scrollIntoViewIfNeeded();
+  await source.focus();
+  await page.keyboard.press("Shift+Tab");
+  await expect(guide).toBeFocused();
+  await expect(page.getByRole("tooltip")).toHaveText("Open UI Components guide");
+  await page.keyboard.press("Tab");
+  await expect(source).toBeFocused();
+  await expect(page.getByRole("tooltip")).toHaveText(
+    "View UI Components source on GitHub (opens in a new tab)",
+  );
+  await page.keyboard.press("Escape");
+  await expect(page.getByRole("tooltip")).toBeHidden();
+  await expect(
+    components.locator('[data-slot="card-footer"]').getByRole("link", { name: "@kamod-ch/ui" }),
+  ).toHaveAttribute("href", "https://github.com/kamod-ch/kamod-ui");
   await expect(page.locator(".ecosystem-guide .block-guide-section")).toHaveCount(8);
+  const ending = page.locator(".ecosystem-next");
+  await expect(ending.getByRole("heading", { level: 2 })).toHaveText("Put the Toolkit to Work");
+  const nextSteps = ending.getByRole("navigation", { name: "Choose your next step" });
+  await expect(nextSteps.getByRole("link")).toHaveCount(3);
+  for (const [label, href] of [
+    ["Build Your First Screen", "/docs/getting-started#set-up-your-app"],
+    ["Add One Capability", "/docs/packages#package-boundaries"],
+    ["Check the Whole Journey", "/docs/getting-started#verify-the-whole-journey"],
+  ]) {
+    await expect(nextSteps.getByRole("link", { name: label, exact: true })).toHaveAttribute(
+      "href",
+      href,
+    );
+  }
+  await expect(page.locator(".getting-started-reference")).toHaveCount(0);
   const startingPoints = page.getByRole("region", { name: "Choose a starting point", exact: true });
   const checks = page.getByRole("region", { name: "Integration checks", exact: true });
   for (const table of [startingPoints, checks]) {
@@ -80,7 +124,9 @@ test("ecosystem guide has complete static content and valid internal references"
     }
     if (fragment) expect(html.get(url.href), link).toContain(`id="${fragment}"`);
   }
-  await page.locator('.blocks-doc-toc a[href="#build-one-small-feature"]').click();
+  await page.locator('.blocks-doc-toc a[href="#your-next-step"]').click();
+  await expect(page.locator("#your-next-step")).toBeInViewport();
+  await ending.getByRole("link", { name: "Try the details toggle." }).click();
   await expect(page.locator("#build-one-small-feature")).toBeInViewport();
   expect(errors).toEqual([]);
 });

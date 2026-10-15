@@ -37,6 +37,8 @@ type DocsShellProps = {
   /** Desktop preview beside the content introduction and above category navigation. */
   sidebarHeader?: ComponentChildren;
   mainContent: ComponentChildren;
+  /** Replace the contextual guide handoff with a page-owned ending; null omits it. */
+  contentFooter?: ComponentChildren;
   getDocHref?: (slug: string) => string;
   componentsOverviewHref?: string;
   formsOverviewHref?: string;
@@ -92,6 +94,7 @@ export const DocsShell = ({
   contentHeader,
   sidebarHeader,
   mainContent,
+  contentFooter,
   getDocHref = (slug) => withBasePath(`/docs/${slug}/installation`),
   componentsOverviewHref = withBasePath("/docs/components"),
   formsOverviewHref = withBasePath("/docs/forms"),
@@ -168,7 +171,9 @@ export const DocsShell = ({
       mainContent={
         <>
           {mainContent}
-          {activeDoc?.renderFooter ? (
+          {contentFooter !== undefined ? (
+            contentFooter
+          ) : activeDoc?.renderFooter ? (
             activeDoc.renderFooter()
           ) : (
             <GettingStartedReference scope={sidebarScope} slug={activeDoc?.slug} />

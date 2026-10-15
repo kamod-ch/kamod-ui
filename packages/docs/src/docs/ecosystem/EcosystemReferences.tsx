@@ -18,6 +18,7 @@ import type { GuideTableRenderer } from "../../blocks/guides/guide-markdown";
 import { EcosystemProjectCard } from "./EcosystemProjectCard";
 import { renderEcosystemReferenceTable } from "./EcosystemReferenceTable";
 import { EcosystemSourceCard } from "./EcosystemSourceCard";
+import { foundationProjects } from "./foundation-projects";
 
 const projects = {
   "@kamod-ch/ui": { title: "UI Components", icon: ComponentIcon },
@@ -65,6 +66,7 @@ const renderProjectCards: GuideTableRenderer = (table, inline) => {
             description={inline(description.tokens)}
             guide={guide}
             source={source}
+            foundation={foundationProjects[project.text]}
           />
         );
       })}

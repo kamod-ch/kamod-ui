@@ -5,11 +5,15 @@ import { DocsShell } from "./components/DocsShell";
 import { GuideArticle } from "./components/GuideArticle";
 import { InlineCodeLink } from "./components/InlineCodeLink";
 import { LibraryPageHeader } from "./components/LibraryPageHeader";
+import { EcosystemNextSteps } from "./ecosystem/EcosystemNextSteps";
 import { renderEcosystemTable } from "./ecosystem/EcosystemReferences";
 
 const title = "The Kamod Ecosystem";
 const sections = parseGuide(source, renderEcosystemTable);
-const contents = sections.map(({ id, title, children }) => ({ id, label: title, children }));
+const contents = [
+  ...sections.map(({ id, title, children }) => ({ id, label: title, children })),
+  { id: "your-next-step", label: "Put the Toolkit to Work" },
+];
 
 /** One route owns the ecosystem prose and catalog; other pages keep only its entry link. */
 export function EcosystemContent() {
@@ -18,6 +22,7 @@ export function EcosystemContent() {
       sidebarScope="ecosystem"
       activeDoc={null}
       activeSection=""
+      contentFooter={<EcosystemNextSteps />}
       pageContents={
         <BlockGuideContents id="ecosystem-contents" pageTitle={title} sections={contents} />
       }
