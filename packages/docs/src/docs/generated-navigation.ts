@@ -503,7 +503,7 @@ export const docsNavigation = [
     slug: "theming",
     label: "Theming",
     group: "components",
-    variantCount: 4,
+    variantCount: 0,
     motionVariantCount: 0,
   },
   {

@@ -7,8 +7,10 @@ import { hydrate, render as renderPreact } from "preact";
 import { renderToString } from "preact-render-to-string";
 import { afterEach, expect, it, vi } from "vitest";
 import { GuideArticle } from "../../components/GuideArticle";
+import { themingDocPage } from "../../pages/theming-doc";
 import { createComponentThemingSections } from "../component-theming";
 import { ColorThemeGallery } from "./ColorThemeGallery";
+import { presetDesignNotes } from "./preset-design-notes";
 import { presetStudyId } from "./preset-studies";
 
 const source = readFileSync(
@@ -39,8 +41,56 @@ it("server-renders every gallery contents target once without saving appearance"
   for (const id of [gallery.id, ...gallery.children!.map(({ id }) => id)]) {
     expect(document.querySelectorAll(`[id="${id}"]`)).toHaveLength(1);
   }
-  expect(document.querySelectorAll("[data-theme-scope]")).toHaveLength(THEME_PRESETS.length * 2);
+  expect(document.querySelectorAll("[data-theme-scope]")).toHaveLength(THEME_PRESETS.length * 4);
+  expect(document.querySelectorAll(".theme-study-practice")).toHaveLength(THEME_PRESETS.length);
+  expect(document.querySelectorAll("[data-palette-sketch]")).toHaveLength(THEME_PRESETS.length * 4);
+  expect(document.querySelectorAll(".theme-study .kamod-code")).toHaveLength(0);
+  expect(document.querySelectorAll('[aria-busy="true"], iframe')).toHaveLength(0);
   expect(storage).not.toHaveBeenCalled();
+});
+
+it("keeps every generated preset route attached to its real guide target", () => {
+  const gallery = createComponentThemingSections(source).find(
+    ({ id }) => id === "color-theme-presets",
+  )!;
+  const routes = themingDocPage.sections.find(({ id }) => id === gallery.id)!;
+  expect(routes.children).toEqual(gallery.children);
+  expect(themingDocPage.exampleSectionIds).toEqual([]);
+});
+
+it("mounts a local recipe only on request and releases it when closed", async () => {
+  const view = render(<ColorThemeGallery />);
+  const study = view.container.querySelector(`[aria-labelledby="${presetStudyId("ocean")}"]`)!;
+  const recipe = study.querySelector<HTMLDetailsElement>(".theme-study-recipe")!;
+  expect(recipe.querySelector(".kamod-code")).toBeNull();
+  recipe.open = true;
+  fireEvent(recipe, new Event("toggle"));
+  await waitFor(() =>
+    expect(recipe.querySelector("pre code")).toHaveTextContent('data-theme="ocean"'),
+  );
+  recipe.open = false;
+  fireEvent(recipe, new Event("toggle"));
+  await waitFor(() => expect(recipe.querySelector(".kamod-code")).toBeNull());
+});
+
+it("keeps the documented radius family aligned with the shipped preset CSS", () => {
+  const tokens = readFileSync(
+    resolve(import.meta.dirname, "../../../../../themes/src/tokens.css"),
+    "utf8",
+  );
+  const baseRadius = tokens.match(/--radius:\s*([^;]+);/)![1];
+  for (const { id } of THEME_PRESETS) {
+    const css =
+      id === "kamod"
+        ? tokens
+        : readFileSync(
+            resolve(import.meta.dirname, `../../../../../themes/src/brands/${id}.css`),
+            "utf8",
+          );
+    expect(presetDesignNotes[id].radius, id).toBe(
+      css.match(/--radius:\s*([^;]+);/)?.[1] ?? baseRadius,
+    );
+  }
 });
 
 it("applies a page preset and preserves the scheme and isolated comparison scopes", () => {
@@ -62,7 +112,7 @@ it("applies a page preset and preserves the scheme and isolated comparison scope
   );
   for (const { id } of THEME_PRESETS) {
     const study = view.container.querySelector(`[aria-labelledby="${presetStudyId(id)}"]`)!;
-    expect(study.querySelectorAll(`[data-theme="${id}"]`)).toHaveLength(2);
+    expect(study.querySelectorAll(`[data-theme="${id}"]`)).toHaveLength(4);
     expect(study.querySelector(".theme-study-preview.light")).toBeTruthy();
     expect(study.querySelector(".theme-study-preview.dark")).toBeTruthy();
   }

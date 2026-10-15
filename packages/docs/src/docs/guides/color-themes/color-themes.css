@@ -1,272 +1,313 @@
-/* Palette studies inherit actual theme tokens; editorial text retains the page theme. */
+@import "./theme-palette-preview.css";
+@import "./theme-gallery-guide.css";
+@import "./theme-study-details.css";
+
+/* Text follows the page; decorative signatures wash each frame with its actual preset. */
 .theme-studies {
   container: theme-studies / inline-size;
+  --theme-study-secondary: color-mix(in oklab, var(--muted-foreground) 75%, var(--foreground));
+  --theme-study-line: color-mix(in oklab, var(--primary) 7%, var(--border));
+  --theme-study-panel: color-mix(in oklab, var(--foreground) 1.5%, transparent);
+  --theme-study-frame-radius: var(--radius-xl, 0.75rem);
   display: grid;
   gap: 1.5rem;
   margin-top: 1.25rem;
 }
 .theme-studies .theme-study {
-  gap: 1rem;
-  padding: clamp(0.875rem, 3cqi, 1.5rem);
+  position: relative;
+  isolation: isolate;
+  min-width: 0;
+  gap: 0.75rem;
+  padding: clamp(0.875rem, 2cqi, 1.125rem);
+  background: var(--background);
+  box-shadow: none;
+  border: 1px solid var(--theme-study-line);
+  border-radius: var(--theme-study-frame-radius);
 }
-.theme-study-header {
+.theme-study-header-actions,
+.theme-study-signature {
+  display: flex;
+  align-items: center;
+}
+.theme-study-header-actions {
+  flex: none;
+  gap: 0.75rem;
+}
+.theme-study-signature {
+  gap: 0.1875rem;
+}
+.theme-study-signature > i:not(.theme-study-wash) {
+  width: 0.75rem;
+  height: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+}
+.theme-study-signature .theme-study-wash {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: var(--theme-study-frame-radius);
+  background:
+    linear-gradient(125deg, color-mix(in oklab, var(--primary) 9%, transparent), transparent 58%),
+    linear-gradient(305deg, color-mix(in oklab, var(--secondary) 6%, transparent), transparent 65%);
+  pointer-events: none;
+}
+.theme-study-signature-dark,
+:root.dark .theme-study-signature-light {
+  display: none;
+}
+:root.dark .theme-study-signature-dark {
+  display: flex;
+}
+.theme-study-header,
+.theme-study-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 0.875rem;
 }
 .theme-study-header > div {
   min-width: 0;
 }
 .theme-study .theme-study-character {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
   margin: 0 0 0.375rem;
-  color: var(--muted-foreground);
+  color: var(--theme-study-secondary);
   font-size: 0.6875rem;
   line-height: 1.6;
+}
+.theme-study-character > span {
+  font-family: ui-monospace, monospace;
+  flex: none;
+  white-space: nowrap;
 }
 .theme-study h3 {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 0.625rem;
+  gap: 0.5rem;
   margin: 0;
-  font-size: 1rem;
+  font-size: 1.0625rem;
   line-height: 1.6;
   font-weight: 600;
 }
 .theme-study h3 code {
-  width: fit-content;
   font-size: 0.6875rem;
   font-weight: 400;
   line-height: 1.5;
 }
 .theme-study-use {
   flex: none;
-  min-width: 6.5rem;
+  min-width: 6rem;
   gap: 0.375rem;
   font-size: 0.75rem;
 }
 .theme-study-use[aria-pressed="true"] {
-  background: var(--foreground);
-  color: var(--background);
+  background: var(--primary);
+  color: var(--primary-foreground);
   border-color: transparent;
+}
+.theme-study .theme-study-direction {
+  margin: 0 0 0.375rem;
+  font-weight: 550;
+  font-size: 0.84375rem;
+  line-height: 1.7;
+  color: var(--foreground);
+}
+.theme-study-overview {
+  display: grid;
+  gap: 0.75rem;
+  align-items: start;
+}
+.theme-studies .docs-code-action {
+  color: var(--theme-study-secondary);
 }
 .theme-study .theme-study-intro {
   margin: 0;
-  color: var(--muted-foreground);
-  font-size: 0.8125rem;
-  line-height: 1.85;
+  color: var(--theme-study-secondary);
+  font-size: 0.78125rem;
+  line-height: 1.75;
+}
+.theme-study-fits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  margin: 0.625rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.theme-study-fits li {
+  padding: 0.1875rem 0.4375rem;
+  border-radius: 0.25rem;
+  background: color-mix(in oklab, var(--foreground) 4%, transparent);
+  color: var(--theme-study-secondary);
+  font-size: 0.65625rem;
+  line-height: 1.4;
 }
 .theme-study-comparison {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.875rem;
+  gap: 0.75rem;
 }
-.theme-study-sample {
+.theme-study .theme-study-guidance {
   min-width: 0;
-  margin: 0;
 }
-.theme-study-sample figcaption {
+.theme-study h4 {
   display: flex;
   align-items: center;
   gap: 0.375rem;
-  margin-bottom: 0.5rem;
+  margin: 0 0 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.6;
+}
+.theme-study h4 code {
+  margin-left: auto;
   font-size: 0.6875rem;
-  color: var(--muted-foreground);
+  font-weight: 400;
 }
-.theme-study-preview {
-  overflow: hidden;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--background);
-  color: var(--foreground);
-  font-family: ui-sans-serif, system-ui, sans-serif;
-  font-size: 11px;
-  line-height: 1.5;
-}
-.theme-study-workspace {
+.theme-study-observations {
   display: grid;
-  grid-template-columns: 2.5rem minmax(0, 1fr);
-  min-height: 13rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
 }
-.theme-study-rail {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  gap: 0.875rem;
-  padding-block: 1rem;
-  border-right: 1px solid var(--sidebar-border);
-  background: var(--sidebar-background);
-  color: var(--sidebar-foreground);
+.theme-study-guidance p,
+.theme-study-principles p,
+.theme-study-materials p,
+.theme-study-practice p,
+.theme-study-review p {
+  margin: 0;
+  color: var(--theme-study-secondary);
+  font-size: 0.78125rem;
+  line-height: 1.75;
 }
-.theme-study-rail span {
-  width: 0.875rem;
-  height: 0.25rem;
-  border-radius: 999px;
-  background: var(--sidebar-accent-foreground);
-  opacity: 0.35;
-}
-.theme-study-rail .theme-study-rail-selection {
-  width: 1.5rem;
-  height: 1.5rem;
-  background: var(--sidebar-primary);
-  opacity: 1;
-  border-radius: calc(var(--radius) * 0.6);
-  box-shadow: inset 0 0 0 5px var(--sidebar-background);
-}
-.theme-study-stage {
-  display: grid;
-  align-content: start;
-  gap: 0.875rem;
+.theme-study-observations > section,
+.theme-study-principles li,
+.theme-study-materials > section {
   min-width: 0;
-  padding: 0.875rem;
-  background-image: radial-gradient(
-    circle at 90% 10%,
-    color-mix(in srgb, var(--secondary) 9%, transparent),
-    transparent 65%
-  );
+  padding: 0.75rem;
+  border: 1px solid var(--theme-study-line);
+  border-radius: 0.5rem;
+  background: var(--theme-study-panel);
 }
-.theme-study-stage-heading,
-.theme-study-task-footer {
+.theme-study-principles ol {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.theme-study-principles li {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  align-items: start;
   gap: 0.5rem;
 }
-.theme-study-tag {
-  padding: 0.1875rem 0.375rem;
-  background: var(--secondary);
-  color: var(--secondary-foreground);
-  border-radius: calc(var(--radius) * 0.6);
-  font-size: 9px;
-}
-.theme-study-task {
-  display: grid;
-  justify-items: start;
-  gap: 0.375rem;
-  padding: 0.75rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--card);
-  color: var(--card-foreground);
-}
-.theme-study-orbit {
+.theme-study-note-number {
   display: grid;
   place-items: center;
-  width: 2.25rem;
-  height: 2.25rem;
-  margin-bottom: 0.375rem;
-  border: 1px solid color-mix(in srgb, var(--primary) 30%, var(--border));
-  border-radius: var(--radius);
-  background: var(--accent);
-  color: var(--accent-foreground);
+  flex: none;
+  width: 1.125rem;
+  height: 1.125rem;
+  margin-top: 0.1875rem;
+  border: 1px solid var(--theme-study-line);
+  border-radius: 0.3125rem;
+  background: color-mix(in oklab, var(--primary) 6%, transparent);
+  color: var(--theme-study-secondary);
+  font-size: 0.625rem;
 }
-.theme-study-description {
-  color: var(--muted-foreground);
-  font-size: 9px;
+.theme-study-principles strong {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 550;
+  line-height: 1.6;
 }
-.theme-study-task-footer {
-  width: 100%;
-  margin-top: 0.5rem;
+.theme-study-note-roles {
+  --inline-code-font: 0.625rem;
+  --inline-code-line: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  margin-top: 0.375rem;
 }
-.theme-study-ready,
-.theme-study-action {
+.theme-study-note-roles code {
+  font-size: 0.625rem;
+  font-weight: 400;
+}
+.theme-study :is(h3, h4, .theme-study-note-roles) code {
+  background: color-mix(in oklab, var(--foreground) 5%, transparent);
+  color: var(--foreground);
+  box-shadow: none;
+}
+.theme-study-footer {
+  padding-top: 0.625rem;
+  border-top: 1px solid var(--theme-study-line);
+  color: var(--theme-study-secondary);
+  font-size: 0.6875rem;
+  line-height: 1.6;
+}
+.theme-study-footer a {
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
-  padding: 0.3125rem 0.4375rem;
-  border-radius: calc(var(--radius) * 0.6);
-  font-size: 9px;
-  font-weight: 600;
+  flex: none;
 }
-.theme-study-ready {
-  background: var(--success);
-  color: var(--success-foreground);
+.theme-study summary:focus-visible {
+  outline: 2px solid var(--outline);
+  outline-offset: -3px;
 }
-.theme-study-action {
-  gap: 0.625rem;
-  background: var(--primary);
-  color: var(--primary-foreground);
-}
-.theme-study-notes {
-  display: flex;
-  gap: 0.375rem;
-}
-.theme-study-notes span {
-  width: 33%;
-  height: 0.3125rem;
-  background: var(--muted);
-  border: 1px solid var(--border);
-  border-radius: 999px;
-}
-.theme-study-notes span:last-child {
-  width: 16%;
-}
-.theme-study-preview .theme-study-roles {
-  display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 0.375rem;
-  margin: 0;
-  padding: 0.75rem;
-  border-top: 1px solid var(--border);
-  background: var(--card);
-  color: var(--card-foreground);
-}
-.theme-study-roles > div {
-  display: flex;
-  flex-direction: column-reverse;
-  gap: 0.375rem;
-  min-width: 0;
-}
-.theme-study-roles dt {
-  font-size: 7.5px;
-  text-align: center;
-  white-space: nowrap;
-}
-.theme-study-roles dd {
-  height: 1rem;
-  margin: 0;
-  border: 1px solid var(--border);
-  border-radius: 0.25rem;
-}
-.theme-study .theme-study-guidance {
-  display: grid;
-  gap: 0.875rem;
-  margin: 0;
-  padding-top: 1rem;
-  border-top: 1px solid var(--border);
-  font-size: 0.8125rem;
-  line-height: 1.8;
-}
-.theme-study-guidance > div {
-  display: grid;
-  grid-template-columns: 7rem minmax(0, 1fr);
-  gap: 0.875rem;
-}
-.theme-study-guidance dt {
-  color: var(--foreground);
-  font-size: 0.75rem;
-  font-weight: 600;
-}
-.theme-study-guidance dd {
-  margin: 0;
-  color: var(--muted-foreground);
-}
-.theme-study-page-guide h3 {
-  margin-bottom: 1rem;
+@container theme-studies (min-width: 56rem) {
+  .theme-study-overview {
+    grid-template-columns: 1fr 2fr;
+    align-items: center;
+    gap: 1rem;
+  }
 }
 @container theme-studies (max-width: 35rem) {
-  .theme-study-comparison {
+  .theme-study-comparison,
+  .theme-study-observations,
+  .theme-study-principles ol,
+  .theme-study-materials,
+  .theme-study-practice,
+  .theme-gallery-continuation {
     grid-template-columns: minmax(0, 1fr);
   }
-  .theme-study-guidance > div {
+  .theme-gallery-reading-key {
     grid-template-columns: minmax(0, 1fr);
-    gap: 0.25rem;
+    gap: 0.875rem;
+  }
+}
+@container theme-studies (max-width: 48rem) {
+  .theme-study-practice {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.5rem;
   }
 }
 @container theme-studies (max-width: 23rem) {
-  .theme-study-header {
+  .theme-study-footer {
     flex-wrap: wrap;
     gap: 0.75rem;
+  }
+  .theme-study-header-actions {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.375rem;
+  }
+  .theme-study-review {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.375rem;
+  }
+  .theme-study-sample figcaption > span:last-child {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .theme-study-token-details summary > svg,
+  .theme-study-advice summary > svg,
+  .theme-study-recipe summary > svg {
+    transition: none;
   }
 }

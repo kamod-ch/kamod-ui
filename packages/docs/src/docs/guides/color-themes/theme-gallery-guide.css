@@ -1,0 +1,119 @@
+/* Shared orientation and next steps keep per-preset guidance focused. */
+.theme-gallery-reading-key {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 0;
+  padding: 0 0 1.25rem;
+  border-bottom: 1px solid var(--border);
+  list-style: none;
+}
+.theme-gallery-reading-key li {
+  display: flex;
+  align-items: start;
+  gap: 0.5rem;
+}
+.theme-gallery-reading-key li > span {
+  flex: none;
+  white-space: nowrap;
+  color: var(--theme-study-secondary);
+  font:
+    0.6875rem/1.7 ui-monospace,
+    monospace;
+}
+.theme-gallery-reading-key strong {
+  font-size: 0.75rem;
+  font-weight: 550;
+}
+.theme-gallery-reading-key p {
+  margin: 0.375rem 0 0;
+  color: var(--theme-study-secondary);
+  font-size: 0.75rem;
+  line-height: 1.8;
+}
+.theme-gallery-index {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding-block: 1.25rem;
+}
+.theme-gallery-index a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.375rem 0.625rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  line-height: 1.6;
+}
+.theme-gallery-index a:hover {
+  background: color-mix(in oklab, var(--foreground) 4%, transparent);
+}
+.theme-gallery-index a > span {
+  color: var(--theme-study-secondary);
+}
+.theme-gallery-comparison-note {
+  margin: 0;
+  color: var(--theme-study-secondary);
+  font-size: 0.75rem;
+  line-height: 1.85;
+}
+.theme-gallery-comparison-note strong {
+  color: var(--foreground);
+  font-weight: 500;
+}
+.theme-study-page-guide {
+  padding-top: 0.5rem;
+}
+.theme-gallery-next-steps {
+  display: grid;
+  gap: 1.125rem;
+  margin-block: 1.25rem;
+}
+.theme-gallery-next-steps h4 {
+  margin: 0 0 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.theme-gallery-next-steps p {
+  margin: 0;
+}
+.theme-gallery-continuation {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: color-mix(in oklab, var(--foreground) 2%, transparent);
+}
+.theme-gallery-continuation > div:last-child {
+  display: grid;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+}
+.theme-gallery-continuation p {
+  margin: 0.375rem 0 0;
+  font-size: 0.8125rem;
+  color: var(--theme-study-secondary);
+}
+.theme-reading-path {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  margin-top: 1.5rem;
+}
+.theme-reading-path a {
+  display: inline-flex;
+  gap: 0.375rem;
+  align-items: baseline;
+  font-size: 0.75rem;
+}
+.theme-reading-path a > span {
+  color: color-mix(in oklab, var(--muted-foreground) 75%, var(--foreground));
+  font:
+    0.625rem/1.5 ui-monospace,
+    monospace;
+}

@@ -15,7 +15,7 @@ const studies: Record<ThemePresetId, PresetStudy> = {
     palette:
       "Kamod starts with white and neutral surfaces, a near-black primary action and a fuchsia secondary accent. Its strongest contrast belongs to the main action rather than to a colored page background. This makes it a useful baseline for comparing component hierarchy before choosing a more expressive palette.",
     schemes:
-      "Dark mode reverses the primary action to a light surface and separates cards from the darker page with neutral layers. Fuchsia remains the secondary identity; the primary color is not always a hue. The default radius is 0.625rem.",
+      "Dark mode reverses the primary action to a light surface and separates cards from the darker page with neutral layers. Fuchsia remains the secondary identity; the primary color is not always a hue.",
     application:
       "Use it for documentation, settings and interfaces where content should lead. Keep the strongest fill for the action that completes the current task; use secondary color for a distinct supporting role.",
     review:
@@ -30,7 +30,7 @@ const studies: Record<ThemePresetId, PresetStudy> = {
     application:
       "Use it when your product already has a neutral visual foundation. Compare the same card with Kamod to decide whether the tighter shape and lower surface separation suit your content.",
     review:
-      "Do not assume the preset also installs a component library or its fonts. The stylesheet names Geist and Fira Code stacks; load any chosen font files separately and inspect secondary and status roles.",
+      "Check input boundaries, selected navigation and keyboard focus against neighboring neutral surfaces. Review secondary and status roles too; a monochrome main action does not make every role neutral.",
   },
   ocean: {
     character: "Cool cyan · Indigo counterpart",
@@ -46,7 +46,7 @@ const studies: Record<ThemePresetId, PresetStudy> = {
   sunset: {
     character: "Rose action · Amber warmth",
     palette:
-      "Sunset places rose primary actions and orange secondary actions on warm orange and amber surfaces, with stone text. Its pink primary accent and amber secondary accent extend that warmth into interaction states. The 0.5rem radius keeps a colorful interface from becoming overly soft in shape.",
+      "Sunset places rose primary actions and orange secondary actions on warm orange and amber surfaces, with stone text. Its pink primary accent and amber secondary accent extend that warmth into interaction states.",
     schemes:
       "Dark mode switches to stone surfaces and orange-white text, while rose and orange actions become lighter. The background becomes quieter rather than remaining a bright orange sheet. Violet information and lime success colors offer useful separation from the warm brand accents.",
     application:
@@ -59,7 +59,7 @@ const studies: Record<ThemePresetId, PresetStudy> = {
     palette:
       "Cursor Warm combines cream page surfaces, white cards, warm dark text and a saturated orange primary action. Its secondary surface is a quiet cream-gray; the secondary accent is rose. This is a palette where a secondary action can be deliberately restrained instead of becoming another bright button.",
     schemes:
-      "Dark mode moves to warm charcoal and preserves the orange identity, with lighter text and a brighter primary accent. Thin translucent borders separate surfaces without introducing a cool gray cast. The preset uses a 0.5rem radius and declares Lato and Source Serif 4 font stacks.",
+      "Dark mode moves to warm charcoal and preserves the orange identity, with lighter text and a brighter primary accent. Thin translucent borders separate surfaces without introducing a cool gray cast.",
     application:
       "Use it for text-focused tools, editorial interfaces and project workspaces. Leave room for the warm page color to show between white cards; the orange action can then stand out with little extra decoration.",
     review:
@@ -70,7 +70,7 @@ const studies: Record<ThemePresetId, PresetStudy> = {
     palette:
       "Voltage combines emerald primary actions, a lavender-tinted secondary surface and warm neutral borders. Its light scheme uses paper-like backgrounds and white cards. The secondary accent is a stronger indigo than the secondary surface, illustrating why an accent token and a filled surface are not interchangeable.",
     schemes:
-      "The dark scheme is the more dramatic study: an almost-black page, charcoal cards and a bright emerald action with dark text. The secondary surface remains a restrained indigo tint. A 0.5rem radius and Inter/system font stacks keep the underlying geometry direct.",
+      "The dark scheme is the more dramatic study: an almost-black page, charcoal cards and a bright emerald action with dark text. The secondary surface remains a restrained indigo tint.",
     application:
       "Use it for technical consoles, automation tools and dense operational workspaces. Let the bright emerald action identify the task to run or confirm; keep supporting information on quieter surfaces.",
     review:
@@ -79,9 +79,9 @@ const studies: Record<ThemePresetId, PresetStudy> = {
   watson: {
     character: "Expressive pink · Cyan contrast",
     palette:
-      "Watson pairs a saturated pink primary action with a cyan-based secondary surface, using pink-tinted muted and selected backgrounds. Its extended palette offers additional brand shades, but the components still consume the same semantic roles. It declares Nunito Sans for body text and Onest for display text.",
+      "Watson pairs a saturated pink primary action with a cyan-based secondary surface, using pink-tinted muted and selected backgrounds. Its extended palette offers additional brand shades, but the components still consume the same semantic roles.",
     schemes:
-      "Dark mode uses near-black surfaces, a lighter pink primary action with dark text and a brighter cyan secondary treatment. Mint success and lemon warning colors give feedback its own vocabulary. The preset inherits the foundation radius rather than defining a separate one.",
+      "Dark mode uses near-black surfaces, a lighter pink primary action with dark text and a brighter cyan secondary treatment. Mint success and lemon warning colors give feedback its own vocabulary.",
     application:
       "Use it for expressive product interfaces and collaborative tools. Keep the pink-tinted surfaces low in the hierarchy and use full-strength accents where they identify an action or selection.",
     review:
@@ -90,7 +90,7 @@ const studies: Record<ThemePresetId, PresetStudy> = {
   professional: {
     character: "Yellow landmark · Black structure",
     palette:
-      "Professional uses a vivid yellow primary action with black text, a black secondary action with white text and neutral gray surfaces. The filled action makes yellow a landmark rather than a background for the entire application. Poppins and IBM Plex Mono stacks accompany a 0.5rem radius.",
+      "Professional uses a vivid yellow primary action with black text, a black secondary action with white text and neutral gray surfaces. The filled action makes yellow a landmark rather than a background for the entire application.",
     schemes:
       "Dark mode retains the yellow primary action, places content on deep blue-gray surfaces and turns the secondary action light. The text pairing changes with the surface: dark text on yellow stays deliberate rather than following the page’s light text automatically.",
     application:

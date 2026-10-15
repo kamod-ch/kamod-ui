@@ -1,16 +1,64 @@
-import { CheckIcon, LayersIcon, MoonIcon, SunIcon } from "@kamod-ch/icons/lucide";
+import { ChevronDownIcon, MoonIcon, SunIcon } from "@kamod-ch/icons/lucide";
 import type { ThemePresetId } from "@kamod-ch/themes";
 
-const roles = [
+const surfaceRoles = [
   ["Page", "background"],
   ["Card", "card"],
   ["Primary", "primary"],
   ["Secondary", "secondary"],
-  ["Muted", "muted"],
+] as const;
+const detailRoles = [
+  ["Text", "foreground"],
+  ["Quiet surface", "muted"],
+  ["Quiet text", "muted-foreground"],
+  ["Selection", "accent"],
+  ["Boundary", "border"],
+  ["Navigation", "sidebar-background"],
   ["Success", "success"],
+  ["Danger", "destructive"],
 ] as const;
 
-/** A static, isolated color study: no provider, iframe, storage or event subscriptions. */
+/** Static composition studies, not loading placeholders: no animation or simulated controls. */
+function PaletteSketch({ kind }: { kind: "workspace" | "action" }) {
+  return (
+    <div class={`theme-study-sketch theme-study-sketch-${kind}`} data-palette-sketch={kind}>
+      <div class="theme-study-sketch-art" aria-hidden="true">
+        {kind === "workspace" ? (
+          <>
+            <div class="theme-study-sketch-rail">
+              <i />
+              <i />
+              <i />
+            </div>
+            <div class="theme-study-sketch-content">
+              <b />
+              <span />
+              <div class="theme-study-sketch-sheet">
+                <i />
+                <i />
+                <i />
+              </div>
+            </div>
+          </>
+        ) : (
+          <div class="theme-study-sketch-content">
+            <i class="theme-study-sketch-mark" />
+            <b />
+            <span />
+            <span />
+            <div class="theme-study-sketch-actions">
+              <i class="theme-study-action" />
+              <i />
+            </div>
+          </div>
+        )}
+      </div>
+      <p class="theme-study-sketch-label">{kind === "workspace" ? "Workspace" : "Action card"}</p>
+    </div>
+  );
+}
+
+/** Every comparison consumes real preset CSS inside one explicit appearance boundary. */
 export function ThemePalettePreview({
   preset,
   scheme,
@@ -22,47 +70,19 @@ export function ThemePalettePreview({
   return (
     <figure class="theme-study-sample">
       <figcaption>
-        <Icon size={13} aria-hidden="true" />
-        {scheme === "light" ? "Light" : "Dark"} appearance
+        <span>
+          <Icon size={13} aria-hidden="true" />
+          {scheme === "light" ? "Light" : "Dark"} appearance
+        </span>
+        <span>2 compositions</span>
       </figcaption>
       <div class={`theme-study-preview ${scheme}`} data-theme-scope="" data-theme={preset}>
-        <div class="theme-study-workspace" aria-hidden="true">
-          <div class="theme-study-rail">
-            <LayersIcon size={17} />
-            <span class="theme-study-rail-selection" />
-            <span />
-            <span />
-          </div>
-          <div class="theme-study-stage">
-            <div class="theme-study-stage-heading">
-              <strong>Your workspace</strong>
-              <span class="theme-study-tag">Overview</span>
-            </div>
-            <div class="theme-study-task">
-              <span class="theme-study-orbit">
-                <LayersIcon size={19} />
-              </span>
-              <strong>Make room for good ideas.</strong>
-              <span class="theme-study-description">A shared foundation. Your next project.</span>
-              <div class="theme-study-task-footer">
-                <span class="theme-study-ready">
-                  <CheckIcon size={12} />
-                  Ready
-                </span>
-                <span class="theme-study-action">
-                  Continue<span>↗</span>
-                </span>
-              </div>
-            </div>
-            <div class="theme-study-notes">
-              <span />
-              <span />
-              <span />
-            </div>
-          </div>
+        <div class="theme-study-sketches">
+          <PaletteSketch kind="workspace" />
+          <PaletteSketch kind="action" />
         </div>
         <dl class="theme-study-roles">
-          {roles.map(([label, token]) => (
+          {surfaceRoles.map(([label, token]) => (
             <div key={token}>
               <dt>{label}</dt>
               <dd style={{ background: `var(--${token})` }} title={`--${token}`}>
@@ -71,6 +91,24 @@ export function ThemePalettePreview({
             </div>
           ))}
         </dl>
+        <details class="theme-study-token-details">
+          <summary>
+            Look inside the palette <ChevronDownIcon size={13} aria-hidden="true" />
+          </summary>
+          <dl>
+            {detailRoles.map(([label, token]) => (
+              <div key={token}>
+                <dt>
+                  <span aria-hidden="true" style={{ background: `var(--${token})` }} />
+                  {label}
+                </dt>
+                <dd>
+                  <code>{`--${token}`}</code>
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </details>
       </div>
     </figure>
   );

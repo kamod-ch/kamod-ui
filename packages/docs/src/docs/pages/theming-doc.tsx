@@ -18,6 +18,7 @@ export const themingDocPage: DocPageModule = {
   usageLabel:
     "Use shared tokens, built-in presets and light/dark controls across Preact components.",
   packagePath: "@kamod-ch/themes",
+  exampleSectionIds: [],
   // Keep established section routes discoverable by the static route generator.
   sections: [
     {
@@ -34,6 +35,22 @@ export const themingDocPage: DocPageModule = {
       id: "css-setup",
       title: "Set Up Tailwind and Theme CSS",
       text: "Connect global styles and source detection.",
+    },
+    {
+      id: "color-theme-presets",
+      title: "Color Theme Presets",
+      text: "Compare eight design directions through light/dark composition studies, type, shape and practical guidance.",
+      children: [
+        { id: "color-theme-kamod", label: "Kamod" },
+        { id: "color-theme-shadcn", label: "shadcn (Geist)" },
+        { id: "color-theme-ocean", label: "Ocean" },
+        { id: "color-theme-sunset", label: "Sunset" },
+        { id: "color-theme-cursor-warm", label: "Cursor warm" },
+        { id: "color-theme-voltage", label: "Voltage" },
+        { id: "color-theme-watson", label: "Watson" },
+        { id: "color-theme-professional", label: "Professional (Electronics)" },
+        { id: "themes-on-this-page", label: "How Themes Work on This Page" },
+      ],
     },
     {
       id: "token-overrides",
@@ -79,25 +96,38 @@ export const themingDocPage: DocPageModule = {
                 Give buttons, forms, cards and menus a consistent foundation with{" "}
                 <code>Tailwind CSS v4</code>, semantic tokens and{" "}
                 <PathDisplay path={"@kamod-ch/themes"} />. Connect your stylesheet once, then choose{" "}
-                <strong>Shared Colors, Typography and Appearance Preferences</strong> that work
+                <strong>shared colors, typography and appearance preferences</strong> that work
                 across the interface. Start with a built-in preset and refine its roles rather than
                 repeating individual color values in every component.
               </p>
               <p>
-                This is the shared reference for <strong>Components and Complete Blocks</strong>.
-                Follow the CSS setup, token and runtime steps here once, then use the{" "}
+                Start with the foundation, compare the eight design studies, then refine the tokens
+                and connect runtime preferences. This reference serves{" "}
+                <strong>components and complete blocks</strong>; use the{" "}
                 <a href={withBasePath("/blocks/theming")}>Block Theming Guide</a> for copied-source
-                checks, sidebar surfaces and preview behavior. There is no separate block theme to
-                install. Add a compact Light/Dark action, or offer{" "}
-                <strong>Light, Dark and System</strong> through your own settings. Keep paired
-                tokens such as <code>--card</code> and <code>--card-foreground</code> readable,
-                preserve focus feedback and verify the first render as well as saved preferences.
-                For the control’s API and examples, see{" "}
+                checks, sidebar surfaces and preview behavior. Keep pairs such as{" "}
+                <code>--card</code> and <code>--card-foreground</code> together. For a compact
+                appearance control, see{" "}
                 <a href={withBasePath("/docs/theme-toggle/installation")}>Theme Toggle</a>.
               </p>
             </>
           }
-        />
+        >
+          <nav class="theme-reading-path" aria-label="Theming guide reading paths">
+            <a href="#installation">
+              <span>01</span>Choose a foundation
+            </a>
+            <a href="#color-theme-presets">
+              <span>02</span>Explore the palettes
+            </a>
+            <a href="#token-overrides">
+              <span>03</span>Understand the tokens
+            </a>
+            <a href="#provider-controls">
+              <span>04</span>Connect preferences
+            </a>
+          </nav>
+        </LibraryPageHeader>
       }
     />
   ),
