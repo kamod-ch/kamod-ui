@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 import { assertNoBlockingA11yViolations } from "./a11y-utils";
 import { enableTestClipboard } from "./browser-utils";
 
-for (const width of [320, 768, 1440]) {
+for (const width of [320, 768, 1024, 1440]) {
   test(`color theme studies keep their palettes and fit at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
     await page.goto("/docs/theming/installation#color-theme-presets");
@@ -10,7 +10,10 @@ for (const width of [320, 768, 1440]) {
     const gallery = page.locator(".theme-studies");
     await expect(gallery.locator(".theme-study")).toHaveCount(8);
     await expect(gallery.locator(".theme-study-preview")).toHaveCount(16);
-    await expect(gallery.locator("[data-palette-sketch]")).toHaveCount(32);
+    await expect(gallery.locator("[data-palette-sketch]")).toHaveCount(48);
+    await expect(gallery.locator(".theme-study-colors > div")).toHaveCount(128);
+    await expect(gallery.locator(".theme-study-type-specimen")).toHaveCount(8);
+    await expect(gallery.locator(".theme-study-notes[open]")).toHaveCount(0);
     await expect(gallery.locator(".theme-study-practice")).toHaveCount(8);
     await expect(
       gallery.locator(
@@ -25,9 +28,23 @@ for (const width of [320, 768, 1440]) {
           primary: getComputedStyle(sample.querySelector(".theme-study-action")!).backgroundColor,
           foreground: getComputedStyle(sample.querySelector(".theme-study-action")!).color,
           overflow: sample.scrollWidth > sample.clientWidth,
+          plainLabels: [...sample.querySelectorAll(".theme-study-colors code")].every((label) => {
+            const style = getComputedStyle(label);
+            return style.backgroundColor === "rgba(0, 0, 0, 0)" && style.boxShadow === "none";
+          }),
+          swatches: [...sample.querySelectorAll(".theme-study-colors dd")].map((swatch) => ({
+            color: getComputedStyle(swatch).backgroundColor,
+            height: swatch.getBoundingClientRect().height,
+          })),
         })),
       );
     const initial = await readStudies();
+    expect(
+      initial.every(
+        ({ overflow, plainLabels, swatches }) =>
+          !overflow && plainLabels && swatches.every(({ height }) => height >= 48),
+      ),
+    ).toBe(true);
     const readWashes = () =>
       gallery
         .locator(".theme-study-wash")
@@ -163,6 +180,9 @@ for (const width of [320, 1440]) {
     await page.goto("/docs/theming/installation#color-theme-ocean");
     await expect(page.locator("html")).toHaveClass(/pp-ready/);
     const study = page.locator('[aria-labelledby="color-theme-ocean"]');
+    const notes = study.locator(".theme-study-notes");
+    await notes.locator("summary").press("Enter");
+    await expect(notes.locator(".theme-study-practice")).toBeVisible();
     for (const advice of await study.locator(".theme-study-advice").all()) {
       await advice.locator("summary").press("Enter");
       await expect(advice).toHaveAttribute("open", "");

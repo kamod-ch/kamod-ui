@@ -48,8 +48,8 @@
   z-index: -1;
   border-radius: var(--theme-study-frame-radius);
   background:
-    linear-gradient(125deg, color-mix(in oklab, var(--primary) 9%, transparent), transparent 58%),
-    linear-gradient(305deg, color-mix(in oklab, var(--secondary) 6%, transparent), transparent 65%);
+    linear-gradient(125deg, color-mix(in oklab, var(--primary) 3%, transparent), transparent 58%),
+    linear-gradient(305deg, color-mix(in oklab, var(--secondary) 2%, transparent), transparent 65%);
   pointer-events: none;
 }
 .theme-study-signature-dark,
@@ -110,16 +110,43 @@
   border-color: transparent;
 }
 .theme-study .theme-study-direction {
-  margin: 0 0 0.375rem;
+  margin: 0;
   font-weight: 550;
   font-size: 0.84375rem;
   line-height: 1.7;
   color: var(--foreground);
 }
-.theme-study-overview {
-  display: grid;
-  gap: 0.75rem;
-  align-items: start;
+.theme-study-introduction {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--theme-study-line);
+}
+.theme-study-section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+.theme-study-section-heading h4 {
+  margin-bottom: 0.125rem;
+}
+.theme-study-section-heading p {
+  margin: 0;
+  color: var(--theme-study-secondary);
+  font-size: 0.6875rem;
+  line-height: 1.6;
+}
+.theme-study-section-heading a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex: none;
+  font-size: 0.6875rem;
 }
 .theme-studies .docs-code-action {
   color: var(--theme-study-secondary);
@@ -134,11 +161,14 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.375rem;
-  margin: 0.625rem 0 0;
+  margin: 0;
   padding: 0;
   list-style: none;
 }
 .theme-study-fits li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
   padding: 0.1875rem 0.4375rem;
   border-radius: 0.25rem;
   background: color-mix(in oklab, var(--foreground) 4%, transparent);
@@ -150,9 +180,6 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.75rem;
-}
-.theme-study .theme-study-guidance {
-  min-width: 0;
 }
 .theme-study h4 {
   display: flex;
@@ -173,7 +200,7 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.75rem;
 }
-.theme-study-guidance p,
+.theme-study-notes p,
 .theme-study-principles p,
 .theme-study-materials p,
 .theme-study-practice p,
@@ -259,13 +286,6 @@
   outline: 2px solid var(--outline);
   outline-offset: -3px;
 }
-@container theme-studies (min-width: 56rem) {
-  .theme-study-overview {
-    grid-template-columns: 1fr 2fr;
-    align-items: center;
-    gap: 1rem;
-  }
-}
 @container theme-studies (max-width: 35rem) {
   .theme-study-comparison,
   .theme-study-observations,
@@ -300,6 +320,10 @@
     grid-template-columns: minmax(0, 1fr);
     gap: 0.375rem;
   }
+  .theme-study-section-heading {
+    align-items: start;
+    flex-direction: column;
+  }
   .theme-study-sample figcaption > span:last-child {
     display: none;
   }
@@ -307,7 +331,8 @@
 @media (prefers-reduced-motion: reduce) {
   .theme-study-token-details summary > svg,
   .theme-study-advice summary > svg,
-  .theme-study-recipe summary > svg {
+  .theme-study-recipe summary > svg,
+  .theme-study-notes summary > svg {
     transition: none;
   }
 }

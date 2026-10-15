@@ -25,8 +25,16 @@ export function ThemeStudyDetails({ notes }: { notes: PresetDesignNotes }) {
       <section>
         <h4>
           <TypeIcon size={14} aria-hidden="true" />
-          Type direction
+          Typography
         </h4>
+        <div class="theme-study-type-specimen" aria-label="Native typography specimen">
+          <span aria-hidden="true">Aa</span>
+          <div>
+            <strong>Make room for good ideas.</strong>
+            <p>Clear text. A little contrast.</p>
+          </div>
+        </div>
+        <p class="theme-study-mono-specimen">const theme = &#123; color, type, radius &#125;</p>
         <dl class="theme-study-fonts">
           {[
             ["Body", notes.type.body],
@@ -41,9 +49,12 @@ export function ThemeStudyDetails({ notes }: { notes: PresetDesignNotes }) {
         </dl>
         <details class="theme-study-advice">
           <summary>
-            Notes on typography <ChevronDownIcon size={13} aria-hidden="true" />
+            Font setup & usage <ChevronDownIcon size={13} aria-hidden="true" />
           </summary>
-          <p>{notes.type.advice}</p>
+          <p>
+            Samples use native fonts; named stacks above need their font files in your app.{" "}
+            {notes.type.advice}
+          </p>
         </details>
       </section>
       <section class="theme-study-shape" style={{ "--study-radius": notes.radius }}>
@@ -55,6 +66,7 @@ export function ThemeStudyDetails({ notes }: { notes: PresetDesignNotes }) {
           <span>lg</span>
           <span>xl</span>
         </div>
+        <p>One corner family, from compact controls to larger panels.</p>
         <details class="theme-study-advice">
           <summary>
             Notes on shape <ChevronDownIcon size={13} aria-hidden="true" />

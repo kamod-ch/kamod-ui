@@ -1,11 +1,6 @@
-import {
-  ArrowUpRightIcon,
-  CheckIcon,
-  ListChecksIcon,
-  MousePointerClickIcon,
-  PaletteIcon,
-} from "@kamod-ch/icons/lucide";
+import { ArrowUpRightIcon, CheckIcon, PaletteIcon } from "@kamod-ch/icons/lucide";
 import { Button, Card } from "@kamod-ch/ui";
+import { withBasePath } from "../../../base-path";
 import { BlockHeadingLink } from "../../../blocks/BlockHeadingLink";
 import { StateIcon } from "../../components/StateIcon";
 import { presetDesignNotes } from "./preset-design-notes";
@@ -14,10 +9,11 @@ import { type presetStudies, presetStudyId } from "./preset-studies";
 import { ThemePalettePreview } from "./ThemePalettePreview";
 import { ThemePresetSignature } from "./ThemePresetSignature";
 import { ThemeStudyDetails, ThemeStudyRecipe } from "./ThemeStudyDetails";
+import { ThemeStudyNotes } from "./ThemeStudyNotes";
 
 type Study = (typeof presetStudies)[number];
 
-/** A compact study with local palette washes and four independent composition sketches. */
+/** A visual-first study; preset colors remain local and longer guidance is opt-in. */
 export function ThemePresetStudy({
   study,
   index,
@@ -29,7 +25,7 @@ export function ThemePresetStudy({
   selected: boolean;
   onApply: () => void;
 }) {
-  const { id, label, character, palette, schemes, application, review } = study;
+  const { id, label, character } = study;
   const notes = presetDesignNotes[id];
   const exercise = presetExercises[id];
   const file = id === "kamod" ? "tokens.css" : `brands/${id}.css`;
@@ -64,79 +60,40 @@ export function ThemePresetStudy({
           </Button>
         </div>
       </div>
-      <div class="theme-study-overview">
-        <div class="theme-study-introduction">
-          <p class="theme-study-direction">{notes.direction}</p>
-          <p class="theme-study-intro">{palette}</p>
-          <ul class="theme-study-fits" aria-label={`Suggested uses for ${label}`}>
-            {exercise.fits.map((fit) => (
-              <li key={fit}>{fit}</li>
-            ))}
-          </ul>
+      <div class="theme-study-introduction">
+        <p class="theme-study-direction">{notes.direction}</p>
+        <ul class="theme-study-fits" aria-label={`Suggested uses for ${label}`}>
+          {exercise.fits.map((fit) => (
+            <li key={fit}>
+              <CheckIcon size={11} aria-hidden="true" />
+              {fit}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <section class="theme-study-color-section" aria-label={`${label} color system`}>
+        <div class="theme-study-section-heading">
+          <div>
+            <h4>
+              <PaletteIcon size={14} aria-hidden="true" />
+              Color system
+            </h4>
+            <p>Eight core roles. The same compositions, in both appearances.</p>
+          </div>
+          <a href={withBasePath("/docs/theming/token-overrides#what-a-theme-token-actually-is")}>
+            Token guide <ArrowUpRightIcon size={12} aria-hidden="true" />
+          </a>
         </div>
         <div class="theme-study-comparison">
           <ThemePalettePreview preset={id} scheme="light" />
           <ThemePalettePreview preset={id} scheme="dark" />
         </div>
-      </div>
-      <div class="theme-study-guidance">
-        <div class="theme-study-observations">
-          <section>
-            <h4>In light &amp; dark</h4>
-            <p>{schemes}</p>
-          </section>
-          <section>
-            <h4>Put it to work</h4>
-            <p>{application}</p>
-          </section>
-        </div>
-      </div>
-      <section class="theme-study-principles">
-        <h4>Small choices, big difference</h4>
-        <ol>
-          {notes.principles.map(({ title, text, roles }, position) => (
-            <li key={title}>
-              <span class="theme-study-note-number" aria-hidden="true">
-                {position + 1}
-              </span>
-              <div>
-                <strong>{title}</strong>
-                <p>{text}</p>
-                <div class="theme-study-note-roles">
-                  {roles.map((role) => (
-                    <code key={role}>{role}</code>
-                  ))}
-                </div>
-              </div>
-            </li>
-          ))}
-        </ol>
       </section>
       <ThemeStudyDetails notes={notes} />
-      <section class="theme-study-practice">
-        <div>
-          <h4>
-            <MousePointerClickIcon size={14} aria-hidden="true" />
-            Try a real task
-          </h4>
-          <strong>{exercise.title}</strong>
-        </div>
-        <p>{exercise.task}</p>
-        <p class="theme-study-practice-check">
-          <CheckIcon size={13} aria-hidden="true" />
-          <span>{exercise.check}</span>
-        </p>
-      </section>
-      <div class="theme-study-review">
-        <strong>
-          <ListChecksIcon size={14} aria-hidden="true" />
-          Before you ship
-        </strong>
-        <p>{review}</p>
-      </div>
+      <ThemeStudyNotes study={study} />
       <ThemeStudyRecipe id={id} label={label} example={notes.example} />
       <footer class="theme-study-footer">
-        <span>2 appearances · 4 compositions · Shared semantic roles</span>
+        <span>2 appearances · 6 compositions · Live theme tokens</span>
         <a href={`https://github.com/kamod-ch/kamod-ui/blob/main/packages/themes/src/${file}`}>
           Read preset CSS <ArrowUpRightIcon size={13} aria-hidden="true" />
         </a>

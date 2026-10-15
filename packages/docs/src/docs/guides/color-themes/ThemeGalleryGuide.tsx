@@ -13,8 +13,8 @@ export function ThemeGalleryIntroduction() {
           <div>
             <strong>See the relationships</strong>
             <p>
-              Two small compositions in each appearance. Compare page, card, navigation and action
-              roles.
+              Eight main colors and three sketches per appearance. Compare surfaces, navigation and
+              actions.
             </p>
           </div>
         </li>
@@ -46,8 +46,8 @@ export function ThemeGalleryIntroduction() {
       </nav>
       <p class="theme-gallery-comparison-note">
         These are <strong>static palette sketches</strong>, not loading states. Their colors and
-        corners come from the shipped CSS; the layouts and native type stay the same. Open a
-        palette’s role list for a closer look.
+        corners come from the shipped CSS; the layouts and native type stay the same. Expand text,
+        focus and feedback for the supporting roles.
       </p>
     </div>
   );

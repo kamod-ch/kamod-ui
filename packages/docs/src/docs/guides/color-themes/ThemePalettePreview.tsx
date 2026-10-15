@@ -1,62 +1,28 @@
 import { ChevronDownIcon, MoonIcon, SunIcon } from "@kamod-ch/icons/lucide";
 import type { ThemePresetId } from "@kamod-ch/themes";
 
-const surfaceRoles = [
-  ["Page", "background"],
-  ["Card", "card"],
+import { PaletteSketch } from "./PaletteSketch";
+
+const mainRoles = [
   ["Primary", "primary"],
   ["Secondary", "secondary"],
+  ["Accent", "accent"],
+  ["Canvas", "background"],
+  ["Surface", "card"],
+  ["Muted", "muted"],
+  ["Danger", "destructive"],
+  ["Sidebar", "sidebar-background"],
 ] as const;
 const detailRoles = [
   ["Text", "foreground"],
-  ["Quiet surface", "muted"],
+  ["Primary text", "primary-foreground"],
+  ["Secondary text", "secondary-foreground"],
   ["Quiet text", "muted-foreground"],
-  ["Selection", "accent"],
   ["Boundary", "border"],
-  ["Navigation", "sidebar-background"],
+  ["Focus", "outline"],
   ["Success", "success"],
-  ["Danger", "destructive"],
+  ["Warning", "warning"],
 ] as const;
-
-/** Static composition studies, not loading placeholders: no animation or simulated controls. */
-function PaletteSketch({ kind }: { kind: "workspace" | "action" }) {
-  return (
-    <div class={`theme-study-sketch theme-study-sketch-${kind}`} data-palette-sketch={kind}>
-      <div class="theme-study-sketch-art" aria-hidden="true">
-        {kind === "workspace" ? (
-          <>
-            <div class="theme-study-sketch-rail">
-              <i />
-              <i />
-              <i />
-            </div>
-            <div class="theme-study-sketch-content">
-              <b />
-              <span />
-              <div class="theme-study-sketch-sheet">
-                <i />
-                <i />
-                <i />
-              </div>
-            </div>
-          </>
-        ) : (
-          <div class="theme-study-sketch-content">
-            <i class="theme-study-sketch-mark" />
-            <b />
-            <span />
-            <span />
-            <div class="theme-study-sketch-actions">
-              <i class="theme-study-action" />
-              <i />
-            </div>
-          </div>
-        )}
-      </div>
-      <p class="theme-study-sketch-label">{kind === "workspace" ? "Workspace" : "Action card"}</p>
-    </div>
-  );
-}
 
 /** Every comparison consumes real preset CSS inside one explicit appearance boundary. */
 export function ThemePalettePreview({
@@ -74,26 +40,34 @@ export function ThemePalettePreview({
           <Icon size={13} aria-hidden="true" />
           {scheme === "light" ? "Light" : "Dark"} appearance
         </span>
-        <span>2 compositions</span>
+        <span>8 roles · 3 sketches</span>
       </figcaption>
       <div class={`theme-study-preview ${scheme}`} data-theme-scope="" data-theme={preset}>
-        <div class="theme-study-sketches">
-          <PaletteSketch kind="workspace" />
-          <PaletteSketch kind="action" />
-        </div>
-        <dl class="theme-study-roles">
-          {surfaceRoles.map(([label, token]) => (
+        <dl class="theme-study-colors" aria-label={`${scheme} appearance main colors`}>
+          {mainRoles.map(([label, token]) => (
             <div key={token}>
-              <dt>{label}</dt>
-              <dd style={{ background: `var(--${token})` }} title={`--${token}`}>
-                <span class="sr-only">{`--${token}`}</span>
+              <dt>
+                {label}
+                <code>{`--${token}`}</code>
+              </dt>
+              <dd style={{ background: `var(--${token})` }}>
+                <span class="sr-only">{`Color from --${token}`}</span>
               </dd>
             </div>
           ))}
         </dl>
+        <div class="theme-study-composition-heading">
+          <strong>In composition</strong>
+          <span>Static layout studies</span>
+        </div>
+        <div class="theme-study-sketches">
+          <PaletteSketch kind="workspace" />
+          <PaletteSketch kind="action" />
+          <PaletteSketch kind="feature" />
+        </div>
         <details class="theme-study-token-details">
           <summary>
-            Look inside the palette <ChevronDownIcon size={13} aria-hidden="true" />
+            Text, focus & feedback <ChevronDownIcon size={13} aria-hidden="true" />
           </summary>
           <dl>
             {detailRoles.map(([label, token]) => (

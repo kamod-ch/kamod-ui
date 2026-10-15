@@ -43,7 +43,25 @@ it("server-renders every gallery contents target once without saving appearance"
   }
   expect(document.querySelectorAll("[data-theme-scope]")).toHaveLength(THEME_PRESETS.length * 4);
   expect(document.querySelectorAll(".theme-study-practice")).toHaveLength(THEME_PRESETS.length);
-  expect(document.querySelectorAll("[data-palette-sketch]")).toHaveLength(THEME_PRESETS.length * 4);
+  expect(document.querySelectorAll("[data-palette-sketch]")).toHaveLength(THEME_PRESETS.length * 6);
+  expect(document.querySelectorAll(".theme-study-colors > div")).toHaveLength(
+    THEME_PRESETS.length * 16,
+  );
+  expect(document.querySelectorAll(".theme-study-notes[open]")).toHaveLength(0);
+  for (const panel of document.querySelectorAll(".theme-study-preview")) {
+    expect(
+      [...panel.querySelectorAll(".theme-study-colors code")].map((node) => node.textContent),
+    ).toEqual([
+      "--primary",
+      "--secondary",
+      "--accent",
+      "--background",
+      "--card",
+      "--muted",
+      "--destructive",
+      "--sidebar-background",
+    ]);
+  }
   expect(document.querySelectorAll(".theme-study .kamod-code")).toHaveLength(0);
   expect(document.querySelectorAll('[aria-busy="true"], iframe')).toHaveLength(0);
   expect(storage).not.toHaveBeenCalled();
