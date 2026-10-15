@@ -24,7 +24,6 @@ export function Code({
   inferLanguage = true,
   highlight = true,
   syntaxTheme = "default",
-  colorMode = "inverse",
   resolveReference: resolveReferenceProp,
   filePath,
   renderFilePath,
@@ -190,9 +189,8 @@ export function Code({
   const source = rendersCode && (
     <pre
       id={codeId}
-      class={`docs-code kamod-code-source ${preClassName ?? className ?? ""}`.trim()}
+      class={`docs-code ${preClassName ?? className ?? ""}`.trim()}
       data-slot="code-content"
-      data-color-mode={colorMode}
       data-language={language}
       tabIndex={showLoading ? -1 : 0}
       aria-hidden={showLoading || undefined}
@@ -256,9 +254,7 @@ export function Code({
           source
         )
       ) : (
-        <div class="kamod-code-source" data-slot="code-document" data-color-mode={colorMode}>
-          {renderedContent}
-        </div>
+        renderedContent
       )}
       {afterCode}
     </div>

@@ -1,9 +1,9 @@
 ---
 title: "code"
-description: "code / code-color-mode-scope"
+description: "code / code-product-palette"
 pageKind: component-doc
 slug: "code"
-section: "code-color-mode-scope"
+section: "code-product-palette"
 sidebar: false
 outline: false
 ---

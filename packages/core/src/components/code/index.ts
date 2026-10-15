@@ -19,7 +19,6 @@ export {
 } from "./code-references";
 export { type CodeSyntaxTheme, codeSyntaxThemes } from "./code-themes";
 export type {
-  CodeColorMode,
   CodeCopyActionContext,
   CodeCopyStatus,
   CodeImportControlContext,

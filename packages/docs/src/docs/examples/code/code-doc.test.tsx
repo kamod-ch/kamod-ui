@@ -1,15 +1,15 @@
-import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import ts from "@typescript/typescript6";
 import { options } from "preact";
 import render from "preact-render-to-string";
 import { expect, it } from "vitest";
+import { parseGuide } from "../../../blocks/guides/guide-markdown";
 import { ComponentExample } from "../../components/component-detail/ComponentExample";
 import { ComponentExampleCode } from "../../components/component-detail/ComponentExampleCode";
 import { DocsComponentContent } from "../../DocsComponentContent";
 import { codeDocPage } from "../../pages/code-doc";
 import { CodeHero, codeExamples, codeHeroSnippet } from "./code-examples";
-import { colorModeSnippet } from "./code-guide-color-mode";
 import { languageSelectorSnippet } from "./code-guide-languages";
 import { controlledCodeSnippet, customControlsSnippet } from "./code-guide-modularity";
 import { syntaxThemeSnippet } from "./code-guide-themes";
@@ -54,14 +54,13 @@ it("preserves package imports in the actual page's rendered showcase source", ()
 it("introduces plain code before optional file headers and reading tools", () => {
   const plainExamples = ["terminal", "data", "styles", "literal", "appearance"];
   const ids = codeDocPage.sections.map((section) => section.id);
-  for (const id of [...plainExamples, "language-detection", "color-mode"])
+  for (const id of [...plainExamples, "language-detection"])
     expect(ids.indexOf(id)).toBeLessThan(ids.indexOf("source-file"));
   for (const id of ["imports", "wrapping", "reading-behavior", "modularity"])
     expect(ids.indexOf(id)).toBeGreaterThan(ids.indexOf("document"));
   for (const preview of [<CodeHero />, ...plainExamples.map((id) => codeExamples[id].preview())]) {
     const html = render(<>{preview}</>);
     expect(html).toContain('data-slot="code-content"');
-    expect(html).toContain('data-color-mode="inverse"');
     expect(html).not.toContain('data-slot="code-toolbar"');
     expect(html).not.toContain('data-slot="code-imports"');
   }
@@ -115,7 +114,18 @@ it("typechecks all copyable variants against the real core Code API", () => {
       controlledCodeSnippet,
       customControlsSnippet,
       syntaxThemeSnippet,
-      colorModeSnippet,
+      ...[
+        "../../../../.preactpress/content/code-prism-explained.md",
+        "../../../../.preactpress/content/code-theme-tokens.md",
+        "../../../../.preactpress/content/theme-component-foundations.md",
+      ]
+        .flatMap((path) => parseGuide(readFileSync(resolve(import.meta.dirname, path), "utf8")))
+        .flatMap(({ parts }) => parts)
+        .filter(
+          (part) =>
+            part.kind === "code" && part.language === "tsx" && /export function/.test(part.code),
+        )
+        .map((part) => (part.kind === "code" ? part.code : "")),
     ];
     const files = snippets.map((snippet, index) => {
       const file = resolve(directory, `example-${index}.tsx`);
@@ -138,6 +148,9 @@ it("typechecks all copyable variants against the real core Code API", () => {
         ],
         "@kamod-ch/ui/button": [
           resolve(import.meta.dirname, "../../../../../core/src/components/button/index.ts"),
+        ],
+        "@kamod-ch/ui/theme-toggle": [
+          resolve(import.meta.dirname, "../../../../../core/src/components/theme-toggle/index.ts"),
         ],
       },
     });

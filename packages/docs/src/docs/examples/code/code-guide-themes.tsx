@@ -4,6 +4,7 @@ import { CodeBlock } from "../../components/CodeBlock";
 import { DocsCallout } from "../../components/DocsCallout";
 import { CodeGuideTopic as Topic } from "./CodeGuideTopic";
 import { CodePrismPaletteStudies } from "./CodePrismPaletteStudies";
+import { CodeThemeTokenGuide, PrismSyntaxGuide } from "./CodeSyntaxDetails";
 import { CodeThemePlayground } from "./code-playgrounds";
 
 export const syntaxThemeSnippet = `import { Code, codeSyntaxThemes, type CodeSyntaxTheme } from "@kamod-ch/ui/code";
@@ -27,29 +28,18 @@ export function ThemeReader({ source }: { source: string }) {
   );
 }`;
 
-const tokenRows = [
-  ["keyword", "Imports, declarations and control-flow keywords"],
-  ["string", "Strings, selectors and attribute names"],
-  ["function", "Functions and class names"],
-  ["property", "Properties, tags, constants and deleted tokens"],
-  ["number", "Numbers and booleans"],
-  ["variable", "Variables, regular expressions and important tokens"],
-  ["comment", "Comments, prologs and document declarations"],
-  ["punctuation", "Braces, commas and other delimiters"],
-  ["operator", "Operators, entities and URLs"],
-] as const;
-
 export function CodeSyntaxThemeGuide() {
   return (
     <>
       <Topic id="code-syntax-presets" title="Pick a palette, keep the source">
         <p>
-          <strong>Choose from eight palettes with one prop.</strong> Keep the familiar{" "}
+          <strong>Choose from nine palettes with one prop.</strong> Keep the app-aware{" "}
           <code>default</code>, <code>dusk</code>, <code>forest</code> or <code>monochrome</code>
-          palette, or use <code>okaidia</code>, <code>tomorrow</code>, <code>twilight</code> or{" "}
-          <code>solarized-light</code> for a Prism-derived palette. Every preset is included in the
-          core stylesheet; no theme download, extra provider or different highlighter is needed. The
-          selector below changes the real viewer, not a screenshot.
+          palette, derive colors from your application with <code>theme</code>, or use{" "}
+          <code>okaidia</code>, <code>tomorrow</code>, <code>twilight</code> or{" "}
+          <code>solarized-light</code> for a dedicated Prism reading canvas. Every preset is
+          included in the core stylesheet; no theme download, extra provider or different
+          highlighter is needed. The selector below changes the real viewer, not a screenshot.
         </p>
         <CodeBlock
           language="tsx"
@@ -72,6 +62,13 @@ export function CodeSyntaxThemeGuide() {
                 </td>
                 <td>Familiar blue keywords and distinct token colors.</td>
                 <td>Consistency with the rest of the documentation.</td>
+              </tr>
+              <tr>
+                <td>
+                  <code>theme</code>
+                </td>
+                <td>Primary and chart hues mixed with the current foreground.</td>
+                <td>Source coloring that follows any of the eight application presets.</td>
               </tr>
               <tr>
                 <td>
@@ -98,11 +95,11 @@ export function CodeSyntaxThemeGuide() {
           </table>
         </div>
         <p>
-          All eight palettes have light and dark adaptations selected by the source area's{" "}
-          <code>colorMode</code>. Inverse is the default; the selector can match the interface or
-          hold the source in an explicit mode. A palette name never forces light or dark, including{" "}
-          <code>solarized-light</code>. Headers and controls keep the surrounding appearance.
-          Changing the palette never changes source, clipboard text, grammar or reading preferences.
+          The five Kamod palettes in this table follow the application appearance. The four Prism
+          palettes below retain their own source background in either scheme: a dark Okaidia reader
+          can sit inside a light page, and a cream Solarized reader can sit inside a dark page. The
+          header and controls always follow the surrounding app. Changing a syntax palette never
+          changes the source, clipboard text, grammar or reading preferences.
         </p>
         <CodeBlock code={syntaxThemeSnippet} filePath="src/ThemeReader.tsx" />
         <p>
@@ -119,29 +116,31 @@ export function CodeSyntaxThemeGuide() {
             {" "}
             Prism 1.30's bundled themes
           </a>
-          . Kamod keeps their syntax distinctions and color families, with paired light/dark
-          adaptations for the selected source mode. Typography, spacing, rounded corners, controls
-          and source links remain shared. The GitHub action on each study opens that palette's
-          original stylesheet.
+          . Kamod keeps the useful syntax distinctions and canvas colors, while preserving its own
+          typography, spacing, rounded corners, controls and source links. The GitHub action on each
+          study opens that palette's original stylesheet.
         </p>
         <CodePrismPaletteStudies />
         <p>
           The colors are <strong>scoped to an individual reader</strong>, so every palette can
-          appear on the same page without overriding another. Token shades are adjusted to remain
-          readable on the selected light or dark source surface; they are not fixed copies of a
-          stylesheet designed for only one background. Decorative Prism shadows, font changes and
-          plugin frames are omitted; the MIT attribution is preserved in the shipped stylesheet.
+          appear on the same page without overriding another. Some original small-text colors are
+          strengthened for readability: Okaidia's pink, Twilight's comments and the Solarized Light
+          token shades keep their color families with higher contrast. Tomorrow's inserted text uses
+          its green string color. Decorative Prism shadows, font changes and plugin frames are
+          deliberately omitted; the MIT attribution is preserved in the shipped stylesheet.
         </p>
-        <DocsCallout title="Choose palette and color mode independently" icon={<PaletteIcon />}>
+        <DocsCallout title="Keep the colors with their canvas" icon={<PaletteIcon />}>
           <p>
-            Use <code>syntaxTheme="okaidia"</code> for its color family and{" "}
-            <code>colorMode="dark"</code> to request a dark source area. Omit the latter to keep the
-            default inverse behavior. Importing unscoped Prism stylesheets can override the shared{" "}
-            <code>.token</code> rules; the bundled presets already keep each reader's palette local
-            and adapt its colors to the chosen mode.
+            A pale lime string needs its dark Okaidia background. Importing several unscoped Prism
+            stylesheets would also make their shared <code>.token</code> rules compete. Use{" "}
+            <code>syntaxTheme</code> on Code to select the complete scoped palette instead. Choose
+            an app-aware Kamod palette when the code surface should follow the page scheme
+            automatically.
           </p>
         </DocsCallout>
       </Topic>
+      <PrismSyntaxGuide />
+      <CodeThemeTokenGuide />
       <Topic id="code-shared-syntax-choice" title="Choose Once for Several Readers">
         <p>
           <strong>Lift the preference to the component that owns the readers.</strong> The selector
@@ -162,7 +161,7 @@ export function CompareSources({ before, after }: Sources) {
   return (
     <section>
       <button onClick={() => setSyntaxTheme("solarized-light")}>
-        Use the Solarized palette
+        Read on a light canvas
       </button>
       <Code code={before} filePath="before.tsx" syntaxTheme={syntaxTheme} />
       <Code code={after} filePath="after.tsx" syntaxTheme={syntaxTheme} />
@@ -182,34 +181,34 @@ export function CompareSources({ before, after }: Sources) {
           and token rules; it does not fetch a theme or run Prism again.
         </p>
       </Topic>
-      <Topic id="code-theme-boundaries" title="Keep grammar, palette and appearance independent">
+      <Topic id="code-theme-boundaries" title="Three choices, three separate responsibilities">
         <p>
           <code>language</code> decides which grammar recognizes the source.{" "}
-          <code>syntaxTheme</code> selects the token color family. <code>colorMode</code> chooses
-          the source area's light/dark appearance, and <code>variant</code> chooses the panel's
-          surface treatment. Your application still owns the surrounding header, controls and
-          before/after content. None of these presentation settings rewrites the source.
+          <code>syntaxTheme</code> decides how those recognized tokens look. <code>variant</code>{" "}
+          decides how much framing the panel uses. A named Prism palette also supplies its source
+          canvas; your app still owns the header, controls, borders and light/dark scheme. The
+          default/subtle/outline variants remain most visible with app-aware palettes. With a Prism
+          palette, its readable canvas stays constant while the surrounding frame adapts.
         </p>
         <CodeBlock
           language="tsx"
           code={
-            '<Code\n  code={source}\n  language="typescript"\n  syntaxTheme="forest"\n  colorMode="inherit"\n  variant="outline"\n/>'
+            '<Code\n  code={source}\n  language="typescript"\n  syntaxTheme="forest"\n  variant="outline"\n/>'
           }
         />
         <DocsCallout title="Syntax colors are not a page theme" icon={<PaletteIcon />}>
           <p>
-            The example uses TypeScript highlighting, Forest token colors and an outlined panel,
-            with source appearance matching the nearest interface mode. Its header and controls
-            continue to belong to your app. For broader changes, follow{" "}
+            The example uses TypeScript highlighting, Forest token colors and an outlined panel. Its
+            header and controls continue to belong to your app. For broader changes, follow{" "}
             <a href={withBasePath("/docs/theming/installation")}>Theming</a>; for only the frame,
             compare <a href="#appearance">Surface Variants</a>.
           </p>
         </DocsCallout>
         <p>
-          Plain text has no syntax tokens to recolor, and <code>{"highlight={false}"}</code> skips
-          token markup. Both still use the selected source color mode. Prepared{" "}
-          <code>renderedContent</code> uses the same content boundary; author its custom colors for
-          that mode. A palette cannot add missing grammar support. Start with{" "}
+          Plain text has no syntax tokens to recolor, although a Prism preset can still supply its
+          source canvas and foreground. Likewise, <code>{"highlight={false}"}</code> skips token
+          markup, and <code>renderedContent</code> supplies its own presentation. A palette cannot
+          add missing grammar support. Start with{" "}
           <a href="#language-detection">Language Selection</a> if recognized source is the part that
           needs changing.
         </p>
@@ -219,9 +218,7 @@ export function CompareSources({ before, after }: Sources) {
           Put a class on Code and override its <code>--kamod-code-*</code> variables in your
           stylesheet. Keep the class local to the panels you intend to change. The rules below build
           on Dusk; unmodified colors continue to come from that preset. Place your stylesheet after
-          the shared theme import. Add <code>-light</code> and <code>-dark</code> to a token
-          variable to supply both colors; Code selects the pair using the source's resolved mode,
-          including inverse and explicit choices.
+          the shared theme import.
         </p>
         <CodeBlock
           language="tsx"
@@ -230,55 +227,24 @@ export function CompareSources({ before, after }: Sources) {
         <CodeBlock
           filePath="src/product-source.css"
           code={
-            ".product-source {\n  --kamod-code-keyword-light: #6d28d9;\n  --kamod-code-keyword-dark: #c4b5fd;\n  --kamod-code-string-light: #0f766e;\n  --kamod-code-string-dark: #5eead4;\n  --kamod-code-comment-style: italic;\n  --kamod-code-keyword-weight: 600;\n}"
+            ".product-source {\n  --kamod-code-keyword: #6d28d9;\n  --kamod-code-string: #0f766e;\n  --kamod-code-comment-style: italic;\n  --kamod-code-keyword-weight: 600;\n}\n\n.dark .product-source {\n  --kamod-code-keyword: #c4b5fd;\n  --kamod-code-string: #5eead4;\n}"
           }
         />
-        <div class="docs-api-table-wrap">
-          <table class="docs-api-table">
-            <thead>
-              <tr>
-                <th>Token variable base</th>
-                <th>Token group</th>
-              </tr>
-            </thead>
-            <tbody>
-              {tokenRows.map(([name, description]) => (
-                <tr key={name}>
-                  <td>
-                    <code>{`--kamod-code-${name}`}</code>
-                  </td>
-                  <td>{description}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
         <p>
-          Every color group in the table accepts the <code>-light</code>/<code>-dark</code> pair. An
-          unsuffixed value such as <code>--kamod-code-keyword</code> takes precedence and fixes that
-          color in both source modes. Use a pair when the color should adapt; reserve the single
-          value for an intentional fixed override.
-        </p>
-        <p>
-          Source-reference dashes use the theme's <code>--primary-light</code>/
-          <code>--primary-dark</code> pair automatically. Override{" "}
-          <code>--kamod-code-primary-light</code> and <code>--kamod-code-primary-dark</code> on a
-          viewer to customize that cue; themes without either pair use neutral defaults. Only the
-          reference mark uses the selected endpoint. Syntax text and the application's{" "}
-          <code>--primary</code> remain unchanged.
-        </p>
-        <p>
-          Each group also accepts <code>-weight</code> and <code>-style</code> suffixes, such as{" "}
-          <code>--kamod-code-comment-style</code>. Grammar-specific bold and italic tokens retain
-          their own emphasis. These source colors do not move the import control into the source
-          mode; reading controls keep their surrounding interface appearance. A Prism-specific token
-          distinction—such as Tomorrow's separate tag color—can be refined with a locally scoped{" "}
-          <code>.token.tag</code> rule when needed.
+          The <a href="#code-syntax-token-groups">Syntax Token Reference</a> lists each color
+          variable and its grammar groups. Each group also accepts <code>-weight</code> and{" "}
+          <code>-style</code> suffixes, such as <code>--kamod-code-comment-style</code>.
+          Grammar-specific bold and italic tokens retain their own emphasis. The import control’s
+          keyword shares <code>--kamod-code-keyword</code> with source keywords for app-aware
+          palettes. Prism readers retain application foreground for that control so a pale source
+          keyword is not placed on a light header. A Prism-specific token distinction—such as
+          Tomorrow's separate tag color—can be refined with a locally scoped <code>.token.tag</code>{" "}
+          rule when needed.
         </p>
         <p>
           Token names describe highlighting groups, not a complete syntax tree. One language may
           emit nested tokens or classify a construct differently from another. Check your actual
-          source in both source modes and every surface you use. Choose readable contrasts; a color
+          source in both schemes and every surface you use. Choose readable contrasts; a color
           should help recognition without becoming the only way to understand the code.
         </p>
       </Topic>
@@ -286,12 +252,10 @@ export function CompareSources({ before, after }: Sources) {
         <p>
           Typography variables affect the source area without enlarging its header or controls. Use{" "}
           <code>--kamod-code-font-family</code>, <code>--kamod-code-font-size</code>,{" "}
-          <code>--kamod-code-line-height</code> for the reading rhythm. Set{" "}
-          <code>--kamod-code-foreground-light</code>/<code>-dark</code> for the base text, and{" "}
-          <code>--kamod-code-source-surface-light</code>/<code>-dark</code> for the source/document
-          background. Their unsuffixed equivalents remain fixed overrides. Keep text and tokens
-          readable on both backgrounds; a slightly roomier line height often does more for a long
-          example than another color.
+          <code>--kamod-code-line-height</code> and <code>--kamod-code-foreground</code>. Override
+          <code>--kamod-code-source-surface</code> to change only the source background, including a
+          Prism canvas; keep text and token colors readable on the replacement surface. A slightly
+          roomier line height often does more for a long example than another color.
         </p>
         <CodeBlock
           filePath="src/reading.css"

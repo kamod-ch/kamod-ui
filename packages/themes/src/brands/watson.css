@@ -259,16 +259,8 @@
 }
 
 /* Demo preset: semantic tokens → Kamod UI variables */
-:root,
-[data-theme-scope] {
-  --theme-watson-primary-light: var(--color-watson_base);
-  --theme-watson-primary-dark: var(--color-watson_pink-70);
-}
-
 :root[data-theme="watson"],
 [data-theme-scope][data-theme="watson"] {
-  --primary-light: var(--theme-watson-primary-light);
-  --primary-dark: var(--theme-watson-primary-dark);
   --font-sans:
     "Nunito Sans", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol", "Noto Color Emoji";
@@ -294,7 +286,7 @@
   --card-foreground: var(--color-watson_black);
   --popover: var(--color-white-100);
   --popover-foreground: var(--color-watson_black);
-  --primary: var(--theme-watson-primary-light);
+  --primary: var(--color-watson_base);
   --primary-foreground: var(--color-white-100);
   --primary-accent: var(--color-watson_base_hover);
   --secondary: color-mix(in srgb, var(--primary) 8%, var(--color-watson_blue-100));
@@ -344,7 +336,7 @@
   --card-foreground: var(--color-grey-10);
   --popover: var(--color-black-90);
   --popover-foreground: var(--color-grey-10);
-  --primary: var(--theme-watson-primary-dark);
+  --primary: var(--color-watson_pink-70);
   --primary-foreground: var(--color-watson_black);
   --primary-accent: var(--color-watson_pink-50);
   --secondary: color-mix(in srgb, var(--primary) 12%, var(--color-watson_blue-70));

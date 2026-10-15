@@ -57,25 +57,16 @@
   --color-chart-5: var(--chart-5);
 }
 
-/* Named pairs also let a local reading surface select the other scheme without restyling its UI. */
-:root,
-[data-theme-scope] {
-  --theme-kamod-primary-light: var(--color-neutral-950);
-  --theme-kamod-primary-dark: var(--color-neutral-50);
-}
-
 /* Explicit scopes reset inherited tokens before applying a local preset/scheme. */
 :root,
 [data-theme-scope] {
-  --primary-light: var(--theme-kamod-primary-light);
-  --primary-dark: var(--theme-kamod-primary-dark);
   --background: var(--color-white);
   --foreground: var(--color-neutral-950);
   --card: var(--color-white);
   --card-foreground: var(--color-neutral-950);
   --popover: var(--color-white);
   --popover-foreground: var(--color-neutral-950);
-  --primary: var(--theme-kamod-primary-light);
+  --primary: var(--color-neutral-950);
   --primary-foreground: var(--color-neutral-50);
   --primary-accent: var(--color-neutral-800);
   --secondary: var(--color-fuchsia-700);
@@ -122,7 +113,7 @@
   --card-foreground: var(--color-neutral-50);
   --popover: var(--color-neutral-800);
   --popover-foreground: var(--color-neutral-50);
-  --primary: var(--theme-kamod-primary-dark);
+  --primary: var(--color-neutral-50);
   --primary-foreground: var(--color-neutral-950);
   --primary-accent: var(--color-neutral-300);
   --secondary: var(--color-fuchsia-700);

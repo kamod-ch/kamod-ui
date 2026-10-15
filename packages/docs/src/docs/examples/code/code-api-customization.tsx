@@ -47,9 +47,10 @@ export const codeCustomizationApi: readonly ApiReferenceSection[] = [
         defaultValue: '"default"',
         description: (
           <>
-            Choose one of the eight IDs in <code>codeSyntaxThemes</code>. Every palette adapts to
-            the source area's resolved light/dark mode, including Okaidia, Tomorrow, Twilight and
-            Solarized Light. Does not choose the mode or restyle the surrounding interface. See{" "}
+            Choose an ID in <code>codeSyntaxThemes</code>. The <code>theme</code> palette derives
+            syntax colors from your application's semantic tokens. Other Kamod palettes follow the
+            application scheme; Okaidia, Tomorrow, Twilight and Solarized Light also select a fixed
+            source canvas. The header, controls and application appearance remain independent. See{" "}
             <a href="#code-prism-palettes">Prism Palette Studies</a>.
           </>
         ),

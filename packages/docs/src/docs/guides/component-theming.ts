@@ -1,51 +1,8 @@
+import introduction from "virtual:kamod-guide-content/theme-component-foundations";
 import { type GuideSection, parseGuide } from "../../blocks/guides/guide-markdown";
 import { presetStudies, presetStudyId } from "./color-themes/preset-studies";
 import { themeRuntimeReference } from "./theme-runtime-reference";
 import { renderThemeRuntimeTable } from "./theme-runtime-table";
-
-const introduction = `
-## Choose your theme foundation
-
-A consistent interface starts with **shared values rather than separate colors for every component**. Buttons, cards, fields, menus and sidebars consume semantic tokens; configure those tokens once, then use each component’s supported variants, sizes and local layout classes.
-
-Keep three responsibilities separate: **Tailwind generates utilities**, **theme CSS defines their values**, and **the optional runtime selects a preset and color scheme**. A preset is a palette; Light, Dark and System are appearance preferences within that palette.
-
-### Install the packages you need
-
-Add only missing dependencies to your existing Preact application. This guide uses the full theme so components and [Complete Blocks](/blocks/theming) share the same preset and sidebar tokens.
-
-\`\`\`bash package-manager
-pnpm add @kamod-ch/ui @kamod-ch/themes @preact/signals
-\`\`\`
-
-Use \`@kamod-ch/themes/theme.css\` for built-in presets and the full token contract. The smaller \`@kamod-ch/ui/theme.css\` is available for a minimal setup; it does not supply every preset or sidebar mapping. Choose one CSS entry instead of importing both and depending on their order to resolve overlapping defaults.
-
-## Style components through their roles
-
-Start with a component’s documented API. A \`variant\` expresses intent; \`size\` controls its supported density; \`class\` is useful for local placement and spacing. Theme tokens let those choices keep working when the palette changes.
-
-\`\`\`tsx src/components/AccountActions.tsx
-import { Button, ThemeToggle } from "@kamod-ch/ui";
-
-export function AccountActions() {
-  return (
-    <div class="flex flex-wrap items-center gap-3">
-      <Button type="button">Save changes</Button>
-      <Button type="button" variant="outline">Cancel</Button>
-      <ThemeToggle />
-    </div>
-  );
-}
-\`\`\`
-
-Connect the buttons to your application’s actions. Use the [Button Reference](/docs/button/installation) for supported variants and [Theme Toggle](/docs/theme-toggle/installation) for accessible labels and the optional ripple transition.
-
-### Keep local changes local
-
-Use utilities such as \`gap-3\`, \`w-full\` and \`items-center\` for composition. Use pairs such as \`bg-card text-card-foreground\` for surfaces. Avoid overriding every button with a fixed color when a shared token can express the same decision across the interface.
-
-Review changes inside real cards, dialogs and menus, including hover, focus, disabled and error states. The [Component Styles Guide](/blocks/styles) explains how to separate composition decisions from theme changes.
-`;
 
 const reference = `
 ## Optional Tailwind preset
@@ -75,9 +32,9 @@ export function createComponentThemingSections(foundationSource: string): GuideS
   const [palettes] = parseGuide(`
 ## Color theme presets
 
-Explore **Eight Palettes with the Same Component Roles**. Each study shows the same miniature workspace in light and dark: sidebar, page, card, primary action, secondary label and success feedback. Compare the relationships between these surfaces rather than choosing from an isolated accent color.
+Explore **Eight Palettes through the Same Small Compositions**. Every study pairs a simple workspace and action card in light and dark. Compare how the surfaces, accents and navigation relate, then read the preset's practical design notes, declared typography and shape.
 
-**Use theme** applies a palette to this documentation while keeping your current appearance preference. The paired samples remain fixed so you can compare schemes without repeatedly switching the entire page. The suggested uses below are design starting points, not restrictions on what you can build.
+Start with the direction that suits your content. **Use theme** applies a preset to this documentation while keeping your current appearance preference; the comparison sketches stay fixed. Each local code example opens on request. Suggested uses are starting points, not restrictions.
 `);
   return [
     { ...installation, id: "installation" },

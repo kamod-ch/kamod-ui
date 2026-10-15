@@ -76,29 +76,23 @@
   border-top: 1px solid var(--border);
 }
 /* Scroll the source, never its header or an invisible source behind the pending view. */
-.package-guide-reference-code
-  :is(
-    .kamod-code-content,
-    [data-slot="code-document"],
-    .blocks-prompt-rendered,
-    .showcase-loading
-  ) {
+.package-guide-reference-code :is(.kamod-code-content, .blocks-prompt-rendered, .showcase-loading) {
   min-height: var(--package-reference-body-height);
   height: var(--package-reference-body-height);
   max-height: var(--package-reference-body-height);
 }
-.package-guide-reference-code :is(.kamod-code-content, [data-slot="code-document"]) {
+.package-guide-reference-code .kamod-code-content {
   display: grid;
   min-width: 0;
 }
-.package-guide-reference-code :is(.kamod-code-content, [data-slot="code-document"]) > * {
+.package-guide-reference-code .kamod-code-content > * {
   grid-area: 1 / 1;
   min-width: 0;
   min-height: 0;
 }
 .package-guide-reference-code > .docs-code,
 .package-guide-reference-code > .kamod-code-content > .docs-code,
-.package-guide-reference-code > [data-slot="code-document"] > .blocks-prompt-rendered {
+.package-guide-reference-code > .blocks-prompt-rendered {
   margin: 0;
   padding: 1.25rem;
   overflow: auto;

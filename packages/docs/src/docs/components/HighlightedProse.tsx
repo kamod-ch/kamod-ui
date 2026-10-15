@@ -50,11 +50,6 @@ export function HighlightedProse({ html, className }: { html: string; className?
             { rootMargin: "200px" },
           );
     for (const code of blocks) {
-      const pre = code.parentElement!;
-      pre.classList.add("docs-code", "kamod-code-source");
-      // Raw prose fences also need a palette before highlighting or a plain-text early return.
-      if (!pre.closest(".kamod-code")) pre.classList.add("kamod-code");
-      pre.tabIndex = 0;
       if (code.querySelector(".token")) continue;
       if (observer) observer.observe(code);
       else highlight(code);

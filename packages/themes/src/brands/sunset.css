@@ -1,20 +1,12 @@
-:root,
-[data-theme-scope] {
-  --theme-sunset-primary-light: var(--color-rose-600);
-  --theme-sunset-primary-dark: var(--color-rose-400);
-}
-
 :root[data-theme="sunset"],
 [data-theme-scope][data-theme="sunset"] {
-  --primary-light: var(--theme-sunset-primary-light);
-  --primary-dark: var(--theme-sunset-primary-dark);
   --background: var(--color-orange-50);
   --foreground: var(--color-stone-950);
   --card: var(--color-amber-50);
   --card-foreground: var(--color-stone-950);
   --popover: var(--color-amber-50);
   --popover-foreground: var(--color-stone-950);
-  --primary: var(--theme-sunset-primary-light);
+  --primary: var(--color-rose-600);
   --primary-accent: var(--color-pink-600);
   --secondary: var(--color-orange-600);
   --secondary-accent: var(--color-amber-600);
@@ -50,7 +42,7 @@
   --card-foreground: var(--color-orange-50);
   --popover: var(--color-stone-900);
   --popover-foreground: var(--color-orange-50);
-  --primary: var(--theme-sunset-primary-dark);
+  --primary: var(--color-rose-400);
   --primary-accent: var(--color-pink-400);
   --secondary: var(--color-orange-400);
   --secondary-accent: var(--color-amber-400);

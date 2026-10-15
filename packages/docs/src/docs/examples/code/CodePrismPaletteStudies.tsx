@@ -25,7 +25,7 @@ export function CodePrismPaletteStudies() {
                   {palette.title}
                 </h4>
                 <p>
-                  Prism <span aria-hidden="true">·</span> Light / dark
+                  Prism <span aria-hidden="true">·</span> {palette.canvas} code canvas
                 </p>
               </div>
               <Button

@@ -39,7 +39,7 @@ export function CopyButton({
       data-slot="copy-button"
       {...props}
       class={cn(
-        "docs-icon-button kamod-copy-button kamod-action-feedback",
+        "docs-icon-button kamod-copy-button kamod-action-button kamod-action-feedback kamod-action-orbit",
         copied && "is-copied is-complete",
         className,
         aliasClassName,
@@ -87,7 +87,7 @@ export function CopyButton({
         />
       </span>
       {!iconOnly && (
-        <span class="kamod-copy-label" aria-hidden="true">
+        <span class="kamod-copy-label kamod-action-label" aria-hidden="true">
           <span data-copy-label="idle">{label}</span>
           <span data-copy-label="feedback">{failed ? "Retry copy" : "Copied"}</span>
         </span>

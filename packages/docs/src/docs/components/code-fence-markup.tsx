@@ -40,7 +40,7 @@ export function codeFenceMarkup(
           />
         )}
       </div>
-      <pre class="docs-code kamod-code-source" data-language={language} tabIndex={0}>
+      <pre class="docs-code" data-language={language} tabIndex={0}>
         <code class={`language-${language}`} dangerouslySetInnerHTML={{ __html: html }} />
       </pre>
     </div>,

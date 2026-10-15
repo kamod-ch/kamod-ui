@@ -63,6 +63,18 @@ export function CodeInstallationGuide() {
           filePath="src/styles.css"
         />
         <p>
+          If your application already uses the full <code>@kamod-ch/themes/theme.css</code>{" "}
+          foundation, keep it and add the component-only <code>@kamod-ch/ui/code/styles.css</code>{" "}
+          entry instead of importing a second set of token defaults. This includes Code's layout,
+          syntax palettes and CopyButton feedback. The UI theme above already includes those styles.
+        </p>
+        <CodeBlock
+          language="css"
+          code={
+            '/* Alternative: your existing full theme foundation. */\n@import "tailwindcss";\n@import "@kamod-ch/themes/theme.css";\n@import "@kamod-ch/ui/code/styles.css";'
+          }
+        />
+        <p>
           Use your existing Tailwind CSS v4 integration. If utility classes are missing in a
           production build, check{" "}
           <a href={withBasePath("/docs/theming/installation#css-setup")}>
@@ -105,10 +117,9 @@ export function CodeUsageGuide() {
         <DocsCallout title="A code surface that fits your interface" icon={<InfoIcon />}>
           <p>
             <strong>Your application provides the source and its purpose.</strong> Use Code beside
-            an API response, in a help article or beneath a working example. The source area uses
-            the opposite light/dark mode by default; <a href="#color-mode">Source Color Mode</a>{" "}
-            explains how to inherit or choose an explicit appearance. Add a short explanation
-            outside the snippet so readers know what they are looking at.
+            an API response, in a help article or beneath a working example. Its surface and syntax
+            colors follow the same shared stylesheet as the rest of your interface. Add a short
+            explanation outside the snippet so readers know what they are looking at.
           </p>
         </DocsCallout>
       </Topic>

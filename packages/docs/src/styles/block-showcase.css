@@ -21,8 +21,11 @@
   padding: 0;
 }
 
-/* Introductions remain in the interface scheme; Code owns the reading canvas. */
-.blocks-showcase .blocks-showcase-intro {
+/* Carry the source pane's reading surface through both introductions and prompt formats. */
+.blocks-showcase .blocks-showcase-intro,
+.blocks-showcase
+  .blocks-prompt-workspace
+  :is(.blocks-showcase-prompt-code, .blocks-prompt-rendered) {
   background: var(--muted);
 }
 

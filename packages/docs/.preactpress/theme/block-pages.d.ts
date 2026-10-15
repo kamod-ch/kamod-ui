@@ -13,6 +13,11 @@ declare module "virtual:kamod-block-guides" {
   export default sources;
 }
 
+declare module "virtual:kamod-guide-content/*" {
+  const source: string;
+  export default source;
+}
+
 declare module "virtual:kamod-theming-guide" {
   const source: string;
   export default source;

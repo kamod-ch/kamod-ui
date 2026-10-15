@@ -105,25 +105,13 @@ for (const scheme of ["light", "dark"] as const) {
     await metadataReader.scrollIntoViewIfNeeded();
     const importKeyword = metadataReader.locator(".docs-import-keyword");
     await expect(importKeyword).toBeVisible();
-    const importSource = metadataReader.locator("pre");
-    const importPaint = () =>
-      importKeyword.evaluate((node) => ({
-        color: getComputedStyle(node).color,
-        background: getComputedStyle(node.closest("button")!).backgroundColor,
-      }));
     const colors = new Set<string>();
     for (const palette of ["default", "dusk", "forest", "monochrome"]) {
       await demo.getByLabel("Syntax palette").selectOption(palette);
-      await demo.getByLabel("Source color mode").selectOption("inverse");
       const color = await keyword.evaluate((node) => getComputedStyle(node).color);
       colors.add(color);
       await metadataReader.evaluate((node, value) => (node.dataset.syntaxTheme = value), palette);
-      const ambient = await importPaint();
-      for (const mode of ["light", "dark", "inherit", "inverse"]) {
-        await demo.getByLabel("Source color mode").selectOption(mode);
-        await importSource.evaluate((node, value) => (node.dataset.colorMode = value), mode);
-        expect(await importPaint()).toEqual(ambient);
-      }
+      await expect(importKeyword).toHaveCSS("color", color);
       expect(await source.textContent()).toBe(original);
     }
     expect(colors.size).toBe(4);

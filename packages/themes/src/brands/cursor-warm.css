@@ -1,22 +1,14 @@
 /* Cursor marketing / DESIGN.md — warm cream page, white cards, orange accent.
    Consumers may load Lato and Source Serif 4; these stacks retain system fallbacks. */
-:root,
-[data-theme-scope] {
-  --theme-cursor-warm-primary-light: #f54e00;
-  --theme-cursor-warm-primary-dark: #f54e00;
-}
-
 :root[data-theme="cursor-warm"],
 [data-theme-scope][data-theme="cursor-warm"] {
-  --primary-light: var(--theme-cursor-warm-primary-light);
-  --primary-dark: var(--theme-cursor-warm-primary-dark);
   --background: #f2f1ed;
   --foreground: #26251e;
   --card: var(--color-white);
   --card-foreground: #26251e;
   --popover: var(--color-white);
   --popover-foreground: #26251e;
-  --primary: var(--theme-cursor-warm-primary-light);
+  --primary: #f54e00;
   --primary-foreground: var(--color-white);
   --primary-accent: #d94400;
   --secondary: #ebeae5;
@@ -93,7 +85,7 @@
   --card-foreground: #f2f1ed;
   --popover: #22211e;
   --popover-foreground: #f2f1ed;
-  --primary: var(--theme-cursor-warm-primary-dark);
+  --primary: #f54e00;
   --primary-foreground: var(--color-white);
   --primary-accent: #ff7a3d;
   --secondary: #2a2925;

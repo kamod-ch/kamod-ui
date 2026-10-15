@@ -1,9 +1,9 @@
 ---
 title: "code"
-description: "code / code-inverse-mode"
+description: "code / code-palette-verification"
 pageKind: component-doc
 slug: "code"
-section: "code-inverse-mode"
+section: "code-palette-verification"
 sidebar: false
 outline: false
 ---

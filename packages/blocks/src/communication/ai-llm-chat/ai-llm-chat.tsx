@@ -60,10 +60,7 @@ const plainText = (message: AiChatMessage): string =>
     .join("\n");
 
 const CodeBlock = ({ text, language }: { text: string; language?: string }) => (
-  <pre
-    class="kamod-code kamod-code-source overflow-x-auto rounded-md border p-3 font-mono text-xs"
-    tabIndex={0}
-  >
+  <pre class="bg-background overflow-x-auto rounded-md border p-3 text-xs">
     <code data-language={language}>{text}</code>
   </pre>
 );

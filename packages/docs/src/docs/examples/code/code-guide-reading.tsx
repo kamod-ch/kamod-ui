@@ -167,12 +167,6 @@ export function CodeCopyGuide() {
           sanitize arbitrary HTML for that slot.
         </p>
         <p>
-          The document has its own <a href="#color-mode">source color mode</a> boundary. Let text
-          inherit its foreground, or use mode-aware colors for custom content. The header, reading
-          controls and <code>beforeCode</code>/<code>afterCode</code> slots retain the surrounding
-          interface appearance.
-        </p>
-        <p>
           For content from an untrusted source, keep it as the source string or use your
           application’s reviewed Markdown and sanitization pipeline before rendering. For a
           hand-authored guide, normal JSX elements are a straightforward way to build the document

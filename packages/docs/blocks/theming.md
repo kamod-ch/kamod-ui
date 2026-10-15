@@ -13,7 +13,7 @@ If this is your first integration, follow [Set Up Your App](/docs/getting-starte
 
 **Blocks Inherit Your Application Theme. They Do Not Need a Second Theme System.** Use the [Shared Theming & Tailwind Reference](/docs/theming/installation) for installation, CSS setup, semantic tokens, presets and runtime controls. This companion explains the extra checks that matter when those components become a complete screen.
 
-Compare the eight [Color Theme Presets](/docs/theming/installation#color-theme-presets) in light and dark before adapting a block. The palette studies explain their surface and action roles; the checks below focus on applying those roles to a complete layout.
+Compare the eight [Color Theme Presets](/docs/theming/installation#color-theme-presets) before adapting a block. Each design study offers four simple light/dark compositions, practical color guidance, typography and shape notes, and a local code example. The checks below focus on applying those roles to a complete layout.
 
 ### Understand the appearance layers
 
@@ -64,6 +64,14 @@ Theme the composition by role. A single screen can combine page, card, navigatio
 
 Use `bg-background text-foreground` for the page, `bg-card text-card-foreground` for content surfaces and the popover pair for floating menus. Keep the original component variants when they already express the correct intent. The [Token Reference](/docs/theming/token-overrides) owns the complete contract and preset override examples.
 
+### What a theme token actually is
+
+A copied block consumes named roles rather than owning another palette. Follow [Theme Tokens Explained](/docs/theming/token-overrides#what-a-theme-token-actually-is) for the complete value → custom property → utility chain, and keep shared palette decisions at the application boundary.
+
+### Follow inheritance and the cascade
+
+A scoped preview can reset the roles it inherits; your integrated layout normally inherits the application theme. The [Scope and Cascade Guide](/docs/theming/token-overrides#follow-inheritance-and-the-cascade) explains preset specificity, nested scopes and why an ancestor override may not reach a component's own variable.
+
 ### Understand the sidebar token family
 
 Kamod uses **`--sidebar-background`** for the sidebar surface and **`--sidebar-outline`** for its focus treatment. A copied third-party palette using `--sidebar` or `--sidebar-ring` does not automatically configure those values.
@@ -92,6 +100,10 @@ These values are a starting point, not an audited palette. Review the existing a
 ### Refine radius, typography and motion
 
 After changing shared typography or radius, check long navigation labels, collapsed icon buttons, menu corners and form errors in the integrated screen. Load your own font assets; the preview’s fonts do not arrive with the source. Keep reduced-motion behavior when adapting transitions. See [Shared Typography and Motion Guidance](/docs/theming/token-overrides#refine-radius-typography-and-motion) for the global setup.
+
+### Connect application tokens to source colors
+
+If your block includes source readers, use [Code's Theme Token Palette](/docs/code/installation#code-theme-tokens) to derive their syntax colors from the same application roles. This is a reader option, not another saved theme preference or a change to the block's appearance controls.
 
 ## Manage appearance preferences
 

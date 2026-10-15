@@ -52,20 +52,6 @@ const sections: readonly ApiReferenceSection[] = [
         ),
       },
       {
-        prop: "colorMode",
-        type: "CodeColorMode",
-        defaultValue: '"inverse"',
-        description: (
-          <>
-            Source/document appearance: <code>inverse | inherit | light | dark</code>. Inverse uses
-            the opposite of the nearest light/dark interface scope; inherit matches it. Explicit
-            modes stay fixed. Headers, reading controls and before/after slots keep the surrounding
-            mode. Independent of <code>syntaxTheme</code>. See{" "}
-            <a href="#color-mode">Source Color Mode</a>.
-          </>
-        ),
-      },
-      {
         prop: "variant",
         type: '"default" | "subtle" | "outline"',
         defaultValue: '"default"',
@@ -219,8 +205,7 @@ const sections: readonly ApiReferenceSection[] = [
         description: (
           <>
             A prepared Preact document view in place of the source area. Copy retains the original
-            source; syntax highlighting and code reading controls are omitted. The document area
-            follows <code>colorMode</code>, with surrounding slots left in the interface mode.
+            source; syntax highlighting and code reading controls are omitted.
           </>
         ),
       },

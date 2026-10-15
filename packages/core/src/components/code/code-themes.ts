@@ -1,6 +1,7 @@
-/** Per-viewer palettes with light/dark source adaptations, selected independently of colorMode. */
+/** Per-viewer palettes: Kamod presets follow the app scheme; Prism presets retain their canvas. */
 export const codeSyntaxThemes = [
   "default",
+  "theme",
   "dusk",
   "forest",
   "monochrome",

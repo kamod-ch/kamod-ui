@@ -1,9 +1,9 @@
 ---
 title: "code"
-description: "code / color-mode"
+description: "code / code-prism-stylesheet-ports"
 pageKind: component-doc
 slug: "code"
-section: "color-mode"
+section: "code-prism-stylesheet-ports"
 sidebar: false
 outline: false
 ---

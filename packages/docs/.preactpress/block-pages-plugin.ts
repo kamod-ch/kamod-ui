@@ -10,6 +10,12 @@ const ecosystemId = "virtual:kamod-ecosystem";
 const moduleId = "virtual:kamod-block-pages";
 const guidesId = "virtual:kamod-block-guides";
 const themingId = "virtual:kamod-theming-guide";
+const prosePrefix = "virtual:kamod-guide-content/";
+const proseFiles = new Set([
+  "code-prism-explained",
+  "code-theme-tokens",
+  "theme-component-foundations",
+]);
 const resolvedThemingId = `\0${themingId}`;
 const resolvedGuidesId = `\0${guidesId}`;
 const resolvedId = `\0${moduleId}`;
@@ -28,8 +34,16 @@ export function blockPagesPlugin(): Plugin {
       if (id === moduleId) return resolvedId;
       if (id === guidesId) return resolvedGuidesId;
       if (id === themingId) return resolvedThemingId;
+      if (id.startsWith(prosePrefix) && proseFiles.has(id.slice(prosePrefix.length)))
+        return `\0${id}`;
     },
     load(id, options) {
+      if (id.startsWith(`\0${prosePrefix}`)) {
+        // Keep authored fragments outside the route tree and bypass Markdown-to-component transforms.
+        const path = resolve(import.meta.dirname, `content/${id.slice(prosePrefix.length + 1)}.md`);
+        this.addWatchFile(path);
+        return `export default ${JSON.stringify(readFileSync(path, "utf8"))};`;
+      }
       if (id === `\0${docsId}`) {
         if (options?.ssr)
           return 'export { docsBySlug as docs } from "/src/docs/registry.ts"; export const loaders = {};';

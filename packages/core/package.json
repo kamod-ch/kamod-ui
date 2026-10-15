@@ -40,6 +40,7 @@
       "import": "./dist/index.js"
     },
     "./theme.css": "./dist/theme.css",
+    "./code/styles.css": "./dist/components/code/code-styles.css",
     "./utils": {
       "types": "./dist/utils.d.ts",
       "import": "./dist/utils.js"
@@ -350,7 +351,7 @@
     "typecheck:emit": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\" && tsc --emitDeclarationOnly --declaration --declarationMap false && node ../../scripts/fix-declaration-imports.mjs dist",
     "lint": "oxlint .",
     "publint": "publint",
-    "attw": "attw --pack . --profile esm-only --exclude-entrypoints ./theme.css"
+    "attw": "attw --pack . --profile esm-only --exclude-entrypoints ./theme.css ./code/styles.css"
   },
   "dependencies": {
     "@kamod-ch/icons": "^1.1.0",

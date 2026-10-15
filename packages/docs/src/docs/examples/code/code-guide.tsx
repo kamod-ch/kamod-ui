@@ -1,5 +1,4 @@
 import type { ComponentType } from "preact";
-import { CodeColorModeGuide } from "./code-guide-color-mode";
 import { CodeInstallationGuide, CodeUsageGuide } from "./code-guide-foundations";
 import {
   CodeCustomizationGuide,
@@ -17,7 +16,6 @@ const guides: Readonly<Record<string, ComponentType | undefined>> = {
   usage: CodeUsageGuide,
   modularity: CodeModularityGuide,
   "language-detection": CodeLanguageGuide,
-  "color-mode": CodeColorModeGuide,
   "syntax-themes": CodeSyntaxThemeGuide,
   "reading-behavior": CodeReadingGuide,
   "source-links": CodeReferenceGuide,

@@ -7,7 +7,7 @@
   --action-feedback-mix: 88%;
 }
 
-/* Copy and preview refresh share completion paint/motion; callers own size and state. */
+/* Copy, download and preview refresh share feedback; callers own size and state. */
 .kamod-action-feedback {
   /* A crisp green stays related to each palette and readable in either scheme. */
   --action-feedback-vivid: color-mix(
@@ -25,7 +25,7 @@
 }
 
 /* Match the shared icon-action surface without depending on documentation CSS. */
-.kamod-copy-button.kamod-copy-button {
+.kamod-action-button.kamod-action-button {
   --docs-icon-button-hover-offset: 0;
   --docs-icon-button-hover-shadow: none;
   background: var(
@@ -45,7 +45,7 @@
     background-color 150ms ease,
     color 150ms ease;
 }
-:where(.kamod-copy-button) {
+:where(.kamod-action-button) {
   position: relative;
   display: inline-flex;
   flex: none;
@@ -60,12 +60,12 @@
   font-size: 0.75rem;
   line-height: 1;
 }
-.kamod-copy-button.kamod-copy-button:focus-visible {
+.kamod-action-button.kamod-action-button:focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 2px;
 }
 @media (hover: hover) and (pointer: fine) {
-  .kamod-copy-button.kamod-copy-button:hover:not(:disabled) {
+  .kamod-action-button.kamod-action-button:hover:not(:disabled) {
     background: var(
       --docs-icon-button-hover-background,
       color-mix(
@@ -79,14 +79,14 @@
     box-shadow: none;
   }
 }
-.kamod-copy-button.kamod-copy-button:disabled {
+.kamod-action-button.kamod-action-button:disabled {
   cursor: not-allowed;
   opacity: 0.6;
 }
-.kamod-copy-button.kamod-copy-button[aria-busy="true"] {
+.kamod-action-button.kamod-action-button[aria-busy="true"] {
   cursor: progress;
 }
-:where(.kamod-copy-glyph) {
+:where(.kamod-action-glyph) {
   position: relative;
   display: inline-grid;
   flex: none;
@@ -120,13 +120,13 @@
 }
 
 /* Both labels reserve the same space, so feedback never shifts its neighbors. */
-:where(.kamod-copy-label) {
+:where(.kamod-action-label) {
   position: relative;
   display: grid;
   align-items: center;
   text-align: center;
 }
-.kamod-copy-label > span {
+.kamod-action-label > span {
   grid-area: 1 / 1;
   transition: opacity 110ms ease;
 }
@@ -211,23 +211,23 @@
 
   /* Release transform/opacity layers before feedback resets; static endpoints
      keep SVG paint stable between cycles without scroll-driven invalidation. */
-  .kamod-copy-button.is-complete {
+  .kamod-action-orbit.is-complete {
     --copy-turn-duration: 520ms;
   }
-  .kamod-copy-button.is-complete .kamod-copy-glyph {
+  .kamod-action-orbit.is-complete .kamod-action-glyph {
     animation: kamod-copy-orbit var(--copy-turn-duration) backwards;
   }
-  .kamod-copy-button.is-complete .kamod-copy-outgoing {
+  .kamod-action-orbit.is-complete .kamod-action-outgoing {
     animation: kamod-copy-handoff var(--copy-turn-duration) linear backwards;
   }
-  .kamod-copy-button.is-complete .kamod-copy-symbol {
+  .kamod-action-orbit.is-complete .kamod-action-confirmation {
     animation: kamod-copy-handoff var(--copy-turn-duration) linear reverse backwards;
   }
-  .kamod-copy-button.is-complete .kamod-copy-glyph::after {
+  .kamod-action-orbit.is-complete .kamod-action-glyph::after {
     animation-fill-mode: backwards;
   }
   /* Paint the small glow once; only its opacity changes, never layout or shadow blur. */
-  .kamod-copy-button.is-complete::before {
+  .kamod-action-orbit.is-complete::before {
     content: "";
     position: absolute;
     inset: 0;
@@ -357,7 +357,7 @@
 @media (prefers-reduced-motion: reduce) {
   .kamod-action-feedback.kamod-action-feedback,
   .kamod-action-feedback::after,
-  .kamod-copy-label > span {
+  .kamod-action-label > span {
     transition: none;
   }
 }

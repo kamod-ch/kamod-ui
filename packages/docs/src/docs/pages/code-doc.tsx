@@ -12,7 +12,7 @@ export const codeDocPage: DocPageModule = {
   packagePath: "@kamod-ch/ui/code",
   snippetImports: "package",
   usageLabel:
-    "Display source strings as selectable code with syntax highlighting. The reading area uses the opposite light/dark mode by default, with a per-instance choice when needed. Start with a small snippet, choose its language, and add optional file context or reading tools later.",
+    "Display source strings as selectable code with syntax highlighting and theme-aware surfaces. Start with a small snippet, choose its language, and add optional file context or reading tools when your interface needs them.",
   usageImportSnippet: 'import { Code } from "@kamod-ch/ui/code";',
   usageExampleSnippet:
     '<Code\n  code={\'const greeting = "Hello";\'}\n  language="typescript"\n  showToolbar={false}\n  showWrapControl={false}\n/>',
@@ -81,18 +81,9 @@ export const codeDocPage: DocPageModule = {
       ],
     },
     {
-      id: "color-mode",
-      title: "Source Color Mode",
-      text: '**Give the Source a Distinct Reading Area.** Code defaults to `colorMode="inverse"`: dark source inside a light interface, and light source inside a dark interface. Choose `inherit`, `light` or `dark` for a different per-instance behavior. Only the source or rendered document changes mode; surrounding labels, buttons and context keep their own appearance.',
-      children: [
-        { id: "code-inverse-mode", label: "Default and explicit modes" },
-        { id: "code-color-mode-scope", label: "Source and interface boundaries" },
-      ],
-    },
-    {
       id: "appearance",
       title: "Surface Variants",
-      text: "**Fit the Snippet into Its Surroundings.** Choose `default`, `subtle` or `outline` to adjust the panel's surface treatment without changing its source or syntax highlighting. The examples share one short string and keep their labels outside Code.\n\nThe frame follows the surrounding interface; the reading area's light/dark appearance comes from [Source Color Mode](#color-mode), which defaults to inverse for every variant. Use `colorMode=\"inherit\"` to match that area to its surroundings. More detailed token and font choices appear later in [Syntax Themes and Typography](#syntax-themes).",
+      text: "**Fit the Snippet into Its Surroundings.** Choose `default`, `subtle` or `outline` to adjust the code surface without changing its source or syntax highlighting. The examples share one short string and keep their labels outside Code, so the difference in the surfaces is easy to compare.\n\nUse the default for a distinct reading area, subtle for a quiet inset, or outline when an existing parent already provides the surrounding surface. All three follow the application theme. More detailed token and font choices appear later in [Syntax Themes and Typography](#syntax-themes).",
     },
     {
       id: "source-file",
@@ -107,10 +98,17 @@ export const codeDocPage: DocPageModule = {
     {
       id: "syntax-themes",
       title: "Syntax Themes and Typography",
-      text: "**Give the Source Its Own Reading Style.** Keep the familiar default, try Dusk, Forest or Monochrome, or choose the Prism-derived Okaidia, Tomorrow, Twilight or Solarized Light palette. All eight adapt to the source area's light or dark mode. Compare palettes, change them live without retokenizing, and share a typed choice across readers; `colorMode` remains the separate appearance choice.",
+      text: "**Give the Source Its Own Reading Style.** Keep the familiar default, try a bundled palette or derive syntax colors from your application's semantic tokens. Learn how Prism recognizes source, how CSS paints its token groups, and how to adapt an upstream stylesheet or build a product palette. The live studies preserve the same source while you compare colors; your application theme and code presentation keep their own responsibilities.",
       children: [
         { id: "code-syntax-presets", label: "Explore the presets" },
         { id: "code-prism-palettes", label: "Compare the Prism palettes" },
+        { id: "code-prism-pipeline", label: "How Prism and CSS work together" },
+        { id: "code-syntax-token-groups", label: "Understand syntax token groups" },
+        { id: "code-css-ownership", label: "Scope styles to the reader" },
+        { id: "code-prism-stylesheet-ports", label: "Include another Prism theme" },
+        { id: "code-palette-verification", label: "Verify a syntax palette" },
+        { id: "code-theme-tokens", label: "Try all eight application palettes" },
+        { id: "code-product-palette", label: "Create a product syntax palette" },
         { id: "code-shared-syntax-choice", label: "Share a reader preference" },
         { id: "code-theme-boundaries", label: "Syntax, surfaces and app themes" },
         { id: "code-syntax-overrides", label: "Customize token colors" },
@@ -120,7 +118,7 @@ export const codeDocPage: DocPageModule = {
     {
       id: "document",
       title: "Rendered Document",
-      text: "**Let People Read a Document and Copy Its Source.** Supply `renderedContent` when the visible presentation should be prepared Preact content, while `code` remains the original Markdown. This is useful for an implementation brief, a setup prompt or a short reference that reads better with real headings and paragraphs.\n\nThe document area follows `colorMode`, while its header and surrounding context stay in the interface mode. The viewer omits code-only import and wrapping controls. The preview below is hand-authored JSX, not an automatic Markdown parser; its Copy action still returns the Markdown string. If the document comes from another source, review [Safe Content Boundaries](#code-safe-content) before rendering it.",
+      text: "**Let People Read a Document and Copy Its Source.** Supply `renderedContent` when the visible presentation should be prepared Preact content, while `code` remains the original Markdown. This is useful for an implementation brief, a setup prompt or a short reference that reads better with real headings and paragraphs.\n\nThe viewer omits code-only import and wrapping controls in this mode. The preview below is hand-authored JSX, not an automatic Markdown parser; its Copy action still returns the Markdown string. If the document comes from another source, review [Safe Content Boundaries](#code-safe-content) before rendering it.",
     },
     {
       id: "copy-and-content",

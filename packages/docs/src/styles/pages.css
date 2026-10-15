@@ -357,8 +357,12 @@
   overflow: auto;
   border-radius: 0.5rem;
   border: 1px solid var(--border);
-  background: var(--background);
-  color: var(--foreground);
+  background: color-mix(
+    in oklab,
+    var(--foreground) calc(8% + 7.36% * var(--docs-highlight-boost, 0)),
+    var(--background)
+  );
+  color: var(--muted-foreground);
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-size: 0.78rem;
   line-height: 1.4;
@@ -812,27 +816,33 @@
   border-bottom: 0;
 }
 
-/* Metadata retains the documentation's familiar blue independently of source appearance. */
+/* Keep the documentation's familiar default palette; opt-in syntax themes supply their own. */
 .kamod-code:where([data-syntax-theme="default"]) {
-  --kamod-code-chrome-keyword: color-mix(
-    in oklab,
-    #3b82f6 calc(var(--kamod-code-chrome-light, 1) * 100%),
-    #93c5fd
-  );
+  --kamod-code-keyword: color-mix(in srgb, #3b82f6, #93c5fd var(--kamod-code-dark-weight, 0%));
+  --kamod-code-property: color-mix(in srgb, #ef4444, #fda4af var(--kamod-code-dark-weight, 0%));
+  --kamod-code-number: color-mix(in srgb, #f59e0b, #fcd34d var(--kamod-code-dark-weight, 0%));
+  --kamod-code-string: color-mix(in srgb, #22c55e, #86efac var(--kamod-code-dark-weight, 0%));
+  --kamod-code-function: color-mix(in srgb, #a78bfa, #c4b5fd var(--kamod-code-dark-weight, 0%));
+  --kamod-code-variable: color-mix(in srgb, #f97316, #fdba74 var(--kamod-code-dark-weight, 0%));
 }
+
 .docs-code {
   box-sizing: border-box;
   width: 100%;
   max-width: 100%;
   min-width: 0;
   padding: 0.9rem 1rem;
-  background: var(--background);
+  background: var(--kamod-code-source-surface, var(--kamod-code-surface, var(--muted)));
   font-size: var(--kamod-code-font-size, 0.88rem);
   overflow-x: auto;
   overflow-y: auto;
   border: 1px solid var(--border);
   border-radius: 0.75rem;
-  color: var(--foreground);
+  color: var(--kamod-code-foreground, var(--kamod-code-prism-foreground, var(--foreground)));
+}
+
+html.dark .docs-code {
+  border-color: rgb(255 255 255 / 10%);
 }
 
 .docs-code code {
@@ -845,23 +855,121 @@
   line-height: var(--kamod-code-line-height, 1.55);
 }
 
-/* Nested Markdown fences keep their metadata in the document owner's interface scheme. */
-.kamod-code:has(> [data-slot="code-document"]) {
-  --docs-code-ambient-background: var(--background);
-  --docs-code-ambient-foreground: var(--foreground);
-  --docs-code-ambient-muted: var(--muted);
-  --docs-code-ambient-muted-foreground: var(--muted-foreground);
-  --docs-code-ambient-border: var(--border);
+.docs-code .token.comment,
+.docs-code .token.prolog,
+.docs-code .token.doctype,
+.docs-code .token.cdata {
+  color: var(
+    --kamod-code-comment,
+    color-mix(in oklab, var(--muted-foreground) 86%, var(--foreground))
+  );
 }
-.kamod-code-source[data-slot="code-document"] :is(.docs-code-wrap, .docs-code-toolbar) {
-  --background: var(--docs-code-ambient-background);
-  --foreground: var(--docs-code-ambient-foreground);
-  --muted: var(--docs-code-ambient-muted);
-  --muted-foreground: var(--docs-code-ambient-muted-foreground);
-  --border: var(--docs-code-ambient-border);
-  color-scheme: var(--kamod-code-chrome-scheme, light);
-  background: var(--muted);
-  color: var(--foreground);
+
+.docs-code .token.punctuation {
+  color: var(
+    --kamod-code-punctuation,
+    color-mix(in oklab, var(--foreground) 74%, var(--muted-foreground))
+  );
+}
+
+.docs-code .token.property,
+.docs-code .token.tag,
+.docs-code .token.constant,
+.docs-code .token.symbol,
+.docs-code .token.deleted {
+  color: var(--kamod-code-property, #ef4444);
+}
+
+.docs-code .token.boolean,
+.docs-code .token.number {
+  color: var(--kamod-code-number, #f59e0b);
+}
+
+.docs-code .token.selector,
+.docs-code .token.attr-name,
+.docs-code .token.string,
+.docs-code .token.char,
+.docs-code .token.builtin,
+.docs-code .token.inserted {
+  color: var(--kamod-code-string, #22c55e);
+}
+
+.docs-code .token.operator,
+.docs-code .token.entity,
+.docs-code .token.url,
+.docs-code .language-css .token.string,
+.docs-code .style .token.string {
+  color: var(
+    --kamod-code-operator,
+    color-mix(in oklab, var(--foreground) 82%, var(--muted-foreground))
+  );
+}
+
+.docs-code .token.atrule,
+.docs-code .token.attr-value,
+.docs-code .token.keyword,
+.docs-import-label > .docs-import-keyword {
+  color: var(--kamod-code-keyword, #3b82f6);
+}
+
+.docs-code .token.function,
+.docs-code .token.class-name {
+  color: var(--kamod-code-function, #a78bfa);
+}
+
+.docs-code .token.regex,
+.docs-code .token.important,
+.docs-code .token.variable {
+  color: var(--kamod-code-variable, #f97316);
+}
+
+.docs-code .token.important,
+.docs-code .token.bold {
+  font-weight: 700;
+}
+
+.docs-code .token.italic {
+  font-style: italic;
+}
+
+html.dark .docs-code .token.property,
+html.dark .docs-code .token.tag,
+html.dark .docs-code .token.constant,
+html.dark .docs-code .token.symbol,
+html.dark .docs-code .token.deleted {
+  color: var(--kamod-code-property, #fda4af);
+}
+
+html.dark .docs-code .token.boolean,
+html.dark .docs-code .token.number {
+  color: var(--kamod-code-number, #fcd34d);
+}
+
+html.dark .docs-code .token.selector,
+html.dark .docs-code .token.attr-name,
+html.dark .docs-code .token.string,
+html.dark .docs-code .token.char,
+html.dark .docs-code .token.builtin,
+html.dark .docs-code .token.inserted {
+  color: var(--kamod-code-string, #86efac);
+}
+
+html.dark .docs-code .token.atrule,
+html.dark .docs-code .token.attr-value,
+html.dark .docs-code .token.keyword,
+html.dark .docs-import-label > .docs-import-keyword {
+  color: var(--kamod-code-keyword, #93c5fd);
+}
+
+html.dark .docs-code .token.function,
+html.dark .docs-code .token.class-name {
+  color: var(--kamod-code-function, #c4b5fd);
+}
+
+html.dark .docs-code .token.regex,
+html.dark .docs-code .token.important,
+html.dark .docs-code .token.variable {
+  color: var(--kamod-code-variable, #fdba74);
 }
 
 .docs-code-wrap {
@@ -960,7 +1068,8 @@
 .blocks-code-pane .docs-tab-code {
   margin-block: 0;
   border: 0;
-  background: var(--background);
+  /* App palettes share the enclosing fill; Prism owns only the source canvas. */
+  background: var(--kamod-code-source-surface, transparent);
   font-size: var(--kamod-code-font-size, 0.75rem);
 }
 

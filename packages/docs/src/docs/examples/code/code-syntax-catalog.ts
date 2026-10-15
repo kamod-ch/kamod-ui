@@ -5,40 +5,46 @@ export const prismPalettes = [
   {
     id: "okaidia",
     title: "Okaidia",
+    canvas: "Dark",
     description:
-      "Cyan declarations, green strings and warm function names. A vivid Monokai-inspired palette adapted for both light and dark source areas.",
+      "Cyan declarations, lime strings and warm function names on a charcoal canvas. A vivid Monokai-inspired starting point for JSX-heavy examples.",
     file: "prism-okaidia.css",
   },
   {
     id: "tomorrow",
     title: "Tomorrow",
+    canvas: "Dark",
     description:
-      "Violet keywords, warm functions and green strings. Tomorrow's color families keep a softer balance across long files in either source mode.",
+      "Lavender keywords, peach functions and green strings on neutral gray. Tomorrow Night Eighties keeps a softer balance across long mixed-language files.",
     file: "prism-tomorrow.css",
   },
   {
     id: "twilight",
     title: "Twilight",
+    canvas: "Dark",
     description:
-      "Neutral declarations, olive strings and copper tags. A restrained TextMate-inspired palette with light and dark adaptations and fewer competing accents.",
+      "Cream declarations, muted olive strings and copper tags on an ink-dark canvas. A restrained TextMate-inspired palette with fewer competing accents.",
     file: "prism-twilight.css",
   },
   {
     id: "solarized-light",
     title: "Solarized Light",
+    canvas: "Light",
     description:
-      "Blue properties, teal strings and olive keywords. The Solarized Light name identifies the original palette; its adapted colors work in either source mode.",
+      "Blue properties, teal strings and olive keywords on warm cream. Its contrast-adjusted colors provide a light reading surface even inside a dark application.",
     file: "prism-solarizedlight.css",
   },
 ] as const satisfies readonly {
   id: CodeSyntaxTheme;
   title: string;
+  canvas: string;
   description: string;
   file: string;
 }[];
 
 export const syntaxThemeLabels: Record<CodeSyntaxTheme, string> = {
   default: "Default",
+  theme: "Theme Tokens · Kamod",
   dusk: "Dusk",
   forest: "Forest",
   monochrome: "Monochrome",
