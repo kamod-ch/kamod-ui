@@ -8,7 +8,7 @@
   --navigation-sublink-foreground: var(--muted-foreground);
   --navigation-link-hover-background: color-mix(
     in oklab,
-    var(--foreground) calc(3% + 2.91% * var(--docs-highlight-boost, 0)),
+    var(--foreground) calc(5% + 4.75% * var(--docs-highlight-boost, 0)),
     var(--background)
   );
   --navigation-entry-strength: calc(4.5% + 4.2975% * var(--docs-highlight-boost, 0));
@@ -22,9 +22,7 @@
   --navigation-entry-hover-background: color-mix(
     in oklab,
     var(--foreground)
-      calc(
-        var(--navigation-entry-surface-strength) + 1.5% + 1.3425% * var(--docs-highlight-boost, 0)
-      ),
+      calc(var(--navigation-entry-surface-strength) + 3% + 2.55% * var(--docs-highlight-boost, 0)),
     transparent
   );
   --navigation-icon-background: color-mix(
@@ -229,16 +227,18 @@ html[data-navigation-restoring] .docs-sidebar-scroll {
   color: var(--foreground);
 }
 
-/* Counts and statuses share the highlighted inline-code palette in every state. */
+/* Status chips use a quiet secondary tint; counts remain plain text in every state. */
 .site-navigation-count,
-.site-navigation-variant-count,
-.site-navigation-status {
-  background: color-mix(
-    in oklab,
-    var(--secondary-accent) calc(10% + 9% * var(--docs-highlight-boost, 0)),
-    var(--muted)
-  );
+.site-navigation-variant-count {
   color: color-mix(in oklab, var(--secondary-accent) 35%, var(--foreground));
+}
+.site-navigation-status {
+  background: color-mix(in oklab, var(--secondary) 20%, transparent);
+  color: color-mix(in oklab, var(--secondary) 35%, var(--foreground));
+}
+.site-navigation-count,
+.site-navigation-variant-count {
+  background: none;
 }
 
 .site-navigation-count {
@@ -293,6 +293,7 @@ html[data-navigation-restoring] .docs-sidebar-scroll {
   line-height: 1.5;
   text-decoration: none;
   overflow-wrap: anywhere;
+  transition: background-color 150ms ease;
 }
 
 .site-navigation-link-overview {
@@ -400,6 +401,15 @@ html[data-navigation-restoring] .docs-sidebar-scroll {
 .sidebar-entry-row[aria-current] {
   background-image: var(--navigation-highlight-overlay), var(--navigation-highlight-overlays);
 }
+/* Left navigation uses the page-label surface; palette menus keep their own selection paint. */
+:is(.docs-sidebar, .site-navigation-panel)
+  :is(
+    .site-navigation-group-trigger[data-current],
+    .site-navigation-link[aria-current],
+    .sidebar-entry-row[aria-current]
+  ) {
+  background: var(--docs-soft-highlight-background);
+}
 .site-navigation-link[aria-current] {
   font-weight: 450;
 }
@@ -427,15 +437,26 @@ html[data-navigation-restoring] .docs-sidebar-scroll {
 }
 
 @media (min-width: 768px) and (hover: hover) and (pointer: fine) {
-  .site-navigation-link:not([aria-current]):hover {
+  .site-navigation-link:hover {
     color: var(--foreground);
     background-color: var(--navigation-link-hover-background);
+  }
+  .site-navigation-link:not([aria-current]):hover {
     background-image: var(--navigation-highlight-overlays);
   }
 
   .site-navigation-group-trigger:hover,
   .sidebar-entry-row:hover {
     background-color: var(--navigation-entry-hover-background);
+  }
+
+  :is(.docs-sidebar, .site-navigation-panel)
+    :is(
+      .site-navigation-group-trigger[data-current],
+      .site-navigation-link[aria-current],
+      .sidebar-entry-row[aria-current]
+    ):hover {
+    background-color: var(--docs-soft-highlight-hover-background);
   }
 }
 

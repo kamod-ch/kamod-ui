@@ -113,7 +113,7 @@ test("mode samples follow the palette and the help shortcut opens the appearance
   await expect(samples).toHaveCount(3);
   for (const sample of await samples.all()) {
     await expect(sample).toHaveAttribute("data-theme", "ocean");
-    await expect(sample.locator("[data-color-role]")).toHaveCount(4);
+    await expect(sample.locator("[data-color-role]")).toHaveCount(3);
   }
   const light = menu.getByRole("menuitemradio", { name: "Light", exact: true });
   const dark = menu.getByRole("menuitemradio", { name: "Dark", exact: true });

@@ -290,11 +290,7 @@
 .blocks-showcase-intro p code,
 .blocks-showcase-prompt :is(p, li) code:not(pre code) {
   border-radius: 0.25rem;
-  background: color-mix(
-    in oklab,
-    var(--secondary-accent) calc(10% + 9% * var(--docs-highlight-boost, 0)),
-    var(--muted)
-  );
+  background: var(--docs-inline-code-background);
   color: color-mix(in oklab, var(--secondary-accent) 35%, var(--foreground));
   box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--secondary-accent) 16%, transparent);
 }

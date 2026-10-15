@@ -5,7 +5,7 @@
   --docs-rightbar-width: 16.25rem;
   --docs-sidebar-inner-padding: 0.25rem;
   /* Shared gutters grow only after the three-column layout has room to breathe. */
-  --docs-column-gap: clamp(0.75rem, calc(4vw - 2.25rem), 2.5rem);
+  --docs-column-gap: clamp(1.25rem, calc(4vw - 1.75rem), 3rem);
   --docs-topbar-height: 58px;
   --docs-sidebar-top: calc(var(--docs-topbar-offset, var(--docs-topbar-height)) + 1.25rem);
   --docs-sidebar-height: calc(100dvh - var(--docs-sidebar-top) - 1rem);

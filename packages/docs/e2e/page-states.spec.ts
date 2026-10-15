@@ -32,6 +32,16 @@ async function expectReachableControls(scope: Locator) {
 async function expectStandaloneFrameFits(page: Page) {
   const shell = page.locator(".page-state-shell");
   await expect(shell).toBeVisible();
+  const brand = shell.getByRole("link", { name: "Kamod UI home", exact: true });
+  await expect(brand).toHaveCount(1);
+  await expect(brand.locator(".kamod-ui-logo-wordmark")).toHaveCSS("font-weight", "700");
+  await expect(brand.locator(".kamod-icon__img").filter({ visible: true })).toHaveCount(1);
+  const rootSize = await page
+    .locator("html")
+    .evaluate((element) => parseFloat(getComputedStyle(element).fontSize));
+  const symbolSize = `${rootSize * (page.viewportSize()!.width < 480 ? 1.3125 : 1.625)}px`;
+  await expect(brand.locator(".kamod-icon")).toHaveCSS("width", symbolSize);
+  await expect(brand.locator(".kamod-icon")).toHaveCSS("height", symbolSize);
   const main = shell.getByRole("main");
   const heading = main.getByRole("heading", { level: 1 });
   await heading.scrollIntoViewIfNeeded();
@@ -332,6 +342,10 @@ for (const colorScheme of ["light", "dark"] as const) {
   }) => {
     await page.emulateMedia({ colorScheme, reducedMotion: "reduce" });
     await page.addInitScript((scheme) => localStorage.setItem("theme", scheme), colorScheme);
+    // The shared exception header must stay styled if the optional brand asset CSS fails.
+    await page.route(/\/styles\/logo\.css(?:\?|$)/, (route) =>
+      route.fulfill({ contentType: "text/css", body: "" }),
+    );
     let release!: () => void;
     const pending = new Promise<void>((resolve) => {
       release = resolve;

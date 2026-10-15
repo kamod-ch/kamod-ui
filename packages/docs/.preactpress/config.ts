@@ -363,7 +363,6 @@ export default defineConfig({
     ["link", { rel: "icon", href: publicUrl("favicon-32.png"), type: "image/png", sizes: "32x32" }],
     ["link", { rel: "apple-touch-icon", href: publicUrl("favicon.png") }],
     ["link", { rel: "stylesheet", href: publicUrl("styles/logo.css") }],
-    ["link", { rel: "stylesheet", href: publicUrl("styles/logo-overrides.css") }],
     ["script", { type: "text/javascript" }, getThemeInitScript({ defaultScheme: "system" })],
     ["script", { type: "text/javascript" }, navigationRestoreScript(basePrefix || "/")],
   ],

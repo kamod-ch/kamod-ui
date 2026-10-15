@@ -11,6 +11,28 @@
   --docs-highlight-boost: 1;
 }
 
+/* Resolve shared highlight paint at each appearance/palette boundary. */
+:root,
+.light,
+.dark,
+[data-theme-scope] {
+  --docs-inline-code-background: color-mix(
+    in oklab,
+    var(--secondary-accent) calc(10% + 9% * var(--docs-highlight-boost, 0)),
+    var(--muted)
+  );
+  --docs-soft-highlight-background: color-mix(
+    in oklab,
+    var(--docs-inline-code-background) 75%,
+    var(--background)
+  );
+  --docs-soft-highlight-hover-background: color-mix(
+    in oklab,
+    var(--foreground) calc(3% + 2.55% * var(--docs-highlight-boost, 0)),
+    var(--docs-soft-highlight-background)
+  );
+}
+
 /* Extend the existing Tailwind opacity utilities without changing their
  * specificity or state variants. Solid fills and transparent remain untouched.
  */

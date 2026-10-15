@@ -1,3 +1,22 @@
+/* Take added label height from above so page titles and their following content stay fixed. */
+.block-guide-eyebrow,
+.home-hero-badge {
+  --page-eyebrow-padding: 0.25rem;
+}
+.block-guide-eyebrow {
+  margin-block-start: calc(-2 * var(--page-eyebrow-padding));
+}
+.block-guide-eyebrow-label,
+.home-hero-badge {
+  padding: var(--page-eyebrow-padding) 0.375rem;
+  border-radius: 0.125rem;
+  background: var(--docs-soft-highlight-background);
+}
+.home-hero-badge {
+  width: fit-content;
+  max-width: 100%;
+}
+
 /* One quiet transition from the page introduction into its content. */
 .page-intro-divider,
 :is(

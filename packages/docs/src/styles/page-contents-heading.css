@@ -21,6 +21,10 @@
   padding: 0;
   list-style: none;
 }
+.page-contents-list a {
+  border-radius: 0.375rem;
+  transition: background-color 150ms ease;
+}
 @media (min-width: 1200px) {
   /* Pad the scrolling pane once; nested guide navigation uses its parent's scrollport. */
   .docs-rightbar-contents,
@@ -60,6 +64,16 @@
     .page-contents-list
     a:hover:not([aria-current="location"]) {
     color: var(--foreground);
+  }
+}
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  :is(.docs-rightbar-contents > nav, .blocks-doc-toc) .page-contents-list a:hover {
+    background-color: var(--navigation-link-hover-background);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .page-contents-list a {
+    transition: none;
   }
 }
 .blocks-doc-toc .page-contents-list a[data-contents-depth="3"] {

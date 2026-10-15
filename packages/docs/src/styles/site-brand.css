@@ -1,4 +1,4 @@
-/* Site-owned styles: brand:sync refreshes logo.css, but leaves this file intact. */
+/* Bundle the wordmark and symbol together so standalone routes need no extra logo stylesheet. */
 .kamod-ui-logo {
   display: inline-flex;
   align-items: center;
@@ -11,9 +11,41 @@
   -webkit-font-smoothing: antialiased;
 }
 .kamod-ui-logo .kamod-icon {
+  display: grid;
+  align-items: center;
+  flex: none;
   width: 1.625rem;
   height: 1.625rem;
   margin-right: 0.125rem;
+}
+.kamod-ui-logo .kamod-icon__img {
+  grid-area: 1 / 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 1;
+  pointer-events: none;
+}
+.kamod-ui-logo .kamod-icon__img--dark {
+  display: none;
+}
+/* The root appearance controls the mark, including system mode before theme initialization. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]):not(.dark) .kamod-ui-logo .kamod-icon__img--light {
+    display: none;
+  }
+  :root:not([data-theme]):not(.dark) .kamod-ui-logo .kamod-icon__img--dark {
+    display: block;
+  }
+}
+:root[data-theme="dark"] .kamod-ui-logo .kamod-icon__img--light,
+html.dark .kamod-ui-logo .kamod-icon__img--light {
+  display: none;
+}
+:root[data-theme="dark"] .kamod-ui-logo .kamod-icon__img--dark,
+html.dark .kamod-ui-logo .kamod-icon__img--dark {
+  display: block;
 }
 .kamod-ui-logo-wordmark,
 .kamod-ui-logo-product {

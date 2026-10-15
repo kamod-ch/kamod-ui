@@ -67,23 +67,12 @@ type PaletteSample = {
 };
 /* Mix current-theme surfaces with representative accents; CSS resolves every scoped color. */
 const paletteSamples = {
-  light: [
-    { role: "background" },
-    { role: "primary" },
-    { preset: "sunset", role: "primary" },
-    { preset: "voltage", role: "primary" },
-  ],
-  dark: [
-    { role: "background" },
-    { role: "secondary" },
-    { preset: "watson", role: "primary" },
-    { preset: "professional", role: "primary" },
-  ],
+  light: [{ role: "background" }, { role: "primary" }, { preset: "sunset", role: "primary" }],
+  dark: [{ role: "background" }, { role: "secondary" }, { preset: "watson", role: "primary" }],
   system: [
     { role: "foreground" },
     { preset: "cursor-warm", role: "primary" },
     { preset: "sunset", role: "secondary" },
-    { preset: "voltage", role: "secondary" },
   ],
 } satisfies Record<ColorScheme, readonly PaletteSample[]>;
 
@@ -222,7 +211,7 @@ export function ColorModeMenuFooter() {
   );
 }
 
-/** Four palette-sized bars per mode; System follows CSS media preference without subscriptions. */
+/** Three palette-sized bars per mode; System follows CSS media preference without subscriptions. */
 function ModePalette({ preset, scheme }: { preset: ThemePresetId; scheme: ColorScheme }) {
   return (
     <span class="site-color-mode-palette" data-mode={scheme}>
