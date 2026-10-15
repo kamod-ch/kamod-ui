@@ -44,7 +44,7 @@ controlled or uncontrolled reading preferences, and replaceable controls:
 | Concern              | Public API and behavior                                                                                                    |
 | -------------------- | -------------------------------------------------------------------------------------------------------------------------- |
 | Source and language  | code, language, inferLanguage, highlight, and the exported codeLanguages catalog.                                          |
-| Appearance           | syntaxTheme, colorMode, and default/subtle/outline surface variants.                                                       |
+| Appearance           | syntaxTheme and default/subtle/outline surface variants.                                                                   |
 | Header and identity  | showToolbar, filePath, renderFilePath, renderLanguage, toolbarContent, and renderToolbar.                                  |
 | Wrapping             | wrapped/onWrappedChange or defaultWrapped, with optional overflow-based controls.                                          |
 | Import folding       | importsCollapsed/onImportsCollapsedChange or defaultImportsCollapsed, applied to eligible complete leading static imports. |
@@ -65,45 +65,80 @@ Reading-preference changes reuse highlighted source. Async results are guarded
 against source replacement and unmount, while plain text and custom document
 views skip irrelevant grammar and formatting work.
 
-### Source appearance opposes the surrounding mode by default
+### Scoped syntax palettes
 
-The final source appearance contract is **colorMode="inverse"** by default.
-Source surfaces appear dark in the nearest light scope and light in the nearest
-dark scope. Consumers can choose **inherit**, **light**, or **dark** explicitly:
+Nine syntax choices are available: Default, Theme Tokens, Dusk, Forest, Monochrome,
+Okaidia, Tomorrow, Twilight, and Solarized Light. The original four Kamod palettes
+follow the nearest application appearance boundary, including alternating local
+light/dark preview scopes; the opt-in Theme Tokens palette derives syntax
+from the current preset’s primary and chart roles, mixed with foreground ink. The Prism
+palettes retain their dedicated readable source canvases: dark for Okaidia, Tomorrow, and Twilight, and light for Solarized Light.
+Headers and controls continue following the surrounding application theme.
 
-```tsx
-import { Code } from "@kamod-ch/ui/code";
+Palette changes use CSS attributes and variables, without another tokenization
+pass. Typography and token overrides remain local to the reader through the
+existing Code variables. Custom rendered content keeps its caller-owned
+presentation, and copying continues to use the original source string.
 
-<Code code={source} language="tsx" />;
-<Code code={source} language="tsx" colorMode="inherit" />;
-<Code code={source} language="tsx" colorMode="dark" syntaxTheme="forest" />;
-```
+The later inverse Code/Markdown experiment has been rolled back completely. Its
+color-mode prop and type, automatic inversion, source-boundary wrappers, paired
+color variables, documentation routes, and dedicated tests are no longer part of
+the resulting implementation. The generic Code API and all eight original syntax
+palettes remain in place.
 
-Only the source or rendered document receives this policy. Headers, copy actions,
-import/wrap controls, before/after slots, and ordinary page content keep their
-ambient appearance. Local light/dark scopes work independently of the page root,
-including locally themed showcases inside the opposite site scheme.
+### Detailed theme and Prism guidance
 
-The same CSS source marker supports raw preformatted fences without extra wrapper
-DOM. Bare fences inside a rendered source document inherit that document's chosen
-mode; explicitly configured nested Code instances retain their own mode. Source
-semantic colors are resolved locally so rendered Markdown can use background,
-foreground, muted, border, card, and related tokens consistently.
+The Theming reference now explains foundation selection, semantic values, Tailwind
+mappings, inheritance, cascade precedence, surface/foreground pairs and the complete
+sidebar role family. The existing installation, usage, CSS and token routes remain
+stable. The block companion links to the canonical explanations instead of copying
+the full discussion.
 
-All eight syntax palettes—Default, Dusk, Forest, Monochrome, Okaidia, Tomorrow,
-Twilight, and Solarized Light—adapt to both source modes. Palette changes are CSS
-changes, not another tokenization pass. Inherited mode flags and color-mix select
-paired endpoints without adding per-reader effects, observers, listeners, or a
-new light-dark() browser requirement. Code's styles are split into reader layout,
-Prism palettes, and source-mode resolution, and the package build copies all of
-those CSS assets.
+The Code reference follows a source string through Prism classification and CSS
+painting, lists the nine token-variable groups, explains reader boundaries and
+source-only overrides, and shows how to include or adapt an upstream Prism theme.
+The examples cover scoped vendor selectors, a Dracula-family variable recipe,
+licenses, shared preferences and verification against actual reading surfaces.
 
-Source references use the exact primary endpoint for the selected source mode,
-with reader-specific pair overrides taking precedence over generic theme pairs.
-This preserves colored theme hues and makes neutral primary dashes visible on
-the inverse canvas without changing source text colors or the global primary
-token. The eight application presets expose their original paired endpoints for
-this purpose.
+`syntaxTheme="theme"` uses existing semantic values without new state, listeners or
+palette downloads. A local interactive study compares all eight application presets
+in both appearances without writing page preferences or repeating highlighting.
+The custom-product recipe explains mix weights, token fallbacks and application
+versus reader ownership. The new **@kamod-ch/ui/code/styles.css** entry provides
+reader/CopyButton styles without importing a second token foundation. It is excluded
+from JavaScript-only type analysis in the same way as the existing theme CSS entry.
+
+Authored prose fragments live under **packages/docs/.preactpress/content** and use
+watched virtual string modules; they do not become standalone accidental routes.
+GuideParts shares Markdown, code fences, heading levels and private reference-aware
+inline prose between complete guides and embedded Code topics. Copyable full TSX
+examples are typechecked against the real component API.
+
+### Presets as complete design studies
+
+All eight color presets now have a structured design study with four small,
+static compositions: a workspace and action card in both light and dark. The
+sketches use the real shipped roles and corner values, while their surrounding
+frames gain a restrained wash and three-role signature from their own preset,
+with explanatory text remaining in the page palette. Four labeled swatches give an immediate comparison; native
+disclosures reveal additional surface, navigation and feedback roles.
+
+Each study explains its direction, two practical design principles, declared
+body/display/mono stacks, radius family and a focused review before shipping.
+Each preset also provides three suggested contexts and an actionable task/check.
+Exact typography and corner facts stay visible, while longer advice uses native
+disclosures; an optional local-scope recipe mounts its source reader only while open. Direct
+links reach the actual preset CSS, and shared next steps cover persistence,
+token pairs, sidebar roles, typography, syntax colors and complete layouts.
+
+The Theming introduction gains four reading paths, the gallery gains compact
+preset links, and ten generated subsection routes preserve the real heading
+hierarchy. Nested section URLs now recognize descendant headings when opening
+without a fragment. Container-based layout stacks comparison and advice on
+narrow articles, with secondary text strengthened locally for readable contrast
+without changing the underlying palettes or adding downloaded fonts. A balanced
+introduction/comparison row and compact guidance remove unused space; observed
+wide studies became approximately 9–15% shorter despite the additional guidance.
 
 ### Source references stay generic in core
 
@@ -117,8 +152,9 @@ not complete compiler-level scope analysis.
 Generated anchors preserve highlighted token colors and copied text. The resolver
 accepts supported web/application destinations, rejects unsafe schemes, and
 escapes generated attributes. Folding and wrapping keep links attached to the
-same source characters. A single faint primary dashed cue strengthens on hover
-or focus without an extra arrow or second underline.
+same source characters. Inline and source references share a 35%-opacity dashed cue that strengthens
+fully on hover or focus. Slow visual weight through text shadow preserves glyph
+widths and Prism ink; the cue paints above highlighted inline backgrounds.
 
 ### Shared controls retain their existing ownership
 
@@ -131,7 +167,8 @@ through state changes where layered presentation is appropriate.
 Tabs gains an opt-in inset variant while default and line variants remain
 available. AlertCallout adds a structured, non-live guidance composition with
 semantic headings and a quiet shared default. TypeDefinition gains useful
-source-reference metadata. Tooltip positioning and lazy resizing, bounded dropdown
+source-reference metadata, with text-width declaration names so dashed cues end
+at the identifier. Tooltip positioning and lazy resizing, bounded dropdown
 portal retries, scrollbar drag cleanup, table-header typing, and touch-aware hover
 rules receive focused corrections. Spinner rotation moves to an HTML wrapper
 while its SVG and public accessibility contract remain unchanged.
@@ -191,7 +228,7 @@ The content changes span foundational controls, inputs, overlays, navigation,
 data display, feedback, media, utilities, motion, Formisch, and theming. They add
 practical composition and ownership guidance without describing ordinary prose
 changes as new component APIs. Code receives a complete guide, live customization
-and palette studies, source-mode examples, resolver integration, language details,
+and palette studies, resolver integration, language details,
 and focused deep-link routes. Examples and generated routes are checked against
 their actual source definitions.
 
@@ -209,6 +246,42 @@ states retain their destination link. The same destination policy serves code,
 inline references, highlighted prose, brand identities, and file paths through
 shared delegated interaction rather than a listener on every token. This private
 catalog and UI are intentionally absent from core's public package API.
+
+Inline function and hook names retain their visible empty-call suffix while
+resolving through the same reference as their bare identifiers. `cn()` opens its
+API reference; `useTheme()` opens its appearance-controls section and receives
+lazy declaration-backed function help. One package list drives both name indexing
+and lazy loading, and declared function-valued exports retain their signatures.
+
+Five additional inline families extend the original nine kinds: commands, blocks,
+guides, technologies and pages/sections. The catalog includes 76 curated technology
+labels, twenty CLI tools, registry-derived block identities, verified route titles
+and real fragments. Aliases resolve conservatively; unknown or ambiguous labels
+stay literal. Command parsing is bounded and rejects shell composition or expansion;
+it never executes text. These additions do not broaden source-code detection into
+arbitrary word matching.
+
+The eager index contains lightweight identity/destination data. Five lazy family
+modules provide descriptions and facts, sharing bounded promises and evicting
+failures for retry. Kind icons, labels and optional contract headings have one
+owner, and the inverted kind badges use nearly square 1px corners. Existing
+stale-result and delegated-event boundaries remain in place.
+
+### Showcase Prompts and download feedback
+
+All showcase Prompts start in Code, including block details and the home example.
+Display switches remain local while mounted; obsolete persisted Prompt display
+state is removed. Non-block compact layouts show icons for Plain Text/Code/Markdown,
+while block details keep their narrower threshold. Setup/Adaptation Prompt text
+and icons match the introduction heading, with tighter Source Included metadata.
+
+A private reusable Markdown action sits before Copy and downloads the complete
+original document in every display mode. It hands a native Blob link to the browser
+within the click gesture, then shows finite downloading/downloaded feedback before
+resetting. Three persistent glyphs and a purple version of the shared copy ring,
+orbit and glow avoid SVG replacement glitches. Status text describes browser
+handoff, not unverifiable disk completion. Repeat clicks, source changes, errors
+and unmount release timers/object URLs; compact controls retain accessible names.
 
 ### Package guides and portable references
 
@@ -232,13 +305,30 @@ continuation links. Getting Started provides a complete setup-to-verification
 path. The ecosystem guide explains package roles, and the color-theme guide adds
 scoped preset studies and practical responsive guidance.
 
+The four ecosystem foundation cards retain their base shell but gain aligned
+heading/context rows, top-right guide/source icon actions, useful entry-point and
+ownership details, and honest package/source delivery footers. A finite divider
+sweep and restrained perimeter feedback have keyboard/reduced-motion equivalents.
+The page ends with three concrete continuation paths and links back to its example
+and map. An optional DocsShell footer slot keeps that conclusion page-owned; its
+contents anchor and responsive one/two/three-column layout share existing patterns.
+
 Desktop navigation content is reused in the responsive drawer with separate
 expansion and scroll memories. Active destinations are revealed, page-title and
 contents links share a consistent hierarchy, and topbar offsets keep anchored
 headings visible. A site-only Light/Dark/System menu uses existing theme signals
 and dropdown primitives without changing the public ThemeToggle API. Shared
 selection surfaces, badges, neutral menu triggers, stationary navbar hover, and
-persistent state glyphs make controls consistent across pages.
+persistent state glyphs make controls consistent across pages. Appearance choices
+now have exactly three sample bars; palette choices retain four.
+
+Both sidebar gutters are wider and link hover fills are easier to see. Page labels
+use a softened inline-code surface, compact padding and 2px corners; an equal
+reduction in their preceding gap preserves title/content coordinates. The same
+surface paints selected groups, nested links and pinned left destinations on
+desktop/mobile. Numeric counts have no background; Fresh/Updated/Planned badges
+use 20% of the actual secondary role with readable text/icon ink. These changes
+are shared CSS, without additional subscriptions or animation loops.
 
 ## Runtime, loading, and performance
 
@@ -252,9 +342,37 @@ its expected compatibility boundary.
 Showcase modules use an immediate fallback instead of an empty lazy-render window.
 Markdown preparation follows the pending paint, source-width observers retain
 unchanged state, and a shared idle queue starts one isolated component preview at
-a time. Waiting previews can be canceled, but started documents retain entered
-state. Readiness, failure, and unmount release the queue slot. Listener, observer,
-timer, and stale-result cleanup is covered in focused tests.
+a time. Waiting previews can be canceled; started documents finish without being
+interrupted. A pool ordinarily retains three recently used component previews,
+protects visible/loading documents, and evicts older completed offscreen examples.
+Recent input survives, while evicted examples intentionally reset on return.
+Readiness, failure, and unmount release the queue slot. Completion-time eviction
+cannot recreate a resize observer retaining the discarded document.
+
+One shared viewport observer and visibility listener per document pause inactive
+preview and placeholder CSS animation, including pseudo-elements. Visible pending
+work resumes normally; the three permanent home status pulses are removed. An
+eager block iframe that completes before hydration is recognized by its completed
+document and matching URL, preventing a stuck animated loading overlay. These
+changes include lifecycle and production browser regressions.
+
+Pending showcases now use short secondary captions, “Setting the scene...” and
+a smaller companion skeleton instead of a logo tile. Spinner-colored staggered
+dots and a 3.8-second paired transform loop provide clear feedback with fewer
+competing effects. Shared activity and reduced-motion rules stop all descendants
+when appropriate; the redesign adds no timers or reactive progress state.
+
+A same-code development tour through all 15 Button examples measured collected
+JavaScript heap of **93.70 MiB with unlimited retention versus 56.82 MiB with the
+three-document budget** (39.4% lower). This is a measured retention improvement,
+not a claim about total renderer memory or battery watts. Native Safari 17.6 also
+reproduced the missed iframe-load event; Safari's reported automatic tab
+termination itself has not been reproduced.
+
+Route generation now writes only changed final output, formatting TypeScript
+before comparison. An unchanged run touched zero files across the observed
+1,021-file route/output inventory, avoiding unnecessary development watcher work.
+Listener, observer, timer, and stale-result cleanup is covered in focused tests.
 
 A separate pinned **PreactPress 2.2.1 patch** fixes a reproduced development
 catalog race. Scans build a replacement privately and publish atomically; overlaps
@@ -275,7 +393,10 @@ Loading and recovery pages share immediate critical styling, restrained motion,
 and clear actions. Viewport-height flex layout, safe-area insets, internally
 scrollable content, and short-window adaptations keep controls reachable on
 narrow, short, and enlarged-text displays. Rendered recovery states are tested
-separately from a static host's plain response to an unknown URL.
+separately from a static host's plain response to an unknown URL. Site-owned brand
+geometry is bundled in the main stylesheet so 404/loading/error headers match even
+if external brand CSS is unavailable, and only the appropriate light/dark symbol
+is visible. The ordinary footer retains its existing generated brand resource.
 
 Performance review did not justify replacing iframe isolation, adding global
 caches, or introducing another state layer. Diagnostic formatting measurements
@@ -285,12 +406,12 @@ accessibility checks traverse a large highlighted document.
 
 ## Compatibility, distribution, and maintenance
 
-The public changes are additive except for deliberate presentation differences:
-the new Code reader defaults to inverse source appearance, callouts share a
-quieter skin, and selected controls use the consolidated styling. Code consumers
-can choose colorMode="inherit" or an explicit source mode. Existing default and
-line tabs remain available, and the OpenUI adapter explicitly selects its intended
-line treatment.
+The retained public changes add reusable readers, controls, and composition
+options. Code uses the pre-feature application-aware or named Prism presentation;
+there is no automatic inversion or separate source color-mode API. Callouts share
+a quieter skin and selected controls use the consolidated styling. Existing
+default and line tabs remain available, and the OpenUI adapter explicitly selects
+its intended line treatment.
 
 Prism and its development types move from docs to the core package that owns
 highlighting; core also declares its reusable-control icon dependency. Core and
@@ -316,48 +437,56 @@ contribution policy.
 
 ## Validation
 
-The final local audit covers the assembled product changes. All 153 distinct
-focused production Chrome cases passed across the broad run and targeted reruns;
-the local unit/build/static/package checks below passed as well. The live result
-for the pushed revision belongs to [PR #80 checks](https://github.com/kamod-ch/kamod-ui/pull/80/checks).
+The final audit checks the complete implementation, including the inverse-feature
+rollback and all later reference, Prompt, performance, ecosystem, preset-study,
+branding and navigation changes. The public color-mode prop/type, inversion
+wrappers, paired theme values and mode-specific routes/tests are removed; the
+nine supported syntax palettes and normal application appearance remain.
 
-| Check                                | Result                                                                                                      |
-| ------------------------------------ | ----------------------------------------------------------------------------------------------------------- |
-| Workspace typecheck                  | Passed: `corepack pnpm typecheck`.                                                                          |
-| Corrected clean-workspace CI command | Passed: `corepack pnpm test:ci`, 1,467 unit tests.                                                          |
-| Unit breakdown                       | Themes 11; core 428; OpenUI 19; motion 25; blocks 194; docs 790.                                            |
-| Full workspace build                 | Passed for all seven buildable packages in the eight-project workspace.                                     |
-| Final production docs rebuild        | Passed.                                                                                                     |
-| Oxlint                               | Passed without warnings.                                                                                    |
-| Biome                                | Passed across 1,693 files with the supported configuration.                                                 |
-| Oxfmt and diff hygiene               | Passed; both reports formatted.                                                                             |
-| Dependency analysis and policy       | Passed; policy checked 900 entries.                                                                         |
-| Frozen dependency installation       | Passed with the pinned patch and lockfile.                                                                  |
-| Generated package README check       | Passed.                                                                                                     |
-| Publint and Are the Types Wrong      | Passed for the three configured public ESM packages; intentional legacy modes remain excluded.              |
-| Focused production browser matrix    | 153 distinct Chrome cases passed, including targeted reruns.                                                |
-| Safari/WebKit                        | Local runner blocked before page creation by unknown `PushAPIEnabled` setting; no application pass claimed. |
-| iPhone browser project               | Not separately validated; responsive Chrome coverage is included above.                                     |
-| Remote checks                        | See the linked live checks for the pushed revision; local results do not predict remote status.             |
+| Check                | Final local result                                                                                                                     |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| Workspace typecheck  | `corepack pnpm typecheck` passed.                                                                                                      |
+| Full workspace build | `corepack pnpm build` passed, including production docs.                                                                               |
+| CI unit command      | `corepack pnpm test:ci` passed: **1,531 tests in 184 files**.                                                                          |
+| Unit breakdown       | Themes 11; core 421; OpenUI 19; motion 25; blocks 194; docs 861.                                                                       |
+| Static checks        | Root Oxlint, Biome, Oxfmt, README consistency and whitespace pass.                                                                     |
+| Dependencies         | Knip and Syncpack pass.                                                                                                                |
+| Package contracts    | Publint and Are the Types Wrong pass for configured packages.                                                                          |
+| Production Chrome    | **165 distinct affected cases passed across the audit and focused reruns**; all 29 final appearance cases passed across recheck/retry. |
+| Remote CI            | Local evidence above; GitHub reports the checks for each pushed revision separately.                                                   |
 
-The browser scope covers source modes and palettes, reference navigation/help,
-copying, stable glyphs, appearance, text rendering, package references,
-loading/recovery states, responsive showcases, and home integration. Sleep-event
-interruptions were rerun successfully. Three test assumptions were corrected
-without weakening intended behavior: implicit light mode, the actual Markdown
-sizing owner and scroll region, and full RGB transition completion. A missing
-generated preview asset was handled by rebuilding production output before the
-final checks. WebKit's local binary/protocol failure remains a validation limit.
+Two browser cases were interrupted by Chrome `ERR_NETWORK_CHANGED` while loading
+local assets; their traces identify that transport failure and both pass on focused
+rerun. The production preview was restarted after the final CSS rebuild so its
+server-rendered asset manifest matched the files being tested. These are combined
+run results, not a claim that the initial full run had zero interruptions.
 
-New tests were warranted for stable menu indicators and selected-picker hover.
-The added seven-case indicator suite checks identity, state, focus, and controlled
-behavior; pointer-hover checks verify a subtle selected wash without changing the
-selection plate, text, or check. Existing source, clipboard, lazy catalog,
-reference, cleanup, and responsive suites cover their changed contracts.
+The review found existing meaningful coverage for observer/listener removal,
+queued versus started preview work, bounded retention/eviction, stale async
+results, pre-hydration readiness and Markdown download teardown. One missing
+appearance case was added: adaptive Default/Dusk/Forest syntax colors now follow
+the nearest explicit scope even inside alternating light/dark ancestors. The fix
+uses an inherited private CSS weight and adds no public mode API, automatic
+inversion, runtime state or listeners. Pure spacing/paint updates do not gain
+redundant tests that only duplicate their CSS declarations.
+
+The focused browser matrix exercises source customization, nine palettes, scoped
+semantic tokens, private references, Prompt copy/download/defaults, lazy loading,
+preview energy/retention, preferences, navigation, ecosystem cards/conclusion,
+type declarations, exception states and responsive home/shared guides. Complete
+authored TSX examples are also compiled against the real component API by the
+documentation suite.
+
+Earlier native Safari 17.6 tours covered every Button, Code and Skeleton example,
+pre-hydration block readiness and offscreen suspension, plus a settled home page
+with zero running animations during a visible 60-second idle check. Those are
+historical measurements from the energy investigation, not a fresh full Safari
+run. They did not reproduce automatic tab termination. Playwright WebKit and
+physical iPhone coverage remain subject to the explicit platform limit below.
 
 ## Review map
 
-Start with **core Code and CopyButton**, then **theme scope/primary pairs** and
+Start with **core Code and CopyButton**, then **application theme scopes** and
 **the shell shared frame**. Continue through **docs references**, **showcase and
 preview startup**, **runtime compatibility/catalog patch**, and **navigation and
 page-state owners**. Review the content families and generated assets against
@@ -365,10 +494,11 @@ those implementations afterward. The detailed ledger's file-family table covers
 the remaining component refinements, route/plugin changes, test suites, package
 configuration, and contributor documents.
 
-The branch preserves its existing published history and the two prior local
-feature commits. Final refinements are grouped by shared UI, site/runtime/CI,
-contributor guidance, and these two review documents, so the final push updates
-the existing PR without rewriting its earlier feature history.
+The branch preserves its existing published history. Follow-up commits are scoped
+by reader/theme contracts, detailed guides, preview lifetime, inline references,
+Prompt delivery, ecosystem content and shared presentation, with these two review
+documents committed together at the end. The push updates the existing PR branch
+without rewriting earlier history.
 
 ### Local WebKit runtime limitation
 
@@ -378,3 +508,6 @@ installed, and an install dry run selects that same archive. Its protocol lacks
 `PushAPIEnabled`, which the driver sends before creating a page, so reinstalling
 would not repair this mismatch. WebKit needs a supported current runner or an OS
 upgrade; no dependency downgrade or protocol patch was introduced to conceal it.
+The later energy audit used system safaridriver successfully after remote automation
+was enabled, providing the native Safari coverage described above without changing
+this incompatible Playwright installation.

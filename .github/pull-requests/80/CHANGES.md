@@ -1,17 +1,15 @@
 # PR #80 — Complete change ledger
 
-This document inventories the complete PR, including the original remote commits,
-the two later local commits, and the product changes prepared for the final audit.
-It describes the resulting implementation rather than every intermediate visual
-experiment. The companion [DESCRIPTION.md](DESCRIPTION.md) explains the review
-scope, architecture, compatibility, and validation plan as a connected PR narrative.
+This document inventories the complete PR: its published history and all subsequent
+implementation, documentation, visual and audit refinements. It describes the
+resulting behavior rather than superseded experiments. The companion
+[DESCRIPTION.md](DESCRIPTION.md) explains the architecture, compatibility,
+performance evidence, review order and final validation as a connected narrative.
 
-The comparison starts at **c20aa8802fcffa50aa8c86868d3e667a1492ea80**. The previously
-published head, **d4c66e9aa120bc77f888295a2af63d4aa7f0f906**, contains 22 commits and
-changes 962 files, with 49,055 insertions and 7,819 deletions. The subsequent local
-commits, **e6adcec5** and **bad6a138**, bring the committed comparison to 1,043 files,
-58,611 insertions, and 8,172 deletions before the final working-tree changes and
-these two review documents. These are inventory snapshots, not final merge totals.
+The comparison starts at **c20aa8802fcffa50aa8c86868d3e667a1492ea80**. Review the
+final branch tree against that base; intermediate commit/file totals are omitted
+because they do not describe the final contribution. Private `.docs/` material and
+the protected local `.gitignore` edit remain outside the commits.
 
 ## 1. Reusable core Code component
 
@@ -23,7 +21,7 @@ these two review documents. These are inventory snapshots, not final merge total
 - **Shared filename presentation.** Add CodeFileHeader for source paths and complete-source line counts. The metadata adapts to constrained widths and is reused by ordinary snippets, file browsers, and home workspace source views.
 - **Shared snippet labeling.** Add CodeSnippetLabel for descriptive unnamed-snippet headings. Language metadata and filename information remain available to inference even when their visible presentation is customized.
 - **HTML attribute integration.** Forward appropriate root attributes while reserving properties whose semantics belong to the reader. Expose root classes and preClassName separately, retaining className as a documented deprecated source-element alias.
-- **Distributed stylesheets.** Import Code styles from the core theme and copy every code-prefixed stylesheet into the built package. Syntax palettes, source-mode resolution, and reader layout remain separate maintainable stylesheet owners.
+- **Distributed stylesheets.** Import Code styles from the core theme and copy every code-prefixed stylesheet into the built package. Syntax palettes and reader layout remain separate maintainable stylesheet owners.
 
 ### Source fidelity and deferred highlighting
 
@@ -43,7 +41,7 @@ these two review documents. These are inventory snapshots, not final merge total
 
 - **Optional automatic header.** Support showToolbar to remove the automatic header and its copy action. Eligible import and wrapping controls retain their own reading row when the header is hidden.
 - **Header composition.** Retain toolbarContent, renderToolbar, renderFilePath, and renderLanguage for host-specific metadata and actions. Applications can replace presentation without maintaining a parallel source reader.
-- **Before and after slots.** Add beforeCode and afterCode for explanatory content around the source or document. These slots remain outside copied content and outside the source-only color-mode boundary.
+- **Before and after slots.** Add beforeCode and afterCode for explanatory content around the source or document. These slots remain outside copied content and can use the surrounding application presentation.
 - **Controlled wrapping.** Expose wrapped and onWrappedChange alongside defaultWrapped. Controlled consumers own the value, while uncontrolled readers retain their current preference after the initial default is applied.
 - **Fixed wrapping without a switch.** Allow wrapping behavior to remain active when showWrapControl is false. This supports prose-like source or a fixed presentation without rendering a redundant preference control.
 - **Overflow-based controls.** Show reading controls only when the complete unwrapped source would overflow the available width. Measure the original readable content rather than treating already-folded imports as the complete document.
@@ -60,37 +58,18 @@ these two review documents. These are inventory snapshots, not final merge total
 - **Custom document rendering.** Accept renderedContent for rendered Markdown or another caller-owned document view. Copy still uses the complete supplied source, while unused highlighting and source-reading controls are skipped.
 - **Local transient state.** Keep clipboard feedback in the copy action instead of rerendering the entire source viewer for every status transition. This avoids repeating source work during copying feedback.
 
-## 2. Syntax palettes and source-only color modes
+## 2. Nine scoped syntax palettes
 
-### Eight scoped syntax palettes
+### Palette behavior
 
 - **Default token palette.** Provide a semantic default palette for the standard reader. Token colors remain independently customizable from reader surfaces and typography.
-- **Dusk palette.** Add a distinct dusk syntax treatment with paired light and dark colors. It changes source presentation without altering header or toolbar appearance.
+- **Dusk palette.** Add a distinct dusk syntax treatment that follows the application scheme. It changes source presentation without altering header or toolbar appearance.
 - **Forest palette.** Add a forest syntax treatment using its own token choices. The same source and highlighted markup can switch to it through a CSS-backed attribute.
-- **Monochrome palette.** Provide a restrained monochrome alternative with explicit token emphasis. Its font weight and style rules reset at each viewer boundary so they do not leak into a nested reader.
+- **Monochrome palette.** Provide a restrained monochrome alternative with explicit token emphasis. Its restrained colors and token emphasis provide another reading style without changing source text.
 - **Prism-derived palettes.** Add Okaidia, Tomorrow, Twilight, and Solarized Light as scoped choices. Preserve the upstream MIT attribution with the dedicated Prism theme stylesheet.
-- **Mode-aware Prism colors.** Pair the formerly fixed Prism palettes with readable light and dark source colors. Selecting a named palette no longer forces every reader into that palette's original fixed canvas mode.
+- **Dedicated Prism canvases.** Keep Okaidia, Tomorrow, and Twilight on their dark source canvases and Solarized Light on its light canvas. Headers and controls continue following the surrounding application theme.
 - **No retokenization on theme changes.** Implement palette selection through data attributes and CSS custom properties. Switching syntaxTheme reuses existing highlighted source and does not load another grammar.
-- **Nested palette isolation.** Resolve token pairs, text emphasis, selections, and imported-keyword presentation at the owning viewer. A parent palette cannot recolor a separately configured nested Code instance.
-
-### Inverse source appearance
-
-- **Inverse default.** Add colorMode with inverse as the default, so source surfaces oppose the nearest surrounding light or dark appearance. This applies consistently to code, plain text, raw Markdown, and custom rendered documents.
-- **Explicit appearance options.** Export CodeColorMode with inverse, inherit, light, and dark values. Applications can follow the surrounding appearance or fix an individual source surface to either mode.
-- **Ambient surrounding controls.** Apply the source policy to the source or document container only. Headers, import controls, wrapping controls, copy actions, before/after slots, and ordinary surrounding page content keep their ambient theme.
-- **Nearest-scope resolution.** Resolve inherited appearance from the closest light or dark scope rather than reading only the document root. Local light previews inside a dark site and local dark previews inside a light site receive the intended opposite source mode.
-- **CSS-only mode selection.** Use inherited numeric mode flags, color-scheme values, and color-mix endpoint selection. The feature adds no per-snippet observer, listener, effect, DOM theme parsing, or client-only initialization requirement.
-- **Existing browser baseline.** Avoid introducing light-dark() as a new CSS requirement. Source mode selection uses color-mix support already required by the existing styling stack.
-- **Reusable source marker.** Make kamod-code-source reusable on raw preformatted surfaces without adding a wrapper element. An omitted mode attribute uses the default inverse behavior for ordinary static fences.
-- **Rendered-document boundary.** Wrap renderedContent in a source-only container carrying the chosen mode and document slot. Markdown surfaces can consume source-local semantic tokens without recoloring adjacent reader controls.
-- **Nested raw fences.** Let a raw fence inside a rendered source document inherit that document's selected source mode. The same document is not accidentally inverted a second time because it contains another pre element.
-- **Independent nested Code.** Keep an explicitly configured nested Code reader responsible for its own mode. Its always-present mode attribute distinguishes it from an unconfigured raw fence inheriting the document mode.
-- **Local semantic tokens.** Supply source-local background, foreground, muted, card, popover, border, input, secondary, and accent values. Rendered Markdown and embedded reading surfaces can use those tokens consistently.
-- **Theme-aware reference primary.** Select exact light or dark primary endpoints for source-reference dashes. Neutral primary colors remain visible on opposite-mode source canvases without changing syntax text colors or the surrounding application's primary token.
-- **Custom primary pairs.** Support reader-specific primary-light and primary-dark overrides before the generic theme pairs. Custom theme integrations can retain their original hue in both source modes without blending it with token ink.
-- **Theme endpoint metadata.** Add named light/dark primary endpoints to the eight application presets and expose selected primary-light and primary-dark aliases. Existing primary expressions remain the source of truth for the original theme colors.
-- **Separated CSS ownership.** Extract inherited mode scopes, source selection, and semantic color resolution into code-color-mode.css. Keep palette definitions and reader layout in their existing dedicated files.
-- **Documented customization.** Explain source modes before optional reader chrome in the Code guide. Include a live mode selector, copyable usage, source-scope guidance, paired CSS overrides, and the public type in the API reference.
+- **Scoped palette styles.** Scope named palette token colors and canvases to the selected reader. Neighboring viewers can compare different palettes without importing competing global Prism themes.
 
 ## 3. Optional source-reference navigation
 
@@ -120,8 +99,11 @@ these two review documents. These are inventory snapshots, not final merge total
 - **Shared pending requests.** Deduplicate manifest and module requests, cache completed facts, and retry failed requests. Multiple references to one module do not each start independent metadata loads.
 - **Stale help guards.** Ignore requests that complete after their tooltip has closed or been superseded. Late data cannot reopen an unrelated popup.
 - **Useful failure states.** Retain a usable destination link while help is loading or unavailable. A metadata failure does not prevent normal source navigation.
-- **Kind-specific explanations.** Present components, exports, types, functions, constants, icons, modules, packages, and files through a compact common structure. Include the available signature, description, source, documentation, and related-type facts for each kind.
+- **Kind-specific explanations.** Present fourteen kinds through a compact common structure: components, exports, types, functions, constants, icons, modules, packages, files, commands, blocks, guides, technologies, and pages/sections. Include the available signature, description, source, documentation, and related-type facts for each kind.
 - **Shared rendering entrypoints.** Apply the same private reference behavior to Code readers, static fences, highlighted prose, inline code, brand references, and displayed paths. Avoid separate route maps for each entrypoint.
+- **Inline empty-call references.** Resolve recognized functions and hooks with a trailing () like their bare identifiers, preserving the visible call syntax and shared lazy help. Link cn() to its API reference and useTheme() to its documented appearance controls, indexing theme exports from their installed declarations.
+- **Shared declaration registration.** Use one package list for reference-name indexing, lazy help loaders, and dependency validation. Theme references receive their detailed facts only when help opens, following the same loading boundary as other package exports.
+- **Declared callable classification.** Recognize exported function types written as declared constants and retain their complete signatures. Ordinary constants keep their existing classification; hooks such as useTheme receive function help instead of a generic export card.
 - **Delegated interaction.** Reuse the existing application tooltip event connection instead of attaching a listener to every token. Measure and observe help content only while it is actually open.
 - **Bounded help layout.** Clamp long paths and URLs, keep resource actions usable, and preserve viewport bounds. Compact typography and restrained emphasis keep detailed help readable without overwhelming the source.
 - **Verified module locations.** Carry verified sourcePath metadata for repository directories and single-file utilities. Missing metadata does not produce an invented repository-root source destination.
@@ -176,7 +158,6 @@ these two review documents. These are inventory snapshots, not final merge total
 - **Eight preset scopes.** Update Kamod, Shadcn, Ocean, Sunset, Cursor Warm, Voltage, Watson, and Professional styles for local light and dark scopes. The same preset files support both global application selection and isolated previews.
 - **No-op preset application.** Return early when applyThemePreset already matches the requested target appearance. Multiple hydrated consumers avoid repeating the same theme mutation and switching work.
 - **No-op color-scheme application.** Avoid redundant updates when applyColorScheme receives the currently applied scheme. Preserve the existing signals, provider, and system-preference resolution behavior.
-- **Paired primary values.** Expose each preset's existing light and dark primary endpoints without changing their original expressions. Source readers can use the correct exact endpoint while ordinary controls retain the currently selected primary.
 
 ### Shared ThemePicker and appearance menus
 
@@ -248,7 +229,7 @@ these two review documents. These are inventory snapshots, not final merge total
 - **Sidebar references.** Add useful source and design context without confusing the shadcn and Shadcnblocks projects. Keep attribution compact and connected to the files a reader will inspect.
 - **Auth guide integration.** Align login and signup examples with the shared guide and callout presentation. Keep their existing form behavior and application integration responsibilities intact.
 - **Catalog fixture refresh.** Update selected branding, heading, and example fixtures across authentication, communication, commerce, dashboard, marketing, and sidebar blocks. These are presentation and example consistency changes, not new domain-service integrations.
-- **Shared chat copying.** Replace duplicated chat copy feedback with the core CopyButton. Raw code in the AI chat example also uses the source-mode marker for consistent code appearance.
+- **Shared chat copying.** Replace duplicated chat copy feedback with the core CopyButton. The example retains its existing code presentation while sharing clipboard feedback and lifecycle behavior.
 - **Theme-customization composition.** Refactor the dashboard customization example around the shared theme picker and copy action. Preserve host-owned theme and radius choices instead of duplicating picker internals.
 - **Chart theme expectations.** Update chart and catalog tests to the resulting theme and label contracts. Keep the examples compatible with the isolated local appearance model.
 - **Refreshed sidebar thumbnails.** Replace the relevant generated sidebar preview assets and update their manifest references. The capture script and checked-in assets describe the current source presentation together.
@@ -286,7 +267,7 @@ these two review documents. These are inventory snapshots, not final merge total
 - **Deferred Markdown preparation.** Let pending content paint before preparing rendered prompt Markdown. Retain only the most recent prepared result instead of caching every visited source bundle indefinitely.
 - **Reserved pending footprint.** Maintain deliberate reading-panel space while lazy content is pending. First selection into Code or Prompt receives useful immediate feedback rather than an empty commit window.
 - **One preview startup at a time.** Add a shared idle queue for isolated component-preview documents. Limit concurrent startup work while leaving ordinary navigation outside that speculative queue.
-- **Viewport-aware queue cancellation.** Drop waiting previews that leave the activation area before they start. Already-started documents finish and retain their input state rather than being repeatedly torn down and recreated.
+- **Viewport-aware queue cancellation.** Drop waiting previews that leave the activation area before they start. Already-started documents finish without interruption and recent documents retain their input through the bounded preview pool.
 - **Queue-slot release.** Release startup ownership on readiness, failure, and unmount. A removed or failed frame cannot block every later example in the shared queue.
 - **Idle fallback handling.** Support environments without requestIdleCallback or IntersectionObserver. Cancel scheduled idle work correctly even when the browser returns an ID of zero.
 - **Safe deferred frame source.** Keep inactive frames at about:blank and ignore their initial blank load event. Start the actual isolated document only when activation owns a queue slot.
@@ -294,6 +275,18 @@ these two review documents. These are inventory snapshots, not final merge total
 - **Unchanged measurement reuse.** Avoid repeated inactive-state writes and unchanged tooltip placement objects. Local state updates correspond to real presentation changes rather than repeated observer notifications.
 - **Measured spinner correction.** Move continuous rotation away from the SVG after profiling showed repeated idle layout work. The retained implementation changes the animation target while preserving visual and accessibility contracts.
 - **Performance claims bounded to evidence.** Keep diagnostic profile results separate from universal speed promises. Production readiness, iframe startup, highlighting, and stylesheet size still depend on route, device, cache, and browser conditions.
+- **Bounded live preview documents.** Retain three recently used component previews, protecting visible and still-loading documents. Older completed offscreen examples return to about:blank and recreate on demand; their entered state deliberately resets.
+- **Measured memory reduction.** A same-code development comparison visiting all 15 Button examples reduced collected JavaScript heap from 93.70 MiB to 56.82 MiB, with 15 versus three live example documents. This measures that workload's retained JavaScript, rather than total browser memory or battery consumption.
+- **Shared viewport activity.** Use one intersection observer and one visibility listener per document for preview and loading activity. Remove subscriptions, listeners, and observers when their last consumer unmounts, without polling.
+- **Offscreen motion suspension.** Pause CSS animations in inactive component and block previews, including pseudo-elements, and resume them when the section becomes usable again. Scope this policy to documentation previews rather than changing public core component behavior.
+- **Inline usage motion ownership.** Give the small Button, ButtonGroup, and Tabs usage compositions the same shared viewport activity policy. The Button guide's inline Generating spinner now pauses offscreen instead of running outside the iframe budget.
+- **Loading motion ownership.** Animate pending placeholders only near the viewport and in visible tabs. Make pause rules survive more specific animation shorthands so individual skeleton strokes cannot keep running unnoticed.
+- **Static home status marks.** Remove three permanent decorative status-pulse loops while retaining the existing labels and dots. A settled home page no longer needs those continuous animation timelines.
+- **Preloaded block readiness.** Handle an eager server-rendered iframe completing before hydration attaches its load listener. Check the completed document URL, reject blank/stale documents, and clear the stuck loading overlay through the normal completion path.
+- **Eviction cleanup ordering.** Stop completion processing when a preview is evicted as it becomes ready. Do not create a new resize observer retaining the discarded document after suspension cleanup has already run.
+- **Home readiness after suspension.** Clear the matching home-preview readiness marker when its document is suspended. Returning to an evicted example displays loading feedback until its replacement is ready.
+- **Idempotent route generation.** Compare final generated output before writing route pages, manifests, and llms.txt; format TypeScript in memory first. An unchanged run touched zero files across the 1,021-file observed route/output inventory.
+- **Energy and lifecycle regressions.** Cover bounded retention, eviction/reload, offscreen pause/resume, hidden-document behavior, listener cleanup, pre-hydration completion, stale-document rejection, and completion-time observer ownership. Production browser checks exercise both narrow and wide component articles.
 
 ## 11. Shared documentation structure and source-backed APIs
 
@@ -335,12 +328,11 @@ these two review documents. These are inventory snapshots, not final merge total
 - **Visible-parts playground.** Add an interactive example for toolbar, copy, wrapping, imports, and other optional reader parts. Pair it with a reference table that distinguishes hiding a control from changing the underlying reading behavior.
 - **Replacement controls.** Show the typed import, wrap, and copy render callbacks in practical examples. Reuse supplied actions and default controls rather than copying the implementation into documentation.
 - **Document rendering examples.** Explain renderedContent alongside plain and highlighted Markdown source. Keep complete-source copy behavior visible when a rendered document is on screen.
-- **Syntax palette gallery.** Provide live studies for all eight source palettes. Use shared palette-choice state so color changes can be compared without retokenizing the example.
-- **Source mode guide.** Explain inverse, inherit, light, and dark separately from syntaxTheme. Show local scope behavior, rendered documents, nested fences, and explicit overrides in the API and examples.
+- **Syntax palette gallery.** Provide live studies for all nine source palettes. Use shared palette-choice state so color changes can be compared without retokenizing the example.
 - **Reference resolver integration.** Document provider inheritance, per-reader override, explicit opt-out, and destination precedence. Show generic host integration without exposing the site's private metadata catalog as a core requirement.
 - **Performance and SSR guidance.** Describe lazy highlighting, plain initial output, local state, and source fidelity. Explain the deliberate boundaries instead of promising every renderer or language is automatically cheap.
 - **Troubleshooting guidance.** Cover missing colors, hidden controls, unsupported language hints, source references, and clipboard failures. Point each symptom to the relevant public option or integration condition.
-- **Focused topic routes.** Generate deep-link routes for the guide's source, controls, themes, modes, references, and integration topics. Keep route metadata tied to the shared guide definitions.
+- **Focused topic routes.** Generate deep-link routes for the guide's source, controls, themes, references, and integration topics. Keep route metadata tied to the shared guide definitions.
 - **Executable documentation checks.** Test the rendered guide and compile relevant examples against actual exports. Avoid validating a second independent copy of the examples that readers never see.
 
 ## 14. Companion-package guides and portable references
@@ -393,8 +385,8 @@ these two review documents. These are inventory snapshots, not final merge total
 - **Shared navigation content.** Reuse desktop sidebar entries in the responsive navigation drawer. Keep one information architecture while allowing separate expansion and scroll memories for each presentation.
 - **Pinned guide destinations.** Align Getting Started and Kamod Ecosystem entries with the rest of the sidebar. Special links remain compact and do not receive component update badges.
 - **Consistent entry structure.** Share label, description, count, chevron, and active-state presentation through navigation entry helpers. Selected group descriptions retain their secondary reading role.
-- **Subtle selected surfaces.** Use the agreed base surface with a restrained primary overlay for active entries. Preserve readable text and counts without the earlier heavy inverted selection treatment.
-- **Highlighted-inline-code badges.** Share the restrained badge paint across group counts, variant counts, and Fresh/Updated/Planned labels. Avoid selected-state overrides that would unexpectedly change their color model.
+- **Subtle selected surfaces.** Reuse the softened inline-code highlight from page labels for selected groups, sublinks and pinned destinations. Desktop and mobile share the same paint while retaining a stronger selected hover.
+- **Separate counts and status labels.** Keep every numeric sidebar count on an unpainted background in all states. Fresh/Updated/Planned chips use the current secondary role at 20% alpha, with readable text and icons.
 - **Active destination reveal.** Reveal the loaded destination inside its navigation scroll container after route activation. Restore remembered position without leaving the selected item outside the visible region.
 - **First-paint restoration.** Restore sidebar position through the dedicated navigation memory helpers. Keep initial navigation lightweight instead of adding repeated layout probes on every render.
 - **Deliberate navigation help.** Attach richer help to meaningful group entries rather than every sublink. Use intentional hover behavior so ordinary pointer travel does not open a succession of irrelevant tooltips.
@@ -473,7 +465,7 @@ these two review documents. These are inventory snapshots, not final merge total
 - **Uniform icon-button language.** Share compact sizes, quiet idle surfaces, and restrained hover/focus styling. Navbar controls keep their position while selected controls keep their meaningful state cues.
 - **Shared preview pattern.** Use one reusable subdued background pattern and page-colored overlay. Local content appearance remains independent of the decorative outer showcase canvas.
 - **Quiet source introductions.** Give Code and Prompt headings matching compact icon weight and readable secondary text. Remove redundant actions that narrowed the actual introduction content.
-- **Source-aware Markdown styling.** Make rendered Markdown consume local source semantic colors and reference cues. Bare nested code fences remain readable in the same selected document mode.
+- **Rendered Markdown presentation.** Keep prepared Markdown typography, code fences, and references under the documentation styles. The readable document view continues to copy its complete original source.
 - **Responsive callout internals.** Use container-aware callout metadata placement and wrapping footer content. Long titles and supporting text preserve their hierarchy without a special page-specific skin.
 - **Consistent supporting guidance.** Reduce the visual weight of supporting-file notes and supplementary callouts. Preserve their content and links while letting the primary setup and source flow remain dominant.
 
@@ -487,12 +479,12 @@ these two review documents. These are inventory snapshots, not final merge total
 - **Modular Code behavior tests.** Cover optional headers, content slots, replacement controls, controlled state, and hidden-control behavior. Verify custom composition continues to use the existing actions and status regions.
 - **Overflow tests.** Exercise control eligibility against complete unwrapped source and changing available width. Cover cleanup and avoid making the presence of a CSS class the only behavior assertion.
 - **Reference parser tests.** Cover import forms, aliases, usages, shadowing, URL rejection, escaped attributes, and resolver inheritance. Include explicit provider opt-out and source fidelity through folding and wrapping.
-- **Source-mode SSR tests.** Check the default mode, explicit overrides, custom document boundary, and ambient slots in rendered output. Confirm that mode support does not require browser initialization to expose the correct contract.
+- **Source-reader SSR tests.** Check useful initial source, custom document output, and optional reader controls in rendered markup. Confirm that source remains available before deferred highlighting runs.
 - **Copy lifecycle tests.** Exercise success, rejected clipboard access, retry, stale completion, custom controls, and timer cleanup. Add glyph-stability coverage alongside accessible feedback assertions.
 - **Tabs and callout tests.** Extend keyboard, nested behavior, SSR, heading, role, and metadata checks. Verify the new presentations preserve semantic and state contracts.
 - **Placement and cleanup tests.** Cover tooltip collision and lazy growth, unchanged measurement reuse, bounded dropdown mount retries, and scrollbar drag teardown. These regressions target the actual loops and lifecycle boundaries changed by the implementation.
 - **Spinner and indicator tests.** Verify the HTML animation target, static SVG, status semantics, and reduced-motion behavior. Check stable menu and ThemeToggle glyphs through state changes.
-- **Theme runtime tests.** Exercise unchanged preset/scheme requests and explicit scoped application behavior. Keep the primary-pair additions aligned with the existing theme endpoint values.
+- **Theme runtime tests.** Exercise unchanged preset/scheme requests and explicit scoped application behavior. Preserve system-scheme resolution and the existing theme signal/provider contract.
 - **Shared blocks tests.** Cover ThemePicker control ownership, selected state, accessible actions, and integration with catalog examples. Update chart and branding expectations to the resulting presentation.
 - **Shell frame tests.** Exercise shared slots, landmarks, navigation, mobile/desktop behavior, and variant-specific ownership. Include cases that protect the reusable API from demo-specific coupling.
 
@@ -506,12 +498,10 @@ these two review documents. These are inventory snapshots, not final merge total
 - **Preview queue tests.** Cover readiness, failure, unmount, viewport cancellation, fallback scheduling, ID-zero cancellation, and retention of started previews. Protect both startup efficiency and entered user state.
 - **Runtime compatibility tests.** Exercise bounded prefetch, shared route work, scroll restoration, metadata reduction, and upstream-module guards. Run atomic catalog regressions against the installed patched dependency.
 - **Navigation memory tests.** Cover left and right sidebar state, active destination reveal, link hierarchy, and topbar offsets. Prevent remembered state from overriding the wrong navigation surface.
-- **Source mode integration tests.** Cover preview-local mode helpers, rendered Markdown, generic theme primary pairs, and explicit reader overrides. Keep raw fences and source references connected to the selected source appearance.
 
 ### Browser suites and visual contracts
 
 - **Code reader browser coverage.** Add or expand source display, imports, overflow, language inference, header metadata, custom controls, copy behavior, and all syntax palettes. Exercise the real documentation integration as well as standalone reader examples.
-- **Inverse-mode browser coverage.** Check default and explicit source modes in both site schemes, including rendered documents and raw nested fences. Verify header/control paint remains ambient and reference dashes preserve syntax text colors.
 - **Source reference browser coverage.** Exercise imported symbol navigation, lazy help, focus, placement, and private reference rendering. Include pure-primary resting and hover cues without extra arrows or duplicate underline paint.
 - **Showcase browser coverage.** Cover loading, first tab selection, source files, prompts, refresh, preferences, viewport choices, preview activation budgets, and background scope. Keep local appearance and preserved preview input part of the integration contract.
 - **Shell browser coverage.** Exercise variant previews, APIs, guides, keyboard navigation, responsive sidebars, and production guidance. Include the generated source/download path and real form-associated footer behavior where relevant.
@@ -560,7 +550,7 @@ generator and manifest rather than repeated individually.
 
 | File family                                                                                    | Coverage in this ledger   | Review focus                                                                                                     |
 | ---------------------------------------------------------------------------------------------- | ------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| packages/core/src/components/code/**                                                           | Sections 1–3, 13, 21      | Public reader, language/import/wrap/reference helpers, lazy work, palettes, source modes, and tests.             |
+| packages/core/src/components/code/**                                                           | Sections 1–3, 13, 21      | Public reader, language/import/wrap/reference helpers, lazy work, palettes, and tests.                           |
 | packages/core/src/components/copy-button/**                                                    | Sections 4, 21            | Exact clipboard lifecycle, custom controls, accessible feedback, stable glyphs, and CSS.                         |
 | packages/core/src/components/alert/**                                                          | Sections 4, 20–21         | Callout composition, semantic headings, neutral shared styling, and regressions.                                 |
 | packages/core/src/components/tabs/**                                                           | Sections 4, 21            | Inset variant, selected/hover paint, indicator geometry, keyboard behavior, and SSR.                             |
@@ -584,7 +574,7 @@ generator and manifest rather than repeated individually.
 | packages/blocks/src/commerce/**, communication/**                                              | Sections 8, 20            | Example refinement, shared copying, and raw code appearance.                                                     |
 | packages/blocks/src/dashboard/**, marketing/**                                                 | Sections 5, 8             | Theme customization, chart expectations, and catalog fixtures.                                                   |
 | packages/blocks/README.md, package.json, tsup.config.ts                                        | Sections 5–6, 22          | Documented shared controls, shell exports, and distributable assets.                                             |
-| packages/themes/src/tokens.css and brands/**                                                   | Sections 2, 5             | Scoped semantic tokens, eight presets, and exact primary endpoint pairs.                                         |
+| packages/themes/src/tokens.css and brands/**                                                   | Sections 2, 5             | Scoped semantic tokens and eight application presets.                                                            |
 | packages/themes/src/index.tsx and index.test.tsx                                               | Sections 5, 21            | No-op appearance application and scoped runtime behavior.                                                        |
 | packages/openui/src/components/Tabs.tsx                                                        | Sections 4, 22            | Explicit line-tab presentation.                                                                                  |
 | packages/typeset/src/typeset.css                                                               | Sections 4, 22            | Fine-pointer-only link hover paint.                                                                              |
@@ -600,7 +590,7 @@ generator and manifest rather than repeated individually.
 | packages/docs/src/docs/components/Code*, code-*, highlight-code.ts                             | Sections 1, 3, 9, 13      | Thin core-reader adapters, source labels, static fences, and supporting tests.                                   |
 | packages/docs/src/docs/components/StateIcon.tsx and state-icon.css                             | Sections 20–21            | Private persistent glyph presentation and reduced-motion behavior.                                               |
 | Remaining packages/docs/src/docs/components/**                                                 | Sections 9–15             | Shared guide/header/contents/path/loading/prose/overview helpers and their tests.                                |
-| packages/docs/src/docs/examples/code/**                                                        | Sections 2, 13, 21        | Full Code guide, live studies, API tables, mode examples, and compilation checks.                                |
+| packages/docs/src/docs/examples/code/**                                                        | Sections 2, 13, 21        | Full Code guide, live studies, API tables, and compilation checks.                                               |
 | packages/docs/src/docs/examples/tabs/** and ui-motion/**                                       | Sections 4, 12            | Inset example and updated motion demonstrations.                                                                 |
 | packages/docs/src/docs/guides/**                                                               | Sections 5, 15, 21        | Theme studies, runtime guidance, and source-backed documentation checks.                                         |
 | packages/docs/src/docs/pages/**                                                                | Sections 12–15            | Component/form/package content, Code registration, and page-level compositions.                                  |
@@ -618,7 +608,7 @@ generator and manifest rather than repeated individually.
 | packages/docs/src/styles/**                                                                    | Sections 2, 5, 8–20       | Shared product visual rules for readers, guides, navigation, controls, fonts, and utility pages.                 |
 | packages/docs/src/kitchen-sink/**, link-title.*, vite-env.d.ts                                 | Sections 11, 17, 21–22    | Integration fixtures, consistent link labeling, and virtual-module typing.                                       |
 | packages/docs/docs/**, blocks/**, index.mdx, 404.md                                            | Sections 7, 12–15, 19, 22 | Authored guide Markdown and generated focused route stubs.                                                       |
-| packages/docs/e2e/**                                                                           | Section 21                | Browser behavior, responsiveness, source modes, references, navigation, and loading contracts.                   |
+| packages/docs/e2e/**                                                                           | Section 21                | Browser behavior, responsiveness, palettes, references, navigation, and loading contracts.                       |
 | packages/docs/scripts/**                                                                       | Sections 7–8, 17–18, 22   | Route generation/cleanup, downloads, thumbnail capture, and reproducible brand synchronization.                  |
 | packages/docs/public/block-previews/** and preview manifests                                   | Sections 7–8, 22          | Generated responsive shell/sidebar preview assets and their source-of-truth references.                          |
 | packages/docs/public/styles/**                                                                 | Section 18                | Generated brand styles consistent with native documentation fonts.                                               |
@@ -643,86 +633,71 @@ The final audit is based on the resulting source tree, with this history providi
 traceability for the already committed work. Intermediate validation recorded in
 individual commits is historical evidence, not a substitute for the final matrix.
 
-| Commit   | Delivered area                                                                                                          |
-| -------- | ----------------------------------------------------------------------------------------------------------------------- |
-| d8df1bb5 | Scoped application palettes and redundant-theme-update avoidance.                                                       |
-| 5da5460a | Core modular Code and shared CopyButton.                                                                                |
-| 19ef5468 | Inset tabs, AlertCallout, shared API presentation, and placement fixes.                                                 |
-| 37e44f99 | Shared blocks theme picker and catalog presentation.                                                                    |
-| 96c7b3c5 | Shared inline references and structured contextual help.                                                                |
-| 35fab4c3 | Shared code/copy adapters and themed showcase states.                                                                   |
-| df98e922 | Source-backed API extraction and shared reference layouts.                                                              |
-| e0390c59 | Code, callout, and inset-tab documentation.                                                                             |
-| eee41fb4 | Component and Formisch integration guidance.                                                                            |
-| fd37d8e0 | Package setup guidance and portable references.                                                                         |
-| 7d6e760d | Block catalog guides and shared reference layouts.                                                                      |
-| 0fdd0d9c | Interactive home and Getting Started.                                                                                   |
-| acd738d7 | Responsive navigation and reading layout.                                                                               |
-| 8a9bb510 | Deferred route payloads and page readiness.                                                                             |
-| b664f0fe | Sidebar thumbnails and capture tooling.                                                                                 |
-| 0664b0d6 | Seven additional responsive application-shell compositions.                                                             |
-| 1e100cbc | Shell variant guides, downloads, and production checks.                                                                 |
-| 6a7fe3e7 | Source-preserving Code and shared-control lifecycle refinements.                                                        |
-| 4a1b2634 | Stable showcases, ecosystem guidance, and navigation consistency.                                                       |
-| 1020037c | Active sidebar reveal and navigation styling.                                                                           |
-| c60c5e6f | Resolution of the PR's merge conflict with main.                                                                        |
-| d4c66e9a | Dependency analysis recognition of the lazy home route.                                                                 |
-| e6adcec5 | Generic source references, additional Prism palettes, and core control refinements.                                     |
-| bad6a138 | Private lazy reference help, responsive navigation, and bounded preview startup.                                        |
-| 998f5eff | Final shared UI source modes, paired primary values, callouts, and stable control glyphs.                               |
-| 24b05645 | Contributor guides, supplied issue briefs, formatting exclusions, and source artwork.                                   |
-| 8363c56d | Site integration, responsive utility pages, stable fonts, portable guides, catalog patch, and corrected CI build order. |
+| Commit   | Delivered area                                                                                                                                   |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| d8df1bb5 | Scoped application palettes and redundant-theme-update avoidance.                                                                                |
+| 5da5460a | Core modular Code and shared CopyButton.                                                                                                         |
+| 19ef5468 | Inset tabs, AlertCallout, shared API presentation, and placement fixes.                                                                          |
+| 37e44f99 | Shared blocks theme picker and catalog presentation.                                                                                             |
+| 96c7b3c5 | Shared inline references and structured contextual help.                                                                                         |
+| 35fab4c3 | Shared code/copy adapters and themed showcase states.                                                                                            |
+| df98e922 | Source-backed API extraction and shared reference layouts.                                                                                       |
+| e0390c59 | Code, callout, and inset-tab documentation.                                                                                                      |
+| eee41fb4 | Component and Formisch integration guidance.                                                                                                     |
+| fd37d8e0 | Package setup guidance and portable references.                                                                                                  |
+| 7d6e760d | Block catalog guides and shared reference layouts.                                                                                               |
+| 0fdd0d9c | Interactive home and Getting Started.                                                                                                            |
+| acd738d7 | Responsive navigation and reading layout.                                                                                                        |
+| 8a9bb510 | Deferred route payloads and page readiness.                                                                                                      |
+| b664f0fe | Sidebar thumbnails and capture tooling.                                                                                                          |
+| 0664b0d6 | Seven additional responsive application-shell compositions.                                                                                      |
+| 1e100cbc | Shell variant guides, downloads, and production checks.                                                                                          |
+| 6a7fe3e7 | Source-preserving Code and shared-control lifecycle refinements.                                                                                 |
+| 4a1b2634 | Stable showcases, ecosystem guidance, and navigation consistency.                                                                                |
+| 1020037c | Active sidebar reveal and navigation styling.                                                                                                    |
+| c60c5e6f | Resolution of the PR's merge conflict with main.                                                                                                 |
+| d4c66e9a | Dependency analysis recognition of the lazy home route.                                                                                          |
+| e6adcec5 | Generic source references, additional Prism palettes, and core control refinements.                                                              |
+| bad6a138 | Private lazy reference help, responsive navigation, and bounded preview startup.                                                                 |
+| 998f5eff | Historical shared UI source modes and paired primary values (reverted by the latest rollback), plus retained callouts and stable control glyphs. |
+| 24b05645 | Contributor guides, supplied issue briefs, formatting exclusions, and source artwork.                                                            |
+| 8363c56d | Site integration, responsive utility pages, stable fonts, portable guides, catalog patch, and corrected CI build order.                          |
 
-## 25. Final validation status
+## 25. Final verification and review boundaries
 
-The final local audit checks the assembled product changes, including the three
-refinement commits above. Historical commit messages are not substituted for a
-fresh pass. These reports are the final documentation-only commit; live remote
-status is available in [PR #80 checks](https://github.com/kamod-ch/kamod-ui/pull/80/checks).
+These results cover the completed working tree, including the follow-up features
+listed below. Historical measurements describe their stated workload; they are
+not substitutes for this final check matrix.
 
-| Validation area                            | Final local result                                                                                                                        |
-| ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| Workspace typechecking                     | Passed: `corepack pnpm typecheck`.                                                                                                        |
-| Corrected root CI command                  | Passed: `corepack pnpm test:ci`, 1,467 tests.                                                                                             |
-| Unit suite breakdown                       | Themes 11; core 428; OpenUI 19; motion 25; blocks 194; docs 790.                                                                          |
-| Full workspace build                       | Passed: `corepack pnpm build`, covering all seven buildable packages in the eight-project workspace, including production docs.           |
-| Final production docs rebuild              | Passed: `corepack pnpm --filter @kamod-ch/ui-docs build`.                                                                                 |
-| Oxlint                                     | Passed: `corepack pnpm lint`, zero warnings.                                                                                              |
-| Biome                                      | Passed: `corepack pnpm biome:ci`, 1,693 files.                                                                                            |
-| Oxfmt and diff hygiene                     | Passed: `corepack pnpm format:check` and `git diff --check`; both reports also formatted.                                                 |
-| Frozen installation and dependency policy  | Passed; policy checks covered 900 entries.                                                                                                |
-| Knip, Syncpack, and generated README check | Passed.                                                                                                                                   |
-| Publint and Are the Types Wrong            | Passed for the three configured public ESM packages; intentional unsupported legacy CommonJS/Node 10 modes remain excluded.               |
-| Focused production Chrome suites           | All 153 distinct cases passed across the broad run and targeted reruns.                                                                   |
-| Development catalog regressions            | Included in the passing docs unit suite against the installed patched plugin.                                                             |
-| Safari/WebKit                              | Local runtime failed before page creation: `Page.overrideSetting` reported unknown setting `PushAPIEnabled`; no application pass claimed. |
-| Mobile browser execution                   | No separate iPhone-browser pass claimed; Chrome responsive viewport coverage is included above.                                           |
-| Commit boundaries                          | Shared UI, contributor guidance, site/runtime/CI, then these two reports together; existing branch history is retained.                   |
-| Local exclusions                           | `.docs/` and the protected `.gitignore` edit stay local under the repository's explicit instructions.                                     |
-| Remote CI                                  | Follow the linked PR checks for the pushed revision; this local matrix does not assert a future remote result.                            |
+| Check                                  | Final local result                                                                                                                     |
+| -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `corepack pnpm typecheck`              | Passed across the workspace.                                                                                                           |
+| `corepack pnpm build`                  | Passed, including production documentation and package runtime output.                                                                 |
+| `corepack pnpm test:ci`                | Passed: **1,531 tests** in **184 files**.                                                                                              |
+| Unit breakdown                         | Themes 11; core 421; OpenUI 19; motion 25; blocks 194; docs 861.                                                                       |
+| `corepack pnpm lint`                   | Passed.                                                                                                                                |
+| `corepack pnpm format:check`           | Passed: 3,025 files before the final Markdown update; final changed-file formatting also checked.                                      |
+| `corepack pnpm biome:ci`               | Passed: 1,727 files.                                                                                                                   |
+| `corepack pnpm docs:readme:check`      | Passed.                                                                                                                                |
+| `corepack pnpm qa:deps`                | Passed: Knip and Syncpack.                                                                                                             |
+| `corepack pnpm qa:publint` / `qa:attw` | Passed for all configured packages.                                                                                                    |
+| Production browser regression          | **165 distinct affected cases passed across the audit and focused reruns**; all 29 final appearance cases passed across recheck/retry. |
+| Whitespace and staged scope            | Checked before each scoped commit; private context and `.gitignore` excluded.                                                          |
+| Remote CI                              | Local results above; pushed-revision checks are reported separately by GitHub.                                                         |
 
-The production Chrome matrix spans 15 focused spec files: block source browsing,
-source color modes, Code customization, syntax palettes, appearance menus, copy
-buttons, callouts, stable font paint, package guides, utility page states, private
-references, showcase loading, tabs overflow, palette picking, and home
-responsiveness. It includes both light and dark modes, required responsive widths,
-short viewports, enlarged text, keyboard paths, loading boundaries, scrolling,
-complete-source copying, and selected-hover behavior where relevant to each suite.
+Two browser cases were interrupted by Chrome `ERR_NETWORK_CHANGED` while loading
+local assets; their traces identify that transport failure and both pass on focused
+rerun. The production preview was restarted after the final CSS rebuild so its
+server-rendered asset manifest matched the files being tested. These are combined
+run results, not a claim that the initial full run had zero interruptions.
 
-Five cases interrupted by recorded Mac sleep events passed on rerun. Three other
-assertions were corrected to match actual contracts: light mode may omit a
-`.light` class, a portable Markdown wrapper owns the 448px bounds while its inner
-region scrolls, and reference-color tests must wait for the complete RGB transition
-rather than alpha alone. Color assertions compare independently sampled opaque
-and translucent theme tokens with a one-unit channel tolerance; product colors
-were not changed to satisfy the test. A preview-server failure from a missing
-generated asset was followed by a successful production rebuild and final rerun.
-
-Additional coverage was justified for changing menu-glyph identity and selected
-picker hover. Seven shared indicator regressions and the real pointer-hover
-assertions protect those changed behaviors without adding tests that merely
-repeat implementation details. The remaining lifecycle, catalog, source, loading,
-and responsive tests exercise the affected asynchronous and integration contracts.
+The test review found meaningful coverage for retention/eviction, queue release,
+observer/listener disposal, pre-hydration readiness, stale results and Markdown
+Blob/timer cleanup. The final audit also adds a browser regression for adaptive
+syntax colors across alternating local light/dark boundaries. Pure paint and
+spacing updates reuse browser layout/style coverage rather than adding unit
+tests that merely repeat CSS declarations. Seven inversion-only unit cases and
+the dedicated mode suite were removed with the reverted public mode feature.
 
 ### Local WebKit runtime limitation
 
@@ -732,3 +707,200 @@ installed, and an install dry run selects that same archive. Its protocol lacks
 `PushAPIEnabled`, which the driver sends before creating a page, so reinstalling
 would not repair this mismatch. WebKit needs a supported current runner or an OS
 upgrade; no dependency downgrade or protocol patch was introduced to conceal it.
+
+## 26. Theme tokens and Prism explained in depth
+
+### Application theme foundations
+
+- **Foundation selection.** Expand the existing installation section with the separate roles of CSS foundations, brand presets, appearance schemes and component treatments. Retain the established page routes and cross-link the first-setup guide.
+- **Component role ownership.** Expand usage with focused Preact examples, surface/ink pairs and a table that assigns layout, variants, application colors and reader overrides to their narrowest useful owner. Explain focus, hover, selected, disabled and feedback states together.
+- **Token-to-utility pipeline.** Explain raw values, semantic custom properties, component variables and Tailwind’s `@theme inline` mapping. Include small CSS/TSX examples and distinguish runtime value changes from generating new utility classes.
+- **Scope and cascade.** Document preset specificity, local resets, DOM inheritance and portal boundaries. Explain why an inherited component override can lose to a variable declared on the reader itself.
+- **Sidebar role family.** Extend the sidebar explanation with an accessible selected-link example, state-by-state checks and porting guidance for Kamod’s actual background/outline token names. Distinguish sidebar emphasis from the color a particular consumer uses for selection.
+- **Canonical cross-references.** Connect the preset gallery, general token guide, Code syntax guide and block theming companion. Keep shared detail in its owning guide while retaining block deep links.
+
+### Prism and product syntax palettes
+
+- **Prism rendering pipeline.** Trace literal source into grammar tokens, highlighted classes and CSS paint. Explain which changes reuse highlighted nodes, which may change classification, and why display is separate from execution or validation.
+- **Syntax group reference.** Describe the nine variable families and their real grammar-group mappings, including language-specific exceptions and weight/style suffixes. Keep navigation metadata and private lazy help distinct from Prism classification.
+- **Reader CSS boundaries.** Explain the actual `data-syntax-theme` attribute, low-specificity component defaults, loading wrappers and source/header/typography variables. Show how root-local classes preserve neighboring readers and caller-owned rendered content.
+- **Upstream theme inclusion.** Link the official Prism and Prism Themes collections and distinguish a standalone CSS import from a scoped Kamod adaptation. Include a Dracula-family recipe, vendor selector guidance, attribution and update ownership.
+- **Semantic syntax palette.** Add the opt-in `theme` syntax ID, bringing the catalog to nine while retaining existing defaults. Derive six colored groups from primary/chart roles and mix each hue with foreground ink; keep comments secondary and chart fallbacks explicit.
+- **Eight-preset local lab.** Compare every existing application preset in local light/dark scopes with a compact role legend. Native controls affect only that preview, preserve token nodes and never write saved appearance preferences.
+- **Product palette recipe.** Explain color weights versus opacity, local reader refinements, custom preset inputs and the distinction between CSS-only names and typed runtime registrations. Provide focused CSS and Preact snippets instead of duplicating eight palette implementations.
+- **Standalone reader stylesheet.** Export Code’s layout, syntax and copy-feedback CSS without overlapping semantic foundations. Preserve the existing full UI stylesheet path and keep CSS-only exports outside JavaScript type-resolution analysis.
+- **Shared guide rendering.** Extract the reusable GuideParts renderer for full guides and embedded Code topics, including correct heading offsets, shared source readers and existing reference-aware inline prose. Store authored fragments outside the route tree and load them through watched virtual string modules compatible with production PreactPress.
+- **Verification coverage.** Extend copyable-example compilation to complete TSX snippets in the new authored content and retain existing anchor checks. Update the nine-palette browser regression and add responsive all-preset contrast, local preference isolation, node reuse, unchanged-source and keyboard checks.
+
+- **Glossary regression maintenance.** Keep the legacy inline-help keyboard/navigation test on `className`, which still belongs to that glossary. `cn` now uses private function-reference help, so the test no longer waits for its obsolete glossary marker.
+
+### Verification ownership
+
+The final matrix in section 25 supersedes intermediate follow-up totals. The
+Code documentation tests compile complete authored TSX examples against the real
+API, and browser coverage checks all nine syntax IDs, eight semantic presets in
+both appearances, token reuse, original source, scoped contrast, persistence,
+keyboard operation and lazy help. Earlier desktop/mobile screenshots and native
+Safari measurements remain evidence only for their explicitly recorded scope.
+
+## 27. Color presets as practical design studies
+
+### Reading flow and visual comparison
+
+- **A clearer Theming introduction.** Shorten the opening description and add four compact reading paths: foundations, palette studies, semantic tokens and appearance preferences. Keep the established sections and their existing anchors in the same order.
+- **Eight complete preset studies.** Expand Kamod, shadcn (Geist), Ocean, Sunset, Cursor warm, Voltage, Watson and Professional with individual direction, application advice and review notes. Each neutral frame keeps the explanation readable while its contained sketches show the actual preset.
+- **Four simple compositions per preset.** Replace the richer miniature workspace with two static sketches in each explicit appearance: a small workspace and an action card. Thirty-two compositions demonstrate page, navigation, card, primary and secondary relationships without simulated inputs, animation or loading semantics.
+- **Palette roles on demand.** Keep four labeled surface/action swatches visible in each appearance. A native disclosure reveals eight more roles, including text, quiet surfaces, selection, boundaries, navigation and feedback, with their real custom-property names.
+- **A useful gallery introduction.** Explain how to compare relationships, choose a direction and adapt the result once before the studies. Compact jump links reach every preset without adding another global preference or duplicating the right-hand contents list.
+- **Consistent responsive composition.** Arrange the two appearances and supporting guidance side by side when the article has room, then stack them at a 35rem container width. Smaller headers and footers wrap below 23rem while both miniature compositions remain legible inside each appearance.
+
+### Preset-specific guidance and examples
+
+- **Two design principles per preset.** Explain practical decisions such as keeping Ocean's cyan and indigo roles distinct, preserving paper around Cursor warm's ink and pairing Professional's yellow fill with its intended black foreground. Compact token chips connect each recommendation to the underlying roles.
+- **Declared typography, honestly represented.** Document body, display and mono stacks for every preset, including inherited application stacks and Watson's separate heading face. Explain that the documentation retains native fonts and does not download the named faces just to illustrate a palette.
+- **Shape and radius.** Add a restrained corner sample and small, base and larger radius references for each study. Document inherited values as inherited, and verify every stated base radius against its shipped stylesheet or the shared foundation.
+- **Focused shipping review.** Retain an individual review note for every palette and remove font/radius repetition from the surrounding prose. Include feedback, selected states, boundaries and real content where they materially affect that preset's use.
+- **Copyable local scope recipes.** Add an optional example for each literal preset ID using the existing theme scope and semantic card/foreground pair. Explain its stylesheet prerequisite, explicit appearance and separation from saved application preferences.
+- **Lazy reader lifetime.** Native disclosure events mount a recipe's CodeBlock only while it is open and release it when closed. Closed studies do not create source readers or their highlighting/reference observers.
+- **Direct source references.** Link each study to its actual theme stylesheet under `packages/themes/src`, using `tokens.css` for Kamod and the corresponding brand file for the other presets.
+- **Shared next steps.** Explain preset versus appearance persistence once, show the public selection handler, and link to CSS setup, token pairs, sidebar roles and a final theme review. Continue into the semantic Code palette and complete-block theming without repeating those guides.
+
+### Navigation, accessibility and maintenance
+
+- **Real subsection routes.** Generate routes for the palette overview, every preset and the shared ending. Keep literal route metadata in parity with the rendered guide and mark these as guide sections rather than component variants.
+- **Nested route targeting.** Resolve child guide headings from the complete contents tree when opening an existing section URL without a fragment. Direct preset URLs now scroll to their requested study instead of falling back to the introduction.
+- **Readable secondary content.** Mix secondary labels with foreground ink locally, preserving the underlying theme values. Scope the treatment inside each appearance and fix inherited lead, inline-code and copy-caption contrast without changing global Code styling.
+- **Partitioned implementation.** Separate preset data, study composition, palette sketches, type/shape details and shared reading guidance. Split their styles by responsibility while retaining one theme subscription and the existing appearance runtime.
+- **Unit coverage.** Add route/contents parity, documented-radius parity and recipe mount/unmount regressions. Extend server-render assertions for sixteen preview scopes plus sixteen decorative signature scopes, thirty-two sketches, unchanged saved preferences and the absence of fake loading controls.
+- **Browser coverage.** Check every direct preset route, keyboard disclosure, complete copied source and reader cleanup. Exercise all eight applied presets in both appearances, responsive comparison layouts, expanded role lists, persistent selection, contents targets and accessibility scans.
+
+### Preset study verification
+
+The final matrix in section 25 includes the preset studies and full Theming guide.
+Coverage protects direct subsection navigation, native disclosures, complete
+copied recipes, reader release, role lists, contrast and responsive comparison
+layouts. Earlier final desktop and 320px ready-state screenshots were reviewed;
+no additional external font, iframe, animation loop or state store is introduced.
+
+## 28. Expanded private inline-reference families
+
+### Detection and trustworthy destinations
+
+- **Five additional families.** Extend the existing nine reference kinds with terminal commands, block variants, guides, technology labels and page/section destinations. Keep one shared type/presentation contract for all fourteen kinds.
+- **Twenty recognized command tools.** Recognize supported package managers, executable runners, source-control tools, build tools, linters and container/registry commands. Link to the tool's official command documentation while preserving the literal invocation.
+- **Conservative command parsing.** Bound parsing to 1,024 characters and reject shell operators, command expansion and multiline input. Detection never runs a command or implies that arbitrary arguments have been validated.
+- **Exact block identities.** Derive block and variant aliases from the actual registry, including verified local installation/source targets. Preserve the private-source distinction instead of pretending every block identity is a published package.
+- **Broad technology coverage.** Add 76 curated labels with real official destinations, including Preact, React, TypeScript, JavaScript, Valibot, Tailwind CSS, shadcn and GitHub. Support authored aliases and safe version-label normalization while leaving unknown labels unchanged.
+- **Verified guide aliases.** Resolve named guides against existing routes and section metadata. Exclude ambiguous generic headings such as Usage from automatic aliases.
+- **Actual page and section links.** Index route titles and real heading IDs, validating fragments before enriching inline links. Keep base-path handling and existing link destinations intact.
+- **Deterministic collisions.** Give known exports their existing priority and resolve family aliases by explicit rules. Remove ambiguous same-priority aliases rather than silently choosing a destination.
+- **Callable suffix parity.** Normalize only a recognized empty `()` suffix for functions and hooks, leaving displayed text unchanged. Keep `cn()` on its exact API-reference anchor and avoid treating arbitrary expressions as exported callables.
+- **Inline-only expansion.** Apply these extra families to private inline detection and explicit supported inline links. Source-code detection remains the conservative import/symbol mechanism, without broad technology-word or command detection inside arbitrary source.
+
+### Lazy facts and common presentation
+
+- **Lightweight eager index.** Keep aliases, routes, destination IDs and supported command names in the initial index. Descriptions, examples and detailed facts remain in lazy family modules.
+- **Bounded family loading.** Share a request/cache per additional family, with at most five family entries. Remove failed requests so opening the help again can retry without retaining a rejected result forever.
+- **Family-specific help.** Show useful command, block, guide, technology or page facts with official/local reading actions. Keep these private cards independent of the reusable core Code API.
+- **Centralized kind styling.** Share icon, label and optional contract-heading metadata across all fourteen kinds. New kinds do not each create a parallel tooltip implementation.
+- **Almost-square type badges.** Give the top-right reference-kind badge a barely visible 1px radius on every corner. Preserve its distinct inverted surface, icon and compact alignment.
+- **One underline treatment.** Use the same dashed cue at 35% opacity for inline and source references, strengthening fully on hover or keyboard focus. A slow text-shadow emphasis adds visual weight without changing glyph widths or causing layout shifts.
+- **Paint above code highlights.** Retain the pointer-inert underline layer above inline chip backgrounds. The emphasis and cue keep original Prism token colors and clickable text bounds.
+- **Detection and cleanup coverage.** Exercise all new families, malformed commands, unknown/ambiguous aliases, version labels, verified anchors and fallback destinations. Cover lazy loading, retries, stale tooltip completion, accessible kind labels and keyboard navigation.
+
+## 29. Prompt reading and Markdown downloads
+
+### Default display and responsive controls
+
+- **Code-first Prompt views.** Open every showcase Prompt in Code by default, including blocks, components and the home workspace. Retain a user's current choice while that Prompt is mounted, but stop restoring an obsolete saved display choice on the next mount.
+- **Remove stale preference ownership.** Remove Prompt display from shared persisted showcase preferences and its plumbing. Keep the remaining local preview, source and prompt-kind preferences unchanged.
+- **Compact icon-only formats.** Hide Plain Text/Code/Markdown text labels on narrow non-block showcases while retaining icons, accessible names and selected semantics. Keep the separate narrower threshold for block detail layouts so their available width is used appropriately.
+- **Matched metadata scale.** Match Setup/Adaptation Prompt text and icons to the introduction heading: 14px, then 13px in compact showcase containers, with 0.9em icons and matching strokes. Remove home-specific overrides that made the same metadata inconsistent.
+- **Tighter source annotation.** Reduce the gap around Source Included and its dot separator. Keep the row aligned and allow narrow layouts to reserve room for source actions.
+
+### Reusable private download action
+
+- **Download before Copy.** Add a Markdown download action immediately to the left of Copy in showcase Prompts. Reuse it for block, component and home Prompt content without exposing docs-only download state as a new core API.
+- **Original document delivery.** Download the complete Markdown source independently of Plain Text, Code or rendered Markdown display. Use a descriptive `.md` filename and retain the existing complete-source Copy contract.
+- **Native browser handoff.** Create a Markdown Blob URL and activate a native download link within the initiating gesture. Report browser handoff rather than claiming the application can verify a file was saved to disk.
+- **Three clear states.** Show default, downloading and downloaded states before resetting to the initial action. Keep the glyph nodes mounted across changes, avoiding the Safari repaint problem caused by replacing button SVGs.
+- **Purple feedback parity.** Share the Copy action's orbit, ring, glow, geometry and restrained label transitions, with purple feedback in corresponding strengths. Preserve the separate green Copy success treatment and reduced-motion fallback.
+- **Small shared visual contract.** Generalize internal action label/glyph selectors so Copy and Download use the same spacing and responsive rules. Keep their operations, status text and public CopyButton behavior separate.
+- **Finite resource lifetime.** Guard repeat activation, cancel/reset the finite feedback timer on source changes and unmount, and revoke object URLs on every completion/error path. Failed handoff leaves the action available for retry.
+- **Accessible progress.** Provide useful action names, a disabled in-progress state and polite status feedback without taking focus away from the initiating button. Keep downloads usable in compact icon-only layouts.
+- **Download regressions.** Check complete file bytes and filename, source replacement, repeated clicks, failure cleanup and unmount cleanup. Browser tests cover all Prompt display formats and both responsive presentations.
+
+## 30. Compact, activity-aware showcase loading
+
+- **Minimal secondary captions.** Replace explanatory loading paragraphs and inline reference chips with short, subtle context captions. Use selected filenames or source counts instead of adding another repeated sentence.
+- **Exact loading title.** Change the preview title to “Setting the scene...”. Keep code, file, Prompt and Markdown pending states on the same reusable loading component.
+- **Paired skeleton composition.** Replace the bottom-right logo tile with a 56×44px miniature skeleton card. Share neutral surface, border and line tokens with the main skeleton, using a quiet primary tile and two smaller strokes.
+- **Spinner-colored dots.** Paint the three main-card dots with the spinner's primary color and stagger their small lift/return motion. Keep the decorative dots hidden from assistive technology.
+- **Quicker shared rhythm.** Use a 3.8-second main/companion loop with a delayed response and shorter rests. Remove title breathing, line-ink pulsing and the whole-card tint cycle so the remaining motion has one clear relationship.
+- **Transform-only feedback.** Animate the paired artwork and dots through transforms, without adding timers, polling or reactive progress values. Existing document/viewport activity and reduced-motion rules stop every animated descendant when appropriate.
+- **Reserved responsive panels.** Keep pending source and Markdown content within the existing reading area. Loading feedback works for home, portable references, component and block showcases without an empty tab window.
+- **Loading regression updates.** Verify the three dots, companion skeleton, color equality, stagger, reserved height, delayed content and offscreen suspension. Cover every local palette, both modes and reduced motion using the existing browser suite.
+
+## 31. More useful ecosystem foundation cards and ending
+
+### Foundation cards
+
+- **Preserved card foundation.** Keep the existing ecosystem shell and leave the companion/toolkit cards on their established layout. Enrich only the four interface-foundation records through compact data owned by that section.
+- **Aligned heading metadata.** Place contextual subtext beside each title with a dot separator and truncate only when space requires it. Center the title, context and right-hand actions on the same header row.
+- **Header guide/source actions.** Move the existing documentation and repository links into compact icon buttons at the top right. Reuse delegated tooltips and accessible names rather than creating a controller per card.
+- **Useful ownership details.** Add concise Start with and You own rows with actual entry points, code names and reading links. Document Typeset's real classes and the currently available Sidebar example instead of invented APIs.
+- **Honest package footers.** Put the package/source identity at bottom left with delivery metadata and a separated supporting detail. Distinguish local Blocks source from registry-delivered packages and keep the row centered as it wraps.
+- **Subtle finite hover.** Add a quiet perimeter tint, a 480ms divider sweep and small footer-glyph feedback. Keyboard focus receives the useful highlight, reduced motion removes travel, and cards have no idle animation.
+- **Narrow-card arrangement.** Stack detail labels at small card widths, allow footer metadata to wrap and retain usable header actions. Keep additional paint neutral and source code readable in either appearance.
+
+### Page-owned conclusion
+
+- **A complete next step.** Replace the small duplicated Getting Started handoff with a dedicated ecosystem conclusion. Explain how to turn the package map into a first screen and a concrete verification pass.
+- **Three deliberate routes.** Offer guided setup, package-boundary guidance and whole-journey verification as compact continuation choices. Use specific descriptions rather than three equivalent links to the same destination.
+- **Return paths.** Link back to the existing details-toggle composition and starting-point map. Add the conclusion's real heading to the page contents list.
+- **Optional shell footer slot.** Add `DocsShell.contentFooter` so this page owns its ending without enlarging the global contextual footer. Omitted values preserve the default ending and `null` intentionally suppresses it.
+- **Responsive static content.** Arrange conclusion choices in one, two or three columns according to article width. Add no observer, subscription, timer or runtime dependency for the additional content.
+- **Ecosystem verification.** Extend browser checks for the new actions, useful content, contents target, keyboard navigation and responsive layout. Preserve existing mobile pinned-link and source-destination coverage.
+
+## 32. Final preset-study color and density refinements
+
+- **Own-preset signature.** Give every study a compact three-role signature and a subtle wash using its own actual preset. Two decorative explicit appearance scopes let CSS choose the right signature without changing the page palette or saved preferences.
+- **Restrained palette wash.** Blend a 9% primary and 6% secondary tint into the study frame. Keep explanatory text in the ambient page palette and avoid copying raw color literals into documentation data.
+- **Balanced wide layout.** Put the introduction beside the light/dark comparison when there is room and stack it on narrow articles. Replace uneven guidance columns with paired rows and tighten insets and sketch artwork.
+- **More compact despite more guidance.** Earlier wide-layout measurements show the revised studies are approximately 9–15% shorter. Keep this as a measurement of those tested layouts rather than a universal height promise.
+- **Three useful contexts.** Add three suggested application contexts per preset. Keep them short enough to scan before the detailed principles and examples.
+- **An actionable exercise.** Add a practical task and a clear result to inspect for each preset. Connect real actions and states to palette relationships instead of adding decorative filler.
+- **Visible facts, optional detail.** Keep exact typography and corner metrics available while placing longer advice in native disclosures. Preserve keyboard operation and lazy recipe-reader lifetime.
+- **Separated content owners.** Keep exercise data, design notes, sketch rendering, details and layout styles in focused files. Additional visual detail does not create another global theme subscription or animation loop.
+
+## 33. Shared branding, navigation and page labels
+
+### Exception-page branding
+
+- **Bundled brand layout.** Move site-owned logo/wordmark geometry into the main application stylesheet. Exception headers no longer depend on a separately fetched public override stylesheet to become correctly aligned.
+- **One visible brand mark.** Hide the inactive light/dark image with `display: none` while retaining official assets. Preserve the shared PageStateFrame and its established symbol, text, spacing and responsive geometry.
+- **404 parity regression.** Verify that 404 branding matches loading/error headers even when external brand styles fail. Keep the optional generated brand stylesheet for the ordinary footer instead of removing unrelated asset delivery.
+
+### Sidebar paint and heading geometry
+
+- **More breathing room.** Increase the shared inter-column gutter to `clamp(1.25rem, calc(4vw - 1.75rem), 3rem)`. Give both sidebars additional separation from article content without changing the sidebar widths.
+- **Stronger sidebar hover.** Increase neutral link hover to the shared 5% light/9.75% dark mix and raise grouped-link hover increments. Preserve selected accent layers and the right contents indicator.
+- **Quiet right-row corners.** Add a subtle 6px radius to right-sidebar hover surfaces with a 150ms background transition. Respect reduced motion and existing pointer/breakpoint gates.
+- **Soft page labels.** Give icon-led page labels a softened inline-code highlight, 4px vertical/6px horizontal padding and barely rounded 2px corners. Apply the same treatment to the home label.
+- **Unchanged heading positions.** Compensate the added label height with an 8px reduction in the preceding gap. Preserve the main title and following content coordinates across the existing measured layouts.
+- **Centralized highlight surfaces.** Define the original inline-code surface and its 75%-strength soft variant once at theme/appearance boundaries. Keep page labels and selected left-navigation paint consistent without duplicating formulas.
+- **Shared left selected paint.** Apply that soft variant to selected main groups, nested links and top/bottom pinned destinations. Reuse it in the mobile drawer and derive the stronger selected hover from the same surface.
+- **Unpainted count values.** Remove backgrounds from every numeric group/variant count, including active and hover states. Preserve their text metrics, reserved width and secondary hierarchy.
+- **Secondary status tint.** Give Fresh/Updated/Planned badges a fixed 20% secondary-role background in both appearances. Mix their readable text/icon ink with foreground while preserving chip size and corners.
+- **Exactly three mode bars.** Show three sample color bars for each Light, Dark and System choice. Keep media-based System sampling and the separate palette picker's four samples unchanged.
+- **No additional runtime work.** Implement these label, badge, sample and hover changes with shared CSS and existing data. Add no listeners, animation loops or per-row state.
+
+## 34. Final audit corrections and missing-test review
+
+- **Nearest appearance wins.** Fix Default, Dusk and Forest syntax ink inheriting a distant dark ancestor through a nearer light preview. An inherited private CSS weight chooses the nearest explicit appearance without adding a public mode prop, inverse behavior, JS state or theme-value pairs.
+- **Alternating boundary regression.** Add a browser case comparing all three adaptive palettes in both root modes, with direct and alternating nested scopes. Assert stable local colors and a real light/dark distinction so either direction of the original leakage is caught.
+- **Text-width type cues.** Make TypeDefinition's displayed declaration name fit its text width. Its reference underline now ends at the identifier rather than running across the complete summary panel, with a focused browser regression.
+- **Lifecycle review.** Recheck the shared visibility observer, retention pool, serial preview queue, deferred highlighting and download timer/Blob ownership. Existing focused tests exercise teardown and stale completion rather than only happy-path rendering.
+- **Appropriate test scope.** Keep meaningful behavior regressions for source fidelity, download transitions, reference detection and preview disposal. Do not add redundant unit tests for reversible color/spacing declarations already inspected in production browsers.
+- **Complete final checks.** Run workspace types, builds, all unit suites, formatting, lint, dependency and package-shape checks. Record browser and platform limits separately from passing local checks in section 25.
+- **Reviewable change records.** Update this feature-by-feature ledger and the normal PR narrative together. Preserve scoped implementation commits with detailed bodies and leave contributor-local context outside the published diff.
