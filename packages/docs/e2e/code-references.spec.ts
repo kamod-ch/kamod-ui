@@ -16,7 +16,10 @@ test("import links preserve syntax/source, follow aliases and navigate to local 
     /\/docs\/button\/installation#api-reference$/,
   );
   const module = code.getByRole("link", { name: "@kamod-ch/ui/button", exact: true });
-  await expect(module).toHaveAttribute("href", /\/docs\/button\/installation#api-reference$/);
+  await expect(module).toHaveAttribute(
+    "href",
+    "https://github.com/kamod-ch/kamod-ui/tree/main/packages/core/src/components/button",
+  );
   const link = aliases.last();
   const appearance = (target: Locator) =>
     target.evaluate((node) => {

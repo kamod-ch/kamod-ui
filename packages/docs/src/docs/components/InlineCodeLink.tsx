@@ -51,7 +51,7 @@ export function InlineReferenceCode({
         ? LayersIcon
         : reference?.kind === "package"
           ? PackageIcon
-          : reference?.kind === "guide"
+          : reference?.kind === "page"
             ? BookOpenIcon
             : reference?.kind === "external"
               ? GlobeIcon

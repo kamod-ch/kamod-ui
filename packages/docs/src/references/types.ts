@@ -11,7 +11,6 @@ export type CodeReferenceHelpKind =
   | "file"
   | "command"
   | "block"
-  | "guide"
   | "technology"
   | "page";
 
@@ -79,6 +78,7 @@ export type CodeReferencePackage = {
   repository?: string;
   homepage?: string;
   license?: string;
+  private?: boolean;
 };
 
 export type CodeReferenceHelpCatalog = {

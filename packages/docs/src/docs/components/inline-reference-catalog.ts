@@ -95,7 +95,7 @@ export const componentReferenceNames: Record<string, string> = {
 export type InlineReference = {
   label: string;
   href: string;
-  kind: "component" | "block" | "package" | "guide" | "external" | "api";
+  kind: "component" | "block" | "package" | "page" | "external" | "api";
 };
 const references = new Map<string, InlineReference>();
 function add(label: string, href: string, kind: InlineReference["kind"], ...aliases: string[]) {
@@ -153,7 +153,7 @@ for (const [label, href] of Object.entries({
   "Block Styles": "/blocks/styles",
   "Theming Blocks": "/blocks/theming",
 }))
-  add(label, href, "guide");
+  add(label, href, "page");
 for (const [label, slug] of Object.entries({
   "Kamod Icons": "icons-package",
   "Kamod Hooks": "hooks-package",

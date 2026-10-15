@@ -99,9 +99,14 @@ export function extractCodeReferenceSymbols(source: string, filePath: string) {
       const kind =
         ts.isClassDeclaration(declaration) || (callable && /^[A-Z]/.test(name))
           ? "component"
-          : callable || (initializer && ts.isCallExpression(initializer))
+          : callable
             ? "function"
-            : "constant";
+            : initializer &&
+                ts.isPropertyAccessExpression(initializer) &&
+                initializer.name.text === "Provider" &&
+                /^[A-Z]/.test(name)
+              ? "component"
+              : "constant";
       const owner = definitions.find((definition) => definition.name === `${name}Props`);
       const parameters = callable ? initializer.parameters : [];
       const related = new Set(

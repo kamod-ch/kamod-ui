@@ -3,6 +3,7 @@
 import catalog from "virtual:kamod-code-references";
 import { cleanup, render } from "@testing-library/preact";
 import { afterEach, expect, it } from "vitest";
+import { packageLabels } from "./catalog/packages";
 import { technologies } from "./catalog/technologies";
 import { parseCommand } from "./command-reference";
 import { connectInlineCode } from "./connect-inline-references";
@@ -69,8 +70,13 @@ it("covers every authored technology name and alias, case-insensitively, without
     for (const label of [name, name.toLowerCase(), ...aliases]) {
       const request = inlineSourceReference(label)!;
       expect(request, label).toBeDefined();
-      // A verified source export has higher precedence than a human-readable technology label.
+      // Verified exports and unambiguous package names take precedence over technology aliases.
       if (request.imported) continue;
+      if (Object.hasOwn(packageLabels, label.toLowerCase())) {
+        expect(request.module, label).toBe(packageLabels[label.toLowerCase()]);
+        expect((await loadCodeReferenceHelp(request)).kind, label).toBe("package");
+        continue;
+      }
       expect(request.referenceId, label).toMatch(/^technology:/);
       expect((await loadCodeReferenceHelp(request)).name).toBe(label);
     }
@@ -108,11 +114,14 @@ it.each([
   "CSS Guide",
   "Block Setup Guide",
   "Forms",
-])("gives the authored guide name %s its own family", async (label) => {
-  const request = inlineSourceReference(label)!;
-  expect(request.referenceId).toMatch(/^guide:/);
-  expect((await loadCodeReferenceHelp(request)).originLabel).toBe("Guide");
-});
+])(
+  "classifies the authored guide name %s as a page, without a separate guide family",
+  async (label) => {
+    const request = inlineSourceReference(label)!;
+    expect(request.referenceId).toMatch(/^page:/);
+    expect((await loadCodeReferenceHelp(request)).originLabel).toBe("Page");
+  },
+);
 
 it("validates page/section destinations against real routes, preserving the authored anchor", async () => {
   for (const path of [

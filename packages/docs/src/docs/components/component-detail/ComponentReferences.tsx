@@ -149,7 +149,7 @@ export function ComponentReferences({ doc }: { doc: DocPageModule }) {
               @kamod-ch/ui
             </InlineCodeLink>{" "}
             before changing the import. For motion components, check{" "}
-            <InlineCodeLink href={`${repositoryUrl}/blob/main/packages/ui-motion/package.json`}>
+            <InlineCodeLink href={`${repositoryUrl}/blob/main/packages/motion/package.json`}>
               @kamod-ch/ui-motion
             </InlineCodeLink>{" "}
             instead.

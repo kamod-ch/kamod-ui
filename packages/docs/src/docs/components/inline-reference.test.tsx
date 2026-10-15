@@ -30,7 +30,7 @@ describe("documentation references", () => {
       ["Sidebar", "/docs/sidebar/installation#api-reference"],
       ["application-shell-3", "/blocks/application-shell/application-shell-3"],
       ["preact", "https://preactjs.com/"],
-      ["@formisch/preact", "/docs/formisch/installation"],
+      ["@formisch/preact", "https://github.com/open-circle/formisch"],
     ]) {
       const link = getByRole("link", { name: label, exact: true });
       expect(link).toHaveAttribute("href", href);

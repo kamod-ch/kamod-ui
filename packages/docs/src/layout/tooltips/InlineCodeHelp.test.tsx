@@ -365,9 +365,9 @@ it.each([
   ["Button", "/docs/button/installation", "component"],
   ["SidebarProvider", "/docs/sidebar/installation", "component"],
   ["Application Shell 3", "/blocks/application-shell/application-shell-3", "block"],
-  ["Components", "/docs/components", "guide"],
-  ["Blocks", "/blocks", "guide"],
-  ["Packages", "/docs/packages", "guide"],
+  ["Components", "/docs/components", "page"],
+  ["Blocks", "/blocks", "page"],
+  ["Packages", "/docs/packages", "page"],
 ])(
   "explains %s through shared lazy help without changing its navigation",
   async (label, href, kind) => {

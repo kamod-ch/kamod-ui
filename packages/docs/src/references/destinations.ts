@@ -4,27 +4,14 @@ import { withBasePath } from "../base-path";
 import { kamodReferenceHref } from "../docs/components/brand/kamod-references";
 import { inlineReference } from "../docs/components/inline-reference-catalog";
 import { docsNavigation } from "../docs/generated-navigation";
+import { rootPackageName } from "./catalog/packages";
+import { packageSource } from "./package-source";
 
 const files = new Set(catalog.files);
 const componentFor = (name: string | undefined) =>
   name && Object.hasOwn(catalog.components, name) ? catalog.components[name] : undefined;
 const routes = new Set<string>(docsNavigation.map((doc) => doc.slug));
-const packages: Readonly<Record<string, string>> = {
-  "@kamod-ch/ui": "/docs/components",
-  "@kamod-ch/blocks": "/blocks",
-  "@kamod-ch/themes": "/docs/theming/installation",
-  "@kamod-ch/icons": "/docs/icons-package/installation",
-  "@kamod-ch/hooks": "/docs/hooks-package/installation",
-  "@kamod-ch/signals": "/docs/signals-package/installation",
-  "@kamod-ch/state": "/docs/state-package/installation",
-  "@kamod-ch/i18n": "/docs/i18n-package/installation",
-  "@kamod-ch/ui-motion": "/docs/ui-motion/installation",
-  "@formisch/preact": "/docs/formisch/installation",
-};
-const rootPackage = (module: string) =>
-  module.startsWith("@") ? module.split("/").slice(0, 2).join("/") : module.split("/")[0];
-
-/** Prefer actual local API/source guides, then checkout-derived files or installed GitHub metadata. */
+/** Symbols prefer their API; package/import-path references prefer their verified source owner. */
 export const resolveCodeReference: CodeReferenceResolver = ({
   module,
   imported,
@@ -50,22 +37,23 @@ export const resolveCodeReference: CodeReferenceResolver = ({
     return;
   }
   const uiAlias = /^@\/(?:components\/kamod-ui\/|lib\/utils)/.test(module);
-  const name = uiAlias ? "@kamod-ch/ui" : rootPackage(module);
+  const name = uiAlias ? "@kamod-ch/ui" : rootPackageName(module);
   if (module.split("/").some((segment) => segment === "." || segment === "..")) return;
   const repository =
     (Object.hasOwn(catalog.repositories, name) ? catalog.repositories[name] : undefined) ??
     kamodReferenceHref(name);
-  const guide = Object.hasOwn(packages, name) ? packages[name] : undefined;
+  const source = packageSource(module) ?? repository;
   const exportName = imported === "default" ? local : imported;
   if (name === "@kamod-ch/ui") {
     const slug = uiAlias ? module.split("/").at(-1) : module.slice(name.length + 1).split("/")[0];
+    if ((!imported || imported === "*") && !uiAlias) return source;
     if (!imported || imported === "*") {
       return withBasePath(
         ["utils", "lib"].includes(slug ?? "") && module.endsWith("utils")
           ? "/docs/cn/installation#api-reference"
           : routes.has(slug ?? "")
             ? `/docs/${slug}/installation#api-reference`
-            : guide!,
+            : "/docs/components",
       );
     }
     if (exportName === "cn") return withBasePath("/docs/cn/installation#api-reference");
@@ -85,7 +73,7 @@ export const resolveCodeReference: CodeReferenceResolver = ({
     return withBasePath("/docs/formisch/installation#anatomy");
   if (name === "@kamod-ch/themes" && exportName === "useTheme")
     return withBasePath("/docs/theming/installation#read-and-change-appearance");
-  if (!imported || imported === "*") return guide ? withBasePath(guide) : repository;
+  if (!imported || imported === "*") return source;
   // These package guides have no separate on-site source for each imported helper/icon.
   const reference = exportName ? inlineReference(exportName) : undefined;
   if (reference?.kind === "api" && name.startsWith("@kamod-ch/")) return reference.href;

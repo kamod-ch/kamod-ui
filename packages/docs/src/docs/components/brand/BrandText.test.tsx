@@ -34,13 +34,16 @@ describe("inline brand references", () => {
     );
     expect(getByRole("link", { name: "@kamod-ch/signals" })).toHaveAttribute(
       "href",
-      "/docs/signals-package/installation",
+      "https://github.com/kamod-ch/kamod-signals/tree/main/packages/core",
     );
     expect(getByRole("link", { name: alias })).toHaveAttribute(
       "href",
       "/docs/accordion/installation#api-reference",
     );
-    expect(getByRole("link", { name: "@kamod-ch/ui" })).toHaveAttribute("href", "/docs/components");
+    expect(getByRole("link", { name: "@kamod-ch/ui" })).toHaveAttribute(
+      "href",
+      "https://github.com/kamod-ch/kamod-ui/tree/main/packages/core",
+    );
     expect(container.textContent).toBe(
       `Use @kamod-ch/signals with @kamod-ch/icons.${alias}@kamod-ch/ui`,
     );
@@ -108,7 +111,9 @@ describe("inline brand references", () => {
     ]) {
       expect(kamodReferenceHref(value)).toBeUndefined();
     }
-    expect(kamodReferenceHref("@kamod-ch/i18n")).toBe("https://github.com/kamod-ch/kamod-i18n");
+    expect(kamodReferenceHref("@kamod-ch/i18n")).toBe(
+      "https://github.com/kamod-ch/kamod-i18n/tree/main/packages/core",
+    );
     expect(kamodReferenceHref("@kamod-ch/ui/utils")).toBe(
       "https://github.com/kamod-ch/kamod-ui/blob/main/packages/core/src/utils.ts",
     );

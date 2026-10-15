@@ -12,6 +12,8 @@ interface ImportMeta {
 declare module "virtual:kamod-code-references" {
   const catalog: {
     repositories: Record<string, string>;
+    packageSources: Record<string, string>;
+    componentLabels: Record<string, string>;
     files: string[];
     components: Record<string, { slug: string; file: string }>;
     symbols: Record<string, { module: string; imported: string }[]>;

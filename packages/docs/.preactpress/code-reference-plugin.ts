@@ -3,29 +3,19 @@ import { readdir, readFile, realpath } from "node:fs/promises";
 import { resolve } from "node:path";
 import ts from "@typescript/typescript6";
 import type { Plugin } from "vite";
-import type { CodeReferencePackage } from "../src/references/types";
+import { docsNavigation } from "../src/docs/generated-navigation";
 import {
   createCodeReferenceSourceModule,
   extractPackageReferenceSymbols,
 } from "./code-reference-help";
 import { buildInlineReferenceCatalog } from "./inline-reference-catalog";
+import { buildReferencePackages } from "./reference-package-catalog";
 
 const id = "virtual:kamod-code-references";
 const resolvedId = `\0${id}`;
 const helpId = "virtual:kamod-code-reference-help";
 const resolvedHelpId = `\0${helpId}`;
-const workspaces = ["core", "blocks", "docs", "themes", "typeset", "motion", "openui"];
 const declarationPackages = ["preact", "@preact/signals", "@kamod-ch/themes"];
-
-/** GitHub only: registry strings and executable/non-web manifest URLs are not destinations. */
-export function repositoryUrl(repository: unknown): string | undefined {
-  const value =
-    typeof repository === "string" ? repository : (repository as { url?: string } | undefined)?.url;
-  if (!value) return;
-  const normalized = value.replace(/^git\+/, "").replace(/\.git$/, "");
-  if (/^[\w.-]+\/[\w.-]+$/.test(normalized)) return `https://github.com/${normalized}`;
-  return /^https:\/\/github\.com\/[\w.-]+\/[\w.-]+$/.test(normalized) ? normalized : undefined;
-}
 
 export function codeReferencePlugin(): Plugin {
   const root = resolve(import.meta.dirname, "../../..");
@@ -33,30 +23,12 @@ export function codeReferencePlugin(): Plugin {
   let helpCatalog: ReturnType<typeof buildHelpCatalog> | undefined;
   let inlineCatalog: ReturnType<typeof buildInlineReferenceCatalog> | undefined;
   const inline = () => (inlineCatalog ??= buildInlineReferenceCatalog(root));
+  let packageCatalog: ReturnType<typeof buildReferencePackages> | undefined;
+  const packageFacts = () => (packageCatalog ??= buildReferencePackages(root));
   const sourceHelp = new Map<string, ReturnType<typeof buildSourceHelp>>();
   const packageHelp = new Map<string, ReturnType<typeof buildPackageHelp>>();
   const buildCatalog = async () => {
-    const repositories: Record<string, string> = {};
-    for (const workspace of workspaces) {
-      const directory = resolve(root, "packages", workspace);
-      const manifest = JSON.parse(await readFile(resolve(directory, "package.json"), "utf8"));
-      repositories[manifest.name] = "https://github.com/kamod-ch/kamod-ui";
-      for (const name of Object.keys({
-        ...manifest.dependencies,
-        ...manifest.peerDependencies,
-        ...manifest.devDependencies,
-      })) {
-        try {
-          const dependency = JSON.parse(
-            await readFile(resolve(directory, "node_modules", name, "package.json"), "utf8"),
-          );
-          const href = repositoryUrl(dependency.repository);
-          if (href) repositories[name] = href;
-        } catch {
-          /* Optional/uninstalled packages have no verified destination. */
-        }
-      }
-    }
+    const { repositories, packageSources } = await packageFacts();
     const components: Record<string, { slug: string; file: string }> = {};
     const directory = resolve(root, "packages/core/src/components");
     for (const path of (await readdir(directory, { recursive: true })).sort()) {
@@ -113,47 +85,28 @@ export function codeReferencePlugin(): Plugin {
             entries.push({ module, imported: symbol.name });
         }
     }
-    return { repositories, components, files, symbols, inline: (await inline()).index };
+    const componentLabels: Record<string, string> = {};
+    for (const doc of docsNavigation) {
+      if (doc.group !== "components") continue;
+      const label = doc.label.replace(/[^a-z0-9]/gi, "").toLowerCase();
+      const names = Object.keys(components).filter(
+        (name) => components[name].slug === doc.slug && name.toLowerCase() === label,
+      );
+      if (names.length === 1) componentLabels[doc.label.toLowerCase()] = names[0];
+    }
+    return {
+      repositories,
+      packageSources,
+      components,
+      componentLabels,
+      files,
+      symbols,
+      inline: (await inline()).index,
+    };
   };
   const buildHelpCatalog = async () => {
     const navigation = await (catalog ??= buildCatalog());
-    const packages: Record<string, CodeReferencePackage> = {};
-    const record = (manifest: Record<string, unknown>, workspace = false) => {
-      if (typeof manifest.name !== "string") return;
-      packages[manifest.name] = {
-        name: manifest.name,
-        description: typeof manifest.description === "string" ? manifest.description : "",
-        repository: workspace
-          ? "https://github.com/kamod-ch/kamod-ui"
-          : repositoryUrl(manifest.repository),
-        homepage:
-          typeof manifest.homepage === "string" && /^https?:\/\//.test(manifest.homepage)
-            ? manifest.homepage
-            : undefined,
-        license: typeof manifest.license === "string" ? manifest.license : undefined,
-      };
-    };
-    for (const workspace of workspaces) {
-      const directory = resolve(root, "packages", workspace);
-      const manifest = JSON.parse(await readFile(resolve(directory, "package.json"), "utf8"));
-      record(manifest, true);
-      for (const name of Object.keys({
-        ...manifest.dependencies,
-        ...manifest.peerDependencies,
-        ...manifest.devDependencies,
-      })) {
-        if (Object.hasOwn(packages, name)) continue;
-        try {
-          record(
-            JSON.parse(
-              await readFile(resolve(directory, "node_modules", name, "package.json"), "utf8"),
-            ),
-          );
-        } catch {
-          /* Uninstalled optional packages have no source facts to display. */
-        }
-      }
-    }
+    const { packages } = await packageFacts();
     const groups: Record<string, string[]> = {};
     for (const file of navigation.files) {
       const component = file.match(
@@ -292,6 +245,7 @@ export function codeReferencePlugin(): Plugin {
         )
           return;
         catalog = undefined;
+        packageCatalog = undefined;
         inlineCatalog = undefined;
         helpCatalog = undefined;
         sourceHelp.clear();

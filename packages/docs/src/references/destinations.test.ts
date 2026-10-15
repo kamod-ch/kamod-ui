@@ -1,10 +1,10 @@
 import catalog from "virtual:kamod-code-references";
 import { expect, it } from "vitest";
-import { repositoryUrl } from "../../.preactpress/code-reference-plugin";
+import { repositoryUrl } from "../../.preactpress/reference-package-catalog";
 import { codeFenceMarkup } from "../docs/components/code-fence-markup";
 import { resolveCodeReference } from "./destinations";
 
-it("prefers real on-site references for components, aliases, package guides and cn", () => {
+it("prefers API destinations for symbols and source owners for package/module paths", () => {
   expect(resolveCodeReference({ module: "@kamod-ch/ui", imported: "Button", local: "Save" })).toBe(
     "/docs/button/installation#api-reference",
   );
@@ -12,10 +12,10 @@ it("prefers real on-site references for components, aliases, package guides and 
     resolveCodeReference({ module: "@/components/kamod-ui/card", imported: "CardContent" }),
   ).toBe("/docs/card/installation#api-reference");
   expect(resolveCodeReference({ module: "@kamod-ch/ui/button" })).toBe(
-    "/docs/button/installation#api-reference",
+    "https://github.com/kamod-ch/kamod-ui/tree/main/packages/core/src/components/button",
   );
   expect(resolveCodeReference({ module: "@kamod-ch/hooks" })).toBe(
-    "/docs/hooks-package/installation",
+    "https://github.com/kamod-ch/kamod-hooks/tree/main/packages/core",
   );
   expect(resolveCodeReference({ module: "@/lib/utils", imported: "cn" })).toBe(
     "/docs/cn/installation#api-reference",

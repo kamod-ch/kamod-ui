@@ -79,7 +79,7 @@ export async function loadInlineReferenceHelp(
       ...(command.workspace ? [{ label: "Workspace selector", value: command.workspace }] : []),
       ...(command.wrapped ? [{ label: "Launcher", value: "Corepack" }] : []),
     ];
-  } else if (kind === "page" || kind === "guide") {
+  } else if (kind === "page") {
     const section = request.href.split("#")[1];
     if (section) {
       result.originLabel = "Section";

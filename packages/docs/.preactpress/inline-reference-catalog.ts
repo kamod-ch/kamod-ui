@@ -32,7 +32,7 @@ export async function buildInlineReferenceCatalog(root: string) {
   const index: InlineReferenceIndex = { aliases: {}, routes: {}, commands };
   const families: Record<string, Record<string, CodeReferenceHelp>> = {};
   const ambiguous = new Map<string, number>();
-  const priority: Record<string, number> = { page: 1, guide: 2, technology: 3, block: 4 };
+  const priority: Record<string, number> = { page: 1, technology: 3, block: 4 };
   const add = (id: string, facts: CodeReferenceHelp, aliases: string[], href: string) => {
     (families[facts.kind] ??= {})[id] = facts;
     for (const label of aliases) {
@@ -76,25 +76,14 @@ export async function buildInlineReferenceCatalog(root: string) {
   for (const [id, facts] of Object.entries(families.page))
     add(id, facts, [facts.name], facts.module);
   // Named guide aliases are authored; generic headings such as "Usage" are intentionally not aliases.
-  for (const reference of inlineReferences.filter(({ kind }) => kind === "guide")) {
+  for (const reference of inlineReferences.filter(({ kind }) => kind === "page")) {
     const path = reference.href.split("#")[0];
     const redirect = path.match(/^\/docs\/([^/]+)\/([^/]+)$/);
     const canonical = redirect ? `/docs/${redirect[1]}/installation` : path;
     if (!index.routes[path] && !(redirect && index.routes[canonical]?.includes(redirect[2])))
       continue;
-    const facts = families.page[`page:${index.routes[path] ? path : canonical}`];
-    add(
-      `guide:${path}`,
-      {
-        ...facts,
-        kind: "guide",
-        originLabel: "Guide",
-        name: reference.label,
-        docs: { label: "Read the guide", href: path },
-      },
-      [reference.label],
-      path,
-    );
+    const id = `page:${index.routes[path] ? path : canonical}`;
+    add(id, families.page[id], [reference.label], path);
   }
   for (const record of await buildBlockReferences(root)) {
     add(record.id, record.facts, record.aliases, record.href);

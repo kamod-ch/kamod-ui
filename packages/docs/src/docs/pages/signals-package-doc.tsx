@@ -40,7 +40,7 @@ export const signalsDocPage = createPackageTeaserDoc({
   accessibilityText:
     "When signals drive UI chrome (theme, sidebar, locale), reflect state in accessible controls and keep preference changes predictable for keyboard and assistive tech users.",
   externalDocsUrl: "https://kamod-ch.github.io/kamod-signals/",
-  githubUrl: "https://github.com/kamod-ch/signals",
+  githubUrl: "https://github.com/kamod-ch/kamod-signals",
   npmUrl: "https://www.npmjs.com/package/@kamod-ch/signals",
   externalCtaTitle: "Explore drivers, API, and examples",
   externalCtaDescription:

@@ -8,7 +8,7 @@ for (const scheme of ["light", "dark"] as const) {
     await page.addInitScript((scheme) => localStorage.setItem("theme", scheme), scheme);
     const requests: string[] = [];
     page.on("request", (request) => {
-      if (/\/assets\/(?:command|block|guide|technology|page)-[\w-]{8}\.js/.test(request.url()))
+      if (/\/assets\/(?:command|block|technology|page)-[\w-]{8}\.js/.test(request.url()))
         requests.push(request.url());
     });
     await page.goto("/docs/getting-started");
@@ -35,7 +35,7 @@ for (const scheme of ["light", "dark"] as const) {
     for (const [name, kind] of [
       ["pnpm run build", "command"],
       ["sidebar-05.tsx", "block"],
-      ["Getting Started Guide", "guide"],
+      ["Getting Started Guide", "page"],
       ["valibot", "technology"],
       ["/docs/components#library-items", "page"],
     ]) {
@@ -51,7 +51,7 @@ for (const scheme of ["light", "dark"] as const) {
       await page.keyboard.press("Escape");
       await expect(card).toHaveCount(0);
     }
-    for (const family of ["command", "block", "guide", "technology", "page"])
+    for (const family of ["command", "block", "technology", "page"])
       expect(
         requests.filter((url) => new URL(url).pathname.split("/").at(-1)!.startsWith(`${family}-`)),
       ).toHaveLength(1);

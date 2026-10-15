@@ -3,6 +3,8 @@ import { withBasePath } from "../../base-path";
 import { componentPropsId } from "../../docs/components/component-detail/component-api-id";
 import { packageApiReferences } from "../../docs/components/package-api-references";
 import { docsNavigation } from "../../docs/generated-navigation";
+import { packageGuide, rootPackageName } from "../catalog/packages";
+import { packageSource } from "../package-source";
 import type {
   CodeReferenceHelp,
   CodeReferenceHelpCatalog,
@@ -18,8 +20,6 @@ const modules = new Map<string, Promise<CodeReferenceSourceModule>>();
 const packageDeclarations = new Map<string, Promise<Record<string, CodeReferenceSourceSymbol[]>>>();
 let catalog: Promise<CodeReferenceHelpCatalog> | undefined;
 const sourceUrl = (file: string) => `${repository}/blob/main/${file}`;
-const packageName = (module: string) =>
-  module.startsWith("@") ? module.split("/").slice(0, 2).join("/") : module.split("/")[0];
 const resource = (label: string, href: string) => ({
   label,
   href: href.startsWith("/") ? withBasePath(href) : href,
@@ -51,7 +51,7 @@ async function sourceModule(data: CodeReferenceHelpCatalog, slug: string | undef
 }
 
 async function packageSymbol(data: CodeReferenceHelpCatalog, request: CodeReferenceHelpRequest) {
-  const root = packageName(request.module);
+  const root = rootPackageName(request.module);
   const load =
     data.packageLoaders && Object.hasOwn(data.packageLoaders, root)
       ? data.packageLoaders[root]
@@ -76,6 +76,8 @@ const originalName = (request: CodeReferenceHelpRequest) =>
       (!request.module && /^[A-Za-z_$][\w$]*$/.test(request.label) ? request.label : undefined);
 
 function moduleSlug(request: CodeReferenceHelpRequest) {
+  // Stylesheet entrypoints have their own source, not the similarly named JS module.
+  if (/\.(css|json)$/i.test(request.module)) return;
   const name = originalName(request);
   const known =
     name && Object.hasOwn(navigation.components, name) ? navigation.components[name] : undefined;
@@ -223,7 +225,7 @@ export function describeCodeReference(
         : [],
     };
   }
-  const root = packageName(request.module);
+  const root = rootPackageName(request.module);
   const manifest = Object.hasOwn(data.packages, root) ? data.packages[root] : undefined;
   const companion =
     name && Object.hasOwn(packageApiReferences, name) && root.startsWith("@kamod-ch/")
@@ -244,29 +246,46 @@ export function describeCodeReference(
           : request.module === root
             ? "package"
             : "module");
+  const localGuide = request.href.startsWith("/") ? request.href : undefined;
+  const nearestGuide = isSymbol
+    ? (localGuide ?? packageGuide(request.module))
+    : (packageGuide(request.module) ?? localGuide);
+  const sourceDestination = packageSource(request.module);
   const description =
     declaration?.description ||
     companion?.description ||
     (isSymbol
       ? `${request.label || name} is imported from ${request.module}. ${manifest?.description || "The linked source is the verified destination for this export; its full contract is maintained there."}`
-      : manifest?.description ||
-        `The ${request.module} import resolves to the linked source. Its exports and dependency requirements belong to that module.`);
+      : request.module.endsWith(".css")
+        ? `Stylesheet entrypoint from ${root}. Its source defines the CSS shipped by this import; the related guide explains stylesheet integration and ownership.`
+        : manifest?.description ||
+          `The ${request.module} import resolves to the linked source. Its exports and dependency requirements belong to that module.`);
   return {
     kind,
     name: request.label || name || request.module,
     module: request.module,
     description,
-    detail: manifest?.license
-      ? `Published under ${manifest.license}. ${request.module !== root && !request.module.startsWith(".") ? `This is a subpath of ${root}.` : "Inspect the package documentation for compatibility and setup."}`
-      : undefined,
+    detail: manifest?.private
+      ? `Private workspace package. Use the checked-in source and its local integration guide; this is not a published registry dependency.`
+      : manifest?.license
+        ? `Published under ${manifest.license}. ${request.module !== root && !request.module.startsWith(".") ? `This is a subpath of ${root}.` : "Inspect the package documentation for compatibility and setup."}`
+        : undefined,
     signature: declaration?.signature,
     fields: declaration?.fields?.slice(0, 4),
     source: resource(
-      isIcon ? "Icon source" : isSymbol ? "Export source" : "Repository",
-      companion?.href || manifest?.repository || request.href,
+      isIcon
+        ? "Icon source"
+        : isSymbol
+          ? "Export source"
+          : sourceDestination
+            ? request.module.endsWith(".css")
+              ? "Stylesheet source"
+              : "Package source"
+            : "Repository",
+      companion?.href || (!isSymbol && sourceDestination) || manifest?.repository || request.href,
     ),
-    docs: request.href.startsWith("/")
-      ? { label: "Package guide", href: request.href }
+    docs: nearestGuide
+      ? resource("In this documentation", nearestGuide)
       : manifest?.homepage
         ? resource("Project documentation", manifest.homepage)
         : undefined,

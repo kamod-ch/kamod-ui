@@ -155,7 +155,7 @@ export function inlineReferenceHelp(
     description: (
       <>
         <strong>{label}.</strong>{" "}
-        {kind === "guide" || href.startsWith("/")
+        {kind === "page" || href.startsWith("/")
           ? "Follow this guide for setup details, examples and related documentation."
           : "Open the project’s reference for its APIs, installation and usage guidance."}
       </>

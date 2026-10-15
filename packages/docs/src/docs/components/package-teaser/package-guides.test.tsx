@@ -51,6 +51,10 @@ describe("package guide navigation and static reading", () => {
     expect(reference).toContain(ending.next.check);
     expect(reference).toContain("retain the applicable license and attribution notices");
     if (slug === "hooks-package") expect(reference).toContain("https://github.com/alibaba/hooks");
+    if (slug === "signals-package") {
+      expect(reference).toContain("https://github.com/kamod-ch/kamod-signals");
+      expect(html).not.toContain('href="https://github.com/kamod-ch/signals');
+    }
     if (slug === "icons-package") {
       expect(reference).toContain("individual icon sets");
       expect(html).toContain('id="icons-next-steps"');

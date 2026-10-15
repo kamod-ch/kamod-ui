@@ -317,10 +317,12 @@ export function componentSourceUrl(slug: string, motion = false): string {
   const path =
     slug === "formisch"
       ? "packages/docs/src/docs/forms/formisch"
-      : motion || slug === "ui-motion"
-        ? "packages/ui-motion"
-        : slug === "cn"
-          ? "packages/core/src/utils.ts"
-          : `packages/core/src/components/${slug}`;
+      : motion
+        ? `packages/motion/src/${slug.replace(/^motion-/, "")}`
+        : slug === "ui-motion"
+          ? "packages/motion"
+          : slug === "cn"
+            ? "packages/core/src/lib/utils.ts"
+            : `packages/core/src/components/${slug}`;
   return `https://github.com/kamod-ch/kamod-ui/${slug === "cn" ? "blob" : "tree"}/main/${path}`;
 }

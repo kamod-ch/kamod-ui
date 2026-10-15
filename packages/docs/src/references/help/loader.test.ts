@@ -339,3 +339,17 @@ it("does not guess an unindexed export's kind from capitalization", () => {
   expect(help.fields).toBeUndefined();
   expect(help.signature).toBeUndefined();
 });
+
+it("distinguishes context values created by factories from callable exports and provider components", () => {
+  const symbols = extractCodeReferenceSymbols(
+    `
+    export const WidgetContext = createContext(null);
+    export const WidgetProvider = WidgetContext.Provider;
+    export const useWidget = () => useContext(WidgetContext);
+  `,
+    "widget-context.tsx",
+  );
+  expect(symbols.find(({ name }) => name === "WidgetContext")?.kind).toBe("constant");
+  expect(symbols.find(({ name }) => name === "WidgetProvider")?.kind).toBe("component");
+  expect(symbols.find(({ name }) => name === "useWidget")?.kind).toBe("function");
+});

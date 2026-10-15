@@ -17,6 +17,15 @@ const components = docsPages.filter(
 );
 
 describe("component detail documentation", () => {
+  it("motion source references point to each real adapter directory", () => {
+    for (const doc of docsPages.filter(({ navGroup }) => navGroup === "motion")) {
+      const path = componentSourceUrl(doc.slug, true).split("/main/")[1];
+      expect(path, doc.slug).toBe(`packages/motion/src/${doc.slug.replace(/^motion-/, "")}`);
+      expect(existsSync(resolve(import.meta.dirname, "../../../../../..", path)), doc.slug).toBe(
+        true,
+      );
+    }
+  });
   it.each(["kbd", "type-definition"])(
     "%s distinguishes usage requirements from fallback values",
     (slug) => {
@@ -58,6 +67,12 @@ describe("component detail documentation", () => {
       expect(html).toContain('id="integration-guide"');
       expect(html).toContain('id="component-references"');
       const references = render(<ComponentReferences doc={doc} />);
+      for (const [, path] of references.matchAll(
+        /href="https:\/\/github.com\/kamod-ch\/kamod-ui\/(?:blob|tree)\/main\/([^"#?]+)"/g,
+      ))
+        expect(existsSync(resolve(import.meta.dirname, "../../../../../..", path)), path).toBe(
+          true,
+        );
       // Shared reference copy must never send readers to a missing page section.
       for (const [, anchor] of references.matchAll(/href="#([^"]+)"/g)) {
         expect(html, `${doc.slug}: #${anchor}`).toContain(`id="${anchor}"`);

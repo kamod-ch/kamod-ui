@@ -105,11 +105,23 @@ function ReferenceContract({ reference }: { reference: CodeReferenceHelp }) {
 export function CodeReferenceHelpContent({ reference }: { reference: CodeReferenceHelp }) {
   const { kind, name, module, description, detail, source, docs } = reference;
   const { Icon, label } = referenceKinds[kind];
-  const moduleDestination = docs ?? source;
+  const sourceFirst =
+    kind === "package" ||
+    (kind === "module" && !module.startsWith("@/") && !module.startsWith("."));
+  const moduleDestination = sourceFirst ? (source ?? docs) : (docs ?? source);
   const related = reference.related?.slice(0, 4);
   const SourceIcon = source?.href.startsWith("https://github.com/")
     ? BrandGithubIcon
     : FileCodeIcon;
+  const resources = sourceFirst
+    ? [
+        { link: source, Icon: SourceIcon },
+        { link: docs, Icon: BookOpenIcon },
+      ]
+    : [
+        { link: docs, Icon: BookOpenIcon },
+        { link: source, Icon: SourceIcon },
+      ];
   return (
     <div class="code-reference-help-layout" data-reference-kind={kind}>
       <header class="code-reference-help-header">
@@ -196,19 +208,24 @@ export function CodeReferenceHelpContent({ reference }: { reference: CodeReferen
       )}
       {(source || docs) && (
         <footer class="code-reference-help-footer">
-          {docs && (
-            <a class="code-reference-help-primary-link" href={docs.href} target="_top">
-              <BookOpenIcon size={13} aria-hidden="true" />
-              <span>{docs.label}</span>
-              <ArrowUpRightIcon size={12} aria-hidden="true" />
-            </a>
-          )}
-          {source && (
-            <a class="code-reference-help-source-link" href={source.href} target="_top">
-              <SourceIcon size={13} aria-hidden="true" />
-              <span>{source.label}</span>
-              <ArrowUpRightIcon size={12} aria-hidden="true" />
-            </a>
+          {resources.map(
+            ({ link, Icon }, index) =>
+              link && (
+                <a
+                  key={link.href}
+                  class={
+                    index === 0
+                      ? "code-reference-help-primary-link"
+                      : "code-reference-help-source-link"
+                  }
+                  href={link.href}
+                  target="_top"
+                >
+                  <Icon size={13} aria-hidden="true" />
+                  <span>{link.label}</span>
+                  <ArrowUpRightIcon size={12} aria-hidden="true" />
+                </a>
+              ),
           )}
         </footer>
       )}
