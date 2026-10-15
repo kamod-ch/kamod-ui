@@ -38,9 +38,12 @@ for (const width of [320, 768, 1440]) {
           .locator('[data-slot="type-definition-name"]'),
       ).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
       await trigger.hover();
-      await expect
-        .poll(() => trigger.evaluate((el) => getComputedStyle(el).backgroundColor))
-        .not.toBe(muted);
+      const hoverBackground = expect.poll(() =>
+        trigger.evaluate((el) => getComputedStyle(el).backgroundColor),
+      );
+      // Shared docs hover styles intentionally start at 768px, even with a mouse.
+      if (width < 768) await hoverBackground.toBe(muted);
+      else await hoverBackground.not.toBe(muted);
       await page.mouse.move(0, 0);
       await trigger.press("Enter");
       await expect(trigger).toHaveAttribute("aria-expanded", "false");
@@ -87,8 +90,8 @@ test("standalone examples support controlled reveal and independent compact card
     page.getByRole("button", { name: "Hide Definition: NavigationItem" }),
   ).toHaveAttribute("aria-expanded", "true");
   await page.goto("./component-preview-frame.htm?component=type-definition&example=3");
-  const first = page.getByRole("button", { name: /definition: DisplayMode/ });
-  const second = page.getByRole("button", { name: /definition: SortDirection/ });
+  const first = page.getByRole("button", { name: /Definition: DisplayMode/ });
+  const second = page.getByRole("button", { name: /Definition: SortDirection/ });
   await first.press("Enter");
   await expect(first).toHaveAttribute("aria-expanded", "true");
   await expect(second).toHaveAttribute("aria-expanded", "false");

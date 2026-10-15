@@ -103,7 +103,7 @@ export function TypeDefinition({
         </div>
         <code
           data-slot="type-definition-name"
-          class="block font-mono text-xs leading-relaxed text-muted-foreground [overflow-wrap:anywhere]"
+          class="block w-fit max-w-full font-mono text-xs leading-relaxed text-muted-foreground [overflow-wrap:anywhere]"
         >
           {typeName}
         </code>
