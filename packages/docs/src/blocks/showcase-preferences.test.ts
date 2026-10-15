@@ -3,15 +3,16 @@ import { getShowcaseCodeTarget } from "./ShowcaseCodeLink";
 import { parseShowcasePreferences } from "./useShowcasePreferences";
 
 describe("showcase preference validation", () => {
-  it("keeps supported selections", () => {
+  it("keeps durable selections while ignoring the formerly saved prompt format", () => {
     const preferences = {
       view: "prompt",
       promptMode: "adapt",
-      promptDisplay: "markdown",
       viewport: "tablet",
       appearance: { preset: "ocean", scheme: "dark" },
     };
-    expect(parseShowcasePreferences(JSON.stringify(preferences))).toEqual(preferences);
+    expect(
+      parseShowcasePreferences(JSON.stringify({ ...preferences, promptDisplay: "markdown" })),
+    ).toEqual(preferences);
   });
   it.each(["invalid", "null", "[]", "42"])("ignores invalid saved data: %s", (raw) => {
     expect(parseShowcasePreferences(raw)).toEqual({});

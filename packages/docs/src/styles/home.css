@@ -101,7 +101,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin: 0 0 1.75rem;
+  margin: calc(-2 * var(--page-eyebrow-padding)) 0 1.75rem;
   color: color-mix(in oklab, var(--home-secondary) 80%, var(--background));
   font-size: clamp(0.75rem, 1vw, 0.8125rem);
   font-weight: 600;
@@ -387,37 +387,6 @@
   inset: -3px;
   opacity: 0.08;
 }
-@media (prefers-reduced-motion: no-preference) {
-  .home-live-label i::after {
-    animation: home-live-pulse 2.8s ease-in-out infinite;
-  }
-  .home-workspace .home-live-label i::after {
-    animation-name: home-live-pulse-soft;
-    animation-duration: 3.2s;
-  }
-}
-@keyframes home-live-pulse {
-  0%,
-  100% {
-    transform: scale(0.75);
-    opacity: 0.1;
-  }
-  50% {
-    transform: scale(1.2);
-    opacity: 0.23;
-  }
-}
-@keyframes home-live-pulse-soft {
-  0%,
-  100% {
-    transform: scale(0.85);
-    opacity: 0.06;
-  }
-  50% {
-    transform: scale(1.1);
-    opacity: 0.14;
-  }
-}
 .home-workspace.component-example,
 .home-action-source {
   /* Home cards keep their own gutter instead of inheriting detail-page bleed. */
@@ -433,12 +402,16 @@
   --workspace-header-background: color-mix(in oklab, var(--foreground) 4%, var(--card));
   --home-showcase-background: color-mix(in oklab, white 70%, var(--card));
 }
-/* Code chrome shares the showcase surface; source canvases own their reading scheme. */
+/* Reading panels share their showcase's control-bar surface, including rendered prompts. */
 .home-page .kamod-code {
   --kamod-code-surface: var(--home-showcase-background);
 }
 .home-page .blocks-showcase-toolbar,
-.home-page .blocks-code-pane {
+.home-page .blocks-code-pane,
+.home-page
+  .blocks-showcase
+  .blocks-prompt-workspace
+  :is(.blocks-showcase-prompt-code, .blocks-prompt-rendered) {
   background: var(--home-showcase-background);
 }
 .home-workspace .home-demo-caption {
@@ -515,24 +488,19 @@ html.home-workspace-document {
   background: var(--home-showcase-background);
 }
 /* Bound the optional loading wrapper so the source scrolls inside the fixed panel. */
-.home-workspace
-  :is(.home-workspace-source, .home-workspace-prompt)
-  :is(.kamod-code-content, [data-slot="code-document"]) {
+.home-workspace :is(.home-workspace-source, .home-workspace-prompt) .kamod-code-content {
   display: grid;
   grid-template-rows: minmax(0, 1fr);
   flex: 1;
   min-width: 0;
   min-height: 0;
 }
-.home-workspace [data-slot="code-document"] > .blocks-prompt-rendered {
-  min-height: 0;
-  max-height: none;
-}
 .home-workspace :is(.home-workspace-source, .home-workspace-prompt) pre {
   flex: 1;
   min-height: 0;
   max-height: none;
   overflow: auto;
+  background: transparent;
 }
 .home-action-source .docs-code-toolbar {
   background: var(--workspace-header-background);
@@ -1811,7 +1779,7 @@ html.home-workspace-document {
   background: var(--workspace-header-background);
   flex: none;
 }
-.home-workspace .docs-code-toolbar .docs-copy-code-button {
+.home-workspace .docs-code-toolbar .docs-code-action {
   min-width: 5rem;
 }
 .home-workspace-source .blocks-source-file-details {
@@ -1831,12 +1799,10 @@ html.home-workspace-document {
 .home-workspace-prompt .blocks-prompt-document-heading {
   flex: 0 1 auto;
   flex-wrap: nowrap;
-  gap: 0.625rem;
   min-width: 0;
 }
 .home-workspace-prompt .blocks-prompt-format {
   min-width: 0;
-  gap: 0.5rem;
 }
 .home-workspace-source-link {
   display: inline-flex;
@@ -1892,12 +1858,12 @@ html.home-workspace-document {
   --home-showcase-background: color-mix(in oklab, white 6%, var(--card));
 }
 @media (max-width: 767px) {
-  .home-workspace .docs-code-toolbar .docs-copy-code-button {
+  .home-workspace .docs-code-toolbar .docs-code-action {
     min-width: 2.125rem;
     min-height: 2.125rem;
     padding: 0.4375rem;
   }
-  .home-workspace .docs-code-toolbar .docs-copy-code-button > .kamod-copy-label {
+  .home-workspace .docs-code-toolbar .docs-code-action > .kamod-action-label {
     display: none;
   }
 }
@@ -1906,17 +1872,17 @@ html.home-workspace-document {
     gap: 0.375rem;
     padding-inline: 0.75rem;
   }
-  .home-workspace .docs-code-toolbar .docs-copy-code-button {
+  .home-workspace .docs-code-toolbar .docs-code-action {
     width: 1.75rem;
     height: 1.75rem;
     min-width: 1.75rem;
     min-height: 1.75rem;
     padding: 0.375rem;
   }
-  .home-workspace .docs-code-toolbar .docs-copy-code-button > .kamod-copy-label {
+  .home-workspace .docs-code-toolbar .docs-code-action > .kamod-action-label {
     display: none;
   }
-  .home-workspace .docs-code-toolbar .docs-copy-code-button > .kamod-copy-glyph {
+  .home-workspace .docs-code-toolbar .docs-code-action > .kamod-action-glyph {
     width: 0.875rem;
     height: 0.875rem;
   }
@@ -1926,7 +1892,6 @@ html.home-workspace-document {
   }
   .home-workspace .blocks-prompt-document-heading .showcase-metadata-label {
     gap: 0.375rem;
-    font-size: 0.75rem;
   }
   .home-workspace-source-link {
     gap: 0.25rem;
@@ -1935,7 +1900,6 @@ html.home-workspace-document {
   .home-workspace-source-link .blocks-prompt-source-count {
     gap: 0.25rem;
   }
-  .home-workspace-prompt .showcase-metadata-label svg,
   .home-workspace-source-link svg {
     width: 0.75rem;
     height: 0.75rem;

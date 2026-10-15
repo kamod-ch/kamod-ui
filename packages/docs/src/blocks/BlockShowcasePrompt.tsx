@@ -1,5 +1,5 @@
 import { Button } from "@kamod-ch/ui";
-import { useMemo } from "preact/hooks";
+import { useMemo, useState } from "preact/hooks";
 import { ShowcaseLoading } from "../docs/components/ShowcaseLoading";
 import type { ShowcaseBlock } from "./BlockShowcase";
 import { BlockShowcaseIntro } from "./BlockShowcaseIntro";
@@ -19,18 +19,16 @@ export function BlockShowcasePrompt({
   setupHref,
   mode,
   onModeChange,
-  display,
-  onDisplayChange,
 }: {
   appearance: PreviewAppearance;
   block: ShowcaseBlock;
   loadSource: BlockSourceLoader;
   setupHref?: string;
   mode: BlockPromptMode;
-  display: PromptDisplay;
-  onDisplayChange: (display: PromptDisplay) => void;
   onModeChange: (mode: BlockPromptMode) => void;
 }) {
+  // Format belongs to the open reader, so old saved controls cannot replace its Code default.
+  const [display, setDisplay] = useState<PromptDisplay>("code");
   const { result, retry } = usePromptSources(block, loadSource);
   const prompt = useMemo(
     () => (result?.sources ? createBlockPrompt(block, mode, result.sources) : ""),
@@ -47,7 +45,7 @@ export function BlockShowcasePrompt({
             mode={mode}
             onModeChange={onModeChange}
             display={display}
-            onDisplayChange={onDisplayChange}
+            onDisplayChange={setDisplay}
           />
         </div>
         <div class="blocks-prompt-hint">
@@ -87,12 +85,13 @@ export function BlockShowcasePrompt({
             mode={mode}
             display={display}
             sourceLabel={<PromptSourceSummary blockId={block.id} count={block.files.length} />}
+            downloadFileName={`${block.id}-${mode}-prompt.md`}
           />
         ) : (
           <ShowcaseLoading
             appearance={appearance}
             view="prompt"
-            detail={`${block.files.length} source ${block.files.length === 1 ? "file" : "files"} · ${block.title}`}
+            detail={`${block.files.length} source ${block.files.length === 1 ? "file" : "files"}`}
           />
         )}
         <div class="blocks-prompt-footer">

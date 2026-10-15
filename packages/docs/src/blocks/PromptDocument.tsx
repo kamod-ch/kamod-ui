@@ -2,14 +2,15 @@ import { ZapIcon } from "@kamod-ch/icons/lucide";
 import type { ComponentChildren } from "preact";
 import { CodeBlock } from "../docs/components/CodeBlock";
 import { lazyShowcase } from "../docs/components/lazy-showcase";
+import { MarkdownDownloadButton } from "../docs/components/markdown-download/MarkdownDownloadButton";
 import { ShowcaseLoading } from "../docs/components/ShowcaseLoading";
 import type { BlockPromptMode } from "./block-prompts";
-import { type PreviewAppearance, previewCodeStyle } from "./preview-appearance";
+import type { PreviewAppearance } from "./preview-appearance";
 
 export type PromptDisplay = "text" | "code" | "markdown";
 const Markdown = lazyShowcase(() => import("./PromptMarkdown"));
 
-/** Display changes never change the complete source-backed text sent to the clipboard. */
+/** Copy and download always use the complete source-backed Markdown, regardless of display. */
 export function PromptDocument({
   appearance,
   prompt,
@@ -17,6 +18,7 @@ export function PromptDocument({
   display,
   sourceLabel = "Source Included",
   showWrapControl = true,
+  downloadFileName = `${mode}-prompt.md`,
 }: {
   appearance: PreviewAppearance;
   prompt: string;
@@ -26,6 +28,8 @@ export function PromptDocument({
   sourceLabel?: ComponentChildren;
   /** Compact embedded prompts can keep wrapping enabled without exposing a switch. */
   showWrapControl?: boolean;
+  /** A descriptive Markdown filename, independent of the selected reading format. */
+  downloadFileName?: string;
 }) {
   const loading = (
     <ShowcaseLoading
@@ -36,7 +40,6 @@ export function PromptDocument({
   return (
     <CodeBlock
       class="blocks-prompt-document"
-      style={previewCodeStyle(appearance)}
       key={`${mode}-${display}`}
       code={prompt}
       language={display === "code" ? "markdown" : "text"}
@@ -44,6 +47,12 @@ export function PromptDocument({
       defaultWrapped
       showWrapControl={showWrapControl}
       loadingContent={display === "code" ? loading : undefined}
+      renderCopyAction={({ defaultControl }) => (
+        <div class="blocks-prompt-actions">
+          <MarkdownDownloadButton markdown={prompt} fileName={downloadFileName} />
+          {defaultControl}
+        </div>
+      )}
       toolbarContent={
         <div class="blocks-prompt-document-heading">
           <h4 class="showcase-metadata-label">

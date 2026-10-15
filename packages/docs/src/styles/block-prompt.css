@@ -82,19 +82,28 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 0.5rem 1rem;
+  gap: 0.375rem 0.5rem;
   min-width: 0;
+}
+.blocks-prompt-actions {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 0.5rem;
+  margin-inline-start: auto;
+}
+.blocks-prompt-actions > .docs-code-action {
+  margin-inline-start: 0;
 }
 .blocks-showcase .blocks-prompt-document-heading .showcase-metadata-label {
   gap: 0.5rem;
   color: var(--foreground);
-  font-size: 0.8125rem;
   font-weight: 650;
 }
 .blocks-prompt-format {
   display: inline-flex;
   align-items: center;
-  gap: 0.625rem;
+  gap: 0.375rem;
 }
 .blocks-prompt-sources,
 .blocks-prompt-source-count,
@@ -135,9 +144,6 @@
   }
 }
 @container block-showcase (min-width: 40rem) {
-  .blocks-prompt-document-heading {
-    column-gap: 1.25rem;
-  }
   .blocks-prompt-source-detail {
     display: inline;
   }
@@ -149,7 +155,11 @@
   padding: 1.25rem;
   border: 0;
   border-radius: 0;
-  background: var(--background);
+  background: color-mix(
+    in oklab,
+    var(--muted) calc(22% + 17.16% * var(--docs-highlight-boost, 0)),
+    var(--background)
+  );
   font-size: 0.75rem;
   line-height: 1.8;
   scrollbar-width: thin;
@@ -200,7 +210,11 @@
   max-height: 32rem;
   overflow: auto;
   padding: 1.25rem;
-  background: var(--background);
+  background: color-mix(
+    in oklab,
+    var(--muted) calc(22% + 17.16% * var(--docs-highlight-boost, 0)),
+    var(--background)
+  );
   font-size: 0.8125rem;
   line-height: 1.7;
   overflow-wrap: anywhere;
@@ -229,7 +243,7 @@
 .blocks-prompt-rendered [data-prompt-depth="2"] {
   margin-top: 2rem;
   padding-bottom: 0.625rem;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--showcase-border);
   font-size: 0.9375rem;
 }
 .blocks-prompt-rendered [data-prompt-depth="3"] {
@@ -254,7 +268,7 @@
 .blocks-prompt-rendered hr {
   margin-block: 2rem;
   border: 0;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid var(--showcase-border);
 }
 .blocks-prompt-rendered > :first-child {
   margin-top: 0;
@@ -283,7 +297,7 @@
 .blocks-prompt-rendered pre {
   margin-block: 1.25rem;
   padding: 1rem;
-  border: 1px solid var(--border);
+  border: 1px solid var(--showcase-border);
   border-radius: 0.375rem;
   font-size: 0.75rem;
 }
@@ -298,6 +312,17 @@
   outline: 2px solid var(--ring);
   outline-offset: -2px;
 }
+/* Keep syntax accents legible on the prompt's light code surface. */
+html:not(.dark) .blocks-showcase-prompt-code .token {
+  color: var(--foreground);
+}
+html:not(.dark) .blocks-showcase-prompt-code :is(.token.title, .token.bold) {
+  color: var(--color-violet-700, #6d28d9);
+}
+html:not(.dark) .blocks-showcase-prompt-code :is(.token.url, .token.code, .token.punctuation) {
+  color: var(--color-blue-700, #1d4ed8);
+}
+
 /* Collapse labels by available showcase width, keeping accessible names unchanged. */
 .blocks-prompt-mode-short {
   display: none;
@@ -308,6 +333,16 @@
   }
   .blocks-prompt-mode-short {
     display: inline;
+  }
+  /* Compact non-detail showcases keep each format accessible through its icon and name. */
+  .blocks-showcase:not(.blocks-sidebar-detail *) .document-display-label {
+    display: none;
+  }
+  .blocks-showcase:not(.blocks-sidebar-detail *)
+    .document-display-options
+    [data-slot="toggle-group-item"] {
+    width: var(--showcase-control-size);
+    padding-inline: 0;
   }
 }
 @container block-showcase (max-width: 32rem) {

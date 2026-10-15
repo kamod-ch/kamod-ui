@@ -62,6 +62,7 @@ describe("component example controls", () => {
           reveal = callback;
         }
         observe() {}
+        unobserve() {}
         disconnect = stop;
       },
     );
@@ -72,7 +73,10 @@ describe("component example controls", () => {
     expect(surface.querySelector('[role="status"]')).toHaveTextContent("Setting the scene");
     expect(frame).toHaveAttribute("src", "about:blank");
     act(() =>
-      reveal([{ isIntersecting: true } as IntersectionObserverEntry], {} as IntersectionObserver),
+      reveal(
+        [{ target: frame, isIntersecting: true } as unknown as IntersectionObserverEntry],
+        {} as IntersectionObserver,
+      ),
     );
     expect(frame).toHaveAttribute("src", "about:blank");
     act(() => {
@@ -157,6 +161,10 @@ describe("component example controls", () => {
     );
     await waitFor(() =>
       expect(container.querySelector("pre code")?.textContent).toContain("Set up and integrate"),
+    );
+    expect(screen.getByRole("button", { name: "Code (Markdown)", exact: true })).toHaveAttribute(
+      "aria-pressed",
+      "true",
     );
     fireEvent.click(screen.getByRole("button", { name: "Tailor Example" }));
     expect(container.querySelector("pre code")?.textContent).toContain("[describe the outcome]");

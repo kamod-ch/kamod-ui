@@ -73,7 +73,7 @@ test("a saved showcase appearance takes precedence over the page theme", async (
   await expect(page.locator("html")).not.toHaveClass(/dark/);
 });
 
-test("showcase selections survive reloads, stay per-block and yield to source links", async ({
+test("durable showcase selections survive reloads while prompt format resets to Code", async ({
   page,
 }) => {
   await page.goto(route);
@@ -109,7 +109,7 @@ test("showcase selections survive reloads, stay per-block and yield to source li
   await expect(
     showcase
       .getByRole("group", { name: "Prompt Display" })
-      .getByRole("button", { name: "Markdown", exact: true }),
+      .getByRole("button", { name: "Code (Markdown)", exact: true }),
   ).toHaveAttribute("aria-pressed", "true");
   await expect(showcase.getByRole("button", { name: "Tablet View" })).toHaveAttribute(
     "aria-pressed",

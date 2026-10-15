@@ -10,7 +10,6 @@ const saved = vi.hoisted(() => ({
     viewport: "desktop",
     appearance: { preset: "ocean", scheme: "dark" },
     promptMode: "setup",
-    promptDisplay: "code",
   },
   update: vi.fn(),
 }));

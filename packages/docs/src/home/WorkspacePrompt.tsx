@@ -45,6 +45,7 @@ export default function WorkspacePrompt({ appearance }: { appearance: PreviewApp
         display="code"
         sourceLabel={<WorkspaceSourceLink />}
         showWrapControl={false}
+        downloadFileName="workspace-setup-prompt.md"
       />
       <WorkspaceFootnote view="prompt" />
     </>

@@ -20,6 +20,15 @@ for (const [category, id] of [
         (dark) => localStorage.setItem("theme", dark ? "dark" : "light"),
         dark,
       );
+      await page.addInitScript(
+        ({ category, id }) => {
+          localStorage.setItem(
+            `kamod:block-showcase:v1:${category}/${id}`,
+            JSON.stringify({ promptDisplay: "markdown" }),
+          );
+        },
+        { category, id },
+      );
       await page.goto(`./blocks/${category}/${id}`);
       await page.waitForLoadState("networkidle");
       await page
@@ -27,6 +36,9 @@ for (const [category, id] of [
         .getByRole("tab", { name: "Prompt", exact: true })
         .click();
       const panel = page.getByRole("tabpanel", { name: "Prompt", exact: true });
+      await expect(
+        panel.getByRole("button", { name: "Code (Markdown)", exact: true }),
+      ).toHaveAttribute("aria-pressed", "true");
       const setup = panel.getByRole("button", { name: "Set Up block", exact: true });
       const adapt = panel.getByRole("button", { name: "Adapt block", exact: true });
       await expect(setup).toHaveAttribute("aria-pressed", "true");
@@ -97,6 +109,13 @@ for (const [category, id] of [
       }
       for (const width of showcaseWidths) {
         await page.setViewportSize({ width, height: 900 });
+        // Block details retain their existing 32rem label threshold.
+        const compact = await page
+          .locator(".blocks-showcase")
+          .evaluate((node) => parseFloat(getComputedStyle(node).width) <= 512);
+        const label = panel.locator(".document-display-label").first();
+        if (compact) await expect(label).toBeHidden();
+        else await expect(label).toBeVisible();
         await expect(panel.locator(".blocks-prompt-options")).toHaveCSS("display", "flex");
         expect(
           await panel.evaluate((node) => node.scrollWidth <= node.clientWidth),

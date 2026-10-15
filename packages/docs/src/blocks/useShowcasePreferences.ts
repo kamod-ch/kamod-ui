@@ -4,7 +4,6 @@ import { isThemePresetId } from "@kamod-ch/themes";
 import { useEffect, useLayoutEffect, useState } from "preact/hooks";
 import type { BlockPreviewViewport } from "./BlockViewportSwitcher";
 import type { BlockPromptMode } from "./block-prompts";
-import type { PromptDisplay } from "./PromptDocument";
 import type { PreviewAppearance } from "./preview-appearance";
 
 export type ShowcasePreferences = {
@@ -12,7 +11,6 @@ export type ShowcasePreferences = {
   viewport: BlockPreviewViewport;
   appearance: PreviewAppearance;
   promptMode: BlockPromptMode;
-  promptDisplay: PromptDisplay;
 };
 
 /** Validate fields independently so obsolete or malformed preferences cannot break the page. */
@@ -26,13 +24,6 @@ export function parseShowcasePreferences(raw: string): Partial<ShowcasePreferenc
   if (!value || typeof value !== "object") return {};
   const stored = value as Record<string, unknown>;
   const result: Partial<ShowcasePreferences> = {};
-  if (
-    stored.promptDisplay === "text" ||
-    stored.promptDisplay === "code" ||
-    stored.promptDisplay === "markdown"
-  ) {
-    result.promptDisplay = stored.promptDisplay;
-  }
   if (stored.promptMode === "setup" || stored.promptMode === "adapt") {
     result.promptMode = stored.promptMode;
   }
@@ -92,7 +83,6 @@ export function useShowcasePreferences(category: string, id: string) {
     viewport: "desktop",
     appearance: initialAppearance,
     promptMode: "setup",
-    promptDisplay: "code",
     ...stored,
   };
   const update = (patch: Partial<ShowcasePreferences>) => {

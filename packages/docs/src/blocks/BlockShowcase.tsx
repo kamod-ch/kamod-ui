@@ -111,8 +111,6 @@ export function BlockShowcase({
               loadSource={loadSource}
               mode={preferences.promptMode}
               onModeChange={(promptMode) => update({ promptMode })}
-              display={preferences.promptDisplay}
-              onDisplayChange={(promptDisplay) => update({ promptDisplay })}
             />
           </TabsContent>
         </Tabs>

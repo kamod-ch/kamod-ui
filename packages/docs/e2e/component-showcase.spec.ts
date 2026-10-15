@@ -53,6 +53,9 @@ for (const slug of ["accordion", "tabs", "video", "formisch"]) {
         expect(fits).toBe(true);
       }
       await example.getByRole("tab", { name: "Prompt", exact: true }).click();
+      await expect(
+        example.getByRole("button", { name: "Code (Markdown)", exact: true }),
+      ).toHaveAttribute("aria-pressed", "true");
       await expect(example.locator("pre code")).toContainText(source);
       await expect(
         example.getByRole("link", { name: "Setup and Integration", exact: true }),
@@ -73,6 +76,11 @@ for (const slug of ["accordion", "tabs", "video", "formisch"]) {
       }
       await example.getByRole("button", { name: "Add to Project", exact: true }).click();
       await expect(example.locator("pre code")).toContainText("Set up and integrate");
+      await example.getByRole("tab", { name: "Preview", exact: true }).click();
+      await example.getByRole("tab", { name: "Prompt", exact: true }).click();
+      await expect(
+        example.getByRole("button", { name: "Code (Markdown)", exact: true }),
+      ).toHaveAttribute("aria-pressed", "true");
     }
   });
 }
@@ -128,6 +136,20 @@ test("appearance is local, preserves form state, and width availability follows 
       await expect(first.getByRole("button", { name: "Narrow container" })).toBeDisabled();
     else await expect(first.getByRole("button", { name: "Narrow container" })).toBeEnabled();
     await first.getByRole("tab", { name: "Prompt", exact: true }).click();
+    const compact = await first.evaluate((node) => parseFloat(getComputedStyle(node).width) <= 640);
+    const formats = first.getByRole("group", { name: "Prompt Display" });
+    for (const name of ["Plain Text", "Code (Markdown)", "Markdown"]) {
+      const option = formats.getByRole("button", { name, exact: true });
+      await expect(option).toBeVisible();
+      await expect(option.locator("svg")).toBeVisible();
+      if (compact) {
+        await expect(option.locator(".document-display-label")).toBeHidden();
+        await expect(option).toHaveCSS(
+          "width",
+          await option.evaluate((node) => getComputedStyle(node).height),
+        );
+      } else await expect(option.locator(".document-display-label")).toBeVisible();
+    }
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(
       true,
     );

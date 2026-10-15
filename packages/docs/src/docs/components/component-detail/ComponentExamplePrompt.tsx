@@ -52,7 +52,13 @@ export function ComponentExamplePrompt({
             )}
           </p>
         </div>
-        <PromptDocument appearance={appearance} prompt={prompt} mode={mode} display={display} />
+        <PromptDocument
+          appearance={appearance}
+          prompt={prompt}
+          mode={mode}
+          display={display}
+          downloadFileName={`${context.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${mode}-prompt.md`}
+        />
         <div class="blocks-prompt-footer">
           <span>
             <strong>Your Project, Your Conventions.</strong> Reuse existing tooling and keep
