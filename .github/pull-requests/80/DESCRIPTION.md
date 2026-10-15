@@ -453,7 +453,7 @@ nine supported syntax palettes and normal application appearance remain.
 | Dependencies         | Knip and Syncpack pass.                                                                                                                |
 | Package contracts    | Publint and Are the Types Wrong pass for configured packages.                                                                          |
 | Production Chrome    | **165 distinct affected cases passed across the audit and focused reruns**; all 29 final appearance cases passed across recheck/retry. |
-| Remote CI            | Local evidence above; GitHub reports the checks for each pushed revision separately.                                                   |
+| Remote CI            | Passed: [CI #294](https://github.com/kamod-ch/kamod-ui/actions/runs/38790963363) on implementation `1f97720d`.                         |
 
 Two browser cases were interrupted by Chrome `ERR_NETWORK_CHANGED` while loading
 local assets; their traces identify that transport failure and both pass on focused
@@ -483,6 +483,20 @@ with zero running animations during a visible 60-second idle check. Those are
 historical measurements from the energy investigation, not a fresh full Safari
 run. They did not reproduce automatic tab termination. Playwright WebKit and
 physical iPhone coverage remain subject to the explicit platform limit below.
+
+### Merge-readiness review
+
+The implementation head `1f97720d` is present on the fork and PR #80. After
+refreshing both remotes, current upstream `main` (`c20aa880`) is already an ancestor
+of the branch. GitHub reports a clean merge state and a non-draft PR; there are no
+unresolved review threads or change-request reviews, and a maintainer approval is
+recorded. Full-branch whitespace and conflict-marker checks also pass.
+
+This final review records the verified implementation without changing code or
+dependencies. [PR checks](https://github.com/kamod-ch/kamod-ui/pull/80/checks) remain
+the source for the latest documentation revision's CI result. Existing conditional
+browser skips retain their documented feature/platform gates; no focused tests
+or unmerged index entries were found.
 
 ## Review map
 

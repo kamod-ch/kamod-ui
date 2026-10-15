@@ -683,7 +683,7 @@ not substitutes for this final check matrix.
 | `corepack pnpm qa:publint` / `qa:attw` | Passed for all configured packages.                                                                                                    |
 | Production browser regression          | **165 distinct affected cases passed across the audit and focused reruns**; all 29 final appearance cases passed across recheck/retry. |
 | Whitespace and staged scope            | Checked before each scoped commit; private context and `.gitignore` excluded.                                                          |
-| Remote CI                              | Local results above; pushed-revision checks are reported separately by GitHub.                                                         |
+| Remote CI                              | Passed: [CI #294](https://github.com/kamod-ch/kamod-ui/actions/runs/38790963363) on implementation `1f97720d`.                         |
 
 Two browser cases were interrupted by Chrome `ERR_NETWORK_CHANGED` while loading
 local assets; their traces identify that transport failure and both pass on focused
@@ -904,3 +904,12 @@ no additional external font, iframe, animation loop or state store is introduced
 - **Appropriate test scope.** Keep meaningful behavior regressions for source fidelity, download transitions, reference detection and preview disposal. Do not add redundant unit tests for reversible color/spacing declarations already inspected in production browsers.
 - **Complete final checks.** Run workspace types, builds, all unit suites, formatting, lint, dependency and package-shape checks. Record browser and platform limits separately from passing local checks in section 25.
 - **Reviewable change records.** Update this feature-by-feature ledger and the normal PR narrative together. Preserve scoped implementation commits with detailed bodies and leave contributor-local context outside the published diff.
+
+## 35. Final merge-readiness review
+
+- **Verified remote CI.** Record the successful Node 22 test/lint/build/package-validation job and workflow-lint job for implementation head `1f97720d`. Keep the live PR checks link authoritative for subsequent documentation-only revisions.
+- **Current base included.** Refresh the fork and upstream refs and confirm current `main` is already an ancestor of the PR branch. No merge commit, rebase or force push is needed to make that comparison conflict-free.
+- **Review state verified.** Confirm the PR is open, non-draft and reported clean/mergeable by GitHub, with a maintainer approval and no unresolved inline review threads. Do not equate GitHub mergeability with automatically merging or notifying the maintainer.
+- **Full-diff hygiene.** Check the complete branch for whitespace errors, unresolved conflict markers, unmerged index entries and focused tests. Retain intentional existing feature/platform browser skips and keep protected local files outside the contribution.
+- **Current review description.** Correct the earlier published summary's obsolete scope, test totals and unverified-CI statement through the completed PR narrative. Link its feature ledger to the actual checked-in file when publishing, rather than a relative URL that is meaningful only inside the repository.
+- **No speculative code churn.** Keep the already validated implementation and dependencies unchanged when the final review reveals no additional defect. Limit this follow-up commit to the two PR documents and their verified readiness evidence.
