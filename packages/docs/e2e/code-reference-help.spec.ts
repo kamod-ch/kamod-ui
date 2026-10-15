@@ -10,7 +10,7 @@ async function assertReferenceContrast(card: Locator) {
       ".code-reference-help-kind",
       ".code-reference-help-summary p",
       ".code-reference-help-fields dd code",
-      ".code-reference-help-source-link",
+      ".code-reference-help-shortcut a",
     ].map((selector) => {
       context.clearRect(0, 0, 1, 1);
       context.fillStyle = getComputedStyle(node.querySelector(selector)!).color;
@@ -44,7 +44,7 @@ test("lazy help shows a reading placeholder and dismissed requests cannot reopen
     await page.keyboard.press("Tab");
     await provider.focus();
     const card = page.getByRole("dialog", { name: "DirectionProvider reference", exact: true });
-    await expect(card.getByText("Following the source", { exact: true })).toBeVisible();
+    await expect(card.getByText("Following the reference", { exact: true })).toBeVisible();
     await expect(card.locator('[aria-busy="true"]')).toHaveCount(1);
     await page.keyboard.press("Escape");
     await expect(card).toHaveCount(0);

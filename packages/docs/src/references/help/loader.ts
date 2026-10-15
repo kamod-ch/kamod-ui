@@ -152,7 +152,7 @@ export function describeCodeReference(
     const description =
       symbol.description ||
       (symbol.kind === "type"
-        ? `The ${symbol.name} TypeScript contract from the ${module.title} source. Declared fields and related definitions show how this value is shaped.`
+        ? `The \`${symbol.name}\` TypeScript contract from the **${module.title}** source. Declared fields and related definitions show how this value is shaped.`
         : module.description ||
           `${symbol.name} is an exported ${symbol.kind} in the ${module.title} module. Follow its implementation for the complete behavior.`);
     const related: NonNullable<CodeReferenceHelp["related"]> = guide
@@ -181,7 +181,7 @@ export function describeCodeReference(
       description,
       detail:
         request.local && request.local === request.label && request.local !== symbol.name
-          ? `This snippet imports ${symbol.name} as ${request.local}; both names resolve to the same source.`
+          ? `This snippet imports \`${symbol.name}\` as \`${request.local}\`; both names resolve to the same source.`
           : undefined,
       signature: symbol.signature,
       source: resource("Implementation", sourceUrl(symbol.file)),
@@ -257,7 +257,7 @@ export function describeCodeReference(
     (isSymbol
       ? `${request.label || name} is imported from ${request.module}. ${manifest?.description || "The linked source is the verified destination for this export; its full contract is maintained there."}`
       : request.module.endsWith(".css")
-        ? `Stylesheet entrypoint from ${root}. Its source defines the CSS shipped by this import; the related guide explains stylesheet integration and ownership.`
+        ? `Stylesheet entrypoint from \`${root}\`. Its source defines the **CSS shipped by this import**; the related guide explains stylesheet integration and ownership.`
         : manifest?.description ||
           `The ${request.module} import resolves to the linked source. Its exports and dependency requirements belong to that module.`);
   return {

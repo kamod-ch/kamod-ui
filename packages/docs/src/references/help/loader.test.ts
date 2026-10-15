@@ -136,7 +136,7 @@ it("keeps aliases tied to original exports and legacy anchors recover source met
     label: "ReadingDirection",
   });
   expect(help.name).toBe("ReadingDirection");
-  expect(help.detail).toContain("DirectionProvider as ReadingDirection");
+  expect(help.detail).toContain("`DirectionProvider` as `ReadingDirection`");
   const legacy = await loadCodeReferenceHelp({
     ...directionRequest,
     module: "",

@@ -218,7 +218,7 @@ for (const scheme of ["light", "dark"] as const) {
       await expect(card.locator('[data-reference-kind="function"]')).toBeVisible();
       const badge = card.locator(".code-reference-help-kind");
       for (const corner of ["top-left", "top-right", "bottom-left", "bottom-right"])
-        await expect(badge).toHaveCSS(`border-${corner}-radius`, "1px");
+        await expect(badge).toHaveCSS(`border-${corner}-radius`, "2px");
       const bounds = await card.boundingBox();
       expect(bounds!.x).toBeGreaterThanOrEqual(0);
       expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(width);

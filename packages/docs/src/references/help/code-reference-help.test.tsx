@@ -1,5 +1,5 @@
 /** @vitest-environment jsdom */
-import { cleanup, render } from "@testing-library/preact";
+import { cleanup, render, waitFor, within } from "@testing-library/preact";
 import { afterEach, expect, it } from "vitest";
 import type { CodeReferenceHelp } from "../types";
 import { CodeReferenceHelpContent } from "./code-reference-help";
@@ -64,6 +64,93 @@ it("renders source-derived code and emphasis safely without interpreting HTML", 
   expect(summary.querySelector("strong")).toHaveTextContent("nested controls");
   expect(summary.querySelector("img")).toBeNull();
   expect(summary).toHaveTextContent("<img src=x onerror=alert(1)>");
+});
+
+it("uses origin shortcuts for secondary destinations and leaves one main action in the footer", () => {
+  const { container } = render(<CodeReferenceHelpContent reference={reference} />);
+  expect(container.querySelector(".code-reference-help-owner")).toHaveTextContent("Local");
+  const origin = container.querySelector(".code-reference-help-origin")!;
+  expect(
+    within(origin as HTMLElement).getByRole("link", { name: /Read source for/ }),
+  ).toHaveAttribute("href", reference.source!.href);
+  const footer = container.querySelector(".code-reference-help-footer")!;
+  expect(footer.querySelectorAll("a")).toHaveLength(1);
+  expect(footer.querySelector("a")).toHaveAttribute("href", reference.docs!.href);
+  expect(footer.querySelector(".code-reference-help-note")).toHaveTextContent("installed version");
+});
+
+it("keeps package source primary and its local integration accessible in the origin row", () => {
+  const value = {
+    ...reference,
+    kind: "module" as const,
+    module: "@kamod-ch/ui/theme.css",
+    fields: [],
+    related: [],
+    source: {
+      label: "Stylesheet source",
+      href: "https://github.com/kamod-ch/kamod-ui/blob/main/packages/core/src/theme.css",
+    },
+    docs: { label: "In this documentation", href: "/docs/theming/installation#css-setup" },
+  };
+  const { container } = render(<CodeReferenceHelpContent reference={value} />);
+  expect(container.querySelector(".code-reference-help-owner")).toHaveTextContent("Core");
+  expect(container.querySelector(".code-reference-help-primary-link")).toHaveAttribute(
+    "href",
+    value.source.href,
+  );
+  expect(container.querySelector(".code-reference-help-shortcut a")).toHaveAttribute(
+    "href",
+    value.docs.href,
+  );
+});
+
+it("deduplicates origin destinations and never invents resources for missing facts", () => {
+  const { container, rerender } = render(
+    <CodeReferenceHelpContent
+      reference={{
+        ...reference,
+        source: reference.docs,
+        related: [{ ...reference.docs!, kind: "guide" }],
+      }}
+    />,
+  );
+  expect(container.querySelectorAll(".code-reference-help-shortcut")).toHaveLength(0);
+  rerender(
+    <CodeReferenceHelpContent
+      reference={{ ...reference, source: undefined, docs: undefined, related: [] }}
+    />,
+  );
+  expect(container.querySelector(".code-reference-help-footer a")).toBeNull();
+});
+
+it("formats small declarations with the shared grammar while retaining their exact text", async () => {
+  const signature = '(props: DirectionProviderProps) => VNode<"div">';
+  const { container } = render(
+    <CodeReferenceHelpContent reference={{ ...reference, signature }} />,
+  );
+  expect(container.querySelector("pre code")?.textContent).toBe(signature);
+  await waitFor(() => expect(container.querySelector("pre code .token")).not.toBeNull());
+  expect(container.querySelector(".code-reference-help-fields dd code")?.textContent).toBe(
+    '"ltr" | "rtl"',
+  );
+  expect(container.querySelector("pre div, .kamod-code")).toBeNull();
+});
+
+it("supports safe prose links but leaves executable URLs and HTML as literal text", () => {
+  const { container } = render(
+    <CodeReferenceHelpContent
+      reference={{
+        ...reference,
+        description:
+          "[Guide](/docs/direction/installation) and [unsafe](javascript:alert) and [external](//example.com) and <script>alert(1)</script>.",
+      }}
+    />,
+  );
+  const summary = container.querySelector(".code-reference-help-summary")!;
+  expect(summary.querySelectorAll("a")).toHaveLength(1);
+  expect(summary.querySelector("a")).toHaveAttribute("href", "/docs/direction/installation");
+  expect(summary.querySelector("script")).toBeNull();
+  expect(summary.textContent).toContain("[unsafe](javascript:alert)");
 });
 
 it("bounds detailed fields and related reading so a large export inventory stays compact", () => {

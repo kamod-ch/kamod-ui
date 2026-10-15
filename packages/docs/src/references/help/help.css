@@ -1,20 +1,21 @@
-/* One lazy reading surface: neutral sections, exact paths and a restrained theme accent. */
+/* The card is inverse; shared inline chips deliberately retain the page's own highlight. */
 [data-slot="tooltip"] [data-slot="tooltip-content"].code-reference-help {
-  /* Text mixes need the inverse foreground; currentColor would reference the color being set. */
-  --code-help-muted: color-mix(in oklab, var(--background) 78%, transparent);
+  --code-help-muted: color-mix(in oklab, var(--background) 76%, transparent);
+  --code-help-quiet: color-mix(in oklab, var(--background) 65%, transparent);
   --code-help-rule: color-mix(in oklab, var(--background) 12%, transparent);
-  --code-help-surface: color-mix(in oklab, var(--background) 6%, transparent);
+  --code-help-surface: color-mix(in oklab, var(--background) 4%, transparent);
   padding: 0.875rem;
   font-size: 0.75rem;
 }
 .code-reference-help-layout {
   display: grid;
-  gap: 0.5rem;
+  gap: 0.75rem;
   min-width: 0;
   color: var(--background);
   animation: code-reference-help-reveal 180ms ease-out both;
 }
-.code-reference-help-header {
+.code-reference-help-header,
+.code-reference-help-badges {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -22,18 +23,17 @@
 }
 .code-reference-help-header > strong {
   flex: 1;
-  min-width: 0;
+  min-width: 2ch;
   font-size: 0.8125rem;
 }
 .code-reference-help .code-reference-help-header code {
   display: block;
-  width: max-content;
-  max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   padding: 0;
   background: none;
+  color: inherit;
   font-size: inherit;
 }
 .code-reference-help-kind-icon {
@@ -45,39 +45,61 @@
   border: 1px solid var(--code-help-rule);
   border-radius: 0.5rem;
   background: var(--code-help-surface);
-  color: color-mix(in oklab, var(--primary) 35%, var(--background));
+  color: color-mix(in oklab, var(--primary) 25%, var(--background));
 }
-.code-reference-help .code-reference-help-kind {
+.code-reference-help-badges {
+  flex: none;
+  gap: 0.3125rem;
+  max-width: 65%;
+}
+.code-reference-help-dot {
+  color: var(--code-help-quiet);
+}
+.code-reference-help :is(.code-reference-help-kind, .code-reference-help-owner) {
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
-  flex: none;
+  min-width: 0;
   padding: 0.125rem 0.375rem;
   border: 0;
-  border-radius: 1px;
-  background: var(--background);
-  color: var(--foreground);
+  border-radius: 2px;
   font-size: 0.625rem;
   font-weight: 550;
   line-height: 1.5;
   white-space: nowrap;
 }
+.code-reference-help .code-reference-help-kind {
+  flex: none;
+  background: var(--background);
+  color: var(--foreground);
+}
+.code-reference-help .code-reference-help-owner {
+  display: block;
+  max-width: 6rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: var(--code-help-surface);
+  color: var(--code-help-muted);
+}
 .code-reference-help-origin {
   display: flex;
   align-items: center;
-  gap: 0.625rem;
+  gap: 0.4375rem;
   min-width: 0;
-  padding-bottom: 0.5rem;
+  padding-bottom: 0.75rem;
   border-bottom: 1px solid var(--code-help-rule);
+  white-space: nowrap;
 }
-.code-reference-help-origin > span {
+.code-reference-help-origin-label {
   flex: none;
-  color: var(--code-help-muted);
+  color: var(--code-help-quiet);
   font-size: 0.625rem;
 }
-.code-reference-help-origin > a {
-  min-width: 0;
-  max-width: 100%;
+.code-reference-help-origin-path {
+  flex: 0 1 auto;
+  min-width: 3ch;
+}
+.code-reference-help .code-reference-help-origin a {
   text-decoration: none;
 }
 .code-reference-help .code-reference-help-path {
@@ -85,172 +107,293 @@
   max-width: 100%;
   font-size: 0.6875rem;
 }
+.code-reference-help .code-reference-help-path[data-path-middle] {
+  grid-template-columns: minmax(0, max-content) minmax(1ch, 1fr) minmax(0, max-content);
+}
+.code-reference-help .code-reference-help-path > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.code-reference-help-shortcut {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4375rem;
+  flex: 0 1 auto;
+  min-width: 0;
+  font-size: 0.625rem;
+}
+.code-reference-help-shortcut > span {
+  color: var(--code-help-quiet);
+}
+.code-reference-help-shortcut a {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .code-reference-help-summary {
   display: grid;
-  gap: 0.375rem;
-  color: color-mix(in oklab, var(--background) 88%, transparent);
-  line-height: 1.6;
+  gap: 0.4375rem;
+  color: color-mix(in oklab, var(--background) 90%, transparent);
+  line-height: 1.65;
+}
+.code-reference-help-summary strong {
+  color: var(--background);
+  font-weight: 600;
 }
 .code-reference-help-summary .code-reference-help-detail {
-  color: var(--code-help-muted);
+  color: var(--code-help-quiet);
+  font-size: 0.625rem;
+  line-height: 1.6;
+}
+/* Same semantic paint as ordinary page code, including every palette and appearance. */
+.code-reference-help
+  :is(
+    .code-reference-help-path,
+    .code-reference-help-summary code,
+    .code-reference-help-fields dt > code,
+    .code-reference-help-contract-name code,
+    .code-reference-help-related-link code,
+    .code-reference-help-facts code
+  ) {
+  padding: 0.0625rem 0.25rem;
+  border-radius: 3px;
+  background: var(--docs-inline-code-background);
+  color: var(--foreground);
   font-size: 0.6875rem;
+  font-weight: 450;
+  line-height: 1.5;
+}
+.code-reference-help-panel {
+  min-width: 0;
+  overflow: hidden;
+  padding: 0.625rem;
+  border: 1px solid var(--code-help-rule);
+  border-radius: 0.5rem;
+  background: var(--code-help-surface);
 }
 .code-reference-help-section-label {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
-  margin-bottom: 0.75rem;
+  min-width: 0;
+  margin-bottom: 0.625rem;
   font-size: 0.6875rem;
 }
-/* Each subsection gets the same quiet divider and breathing room before its heading. */
-.code-reference-help-layout > section {
-  margin-top: 0.125rem;
-  padding-block: 0.625rem;
-  border-top: 1px solid var(--code-help-rule);
+.code-reference-help-section-label > strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-width: 0;
+  font-weight: 550;
 }
 .code-reference-help-section-label > span {
-  color: var(--code-help-muted);
-  font-size: 0.625rem;
+  flex: none;
+  color: var(--code-help-quiet);
+  font-size: 0.5625rem;
 }
-.code-reference-help-contract {
-  min-width: 0;
-  padding: 0.625rem;
-  border: 1px solid var(--code-help-rule);
-  border-radius: 0.5rem;
-  background: color-mix(in oklab, currentColor 3%, transparent);
+.code-reference-help-section-label svg {
+  flex: none;
+  color: var(--code-help-muted);
 }
 .code-reference-help .code-reference-help-signature {
+  margin: 0 0 0.625rem;
+  padding: 0.5rem 0.625rem;
+  border: 1px solid var(--code-help-rule);
+  border-radius: 0.25rem;
+  background: color-mix(in oklab, var(--foreground) 25%, transparent);
+}
+.code-reference-help-signature:last-child {
+  margin-bottom: 0;
+}
+.code-reference-help-contract-name {
+  margin-bottom: 0.625rem !important;
+}
+.code-reference-help .code-reference-help-syntax {
   display: block;
   padding: 0;
   background: none;
+  color: var(--background);
   font-size: 0.6875rem;
-  line-height: 1.55;
+  line-height: 1.6;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
+  tab-size: 2;
+}
+.code-reference-help-syntax .token {
+  font: inherit;
+  background: none;
+  text-shadow: none;
+}
+.code-reference-help-syntax .token:is(.keyword, .boolean, .number, .operator) {
+  color: color-mix(in oklab, var(--primary) 28%, var(--background));
+}
+.code-reference-help-syntax .token:is(.string, .class-name, .function) {
+  color: color-mix(in oklab, var(--secondary-accent) 28%, var(--background));
+}
+.code-reference-help-syntax .token:is(.punctuation, .comment) {
+  color: var(--code-help-muted);
 }
 .code-reference-help-fields {
   display: grid;
-  gap: 0.3125rem;
+  gap: 0;
   margin: 0;
   font-size: 0.6875rem;
 }
-.code-reference-help-signature + .code-reference-help-fields {
-  margin-top: 0.5rem;
-}
 .code-reference-help-fields > div {
   display: grid;
-  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr);
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.3fr);
   gap: 0.625rem;
+  padding-block: 0.5rem;
+}
+.code-reference-help-fields > div:first-child {
+  padding-top: 0;
+}
+.code-reference-help-fields > div:last-child {
+  padding-bottom: 0;
 }
 .code-reference-help-fields > div + div {
-  padding-top: 0.3125rem;
-  border-top: 1px solid color-mix(in oklab, currentColor 8%, transparent);
+  border-top: 1px solid var(--code-help-rule);
 }
-.code-reference-help-fields dt,
-.code-reference-help-fields dd {
+.code-reference-help-fields :is(dt, dd) {
   min-width: 0;
   margin: 0;
   overflow-wrap: anywhere;
-}
-.code-reference-help-fields dt > code {
-  display: inline;
 }
 .code-reference-help-fields dt {
   display: flex;
   align-items: baseline;
   align-content: start;
   flex-wrap: wrap;
-  gap: 0.125rem 0.375rem;
+  gap: 0.1875rem 0.375rem;
 }
 .code-reference-help-fields dt > span {
-  color: var(--code-help-muted);
+  color: var(--code-help-quiet);
   font-size: 0.5625rem;
 }
-.code-reference-help-fields dd > code {
-  padding: 0;
-  background: none;
-  color: var(--code-help-muted);
-  overflow-wrap: anywhere;
+.code-reference-help-fields dt > [data-required] {
+  color: var(--background);
 }
 .code-reference-help-fields dd > p {
-  margin-top: 0.125rem;
+  margin-top: 0.25rem;
   color: var(--code-help-muted);
+  font-size: 0.625rem;
+  line-height: 1.6;
+}
+.code-reference-help-facts dl {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+}
+.code-reference-help-facts dl > div {
+  display: grid;
+  grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
+  gap: 0.625rem;
+}
+.code-reference-help-facts :is(dt, dd) {
+  min-width: 0;
+  margin: 0;
+  font-size: 0.6875rem;
+  overflow-wrap: anywhere;
+}
+.code-reference-help-facts dt {
+  color: var(--code-help-quiet);
   font-size: 0.625rem;
 }
 .code-reference-help-related-links {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.375rem;
 }
 .code-reference-help .code-reference-help-related-link {
-  display: inline-flex;
+  display: grid;
+  grid-template-columns: 0.875rem minmax(0, 1fr) 0.6875rem;
   align-items: center;
+  gap: 0.4375rem;
+  min-width: 0;
+  padding: 0.375rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  text-decoration: none;
+  transition:
+    background-color 150ms,
+    border-color 150ms;
+}
+.code-reference-help-related-link > span {
+  display: grid;
+  justify-items: start;
   gap: 0.25rem;
   min-width: 0;
-  max-width: 100%;
-  padding: 0.125rem 0.3125rem;
-  border: 0;
-  border-radius: 0.25rem;
-  background: var(--code-help-surface);
-  text-decoration: none;
 }
 .code-reference-help .code-reference-help-related-link code {
-  min-width: 0;
-  padding: 0;
-  background: none;
-  font-size: 0.59375rem;
-  line-height: 1.5;
-  text-decoration: underline dashed;
-  text-decoration-color: color-mix(in oklab, currentColor 40%, transparent);
-  text-underline-offset: 0.2em;
+  max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  font-size: 0.625rem;
+  text-decoration: underline dashed;
+  text-decoration-color: color-mix(in oklab, currentColor 35%, transparent);
+  text-underline-offset: 0.2em;
 }
-.code-reference-help-related-link svg,
-.code-reference-help-footer svg {
-  flex: none;
+.code-reference-help-related-link small {
+  font-size: 0.5625rem;
+  color: var(--code-help-quiet);
+  line-height: 1.5;
 }
-.code-reference-help-related-link svg:last-child {
+.code-reference-help-related-link > svg {
   color: var(--code-help-muted);
 }
 .code-reference-help-footer {
+  position: sticky;
+  bottom: -0.875rem;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 0.375rem 0.75rem;
-  padding-top: 0.625rem;
+  gap: 0.75rem;
+  margin: 0 -0.875rem -0.875rem;
+  padding: 0.625rem 0.875rem 0.875rem;
   border-top: 1px solid var(--code-help-rule);
-  font-size: 0.6875rem;
+  background: var(--foreground);
 }
-.code-reference-help-footer a {
-  display: inline-flex;
+.code-reference-help-note {
+  display: flex;
   align-items: center;
   gap: 0.375rem;
   min-width: 0;
+  color: var(--code-help-quiet);
+  font-size: 0.625rem;
+  line-height: 1.5;
+}
+.code-reference-help-note svg {
+  flex: none;
+}
+.code-reference-help .code-reference-help-primary-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  flex: none;
+  margin-inline-start: auto;
+  font-size: 0.6875rem;
   text-decoration: none;
 }
-.code-reference-help-footer a > span {
+.code-reference-help-primary-link svg {
+  flex: none;
+}
+.code-reference-help-primary-link > span {
   text-decoration: underline;
   text-decoration-color: color-mix(in oklab, currentColor 35%, transparent);
   text-underline-offset: 0.2em;
 }
-.code-reference-help .code-reference-help-source-link {
-  margin-inline-start: auto;
-  color: var(--code-help-muted);
-}
-.code-reference-help a:is(:hover, :focus-visible) {
-  text-decoration-color: currentColor;
-}
 .code-reference-help .code-reference-help-related-link:is(:hover, :focus-visible) {
-  background: color-mix(in oklab, var(--background) 10%, transparent);
+  border-color: var(--code-help-rule);
+  background: color-mix(in oklab, var(--background) 6%, transparent);
+}
+.code-reference-help a:is(:hover, :focus-visible),
+.code-reference-help-primary-link:is(:hover, :focus-visible) > span {
+  text-decoration-color: currentColor;
 }
 .code-reference-help-related-link:is(:hover, :focus-visible) code {
-  text-decoration-color: currentColor;
-}
-.code-reference-help-footer a:is(:hover, :focus-visible) > span {
   text-decoration-color: currentColor;
 }
 .code-reference-help-loading {
@@ -384,11 +527,28 @@
   .code-reference-help-header > strong {
     font-size: 0.75rem;
   }
+  .code-reference-help-badges {
+    gap: 0.25rem;
+  }
+  .code-reference-help .code-reference-help-owner {
+    max-width: 3.25rem;
+  }
   .code-reference-help-origin {
     gap: 0.375rem;
   }
+  .code-reference-help-origin-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
   .code-reference-help-fields > div {
-    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.1fr);
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.25rem;
+  }
+  .code-reference-help-related-links {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -397,5 +557,8 @@
   .code-reference-help-loading-pulse,
   .code-reference-help-loading-lines i {
     animation: none;
+  }
+  .code-reference-help-related-link {
+    transition: none;
   }
 }

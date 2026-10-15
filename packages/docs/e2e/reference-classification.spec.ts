@@ -47,11 +47,14 @@ for (const scheme of ["light", "dark"] as const) {
     });
     await expect(card.locator('[data-reference-kind="module"]')).toBeVisible();
     const resources = card.locator(".code-reference-help-footer a");
-    await expect(resources).toHaveCount(2);
+    await expect(resources).toHaveCount(1);
     await expect(resources.first()).toHaveAttribute("href", source);
-    await expect(resources.last()).toHaveAttribute("href", "/docs/theming/installation#css-setup");
+    await expect(card.locator(".code-reference-help-shortcut a")).toHaveAttribute(
+      "href",
+      "/docs/theming/installation#css-setup",
+    );
     await page.keyboard.press("Tab");
-    await expect(card.locator(".code-reference-help-origin a")).toBeFocused();
+    await expect(card.locator(".code-reference-help-origin a").first()).toBeFocused();
     await page.keyboard.press("Escape");
     await expect(stylesheet).toBeFocused();
 
@@ -89,9 +92,10 @@ for (const scheme of ["light", "dark"] as const) {
           "href",
           source,
         );
-        await expect(
-          card.getByRole("link", { name: "In this documentation", exact: true }),
-        ).toHaveAttribute("href", "/docs/theming/installation#css-setup");
+        await expect(card.locator(".code-reference-help-shortcut a")).toHaveAttribute(
+          "href",
+          "/docs/theming/installation#css-setup",
+        );
       } else
         await expect(
           card.getByRole("link", { name: "Read the section", exact: true }),
