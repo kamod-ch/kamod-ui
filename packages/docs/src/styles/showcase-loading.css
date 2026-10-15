@@ -1,6 +1,10 @@
 /* Shared loading surfaces: quiet structure, real status, no artificial progress. */
 .showcase-loading {
-  --showcase-loading-cycle: 6.4s;
+  --showcase-loading-cycle: 3.8s;
+  --showcase-loading-surface: color-mix(in oklab, var(--card) 96%, var(--foreground));
+  --showcase-loading-border: color-mix(in oklab, var(--foreground) 13%, transparent);
+  --showcase-loading-line: color-mix(in oklab, var(--foreground) 12%, transparent);
+  --showcase-loading-accent: color-mix(in oklab, var(--primary) 20%, transparent);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -8,7 +12,7 @@
   flex: 1;
   min-width: 0;
   min-height: var(--source-code-min-height, 20rem);
-  gap: 1.125rem;
+  gap: 1.375rem;
   padding: 1.5rem 1rem;
   border-radius: var(--showcase-radius, var(--radius-lg));
   background: color-mix(in oklab, var(--primary) 3%, var(--background));
@@ -27,29 +31,18 @@
   position: relative;
   flex: none;
   width: 10rem;
-  border: 1px solid;
-  border-color: color-mix(in oklab, var(--foreground) 13%, transparent);
+  border: 1px solid var(--showcase-loading-border);
   border-radius: 0.625rem;
-  background: color-mix(in oklab, var(--card) 94%, var(--primary));
+  background: var(--showcase-loading-surface);
   box-shadow: 0 6px 20px -12px rgb(0 0 0 / 16%);
   transform: rotate(-2.5deg);
-}
-/* A translucent accent supplies the color beat without repainting the whole surface. */
-.showcase-loading-sketch::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: var(--primary);
-  opacity: 0;
-  pointer-events: none;
 }
 .showcase-loading-chrome {
   display: flex;
   align-items: center;
   gap: 0.25rem;
   padding: 0.5rem 0.625rem;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--showcase-loading-border);
 }
 .showcase-loading-chrome .showcase-loading-activity {
   margin-inline-end: auto;
@@ -62,7 +55,6 @@
   align-items: center;
   gap: 0.25rem;
   color: var(--primary);
-  opacity: 0.35;
 }
 .showcase-loading-chrome-marks i {
   width: 0.1875rem;
@@ -80,11 +72,11 @@
   height: 0.25rem;
   width: 74%;
   border-radius: 0.125rem;
-  background: color-mix(in oklab, var(--foreground) 12%, transparent);
+  background: var(--showcase-loading-line);
 }
 .showcase-loading-sheet i:first-child {
   width: 43%;
-  background: color-mix(in oklab, var(--primary) 30%, transparent);
+  background: var(--showcase-loading-accent);
 }
 .showcase-loading-sheet i:nth-child(2) {
   margin-inline-start: 0.625rem;
@@ -134,26 +126,50 @@
   width: 0.25rem;
   height: 0.25rem;
   border-radius: 50%;
-  background: color-mix(in oklab, var(--primary) 30%, transparent);
+  background: var(--showcase-loading-accent);
 }
-.showcase-loading-seal {
+.showcase-loading-companion {
   position: absolute;
-  right: -0.625rem;
-  bottom: -0.625rem;
+  right: -0.875rem;
+  bottom: -0.75rem;
   display: grid;
-  place-items: center;
-  width: 2.125rem;
-  height: 2.125rem;
-  border: 1px solid;
-  border-color: color-mix(in oklab, var(--primary) 20%, var(--border));
-  border-radius: 0.625rem;
-  background: color-mix(in oklab, var(--primary) 8%, var(--card));
-  color: var(--foreground);
+  grid-template-columns: 1.125rem 1fr;
+  align-items: center;
+  gap: 0.25rem 0.375rem;
+  width: 3.5rem;
+  height: 2.75rem;
+  padding: 0.9375rem 0.375rem 0.375rem;
+  border: 1px solid var(--showcase-loading-border);
+  border-radius: 0.375rem;
+  background: var(--showcase-loading-surface);
+  box-shadow: 0 3px 8px -5px rgb(0 0 0 / 16%);
   transform: rotate(6deg);
+}
+.showcase-loading-companion::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 0.4375rem;
+  border-bottom: 1px solid var(--showcase-loading-border);
+  border-radius: 0.375rem 0.375rem 0 0;
+  background: color-mix(in oklab, var(--foreground) 3%, transparent);
+}
+.showcase-loading-companion i {
+  height: 0.1875rem;
+  border-radius: 0.125rem;
+  background: var(--showcase-loading-line);
+}
+.showcase-loading-companion i:first-child {
+  grid-row: span 2;
+  height: 1.125rem;
+  background: var(--showcase-loading-accent);
+}
+.showcase-loading-companion i:last-child {
+  width: 65%;
 }
 .showcase-loading-copy {
   min-width: 0;
-  width: min(100%, 30rem);
+  width: min(100%, 24rem);
 }
 /* Scope typography above article prose rules, including loaders nested inside documentation. */
 .showcase-loading .showcase-loading-title {
@@ -164,29 +180,17 @@
   color: var(--foreground);
 }
 .showcase-loading .showcase-loading-copy p {
-  margin: 0.5rem 0 0;
-  font-size: 0.75rem;
+  margin: 0.25rem 0 0;
+  font-size: 0.6875rem;
   font-weight: 400;
-  line-height: 1.65;
+  line-height: 1.5;
   color: var(--muted-foreground);
-}
-.showcase-loading .showcase-loading-description strong {
-  font-size: inherit;
-  font-weight: 600;
-  color: color-mix(in oklab, var(--foreground) 75%, var(--muted-foreground));
-}
-.showcase-loading .showcase-loading-description .docs-reference-code {
-  background: color-mix(in oklab, var(--primary) 8%, var(--background));
-  color: var(--foreground);
-  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--primary) 18%, transparent);
-  font-weight: 500;
 }
 .showcase-loading .showcase-loading-copy .showcase-loading-path {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   font-family: var(--font-mono-custom);
-  font-size: 0.6875rem;
 }
 .showcase-preview-surface {
   position: relative;
@@ -202,10 +206,19 @@
   opacity: 0;
   pointer-events: none;
 }
-/* Paint feedback before visibility is delivered, but keep off-screen loader loops paused. */
+/* Nearby pending work can animate; offscreen and hidden-tab placeholders stay still. */
+.showcase-loading:not([data-loading-active]) *,
+.showcase-loading:not([data-loading-active]) *::before,
+.showcase-loading:not([data-loading-active]) *::after,
 .showcase-preview-surface[data-deferred] .showcase-loading *,
 .showcase-preview-surface[data-deferred] .showcase-loading *::after {
-  animation-play-state: paused;
+  animation-play-state: paused !important;
+}
+/* Retained documents keep their input, without spending energy on unseen spinner/pulse loops. */
+[data-preview-paused] *,
+[data-preview-paused] *::before,
+[data-preview-paused] *::after {
+  animation-play-state: paused !important;
 }
 .showcase-preview-error {
   display: grid;
@@ -225,10 +238,10 @@
 .blocks-code-pane[data-loading] > .docs-code-toolbar {
   flex: none;
 }
-/* Keep the longer guidance inside the existing 320px mobile preview, without resizing it. */
+/* Keep the paired skeletons inside the existing 320px preview, without resizing it. */
 @media (max-width: 639px) {
   .showcase-loading {
-    gap: 0.75rem;
+    gap: 1rem;
     padding: 0.875rem;
   }
   .showcase-loading-sketch {
@@ -246,27 +259,22 @@
   }
 }
 @media (prefers-reduced-motion: no-preference) {
-  /* A restrained nudge and settle, with quiet pauses between cycles. */
+  /* A short preload, handoff and settle; the smaller card answers a little later. */
   .showcase-loading-sketch {
     transform-origin: 65% 75%;
     animation: showcase-loading-snap var(--showcase-loading-cycle) ease-in-out infinite;
   }
-  .showcase-loading-sketch::after {
-    animation: showcase-loading-tint var(--showcase-loading-cycle) ease-in-out infinite;
-  }
-  /* The badge follows with a little lag; its glyph has no independent motion. */
-  .showcase-loading-seal {
+  .showcase-loading-companion {
     animation: showcase-loading-follow var(--showcase-loading-cycle) ease-in-out infinite;
   }
-  .showcase-loading-sheet i:first-child {
-    transform-origin: left center;
-    animation: showcase-loading-ink var(--showcase-loading-cycle) ease-in-out infinite;
+  .showcase-loading-chrome-marks i {
+    animation: showcase-loading-dot var(--showcase-loading-cycle) ease-in-out infinite;
   }
-  .showcase-loading-chrome-marks {
-    animation: showcase-loading-chrome-snap var(--showcase-loading-cycle) ease-in-out infinite;
+  .showcase-loading-chrome-marks i:nth-child(2) {
+    animation-delay: 120ms;
   }
-  .showcase-loading-title {
-    animation: showcase-loading-title-breathe var(--showcase-loading-cycle) ease-in-out infinite;
+  .showcase-loading-chrome-marks i:nth-child(3) {
+    animation-delay: 240ms;
   }
   /* A short catch-and-settle keeps pending feedback visible and leaves the reserved track intact. */
   .blocks-showcase-tabs > [data-slot="tabs-content"][data-state="active"] {
@@ -283,111 +291,63 @@
 }
 @keyframes showcase-loading-snap {
   0%,
-  24%,
-  76%,
+  88%,
   100% {
     transform: translate(0, 0) rotate(-2.5deg) scale(1);
   }
-  12% {
-    transform: translate(-0.3px, -0.6px) rotate(-2.65deg) scale(1);
-  }
-  38% {
-    transform: translate(-2px, 1px) rotate(-3.5deg) scale(0.9925);
+  18% {
+    transform: translate(-1.5px, 0.75px) rotate(-3.5deg) scale(0.995);
     animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   }
-  46% {
-    transform: translate(5px, -4px) rotate(0.5deg) scale(1.0075);
+  38% {
+    transform: translate(4px, -3px) rotate(0deg) scale(1.005);
     animation-timing-function: cubic-bezier(0.65, 0, 0.3, 1);
   }
-  55% {
-    transform: translate(-1.5px, 0.6px) rotate(-3.4deg) scale(0.997);
+  60% {
+    transform: translate(-1px, 0.5px) rotate(-3.2deg) scale(0.998);
   }
-  63% {
-    transform: translate(0.6px, -0.3px) rotate(-2deg) scale(1.0015);
+  76% {
+    transform: translate(0.4px, -0.25px) rotate(-2.2deg) scale(1.001);
   }
 }
 @keyframes showcase-loading-follow {
   0%,
-  26%,
-  78%,
+  92%,
   100% {
     transform: translate(0, 0) rotate(6deg);
   }
-  14% {
-    transform: translate(0, 0.3px) rotate(5.7deg);
-  }
-  40% {
-    transform: translate(-1px, 0.6px) rotate(3deg);
+  24% {
+    transform: translate(-1.5px, 1px) rotate(2deg);
     animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   }
   48% {
-    transform: translate(3px, -2px) rotate(9.5deg);
+    transform: translate(2.5px, -2px) rotate(9deg);
     animation-timing-function: cubic-bezier(0.65, 0, 0.3, 1);
   }
-  57% {
-    transform: translate(-1.2px, 0.6px) rotate(2.5deg);
+  68% {
+    transform: translate(-0.75px, 0.5px) rotate(4deg);
   }
-  66% {
-    transform: translate(0.3px, -0.3px) rotate(7deg);
-  }
-}
-@keyframes showcase-loading-tint {
-  0%,
-  30%,
-  72%,
-  100% {
-    opacity: 0;
-  }
-  46% {
-    opacity: 0.07;
-  }
-  57% {
-    opacity: 0.015;
+  82% {
+    transform: translate(0.25px, -0.25px) rotate(6.5deg);
   }
 }
-@keyframes showcase-loading-ink {
+/* Three small lifts lead the cards' movement, with a softer echo on the return. */
+@keyframes showcase-loading-dot {
   0%,
+  12%,
+  46%,
+  84%,
   100% {
-    transform: scaleX(0.98);
-    opacity: 0.78;
+    transform: none;
   }
-  50% {
-    transform: scaleX(1);
-    opacity: 0.95;
+  26% {
+    transform: translateY(-2px) scale(1.18);
   }
-}
-/* Keep the chrome's counterbeat proportional to the sketch's gentle nudge. */
-@keyframes showcase-loading-chrome-snap {
-  0%,
-  28%,
-  72%,
-  100% {
-    transform: translateX(0);
-    opacity: 0.35;
+  36% {
+    transform: translateY(0.5px) scale(0.96);
   }
-  38% {
-    transform: translateX(-0.3px);
-  }
-  46% {
-    transform: translateX(1px);
-    opacity: 0.6;
-    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  56% {
-    transform: translateX(-0.25px);
-    opacity: 0.4;
-  }
-  64% {
-    transform: translateX(0.1px);
-  }
-}
-@keyframes showcase-loading-title-breathe {
-  0%,
-  100% {
-    opacity: 0.96;
-  }
-  50% {
-    opacity: 1;
+  68% {
+    transform: translateY(-1px) scale(1.08);
   }
 }
 @keyframes showcase-content-arrive {

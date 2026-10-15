@@ -67,6 +67,7 @@ it("loads after a batched hidden-to-visible jump and disconnects on teardown", (
         notify = callback;
       }
       observe() {}
+      unobserve() {}
       disconnect = disconnect;
     },
   );
@@ -83,8 +84,8 @@ it("loads after a batched hidden-to-visible jump and disconnects on teardown", (
   act(() =>
     notify(
       [
-        { isIntersecting: false } as IntersectionObserverEntry,
-        { isIntersecting: true } as IntersectionObserverEntry,
+        { target: frame, isIntersecting: false } as unknown as IntersectionObserverEntry,
+        { target: frame, isIntersecting: true } as unknown as IntersectionObserverEntry,
       ],
       {} as IntersectionObserver,
     ),
@@ -157,4 +158,56 @@ it("replaces resize observers on reload and cancels pending measurements on unmo
   unmount();
   expect(observers[1].disconnect).toHaveBeenCalledOnce();
   expect(pending.has(measurement)).toBe(false);
+});
+
+it("does not retain a resize observer for a document evicted as it finishes loading", () => {
+  let notify!: IntersectionObserverCallback;
+  vi.stubGlobal(
+    "IntersectionObserver",
+    class {
+      constructor(callback: IntersectionObserverCallback) {
+        notify = callback;
+      }
+      observe() {}
+      unobserve() {}
+      disconnect() {}
+    },
+  );
+  const observe = vi.fn();
+  vi.stubGlobal(
+    "ResizeObserver",
+    class {
+      observe = observe;
+      disconnect() {}
+    },
+  );
+  const visibility = (target: Element, isIntersecting: boolean) =>
+    act(() =>
+      notify(
+        [{ target, isIntersecting } as unknown as IntersectionObserverEntry],
+        {} as IntersectionObserver,
+      ),
+    );
+  for (let index = 0; index < 4; index++) {
+    const { container } = render(
+      <ComponentPreviewFrame
+        slug="button"
+        index={index}
+        title="Button"
+        appearance={{ preset: "kamod", scheme: "light" }}
+      />,
+    );
+    const frame = container.querySelector("iframe")!;
+    visibility(frame, true);
+    act(() => {
+      vi.advanceTimersByTime(50);
+    });
+    if (index === 3) visibility(frame, false);
+    const doc = document.implementation.createHTMLDocument();
+    doc.body.innerHTML = '<main id="component-preview-root" data-preview-ready="true"></main>';
+    Object.defineProperty(frame, "contentDocument", { value: doc });
+    fireEvent.load(frame);
+    if (index === 3) expect(frame).toHaveAttribute("src", "about:blank");
+  }
+  expect(observe).toHaveBeenCalledTimes(3);
 });

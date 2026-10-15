@@ -36,6 +36,13 @@ export function WorkspaceExample() {
     },
     [complete],
   );
+  const onPreviewCancel = useCallback(
+    (key: number) => {
+      setReadyKey((current) => (current === key ? null : current));
+      cancel(key);
+    },
+    [cancel],
+  );
   const previewUrl = withBasePath(
     `/component-preview-frame.htm?component=home-workspace&example=0&previewTheme=${appearance.preset}&previewScheme=${appearance.scheme}`,
   );
@@ -101,7 +108,7 @@ export function WorkspaceExample() {
               appearance={appearance}
               previewKey={previewKey}
               onLoad={onPreviewLoad}
-              onCancel={cancel}
+              onCancel={onPreviewCancel}
               showLoading={false}
             />
             {!previewReady && <WorkspaceLoading appearance={appearance} view="preview" />}

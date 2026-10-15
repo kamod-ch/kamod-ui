@@ -1,77 +1,28 @@
 import { Spinner } from "@kamod-ch/ui";
+import { useLayoutEffect, useRef } from "preact/hooks";
 import type { PreviewAppearance } from "../../blocks/preview-appearance";
-import { KamodMarkIcon } from "./brand/KamodMarkIcon";
-import { InlineCodeLink } from "./InlineCodeLink";
+import { observeViewportActivity } from "../../layout/runtime/viewport-activity";
 
 const views = {
   preview: {
-    title: "Setting the scene",
-    hint: (
-      <>
-        Getting the interactive preview ready. Once it appears, <strong>try the controls</strong>{" "}
-        and compare light and dark modes. Open <strong>Code</strong> to explore the composition, or
-        browse the{" "}
-        <InlineCodeLink href="/docs/components" size="compact">
-          Components
-        </InlineCodeLink>{" "}
-        behind the preview.
-      </>
-    ),
+    title: "Setting the scene...",
+    hint: "Interactive preview",
   },
   code: {
     title: "Opening the source",
-    hint: (
-      <>
-        Bringing the example’s source into view. Start with the{" "}
-        <strong>imports and composition</strong>, then follow the props into the rendered interface.
-        The{" "}
-        <InlineCodeLink href="/docs/code/installation#code-reading-model" size="compact">
-          Code
-        </InlineCodeLink>{" "}
-        guide explains the reading controls. Copy a useful piece and adapt it to your own app.
-      </>
-    ),
+    hint: "Source code",
   },
   file: {
     title: "Loading source",
-    hint: (
-      <>
-        Opening your selected file. Follow its <strong>imports, props and callbacks</strong> to see
-        how it fits the example; nearby files may supply shared helpers or sample data. Explore the{" "}
-        <InlineCodeLink href="/docs/code/installation#code-reading-model" size="compact">
-          Code
-        </InlineCodeLink>{" "}
-        guide for reading controls, then keep the parts your project needs.
-      </>
-    ),
+    hint: "Selected file",
   },
   prompt: {
     title: "Preparing your prompt",
-    hint: (
-      <>
-        Bringing the instructions and source together. Give your coding assistant{" "}
-        <strong>your goal and your project’s conventions</strong>, then review its changes before
-        using them. For setup, the{" "}
-        <InlineCodeLink href="/docs/getting-started" size="compact">
-          Getting Started Guide
-        </InlineCodeLink>{" "}
-        covers the foundation. A useful starting point, with the final choices still yours.
-      </>
-    ),
+    hint: "Instructions & source",
   },
   markdown: {
     title: "Formatting the reading view",
-    hint: (
-      <>
-        Arranging the <strong>headings, steps and source examples</strong> into a readable document.
-        The content stays the same in every display mode; <strong>Copy</strong> keeps the complete
-        Markdown. Switch to <strong>Code</strong> to inspect the original text, or follow the{" "}
-        <InlineCodeLink href="/docs/getting-started" size="compact">
-          Getting Started Guide
-        </InlineCodeLink>{" "}
-        for the project foundations.
-      </>
-    ),
+    hint: "Markdown view",
   },
 };
 
@@ -89,8 +40,17 @@ export function ShowcaseLoading({
   className?: string;
 }) {
   const { title, hint } = views[view];
+  const root = useRef<HTMLDivElement>(null);
+  useLayoutEffect(() => {
+    const node = root.current;
+    if (node)
+      return observeViewportActivity(node, (active) =>
+        node.toggleAttribute("data-loading-active", active),
+      );
+  }, []);
   return (
     <div
+      ref={root}
       class={`showcase-loading ${appearance?.scheme ?? ""} ${className}`}
       data-theme-scope={appearance ? "" : undefined}
       data-theme={appearance?.preset}
@@ -120,12 +80,14 @@ export function ShowcaseLoading({
           <i />
           <i />
         </div>
-        <span class="showcase-loading-seal">
-          <KamodMarkIcon size={22} accentColor="var(--primary)" />
+        <span class="showcase-loading-companion">
+          <i />
+          <i />
+          <i />
         </span>
       </div>
       <div class="showcase-loading-copy">
-        {/* Announce only the pending task; supporting reading links are outside the live region. */}
+        {/* Only announce the pending task and optional source; the tiny caption stays quiet. */}
         <div class="showcase-loading-status" role="status" aria-atomic="true">
           <strong class="showcase-loading-title">{title}</strong>
           {detail && (
@@ -134,7 +96,7 @@ export function ShowcaseLoading({
             </p>
           )}
         </div>
-        <p class="showcase-loading-description">{hint}</p>
+        {!detail && <p class="showcase-loading-description">{hint}</p>}
       </div>
     </div>
   );

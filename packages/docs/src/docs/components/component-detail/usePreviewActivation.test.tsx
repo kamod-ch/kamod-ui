@@ -8,6 +8,7 @@ afterEach(() => {
   cleanup();
   vi.useRealTimers();
   vi.unstubAllGlobals();
+  vi.restoreAllMocks();
 });
 
 function Preview({ onSuspend = () => {} }: { onSuspend?: () => void }) {
@@ -22,7 +23,7 @@ function startNext() {
   });
 }
 
-it("drops queued offscreen frames but retains started and completed previews", () => {
+it("drops queued offscreen frames, retains recent documents and pauses hidden motion", () => {
   vi.useFakeTimers();
   vi.stubGlobal("requestIdleCallback", undefined);
   let intersect!: IntersectionObserverCallback;
@@ -35,6 +36,7 @@ it("drops queued offscreen frames but retains started and completed previews", (
         intersect = callback;
       }
       observe() {}
+      unobserve() {}
       disconnect = disconnect;
     },
   );
@@ -42,7 +44,10 @@ it("drops queued offscreen frames but retains started and completed previews", (
   const frame = container.querySelector("iframe")!;
   const visibility = (isIntersecting: boolean) =>
     act(() =>
-      intersect([{ isIntersecting } as IntersectionObserverEntry], {} as IntersectionObserver),
+      intersect(
+        [{ target: frame, isIntersecting } as unknown as IntersectionObserverEntry],
+        {} as IntersectionObserver,
+      ),
     );
   visibility(true);
   visibility(false);
@@ -62,12 +67,16 @@ it("drops queued offscreen frames but retains started and completed previews", (
   act(() => {
     vi.advanceTimersByTime(50);
   });
+  Object.defineProperty(frame, "contentDocument", {
+    value: document.implementation.createHTMLDocument(),
+  });
   fireEvent.load(frame);
   visibility(false);
   expect(frame).toHaveAttribute("src", "/preview");
-  expect(disconnect).toHaveBeenCalledOnce();
+  expect(frame.contentDocument?.documentElement.hasAttribute("data-preview-paused")).toBe(true);
+  expect(disconnect).not.toHaveBeenCalled();
   unmount();
-  expect(disconnect).toHaveBeenCalledTimes(2);
+  expect(disconnect).toHaveBeenCalledOnce();
   expect(vi.getTimerCount()).toBe(0);
 });
 

@@ -4,7 +4,7 @@ import { applyPreviewAppearance, type PreviewAppearance } from "../../../blocks/
 import { ShowcaseLoading } from "../ShowcaseLoading";
 import { usePreviewActivation } from "./usePreviewActivation";
 
-/** Isolated examples share an initialization budget, retaining state once their document is ready. */
+/** Isolated examples share startup and retention budgets; recent documents keep their state. */
 export function ComponentPreviewFrame({
   slug,
   index,
@@ -45,6 +45,7 @@ export function ComponentPreviewFrame({
     complete,
   } = usePreviewActivation(frame, () => {
     stopMeasuring();
+    setPhase("loading");
     onCancel?.(previewKey);
   });
   const applyAppearance = () => {
@@ -99,12 +100,15 @@ export function ComponentPreviewFrame({
             return;
           }
           const ready = () => {
-            complete();
+            if (!complete()) return false;
             setPhase("ready");
             onLoad?.(previewKey);
+            return true;
           };
-          if (root.dataset.previewReady === "true") ready();
-          else {
+          if (root.dataset.previewReady === "true") {
+            // Completion can evict this offscreen document when all other slots are visible.
+            if (!ready()) return;
+          } else {
             const document = root.ownerDocument;
             document.addEventListener("kamod:preview-ready", ready, { once: true });
             stopWaiting.current = () => document.removeEventListener("kamod:preview-ready", ready);

@@ -9,6 +9,7 @@ it("always follows explicit showcase appearance when its controls change", () =>
   const { getByRole, rerender } = render(
     <ShowcaseLoading view="preview" appearance={{ preset: "ocean", scheme: "dark" }} />,
   );
+  expect(getByRole("status").textContent).toBe("Setting the scene...");
   for (const scheme of ["light", "dark"] as const) {
     rerender(
       <ShowcaseLoading
@@ -25,8 +26,8 @@ it("always follows explicit showcase appearance when its controls change", () =>
   }
 });
 
-it("keeps reading guidance outside the concise live status and preserves the selected file", () => {
-  const { getByRole } = render(
+it("preserves the selected file as the only secondary line", () => {
+  const { getByRole, queryByRole, container, rerender } = render(
     <ShowcaseLoading
       view="file"
       detail="src/components/example.tsx"
@@ -35,7 +36,10 @@ it("keeps reading guidance outside the concise live status and preserves the sel
   );
   const status = getByRole("status");
   expect(status.textContent).toBe("Loading sourcesrc/components/example.tsx");
-  const guide = getByRole("link", { name: "Code" });
-  expect(status.contains(guide)).toBe(false);
-  expect(guide.getAttribute("href")).toContain("/docs/code/installation#code-reading-model");
+  expect(queryByRole("link")).toBeNull();
+  expect(container.querySelectorAll("p")).toHaveLength(1);
+  rerender(<ShowcaseLoading view="prompt" />);
+  const caption = container.querySelector("p")!;
+  expect(caption.textContent).toBe("Instructions & source");
+  expect(getByRole("status").contains(caption)).toBe(false);
 });

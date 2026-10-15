@@ -175,29 +175,45 @@ test("component views show real loading feedback until their frame or module is 
         "animation-name",
         "none",
       );
-      await expect(loading.locator(".showcase-loading-seal")).not.toHaveCSS(
-        "animation-name",
-        "none",
-      );
-      await expect(loading.locator(".showcase-loading-seal > svg")).toHaveCSS(
-        "animation-name",
-        "none",
-      );
+      const companion = loading.locator(".showcase-loading-companion");
+      await expect(companion).not.toHaveCSS("animation-name", "none");
+      await expect(companion.locator("i")).toHaveCount(3);
+      await expect(companion.locator("svg")).toHaveCount(0);
       await expect(
         loading.locator(".showcase-loading-ellipsis, .showcase-loading-pulse"),
       ).toHaveCount(0);
-      await expect(loading.locator(".showcase-loading-chrome-marks")).not.toHaveCSS(
-        "animation-name",
-        "none",
+      const dots = loading.locator(".showcase-loading-chrome-marks i");
+      for (const dot of await dots.all()) await expect(dot).not.toHaveCSS("animation-name", "none");
+      const delays = await dots.evaluateAll((nodes) =>
+        nodes.map((node) => getComputedStyle(node).animationDelay),
       );
-      await expect(loading.locator(".showcase-loading-title")).not.toHaveCSS(
-        "animation-name",
-        "none",
+      expect(new Set(delays).size).toBe(3);
+      const cycle = await companion.evaluate((node) =>
+        parseFloat(getComputedStyle(node).animationDuration),
       );
-      await expect(loading.getByRole("status").getByRole("link")).toHaveCount(0);
-      const guide = loading.getByRole("link");
-      await guide.focus();
-      await expect(guide).toBeFocused();
+      expect(cycle).toBeLessThan(6.4);
+      await expect(loading.locator(".showcase-loading-title")).toHaveCSS("animation-name", "none");
+      await expect(loading.getByRole("link")).toHaveCount(0);
+      const caption = await loading.locator("p").allTextContents();
+      expect(caption).toHaveLength(1);
+      expect(caption[0].split(/\s+/).length).toBeLessThanOrEqual(3);
+      // The first example can still be within the 100px activity margin at the page top.
+      await page.evaluate(() =>
+        window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "instant" }),
+      );
+      await expect(loading).not.toHaveAttribute("data-loading-active");
+      await expect
+        .poll(() =>
+          loading.evaluate(
+            (node) =>
+              node
+                .getAnimations({ subtree: true })
+                .filter((animation) => animation.playState === "running").length,
+          ),
+        )
+        .toBe(0);
+      await loading.scrollIntoViewIfNeeded();
+      await expect(loading).toHaveAttribute("data-loading-active");
       const bounds = await loading.boundingBox();
       await page.emulateMedia({ reducedMotion: "reduce" });
       // Reduced motion stops every decorative loop, without changing the reserved panel size.
@@ -338,6 +354,9 @@ test("loaders use every local palette in both schemes independently of the page"
               expected,
               spinnerColor,
               renderedColor: getComputedStyle(activity).color,
+              dotColors: [...element.querySelectorAll(".showcase-loading-chrome-marks i")].map(
+                (dot) => getComputedStyle(dot).backgroundColor,
+              ),
               background: getComputedStyle(activity).backgroundColor,
               border: getComputedStyle(activity).borderWidth,
               outline: getComputedStyle(activity).outlineWidth,
@@ -347,6 +366,7 @@ test("loaders use every local palette in both schemes independently of the page"
         );
         expect(result.actual, `${preset}/${scheme}`).toEqual(result.expected);
         expect(result.renderedColor).toBe(result.spinnerColor);
+        expect(result.dotColors).toEqual(Array(3).fill(result.spinnerColor));
         expect(result.background).toBe("rgba(0, 0, 0, 0)");
         expect(result.border).toBe("0px");
         expect(result.outline).toBe("0px");
@@ -458,10 +478,8 @@ for (const { route, selector, displayLabel, region } of [
         "animation-name",
         "none",
       );
-      await expect(loading.locator(".showcase-loading-seal > svg")).toHaveCSS(
-        "animation-name",
-        "none",
-      );
+      await expect(loading.locator(".showcase-loading-companion i")).toHaveCount(3);
+      await expect(loading.getByRole("link")).toHaveCount(0);
       await page.emulateMedia({ reducedMotion: "reduce" });
       await expect
         .poll(() => loading.evaluate((node) => node.getAnimations({ subtree: true }).length))
@@ -470,13 +488,8 @@ for (const { route, selector, displayLabel, region } of [
       await expect(loading).toHaveCount(0);
       await expect(section.getByRole("region", { name: region, exact: true })).toBeVisible();
       const reader = section.getByRole("region", { name: region, exact: true });
-      // Portable references reserve space on the wrapper; its inner grid child must shrink to scroll.
-      const surface =
-        displayLabel === "Reference Display"
-          ? section.locator('[data-slot="code-document"]')
-          : reader;
-      await expect(surface).toHaveCSS("min-height", "448px");
-      await expect(surface).toHaveCSS("max-height", "448px");
+      await expect(reader).toHaveCSS("min-height", "448px");
+      await expect(reader).toHaveCSS("max-height", "448px");
       expect((await reader.boundingBox())!.height).toBeCloseTo(448, 1);
       const scroll = await reader.evaluate((element) => {
         element.scrollTop = element.scrollHeight;

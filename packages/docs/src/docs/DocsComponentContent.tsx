@@ -32,6 +32,7 @@ import {
   ComponentIntegrationGuide,
   getComponentIntegrationContents,
 } from "./components/component-detail/ComponentIntegrationGuide";
+import { ComponentUsagePreview } from "./components/component-detail/ComponentUsagePreview";
 import { loadComponentApi } from "./components/component-detail/component-api";
 import {
   ComponentExamplesContext,
@@ -105,10 +106,6 @@ const ComponentContent = ({
   const docSections = useMemo<DocSection[]>(() => {
     return getDocSections(activeDoc, isComponentDetail);
   }, [activeDoc, isComponentDetail]);
-  const activeSectionId =
-    section && docSections.some((item) => item.id === section)
-      ? section
-      : (docSections[0]?.id ?? "installation");
   const activeDocView = useMemo(
     () => ({ ...activeDoc, sections: docSections }),
     [activeDoc, docSections],
@@ -172,6 +169,13 @@ const ComponentContent = ({
         : undefined),
     [activeDoc, isComponentDetail, docSections, exampleCollection],
   );
+  // Child guide routes target real headings even when they are not top-level sections.
+  const activeSectionId =
+    section &&
+    (docSections.some((item) => item.id === section) ||
+      (contents && flattenContents(contents).some((item) => item.id === section)))
+      ? section
+      : (docSections[0]?.id ?? "installation");
 
   useEffect(() => {
     if (previewIndex !== undefined) return;
@@ -308,21 +312,21 @@ const ComponentContent = ({
             </p>
           )}
           {isButtonDoc ? (
-            <div class="docs-usage-row docs-button-usage-preview">
+            <ComponentUsagePreview className="docs-button-usage-preview">
               <Button disabled>
                 <Spinner size="sm" data-icon="inline-start" />
                 Generating
               </Button>
-            </div>
+            </ComponentUsagePreview>
           ) : isButtonGroupDoc ? (
-            <div class="docs-usage-row">
+            <ComponentUsagePreview>
               <ButtonGroup>
                 <Button>Button 1</Button>
                 <Button>Button 2</Button>
               </ButtonGroup>
-            </div>
+            </ComponentUsagePreview>
           ) : isTabsDoc ? (
-            <div class="docs-usage-row w-full max-w-xl">
+            <ComponentUsagePreview className="w-full max-w-xl">
               <Tabs defaultValue="overview">
                 <TabsList variant="line">
                   <TabsTrigger value="overview">Overview</TabsTrigger>
@@ -331,7 +335,7 @@ const ComponentContent = ({
                 <TabsContent value="overview">Overview content</TabsContent>
                 <TabsContent value="details">Details content</TabsContent>
               </Tabs>
-            </div>
+            </ComponentUsagePreview>
           ) : isAlertDialogDoc ? null : null}
         </div>
       );

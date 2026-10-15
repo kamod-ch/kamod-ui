@@ -1,8 +1,11 @@
 import type { RefObject } from "preact";
 import { useLayoutEffect, useRef, useState } from "preact/hooks";
+import { setPreviewActivity } from "../../../blocks/preview-activity";
+import { observeViewportActivity } from "../../../layout/runtime/viewport-activity";
 import { previewLoadQueue } from "./preview-load-queue";
+import { previewRetention } from "./preview-retention";
 
-/** Skip queued previews outside the viewport; let started documents finish and retain their state. */
+/** Serialize startup, pause hidden examples, and retain only a small set of recent documents. */
 export function usePreviewActivation(
   frame: RefObject<HTMLIFrameElement | null>,
   onSuspend: () => void,
@@ -17,8 +20,12 @@ export function usePreviewActivation(
     const node = frame.current;
     if (!node) return;
     let stopped = false;
-    let settled = false;
+    let visible = false;
     let release: (() => void) | undefined;
+    let retained: ReturnType<typeof previewRetention.retain> | undefined;
+    const syncActivity = () => {
+      if (started.current) setPreviewActivity(node, visible);
+    };
     const stop = () => {
       // Aborting a started document can make the browser tear down expensive style/module work.
       if (!release || started.current) return;
@@ -31,38 +38,46 @@ export function usePreviewActivation(
       release = previewLoadQueue.enqueue(() => {
         if (stopped) return;
         started.current = true;
+        retained = previewRetention.retain(() => {
+          retained = undefined;
+          started.current = false;
+          setActive(false);
+          suspend.current();
+        }, visible);
         setActive(true);
       });
     };
-    const visibility =
-      typeof IntersectionObserver === "undefined"
-        ? null
-        : new IntersectionObserver(
-            (entries) => {
-              if (stopped || settled) return;
-              // Fast jumps can deliver hidden and visible entries in the same batch.
-              if (entries.at(-1)?.isIntersecting) enqueue();
-              else stop();
-            },
-            { rootMargin: "100px" },
-          );
+    const stopVisibility = observeViewportActivity(node, (active) => {
+      if (stopped) return;
+      visible = active;
+      syncActivity();
+      retained?.setVisible(active);
+      if (active && !started.current) enqueue();
+      else if (!active) stop();
+    });
     finish.current = () => {
       if (!started.current || stopped) return;
-      settled = true;
-      visibility?.disconnect();
       release?.();
       release = undefined;
+      syncActivity();
+      retained?.complete();
     };
-    if (visibility) visibility.observe(node);
-    else enqueue();
     return () => {
       stopped = true;
       started.current = false;
       finish.current = undefined;
-      visibility?.disconnect();
+      stopVisibility();
       release?.();
+      retained?.release();
     };
   }, [frame]);
 
-  return { active, isActive: () => started.current, complete: () => finish.current?.() };
+  return {
+    active,
+    isActive: () => started.current,
+    complete: () => {
+      finish.current?.();
+      return started.current;
+    },
+  };
 }
