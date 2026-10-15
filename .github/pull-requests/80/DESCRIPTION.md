@@ -594,6 +594,49 @@ the source for the latest documentation revision's CI result. Existing condition
 browser skips retain their documented feature/platform gates; no focused tests
 or unmerged index entries were found.
 
+## Visual-first color-theme studies
+
+Each of the eight individual preset studies now opens with a quieter frame and a
+clear color-system section. Its two explicit appearances each show eight larger,
+labeled semantic swatches before the same Workspace, Action Card and new Feature
+sketches. Primary, secondary, accent, canvas, card, muted, danger and sidebar
+colors come from the shipped theme CSS; text stays on a readable surface below
+each fill. Supporting foreground pairs, focus, boundaries and feedback remain in
+an expandable role list. The frame wash is reduced from 9%/6% to 3%/2% so that the
+actual palette samples provide the color emphasis.
+
+A shorter direction/use row, icon-led subheadings, a token-guide link and thin
+separators make the study easier to scan. A compact native-font specimen and the
+source-backed font-stack labels sit alongside larger corner-family samples. The
+complete palette narrative, design principles, task and review remain available
+under **Design notes & practical checks**, rather than extending the default view.
+Preset-specific type/shape notes and copyable scoped recipes retain their own
+native disclosures. The main section now shows more visual information with less
+always-visible prose.
+
+`PaletteSketch` owns the three static compositions, and `ThemeStudyNotes` owns the
+longer reading. The gallery retains its original preset/scheme persistence,
+hydration-safe selection, local appearance boundaries, subsection routes, source
+links and lazy recipe cleanup. No font downloads, animated skeletons, timers,
+observers, dependencies or additional background activity are introduced.
+Container queries adapt the swatches and paired appearances to the available
+content width. Existing regression tests now cover the eight main roles, six
+sketches per preset, closed notes, keyboard expansion, swatch dimensions and
+palette isolation, with 1024px added to the existing 320/768/1440px browser matrix.
+
+### Visual-study validation
+
+The full documentation suite passes **880 tests in 92 files**, including six
+gallery tests. Final docs typecheck/build and root Oxlint, Oxfmt and Biome pass.
+All **nine production Chrome theme-guide cases** pass with the final styling,
+including 320/768/1024/1440px, both appearances, every applied preset, palette
+isolation, label paint, keyboard disclosures, contrast, overflow and recipe
+cleanup. Desktop light/mobile dark studies were also inspected visually. An
+initial preview stalled before the cards were reached; restarting it after the
+completed build restored startup, and the final isolated browser run passes.
+No startup workaround was added. Earlier native Safari/WebKit coverage remains
+as recorded above.
+
 ## Review map
 
 Start with **core Code and CopyButton**, then **application theme scopes** and

@@ -1004,3 +1004,44 @@ Chrome cases** pass, including seven reference families at 320/768/1440px in bot
 appearances and a deliberately blocked syntax module. Desktop/mobile component
 and stylesheet cards were also inspected visually. These are new Chrome checks;
 the earlier documented WebKit/native Safari scope is unchanged.
+
+## 38. Visual-first individual color-theme studies
+
+### Palette, composition and hierarchy
+
+- **Quieter study frames.** Reduce each preset's primary and secondary background washes from 9%/6% to 3%/2%. Preserve the local preset signature and the page's text tokens while letting the samples carry the strongest color.
+- **Prominent main-color system.** Replace four small color strips with eight labeled swatch cards in each light/dark appearance. Show Primary, Secondary, Accent, Canvas, Surface, Muted, Danger and Sidebar directly from their real semantic CSS variables, with a minimum 48px color area.
+- **Readable token identities.** Put each role name and its exact custom property below the color area. Keep labels on the appearance's readable page surface rather than placing text over arbitrary accent fills, and allow long custom-property names to wrap. Override the generic filled-code chip locally and keep each reference underline bounded to its token text.
+- **Supporting palette disclosure.** Retain a native, keyboard-operable role disclosure for text pairings, quiet text, boundaries, focus, success and warning. Keep those supporting roles separate from the eight main samples without adding interactive controls to the static previews.
+- **Six static compositions per preset.** Keep the Workspace and Action Card examples and add a Feature sketch to both appearances. Share the decorative structure in a small PaletteSketch component, with no animation, timers, simulated loading or additional runtime dependencies.
+- **Clear composition heading.** Separate the main swatch grid from the sketches with an “In composition” row and a thin rule. Label the examples as static studies and update the appearance captions, study footer and introductory guidance to the new counts.
+- **Shorter introduction.** Keep the preset's concise design direction and suggested uses near its title. Give each use a small decorative check icon and place the list beside the direction when space permits.
+- **Useful color-system navigation.** Add a compact Token guide link beside the color-system heading, targeting the existing token explanation. Preserve the preset source-CSS footer link and existing apply-theme button and exact subsection targets.
+
+### Typography, shape and progressive reading
+
+- **Compact typography specimen.** Add an Aa sample, a short heading/body pairing and a mono fragment beside the source-backed Body, Display and Mono stack labels. Explicitly explain that the specimens use native fonts and named application fonts require their own files; no fonts are downloaded for these cards.
+- **Balanced shape panel.** Enlarge the three corner-family samples and add one short description of how the family connects controls and panels. Preserve the actual documented base radius and the expandable preset-specific shape guidance.
+- **Optional detailed reading.** Move the full palette narrative, light/dark notes, application guidance, design principles, practical task and shipping review into “Design notes & practical checks.” Preserve all existing guidance while reducing the default reading burden and keeping the color system first.
+- **Small presentation owners.** Extract the longer notes into ThemeStudyNotes and the repeated sketches into PaletteSketch. Keep ThemePresetStudy focused on section order, theme application and resource links, and remove obsolete overview layout rules.
+- **Container-aware layout.** Use local container width to choose two/four swatch columns and stacked/paired appearances. Preserve wrapping footers, narrow-screen typography panels, visible focus and reduced-motion handling for the added disclosure chevron.
+- **Existing reader lifetime.** Preserve lazy recipe mounting and release on close, server-rendered deep links, hydration-safe selected states and independent saved preset/scheme preferences. The redesign adds no observer, persistent listener or background task.
+
+### Regression coverage
+
+- **Gallery contract assertions.** Extend the existing server-render test to check 128 main swatches, the exact eight-role ordering, 48 static compositions and initially closed design notes. Retain route identity, scope isolation, persistence, radius-source and lazy-reader tests rather than adding implementation-mirroring tests.
+- **Responsive production checks.** Extend the existing Chrome matrix with 1024px alongside 320/768/1440px. Check actual swatch height/color stability across page-theme changes, initial disclosure state, typography samples, and keyboard access to the expanded practical guidance while retaining contrast, overflow and static-animation checks.
+
+### Visual-study verification
+
+The complete documentation unit suite passes **880 tests in 92 files**, including
+all six gallery tests. Final docs typecheck and production build, root Oxlint,
+Oxfmt and Biome pass. All **nine production Chrome theme-guide cases** pass against
+the rebuilt final implementation: 320/768/1024/1440px, both page appearances,
+every applied preset, role-label paint, palette isolation, native disclosures,
+contrast, overflow, generated routes, copyable recipes and reader release.
+Desktop light/mobile dark Ocean studies were inspected visually after the final
+label refinement. The first preview instance stalled on its loading screen; a
+restart after the completed build restored startup, and the isolated final run
+passes without changing the application startup logic. These are new Chrome
+results; the earlier Safari/WebKit scope remains unchanged.
