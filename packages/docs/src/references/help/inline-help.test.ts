@@ -82,6 +82,24 @@ it("applies a deployment prefix once to lazy family reading links", async () => 
           "technology:preact": {
             ...facts,
             source: { label: "Existing", href: "/kamod-ui/docs/components" },
+            sections: [
+              {
+                title: "Local chapter",
+                source: { label: "Chapter", href: "/docs/getting-started#page-title" },
+                definitions: [
+                  {
+                    name: "Contract",
+                    code: "type Contract = string;",
+                    source: { label: "Contract", href: "/kamod-ui/docs/components" },
+                  },
+                  {
+                    name: "External",
+                    code: "type External = number;",
+                    source: { label: "Official", href: "https://preactjs.com/" },
+                  },
+                ],
+              },
+            ],
           },
         }),
       },
@@ -89,6 +107,11 @@ it("applies a deployment prefix once to lazy family reading links", async () => 
     const result = await loadInlineReferenceHelp(data, request);
     expect(result.related?.[0].href).toBe("/kamod-ui/docs/getting-started");
     expect(result.source?.href).toBe("/kamod-ui/docs/components");
+    expect(result.sections?.[0].source?.href).toBe("/kamod-ui/docs/getting-started#page-title");
+    expect(result.sections?.[0].definitions?.map(({ source }) => source?.href)).toEqual([
+      "/kamod-ui/docs/components",
+      "https://preactjs.com/",
+    ]);
   } finally {
     vi.doUnmock("../../base-path");
   }

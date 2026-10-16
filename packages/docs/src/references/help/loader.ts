@@ -13,6 +13,7 @@ import type {
   CodeReferenceSourceSymbol,
 } from "../types";
 import { loadInlineReferenceHelp } from "./inline-help";
+import { referenceSourceSections } from "./reference-source-sections";
 
 const repository = "https://github.com/kamod-ch/kamod-ui";
 const routes = new Set<string>(docsNavigation.map(({ slug }) => slug));
@@ -193,6 +194,7 @@ export function describeCodeReference(
         : undefined,
       related,
       fields: symbol.fields?.slice(0, 4),
+      sections: referenceSourceSections(module, symbol, guide),
     };
   }
   if (module && (!name || name === "*")) {

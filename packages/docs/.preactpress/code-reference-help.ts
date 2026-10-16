@@ -1,6 +1,7 @@
 /** Build-only source extraction for lazy help cards; the TypeScript compiler stays out of the client. */
 import ts from "@typescript/typescript6";
 import type { CodeReferenceSourceModule, CodeReferenceSourceSymbol } from "../src/references/types";
+import { extractCodeReferenceSections } from "./code-reference-sections";
 import { extractComponentTypes } from "./component-api-plugin";
 
 const compact = (value: string, limit = 260) => {
@@ -64,6 +65,7 @@ export function extractCodeReferenceSymbols(source: string, filePath: string) {
     if (ts.isTypeAliasDeclaration(statement) || ts.isInterfaceDeclaration(statement)) {
       const symbol = symbols.find(({ name }) => name === statement.name.text);
       if (symbol) {
+        symbol.declaration = statement.getText(file).slice(0, 6000);
         symbol.typeNames = typeNames(statement);
         symbol.signature = compact(
           ts.isTypeAliasDeclaration(statement)
@@ -302,5 +304,6 @@ export function createCodeReferenceSourceModule(
     symbol.typeNames = symbol.typeNames.filter((name) => names.has(name));
   const file = sources[0]?.file;
   const sourcePath = file?.match(/^packages\/core\/src\/components\/[^/]+/)?.[0] ?? file;
-  return { slug, sourcePath, ...guide, symbols };
+  const sections = extractCodeReferenceSections(guideSource, slug);
+  return { slug, sourcePath, ...guide, symbols, ...(sections.length ? { sections } : {}) };
 }

@@ -21,6 +21,21 @@ export type CodeReferenceHelpField = {
   type: string;
   required: boolean;
   description: string;
+  defaultValue?: string;
+};
+
+/** Saved source excerpts; only the open reference loads and renders these bounded miniatures. */
+export type CodeReferenceHelpSection = {
+  title: string;
+  detail?: string;
+  source?: CodeReferenceHelpLink;
+  description?: string;
+  code?: { language: string; value: string; caption?: string };
+  rows?: { label: string; value: string }[];
+  fields?: CodeReferenceHelpField[];
+  contractName?: string;
+  definitions?: { name: string; code: string; source?: CodeReferenceHelpLink }[];
+  note?: string;
 };
 
 /** All destinations are verified against source, authored guides or installed package metadata. */
@@ -37,6 +52,7 @@ export type CodeReferenceHelp = {
   related?: (CodeReferenceHelpLink & { kind: "type" | "props" | "guide" | "source" })[];
   fields?: CodeReferenceHelpField[];
   facts?: { label: string; value: string }[];
+  sections?: CodeReferenceHelpSection[];
 };
 
 /** Keep aliases tied to their original exports; label is the exact visible source token. */
@@ -57,6 +73,7 @@ export type CodeReferenceSourceSymbol = {
   file: string;
   description: string;
   signature?: string;
+  declaration?: string;
   typeNames: string[];
   fields?: CodeReferenceHelpField[];
   typeId?: string;
@@ -70,6 +87,7 @@ export type CodeReferenceSourceModule = {
   description: string;
   propsTitles: string[];
   symbols: CodeReferenceSourceSymbol[];
+  sections?: CodeReferenceHelpSection[];
 };
 
 export type CodeReferencePackage = {

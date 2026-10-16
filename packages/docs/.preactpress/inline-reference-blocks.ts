@@ -1,7 +1,8 @@
 import { access, readFile } from "node:fs/promises";
 import { resolve } from "node:path";
-import { blockCategories } from "../src/blocks/block-categories";
+import { type BlockCategory, blockCategories } from "../src/blocks/block-categories";
 import type { CodeReferenceHelp } from "../src/references/types";
+import { blockReferenceSections } from "./block-reference-sections";
 import { sourceSectionIds } from "./inline-reference-pages";
 
 /** Component-free metadata owns variants, dependencies and file lists; folders must exist. */
@@ -96,6 +97,22 @@ export async function buildBlockReferences(root: string) {
               kind: "guide",
             },
           ],
+          sections: blockReferenceSections(
+            category as BlockCategory,
+            block,
+            await Promise.all(
+              files
+                .filter(
+                  (file) =>
+                    /\.[cm]?[jt]sx?$/.test(file) &&
+                    !/(?:^|\/)(?:preview|demo-data|preview-data)(?:\.|\/)/.test(file),
+                )
+                .map(async (file) => ({
+                  file: `packages/blocks/${file}`,
+                  source: await readFile(resolve(root, "packages/blocks", file), "utf8"),
+                })),
+            ),
+          ),
         },
       });
     }
