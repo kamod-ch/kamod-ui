@@ -42,10 +42,9 @@
   flex: none;
   width: 1.875rem;
   height: 1.875rem;
-  border: 1px solid var(--code-help-rule);
+  border: 0;
   border-radius: 0.5rem;
-  background: var(--code-help-surface);
-  color: color-mix(in oklab, var(--primary) 25%, var(--background));
+  background: var(--docs-icon-button-background);
 }
 .code-reference-help-badges {
   --code-help-action-size: 1.375rem;
@@ -72,15 +71,18 @@
   height: 0.65625rem;
 }
 /* Reuse the site's icon action, adapting its paint to this inverse reading surface. */
-.code-reference-help .code-reference-help-open {
+.code-reference-help :is(.code-reference-help-kind-icon, .code-reference-help-open) {
   --docs-icon-button-background: color-mix(in oklab, var(--background) 17%, transparent);
   --docs-icon-button-hover-background: color-mix(in oklab, var(--background) 25%, transparent);
+  color: var(--code-help-muted);
+}
+.code-reference-help .code-reference-help-open {
   flex: none;
   width: var(--code-help-action-size);
   height: var(--code-help-action-size);
-  color: var(--code-help-muted);
 }
-.code-reference-help .code-reference-help-open:is(:hover, :focus-visible) {
+.code-reference-help
+  a:is(.code-reference-help-kind-icon, .code-reference-help-open):is(:hover, :focus-visible) {
   color: var(--background);
 }
 .code-reference-help-origin {

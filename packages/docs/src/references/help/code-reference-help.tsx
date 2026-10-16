@@ -14,6 +14,7 @@ import { referenceKinds } from "./reference-kinds";
 import { referencePresentation } from "./reference-presentation";
 import { ReferenceRelated } from "./reference-related";
 import { ReferenceSentence } from "./reference-sentence";
+import { technologyIcon } from "./technology-icons";
 
 /** Preserve the copyable origin while each path segment yields to the single-line row. */
 function ReferencePath({ path }: { path: string }) {
@@ -36,6 +37,8 @@ export function CodeReferenceHelpContent({ reference }: { reference: CodeReferen
   const { kind, name, module, description, source, facts } = reference;
   const { Icon, label } = referenceKinds[kind];
   const { primary, context, reading, note, caption } = referencePresentation(reference);
+  const MainIcon = (kind === "technology" && technologyIcon(module)) || Icon;
+  const IconTag = primary ? "a" : "span";
   const ActionIcon =
     primary === source
       ? source?.href.startsWith("https://github.com/")
@@ -45,15 +48,22 @@ export function CodeReferenceHelpContent({ reference }: { reference: CodeReferen
   return (
     <div class="code-reference-help-layout" data-reference-kind={kind}>
       <header class="code-reference-help-header">
-        <span class="code-reference-help-kind-icon" aria-hidden="true">
-          <Icon size={17} />
-        </span>
+        <IconTag
+          class={`code-reference-help-kind-icon${primary ? " docs-icon-button" : ""}`}
+          href={primary?.href}
+          target={primary ? "_top" : undefined}
+          aria-label={primary ? `View ${name} reference` : undefined}
+          aria-hidden={primary ? undefined : "true"}
+          title={primary?.label}
+        >
+          <MainIcon size={17} strokeWidth={2.25} aria-hidden="true" />
+        </IconTag>
         <strong>
           <code>{name}</code>
         </strong>
         <div class="code-reference-help-badges">
           <Badge class="code-reference-help-kind" size="xxs">
-            <Icon size={10.5} strokeWidth={1.75} aria-hidden="true" />
+            <Icon size={10.5} strokeWidth={2.5} aria-hidden="true" />
             {label}
           </Badge>
           {primary && (

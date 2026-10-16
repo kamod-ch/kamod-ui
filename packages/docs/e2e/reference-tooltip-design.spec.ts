@@ -72,7 +72,16 @@ for (const scheme of ["light", "dark"] as const) {
           `Open ${await card.locator("footer a").innerText()} for ${label}`,
         );
         await expect(badge.locator("svg")).toHaveCSS("width", "10.5px");
-        await expect(badge.locator("svg")).toHaveCSS("stroke-width", "1.75px");
+        await expect(badge.locator("svg")).toHaveCSS("stroke-width", "2.5px");
+        const mainIcon = card.locator("a.code-reference-help-kind-icon");
+        await expect(mainIcon).toHaveAttribute("href", (await open.getAttribute("href"))!);
+        await expect(mainIcon).toHaveAttribute("target", "_top");
+        await expect(mainIcon).toHaveAccessibleName(`View ${label} reference`);
+        await expect(mainIcon.locator("svg")).toHaveCSS("stroke-width", "2.25px");
+        await expect(mainIcon).toHaveCSS(
+          "background-color",
+          await open.evaluate((node) => getComputedStyle(node).backgroundColor),
+        );
         const origin = card.locator(".code-reference-help-origin");
         await expect(origin.locator(".code-reference-help-origin-label")).toHaveCount(0);
         await expect(origin.locator("a")).toHaveCount(1);

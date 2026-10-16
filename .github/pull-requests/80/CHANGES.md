@@ -1144,3 +1144,26 @@ fourth related destination, including Props & defaults. Desktop light and mobile
 dark cards were visually inspected; the chain action's navigation, focus, hover
 and reduced-motion behavior were also checked. No new Safari/WebKit coverage is
 claimed.
+
+## 44. Linked reference icons and technology-specific marks
+
+- **Sharper technology symbol.** Replace the lightbulb with the installed circuit-board icon for the Technology badge and unknown-brand fallback. Keep the generic kind symbol in the badge even when the main heading uses a logo.
+- **Verified heading logos.** Reuse the existing fifteen-brand map, including Tailwind, React, TypeScript, GitHub and tooling marks, and explicitly use React's logo for Preact. Add the installed Astro, CSS, HTML, Svelte, Tabler and Vue marks plus React-family renderers in the lazy help module. Resolve by the canonical metadata name so aliases and versioned text preserve the right mark; unrecognized technologies retain the circuit-board fallback.
+- **Reusable icon ownership.** Extract the existing prose brand map into a small shared module without changing its entries. Keep additional technology-only imports behind the existing lazy card boundary, with named imports and no package-wide runtime icon registry.
+- **Linked main icon.** Make the left-hand mark a native link to the same chosen destination as the chain action and footer, preserving package-source priority and top-frame navigation. Give it a distinct accessible name and keep a decorative span when no verified destination exists.
+- **Consistent action surfaces.** Share the 17% resting and 25% active inverse paint with the chain button, plus the existing site icon-button focus, hover and reduced-motion behavior. Keep the main mark at 30px and the small action at 22px, without shifting the surrounding heading.
+- **Stronger icon strokes.** Increase the badge icons from 1.75 to 2.5 stroke and main marks from 2 to 2.25. Preserve the existing text sizes, compact badge geometry and inline-code highlight.
+- **Focused regression updates.** Cover Tailwind, React, Preact aliases and unknown-brand fallback, the distinction between heading logos and generic badges, source-first/missing-destination behavior, and matching button paint. Extend the existing responsive keyboard matrix to include the new first header link.
+
+### Linked-icon verification
+
+All **885 documentation tests in 92 files**, docs typecheck and production build,
+root Oxlint/Oxfmt/Biome pass. The final combined run passes all **16 production
+Chrome cases**, covering responsive light/dark cards at 320/768/1440px, both header
+links, source priority, keyboard flow, touch dismissal and lazy/failure behavior.
+An initial delayed-chunk case timed out during navigation; it passed in isolation
+and in the complete final rerun. A separate normal-load request check confirmed
+that the help chunk is not fetched before interaction. Tailwind on desktop light
+and Preact on mobile dark were visually inspected; main-link navigation, matching
+surfaces, keyboard focus, hover and reduced motion were checked directly. No new
+Safari/WebKit coverage is claimed.

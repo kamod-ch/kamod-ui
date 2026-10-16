@@ -1,11 +1,11 @@
 import {
   BlocksIcon,
   BracesIcon,
+  CircuitBoardIcon,
   ComponentIcon,
   FileCodeIcon,
   FileTextIcon,
   LayersIcon,
-  LightbulbIcon,
   LockKeyholeIcon,
   PackageIcon,
   Share2Icon,
@@ -28,7 +28,7 @@ export const referenceKinds = {
   file: { Icon: FileCodeIcon, label: "Source file", contract: "Exported shape" },
   command: { Icon: TerminalIcon, label: "Command", contract: "Invocation" },
   block: { Icon: BlocksIcon, label: "Block variant", contract: "Block contract" },
-  technology: { Icon: LightbulbIcon, label: "Technology", contract: "Technology details" },
+  technology: { Icon: CircuitBoardIcon, label: "Technology", contract: "Technology details" },
   page: { Icon: FileTextIcon, label: "Page / section", contract: "Page details" },
 } satisfies Record<
   CodeReferenceHelpKind,

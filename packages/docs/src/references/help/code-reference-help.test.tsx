@@ -1,5 +1,8 @@
 /** @vitest-environment jsdom */
+import { CircuitBoardIcon } from "@kamod-ch/icons/lucide";
+import { BrandReactIcon, BrandTailwindIcon } from "@kamod-ch/icons/tabler/outline";
 import { cleanup, render, waitFor, within } from "@testing-library/preact";
+import renderToString from "preact-render-to-string";
 import { afterEach, expect, it } from "vitest";
 import type { CodeReferenceHelp } from "../types";
 import { CodeReferenceHelpContent } from "./code-reference-help";
@@ -36,6 +39,9 @@ it("preserves exact path text and existing base prefixes while its reading links
   const { container, getByRole } = render(<CodeReferenceHelpContent reference={reference} />);
   const path = container.querySelector(".code-reference-help-path")!;
   expect(path.textContent).toBe(reference.module);
+  expect(
+    getByRole("link", { name: "View DirectionProvider reference", exact: true }),
+  ).toHaveAttribute("href", reference.docs!.href);
   expect(path.querySelector('[data-path-part="root"]')?.textContent).toBe("@/");
   expect(path.querySelector('[data-path-part="end"]')?.textContent).toBe("/direction");
   expect(getByRole("link", { name: "API reference" })).toHaveAttribute(
@@ -106,6 +112,10 @@ it("keeps package source primary and its local integration accessible in related
     "href",
     value.source.href,
   );
+  expect(container.querySelector("a.code-reference-help-kind-icon")).toHaveAttribute(
+    "href",
+    value.source.href,
+  );
   expect(container.querySelector(".code-reference-help-primary-link")).toHaveAttribute(
     "href",
     value.source.href,
@@ -134,6 +144,11 @@ it("deduplicates origin destinations and never invents resources for missing fac
   );
   expect(container.querySelector(".code-reference-help-footer a")).toBeNull();
   expect(container.querySelector(".code-reference-help-open")).toBeNull();
+  expect(container.querySelector("a.code-reference-help-kind-icon")).toBeNull();
+  expect(container.querySelector("span.code-reference-help-kind-icon")).toHaveAttribute(
+    "aria-hidden",
+    "true",
+  );
 });
 
 it("formats small declarations with the shared grammar while retaining their exact text", async () => {
@@ -255,3 +270,38 @@ it("uses short authored context and supplies supporting detail without truncatin
     "Stylesheet entrypoint",
   );
 });
+
+it.each([
+  ["Tailwind", "Tailwind CSS v4", BrandTailwindIcon],
+  ["React", "React", BrandReactIcon],
+  ["Preact", "preact v11", BrandReactIcon],
+  ["Valibot", "Valibot", CircuitBoardIcon],
+] as const)(
+  "uses the canonical %s logo only in the main icon, with a generic technology badge",
+  (module, name, MainIcon) => {
+    const { container, getByRole } = render(
+      <CodeReferenceHelpContent
+        reference={{
+          kind: "technology",
+          module,
+          name,
+          description: "Technology details.",
+          docs: { label: "Official documentation", href: "https://example.com/docs" },
+        }}
+      />,
+    );
+    const expected = document.createElement("div");
+    expected.innerHTML = renderToString(<MainIcon />);
+    expect(container.querySelector(".code-reference-help-kind-icon svg")!.innerHTML).toBe(
+      expected.querySelector("svg")!.innerHTML,
+    );
+    expected.innerHTML = renderToString(<CircuitBoardIcon />);
+    expect(container.querySelector(".code-reference-help-kind svg")!.innerHTML).toBe(
+      expected.querySelector("svg")!.innerHTML,
+    );
+    expect(getByRole("link", { name: `View ${name} reference`, exact: true })).toHaveAttribute(
+      "href",
+      "https://example.com/docs",
+    );
+  },
+);

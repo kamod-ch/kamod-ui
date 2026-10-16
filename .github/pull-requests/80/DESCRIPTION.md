@@ -308,9 +308,13 @@ source-first resources, keyboard flow and 320/1440px layouts in both appearances
 The shared private tooltip retains its icon/name heading with one compact type
 badge and a square chain-link action to the chosen main destination. The badge
 uses the page inline-code highlight, slightly softer 4px corners, 11px/500 text
-and a 10.5px outline icon. Its 22px height also sizes the square action. Technology
-uses a familiar lightbulb symbol. The action reuses the standard icon-button
-interaction with a stronger inverse-card surface (17% resting, 25% active), an
+and a 10.5px outline icon with a stronger 2.5 stroke. Its 22px height also sizes
+the square action. Technology uses an angular circuit-board symbol in the badge;
+its main heading uses a verified technology logo where available, with React's
+mark also representing Preact. The 30px main icon is itself a native destination
+link, with a slightly stronger 2.25 stroke and the same paint/interaction as the
+chain button. Without a verified destination, it stays decorative. The action
+reuses the standard icon-button interaction with a stronger inverse-card surface (17% resting, 25% active), an
 accessible name and top-frame navigation; it is omitted without a verified URL.
 
 The second row begins directly with the exact, copyable path, followed by a slash

@@ -1,46 +1,13 @@
 import { ArrowUpRightIcon } from "@kamod-ch/icons/lucide";
-import {
-  BrandDockerIcon,
-  BrandFigmaIcon,
-  BrandGithubIcon,
-  BrandGitIcon,
-  BrandJavascriptIcon,
-  BrandNextjsIcon,
-  BrandNodejsIcon,
-  BrandNpmIcon,
-  BrandPnpmIcon,
-  BrandReactIcon,
-  BrandTailwindIcon,
-  BrandTypescriptIcon,
-  BrandViteIcon,
-  BrandYarnIcon,
-} from "@kamod-ch/icons/tabler/outline";
 import { type ComponentChildren, cloneElement, Fragment, type VNode } from "preact";
 import { InlineCodeReference } from "../../../references/InlineCodeReference";
 import { inlineSourceReference, referenceAttributes } from "../../../references/inline-references";
 import { InlineCodeLink, InlineReferenceCode } from "../InlineCodeLink";
 import { inlineReference, proseReferencePattern } from "../inline-reference-catalog";
+import { brandIcons } from "./brand-icons";
 import { brandLabel, brandName, brandReferences, industryProsePattern } from "./brand-references";
 import { KamodReference } from "./KamodReference";
 import { hasKamodNamespace, kamodReferenceHref, kamodReferencePattern } from "./kamod-references";
-
-const brandIcons = {
-  Preact: BrandReactIcon,
-  React: BrandReactIcon,
-  TypeScript: BrandTypescriptIcon,
-  Tailwind: BrandTailwindIcon,
-  JavaScript: BrandJavascriptIcon,
-  GitHub: BrandGithubIcon,
-  Git: BrandGitIcon,
-  Vite: BrandViteIcon,
-  pnpm: BrandPnpmIcon,
-  npm: BrandNpmIcon,
-  Yarn: BrandYarnIcon,
-  "Node.js": BrandNodejsIcon,
-  "Next.js": BrandNextjsIcon,
-  Figma: BrandFigmaIcon,
-  Docker: BrandDockerIcon,
-};
 
 export const brandPattern = new RegExp(
   `${industryProsePattern}|${kamodReferencePattern.source}|${proseReferencePattern.source}`,
