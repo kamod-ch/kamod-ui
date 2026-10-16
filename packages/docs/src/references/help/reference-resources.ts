@@ -34,14 +34,14 @@ const resources = {
   },
   guide: {
     Icon: BookOpenIcon,
-    label: "Guide",
+    label: "Page",
     caption: "Documentation",
     description:
       "Read the **complete guide** for setup, examples and the surrounding API or design context.",
   },
 };
 
-/** One resource vocabulary for the reading shelf and its optional footer shortcuts. */
+/** A compact kind label and an explanation of the actual linked resource. */
 export function referenceResource(resource: ReferenceResource) {
   const presentation = resources[resource.kind];
   if (resource.kind === "source" && resource.href.startsWith("https://github.com/"))

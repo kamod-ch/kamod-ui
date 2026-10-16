@@ -1,7 +1,7 @@
 /** @vitest-environment jsdom */
 import { CircuitBoardIcon } from "@kamod-ch/icons/lucide";
 import { BrandReactIcon, BrandTailwindIcon } from "@kamod-ch/icons/tabler/outline";
-import { cleanup, render, waitFor, within } from "@testing-library/preact";
+import { cleanup, fireEvent, render, waitFor, within } from "@testing-library/preact";
 import renderToString from "preact-render-to-string";
 import { afterEach, expect, it } from "vitest";
 import type { CodeReferenceHelp } from "../types";
@@ -35,33 +35,35 @@ const reference: CodeReferenceHelp = {
   ],
 };
 
-it("preserves exact path text and existing base prefixes while its reading links escape preview frames", () => {
+it("preserves exact copyable origins, linked headings and top-frame navigation", () => {
   const { container, getByRole } = render(<CodeReferenceHelpContent reference={reference} />);
   const path = container.querySelector(".code-reference-help-path")!;
   expect(path.textContent).toBe(reference.module);
+  expect(path.querySelector('[data-path-part="root"]')).toHaveTextContent("@/");
+  expect(path.querySelector('[data-path-part="end"]')).toHaveTextContent("/direction");
   expect(
     getByRole("link", { name: "View DirectionProvider reference", exact: true }),
   ).toHaveAttribute("href", reference.docs!.href);
-  expect(path.querySelector('[data-path-part="root"]')?.textContent).toBe("@/");
-  expect(path.querySelector('[data-path-part="end"]')?.textContent).toBe("/direction");
-  expect(getByRole("link", { name: "API reference" })).toHaveAttribute(
+  expect(container.querySelector("a.code-reference-help-title")).toHaveAttribute(
     "href",
     reference.docs!.href,
   );
-  expect(getByRole("link", { name: "DirectionProviderProps" })).toHaveAttribute(
-    "href",
-    reference.related![0].href,
+  expect(container.querySelector(".code-reference-help-location")).toHaveTextContent(
+    reference.docs!.href,
+  );
+  expect(container.querySelector(".code-reference-help-location")).toHaveTextContent(
+    "Required: dir",
   );
   for (const link of container.querySelectorAll("a"))
     expect(link).toHaveAttribute("target", "_top");
 });
 
-it("renders source-derived code and emphasis safely without interpreting HTML", () => {
+it("renders source-derived prose safely, with only supported emphasis and destinations", () => {
   const { container } = render(
     <CodeReferenceHelpContent
       reference={{
         ...reference,
-        description: `${reference.description} <img src=x onerror=alert(1)>`,
+        description: `${reference.description} [Guide](/docs/direction/installation) [unsafe](javascript:alert) <img src=x onerror=alert(1)>`,
       }}
     />,
   );
@@ -69,10 +71,12 @@ it("renders source-derived code and emphasis safely without interpreting HTML", 
   expect(summary.querySelector("code")).toHaveTextContent("dir");
   expect(summary.querySelector("strong")).toHaveTextContent("nested controls");
   expect(summary.querySelector("img")).toBeNull();
-  expect(summary).toHaveTextContent("<img src=x onerror=alert(1)>");
+  expect(summary.querySelectorAll("a")).toHaveLength(1);
+  expect(summary.querySelector("a")).toHaveAttribute("href", "/docs/direction/installation");
+  expect(summary.textContent).toContain("[unsafe](javascript:alert)");
 });
 
-it("keeps the path and short context together, with secondary destinations in related reading", () => {
+it("uses a single badge, short origin context, and one ending index for all verified resources", () => {
   const { container } = render(<CodeReferenceHelpContent reference={reference} />);
   const header = container.querySelector("header")!;
   expect(header.querySelectorAll('[data-slot="badge"]')).toHaveLength(1);
@@ -80,33 +84,29 @@ it("keeps the path and short context together, with secondary destinations in re
     within(header).getByRole("link", { name: "Open API reference for DirectionProvider" }),
   ).toHaveAttribute("href", reference.docs!.href);
   const origin = container.querySelector(".code-reference-help-origin")!;
-  expect(origin.querySelector(".code-reference-help-origin-label")).toBeNull();
   expect(origin.querySelectorAll("a")).toHaveLength(1);
   expect(origin.querySelector(".code-reference-help-context")).toHaveTextContent(
     "Layout direction",
   );
-  expect(
-    within(container as HTMLElement).getByRole("link", { name: "Read source", exact: true }),
-  ).toHaveAttribute("href", reference.source!.href);
-  const footer = container.querySelector(".code-reference-help-footer")!;
-  expect(footer.querySelectorAll("a")).toHaveLength(3);
-  expect(
-    within(footer as HTMLElement).getByRole("link", { name: "Read source for DirectionProvider" }),
-  ).toHaveAttribute("href", reference.source!.href);
-  expect(footer.querySelector('[role="tooltip"]')).toBeNull();
-  expect(footer.querySelector("a")).toHaveAttribute("href", reference.docs!.href);
-  expect(footer.querySelector(".code-reference-help-note")).toHaveTextContent(
-    "Full context linked",
+  const index = container.querySelector(".code-reference-help-related")!;
+  expect(index).toHaveTextContent("Reference index");
+  expect(index.querySelectorAll("a")).toHaveLength(3);
+  expect(within(index as HTMLElement).getByRole("link", { name: "API reference" })).toHaveAttribute(
+    "href",
+    reference.docs!.href,
   );
-  expect(container.querySelector(".code-reference-help-detail")).toHaveTextContent(
-    "installed version",
+  expect(within(index as HTMLElement).getByRole("link", { name: "Read source" })).toHaveAttribute(
+    "href",
+    reference.source!.href,
   );
+  expect(index.querySelectorAll(".code-reference-help-related-kind")).toHaveLength(3);
+  expect(container.querySelector("footer")).toBeNull();
 });
 
-it("keeps package source primary and its local integration accessible in related reading", () => {
-  const value = {
+it("keeps exact package source primary while retaining its local integration destination", () => {
+  const value: CodeReferenceHelp = {
     ...reference,
-    kind: "module" as const,
+    kind: "module",
     module: "@kamod-ch/ui/theme.css",
     fields: [],
     related: [],
@@ -117,25 +117,20 @@ it("keeps package source primary and its local integration accessible in related
     docs: { label: "In this documentation", href: "/docs/theming/installation#css-setup" },
   };
   const { container } = render(<CodeReferenceHelpContent reference={value} />);
-  expect(container.querySelector(".code-reference-help-open")).toHaveAttribute(
-    "href",
-    value.source.href,
-  );
-  expect(container.querySelector("a.code-reference-help-kind-icon")).toHaveAttribute(
-    "href",
-    value.source.href,
-  );
-  expect(container.querySelector(".code-reference-help-primary-link")).toHaveAttribute(
-    "href",
-    value.source.href,
-  );
-  expect(container.querySelector(".code-reference-help-related-link")).toHaveAttribute(
-    "href",
-    value.docs.href,
-  );
+  for (const selector of [
+    ".code-reference-help-open",
+    "a.code-reference-help-kind-icon",
+    "a.code-reference-help-title",
+    ".code-reference-help-primary-link",
+  ])
+    expect(container.querySelector(selector)).toHaveAttribute("href", value.source!.href);
+  expect(container.querySelector(".code-reference-help-location")).toHaveTextContent("main branch");
+  expect(
+    container.querySelector(`.code-reference-help-related a[href='${value.docs!.href}']`),
+  ).not.toBeNull();
 });
 
-it("deduplicates origin destinations and never invents resources for missing facts", () => {
+it("deduplicates every ending destination and does not manufacture missing resources", () => {
   const { container, rerender } = render(
     <CodeReferenceHelpContent
       reference={{
@@ -145,13 +140,13 @@ it("deduplicates origin destinations and never invents resources for missing fac
       }}
     />,
   );
-  expect(container.querySelectorAll(".code-reference-help-related-link")).toHaveLength(0);
+  expect(container.querySelectorAll(".code-reference-help-related-link")).toHaveLength(1);
   rerender(
     <CodeReferenceHelpContent
       reference={{ ...reference, source: undefined, docs: undefined, related: [] }}
     />,
   );
-  expect(container.querySelector(".code-reference-help-footer a")).toBeNull();
+  expect(container.querySelector(".code-reference-help-related")).toBeNull();
   expect(container.querySelector(".code-reference-help-open")).toBeNull();
   expect(container.querySelector("a.code-reference-help-kind-icon")).toBeNull();
   expect(container.querySelector("span.code-reference-help-kind-icon")).toHaveAttribute(
@@ -160,85 +155,163 @@ it("deduplicates origin destinations and never invents resources for missing fac
   );
 });
 
-it("formats small declarations with the shared grammar while retaining their exact text", async () => {
+it("reuses the actual props table, preserving documented defaults and bounded rows", () => {
+  const fields = Array.from({ length: 8 }, (_, index) => ({
+    name: `prop${index}`,
+    type: "string",
+    required: index === 0,
+    description: `Meaning of prop ${index}.`,
+    defaultValue: index === 1 ? "Required" : '"value"',
+  }));
+  const { container } = render(
+    <CodeReferenceHelpContent
+      reference={{
+        ...reference,
+        sections: [
+          {
+            title: "Props & data",
+            detail: "Documented defaults",
+            source: reference.docs,
+            fields,
+            contractName: "DirectionProviderProps",
+          },
+        ],
+      }}
+    />,
+  );
+  const table = container.querySelector(
+    ".code-reference-help-miniature .blocks-api-props-table table",
+  )!;
+  expect(table.querySelectorAll("tbody tr")).toHaveLength(3);
+  expect(table.querySelector("thead")).toHaveTextContent("Prop / type");
+  expect(table.querySelector("tbody th code")).toHaveTextContent("prop0");
+  expect(table.querySelector(".component-api-default")).toHaveTextContent('Default"value"');
+  expect(table.querySelector("tbody tr:nth-child(2) .component-api-default")).toHaveTextContent(
+    "Usage requirementRequired",
+  );
+  expect(container.querySelector(".code-reference-help-truncation")).toHaveTextContent("3 of 8");
+  expect(container.querySelector(".code-reference-help-fields")).toBeNull();
+});
+
+it("uses the real code reader with optional grammar while retaining exact literal source", async () => {
   const signature = '(props: DirectionProviderProps) => VNode<"div">';
   const { container } = render(
     <CodeReferenceHelpContent reference={{ ...reference, signature }} />,
   );
-  expect(container.querySelector("pre code")?.textContent).toBe(signature);
-  await waitFor(() => expect(container.querySelector("pre code .token")).not.toBeNull());
+  expect(container.querySelector(".kamod-code pre code")?.textContent).toBe(signature);
+  await waitFor(() =>
+    expect(container.querySelector(".kamod-code pre code .token")).not.toBeNull(),
+  );
+  expect(container.querySelector(".blocks-api-prop-type")?.textContent).toBe('"ltr" | "rtl"');
+  expect(container.querySelector(".docs-code-copy")).toBeNull();
+});
+
+it("keeps section sources inside borderless-preview structure and centered source notes", () => {
+  const { container } = render(<CodeReferenceHelpContent reference={reference} />);
+  for (const section of container.querySelectorAll(".code-reference-help-section")) {
+    const heading = section.querySelector(".code-reference-help-section-label")!;
+    const panel = section.querySelector(".code-reference-help-panel")!;
+    expect(heading.querySelector(".code-reference-help-section-open")).toBeNull();
+    expect(panel.querySelector(".code-reference-help-section-open")).toHaveAttribute(
+      "href",
+      reference.docs!.href,
+    );
+    expect(section.querySelector(".code-reference-help-section-note a")).toHaveAttribute(
+      "href",
+      reference.docs!.href,
+    );
+  }
+});
+
+it("reuses source type disclosures and mounts their miniature code only when expanded", () => {
+  const code = "export interface DirectionProviderProps {\n  dir: 'ltr' | 'rtl';\n}";
+  const { container, getByRole } = render(
+    <CodeReferenceHelpContent
+      reference={{
+        ...reference,
+        sections: [
+          {
+            title: "Local definitions",
+            source: reference.docs,
+            definitions: [{ name: "DirectionProviderProps", code, source: reference.related![0] }],
+          },
+        ],
+      }}
+    />,
+  );
+  expect(container.querySelector('[data-slot="type-definition"]')).not.toBeNull();
+  expect(container.querySelector(".kamod-code")).toBeNull();
+  fireEvent.click(getByRole("button", { name: "View Definition: DirectionProviderProps" }));
+  expect(container.querySelector(".kamod-code pre code")?.textContent).toBe(code);
+});
+
+it("keeps every distinct related contract without duplicating links in a second footer", () => {
+  const related = Array.from({ length: 8 }, (_, index) => ({
+    label: `Related${index}`,
+    href: `/docs/types#type${index}`,
+    kind: "type" as const,
+  }));
+  const { container } = render(
+    <CodeReferenceHelpContent
+      reference={{
+        ...reference,
+        related,
+        sections: [
+          {
+            title: "Local definitions",
+            definitions: [
+              {
+                name: "IndependentProps",
+                code: "type IndependentProps = string;",
+                source: { label: "Full definition", href: "/docs/types#IndependentProps" },
+              },
+            ],
+          },
+        ],
+      }}
+    />,
+  );
+  const links = [...container.querySelectorAll(".code-reference-help-related-link")];
+  expect(links).toHaveLength(11);
+  expect(new Set(links.map((link) => link.getAttribute("href"))).size).toBe(11);
   expect(
-    container.querySelector(".code-reference-help-fields dt > .code-reference-help-syntax")
-      ?.textContent,
-  ).toBe('"ltr" | "rtl"');
-  expect(container.querySelector("pre div, .kamod-code")).toBeNull();
+    container.querySelector(
+      '.code-reference-help-related-link[href="/docs/types#IndependentProps"] code',
+    ),
+  ).toHaveTextContent("IndependentProps");
+  expect(container.querySelector("footer")).toBeNull();
 });
 
-it("supports safe prose links but leaves executable URLs and HTML as literal text", () => {
+it("omits fabricated contracts and empty stages when only summary facts exist", () => {
   const { container } = render(
     <CodeReferenceHelpContent
       reference={{
         ...reference,
-        description:
-          "[Guide](/docs/direction/installation) and [unsafe](javascript:alert) and [external](//example.com) and <script>alert(1)</script>.",
-      }}
-    />,
-  );
-  const summary = container.querySelector(".code-reference-help-summary")!;
-  expect(summary.querySelectorAll("a")).toHaveLength(1);
-  expect(summary.querySelector("a")).toHaveAttribute("href", "/docs/direction/installation");
-  expect(summary.querySelector("script")).toBeNull();
-  expect(summary.textContent).toContain("[unsafe](javascript:alert)");
-});
-
-it("bounds detailed fields and related reading so a large export inventory stays compact", () => {
-  const { container, getByText } = render(
-    <CodeReferenceHelpContent
-      reference={{
-        ...reference,
-        fields: Array.from({ length: 8 }, (_, index) => ({
-          name: `prop${index}`,
-          type: "string",
-          required: false,
-          description: "",
-        })),
-        related: Array.from({ length: 8 }, (_, index) => ({
-          label: `Related${index}`,
-          href: `/docs/types#type${index}`,
-          kind: "type" as const,
-        })),
-      }}
-    />,
-  );
-  expect(container.querySelectorAll(".code-reference-help-fields dt")).toHaveLength(3);
-  expect(container.querySelectorAll(".code-reference-help-related-link")).toHaveLength(5);
-  expect(getByText("Selected fields")).toBeVisible();
-});
-
-it("does not invent a contract when a package has no source-derived fields", () => {
-  const { container } = render(
-    <CodeReferenceHelpContent
-      reference={{
-        kind: "package",
-        name: "preact",
-        module: "preact/hooks",
-        description: "Preact hooks.",
         fields: [],
+        signature: "DirectionProviderProps",
+        facts: [{ label: "Role", value: "Reading direction" }],
         related: [],
+        source: undefined,
+        docs: undefined,
       }}
     />,
   );
-  expect(container.querySelector(".code-reference-help-contract")).toBeNull();
+  expect(container.querySelector(".code-reference-help-content")).toBeNull();
+  expect(container.querySelector(".code-reference-help-facts")).toHaveTextContent(
+    "Reading direction",
+  );
   expect(container.querySelector(".code-reference-help-related")).toBeNull();
-  expect(container.textContent).not.toContain("0");
 });
 
-it("announces actual pending work and keeps a usable link after optional metadata fails", () => {
+it("announces pending work once, removes the duplicate module row, and preserves navigation on failure", () => {
   const loading = render(
     <CodeReferenceHelpLoading name={reference.name} module={reference.module} />,
   );
+  expect(loading.getByText("Following the reference...")).toBeVisible();
   expect(loading.getByRole("status")).toHaveTextContent("Bringing the reference");
   expect(loading.container.firstElementChild).toHaveAttribute("aria-busy", "true");
+  expect(loading.container.querySelector(".code-reference-help-loading-spinner")).not.toBeNull();
+  expect(loading.container.querySelector(".code-reference-help-loading-module")).toBeNull();
   loading.unmount();
   const unavailable = render(
     <CodeReferenceHelpUnavailable
@@ -253,43 +326,15 @@ it("announces actual pending work and keeps a usable link after optional metadat
   );
 });
 
-it("uses short authored context and supplies supporting detail without truncating source prose", () => {
-  const { container, rerender } = render(
-    <CodeReferenceHelpContent
-      reference={{
-        kind: "technology",
-        name: "Tailwind CSS v4",
-        module: "Tailwind",
-        description: "Builds CSS from utility class names.",
-        facts: [{ label: "Role", value: "Utility styling" }],
-      }}
-    />,
-  );
-  expect(container.querySelector(".code-reference-help-context")).toHaveTextContent(
-    "Utility styling",
-  );
-  expect(container.querySelector(".code-reference-help-detail")).toHaveTextContent(
-    "official documentation",
-  );
-  rerender(
-    <CodeReferenceHelpContent
-      reference={{ ...reference, kind: "module", module: "@kamod-ch/ui/theme.css" }}
-    />,
-  );
-  expect(container.querySelector(".code-reference-help-context")).toHaveTextContent(
-    "Stylesheet entrypoint",
-  );
-});
-
 it.each([
   ["Tailwind", "Tailwind CSS v4", BrandTailwindIcon],
   ["React", "React", BrandReactIcon],
   ["Preact", "preact v11", BrandReactIcon],
   ["Valibot", "Valibot", CircuitBoardIcon],
 ] as const)(
-  "uses the canonical %s logo only in the main icon, with a generic technology badge",
+  "uses the canonical %s logo only for the main linked icon",
   (module, name, MainIcon) => {
-    const { container, getByRole } = render(
+    const { container } = render(
       <CodeReferenceHelpContent
         reference={{
           kind: "technology",
@@ -309,73 +354,5 @@ it.each([
     expect(container.querySelector(".code-reference-help-kind svg")!.innerHTML).toBe(
       expected.querySelector("svg")!.innerHTML,
     );
-    expect(getByRole("link", { name: `View ${name} reference`, exact: true })).toHaveAttribute(
-      "href",
-      "https://example.com/docs",
-    );
   },
 );
-
-it("places linked chapter headings above transparent cards and bounds distinct footer resources", () => {
-  const { container, rerender } = render(<CodeReferenceHelpContent reference={reference} />);
-  for (const section of container.querySelectorAll(".code-reference-help-section")) {
-    expect(section.children[0]).toHaveClass("code-reference-help-section-label");
-    expect(section.children[1]).toHaveClass("code-reference-help-panel");
-    const heading = section.querySelector("a.code-reference-help-section-title")!;
-    expect(section.querySelector(".code-reference-help-section-open")).toHaveAttribute(
-      "href",
-      heading.getAttribute("href"),
-    );
-  }
-  rerender(
-    <CodeReferenceHelpContent
-      reference={{
-        ...reference,
-        related: [
-          ...reference.related!,
-          { kind: "props", label: "Props & defaults", href: "/docs/direction#props" },
-          { kind: "guide", label: "Direction guide", href: "/docs/direction" },
-        ],
-      }}
-    />,
-  );
-  const actions = container.querySelectorAll("footer a");
-  expect(actions).toHaveLength(4);
-  expect(new Set([...actions].map((a) => a.getAttribute("href"))).size).toBe(4);
-  expect(actions[0]).toHaveAttribute("href", reference.docs!.href);
-  expect(actions[3]).toHaveTextContent("Props");
-  rerender(
-    <CodeReferenceHelpContent
-      reference={{ ...reference, docs: undefined, source: undefined, related: [] }}
-    />,
-  );
-  expect(container.querySelector(".code-reference-help-section-title")).toHaveProperty(
-    "tagName",
-    "SPAN",
-  );
-  expect(container.querySelector(".code-reference-help-section-open")).toBeNull();
-});
-
-it("keeps simple facts and grouped reading links out of detail cards", () => {
-  const { container } = render(
-    <CodeReferenceHelpContent
-      reference={{
-        ...reference,
-        fields: [],
-        signature: "DirectionProviderProps",
-        facts: [{ label: "Role", value: "Reading direction" }],
-      }}
-    />,
-  );
-  expect(container.querySelector(".code-reference-help-content")).toBeNull();
-  expect(container.querySelector(".code-reference-help-facts")).toHaveTextContent(
-    "Reading direction",
-  );
-  const reading = container.querySelector(".code-reference-help-related")!;
-  expect(reading.tagName).toBe("NAV");
-  expect(reading.querySelector(".code-reference-help-panel")).toBeNull();
-  expect(reading.querySelectorAll(".code-reference-help-reading-group")).toHaveLength(2);
-  expect(reading.querySelector(".code-reference-help-related-link code")).toHaveTextContent(
-    "DirectionProviderProps",
-  );
-});

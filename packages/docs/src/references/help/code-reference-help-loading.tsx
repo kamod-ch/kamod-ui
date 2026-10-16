@@ -9,18 +9,21 @@ export function CodeReferenceHelpLoading({ name, module }: { name: string; modul
           <i />
         </span>
         <div class="code-reference-help-loading-heading">
-          <strong>Following the reference</strong>
-          <code>{name}</code>
+          <div class="code-reference-help-loading-title">
+            <strong>Following the reference...</strong>
+            <span class="code-reference-help-loading-spinner" aria-hidden="true" />
+          </div>
+          <code title={module}>{name}</code>
         </div>
-        <span class="code-reference-help-loading-pulse" aria-hidden="true" />
       </div>
-      <p class="code-reference-help-loading-module" dir="ltr">
-        {module}
-      </p>
       <div class="code-reference-help-loading-lines" aria-hidden="true">
         <i />
         <i />
         <i />
+        <span>
+          <i />
+          <i />
+        </span>
       </div>
       <p class="code-reference-help-loading-note" role="status">
         Bringing the reference and its useful links into view.

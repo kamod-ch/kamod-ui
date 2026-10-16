@@ -2,9 +2,21 @@
 [data-slot="tooltip"] [data-slot="tooltip-content"].code-reference-help {
   --code-help-muted: color-mix(in oklab, var(--background) 76%, transparent);
   --code-help-quiet: color-mix(in oklab, var(--background) 65%, transparent);
-  --code-help-postscript: color-mix(in oklab, var(--background) 40%, transparent);
+  --code-help-postscript: var(--background);
   --code-help-rule: color-mix(in oklab, var(--background) 12%, transparent);
   --code-help-surface: color-mix(in oklab, var(--background) 4%, transparent);
+  --code-help-action-size: 1.375rem;
+  --code-help-action-ink: var(--docs-inline-code-background);
+  --code-help-action-background: color-mix(
+    in oklab,
+    var(--docs-inline-code-background) 10%,
+    transparent
+  );
+  --code-help-action-hover: color-mix(
+    in oklab,
+    var(--docs-inline-code-background) 22%,
+    transparent
+  );
   padding: 0.875rem;
   font-size: 0.75rem;
 }
@@ -22,10 +34,45 @@
   gap: 0.5rem;
   min-width: 0;
 }
-.code-reference-help-header > strong {
+.code-reference-help-header {
+  align-items: flex-start;
+}
+.code-reference-help-heading {
   flex: 1;
+  display: grid;
+  gap: 0.1875rem;
   min-width: 2ch;
-  font-size: 0.8125rem;
+}
+.code-reference-help a.code-reference-help-title,
+.code-reference-help-title {
+  display: block;
+  min-width: 0;
+  color: inherit;
+  font-size: 0.78125rem;
+  line-height: 1.5;
+  text-decoration: none;
+}
+.code-reference-help-location {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: 0;
+  color: var(--background);
+  font-size: 0.4375rem;
+  font-weight: 400;
+  line-height: 1.6;
+}
+.code-reference-help-location > span:not(:nth-child(2)) {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.code-reference-help-location > span:first-child {
+  flex: 0 1 65%;
+}
+.code-reference-help-location > span:last-child {
+  flex: 1;
 }
 .code-reference-help .code-reference-help-header code {
   display: block;
@@ -45,10 +92,9 @@
   height: 1.875rem;
   border: 0;
   border-radius: 0.5rem;
-  background: var(--docs-icon-button-background);
+  background: var(--code-help-action-background);
 }
 .code-reference-help-badges {
-  --code-help-action-size: 1.375rem;
   flex: none;
   gap: 0.375rem;
 }
@@ -68,8 +114,8 @@
 }
 .code-reference-help-kind svg {
   flex: none;
-  width: 0.65625rem;
-  height: 0.65625rem;
+  width: 0.75rem;
+  height: 0.75rem;
 }
 /* Reuse the site's icon action, adapting its paint to this inverse reading surface. */
 .code-reference-help
@@ -77,34 +123,50 @@
     .code-reference-help-kind-icon,
     .code-reference-help-open,
     .code-reference-help-section-open,
-    .code-reference-help-resource-action
+    .code-reference-help-panel-open
   ) {
-  --docs-icon-button-background: color-mix(in oklab, var(--background) 17%, transparent);
-  --docs-icon-button-hover-background: color-mix(in oklab, var(--background) 25%, transparent);
-  color: var(--code-help-muted);
+  --docs-icon-button-background: var(--code-help-action-background);
+  --docs-icon-button-hover-background: var(--code-help-action-hover);
+  --docs-icon-button-hover-offset: 0;
+  --docs-icon-button-hover-shadow: none;
+  color: var(--code-help-action-ink);
+  transition: background-color 150ms ease;
 }
 .code-reference-help .code-reference-help-open {
+  --code-help-action-ink: var(--foreground);
+  --code-help-action-background: var(--docs-inline-code-background);
+  --code-help-action-hover: color-mix(
+    in oklab,
+    var(--foreground) 12%,
+    var(--docs-inline-code-background)
+  );
   flex: none;
-  width: 1.75rem;
-  height: 1.75rem;
+  width: var(--code-help-action-size);
+  height: var(--code-help-action-size);
+  border-radius: 4px;
 }
 .code-reference-help
   a:is(
     .code-reference-help-kind-icon,
     .code-reference-help-open,
     .code-reference-help-section-open,
-    .code-reference-help-resource-action
+    .code-reference-help-panel-open
   ):is(:hover, :focus-visible) {
-  color: var(--background);
+  background: var(--docs-icon-button-hover-background);
+  color: var(--code-help-action-ink);
 }
-.code-reference-help
-  :is(
-    .code-reference-help-open,
-    .code-reference-help-section-open,
-    .code-reference-help-resource-action
-  )
-  > svg {
-  color: var(--primary);
+/* The tooltip is a stationary reading surface: actions change only their background. */
+.code-reference-help :is(button, .docs-icon-button):is(:hover, :focus-visible, :active) {
+  translate: 0;
+  scale: 1;
+  transform: none;
+  box-shadow: none;
+}
+.code-reference-help :is(button, .docs-icon-button) {
+  transition-property: background-color;
+}
+.code-reference-help .docs-icon-button > svg {
+  color: inherit;
 }
 .code-reference-help-origin {
   display: flex;
@@ -143,7 +205,7 @@
   gap: 0.4375rem;
   flex: 1;
   min-width: 0;
-  color: var(--code-help-quiet);
+  color: var(--background);
   font-size: 0.625rem;
 }
 .code-reference-help-context > span:first-child {
@@ -176,7 +238,7 @@
   background: color-mix(in oklab, var(--background) 8%, transparent);
   font-size: inherit;
 }
-/* A full-width chapter break with a faint wash from the actual type-badge paint. */
+/* Header, chapters and final index share the same uninterrupted reading surface. */
 .code-reference-help-content {
   display: grid;
   gap: 0.625rem;
@@ -184,7 +246,7 @@
   margin: 0 -0.875rem -0.75rem;
   padding: 0.75rem 0.875rem;
   border-top: 1px solid var(--code-help-rule);
-  background: color-mix(in oklab, var(--docs-inline-code-background) 10%, transparent);
+  background: transparent;
 }
 /* Badge and chips share page paint; the compact badge has slightly softer corners. */
 .code-reference-help
@@ -192,8 +254,6 @@
     .code-reference-help-kind,
     .code-reference-help-path,
     .code-reference-help-summary code,
-    .code-reference-help-fields dt > code,
-    .code-reference-help-contract-name code,
     .code-reference-help-related-link code,
     .code-reference-help-facts code
   ) {
@@ -206,8 +266,6 @@
   :is(
     .code-reference-help-path,
     .code-reference-help-summary code,
-    .code-reference-help-fields dt > code,
-    .code-reference-help-contract-name code,
     .code-reference-help-related-link code,
     .code-reference-help-facts code
   ) {
@@ -217,12 +275,39 @@
   line-height: 1.5;
 }
 .code-reference-help-panel {
+  position: relative;
+  isolation: isolate;
   min-width: 0;
   overflow: hidden;
   padding: 0.625rem;
-  border: 1px solid color-mix(in oklab, var(--background) 30%, transparent);
+  border: 0;
   border-radius: 0.5rem;
-  background: transparent;
+  background: var(--foreground);
+}
+.code-reference-help-panel::before,
+.code-reference-help-panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+}
+/* Reuse the actual showcase dot/grid recipe beneath an independently quiet purple wash. */
+.code-reference-help-panel::before {
+  opacity: 0.17;
+  background-image:
+    radial-gradient(circle, var(--showcase-canvas-dot) 1.1px, transparent 1.45px),
+    linear-gradient(var(--showcase-canvas-line) 1.25px, transparent 0),
+    linear-gradient(90deg, var(--showcase-canvas-line) 1.25px, transparent 0);
+  background-size:
+    16px 16px,
+    64px 64px,
+    64px 64px;
+  background-position: center;
+}
+.code-reference-help-panel::after {
+  background: color-mix(in oklab, var(--color-purple-500) 8%, transparent);
 }
 .code-reference-help-section {
   display: grid;
@@ -235,7 +320,7 @@
   justify-content: space-between;
   gap: 0.75rem;
   min-width: 0;
-  font-size: 0.75rem;
+  font-size: 0.59375rem;
 }
 .code-reference-help-section-heading,
 .code-reference-help-section-title,
@@ -272,7 +357,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   color: var(--code-help-quiet);
-  font-size: 0.5625rem;
+  font-size: 0.53125rem;
 }
 .code-reference-help-section-detail > span {
   margin-inline-end: 0.25rem;
@@ -281,19 +366,21 @@
   flex: none;
   white-space: nowrap;
   color: var(--code-help-quiet);
-  font-size: 0.5625rem;
+  font-size: 0.46875rem;
 }
 .code-reference-help-section-label svg {
   flex: none;
 }
 .code-reference-help .code-reference-help-section-open {
-  width: 1.5rem;
-  height: 1.5rem;
+  position: absolute;
+  top: 0.375rem;
+  right: 0.375rem;
+  z-index: 1;
+  width: var(--code-help-action-size);
+  height: var(--code-help-action-size);
+  opacity: 0.65;
 }
-/* Miniature source readers follow the page's declaration toolbar and prop/type pairing. */
-.code-reference-help-contract .code-reference-help-panel {
-  padding: 0;
-}
+/* Source components keep their real colors and hierarchy; only local density changes. */
 .code-reference-help-section + .code-reference-help-section::before {
   content: "";
   display: block;
@@ -303,117 +390,201 @@
   background: var(--code-help-rule);
 }
 .code-reference-help-section-note {
-  color: var(--code-help-postscript);
+  color: var(--code-help-quiet);
   font-size: 0.46875rem;
   line-height: 1.6;
+  text-align: center;
 }
 .code-reference-help-section-note a {
   color: inherit;
 }
-.code-reference-help-code-toolbar,
-.code-reference-help-field-columns {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  padding: 0.375rem 0.5rem;
-  border-bottom: 1px solid var(--code-help-rule);
-  color: var(--code-help-quiet);
-  font-size: 0.46875rem;
-  line-height: 1.5;
+.code-reference-help-section-copy {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  padding: 0 1.75rem 0.375rem 0;
+  font-size: 0.53125rem;
+  line-height: 1.7;
 }
-.code-reference-help-code-toolbar > span:first-child {
-  display: flex;
-  align-items: center;
+.code-reference-help .code-reference-help-section-copy code {
+  padding: 0.0625rem 0.1875rem;
+  background: var(--docs-inline-code-background);
+  color: var(--foreground);
+  font-size: inherit;
+}
+.code-reference-help-miniature {
+  --kamod-code-font-size: 0.53125rem;
+  --kamod-code-line-height: 1.65;
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 0.375rem;
+  background: var(--background);
+  color: var(--foreground);
+  font-size: 0.53125rem;
+  font-weight: 400;
+  line-height: 1.7;
+}
+.code-reference-help .code-reference-help-miniature .kamod-code {
+  margin: 0;
+}
+.code-reference-help-miniature-facts table {
+  width: 100%;
+  table-layout: fixed;
+}
+.code-reference-help-miniature-facts td:first-child {
+  width: 28%;
+  overflow-wrap: normal;
+}
+.code-reference-help-miniature + .code-reference-help-miniature {
+  margin-top: 0.375rem;
+}
+.code-reference-help .code-reference-help-miniature :is(p, code) {
+  font-size: inherit;
+}
+.code-reference-help .code-reference-help-miniature code:not(:where(pre *)) {
+  background: var(--docs-inline-code-background);
+  color: var(--foreground);
+}
+.code-reference-help .code-reference-help-miniature .blocks-doc-table {
+  border-radius: 0.375rem;
+  background: var(--background);
+}
+.code-reference-help .code-reference-help-miniature .blocks-doc-table table {
+  min-width: 0;
+  table-layout: fixed;
+  font-size: inherit;
+}
+.code-reference-help .code-reference-help-miniature :is(th, td) {
+  padding: 0.375rem;
+}
+.code-reference-help .code-reference-help-miniature .blocks-doc-table thead {
+  font-size: 0.46875rem;
+}
+.code-reference-help .code-reference-help-miniature .blocks-doc-table th[scope="row"] {
+  width: 40%;
+  min-width: 0;
+}
+.code-reference-help .code-reference-help-miniature thead th:last-child,
+.code-reference-help .code-reference-help-miniature-facts tr:first-child td:last-child {
+  padding-right: 1.75rem;
+}
+.code-reference-help-miniature .blocks-api-prop-label {
   gap: 0.25rem;
 }
-.code-reference-help .code-reference-help-signature {
-  margin: 0;
+.code-reference-help .code-reference-help-miniature .blocks-api-prop-type {
+  margin-top: 0.25rem;
+  font-size: 0.5rem;
+}
+.code-reference-help .code-reference-help-miniature .component-api-default {
+  gap: 0.1875rem 0.375rem;
+  margin-top: 0.375rem;
+  padding-top: 0.3125rem;
+  font-size: 0.46875rem;
+}
+.code-reference-help-miniature td > p {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+.code-reference-help .code-reference-help-miniature .blocks-api-required {
+  width: 0.8125rem;
+  height: 0.8125rem;
+  padding: 0.125rem;
+}
+.code-reference-help-miniature .blocks-api-required svg {
+  width: 0.5625rem;
+  height: 0.5625rem;
+}
+.code-reference-help .code-reference-help-miniature .docs-code-toolbar {
+  padding: 0.375rem 1.75rem 0.375rem 0.5rem;
+  font-size: 0.46875rem;
+}
+.code-reference-help .code-reference-help-miniature .docs-code {
   padding: 0.5rem;
-  border: 0;
-  border-radius: 0;
-  background: none;
-}
-.code-reference-help-declaration + .code-reference-help-props {
-  border-top: 1px solid var(--code-help-rule);
-}
-.code-reference-help-contract-name {
-  padding: 0.4375rem 0.5rem;
-  border-bottom: 1px solid var(--code-help-rule);
+  font-size: inherit;
 }
 .code-reference-help .code-reference-help-syntax {
   display: block;
+  min-width: 0;
   padding: 0;
   background: none;
-  color: var(--background);
-  font-size: 0.53125rem;
+  color: inherit;
+  font-size: inherit;
   font-weight: 400;
   line-height: 1.65;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
   tab-size: 2;
 }
+.code-reference-help .code-reference-help-miniature code.code-reference-help-syntax {
+  background: none;
+  color: inherit;
+}
 .code-reference-help-syntax .token {
-  font: inherit;
+  font-size: inherit;
   background: none;
   text-shadow: none;
 }
-.code-reference-help-syntax .token:is(.keyword, .boolean, .number, .operator) {
-  color: color-mix(in oklab, var(--primary) 28%, var(--background));
+.code-reference-help .code-reference-help-miniature [data-slot="type-definition"] {
+  border-radius: 0.375rem;
 }
-.code-reference-help-syntax .token:is(.string, .class-name, .function) {
-  color: color-mix(in oklab, var(--secondary-accent) 28%, var(--background));
+.code-reference-help-miniature [data-slot="type-definition"] + [data-slot="type-definition"] {
+  margin-top: 0.3125rem;
 }
-.code-reference-help-syntax .token:is(.punctuation, .comment) {
-  color: var(--code-help-muted);
+.code-reference-help .code-reference-help-miniature [data-slot="type-definition-intro"] {
+  padding: 0.375rem;
 }
-.code-reference-help-field-columns,
-.code-reference-help-fields > div {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
-  gap: 0.625rem;
+.code-reference-help-miniature-definitions
+  [data-slot="type-definition"]:first-child
+  [data-slot="type-definition-intro"] {
+  padding-right: 1.75rem;
 }
-.code-reference-help-fields {
+.code-reference-help-miniature [data-slot="type-definition-intro"] > div {
+  gap: 0.25rem;
+  margin-bottom: 0.1875rem;
+}
+.code-reference-help .code-reference-help-miniature h6 {
   margin: 0;
-  font-size: 0.53125rem;
+  font-size: 0.5625rem;
 }
-.code-reference-help-fields > div {
-  padding: 0.5rem;
+.code-reference-help
+  .code-reference-help-miniature
+  :is(
+    [data-slot="type-definition-name"],
+    [data-slot="type-definition-title-metadata"],
+    [data-slot="type-definition-trigger-hint"]
+  ) {
+  font-size: 0.46875rem;
 }
-.code-reference-help-fields > div + div {
-  border-top: 1px solid var(--code-help-rule);
+.code-reference-help .code-reference-help-miniature [data-slot="type-definition-trigger"] {
+  min-height: 0;
+  gap: 0.375rem;
+  padding: 0.375rem;
+  font-size: 0.5rem;
+  color: var(--muted-foreground);
 }
-.code-reference-help-fields :is(dt, dd) {
-  min-width: 0;
-  margin: 0;
-  overflow-wrap: anywhere;
-}
-.code-reference-help-fields dt {
-  display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
+.code-reference-help-miniature [data-slot="type-definition-trigger"] span {
   gap: 0.25rem;
 }
-.code-reference-help-fields dt > span {
-  color: var(--code-help-quiet);
+.code-reference-help-miniature [data-slot="type-definition-trigger"] svg {
+  width: 0.625rem;
+  height: 0.625rem;
+}
+.code-reference-help-miniature [data-slot="type-definition-chevron"] {
+  width: 1rem;
+  height: 1rem;
+}
+.code-reference-help .code-reference-help-miniature [data-slot="table"] {
+  font-size: inherit;
+}
+.code-reference-help-truncation {
+  display: block;
+  padding: 0.25rem 0.375rem;
+  color: var(--muted-foreground);
   font-size: 0.4375rem;
-}
-.code-reference-help-fields dt > [data-required] {
-  color: var(--background);
-}
-.code-reference-help .code-reference-help-fields dt > code.code-reference-help-syntax {
-  flex-basis: 100%;
-  padding: 0;
-  background: none;
-  color: var(--code-help-muted);
-  font-weight: 400;
-}
-.code-reference-help-fields dd {
-  color: var(--code-help-muted);
-  line-height: 1.65;
-}
-.code-reference-help-fields dd strong {
-  color: var(--background);
+  text-align: center;
 }
 .code-reference-help-facts {
   display: flex;
@@ -448,25 +619,44 @@
   margin: 0 -0.875rem -0.75rem;
   padding: 0.625rem 0.875rem;
   border-top: 1px solid var(--code-help-rule);
-  background: color-mix(in oklab, var(--background) 3%, transparent);
+  background: transparent;
+  margin-bottom: -0.875rem;
+  padding-bottom: 0.875rem;
 }
 .code-reference-help-reading-heading {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.75rem;
-  font-size: 0.53125rem;
+  gap: 0.375rem;
+  margin-bottom: 0.25rem;
+  min-width: 0;
+  font-size: 0.59375rem;
 }
 .code-reference-help-reading-heading strong {
   display: flex;
+  flex: none;
   align-items: center;
   gap: 0.3125rem;
   font-weight: 600;
+  white-space: nowrap;
 }
 .code-reference-help-reading-heading > span,
 .code-reference-help-reading-label {
   color: var(--code-help-quiet);
   font-size: 0.46875rem;
+}
+.code-reference-help-reading-detail {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.code-reference-help-reading-detail > span {
+  margin-right: 0.25rem;
+}
+.code-reference-help-reading-count {
+  flex: none;
+  margin-left: auto;
 }
 .code-reference-help-reading-group {
   display: grid;
@@ -478,24 +668,24 @@
 .code-reference-help-related-links {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.3125rem;
+  gap: 0.25rem;
   min-width: 0;
 }
 .code-reference-help .code-reference-help-related-link {
   display: inline-flex;
   align-items: center;
-  gap: 0.3125rem;
+  gap: 0.25rem;
   max-width: 100%;
   min-width: 0;
-  padding: 0.25rem 0.3125rem;
-  border: 1px solid transparent;
+  padding: 0.125rem 0.1875rem;
+  border: 0;
   border-radius: 3px;
   background: var(--docs-inline-code-background);
   color: var(--foreground);
-  text-decoration: none;
-  transition:
-    border-color 150ms,
-    opacity 150ms;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, currentColor 55%, transparent);
+  text-underline-offset: 0.2em;
+  transition: background-color 150ms ease;
 }
 .code-reference-help-related-link > svg {
   flex: none;
@@ -508,108 +698,22 @@
   white-space: nowrap;
   background: none;
   color: inherit;
-  font-size: 0.53125rem;
+  font-size: 0.46875rem;
   font-weight: 550;
 }
-.code-reference-help-related-link > svg:last-child {
-  opacity: 0.55;
+.code-reference-help-related-kind {
+  flex: none;
+  font-size: 0.40625rem;
+  font-weight: 550;
 }
-.code-reference-help
-  :is(
-    .code-reference-help-fields dt > code,
-    .code-reference-help-contract-name code,
-    .code-reference-help-fields dd code,
-    .code-reference-help-facts code
-  ) {
+.code-reference-help .code-reference-help-facts code {
   font-size: 0.53125rem;
 }
-.code-reference-help-footer {
-  position: sticky;
-  bottom: -0.875rem;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  margin: 0 -0.875rem -0.875rem;
-  padding: 0.5rem 0.875rem 0.625rem;
-  border-top: 1px solid var(--code-help-rule);
-  background: var(--foreground);
-}
-.code-reference-help-note {
-  display: flex;
-  align-items: center;
-  gap: 0.3125rem;
-  min-width: 0;
-  color: var(--code-help-quiet);
-  font-size: 0.5625rem;
-  line-height: 1.5;
-}
-.code-reference-help-note svg {
-  flex: none;
-}
-.code-reference-help-resources {
-  display: flex;
-  align-items: center;
-  flex: none;
-  gap: 0.375rem;
-  margin-inline-start: auto;
-}
-.code-reference-help .code-reference-help-resource-action {
-  gap: 0.3125rem;
-  height: 1.75rem;
-  min-width: 1.75rem;
-  padding-inline: 0.375rem;
-  font-size: 0.625rem;
-  font-weight: 500;
-  text-decoration: none;
-}
-/* Anchor hints to the whole footer so they remain inside the scrolling parent card. */
-.code-reference-help [data-slot="tooltip-content"].code-reference-resource-hint {
-  z-index: 3;
-  display: grid;
-  gap: 0.4375rem;
-  padding: 0.625rem;
-  border: 1px solid color-mix(in oklab, var(--foreground) 14%, transparent);
-  border-radius: 0.5rem;
-  background: var(--background);
-  color: var(--foreground);
-  font-size: 0.6875rem;
-  line-height: 1.6;
-  text-align: start;
-  white-space: normal;
-  overflow-wrap: anywhere;
-}
-.code-reference-resource-hint > strong {
-  display: flex;
-  align-items: center;
-  gap: 0.375rem;
-  font-weight: 600;
-}
-.code-reference-help .code-reference-resource-hint code {
-  display: -webkit-box;
-  overflow: hidden;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  padding: 0.1875rem 0.3125rem;
-  border-radius: 3px;
-  background: var(--docs-inline-code-background);
-  color: var(--foreground);
-  font-size: 0.5625rem;
-}
-.code-reference-resource-hint > [data-slot="tooltip-arrow"] {
-  display: none;
-}
 .code-reference-help .code-reference-help-related-link:is(:hover, :focus-visible) {
-  border-color: var(--code-help-rule);
-  opacity: 0.85;
+  background: color-mix(in oklab, var(--foreground) 12%, var(--docs-inline-code-background));
 }
 .code-reference-help a:is(:hover, :focus-visible) {
   text-decoration-color: currentColor;
-}
-.code-reference-help-related-link:is(:hover, :focus-visible) code {
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
 }
 .code-reference-help-loading {
   min-width: 0;
@@ -656,13 +760,20 @@
   white-space: nowrap;
   font-size: 0.6875rem;
 }
-.code-reference-help-loading-pulse {
+.code-reference-help-loading-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.code-reference-help-loading-spinner {
   flex: none;
-  width: 0.3125rem;
-  height: 0.3125rem;
+  width: 0.6875rem;
+  height: 0.6875rem;
+  border: 1.5px solid color-mix(in oklab, currentColor 18%, transparent);
+  border-top-color: currentColor;
   border-radius: 50%;
-  background: color-mix(in oklab, var(--primary) 40%, currentColor);
-  animation: code-reference-help-pulse 2s ease-in-out infinite;
+  animation: code-reference-help-spin 900ms linear infinite;
 }
 .code-reference-help-loading-module {
   overflow: hidden;
@@ -670,9 +781,6 @@
   white-space: nowrap;
   color: var(--code-help-muted);
   font: 0.625rem/1.5 var(--font-mono, monospace);
-}
-.code-reference-help-loading .code-reference-help-loading-module {
-  margin-top: 0.5rem;
 }
 .code-reference-help-loading-lines {
   display: grid;
@@ -682,8 +790,14 @@
 .code-reference-help-loading-lines i {
   height: 0.3125rem;
   border-radius: 0.1875rem;
-  background: color-mix(in oklab, currentColor 10%, transparent);
-  animation: code-reference-help-pulse 2.2s ease-in-out infinite;
+  background: linear-gradient(
+    100deg,
+    color-mix(in oklab, currentColor 6%, transparent) 25%,
+    color-mix(in oklab, var(--primary) 18%, currentColor) 50%,
+    color-mix(in oklab, currentColor 6%, transparent) 75%
+  );
+  background-size: 250% 100%;
+  animation: code-reference-help-shimmer 2.4s ease-in-out infinite;
 }
 .code-reference-help-loading-lines i:nth-child(2) {
   width: 91%;
@@ -693,7 +807,22 @@
   width: 76%;
   animation-delay: 240ms;
 }
-.code-reference-help-loading-note,
+.code-reference-help-loading-lines > span {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 0.5rem;
+  margin-top: 0.1875rem;
+}
+.code-reference-help-loading-lines > span i {
+  width: auto;
+  height: 1.125rem;
+  animation-delay: 360ms;
+}
+.code-reference-help-loading-note {
+  color: var(--code-help-muted);
+  font-size: 0.46875rem;
+  line-height: 1.6;
+}
 .code-reference-help-unavailable > p {
   color: var(--code-help-muted);
   font-size: 0.6875rem;
@@ -726,20 +855,24 @@
     transform: rotate(0);
   }
 }
-@keyframes code-reference-help-pulse {
-  0%,
-  100% {
-    opacity: 0.65;
+@keyframes code-reference-help-spin {
+  to {
+    transform: rotate(360deg);
   }
-  50% {
-    opacity: 1;
+}
+@keyframes code-reference-help-shimmer {
+  from {
+    background-position: 150% 0;
+  }
+  to {
+    background-position: -150% 0;
   }
 }
 @media (max-width: 399px) {
   .code-reference-help-header {
     gap: 0.375rem;
   }
-  .code-reference-help-header > strong {
+  .code-reference-help a.code-reference-help-title {
     font-size: 0.75rem;
   }
   .code-reference-help-badges {
@@ -747,9 +880,6 @@
   }
   .code-reference-help-origin {
     gap: 0.375rem;
-  }
-  .code-reference-help-resource-action > span {
-    display: none;
   }
   .code-reference-help-reading-group {
     grid-template-columns: minmax(0, 1fr);
@@ -759,7 +889,7 @@
 @media (prefers-reduced-motion: reduce) {
   .code-reference-help-layout,
   .code-reference-help-loading-mark,
-  .code-reference-help-loading-pulse,
+  .code-reference-help-loading-spinner,
   .code-reference-help-loading-lines i {
     animation: none;
   }

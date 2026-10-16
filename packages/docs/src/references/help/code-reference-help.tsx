@@ -4,7 +4,6 @@ import { splitDisplayPath } from "../../docs/components/display-path";
 import type { CodeReferenceHelp } from "../types";
 import { hasReferenceContract, ReferenceContract } from "./reference-contract";
 import { ReferenceFacts } from "./reference-facts";
-import { ReferenceFooter } from "./reference-footer";
 import { referenceKinds } from "./reference-kinds";
 import { referencePresentation } from "./reference-presentation";
 import { ReferenceRelated } from "./reference-related";
@@ -31,9 +30,10 @@ function ReferencePath({ path }: { path: string }) {
 export function CodeReferenceHelpContent({ reference }: { reference: CodeReferenceHelp }) {
   const { kind, name, module, description } = reference;
   const { Icon, label } = referenceKinds[kind];
-  const { primary, context, reading, resources, note, caption } = referencePresentation(reference);
+  const { primary, location, context, resources, note, caption } = referencePresentation(reference);
   const MainIcon = (kind === "technology" && technologyIcon(module)) || Icon;
   const IconTag = primary ? "a" : "span";
+  const TitleTag = primary ? "a" : "span";
   return (
     <div class="code-reference-help-layout" data-reference-kind={kind}>
       <header class="code-reference-help-header">
@@ -45,14 +45,29 @@ export function CodeReferenceHelpContent({ reference }: { reference: CodeReferen
           aria-hidden={primary ? undefined : "true"}
           title={primary?.label}
         >
-          <MainIcon size={17} strokeWidth={2.25} aria-hidden="true" />
+          <MainIcon size={16} strokeWidth={2} aria-hidden="true" />
         </IconTag>
-        <strong>
-          <code>{name}</code>
-        </strong>
+        <div class="code-reference-help-heading">
+          <TitleTag
+            class="code-reference-help-title"
+            href={primary?.href}
+            target={primary ? "_top" : undefined}
+          >
+            <strong>
+              <code>{name}</code>
+            </strong>
+          </TitleTag>
+          {location && (
+            <p class="code-reference-help-location" title={`${location.path} · ${location.detail}`}>
+              <span dir="ltr">{location.path}</span>
+              <span aria-hidden="true">·</span>
+              <span>{location.detail}</span>
+            </p>
+          )}
+        </div>
         <div class="code-reference-help-badges">
           <Badge class="code-reference-help-kind" size="xxs">
-            <Icon size={10.5} strokeWidth={2.5} aria-hidden="true" />
+            <Icon size={12} strokeWidth={2} aria-hidden="true" />
             {label}
           </Badge>
           {primary && (
@@ -63,7 +78,7 @@ export function CodeReferenceHelpContent({ reference }: { reference: CodeReferen
               aria-label={`Open ${primary.label} for ${name}`}
               title={primary.label}
             >
-              <LinkIcon size={15} strokeWidth={3} aria-hidden="true" />
+              <LinkIcon size={11} strokeWidth={1.75} aria-hidden="true" />
             </a>
           )}
         </div>
@@ -108,8 +123,7 @@ export function CodeReferenceHelpContent({ reference }: { reference: CodeReferen
           <ReferenceContract reference={reference} />
         </div>
       )}
-      <ReferenceRelated reference={reference} links={reading} />
-      <ReferenceFooter name={name} primary={primary} resources={resources} />
+      <ReferenceRelated reference={reference} links={resources} primary={primary?.href} />
     </div>
   );
 }

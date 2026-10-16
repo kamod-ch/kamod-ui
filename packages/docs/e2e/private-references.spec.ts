@@ -138,8 +138,19 @@ test("inline source help loads on demand and shares the snippet loading boundary
     await term.focus();
     await expect(card.locator('[data-reference-kind="component"]')).toBeVisible();
     await expect(
-      card.getByRole("link", { name: "DirectionProviderProps", exact: true }),
+      card
+        .locator(".code-reference-help-related")
+        .getByRole("link", { name: "DirectionProviderProps", exact: true }),
     ).toHaveAttribute("href", /#component-type-Direction-DirectionProviderProps$/);
+    const definitions = card.locator('[data-slot="type-definition-name"]');
+    await expect(definitions.filter({ hasText: /^DirectionProviderProps$/ })).toHaveCount(1);
+    await expect(definitions.filter({ hasText: /^DirectionValue$/ })).toHaveCount(1);
+    await expect(definitions.filter({ hasText: /^DirectionProps$/ })).toHaveCount(0);
+    await expect(
+      card
+        .locator(".code-reference-help-related")
+        .getByRole("link", { name: "DirectionProps", exact: true }),
+    ).toHaveAttribute("href", /#component-type-Direction-DirectionProps$/);
     await page.keyboard.press("Tab");
     await expect(card.locator("a").first()).toBeFocused();
     await page.keyboard.press("Escape");
@@ -167,7 +178,8 @@ for (const scheme of ["light", "dark"] as const) {
         const cue = getComputedStyle(chip, "::before");
         const probe = document.createElement("span");
         probe.style.color = "var(--primary)";
-        node.append(probe);
+        // A probe inside the source would correctly trigger mutation-based tooltip dismissal.
+        node.parentElement!.append(probe);
         const primary = getComputedStyle(probe).color;
         probe.remove();
         return {

@@ -1,4 +1,4 @@
-import { ArrowUpRightIcon, LayersIcon } from "@kamod-ch/icons/lucide";
+import { LayersIcon } from "@kamod-ch/icons/lucide";
 import type { CodeReferenceHelp } from "../types";
 import { referenceResource } from "./reference-resources";
 
@@ -6,11 +6,15 @@ import { referenceResource } from "./reference-resources";
 export function ReferenceRelated({
   reference,
   links: resources = reference.related,
+  primary,
 }: {
   reference: CodeReferenceHelp;
   links?: CodeReferenceHelp["related"];
+  primary?: string;
 }) {
-  const links = resources?.slice(0, 5);
+  const links = resources?.filter(
+    ({ href }, index) => resources.findIndex((link) => link.href === href) === index,
+  );
   if (!links?.length) return null;
   const groups = [
     { title: "Contracts", links: links.filter(({ kind }) => kind === "type" || kind === "props") },
@@ -19,14 +23,22 @@ export function ReferenceRelated({
       links: links.filter(({ kind }) => kind === "guide" || kind === "source"),
     },
   ].filter(({ links }) => links.length);
+  const local = links.filter(({ href }) => href.startsWith("/")).length;
   return (
     <nav class="code-reference-help-related" aria-label="Related references">
       <div class="code-reference-help-reading-heading">
         <strong>
-          <LayersIcon size={11} aria-hidden="true" /> Related reading
+          <LayersIcon size={10} strokeWidth={2} aria-hidden="true" /> Reference index
         </strong>
-        <span>
-          {links.length} {links.length === 1 ? "reference" : "references"}
+        <span class="code-reference-help-reading-detail">
+          <span aria-hidden="true">·</span> contracts & resources
+        </span>
+        <span
+          class="code-reference-help-reading-count"
+          title={`${local} destinations in this documentation; ${links.length - local} external resources.`}
+        >
+          {local ? `${local} local` : `${links.length} external`}
+          {local > 0 && local < links.length && ` / ${links.length - local} external`}
         </span>
       </div>
       {groups.map((group) => (
@@ -34,19 +46,21 @@ export function ReferenceRelated({
           <span class="code-reference-help-reading-label">{group.title}</span>
           <div class="code-reference-help-related-links">
             {group.links.map((link) => {
-              const { Icon, caption } = referenceResource(link);
+              const { Icon, label, caption, description } = referenceResource(link);
               return (
                 <a
                   key={link.href}
                   href={link.href}
                   aria-label={link.label}
                   target="_top"
-                  class="code-reference-help-related-link"
-                  title={`${caption}: ${link.label}`}
+                  class={`code-reference-help-related-link${link.href === primary ? " code-reference-help-primary-link" : ""}`}
+                  title={`${caption}: ${link.label}. ${description.replace(/\*\*|`/g, "")} Destination: ${link.href}`}
                 >
-                  <Icon size={11} aria-hidden="true" />
+                  <Icon size={9} strokeWidth={1.75} aria-hidden="true" />
                   <code>{link.label}</code>
-                  <ArrowUpRightIcon size={9} aria-hidden="true" />
+                  <span class="code-reference-help-related-kind">
+                    <span aria-hidden="true">/</span> {label}
+                  </span>
                 </a>
               );
             })}

@@ -8,8 +8,8 @@ async function assertReferenceContrast(card: Locator) {
     const context = canvas.getContext("2d")!;
     return [
       ".code-reference-help-kind",
-      ".code-reference-help-summary p",
-      ".code-reference-help-fields dt > .code-reference-help-syntax",
+      ".code-reference-help-summary > p:first-child",
+      ".code-reference-help-detail",
       ".code-reference-help-related-link",
     ].map((selector) => {
       context.clearRect(0, 0, 1, 1);
@@ -45,7 +45,22 @@ test("lazy help shows a reading placeholder and dismissed requests cannot reopen
     await page.keyboard.press("Tab");
     await provider.focus();
     const card = page.getByRole("dialog", { name: "DirectionProvider reference", exact: true });
-    await expect(card.getByText("Following the reference", { exact: true })).toBeVisible();
+    const loading = card.locator(".code-reference-help-loading");
+    const title = loading.getByText("Following the reference...", { exact: true });
+    await expect(title).toBeVisible();
+    const spinner = loading.locator(".code-reference-help-loading-spinner");
+    await expect(spinner).toBeVisible();
+    await expect(loading.locator(".code-reference-help-loading-pulse")).toHaveCount(0);
+    await expect(loading.locator(".code-reference-help-loading-module")).toHaveCount(0);
+    await expect(loading.locator(".code-reference-help-loading-note")).toHaveCSS(
+      "font-size",
+      "7.5px",
+    );
+    const headingBox = (await title.boundingBox())!;
+    const spinnerBox = (await spinner.boundingBox())!;
+    expect(
+      Math.abs(headingBox.y + headingBox.height / 2 - spinnerBox.y - spinnerBox.height / 2),
+    ).toBeLessThan(1);
     await expect(card.locator('[aria-busy="true"]')).toHaveCount(1);
     await page.keyboard.press("Escape");
     await expect(card).toHaveCount(0);
@@ -98,20 +113,21 @@ test("source references reveal verified context after deliberate hover and keep 
   await expect(card.locator('[data-reference-kind="component"]')).toBeVisible();
   await expect(card).toContainText("direction");
   await assertReferenceContrast(card);
+  const index = card.locator(".code-reference-help-related");
   await expect(
-    card.getByRole("link", { name: "DirectionProviderProps", exact: true }),
+    index.getByRole("link", { name: "DirectionProviderProps", exact: true }),
   ).toHaveAttribute("href", /#component-type-Direction-DirectionProviderProps$/);
-  await expect(card.getByRole("link", { name: "DirectionProps", exact: true })).toHaveAttribute(
+  await expect(index.getByRole("link", { name: "DirectionProps", exact: true })).toHaveAttribute(
     "href",
     /#component-type-Direction-DirectionProps$/,
   );
-  await expect(card.getByRole("link", { name: "Props & defaults", exact: true })).toHaveAttribute(
+  await expect(index.getByRole("link", { name: "Props & defaults", exact: true })).toHaveAttribute(
     "href",
     /#component-props-direction-Direction$/,
   );
   await expect(
-    card.locator('a[href$="packages/core/src/components/direction/Direction.tsx"]'),
-  ).toHaveCount(2);
+    index.locator('a[href$="packages/core/src/components/direction/Direction.tsx"]'),
+  ).toHaveCount(1);
   expect(await sample.textContent()).toBe(source);
   await card.hover();
   await expect(card).toBeVisible();
@@ -164,7 +180,10 @@ for (const scheme of ["light", "dark"] as const) {
     expect(bounds.x).toBeGreaterThanOrEqual(0);
     expect(bounds.x + bounds.width).toBeLessThanOrEqual(320);
     expect(await moduleCard.evaluate((node) => node.scrollWidth <= node.clientWidth)).toBe(true);
-    await moduleCard.getByRole("link", { name: "DirectionProviderProps", exact: true }).click();
+    await moduleCard
+      .locator(".code-reference-help-related")
+      .getByRole("link", { name: "DirectionProviderProps", exact: true })
+      .click();
     await expect(page).toHaveURL(
       /\/docs\/direction\/installation\/?#component-type-Direction-DirectionProviderProps$/,
     );

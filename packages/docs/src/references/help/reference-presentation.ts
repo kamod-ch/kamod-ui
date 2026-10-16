@@ -86,7 +86,7 @@ export function referencePresentation(reference: CodeReferenceHelp) {
     ...(secondary
       ? [{ ...secondary, kind: sourceFirst ? ("guide" as const) : ("source" as const) }]
       : []),
-    ...related.slice(0, 4),
+    ...related,
   ]) {
     if (link.href !== primary?.href && !reading.some(({ href }) => href === link.href))
       reading.push(link);
@@ -95,12 +95,23 @@ export function referencePresentation(reference: CodeReferenceHelp) {
     ? [{ ...primary, kind: primary === source ? "source" : "guide" }]
     : [];
   for (const link of reading) {
-    if (resources.length === 4) break;
     if (!resources.some(({ href }) => href === link.href)) resources.push(link);
+  }
+  for (const section of reference.sections ?? []) {
+    const { source } = section;
+    if (source && !resources.some(({ href }) => href === source.href))
+      resources.push({
+        ...source,
+        kind: source.href.includes("github.com/") ? "source" : "guide",
+      });
+    for (const { name, source } of section.definitions ?? [])
+      if (source && !resources.some(({ href }) => href === source.href))
+        resources.push({ ...source, label: name, kind: "type" });
   }
   const [fallback, detail] = contexts[kind];
   return {
     primary,
+    location: primary ? referenceLocation(reference, primary.href) : undefined,
     context: referenceContext(reference, fallback),
     reading,
     resources,
@@ -113,4 +124,28 @@ export function referencePresentation(reference: CodeReferenceHelp) {
           ? "Signature from the declaration; this preview does not execute code. Open the full definition for overloads and surrounding types."
           : detail),
   };
+}
+
+/** Show the real destination and a fact specific to this reference, without another badge. */
+function referenceLocation(reference: CodeReferenceHelp, href: string) {
+  const url = new URL(href, "https://reference.local");
+  const path = `${url.origin === "https://reference.local" ? "" : url.host}${url.pathname}${url.search}${url.hash}`;
+  const version = reference.facts?.find(({ label }) => /version|license/i.test(label));
+  const required = reference.fields?.filter(({ required }) => required).map(({ name }) => name);
+  const branch =
+    url.hostname === "github.com" && /\/(?:blob|tree)\/([^/]+)/.exec(url.pathname)?.[1];
+  const detail = version
+    ? `${version.label}: ${version.value}`
+    : required?.length
+      ? `Required: ${required.slice(0, 2).join(", ")}${required.length > 2 ? "…" : ""}`
+      : branch
+        ? `${branch} branch`
+        : reference.sections?.length
+          ? `${reference.sections.length} saved excerpts`
+          : url.hash
+            ? "Section permalink"
+            : url.origin === "https://reference.local"
+              ? "Local documentation"
+              : "External reference";
+  return { path, detail };
 }

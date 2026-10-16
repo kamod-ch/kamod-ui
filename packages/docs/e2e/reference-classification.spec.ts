@@ -21,8 +21,8 @@ for (const scheme of ["light", "dark"] as const) {
       await component.focus();
       const card = page.getByRole("dialog", { name: "Theme Toggle reference", exact: true });
       await expect(card.locator('[data-reference-kind="component"]')).toBeVisible();
-      await expect(card.locator(".code-reference-help-contract")).toContainText("ThemeToggleProps");
-      await expect(card.getByRole("link", { name: "API reference", exact: true })).toHaveAttribute(
+      await expect(card.locator(".code-reference-help-content")).toContainText("ThemeToggleProps");
+      await expect(card.locator(".code-reference-help-primary-link")).toHaveAttribute(
         "href",
         "/docs/theme-toggle/installation#api-reference",
       );
@@ -46,13 +46,16 @@ for (const scheme of ["light", "dark"] as const) {
       exact: true,
     });
     await expect(card.locator('[data-reference-kind="module"]')).toBeVisible();
-    const resources = card.locator(".code-reference-help-footer .code-reference-help-primary-link");
+    const resources = card.locator(
+      ".code-reference-help-related .code-reference-help-primary-link",
+    );
     await expect(resources).toHaveCount(1);
     await expect(resources.first()).toHaveAttribute("href", source);
-    await expect(card.locator(".code-reference-help-related-link")).toHaveAttribute(
-      "href",
-      "/docs/theming/installation#css-setup",
-    );
+    await expect(
+      card.locator(
+        '.code-reference-help-related-link[href="/docs/theming/installation#css-setup"]',
+      ),
+    ).toHaveCount(1);
     await page.keyboard.press("Tab");
     await expect(card.locator("a").first()).toBeFocused();
     await page.keyboard.press("Escape");
@@ -92,10 +95,11 @@ for (const scheme of ["light", "dark"] as const) {
           "href",
           source,
         );
-        await expect(card.locator(".code-reference-help-related-link")).toHaveAttribute(
-          "href",
-          "/docs/theming/installation#css-setup",
-        );
+        await expect(
+          card.locator(
+            '.code-reference-help-related-link[href="/docs/theming/installation#css-setup"]',
+          ),
+        ).toHaveCount(1);
       } else
         await expect(
           card.getByRole("link", { name: "Read the section", exact: true }),

@@ -1,126 +1,109 @@
 import { BracesIcon, CodeIcon, TerminalIcon } from "@kamod-ch/icons/lucide";
-import { lazy, Suspense } from "preact/compat";
-import { useErrorBoundary } from "preact/hooks";
-import type { CodeReferenceHelp } from "../types";
+import type { CodeReferenceHelp, CodeReferenceHelpSection } from "../types";
 import { referenceKinds } from "./reference-kinds";
+import {
+  ReferenceDefinitions,
+  ReferenceFields,
+  ReferenceRows,
+  ReferenceSnippet,
+} from "./reference-miniatures";
 import { ReferenceSection } from "./reference-section";
 import { ReferenceSentence } from "./reference-sentence";
 
-const HighlightedDeclaration = lazy(() => import("./reference-declaration"));
-
-/** Keep literal code readable while the shared optional grammar loads. No reader observers. */
-function DeclarationCode({ text, command = false }: { text: string; command?: boolean }) {
-  const [error] = useErrorBoundary();
-  const fallback = (
-    <code class="code-reference-help-syntax" dir="ltr">
-      {text}
-    </code>
+const meaningfulSection = (section: CodeReferenceHelpSection) =>
+  Boolean(
+    section.code?.value ||
+    section.fields?.length ||
+    section.definitions?.length ||
+    section.rows?.length ||
+    section.description,
   );
-  // Highlighting is optional: a failed grammar chunk must not escape into the page boundary.
-  if (error) return fallback;
-  return (
-    <Suspense fallback={fallback}>
-      <HighlightedDeclaration text={text} command={command} />
-    </Suspense>
+
+/** A bare identifier belongs in the reference index; only explanatory content creates a chapter. */
+export function hasReferenceContract({ fields, signature, sections }: CodeReferenceHelp) {
+  return !!(
+    sections?.some(meaningfulSection) ||
+    fields?.length ||
+    (signature && !/^[A-Za-z_$][\w$]*$/.test(signature))
   );
 }
 
-/** A bare type name belongs in metadata or reading links, not an otherwise empty chapter. */
-export function hasReferenceContract({ fields, signature }: CodeReferenceHelp) {
-  return !!(fields?.length || (signature && !/^[A-Za-z_$][\w$]*$/.test(signature)));
+function fallbackSections(reference: CodeReferenceHelp): CodeReferenceHelpSection[] {
+  const fields = reference.fields?.length ? reference.fields : undefined;
+  const signature =
+    reference.signature && !/^[A-Za-z_$][\w$]*$/.test(reference.signature)
+      ? reference.signature
+      : undefined;
+  return fields || signature
+    ? [
+        {
+          title: referenceKinds[reference.kind].contract,
+          detail: reference.kind === "command" ? "Shell command" : "Declared contract",
+          source: reference.docs ?? reference.source,
+          contractName: reference.name,
+          fields,
+          code:
+            signature && !(reference.kind === "type" && fields)
+              ? {
+                  value: signature,
+                  language: reference.kind === "command" ? "bash" : "typescript",
+                  caption: reference.kind === "command" ? "Invocation" : "Declaration",
+                }
+              : undefined,
+          note: fields
+            ? "Directly declared fields; inherited contracts remain in the complete definition."
+            : undefined,
+        },
+      ]
+    : [];
 }
 
+/** Source-backed section data stays lazy, while lightweight page components preserve the real design. */
 export function ReferenceContract({ reference }: { reference: CodeReferenceHelp }) {
-  const fields = reference.fields?.slice(0, 3);
-  if (!hasReferenceContract(reference)) return null;
-  const signature = reference.kind === "type" && fields?.length ? undefined : reference.signature;
-  const command = reference.kind === "command";
-  const contractName = signature && /^[A-Za-z_$][\w$]*$/.test(signature);
-  const Icon = command ? TerminalIcon : BracesIcon;
+  const sections = reference.sections?.filter(meaningfulSection);
+  const chapters = sections?.length ? sections : fallbackSections(reference);
   return (
-    <ReferenceSection
-      className="code-reference-help-contract"
-      title={referenceKinds[reference.kind].contract}
-      detail={command ? "Shell command" : "Declared contract"}
-      Icon={Icon}
-      source={reference.docs ?? reference.source}
-      name={reference.name}
-      count={
-        fields?.length
-          ? reference.fields!.length > 3
-            ? "Selected fields"
-            : `${fields.length} ${fields.length === 1 ? "field" : "fields"}`
-          : command
-            ? "Shell"
-            : "TypeScript"
-      }
-      note={
-        fields?.length ? (
-          <>
-            Directly declared fields only
-            {reference.docs && (
-              <>
-                {" "}
-                ·{" "}
-                <a href={reference.docs.href} target="_top">
-                  Complete contract
-                </a>
-              </>
-            )}
-            .
-          </>
-        ) : undefined
-      }
-    >
-      {contractName ? (
-        <p class="code-reference-help-contract-name">
-          <code>{signature}</code>
-        </p>
-      ) : (
-        signature && (
-          <div class="code-reference-help-declaration">
-            <div class="code-reference-help-code-toolbar">
-              <span>
-                <CodeIcon size={10} aria-hidden="true" />
-                {command ? "Invocation" : "Declaration"}
-              </span>
-              <span>{command ? "Shell" : "TypeScript"}</span>
-            </div>
-            <pre class="code-reference-help-signature">
-              <DeclarationCode text={signature} command={command} />
-            </pre>
-          </div>
-        )
-      )}
-      {!!fields?.length && (
-        <div class="code-reference-help-props">
-          <div class="code-reference-help-field-columns" aria-hidden="true">
-            <span>Prop / type</span>
-            <span>Usage</span>
-          </div>
-          <dl class="code-reference-help-fields">
-            {fields.map((field) => (
-              <div key={field.name}>
-                <dt>
-                  <code>{field.name}</code>
-                  <span data-required={field.required ? "true" : undefined}>
-                    {field.required ? "Required" : "Optional"}
-                  </span>
-                  <DeclarationCode text={field.type} />
-                </dt>
-                <dd>
-                  <ReferenceSentence
-                    text={
-                      field.description ||
-                      (field.required ? "Required in this declaration." : "May be omitted.")
-                    }
-                  />
-                </dd>
-              </div>
-            ))}
-          </dl>
-        </div>
-      )}
-    </ReferenceSection>
+    <>
+      {chapters.map((section, index) => (
+        <ReferenceSection
+          key={`${section.title}-${index}`}
+          className={`code-reference-help-contract${section.definitions ? " code-reference-help-types" : ""}`}
+          title={section.title}
+          detail={section.detail}
+          Icon={
+            section.fields || section.definitions
+              ? BracesIcon
+              : section.code?.language === "bash"
+                ? TerminalIcon
+                : CodeIcon
+          }
+          source={section.source}
+          name={reference.name}
+          count={
+            section.fields?.length
+              ? `${section.fields.length} ${section.fields.length === 1 ? "field" : "fields"}`
+              : undefined
+          }
+          note={section.note ? <ReferenceSentence text={section.note} /> : undefined}
+        >
+          {section.description && (
+            <p class="code-reference-help-section-copy">
+              <ReferenceSentence text={section.description} />
+            </p>
+          )}
+          {section.rows?.length ? <ReferenceRows rows={section.rows} /> : null}
+          {section.code && <ReferenceSnippet code={section.code} />}
+          {section.fields?.length ? (
+            <ReferenceFields
+              fields={section.fields}
+              name={section.contractName ?? reference.name}
+            />
+          ) : null}
+          {section.definitions?.length ? (
+            <ReferenceDefinitions definitions={section.definitions} />
+          ) : null}
+        </ReferenceSection>
+      ))}
+    </>
   );
 }

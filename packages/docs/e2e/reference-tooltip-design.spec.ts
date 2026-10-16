@@ -1,207 +1,219 @@
-import { expect, test } from "@playwright/test";
+import { expect, type Locator, test } from "@playwright/test";
+
+const references = [
+  "TypeScript",
+  "ThemeToggle",
+  "DirectionProviderProps",
+  "pnpm build",
+  "@kamod-ch/ui/theme.css",
+  "Getting Started Guide",
+  "sidebar-05.tsx",
+];
+
+/** Actions retain their typography and geometry; only their paint responds to hover. */
+async function assertBackgroundOnlyHover(action: Locator) {
+  await action.scrollIntoViewIfNeeded();
+  const read = () =>
+    action.evaluate((node) => {
+      const style = getComputedStyle(node);
+      const icon = getComputedStyle(node.querySelector("svg")!);
+      const rect = node.getBoundingClientRect();
+      return {
+        background: style.backgroundColor,
+        ink: style.color,
+        opacity: style.opacity,
+        font: `${style.fontSize}/${style.fontWeight}`,
+        shadow: style.boxShadow,
+        icon: `${icon.color}/${icon.width}/${icon.height}/${icon.strokeWidth}`,
+        rect: { x: rect.x, y: rect.y, width: rect.width, height: rect.height },
+      };
+    });
+  const before = await read();
+  await action.hover();
+  await expect.poll(async () => (await read()).background).not.toBe(before.background);
+  const after = await read();
+  expect({ ...after, background: before.background, rect: before.rect }).toEqual(before);
+  for (const key of ["x", "y", "width", "height"] as const)
+    expect(after.rect[key]).toBeCloseTo(before.rect[key], 1);
+}
 
 for (const scheme of ["light", "dark"] as const) {
   for (const width of [320, 768, 1440]) {
-    test(`reference reading panels and one-line locations fit ${width}px (${scheme})`, async ({
-      page,
-    }) => {
+    test(`source miniatures and reference index fit ${width}px (${scheme})`, async ({ page }) => {
+      test.setTimeout(90000);
       await page.setViewportSize({ width, height: width === 320 ? 568 : 900 });
       await page.addInitScript((scheme) => localStorage.setItem("theme", scheme), scheme);
-      const grammars: string[] = [];
-      page.on("request", (request) => {
-        if (/\/assets\/reference-declaration-[\w-]+\.js/.test(request.url()))
-          grammars.push(request.url());
-      });
       await page.goto("/docs/getting-started");
       await expect(page.locator("html")).toHaveClass(/pp-ready/);
-      await page.evaluate(() => {
+      await page.evaluate((labels) => {
         const fixture = document.createElement("p");
         fixture.id = "tooltip-design-fixture";
-        for (const label of [
-          "TypeScript",
-          "ThemeToggle",
-          "DirectionProviderProps",
-          "pnpm build",
-          "@kamod-ch/ui/theme.css",
-          "Getting Started Guide",
-          "sidebar-05.tsx",
-        ]) {
+        for (const label of labels) {
           const code = document.createElement("code");
           code.textContent = label;
           fixture.append(code, document.createTextNode(" "));
         }
         document.querySelector("main")!.prepend(fixture);
-      });
-      for (const label of [
-        "TypeScript",
-        "ThemeToggle",
-        "DirectionProviderProps",
-        "pnpm build",
-        "@kamod-ch/ui/theme.css",
-        "Getting Started Guide",
-        "sidebar-05.tsx",
-      ]) {
+      }, references);
+      for (const label of references) {
         const term = page.locator("#tooltip-design-fixture code").filter({ hasText: label });
         await expect(term).toHaveAttribute("data-code-module");
         await term.scrollIntoViewIfNeeded();
         await page.keyboard.press("Tab");
         await term.focus();
         const card = page.getByRole("dialog", { name: `${label} reference`, exact: true });
-        await expect(card.locator(".code-reference-help-layout")).toBeVisible();
-        await expect(card.locator("header [data-slot='badge']")).toHaveCount(1);
+        const layout = card.locator(".code-reference-help-layout");
+        await expect(layout).toBeVisible();
+        await expect
+          .poll(() =>
+            layout.evaluate((node) =>
+              node.getAnimations().some((animation) => animation.playState === "running"),
+            ),
+          )
+          .toBe(false);
+        const ink = await layout.evaluate((node) => getComputedStyle(node).color);
+        const primary = card.locator(".code-reference-help-primary-link");
+        const destination = (await primary.getAttribute("href"))!;
         const badge = card.locator(".code-reference-help-kind");
         const open = card.locator(".code-reference-help-open");
-        const chipStyle = await card.locator(".code-reference-help-path").evaluate((node) => ({
-          background: getComputedStyle(node).backgroundColor,
-        }));
-        await expect(badge).toHaveCSS("background-color", chipStyle.background);
+        const main = card.locator("a.code-reference-help-kind-icon");
+        const title = card.locator("a.code-reference-help-title");
+        await expect(card.locator("header [data-slot='badge']")).toHaveCount(1);
+        await expect(badge).toHaveCSS(
+          "background-color",
+          await card
+            .locator(".code-reference-help-path")
+            .evaluate((node) => getComputedStyle(node).backgroundColor),
+        );
         await expect(badge).toHaveCSS("border-radius", "4px");
         await expect(badge).toHaveCSS("font-size", "11px");
-        await expect(badge).toHaveCSS("font-weight", "500");
+        await expect(badge.locator("svg")).toHaveCSS("width", "12px");
+        await expect(badge.locator("svg")).toHaveCSS("stroke-width", "2px");
         const badgeBox = (await badge.boundingBox())!;
         const openBox = (await open.boundingBox())!;
-        expect(openBox.height).toBeCloseTo(28, 3);
-        expect(openBox.width).toBeCloseTo(openBox.height, 3);
-        expect(
-          Math.abs(openBox.y + openBox.height / 2 - badgeBox.y - badgeBox.height / 2),
-        ).toBeLessThan(1);
-        await expect(open.locator("svg")).toHaveCSS("stroke-width", "3px");
-        await expect(open).toHaveAttribute(
-          "href",
-          (await card.locator(".code-reference-help-primary-link").getAttribute("href"))!,
-        );
-        await expect(open).toHaveAttribute("target", "_top");
-        await expect(open).toHaveAccessibleName(
-          `Open ${await card.locator(".code-reference-help-primary-link").getAttribute("aria-label")} for ${label}`,
-        );
-        await expect(badge.locator("svg")).toHaveCSS("width", "10.5px");
-        await expect(badge.locator("svg")).toHaveCSS("stroke-width", "2.5px");
-        const mainIcon = card.locator("a.code-reference-help-kind-icon");
-        await expect(mainIcon).toHaveAttribute("href", (await open.getAttribute("href"))!);
-        await expect(mainIcon).toHaveAttribute("target", "_top");
-        await expect(mainIcon).toHaveAccessibleName(`View ${label} reference`);
-        await expect(mainIcon.locator("svg")).toHaveCSS("stroke-width", "2.25px");
-        await expect(mainIcon).toHaveCSS(
+        const mainBox = (await main.boundingBox())!;
+        expect(openBox.height).toBeCloseTo(badgeBox.height, 2);
+        expect(openBox.width).toBeCloseTo(openBox.height, 2);
+        expect(openBox.height).toBeCloseTo(22, 2);
+        expect(openBox.y).toBeCloseTo(mainBox.y, 1);
+        expect((await title.boundingBox())!.y).toBeCloseTo(mainBox.y, 1);
+        await expect(open).toHaveCSS(
           "background-color",
-          await open.evaluate((node) => getComputedStyle(node).backgroundColor),
+          await badge.evaluate((node) => getComputedStyle(node).backgroundColor),
         );
-        const origin = card.locator(".code-reference-help-origin");
-        await expect(origin.locator(".code-reference-help-origin-label")).toHaveCount(0);
-        await expect(origin.locator("a")).toHaveCount(1);
-        const context = origin.locator(".code-reference-help-context > span:last-child");
-        expect((await context.innerText()).trim().split(/\s+/).length).toBeLessThanOrEqual(3);
-        await expect(context).toHaveCSS("white-space", "nowrap");
-        await expect(card.locator(".code-reference-help-detail")).not.toBeEmpty();
-        const dimensions = await origin.evaluate((node) => {
-          const rect = node.getBoundingClientRect();
-          return {
-            width: node.clientWidth,
-            scroll: node.scrollWidth,
-            top: rect.top,
-            bottom: rect.bottom,
-            children: [...node.querySelectorAll("a")].map((a) => {
-              const b = a.getBoundingClientRect();
-              return { top: b.top, bottom: b.bottom };
-            }),
-          };
-        });
-        expect(dimensions.scroll).toBeLessThanOrEqual(dimensions.width + 1);
-        for (const link of dimensions.children) {
-          expect(link.top).toBeGreaterThanOrEqual(dimensions.top);
-          expect(link.bottom).toBeLessThanOrEqual(dimensions.bottom);
+        await expect(open).toHaveCSS(
+          "color",
+          await badge.evaluate((node) => getComputedStyle(node).color),
+        );
+        await expect(open.locator("svg")).toHaveCSS("width", "11px");
+        await expect(open.locator("svg")).toHaveCSS("stroke-width", "1.75px");
+        for (const link of [open, main, title]) {
+          await expect(link).toHaveAttribute("href", destination);
+          await expect(link).toHaveAttribute("target", "_top");
         }
-        const chip = card.locator(".code-reference-help-path");
+        await expect(main).toHaveCSS(
+          "color",
+          await badge.evaluate((node) => getComputedStyle(node).backgroundColor),
+        );
+        const location = card.locator(".code-reference-help-location");
+        await expect(location).toHaveCSS("font-weight", "400");
+        await expect(location).toHaveCSS("color", ink);
+        const shownDestination = await location.locator("span").first().innerText();
+        expect(destination).toContain(shownDestination);
+        await expect(location.locator("span").last()).not.toBeEmpty();
+        const origin = card.locator(".code-reference-help-origin");
+        const context = origin.locator(".code-reference-help-context");
+        await expect(context).toHaveCSS("color", ink);
         expect(
-          await chip.evaluate((node) => {
-            const probe = document.createElement("span");
-            probe.style.background = "var(--docs-inline-code-background)";
-            node.append(probe);
-            const same =
-              getComputedStyle(node).backgroundColor === getComputedStyle(probe).backgroundColor;
-            probe.remove();
-            return same;
-          }),
-        ).toBe(true);
-        expect(await card.locator("footer a").count()).toBeGreaterThanOrEqual(1);
-        expect(await card.locator("footer a").count()).toBeLessThanOrEqual(4);
+          (await context.locator("span").last().innerText()).trim().split(/\s+/).length,
+        ).toBeLessThanOrEqual(3);
+        await expect(origin.locator(".code-reference-help-origin-label")).toHaveCount(0);
+        expect(await origin.evaluate((node) => node.scrollWidth <= node.clientWidth + 1)).toBe(
+          true,
+        );
         const postscript = card.locator(".code-reference-help-detail");
+        await expect(postscript).not.toBeEmpty();
         await expect(postscript).toHaveCSS("font-size", "8.5px");
-        await expect(postscript).toHaveCSS("color", /\/ 0\.4\)/);
+        await expect(postscript).toHaveCSS("color", ink);
+        await expect(card.locator("footer")).toHaveCount(0);
         const content = card.locator(".code-reference-help-content");
         if (await content.count()) {
-          const body = (await content.boundingBox())!;
-          const outer = (await card.boundingBox())!;
-          expect(Math.abs(body.width - (outer.width - 2))).toBeLessThan(1);
-          await expect(content).toHaveCSS("border-top-width", "1px");
           for (const section of await content.locator(".code-reference-help-section").all()) {
             const heading = section.locator(".code-reference-help-section-label");
             const panel = section.locator(".code-reference-help-panel");
-            const headingBox = (await heading.boundingBox())!;
-            const panelBox = (await panel.boundingBox())!;
-            expect(headingBox.y + headingBox.height).toBeLessThan(panelBox.y);
-            await expect(panel).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
-            for (const type of await panel.locator("dt > .code-reference-help-syntax").all()) {
-              await expect(type).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
-              await expect(type).toHaveCSS("font-size", "8.5px");
-            }
-            const title = heading.locator("a.code-reference-help-section-title");
-            const action = heading.locator(".code-reference-help-section-open");
-            await expect(action).toHaveAttribute("href", (await title.getAttribute("href"))!);
-            await expect(action.locator("svg")).toHaveCSS("stroke-width", "2.75px");
-            expect(await heading.evaluate((node) => node.scrollWidth <= node.clientWidth)).toBe(
+            await expect(heading).toHaveCSS("font-size", "9.5px");
+            await expect(heading.locator(".code-reference-help-section-open")).toHaveCount(0);
+            await expect(panel).toHaveCSS("border-top-width", "0px");
+            expect(await heading.evaluate((node) => node.scrollWidth <= node.clientWidth + 1)).toBe(
               true,
             );
+            const source = panel.locator(".code-reference-help-panel-open");
+            if (await source.count()) {
+              await expect(source).toHaveAttribute(
+                "href",
+                (await heading.locator("a").getAttribute("href"))!,
+              );
+              await expect(source).toHaveCSS("width", "22px");
+              await expect(source.locator("svg")).toHaveCSS("stroke-width", "1.75px");
+              const note = section.locator(".code-reference-help-section-note");
+              await expect(note).toHaveCSS("text-align", "center");
+              await expect(note.locator("a").first()).toHaveAttribute(
+                "href",
+                (await source.getAttribute("href"))!,
+              );
+            }
           }
         }
-        const reading = card.locator(".code-reference-help-related");
-        if (await reading.count()) {
-          await expect(reading).toHaveCSS("border-top-width", "1px");
-          await expect(reading.locator(".code-reference-help-panel")).toHaveCount(0);
-          expect((await reading.boundingBox())!.width).toBeCloseTo(
-            (await card.boundingBox())!.width - 2,
-            0,
-          );
-          for (const chip of await reading.locator(".code-reference-help-related-link").all()) {
-            await expect(chip.locator("code")).toHaveCSS("font-size", "8.5px");
-          }
-        }
-        await expect(card.locator("footer")).toHaveCSS("border-top-width", "1px");
-        await expect(card.locator(".code-reference-help-note")).not.toBeEmpty();
-        const bounds = (await card.boundingBox())!;
-        expect(bounds.x).toBeGreaterThanOrEqual(0);
-        expect(bounds.x + bounds.width).toBeLessThanOrEqual(width);
-        expect(await card.evaluate((node) => node.scrollWidth <= node.clientWidth)).toBe(true);
         if (label === "TypeScript") {
-          expect(grammars).toHaveLength(0);
-          const action = card.locator("footer a").last();
-          await action.focus();
-          const hint = card.getByRole("tooltip");
-          await expect(hint).toBeVisible();
-          await expect(hint.locator("p")).not.toBeEmpty();
-          await expect(hint.locator("code")).not.toBeEmpty();
-          const hintBox = (await hint.boundingBox())!;
-          expect(hintBox.x).toBeGreaterThanOrEqual(bounds.x);
-          expect(hintBox.x + hintBox.width).toBeLessThanOrEqual(bounds.x + bounds.width);
-          expect(hintBox.y).toBeGreaterThanOrEqual(bounds.y);
-          await term.focus();
-          await expect(hint).toHaveCount(0);
+          expect(await card.locator(".code-reference-help-section").count()).toBeGreaterThanOrEqual(
+            2,
+          );
+          await expect(card.locator(".code-reference-help-miniature").first()).toBeAttached();
+          await assertBackgroundOnlyHover(open);
+          await assertBackgroundOnlyHover(main);
         }
         if (label === "ThemeToggle") {
-          await expect(card.locator(".code-reference-help-contract .token").first()).toBeAttached();
-          await expect(card.locator(".code-reference-help-related")).toBeAttached();
+          const table = card.locator(".blocks-api-props-table table");
+          await expect(table).toHaveCount(1);
+          expect(await table.locator("tbody tr").count()).toBeGreaterThan(0);
+          expect(await table.locator("tbody tr").count()).toBeLessThanOrEqual(3);
+          await expect(card.locator('[data-slot="type-definition"]').first()).toBeAttached();
+          await expect(
+            card.locator('.code-reference-help-miniature-code [data-slot="code"]').first(),
+          ).toBeAttached();
+          await assertBackgroundOnlyHover(card.locator(".code-reference-help-panel-open").first());
         }
+        const index = card.locator(".code-reference-help-related");
+        await expect(index).toContainText("Reference index");
+        await expect(index.locator(".code-reference-help-panel")).toHaveCount(0);
+        const resources = index.locator(".code-reference-help-related-link");
+        expect(await resources.count()).toBeGreaterThan(0);
+        const destinations = await resources.evaluateAll((links) =>
+          links.map((link) => link.getAttribute("href")),
+        );
+        expect(new Set(destinations).size).toBe(destinations.length);
+        for (const link of await resources.all()) {
+          await expect(link).toHaveCSS("text-decoration-line", "underline");
+          await expect(link.locator("code")).toHaveCSS("font-size", "7.5px");
+          await expect(link.locator(".code-reference-help-related-kind")).toContainText("/");
+          await expect(link.locator("svg")).toHaveCount(1);
+        }
+        const bounds = (await card.boundingBox())!;
+        expect(bounds.x).toBeGreaterThanOrEqual(0);
+        expect(bounds.x + bounds.width).toBeLessThanOrEqual(width + 1);
+        expect(await card.evaluate((node) => node.scrollWidth <= node.clientWidth + 1)).toBe(true);
+        await term.focus();
         await page.keyboard.press("Tab");
         await expect(card.locator("a").first()).toBeFocused();
         await page.keyboard.press("Escape");
         await expect(term).toBeFocused();
         await expect(card).toHaveCount(0);
       }
-      expect(grammars).toHaveLength(1);
     });
   }
 }
 
-test("failed optional declaration coloring preserves plain code and reference navigation", async ({
+test("failed optional coloring preserves actual source previews and navigation", async ({
   page,
 }) => {
   const errors: string[] = [];
@@ -220,13 +232,16 @@ test("failed optional declaration coloring preserves plain code and reference na
   await page.keyboard.press("Tab");
   await term.focus();
   const card = page.getByRole("dialog", { name: "Theme Toggle reference", exact: true });
-  await expect(card.locator(".code-reference-help-contract")).toBeVisible();
+  await expect(card.locator(".blocks-api-props-table table")).toBeAttached();
   await expect.poll(() => requested).toBe(true);
-  await expect(
-    card.locator(".code-reference-help-fields dt > .code-reference-help-syntax").first(),
-  ).toHaveText("string");
+  const types = card.locator(".blocks-api-prop-type > .code-reference-help-syntax");
+  expect(await types.count()).toBeGreaterThan(0);
+  for (const type of await types.all()) await expect(type).not.toBeEmpty();
   await expect(card.locator(".code-reference-help-contract .token")).toHaveCount(0);
-  await expect(card.getByRole("link", { name: "API reference", exact: true })).toBeVisible();
+  await expect(card.locator(".code-reference-help-primary-link")).toHaveAttribute(
+    "href",
+    "/docs/theme-toggle/installation#api-reference",
+  );
   await page.keyboard.press("Escape");
   await expect(term).toBeFocused();
   await expect(page.getByRole("heading", { level: 1 })).toContainText("Theming");
