@@ -61,46 +61,8 @@ const languageAliases: Record<string, CodeLanguage> = {
   auto: "text",
 };
 
-const commandLanguages = new Set([
-  "bash",
-  "sh",
-  "zsh",
-  "fish",
-  "shell",
-  "shellscript",
-  "shellsession",
-  "console",
-  "terminal",
-  "command",
-  "commands",
-  "git",
-  "powershell",
-  "pwsh",
-  "ps1",
-  "bat",
-  "batch",
-  "cmd",
-]);
-
-/** Command metadata wins over a filename; keep syntax checks bounded like language inference. */
-export function isCommandCode(code: string, language?: string, filePath?: string): boolean {
-  const hint = (language ?? "")
-    .trim()
-    .split(/\s+/, 1)[0]
-    .toLowerCase()
-    .replace(/^language-/, "");
-  const path = (filePath ?? "")
-    .trim()
-    .toLowerCase()
-    .replace(/[?#].*$/, "")
-    .replace(/:\d+(?::\d+)?$/, "");
-  if (
-    commandLanguages.has(hint) ||
-    commandLanguages.has(path) ||
-    /(?:\.(?:sh|bash|zsh|fish|ps1|bat|cmd)|(?:^|[/\\])\.(?:bashrc|zshrc|profile))$/.test(path)
-  )
-    return true;
-  const source = code.slice(0, 16_384).trimStart();
+/** Syntax inference already supplies a bounded string after explicit/file metadata is resolved. */
+function isCommandCode(source: string): boolean {
   return (
     /^#![^\n]*\b(?:bash|sh|zsh|dash|fish|pwsh|powershell)\b/.test(source) ||
     /^\$\s+\S/.test(source) ||

@@ -10,13 +10,7 @@ import { ReferenceSentence } from "./reference-sentence";
 const HighlightedDeclaration = lazy(() => import("./reference-declaration"));
 
 /** A shared optional grammar colors the literal source; failed chunks preserve readable code. */
-export function DeclarationCode({
-  text,
-  language = "typescript",
-}: {
-  text: string;
-  language?: string;
-}) {
+function DeclarationCode({ text, language = "typescript" }: { text: string; language?: string }) {
   const [error] = useErrorBoundary();
   const fallback = (
     <code class="code-reference-help-syntax" dir="ltr">

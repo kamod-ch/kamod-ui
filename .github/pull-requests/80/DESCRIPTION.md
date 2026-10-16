@@ -369,7 +369,7 @@ Source coloring stays optional and lazy. Actual Code miniatures disable copying,
 reference recursion and layout-observer controls; a local error boundary preserves
 literal text and navigation when the grammar chunk fails. Focused helpers own
 source extraction, source-section selection, miniature rendering, compact chapter
-structure and deduplicated resources. Browser coverage checks seven reference
+structure and deduplicated resources. Internal command-inference and declaration-rendering helpers stay private; the dependency-hygiene checks require no unused-export suppressions. Browser coverage checks seven reference
 families at 320/768/1440px in both appearances, alongside source navigation,
 loading/failure, scroll containment, hover reentry and keyboard dismissal.
 

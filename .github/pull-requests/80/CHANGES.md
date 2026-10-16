@@ -1304,3 +1304,18 @@ heading were corrected during that review. No new Safari/WebKit result is claime
 The refreshed upstream main remains an ancestor of the feature branch; no merge
 conflict or fork divergence required resolution. Private reference guides and
 contributor context were updated locally and remain excluded from commits.
+
+### CI dependency-hygiene follow-up
+
+The first remote run caught two internal-only exported functions left behind by
+the reader and miniature refactors. Keep command syntax recognition and the local
+declaration renderer private. Remove the command helper's obsolete metadata branch
+and allowlist: its only caller already resolves explicit/file metadata before
+passing bounded source to inference. Public Code exports and behavior are unchanged.
+Knip/Syncpack now pass without suppressions; all427 core and41 help tests pass
+again. The existing inference, metadata precedence, source rendering and grammar
+fallback tests cover this cleanup without adding implementation-mirroring tests.
+The follow-up also passes full workspace typechecking/builds, all three publint
+checks and all three ATTW checks under the packages' ESM-only profile, plus root
+format/lint/Biome, README synchronization and diff checks. ATTW used a task-local
+npm cache to keep its pack operations within the workspace sandbox.
