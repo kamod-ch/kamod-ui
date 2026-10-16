@@ -68,7 +68,11 @@ it("renders source-derived code and emphasis safely without interpreting HTML", 
 
 it("uses origin shortcuts for secondary destinations and leaves one main action in the footer", () => {
   const { container } = render(<CodeReferenceHelpContent reference={reference} />);
-  expect(container.querySelector(".code-reference-help-owner")).toHaveTextContent("Local");
+  const header = container.querySelector("header")!;
+  expect(header.querySelectorAll('[data-slot="badge"]')).toHaveLength(1);
+  expect(
+    within(header).getByRole("link", { name: "Open API reference for DirectionProvider" }),
+  ).toHaveAttribute("href", reference.docs!.href);
   const origin = container.querySelector(".code-reference-help-origin")!;
   expect(
     within(origin as HTMLElement).getByRole("link", { name: /Read source for/ }),
@@ -93,7 +97,10 @@ it("keeps package source primary and its local integration accessible in the ori
     docs: { label: "In this documentation", href: "/docs/theming/installation#css-setup" },
   };
   const { container } = render(<CodeReferenceHelpContent reference={value} />);
-  expect(container.querySelector(".code-reference-help-owner")).toHaveTextContent("Core");
+  expect(container.querySelector(".code-reference-help-open")).toHaveAttribute(
+    "href",
+    value.source.href,
+  );
   expect(container.querySelector(".code-reference-help-primary-link")).toHaveAttribute(
     "href",
     value.source.href,
@@ -121,6 +128,7 @@ it("deduplicates origin destinations and never invents resources for missing fac
     />,
   );
   expect(container.querySelector(".code-reference-help-footer a")).toBeNull();
+  expect(container.querySelector(".code-reference-help-open")).toBeNull();
 });
 
 it("formats small declarations with the shared grammar while retaining their exact text", async () => {

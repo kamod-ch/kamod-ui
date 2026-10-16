@@ -1,4 +1,10 @@
-import { ArrowUpRightIcon, BookOpenIcon, FileCodeIcon, InfoIcon } from "@kamod-ch/icons/lucide";
+import {
+  ArrowUpRightIcon,
+  BookOpenIcon,
+  CompassIcon,
+  FileCodeIcon,
+  InfoIcon,
+} from "@kamod-ch/icons/lucide";
 import { BrandGithubIcon } from "@kamod-ch/icons/tabler/filled";
 import { Badge } from "@kamod-ch/ui/badge";
 import { splitDisplayPath } from "../../docs/components/display-path";
@@ -29,7 +35,7 @@ function ReferencePath({ path }: { path: string }) {
 export function CodeReferenceHelpContent({ reference }: { reference: CodeReferenceHelp }) {
   const { kind, name, module, description, source, facts } = reference;
   const { Icon, label } = referenceKinds[kind];
-  const { owner, primary, shortcuts, note, caption } = referencePresentation(reference);
+  const { primary, shortcuts, note, caption } = referencePresentation(reference);
   const ActionIcon =
     primary === source
       ? source?.href.startsWith("https://github.com/")
@@ -46,16 +52,21 @@ export function CodeReferenceHelpContent({ reference }: { reference: CodeReferen
           <code>{name}</code>
         </strong>
         <div class="code-reference-help-badges">
-          <Badge class="code-reference-help-owner" size="xxs">
-            {owner}
-          </Badge>
-          <span class="code-reference-help-dot" aria-hidden="true">
-            ·
-          </span>
           <Badge class="code-reference-help-kind" size="xxs">
-            <Icon size={11} aria-hidden="true" />
+            <Icon size={11.5} strokeWidth={1.75} aria-hidden="true" />
             {label}
           </Badge>
+          {primary && (
+            <a
+              class="docs-icon-button code-reference-help-open"
+              href={primary.href}
+              target="_top"
+              aria-label={`Open ${primary.label} for ${name}`}
+              title={primary.label}
+            >
+              <CompassIcon size={16} aria-hidden="true" />
+            </a>
+          )}
         </div>
       </header>
       <nav class="code-reference-help-origin" aria-label="Reference locations">

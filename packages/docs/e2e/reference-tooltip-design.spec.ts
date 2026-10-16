@@ -48,8 +48,32 @@ for (const scheme of ["light", "dark"] as const) {
         await term.focus();
         const card = page.getByRole("dialog", { name: `${label} reference`, exact: true });
         await expect(card.locator(".code-reference-help-layout")).toBeVisible();
-        await expect(card.locator(".code-reference-help-owner")).not.toBeEmpty();
-        await expect(card.locator(".code-reference-help-kind")).toHaveCSS("border-radius", "2px");
+        await expect(card.locator("header [data-slot='badge']")).toHaveCount(1);
+        const badge = card.locator(".code-reference-help-kind");
+        const open = card.locator(".code-reference-help-open");
+        const chipStyle = await card.locator(".code-reference-help-path").evaluate((node) => ({
+          background: getComputedStyle(node).backgroundColor,
+          radius: getComputedStyle(node).borderRadius,
+        }));
+        await expect(badge).toHaveCSS("background-color", chipStyle.background);
+        await expect(badge).toHaveCSS("border-radius", chipStyle.radius);
+        await expect(badge).toHaveCSS("font-size", "12px");
+        await expect(badge).toHaveCSS("font-weight", "500");
+        const badgeBox = (await badge.boundingBox())!;
+        const openBox = (await open.boundingBox())!;
+        expect(openBox.height).toBeCloseTo(badgeBox.height, 3);
+        expect(openBox.width).toBeCloseTo(openBox.height, 3);
+        expect(Math.abs(openBox.y - badgeBox.y)).toBeLessThan(1);
+        await expect(open).toHaveAttribute(
+          "href",
+          (await card.locator("footer a").getAttribute("href"))!,
+        );
+        await expect(open).toHaveAttribute("target", "_top");
+        await expect(open).toHaveAccessibleName(
+          `Open ${await card.locator("footer a").innerText()} for ${label}`,
+        );
+        await expect(badge.locator("svg")).toHaveCSS("width", "11.5px");
+        await expect(badge.locator("svg")).toHaveCSS("stroke-width", "1.75px");
         const origin = card.locator(".code-reference-help-origin");
         const dimensions = await origin.evaluate((node) => {
           const rect = node.getBoundingClientRect();

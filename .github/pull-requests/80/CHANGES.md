@@ -1099,3 +1099,25 @@ code text and navigation, source-snippet regressions, lazy loading/dismissal,
 stable hover widths and reduced motion. Default/hover captures were visually
 inspected on desktop light and mobile dark; glossary wrapping now keeps its
 highlight and arrow together. These checks do not add new Safari/WebKit coverage.
+
+## 42. Clearer reference header and direct destination action
+
+- **Familiar technology symbol.** Replace the processor icon with a lightbulb in the shared kind map, keeping the heading and type badge consistent without another icon dependency.
+- **One larger type badge.** Remove the secondary origin badge and separator. Increase the remaining badge from 10px/550 text to 12px/500, with a 30px height, restrained padding and a matching 11.5px outline icon at 1.75 stroke width.
+- **Exact inline-code paint.** Share the same CSS rule for the badge and location chip's page-inline-code background, foreground and subtle 3px corners. Preserve their separate typography and dimensions across page palettes and appearances.
+- **Compass destination button.** Add a square, 30px icon link immediately after the badge. Reuse the application's docs-icon-button interaction styles, adapting its resting/hover ink and surface to the inverse tooltip. Keep visible keyboard focus, reduced-motion behavior, a descriptive accessible name and top-frame navigation.
+- **One destination owner.** Derive both the new action and footer from the existing verified primary resource. Package and published-module links still prefer their source; documentation references retain their guide/API destination. Omit the button when no destination exists.
+- **Smaller implementation.** Remove the now-unused origin-label lookup and owner derivation. Add no timers, event listeners, observers, state, dependencies or background work; the existing delegated lazy tooltip controller remains unchanged.
+- **Existing coverage extended.** Check the new action's accessible name and primary URL, source-first package behavior and absent-resource fallback in the existing component tests. Extend the responsive browser matrix to assert one badge, exact chip paint/corners, icon sizing/stroke, square action dimensions and keyboard entry through the new first link.
+
+### Header verification
+
+All **880 documentation tests in 92 files**, docs typecheck, the final production
+build and root Oxlint/Oxfmt/Biome pass. All **12 affected production Chrome cases**
+pass across the header-layout and lazy-help suites, including seven reference
+families at 320/768/1440px in both appearances. The dimension check tolerates
+subpixel floating-point rounding while requiring equal rendered action/badge
+heights. Desktop light and mobile dark cards were visually inspected; direct
+button navigation, visible keyboard focus, hover feedback and reduced motion
+were checked separately against the final production build. No new Safari/WebKit
+coverage is claimed.

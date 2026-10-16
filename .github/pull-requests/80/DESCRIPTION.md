@@ -265,8 +265,8 @@ arbitrary word matching.
 The eager index contains lightweight identity/destination data. Four lazy family
 modules provide descriptions and facts, sharing bounded promises and evicting
 failures for retry. Kind icons, labels and optional contract headings have one
-owner, and the inverted kind badges use nearly square 2px corners. Existing
-stale-result and delegated-event boundaries remain in place.
+owner, and the kind badges share the page inline-code highlight and subtle 3px
+corners. Existing stale-result and delegated-event boundaries remain in place.
 
 ### Reference identity and package source accuracy
 
@@ -305,9 +305,14 @@ source-first resources, keyboard flow and 320/1440px layouts in both appearances
 
 ### ReferenceTooltip reading layout
 
-The shared private tooltip retains its icon/name heading while adding a quiet
-origin badge, a dot and an inverse type badge with 2px corners. The exact path uses
-the ordinary page inline-code highlight. Up to two verified, deduplicated shortcuts
+The shared private tooltip retains its icon/name heading with one larger type
+badge and a square compass link to the chosen main destination. The badge and
+exact path share the ordinary page inline-code highlight and 3px corners; the
+badge uses 12px, medium-weight text and a slightly smaller matching outline icon.
+Technology uses a familiar lightbulb symbol. The compass reuses the application's
+standard icon-action hover, focus and reduced-motion behavior, with inverse-card
+paint; it is omitted when no verified destination exists. The redundant origin
+badge and its derivation are removed. Up to two verified, deduplicated shortcuts
 follow immediately with slash separators; the row stays on one line and yields to
 narrow screens without losing its underlying text or destinations.
 

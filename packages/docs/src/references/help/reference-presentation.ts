@@ -1,14 +1,4 @@
-import { rootPackageName } from "../catalog/packages";
 import type { CodeReferenceHelp, CodeReferenceHelpLink } from "../types";
-
-const owners: Record<string, string> = {
-  "@kamod-ch/ui": "Core",
-  "@kamod-ch/ui-motion": "UI Motion",
-  "@kamod-ch/themes": "Themes",
-  "@kamod-ch/openui": "OpenUI",
-  "@preact/signals": "Preact",
-  "lucide-preact": "Lucide",
-};
 
 const notes: Record<CodeReferenceHelp["kind"], string> = {
   component: "Compare with your installed version.",
@@ -26,18 +16,6 @@ const notes: Record<CodeReferenceHelp["kind"], string> = {
   page: "Continue reading in its original context.",
 };
 
-function referenceOwner({ module, kind, facts }: CodeReferenceHelp) {
-  if (module.startsWith("@/")) return "Local";
-  if (kind === "page") return module.startsWith("/blocks") ? "Blocks" : "Docs";
-  if (kind === "technology")
-    return facts?.find(({ label }) => label === "Role")?.value ?? "Official";
-  if (kind === "command") return module;
-  if (module.startsWith(".") || module.startsWith("/")) return "Repository";
-  const root = rootPackageName(module);
-  if (Object.hasOwn(owners, root)) return owners[root];
-  return root.startsWith("@kamod-ch/") ? root.slice("@kamod-ch/".length) : root || "Source";
-}
-
 /** Derive navigation and reading context from verified facts; never manufacture a destination. */
 export function referencePresentation(reference: CodeReferenceHelp) {
   const { module, kind, docs, source, related = [], fields = [] } = reference;
@@ -45,7 +23,6 @@ export function referencePresentation(reference: CodeReferenceHelp) {
     kind === "package" ||
     (kind === "module" && !module.startsWith("@/") && !module.startsWith("."));
   const primary = sourceFirst ? (source ?? docs) : (docs ?? source);
-  const owner = referenceOwner(reference);
   const shortcuts: (CodeReferenceHelpLink & { text: string })[] = [];
   const add = (link: CodeReferenceHelpLink | undefined, text: string) => {
     if (link && link.href !== primary?.href && !shortcuts.some(({ href }) => href === link.href))
@@ -66,7 +43,6 @@ export function referencePresentation(reference: CodeReferenceHelp) {
     );
   }
   return {
-    owner,
     primary,
     shortcuts,
     note: notes[kind],
