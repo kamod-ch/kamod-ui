@@ -105,7 +105,8 @@ export function BrandText({ children }: { children: ComponentChildren }): Compon
     if (source)
       return cloneElement(node, {
         ...referenceAttributes(source),
-        class: `${node.props.class ?? ""} kamod-code-reference docs-inline-source-reference`.trim(),
+        class:
+          `${node.props.class ?? ""} kamod-code-reference docs-inline-source-reference transition-all`.trim(),
         children: <code>{label}</code>,
       });
     if (!inlineReference(label) && !isBrandLabel(label)) return node;

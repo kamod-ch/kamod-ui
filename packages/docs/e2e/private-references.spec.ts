@@ -183,24 +183,33 @@ for (const scheme of ["light", "dark"] as const) {
           strokeColor: code.webkitTextStrokeColor,
           width: chip.getBoundingClientRect().width,
           lift: code.top,
-          shadow: code.textShadow,
-          arrow: getComputedStyle(chip, "::after").opacity,
+          fontSize: Number.parseFloat(code.fontSize),
+          weight: code.fontWeight,
+          arrow: getComputedStyle(chip, "::after").content,
           transition: css.transitionDuration,
+          transitionProperty: css.transitionProperty,
+          chipTransition: code.transitionProperty,
         };
       });
+    let originalFontSize = 0;
     for (const width of [320, 1440]) {
       await page.setViewportSize({ width, height: 1000 });
       await term.scrollIntoViewIfNeeded();
       await page.mouse.move(1, 1);
       await expect.poll(async () => (await appearance()).line).toMatch(/\/ 0\.65\)/);
-      await expect.poll(async () => (await appearance()).arrow).toBe("0.18");
+      await expect.poll(async () => (await appearance()).arrow).toBe("none");
       await expect.poll(async () => (await appearance()).emphasis).toBe("0px");
       await expect.poll(async () => (await appearance()).lift).toBe("0px");
       const before = await appearance();
+      originalFontSize = before.fontSize;
       expect(before.emphasis).toBe("0px");
-      expect(before.arrow).toBe("0.18");
+      expect(before.arrow).toBe("none");
+      expect(before.weight).toBe("400");
       expect(before.lift).toBe("0px");
-      expect(before.transition).toContain("0.52s");
+      expect(before.transition).toBe("0.36s");
+      expect(before.transitionProperty).toBe("all");
+      expect(before.chipTransition).toBe("all");
+      await expect(term).toHaveClass(/transition-all/);
       expect(before.style).toBe("dashed");
       expect(before.thickness).toBe("1.5px");
       expect(before.outerBorder).toBe("0px");
@@ -220,16 +229,18 @@ for (const scheme of ["light", "dark"] as const) {
       await expect.poll(async () => (await appearance()).line).toBe(before.primary);
       await expect.poll(async () => (await appearance()).emphasis).toBe("0.08px");
       expect((await appearance()).color).toBe(before.color);
-      expect((await appearance()).strokeColor).not.toBe(before.color);
-      expect((await appearance()).width).toBe(before.width);
-      await expect.poll(async () => (await appearance()).arrow).toBe("1");
-      await expect.poll(async () => (await appearance()).lift).toBe("-0.25px");
-      expect((await appearance()).shadow).not.toBe("none");
+      await expect.poll(async () => (await appearance()).weight).toBe("450");
+      await expect
+        .poll(async () => (await appearance()).fontSize)
+        .toBeCloseTo(before.fontSize + 0.15, 2);
+      expect((await appearance()).width).toBeLessThan(before.width * 1.04);
+      expect((await appearance()).arrow).toBe("none");
+      await expect.poll(async () => (await appearance()).lift).toBe("-0.5px");
       const card = page.getByRole("dialog", { name: "useCounter reference", exact: true });
       await expect(card.locator('[data-reference-kind="function"]')).toBeVisible();
       const badge = card.locator(".code-reference-help-kind");
       for (const corner of ["top-left", "top-right", "bottom-left", "bottom-right"])
-        await expect(badge).toHaveCSS(`border-${corner}-radius`, "2px");
+        await expect(badge).toHaveCSS(`border-${corner}-radius`, "4px");
       const bounds = await card.boundingBox();
       expect(bounds!.x).toBeGreaterThanOrEqual(0);
       expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(width);
@@ -260,6 +271,8 @@ for (const scheme of ["light", "dark"] as const) {
     await term.focus();
     await expect(term.locator("code")).toHaveCSS("top", "0px");
     await expect(term).toHaveCSS("transition-duration", "0s");
+    await expect(term.locator("code")).toHaveCSS("transition-duration", "0s");
+    expect((await appearance()).fontSize).toBe(originalFontSize);
     expect(
       await term
         .locator("code")

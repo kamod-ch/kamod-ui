@@ -82,12 +82,18 @@ export function connectInlineCode(doc: Document) {
       target.setAttribute(name, value);
     };
     set(marker, term);
+    set(
+      "class",
+      [
+        target.getAttribute("class"),
+        "transition-all",
+        source && "kamod-code-reference docs-inline-source-reference",
+      ]
+        .filter(Boolean)
+        .join(" "),
+    );
     if (source) {
       const request = { ...source, href: target.getAttribute("href") ?? source.href };
-      set(
-        "class",
-        `${target.getAttribute("class") ?? ""} kamod-code-reference docs-inline-source-reference`.trim(),
-      );
       for (const [name, value] of Object.entries(referenceAttributes(request)))
         if (value !== undefined) set(name, value);
     }

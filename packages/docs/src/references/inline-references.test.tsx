@@ -73,6 +73,7 @@ it("keeps explicit destinations and exact text with no decorative icons or neste
   );
   const link = getByRole("link", { name: "DirectionProvider" });
   expect(link).toHaveAttribute("href", "#local-contract");
+  expect(link).toHaveClass("transition-all");
   expect(sourceReferenceHelp(link)).toMatchObject({
     module: "@kamod-ch/ui",
     imported: "DirectionProvider",

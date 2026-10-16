@@ -1167,3 +1167,25 @@ that the help chunk is not fetched before interaction. Tailwind on desktop light
 and Preact on mobile dark were visually inspected; main-link navigation, matching
 surfaces, keyboard focus, hover and reduced motion were checked directly. No new
 Safari/WebKit coverage is claimed.
+
+## 45. Arrow-free detected inline code with smooth hover emphasis
+
+- **Remove inline arrows completely.** Delete the CSS-mask arrow, its SVG data, opacity states and reserved spacing. Suppress the chip's after-pseudo content and retain the existing suppression of legacy nested arrow elements.
+- **Tiny type and position changes.** Increase ordinary detected chip weight from 400 to 450, add 0.15px to the current compact/regular font size and lift it by 0.5px on hover or keyboard focus. Keep the existing 65% resting dashed underline and full-primary interaction state.
+- **One smooth transition.** Add transition-all to authored and dynamically enhanced roots, and apply all 360ms ease to trigger roots and chips, inherited by the underline. Keep a 0.08px current-color hairline so emphasis can interpolate smoothly even when a system monospace font has discrete weights; remove the former tinted stroke and shadow effect.
+- **Context and motion support.** Retain shared size tokens, utility-name heading typography and atomic short glossary chips. Reduced motion removes transitions, font growth and lift while keeping the active emphasis and cue. Font growth is intentionally tiny and bounded rather than reserving the former arrow space.
+- **Same detector lifecycle.** Extend its existing reversible class bookkeeping for transition-all on source/glossary targets. Add no nodes, listeners, timers, observers or dependencies, and leave source-snippet styling under its existing core owner.
+- **Existing checks refined.** Assert the root class, all-properties transition, absent arrow, exact type/position changes, bounded width growth and reduced motion. Keep source preservation, painted underline, native navigation, lazy help and legacy nested-link coverage; refresh the older badge-radius assertion to its current 4px design.
+
+### Arrow-free hover verification
+
+All **75 focused reference/branding tests in four files** pass. Docs typecheck,
+final production build, root Oxlint/Oxfmt/Biome and diff checks pass. All **14
+production Chrome cases** pass for source/glossary references, painted underlines,
+exact text and navigation, 320/1440px light/dark feedback, legacy nested links,
+lazy help, keyboard/touch operation and snippet isolation. The checks verify
+400→450 weight, +0.15px size, -0.5px position, no arrow content and all-properties
+transitions. Reduced-motion coverage caught and verified a root selector priority
+fix; transitions, growth and lift now stop as intended. Desktop light/mobile dark
+rest/hover captures were inspected, and glossary feedback was checked directly.
+No new Safari/WebKit coverage is claimed.

@@ -694,27 +694,24 @@ hover states were also inspected visually on desktop light and mobile dark.
 
 ### Subtle detected-inline-code feedback
 
-All detected prose references and glossary hints now share a 65% primary dashed
-underline and full-color hover/keyboard cue. A tiny empty-content CSS-mask arrow
-uses the same underline color at 18% opacity normally and 100% on interaction.
-Original code strings, copy output, accessible names and reference metadata stay
-unchanged. The icon reserves its space in both states, and no icon DOM nodes are
-inserted into prose.
+All detected prose references and glossary hints share a 65% primary dashed
+underline and a full-color hover/keyboard cue. Detected inline arrows are removed
+completely, including their reserved width and SVG-mask paint. Original code,
+copy output, accessible names and reference metadata remain unchanged.
 
-A 0.08px glyph stroke carries the optional 45% underline-color tint, with a 0.12px, 12%-opacity
-ink shadow for barely visible weight/visibility feedback. A quarter-pixel upward
-offset is similarly restrained; emphasis transitions over 520ms and movement over
-320ms. Reduced motion removes transitions and the lift. A dedicated inline cue
-stylesheet covers authored, detected, glossary and legacy nested shapes, leaving
-the existing delegated help controller and source snippet styles intact. No new
-JavaScript, timers, listeners, observers, fonts or perpetual effects are introduced.
-Short glossary chips stay atomic so their highlight and arrow cannot orphan at a
-line break. The 58 focused reference tests, docs typecheck/build and root
-Oxlint/Oxfmt/Biome pass. All fourteen affected production Chrome cases pass,
-including exact text/navigation, lazy help, source-snippet regressions, touch and
-keyboard operation, legacy links, both appearances, narrow/desktop bounds,
-hover-width stability and reduced motion. Final default/hover screenshots were
-inspected on desktop light and mobile dark.
+A subtle hover/focus treatment increases ordinary chip text from 400 to 450 weight,
+adds just 0.15px to its context-aware font size and lifts it by 0.5px. A 0.08px
+current-color hairline makes the weight feedback smooth with static monospace
+fonts. Authored and detected trigger roots carry transition-all; roots, chips and
+the underline use one 360ms all-properties transition. Existing compact/regular
+size tokens remain authoritative, and utility names retain their heading type.
+Reduced motion removes transitions, growth and lift while preserving active
+weight and the full-color cue. The implementation adds no timers, listeners,
+observers, fonts or ongoing effects; detector-owned classes restore on teardown.
+Source-snippet tokens retain their existing presentation. Short glossary chips
+stay atomic at line breaks. The focused unit and browser regressions cover exact
+text/navigation, lazy help, source-snippet isolation, both appearances, narrow and
+desktop layouts, bounded growth, legacy nested links and reduced motion.
 
 ## Review map
 

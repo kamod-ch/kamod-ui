@@ -24,7 +24,7 @@ export function InlineCodeReference({
   const request = reference ?? inlineSourceReference(children, href);
   return request ? (
     <a
-      class="kamod-code-reference docs-inline-source-reference"
+      class="kamod-code-reference docs-inline-source-reference transition-all"
       href={request.href}
       {...referenceAttributes(request)}
     >

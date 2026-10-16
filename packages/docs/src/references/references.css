@@ -11,6 +11,9 @@ code.docs-inline-source-reference[data-inline-code-help] {
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
 }
+.docs-inline-source-reference {
+  transition: all 360ms ease;
+}
 .docs-inline-source-reference > code,
 code > a.docs-inline-source-reference {
   color: inherit;
@@ -30,4 +33,10 @@ code > a.docs-inline-source-reference::after {
 .docs-inline-source-reference
   :is(.docs-brand-icon, .docs-reference-icon, .docs-reference-arrow, .docs-kamod-arrow) {
   display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .docs-inline-source-reference {
+    transition: none;
+  }
 }
