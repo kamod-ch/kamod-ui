@@ -1,0 +1,129 @@
+.has-page-decoration {
+  position: relative;
+}
+.page-header-decoration {
+  position: absolute;
+  inset: 2.25rem 0 auto auto;
+  pointer-events: none;
+}
+.getting-started-flight {
+  --rocket-distance: 0.625rem;
+  --rocket-turn: 8deg;
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 6rem;
+  height: 6rem;
+  color: var(--primary);
+  animation: getting-started-orbit 6s ease-in-out infinite;
+}
+.getting-started-flight > svg {
+  position: relative;
+  z-index: 1;
+}
+.getting-started-flight-trail {
+  position: absolute;
+  inset: auto auto 0.5rem 0.125rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  transform: rotate(-45deg);
+}
+.getting-started-flight-trail i {
+  width: 0.1875rem;
+  height: 1.5rem;
+  border-radius: 1rem;
+  background: color-mix(in oklab, var(--primary) 30%, transparent);
+  transform-origin: top;
+  animation: getting-started-exhaust 650ms ease-in-out infinite alternate;
+}
+.getting-started-flight-trail i:nth-child(2) {
+  height: 2.25rem;
+  animation-delay: -200ms;
+}
+.getting-started-flight-trail i:nth-child(3) {
+  animation-delay: -400ms;
+}
+.getting-started-flight-star {
+  position: absolute;
+  inset: 0 auto auto 0;
+  font-size: 0.875rem;
+  opacity: 0.45;
+  animation: getting-started-star 3s ease-in-out infinite;
+}
+@keyframes getting-started-orbit {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(calc(-1 * var(--rocket-turn)));
+  }
+  25% {
+    transform: translate(var(--rocket-distance), calc(-1 * var(--rocket-distance)))
+      rotate(var(--rocket-turn));
+  }
+  50% {
+    transform: translate(0, calc(-1.6 * var(--rocket-distance))) rotate(0deg);
+  }
+  75% {
+    transform: translate(calc(-1 * var(--rocket-distance)), calc(-0.4 * var(--rocket-distance)))
+      rotate(calc(-1.5 * var(--rocket-turn)));
+  }
+}
+@keyframes getting-started-exhaust {
+  from {
+    opacity: 0.15;
+    transform: scaleY(0.6);
+  }
+  to {
+    opacity: 0.6;
+    transform: scaleY(1);
+  }
+}
+@keyframes getting-started-star {
+  0%,
+  100% {
+    opacity: 0.15;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.1);
+  }
+}
+@media (min-width: 1024px) {
+  aside.docs-sidebar .navigation-header-link[aria-current="page"] > svg {
+    --rocket-distance: 2px;
+    --rocket-turn: 6deg;
+    color: var(--primary);
+    animation: getting-started-orbit 6s ease-in-out infinite;
+  }
+}
+@media (max-width: 639px) {
+  .page-header-decoration {
+    top: 2rem;
+    right: 0.125rem;
+  }
+  .getting-started-flight {
+    --rocket-distance: 0.25rem;
+    width: 4rem;
+    height: 4rem;
+  }
+  .getting-started-flight > svg {
+    width: 3.25rem;
+    height: 3.25rem;
+  }
+  .has-page-decoration .block-guide-eyebrow-label {
+    max-width: calc(100% - 4.5rem);
+  }
+  .getting-started-flight-trail {
+    transform: rotate(-45deg) scale(0.65);
+    transform-origin: bottom left;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .getting-started-flight,
+  .getting-started-flight *,
+  .getting-started-flight-trail i,
+  aside.docs-sidebar .navigation-header-link[aria-current="page"] > svg {
+    animation: none;
+  }
+}

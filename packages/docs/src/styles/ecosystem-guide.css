@@ -330,3 +330,21 @@
     grid-column: 1 / -1;
   }
 }
+
+.ecosystem-source-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin-inline-start: auto;
+  flex: none;
+}
+.ecosystem-source-header-actions .docs-icon-button {
+  width: 1.875rem;
+  height: 1.875rem;
+}
+
+@container ecosystem-guide (max-width: 28rem) {
+  .ecosystem-source-context {
+    display: none;
+  }
+}

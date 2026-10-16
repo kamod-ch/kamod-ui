@@ -1,4 +1,3 @@
-import { BlockHeadingLink } from "../../../blocks/BlockHeadingLink";
 import { CodeBlock } from "../CodeBlock";
 import { InlineCodeLink } from "../InlineCodeLink";
 
@@ -16,9 +15,6 @@ export function ReferenceSurface({ children }: { children: ComponentChildren }) 
 export function ReferenceAdaptation({ title }: { title: string }) {
   return (
     <div class="component-reference-next block-guide-prose">
-      <h3 id="component-reference-next" tabIndex={-1}>
-        <BlockHeadingLink id="component-reference-next">Bring It Back to Your App</BlockHeadingLink>
-      </h3>
       <p>
         <strong>Keep One Working Example Within Reach.</strong> Start with the{" "}
         <InlineCodeLink href="#component-preview">Live Preview</InlineCodeLink> of {title}, replace

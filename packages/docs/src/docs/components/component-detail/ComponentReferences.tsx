@@ -6,7 +6,7 @@ import { withBasePath } from "../../../base-path";
 import { BlockHeadingLink } from "../../../blocks/BlockHeadingLink";
 import { repositoryUrl } from "../../../blocks/block-links";
 import type { DocPageModule } from "../../types";
-import { DocsCallout } from "../DocsCallout";
+import { BrandText } from "../brand/BrandText";
 import { InlineCodeLink } from "../InlineCodeLink";
 import { PathDisplay } from "../PathDisplay";
 import { CnReferences } from "./CnReferences";
@@ -33,26 +33,30 @@ function ReferencePanel({
   action: ComponentChildren;
 }) {
   return (
-    <DocsCallout
-      headingId={id}
-      class="component-reference-panel"
-      title={
-        <span class="component-reference-heading">
+    <section class="component-reference-pair" aria-labelledby={id}>
+      <header class="component-reference-group-heading">
+        <h3 id={id} tabIndex={-1}>
+          {id === "component-source" ? (
+            <CodeIcon size={17} aria-hidden="true" />
+          ) : (
+            <PaletteIcon size={17} aria-hidden="true" />
+          )}
           <BlockHeadingLink id={id}>{title}</BlockHeadingLink>
           <span class="component-reference-category">
-            <span class="component-reference-dot" aria-hidden="true">
-              ·
-            </span>
+            <span aria-hidden="true">·</span>
             {label}
           </span>
-        </span>
-      }
-      meta={action}
-      icon={id === "component-source" ? <CodeIcon /> : <PaletteIcon />}
-      footer={footer}
-    >
-      {children}
-    </DocsCallout>
+        </h3>
+        {action}
+      </header>
+      <ReferenceReadingGuide stage={id === "component-source" ? "start" : "design"} />
+      <aside class="component-reference-panel" aria-labelledby={id}>
+        <div class="component-reference-panel-body block-guide-prose">
+          <BrandText>{children}</BrandText>
+        </div>
+        <div class="component-reference-panel-footer">{footer}</div>
+      </aside>
+    </section>
   );
 }
 
@@ -72,7 +76,6 @@ export function ComponentReferences({ doc }: { doc: DocPageModule }) {
       }}
     >
       <div class="component-references">
-        <ReferenceReadingGuide stage="start" />
         <ReferencePanel
           id="component-source"
           label="Implementation · Preact"
@@ -169,7 +172,6 @@ export function ComponentReferences({ doc }: { doc: DocPageModule }) {
           </p>
         </ReferencePanel>
 
-        <ReferenceReadingGuide stage="design" />
         <ReferencePanel
           id="component-design-reference"
           label={
@@ -287,8 +289,21 @@ export function ComponentReferences({ doc }: { doc: DocPageModule }) {
           </p>
         </ReferencePanel>
 
-        <ReferenceReadingGuide stage="adapt" />
-        <ReferenceAdaptation title={doc.title} />
+        <section class="component-reference-pair" aria-labelledby="component-reference-next">
+          <header class="component-reference-group-heading">
+            <h3 id="component-reference-next" tabIndex={-1}>
+              <CodeIcon size={17} aria-hidden="true" />
+              <BlockHeadingLink id="component-reference-next">
+                Bring It Back to Your App
+              </BlockHeadingLink>
+              <span class="component-reference-category">
+                <span aria-hidden="true">·</span>One focused experiment
+              </span>
+            </h3>
+          </header>
+          <ReferenceReadingGuide stage="adapt" />
+          <ReferenceAdaptation title={doc.title} />
+        </section>
       </div>
     </ComponentDocSection>
   );

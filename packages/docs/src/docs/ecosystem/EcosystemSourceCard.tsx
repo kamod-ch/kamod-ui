@@ -35,6 +35,21 @@ export function EcosystemSourceCard({
           <span aria-hidden="true">·</span>
           <span>Source, releases and conversations</span>
         </span>
+        <div class="ecosystem-source-header-actions">
+          {sourceLinks.map(({ label, href, Icon }) => (
+            <a
+              key={href}
+              class="docs-icon-button"
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${label} — quick link`}
+              title={label}
+            >
+              <Icon size={15} strokeWidth={2} aria-hidden="true" />
+            </a>
+          ))}
+        </div>
       </CardHeader>
       <CardContent>
         <p class="ecosystem-source-description" dangerouslySetInnerHTML={{ __html: description }} />

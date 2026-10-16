@@ -76,3 +76,14 @@
   color: var(--foreground);
   font-weight: 600;
 }
+
+/* Eyebrow ink follows the selected brand with a small darkening, without changing geometry. */
+.block-guide-eyebrow-label,
+.home-hero-badge {
+  color: color-mix(in oklab, var(--primary) 88%, black);
+  font-weight: 600;
+}
+:is(.block-guide-eyebrow-label, .home-hero-badge) svg {
+  color: inherit;
+  stroke-width: 2.25;
+}

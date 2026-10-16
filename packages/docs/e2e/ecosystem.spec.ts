@@ -46,11 +46,11 @@ test("ecosystem guide has complete static content and valid internal references"
   const ending = page.locator(".ecosystem-next");
   await expect(ending.getByRole("heading", { level: 2 })).toHaveText("Put the Toolkit to Work");
   const nextSteps = ending.getByRole("navigation", { name: "Choose your next step" });
-  await expect(nextSteps.getByRole("link")).toHaveCount(3);
+  await expect(nextSteps.getByRole("link")).toHaveCount(6);
   for (const [label, href] of [
-    ["Build Your First Screen", "/docs/getting-started#set-up-your-app"],
-    ["Add One Capability", "/docs/packages#package-boundaries"],
-    ["Check the Whole Journey", "/docs/getting-started#verify-the-whole-journey"],
+    ["Open Getting Started", "/docs/getting-started#set-up-your-app"],
+    ["Compare Packages", "/docs/packages#package-boundaries"],
+    ["Review the Checks", "/docs/getting-started#verify-the-whole-journey"],
   ]) {
     await expect(nextSteps.getByRole("link", { name: label, exact: true })).toHaveAttribute(
       "href",

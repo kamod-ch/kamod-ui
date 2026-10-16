@@ -12,6 +12,7 @@ export function LibraryPageHeader({
   title,
   description,
   children,
+  decoration,
 }: {
   parent: { label: string; href: string };
   label: string;
@@ -19,13 +20,16 @@ export function LibraryPageHeader({
   title: string;
   description: ComponentChildren;
   children?: ComponentChildren;
+  /** Optional decorative art positioned without changing the title flow. */
+  decoration?: ComponentChildren;
 }) {
   return (
-    <header class="block-guide-header">
+    <header class={`block-guide-header${decoration ? " has-page-decoration" : ""}`}>
       <PageBreadcrumbs
         ancestors={parent.href === "/" ? [parent] : [{ label: "Home", href: "/" }, parent]}
         current={label}
       />
+      {decoration && <span class="page-header-decoration">{decoration}</span>}
       <PageEyebrow>{eyebrow}</PageEyebrow>
       <PageTitle>{title}</PageTitle>
       <div class="block-guide-description">

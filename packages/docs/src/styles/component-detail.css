@@ -274,23 +274,45 @@
   display: grid;
   gap: 1.5rem;
 }
+.component-reference-pair {
+  min-width: 0;
+}
+.component-reference-group-heading,
+.component-reference-group-heading > h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  min-width: 0;
+}
+.component-reference-group-heading {
+  justify-content: space-between;
+  gap: 1rem;
+}
+.component-detail .component-reference-group-heading h3 {
+  flex: 1;
+  flex-wrap: wrap;
+  margin: 0;
+  font-size: 1.0625rem;
+}
+.component-reference-group-heading > h3 > svg {
+  flex: none;
+  color: var(--primary);
+}
+.component-reference-group-heading > [data-slot="button"] {
+  flex: none;
+}
 .component-reference-bridge {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  align-items: start;
-  gap: 0.875rem;
+  min-width: 0;
   padding-block: 0.75rem;
 }
-.component-reference-bridge > svg {
-  margin-top: 0.25rem;
-  color: var(--muted-foreground);
-}
-.component-reference-bridge .component-reference-bridge-title {
+.component-reference-bridge p:first-child {
   margin-top: 0;
-  color: var(--foreground);
 }
 .component-reference-bridge p:last-child {
   margin-bottom: 0;
+}
+.component-reference-pair .component-reference-panel {
+  margin-top: 0.5rem;
 }
 .component-reference-decisions {
   margin-block: 1.25rem;
@@ -398,12 +420,22 @@
 .component-reference-location code {
   overflow-wrap: anywhere;
 }
-/* Keep reference actions beside the heading; the core callout owns the frame. */
-.component-reference-panel [data-slot="callout-header"] {
-  grid-template-columns: auto minmax(0, 1fr) auto;
+.component-reference-panel {
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.625rem;
+  background: color-mix(in oklab, var(--foreground) 2%, var(--background));
 }
-.component-reference-panel [data-slot="callout-meta"] {
-  grid-column-start: auto;
+.component-reference-panel-body > p:first-child {
+  margin-top: 0;
+}
+.component-reference-panel-body > p:last-child {
+  margin-bottom: 0;
+}
+.component-reference-panel-footer {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
 }
 .component-reference-heading {
   display: flex;

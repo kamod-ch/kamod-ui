@@ -100,7 +100,7 @@ test("Getting Started: contextual references across the library", async ({ page 
     ["/docs/cn/installation", "style-your-interface"],
   ]) {
     await page.goto(`.${route}`, { waitUntil: "domcontentloaded" });
-    const reference = page.getByRole("navigation", { name: "Getting Started guide", exact: true });
+    const reference = page.getByRole("region", { name: "Take the Next Useful Step", exact: true });
     await expect(reference).toHaveCount(1);
     await expect(reference.locator(`a[href$="#${fragment}"]`)).toHaveCount(1);
   }

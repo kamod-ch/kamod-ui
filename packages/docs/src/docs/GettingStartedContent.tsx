@@ -2,6 +2,7 @@ import source from "virtual:kamod-getting-started";
 import { BlockGuideContents } from "../blocks/detail/BlockGuideContents";
 import { parseGuide } from "../blocks/guides/guide-markdown";
 import { DocsShell } from "./components/DocsShell";
+import { GettingStartedRocket } from "./components/GettingStartedRocket";
 import { renderGettingStartedTable } from "./components/GettingStartedVerification";
 import { GuideArticle } from "./components/GuideArticle";
 import { LibraryPageHeader } from "./components/LibraryPageHeader";
@@ -29,6 +30,7 @@ export function GettingStartedContent() {
               label="Getting Started"
               eyebrow="Your First Kamod Interface"
               title={title}
+              decoration={<GettingStartedRocket />}
               description={
                 <>
                   <p>

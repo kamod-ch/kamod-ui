@@ -1,4 +1,4 @@
-/* The ecosystem owns its ending; shared guide handoffs on other pages remain compact. */
+/* A page-owned conclusion uses open reading rows rather than another set of cards. */
 .ecosystem-next {
   container: ecosystem-next / inline-size;
   margin-top: 2.5rem;
@@ -11,55 +11,43 @@
   gap: 0.5rem;
   color: var(--ecosystem-control-ink);
   font-size: 0.6875rem;
-  line-height: 1.5;
-}
-.ecosystem-next-eyebrow > svg {
-  flex: none;
-  color: color-mix(in oklab, var(--primary) 45%, var(--foreground));
 }
 .ecosystem-next h2 {
   margin: 0.625rem 0 0;
-  color: var(--foreground);
   font-size: clamp(1.25rem, 2.7cqi, 1.5rem);
   font-weight: 600;
   line-height: 1.35;
-  letter-spacing: -0.025em;
   scroll-margin-top: calc(var(--docs-topbar-offset, 58px) + 1rem);
 }
 .ecosystem-next-description {
-  max-width: 70ch;
   margin: 0.75rem 0 0;
   color: var(--ecosystem-secondary);
   font-size: 0.8125rem;
   line-height: 1.85;
 }
-.ecosystem-next-description > strong {
+.ecosystem-next strong {
   color: var(--foreground);
   font-weight: 550;
 }
 .ecosystem-next-paths {
   display: grid;
-  gap: 0.75rem;
-  margin-top: 1.25rem;
+  margin-top: 1.5rem;
 }
 .ecosystem-next-path {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
   min-width: 0;
-  padding: 1rem;
-  border: 1px solid var(--ecosystem-line);
-  border-radius: 0.75rem;
-  background: var(--ecosystem-surface);
-  color: var(--foreground);
-  text-decoration: none;
-  transition:
-    background-color 180ms ease,
-    border-color 180ms ease;
+  padding-block: 1.25rem;
+  border-top: 1px solid var(--ecosystem-line);
 }
-.ecosystem-next-primary {
-  border-color: color-mix(in oklab, var(--primary) 12%, var(--ecosystem-line));
-  background: color-mix(in oklab, var(--primary) 5%, var(--background));
+.ecosystem-next-topic-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+.ecosystem-next-topic-heading > .docs-icon-button {
+  width: 1.875rem;
+  height: 1.875rem;
+  margin-inline-start: auto;
+  flex: none;
 }
 .ecosystem-next-context {
   display: flex;
@@ -67,45 +55,35 @@
   gap: 0.5rem;
   color: var(--ecosystem-control-ink);
   font-size: 0.6875rem;
-  line-height: 1.5;
 }
 .ecosystem-next-context > svg {
+  color: var(--primary);
   flex: none;
 }
-.ecosystem-next-primary .ecosystem-next-context > svg {
-  color: color-mix(in oklab, var(--primary) 55%, var(--foreground));
+.ecosystem-next-context::after {
+  content: "·";
+  color: var(--muted-foreground);
 }
 .ecosystem-next-path h3 {
-  margin: 0.875rem 0 0;
+  margin: 0;
   color: var(--foreground);
   font-size: 0.9375rem;
   font-weight: 550;
   line-height: 1.45;
-  letter-spacing: -0.015em;
 }
 .ecosystem-next-path p {
-  margin: 0.5rem 0 0;
+  margin: 0.75rem 0 0;
   color: var(--ecosystem-secondary);
-  font-size: 0.75rem;
-  line-height: 1.8;
+  font-size: 0.8125rem;
+  line-height: 1.85;
 }
-.ecosystem-next-action {
-  display: inline-flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  width: 100%;
-  margin-top: auto;
-  padding-top: 1.25rem;
+.ecosystem-next-path .ecosystem-next-detail {
+  margin-top: 0.5rem;
+}
+.ecosystem-next a:not(.docs-icon-button) {
   color: var(--foreground);
-  font-size: 0.6875rem;
-  font-weight: 550;
-  line-height: 1.5;
-}
-.ecosystem-next-action > svg {
-  flex: none;
-  color: var(--ecosystem-control-ink);
-  transition: transform 220ms ease;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
 }
 .ecosystem-next-footer {
   display: flex;
@@ -113,11 +91,11 @@
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 0.75rem 1.5rem;
-  margin-top: 1.25rem;
+  margin-top: 0.5rem;
   padding-top: 1rem;
   border-top: 1px solid var(--ecosystem-line);
   color: var(--ecosystem-secondary);
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
   line-height: 1.75;
 }
 .ecosystem-next-experiment {
@@ -125,70 +103,27 @@
   align-items: center;
   gap: 0.625rem;
 }
-.ecosystem-next-experiment > svg {
-  flex: none;
-}
 .ecosystem-next-experiment p {
   margin: 0;
-}
-.ecosystem-next-experiment p > span {
-  display: block;
-  color: var(--muted-foreground);
-}
-.ecosystem-next-footer a {
-  color: var(--foreground);
-  text-underline-offset: 0.2em;
 }
 .ecosystem-next-return {
   display: inline-flex;
   align-items: center;
   gap: 0.375rem;
   min-height: 2rem;
-  margin-inline-start: auto;
-  white-space: nowrap;
-  text-decoration: none;
 }
 .ecosystem-next-return > svg {
   transform: rotate(-90deg);
 }
-.ecosystem-next a:focus-visible {
-  outline: 2px solid var(--ring);
-  outline-offset: 3px;
-}
-@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
-  .ecosystem-next-path:hover {
-    border-color: color-mix(in oklab, var(--primary) 18%, var(--ecosystem-line));
-    background: color-mix(in oklab, var(--primary) 7%, var(--background));
+@container ecosystem-next (max-width: 28rem) {
+  .ecosystem-next-context {
+    font-size: 0;
+    gap: 0;
   }
-  .ecosystem-next-path:hover .ecosystem-next-action > svg {
-    transform: translateX(2px);
+  .ecosystem-next-context::after {
+    content: none;
   }
-  .ecosystem-next-return:hover {
-    text-decoration: underline;
-  }
-}
-@container ecosystem-next (min-width: 34rem) {
-  .ecosystem-next-paths {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .ecosystem-next-primary {
-    grid-column: 1 / -1;
-  }
-}
-@container ecosystem-next (min-width: 48rem) {
-  .ecosystem-next-paths {
-    grid-template-columns: 1.15fr 1fr 1fr;
-  }
-  .ecosystem-next-primary {
-    grid-column: auto;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .ecosystem-next-path,
-  .ecosystem-next-action > svg {
-    transition: none;
-  }
-  .ecosystem-next-action > svg {
-    transform: none !important;
+  .ecosystem-next-path h3 {
+    font-size: 0.875rem;
   }
 }
