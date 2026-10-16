@@ -95,12 +95,8 @@ export function referencePresentation(reference: CodeReferenceHelp) {
     ? [{ ...primary, kind: primary === source ? "source" : "guide" }]
     : [];
   for (const link of reading) {
-    if (resources.length === 2) break;
-    if (
-      (link.kind === "source" || link.kind === "guide") &&
-      !resources.some(({ href }) => href === link.href)
-    )
-      resources.push(link);
+    if (resources.length === 4) break;
+    if (!resources.some(({ href }) => href === link.href)) resources.push(link);
   }
   const [fallback, detail] = contexts[kind];
   return {

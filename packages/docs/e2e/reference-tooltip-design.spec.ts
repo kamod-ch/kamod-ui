@@ -60,9 +60,12 @@ for (const scheme of ["light", "dark"] as const) {
         await expect(badge).toHaveCSS("font-weight", "500");
         const badgeBox = (await badge.boundingBox())!;
         const openBox = (await open.boundingBox())!;
-        expect(openBox.height).toBeCloseTo(badgeBox.height, 3);
+        expect(openBox.height).toBeCloseTo(28, 3);
         expect(openBox.width).toBeCloseTo(openBox.height, 3);
-        expect(Math.abs(openBox.y - badgeBox.y)).toBeLessThan(1);
+        expect(
+          Math.abs(openBox.y + openBox.height / 2 - badgeBox.y - badgeBox.height / 2),
+        ).toBeLessThan(1);
+        await expect(open.locator("svg")).toHaveCSS("stroke-width", "3px");
         await expect(open).toHaveAttribute(
           "href",
           (await card.locator(".code-reference-help-primary-link").getAttribute("href"))!,
@@ -120,7 +123,7 @@ for (const scheme of ["light", "dark"] as const) {
           }),
         ).toBe(true);
         expect(await card.locator("footer a").count()).toBeGreaterThanOrEqual(1);
-        expect(await card.locator("footer a").count()).toBeLessThanOrEqual(2);
+        expect(await card.locator("footer a").count()).toBeLessThanOrEqual(4);
         const postscript = card.locator(".code-reference-help-detail");
         await expect(postscript).toHaveCSS("font-size", "8.5px");
         await expect(postscript).toHaveCSS("color", /\/ 0\.4\)/);
@@ -130,6 +133,37 @@ for (const scheme of ["light", "dark"] as const) {
           const outer = (await card.boundingBox())!;
           expect(Math.abs(body.width - (outer.width - 2))).toBeLessThan(1);
           await expect(content).toHaveCSS("border-top-width", "1px");
+          for (const section of await content.locator(".code-reference-help-section").all()) {
+            const heading = section.locator(".code-reference-help-section-label");
+            const panel = section.locator(".code-reference-help-panel");
+            const headingBox = (await heading.boundingBox())!;
+            const panelBox = (await panel.boundingBox())!;
+            expect(headingBox.y + headingBox.height).toBeLessThan(panelBox.y);
+            await expect(panel).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
+            for (const type of await panel.locator("dt > .code-reference-help-syntax").all()) {
+              await expect(type).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
+              await expect(type).toHaveCSS("font-size", "8.5px");
+            }
+            const title = heading.locator("a.code-reference-help-section-title");
+            const action = heading.locator(".code-reference-help-section-open");
+            await expect(action).toHaveAttribute("href", (await title.getAttribute("href"))!);
+            await expect(action.locator("svg")).toHaveCSS("stroke-width", "2.75px");
+            expect(await heading.evaluate((node) => node.scrollWidth <= node.clientWidth)).toBe(
+              true,
+            );
+          }
+        }
+        const reading = card.locator(".code-reference-help-related");
+        if (await reading.count()) {
+          await expect(reading).toHaveCSS("border-top-width", "1px");
+          await expect(reading.locator(".code-reference-help-panel")).toHaveCount(0);
+          expect((await reading.boundingBox())!.width).toBeCloseTo(
+            (await card.boundingBox())!.width - 2,
+            0,
+          );
+          for (const chip of await reading.locator(".code-reference-help-related-link").all()) {
+            await expect(chip.locator("code")).toHaveCSS("font-size", "8.5px");
+          }
         }
         await expect(card.locator("footer")).toHaveCSS("border-top-width", "1px");
         await expect(card.locator(".code-reference-help-note")).not.toBeEmpty();
@@ -188,7 +222,9 @@ test("failed optional declaration coloring preserves plain code and reference na
   const card = page.getByRole("dialog", { name: "Theme Toggle reference", exact: true });
   await expect(card.locator(".code-reference-help-contract")).toBeVisible();
   await expect.poll(() => requested).toBe(true);
-  await expect(card.locator(".code-reference-help-fields dd code").first()).toHaveText("string");
+  await expect(
+    card.locator(".code-reference-help-fields dt > .code-reference-help-syntax").first(),
+  ).toHaveText("string");
   await expect(card.locator(".code-reference-help-contract .token")).toHaveCount(0);
   await expect(card.getByRole("link", { name: "API reference", exact: true })).toBeVisible();
   await page.keyboard.press("Escape");

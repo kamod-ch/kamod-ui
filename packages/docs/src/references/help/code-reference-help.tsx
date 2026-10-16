@@ -1,8 +1,9 @@
-import { InfoIcon, LinkIcon } from "@kamod-ch/icons/lucide";
+import { LinkIcon } from "@kamod-ch/icons/lucide";
 import { Badge } from "@kamod-ch/ui/badge";
 import { splitDisplayPath } from "../../docs/components/display-path";
 import type { CodeReferenceHelp } from "../types";
-import { ReferenceContract } from "./reference-contract";
+import { hasReferenceContract, ReferenceContract } from "./reference-contract";
+import { ReferenceFacts } from "./reference-facts";
 import { ReferenceFooter } from "./reference-footer";
 import { referenceKinds } from "./reference-kinds";
 import { referencePresentation } from "./reference-presentation";
@@ -28,17 +29,11 @@ function ReferencePath({ path }: { path: string }) {
 
 /** One compact reading surface, using verified facts and existing delegated tooltip behavior. */
 export function CodeReferenceHelpContent({ reference }: { reference: CodeReferenceHelp }) {
-  const { kind, name, module, description, facts } = reference;
+  const { kind, name, module, description } = reference;
   const { Icon, label } = referenceKinds[kind];
   const { primary, context, reading, resources, note, caption } = referencePresentation(reference);
   const MainIcon = (kind === "technology" && technologyIcon(module)) || Icon;
   const IconTag = primary ? "a" : "span";
-  const detailed = !!(
-    reference.fields?.length ||
-    reference.signature ||
-    facts?.length ||
-    reading.length
-  );
   return (
     <div class="code-reference-help-layout" data-reference-kind={kind}>
       <header class="code-reference-help-header">
@@ -68,7 +63,7 @@ export function CodeReferenceHelpContent({ reference }: { reference: CodeReferen
               aria-label={`Open ${primary.label} for ${name}`}
               title={primary.label}
             >
-              <LinkIcon size={13} aria-hidden="true" />
+              <LinkIcon size={15} strokeWidth={3} aria-hidden="true" />
             </a>
           )}
         </div>
@@ -95,6 +90,7 @@ export function CodeReferenceHelpContent({ reference }: { reference: CodeReferen
         <p>
           <ReferenceSentence text={description} />
         </p>
+        <ReferenceFacts reference={reference} />
         {caption && (
           <p class="code-reference-help-detail">
             <ReferenceSentence text={caption} />
@@ -107,38 +103,12 @@ export function CodeReferenceHelpContent({ reference }: { reference: CodeReferen
           </p>
         )}
       </div>
-      {detailed && (
+      {hasReferenceContract(reference) && (
         <div class="code-reference-help-content">
           <ReferenceContract reference={reference} />
-          {!!facts?.length && (
-            <section
-              class="code-reference-help-panel code-reference-help-facts"
-              aria-label="Reference details"
-            >
-              <div class="code-reference-help-section-label">
-                <strong>
-                  <InfoIcon size={13} aria-hidden="true" />
-                  Reference details
-                </strong>
-                <span>
-                  {facts.length} {facts.length === 1 ? "detail" : "details"}
-                </span>
-              </div>
-              <dl>
-                {facts.map(({ label, value }) => (
-                  <div key={label}>
-                    <dt>{label}</dt>
-                    <dd>
-                      <ReferenceSentence text={value} />
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-            </section>
-          )}
-          <ReferenceRelated reference={reference} links={reading} />
         </div>
       )}
+      <ReferenceRelated reference={reference} links={reading} />
       <ReferenceFooter name={name} primary={primary} resources={resources} />
     </div>
   );

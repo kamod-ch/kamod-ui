@@ -154,8 +154,8 @@ accepts supported web/application destinations, rejects unsafe schemes, and
 escapes generated attributes. Folding and wrapping keep links attached to the
 same source characters. Source and inline references share a primary dashed cue,
 resting at 35% in snippets and 65% in prose, then reaching full color on hover or
-focus. Slow glyph-stroke emphasis preserves widths and Prism ink. Inline chips
-add a tiny arrow and barely visible lift, with their cue above the highlight.
+focus. Slow glyph-stroke emphasis preserves widths and Prism ink. Detected inline chips use restrained 500→550 weight feedback and no arrow or
+vertical movement, with their cue above the highlight.
 
 ### Shared controls retain their existing ownership
 
@@ -308,8 +308,8 @@ source-first resources, keyboard flow and 320/1440px layouts in both appearances
 The shared private tooltip retains its icon/name heading with one compact type
 badge and a square chain-link action to the chosen main destination. The badge
 uses the page inline-code highlight, slightly softer 4px corners, 11px/500 text
-and a 10.5px outline icon with a stronger 2.5 stroke. Its 22px height also sizes
-the square action. Technology uses an angular circuit-board symbol in the badge;
+and a 10.5px outline icon with a stronger 2.5 stroke. The badge stays 22px high; the destination action is a slightly smaller-than-standard
+28px square with a 15px primary-colored chain icon at stroke 3. Technology uses an angular circuit-board symbol in the badge;
 its main heading uses a verified technology logo where available, with React's
 mark also representing Preact. The 30px main icon is itself a native destination
 link, with a slightly stronger 2.25 stroke and the same paint/interaction as the
@@ -323,7 +323,7 @@ and a short purpose phrase. Known core entrypoints have authored labels such as
 such as “Utility styling” and “Typed JavaScript.” Safe family fallbacks cover
 other references without manufacturing context from clipped source descriptions.
 Both path and context stay on one line and yield to narrow space. Source/guide
-shortcuts move into the related-reading panel, deduplicated against each other
+shortcuts move into the bottom reading shelf, deduplicated against each other
 and the primary resource. No redundant prefix or origin badge remains.
 
 Descriptions retain source-backed content and support safe code, emphasis and
@@ -333,20 +333,30 @@ and carries the family-specific caveat previously in the footer, avoiding a
 repeated command-execution warning. Emphasis, links and code remain available
 without making this supporting note compete with the main description.
 
-Detailed contracts, facts and related reading sit in one full-width stage, with
-a rule above and a 10% wash of the actual type-badge highlight. Individual panels
-retain their existing compact structure and bounded source-backed content. Required/optional
-labels, actual counts, highlighted types and role captions make the content easier
-to scan. Related resources use two columns when space allows and stack on narrow
-screens; a bare props type name stays an inline chip instead of a nested code box.
+Only substantive contracts receive detail cards. The miniature layout follows the
+source documentation's prop/type-and-usage rows and declaration toolbar. Linked,
+12px semibold headings sit above transparent, rounded cards with 30% inverse-ink
+borders. Each heading has a short clamped extension, a real count and a compact
+chain action to the same verified destination. Detail text is 8.5px, with primary
+reading ink and quieter explanations; types remain plain, wrapping code rather
+than full-width highlighted bars. Field scope appears in a tiny note below the
+card. Adjacent substantive chapters have inset separators. The full-width detail
+stage retains its faint 10% badge wash, but is omitted for a bare type name or
+simple metadata. Small facts stay beside the summary instead of becoming chapters.
+
+All link-only content moves to a separate bottom reading shelf, after a full-width
+rule and with a very faint surface wash. Compact Contracts and Resources groups
+use wrapping, highlighted code chips with meaningful icons and destination hints.
+Existing type, props, source and guide links remain available; no link collection
+is disguised as a content card.
 
 A second full-width rule introduces the compact sticky footer. A quiet book-led
-“Full context linked” cue closes the preview on the left, with up to two verified
-resource actions on the right. The first retains the selected primary URL,
-including source-first packages; a distinct source/guide reference fills the
-optional second action. Short labels give way to icons on narrow screens, with
-full accessible names retained. Related-reading destinations remain available in
-the body, so this footer adds useful shortcuts without displacing type links.
+“Full context linked” cue closes the preview on the left, with up to four distinct,
+verified resource actions on the right. The selected primary URL remains first,
+including source-first packages; source, guide, type and props shortcuts follow
+from existing metadata. Buttons are 28px high with 14px primary-colored, stronger
+icons. Short labels give way to icons on narrow screens, retaining complete
+accessible names. The reading shelf preserves destinations beyond the shortcut limit.
 
 Resource hints reuse the core Tooltip primitive and render only within the open
 card. Their descriptive heading, emphasized explanation and exact destination
@@ -361,7 +371,9 @@ these fragments mount no reader toolbar, observers or token-level listeners.
 A local error boundary retains plain code and navigation if the optional syntax
 chunk fails, keeping that failure away from the page boundary.
 Focused presentation helpers own resource selection, safe prose, contracts and
-related reading. Production checks cover seven families at 320/768/1440px in both
+related reading. ReferenceSection owns substantive chapter headers; ReferenceFacts
+keeps metadata compact, and reference-resources shares resource icons and hint copy
+between the reading shelf and footer. Production checks cover seven families at 320/768/1440px in both
 appearances, plus the existing loading, source, keyboard and dismissal cases.
 
 ### Showcase Prompts and download feedback
@@ -713,13 +725,13 @@ underline and a full-color hover/keyboard cue. Detected inline arrows are remove
 completely, including their reserved width and SVG-mask paint. Original code,
 copy output, accessible names and reference metadata remain unchanged.
 
-A subtle hover/focus treatment increases ordinary chip text from 400 to 450 weight,
-adds just 0.15px to its context-aware font size and lifts it by 0.5px. A 0.08px
+A subtle hover/focus treatment uses a slightly stronger 500 resting weight and 550 active weight,
+adding just 0.15px to its context-aware font size with no vertical movement. A 0.08px
 current-color hairline makes the weight feedback smooth with static monospace
 fonts. Authored and detected trigger roots carry transition-all; roots, chips and
 the underline use one 360ms all-properties transition. Existing compact/regular
 size tokens remain authoritative, and utility names retain their heading type.
-Reduced motion removes transitions, growth and lift while preserving active
+Reduced motion removes transitions and growth while preserving active
 weight and the full-color cue. The implementation adds no timers, listeners,
 observers, fonts or ongoing effects; detector-owned classes restore on teardown.
 Source-snippet tokens retain their existing presentation. Short glossary chips

@@ -9,7 +9,7 @@ async function assertReferenceContrast(card: Locator) {
     return [
       ".code-reference-help-kind",
       ".code-reference-help-summary p",
-      ".code-reference-help-fields dd code",
+      ".code-reference-help-fields dt > .code-reference-help-syntax",
       ".code-reference-help-related-link",
     ].map((selector) => {
       context.clearRect(0, 0, 1, 1);
@@ -29,12 +29,13 @@ test("lazy help shows a reading placeholder and dismissed requests cannot reopen
   const held = new Promise<void>((resolve) => {
     release = resolve;
   });
-  await page.route(/\/assets\/code-reference-help-[^/]+\.js(?:\?|$)/, async (route) => {
+  await page.route(/\/assets\/code-reference-help-[\w-]+\.js(?:\?|$)/, async (route) => {
     await held;
     await route.continue();
   });
   try {
-    await page.goto("./docs/code/installation#source-links");
+    // The intentionally held optional chunk may keep the load event pending.
+    await page.goto("./docs/code/installation#source-links", { waitUntil: "domcontentloaded" });
     const sample = page
       .locator('section[aria-labelledby="code-reference-navigation"] pre code')
       .filter({ hasText: "LocaleBoundary" });
@@ -60,7 +61,7 @@ test("lazy help shows a reading placeholder and dismissed requests cannot reopen
 });
 
 test("failed optional details retain the source destination", async ({ page }) => {
-  await page.route(/\/assets\/code-reference-help-[^/]+\.js(?:\?|$)/, (route) => route.abort());
+  await page.route(/\/assets\/code-reference-help-[\w-]+\.js(?:\?|$)/, (route) => route.abort());
   await page.goto("./docs/code/installation#source-links");
   const sample = page
     .locator('section[aria-labelledby="code-reference-navigation"] pre code')

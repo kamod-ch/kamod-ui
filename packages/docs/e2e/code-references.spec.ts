@@ -101,6 +101,8 @@ test("shared navigation works in landing showcase code and static Markdown fence
   await page.goto("./blocks/getting-started");
   const imports = page.locator("pre code").filter({ hasText: "@preact/preset-vite" }).first();
   await imports.scrollIntoViewIfNeeded();
+  // Wait for deferred syntax to replace its initially linked plain-text fallback.
+  await expect(imports.locator(".token")).not.toHaveCount(0);
   await expect(imports.locator("a.kamod-code-reference")).not.toHaveCount(0);
   await expect(
     imports.getByRole("link", { name: "@preact/preset-vite", exact: true }),
@@ -111,11 +113,15 @@ test("shared navigation works in landing showcase code and static Markdown fence
     if (state === "hover") await module.hover();
     if (state === "focus") await module.focus();
     await expect(module).toHaveCSS("text-decoration-line", "none");
-    const colors = await module.evaluate((node) => [
-      getComputedStyle(node).color,
-      getComputedStyle(node.parentElement!).color,
-    ]);
-    expect(colors[0]).toBe(colors[1]);
+    await expect
+      .poll(() =>
+        module.evaluate((node) =>
+          node.parentElement
+            ? getComputedStyle(node).color === getComputedStyle(node.parentElement).color
+            : false,
+        ),
+      )
+      .toBe(true);
   }
 });
 

@@ -89,7 +89,7 @@ it("keeps the path and short context together, with secondary destinations in re
     within(container as HTMLElement).getByRole("link", { name: "Read source", exact: true }),
   ).toHaveAttribute("href", reference.source!.href);
   const footer = container.querySelector(".code-reference-help-footer")!;
-  expect(footer.querySelectorAll("a")).toHaveLength(2);
+  expect(footer.querySelectorAll("a")).toHaveLength(3);
   expect(
     within(footer as HTMLElement).getByRole("link", { name: "Read source for DirectionProvider" }),
   ).toHaveAttribute("href", reference.source!.href);
@@ -167,9 +167,10 @@ it("formats small declarations with the shared grammar while retaining their exa
   );
   expect(container.querySelector("pre code")?.textContent).toBe(signature);
   await waitFor(() => expect(container.querySelector("pre code .token")).not.toBeNull());
-  expect(container.querySelector(".code-reference-help-fields dd code")?.textContent).toBe(
-    '"ltr" | "rtl"',
-  );
+  expect(
+    container.querySelector(".code-reference-help-fields dt > .code-reference-help-syntax")
+      ?.textContent,
+  ).toBe('"ltr" | "rtl"');
   expect(container.querySelector("pre div, .kamod-code")).toBeNull();
 });
 
@@ -314,3 +315,67 @@ it.each([
     );
   },
 );
+
+it("places linked chapter headings above transparent cards and bounds distinct footer resources", () => {
+  const { container, rerender } = render(<CodeReferenceHelpContent reference={reference} />);
+  for (const section of container.querySelectorAll(".code-reference-help-section")) {
+    expect(section.children[0]).toHaveClass("code-reference-help-section-label");
+    expect(section.children[1]).toHaveClass("code-reference-help-panel");
+    const heading = section.querySelector("a.code-reference-help-section-title")!;
+    expect(section.querySelector(".code-reference-help-section-open")).toHaveAttribute(
+      "href",
+      heading.getAttribute("href"),
+    );
+  }
+  rerender(
+    <CodeReferenceHelpContent
+      reference={{
+        ...reference,
+        related: [
+          ...reference.related!,
+          { kind: "props", label: "Props & defaults", href: "/docs/direction#props" },
+          { kind: "guide", label: "Direction guide", href: "/docs/direction" },
+        ],
+      }}
+    />,
+  );
+  const actions = container.querySelectorAll("footer a");
+  expect(actions).toHaveLength(4);
+  expect(new Set([...actions].map((a) => a.getAttribute("href"))).size).toBe(4);
+  expect(actions[0]).toHaveAttribute("href", reference.docs!.href);
+  expect(actions[3]).toHaveTextContent("Props");
+  rerender(
+    <CodeReferenceHelpContent
+      reference={{ ...reference, docs: undefined, source: undefined, related: [] }}
+    />,
+  );
+  expect(container.querySelector(".code-reference-help-section-title")).toHaveProperty(
+    "tagName",
+    "SPAN",
+  );
+  expect(container.querySelector(".code-reference-help-section-open")).toBeNull();
+});
+
+it("keeps simple facts and grouped reading links out of detail cards", () => {
+  const { container } = render(
+    <CodeReferenceHelpContent
+      reference={{
+        ...reference,
+        fields: [],
+        signature: "DirectionProviderProps",
+        facts: [{ label: "Role", value: "Reading direction" }],
+      }}
+    />,
+  );
+  expect(container.querySelector(".code-reference-help-content")).toBeNull();
+  expect(container.querySelector(".code-reference-help-facts")).toHaveTextContent(
+    "Reading direction",
+  );
+  const reading = container.querySelector(".code-reference-help-related")!;
+  expect(reading.tagName).toBe("NAV");
+  expect(reading.querySelector(".code-reference-help-panel")).toBeNull();
+  expect(reading.querySelectorAll(".code-reference-help-reading-group")).toHaveLength(2);
+  expect(reading.querySelector(".code-reference-help-related-link code")).toHaveTextContent(
+    "DirectionProviderProps",
+  );
+});

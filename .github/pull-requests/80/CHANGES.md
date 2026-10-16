@@ -1211,3 +1211,26 @@ navigation, source priority, lazy help and failed-grammar fallback. Desktop ligh
 and mobile dark cards and resource hints were visually inspected; direct checks
 also cover pointer retention over the hint, Escape dismissal, focus return and
 no page errors. No new Safari/WebKit coverage is claimed.
+
+## 47. Stationary inline emphasis and source-shaped miniature reference chapters
+
+- **Stronger, stationary detected code.** Raise ordinary detected inline chips to 500 weight and 550 on hover/focus. Remove vertical movement, retain the 65%→100% dashed cue, restrained 0.15px growth and 360ms transition-all, and preserve reduced-motion handling. Undetected code, heading typography and snippet tokens retain their owners.
+- **Primary destination controls.** Use a 28px top-right action with a 15px primary-colored chain icon and stroke 3. Footer shortcuts use matching 28px height and 14px/2.75 icons; subsection actions are compact 24px squares. Keep the existing compact type badge and verified technology logos.
+- **Substantive chapters only.** Build miniature props and declaration content from the source pages' actual layout patterns. A name/type column sits beside usage prose; declarations have a tiny language toolbar and wrapping syntax. Bare type-name-only cards are omitted, and simple facts become compact summary metadata rather than standalone chapters.
+- **Linked chapter headers.** Place the icon and semibold 12px title above each transparent rounded card, with a short clamped extension, real count and separate source action. The title and icon link to that same verified resource with hover-only link styling. Use quiet 30% inverse-ink borders, 8.5px content, restrained field-scope notes and inset separators between adjacent substantive chapters.
+- **Dedicated bottom reading shelf.** Move all link collections out of detail cards into a separate full-width, faintly washed reading area. Group Contracts and Resources without empty groups; use compact wrapping code chips, useful icons, exact destinations and native context hints. Preserve all bounded type/props/guide/source links and deployment prefixes.
+- **Up to four useful shortcuts.** Keep the primary destination first, then distinct verified source, guide, type or props resources. Preserve the complete reading shelf beyond this shortcut limit. Resource hints retain exact URLs, safe emphasis and existing primitive-owned lifecycle behavior. No fabricated destinations or new per-token behavior.
+- **Shared ownership.** Reuse ReferenceSection for chapter structure, ReferenceFacts for metadata, and reference-resources for the shelf/footer's icon, label and descriptive-hint vocabulary. Keep lazy declaration coloring and its literal fallback; introduce no dependency, global observer, interval or token-level listener.
+- **Regression coverage.** Extend existing card tests for linked headings, verified source equality, four-resource bounds/deduplication, empty-card suppression and fact/link placement. Browser checks cover centered controls, transparent cards, exact small text, unhighlighted type lines, grouped reading bounds, no inline lift, preserved lazy failure handling and keyboard/touch navigation. The deliberate delayed-chunk test waits for DOM readiness rather than a load event it intentionally holds open.
+
+### Miniature-chapter verification
+
+All **887 documentation tests in 92 files**, final documentation typecheck and
+production build, root Oxlint/Oxfmt/Biome and diff checks pass. All **28 production
+Chrome reference cases** pass in the final combined run, including seven families
+at 320/768/1440px in both appearances, exact small-code styles, transparent cards,
+verified chapter links, grouped reading, up to four resources, lazy/grammar failure,
+source preservation, keyboard/touch navigation and stationary inline hover feedback.
+Desktop light, tablet dark and mobile dark cards/resource hints were inspected;
+direct checks cover hint bounds, pointer retention, Escape/focus return and no
+page errors. No new Safari/WebKit coverage is claimed.

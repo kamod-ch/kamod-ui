@@ -1,19 +1,8 @@
-import { BookOpenIcon, FileCodeIcon, GlobeIcon } from "@kamod-ch/icons/lucide";
-import { BrandGithubIcon } from "@kamod-ch/icons/tabler/filled";
+import { BookOpenIcon } from "@kamod-ch/icons/lucide";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@kamod-ch/ui/tooltip";
-import type { CodeReferenceHelp, CodeReferenceHelpLink } from "../types";
+import type { CodeReferenceHelpLink } from "../types";
+import { type ReferenceResource, referenceResource } from "./reference-resources";
 import { ReferenceSentence } from "./reference-sentence";
-
-const descriptions = {
-  source:
-    "Inspect the **original implementation**, its exports and supporting imports before adapting this reference.",
-  guide:
-    "Read the **complete guide** for setup, examples and the surrounding API or design context.",
-  official:
-    "Check the **official documentation** for supported APIs, framework integration and version-specific setup.",
-};
-
-type Resource = NonNullable<CodeReferenceHelp["related"]>[number];
 
 /** Only the open card mounts these bounded, primitive-owned resource hints. */
 function ResourceAction({
@@ -21,21 +10,11 @@ function ResourceAction({
   primary,
   name,
 }: {
-  resource: Resource;
+  resource: ReferenceResource;
   primary: boolean;
   name: string;
 }) {
-  const source = resource.kind === "source";
-  const external = /^https?:\/\//.test(resource.href);
-  const github = resource.href.startsWith("https://github.com/");
-  const Icon = source
-    ? github
-      ? BrandGithubIcon
-      : FileCodeIcon
-    : external
-      ? GlobeIcon
-      : BookOpenIcon;
-  const label = source ? "Source" : external ? "Docs" : "Guide";
+  const { Icon, label, description } = referenceResource(resource);
   return (
     <Tooltip delayDuration={250} style={{ position: "static" }}>
       <TooltipTrigger asChild>
@@ -45,7 +24,7 @@ function ResourceAction({
           target="_top"
           aria-label={primary ? resource.label : `${resource.label} for ${name}`}
         >
-          <Icon size={12} aria-hidden="true" />
+          <Icon size={14} strokeWidth={2.75} aria-hidden="true" />
           <span>{label}</span>
         </a>
       </TooltipTrigger>
@@ -68,9 +47,7 @@ function ResourceAction({
           {resource.label}
         </strong>
         <p>
-          <ReferenceSentence
-            text={descriptions[source ? "source" : external ? "official" : "guide"]}
-          />
+          <ReferenceSentence text={description} />
         </p>
         <code dir="ltr">{resource.href.replace(/^https?:\/\//, "")}</code>
       </TooltipContent>
@@ -86,7 +63,7 @@ export function ReferenceFooter({
 }: {
   name: string;
   primary?: CodeReferenceHelpLink;
-  resources: Resource[];
+  resources: ReferenceResource[];
 }) {
   return (
     <footer class="code-reference-help-footer">
