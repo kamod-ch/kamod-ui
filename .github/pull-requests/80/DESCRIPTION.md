@@ -637,6 +637,20 @@ completed build restored startup, and the final isolated browser run passes.
 No startup workaround was added. Earlier native Safari/WebKit coverage remains
 as recorded above.
 
+### Simpler preset-gallery introduction
+
+The gallery's three explanatory step blocks are now a short, wrapping numbered
+reading path. Its links lead to the first palette study, the existing type/shape
+guidance and the application example, with visible keyboard focus and one quiet
+separator. The shared description uses restrained emphasis, real `--primary` and
+`--card` examples, and a link to the semantic foreground/surface pairings. The
+existing runtime snippet remains available below; the introduction needs no new
+reader, component state or animation. Short inline token examples stay together
+on narrow screens. The six gallery tests, docs typecheck/build and root
+Oxlint/Oxfmt/Biome pass; Chrome checks cover 320/768/1024/1440px in both appearances,
+with a final 320/1440px rerun for the small text adjustment. Link targets, keyboard
+focus and desktop/mobile screenshots were checked directly.
+
 ## Review map
 
 Start with **core Code and CopyButton**, then **application theme scopes** and

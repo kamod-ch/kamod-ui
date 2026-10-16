@@ -7,33 +7,22 @@ import { presetStudies, presetStudyId } from "./preset-studies";
 export function ThemeGalleryIntroduction() {
   return (
     <div class="theme-gallery-introduction">
-      <ol class="theme-gallery-reading-key">
+      <ol class="theme-gallery-reading-key" aria-label="Explore the color theme presets">
         <li>
-          <span>01</span>
-          <div>
-            <strong>See the relationships</strong>
-            <p>
-              Eight main colors and three sketches per appearance. Compare surfaces, navigation and
-              actions.
-            </p>
-          </div>
+          <span aria-hidden="true">01</span>
+          <a href={`#${presetStudyId("kamod")}`}>Compare the colors</a>
         </li>
         <li>
-          <span>02</span>
-          <div>
-            <strong>Find your direction</strong>
-            <p>Read the design notes, type choices and shape. Choose what supports your content.</p>
-          </div>
+          <span aria-hidden="true">02</span>
+          <a
+            href={withBasePath("/docs/theming/token-overrides#refine-radius-typography-and-motion")}
+          >
+            Review type &amp; shape
+          </a>
         </li>
         <li>
-          <span>03</span>
-          <div>
-            <strong>Make it yours</strong>
-            <p>
-              Apply a preset to this page, or open its local example. Fine-tune roles after choosing
-              a foundation.
-            </p>
-          </div>
+          <span aria-hidden="true">03</span>
+          <a href="#themes-on-this-page">Apply a preset</a>
         </li>
       </ol>
       <nav class="theme-gallery-index" aria-label="Jump to a color theme">
@@ -45,9 +34,14 @@ export function ThemeGalleryIntroduction() {
         ))}
       </nav>
       <p class="theme-gallery-comparison-note">
-        These are <strong>static palette sketches</strong>, not loading states. Their colors and
-        corners come from the shipped CSS; the layouts and native type stay the same. Expand text,
-        focus and feedback for the supporting roles.
+        Compare <strong>real theme tokens</strong> such as <code>--primary</code> and{" "}
+        <code>--card</code>, in both appearances. Layouts and native type stay fixed, so{" "}
+        <em>color relationships</em> lead. Expand <strong>Text, focus &amp; feedback</strong> for
+        more roles, or review the{" "}
+        <a href={withBasePath("/docs/theming/token-overrides#work-with-semantic-token-pairs")}>
+          surface and text pairings
+        </a>{" "}
+        before refining a palette.
       </p>
     </div>
   );

@@ -295,10 +295,6 @@
   .theme-gallery-continuation {
     grid-template-columns: minmax(0, 1fr);
   }
-  .theme-gallery-reading-key {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 0.875rem;
-  }
 }
 @container theme-studies (max-width: 48rem) {
   .theme-study-practice {

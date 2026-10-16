@@ -1045,3 +1045,12 @@ label refinement. The first preview instance stalled on its loading screen; a
 restart after the completed build restored startup, and the isolated final run
 passes without changing the application startup logic. These are new Chrome
 results; the earlier Safari/WebKit scope remains unchanged.
+
+## 39. Simpler preset-gallery introduction
+
+- **Compact reading path.** Replace the three title/paragraph blocks with three short numbered links: compare colors, review type and shape, then apply a preset. Keep a single quiet separator and allow the links to wrap naturally without cards, extra decoration or movement.
+- **Useful destinations.** Link directly to the first real preset study, the existing typography/radius guidance and the page's runtime example. Preserve ordered-list semantics, full link names and visible keyboard focus.
+- **Emphasized comparison guidance.** Use restrained bold and italic emphasis, real `--primary`/`--card` inline examples and a semantic-pairing link in the shared description. Preserve reference help and the existing copyable runtime snippet rather than adding another source reader to the introduction.
+- **Smaller style surface.** Remove the obsolete three-column and narrow-screen grid rules. Use the site's familiar plain numbered-link pattern, shared secondary colors and a subtle underline on hover.
+- **Readable short code terms.** Keep the two short token examples together on narrow screens rather than splitting an identifier across lines. Preserve the shared inline-code highlight and delegated reference help.
+- **Focused validation.** All six existing gallery tests pass, as do docs typecheck/build and root Oxlint/Oxfmt/Biome. Production Chrome checks pass at 320/768/1024/1440px in both appearances; the final mobile text adjustment is rechecked at 320/1440px, and desktop/mobile screenshots, keyboard focus and every introduction link target are inspected.
