@@ -48,7 +48,9 @@ it("does not parse plain text or a rendered document", () => {
 
 it("cancels pending highlighting when a code block unmounts", async () => {
   vi.stubGlobal("IntersectionObserver", undefined);
-  const view = render(<CodeBlock code="const answer = 42" language="tsx" />);
+  const view = render(
+    <CodeBlock code="const answer = 42" language="tsx" readingControls="always" />,
+  );
   view.unmount();
   await act(async () => {
     await new Promise((resolve) => setTimeout(resolve, 20));
@@ -94,7 +96,9 @@ it("does not rerun the syntax highlighter when wrapping changes", async () => {
   // jsdom has no layout; wrapping is available only for an overflowing source.
   vi.spyOn(HTMLElement.prototype, "clientWidth", "get").mockReturnValue(320);
   vi.spyOn(HTMLElement.prototype, "scrollWidth", "get").mockReturnValue(800);
-  const view = render(<CodeBlock code="const answer = 42" language="tsx" />);
+  const view = render(
+    <CodeBlock code="const answer = 42" language="tsx" readingControls="always" />,
+  );
   await waitFor(() => expect(view.container.querySelector(".token")).not.toBeNull());
   expect(highlightCode).toHaveBeenCalledTimes(1);
   const toggle = view.getByRole("switch", { name: "Wrap code lines" });

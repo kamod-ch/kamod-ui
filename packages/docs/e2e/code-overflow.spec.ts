@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { enableTestClipboard } from "./browser-utils";
 
-test("wrapping appears only for overflowing lines and survives responsive resizing", async ({
+test("documentation wrapping stays available across responsive resizing", async ({
   page,
   context,
   browserName,
@@ -17,7 +17,7 @@ test("wrapping appears only for overflowing lines and survives responsive resizi
   await expect(code.locator(".token.keyword").first()).toBeVisible();
   await page.evaluate(() => document.fonts.ready);
   const source = await code.textContent();
-  await expect(wrap).toHaveCount(0);
+  await expect(wrap).toHaveCount(1);
   await page.setViewportSize({ width: 320, height: 900 });
   await expect(wrap).toBeVisible();
   await wrap.click();
@@ -26,7 +26,7 @@ test("wrapping appears only for overflowing lines and survives responsive resizi
     true,
   );
   await page.setViewportSize({ width: 1440, height: 900 });
-  await expect(wrap).toHaveCount(0);
+  await expect(wrap).toHaveCount(1);
   await expect(snippet).toHaveClass(/is-wrapped/);
   await page.setViewportSize({ width: 320, height: 900 });
   await expect(wrap).toBeChecked();
@@ -36,7 +36,7 @@ test("wrapping appears only for overflowing lines and survives responsive resizi
   await expect.poll(() => page.evaluate(() => navigator.clipboard.readText())).toBe(source);
 });
 
-test("both reading controls stay reachable for long folded imports and hide together when they fit", async ({
+test("both documentation reading controls stay reachable for fitting and folded imports", async ({
   page,
 }) => {
   await page.goto("./docs/icons-package/installation#usage");
@@ -92,8 +92,8 @@ test("both reading controls stay reachable for long folded imports and hide toge
   await snippet.evaluate((el) => {
     el.style.width = "";
   });
-  await expect(wrap).toHaveCount(0);
-  await expect(snippet.getByRole("button", { name: /imports$/ })).toHaveCount(0);
+  await expect(wrap).toHaveCount(1);
+  await expect(snippet.getByRole("button", { name: /imports$/ })).toHaveCount(1);
 });
 
 test("remeasuring wrapped syntax keeps the source pane's scroll position", async ({ page }) => {

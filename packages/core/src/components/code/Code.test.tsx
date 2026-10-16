@@ -353,21 +353,21 @@ it.each([
   [{ code: "MIT License", filePath: "LICENSE" }, true],
   [{ code: "# Setup", filePath: "README.md" }, true],
   [{ code: "literal output", filePath: "report.txt", inferLanguage: false }, true],
-  [{ code: "A short setup prompt." }, false],
-  [{ code: "# Setup\n\nUse the component below.", language: "markdown" }, false],
-  [{ code: "plain output", filePath: "   " }, false],
-  [{ code: "pnpm add @kamod-ch/ui", language: "bash", filePath: "Terminal" }, false],
-  [{ code: "git status" }, false],
-  [{ code: "git status", language: "text", filePath: "commands.txt", inferLanguage: false }, false],
-  [{ code: "npm run build", language: "typescript", filePath: "build.ts" }, false],
-  [{ code: "./deploy", filePath: "scripts/deploy.sh" }, false],
-  [{ code: "./deploy", filePath: "scripts/deploy.ps1", language: "text" }, false],
-  [{ code: "./deploy", filePath: "scripts/deploy.cmd" }, false],
-  [{ code: "custom-tool deploy", language: "terminal", filePath: "deploy.txt" }, false],
-  [{ code: "custom-tool deploy", language: "language-powershell", filePath: "deploy.txt" }, false],
-  [{ code: "$ custom-tool deploy", filePath: "commands.txt" }, false],
+  [{ code: "A short setup prompt." }, true],
+  [{ code: "# Setup\n\nUse the component below.", language: "markdown" }, true],
+  [{ code: "plain output", filePath: "   " }, true],
+  [{ code: "pnpm add @kamod-ch/ui", language: "bash", filePath: "Terminal" }, true],
+  [{ code: "git status" }, true],
+  [{ code: "git status", language: "text", filePath: "commands.txt", inferLanguage: false }, true],
+  [{ code: "npm run build", language: "typescript", filePath: "build.ts" }, true],
+  [{ code: "./deploy", filePath: "scripts/deploy.sh" }, true],
+  [{ code: "./deploy", filePath: "scripts/deploy.ps1", language: "text" }, true],
+  [{ code: "./deploy", filePath: "scripts/deploy.cmd" }, true],
+  [{ code: "custom-tool deploy", language: "terminal", filePath: "deploy.txt" }, true],
+  [{ code: "custom-tool deploy", language: "language-powershell", filePath: "deploy.txt" }, true],
+  [{ code: "$ custom-tool deploy", filePath: "commands.txt" }, true],
   [{ code: "const enabled = true;", showWrapControl: false }, false],
-] as const)("limits wrapping controls to source snippets: %j", (props, expected) => {
+] as const)("allows wrapping in every language: %j", (props, expected) => {
   const view = render(<Code {...props} />);
   expect(Boolean(view.queryByRole("switch", { name: "Wrap code lines" }))).toBe(expected);
   expect(Boolean(view.container.querySelector(".docs-code-actions"))).toBe(expected);
@@ -378,8 +378,8 @@ it("updates control eligibility with the source while retaining fixed wrapping a
   const view = render(<Code code="const enabled = true;" defaultWrapped />);
   expect(view.getByRole("switch", { name: "Wrap code lines" })).toBeChecked();
   view.rerender(<Code code="git status" filePath="Terminal" defaultWrapped />);
-  expect(view.queryByRole("switch")).toBeNull();
-  expect(view.container.querySelector(".docs-code-actions")).toBeNull();
+  expect(view.getByRole("switch")).toBeChecked();
+  expect(view.container.querySelector(".docs-code-actions")).not.toBeNull();
   expect(view.container.querySelector(".kamod-code")).toHaveClass("is-wrapped");
   expect(view.getByRole("button", { name: "Copy code" })).toBeVisible();
   view.rerender(<Code code="const enabled = true;" defaultWrapped />);

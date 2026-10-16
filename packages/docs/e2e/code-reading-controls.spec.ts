@@ -101,21 +101,7 @@ for (const scheme of ["light", "dark"] as const) {
     expect(thumb.x + thumb.width).toBeLessThanOrEqual(track.x + track.width);
     for (const width of [320, 375, 640, 768, 1024, 1440]) {
       await page.setViewportSize({ width, height: 900 });
-      const needsWrapping = await code.evaluate((element) => {
-        const pre = element.parentElement!;
-        const style = getComputedStyle(pre);
-        const available =
-          pre.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
-        element.setAttribute("data-code-measure", "");
-        const intrinsic = element.scrollWidth;
-        element.removeAttribute("data-code-measure");
-        return intrinsic > available + 1;
-      });
-      await expect(wrap).toHaveCount(needsWrapping ? 1 : 0);
-      if (!needsWrapping) {
-        await expect(panel.locator(".kamod-code")).toHaveClass(/is-wrapped/);
-        continue;
-      }
+      await expect(wrap).toHaveCount(1);
       const left = (await disclosure.boundingBox())!;
       const right = (await panel.locator(".docs-code-wrap-control").boundingBox())!;
       expect(left.height).toBeCloseTo(right.height, 0);
@@ -167,7 +153,7 @@ for (const scheme of ["light", "dark"] as const) {
   });
 }
 
-test("terminal commands omit the switch while unnamed code retains wrapping and exact copying", async ({
+test("snippets without imports omit reading controls while retaining exact copying", async ({
   page,
   context,
   browserName,
@@ -192,10 +178,9 @@ test("terminal commands omit the switch while unnamed code retains wrapping and 
   await expect(example.locator(".docs-code-file-path")).toHaveCount(0);
   const source = await example.locator("pre code").textContent();
   const wrap = example.getByRole("switch", { name: "Wrap code lines" });
-  await wrap.click();
-  await expect(wrap).toBeChecked();
+  await expect(wrap).toHaveCount(0);
+  await expect(example.getByRole("button", { name: /imports/ })).toHaveCount(0);
   await expect(example.locator("pre code")).toHaveText(source!, { useInnerText: false });
-  await expect(example.locator("pre code")).toHaveCSS("white-space", "normal");
   await example.getByRole("button", { name: "Copy code", exact: true }).click();
   await expect.poll(() => page.evaluate(() => navigator.clipboard.readText())).toBe(source);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
@@ -232,11 +217,11 @@ test("wrapping preserves existing indentation when the code pane has room", asyn
     });
   const original = await code.textContent();
   const before = await positions();
-  await expect(snippet.getByRole("switch", { name: "Wrap code lines" })).toHaveCount(0);
+  await expect(snippet.getByRole("switch", { name: "Wrap code lines" })).toHaveCount(1);
   await page.setViewportSize({ width: 320, height: 1000 });
   await snippet.getByRole("switch", { name: "Wrap code lines" }).click();
   await page.setViewportSize({ width: 1440, height: 1000 });
-  await expect(snippet.getByRole("switch", { name: "Wrap code lines" })).toHaveCount(0);
+  await expect(snippet.getByRole("switch", { name: "Wrap code lines" })).toHaveCount(1);
   await expect(snippet.locator(".docs-code-line").first()).toBeVisible();
   const after = await positions();
   after.forEach((x, index) => expect(x).toBeCloseTo(before[index], 0));

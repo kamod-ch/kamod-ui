@@ -88,11 +88,13 @@ export interface CodeProps extends Omit<
   wrapped?: boolean;
   /** Called when a reader requests a wrapping change, in controlled or uncontrolled mode. */
   onWrappedChange?: (wrapped: boolean) => void;
-  /** Show wrapping controls only when complete, unwrapped source would overflow. Pairs with eligible import folding. Excludes commands and unfiled prose. False hides the switch; `defaultWrapped` still sets fixed wrapping. */
+  /** Choose overflow-driven controls (default), always-visible eligible controls, or controls only for snippets with imports. The latter two avoid width observers. */
+  readingControls?: "overflow" | "always" | "imports";
+  /** Allow line wrapping for any language. False hides the switch; fixed/controlled wrapping still works. */
   showWrapControl?: boolean;
-  /** Replace the wrap control when complete source would overflow; return null to omit it. Retains the same state behavior. */
+  /** Replace an eligible wrap control; return null to omit it. Retains the same state behavior. */
   renderWrapControl?: (context: CodeWrapControlContext) => ComponentChildren;
-  /** Show import folding alongside wrapping when complete source would overflow and leading static JS/TS imports leave a nonempty body. */
+  /** Allow folding when leading static JS/TS or CSS imports leave a nonempty body. Visibility follows readingControls. */
   showImportControl?: boolean;
   /** Replace an eligible import control; return null to omit it while retaining folding state. */
   renderImportControl?: (context: CodeImportControlContext) => ComponentChildren;

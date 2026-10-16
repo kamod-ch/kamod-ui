@@ -43,9 +43,10 @@ export function CodeReadingGuide() {
         <p>
           The import control counts <strong>statements, not imported names or lines</strong>. One
           multiline <code>import</code> with six names is one statement. Leading static JavaScript
-          and TypeScript imports can be folded, including type-only imports. Comments and directives
-          remain visible; dynamic <code>import()</code> calls and imports after executable code are
-          not folded.
+          and TypeScript imports can be folded, including type-only imports. CSS{" "}
+          <code>@import</code> rules also support URL targets, layers and media conditions. Comments
+          and directives remain visible; dynamic <code>import()</code> calls and imports after
+          executable code are not folded.
         </p>
         <p>
           Folding removes the declarations from the displayed source and closes the whitespace at
@@ -55,6 +56,13 @@ export function CodeReadingGuide() {
           long hidden imports still count, so you can always expand them again. Use{" "}
           <code>{"showImportControl={false}"}</code> when every declaration should stay visible.
         </p>
+        <CodeBlock
+          language="css"
+          filePath="src/styles/theme.css"
+          code={
+            '@import "tailwindcss";\n@import "@kamod-ch/themes/theme.css";\n\n:root {\n  --radius: 0.625rem;\n}'
+          }
+        />
       </Topic>
       <Topic id="code-wrapping-rules" title="Wrap for reading, preserve the real line">
         <p>
@@ -67,12 +75,12 @@ export function CodeReadingGuide() {
           <strong>A wrapped continuation is not a new source line.</strong> Copy still returns the
           original line, not the visual layout. Use <code>defaultWrapped</code> for prose-like
           prompts and long attributes; leave it off when exact columns matter, such as an aligned
-          text report. The switch appears only when a source line would overflow without wrapping,
-          for snippets with an actual filename or path, or a recognized coding language. Widening
-          the panel can hide both controls without resetting your reading choices. Folding imports
-          keeps the pair available when the complete source still needs it. Commands never show it;
-          prose and Markdown prompts without a file keep their default wrapping without a switch.
-          Use <code>{"showWrapControl={false}"}</code> to hide it for eligible source too.
+          text report. Wrapping works for every language, including commands, text and Markdown.
+          Core readers use <code>readingControls="overflow"</code> by default; choose{" "}
+          <code>"always"</code> to retain eligible controls at every width, or{" "}
+          <code>"imports"</code> to show them only on snippets containing imports. Documentation
+          readers use that last policy, so snippets without imports have neither control. Use{" "}
+          <code>{"showWrapControl={false}"}</code> for a fixed reading mode.
         </p>
         <CodeBlock
           language="tsx"

@@ -5,7 +5,7 @@ import { CodeReferenceContext } from "./CodeReferenceProvider";
 import { CodeSnippetLabel } from "./CodeSnippetLabel";
 import { CodeImportControl, CodeWrapControl } from "./code-controls";
 import { findCodeImports } from "./code-imports";
-import { isCommandCode, normalizeCodeLanguage, resolveCodeLanguage } from "./code-language";
+import { normalizeCodeLanguage, resolveCodeLanguage } from "./code-language";
 import { selectCodeMarkup } from "./code-markup";
 import { linkCodeMarkup } from "./code-reference-markup";
 import { findCodeReferences } from "./code-references";
@@ -39,6 +39,7 @@ export function Code({
   wrapped: wrappedProp,
   onWrappedChange,
   showWrapControl = true,
+  readingControls = "overflow",
   renderWrapControl,
   showImportControl = true,
   renderImportControl,
@@ -70,19 +71,12 @@ export function Code({
     onWrappedChange?.(next);
   };
   const rendersCode = renderedContent === undefined;
-  const wrapEligible = useMemo(
-    () =>
-      rendersCode &&
-      showWrapControl &&
-      language !== "bash" &&
-      !isCommandCode(code, languageHint, filePath) &&
-      (Boolean(filePath?.trim()) || (language !== "text" && language !== "markdown")),
-    [rendersCode, showWrapControl, language, code, languageHint, filePath],
-  );
   const imports = useMemo(
     () => (rendersCode ? findCodeImports(code, language) : null),
     [code, language, rendersCode],
   );
+  const wrapEligible =
+    rendersCode && showWrapControl && (readingControls !== "imports" || imports !== null);
   const importsOnly = imports !== null && !imports.folded.trim();
   const canFoldImports = showImportControl && imports !== null && !importsOnly;
   const [folded, setFolded] = useState({ code, hidden: defaultImportsCollapsed });
@@ -110,7 +104,12 @@ export function Code({
     [code, language, resolveReference, filePath, rendersCode],
   );
   const codeId = useId();
-  const { element, html, pending } = useCodeHighlight(code, language, rendersCode, highlight);
+  const { element, html, pending, loading } = useCodeHighlight(
+    code,
+    language,
+    rendersCode,
+    highlight,
+  );
   const linkedHtml = useMemo(() => linkCodeMarkup(html, references), [html, references]);
   const showLoading = Boolean(loadingContent) && pending;
   const sourceMarkup = useMemo(() => {
@@ -124,14 +123,15 @@ export function Code({
       : { full: linkedHtml, folded: foldedHtml };
   }, [rendersCode, wrapped, linkedHtml, code, imports, canFoldImports]);
   const displayedHtml = importsHidden ? sourceMarkup.folded : sourceMarkup.full;
-  const showReadingControls = useCodeOverflow(
+  const overflows = useCodeOverflow(
     element,
-    wrapEligible || canFoldImports,
+    readingControls === "overflow" && (wrapEligible || canFoldImports),
     html,
     wrapped,
     importsHidden,
     syntaxTheme,
   );
+  const showReadingControls = readingControls !== "overflow" || overflows;
   const canWrap = wrapEligible && showReadingControls;
   const showImports = canFoldImports && showReadingControls;
   const defaultWrapControl = (
@@ -210,6 +210,7 @@ export function Code({
       data-slot="code"
       data-variant={variant}
       data-syntax-theme={syntaxTheme}
+      data-highlight-pending={loading || undefined}
     >
       {showToolbar &&
         (renderToolbar ? (

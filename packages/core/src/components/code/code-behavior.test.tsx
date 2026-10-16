@@ -296,3 +296,29 @@ it("provides exact file metadata and a file-type description", () => {
   expect(view.container.querySelector("code")?.textContent).toBe("src/example.tsx");
   expect(view.container.textContent).toContain("12 lines");
 });
+
+it("shows import-aware controls for fitting CSS without width observers, then omits both for plain source", () => {
+  vi.spyOn(HTMLElement.prototype, "scrollWidth", "get").mockReturnValue(100);
+  const resize = vi.fn();
+  vi.stubGlobal(
+    "ResizeObserver",
+    class {
+      constructor() {
+        resize();
+      }
+      observe() {}
+      disconnect() {}
+    },
+  );
+  const css = '@import "tailwindcss";\n:root { --space: 1rem; }';
+  const view = render(<Code code={css} language="css" readingControls="imports" />);
+  expect(view.getByRole("button", { name: "Hide imports" })).toBeVisible();
+  fireEvent.click(view.getByRole("button", { name: "Hide imports" }));
+  expect(view.container.querySelector("pre")?.textContent).toBe(":root { --space: 1rem; }");
+  fireEvent.click(view.getByRole("switch", { name: "Wrap code lines" }));
+  expect(view.container.querySelector('[data-slot="code"]')).toHaveClass("is-wrapped");
+  expect(resize).not.toHaveBeenCalled();
+  view.rerender(<Code code="plain source" language="text" readingControls="imports" />);
+  expect(view.queryByRole("switch")).toBeNull();
+  expect(view.queryByRole("button", { name: /imports/ })).toBeNull();
+});

@@ -16,6 +16,38 @@ const declaration = new RegExp(
 const leadingTrivia = new RegExp(`^${trivia}`, "u");
 const directive = new RegExp(String.raw`^${quoted}[\t ]*(?:;|(?=\r?\n|$))`, "u");
 
+/** Find a complete CSS import without treating semicolons in strings/functions as terminators. */
+function cssImportLength(text: string) {
+  if (!/^@import\s+(?:["']|url\()/i.test(text)) return 0;
+  let depth = 0;
+  let quote = "";
+  for (let index = 7; index < text.length; index++) {
+    const char = text[index];
+    if (char === "\\") {
+      index++;
+      continue;
+    }
+    if (quote) {
+      if (char === quote) quote = "";
+      continue;
+    }
+    if (char === '"' || char === "'") {
+      quote = char;
+      continue;
+    }
+    if (char === "/" && text[index + 1] === "*") {
+      const end = text.indexOf("*/", index + 2);
+      if (end === -1) return 0;
+      index = end + 1;
+    } else if (char === "(") depth++;
+    else if (char === ")") {
+      if (--depth < 0) return 0;
+    } else if (char === "{" || char === "}") return 0;
+    else if (char === ";" && depth === 0) return index + 1;
+  }
+  return 0;
+}
+
 /** Only normalize a join created by folding, never blank lines inside retained code. */
 function retainedJoin(before: string, after: string) {
   const leading = after.match(/^(?:[\t ]*\r?\n)+/)?.[0];
@@ -54,12 +86,13 @@ function trimParts(parts: CodeSourcePart[], length: number, fromStart = false) {
 }
 
 /**
- * Find the leading JS/TS import declarations without shipping a language parser.
+ * Find leading JS/TS declarations or CSS import rules without shipping a language parser.
  * Keep comments/directives, stop at executable code, and leave unsupported syntax alone.
  * Offsets refer to the original source; folding never changes the copied document.
  */
 export function findCodeImports(code: string, language: CodeLanguage) {
-  if (!["tsx", "jsx", "typescript", "javascript"].includes(language)) return null;
+  const css = language === "css";
+  if (!css && !["tsx", "jsx", "typescript", "javascript"].includes(language)) return null;
   const ranges: { start: number; end: number }[] = [];
   let cursor = code.startsWith("#!") ? code.indexOf("\n") + 1 : 0;
   let lineStart = 0;
@@ -67,9 +100,9 @@ export function findCodeImports(code: string, language: CodeLanguage) {
   while (cursor < code.length) {
     cursor += code.slice(cursor).match(leadingTrivia)![0].length;
     const remaining = code.slice(cursor);
-    const match = remaining.match(declaration);
-    if (match) {
-      const end = cursor + match[0].length;
+    const length = css ? cssImportLength(remaining) : remaining.match(declaration)?.[0].length;
+    if (length) {
+      const end = cursor + length;
       // Inspect each intervening segment once, even for many imports on one line.
       const newline = code.slice(scannedTo, cursor).lastIndexOf("\n");
       if (newline !== -1) lineStart = scannedTo + newline + 1;
@@ -84,7 +117,9 @@ export function findCodeImports(code: string, language: CodeLanguage) {
       });
       cursor = end;
     } else {
-      const prologue = ranges.length === 0 && remaining.match(directive);
+      const prologue = css
+        ? remaining.match(/^@(?:charset\s+["'][^"']+["']|layer\s+[\w.-]+(?:\s*,\s*[\w.-]+)*)\s*;/i)
+        : ranges.length === 0 && remaining.match(directive);
       if (!prologue) break;
       cursor += prologue[0].length;
     }

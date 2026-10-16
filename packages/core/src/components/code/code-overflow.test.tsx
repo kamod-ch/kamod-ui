@@ -179,12 +179,14 @@ it("preserves the source height during intrinsic sizing and restores authored in
   expect(view.container.querySelector("[data-code-measure]")).toBeNull();
 });
 
-it("does not observe commands, rendered documents or disabled controls, including during SSR", () => {
+it("does not observe import-policy commands, rendered documents or disabled controls, including during SSR", () => {
   const view = render(
     <Code code={longSource} showWrapControl={false} defaultWrapped highlight={false} />,
   );
   expect(observers).toHaveLength(0);
-  view.rerender(<Code code="pnpm add a-very-long-package-name" language="bash" />);
+  view.rerender(
+    <Code code="pnpm add a-very-long-package-name" language="bash" readingControls="imports" />,
+  );
   view.rerender(<Code code={longSource} renderedContent={<p>Prepared document</p>} />);
   expect(observers).toHaveLength(0);
   const html = renderToString(<Code code={longSource} defaultWrapped />);

@@ -52,7 +52,6 @@ it.each([
   ['import Foo = require("foo");', "typescript"],
   ['import Foo from "foo";', "text"],
   ['import Foo from "foo";', "markdown"],
-  ['@import "tailwindcss";', "css"],
 ] as const)("leaves unsupported or non-static source untouched: %s", (source, language) => {
   expect(findCodeImports(source, language)).toBeNull();
 });

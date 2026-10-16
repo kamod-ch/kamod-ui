@@ -13,7 +13,7 @@ export function useCodeHighlight(
   const [highlight, setHighlight] = useState<{
     code: string;
     language: CodeLanguage;
-    html: string;
+    html?: string;
   } | null>(null);
   const highlightedHtml =
     highlight?.code === code && highlight.language === language ? highlight.html : undefined;
@@ -36,6 +36,7 @@ export function useCodeHighlight(
     const load = () => {
       if (started || cancelled) return;
       started = true;
+      setHighlight({ code, language });
       observer?.disconnect();
       void import("./highlight-code")
         .then(({ highlightCode }) => {
@@ -65,6 +66,12 @@ export function useCodeHighlight(
   return {
     element,
     html,
+    loading:
+      enabled &&
+      highlightSource &&
+      highlightedHtml === undefined &&
+      highlight?.code === code &&
+      highlight.language === language,
     pending: enabled && highlightSource && language !== "text" && highlightedHtml === undefined,
   };
 }

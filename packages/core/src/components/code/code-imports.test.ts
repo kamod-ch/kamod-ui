@@ -51,7 +51,6 @@ it.each([
   ['import Foo = require("foo");', "typescript"],
   ['import Foo from "foo";', "text"],
   ['import Foo from "foo";', "markdown"],
-  ['@import "tailwindcss";', "css"],
 ] as const)("leaves unsupported or non-static source untouched: %s", (source, language) => {
   expect(findCodeImports(source, language)).toBeNull();
 });
@@ -146,4 +145,29 @@ it("folds multiple declarations on the same line without changing the remaining 
     count: 2_000,
     folded: body,
   });
+});
+
+it("folds complete CSS imports with URL strings, layers and supports conditions", () => {
+  const imports =
+    '@import "tailwindcss";\n@import url("./theme;a.css") layer(tokens) supports(display: grid);';
+  const body = ':root { --label: "@import is text;"; }';
+  expect(findCodeImports(`${imports}\n\n${body}`, "css")).toMatchObject({ count: 2, folded: body });
+  const result = findCodeImports(
+    `@charset "UTF-8";\n@layer base, theme;\n${imports}\n${body}`,
+    "css",
+  )!;
+  expect(result.count).toBe(2);
+  expect(result.folded).toContain('@charset "UTF-8";');
+  expect(result.folded).toContain("@layer base, theme;");
+  expect(result.folded).toContain(body);
+});
+
+it.each([
+  '@import url("./unfinished.css";',
+  '@import "./missing-semicolon.css"',
+  '/* @import "./comment.css"; */ .panel {}',
+  `.panel { content: '@import "./literal.css";'; }`,
+  '@import "./theme.css" { display: grid; }',
+])("does not fold incomplete or non-leading CSS: %s", (source) => {
+  expect(findCodeImports(source, "css")).toBeNull();
 });

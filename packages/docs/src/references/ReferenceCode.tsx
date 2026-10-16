@@ -7,6 +7,7 @@ export function ReferenceCode(props: CodeProps) {
   return (
     <Code
       {...props}
+      readingControls={props.readingControls ?? "imports"}
       resolveReference={
         props.resolveReference === undefined ? resolveCodeReference : props.resolveReference
       }

@@ -795,3 +795,24 @@ pre code a.kamod-code-reference:focus-visible {
     transition: none;
   }
 }
+
+/* Pulse only during an active near-viewport grammar request; source is always present. */
+[data-slot="code"][data-highlight-pending] > pre > code,
+[data-slot="code"][data-highlight-pending] > .kamod-code-content > pre > code {
+  opacity: 0.35;
+  animation: code-grammar-pending 1.4s ease-in-out infinite alternate;
+}
+@keyframes code-grammar-pending {
+  from {
+    opacity: 0.05;
+  }
+  to {
+    opacity: 0.35;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-slot="code"][data-highlight-pending] > pre > code,
+  [data-slot="code"][data-highlight-pending] > .kamod-code-content > pre > code {
+    animation: none;
+  }
+}

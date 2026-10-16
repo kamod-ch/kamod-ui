@@ -76,33 +76,14 @@ for (const variant of ["block", "component", "guide"] as const) {
     for (const width of [320, 768, 1440]) {
       await page.setViewportSize({ width, height: 1000 });
       await snippet.scrollIntoViewIfNeeded();
-      const needsControls = await code.evaluate((element) => {
-        const pre = element.parentElement!;
-        const style = getComputedStyle(pre);
-        const available =
-          pre.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
-        element.setAttribute("data-code-measure", "");
-        const intrinsic = element.scrollWidth;
-        element.removeAttribute("data-code-measure");
-        return intrinsic > available + 1;
-      });
       await expect(snippet.getByRole("button", { name: "Hide imports", exact: true })).toHaveCount(
-        needsControls ? 1 : 0,
+        1,
       );
       for (const dark of [false, true]) {
         await page.evaluate(
           (dark) => document.documentElement.classList.toggle("dark", dark),
           dark,
         );
-        if (!needsControls) {
-          await expect(snippet.getByRole("switch", { name: "Wrap code lines" })).toHaveCount(0);
-          await expect(code).toHaveText(original!);
-          await snippet.getByRole("button", { name: "Copy code", exact: true }).click();
-          await expect
-            .poll(() => page.evaluate(() => navigator.clipboard.readText()))
-            .toBe(original);
-          continue;
-        }
         const importColor = await snippet
           .locator(".docs-import-keyword")
           .evaluate((element) => getComputedStyle(element).color);

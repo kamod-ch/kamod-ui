@@ -111,15 +111,26 @@ const sections: readonly ApiReferenceSection[] = [
         ),
       },
       {
+        prop: "readingControls",
+        type: '"overflow" | "always" | "imports"',
+        defaultValue: '"overflow"',
+        description: (
+          <>
+            Use overflow-driven controls, always show eligible controls, or show controls only for
+            snippets with leading imports. The latter policies avoid width observers. Documentation
+            readers default to <code>"imports"</code>.
+          </>
+        ),
+      },
+      {
         prop: "showWrapControl",
         type: "boolean",
         defaultValue: "true",
         description: (
           <>
-            Offer the compact wrapping switch for actual file paths or recognized coding languages.
-            It appears alongside eligible import folding only when complete source would overflow.
-            Commands, unfiled prose and Markdown prompts omit it. Set false with{" "}
-            <code>defaultWrapped</code> to present a fixed wrapped layout for eligible source.
+            Allow wrapping in any supported language or plain text. Visibility follows{" "}
+            <code>readingControls</code>; false hides the switch while controlled or default
+            wrapping still works.
           </>
         ),
       },

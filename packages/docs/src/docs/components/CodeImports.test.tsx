@@ -96,7 +96,7 @@ it("omits import controls for prose and snippets without imports", () => {
 
 it("server-renders the complete readable source with imports expanded", () => {
   const html = renderToString(<CodeBlock code={source} language="tsx" />);
-  expect(html).not.toContain('data-slot="code-import-toggle"');
+  expect(html).toContain('data-slot="code-import-toggle"');
   const node = document.createElement("div");
   node.innerHTML = html;
   expect(node.querySelector("pre code")?.textContent).toBe(source);
@@ -116,7 +116,7 @@ it("keeps import-only snippets readable without an empty collapse state and copi
   await waitFor(() => expect(writeText).toHaveBeenCalledWith(code));
 });
 
-it("omits wrapping for commands while keeping it for code and preserving Copy", async () => {
+it("omits both reading controls from documentation snippets without imports while retaining Copy", async () => {
   const writeText = vi.fn().mockResolvedValue(undefined);
   vi.stubGlobal("navigator", { clipboard: { writeText } });
   const command = "pnpm add @kamod-ch/ui preact @preact/signals";
@@ -126,14 +126,8 @@ it("omits wrapping for commands while keeping it for code and preserving Copy", 
       <CodeBlock code="{}" language="json" />
     </>,
   );
-  const switches = view.getAllByRole("switch", { name: "Wrap code lines" });
-  expect(switches).toHaveLength(1);
-  expect(
-    view.container.querySelectorAll(".docs-code-wrap")[0].querySelector(".docs-code-actions"),
-  ).toBeNull();
-  fireEvent.click(switches[0]);
-  expect(switches[0].getAttribute("aria-checked")).toBe("true");
-  expect(view.container.querySelector("pre")?.textContent).toBe(command);
+  expect(view.queryByRole("switch")).toBeNull();
+  expect(view.queryByRole("button", { name: /imports/ })).toBeNull();
   fireEvent.click(view.getAllByRole("button", { name: "Copy code" })[0]);
   await waitFor(() => expect(writeText).toHaveBeenCalledWith(command));
 });
