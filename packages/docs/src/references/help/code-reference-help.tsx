@@ -1,9 +1,9 @@
 import {
   ArrowUpRightIcon,
   BookOpenIcon,
-  CompassIcon,
   FileCodeIcon,
   InfoIcon,
+  LinkIcon,
 } from "@kamod-ch/icons/lucide";
 import { BrandGithubIcon } from "@kamod-ch/icons/tabler/filled";
 import { Badge } from "@kamod-ch/ui/badge";
@@ -35,7 +35,7 @@ function ReferencePath({ path }: { path: string }) {
 export function CodeReferenceHelpContent({ reference }: { reference: CodeReferenceHelp }) {
   const { kind, name, module, description, source, facts } = reference;
   const { Icon, label } = referenceKinds[kind];
-  const { primary, shortcuts, note, caption } = referencePresentation(reference);
+  const { primary, context, reading, note, caption } = referencePresentation(reference);
   const ActionIcon =
     primary === source
       ? source?.href.startsWith("https://github.com/")
@@ -53,7 +53,7 @@ export function CodeReferenceHelpContent({ reference }: { reference: CodeReferen
         </strong>
         <div class="code-reference-help-badges">
           <Badge class="code-reference-help-kind" size="xxs">
-            <Icon size={11.5} strokeWidth={1.75} aria-hidden="true" />
+            <Icon size={10.5} strokeWidth={1.75} aria-hidden="true" />
             {label}
           </Badge>
           {primary && (
@@ -64,20 +64,12 @@ export function CodeReferenceHelpContent({ reference }: { reference: CodeReferen
               aria-label={`Open ${primary.label} for ${name}`}
               title={primary.label}
             >
-              <CompassIcon size={16} aria-hidden="true" />
+              <LinkIcon size={13} aria-hidden="true" />
             </a>
           )}
         </div>
       </header>
       <nav class="code-reference-help-origin" aria-label="Reference locations">
-        <span class="code-reference-help-origin-label">
-          {reference.originLabel ??
-            (kind === "file"
-              ? "Source path"
-              : kind === "module" || kind === "package"
-                ? "Import path"
-                : "Import from")}
-        </span>
         {primary ? (
           <a
             class="code-reference-help-origin-path"
@@ -90,14 +82,10 @@ export function CodeReferenceHelpContent({ reference }: { reference: CodeReferen
         ) : (
           <ReferencePath path={module} />
         )}
-        {shortcuts.map((link) => (
-          <span class="code-reference-help-shortcut" key={link.href}>
-            <span aria-hidden="true">/</span>
-            <a href={link.href} target="_top" aria-label={`${link.label} for ${name}`}>
-              {link.text}
-            </a>
-          </span>
-        ))}
+        <span class="code-reference-help-context" title={context}>
+          <span aria-hidden="true">/</span>
+          <span>{context}</span>
+        </span>
       </nav>
       <div class="code-reference-help-summary">
         <p>
@@ -136,7 +124,7 @@ export function CodeReferenceHelpContent({ reference }: { reference: CodeReferen
           </dl>
         </section>
       )}
-      <ReferenceRelated reference={reference} />
+      <ReferenceRelated reference={reference} links={reading} />
       <footer class="code-reference-help-footer">
         <span class="code-reference-help-note">
           <InfoIcon size={12} aria-hidden="true" />

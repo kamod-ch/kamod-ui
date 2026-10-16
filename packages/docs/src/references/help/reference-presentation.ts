@@ -1,4 +1,5 @@
-import type { CodeReferenceHelp, CodeReferenceHelpLink } from "../types";
+import type { CodeReferenceHelp } from "../types";
+import { referenceContext } from "./reference-context";
 
 const notes: Record<CodeReferenceHelp["kind"], string> = {
   component: "Compare with your installed version.",
@@ -16,6 +17,62 @@ const notes: Record<CodeReferenceHelp["kind"], string> = {
   page: "Continue reading in its original context.",
 };
 
+/** Short context is authored metadata, never a truncated fragment of a source description. */
+const contexts: Record<CodeReferenceHelp["kind"], [string, string]> = {
+  component: [
+    "Interface component",
+    "Compose it with its **props and children**; the full reference covers supported options and examples.",
+  ],
+  type: [
+    "Type contract",
+    "Use the complete definition to check **required fields**, unions and inherited members before adapting it.",
+  ],
+  function: [
+    "Reusable logic",
+    "Check the full signature for **arguments, return values and overloads** before calling it.",
+  ],
+  constant: [
+    "Shared value",
+    "Inspect the source for the actual value and how it is exported; a declaration describes its type.",
+  ],
+  export: [
+    "Module export",
+    "Confirm the named export and its supported contract in the linked source before using it.",
+  ],
+  icon: [
+    "Interface icon",
+    "Import the symbol from its documented icon family. Set size and an accessible label in the surrounding control.",
+  ],
+  module: [
+    "Import entrypoint",
+    "Use the source to inspect its exports and the related guide to connect the entrypoint to your app.",
+  ],
+  package: [
+    "Package dependency",
+    "Check its exports and dependency requirements in the source, then follow the local guide for integration.",
+  ],
+  file: [
+    "Source implementation",
+    "Read the surrounding imports and supporting definitions before copying or adapting this file.",
+  ],
+  command: [
+    "Terminal invocation",
+    "The working directory, workspace flags and installed tool version determine how this command behaves.",
+  ],
+  block: [
+    "Interface composition",
+    "Start with the complete source-file list, then connect its navigation, state and content to your application.",
+  ],
+  technology: [
+    "Development tool",
+    "Follow the official documentation for setup and supported APIs; related reading shows its place in Kamod.",
+  ],
+  page: [
+    "Documentation page",
+    "Open the original page for the complete examples and surrounding sections; this card is a short reading preview.",
+  ],
+};
+
 /** Derive navigation and reading context from verified facts; never manufacture a destination. */
 export function referencePresentation(reference: CodeReferenceHelp) {
   const { module, kind, docs, source, related = [], fields = [] } = reference;
@@ -23,37 +80,29 @@ export function referencePresentation(reference: CodeReferenceHelp) {
     kind === "package" ||
     (kind === "module" && !module.startsWith("@/") && !module.startsWith("."));
   const primary = sourceFirst ? (source ?? docs) : (docs ?? source);
-  const shortcuts: (CodeReferenceHelpLink & { text: string })[] = [];
-  const add = (link: CodeReferenceHelpLink | undefined, text: string) => {
-    if (link && link.href !== primary?.href && !shortcuts.some(({ href }) => href === link.href))
-      shortcuts.push({ ...link, text });
-  };
-  add(sourceFirst ? docs : source, sourceFirst ? "Guide" : "Source");
-  for (const link of related) {
-    if (shortcuts.length === 2) break;
-    add(
-      link,
-      link.kind === "props"
-        ? "Props"
-        : link.kind === "type"
-          ? "Types"
-          : link.kind === "source"
-            ? "Repository"
-            : "Guide",
-    );
+  const secondary = sourceFirst ? docs : source;
+  const reading: NonNullable<CodeReferenceHelp["related"]> = [];
+  for (const link of [
+    ...(secondary
+      ? [{ ...secondary, kind: sourceFirst ? ("guide" as const) : ("source" as const) }]
+      : []),
+    ...related.slice(0, 4),
+  ]) {
+    if (link.href !== primary?.href && !reading.some(({ href }) => href === link.href))
+      reading.push(link);
   }
+  const [fallback, detail] = contexts[kind];
   return {
     primary,
-    shortcuts,
+    context: referenceContext(reference, fallback),
+    reading,
     note: notes[kind],
     caption:
       reference.detail ||
       (fields.length
-        ? "A focused view of declared fields. The full reference includes the surrounding contract."
+        ? "A focused view of declared fields. Follow the linked types for the complete contract, inherited members and supporting definitions."
         : reference.signature
-          ? "Signature from the declaration; this preview does not execute code."
-          : kind === "module" || kind === "package"
-            ? "Use the source to inspect the entrypoint and the guide to connect it to your app."
-            : undefined),
+          ? "Signature from the declaration; this preview does not execute code. Open the full definition for overloads and surrounding types."
+          : detail),
   };
 }

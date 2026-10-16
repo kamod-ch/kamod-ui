@@ -48,32 +48,33 @@
   color: color-mix(in oklab, var(--primary) 25%, var(--background));
 }
 .code-reference-help-badges {
-  --code-help-action-size: 1.875rem;
+  --code-help-action-size: 1.375rem;
   flex: none;
   gap: 0.375rem;
 }
 .code-reference-help .code-reference-help-kind {
   display: inline-flex;
   align-items: center;
-  gap: 0.3125rem;
+  gap: 0.25rem;
   flex: none;
   height: var(--code-help-action-size);
-  padding: 0.25rem 0.5rem;
+  padding: 0.0625rem 0.3125rem;
+  --code-help-chip-radius: 4px;
   border: 0;
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   font-weight: 500;
   line-height: 1.5;
   white-space: nowrap;
 }
 .code-reference-help-kind svg {
   flex: none;
-  width: 0.71875rem;
-  height: 0.71875rem;
+  width: 0.65625rem;
+  height: 0.65625rem;
 }
 /* Reuse the site's icon action, adapting its paint to this inverse reading surface. */
 .code-reference-help .code-reference-help-open {
-  --docs-icon-button-background: color-mix(in oklab, var(--background) 10%, transparent);
-  --docs-icon-button-hover-background: color-mix(in oklab, var(--background) 17%, transparent);
+  --docs-icon-button-background: color-mix(in oklab, var(--background) 17%, transparent);
+  --docs-icon-button-hover-background: color-mix(in oklab, var(--background) 25%, transparent);
   flex: none;
   width: var(--code-help-action-size);
   height: var(--code-help-action-size);
@@ -91,14 +92,11 @@
   border-bottom: 1px solid var(--code-help-rule);
   white-space: nowrap;
 }
-.code-reference-help-origin-label {
-  flex: none;
-  color: var(--code-help-quiet);
-  font-size: 0.625rem;
-}
-.code-reference-help-origin-path {
+.code-reference-help-origin-path,
+.code-reference-help-origin > .code-reference-help-path {
   flex: 0 1 auto;
   min-width: 3ch;
+  max-width: 72%;
 }
 .code-reference-help .code-reference-help-origin a {
   text-decoration: none;
@@ -116,20 +114,22 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.code-reference-help-shortcut {
-  display: inline-flex;
+.code-reference-help-context {
+  display: flex;
   align-items: center;
   gap: 0.4375rem;
-  flex: 0 1 auto;
+  flex: 1;
   min-width: 0;
+  color: var(--code-help-quiet);
   font-size: 0.625rem;
 }
-.code-reference-help-shortcut > span {
-  color: var(--code-help-quiet);
+.code-reference-help-context > span:first-child {
+  flex: none;
 }
-.code-reference-help-shortcut a {
+.code-reference-help-context > span:last-child {
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .code-reference-help-summary {
   display: grid;
@@ -146,7 +146,7 @@
   font-size: 0.625rem;
   line-height: 1.6;
 }
-/* The type badge and inline chips share exactly the same page highlight and corners. */
+/* Badge and chips share page paint; the compact badge has slightly softer corners. */
 .code-reference-help
   :is(
     .code-reference-help-kind,
@@ -157,7 +157,7 @@
     .code-reference-help-related-link code,
     .code-reference-help-facts code
   ) {
-  border-radius: 3px;
+  border-radius: var(--code-help-chip-radius, 3px);
   background: var(--docs-inline-code-background);
   color: var(--foreground);
 }
@@ -545,13 +545,6 @@
   }
   .code-reference-help-origin {
     gap: 0.375rem;
-  }
-  .code-reference-help-origin-label {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
   }
   .code-reference-help-fields > div {
     grid-template-columns: minmax(0, 1fr);

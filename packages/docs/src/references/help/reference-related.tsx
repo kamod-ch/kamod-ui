@@ -15,8 +15,14 @@ const reading = {
   source: { Icon: FileCodeIcon, caption: "Source & ownership" },
 };
 
-export function ReferenceRelated({ reference }: { reference: CodeReferenceHelp }) {
-  const links = reference.related?.slice(0, 4);
+export function ReferenceRelated({
+  reference,
+  links: resources = reference.related,
+}: {
+  reference: CodeReferenceHelp;
+  links?: CodeReferenceHelp["related"];
+}) {
+  const links = resources?.slice(0, 5);
   if (!links?.length) return null;
   const title =
     reference.kind === "component" || reference.kind === "type"

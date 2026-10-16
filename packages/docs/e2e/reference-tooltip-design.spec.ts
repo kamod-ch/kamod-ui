@@ -53,11 +53,10 @@ for (const scheme of ["light", "dark"] as const) {
         const open = card.locator(".code-reference-help-open");
         const chipStyle = await card.locator(".code-reference-help-path").evaluate((node) => ({
           background: getComputedStyle(node).backgroundColor,
-          radius: getComputedStyle(node).borderRadius,
         }));
         await expect(badge).toHaveCSS("background-color", chipStyle.background);
-        await expect(badge).toHaveCSS("border-radius", chipStyle.radius);
-        await expect(badge).toHaveCSS("font-size", "12px");
+        await expect(badge).toHaveCSS("border-radius", "4px");
+        await expect(badge).toHaveCSS("font-size", "11px");
         await expect(badge).toHaveCSS("font-weight", "500");
         const badgeBox = (await badge.boundingBox())!;
         const openBox = (await open.boundingBox())!;
@@ -72,9 +71,15 @@ for (const scheme of ["light", "dark"] as const) {
         await expect(open).toHaveAccessibleName(
           `Open ${await card.locator("footer a").innerText()} for ${label}`,
         );
-        await expect(badge.locator("svg")).toHaveCSS("width", "11.5px");
+        await expect(badge.locator("svg")).toHaveCSS("width", "10.5px");
         await expect(badge.locator("svg")).toHaveCSS("stroke-width", "1.75px");
         const origin = card.locator(".code-reference-help-origin");
+        await expect(origin.locator(".code-reference-help-origin-label")).toHaveCount(0);
+        await expect(origin.locator("a")).toHaveCount(1);
+        const context = origin.locator(".code-reference-help-context > span:last-child");
+        expect((await context.innerText()).trim().split(/\s+/).length).toBeLessThanOrEqual(3);
+        await expect(context).toHaveCSS("white-space", "nowrap");
+        await expect(card.locator(".code-reference-help-detail")).not.toBeEmpty();
         const dimensions = await origin.evaluate((node) => {
           const rect = node.getBoundingClientRect();
           return {

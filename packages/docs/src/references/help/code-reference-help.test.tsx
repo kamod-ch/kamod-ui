@@ -66,7 +66,7 @@ it("renders source-derived code and emphasis safely without interpreting HTML", 
   expect(summary).toHaveTextContent("<img src=x onerror=alert(1)>");
 });
 
-it("uses origin shortcuts for secondary destinations and leaves one main action in the footer", () => {
+it("keeps the path and short context together, with secondary destinations in related reading", () => {
   const { container } = render(<CodeReferenceHelpContent reference={reference} />);
   const header = container.querySelector("header")!;
   expect(header.querySelectorAll('[data-slot="badge"]')).toHaveLength(1);
@@ -74,8 +74,13 @@ it("uses origin shortcuts for secondary destinations and leaves one main action 
     within(header).getByRole("link", { name: "Open API reference for DirectionProvider" }),
   ).toHaveAttribute("href", reference.docs!.href);
   const origin = container.querySelector(".code-reference-help-origin")!;
+  expect(origin.querySelector(".code-reference-help-origin-label")).toBeNull();
+  expect(origin.querySelectorAll("a")).toHaveLength(1);
+  expect(origin.querySelector(".code-reference-help-context")).toHaveTextContent(
+    "Layout direction",
+  );
   expect(
-    within(origin as HTMLElement).getByRole("link", { name: /Read source for/ }),
+    within(container as HTMLElement).getByRole("link", { name: "Read source", exact: true }),
   ).toHaveAttribute("href", reference.source!.href);
   const footer = container.querySelector(".code-reference-help-footer")!;
   expect(footer.querySelectorAll("a")).toHaveLength(1);
@@ -83,7 +88,7 @@ it("uses origin shortcuts for secondary destinations and leaves one main action 
   expect(footer.querySelector(".code-reference-help-note")).toHaveTextContent("installed version");
 });
 
-it("keeps package source primary and its local integration accessible in the origin row", () => {
+it("keeps package source primary and its local integration accessible in related reading", () => {
   const value = {
     ...reference,
     kind: "module" as const,
@@ -105,7 +110,7 @@ it("keeps package source primary and its local integration accessible in the ori
     "href",
     value.source.href,
   );
-  expect(container.querySelector(".code-reference-help-shortcut a")).toHaveAttribute(
+  expect(container.querySelector(".code-reference-help-related-link")).toHaveAttribute(
     "href",
     value.docs.href,
   );
@@ -121,7 +126,7 @@ it("deduplicates origin destinations and never invents resources for missing fac
       }}
     />,
   );
-  expect(container.querySelectorAll(".code-reference-help-shortcut")).toHaveLength(0);
+  expect(container.querySelectorAll(".code-reference-help-related-link")).toHaveLength(0);
   rerender(
     <CodeReferenceHelpContent
       reference={{ ...reference, source: undefined, docs: undefined, related: [] }}
@@ -181,7 +186,7 @@ it("bounds detailed fields and related reading so a large export inventory stays
     />,
   );
   expect(container.querySelectorAll(".code-reference-help-fields dt")).toHaveLength(3);
-  expect(container.querySelectorAll(".code-reference-help-related-link")).toHaveLength(4);
+  expect(container.querySelectorAll(".code-reference-help-related-link")).toHaveLength(5);
   expect(getByText("Selected fields")).toBeVisible();
 });
 
@@ -220,5 +225,33 @@ it("announces actual pending work and keeps a usable link after optional metadat
   expect(unavailable.getByRole("link", { name: "Open the reference" })).toHaveAttribute(
     "href",
     reference.docs!.href,
+  );
+});
+
+it("uses short authored context and supplies supporting detail without truncating source prose", () => {
+  const { container, rerender } = render(
+    <CodeReferenceHelpContent
+      reference={{
+        kind: "technology",
+        name: "Tailwind CSS v4",
+        module: "Tailwind",
+        description: "Builds CSS from utility class names.",
+        facts: [{ label: "Role", value: "Utility styling" }],
+      }}
+    />,
+  );
+  expect(container.querySelector(".code-reference-help-context")).toHaveTextContent(
+    "Utility styling",
+  );
+  expect(container.querySelector(".code-reference-help-detail")).toHaveTextContent(
+    "official documentation",
+  );
+  rerender(
+    <CodeReferenceHelpContent
+      reference={{ ...reference, kind: "module", module: "@kamod-ch/ui/theme.css" }}
+    />,
+  );
+  expect(container.querySelector(".code-reference-help-context")).toHaveTextContent(
+    "Stylesheet entrypoint",
   );
 });

@@ -9,12 +9,30 @@ type Technology = {
   guide?: string;
 };
 
+const brandRoles: Record<keyof typeof brandReferences, string> = {
+  Preact: "Component rendering",
+  React: "Component rendering",
+  TypeScript: "Typed JavaScript",
+  Tailwind: "Utility styling",
+  JavaScript: "Application logic",
+  GitHub: "Source collaboration",
+  Git: "Version control",
+  Vite: "Development builds",
+  pnpm: "Package management",
+  npm: "Package management",
+  Yarn: "Package management",
+  "Node.js": "JavaScript runtime",
+  "Next.js": "Application framework",
+  Figma: "Interface design",
+  Docker: "Application containers",
+};
+
 /** Authored product/language labels, separate from import paths and exported symbol names. */
 export const technologies: Technology[] = [
   ...Object.entries(brandReferences).map(([name, value]) => ({
     name,
     ...value,
-    category: ["TypeScript", "JavaScript"].includes(name) ? "Language" : "Development technology",
+    category: brandRoles[name as keyof typeof brandRoles],
     aliases:
       name === "Tailwind"
         ? ["Tailwind CSS", "tailwindcss", "tailwind-css"]

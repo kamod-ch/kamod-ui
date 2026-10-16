@@ -305,29 +305,36 @@ source-first resources, keyboard flow and 320/1440px layouts in both appearances
 
 ### ReferenceTooltip reading layout
 
-The shared private tooltip retains its icon/name heading with one larger type
-badge and a square compass link to the chosen main destination. The badge and
-exact path share the ordinary page inline-code highlight and 3px corners; the
-badge uses 12px, medium-weight text and a slightly smaller matching outline icon.
-Technology uses a familiar lightbulb symbol. The compass reuses the application's
-standard icon-action hover, focus and reduced-motion behavior, with inverse-card
-paint; it is omitted when no verified destination exists. The redundant origin
-badge and its derivation are removed. Up to two verified, deduplicated shortcuts
-follow immediately with slash separators; the row stays on one line and yields to
-narrow screens without losing its underlying text or destinations.
+The shared private tooltip retains its icon/name heading with one compact type
+badge and a square chain-link action to the chosen main destination. The badge
+uses the page inline-code highlight, slightly softer 4px corners, 11px/500 text
+and a 10.5px outline icon. Its 22px height also sizes the square action. Technology
+uses a familiar lightbulb symbol. The action reuses the standard icon-button
+interaction with a stronger inverse-card surface (17% resting, 25% active), an
+accessible name and top-frame navigation; it is omitted without a verified URL.
+
+The second row begins directly with the exact, copyable path, followed by a slash
+and a short purpose phrase. Known core entrypoints have authored labels such as
+“Expandable content” and “Appearance controls”; technologies reuse concise roles
+such as “Utility styling” and “Typed JavaScript.” Safe family fallbacks cover
+other references without manufacturing context from clipped source descriptions.
+Both path and context stay on one line and yield to narrow space. Source/guide
+shortcuts move into the related-reading panel, deduplicated against each other
+and the primary resource. No redundant prefix or origin badge remains.
 
 Descriptions retain source-backed content and support safe code, emphasis and
 explicit HTTP(S)/local links. Smaller, quieter supporting detail explains aliases,
-licenses or the limits of a declaration summary. Contract fields, reference facts
-and related reading each have their own compact bordered panel. Required/optional
+licenses or the limits of a declaration summary. Every family has a useful fallback
+reading note, with slightly fuller contract/signature guidance. Contract fields,
+reference facts and related reading each have their own compact bordered panel. Required/optional
 labels, actual counts, highlighted types and role captions make the content easier
 to scan. Related resources use two columns when space allows and stack on narrow
 screens; a bare props type name stays an inline chip instead of a nested code box.
 
 The footer has one primary link on the right and a subtle family-specific context
 note on the left. It stays visible when long contents scroll, while secondary
-source/guide resources remain in the location row or related panel. Existing
-package-source priority, accessible names, top-frame navigation, focus return and
+source/guide resources remain in the related panel. Existing package-source
+priority, accessible names, top-frame navigation, focus return and
 failure/loading behavior remain intact.
 
 Tiny declarations reuse the existing grammar in a separate lazy module, requested

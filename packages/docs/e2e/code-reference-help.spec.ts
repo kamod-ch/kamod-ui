@@ -10,7 +10,7 @@ async function assertReferenceContrast(card: Locator) {
       ".code-reference-help-kind",
       ".code-reference-help-summary p",
       ".code-reference-help-fields dd code",
-      ".code-reference-help-shortcut a",
+      ".code-reference-help-related-link",
     ].map((selector) => {
       context.clearRect(0, 0, 1, 1);
       context.fillStyle = getComputedStyle(node.querySelector(selector)!).color;

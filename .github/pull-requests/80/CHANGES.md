@@ -1121,3 +1121,26 @@ heights. Desktop light and mobile dark cards were visually inspected; direct
 button navigation, visible keyboard focus, hover feedback and reduced motion
 were checked separately against the final production build. No new Safari/WebKit
 coverage is claimed.
+
+## 43. Compact reference context and quieter header proportions
+
+- **Path-first second row.** Remove the left-hand origin prefix. Replace slash-separated resource labels with one short purpose phrase, clamped to a single line with an ellipsis. Preserve the exact copyable path and its verified native destination.
+- **Useful context rather than repeated types.** Add a small lazy presentation owner for authored purpose labels across known core entrypoints and their exports/types: expandable content, layout direction, appearance controls and other concrete roles. Reuse concise technology-role metadata, refining the fifteen shared brand roles. Keep conservative family fallbacks and never truncate source descriptions into context labels.
+- **Preserved secondary destinations.** Move the former source/guide shortcuts into the related-reading panel, retaining four related items plus at most one relocated source/guide and deduplicating against the primary resource and existing reading links. Package sources still take priority; local integration remains accessible.
+- **A little more supporting copy.** Supply useful family-specific reading notes when source metadata has no detail, and expand the small contract/signature guidance. Retain original descriptions, source facts, safe inline formatting and the quieter supporting-text treatment.
+- **Smaller type badge.** Reduce its shared height from 30px to 22px, its text from 12px to 11px and its icon from 11.5px to 10.5px. Reduce padding to 1px vertically and 5px horizontally, retaining medium weight and the page-highlight paint while softening only its corners from 3px to 4px.
+- **Clearer chain-link action.** Replace the compass with the standard interlocked-chain symbol. Raise the resting inverse surface from 10% to 17% and hover/focus from 17% to 25%; keep the existing shared hover, focus and reduced-motion behavior and the chosen primary destination.
+- **Existing regression coverage updated.** Check source/guide relocation, deduplication and short context in the component tests. Update the responsive layout assertions for the compact badge, one-line purpose, preserved path and secondary resources, plus the classification keyboard journey through the existing first header action. Add no background activity or dependencies.
+
+### Context-trail verification
+
+The documentation suite passes **881 tests in 92 files**; the final related-link
+bound also passes all eleven focused card tests. Docs typecheck, final production
+build and root Oxlint/Oxfmt/Biome pass. All **14 affected production Chrome cases**
+pass: seven families at 320/768/1440px in both appearances, lazy help and failure
+fallbacks, source-first packages, keyboard flow and native navigation. A caught
+resource regression is fixed: the moved source link no longer displaces the
+fourth related destination, including Props & defaults. Desktop light and mobile
+dark cards were visually inspected; the chain action's navigation, focus, hover
+and reduced-motion behavior were also checked. No new Safari/WebKit coverage is
+claimed.
