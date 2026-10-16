@@ -6,20 +6,15 @@
   code[data-inline-code-help]
 ) {
   --code-reference-dash: var(--primary, currentColor);
-  --inline-reference-cue: color-mix(in oklab, var(--code-reference-dash) 65%, transparent);
-  --inline-reference-growth: 0px;
+  --inline-reference-cue: color-mix(in oklab, var(--code-reference-dash) 55%, transparent);
   --inline-reference-font-weight: 500;
-  --inline-reference-stroke: 0px;
   position: relative;
   top: 0;
   text-decoration: none !important;
-  /* The hairline keeps weight changes smooth even with a static monospace font. */
-  -webkit-text-stroke: var(--inline-reference-stroke) currentColor;
-  transition: all 360ms ease;
+  transition: none;
 
   &:not(.docs-code-name) {
     font-weight: var(--inline-reference-font-weight) !important;
-    font-size: calc(var(--inline-code-font) + var(--inline-reference-growth)) !important;
   }
 
   &::before {
@@ -30,7 +25,7 @@
     z-index: 1;
     border-bottom: 1.5px dashed var(--inline-reference-cue);
     pointer-events: none;
-    transition: inherit;
+    transition: border-color 180ms ease;
   }
 
   &::after {
@@ -52,9 +47,6 @@ code[data-inline-code-help]:not(.path-display) {
   code[data-inline-code-help]:focus-visible
 ) {
   --inline-reference-cue: var(--code-reference-dash);
-  --inline-reference-growth: 0.15px;
-  --inline-reference-font-weight: 550;
-  --inline-reference-stroke: 0.08px;
 }
 @media (hover: hover) and (pointer: fine) {
   :is(
@@ -64,9 +56,6 @@ code[data-inline-code-help]:not(.path-display) {
     code[data-inline-code-help]:hover
   ) {
     --inline-reference-cue: var(--code-reference-dash);
-    --inline-reference-growth: 0.15px;
-    --inline-reference-font-weight: 550;
-    --inline-reference-stroke: 0.08px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -76,7 +65,6 @@ code[data-inline-code-help]:not(.path-display) {
     code:has(> a.docs-inline-source-reference),
     code[data-inline-code-help]
   ) {
-    --inline-reference-growth: 0px !important;
     transition: none;
     &::before {
       transition: none;

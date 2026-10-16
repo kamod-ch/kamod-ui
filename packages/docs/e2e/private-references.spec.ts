@@ -196,7 +196,7 @@ for (const scheme of ["light", "dark"] as const) {
       await page.setViewportSize({ width, height: 1000 });
       await term.scrollIntoViewIfNeeded();
       await page.mouse.move(1, 1);
-      await expect.poll(async () => (await appearance()).line).toMatch(/\/ 0\.65\)/);
+      await expect.poll(async () => (await appearance()).line).toMatch(/\/ 0\.55\)/);
       await expect.poll(async () => (await appearance()).arrow).toBe("none");
       await expect.poll(async () => (await appearance()).emphasis).toBe("0px");
       await expect.poll(async () => (await appearance()).lift).toBe("0px");
@@ -208,14 +208,14 @@ for (const scheme of ["light", "dark"] as const) {
       expect(before.lift).toBe("0px");
       expect(before.transition).toBe("0.36s");
       expect(before.transitionProperty).toBe("all");
-      expect(before.chipTransition).toBe("all");
+      expect(before.chipTransition).toBe("none");
       await expect(term).toHaveClass(/transition-all/);
       expect(before.style).toBe("dashed");
       expect(before.thickness).toBe("1.5px");
       expect(before.outerBorder).toBe("0px");
       expect(before.decoration).toBe("none");
       expect(before.codeDecoration).toBe("none");
-      expect(before.line).toMatch(/\/ 0\.65\)/);
+      expect(before.line).toMatch(/\/ 0\.55\)/);
       expect(await term.locator("svg").count()).toBe(0);
       // Computed border styles alone missed a dash hidden behind the chip's background.
       const chip = term.locator("code");
@@ -227,12 +227,10 @@ for (const scheme of ["light", "dark"] as const) {
       await hideCue.evaluate((node) => node.remove());
       await term.hover();
       await expect.poll(async () => (await appearance()).line).toBe(before.primary);
-      await expect.poll(async () => (await appearance()).emphasis).toBe("0.08px");
+      await expect.poll(async () => (await appearance()).emphasis).toBe("0px");
       expect((await appearance()).color).toBe(before.color);
-      await expect.poll(async () => (await appearance()).weight).toBe("550");
-      await expect
-        .poll(async () => (await appearance()).fontSize)
-        .toBeCloseTo(before.fontSize + 0.15, 2);
+      await expect.poll(async () => (await appearance()).weight).toBe("500");
+      await expect.poll(async () => (await appearance()).fontSize).toBeCloseTo(before.fontSize, 2);
       expect((await appearance()).width).toBeLessThan(before.width * 1.04);
       expect((await appearance()).arrow).toBe("none");
       await expect.poll(async () => (await appearance()).lift).toBe("0px");
@@ -263,9 +261,9 @@ for (const scheme of ["light", "dark"] as const) {
     );
     const legacyCue = () =>
       legacy.evaluate((node) => getComputedStyle(node, "::before").borderBottomColor);
-    await expect.poll(legacyCue).toMatch(/\/ 0\.65\)/);
+    await expect.poll(legacyCue).toMatch(/\/ 0\.55\)/);
     await legacy.locator("a").focus();
-    await expect.poll(legacyCue).not.toMatch(/\/ 0\.65\)/);
+    await expect.poll(legacyCue).not.toMatch(/\/ 0\.55\)/);
     await page.keyboard.press("Escape");
     await page.emulateMedia({ reducedMotion: "reduce" });
     await term.focus();

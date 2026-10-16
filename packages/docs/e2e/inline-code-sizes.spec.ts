@@ -12,74 +12,41 @@ const routes = [
 ];
 
 for (const width of [320, 1440]) {
-  test(`linked inline code uses shared sizes and inherits preview captions at ${width}px`, async ({
+  test(`prose inline code follows its surrounding text with one optical reduction at ${width}px`, async ({
     page,
   }) => {
-    test.setTimeout(90_000);
+    test.setTimeout(120_000);
     await page.setViewportSize({ width, height: 1000 });
-    const seen = new Set<number>();
-    for (const route of routes) {
+    for (const route of [
+      ...routes,
+      "docs/cn/installation",
+      "docs/getting-started",
+      "docs/ecosystem",
+    ]) {
       await page.goto(`./${route}`, { waitUntil: "domcontentloaded" });
       await expect(page.locator("html")).toHaveClass(/pp-ready/);
-      const result = await page.evaluate(() => {
-        const codes = [
-          ...document.querySelectorAll<HTMLElement>(
-            "a code, code:has(a), code.docs-reference-code, code.docs-kamod-path",
-          ),
-        ].filter(
-          (code) =>
-            !code.closest("pre") &&
-            !code.classList.contains("docs-code-name") &&
-            code.getClientRects().length > 0,
-        );
-        return codes.map((code) => {
-          const style = getComputedStyle(code);
-          const caption = code.closest(".component-example-caption");
-          const captionStyle = caption ? getComputedStyle(caption) : null;
-          return {
-            text: code.textContent?.slice(0, 70),
-            font: parseFloat(style.fontSize),
-            line: parseFloat(style.lineHeight),
-            padding: parseFloat(style.paddingInlineStart),
-            border: parseFloat(style.borderTopWidth),
-            weight: style.fontWeight,
-            introduction: Boolean(
-              code.closest(
-                ".block-guide-description, .blocks-hero-lead, .library-directory-header, .home-hero-copy .home-prose",
-              ),
-            ),
-            caption: captionStyle
-              ? {
-                  font: parseFloat(captionStyle.fontSize),
-                  line: parseFloat(captionStyle.lineHeight),
-                }
-              : null,
-          };
-        });
-      });
+      const result = await page.evaluate(() =>
+        [...document.querySelectorAll<HTMLElement>("main code")]
+          .filter(
+            (code) =>
+              !code.closest(
+                "pre, h1, h2, h3, h4, h5, h6, .docs-code-name, .code-reference-help, .docs-code-toolbar, .docs-import-label, .docs-code-file-path, .docs-code-explanation, [contenteditable], [data-inline-code-size]",
+              ) && code.getClientRects().length > 0,
+          )
+          .map((code) => ({
+            text: code.textContent?.slice(0, 60),
+            font: parseFloat(getComputedStyle(code).fontSize),
+            parent: parseFloat(getComputedStyle(code.parentElement!).fontSize),
+          })),
+      );
       expect(result.length, route).toBeGreaterThan(0);
-      for (const code of result) {
-        if (code.introduction) {
-          expect(code.font, `${route}: ${code.text} introduction`).toBe(12);
-          expect(code.weight).toBe("400");
-        }
-        if (code.caption) {
-          expect(code.font, `${route}: ${code.text} caption`).toBe(code.caption.font);
-          expect(code.line).toBe(code.caption.line);
-        } else {
-          expect([12, 14], `${route}: ${code.text}`).toContain(code.font);
-          expect(code.line).toBe(code.font === 12 ? 16 : 20);
-          seen.add(code.font);
-        }
-        expect(code.padding).toBe(code.caption || code.font === 12 ? 3 : 4);
-        expect(code.border).toBe(1);
-      }
+      for (const code of result)
+        expect(code.font, `${route}: ${code.text}`).toBeCloseTo(code.parent * 0.94, 2);
       expect(
         await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
         route,
       ).toBe(true);
     }
-    if (width === 1440) expect([...seen].sort()).toEqual([12, 14]);
   });
 }
 

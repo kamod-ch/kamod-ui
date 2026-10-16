@@ -1234,3 +1234,34 @@ source preservation, keyboard/touch navigation and stationary inline hover feedb
 Desktop light, tablet dark and mobile dark cards/resource hints were inspected;
 direct checks cover hint bounds, pointer retention, Escape/focus return and no
 page errors. No new Safari/WebKit coverage is claimed.
+
+## 48. Relative prose code, dependable reading controls and a shared page-design detour
+
+- **Sentence-relative inline code.** Replace context-based fixed12/14px prose sizes with one94% optical scale after inheriting the surrounding text size. Cover introductions, subsection descriptions, short continuation text and captions; avoid double scaling inside reference anchors. Preserve heading typography, source/control labels, private tooltip layout and explicit size demonstrations.
+- **Underline-only feedback.** Rest detected prose/glossary cues at55% and show full primary ink on hover/focus. Keep the current500 resting text weight without active font growth, stroke, color shifts, movement or arrows. Retain accessible focus indication and reduced-motion support.
+- **Predictable reading controls.** Add Code.readingControls with overflow/always/imports policies. Preserve the public overflow default, support wrapping in every language, and let documentation readers choose imports-only visibility at every width. Snippets without imports omit both controls; imports-only source cannot collapse into an empty body. Always/imports policies avoid width observers and repeated layout measurement.
+- **CSS import folding.** Recognize complete leading @import rules with quoted/URL targets, layers and supports/media conditions. Preserve comments, @charset and layer-order declarations. Do not consume literal, incomplete or non-leading imports. Reuse original source offsets, token-preserving selection and exact full-source copying. Add a copyable CSS example and update public control documentation.
+- **Honest syntax-loading feedback.** Expose an internal active-grammar-request state and pulse the existing source between5% and35% only while that near-viewport request is pending. Restore100% immediately on coloring or literal failure fallback. Plain text, disabled coloring, custom documents and idle offscreen snippets do not pulse. Reduced motion uses static35%; stale source/unmount guards remain intact.
+- **Primary page labels.** Use slightly darkened primary ink,600 text weight and matching stronger icon strokes above main page titles. Preserve the existing geometry compensation and subtle highlight.
+- **Reference pairs without indentation.** Move the source/design heading outside each card so it labels the reading note and card together. Add icon, dot-separated short context and aligned source action; remove the redundant inner heading and leading note-icon column. Keep existing anchors and source/version guidance.
+- **Useful shared endings.** Replace the old one-line Getting Started handoff with a titled setup/composition/review conclusion. Add meaningful internal links, compact open columns, local class/token guidance and a short maintenance note. Keep it static and contextual, with no demo runtime imports.
+- **Ecosystem continuation.** Add two centered source/issue icon shortcuts to the source-card heading. Replace final cards with three open reading rows and substantially fuller practical guidance, genuine guide shortcuts and standard underlined footer links. Remove the redundant one-button/one-hook closing sentence.
+- **Route-local rocket.** Add an oversized decorative Getting Started rocket with a CSS flight path, exhaust and star. Reuse a reduced flight only on the active desktop pinned guide icon. Reserve the heading corner without altering title flow; disable all parts under reduced motion and introduce no JS frame loop or background subscription.
+- **Regression coverage.** Add CSS folding, import-policy visibility/observer and pending-highlight checks; update retired overflow-only and fixed-size expectations. Browser coverage checks relative sentence sizes across routes, all requested page structures, exact source/copy behavior, no inline hover shifts, viewport bounds, selected desktop motion and reduced-motion fallback. Preserve existing tooltip chapter coverage during this separate page-design detour.
+
+### Page-design detour verification
+
+All **427 core tests**, **886 documentation tests in92 files**, and **194 block
+tests** pass. The focused core Code suite also passes225 cases after parser and
+control refinements. Workspace/affected type checks, core and documentation
+production builds, root Oxlint/Oxfmt/Biome and diff checks pass. All **54 affected
+production Chrome cases** pass:52 in the combined final run, with two focused
+reruns passing after traces identified local ERR_NETWORK_CHANGED asset failures.
+Coverage includes CSS fold/copy fidelity, import-aware controls at every width,
+relative prose sizes across routes, pending grammar and reduced motion, active
+desktop rocket motion, page/reference-pair layout, ecosystem links, and the
+unchanged seven-family tooltip matrix at320/768/1440px in both appearances.
+Desktop light/mobile dark headings, reference pairs, page endings and repository
+cards were inspected. Final viewport captures used fresh contexts to avoid saved
+reload-position restoration interfering with screenshots. No new Safari/WebKit
+coverage is claimed. Private reference guides and context remain excluded.

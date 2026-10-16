@@ -36,21 +36,24 @@ Code is available from the package root and the focused
 **@kamod-ch/ui/code** entrypoint. It accepts literal source, resolves supported
 language hints and filenames, performs bounded inference when useful, and defers
 Prism loading until syntax highlighting is needed. Initial and unsupported content
-remains readable escaped text. It never evaluates supplied code.
+remains readable escaped text. A near-viewport grammar request temporarily pulses
+source opacity between 5% and35%; completed or failed loading immediately restores
+full ink. Offscreen idle snippets do not start that pulse, and reduced motion uses
+a static35% while waiting. It never evaluates supplied code.
 
 The public composition model covers optional headers, useful source metadata,
 controlled or uncontrolled reading preferences, and replaceable controls:
 
-| Concern              | Public API and behavior                                                                                                    |
-| -------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| Source and language  | code, language, inferLanguage, highlight, and the exported codeLanguages catalog.                                          |
-| Appearance           | syntaxTheme and default/subtle/outline surface variants.                                                                   |
-| Header and identity  | showToolbar, filePath, renderFilePath, renderLanguage, toolbarContent, and renderToolbar.                                  |
-| Wrapping             | wrapped/onWrappedChange or defaultWrapped, with optional overflow-based controls.                                          |
-| Import folding       | importsCollapsed/onImportsCollapsedChange or defaultImportsCollapsed, applied to eligible complete leading static imports. |
-| Replacement controls | renderImportControl, renderWrapControl, and renderCopyAction receive typed state, actions, IDs, and default controls.      |
-| Content composition  | beforeCode, afterCode, loadingContent, and renderedContent.                                                                |
-| Source navigation    | resolveReference or an inherited CodeReferenceProvider; null opts a reader out.                                            |
+| Concern              | Public API and behavior                                                                                                   |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| Source and language  | code, language, inferLanguage, highlight, and the exported codeLanguages catalog.                                         |
+| Appearance           | syntaxTheme and default/subtle/outline surface variants.                                                                  |
+| Header and identity  | showToolbar, filePath, renderFilePath, renderLanguage, toolbarContent, and renderToolbar.                                 |
+| Wrapping             | wrapped/onWrappedChange or defaultWrapped for every language; readingControls selects overflow/always/imports visibility. |
+| Import folding       | importsCollapsed/onImportsCollapsedChange or defaultImportsCollapsed, applied to complete leading JS/TS or CSS imports.   |
+| Replacement controls | renderImportControl, renderWrapControl, and renderCopyAction receive typed state, actions, IDs, and default controls.     |
+| Content composition  | beforeCode, afterCode, loadingContent, and renderedContent.                                                               |
+| Source navigation    | resolveReference or an inherited CodeReferenceProvider; null opts a reader out.                                           |
 
 Copying always uses the original complete source. Folding imports, wrapping lines,
 changing a theme, replacing a button, or showing rendered Markdown does not modify
@@ -153,9 +156,9 @@ Generated anchors preserve highlighted token colors and copied text. The resolve
 accepts supported web/application destinations, rejects unsafe schemes, and
 escapes generated attributes. Folding and wrapping keep links attached to the
 same source characters. Source and inline references share a primary dashed cue,
-resting at 35% in snippets and 65% in prose, then reaching full color on hover or
-focus. Slow glyph-stroke emphasis preserves widths and Prism ink. Detected inline chips use restrained 500→550 weight feedback and no arrow or
-vertical movement, with their cue above the highlight.
+resting at 35% in snippets and 55% in prose, then reaching full color on hover or
+focus. Slow glyph-stroke emphasis preserves widths and Prism ink. Detected inline chips keep a steady 500 weight with no arrow, growth, stroke or
+vertical movement; only their underline changes visibility.
 
 ### Shared controls retain their existing ownership
 
@@ -418,9 +421,11 @@ The four ecosystem foundation cards retain their base shell but gain aligned
 heading/context rows, top-right guide/source icon actions, useful entry-point and
 ownership details, and honest package/source delivery footers. A finite divider
 sweep and restrained perimeter feedback have keyboard/reduced-motion equivalents.
-The page ends with three concrete continuation paths and links back to its example
-and map. An optional DocsShell footer slot keeps that conclusion page-owned; its
-contents anchor and responsive one/two/three-column layout share existing patterns.
+The page ends with three open reading rows, expanded practical guidance, useful
+icon shortcuts and ordinary underlined links back to its example and map. Source
+card headings also expose compact repository/issue actions. An optional DocsShell
+footer slot keeps this conclusion page-owned. Shared component pages instead close
+with an expanded setup/composition/review section with contextual internal links.
 
 Desktop navigation content is reused in the responsive drawer with separate
 expansion and scroll memories. Active destinations are revealed, page-title and
@@ -432,7 +437,8 @@ persistent state glyphs make controls consistent across pages. Appearance choice
 now have exactly three sample bars; palette choices retain four.
 
 Both sidebar gutters are wider and link hover fills are easier to see. Page labels
-use a softened inline-code surface, compact padding and 2px corners; an equal
+use a softened inline-code surface, compact padding,600 weight, subtly darkened
+primary ink, matching stronger icons and2px corners; an equal
 reduction in their preceding gap preserves title/content coordinates. The same
 surface paints selected groups, nested links and pinned left destinations on
 desktop/mobile. Numeric counts have no background; Fresh/Updated/Planned badges
@@ -720,24 +726,34 @@ hover states were also inspected visually on desktop light and mobile dark.
 
 ### Subtle detected-inline-code feedback
 
-All detected prose references and glossary hints share a 65% primary dashed
-underline and a full-color hover/keyboard cue. Detected inline arrows are removed
-completely, including their reserved width and SVG-mask paint. Original code,
-copy output, accessible names and reference metadata remain unchanged.
+All detected prose references and glossary hints share a 55% primary dashed
+underline and a full-color hover/keyboard cue. Their text stays at500 weight with
+no hover growth, stroke, recoloring, movement or arrow. Only the dashed cue changes
+visibility; focus indication and reduced-motion support remain. Snippet tokens
+retain their own35% cue and source ink. Detector-owned classes still restore on
+teardown, with no added per-term behavior.
 
-A subtle hover/focus treatment uses a slightly stronger 500 resting weight and 550 active weight,
-adding just 0.15px to its context-aware font size with no vertical movement. A 0.08px
-current-color hairline makes the weight feedback smooth with static monospace
-fonts. Authored and detected trigger roots carry transition-all; roots, chips and
-the underline use one 360ms all-properties transition. Existing compact/regular
-size tokens remain authoritative, and utility names retain their heading type.
-Reduced motion removes transitions and growth while preserving active
-weight and the full-color cue. The implementation adds no timers, listeners,
-observers, fonts or ongoing effects; detector-owned classes restore on teardown.
-Source-snippet tokens retain their existing presentation. Short glossary chips
-stay atomic at line breaks. The focused unit and browser regressions cover exact
-text/navigation, lazy help, source-snippet isolation, both appearances, narrow and
-desktop layouts, bounded growth, legacy nested links and reduced motion.
+Ordinary prose code follows its actual parent text at94%, controlled by one shared
+--inline-code-text-scale value. This includes page descriptions, subsection copy,
+short continuation sentences and captions; nested links do not apply the reduction
+twice. Heading names, source readers, file/control labels and private tooltip
+content keep their own typography. Explicit compact/regular demonstration choices
+remain available, while old context-based12/14px prose overrides are removed.
+
+### Shared page flow and route-local flight
+
+Implementation/design reading notes and their cards now share a heading above
+the pair. Icon/title, a dot-separated short context and the real source action align
+on one row. Remove the former note icon column and duplicated card heading, keeping
+existing fragment destinations. The expanded shared page ending connects setup,
+adjacent components/blocks, semantic styling and a complete interaction review.
+
+Getting Started adds a decorative oversized rocket in the heading's upper-right
+space without changing normal title flow. A CSS flight path, staggered exhaust and
+a small star run only on that route. The active pinned guide icon reuses a smaller
+flight on the directly visible desktop sidebar; inactive/mobile links stay still.
+Reduced motion disables every flight/exhaust/star animation. No animation library,
+JS frame loop, listener or persistent state is added.
 
 ## Review map
 

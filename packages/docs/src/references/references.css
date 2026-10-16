@@ -12,6 +12,8 @@ code.docs-inline-source-reference[data-inline-code-help] {
   -webkit-box-decoration-break: clone;
 }
 .docs-inline-source-reference {
+  /* Prose references opt out of the source-token hover stroke. Only their dash changes. */
+  -webkit-text-stroke: 0;
   transition: all 360ms ease;
 }
 .docs-inline-source-reference > code,
