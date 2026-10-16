@@ -208,3 +208,116 @@ for (const width of [320, 1440]) {
     });
   });
 }
+
+test("preset pills keep their own palette and respect keyboard and reduced motion", async ({
+  page,
+}) => {
+  await page.goto("/docs/theming/installation#color-theme-presets");
+  await expect(page.locator("html")).toHaveClass(/pp-ready/);
+  const navigation = page.getByRole("navigation", { name: "Jump to a color theme" });
+  const links = navigation.getByRole("link");
+  await expect(links).toHaveCount(8);
+  const readLocalPaint = () =>
+    navigation.locator(".theme-preset-pill-paint").evaluateAll((paints) => {
+      const context = document.createElement("canvas").getContext("2d")!;
+      const luminance = (color: string) => {
+        context.fillStyle = color;
+        context.fillRect(0, 0, 1, 1);
+        const values = [...context.getImageData(0, 0, 1, 1).data].slice(0, 3).map((channel) => {
+          const value = channel / 255;
+          return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
+        });
+        return values[0] * 0.2126 + values[1] * 0.7152 + values[2] * 0.0722;
+      };
+      return paints.map((paint) => {
+        const style = getComputedStyle(paint);
+        const ink = luminance(style.color);
+        const surface = luminance(style.backgroundColor);
+        return {
+          preset: paint.getAttribute("data-theme"),
+          scheme: paint.classList.contains("dark") ? "dark" : "light",
+          background: style.backgroundColor,
+          color: style.color,
+          font: style.fontFamily,
+          contrast: (Math.max(ink, surface) + 0.05) / (Math.min(ink, surface) + 0.05),
+        };
+      });
+    });
+  const initial = await readLocalPaint();
+  expect(initial.filter(({ contrast }) => contrast < 4.5)).toEqual([]);
+  await expect(navigation.locator('.theme-preset-pill-light[data-theme="professional"]')).toHaveCSS(
+    "font-family",
+    /^Poppins,/,
+  );
+  await expect(navigation.locator('.theme-preset-pill-light[data-theme="shadcn"]')).toHaveCSS(
+    "font-family",
+    /^"Geist Variable", Geist,/,
+  );
+  await page.getByRole("button", { name: "Use Watson theme on this page" }).click();
+  expect(await readLocalPaint()).toEqual(initial);
+  for (const scheme of ["light", "dark"]) {
+    await page.evaluate(
+      (dark) => document.documentElement.classList.toggle("dark", dark),
+      scheme === "dark",
+    );
+    for (const link of await links.all()) {
+      const paint = link.locator(`.theme-preset-pill-${scheme}`);
+      const id = await paint.getAttribute("data-theme");
+      const expected = await page
+        .locator(`.theme-study-preview.${scheme}[data-theme="${id}"]`)
+        .evaluate((preview) => ({
+          background: getComputedStyle(preview).backgroundColor,
+          colors: [...preview.querySelectorAll(".theme-study-colors dd")]
+            .slice(0, 3)
+            .map((swatch) => getComputedStyle(swatch).backgroundColor),
+        }));
+      await expect(paint).toBeVisible();
+      expect(
+        await paint.evaluate((node) => ({
+          background: getComputedStyle(node).backgroundColor,
+          colors: [...node.querySelectorAll(".theme-preset-pill-colors i")].map(
+            (dot) => getComputedStyle(dot).backgroundColor,
+          ),
+          idleAnimations: node.getAnimations({ subtree: true }).length,
+        })),
+      ).toEqual({ ...expected, idleAnimations: 0 });
+      await expect(link).toHaveAttribute("href", `#color-theme-${id}`);
+    }
+    const ocean = navigation.getByRole("link", { name: "Ocean", exact: true });
+    const paint = ocean.locator(`.theme-preset-pill-${scheme}`);
+    const arrow = paint.locator(".theme-preset-pill-arrow");
+    await expect(arrow).toHaveCSS("opacity", "0.45");
+    await ocean.hover();
+    await expect(arrow).toHaveCSS("opacity", "1");
+    await expect(arrow).toHaveCSS("transform", "matrix(1.12, 0, 0, 1.12, 1, -1)");
+    expect(await arrow.evaluate((node) => getComputedStyle(node).color)).toBe(
+      await paint
+        .locator("i")
+        .first()
+        .evaluate((node) => getComputedStyle(node).backgroundColor),
+    );
+    await expect
+      .poll(() => paint.evaluate((node) => node.getAnimations({ subtree: true }).length))
+      .toBe(0);
+    await page.mouse.move(0, 0);
+    await expect(arrow).toHaveCSS("opacity", "0.45");
+  }
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  const ocean = navigation.getByRole("link", { name: "Ocean", exact: true });
+  await ocean.focus();
+  await page.keyboard.press("Tab");
+  await page.keyboard.press("Shift+Tab");
+  await expect(ocean).toBeFocused();
+  await expect(ocean.locator(".theme-preset-pill-dark .theme-preset-pill-arrow")).toHaveCSS(
+    "opacity",
+    "1",
+  );
+  await expect(ocean.locator(".theme-preset-pill-dark .theme-preset-pill-arrow")).toHaveCSS(
+    "transform",
+    "none",
+  );
+  expect(await ocean.evaluate((node) => node.getAnimations({ subtree: true }).length)).toBe(0);
+  await page.keyboard.press("Enter");
+  await expect(page.locator("#color-theme-ocean")).toBeInViewport();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "watson");
+});

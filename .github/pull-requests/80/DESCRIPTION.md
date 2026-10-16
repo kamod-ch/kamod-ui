@@ -651,6 +651,30 @@ Oxlint/Oxfmt/Biome pass; Chrome checks cover 320/768/1024/1440px in both appeara
 with a final 320/1440px rerun for the small text adjustment. Link targets, keyboard
 focus and desktop/mobile screenshots were checked directly.
 
+### Preset-colored gallery pills
+
+The gallery jump links now preview their own presets: real backgrounds, three
+overlapping primary/secondary/accent circles and declared primary font stacks.
+Slightly smaller, semibold labels retain the primary hue with lightness adapted
+for readable small text. CSS chooses an explicit local light/dark paint while
+keeping a single accessible anchor, full name and exact subsection destination.
+Changing the application preset cannot recolor or change the named fonts of the
+other pills; neutral presets keep their native application/system direction.
+
+Hover and keyboard focus reveal a quiet three-color wash, a tinted boundary and a
+small shadow, with one finite secondary-to-primary gradient sweep. The arrow
+moves from 45% opacity to the exact primary color at full opacity, grows 12% and
+shifts just 1px toward the top right. The pill stays in place. Reduced motion
+removes transitions, the sweep and arrow movement while preserving color/focus
+feedback. There are no idle loops, extra fonts, listeners, observers, timers or
+JavaScript animation. ThemePresetPill and its feature stylesheet own the markup
+and paint; browser coverage checks palette/font isolation, matching source colors,
+hover completion, keyboard navigation and reduced-motion behavior. The six gallery
+tests, docs typecheck/build and root Oxlint/Oxfmt/Biome pass. Final Chrome checks
+cover four viewport widths in both appearances and the new interaction case,
+including 4.5:1 label contrast across all sixteen preset appearances. Default and
+hover states were also inspected visually on desktop light and mobile dark.
+
 ## Review map
 
 Start with **core Code and CopyButton**, then **application theme scopes** and

@@ -41,7 +41,7 @@ it("server-renders every gallery contents target once without saving appearance"
   for (const id of [gallery.id, ...gallery.children!.map(({ id }) => id)]) {
     expect(document.querySelectorAll(`[id="${id}"]`)).toHaveLength(1);
   }
-  expect(document.querySelectorAll("[data-theme-scope]")).toHaveLength(THEME_PRESETS.length * 4);
+  expect(document.querySelectorAll("[data-theme-scope]")).toHaveLength(THEME_PRESETS.length * 6);
   expect(document.querySelectorAll(".theme-study-practice")).toHaveLength(THEME_PRESETS.length);
   expect(document.querySelectorAll("[data-palette-sketch]")).toHaveLength(THEME_PRESETS.length * 6);
   expect(document.querySelectorAll(".theme-study-colors > div")).toHaveLength(
@@ -91,7 +91,7 @@ it("mounts a local recipe only on request and releases it when closed", async ()
   await waitFor(() => expect(recipe.querySelector(".kamod-code")).toBeNull());
 });
 
-it("keeps the documented radius family aligned with the shipped preset CSS", () => {
+it("keeps documented radius and primary font families aligned with the shipped preset CSS", () => {
   const tokens = readFileSync(
     resolve(import.meta.dirname, "../../../../../themes/src/tokens.css"),
     "utf8",
@@ -108,6 +108,14 @@ it("keeps the documented radius family aligned with the shipped preset CSS", () 
     expect(presetDesignNotes[id].radius, id).toBe(
       css.match(/--radius:\s*([^;]+);/)?.[1] ?? baseRadius,
     );
+    const family = presetDesignNotes[id].type.family;
+    if (family) {
+      const primary = css.match(/--font-primary:\s*([^;]+);/)![1];
+      const declaration = primary.startsWith("var(")
+        ? css.match(/--font-sans:\s*([^;]+);/)![1]
+        : primary;
+      expect(declaration.replace(/\s+/g, " ").trim().startsWith(family), id).toBe(true);
+    }
   }
 });
 

@@ -1054,3 +1054,27 @@ results; the earlier Safari/WebKit scope remains unchanged.
 - **Smaller style surface.** Remove the obsolete three-column and narrow-screen grid rules. Use the site's familiar plain numbered-link pattern, shared secondary colors and a subtle underline on hover.
 - **Readable short code terms.** Keep the two short token examples together on narrow screens rather than splitting an identifier across lines. Preserve the shared inline-code highlight and delegated reference help.
 - **Focused validation.** All six existing gallery tests pass, as do docs typecheck/build and root Oxlint/Oxfmt/Biome. Production Chrome checks pass at 320/768/1024/1440px in both appearances; the final mobile text adjustment is rechecked at 320/1440px, and desktop/mobile screenshots, keyboard focus and every introduction link target are inspected.
+
+## 40. Preset-colored gallery pills
+
+- **Independent preset surfaces.** Give each gallery jump link its preset's actual background and declared primary font stack, with explicit light/dark paint scopes selected by CSS. Keep one accessible link per preset and prevent the current page preset from leaking its colors or named fonts into the other choices.
+- **Overlapping three-color signatures.** Add compact overlapping circles for primary, secondary and accent, using the real tokens. Mark the visual copies decorative and preserve the full preset name and exact subsection destination on the anchor.
+- **Compact primary-hue labels.** Increase label weight to 600 and reduce its size slightly from 12px to 11.5px. Keep the primary hue, adapting its lightness for small-text readability on very bright palettes; leave the swatches and hover arrow at the exact token colors.
+- **Layered color interaction.** Fade in a restrained primary/secondary/accent wash, tint the boundary and add a small colored shadow. Run one secondary-to-primary gradient sweep across the pill on hover or keyboard focus, without idle loops or JavaScript animation.
+- **Expressive arrow.** Start the arrow at 45% opacity in the preset foreground, then transition to its exact primary color and full opacity. Grow it by 12% and translate it just 1px toward the upper right, while the link itself stays in place.
+- **Reduced-motion presentation.** Remove the sweep, transitions and arrow movement for reduced motion while retaining the active color treatment and visible keyboard focus. Add no timers, listeners, observers, permanent compositor hints, dependencies or font downloads.
+- **Focused presentation owner.** Keep the two SSR-stable appearance paints and accessible destination in ThemePresetPill, with its own small stylesheet. Replace the old generic pill rules and update the gallery scope-count assertion for the new isolated paints. Verify the named primary-family prefixes against the shipped CSS so the docs’ native-font override cannot silently replace these small specimens.
+- **Interaction regression.** Check exact swatch/background tokens against the corresponding preview, font/color isolation after applying Watson, idle animation absence, both appearances, hover arrow behavior, finite animation cleanup, reduced motion and keyboard navigation. Retain the existing responsive and contrast checks for the entire gallery.
+
+### Pill verification
+
+The six gallery unit tests pass, including source-backed primary-font prefixes.
+Docs typecheck and production build, root Oxlint, Oxfmt and Biome pass. Final
+production Chrome checks cover 320/768/1024/1440px in both appearances plus the
+pill interaction case: all sixteen label contrast ratios reach 4.5:1, preset
+backgrounds/signatures match the corresponding source previews, fonts and colors
+stay isolated after applying Watson, idle and completed sweeps leave no running
+animation, the arrow reaches its specified state, reduced motion removes
+movement, and real Tab/Enter navigation reaches the correct study. Desktop light
+and mobile dark default/hover states were visually inspected. No new Safari or
+WebKit coverage is claimed for this follow-up.

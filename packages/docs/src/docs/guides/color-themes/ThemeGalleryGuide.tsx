@@ -2,6 +2,7 @@ import { withBasePath } from "../../../base-path";
 import { BlockHeadingLink } from "../../../blocks/BlockHeadingLink";
 import { CodeBlock } from "../../components/CodeBlock";
 import { presetStudies, presetStudyId } from "./preset-studies";
+import { ThemePresetPill } from "./ThemePresetPill";
 
 /** Explain the comparison once so each preset can concentrate on its own design decisions. */
 export function ThemeGalleryIntroduction() {
@@ -27,10 +28,7 @@ export function ThemeGalleryIntroduction() {
       </ol>
       <nav class="theme-gallery-index" aria-label="Jump to a color theme">
         {presetStudies.map(({ id, label }) => (
-          <a key={id} href={`#${presetStudyId(id)}`}>
-            {label}
-            <span aria-hidden="true">↗</span>
-          </a>
+          <ThemePresetPill key={id} id={id} label={label} />
         ))}
       </nav>
       <p class="theme-gallery-comparison-note">

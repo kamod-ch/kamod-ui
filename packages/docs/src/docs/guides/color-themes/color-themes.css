@@ -1,5 +1,6 @@
 @import "./theme-palette-preview.css";
 @import "./theme-gallery-guide.css";
+@import "./theme-preset-pill.css";
 @import "./theme-study-details.css";
 
 /* Text follows the page; decorative signatures wash each frame with its actual preset. */

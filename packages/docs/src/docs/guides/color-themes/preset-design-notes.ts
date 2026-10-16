@@ -4,7 +4,7 @@ type DesignNote = { title: string; text: string; roles: readonly string[] };
 export type PresetDesignNotes = {
   direction: string;
   principles: readonly [DesignNote, DesignNote];
-  type: { body: string; display: string; mono: string; advice: string };
+  type: { body: string; family?: string; display: string; mono: string; advice: string };
   radius: string;
   shape: string;
   example: string;
@@ -54,6 +54,7 @@ export const presetDesignNotes: Record<ThemePresetId, PresetDesignNotes> = {
     ],
     type: {
       body: "Geist / Geist Variable",
+      family: '"Geist Variable", Geist',
       display: "Geist / Geist Variable",
       mono: "Fira Code / Fira Code Variable",
       advice:
@@ -132,6 +133,7 @@ export const presetDesignNotes: Record<ThemePresetId, PresetDesignNotes> = {
     ],
     type: {
       body: "Lato",
+      family: '"Lato"',
       display: "Lato",
       mono: "System mono",
       advice:
@@ -158,6 +160,7 @@ export const presetDesignNotes: Record<ThemePresetId, PresetDesignNotes> = {
     ],
     type: {
       body: "Inter / Inter Variable",
+      family: '"Inter Variable", Inter',
       display: "System sans",
       mono: "System mono",
       advice:
@@ -184,6 +187,7 @@ export const presetDesignNotes: Record<ThemePresetId, PresetDesignNotes> = {
     ],
     type: {
       body: "Nunito Sans",
+      family: '"Nunito Sans"',
       display: "Onest",
       mono: "Fira Code / Fira Code Variable",
       advice:
@@ -210,6 +214,7 @@ export const presetDesignNotes: Record<ThemePresetId, PresetDesignNotes> = {
     ],
     type: {
       body: "Poppins",
+      family: "Poppins",
       display: "Poppins",
       mono: "IBM Plex Mono",
       advice:
