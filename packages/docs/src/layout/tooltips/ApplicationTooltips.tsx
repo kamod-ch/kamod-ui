@@ -104,6 +104,8 @@ function ActiveTooltip({
           ...(detailed && {
             maxHeight: `${Math.max(80, rect.top > window.innerHeight / 2 ? rect.top - 24 : window.innerHeight - rect.bottom - 24)}px`,
             overflowY: "auto",
+            // Reaching a long card's edge must not scroll the page and dismiss its reference.
+            overscrollBehavior: "contain",
           }),
         }}
       >

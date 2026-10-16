@@ -27,6 +27,8 @@ export function connectTooltips(doc: Document, onChange: (hint: TooltipHint | nu
   let contentObserver: MutationObserver | undefined;
   let opened = false;
   let pointerPosition: { x: number; y: number } | undefined;
+  const insideHint = (node: EventTarget | null) =>
+    (node instanceof Node && !!target?.contains(node)) || insideOverlay(node);
 
   const cancelTimers = () => {
     clearTimeout(opening);
@@ -119,7 +121,8 @@ export function connectTooltips(doc: Document, onChange: (hint: TooltipHint | nu
     }
     if (keyboard && (doc.activeElement === target || insideOverlay(doc.activeElement))) return;
     clearTimeout(closing);
-    closing = setTimeout(clear, 120);
+    // Allow a deliberate crossing of the trigger/card gap, including after lazy content grows.
+    closing = setTimeout(clear, 350);
   };
   const over = (event: PointerEvent) => {
     if (event.pointerType === "touch") return;
@@ -137,8 +140,7 @@ export function connectTooltips(doc: Document, onChange: (hint: TooltipHint | nu
     if (next) show(next, false);
   };
   const out = (event: PointerEvent) => {
-    if (event.relatedTarget instanceof Node && target?.contains(event.relatedTarget)) return;
-    if (insideOverlay(event.relatedTarget)) return;
+    if (!insideHint(event.target) || insideHint(event.relatedTarget)) return;
     leave();
   };
   const focus = (event: FocusEvent) => {
@@ -210,7 +212,10 @@ export function connectTooltips(doc: Document, onChange: (hint: TooltipHint | nu
     } else clear();
   };
   const blur = (event: FocusEvent) => {
-    if (event.relatedTarget === target || insideOverlay(event.relatedTarget)) return;
+    if (!insideHint(event.target) || insideHint(event.relatedTarget)) return;
+    // Native scrollbars can clear focus without moving the pointer out of the card.
+    // Actual outside clicks, window blur and leaving the card have their own dismissal paths.
+    if (event.relatedTarget === null && insideOverlay(event.target)) return;
     clear();
   };
   const scroll = (event: Event) => {
