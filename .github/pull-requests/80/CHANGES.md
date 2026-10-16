@@ -1078,3 +1078,24 @@ animation, the arrow reaches its specified state, reduced motion removes
 movement, and real Tab/Enter navigation reaches the correct study. Desktop light
 and mobile dark default/hover states were visually inspected. No new Safari or
 WebKit coverage is claimed for this follow-up.
+
+## 41. Subtle detected-inline-code feedback
+
+- **65% resting underline.** Give detected inline source references and glossary hints the same primary-colored 1.5px dashed cue at 65% opacity, reaching full color on hover or keyboard focus. Cover authored references, dynamically detected bare code and legacy nested links through one shared inline stylesheet.
+- **Tiny decorative arrow.** Add a 0.55em arrow in the full underline color with only 18% opacity at rest, rising to 100% on interaction. Use an empty-content CSS mask so copied text, original code, accessible names and the existing reference metadata remain unchanged.
+- **Barely visible emphasis.** Apply a 0.08px glyph stroke mixed from 45% underline color and the current ink, plus a 0.12px current-color shadow at only 12% opacity. Keep the original text fill and font metrics, transition the emphasis over 520ms, and let legacy inner links inherit the same small stroke.
+- **Quarter-pixel lift.** Offset the inline chip upward by only 0.25px over 320ms while preserving its width and surrounding line layout. Keep the arrow's space reserved in both states and disable transitions and lift for reduced motion. Keep glossary chips atomic so an end-of-line break cannot orphan their highlight or arrow.
+- **Single decoration owner.** Remove the older dotted glossary rule and duplicate inline cue implementation. Keep the painted underline above the chip highlight, suppress the legacy inner link's extra pseudo-underline, and retain existing focus outlines and delegated lazy help.
+- **CSS-only lifetime.** Add no JavaScript, icon DOM nodes, listeners, timers, observers or font assets. Keep source snippet tokens under their existing core styles and preserve all native navigation, copy and tooltip behavior.
+- **Focused cue regressions.** Update the existing browser assertions for 65% resting opacity, a tiny 0.08px stroke, reserved-width arrows, quarter-pixel lift and reduced-motion positioning. Keep the original text/fill checks, verify the dashed line is actually painted, and wait for fades to settle before inspecting the resting state.
+
+### Inline-cue verification
+
+All **58 focused reference tests in three files** pass. Docs typecheck and final
+production build, root Oxlint, Oxfmt and Biome pass. All **14 affected production
+Chrome cases** pass with the final subtle ink: source and glossary help, exact
+code text and navigation, source-snippet regressions, lazy loading/dismissal,
+320/1440px light/dark cue styling, touch/keyboard operation, legacy nested links,
+stable hover widths and reduced motion. Default/hover captures were visually
+inspected on desktop light and mobile dark; glossary wrapping now keeps its
+highlight and arrow together. These checks do not add new Safari/WebKit coverage.

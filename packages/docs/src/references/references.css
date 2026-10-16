@@ -1,3 +1,5 @@
+@import "./inline-reference-cue.css";
+
 /* Inline prose uses the same primary dashed cue as source tokens, preserving code text colors. */
 .docs-inline-source-reference,
 a.docs-inline-source-reference:is(:hover, :focus-visible),
@@ -13,46 +15,12 @@ code.docs-inline-source-reference[data-inline-code-help] {
 code > a.docs-inline-source-reference {
   color: inherit;
   font-weight: inherit;
+  -webkit-text-stroke: inherit;
   text-decoration: none !important;
 }
-/* Prose branding's hover pseudo-underline must not duplicate the reference's dashed border. */
-.docs-inline-source-reference > code::after,
+/* The legacy inner link must not paint a second prose-branding underline. */
 code > a.docs-inline-source-reference::after {
   content: none !important;
-}
-/* Paint on the highlighted chip: its background can cover an outer inline link's border. */
-:is(
-  .docs-inline-source-reference > code,
-  code.docs-inline-source-reference,
-  code:has(> a.docs-inline-source-reference)
-) {
-  position: relative;
-}
-:is(
-  .docs-inline-source-reference > code,
-  code.docs-inline-source-reference,
-  code:has(> a.docs-inline-source-reference)
-)::before {
-  content: "";
-  position: absolute;
-  inset-inline: 0;
-  bottom: 0;
-  z-index: 1;
-  border-bottom: 1.5px dashed var(--code-reference-rest-color);
-  pointer-events: none;
-  transition: border-color 160ms ease;
-}
-.docs-inline-source-reference:focus-visible > code::before,
-code.docs-inline-source-reference:focus-visible::before,
-code:has(> a.docs-inline-source-reference:focus-visible)::before {
-  border-bottom-color: var(--code-reference-dash, var(--primary, currentColor));
-}
-@media (hover: hover) and (pointer: fine) {
-  .docs-inline-source-reference:hover > code::before,
-  code.docs-inline-source-reference:hover::before,
-  code:has(> a.docs-inline-source-reference:hover)::before {
-    border-bottom-color: var(--code-reference-dash, var(--primary, currentColor));
-  }
 }
 .docs-inline-source-reference:focus-visible {
   outline: 2px solid var(--ring);
@@ -62,13 +30,4 @@ code:has(> a.docs-inline-source-reference:focus-visible)::before {
 .docs-inline-source-reference
   :is(.docs-brand-icon, .docs-reference-icon, .docs-reference-arrow, .docs-kamod-arrow) {
   display: none;
-}
-@media (prefers-reduced-motion: reduce) {
-  :is(
-    .docs-inline-source-reference > code,
-    code.docs-inline-source-reference,
-    code:has(> a.docs-inline-source-reference)
-  )::before {
-    transition: none;
-  }
 }

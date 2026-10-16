@@ -1,10 +1,6 @@
-/* Keep prose typography and copyable text; the dotted cue only identifies explained terms. */
+/* Shared reference cues own decoration; glossary hints keep their existing help interaction. */
 code[data-inline-code-help] {
   cursor: help;
-  text-decoration-line: underline;
-  text-decoration-style: dotted;
-  text-decoration-color: color-mix(in oklab, currentColor 35%, transparent);
-  text-underline-offset: 0.2em;
 }
 code[data-inline-code-help]:focus-visible {
   outline: 2px solid var(--ring);

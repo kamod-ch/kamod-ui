@@ -1,0 +1,107 @@
+/* One cue for authored, detected, legacy-nested and glossary inline code. */
+:is(
+  .docs-inline-source-reference > code,
+  code.docs-inline-source-reference,
+  code:has(> a.docs-inline-source-reference),
+  code[data-inline-code-help]
+) {
+  --code-reference-dash: var(--primary, currentColor);
+  --inline-reference-cue: color-mix(in oklab, var(--code-reference-dash) 65%, transparent);
+  --inline-reference-arrow-opacity: 0.18;
+  --inline-reference-lift: 0px;
+  --inline-reference-weight: 0px;
+  --inline-reference-shadow: 0 0 0 transparent;
+  --inline-reference-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 9 9 3M3 3h6v6'/%3E%3C/svg%3E");
+  position: relative;
+  top: var(--inline-reference-lift);
+  text-decoration: none !important;
+  /* A tinted hairline adds ink without changing font metrics or the original fill color. */
+  -webkit-text-stroke: var(--inline-reference-weight)
+    color-mix(in oklab, var(--code-reference-dash) 45%, currentColor);
+  text-shadow: var(--inline-reference-shadow);
+  transition:
+    top 320ms ease,
+    -webkit-text-stroke-width 520ms ease,
+    text-shadow 520ms ease;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 1;
+    border-bottom: 1.5px dashed var(--inline-reference-cue);
+    pointer-events: none;
+    transition: border-color 160ms ease;
+  }
+
+  /* Empty generated content stays out of copied text and accessible names. */
+  &::after {
+    content: "";
+    position: static;
+    display: inline-block;
+    flex: none;
+    align-self: center;
+    width: 0.55em;
+    height: 0.55em;
+    margin-inline: 0.2em 0.025em;
+    border: 0;
+    vertical-align: 0.025em;
+    background: var(--code-reference-dash);
+    -webkit-mask: var(--inline-reference-arrow) center / contain no-repeat;
+    mask: var(--inline-reference-arrow) center / contain no-repeat;
+    opacity: var(--inline-reference-arrow-opacity);
+    transform: none;
+    pointer-events: none;
+    transition: opacity 320ms ease;
+  }
+}
+
+/* Keep the highlight and arrow together instead of orphaning a fragment at a line break. */
+code[data-inline-code-help]:not(.path-display) {
+  display: inline-block;
+  width: fit-content;
+  max-width: 100%;
+}
+
+:is(
+  .docs-inline-source-reference:focus-visible > code,
+  code.docs-inline-source-reference:focus-visible,
+  code:has(> a.docs-inline-source-reference:focus-visible),
+  code[data-inline-code-help]:focus-visible
+) {
+  --inline-reference-cue: var(--code-reference-dash);
+  --inline-reference-arrow-opacity: 1;
+  --inline-reference-lift: -0.25px;
+  --inline-reference-weight: 0.08px;
+  --inline-reference-shadow: 0 0 0.12px color-mix(in oklab, currentColor 12%, transparent);
+}
+@media (hover: hover) and (pointer: fine) {
+  :is(
+    .docs-inline-source-reference:hover > code,
+    code.docs-inline-source-reference:hover,
+    code:has(> a.docs-inline-source-reference:hover),
+    code[data-inline-code-help]:hover
+  ) {
+    --inline-reference-cue: var(--code-reference-dash);
+    --inline-reference-arrow-opacity: 1;
+    --inline-reference-lift: -0.25px;
+    --inline-reference-weight: 0.08px;
+    --inline-reference-shadow: 0 0 0.12px color-mix(in oklab, currentColor 12%, transparent);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :is(
+    .docs-inline-source-reference > code,
+    code.docs-inline-source-reference,
+    code:has(> a.docs-inline-source-reference),
+    code[data-inline-code-help]
+  ) {
+    top: 0;
+    transition: none;
+    &::before,
+    &::after {
+      transition: none;
+    }
+  }
+}

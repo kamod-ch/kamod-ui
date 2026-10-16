@@ -152,9 +152,10 @@ not complete compiler-level scope analysis.
 Generated anchors preserve highlighted token colors and copied text. The resolver
 accepts supported web/application destinations, rejects unsafe schemes, and
 escapes generated attributes. Folding and wrapping keep links attached to the
-same source characters. Inline and source references share a 35%-opacity dashed cue that strengthens
-fully on hover or focus. Slow visual weight through text shadow preserves glyph
-widths and Prism ink; the cue paints above highlighted inline backgrounds.
+same source characters. Source and inline references share a primary dashed cue,
+resting at 35% in snippets and 65% in prose, then reaching full color on hover or
+focus. Slow glyph-stroke emphasis preserves widths and Prism ink. Inline chips
+add a tiny arrow and barely visible lift, with their cue above the highlight.
 
 ### Shared controls retain their existing ownership
 
@@ -674,6 +675,30 @@ tests, docs typecheck/build and root Oxlint/Oxfmt/Biome pass. Final Chrome check
 cover four viewport widths in both appearances and the new interaction case,
 including 4.5:1 label contrast across all sixteen preset appearances. Default and
 hover states were also inspected visually on desktop light and mobile dark.
+
+### Subtle detected-inline-code feedback
+
+All detected prose references and glossary hints now share a 65% primary dashed
+underline and full-color hover/keyboard cue. A tiny empty-content CSS-mask arrow
+uses the same underline color at 18% opacity normally and 100% on interaction.
+Original code strings, copy output, accessible names and reference metadata stay
+unchanged. The icon reserves its space in both states, and no icon DOM nodes are
+inserted into prose.
+
+A 0.08px glyph stroke carries the optional 45% underline-color tint, with a 0.12px, 12%-opacity
+ink shadow for barely visible weight/visibility feedback. A quarter-pixel upward
+offset is similarly restrained; emphasis transitions over 520ms and movement over
+320ms. Reduced motion removes transitions and the lift. A dedicated inline cue
+stylesheet covers authored, detected, glossary and legacy nested shapes, leaving
+the existing delegated help controller and source snippet styles intact. No new
+JavaScript, timers, listeners, observers, fonts or perpetual effects are introduced.
+Short glossary chips stay atomic so their highlight and arrow cannot orphan at a
+line break. The 58 focused reference tests, docs typecheck/build and root
+Oxlint/Oxfmt/Biome pass. All fourteen affected production Chrome cases pass,
+including exact text/navigation, lazy help, source-snippet regressions, touch and
+keyboard operation, legacy links, both appearances, narrow/desktop bounds,
+hover-width stability and reduced motion. Final default/hover screenshots were
+inspected on desktop light and mobile dark.
 
 ## Review map
 

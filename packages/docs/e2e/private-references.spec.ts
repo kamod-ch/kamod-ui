@@ -182,6 +182,9 @@ for (const scheme of ["light", "dark"] as const) {
           emphasis: code.webkitTextStrokeWidth,
           strokeColor: code.webkitTextStrokeColor,
           width: chip.getBoundingClientRect().width,
+          lift: code.top,
+          shadow: code.textShadow,
+          arrow: getComputedStyle(chip, "::after").opacity,
           transition: css.transitionDuration,
         };
       });
@@ -189,16 +192,21 @@ for (const scheme of ["light", "dark"] as const) {
       await page.setViewportSize({ width, height: 1000 });
       await term.scrollIntoViewIfNeeded();
       await page.mouse.move(1, 1);
-      await expect.poll(async () => (await appearance()).line).toMatch(/\/ 0\.35\)/);
+      await expect.poll(async () => (await appearance()).line).toMatch(/\/ 0\.65\)/);
+      await expect.poll(async () => (await appearance()).arrow).toBe("0.18");
+      await expect.poll(async () => (await appearance()).emphasis).toBe("0px");
+      await expect.poll(async () => (await appearance()).lift).toBe("0px");
       const before = await appearance();
       expect(before.emphasis).toBe("0px");
+      expect(before.arrow).toBe("0.18");
+      expect(before.lift).toBe("0px");
       expect(before.transition).toContain("0.52s");
       expect(before.style).toBe("dashed");
       expect(before.thickness).toBe("1.5px");
       expect(before.outerBorder).toBe("0px");
       expect(before.decoration).toBe("none");
       expect(before.codeDecoration).toBe("none");
-      expect(before.line).toMatch(/\/ 0\.35\)/);
+      expect(before.line).toMatch(/\/ 0\.65\)/);
       expect(await term.locator("svg").count()).toBe(0);
       // Computed border styles alone missed a dash hidden behind the chip's background.
       const chip = term.locator("code");
@@ -210,10 +218,13 @@ for (const scheme of ["light", "dark"] as const) {
       await hideCue.evaluate((node) => node.remove());
       await term.hover();
       await expect.poll(async () => (await appearance()).line).toBe(before.primary);
-      await expect.poll(async () => (await appearance()).emphasis).toBe("0.2px");
+      await expect.poll(async () => (await appearance()).emphasis).toBe("0.08px");
       expect((await appearance()).color).toBe(before.color);
-      expect((await appearance()).strokeColor).toBe(before.color);
+      expect((await appearance()).strokeColor).not.toBe(before.color);
       expect((await appearance()).width).toBe(before.width);
+      await expect.poll(async () => (await appearance()).arrow).toBe("1");
+      await expect.poll(async () => (await appearance()).lift).toBe("-0.25px");
+      expect((await appearance()).shadow).not.toBe("none");
       const card = page.getByRole("dialog", { name: "useCounter reference", exact: true });
       await expect(card.locator('[data-reference-kind="function"]')).toBeVisible();
       const badge = card.locator(".code-reference-help-kind");
@@ -241,12 +252,13 @@ for (const scheme of ["light", "dark"] as const) {
     );
     const legacyCue = () =>
       legacy.evaluate((node) => getComputedStyle(node, "::before").borderBottomColor);
-    await expect.poll(legacyCue).toMatch(/\/ 0\.35\)/);
+    await expect.poll(legacyCue).toMatch(/\/ 0\.65\)/);
     await legacy.locator("a").focus();
-    await expect.poll(legacyCue).not.toMatch(/\/ 0\.35\)/);
+    await expect.poll(legacyCue).not.toMatch(/\/ 0\.65\)/);
     await page.keyboard.press("Escape");
     await page.emulateMedia({ reducedMotion: "reduce" });
     await term.focus();
+    await expect(term.locator("code")).toHaveCSS("top", "0px");
     await expect(term).toHaveCSS("transition-duration", "0s");
     expect(
       await term
