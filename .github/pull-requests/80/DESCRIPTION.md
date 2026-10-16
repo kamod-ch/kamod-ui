@@ -293,7 +293,7 @@ The authored Signals guide/ecosystem URLs now use that same canonical repository
 Motion package resources use the real `packages/motion` workspace and each adapter
 source directory; the cn resource points directly to its implementation.
 
-Package/module cards lead with source in their origin and footer, alongside an
+Package/module cards lead with source in their origin and final reference index, alongside an
 independently chosen local integration link. Specific destinations cover global
 CSS, Code stylesheet ownership, presets, tokens and known third-party integrations.
 Stylesheet imports avoid unrelated JavaScript contracts. Private Blocks/Docs
@@ -308,76 +308,70 @@ source-first resources, keyboard flow and 320/1440px layouts in both appearances
 
 ### ReferenceTooltip reading layout
 
-The shared private tooltip retains its icon/name heading with one compact type
-badge and a square chain-link action to the chosen main destination. The badge
-uses the page inline-code highlight, slightly softer 4px corners, 11px/500 text
-and a 10.5px outline icon with a stronger 2.5 stroke. The badge stays 22px high; the destination action is a slightly smaller-than-standard
-28px square with a 15px primary-colored chain icon at stroke 3. Technology uses an angular circuit-board symbol in the badge;
-its main heading uses a verified technology logo where available, with React's
-mark also representing Preact. The 30px main icon is itself a native destination
-link, with a slightly stronger 2.25 stroke and the same paint/interaction as the
-chain button. Without a verified destination, it stays decorative. The action
-reuses the standard icon-button interaction with a stronger inverse-card surface (17% resting, 25% active), an
-accessible name and top-frame navigation; it is omitted without a verified URL.
+The shared private tooltip has a linked title and technology/component icon, one
+compact type badge, and a chain action exactly matching the badge's 22px height,
+background and ink. Its smaller chain uses a lighter stroke; the badge icon is
+slightly larger. Other compact source actions use the main icon's subtle surface
+and accent. Buttons remain stationary and change only their background on hover.
+The title's tiny, normal-weight subline shows the actual destination plus a real
+reference fact, such as a required field, source branch or saved-excerpt count.
+Verified technology logos remain confined to the main icon; the type badge keeps
+the generic circuit-board mark.
 
-The second row begins directly with the exact, copyable path, followed by a slash
-and a short purpose phrase. Known core entrypoints have authored labels such as
-“Expandable content” and “Appearance controls”; technologies reuse concise roles
-such as “Utility styling” and “Typed JavaScript.” Safe family fallbacks cover
-other references without manufacturing context from clipped source descriptions.
-Both path and context stay on one line and yield to narrow space. Source/guide
-shortcuts move into the bottom reading shelf, deduplicated against each other
-and the primary resource. No redundant prefix or origin badge remains.
+The origin row preserves the exact copyable path and a one-line purpose after a
+slash, both using primary reading ink. Descriptions retain source-backed prose
+with safe code, emphasis and local/HTTP(S) links. The smaller 8.5px postscript now
+uses the same primary ink, preserving useful alias, license and contract caveats
+without a second badge or duplicate execution warning.
 
-Descriptions retain source-backed content and support safe code, emphasis and
-explicit HTTP(S)/local links. A separate postscript follows after a restrained
-10px gap, with 8.5px text at 40% ink. It preserves alias/license/declaration detail
-and carries the family-specific caveat previously in the footer, avoiding a
-repeated command-execution warning. Emphasis, links and code remain available
-without making this supporting note compete with the main description.
+Substantive chapters reuse actual page components: BlockPropsTable for documented
+props/defaults, core TypeDefinition for real source declarations, Code for source
+excerpts, and Table for concise contextual facts. Build-time literal extraction
+reads authored setup and API data without executing documentation pages or
+mounting their demos. Components receive merged install/import guidance before
+relevant props and local declarations; blocks reuse their verified dependency,
+variant import and source-contract metadata. Sibling component/hook rows are
+excluded from an export's own table. Direct and inherited declarations remain
+explicitly distinguished rather than inventing resolved contracts.
 
-Only substantive contracts receive detail cards. The miniature layout follows the
-source documentation's prop/type-and-usage rows and declaration toolbar. Linked,
-12px semibold headings sit above transparent, rounded cards with 30% inverse-ink
-borders. Each heading has a short clamped extension, a real count and a compact
-chain action to the same verified destination. Detail text is 8.5px, with primary
-reading ink and quieter explanations; types remain plain, wrapping code rather
-than full-width highlighted bars. Field scope appears in a tiny note below the
-card. Adjacent substantive chapters have inset separators. The full-width detail
-stage retains its faint 10% badge wash, but is omitted for a bare type name or
-simple metadata. Small facts stay beside the summary instead of becoming chapters.
+Miniatures retain the source components' page colors, borders and hierarchy at a
+much smaller local type scale. Excerpts, rows and disclosures are bounded; complete
+content remains available through precise source links. Each borderless outer
+card has a quiet 8% purple wash over a 17%-opacity version of the showcase pattern.
+Very small linked headings, short dot-separated extensions and inset rules order
+the chapters. Compact source actions sit inside their cards; centered notes below
+start with the exact referenced section and add a scope or integration caveat.
+Header, content stage and ending share the same base reading background.
 
-All link-only content moves to a separate bottom reading shelf, after a full-width
-rule and with a very faint surface wash. Compact Contracts and Resources groups
-use wrapping, highlighted code chips with meaningful icons and destination hints.
-Existing type, props, source and guide links remain available; no link collection
-is disguised as a content card.
+One final **Reference index** replaces the separate related-reading shelf and
+sticky action footer. It includes every distinct verified contract, source, page
+and chapter destination, including the selected primary resource. Small wrapping
+underlined links pair their label with `/` and a tiny resource-kind label; native
+hints explain each destination. Contracts and resources remain easy to scan, and
+a factual local/external count closes the index without another action row.
 
-A second full-width rule introduces the compact sticky footer. A quiet book-led
-“Full context linked” cue closes the preview on the left, with up to four distinct,
-verified resource actions on the right. The selected primary URL remains first,
-including source-first packages; source, guide, type and props shortcuts follow
-from existing metadata. Buttons are 28px high with 14px primary-colored, stronger
-icons. Short labels give way to icons on narrow screens, retaining complete
-accessible names. The reading shelf preserves destinations beyond the shortcut limit.
+The saved technology catalog contains 90 technologies with two authored chapters
+each. Examples and integration boundaries are specific to the technology; optional
+alternatives are not presented as installed dependencies. All 180 chapters stay in
+the existing lazy technology family, while the eager index retains identities and
+destinations only. Opening a card performs no web lookup or page scraping.
 
-Resource hints reuse the core Tooltip primitive and render only within the open
-card. Their descriptive heading, emphasized explanation and exact destination
-help users choose a resource. Position them across the footer inside the scrolling
-card so narrow-screen hints do not escape or clip against its sides. Existing
-keyboard return, top-frame navigation, lazy loading and failure behavior remain
-intact; primitive-owned hint timers and observers clean up with the card.
+Long cards contain wheel scrolling at their boundaries, so scrolling to the end
+cannot chain into a page-scroll dismissal. A 350ms departure grace permits crossing
+the trigger/card gap and cancels on reentry. Unrelated pointer/focus departures and
+native-scrollbar focus loss no longer dismiss the active reference. Escape,
+route/outside-scroll dismissal, focus return and observer/timer cleanup remain
+covered. The loading state reads “Following the reference...”, aligns a spinner
+with that heading, removes the repeated module row and uses varied shimmering
+skeleton blocks with a much smaller note and reduced-motion fallback.
 
-Tiny declarations reuse the existing grammar in a separate lazy module, requested
-only for references with a contract. Literal text is the immediate fallback, and
-these fragments mount no reader toolbar, observers or token-level listeners.
-A local error boundary retains plain code and navigation if the optional syntax
-chunk fails, keeping that failure away from the page boundary.
-Focused presentation helpers own resource selection, safe prose, contracts and
-related reading. ReferenceSection owns substantive chapter headers; ReferenceFacts
-keeps metadata compact, and reference-resources shares resource icons and hint copy
-between the reading shelf and footer. Production checks cover seven families at 320/768/1440px in both
-appearances, plus the existing loading, source, keyboard and dismissal cases.
+Source coloring stays optional and lazy. Actual Code miniatures disable copying,
+reference recursion and layout-observer controls; a local error boundary preserves
+literal text and navigation when the grammar chunk fails. Focused helpers own
+source extraction, source-section selection, miniature rendering, compact chapter
+structure and deduplicated resources. Browser coverage checks seven reference
+families at 320/768/1440px in both appearances, alongside source navigation,
+loading/failure, scroll containment, hover reentry and keyboard dismissal.
 
 ### Showcase Prompts and download feedback
 

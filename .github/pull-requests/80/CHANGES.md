@@ -1265,3 +1265,42 @@ Desktop light/mobile dark headings, reference pairs, page endings and repository
 cards were inspected. Final viewport captures used fresh contexts to avoid saved
 reload-position restoration interfering with screenshots. No new Safari/WebKit
 coverage is claimed. Private reference guides and context remain excluded.
+
+## 49. Source-backed reference miniatures, saved technology chapters and scroll retention
+
+- **Read long references without accidental dismissal.** Contain wheel scrolling at the card boundary, extend pointer departure grace to 350ms and cancel it on reentry. Ignore departures from unrelated page elements and native-scrollbar focus loss while retaining deliberate outside clicks, page scrolls, route changes and Escape dismissal. Add controller ownership/reentry/cleanup regressions and production boundary-wheel/reentry checks.
+- **A tighter linked heading.** Link the main title and retain verified technology logos. Align the title, main icon and badge/actions at the top. Add a tiny normal-weight destination line with a useful source fact, such as the actual branch or required input. Keep one 22px badge with a larger 12px icon; match the chain action to its height and paint, using a smaller, lighter 11px chain.
+- **Stationary actions and primary reading ink.** Use only a quiet background change on tooltip buttons, with no hover movement, shadow or ink/stroke change. Give the main icon the badge's background ink over a subtler surface; use that palette for other compact actions. Keep the origin slash/context and tiny postscript in primary reading ink.
+- **Real source components at miniature density.** Replace the bespoke props/declaration presentation with the actual BlockPropsTable, core Code, TypeDefinition and Table components. Preserve source-page surfaces, colors and layout, reducing typography and spacing locally. Bound fields, code lines, characters and source disclosures; preserve complete destinations and literal text when optional grammar loading fails.
+- **Setup before contracts.** Extract literal setup/import snippets and documented API rows/defaults at build time without importing or executing documentation pages. Merge component installation/import guidance into the first chapter. Blocks reuse their registered dependency list, actual variant import and copied-source contracts, with verified guide sections and source files.
+- **Exact ownership and honest scope.** Select the current component's documented rows, exclude sibling component/hook entries in aggregate tables, and preserve declared field requirements. Show source type declarations in real disclosures; keep inherited/imported types named rather than inventing flattened contracts. Omit empty or bare-name chapters.
+- **Quiet chapter framing.** Shrink linked subsection headings/icons, clamp their dot-separated extensions, and remove header action buttons. Put each compact source action inside its borderless card with a detailed destination hint. Use an 8% purple wash over a 17%-opacity version of the showcase pattern, with inset rules between chapters. Center continuation notes beneath each card, beginning with the precise source section and adding an integration/scope caveat.
+- **One compact ending index.** Remove the sticky footer and merge all its destinations, related contracts and chapter links into a deduplicated Reference index. Keep small wrapping underlined links, tiny `/` resource labels, Contracts/Resources grouping, detailed native destination hints and factual local/external counts. Header, detail stage and ending share their base background.
+- **Ninety technologies, 180 saved chapters.** Add source-specific examples, configuration notes and integration boundaries for every catalog entry, including fourteen missing tools/formats/integrations. Cover all direct external workspace dependencies through tested technology owners. Keep optional alternatives clearly distinguished from installed packages; persist all content in the lazy technology payload without runtime scraping or network lookup.
+- **Deployment-safe section navigation.** Prefix local section and definition destinations exactly once and preserve external sources. Validate saved local page and fragment destinations against the generated inventory; reject missing technology profiles rather than fabricating generic filler.
+- **A smaller animated loading state.** Change the heading to “Following the reference...”, align a spinner with it, remove the repeated module row and replace the right dot. Add varied shimmering skeleton shapes, a much smaller note and reduced-motion handling; keep failure navigation available.
+- **Focused regression coverage.** Cover literal extraction, real table defaults, aggregate ownership, real source disclosures, bounded reader content, zero miniature layout observers, technology completeness, deployment prefixes and source links. Update the production seven-family matrix for both appearances at 320/768/1440px, matching controls, background-only hover, bounded scrolling, keyboard return and grammar fallback.
+
+### Source-miniature verification
+
+Workspace typechecking and **all1,577 test:ci tests** pass:11 themes,427 core,
+19 OpenUI,25 motion,194 blocks and901 docs. The full901-test documentation suite
+passes again after forward-only source selection; all41 focused help checks pass
+after final requirement-label and complete-index refinements. Production docs
+build, root Oxlint, Oxfmt and Biome, commit hooks and diff checks pass.
+
+The production Chrome coverage comprises **30 distinct reference cases**, including
+the seven-family matrix at320/768/1440px in both appearances, loading and grammar
+failure, exact package/source classification, native navigation, inline syntax,
+keyboard/touch, boundary-wheel containment and pointer reentry. Both hover-color
+cases also pass three fresh-context repetitions each. The final source-ownership
+check confirms DirectionProviderProps/DirectionValue remain in its chapter while
+DirectionProps stays available only in the related index. Additional light-desktop
+and dark-mobile matrices pass after that selection refinement. Desktop, tablet
+and narrow-phone component/technology/block captures were inspected with no
+horizontal overflow or page errors; small code-reader gaps and the narrow index
+heading were corrected during that review. No new Safari/WebKit result is claimed.
+
+The refreshed upstream main remains an ancestor of the feature branch; no merge
+conflict or fork divergence required resolution. Private reference guides and
+contributor context were updated locally and remain excluded from commits.
