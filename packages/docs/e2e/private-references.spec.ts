@@ -204,7 +204,7 @@ for (const scheme of ["light", "dark"] as const) {
       originalFontSize = before.fontSize;
       expect(before.emphasis).toBe("0px");
       expect(before.arrow).toBe("none");
-      expect(before.weight).toBe("400");
+      expect(before.weight).toBe("500");
       expect(before.lift).toBe("0px");
       expect(before.transition).toBe("0.36s");
       expect(before.transitionProperty).toBe("all");
@@ -229,13 +229,13 @@ for (const scheme of ["light", "dark"] as const) {
       await expect.poll(async () => (await appearance()).line).toBe(before.primary);
       await expect.poll(async () => (await appearance()).emphasis).toBe("0.08px");
       expect((await appearance()).color).toBe(before.color);
-      await expect.poll(async () => (await appearance()).weight).toBe("450");
+      await expect.poll(async () => (await appearance()).weight).toBe("550");
       await expect
         .poll(async () => (await appearance()).fontSize)
         .toBeCloseTo(before.fontSize + 0.15, 2);
       expect((await appearance()).width).toBeLessThan(before.width * 1.04);
       expect((await appearance()).arrow).toBe("none");
-      await expect.poll(async () => (await appearance()).lift).toBe("-0.5px");
+      await expect.poll(async () => (await appearance()).lift).toBe("0px");
       const card = page.getByRole("dialog", { name: "useCounter reference", exact: true });
       await expect(card.locator('[data-reference-kind="function"]')).toBeVisible();
       const badge = card.locator(".code-reference-help-kind");

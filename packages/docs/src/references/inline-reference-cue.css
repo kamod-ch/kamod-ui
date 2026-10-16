@@ -7,12 +7,11 @@
 ) {
   --code-reference-dash: var(--primary, currentColor);
   --inline-reference-cue: color-mix(in oklab, var(--code-reference-dash) 65%, transparent);
-  --inline-reference-lift: 0px;
   --inline-reference-growth: 0px;
-  --inline-reference-font-weight: 400;
+  --inline-reference-font-weight: 500;
   --inline-reference-stroke: 0px;
   position: relative;
-  top: var(--inline-reference-lift);
+  top: 0;
   text-decoration: none !important;
   /* The hairline keeps weight changes smooth even with a static monospace font. */
   -webkit-text-stroke: var(--inline-reference-stroke) currentColor;
@@ -53,9 +52,8 @@ code[data-inline-code-help]:not(.path-display) {
   code[data-inline-code-help]:focus-visible
 ) {
   --inline-reference-cue: var(--code-reference-dash);
-  --inline-reference-lift: -0.5px;
   --inline-reference-growth: 0.15px;
-  --inline-reference-font-weight: 450;
+  --inline-reference-font-weight: 550;
   --inline-reference-stroke: 0.08px;
 }
 @media (hover: hover) and (pointer: fine) {
@@ -66,9 +64,8 @@ code[data-inline-code-help]:not(.path-display) {
     code[data-inline-code-help]:hover
   ) {
     --inline-reference-cue: var(--code-reference-dash);
-    --inline-reference-lift: -0.5px;
     --inline-reference-growth: 0.15px;
-    --inline-reference-font-weight: 450;
+    --inline-reference-font-weight: 550;
     --inline-reference-stroke: 0.08px;
   }
 }
@@ -79,7 +76,6 @@ code[data-inline-code-help]:not(.path-display) {
     code:has(> a.docs-inline-source-reference),
     code[data-inline-code-help]
   ) {
-    top: 0;
     --inline-reference-growth: 0px !important;
     transition: none;
     &::before {
