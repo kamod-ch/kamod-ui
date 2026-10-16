@@ -38,12 +38,16 @@ export const technologies: Technology[] = [
         ? ["Tailwind CSS", "tailwindcss", "tailwind-css"]
         : name === "Node.js"
           ? ["Node", "nodejs"]
-          : name === "Next.js"
-            ? ["Nextjs"]
-            : [],
+          : name === "TypeScript"
+            ? ["TS", "typscript"]
+            : name === "JavaScript"
+              ? ["JS"]
+              : name === "Next.js"
+                ? ["Nextjs"]
+                : [],
     guide:
       name === "Tailwind"
-        ? "/docs/theming/css-setup"
+        ? "/docs/theming/installation#css-setup"
         : name === "Preact"
           ? "/docs/getting-started"
           : undefined,
@@ -163,7 +167,7 @@ export const technologies: Technology[] = [
     href: "https://www.w3.org/Style/CSS/",
     category: "Web language",
     description: "Styles document layout, typography, colors and interaction states.",
-    guide: "/docs/theming/css-setup",
+    guide: "/docs/theming/installation#css-setup",
   },
   {
     name: "JSX",
@@ -466,5 +470,111 @@ export const technologies: Technology[] = [
     category: "Test environment",
     description:
       "Implements web-platform APIs in JavaScript for tools and tests; it is not a full browser.",
+  },
+  {
+    name: "Blobatar",
+    href: "https://github.com/Alain00/blobatar",
+    category: "Generated avatars",
+    description:
+      "Generates repeatable avatar artwork. The optional SmartAvatar documentation recipe connects it to Kamod’s Avatar primitive.",
+    guide: "/docs/avatar/installation#smartavatar-recipe",
+  },
+  {
+    name: "fflate",
+    href: "https://github.com/101arrowz/fflate",
+    category: "Archive tooling",
+    description:
+      "Encodes, compresses and reads archive data. Documentation build scripts use it to generate downloadable block source ZIPs.",
+  },
+  {
+    name: "axe-core",
+    aliases: ["axe"],
+    href: "https://github.com/dequelabs/axe-core",
+    category: "Accessibility testing",
+    description:
+      "Runs automated accessibility rules against rendered content. Its findings complement keyboard and assistive-technology review.",
+  },
+  {
+    name: "preact-render-to-string",
+    href: "https://github.com/preactjs/preact-render-to-string",
+    category: "Server rendering",
+    description:
+      "Converts a Preact tree into HTML for server rendering and markup checks without running browser layout or client-side effects.",
+  },
+  {
+    name: "tw-animate-css",
+    href: "https://github.com/Wombosvideo/tw-animate-css",
+    category: "Animation styles",
+    description:
+      "Provides CSS animation utilities imported by the documentation stylesheet. Keep CSS animation and motion presets from competing on the same node.",
+    guide: "/docs/ui-motion/installation",
+  },
+  {
+    name: "Lefthook",
+    href: "https://lefthook.dev/",
+    category: "Git hooks",
+    description:
+      "Runs configured Git hooks, including this repository’s checks over staged source files before a commit.",
+  },
+  {
+    name: "Knip",
+    href: "https://knip.dev/",
+    category: "Dependency auditing",
+    description:
+      "Finds candidates for unused files, exports and dependencies using the configured project entry points.",
+  },
+  {
+    name: "Syncpack",
+    href: "https://jamiemason.github.io/syncpack/",
+    category: "Workspace dependencies",
+    description:
+      "Checks dependency-version declarations across workspace packages while preserving the different roles of peer and development dependencies.",
+  },
+  {
+    name: "publint",
+    href: "https://publint.dev/",
+    category: "Package validation",
+    description:
+      "Checks a built package’s publication metadata and entry points before it is consumed or published.",
+  },
+  {
+    name: "Are the Types Wrong",
+    aliases: ["AreTheTypesWrong", "attw"],
+    href: "https://arethetypeswrong.github.io/",
+    category: "Type resolution",
+    description:
+      "Inspects how a package’s declaration files resolve alongside its runtime exports in different consumer module environments.",
+  },
+  {
+    name: "GitHub Actions",
+    href: "https://docs.github.com/en/actions",
+    category: "Continuous integration",
+    description:
+      "Runs repository workflows as jobs and steps associated with a trigger and a specific commit revision.",
+  },
+  {
+    name: "YAML",
+    aliases: ["YML"],
+    href: "https://yaml.org/spec/1.2.2/",
+    category: "Configuration format",
+    description:
+      "Represents structured values with mappings, sequences and indentation. This workspace uses it for package and hook configuration.",
+  },
+  {
+    name: "Radix UI",
+    aliases: ["Radix"],
+    href: "https://www.radix-ui.com/primitives/docs/overview/introduction",
+    category: "Component primitives",
+    description:
+      "A component-primitives reference mentioned in the guides. Kamod implements its own Preact behavior and does not require Radix for native blocks.",
+  },
+  {
+    name: "Sass",
+    aliases: ["SCSS"],
+    href: "https://sass-lang.com/documentation/",
+    category: "Stylesheet language",
+    description:
+      "A stylesheet language compiled to CSS. Kamod’s current theme integration uses CSS imports and runtime custom properties.",
+    guide: "/docs/theming/installation#css-setup",
   },
 ];
