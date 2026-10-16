@@ -1189,3 +1189,25 @@ transitions. Reduced-motion coverage caught and verified a root selector priorit
 fix; transitions, growth and lift now stop as intended. Desktop light/mobile dark
 rest/hover captures were inspected, and glossary feedback was checked directly.
 No new Safari/WebKit coverage is claimed.
+
+## 46. Quiet postscripts, a tinted detail stage and a compact resource footer
+
+- **Useful last mentions.** Retain source-specific supporting detail and append the family's version/contract caveat below the main description; avoid repeating the command execution warning. Increase the description-to-note gap from 7px to 10px, reduce the note from 10px to 8.5px and use exactly 40% inverse ink. Preserve safe code, emphasis and links at that quieter scale.
+- **Full-width detail chapter.** Group the existing contracts, facts and related-reading panels inside one separated stage. Give it a faint 10% mix of the actual type-badge/page-code highlight and a full-container rule above. Omit an empty detail stage when no verified content exists.
+- **Compact closing row.** Follow the detailed content with a second full-width rule and a smaller sticky footer. Use a quiet book icon and “Full context linked” on the left, with a truthful “Quick reference” fallback when no destinations exist.
+- **Verified resource actions.** Keep the selected primary resource first and add at most one distinct source/guide from existing verified reading metadata. Preserve package-source priority, base prefixes, accessible names, top-frame navigation, existing body references and absent-resource behavior. Use Source/Guide/Docs icon buttons, with icon-only presentation on narrow screens.
+- **Descriptive resource hints.** Reuse the core Tooltip for hover/focus explanations with a resource heading, emphasized purpose and highlighted exact destination. Anchor the hint across the footer within the scrolling parent, retaining core delay, hover retention and cleanup behavior. Mount at most two hint primitives only for the currently open card.
+- **Focused ownership.** Extract ReferenceFooter and its resource-action presentation from the main card; reuse ReferenceSentence for hint emphasis. Keep resource selection in the existing presentation helper and use shared icon-button paint rather than a separate interaction implementation.
+- **Regression updates.** Check primary/secondary URLs, resource bounds and closed initial hints in existing card tests. Extend the production matrix for 40%/8.5px postscripts, full-width rules, compact actions, and focused hint content/bounds/dismissal across 320/768/1440px in both appearances. Preserve exact source, grammar fallback, touch/keyboard and related-reading coverage.
+
+### Reading-stage verification
+
+All **885 documentation tests in 92 files**, final docs typecheck and production
+build, root Oxlint/Oxfmt/Biome and diff checks pass. All **14 affected production
+Chrome cases** pass in the final combined run: seven reference families at
+320/768/1440px in both appearances, 40%/8.5px postscripts, full-width stage/footer
+rules, bounded resource actions, focused hint content/bounds/dismissal, native
+navigation, source priority, lazy help and failed-grammar fallback. Desktop light
+and mobile dark cards and resource hints were visually inspected; direct checks
+also cover pointer retention over the hint, Escape dismissal, focus return and
+no page errors. No new Safari/WebKit coverage is claimed.

@@ -327,19 +327,33 @@ shortcuts move into the related-reading panel, deduplicated against each other
 and the primary resource. No redundant prefix or origin badge remains.
 
 Descriptions retain source-backed content and support safe code, emphasis and
-explicit HTTP(S)/local links. Smaller, quieter supporting detail explains aliases,
-licenses or the limits of a declaration summary. Every family has a useful fallback
-reading note, with slightly fuller contract/signature guidance. Contract fields,
-reference facts and related reading each have their own compact bordered panel. Required/optional
+explicit HTTP(S)/local links. A separate postscript follows after a restrained
+10px gap, with 8.5px text at 40% ink. It preserves alias/license/declaration detail
+and carries the family-specific caveat previously in the footer, avoiding a
+repeated command-execution warning. Emphasis, links and code remain available
+without making this supporting note compete with the main description.
+
+Detailed contracts, facts and related reading sit in one full-width stage, with
+a rule above and a 10% wash of the actual type-badge highlight. Individual panels
+retain their existing compact structure and bounded source-backed content. Required/optional
 labels, actual counts, highlighted types and role captions make the content easier
 to scan. Related resources use two columns when space allows and stack on narrow
 screens; a bare props type name stays an inline chip instead of a nested code box.
 
-The footer has one primary link on the right and a subtle family-specific context
-note on the left. It stays visible when long contents scroll, while secondary
-source/guide resources remain in the related panel. Existing package-source
-priority, accessible names, top-frame navigation, focus return and
-failure/loading behavior remain intact.
+A second full-width rule introduces the compact sticky footer. A quiet book-led
+“Full context linked” cue closes the preview on the left, with up to two verified
+resource actions on the right. The first retains the selected primary URL,
+including source-first packages; a distinct source/guide reference fills the
+optional second action. Short labels give way to icons on narrow screens, with
+full accessible names retained. Related-reading destinations remain available in
+the body, so this footer adds useful shortcuts without displacing type links.
+
+Resource hints reuse the core Tooltip primitive and render only within the open
+card. Their descriptive heading, emphasized explanation and exact destination
+help users choose a resource. Position them across the footer inside the scrolling
+card so narrow-screen hints do not escape or clip against its sides. Existing
+keyboard return, top-frame navigation, lazy loading and failure behavior remain
+intact; primitive-owned hint timers and observers clean up with the card.
 
 Tiny declarations reuse the existing grammar in a separate lazy module, requested
 only for references with a contract. Literal text is the immediate fallback, and

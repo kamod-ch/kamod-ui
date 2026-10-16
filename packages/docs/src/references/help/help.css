@@ -2,6 +2,7 @@
 [data-slot="tooltip"] [data-slot="tooltip-content"].code-reference-help {
   --code-help-muted: color-mix(in oklab, var(--background) 76%, transparent);
   --code-help-quiet: color-mix(in oklab, var(--background) 65%, transparent);
+  --code-help-postscript: color-mix(in oklab, var(--background) 40%, transparent);
   --code-help-rule: color-mix(in oklab, var(--background) 12%, transparent);
   --code-help-surface: color-mix(in oklab, var(--background) 4%, transparent);
   padding: 0.875rem;
@@ -71,7 +72,12 @@
   height: 0.65625rem;
 }
 /* Reuse the site's icon action, adapting its paint to this inverse reading surface. */
-.code-reference-help :is(.code-reference-help-kind-icon, .code-reference-help-open) {
+.code-reference-help
+  :is(
+    .code-reference-help-kind-icon,
+    .code-reference-help-open,
+    .code-reference-help-resource-action
+  ) {
   --docs-icon-button-background: color-mix(in oklab, var(--background) 17%, transparent);
   --docs-icon-button-hover-background: color-mix(in oklab, var(--background) 25%, transparent);
   color: var(--code-help-muted);
@@ -82,7 +88,11 @@
   height: var(--code-help-action-size);
 }
 .code-reference-help
-  a:is(.code-reference-help-kind-icon, .code-reference-help-open):is(:hover, :focus-visible) {
+  a:is(
+    .code-reference-help-kind-icon,
+    .code-reference-help-open,
+    .code-reference-help-resource-action
+  ):is(:hover, :focus-visible) {
   color: var(--background);
 }
 .code-reference-help-origin {
@@ -135,7 +145,7 @@
 }
 .code-reference-help-summary {
   display: grid;
-  gap: 0.4375rem;
+  gap: 0.625rem;
   color: color-mix(in oklab, var(--background) 90%, transparent);
   line-height: 1.65;
 }
@@ -144,9 +154,26 @@
   font-weight: 600;
 }
 .code-reference-help-summary .code-reference-help-detail {
-  color: var(--code-help-quiet);
-  font-size: 0.625rem;
-  line-height: 1.6;
+  color: var(--code-help-postscript);
+  font-size: 0.53125rem;
+  line-height: 1.65;
+}
+.code-reference-help .code-reference-help-summary .code-reference-help-detail :is(strong, a, code) {
+  color: inherit;
+}
+.code-reference-help .code-reference-help-summary .code-reference-help-detail code {
+  background: color-mix(in oklab, var(--background) 8%, transparent);
+  font-size: inherit;
+}
+/* A full-width chapter break with a faint wash from the actual type-badge paint. */
+.code-reference-help-content {
+  display: grid;
+  gap: 0.625rem;
+  min-width: 0;
+  margin: 0 -0.875rem -0.75rem;
+  padding: 0.75rem 0.875rem;
+  border-top: 1px solid var(--code-help-rule);
+  background: color-mix(in oklab, var(--docs-inline-code-background) 10%, transparent);
 }
 /* Badge and chips share page paint; the compact badge has slightly softer corners. */
 .code-reference-help
@@ -367,45 +394,79 @@
   justify-content: space-between;
   gap: 0.75rem;
   margin: 0 -0.875rem -0.875rem;
-  padding: 0.625rem 0.875rem 0.875rem;
+  padding: 0.5rem 0.875rem 0.625rem;
   border-top: 1px solid var(--code-help-rule);
   background: var(--foreground);
 }
 .code-reference-help-note {
   display: flex;
   align-items: center;
-  gap: 0.375rem;
+  gap: 0.3125rem;
   min-width: 0;
   color: var(--code-help-quiet);
-  font-size: 0.625rem;
+  font-size: 0.5625rem;
   line-height: 1.5;
 }
 .code-reference-help-note svg {
   flex: none;
 }
-.code-reference-help .code-reference-help-primary-link {
-  display: inline-flex;
+.code-reference-help-resources {
+  display: flex;
   align-items: center;
-  gap: 0.375rem;
   flex: none;
+  gap: 0.375rem;
   margin-inline-start: auto;
-  font-size: 0.6875rem;
+}
+.code-reference-help .code-reference-help-resource-action {
+  gap: 0.3125rem;
+  height: 1.5rem;
+  min-width: 1.5rem;
+  padding-inline: 0.375rem;
+  font-size: 0.625rem;
+  font-weight: 500;
   text-decoration: none;
 }
-.code-reference-help-primary-link svg {
-  flex: none;
+/* Anchor hints to the whole footer so they remain inside the scrolling parent card. */
+.code-reference-help [data-slot="tooltip-content"].code-reference-resource-hint {
+  z-index: 3;
+  display: grid;
+  gap: 0.4375rem;
+  padding: 0.625rem;
+  border: 1px solid color-mix(in oklab, var(--foreground) 14%, transparent);
+  border-radius: 0.5rem;
+  background: var(--background);
+  color: var(--foreground);
+  font-size: 0.6875rem;
+  line-height: 1.6;
+  text-align: start;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
-.code-reference-help-primary-link > span {
-  text-decoration: underline;
-  text-decoration-color: color-mix(in oklab, currentColor 35%, transparent);
-  text-underline-offset: 0.2em;
+.code-reference-resource-hint > strong {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-weight: 600;
+}
+.code-reference-help .code-reference-resource-hint code {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  padding: 0.1875rem 0.3125rem;
+  border-radius: 3px;
+  background: var(--docs-inline-code-background);
+  color: var(--foreground);
+  font-size: 0.5625rem;
+}
+.code-reference-resource-hint > [data-slot="tooltip-arrow"] {
+  display: none;
 }
 .code-reference-help .code-reference-help-related-link:is(:hover, :focus-visible) {
   border-color: var(--code-help-rule);
   background: color-mix(in oklab, var(--background) 6%, transparent);
 }
-.code-reference-help a:is(:hover, :focus-visible),
-.code-reference-help-primary-link:is(:hover, :focus-visible) > span {
+.code-reference-help a:is(:hover, :focus-visible) {
   text-decoration-color: currentColor;
 }
 .code-reference-help-related-link:is(:hover, :focus-visible) code {
@@ -547,6 +608,9 @@
   }
   .code-reference-help-origin {
     gap: 0.375rem;
+  }
+  .code-reference-help-resource-action > span {
+    display: none;
   }
   .code-reference-help-fields > div {
     grid-template-columns: minmax(0, 1fr);

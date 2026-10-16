@@ -1,15 +1,9 @@
-import {
-  ArrowUpRightIcon,
-  BookOpenIcon,
-  FileCodeIcon,
-  InfoIcon,
-  LinkIcon,
-} from "@kamod-ch/icons/lucide";
-import { BrandGithubIcon } from "@kamod-ch/icons/tabler/filled";
+import { InfoIcon, LinkIcon } from "@kamod-ch/icons/lucide";
 import { Badge } from "@kamod-ch/ui/badge";
 import { splitDisplayPath } from "../../docs/components/display-path";
 import type { CodeReferenceHelp } from "../types";
 import { ReferenceContract } from "./reference-contract";
+import { ReferenceFooter } from "./reference-footer";
 import { referenceKinds } from "./reference-kinds";
 import { referencePresentation } from "./reference-presentation";
 import { ReferenceRelated } from "./reference-related";
@@ -34,17 +28,17 @@ function ReferencePath({ path }: { path: string }) {
 
 /** One compact reading surface, using verified facts and existing delegated tooltip behavior. */
 export function CodeReferenceHelpContent({ reference }: { reference: CodeReferenceHelp }) {
-  const { kind, name, module, description, source, facts } = reference;
+  const { kind, name, module, description, facts } = reference;
   const { Icon, label } = referenceKinds[kind];
-  const { primary, context, reading, note, caption } = referencePresentation(reference);
+  const { primary, context, reading, resources, note, caption } = referencePresentation(reference);
   const MainIcon = (kind === "technology" && technologyIcon(module)) || Icon;
   const IconTag = primary ? "a" : "span";
-  const ActionIcon =
-    primary === source
-      ? source?.href.startsWith("https://github.com/")
-        ? BrandGithubIcon
-        : FileCodeIcon
-      : BookOpenIcon;
+  const detailed = !!(
+    reference.fields?.length ||
+    reference.signature ||
+    facts?.length ||
+    reading.length
+  );
   return (
     <div class="code-reference-help-layout" data-reference-kind={kind}>
       <header class="code-reference-help-header">
@@ -104,50 +98,48 @@ export function CodeReferenceHelpContent({ reference }: { reference: CodeReferen
         {caption && (
           <p class="code-reference-help-detail">
             <ReferenceSentence text={caption} />
+            {kind !== "command" && (
+              <>
+                {" "}
+                <ReferenceSentence text={note} />
+              </>
+            )}
           </p>
         )}
       </div>
-      <ReferenceContract reference={reference} />
-      {!!facts?.length && (
-        <section
-          class="code-reference-help-panel code-reference-help-facts"
-          aria-label="Reference details"
-        >
-          <div class="code-reference-help-section-label">
-            <strong>
-              <InfoIcon size={13} aria-hidden="true" />
-              Reference details
-            </strong>
-            <span>
-              {facts.length} {facts.length === 1 ? "detail" : "details"}
-            </span>
-          </div>
-          <dl>
-            {facts.map(({ label, value }) => (
-              <div key={label}>
-                <dt>{label}</dt>
-                <dd>
-                  <ReferenceSentence text={value} />
-                </dd>
+      {detailed && (
+        <div class="code-reference-help-content">
+          <ReferenceContract reference={reference} />
+          {!!facts?.length && (
+            <section
+              class="code-reference-help-panel code-reference-help-facts"
+              aria-label="Reference details"
+            >
+              <div class="code-reference-help-section-label">
+                <strong>
+                  <InfoIcon size={13} aria-hidden="true" />
+                  Reference details
+                </strong>
+                <span>
+                  {facts.length} {facts.length === 1 ? "detail" : "details"}
+                </span>
               </div>
-            ))}
-          </dl>
-        </section>
+              <dl>
+                {facts.map(({ label, value }) => (
+                  <div key={label}>
+                    <dt>{label}</dt>
+                    <dd>
+                      <ReferenceSentence text={value} />
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </section>
+          )}
+          <ReferenceRelated reference={reference} links={reading} />
+        </div>
       )}
-      <ReferenceRelated reference={reference} links={reading} />
-      <footer class="code-reference-help-footer">
-        <span class="code-reference-help-note">
-          <InfoIcon size={12} aria-hidden="true" />
-          <span>{note}</span>
-        </span>
-        {primary && (
-          <a class="code-reference-help-primary-link" href={primary.href} target="_top">
-            <ActionIcon size={13} aria-hidden="true" />
-            <span>{primary.label}</span>
-            <ArrowUpRightIcon size={12} aria-hidden="true" />
-          </a>
-        )}
-      </footer>
+      <ReferenceFooter name={name} primary={primary} resources={resources} />
     </div>
   );
 }

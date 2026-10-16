@@ -65,11 +65,11 @@ for (const scheme of ["light", "dark"] as const) {
         expect(Math.abs(openBox.y - badgeBox.y)).toBeLessThan(1);
         await expect(open).toHaveAttribute(
           "href",
-          (await card.locator("footer a").getAttribute("href"))!,
+          (await card.locator(".code-reference-help-primary-link").getAttribute("href"))!,
         );
         await expect(open).toHaveAttribute("target", "_top");
         await expect(open).toHaveAccessibleName(
-          `Open ${await card.locator("footer a").innerText()} for ${label}`,
+          `Open ${await card.locator(".code-reference-help-primary-link").getAttribute("aria-label")} for ${label}`,
         );
         await expect(badge.locator("svg")).toHaveCSS("width", "10.5px");
         await expect(badge.locator("svg")).toHaveCSS("stroke-width", "2.5px");
@@ -119,13 +119,39 @@ for (const scheme of ["light", "dark"] as const) {
             return same;
           }),
         ).toBe(true);
-        await expect(card.locator("footer a")).toHaveCount(1);
+        expect(await card.locator("footer a").count()).toBeGreaterThanOrEqual(1);
+        expect(await card.locator("footer a").count()).toBeLessThanOrEqual(2);
+        const postscript = card.locator(".code-reference-help-detail");
+        await expect(postscript).toHaveCSS("font-size", "8.5px");
+        await expect(postscript).toHaveCSS("color", /\/ 0\.4\)/);
+        const content = card.locator(".code-reference-help-content");
+        if (await content.count()) {
+          const body = (await content.boundingBox())!;
+          const outer = (await card.boundingBox())!;
+          expect(Math.abs(body.width - (outer.width - 2))).toBeLessThan(1);
+          await expect(content).toHaveCSS("border-top-width", "1px");
+        }
+        await expect(card.locator("footer")).toHaveCSS("border-top-width", "1px");
         await expect(card.locator(".code-reference-help-note")).not.toBeEmpty();
         const bounds = (await card.boundingBox())!;
         expect(bounds.x).toBeGreaterThanOrEqual(0);
         expect(bounds.x + bounds.width).toBeLessThanOrEqual(width);
         expect(await card.evaluate((node) => node.scrollWidth <= node.clientWidth)).toBe(true);
-        if (label === "TypeScript") expect(grammars).toHaveLength(0);
+        if (label === "TypeScript") {
+          expect(grammars).toHaveLength(0);
+          const action = card.locator("footer a").last();
+          await action.focus();
+          const hint = card.getByRole("tooltip");
+          await expect(hint).toBeVisible();
+          await expect(hint.locator("p")).not.toBeEmpty();
+          await expect(hint.locator("code")).not.toBeEmpty();
+          const hintBox = (await hint.boundingBox())!;
+          expect(hintBox.x).toBeGreaterThanOrEqual(bounds.x);
+          expect(hintBox.x + hintBox.width).toBeLessThanOrEqual(bounds.x + bounds.width);
+          expect(hintBox.y).toBeGreaterThanOrEqual(bounds.y);
+          await term.focus();
+          await expect(hint).toHaveCount(0);
+        }
         if (label === "ThemeToggle") {
           await expect(card.locator(".code-reference-help-contract .token").first()).toBeAttached();
           await expect(card.locator(".code-reference-help-related")).toBeAttached();

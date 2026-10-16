@@ -110,7 +110,7 @@ test("source references reveal verified context after deliberate hover and keep 
   );
   await expect(
     card.locator('a[href$="packages/core/src/components/direction/Direction.tsx"]'),
-  ).toHaveCount(1);
+  ).toHaveCount(2);
   expect(await sample.textContent()).toBe(source);
   await card.hover();
   await expect(card).toBeVisible();

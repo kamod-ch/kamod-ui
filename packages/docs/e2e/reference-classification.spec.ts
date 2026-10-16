@@ -46,7 +46,7 @@ for (const scheme of ["light", "dark"] as const) {
       exact: true,
     });
     await expect(card.locator('[data-reference-kind="module"]')).toBeVisible();
-    const resources = card.locator(".code-reference-help-footer a");
+    const resources = card.locator(".code-reference-help-footer .code-reference-help-primary-link");
     await expect(resources).toHaveCount(1);
     await expect(resources.first()).toHaveAttribute("href", source);
     await expect(card.locator(".code-reference-help-related-link")).toHaveAttribute(

@@ -89,9 +89,18 @@ it("keeps the path and short context together, with secondary destinations in re
     within(container as HTMLElement).getByRole("link", { name: "Read source", exact: true }),
   ).toHaveAttribute("href", reference.source!.href);
   const footer = container.querySelector(".code-reference-help-footer")!;
-  expect(footer.querySelectorAll("a")).toHaveLength(1);
+  expect(footer.querySelectorAll("a")).toHaveLength(2);
+  expect(
+    within(footer as HTMLElement).getByRole("link", { name: "Read source for DirectionProvider" }),
+  ).toHaveAttribute("href", reference.source!.href);
+  expect(footer.querySelector('[role="tooltip"]')).toBeNull();
   expect(footer.querySelector("a")).toHaveAttribute("href", reference.docs!.href);
-  expect(footer.querySelector(".code-reference-help-note")).toHaveTextContent("installed version");
+  expect(footer.querySelector(".code-reference-help-note")).toHaveTextContent(
+    "Full context linked",
+  );
+  expect(container.querySelector(".code-reference-help-detail")).toHaveTextContent(
+    "installed version",
+  );
 });
 
 it("keeps package source primary and its local integration accessible in related reading", () => {
