@@ -601,13 +601,24 @@ text rendering on the documentation site; public theme font choices remain
 available to consumers.
 
 Loading and recovery pages share immediate critical styling, restrained motion,
-and clear actions. Viewport-height flex layout, safe-area insets, internally
-scrollable content, and short-window adaptations keep controls reachable on
-narrow, short, and enlarged-text displays. Rendered recovery states are tested
-separately from a static host's plain response to an unknown URL. Site-owned brand
-geometry is bundled in the main stylesheet so 404/loading/error headers match even
-if external brand CSS is unavailable, and only the appropriate light/dark symbol
-is visible. The ordinary footer retains its existing generated brand resource.
+and clear actions. Viewport-height flex layout and safe-area insets keep the
+outer document at the screen height. The analytics image remains requested but
+is explicitly 1px and positioned out of flow, removing the extra pixel after a
+full-height page. Short loading screens use tighter decorative spacing and the
+intended smaller skeleton footer, so the normal 320×568 view fits without an inner
+scroll range. The 404 illustration takes less height and recovery destinations
+use balanced two-column/stacked layouts. Header, footer, recovery and destination
+separators share a quiet 8% neutral-ink rule.
+
+Genuinely taller recovery copy remains accessible in the main scrollport on short
+or enlarged-text displays. Before startup is ready, the existing JavaScript-only
+busy marker constrains the hidden SSR document while the fixed loading overlay
+keeps its own scrolling. The rule clears at readiness and never locks no-JS
+reading. Rendered recovery states are tested separately from a static host's
+plain response to an unknown URL. Site-owned brand geometry is bundled in the
+main stylesheet so 404/loading/error headers match even if external brand CSS is
+unavailable, and only the appropriate light/dark symbol is visible. The ordinary
+footer retains its existing generated brand resource.
 
 Performance review did not justify replacing iframe isolation, adding global
 caches, or introducing another state layer. Diagnostic formatting measurements

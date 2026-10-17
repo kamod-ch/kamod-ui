@@ -1583,3 +1583,36 @@ Desktop Ocean Tailwind, Kamod Valibot, and Cursor warm phone-dark Vite/package
 subpath previews were inspected at both ends of their scroll area. The aligned
 metadata, current-page cards, compact examples, entrypoint notice and wrapping
 resource list remain readable, with no horizontal card overflow or page errors.
+
+## 60. Viewport-fitting loading and recovery pages with quiet separators
+
+- **Remove the real extra pixel.** The Matomo image previously followed the full-height app in normal flow. Give the same tracker explicit 1px dimensions and position it absolutely at the origin, preserving its URL and referrer policy while removing its contribution to document height. A deterministic loaded pixel now exercises this regression in browser tests.
+- **Fit the normal phone loading view.** At viewport heights up to 600px, use 12px main block insets, 4px loading insets, 16px skeleton top spacing and 7px shape gaps. Correct the short-window footer-shape selector so its 16px height wins over the 22px base. The 320×568 pending page has no internal scroll, without shortening its text or clipping content.
+- **Give 404 content its space.** Reduce the height-based illustration and nearby gaps. Increase the destination-grid column minimum to 15rem, producing two balanced columns at ordinary reading widths and a single column on narrow screens, without the former three-plus-one arrangement. The 1024×768 recovery page now fits without an inner scroll range.
+- **Keep startup and static reading safe.** Constrain root/body layout only while PreactPress's existing JavaScript-set `aria-busy=true` marker is present and readiness has not completed. The fixed first-paint preloader retains its own scroll region; the rule clears when ready and never locks no-JavaScript server-rendered reading.
+- **Use neutral dividers.** Share an 8% foreground-ink rule across utility header/footer borders, the 404 destination separator, recovery divider and the startup track base. Their geometry and loading motion remain unchanged; theme-tinted border paint no longer makes these lines prominent.
+- **Test actual scrolling.** Require document height to equal the viewport exactly. Normal pending frames must also have zero main-content scroll range. Short landscape and enlarged text can scroll inside their proper reading region; both ends of oversized text remain reachable. Verify no-JavaScript reading through a real wheel gesture and a reachable final reference paragraph.
+
+### Utility-page validation
+
+All **969 documentation tests in 104 files** pass, together with documentation
+typecheck/production build, root Oxlint/Oxfmt/Biome and whitespace checks. All
+**21 affected production Chrome cases** pass, covering 320/768/1024/1440px,
+boundary/wide sizes, short landscape, both appearances, 200% text, first paint
+without site CSS, compact previews, failed-module recovery, keyboard/reload
+actions and static reading without JavaScript. The responsive/recovery suite
+passes 20 cases; the new no-JavaScript case passes its focused final rerun. Its
+first run already proved wheel scrolling, but a large jump used an estimated
+article height; the final check reveals the actual ending after deferred layout
+settles instead of assuming that estimate is final.
+
+Measurements confirm the outer scroll range changes from 1px to 0px at all four
+required widths. At 320×568, loading's inner scroll range changes from 43px to 0px;
+at 1024×768, 404's inner range changes from 35px to 0px. Short or enlarged recovery
+content remains accessible rather than hidden. No new Safari/WebKit result is
+claimed.
+
+Ocean-light and Cursor warm-dark loading/404 views were inspected at the four
+required widths. The complete 320×568 loading frame fits, desktop/tablet recovery
+links use balanced columns, and the neutral separators remain quiet in both
+appearances. No page text was shortened to make the loading view fit.
