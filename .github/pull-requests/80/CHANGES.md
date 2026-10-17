@@ -1550,3 +1550,36 @@ No new Safari/WebKit result is claimed. Initial browser failures exposed outdate
 test assumptions about explicit token-inventory font overrides, inherited unitless
 line heights, native titles on rich references and configured-but-unused endpoint
 ellipsis; the final tests verify the actual text/geometry contracts instead.
+
+## 59. Saved technology and package previews with aligned reference metadata
+
+- **Read saved content only.** Expand Tailwind, Vite and Valibot into three guide-based chapters each with complete compact snippets and useful official continuation links. Save the authored content in the existing lazy technology family, with dated source provenance. Keep only identities/destinations in the eager index. No tooltip scrapes or fetches a third-party site.
+- **Make each technology useful.** Tailwind covers Vite installation, plugin/CSS integration and running/styling the app. Vite combines dev/build/preview commands, plugin registration and environment configuration; it labels deprecated CLI behavior and the reviewed Environment API status. Valibot covers package-manager installation, types versus runtime schemas and an inferred login schema with validation-result handling.
+- **Save five package READMEs.** Add fifteen setup, usage and concept cards for Kamod UI, Hooks, PreactPress, Signals and Icons. Preserve review dates and exact README blob identities. Check example imports against installed public exports, rather than showing newer unavailable preview APIs.
+- **Separate package and entrypoint.** Bare package subpaths keep their owner's root name, saved chapters and main repository link. A small semantic note preserves the original entrypoint and verified source; if no file was verified, the link explicitly searches the repository instead of inventing a file path. Specific integration guides stay in the resources. Original inline destinations and actual imported components, hooks, types and namespace contracts retain their behavior. Loading already uses the eventual package title.
+- **Align the header.** Move the independent fact from beneath the top-right actions into the opposite right of the path/context row. Center the highlighted path through its flex wrapper so it shares the same center as the slash, purpose and fact. Use `ExternalLinkIcon` for the compact top action, keeping the small decorative chain between it and the badge.
+- **Use the current page palette.** Every main card and its miniatures use the page background/foreground, including saved external documentation content. Remove the old purple/pattern overlay. Remove redundant technology Role facts while preserving short purpose labels in the origin row.
+- **Verify offline and navigation behavior.** Open all three technology previews, five packages and two representative subpaths with external requests blocked in desktop light and mobile dark. Retain exact type-fragment/source navigation, keyboard/focus behavior, loading/reduced-motion handoff, source-coloring failure fallback, scroll boundaries and departure grace.
+
+### Saved-reference verification
+
+All **969 documentation tests in 104 files** pass. Documentation typecheck and the
+final production build pass, together with root Oxlint/Oxfmt/Biome, Knip/Syncpack
+and whitespace checks. All **22 affected production Chrome cases** pass in one
+sequential final run. The matrix includes eight reference families at
+320/768/1440px in both appearances, aligned header geometry and actual page-palette
+miniatures. New offline checks report no external request while opening the saved
+profiles, and preserve the original page URL.
+
+The initial browser run caught a 0.7px inline-baseline offset in the highlighted
+origin path; centering its wrapper fixes the actual geometry. Older module/source
+assertions now reflect the requested root-package preview while separately
+checking unchanged inline navigation and exact subpath sources. Selectors scope
+the finished title to the ready layer because the retained inert loading layer
+also contains its anchored title. No timing workaround or relaxed centering
+assertion was introduced. No new Safari/WebKit result is claimed.
+
+Desktop Ocean Tailwind, Kamod Valibot, and Cursor warm phone-dark Vite/package
+subpath previews were inspected at both ends of their scroll area. The aligned
+metadata, current-page cards, compact examples, entrypoint notice and wrapping
+resource list remain readable, with no horizontal card overflow or page errors.

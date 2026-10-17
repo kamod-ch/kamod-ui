@@ -304,8 +304,11 @@ The authored Signals guide/ecosystem URLs now use that same canonical repository
 Motion package resources use the real `packages/motion` workspace and each adapter
 source directory; the cn resource points directly to its implementation.
 
-Package/module cards lead with source in their origin and final reference index, alongside an
-independently chosen local integration link. Specific destinations cover global
+Package/module cards lead with source in their origin and final resource list, alongside an
+independently chosen local integration link. The five reviewed Kamod packages use
+their repository root as the preview’s main reference; exact subpath destinations
+remain in a separate entrypoint note and the resources, without changing authored
+inline navigation. Specific destinations cover global
 CSS, Code stylesheet ownership, presets, tokens and known third-party integrations.
 Stylesheet imports avoid unrelated JavaScript contracts. Private Blocks/Docs
 workspaces are described honestly, factory-produced values remain constants, and
@@ -320,13 +323,14 @@ source-first resources, keyboard flow and 320/1440px layouts in both appearances
 ### ReferenceTooltip reading layout
 
 The shared private tooltip has a linked title and technology/component icon, one
-compact type badge, and a chain action exactly matching the badge's 22px height,
-background and ink. Its smaller chain uses a lighter stroke; the badge icon is
+compact type badge, and an ExternalLinkIcon action matching the badge's 22px height,
+background and ink. The smaller action icon uses a lighter stroke; the badge icon is
 slightly larger. Other compact source actions use the main icon's subtle surface
 and accent. Buttons remain stationary and change only their background on hover.
 The title gains a small decorative compass. Its linked destination subline uses
-the badge's background hue and an arrow; the independent fact beneath the right
-actions uses a matching info icon. A tiny decorative chain separates the badge
+the badge's background hue and an arrow. The independent fact sits at the opposite
+right of the origin/context row with a matching info icon, vertically centered
+with the highlighted path and slash-separated purpose. A tiny decorative chain separates the badge
 and open action. The main icon has a more visible, still subtle background.
 Verified technology logos remain confined to the main icon; the type badge keeps
 the generic circuit-board mark.
@@ -355,8 +359,9 @@ Direct and inherited declarations remain explicitly distinguished.
 
 Miniatures retain the source components' page colors, borders and hierarchy at a
 much smaller local type scale. Excerpts, rows and disclosures are bounded; complete
-content remains available through precise source links. Each borderless outer
-card has a quiet 8% purple wash over a 17%-opacity version of the showcase pattern.
+content remains available through precise source links. Every borderless outer
+card uses the current page background and foreground, as do its source miniatures;
+external-site colors and the earlier pattern/purple overlay do not override it.
 Very small linked headings and inset rules order the chapters. Each chapter joins
 its heading, flush-width miniature and short, single-line continuation as one unit.
 A visible primary text link with chain/arrow icons opens the complete section from
@@ -375,13 +380,26 @@ a constant12px gap before the centered total-reference count. No subgroup headin
 or other footer content remain. Finished-reference text has a shared8.5px minimum,
 including table metadata, notes and links; source-page colors/layout remain intact.
 
-The local technology catalog contains 90 technologies with two authored chapters
-each. Examples and integration boundaries are specific to the technology; optional
-alternatives are not presented as installed dependencies. All 180 chapters stay in
-the existing lazy technology family, while the eager index retains identities and
-destinations only. Opening a card performs no web lookup or page scraping. These
-profiles are project-authored summaries and examples, not snapshots of official
-websites; a future official-excerpt import must retain its source/version provenance.
+The local technology catalog contains 90 technologies with at least two authored
+chapters each. Tailwind, Vite and Valibot each have three saved guide-based chapters,
+with compact complete code examples and official continuation links reviewed on
+2026-10-17. Tailwind covers installation, Vite/CSS integration and utilities; Vite
+groups CLI commands, plugin setup and environments; Valibot covers installation,
+runtime schemas and a typed login-validation example. Redundant Role facts are
+removed while short categories remain in the origin row. All prose/examples stay
+in the lazy technology family; the eager index retains identity and destination
+data only. Opening a card performs no web lookup or page scraping.
+
+Five additional lazy package profiles summarize the official Kamod UI, Hooks,
+PreactPress, Signals and Icons READMEs in fifteen installation/usage/concept cards.
+The saved provenance records review dates and exact README blob identities.
+Examples use exports verified against installed packages. Bare package subpaths
+share their owner's title, content and main repository link, while a compact
+non-announcing note preserves the original entrypoint and its verified source.
+When no file was verified, the note honestly links to repository search instead
+of inventing a source path. Actual imported components, types, hooks and namespace
+modules keep their specific source contracts. The package loading title already
+uses the eventual root identity so it stays anchored during the handoff.
 
 Long cards contain wheel scrolling at their boundaries, so scrolling to the end
 cannot chain into a page-scroll dismissal. A 350ms departure grace permits crossing
@@ -413,6 +431,19 @@ deployment prefix once, including excerpt and owner destinations. Internal helpe
 stay private; dependency checks require no unused-export suppressions. Browser coverage checks eight reference
 families at 320/768/1440px in both appearances, alongside source navigation,
 loading/failure, scroll containment, hover reentry and keyboard dismissal.
+
+### Saved-reference validation
+
+All **969 documentation tests in 104 files**, docs typecheck/production build, root
+Oxlint/Oxfmt/Biome and Knip/Syncpack pass. All **22 affected production Chrome cases**
+pass in one sequential final run. Coverage includes the reference-family matrix at
+320/768/1440px in both appearances, exact header centering/page palette, loading
+and reduced motion, keyboard/type-fragment navigation and scroll/departure
+retention. The three technology profiles, five packages and two subpaths open
+with external origins blocked and no outgoing request. Desktop Ocean/Kamod and
+Cursor warm phone-dark captures were inspected at the beginning and end of their
+reading regions; no card overflow or page errors occur. No new Safari/WebKit
+result is claimed.
 
 ### Showcase Prompts and source downloads
 
