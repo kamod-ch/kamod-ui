@@ -1434,3 +1434,29 @@ The primary destination is first, counts match unique links, and there is no
 header/document overflow or page error. An earlier classification case hit
 Chrome `ERR_NETWORK_CHANGED` for local chunks; its trace identifies that transport
 failure and the complete final suite passes. No new Safari/WebKit result is claimed.
+
+## 54. A matching reference-loader header and quiet content handoff
+
+- **The actual reference first.** Use the same name, title/compass markup, font and relative placement as the loaded header. Production requests already preserve labels and aliases through every loader branch, so add no eager identity lookup. Replace the tilted page mark and right-side spinner with one16px/stroke2 spinner in the actual30px main icon container and its shared background/ink.
+- **Small, clear progress copy.** Put “Following the reference...” beneath the title at10px, moderately larger than the normal destination subline. Replace the old sentence with “Just grabbing the details for you.” Use normal badge-hued secondary ink and an intentionally fractionally smaller8.25px loading caption.
+- **Subdued shapes, shared timing.** Remove the reflective gradient and background-position loop. Keep solid low-opacity badge-colored bars/blocks and a very low-contrast flat moving tint. Extract the page-opening skeleton's2.25-second cycle,45ms staggering, settle/sweep keyframes and5% rest into one CSS owner; both loaders use it with their own paint. Page geometry/colors remain unchanged, including compact and reduced-motion layouts.
+- **A quiet420ms handoff.** Keep the reading width, reference name and icon frame steady across loading and ready states, then fade details in without movement or blur. Let the old skeleton retire earlier to avoid overlapping text. Make its layer absolute, inert and hidden from assistive tools, retire its busy/live announcement and stop its spinner/shape/pseudo-element loops immediately. Finite effects retain no fill. Reduced motion switches immediately. The bounded decorative markup disappears with the existing tooltip request boundary.
+- **No extra async machinery.** Reuse the existing keyed request and active guard for stale resolution/rejection. Add no transition state, timer, listener, observer, animation-frame loop, dependency or extra request. Keep failed optional-detail navigation usable.
+- **Meaningful regression checks.** Cover stable dialog/focus, one accessible content/status, stopped outgoing animation, matching width/icon/title geometry and typography, reduced motion and keyboard navigation. Preserve stale-success/error/dismissal checks. Update old loaded-content waits to distinguish the new shared loading layout from verified facts; fix the mobile anchor/div selector specificity so both headings use the same font size.
+
+### Loader-handoff verification
+
+All **954 documentation tests in102 files** pass. Documentation typecheck and the
+production builds, root Oxlint/Oxfmt/Biome, Knip/Syncpack and whitespace checks
+pass. The **36 combined production Chrome cases** pass together:18 reference and18
+page-state cases, covering responsive appearances, actual sources, keyboard and
+pointer retention, loading/failure/dismissal, compact previews and reduced motion.
+Both handoff cases pass again after the final staged-fade refinement.
+
+Final Ocean desktop-light, Cursor warm phone-dark and Kamod tablet-light captures
+were inspected at pending, midpoint and ready states. Icon-container paint/geometry
+and title content/font/relative position match exactly; every skeleton uses a solid
+base and the shared2.25-second cycle. No overflow or page errors occurred. Earlier
+unit waits were updated to distinguish verified content from the new matching
+loading layout, and a mobile anchor/div specificity mismatch was corrected before
+the final comparisons. No new Safari/WebKit result is claimed.

@@ -361,7 +361,7 @@ links use one consistent text/icon scale; only the destination label is underlin
 leaving the `/` separator and resource-kind label plain. Native hints explain each
 destination. A dot-separated keyword list truncates beside the heading, reserving
 a constant12px gap before the centered total-reference count. No subgroup headings
-or other footer content remain. Private tooltip text has a shared8.5px minimum,
+or other footer content remain. Finished-reference text has a shared8.5px minimum,
 including table metadata, notes and links; source-page colors/layout remain intact.
 
 The local technology catalog contains 90 technologies with two authored chapters
@@ -377,9 +377,21 @@ cannot chain into a page-scroll dismissal. A 350ms departure grace permits cross
 the trigger/card gap and cancels on reentry. Unrelated pointer/focus departures and
 native-scrollbar focus loss no longer dismiss the active reference. Escape,
 route/outside-scroll dismissal, focus return and observer/timer cleanup remain
-covered. The loading state reads “Following the reference...”, aligns a spinner
-with that heading, removes the repeated module row and uses varied shimmering
-skeleton blocks with a much smaller note and reduced-motion fallback.
+covered. The loading header uses the exact reference name, title typography and
+main icon container of the finished card, with a16px spinner in that left slot.
+“Following the reference...” sits beneath the title; the smaller informal note
+uses the same badge-hued secondary ink. Solid subdued skeleton shapes replace
+the reflective highlights. A shared CSS motion owner gives both tooltip and
+page-opening skeletons the exact2.25-second cycle,45ms staggering and short5% rest.
+Their paint stays local to each surface.
+
+A420ms staged fade joins the loading and verified views at one fixed reading
+width, keeping the name and icon frame steady while old bars leave before the
+details appear. The outgoing layer immediately becomes inert/hidden from assistive tools,
+retires its live status and stops every repeating animation, then becomes visually
+hidden. Finite effects have no persistent fill; reduced motion switches directly.
+The existing request key/active guard still rejects stale success and failure.
+No transition timer, listener, observer, extra catalog lookup or state is added.
 
 Source coloring stays optional and lazy. Actual Code miniatures disable copying,
 reference recursion and layout-observer controls; a local error boundary preserves
@@ -591,7 +603,16 @@ branding and navigation changes. The public color-mode prop/type, inversion
 wrappers, paired theme values and mode-specific routes/tests are removed; the
 nine supported syntax palettes and normal application appearance remain.
 
-The flat-resource/header follow-up passes **951 documentation tests in102 files**,
+The loader-handoff follow-up passes **954 documentation tests in102 files**, docs
+typecheck/production builds and root Oxlint/Oxfmt/Biome/Knip/Syncpack. All **36
+combined production Chrome reference/page-state cases** pass together, with both
+handoff cases passing again after the final staged fade. Pending/midpoint/ready
+desktop/tablet/phone captures were inspected; icon/title paint, geometry, font and
+content match, skeleton timing is shared, and no overflow/page errors occurred.
+Reduced motion switches immediately; outgoing loops/status stop as soon as ready.
+No new Safari/WebKit result is claimed.
+
+The preceding flat-resource/header follow-up passes **951 documentation tests in102 files**,
 docs typecheck/final production build and root Oxlint/Oxfmt/Biome/Knip/Syncpack.
 All **16 affected production Chrome cases** pass together, including eight
 reference families at320/768/1440px in both appearances, source classification,
