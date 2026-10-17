@@ -1,6 +1,6 @@
 import type { ComponentChildren } from "preact";
 
-/** Shared pinned-row content keeps both sidebars' typography, spacing and action geometry identical. */
+/** Shared pinned-row content keeps both sidebars' typography and row spacing consistent. */
 export function SidebarEntryContent({
   icon,
   title,

@@ -1,4 +1,4 @@
-import { ListTreeIcon, LocateFixedIcon } from "@kamod-ch/icons/lucide";
+import { CompassIcon, ListTreeIcon } from "@kamod-ch/icons/lucide";
 import { SidebarEntryContent } from "../../layout/navigation/SidebarEntryContent";
 
 /** Match the pinned navigation rows; the existing reading state supplies a native section shortcut. */
@@ -43,7 +43,7 @@ export function PageContentsHeading({
               data-tooltip="Jump to the current section"
               data-contents-action=""
             >
-              <LocateFixedIcon size={14} strokeWidth={1.75} aria-hidden="true" />
+              <CompassIcon size={16} strokeWidth={2} aria-hidden="true" />
             </a>
           }
         />

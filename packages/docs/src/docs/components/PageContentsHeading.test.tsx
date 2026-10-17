@@ -17,7 +17,7 @@ it("links to the tracked section with a native shortcut, preserving the current 
   }) as HTMLAnchorElement;
   expect(shortcut.href).toBe(`${location.origin}/docs/forms?example=compact#validation`);
   expect(shortcut).toHaveClass("sidebar-entry-action");
-  expect(shortcut.querySelector("svg")).toHaveAttribute("width", "14");
+  expect(shortcut.querySelector("svg")).toHaveAttribute("width", "16");
   expect(view.getByLabelText("10 main page sections")).toHaveTextContent("10 Sections");
   expect(location.hash).toBe("#previous");
   view.rerender(<PageContentsHeading count={10} activeId="submission" />);

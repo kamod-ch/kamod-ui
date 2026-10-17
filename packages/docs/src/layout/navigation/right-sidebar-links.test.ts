@@ -65,6 +65,93 @@ it("follows history fragment changes but ignores passive scroll tracking", () =>
   expect(node.scrollTop).toBe(400);
 });
 
+it("selects an incoming encoded fragment on reload without replacing the reading destination", () => {
+  disconnect();
+  history.replaceState(null, "", "/docs/example#saved%20field");
+  const destination = node.firstElementChild as HTMLAnchorElement;
+  destination.href = "#saved%20field";
+  destination.setAttribute("aria-current", "location");
+  const shortcut = document.createElement("a");
+  shortcut.href = destination.href;
+  shortcut.dataset.contentsAction = "";
+  node.prepend(shortcut);
+  for (const href of [
+    "/another#saved%20field",
+    "?different=1#saved%20field",
+    "https://example.com/docs/example#saved%20field",
+  ]) {
+    const unrelated = document.createElement("a");
+    unrelated.href = href;
+    node.append(unrelated);
+  }
+  vi.spyOn(window, "performance", "get").mockReturnValue({
+    getEntriesByType: () => [{ type: "reload" }],
+  } as unknown as Performance);
+  disconnect = connectRightSidebarLinks(node, navigate).disconnect;
+  expect(destination).toHaveAttribute("data-contents-selected");
+  expect(destination).toHaveAttribute("aria-current", "location");
+  expect(shortcut).not.toHaveAttribute("data-contents-selected");
+  expect(node.querySelectorAll("[data-contents-selected]")).toHaveLength(1);
+  expect(navigate).not.toHaveBeenCalled();
+});
+
+it.each(["", "#missing", "#%invalid"])(
+  "clears the selected destination when the URL has no matching fragment: %s",
+  (hash) => {
+    const destination = node.firstElementChild!;
+    history.replaceState(null, "", "/docs/example#last");
+    window.dispatchEvent(new HashChangeEvent("hashchange"));
+    expect(destination).toHaveAttribute("data-contents-selected");
+    history.replaceState(null, "", `/docs/example${hash}`);
+    window.dispatchEvent(new HashChangeEvent("hashchange"));
+    expect(destination).not.toHaveAttribute("data-contents-selected");
+  },
+);
+
+it("selects only the actual URL, independently of reading and prevented prospective clicks", async () => {
+  const destination = node.firstElementChild!;
+  const next = document.createElement("a");
+  next.href = "#next";
+  node.append(next);
+  history.replaceState(null, "", "#last");
+  window.dispatchEvent(new HashChangeEvent("hashchange"));
+  destination.removeAttribute("aria-current");
+  next.setAttribute("aria-current", "location");
+  await Promise.resolve();
+  vi.runAllTimers();
+  expect(destination).toHaveAttribute("data-contents-selected");
+  expect(next).not.toHaveAttribute("data-contents-selected");
+  link.href = "#next";
+  link.click();
+  vi.runAllTimers();
+  expect(location.hash).toBe("#last");
+  expect(destination).toHaveAttribute("data-contents-selected");
+  expect(next).not.toHaveAttribute("data-contents-selected");
+  // A router can write the fragment after the click without a native hashchange.
+  link.click();
+  history.replaceState(null, "", "#next");
+  vi.runAllTimers();
+  expect(next).toHaveAttribute("data-contents-selected");
+  expect(destination).not.toHaveAttribute("data-contents-selected");
+  link.href = "/docs/example";
+  link.click();
+  history.replaceState(null, "", "/docs/example");
+  vi.runAllTimers();
+  expect(node.querySelector("[data-contents-selected]")).toBeNull();
+});
+
+it("cancels pending selection work and stops observing URL changes on cleanup", () => {
+  history.replaceState(null, "", "#last");
+  window.dispatchEvent(new HashChangeEvent("hashchange"));
+  const destination = node.firstElementChild!;
+  link.click();
+  disconnect();
+  history.replaceState(null, "", "/docs/example");
+  window.dispatchEvent(new HashChangeEvent("hashchange"));
+  vi.runAllTimers();
+  expect(destination).toHaveAttribute("data-contents-selected");
+});
+
 it.each([
   "/another#last",
   "?different=1#last",

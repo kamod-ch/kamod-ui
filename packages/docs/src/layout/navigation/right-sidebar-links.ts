@@ -50,6 +50,20 @@ export function connectRightSidebarLinks(
   let pageTop = win.scrollY;
   let pageMoved = false;
   const activeLink = () => node.querySelector<HTMLAnchorElement>('a[aria-current="location"]');
+  // The URL's explicit destination stays selected while aria-current follows reading.
+  const selectFragment = () => {
+    const current = new URL(win.location.href);
+    const id = fragment(current);
+    for (const link of node.querySelectorAll<HTMLAnchorElement>(
+      "a[href]:not([data-contents-action])",
+    )) {
+      const target = new URL(link.href, current);
+      link.toggleAttribute(
+        "data-contents-selected",
+        Boolean(id && documentKey(target) === documentKey(current) && fragment(target) === id),
+      );
+    }
+  };
   let previousActive = activeLink();
   const canScroll = () =>
     node.clientHeight > 0 && /^(auto|scroll)$/.test(getComputedStyle(node).overflowY);
@@ -160,7 +174,7 @@ export function connectRightSidebarLinks(
   win.addEventListener("scroll", pageScroll, { passive: true });
 
   const follow = (url: URL) => {
-    if (!url.hash || documentKey(url) !== documentKey(new URL(win.location.href))) return;
+    if (documentKey(url) !== documentKey(new URL(win.location.href))) return;
     const id = fragment(url);
     const link = Array.from(
       node.querySelectorAll<HTMLAnchorElement>("a[href]:not([data-contents-action])"),
@@ -168,15 +182,17 @@ export function connectRightSidebarLinks(
       const target = new URL(entry.href, win.location.href);
       return documentKey(target) === documentKey(url) && fragment(target) === id;
     });
-    if (!id || !link) return;
+    if (url.hash && (!id || !link)) return;
     stopInitialReveal();
     // Native anchor scrolling can activate intermediate headings. Keep the explicitly
     // followed destination aligned until the reader resumes interacting with the article.
     trackingEnabled = false;
-    followedLink = link;
+    followedLink = link ?? null;
     cancelAnimationFrame(frame);
     frame = requestAnimationFrame(() => {
       frame = 0;
+      // Native anchors and router history writes finish after the click handler.
+      selectFragment();
       revealDestination();
     });
   };
@@ -188,11 +204,15 @@ export function connectRightSidebarLinks(
     if (!link || link.hasAttribute("download") || (link.target && link.target !== "_self")) return;
     follow(new URL(link.href, win.location.href));
   };
-  const hash = () => follow(new URL(win.location.href));
+  const hash = () => {
+    selectFragment();
+    follow(new URL(win.location.href));
+  };
   doc.addEventListener("click", click);
   win.addEventListener("hashchange", hash);
+  selectFragment();
   // Reload follows the restored reading position, rather than an old URL fragment.
-  if (!reloaded) hash();
+  if (!reloaded && win.location.hash) follow(new URL(win.location.href));
   const disconnect = () => {
     cancelAnimationFrame(frame);
     cancelAnimationFrame(readingFrame);

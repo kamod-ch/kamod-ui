@@ -26,12 +26,54 @@ for (const path of [
     const action = area.locator(".page-contents-locate");
     await expect(action).toHaveAccessibleName("Jump to the current section");
     await expect(action).toHaveAttribute("href", href);
-    await expect(action).toHaveCSS("width", "24px");
-    await expect(action.locator("svg")).toHaveCSS("width", "14px");
+    await expect(action).toHaveCSS("width", "28px");
+    await expect(action.locator("svg")).toHaveCSS("width", "16px");
     await action.focus();
     await page.keyboard.press("Enter");
     await expect(page).toHaveURL(new RegExp(`#${id}$`));
     await expect(page.locator(`[id="${id}"]`)).toBeInViewport();
+  });
+}
+
+for (const theme of ["light", "dark"] as const) {
+  test(`explicit contents selection follows incoming links and history independently of reading (${theme})`, async ({
+    page,
+  }) => {
+    await page.route("https://matomo.kamod.ch/**", (route) => route.fulfill({ status: 204 }));
+    await page.addInitScript((value) => localStorage.setItem("theme", value), theme);
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto("./docs/accordion/installation");
+    await expect(page.locator("html")).toHaveClass(/pp-ready/);
+    await page
+      .locator('main a[href$="/docs/getting-started#give-state-one-owner"]')
+      .first()
+      .click();
+    await expect(page).toHaveURL(/\/docs\/getting-started#give-state-one-owner$/);
+    const area = page.locator(".docs-rightbar-contents");
+    const selected = area.locator("a[data-contents-selected]");
+    await expect(selected).toHaveCount(1);
+    await expect(selected).toHaveAttribute("href", "#give-state-one-owner");
+
+    await page
+      .locator('[id="set-up-your-app"]')
+      .evaluate((node) => node.scrollIntoView({ block: "start", behavior: "instant" }));
+    await expect(area.locator('a[aria-current="location"]')).toHaveAttribute(
+      "href",
+      "#set-up-your-app",
+    );
+    await expect(selected).toHaveAttribute("href", "#give-state-one-owner");
+    await area.locator('.page-contents-list a[href="#set-up-your-app"]').click();
+    await expect(page).toHaveURL(/#set-up-your-app$/);
+    await expect(selected).toHaveCount(1);
+    await expect(selected).toHaveAttribute("href", "#set-up-your-app");
+
+    await area.locator(".page-contents-top-link").click();
+    await expect(page).toHaveURL(/\/docs\/getting-started$/);
+    await expect(selected).toHaveCount(0);
+    await page.goBack();
+    await expect(page).toHaveURL(/#set-up-your-app$/);
+    await expect(selected).toHaveCount(1);
+    await expect(selected).toHaveAttribute("href", "#set-up-your-app");
   });
 }
 
@@ -308,7 +350,6 @@ for (const theme of ["light", "dark"] as const) {
           const css = getComputedStyle(node);
           const title = getComputedStyle(node.querySelector(".sidebar-entry-title")!);
           const caption = getComputedStyle(node.querySelector(".sidebar-entry-caption")!);
-          const action = getComputedStyle(node.querySelector(".sidebar-entry-action")!);
           return {
             height: node.getBoundingClientRect().height,
             padding: css.padding,
@@ -320,12 +361,15 @@ for (const theme of ["light", "dark"] as const) {
             titleColor: title.color,
             captionSize: caption.fontSize,
             captionColor: caption.color,
-            actionSize: action.width,
-            actionColor: action.color,
-            actionBackground: action.backgroundColor,
+            actionBackground: getComputedStyle(node.querySelector(".sidebar-entry-action")!)
+              .backgroundColor,
           };
         });
       expect(await styles(reading)).toEqual(await styles(left));
+      const action = reading.locator(".page-contents-locate");
+      await expect(action).toHaveCSS("width", "28px");
+      await expect(action).toHaveCSS("height", "28px");
+      await expect(action.locator("svg")).toHaveCSS("width", "16px");
       await expect(reading.locator(".page-contents-count")).not.toContainText("Page");
       const colorDistance = await page
         .locator(".docs-rightbar .page-contents-list")

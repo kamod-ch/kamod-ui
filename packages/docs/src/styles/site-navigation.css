@@ -31,6 +31,17 @@
     transparent
   );
   --navigation-entry-muted: color-mix(in oklab, var(--muted-foreground) 75%, var(--foreground));
+  /* Group and pinned selections carry two-thirds of a selected sublink's paint. */
+  --navigation-selected-entry-background: color-mix(
+    in oklab,
+    var(--docs-soft-highlight-background) calc(200% / 3),
+    transparent
+  );
+  --navigation-selected-entry-hover-background: color-mix(
+    in oklab,
+    var(--docs-soft-highlight-hover-background) calc(200% / 3),
+    transparent
+  );
   --navigation-highlight-foreground: var(--foreground);
   --navigation-highlight-accent: color-mix(in oklab, var(--primary) 14%, transparent);
   --navigation-highlight-overlay: linear-gradient(
@@ -401,14 +412,13 @@ html[data-navigation-restoring] .docs-sidebar-scroll {
 .sidebar-entry-row[aria-current] {
   background-image: var(--navigation-highlight-overlay), var(--navigation-highlight-overlays);
 }
-/* Left navigation uses the page-label surface; palette menus keep their own selection paint. */
-:is(.docs-sidebar, .site-navigation-panel)
-  :is(
-    .site-navigation-group-trigger[data-current],
-    .site-navigation-link[aria-current],
-    .sidebar-entry-row[aria-current]
-  ) {
+/* Keep sublinks strongest; group and pinned selections share a quieter version. */
+:is(.docs-sidebar, .site-navigation-panel) .site-navigation-link[aria-current] {
   background: var(--docs-soft-highlight-background);
+}
+:is(.docs-sidebar, .site-navigation-panel)
+  :is(.site-navigation-group-trigger[data-current], .sidebar-entry-row[aria-current]) {
+  background: var(--navigation-selected-entry-background);
 }
 .site-navigation-link[aria-current] {
   font-weight: 450;
@@ -450,13 +460,12 @@ html[data-navigation-restoring] .docs-sidebar-scroll {
     background-color: var(--navigation-entry-hover-background);
   }
 
-  :is(.docs-sidebar, .site-navigation-panel)
-    :is(
-      .site-navigation-group-trigger[data-current],
-      .site-navigation-link[aria-current],
-      .sidebar-entry-row[aria-current]
-    ):hover {
+  :is(.docs-sidebar, .site-navigation-panel) .site-navigation-link[aria-current]:hover {
     background-color: var(--docs-soft-highlight-hover-background);
+  }
+  :is(.docs-sidebar, .site-navigation-panel)
+    :is(.site-navigation-group-trigger[data-current], .sidebar-entry-row[aria-current]):hover {
+    background-color: var(--navigation-selected-entry-hover-background);
   }
 }
 
