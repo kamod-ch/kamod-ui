@@ -100,47 +100,40 @@
   font-size: clamp(1.8rem, 4vw, 3rem);
 }
 .page-state-skeleton {
-  --page-loading-cycle: 4.4s;
+  --page-loading-cycle: 2.25s;
+  --page-loading-shape: color-mix(in oklab, var(--primary) 9%, transparent);
+  --page-loading-detail: color-mix(
+    in oklab,
+    var(--secondary-accent, var(--primary)) 8%,
+    transparent
+  );
   margin-top: clamp(1.25rem, 4.5dvh, 3rem);
   max-width: 38rem;
   display: grid;
   gap: clamp(0.5rem, 1.5dvh, 0.75rem);
 }
-.page-state-skeleton > * {
+.page-state-skeleton span {
+  position: relative;
+  overflow: hidden;
   display: block;
-  height: 0.6rem;
   border-radius: 0.25rem;
-  background: color-mix(
-    in oklab,
-    var(--foreground) calc(5% + 4% * var(--docs-highlight-boost, 0)),
-    transparent
-  );
+  background: var(--page-loading-shape);
+}
+.page-state-skeleton > span {
+  height: 0.6rem;
 }
 .page-state-skeleton > :nth-child(2) {
   --page-loading-step: 1;
   width: 88%;
 }
-.page-state-skeleton > .page-loading-track {
-  --page-loading-sheen-opacity: 0.28;
-}
 .page-state-skeleton > :nth-child(3) {
   --page-loading-step: 2;
   width: 62%;
 }
-.page-state-skeleton > .page-loading-panel {
-  --page-loading-shape: color-mix(in oklab, var(--primary) 8%, transparent);
-  position: relative;
-  overflow: hidden;
+.page-loading-panel {
   display: grid;
-  align-content: center;
   gap: clamp(0.5rem, 1.5dvh, 0.75rem);
-  height: auto;
-  min-height: clamp(7rem, 18dvh, 10rem);
-  margin-top: clamp(0.5rem, 2dvh, 1.25rem);
-  padding: clamp(0.75rem, 2dvh, 1.25rem);
-  border: 1px solid var(--border);
-  border-radius: 0.75rem;
-  background: color-mix(in oklab, var(--foreground) 2%, transparent);
+  margin-top: 0.375rem;
 }
 .page-loading-panel-header {
   display: flex;
@@ -148,13 +141,12 @@
   gap: 0.75rem;
   margin-bottom: 0.25rem;
 }
-.page-loading-panel-icon,
-.page-loading-panel-action {
+.page-state-skeleton :is(.page-loading-panel-icon, .page-loading-panel-action) {
   --page-loading-step: 5;
   display: block;
   flex: none;
   border-radius: 0.375rem;
-  background: var(--page-loading-shape);
+  background: var(--page-loading-detail);
 }
 .page-loading-panel-icon {
   width: 2rem;
@@ -165,18 +157,16 @@
   height: 1.125rem;
 }
 .page-loading-panel-lines {
-  --page-loading-step: 4;
   display: grid;
   flex: 1;
   gap: 0.5rem;
   min-width: 0;
 }
-.page-loading-panel-lines > span,
-.page-loading-panel-line {
-  display: block;
+.page-state-skeleton :is(.page-loading-panel-lines > span, .page-loading-panel-line) {
   height: 0.5rem;
-  border-radius: 0.25rem;
-  background: var(--page-loading-shape);
+}
+.page-loading-panel-lines > span {
+  --page-loading-step: 4;
 }
 .page-loading-panel-lines > span:first-child {
   width: 38%;
@@ -198,86 +188,65 @@
   gap: 0.625rem;
   margin-top: 0.25rem;
 }
-.page-loading-panel-footer > span {
+.page-state-skeleton .page-loading-panel-footer > span {
   --page-loading-step: 8;
   height: 1.375rem;
   border-radius: 0.375rem;
-  background: var(--page-loading-shape);
 }
 .page-loading-panel-footer > span:nth-child(2) {
   --page-loading-step: 9;
+  background: var(--page-loading-detail);
 }
 .page-loading-panel-footer > span:nth-child(3) {
   --page-loading-step: 10;
 }
 
-/* A shared clock leads the eye from the lines to the panel, then leaves a quiet rest. */
+/* One short, staggered sweep connects every shape without painting the gaps between them. */
 @media (prefers-reduced-motion: no-preference) {
-  .page-state-skeleton > span,
-  .page-loading-panel-lines,
-  .page-loading-panel-action,
-  .page-loading-panel-line,
-  .page-loading-panel-footer > span {
+  .page-state-skeleton span {
     transform-origin: left center;
-    animation: page-loading-settle var(--page-loading-cycle) cubic-bezier(0.22, 0.8, 0.25, 1)
-      calc(var(--page-loading-step, 0) * 0.09s) infinite;
+    animation: page-loading-settle var(--page-loading-cycle) ease-in-out
+      calc(var(--page-loading-step, 0) * 0.045s) infinite;
   }
-  .page-loading-panel-icon {
-    animation: page-loading-icon-settle var(--page-loading-cycle) ease-in-out 0.27s infinite;
-  }
-  .page-state-skeleton > .page-loading-track::after,
-  .page-loading-panel::after {
-    animation: page-loading-assemble-sweep var(--page-loading-cycle) cubic-bezier(0.4, 0, 0.2, 1)
-      infinite;
-  }
-  .page-loading-panel::after {
+  .page-state-skeleton span::after {
     content: "";
     position: absolute;
     inset: 0 auto 0 0;
     width: 50%;
     pointer-events: none;
-    background: linear-gradient(90deg, transparent, var(--page-loading-shape), transparent);
-    opacity: 0.75;
-    animation-delay: 0.4s;
+    border-radius: inherit;
+    background: linear-gradient(
+      100deg,
+      transparent,
+      var(--primary) 38%,
+      var(--secondary-accent, var(--primary)) 62%,
+      transparent
+    );
+    opacity: 0.13;
+    animation: page-loading-assemble-sweep var(--page-loading-cycle) ease-in-out
+      calc(var(--page-loading-step, 0) * 0.045s) infinite;
   }
 }
 @keyframes page-loading-settle {
   0%,
-  5%,
-  30%,
   100% {
-    opacity: 0.72;
+    opacity: 0.78;
     transform: none;
   }
-  14% {
+  35% {
     opacity: 1;
-    transform: translateY(-3px) scaleX(0.975);
+    transform: translateY(-1px) scaleX(0.992);
   }
-  21% {
+  75% {
     opacity: 0.9;
-    transform: translateY(0.5px);
-  }
-}
-@keyframes page-loading-icon-settle {
-  0%,
-  5%,
-  30%,
-  100% {
     transform: none;
-  }
-  14% {
-    transform: translateY(-3px) rotate(-8deg) scale(0.96);
-  }
-  21% {
-    transform: rotate(3deg) scale(1.02);
   }
 }
 @keyframes page-loading-assemble-sweep {
-  0%,
-  6% {
+  0% {
     transform: translateX(-110%);
   }
-  42%,
+  95%,
   100% {
     transform: translateX(310%);
   }

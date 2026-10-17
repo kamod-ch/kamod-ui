@@ -56,7 +56,9 @@
 }
 
 .page-state-loading:not(.page-state-loading--compact) .page-loading-description {
-  font-weight: 300;
+  font-size: 0.9375rem;
+  font-weight: 450;
+  line-height: 1.8;
 }
 
 .page-loading-label > span[aria-hidden="true"],
@@ -73,10 +75,15 @@
   color: var(--foreground, var(--pp-preloader-accent, currentColor));
 }
 
-.page-loading-brand > strong,
 .page-state-message-brand > strong {
   font-size: 1.125rem;
   font-weight: 700;
+}
+
+.page-loading-brand > strong {
+  font: inherit;
+  font-size: 1.0625em;
+  font-weight: 600;
 }
 
 .page-loading-brand {
@@ -85,10 +92,11 @@
 
 .page-loading-spinner {
   box-sizing: border-box;
-  width: 1.25rem;
-  height: 1.25rem;
+  width: 1rem;
+  height: 1rem;
   flex: none;
-  border: 4.5px solid;
+  color: var(--muted-foreground, var(--foreground, #737373));
+  border: 2px solid;
   border-color: color-mix(in oklab, currentColor 25%, transparent);
   border-top-color: currentColor;
   border-radius: 50%;

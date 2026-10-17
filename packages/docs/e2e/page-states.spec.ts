@@ -242,40 +242,108 @@ test("unknown addresses offer working recovery links on direct and client naviga
   await expect(page.getByTestId("home-page")).toBeVisible();
 });
 
-test("a pending page module shows the loading view and then yields to its content", async ({
-  page,
-}) => {
+test("a pending preview keeps its compact loading layout", async ({ page }) => {
   let release!: () => void;
   const pending = new Promise<void>((resolve) => {
     release = resolve;
   });
-  await page.route(/GettingStartedContent.*\.(?:js|tsx)/, async (route) => {
+  await page.route(/ComponentPreviewPage.*\.(?:js|tsx)/, async (route) => {
     await pending;
     await route.continue();
   });
   try {
+    // Client navigation exercises Suspense; initial hydration preserves the server-rendered preview.
     await page.goto("./404");
-    await page.getByRole("link", { name: "Getting Started", exact: true }).click();
-    await expect(page.getByRole("status")).toContainText("Opening Your Next Page…");
-    const loading = page.getByLabel("Loading content");
+    await expect(page.locator("#pp-preloader")).toBeHidden();
+    await page.evaluate(() => {
+      history.pushState({}, "", "./component-preview?component=button&example=0");
+      dispatchEvent(new PopStateEvent("popstate"));
+    });
+    const loading = page.locator(".page-state-loading--compact");
+    await expect(loading).toBeVisible();
     await expect(loading).toHaveAttribute("aria-busy", "true");
     await expect(
-      loading.getByRole("heading", { name: "Opening Your Next Page…", exact: true }),
+      loading.getByRole("heading", { name: "Loading Preview…", exact: true }),
     ).toBeVisible();
-    await expect(loading.locator(".page-loading-spinner")).toBeVisible();
     await expect(loading.locator(".page-loading-label")).toContainText(
-      "Your next page is taking shape",
+      "Preparing your interactive preview",
     );
-    await page.emulateMedia({ reducedMotion: "reduce" });
-    expect(await loading.evaluate((node) => node.getAnimations({ subtree: true }).length)).toBe(0);
+    await expect(page.locator(".page-state-shell")).toHaveCount(0);
+    expect(
+      await loading.evaluate((element) => {
+        const rootSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
+        return {
+          heading: parseFloat(getComputedStyle(element.querySelector("h1")!).fontSize) / rootSize,
+          description:
+            parseFloat(
+              getComputedStyle(element.querySelector(".page-loading-description")!).fontSize,
+            ) / rootSize,
+        };
+      }),
+    ).toEqual({ heading: 1.25, description: 0.875 });
   } finally {
     release();
   }
-  await expect(page.locator("h1")).toContainText("Getting Started with Kamod UI");
+  await expect(page.locator("#component-preview-root .component-example-canvas")).toBeVisible();
   await expect(page.getByLabel("Loading content")).toHaveCount(0);
 });
 
 for (const colorScheme of ["light", "dark"] as const) {
+  test(`a pending page has a unified animated loading view in ${colorScheme}`, async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 568 });
+    await page.emulateMedia({ colorScheme, reducedMotion: "no-preference" });
+    await page.addInitScript((scheme) => localStorage.setItem("theme", scheme), colorScheme);
+    let release!: () => void;
+    const pending = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+    await page.route(/GettingStartedContent.*\.(?:js|tsx)/, async (route) => {
+      await pending;
+      await route.continue();
+    });
+    try {
+      await page.goto("./404");
+      await page.getByRole("link", { name: "Getting Started", exact: true }).click();
+      const loading = page.getByLabel("Loading content");
+      await expect(loading).toHaveAttribute("aria-busy", "true");
+      await expect(
+        loading.getByRole("heading", { name: "Opening Your Next Page…", exact: true }),
+      ).toBeVisible();
+      await expect(loading.getByRole("status")).toContainText("Opening Your Next Page…");
+      await expect(loading.locator(".page-loading-label")).toContainText(
+        "Your next page is taking shape",
+      );
+      await expect(loading.locator(".page-loading-spinner")).toBeVisible();
+      await expect(loading.locator(".page-state-skeleton")).toHaveAttribute("aria-hidden", "true");
+      for (const area of [".page-loading-track", ".page-loading-panel"]) {
+        await expect
+          .poll(() =>
+            loading.locator(area).evaluate((node) =>
+              node.getAnimations({ subtree: true }).some((animation) => {
+                const timing = animation.effect!.getTiming();
+                return (
+                  animation.playState === "running" &&
+                  timing.iterations === Infinity &&
+                  typeof timing.duration === "number" &&
+                  timing.duration > 0 &&
+                  timing.duration < 3000
+                );
+              }),
+            ),
+          )
+          .toBe(true);
+      }
+      await page.emulateMedia({ reducedMotion: "reduce" });
+      expect(await loading.evaluate((node) => node.getAnimations({ subtree: true }).length)).toBe(
+        0,
+      );
+    } finally {
+      release();
+    }
+    await expect(page.locator("h1")).toContainText("Getting Started with Kamod UI");
+    await expect(page.getByLabel("Loading content")).toHaveCount(0);
+  });
+
   test(`failed page modules provide a centered static recovery and keyboard reload in ${colorScheme}`, async ({
     page,
   }) => {
