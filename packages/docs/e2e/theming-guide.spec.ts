@@ -1,5 +1,17 @@
-import { expect, test } from "@playwright/test";
+import { expect, type Page, test } from "@playwright/test";
 import { assertNoBlockingA11yViolations } from "./a11y-utils";
+
+const readAppearance = (page: Page) =>
+  page.evaluate(() => ({
+    preset: document.documentElement.getAttribute("data-theme"),
+    dark: document.documentElement.classList.contains("dark"),
+    storage: { ...localStorage },
+    cookie:
+      document.cookie
+        .split(";")
+        .map((value) => value.trim())
+        .find((value) => value.startsWith("theme=")) ?? null,
+  }));
 
 for (const width of [320, 768, 1024, 1440]) {
   test(`theming conclusion is readable and its review stays local at ${width}px`, async ({
@@ -8,7 +20,11 @@ for (const width of [320, 768, 1024, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     const errors: string[] = [];
     page.on("pageerror", (error) => errors.push(error.message));
-    await page.goto("/docs/theming/accessibility#finish-with-a-theme-review");
+    await page.goto(
+      width === 1440
+        ? "/docs/theming/finish-with-a-theme-review"
+        : "/docs/theming/accessibility#finish-with-a-theme-review",
+    );
     await expect(page.locator("html")).toHaveClass(/pp-ready/);
     await expect(page.locator("#finish-with-a-theme-review")).toBeInViewport();
     const outro = page.locator(".theming-outro");
@@ -24,10 +40,7 @@ for (const width of [320, 768, 1024, 1440]) {
       const change = picker.getByRole("button", { name: `Switch to ${appearance} mode` });
       if (await change.count()) await change.click();
       await picker.getByRole("button", { name: "Close color theme picker" }).click();
-      const preferences = await page.evaluate(() => ({
-        preset: localStorage.getItem("theme-preset"),
-        scheme: localStorage.getItem("theme"),
-      }));
+      const preferences = await readAppearance(page);
       await checks.first().focus();
       await page.keyboard.press("Space");
       await expect(checks.first()).toBeChecked();
@@ -39,12 +52,7 @@ for (const width of [320, 768, 1024, 1440]) {
       await checks.first().uncheck();
       await expect(outro.getByRole("status")).toHaveText("2 of 3 checks reviewed.");
       for (const check of await checks.all()) await check.uncheck();
-      expect(
-        await page.evaluate(() => ({
-          preset: localStorage.getItem("theme-preset"),
-          scheme: localStorage.getItem("theme"),
-        })),
-      ).toEqual(preferences);
+      expect(await readAppearance(page)).toEqual(preferences);
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
         true,
       );
@@ -52,6 +60,14 @@ for (const width of [320, 768, 1024, 1440]) {
       await assertNoBlockingA11yViolations(page, `theming conclusion ${width}px ${appearance}`, {
         include: ".theming-outro",
       });
+    }
+    if (width === 1440) {
+      await checks.first().check();
+      await page.reload();
+      await expect(page.locator("html")).toHaveClass(/pp-ready/);
+      await expect(page.locator("#finish-with-a-theme-review")).toBeInViewport();
+      await expect(outro.getByRole("status")).toHaveText("0 of 3 checks reviewed.");
+      for (const check of await checks.all()) await expect(check).not.toBeChecked();
     }
     await outro.getByRole("link", { name: "Work with the tokens" }).click();
     await expect(page.locator("#token-overrides")).toBeInViewport();
