@@ -1,6 +1,16 @@
 import { expect, type Locator, type Page, test } from "@playwright/test";
 import { assertNoBlockingA11yViolations } from "./a11y-utils";
 
+// A loaded analytics pixel must not extend a full-height page, regardless of network availability.
+test.beforeEach(async ({ page }) => {
+  await page.route(/https:\/\/matomo\.kamod\.ch\/matomo\.php(?:\?|$)/, (route) =>
+    route.fulfill({
+      contentType: "image/svg+xml",
+      body: '<svg xmlns="http://www.w3.org/2000/svg" width="1" height="1"/>',
+    }),
+  );
+});
+
 const responsiveViewports = [
   { width: 320, height: 568 },
   { width: 390, height: 844 },
@@ -29,7 +39,44 @@ async function expectReachableControls(scope: Locator) {
   }
 }
 
-async function expectStandaloneFrameFits(page: Page) {
+async function expectLoadingContentReachable(loading: Locator) {
+  for (const part of await loading
+    .locator(
+      ".page-loading-label, h1, .page-loading-description, .page-loading-track, .page-loading-panel-header, .page-loading-panel-footer",
+    )
+    .all()) {
+    const geometry = () =>
+      part.evaluate((element) => {
+        const bounds = element.getBoundingClientRect();
+        const main = element.closest<HTMLElement>(".page-state-main")!;
+        const mainBounds = main.getBoundingClientRect();
+        return {
+          top: bounds.top,
+          bottom: bounds.bottom,
+          height: bounds.height,
+          mainTop: mainBounds.top + main.clientTop,
+          mainBottom: mainBounds.top + main.clientTop + main.clientHeight,
+        };
+      });
+    const initial = await geometry();
+    if (initial.height <= initial.mainBottom - initial.mainTop) {
+      await part.scrollIntoViewIfNeeded();
+      await expect(part).toBeInViewport({ ratio: viewportIntersectionRatio });
+      continue;
+    }
+    // Enlarged text can be taller than the scrollport; both ends must remain readable.
+    await part.evaluate((element) => element.scrollIntoView({ block: "start" }));
+    const start = await geometry();
+    expect(start.top).toBeGreaterThanOrEqual(start.mainTop - 1);
+    expect(start.top).toBeLessThan(start.mainBottom);
+    await part.evaluate((element) => element.scrollIntoView({ block: "end" }));
+    const end = await geometry();
+    expect(end.bottom).toBeGreaterThan(end.mainTop);
+    expect(end.bottom).toBeLessThanOrEqual(end.mainBottom + 1);
+  }
+}
+
+async function expectStandaloneFrameFits(page: Page, requireNoContentScroll = false) {
   const shell = page.locator(".page-state-shell");
   await expect(shell).toBeVisible();
   const brand = shell.getByRole("link", { name: "Kamod UI home", exact: true });
@@ -65,6 +112,7 @@ async function expectStandaloneFrameFits(page: Page) {
       mainTop: mainBounds.top,
       mainBottom: mainBounds.bottom,
       mainHeight: main.clientHeight,
+      mainScrollRange: main.scrollHeight - main.clientHeight,
       horizontalOverflow:
         element.scrollWidth > element.clientWidth + 1 ||
         main.scrollWidth > main.clientWidth + 1 ||
@@ -81,7 +129,8 @@ async function expectStandaloneFrameFits(page: Page) {
   expect(geometry.mainBottom).toBeLessThanOrEqual(geometry.footerTop + 1);
   expect(geometry.mainHeight).toBeGreaterThan(0);
   expect(geometry.horizontalOverflow).toBe(false);
-  expect(geometry.documentHeight).toBeLessThanOrEqual(geometry.viewportHeight + 1);
+  expect(geometry.documentHeight).toBe(geometry.viewportHeight);
+  if (requireNoContentScroll) expect(geometry.mainScrollRange).toBe(0);
   await expectReachableControls(shell);
   await expect(shell.locator(".page-state-topbar")).toBeInViewport({
     ratio: viewportIntersectionRatio,
@@ -122,7 +171,7 @@ async function expectRecoveryFits(page: Page, compact: boolean) {
   } else {
     expect(geometry.top).toBeGreaterThanOrEqual(-1);
     expect(geometry.bottom).toBeLessThanOrEqual(geometry.viewportHeight + 1);
-    expect(geometry.documentHeight).toBeLessThanOrEqual(geometry.viewportHeight + 1);
+    expect(geometry.documentHeight).toBe(geometry.viewportHeight);
   }
   await expectReachableControls(recovery);
 }
@@ -240,6 +289,39 @@ test("unknown addresses offer working recovery links on direct and client naviga
   await expect(home).toBeFocused();
   await page.keyboard.press("Enter");
   await expect(page.getByTestId("home-page")).toBeVisible();
+});
+
+test("server-rendered reading stays scrollable without JavaScript", async ({
+  browser,
+  baseURL,
+}) => {
+  const context = await browser.newContext({
+    javaScriptEnabled: false,
+    viewport: { width: 1440, height: 900 },
+  });
+  try {
+    await context.route("https://matomo.kamod.ch/**", (route) => route.abort());
+    const page = await context.newPage();
+    await page.goto(new URL("./docs/code/installation/", baseURL).href);
+    await expect(page.locator("#pp-preloader")).toBeHidden();
+    await expect(page.locator("html")).not.toHaveAttribute("aria-busy", "true");
+    const reading = page.locator("main.docs-content");
+    await expect(reading).toBeVisible();
+    await expect(reading.getByRole("heading", { level: 1 })).toBeVisible();
+    const height = await page.evaluate(() => document.scrollingElement!.scrollHeight);
+    expect(height).toBeGreaterThan(900);
+    await page.mouse.move(720, 450);
+    await page.mouse.wheel(0, 900);
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(0);
+    await page.mouse.wheel(0, height);
+    const ending = reading.locator(".component-reference-next > p").last();
+    await expect(ending).toContainText("Leave a Small Trail for the Next Edit.");
+    // Deferred browser layout can change the long article's estimated height after a wheel jump.
+    await ending.scrollIntoViewIfNeeded();
+    await expect(ending).toBeInViewport({ ratio: viewportIntersectionRatio });
+  } finally {
+    await context.close();
+  }
 });
 
 test("a pending preview keeps its compact loading layout", async ({ page }) => {
@@ -437,10 +519,16 @@ for (const colorScheme of ["light", "dark"] as const) {
       for (const viewport of responsiveViewports) {
         await test.step(`Route loading at ${viewport.width}×${viewport.height}`, async () => {
           await page.setViewportSize(viewport);
-          await expectStandaloneFrameFits(page);
+          // The ordinary phone, tablet and desktop frames need no inner scroll either.
+          // Short landscape windows retain scrolling so text is never clipped.
+          await expectStandaloneFrameFits(page, viewport.height >= 568);
+          await expectLoadingContentReachable(page.getByLabel("Loading content"));
         });
       }
-      await expectEnlargedTextFits(page, () => expectStandaloneFrameFits(page));
+      await expectEnlargedTextFits(page, async () => {
+        await expectStandaloneFrameFits(page);
+        await expectLoadingContentReachable(page.getByLabel("Loading content"));
+      });
     } finally {
       release();
     }
@@ -485,6 +573,7 @@ for (const colorScheme of ["light", "dark"] as const) {
                 message.scrollWidth > message.clientWidth + 1,
               viewportWidth: innerWidth,
               viewportHeight: innerHeight,
+              documentHeight: document.scrollingElement!.scrollHeight,
             };
           });
           expect(geometry.top).toBeGreaterThanOrEqual(-1);
@@ -492,6 +581,7 @@ for (const colorScheme of ["light", "dark"] as const) {
           expect(geometry.left).toBeGreaterThanOrEqual(-1);
           expect(geometry.right).toBeLessThanOrEqual(geometry.viewportWidth + 1);
           expect(geometry.horizontalOverflow).toBe(false);
+          expect(geometry.documentHeight).toBe(geometry.viewportHeight);
           for (const part of await preloader
             .locator(
               ".page-loading-label, .page-state-message-title, .page-loading-description, .page-loading-track",
@@ -510,7 +600,7 @@ for (const colorScheme of ["light", "dark"] as const) {
   });
 }
 
-for (const width of [320, 768, 1440]) {
+for (const width of [320, 768, 1024, 1440]) {
   for (const colorScheme of ["light", "dark"] as const) {
     test(`not-found fits ${width}px in ${colorScheme} mode`, async ({ page }) => {
       await page.setViewportSize({ width, height: 900 });

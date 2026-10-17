@@ -30,7 +30,7 @@ const faviconFiles = new Map([
   ["/favicon.png", { file: "favicon.png", type: "image/png" }],
 ]);
 const matomoImageTracker =
-  '<!-- Matomo Image Tracker--><img referrerpolicy="no-referrer-when-downgrade" src="https://matomo.kamod.ch/matomo.php?idsite=3&amp;rec=1" style="border:0" alt="" /><!-- End Matomo -->';
+  '<!-- Matomo Image Tracker--><img referrerpolicy="no-referrer-when-downgrade" src="https://matomo.kamod.ch/matomo.php?idsite=3&amp;rec=1" width="1" height="1" style="position:absolute;inset:0 auto auto 0;border:0;pointer-events:none" alt="" /><!-- End Matomo -->';
 
 const basePrefix = base === "/" ? "" : base.replace(/\/$/, "");
 

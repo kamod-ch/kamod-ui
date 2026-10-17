@@ -14,7 +14,7 @@
 .not-found-art {
   display: grid;
   place-items: center;
-  margin: 0 auto clamp(0.75rem, 3dvh, 2rem);
+  margin: 0 auto clamp(0.75rem, 2dvh, 1.5rem);
   padding: clamp(0.25rem, 1dvh, 0.5rem);
 }
 /* A single folded sheet replaces the layered map; its small accent follows the chosen preset. */
@@ -24,7 +24,7 @@
   justify-items: center;
   align-content: center;
   gap: 0.75rem;
-  width: clamp(7rem, 24dvh, 14rem);
+  width: clamp(7rem, 20dvh, 12rem);
   aspect-ratio: 28 / 19;
   border: 1px solid;
   border-color: color-mix(in oklab, var(--primary) 18%, var(--border));
@@ -127,7 +127,7 @@
   outline-offset: 3px;
 }
 .not-found-destinations {
-  margin-top: clamp(1.5rem, 5dvh, 4.5rem);
+  margin-top: clamp(1.5rem, 3dvh, 3rem);
   margin-bottom: auto;
 }
 .not-found-divider {
@@ -136,7 +136,7 @@
   justify-content: space-between;
   gap: 1rem;
   padding: 0 0.75rem 0.75rem;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--page-state-rule);
   color: var(--not-found-muted);
 }
 .not-found-divider h2 {
@@ -146,7 +146,7 @@
 }
 .not-found-links {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
   gap: 0.625rem;
   margin-top: 0.75rem;
 }

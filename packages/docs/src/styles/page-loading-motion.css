@@ -1,5 +1,25 @@
 /* Also embedded in the first-paint preloader, before the site stylesheet is available. */
 /* Share first-paint geometry with recovery; these rules require no animation or site reset. */
+/* PreactPress sets busy from JavaScript; static/no-script reading must remain scrollable. */
+html[aria-busy="true"]:not(.pp-ready) {
+  height: 100%;
+  overflow: hidden;
+}
+html[aria-busy="true"]:not(.pp-ready) body {
+  height: 100vh;
+  height: 100dvh;
+  margin: 0;
+  overflow: hidden;
+}
+.page-state-shell,
+.page-state-recovery,
+#pp-preloader {
+  --page-state-rule: color-mix(
+    in oklab,
+    var(--foreground, var(--pp-preloader-accent, #171717)) 8%,
+    transparent
+  );
+}
 #pp-preloader {
   box-sizing: border-box;
   flex-direction: column;
@@ -151,7 +171,7 @@
   height: 4px;
   margin-top: clamp(1rem, 4dvh, 2rem);
   border-radius: 999px;
-  background: color-mix(in oklab, currentColor 12%, transparent);
+  background: var(--page-state-rule);
 }
 
 .page-loading-track::after {

@@ -28,7 +28,7 @@
 
 .page-state-topbar {
   flex-wrap: wrap;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--page-state-rule);
 }
 .page-state-brand,
 .page-state-text-link,
@@ -84,7 +84,7 @@
   line-height: 1.8;
 }
 .page-state-footer {
-  border-top: 1px solid var(--border);
+  border-top: 1px solid var(--page-state-rule);
   color: color-mix(in oklab, var(--muted-foreground) 65%, var(--foreground));
   font-size: 0.8rem;
   flex-wrap: wrap;
@@ -283,7 +283,7 @@
   margin: clamp(1rem, 4dvh, 2rem) 0 0;
   border: 0;
   border-radius: 999px;
-  background: color-mix(in oklab, var(--foreground) 12%, transparent);
+  background: var(--page-state-rule);
 }
 .page-recovery-link:focus-visible {
   outline: 2px solid var(--ring);
@@ -303,6 +303,19 @@
   }
 }
 @media (max-height: 600px) {
+  .page-state-main {
+    padding-block: 0.75rem;
+  }
+  .page-state-loading:not(.page-state-loading--compact) {
+    padding-block: 0.25rem;
+  }
+  .page-state-skeleton {
+    margin-top: 1rem;
+  }
+  .page-state-skeleton,
+  .page-loading-panel {
+    gap: 0.4375rem;
+  }
   .page-state-loading:not(.page-state-loading--compact) h1 {
     font-size: clamp(1.6rem, 3.25vw, 2.25rem);
   }
@@ -314,7 +327,7 @@
     width: 1.5rem;
     height: 1.5rem;
   }
-  .page-loading-panel-footer > span {
+  .page-state-skeleton .page-loading-panel-footer > span {
     height: 1rem;
   }
 }
