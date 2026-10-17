@@ -52,7 +52,7 @@ export function referenceResource(resource: ReferenceResource) {
       Icon: GlobeIcon,
       label: "Docs",
       description:
-        "Check the **official documentation** for supported APIs, framework integration and version-specific setup.",
+        "Read the **linked documentation** for API details, integration examples and version-specific guidance.",
     };
   return presentation;
 }

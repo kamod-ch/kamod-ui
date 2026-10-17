@@ -51,9 +51,18 @@ it("preserves exact copyable origins, linked headings and top-frame navigation",
   expect(container.querySelector(".code-reference-help-location")).toHaveTextContent(
     reference.docs!.href,
   );
-  expect(container.querySelector(".code-reference-help-location")).toHaveTextContent(
+  expect(container.querySelector(".code-reference-help-location")).toHaveAttribute(
+    "href",
+    reference.docs!.href,
+  );
+  expect(container.querySelector(".code-reference-help-location-detail")).toHaveTextContent(
     "Required: dir",
   );
+  expect(container.querySelector(".code-reference-help-location")).not.toHaveTextContent(
+    "Required: dir",
+  );
+  for (const selector of [".code-reference-help-title-mark", ".code-reference-help-connection"])
+    expect(container.querySelector(selector)).toHaveAttribute("aria-hidden", "true");
   for (const link of container.querySelectorAll("a"))
     expect(link).toHaveAttribute("target", "_top");
 });
@@ -89,8 +98,16 @@ it("uses a single badge, short origin context, and one ending index for all veri
     "Layout direction",
   );
   const index = container.querySelector(".code-reference-help-related")!;
-  expect(index).toHaveTextContent("Reference index");
+  expect(index).toHaveTextContent("Useful resources");
   expect(index.querySelectorAll("a")).toHaveLength(3);
+  expect(index.querySelector("a")).toHaveAttribute("href", reference.docs!.href);
+  expect(index.querySelector(".code-reference-help-reading-count")).toHaveTextContent(
+    "3 references",
+  );
+  expect(within(index as HTMLElement).getAllByRole("list")).toHaveLength(1);
+  expect(within(index as HTMLElement).getAllByRole("listitem")).toHaveLength(3);
+  expect(within(index as HTMLElement).queryByText("Contracts", { exact: true })).toBeNull();
+  expect(within(index as HTMLElement).queryByText("Resources", { exact: true })).toBeNull();
   expect(within(index as HTMLElement).getByRole("link", { name: "API reference" })).toHaveAttribute(
     "href",
     reference.docs!.href,
@@ -124,7 +141,9 @@ it("keeps exact package source primary while retaining its local integration des
     ".code-reference-help-primary-link",
   ])
     expect(container.querySelector(selector)).toHaveAttribute("href", value.source!.href);
-  expect(container.querySelector(".code-reference-help-location")).toHaveTextContent("main branch");
+  expect(container.querySelector(".code-reference-help-location-detail")).toHaveTextContent(
+    "main branch",
+  );
   expect(
     container.querySelector(`.code-reference-help-related a[href='${value.docs!.href}']`),
   ).not.toBeNull();
@@ -141,6 +160,9 @@ it("deduplicates every ending destination and does not manufacture missing resou
     />,
   );
   expect(container.querySelectorAll(".code-reference-help-related-link")).toHaveLength(1);
+  expect(container.querySelector(".code-reference-help-reading-count")).toHaveTextContent(
+    "1 reference",
+  );
   rerender(
     <CodeReferenceHelpContent
       reference={{ ...reference, source: undefined, docs: undefined, related: [] }}
@@ -253,25 +275,43 @@ it("reuses source type disclosures and mounts their miniature code only when exp
   expect(container.querySelector(".kamod-code pre code")?.textContent).toBe(code);
 });
 
-it("keeps every distinct related contract without duplicating links in a second footer", () => {
+it("keeps every verified destination in one flat ending, with the chosen reference first", () => {
   const related = Array.from({ length: 8 }, (_, index) => ({
     label: `Related${index}`,
     href: `/docs/types#type${index}`,
     kind: "type" as const,
   }));
+  const chapter = { label: "Chapter source", href: "/docs/types#chapter" };
+  const excerpt = { label: "Usage example", href: "/docs/types#example" };
+  const definition = { label: "Full definition", href: "/docs/types#IndependentProps" };
   const { container } = render(
     <CodeReferenceHelpContent
       reference={{
         ...reference,
-        related,
+        related: [
+          ...related,
+          related[0],
+          { ...reference.docs!, kind: "guide" },
+          { ...reference.source!, kind: "source" },
+        ],
         sections: [
           {
             title: "Local definitions",
+            source: chapter,
+            excerpts: [
+              { title: "Usage", source: excerpt },
+              { title: "Same primary destination", source: reference.docs },
+            ],
             definitions: [
               {
                 name: "IndependentProps",
                 code: "type IndependentProps = string;",
-                source: { label: "Full definition", href: "/docs/types#IndependentProps" },
+                source: definition,
+              },
+              {
+                name: "Same contract destination",
+                code: "type Related0 = string;",
+                source: related[0],
               },
             ],
           },
@@ -280,8 +320,24 @@ it("keeps every distinct related contract without duplicating links in a second 
     />,
   );
   const links = [...container.querySelectorAll(".code-reference-help-related-link")];
-  expect(links).toHaveLength(11);
-  expect(new Set(links.map((link) => link.getAttribute("href"))).size).toBe(11);
+  const destinations = [
+    reference.docs!.href,
+    reference.source!.href,
+    ...related.map(({ href }) => href),
+    chapter.href,
+    excerpt.href,
+    definition.href,
+  ];
+  expect(links.map((link) => link.getAttribute("href"))).toEqual(destinations);
+  expect(links[0]).toHaveAttribute("data-reference-primary", "true");
+  const index = container.querySelector(".code-reference-help-related") as HTMLElement;
+  expect(within(index).getAllByRole("list")).toHaveLength(1);
+  expect(within(index).getAllByRole("listitem")).toHaveLength(destinations.length);
+  expect(index.querySelector(".code-reference-help-reading-count")).toHaveTextContent(
+    `${destinations.length} references`,
+  );
+  expect(within(index).queryByText("Contracts", { exact: true })).toBeNull();
+  expect(within(index).queryByText("Resources", { exact: true })).toBeNull();
   expect(
     container.querySelector(
       '.code-reference-help-related-link[href="/docs/types#IndependentProps"] code',

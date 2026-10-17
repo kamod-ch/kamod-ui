@@ -1,20 +1,26 @@
+@import "./reference-header.css";
+@import "./reference-related.css";
+
 /* The card is inverse; shared inline chips deliberately retain the page's own highlight. */
 [data-slot="tooltip"] [data-slot="tooltip-content"].code-reference-help {
-  --code-help-muted: color-mix(in oklab, var(--background) 76%, transparent);
-  --code-help-quiet: color-mix(in oklab, var(--background) 65%, transparent);
-  --code-help-postscript: var(--background);
+  --code-help-font-min: 0.53125rem;
+  --code-help-font-context: 0.625rem;
+  --code-help-resource-gap: 0.75rem;
+  --code-help-muted: color-mix(in oklab, var(--docs-inline-code-background) 85%, transparent);
+  --code-help-quiet: color-mix(in oklab, var(--docs-inline-code-background) 70%, transparent);
+  --code-help-postscript: var(--code-help-muted);
   --code-help-rule: color-mix(in oklab, var(--background) 12%, transparent);
   --code-help-surface: color-mix(in oklab, var(--background) 4%, transparent);
   --code-help-action-size: 1.375rem;
   --code-help-action-ink: var(--docs-inline-code-background);
   --code-help-action-background: color-mix(
     in oklab,
-    var(--docs-inline-code-background) 10%,
+    var(--docs-inline-code-background) 24%,
     transparent
   );
   --code-help-action-hover: color-mix(
     in oklab,
-    var(--docs-inline-code-background) 22%,
+    var(--docs-inline-code-background) 34%,
     transparent
   );
   padding: 0.875rem;
@@ -26,206 +32,6 @@
   min-width: 0;
   color: var(--background);
   animation: code-reference-help-reveal 180ms ease-out both;
-}
-.code-reference-help-header,
-.code-reference-help-badges {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  min-width: 0;
-}
-.code-reference-help-header {
-  align-items: flex-start;
-}
-.code-reference-help-heading {
-  flex: 1;
-  display: grid;
-  gap: 0.1875rem;
-  min-width: 2ch;
-}
-.code-reference-help a.code-reference-help-title,
-.code-reference-help-title {
-  display: block;
-  min-width: 0;
-  color: inherit;
-  font-size: 0.78125rem;
-  line-height: 1.5;
-  text-decoration: none;
-}
-.code-reference-help-location {
-  display: flex;
-  align-items: center;
-  gap: 0.1875rem;
-  min-width: 0;
-  color: var(--background);
-  font-size: 0.5rem;
-  font-weight: 400;
-  line-height: 1.6;
-}
-.code-reference-help-location > span:not(:nth-child(2)) {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.code-reference-help-location > span:first-child {
-  flex: 0 1 65%;
-}
-.code-reference-help-location > span:last-child {
-  flex: 1;
-}
-.code-reference-help .code-reference-help-header code {
-  display: block;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  padding: 0;
-  background: none;
-  color: inherit;
-  font-size: inherit;
-}
-.code-reference-help-kind-icon {
-  display: grid;
-  place-items: center;
-  flex: none;
-  width: 1.875rem;
-  height: 1.875rem;
-  border: 0;
-  border-radius: 0.5rem;
-  background: var(--code-help-action-background);
-}
-.code-reference-help-badges {
-  flex: none;
-  gap: 0.375rem;
-}
-.code-reference-help .code-reference-help-kind {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  flex: none;
-  height: var(--code-help-action-size);
-  padding: 0.0625rem 0.3125rem;
-  --code-help-chip-radius: 4px;
-  border: 0;
-  font-size: 0.6875rem;
-  font-weight: 500;
-  line-height: 1.5;
-  white-space: nowrap;
-}
-.code-reference-help-kind svg {
-  flex: none;
-  width: 0.75rem;
-  height: 0.75rem;
-}
-/* Reuse the site's icon action, adapting its paint to this inverse reading surface. */
-.code-reference-help :is(.code-reference-help-kind-icon, .code-reference-help-open) {
-  --docs-icon-button-background: var(--code-help-action-background);
-  --docs-icon-button-hover-background: var(--code-help-action-hover);
-  --docs-icon-button-hover-offset: 0;
-  --docs-icon-button-hover-shadow: none;
-  color: var(--code-help-action-ink);
-  transition: background-color 150ms ease;
-}
-.code-reference-help .code-reference-help-open {
-  --code-help-action-ink: var(--foreground);
-  --code-help-action-background: var(--docs-inline-code-background);
-  --code-help-action-hover: color-mix(
-    in oklab,
-    var(--foreground) 12%,
-    var(--docs-inline-code-background)
-  );
-  flex: none;
-  width: var(--code-help-action-size);
-  height: var(--code-help-action-size);
-  border-radius: 4px;
-}
-.code-reference-help
-  a:is(.code-reference-help-kind-icon, .code-reference-help-open):is(:hover, :focus-visible) {
-  background: var(--docs-icon-button-hover-background);
-  color: var(--code-help-action-ink);
-}
-/* The tooltip is a stationary reading surface: actions change only their background. */
-.code-reference-help :is(button, .docs-icon-button):is(:hover, :focus-visible, :active) {
-  translate: 0;
-  scale: 1;
-  transform: none;
-  box-shadow: none;
-}
-.code-reference-help :is(button, .docs-icon-button) {
-  transition-property: background-color;
-}
-.code-reference-help .docs-icon-button > svg {
-  color: inherit;
-}
-.code-reference-help-origin {
-  display: flex;
-  align-items: center;
-  gap: 0.4375rem;
-  min-width: 0;
-  padding-bottom: 0.75rem;
-  border-bottom: 1px solid var(--code-help-rule);
-  white-space: nowrap;
-}
-.code-reference-help-origin-path,
-.code-reference-help-origin > .code-reference-help-path {
-  flex: 0 1 auto;
-  min-width: 3ch;
-  max-width: 72%;
-}
-.code-reference-help .code-reference-help-origin a {
-  text-decoration: none;
-}
-.code-reference-help .code-reference-help-path {
-  width: max-content;
-  max-width: 100%;
-  font-size: 0.6875rem;
-}
-.code-reference-help .code-reference-help-path[data-path-middle] {
-  grid-template-columns: minmax(0, max-content) minmax(1ch, 1fr) minmax(0, max-content);
-}
-.code-reference-help .code-reference-help-path > span {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.code-reference-help-context {
-  display: flex;
-  align-items: center;
-  gap: 0.4375rem;
-  flex: 1;
-  min-width: 0;
-  color: var(--background);
-  font-size: 0.625rem;
-}
-.code-reference-help-context > span:first-child {
-  flex: none;
-}
-.code-reference-help-context > span:last-child {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.code-reference-help-summary {
-  display: grid;
-  gap: 0.5rem;
-  color: color-mix(in oklab, var(--background) 90%, transparent);
-  line-height: 1.65;
-}
-.code-reference-help-summary strong {
-  color: var(--background);
-  font-weight: 600;
-}
-.code-reference-help-summary .code-reference-help-detail {
-  color: var(--code-help-postscript);
-  font-size: 0.53125rem;
-  line-height: 1.65;
-}
-.code-reference-help .code-reference-help-summary .code-reference-help-detail :is(strong, a, code) {
-  color: inherit;
-}
-.code-reference-help .code-reference-help-summary .code-reference-help-detail code {
-  background: color-mix(in oklab, var(--background) 8%, transparent);
-  font-size: inherit;
 }
 /* Header, chapters and final index share the same uninterrupted reading surface. */
 .code-reference-help-content {
@@ -259,7 +65,7 @@
     .code-reference-help-facts code
   ) {
   padding: 0.0625rem 0.25rem;
-  font-size: 0.6875rem;
+  font-size: var(--code-help-font-context);
   font-weight: 450;
   line-height: 1.5;
 }
@@ -346,7 +152,7 @@
   flex: none;
   white-space: nowrap;
   color: var(--background);
-  font-size: 0.46875rem;
+  font-size: var(--code-help-font-min);
   line-height: 1.6;
   text-decoration: none;
 }
@@ -373,7 +179,7 @@
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
   color: var(--code-help-quiet);
-  font-size: 0.46875rem;
+  font-size: var(--code-help-font-min);
   line-height: 1.6;
   text-align: center;
 }
@@ -442,7 +248,7 @@
   padding: 0.375rem;
 }
 .code-reference-help .code-reference-help-miniature .blocks-doc-table thead {
-  font-size: 0.46875rem;
+  font-size: var(--code-help-font-min);
 }
 .code-reference-help .code-reference-help-miniature .blocks-doc-table th[scope="row"] {
   width: 32%;
@@ -453,12 +259,12 @@
 }
 .code-reference-help .code-reference-help-miniature .blocks-api-prop-type {
   margin-top: 0.25rem;
-  font-size: 0.5rem;
+  font-size: var(--code-help-font-min);
 }
 .code-reference-help .code-reference-help-miniature .component-api-owners {
   gap: 0.25rem;
   margin-top: 0.25rem;
-  font-size: 0.46875rem;
+  font-size: var(--code-help-font-min);
 }
 .code-reference-help .code-reference-help-miniature .blocks-api-field-owner {
   font-size: inherit;
@@ -467,7 +273,7 @@
   gap: 0.1875rem 0.375rem;
   margin-top: 0.375rem;
   padding-top: 0.3125rem;
-  font-size: 0.46875rem;
+  font-size: var(--code-help-font-min);
 }
 .code-reference-help-miniature td > p {
   display: -webkit-box;
@@ -486,7 +292,7 @@
 }
 .code-reference-help .code-reference-help-miniature .docs-code-toolbar {
   padding: 0.375rem 0.5rem;
-  font-size: 0.46875rem;
+  font-size: var(--code-help-font-min);
 }
 .code-reference-help .code-reference-help-miniature .docs-code {
   padding: 0.5rem;
@@ -538,25 +344,25 @@
     [data-slot="type-definition-title-metadata"],
     [data-slot="type-definition-trigger-hint"]
   ) {
-  font-size: 0.46875rem;
+  font-size: var(--code-help-font-min);
 }
 .code-reference-help .code-reference-help-miniature [data-slot="type-definition-trigger"] {
   min-height: 0;
   gap: 0.375rem;
   padding: 0.375rem;
-  font-size: 0.5rem;
+  font-size: var(--code-help-font-min);
   color: var(--muted-foreground);
 }
 .code-reference-help
   .code-reference-help-miniature
   :is([data-slot="type-definition-description"], [data-slot="type-definition-metadata"]) {
   margin-top: 0.3125rem;
-  font-size: 0.5rem;
+  font-size: var(--code-help-font-min);
   line-height: 1.7;
 }
 .code-reference-help .code-reference-help-miniature .blocks-api-type-fields {
   gap: 0.25rem;
-  font-size: 0.46875rem;
+  font-size: var(--code-help-font-min);
 }
 .code-reference-help .code-reference-help-miniature .blocks-api-required-label {
   font-size: inherit;
@@ -586,7 +392,7 @@
   display: block;
   padding: 0.25rem 0.375rem;
   color: var(--muted-foreground);
-  font-size: 0.4375rem;
+  font-size: var(--code-help-font-min);
   text-align: center;
 }
 .code-reference-help .code-reference-help-continuation {
@@ -595,7 +401,7 @@
   justify-content: center;
   gap: 0.25rem;
   color: var(--foreground);
-  font-size: 0.46875rem;
+  font-size: var(--code-help-font-min);
   text-decoration: underline;
   text-underline-offset: 0.2em;
 }
@@ -649,124 +455,8 @@
 .code-reference-help-facts dd {
   color: var(--background);
 }
-/* Related links are a separate, full-width reading shelf rather than a content card. */
-.code-reference-help-related {
-  display: grid;
-  gap: 0.5rem;
-  min-width: 0;
-  margin: 0 -0.875rem -0.75rem;
-  padding: 0.625rem 0.875rem;
-  border-top: 1px solid var(--code-help-rule);
-  background: transparent;
-  margin-bottom: -0.875rem;
-  padding-bottom: 0.875rem;
-}
-.code-reference-help-reading-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.375rem;
-  margin-bottom: 0.25rem;
-  min-width: 0;
-  font-size: 0.59375rem;
-}
-.code-reference-help-reading-heading strong {
-  display: flex;
-  flex: none;
-  align-items: center;
-  gap: 0.3125rem;
-  font-weight: 600;
-  white-space: nowrap;
-}
-.code-reference-help-reading-heading > span,
-.code-reference-help-reading-group-heading > span {
-  color: var(--code-help-quiet);
-  font-size: 0.46875rem;
-}
-.code-reference-help-reading-detail {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.code-reference-help-reading-detail > span {
-  margin-right: 0.25rem;
-}
-.code-reference-help-reading-count {
-  flex: none;
-  margin-left: auto;
-}
-.code-reference-help-reading-group {
-  display: grid;
-  gap: 0.25rem;
-  min-width: 0;
-}
-.code-reference-help-reading-group-heading {
-  display: flex;
-  align-items: center;
-  gap: 0.375rem;
-  min-width: 0;
-  font-size: 0.53125rem;
-  line-height: 1.6;
-}
-.code-reference-help-reading-group-heading strong {
-  font-weight: 600;
-}
-.code-reference-help-reading-group-heading > span {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.code-reference-help-related-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem;
-  min-width: 0;
-}
-.code-reference-help .code-reference-help-related-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  max-width: 100%;
-  min-width: 0;
-  padding: 0.125rem 0.1875rem;
-  border: 0;
-  border-radius: 3px;
-  background: var(--docs-inline-code-background);
-  color: var(--foreground);
-  font-family: var(--font-mono, monospace);
-  font-size: 0.46875rem;
-  font-weight: 550;
-  text-decoration: none;
-  transition: background-color 150ms ease;
-}
-.code-reference-help-related-link > svg {
-  flex: none;
-}
-.code-reference-help a.code-reference-help-related-link > code {
-  min-width: 0;
-  padding: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  background: none;
-  color: inherit;
-  font-size: 0.46875rem;
-  font-weight: 550;
-  text-decoration: underline;
-  text-decoration-color: color-mix(in oklab, currentColor 55%, transparent);
-  text-underline-offset: 0.2em;
-}
-.code-reference-help-related-kind {
-  flex: none;
-  font-size: inherit;
-  font-weight: inherit;
-}
 .code-reference-help .code-reference-help-facts code {
-  font-size: 0.53125rem;
-}
-.code-reference-help .code-reference-help-related-link:is(:hover, :focus-visible) {
-  background: color-mix(in oklab, var(--foreground) 12%, var(--docs-inline-code-background));
+  font-size: var(--code-help-font-min);
 }
 .code-reference-help a:is(:hover, :focus-visible) {
   text-decoration-color: currentColor;
@@ -876,7 +566,7 @@
 }
 .code-reference-help-loading-note {
   color: var(--code-help-muted);
-  font-size: 0.46875rem;
+  font-size: var(--code-help-font-min);
   line-height: 1.6;
 }
 .code-reference-help-unavailable > p {
@@ -922,20 +612,6 @@
   }
   to {
     background-position: -150% 0;
-  }
-}
-@media (max-width: 399px) {
-  .code-reference-help-header {
-    gap: 0.375rem;
-  }
-  .code-reference-help a.code-reference-help-title {
-    font-size: 0.75rem;
-  }
-  .code-reference-help-badges {
-    gap: 0.25rem;
-  }
-  .code-reference-help-origin {
-    gap: 0.375rem;
   }
 }
 @media (prefers-reduced-motion: reduce) {

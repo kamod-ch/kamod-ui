@@ -1,4 +1,4 @@
-import { LinkIcon } from "@kamod-ch/icons/lucide";
+import { ArrowUpRightIcon, CompassIcon, InfoIcon, LinkIcon } from "@kamod-ch/icons/lucide";
 import { Badge } from "@kamod-ch/ui/badge";
 import { splitDisplayPath } from "../../docs/components/display-path";
 import type { CodeReferenceHelp } from "../types";
@@ -56,30 +56,57 @@ export function CodeReferenceHelpContent({ reference }: { reference: CodeReferen
             <strong>
               <code>{name}</code>
             </strong>
+            <CompassIcon
+              class="code-reference-help-title-mark"
+              size={12}
+              strokeWidth={1.75}
+              aria-hidden="true"
+            />
           </TitleTag>
-          {location && (
-            <p class="code-reference-help-location" title={`${location.path} · ${location.detail}`}>
-              <span dir="ltr">{location.path}</span>
-              <span aria-hidden="true">·</span>
-              <span>{location.detail}</span>
-            </p>
-          )}
-        </div>
-        <div class="code-reference-help-badges">
-          <Badge class="code-reference-help-kind" size="xxs">
-            <Icon size={12} strokeWidth={2} aria-hidden="true" />
-            {label}
-          </Badge>
-          {primary && (
+          {location && primary && (
             <a
-              class="docs-icon-button code-reference-help-open"
+              class="code-reference-help-location"
               href={primary.href}
               target="_top"
-              aria-label={`Open ${primary.label} for ${name}`}
-              title={primary.label}
+              aria-label={`Open ${location.path}`}
+              title={location.path}
             >
-              <LinkIcon size={11} strokeWidth={1.75} aria-hidden="true" />
+              <span dir="ltr">{location.path}</span>
+              <ArrowUpRightIcon size={10} strokeWidth={1.75} aria-hidden="true" />
             </a>
+          )}
+        </div>
+        <div class="code-reference-help-heading-meta">
+          <div class="code-reference-help-badges">
+            <Badge class="code-reference-help-kind" size="xxs">
+              <Icon size={12} strokeWidth={2} aria-hidden="true" />
+              {label}
+            </Badge>
+            {primary && (
+              <>
+                <LinkIcon
+                  class="code-reference-help-connection"
+                  size={8}
+                  strokeWidth={1.75}
+                  aria-hidden="true"
+                />
+                <a
+                  class="docs-icon-button code-reference-help-open"
+                  href={primary.href}
+                  target="_top"
+                  aria-label={`Open ${primary.label} for ${name}`}
+                  title={primary.label}
+                >
+                  <LinkIcon size={11} strokeWidth={1.75} aria-hidden="true" />
+                </a>
+              </>
+            )}
+          </div>
+          {location && (
+            <p class="code-reference-help-location-detail" title={location.detail}>
+              <InfoIcon size={10} strokeWidth={1.75} aria-hidden="true" />
+              <span>{location.detail}</span>
+            </p>
           )}
         </div>
       </header>

@@ -1,0 +1,123 @@
+/* A single closing list keeps the chosen source first; labels alone carry underlines. */
+.code-reference-help-related {
+  display: grid;
+  gap: 0.5rem;
+  min-width: 0;
+  margin: 0 -0.875rem -0.875rem;
+  padding: 0.625rem 0.875rem 0.875rem;
+  border-top: 1px solid var(--code-help-rule);
+}
+.code-reference-help-reading-heading,
+.code-reference-help-reading-heading-left {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+.code-reference-help-reading-heading {
+  gap: var(--code-help-resource-gap);
+  margin-bottom: 0.25rem;
+  font-size: 0.59375rem;
+  line-height: 1.6;
+}
+.code-reference-help-reading-heading-left {
+  flex: 1;
+  gap: 0.3125rem;
+  overflow: hidden;
+}
+.code-reference-help-reading-heading-left > strong {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 0.3125rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.code-reference-help-reading-detail {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--code-help-quiet);
+  font-size: var(--code-help-font-min);
+}
+.code-reference-help-reading-count {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 0.1875rem;
+  color: var(--background);
+  font-size: 0.5625rem;
+  white-space: nowrap;
+}
+.code-reference-help-reading-count > strong {
+  font-size: 1.05em;
+  font-weight: 600;
+}
+.code-reference-help-related-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.code-reference-help-related-item {
+  display: flex;
+  min-width: 0;
+  max-width: 100%;
+}
+.code-reference-help .code-reference-help-related-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  max-width: 100%;
+  min-width: 0;
+  padding: 0.125rem 0.1875rem;
+  border: 0;
+  border-radius: 3px;
+  background: var(--docs-inline-code-background);
+  color: var(--foreground);
+  font-family: var(--font-mono, monospace);
+  font-size: var(--code-help-font-min);
+  font-weight: 550;
+  text-decoration: none;
+  transition: background-color 150ms ease;
+}
+.code-reference-help-related-link > svg {
+  flex: none;
+}
+.code-reference-help a.code-reference-help-related-link > code {
+  min-width: 0;
+  padding: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background: none;
+  color: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, currentColor 55%, transparent);
+  text-underline-offset: 0.2em;
+}
+.code-reference-help-related-kind {
+  flex: none;
+  font-size: inherit;
+  font-weight: inherit;
+}
+.code-reference-help .code-reference-help-related-link:is(:hover, :focus-visible) {
+  background: color-mix(in oklab, var(--foreground) 12%, var(--docs-inline-code-background));
+}
+.code-reference-help .code-reference-help-primary-link {
+  /* Use the badge's highlight strength with the secondary hue instead of its accent. */
+  --code-help-primary-background: color-mix(
+    in oklab,
+    var(--secondary) calc(10% + 9% * var(--docs-highlight-boost, 0)),
+    var(--muted)
+  );
+  background: var(--code-help-primary-background);
+}
+.code-reference-help .code-reference-help-primary-link:is(:hover, :focus-visible) {
+  background: color-mix(in oklab, var(--foreground) 12%, var(--code-help-primary-background));
+}

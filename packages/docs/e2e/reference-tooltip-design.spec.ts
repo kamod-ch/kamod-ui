@@ -117,15 +117,45 @@ for (const scheme of ["light", "dark"] as const) {
           await badge.evaluate((node) => getComputedStyle(node).backgroundColor),
         );
         const location = card.locator(".code-reference-help-location");
-        await expect(location).toHaveCSS("font-weight", "400");
-        await expect(location).toHaveCSS("font-size", "8px");
-        await expect(location).toHaveCSS("color", ink);
-        const shownDestination = await location.locator("span").first().innerText();
+        await expect(location).toHaveAttribute("href", destination);
+        await expect(location).toHaveAttribute("target", "_top");
+        const shownDestination = await location.locator("span[dir='ltr']").innerText();
         expect(destination).toContain(shownDestination);
-        await expect(location.locator("span").last()).not.toBeEmpty();
+        await expect(location).toHaveAccessibleName(`Open ${shownDestination}`);
+        await expect(location).toHaveAttribute("title", shownDestination);
+        const fact = card.locator(".code-reference-help-location-detail");
+        await expect(fact.locator("span")).not.toBeEmpty();
+        await expect(card.locator(".code-reference-help-heading-meta")).toContainText(
+          (await fact.locator("span").innerText()).trim(),
+        );
+        await expect(location).not.toContainText((await fact.locator("span").innerText()).trim());
+        for (const icon of [
+          title.locator(".code-reference-help-title-mark"),
+          card.locator(".code-reference-help-connection"),
+        ]) {
+          await expect(icon).toHaveAttribute("aria-hidden", "true");
+          await expect(icon).not.toHaveAttribute("tabindex");
+        }
         const origin = card.locator(".code-reference-help-origin");
         const context = origin.locator(".code-reference-help-context");
-        await expect(context).toHaveCSS("color", ink);
+        const summaryStyle = await card
+          .locator(".code-reference-help-summary > p")
+          .first()
+          .evaluate((node) => {
+            const style = getComputedStyle(node);
+            return {
+              color: style.color,
+              fontSize: style.fontSize,
+              fontWeight: style.fontWeight,
+              lineHeight: style.lineHeight,
+            };
+          });
+        for (const text of [context, fact]) {
+          await expect(text).toHaveCSS("color", summaryStyle.color);
+          await expect(text).toHaveCSS("font-size", summaryStyle.fontSize);
+          await expect(text).toHaveCSS("font-weight", summaryStyle.fontWeight);
+          await expect(text).toHaveCSS("line-height", summaryStyle.lineHeight);
+        }
         expect(
           (await context.locator("span").last().innerText()).trim().split(/\s+/).length,
         ).toBeLessThanOrEqual(3);
@@ -136,7 +166,7 @@ for (const scheme of ["light", "dark"] as const) {
         const postscript = card.locator(".code-reference-help-detail");
         await expect(postscript).not.toBeEmpty();
         await expect(postscript).toHaveCSS("font-size", "8.5px");
-        await expect(postscript).toHaveCSS("color", ink);
+        await expect(postscript).toHaveCSS("color", summaryStyle.color);
         await expect(card.locator("footer")).toHaveCount(0);
         const content = card.locator(".code-reference-help-content");
         if (await content.count()) {
@@ -219,25 +249,36 @@ for (const scheme of ["light", "dark"] as const) {
           await expect(chapters.nth(2).locator('[data-slot="type-definition"]')).toHaveCount(3);
         }
         const index = card.locator(".code-reference-help-related");
-        await expect(index).toContainText("Reference index");
+        await expect(index).toContainText("Useful resources");
         await expect(index.locator(".code-reference-help-panel")).toHaveCount(0);
         const resources = index.locator(".code-reference-help-related-link");
-        expect(await resources.count()).toBeGreaterThan(0);
+        const count = await resources.count();
+        expect(count).toBeGreaterThan(0);
+        await expect(resources.first()).toHaveAttribute("href", destination);
+        await expect(resources.first()).toHaveAttribute("data-reference-primary", "true");
+        await expect(index.getByRole("list")).toHaveCount(1);
+        await expect(index.getByRole("listitem")).toHaveCount(count);
+        await expect(index.getByText("Contracts", { exact: true })).toHaveCount(0);
+        await expect(index.getByText("Resources", { exact: true })).toHaveCount(0);
+        await expect(index.locator(".code-reference-help-reading-count")).toHaveText(
+          `${count} ${count === 1 ? "reference" : "references"}`,
+        );
         const destinations = await resources.evaluateAll((links) =>
           links.map((link) => link.getAttribute("href")),
         );
         expect(new Set(destinations).size).toBe(destinations.length);
+        const chapterDestinations = await card
+          .locator(
+            ".code-reference-help-section-source, .code-reference-help-continuation, [data-slot='type-definition'] h6 a",
+          )
+          .evaluateAll((links) => links.map((link) => link.getAttribute("href")));
+        for (const href of chapterDestinations) expect(destinations).toContain(href);
         for (const link of await resources.all()) {
           await expect(link).toHaveCSS("text-decoration-line", "none");
-          await expect(link.locator("code")).toHaveCSS("font-size", "7.5px");
           await expect(link.locator("code")).toHaveCSS("text-decoration-line", "underline");
           await expect(link.locator(".code-reference-help-related-kind")).toHaveCSS(
             "text-decoration-line",
             "none",
-          );
-          await expect(link.locator(".code-reference-help-related-kind")).toHaveCSS(
-            "font-size",
-            "7.5px",
           );
           await expect(link.locator(".code-reference-help-related-kind")).toContainText("/");
           await expect(link.locator("svg")).toHaveCount(1);

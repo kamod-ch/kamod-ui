@@ -1,0 +1,258 @@
+.code-reference-help-header,
+.code-reference-help-badges {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+.code-reference-help-header {
+  align-items: flex-start;
+}
+.code-reference-help-heading {
+  flex: 1;
+  display: grid;
+  gap: 0.1875rem;
+  min-width: 2ch;
+}
+.code-reference-help a.code-reference-help-title,
+.code-reference-help-title {
+  display: flex;
+  align-items: center;
+  gap: 0.3125rem;
+  min-width: 0;
+  color: inherit;
+  font-size: 0.78125rem;
+  line-height: 1.5;
+  text-decoration: none;
+}
+.code-reference-help-title > strong {
+  min-width: 0;
+}
+.code-reference-help-title-mark {
+  flex: none;
+}
+.code-reference-help .code-reference-help-location {
+  display: flex;
+  align-items: center;
+  gap: 0.1875rem;
+  min-width: 0;
+  color: var(--docs-inline-code-background);
+  font-size: 0.5625rem;
+  font-weight: 400;
+  line-height: 1.6;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, currentColor 55%, transparent);
+  text-underline-offset: 0.2em;
+}
+.code-reference-help-location > span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.code-reference-help-location > svg {
+  flex: none;
+}
+.code-reference-help-heading-meta {
+  display: grid;
+  justify-items: end;
+  gap: 0.375rem;
+  flex: 0 1 auto;
+  max-width: 60%;
+  min-width: 0;
+}
+.code-reference-help-location-detail {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: 0;
+  max-width: 100%;
+}
+.code-reference-help-location-detail > span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.code-reference-help :is(.code-reference-help-location-detail, .code-reference-help-context) {
+  font-size: var(--code-help-font-context);
+  font-weight: 450;
+  line-height: 1.65;
+  color: var(--code-help-muted);
+}
+.code-reference-help-location-detail > svg,
+.code-reference-help-connection {
+  flex: none;
+  color: inherit;
+}
+.code-reference-help-connection {
+  margin-inline: 0.0625rem;
+  color: var(--background);
+}
+.code-reference-help .code-reference-help-header code {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0;
+  background: none;
+  color: inherit;
+  font-size: inherit;
+}
+.code-reference-help-kind-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 1.875rem;
+  height: 1.875rem;
+  border: 0;
+  border-radius: 0.5rem;
+  background: var(--code-help-action-background);
+}
+.code-reference-help-badges {
+  flex: none;
+  gap: 0.375rem;
+}
+.code-reference-help .code-reference-help-kind {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex: none;
+  height: var(--code-help-action-size);
+  padding: 0.0625rem 0.3125rem;
+  --code-help-chip-radius: 4px;
+  border: 0;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+.code-reference-help-kind svg {
+  flex: none;
+  width: 0.75rem;
+  height: 0.75rem;
+}
+/* Reuse the site's icon action, adapting its paint to this inverse reading surface. */
+.code-reference-help :is(.code-reference-help-kind-icon, .code-reference-help-open) {
+  --docs-icon-button-background: var(--code-help-action-background);
+  --docs-icon-button-hover-background: var(--code-help-action-hover);
+  --docs-icon-button-hover-offset: 0;
+  --docs-icon-button-hover-shadow: none;
+  color: var(--code-help-action-ink);
+  transition: background-color 150ms ease;
+}
+.code-reference-help .code-reference-help-open {
+  --code-help-action-ink: var(--foreground);
+  --code-help-action-background: var(--docs-inline-code-background);
+  --code-help-action-hover: color-mix(
+    in oklab,
+    var(--foreground) 12%,
+    var(--docs-inline-code-background)
+  );
+  flex: none;
+  width: var(--code-help-action-size);
+  height: var(--code-help-action-size);
+  border-radius: 4px;
+}
+.code-reference-help
+  a:is(.code-reference-help-kind-icon, .code-reference-help-open):is(:hover, :focus-visible) {
+  background: var(--docs-icon-button-hover-background);
+  color: var(--code-help-action-ink);
+}
+/* The tooltip is a stationary reading surface: actions change only their background. */
+.code-reference-help :is(button, .docs-icon-button):is(:hover, :focus-visible, :active) {
+  translate: 0;
+  scale: 1;
+  transform: none;
+  box-shadow: none;
+}
+.code-reference-help :is(button, .docs-icon-button) {
+  transition-property: background-color;
+}
+.code-reference-help .docs-icon-button > svg {
+  color: inherit;
+}
+.code-reference-help-origin {
+  display: flex;
+  align-items: center;
+  gap: 0.4375rem;
+  min-width: 0;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--code-help-rule);
+  white-space: nowrap;
+}
+.code-reference-help-origin-path,
+.code-reference-help-origin > .code-reference-help-path {
+  flex: 0 1 auto;
+  min-width: 3ch;
+  max-width: 72%;
+}
+.code-reference-help .code-reference-help-origin a {
+  text-decoration: none;
+}
+.code-reference-help .code-reference-help-path {
+  width: max-content;
+  max-width: 100%;
+  font-size: 0.6875rem;
+}
+.code-reference-help .code-reference-help-path[data-path-middle] {
+  grid-template-columns: minmax(0, max-content) minmax(1ch, 1fr) minmax(0, max-content);
+}
+.code-reference-help .code-reference-help-path > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.code-reference-help-context {
+  display: flex;
+  align-items: center;
+  gap: 0.4375rem;
+  flex: 1;
+  min-width: 0;
+}
+.code-reference-help-context > span:first-child {
+  flex: none;
+}
+.code-reference-help-context > span:last-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.code-reference-help-summary {
+  display: grid;
+  gap: 0.5rem;
+  color: var(--code-help-muted);
+  font-size: var(--code-help-font-context);
+  font-weight: 450;
+  line-height: 1.65;
+}
+.code-reference-help-summary strong {
+  color: var(--background);
+  font-weight: 600;
+}
+.code-reference-help-summary .code-reference-help-detail {
+  color: var(--code-help-postscript);
+  font-size: var(--code-help-font-min);
+  line-height: 1.65;
+}
+.code-reference-help .code-reference-help-summary .code-reference-help-detail :is(strong, a, code) {
+  color: inherit;
+}
+.code-reference-help .code-reference-help-summary .code-reference-help-detail code {
+  background: color-mix(in oklab, var(--background) 8%, transparent);
+  font-size: inherit;
+}
+@media (max-width: 399px) {
+  .code-reference-help-header {
+    gap: 0.375rem;
+  }
+  .code-reference-help a.code-reference-help-title {
+    font-size: 0.75rem;
+  }
+  .code-reference-help-badges {
+    gap: 0.25rem;
+  }
+  .code-reference-help-origin {
+    gap: 0.375rem;
+  }
+}

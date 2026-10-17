@@ -52,10 +52,11 @@ test("lazy help shows a reading placeholder and dismissed requests cannot reopen
     await expect(spinner).toBeVisible();
     await expect(loading.locator(".code-reference-help-loading-pulse")).toHaveCount(0);
     await expect(loading.locator(".code-reference-help-loading-module")).toHaveCount(0);
-    await expect(loading.locator(".code-reference-help-loading-note")).toHaveCSS(
-      "font-size",
-      "7.5px",
-    );
+    expect(
+      await loading
+        .locator(".code-reference-help-loading-note")
+        .evaluate((node) => Number.parseFloat(getComputedStyle(node).fontSize)),
+    ).toBeGreaterThanOrEqual(8.5);
     const headingBox = (await title.boundingBox())!;
     const spinnerBox = (await spinner.boundingBox())!;
     expect(
