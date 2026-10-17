@@ -910,12 +910,17 @@ on one row. Remove the former note icon column and duplicated card heading, keep
 existing fragment destinations. The expanded shared page ending connects setup,
 adjacent components/blocks, semantic styling and a complete interaction review.
 
-Getting Started adds a decorative oversized rocket in the heading's upper-right
-space without changing normal title flow. A CSS flight path, staggered exhaust and
-a small star run only on that route. The active pinned guide icon reuses a smaller
-flight on the directly visible desktop sidebar; inactive/mobile links stay still.
-Reduced motion disables every flight/exhaust/star animation. No animation library,
-JS frame loop, listener or persistent state is added.
+Getting Started places a transparent, foreground-ink rocket higher and farther
+left in the heading corner without changing normal title flow. The vehicle makes
+one gentle ascending pass over 14 seconds; fading at the ends hides its reset and
+avoids backward flight. Six independent outline stars sparkle at subtly varied
+sizes and choose new bounded positions only while invisible. Stable server-rendered
+positions and a mid-flight start keep the illustration visible before hydration.
+The shared viewport controller pauses the artwork offscreen or in a hidden tab
+and removes its subscription on departure. The active pinned guide icon has a
+smaller, slower flight only on the directly visible desktop sidebar. Reduced
+motion leaves a static rocket and stars. No animation library, timer, JavaScript
+frame loop or persistent state is added.
 
 ## Review map
 

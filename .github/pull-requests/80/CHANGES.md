@@ -1616,3 +1616,28 @@ Ocean-light and Cursor warm-dark loading/404 views were inspected at the four
 required widths. The complete 320×568 loading frame fits, desktop/tablet recovery
 links use balanced columns, and the neutral separators remain quiet in both
 appearances. No page text was shortened to make the loading view fit.
+
+## 61. Transparent rocket with slow forward flight and changing sparkles
+
+- **Keep the artwork transparent.** Clear background, border and shadow paint on the decoration, vehicle and SVGs. Replace the filled exhaust bars with three faint SVG strokes. The rocket, exhaust and six outlined sparkles all inherit primary text ink from `--foreground`.
+- **Fly along one smooth course.** Replace the six-second rotating orbit with a fourteen-second curved ascent. Keep the vehicle's heading steady, travel farther, and fade quietly at the path ends so the invisible reset never sends the rocket backward. The active desktop sidebar icon also moves more slowly with a small diagonal range.
+- **Sparkle around a bounded field.** Separate the stationary constellation from the moving vehicle. Stagger six small stars with subtly different sizes and durations. Each real animation iteration chooses a new bounded location and size while the star is invisible; stable initial values preserve server/client agreement. No timers, animation library or JavaScript frame loop are introduced.
+- **Move the decoration up and left.** Use a 128×108px field inset 10px from the header top and 20px from its right edge. Below 640px, use an 88×72px field with 8px insets and a 52px vehicle. The desktop vehicle remains 78px. Preserve the normal breadcrumb, eyebrow, title and introduction flow.
+- **Pause decorative work appropriately.** Reuse the shared viewport/visibility controller and remove the subscription on unmount. Reduced motion leaves a static rocket and stars. Start the paused server-rendered vehicle halfway along its path, so it remains visible before hydration and without JavaScript.
+- **Exercise actual behavior.** Check real sparkle iteration changes, offscreen pause/resume, flight/star containment, heading clearance, transparent paint, theme ink, desktop-only sidebar motion, reduced motion and route departure. Measure total travel across frame pairs rather than from an arbitrary midpoint. Wait for page readiness before the existing pending-syntax test scrolls; its earlier scroll could target startup geometry instead of the final snippet.
+
+### Rocket validation
+
+All **969 documentation tests in 104 files** pass, together with documentation
+typecheck/production build, root Oxlint/Oxfmt/Biome and whitespace checks. All
+**15 affected production Chrome cases** pass in the final sequential run. Nine
+exercise the new artwork and its lifetime; the remaining six retain heading,
+reference-pair, ending, CSS folding/copy and pending-syntax coverage.
+
+Inspected Ocean-light and Cursor warm-dark header captures at
+320/768/1024/1440px. The artwork has no backdrop, stays clear of heading text and
+creates no horizontal overflow. Sampled flight positions progress upward and
+forward while visible. The no-JavaScript capture retains a visible paused rocket.
+No new Safari/WebKit result is claimed. Earlier failures exposed a midpoint-based
+travel assertion, a test-owned Web Animations play override and the pre-readiness
+snippet scroll; the final checks retain their behavior and geometry requirements.
