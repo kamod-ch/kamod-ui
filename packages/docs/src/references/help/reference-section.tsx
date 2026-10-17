@@ -1,8 +1,8 @@
-import { InfoIcon, LinkIcon } from "@kamod-ch/icons/lucide";
+import { ArrowUpRightIcon, InfoIcon, LinkIcon } from "@kamod-ch/icons/lucide";
 import type { ComponentChildren } from "preact";
 import type { CodeReferenceHelpLink } from "../types";
 
-/** Source chapters share miniature headings and place their source action inside the preview. */
+/** Keep a chapter's source action, miniature and continuation together as one reading unit. */
 export function ReferenceSection({
   title,
   detail,
@@ -38,38 +38,35 @@ export function ReferenceSection({
             <Icon size={10} strokeWidth={2} aria-hidden="true" />
             <strong>{title}</strong>
           </Heading>
-          {detail && (
-            <span class="code-reference-help-section-detail" title={detail}>
-              <span aria-hidden="true">·</span> {detail}
-            </span>
-          )}
         </div>
-        <div class="code-reference-help-section-actions">
-          <span>{count}</span>
-        </div>
-      </div>
-      <div class="code-reference-help-panel">
         {source && (
           <a
-            class="docs-icon-button code-reference-help-section-open code-reference-help-panel-open"
+            class="code-reference-help-section-source"
             href={source.href}
             target="_top"
             aria-label={`Open ${title} source for ${name}`}
             title={`${source.label} — ${source.href}. ${detail ? `${detail}. ` : ""}Open the complete ${title.toLowerCase()} section for ${name}, including content abbreviated in this preview.`}
           >
-            <LinkIcon size={11} strokeWidth={1.75} aria-hidden="true" />
+            <LinkIcon size={9} strokeWidth={1.75} aria-hidden="true" />
+            <span>Full section</span>
+            <ArrowUpRightIcon size={9} strokeWidth={1.75} aria-hidden="true" />
           </a>
         )}
-        {children}
       </div>
-      {(source || note) && (
-        <p class="code-reference-help-section-note">
+      <div class="code-reference-help-panel">{children}</div>
+      {(source || note || detail || count) && (
+        <p
+          class="code-reference-help-section-note"
+          title={[detail, count].filter(Boolean).join(" · ")}
+        >
           {source && (
             <a href={source.href} target="_top">
-              {source.label}
+              {detail || source.label}
             </a>
           )}
-          {source && note && <> · </>}
+          {!source && detail}
+          {count && <> · {count}</>}
+          {(source || detail || count) && note && <> · </>}
           {note}
         </p>
       )}

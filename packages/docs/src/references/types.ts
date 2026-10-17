@@ -22,6 +22,16 @@ export type CodeReferenceHelpField = {
   required: boolean;
   description: string;
   defaultValue?: string;
+  /** Source owners shown beside the same row in the full documentation table. */
+  owners?: CodeReferenceHelpLink[];
+};
+
+/** Authored sections may share one chapter while retaining their own text, snippet and destination. */
+export type CodeReferenceHelpExcerpt = {
+  title: string;
+  description?: string;
+  code?: { language: string; value: string; caption?: string };
+  source?: CodeReferenceHelpLink;
 };
 
 /** Saved source excerpts; only the open reference loads and renders these bounded miniatures. */
@@ -34,7 +44,16 @@ export type CodeReferenceHelpSection = {
   rows?: { label: string; value: string }[];
   fields?: CodeReferenceHelpField[];
   contractName?: string;
-  definitions?: { name: string; code: string; source?: CodeReferenceHelpLink }[];
+  excerpts?: CodeReferenceHelpExcerpt[];
+  definitions?: {
+    name: string;
+    code: string;
+    source?: CodeReferenceHelpLink;
+    filePath?: string;
+    description?: string;
+    exported?: boolean;
+    fields?: CodeReferenceHelpField[];
+  }[];
   note?: string;
 };
 
@@ -74,6 +93,7 @@ export type CodeReferenceSourceSymbol = {
   description: string;
   signature?: string;
   declaration?: string;
+  exported?: boolean;
   typeNames: string[];
   fields?: CodeReferenceHelpField[];
   typeId?: string;

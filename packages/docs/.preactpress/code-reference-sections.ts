@@ -1,7 +1,9 @@
 /** Read authored examples and API rows without importing a documentation page or its demos. */
 import ts from "@typescript/typescript6";
 import { componentPropsId } from "../src/docs/components/component-detail/component-api-id";
+import { docUsageImport } from "../src/docs/doc-usage-import";
 import type { CodeReferenceHelpField, CodeReferenceHelpSection } from "../src/references/types";
+import { extractCodeReferenceProse } from "./code-reference-prose";
 
 type Literal = string | Literal[] | { [key: string]: Literal };
 type RecordLiteral = { [key: string]: Literal };
@@ -22,18 +24,20 @@ export function extractCodeReferenceSections(
     ts.ScriptKind.TSX,
   );
   const locals = new Map<string, ts.Expression>();
-  const collect = (node: ts.Node) => {
-    if (ts.isVariableDeclaration(node) && ts.isIdentifier(node.name) && node.initializer)
-      locals.set(node.name.text, node.initializer);
-    ts.forEachChild(node, collect);
-  };
-  collect(file);
+  // A preview function's shadowed locals must never overwrite a module's authored table data.
+  for (const statement of file.statements)
+    if (ts.isVariableStatement(statement))
+      for (const declaration of statement.declarationList.declarations)
+        if (ts.isIdentifier(declaration.name) && declaration.initializer)
+          locals.set(declaration.name.text, declaration.initializer);
   const literal = (
     node: ts.Expression | undefined,
     seen = new Set<string>(),
   ): Literal | undefined => {
     if (!node) return;
     if (ts.isStringLiteralLike(node)) return node.text;
+    if (ts.isJsxElement(node) || ts.isJsxFragment(node))
+      return extractCodeReferenceProse(node, slug);
     if (
       ts.isAsExpression(node) ||
       ts.isSatisfiesExpression(node) ||
@@ -44,6 +48,9 @@ export function extractCodeReferenceSections(
       const next = new Set(seen).add(node.text);
       return literal(locals.get(node.text), next);
     }
+    // Read the known helper's literal configuration structurally; no page function is executed.
+    if (ts.isCallExpression(node) && node.expression.getText(file) === "createGenericDocPage")
+      return literal(node.arguments[0], seen);
     if (ts.isArrayLiteralExpression(node))
       return node.elements.flatMap((entry) => {
         const value = literal(entry as ts.Expression, seen);
@@ -52,6 +59,10 @@ export function extractCodeReferenceSections(
     if (ts.isObjectLiteralExpression(node)) {
       const entries: RecordLiteral = {};
       for (const property of node.properties) {
+        if (ts.isSpreadAssignment(property)) {
+          Object.assign(entries, record(literal(property.expression, seen)));
+          continue;
+        }
         if (!ts.isPropertyAssignment(property) && !ts.isShorthandPropertyAssignment(property))
           continue;
         const value = literal(
@@ -67,17 +78,21 @@ export function extractCodeReferenceSections(
   const sections: CodeReferenceHelpSection[] = [];
   const tables = new Map<string, RecordLiteral>();
   let config: RecordLiteral | undefined;
+  let configDepth = Infinity;
   let generic = false;
-  let installationCode = "";
   const visit = (node: ts.Node) => {
     if (ts.isObjectLiteralExpression(node)) {
       const value = record(literal(node));
-      if (value && value.slug === slug) config = value;
+      let depth = 0;
+      for (let parent: ts.Node | undefined = node.parent; parent; parent = parent.parent) depth++;
+      if (value?.slug === slug && depth < configDepth) {
+        config = value;
+        configDepth = depth;
+      }
     }
     if (ts.isCallExpression(node) && node.expression.getText(file) === "createGenericDocPage") {
       const value = record(literal(node.arguments[0]));
       if (value?.slug === slug) {
-        config = value;
         generic = true;
         tables.set(string(value.title), { title: value.title, rows: value.apiRows ?? [] });
       }
@@ -102,46 +117,46 @@ export function extractCodeReferenceSections(
             if (section && string(section.title)) tables.set(string(section.title), section);
           }
       }
-      if (node.tagName.getText(file) === "CodeBlock") {
-        let parent: ts.Node | undefined = node.parent;
-        while (parent && !ts.isIfStatement(parent)) parent = parent.parent;
-        if (
-          parent &&
-          ts.isIfStatement(parent) &&
-          /===\s*["']installation["']/.test(parent.expression.getText(file))
-        )
-          installationCode ||= string(attribute("code"));
-      }
     }
     ts.forEachChild(node, visit);
   };
   visit(file);
-  const examples = config?.exampleSections;
-  const firstExample = Array.isArray(examples) ? record(examples[0]) : undefined;
-  const installExample = record(config?.installationExample);
-  installationCode ||= string(installExample?.code);
-  if (!installationCode && generic) {
-    // The generic guide's first example supplies its actual imports, not an invented module path.
-    installationCode = string(config?.previewCode || firstExample?.code)
-      .split("\n")
-      .filter((line) => /^import\b/.test(line))
-      .join("\n");
-  }
   const command = string(config?.command) || (generic ? "pnpm add @kamod-ch/ui" : "");
-  if (installationCode || command) {
-    const installation = Array.isArray(config?.sections)
-      ? config.sections.map(record).find((entry) => entry?.id === "installation")
-      : undefined;
+  const authoredSections = Array.isArray(config?.sections) ? config.sections.map(record) : [];
+  const installation = authoredSections.find((entry) => entry?.id === "installation");
+  const usage = authoredSections.find((entry) => entry?.id === "usage");
+  const installationText = string(config?.installationText || installation?.text);
+  const usageText = string(config?.usageText || usage?.text);
+  if (config && (installationText || usageText || command)) {
+    const href = `/docs/${slug}/installation`;
     sections.push({
-      title: "Install & import",
-      detail: "Guide setup",
-      source: { label: "Installation guide", href: `/docs/${slug}/installation#installation` },
-      description: string(config?.installationText || installation?.text) || undefined,
-      code: installationCode
-        ? { language: "tsx", value: installationCode.slice(0, 6000), caption: "Guide import" }
-        : undefined,
-      rows: command ? [{ label: "Install", value: `\`${command}\`` }] : undefined,
-      note: "Keep one owner for shared theme styles; [CSS setup](/docs/theming/installation#css-setup) covers the stylesheet import and build integration.",
+      title: "Installation & usage",
+      detail: "From the guide",
+      source: { label: "Installation and usage guide", href: `${href}#installation` },
+      excerpts: [
+        {
+          title: "Installation",
+          description: installationText || undefined,
+          source: { label: "Installation", href: `${href}#installation` },
+          code: command
+            ? { language: "bash", value: command, caption: "Install package" }
+            : undefined,
+        },
+        {
+          title: "Usage",
+          description: usageText || undefined,
+          source: { label: "Usage guidance", href: `${href}#usage` },
+          code: {
+            language: "tsx",
+            value: docUsageImport({
+              slug,
+              usageImportSnippet: string(config.usageImportSnippet) || undefined,
+            }),
+            caption: "Usage import",
+          },
+        },
+      ],
+      note: "Connect [theme CSS](/docs/theming/css-setup) once before rendering.",
     });
   }
   for (const [title, section] of tables) {
@@ -157,7 +172,7 @@ export function extractCodeReferenceSections(
               type: string(row?.type),
               required: false,
               description: string(row?.description),
-              defaultValue: string(row?.defaultValue),
+              defaultValue: typeof row?.defaultValue === "string" ? row.defaultValue : undefined,
             },
           ];
         })
@@ -173,7 +188,7 @@ export function extractCodeReferenceSections(
         },
         description: string(section.description) || undefined,
         fields,
-        note: "Documented defaults belong to this guide; directly declared requirements come from the source type.",
+        note: "Defaults from this guide; requirements from source.",
       });
   }
   return sections;

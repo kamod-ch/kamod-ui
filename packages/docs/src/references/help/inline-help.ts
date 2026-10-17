@@ -5,6 +5,7 @@ import type {
   CodeReferenceHelpCatalog,
   CodeReferenceHelpRequest,
 } from "../types";
+import { referenceFieldLinks, referenceSectionLinks } from "./reference-section-links";
 
 const families = new Map<string, Promise<Record<string, CodeReferenceHelp>>>();
 const localLink = (href: string) =>
@@ -48,17 +49,8 @@ export async function loadInlineReferenceHelp(
     source: facts.source && { ...facts.source, href: localLink(facts.source.href) },
     docs: facts.docs && { ...facts.docs, href: localLink(facts.docs.href) },
     related: facts.related?.map((link) => ({ ...link, href: localLink(link.href) })),
-    sections: facts.sections?.map((section) => ({
-      ...section,
-      source: section.source && { ...section.source, href: localLink(section.source.href) },
-      definitions: section.definitions?.map((definition) => ({
-        ...definition,
-        source: definition.source && {
-          ...definition.source,
-          href: localLink(definition.source.href),
-        },
-      })),
-    })),
+    fields: facts.fields?.map(referenceFieldLinks),
+    sections: facts.sections?.map(referenceSectionLinks),
   };
   if (kind === "command") {
     const command = parseCommand(request.label);

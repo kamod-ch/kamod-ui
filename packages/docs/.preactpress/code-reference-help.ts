@@ -48,6 +48,7 @@ export function extractCodeReferenceSymbols(source: string, filePath: string) {
   const definitions = extractComponentTypes(source, filePath);
   const symbols: CodeReferenceSourceSymbol[] = definitions.map((definition) => ({
     name: definition.name,
+    exported: definition.exported,
     kind: "type",
     file: filePath,
     description: clean(definition.description),
@@ -65,7 +66,7 @@ export function extractCodeReferenceSymbols(source: string, filePath: string) {
     if (ts.isTypeAliasDeclaration(statement) || ts.isInterfaceDeclaration(statement)) {
       const symbol = symbols.find(({ name }) => name === statement.name.text);
       if (symbol) {
-        symbol.declaration = statement.getText(file).slice(0, 6000);
+        symbol.declaration = statement.getFullText(file).trim().slice(0, 6000);
         symbol.typeNames = typeNames(statement);
         symbol.signature = compact(
           ts.isTypeAliasDeclaration(statement)

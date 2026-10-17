@@ -3,6 +3,7 @@ import type { CodeReferenceHelp, CodeReferenceHelpSection } from "../types";
 import { referenceKinds } from "./reference-kinds";
 import {
   ReferenceDefinitions,
+  ReferenceExcerpts,
   ReferenceFields,
   ReferenceRows,
   ReferenceSnippet,
@@ -13,6 +14,7 @@ import { ReferenceSentence } from "./reference-sentence";
 const meaningfulSection = (section: CodeReferenceHelpSection) =>
   Boolean(
     section.code?.value ||
+    section.excerpts?.some((excerpt) => excerpt.description || excerpt.code?.value) ||
     section.fields?.length ||
     section.definitions?.length ||
     section.rows?.length ||
@@ -50,9 +52,7 @@ function fallbackSections(reference: CodeReferenceHelp): CodeReferenceHelpSectio
                   caption: reference.kind === "command" ? "Invocation" : "Declaration",
                 }
               : undefined,
-          note: fields
-            ? "Directly declared fields; inherited contracts remain in the complete definition."
-            : undefined,
+          note: fields ? "Inherited contracts remain in the complete definition." : undefined,
         },
       ]
     : [];
@@ -92,15 +92,17 @@ export function ReferenceContract({ reference }: { reference: CodeReferenceHelp 
             </p>
           )}
           {section.rows?.length ? <ReferenceRows rows={section.rows} /> : null}
-          {section.code && <ReferenceSnippet code={section.code} />}
+          {section.excerpts?.length ? <ReferenceExcerpts excerpts={section.excerpts} /> : null}
+          {section.code && <ReferenceSnippet code={section.code} source={section.source} />}
           {section.fields?.length ? (
             <ReferenceFields
               fields={section.fields}
               name={section.contractName ?? reference.name}
+              source={section.source}
             />
           ) : null}
           {section.definitions?.length ? (
-            <ReferenceDefinitions definitions={section.definitions} />
+            <ReferenceDefinitions definitions={section.definitions} source={section.source} />
           ) : null}
         </ReferenceSection>
       ))}

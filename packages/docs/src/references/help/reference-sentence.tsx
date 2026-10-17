@@ -1,4 +1,4 @@
-import { withBasePath } from "../../base-path";
+import { basePrefix, withBasePath } from "../../base-path";
 
 /** Small safe prose vocabulary: source text stays text, including unsupported HTML/URLs. */
 export function ReferenceSentence({ text }: { text: string }) {
@@ -13,7 +13,11 @@ export function ReferenceSentence({ text }: { text: string }) {
         return link ? (
           <a
             key={index}
-            href={link[2].startsWith("/") ? withBasePath(link[2]) : link[2]}
+            href={
+              link[2].startsWith("/") && !link[2].startsWith(`${basePrefix()}/`)
+                ? withBasePath(link[2])
+                : link[2]
+            }
             target="_top"
           >
             {link[1]}

@@ -86,11 +86,40 @@ it("applies a deployment prefix once to lazy family reading links", async () => 
               {
                 title: "Local chapter",
                 source: { label: "Chapter", href: "/docs/getting-started#page-title" },
+                excerpts: [
+                  {
+                    title: "Usage",
+                    source: { label: "Usage", href: "/docs/dialog/installation#usage" },
+                  },
+                ],
+                fields: [
+                  {
+                    name: "value",
+                    type: "string",
+                    required: true,
+                    description: "Current value.",
+                    owners: [{ label: "Owner", href: "/docs/dialog/installation#owner" }],
+                  },
+                ],
                 definitions: [
                   {
                     name: "Contract",
                     code: "type Contract = string;",
                     source: { label: "Contract", href: "/kamod-ui/docs/components" },
+                    fields: [
+                      {
+                        name: "id",
+                        type: "string",
+                        required: true,
+                        description: "Identifier.",
+                        owners: [
+                          {
+                            label: "Existing owner",
+                            href: "/kamod-ui/docs/dialog/installation#owner",
+                          },
+                        ],
+                      },
+                    ],
                   },
                   {
                     name: "External",
@@ -108,6 +137,15 @@ it("applies a deployment prefix once to lazy family reading links", async () => 
     expect(result.related?.[0].href).toBe("/kamod-ui/docs/getting-started");
     expect(result.source?.href).toBe("/kamod-ui/docs/components");
     expect(result.sections?.[0].source?.href).toBe("/kamod-ui/docs/getting-started#page-title");
+    expect(result.sections?.[0].excerpts?.[0].source?.href).toBe(
+      "/kamod-ui/docs/dialog/installation#usage",
+    );
+    expect(result.sections?.[0].fields?.[0].owners?.[0].href).toBe(
+      "/kamod-ui/docs/dialog/installation#owner",
+    );
+    expect(result.sections?.[0].definitions?.[0].fields?.[0].owners?.[0].href).toBe(
+      "/kamod-ui/docs/dialog/installation#owner",
+    );
     expect(result.sections?.[0].definitions?.map(({ source }) => source?.href)).toEqual([
       "/kamod-ui/docs/components",
       "https://preactjs.com/",

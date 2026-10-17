@@ -189,7 +189,13 @@ it("reuses the actual props table, preserving documented defaults and bounded ro
   expect(table.querySelector("tbody tr:nth-child(2) .component-api-default")).toHaveTextContent(
     "Usage requirementRequired",
   );
-  expect(container.querySelector(".code-reference-help-truncation")).toHaveTextContent("3 of 8");
+  expect(container.querySelector(".code-reference-help-continuation")).toHaveTextContent(
+    "Full props and data",
+  );
+  expect(container.querySelector(".code-reference-help-continuation")).toHaveAttribute(
+    "href",
+    reference.docs!.href,
+  );
   expect(container.querySelector(".code-reference-help-fields")).toBeNull();
 });
 
@@ -206,16 +212,18 @@ it("uses the real code reader with optional grammar while retaining exact litera
   expect(container.querySelector(".docs-code-copy")).toBeNull();
 });
 
-it("keeps section sources inside borderless-preview structure and centered source notes", () => {
+it("keeps chapter source links in their headings with a separate compact continuation", () => {
   const { container } = render(<CodeReferenceHelpContent reference={reference} />);
   for (const section of container.querySelectorAll(".code-reference-help-section")) {
     const heading = section.querySelector(".code-reference-help-section-label")!;
     const panel = section.querySelector(".code-reference-help-panel")!;
     expect(heading.querySelector(".code-reference-help-section-open")).toBeNull();
-    expect(panel.querySelector(".code-reference-help-section-open")).toHaveAttribute(
+    expect(panel.querySelector(".code-reference-help-panel-open")).toBeNull();
+    expect(heading.querySelector(".code-reference-help-section-source")).toHaveAttribute(
       "href",
       reference.docs!.href,
     );
+    expect(heading.querySelectorAll(".code-reference-help-section-source svg")).toHaveLength(2);
     expect(section.querySelector(".code-reference-help-section-note a")).toHaveAttribute(
       "href",
       reference.docs!.href,

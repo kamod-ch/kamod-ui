@@ -51,10 +51,11 @@ test("briefly leaving an open reference allows reentry, while a complete departu
 }) => {
   const card = await openSidebarReference(page);
   await card.hover({ position: { x: 30, y: 30 } });
+  const bounds = (await card.boundingBox())!;
   await page.mouse.move(1, 1);
   await page.waitForTimeout(180);
-  await expect(card).toBeVisible();
-  await card.hover({ position: { x: 30, y: 30 } });
+  // Reenter directly: locator actionability checks can consume the remaining departure grace.
+  await page.mouse.move(bounds.x + 30, bounds.y + 30);
   await page.waitForTimeout(450);
   await expect(card).toBeVisible();
   await page.mouse.move(1, 1);

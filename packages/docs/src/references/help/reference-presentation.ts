@@ -104,6 +104,12 @@ export function referencePresentation(reference: CodeReferenceHelp) {
         ...source,
         kind: source.href.includes("github.com/") ? "source" : "guide",
       });
+    for (const { source } of section.excerpts ?? [])
+      if (source && !resources.some(({ href }) => href === source.href))
+        resources.push({
+          ...source,
+          kind: source.href.includes("github.com/") ? "source" : "guide",
+        });
     for (const { name, source } of section.definitions ?? [])
       if (source && !resources.some(({ href }) => href === source.href))
         resources.push({ ...source, label: name, kind: "type" });
@@ -118,11 +124,13 @@ export function referencePresentation(reference: CodeReferenceHelp) {
     note: notes[kind],
     caption:
       reference.detail ||
-      (fields.length
-        ? "A focused view of declared fields. Follow the linked types for the complete contract, inherited members and supporting definitions."
-        : reference.signature
-          ? "Signature from the declaration; this preview does not execute code. Open the full definition for overloads and surrounding types."
-          : detail),
+      (kind === "component" && reference.sections?.some((section) => section.fields?.length)
+        ? "Documented options and source declarations, kept together. Follow the full sections for additional rows, inherited contracts and examples."
+        : fields.length
+          ? "A focused view of declared fields. Follow the linked types for the complete contract, inherited members and supporting definitions."
+          : reference.signature
+            ? "Signature from the declaration; this preview does not execute code. Open the full definition for overloads and surrounding types."
+            : detail),
   };
 }
 
@@ -141,7 +149,7 @@ function referenceLocation(reference: CodeReferenceHelp, href: string) {
       : branch
         ? `${branch} branch`
         : reference.sections?.length
-          ? `${reference.sections.length} saved excerpts`
+          ? `${reference.sections.length} reference chapters`
           : url.hash
             ? "Section permalink"
             : url.origin === "https://reference.local"

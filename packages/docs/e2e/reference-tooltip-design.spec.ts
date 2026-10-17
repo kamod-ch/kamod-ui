@@ -3,6 +3,7 @@ import { expect, type Locator, test } from "@playwright/test";
 const references = [
   "TypeScript",
   "ThemeToggle",
+  "Dialog",
   "DirectionProviderProps",
   "pnpm build",
   "@kamod-ch/ui/theme.css",
@@ -117,6 +118,7 @@ for (const scheme of ["light", "dark"] as const) {
         );
         const location = card.locator(".code-reference-help-location");
         await expect(location).toHaveCSS("font-weight", "400");
+        await expect(location).toHaveCSS("font-size", "8px");
         await expect(location).toHaveCSS("color", ink);
         const shownDestination = await location.locator("span").first().innerText();
         expect(destination).toContain(shownDestination);
@@ -147,16 +149,30 @@ for (const scheme of ["light", "dark"] as const) {
             expect(await heading.evaluate((node) => node.scrollWidth <= node.clientWidth + 1)).toBe(
               true,
             );
-            const source = panel.locator(".code-reference-help-panel-open");
+            await expect(panel.locator("a.code-reference-help-panel-open")).toHaveCount(0);
+            const source = heading.locator(".code-reference-help-section-source");
             if (await source.count()) {
               await expect(source).toHaveAttribute(
                 "href",
-                (await heading.locator("a").getAttribute("href"))!,
+                (await heading.locator("a").first().getAttribute("href"))!,
               );
-              await expect(source).toHaveCSS("width", "22px");
-              await expect(source.locator("svg")).toHaveCSS("stroke-width", "1.75px");
+              await expect(source).toHaveCSS("color", ink);
+              await expect(source.locator("svg")).toHaveCount(2);
+              const sourceBox = (await source.boundingBox())!;
+              const headingBox = (await heading
+                .locator(".code-reference-help-section-title")
+                .boundingBox())!;
+              expect(sourceBox.y + sourceBox.height / 2).toBeCloseTo(
+                headingBox.y + headingBox.height / 2,
+                1,
+              );
+              const panelBox = (await panel.boundingBox())!;
+              const sectionBox = (await section.boundingBox())!;
+              expect(panelBox.x).toBeCloseTo(sectionBox.x, 1);
+              expect(panelBox.width).toBeCloseTo(sectionBox.width, 1);
               const note = section.locator(".code-reference-help-section-note");
               await expect(note).toHaveCSS("text-align", "center");
+              await expect(note).toHaveCSS("-webkit-line-clamp", "1");
               await expect(note.locator("a").first()).toHaveAttribute(
                 "href",
                 (await source.getAttribute("href"))!,
@@ -181,7 +197,26 @@ for (const scheme of ["light", "dark"] as const) {
           await expect(
             card.locator('.code-reference-help-miniature-code [data-slot="code"]').first(),
           ).toBeAttached();
-          await assertBackgroundOnlyHover(card.locator(".code-reference-help-panel-open").first());
+        }
+        if (label === "Dialog") {
+          const chapters = card.locator(".code-reference-help-section");
+          await expect(chapters).toHaveCount(3);
+          await expect(chapters.nth(0)).toContainText("Installation & usage");
+          await expect(chapters.nth(0).locator(".kamod-code")).toHaveCount(2);
+          const props = chapters.nth(1);
+          await expect(props).toContainText("Dialog lockBodyScroll");
+          await expect(props).toContainText("locks document scroll");
+          await expect(props).toContainText("open / onOpenChange");
+          await expect(props.locator(".component-api-owners a").first()).toContainText(
+            "DialogProps",
+          );
+          await expect(
+            props.getByRole("link", { name: /Read the complete props and data table/ }),
+          ).toBeAttached();
+          await expect(props).not.toContainText("Optional in source");
+          await expect(props).not.toContainText("3 of");
+          await expect(chapters.nth(2)).toContainText("Data type reference");
+          await expect(chapters.nth(2).locator('[data-slot="type-definition"]')).toHaveCount(3);
         }
         const index = card.locator(".code-reference-help-related");
         await expect(index).toContainText("Reference index");
@@ -193,8 +228,17 @@ for (const scheme of ["light", "dark"] as const) {
         );
         expect(new Set(destinations).size).toBe(destinations.length);
         for (const link of await resources.all()) {
-          await expect(link).toHaveCSS("text-decoration-line", "underline");
+          await expect(link).toHaveCSS("text-decoration-line", "none");
           await expect(link.locator("code")).toHaveCSS("font-size", "7.5px");
+          await expect(link.locator("code")).toHaveCSS("text-decoration-line", "underline");
+          await expect(link.locator(".code-reference-help-related-kind")).toHaveCSS(
+            "text-decoration-line",
+            "none",
+          );
+          await expect(link.locator(".code-reference-help-related-kind")).toHaveCSS(
+            "font-size",
+            "7.5px",
+          );
           await expect(link.locator(".code-reference-help-related-kind")).toContainText("/");
           await expect(link.locator("svg")).toHaveCount(1);
         }
@@ -234,7 +278,7 @@ test("failed optional coloring preserves actual source previews and navigation",
   const card = page.getByRole("dialog", { name: "Theme Toggle reference", exact: true });
   await expect(card.locator(".blocks-api-props-table table")).toBeAttached();
   await expect.poll(() => requested).toBe(true);
-  const types = card.locator(".blocks-api-prop-type > .code-reference-help-syntax");
+  const types = card.locator(".blocks-api-prop-type");
   expect(await types.count()).toBeGreaterThan(0);
   for (const type of await types.all()) await expect(type).not.toBeEmpty();
   await expect(card.locator(".code-reference-help-contract .token")).toHaveCount(0);

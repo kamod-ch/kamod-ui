@@ -17,9 +17,14 @@ export function ReferenceRelated({
   );
   if (!links?.length) return null;
   const groups = [
-    { title: "Contracts", links: links.filter(({ kind }) => kind === "type" || kind === "props") },
+    {
+      title: "Contracts",
+      detail: "types & defaults",
+      links: links.filter(({ kind }) => kind === "type" || kind === "props"),
+    },
     {
       title: "Resources",
+      detail: "guidance & source",
       links: links.filter(({ kind }) => kind === "guide" || kind === "source"),
     },
   ].filter(({ links }) => links.length);
@@ -43,7 +48,12 @@ export function ReferenceRelated({
       </div>
       {groups.map((group) => (
         <div class="code-reference-help-reading-group" key={group.title}>
-          <span class="code-reference-help-reading-label">{group.title}</span>
+          <div class="code-reference-help-reading-group-heading">
+            <strong>{group.title}</strong>
+            <span>
+              <span aria-hidden="true">·</span> {group.detail}
+            </span>
+          </div>
           <div class="code-reference-help-related-links">
             {group.links.map((link) => {
               const { Icon, label, caption, description } = referenceResource(link);
