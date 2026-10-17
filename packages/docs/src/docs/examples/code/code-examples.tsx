@@ -1,5 +1,5 @@
-import { Code } from "@kamod-ch/ui/code";
 import type { ComponentChildren } from "preact";
+import { ReferenceCode as Code } from "../../../references/ReferenceCode";
 
 const basicSource = `const greeting = "Hello";
 console.log(greeting);`;
@@ -103,6 +103,7 @@ export const codeHeroSnippet = exampleSource(
 export function CodeHero() {
   return (
     <Code
+      readingControls="overflow"
       class="w-full"
       code={basicSource}
       language="typescript"
@@ -119,6 +120,7 @@ export const codeExamples: Record<string, CodeExample> = {
   terminal: {
     preview: () => (
       <Code
+        readingControls="overflow"
         class="w-full"
         code="pnpm build"
         language="bash"
@@ -131,6 +133,7 @@ export const codeExamples: Record<string, CodeExample> = {
   data: {
     preview: () => (
       <Code
+        readingControls="overflow"
         class="w-full"
         code={dataSource}
         language="json"
@@ -143,6 +146,7 @@ export const codeExamples: Record<string, CodeExample> = {
   styles: {
     preview: () => (
       <Code
+        readingControls="overflow"
         class="w-full"
         code={stylesSource}
         language="css"
@@ -155,6 +159,7 @@ export const codeExamples: Record<string, CodeExample> = {
   literal: {
     preview: () => (
       <Code
+        readingControls="overflow"
         class="w-full"
         code={literalSource}
         language="text"
@@ -175,6 +180,7 @@ export const codeExamples: Record<string, CodeExample> = {
           <div key={variant} class="space-y-2">
             <p class="text-sm font-medium capitalize">{variant}</p>
             <Code
+              readingControls="overflow"
               code={surfaceSource}
               language="typescript"
               variant={variant}
@@ -211,6 +217,7 @@ export function CodeSurfaces() {
   "source-file": {
     preview: () => (
       <Code
+        readingControls="overflow"
         class="w-full"
         code={welcomeSource}
         filePath="src/actions/WelcomeAction.tsx"
@@ -226,6 +233,7 @@ export function CodeSurfaces() {
   toolbar: {
     preview: () => (
       <Code
+        readingControls="overflow"
         class="w-full"
         code={toolbarSource}
         language="typescript"
@@ -271,6 +279,7 @@ export function WorkspaceDefaults() {
   document: {
     preview: () => (
       <Code
+        readingControls="overflow"
         class="w-full"
         code={markdownSource}
         filePath="workspace-brief.md"
@@ -320,6 +329,7 @@ export function WorkspaceBrief() {
   imports: {
     preview: () => (
       <Code
+        readingControls="overflow"
         class="w-full"
         code={importsSource}
         filePath="src/WorkspaceCard.tsx"
@@ -332,7 +342,15 @@ export function WorkspaceBrief() {
     ),
   },
   wrapping: {
-    preview: () => <Code class="w-full" code={wrappedSource} language="tsx" defaultWrapped />,
+    preview: () => (
+      <Code
+        readingControls="overflow"
+        class="w-full"
+        code={wrappedSource}
+        language="tsx"
+        defaultWrapped
+      />
+    ),
     code: exampleSource(wrappedSource, '      language="tsx"\n      defaultWrapped'),
   },
 };

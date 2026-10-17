@@ -96,7 +96,7 @@ for (const scheme of ["light", "dark"] as const) {
     }
     await code.getByRole("button", { name: "Copy code", exact: true }).click();
     await expect.poll(() => page.evaluate(() => navigator.clipboard.readText())).toBe(original);
-    await expect(code.getByRole("status")).toHaveText("Code copied to clipboard.");
+    await expect(code.locator(".kamod-copy-status")).toHaveText("Code copied to clipboard.");
   });
 }
 

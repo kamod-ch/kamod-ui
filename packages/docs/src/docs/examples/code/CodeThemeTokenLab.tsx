@@ -1,6 +1,6 @@
 import { THEME_PRESETS, type ThemePresetId } from "@kamod-ch/themes";
-import { Code } from "@kamod-ch/ui/code";
 import { useState } from "preact/hooks";
+import { ReferenceCode as Code } from "../../../references/ReferenceCode";
 
 const source = `// Your app's palette, expressed as source.
 export function greet(name = "Kamod") {
@@ -52,6 +52,7 @@ export function CodeThemeTokenLab() {
       </div>
       <div data-theme-scope="" data-theme={preset} class={`code-theme-token-preview ${scheme}`}>
         <Code
+          readingControls="overflow"
           code={source}
           language="typescript"
           syntaxTheme="theme"

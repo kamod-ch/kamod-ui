@@ -152,7 +152,7 @@ test("reduced motion, keyboard copying, and denied clipboard access retain usefu
   });
   await button.click();
   await expect(button).toHaveAttribute("data-copy-state", "error");
-  await expect(snippet.getByRole("status")).toContainText("Could not copy code");
+  await expect(snippet.locator(".kamod-copy-status")).toContainText("Could not copy code");
   await expect(button).toHaveAccessibleName("Retry copying code");
 });
 

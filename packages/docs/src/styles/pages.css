@@ -2989,6 +2989,9 @@ html.dark .landing-shadcn-brand-logo--dark-theme {
   gap: 0.5rem;
   margin-inline-start: auto;
 }
+.docs-code-file-actions > .docs-code-action {
+  margin-inline-start: 0;
+}
 .docs-import-toggle,
 .docs-code-wrap-control {
   --code-control-secondary: var(--muted-foreground);

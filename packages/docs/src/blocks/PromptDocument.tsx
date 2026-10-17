@@ -2,7 +2,6 @@ import { ZapIcon } from "@kamod-ch/icons/lucide";
 import type { ComponentChildren } from "preact";
 import { CodeBlock } from "../docs/components/CodeBlock";
 import { lazyShowcase } from "../docs/components/lazy-showcase";
-import { MarkdownDownloadButton } from "../docs/components/markdown-download/MarkdownDownloadButton";
 import { ShowcaseLoading } from "../docs/components/ShowcaseLoading";
 import type { BlockPromptMode } from "./block-prompts";
 import type { PreviewAppearance } from "./preview-appearance";
@@ -46,13 +45,8 @@ export function PromptDocument({
       inferLanguage={display !== "text"}
       defaultWrapped
       showWrapControl={showWrapControl}
+      downloadFileName={downloadFileName}
       loadingContent={display === "code" ? loading : undefined}
-      renderCopyAction={({ defaultControl }) => (
-        <div class="blocks-prompt-actions">
-          <MarkdownDownloadButton markdown={prompt} fileName={downloadFileName} />
-          {defaultControl}
-        </div>
-      )}
       toolbarContent={
         <div class="blocks-prompt-document-heading">
           <h4 class="showcase-metadata-label">

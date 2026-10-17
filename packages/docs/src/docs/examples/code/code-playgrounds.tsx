@@ -1,6 +1,5 @@
 import { Button } from "@kamod-ch/ui/button";
 import {
-  Code,
   type CodeLanguage,
   type CodeSyntaxTheme,
   codeLanguages,
@@ -8,6 +7,7 @@ import {
   resolveCodeLanguage,
 } from "@kamod-ch/ui/code";
 import { useState } from "preact/hooks";
+import { ReferenceCode as Code } from "../../../references/ReferenceCode";
 
 import { syntaxThemeLabels } from "./code-syntax-catalog";
 
@@ -54,6 +54,7 @@ export function CodeLanguagePlayground() {
         source stays the same.
       </p>
       <Code
+        readingControls="overflow"
         code={playgroundSource}
         filePath="src/Welcome.tsx"
         language={language === "auto" ? undefined : language}
@@ -95,6 +96,7 @@ export function CodePreferencesPlayground() {
         </div>
       </fieldset>
       <Code
+        readingControls="overflow"
         code={playgroundSource}
         filePath="src/Welcome.tsx"
         wrapped={wrapped}
@@ -110,6 +112,7 @@ export function CodeControlSlotsPlayground() {
   return (
     <div class="my-5 min-w-0" data-code-demo="controls">
       <Code
+        readingControls="overflow"
         code={playgroundSource}
         filePath="src/Welcome.tsx"
         defaultWrapped
@@ -191,6 +194,7 @@ export function CodeThemePlayground() {
         Roomier source typography
       </label>
       <Code
+        readingControls="overflow"
         code={playgroundSource}
         filePath="src/Welcome.tsx"
         syntaxTheme={syntaxTheme}

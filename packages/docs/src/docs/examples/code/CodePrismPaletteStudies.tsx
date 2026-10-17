@@ -1,6 +1,7 @@
 import { PaletteIcon } from "@kamod-ch/icons/lucide";
 import { BrandGithubIcon } from "@kamod-ch/icons/tabler/filled";
-import { Button, Card, CardContent, CardHeader, Code } from "@kamod-ch/ui";
+import { Button, Card, CardContent, CardHeader } from "@kamod-ch/ui";
+import { ReferenceCode as Code } from "../../../references/ReferenceCode";
 import { prismPalettes } from "./code-syntax-catalog";
 
 const source = `import { Button } from "@kamod-ch/ui/button";
@@ -42,6 +43,7 @@ export function CodePrismPaletteStudies() {
             </CardHeader>
             <CardContent>
               <Code
+                readingControls="overflow"
                 code={source}
                 language="tsx"
                 syntaxTheme={palette.id}

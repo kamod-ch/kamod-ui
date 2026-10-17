@@ -85,16 +85,6 @@
   gap: 0.375rem 0.5rem;
   min-width: 0;
 }
-.blocks-prompt-actions {
-  display: inline-flex;
-  flex: none;
-  align-items: center;
-  gap: 0.5rem;
-  margin-inline-start: auto;
-}
-.blocks-prompt-actions > .docs-code-action {
-  margin-inline-start: 0;
-}
 .blocks-showcase .blocks-prompt-document-heading .showcase-metadata-label {
   gap: 0.5rem;
   color: var(--foreground);

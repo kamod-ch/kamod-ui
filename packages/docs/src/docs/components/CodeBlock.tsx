@@ -1,5 +1,4 @@
-import type { CodeProps } from "@kamod-ch/ui/code";
-import { ReferenceCode } from "../../references/ReferenceCode";
+import { ReferenceCode, type ReferenceCodeProps } from "../../references/ReferenceCode";
 import { CodeLanguageLink } from "./CodeLanguageLink";
 import { PathDisplay } from "./PathDisplay";
 
@@ -8,7 +7,7 @@ const renderFilePath = (path: string) => (
 );
 
 /** Add documentation source links while the core component owns code rendering and controls. */
-export function CodeBlock(props: CodeProps) {
+export function CodeBlock(props: ReferenceCodeProps) {
   return (
     <ReferenceCode
       {...props}

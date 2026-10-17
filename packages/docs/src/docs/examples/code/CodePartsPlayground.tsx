@@ -18,7 +18,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@kamod-ch/ui/card";
-import { Code } from "@kamod-ch/ui/code";
 import {
   Field,
   FieldContent,
@@ -30,6 +29,7 @@ import {
 } from "@kamod-ch/ui/field";
 import { Switch } from "@kamod-ch/ui/switch";
 import { useId, useState } from "preact/hooks";
+import { ReferenceCode as Code } from "../../../references/ReferenceCode";
 
 const options = {
   toolbar: {
@@ -201,6 +201,7 @@ export function CodePartsPlayground({ code }: { code: string }) {
           <span>Changes stay in this example</span>
         </div>
         <Code
+          readingControls="overflow"
           code={code}
           language="tsx"
           filePath={parts.file ? "src/Welcome.tsx" : undefined}

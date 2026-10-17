@@ -130,6 +130,15 @@ export function CodeCopyGuide() {
           the original Markdown.
         </p>
         <p>
+          <strong>Save the same source as a file.</strong> Download beside Copy preserves the full
+          source, including folded imports and original whitespace. These documentation panels
+          compose that action through{" "}
+          <a href="#code-control-slots">
+            <code>renderCopyAction</code>
+          </a>
+          ; the public component retains its existing API.
+        </p>
+        <p>
           <strong>Author source that can stand on its own.</strong> Use real imports, include
           required setup nearby and avoid a copied command that contains a decorative prompt
           character. If your example needs a secret or account-specific identifier, pass an explicit

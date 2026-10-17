@@ -84,7 +84,7 @@ test("replacement controls retain complete copying and accessible feedback", asy
   await expect(demo.locator("pre code")).not.toContainText("import { Button }");
   await demo.getByRole("button", { name: "Copy code", exact: true }).click();
   await expect.poll(() => page.evaluate(() => navigator.clipboard.readText())).toBe(source);
-  await expect(demo.getByRole("status")).toHaveText("Code copied to clipboard.");
+  await expect(demo.locator(".kamod-copy-status")).toHaveText("Code copied to clipboard.");
 });
 
 for (const scheme of ["light", "dark"] as const) {
