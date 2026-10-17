@@ -337,7 +337,6 @@ it.each([
   "@kamod-ch/signals",
   "@kamod-ch/themes",
   "@kamod-ch/blocks",
-  "@/components/kamod-ui/accordion",
 ])("keeps %s source destinations and keyboard navigation intact", async (path) => {
   vi.useRealTimers();
   render(
@@ -403,7 +402,7 @@ it.each([
 
 it("keeps authored component destinations and disambiguates Formisch fields", () => {
   expect(inlineCodeExplanation("Button", "/docs/button/installation#sizes")?.path?.label).toBe(
-    "@/components/kamod-ui/button",
+    "@kamod-ch/ui/button",
   );
   expect(inlineCodeExplanation("Field", "/docs/formisch/installation#anatomy")?.path?.label).toBe(
     "@formisch/preact",

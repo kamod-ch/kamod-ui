@@ -1,6 +1,78 @@
 import { expect, test } from "@playwright/test";
 
 for (const scheme of ["light", "dark"] as const) {
+  test(`configuration, asset and consumer paths stay plain without tooltips (${scheme})`, async ({
+    page,
+  }) => {
+    await page.addInitScript((scheme) => localStorage.setItem("theme", scheme), scheme);
+    await page.goto("/docs/getting-started");
+    await expect(page.locator("html")).toHaveClass(/pp-ready/);
+    await page.evaluate(() => {
+      const fixture = document.createElement("div");
+      fixture.id = "plain-file-references";
+      for (const label of [
+        "package.json",
+        "vite.config.ts",
+        "app.css",
+        "src/styles.css",
+        "public/logo.svg",
+        "@/lib/utils",
+        "@/components/kamod-ui/button",
+        "src/components/blocks/sidebar-05",
+        "src/my app/styles.css",
+      ]) {
+        const row = document.createElement("p");
+        const plain = document.createElement("code");
+        plain.textContent = label;
+        const link = document.createElement("a");
+        link.href = "/docs/components";
+        const linked = plain.cloneNode(true);
+        link.append(linked);
+        row.append(plain, document.createTextNode(" "), link);
+        fixture.append(row);
+      }
+      const control = document.createElement("code");
+      control.id = "plain-file-positive-control";
+      control.textContent = "Button";
+      fixture.append(control);
+      document.querySelector("main")!.prepend(fixture);
+    });
+    const fixture = page.locator("#plain-file-references");
+    const control = fixture.locator("#plain-file-positive-control");
+    // Wait for the controller to process this insertion before asserting absent enhancement.
+    await expect(control).toHaveAttribute("data-code-imported", "Button");
+    const plain = fixture.locator("p");
+    await expect(
+      plain.locator(
+        "[data-code-module], [data-code-reference], [data-inline-code-help], [tabindex], [role=button], .kamod-code-reference",
+      ),
+    ).toHaveCount(0);
+    await expect(plain.locator('a[href="/docs/components"]')).toHaveCount(9);
+    for (const width of [320, 1440]) {
+      await page.setViewportSize({ width, height: 900 });
+      const code = plain.first().locator("code").first();
+      await code.hover();
+      expect(
+        await code.evaluate((node) => getComputedStyle(node, "::before").borderBottomStyle),
+      ).not.toBe("dashed");
+      await expect(
+        page.getByRole("dialog", { name: "package.json explained", exact: true }),
+      ).toHaveCount(0);
+      await expect(
+        page.getByRole("dialog", { name: "package.json reference", exact: true }),
+      ).toHaveCount(0);
+      // Known components continue to use their existing help surface.
+      await page.keyboard.press("Tab");
+      await control.focus();
+      const card = page.getByRole("dialog", { name: "Button reference", exact: true });
+      await expect(card.locator('[data-reference-kind="component"]')).toBeVisible();
+      await page.keyboard.press("Escape");
+      await expect(card).toHaveCount(0);
+    }
+  });
+}
+
+for (const scheme of ["light", "dark"] as const) {
   test(`new inline families use lazy shared help and fit narrow screens (${scheme})`, async ({
     page,
   }) => {

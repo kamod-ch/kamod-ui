@@ -50,7 +50,6 @@ export async function buildBlockReferences(root: string) {
         `${group.label.replaceAll(" ", "")}${String(position + 1).padStart(2, "0")}`,
       ];
       if (files.some((file) => file.endsWith(`/${block.id}.tsx`))) aliases.push(`${block.id}.tsx`);
-      if (category === "sidebar") aliases.push(`src/components/blocks/${block.id}`);
       const sections =
         category === "application-shell"
           ? sourceSectionIds(

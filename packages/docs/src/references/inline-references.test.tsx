@@ -16,7 +16,6 @@ it("resolves source references without enabling unrelated proposal families", ()
     ["useCounter", "@kamod-ch/hooks", "useCounter"],
     ["useState", "preact/hooks", "useState"],
     ["@kamod-ch/hooks", "@kamod-ch/hooks", undefined],
-    ["@/components/kamod-ui/direction", "@/components/kamod-ui/direction", undefined],
     ["preact/hooks", "preact/hooks", undefined],
     ["packages/core/src/components/button/Button.tsx", "./Button.tsx", undefined],
   ]) {
@@ -32,6 +31,9 @@ it("resolves source references without enabling unrelated proposal families", ()
     "--primary",
     "aria-label",
     "package.json",
+    "@/components/kamod-ui/direction",
+    "@/lib/utils",
+    "src/components/blocks/sidebar-05",
     "window",
     "Application Shell 999",
   ])
@@ -63,6 +65,70 @@ it("renders cn() with its API destination, original text and shared source-help 
     module: "@kamod-ch/ui",
     imported: "cn",
   });
+});
+
+it("keeps configuration files, assets and consumer paths plain even beside a verified page link", async () => {
+  const labels = [
+    "package.json",
+    "vite.config.ts",
+    ".env.local",
+    "app.css",
+    "src/styles.css",
+    "application-shell-1/assets/kamod-ui-logo.svg",
+    "public/logo.svg",
+    "@/components/kamod-ui/button",
+    "@/lib/utils",
+    "src/components/blocks/sidebar-05",
+    "./components/Button.tsx",
+    "C:\\app\\styles.css",
+    "C:\\My App\\styles.css",
+    "src/my app/styles.css",
+    "src/my app/styles",
+    "My Project/public/logo",
+    "my app.css",
+  ];
+  for (const label of labels) {
+    expect(inlineSourceReference(label), label).toBeUndefined();
+    expect(inlineSourceReference(label, "/docs/components"), label).toBeUndefined();
+  }
+  const { container } = render(
+    <>
+      {labels.map((label) => (
+        <p key={label}>
+          <InlineCodeReference>{label}</InlineCodeReference>
+          <a href="/docs/components">
+            <code>{label}</code>
+          </a>
+        </p>
+      ))}
+    </>,
+  );
+  const text = container.textContent;
+  const stop = connectInlineCode(document);
+  try {
+    expect(
+      container.querySelector(
+        "[data-inline-code-help], [data-code-module], [role=button], [tabindex], .kamod-code-reference",
+      ),
+    ).toBeNull();
+    expect(container.querySelectorAll('a[href="/docs/components"]')).toHaveLength(labels.length);
+    // A detected term edited into a filename must also lose its old underline/help ownership.
+    const code = document.createElement("code");
+    code.textContent = "Button";
+    container.append(code);
+    await Promise.resolve();
+    expect(code).toHaveAttribute("data-code-imported", "Button");
+    code.textContent = "package.json";
+    await Promise.resolve();
+    expect(code).not.toHaveAttribute("data-inline-code-help");
+    expect(code).not.toHaveAttribute("data-code-module");
+    expect(code).not.toHaveAttribute("tabindex");
+    expect(code).not.toHaveAttribute("role");
+    code.remove();
+    expect(container.textContent).toBe(text);
+  } finally {
+    stop();
+  }
 });
 
 it("keeps explicit destinations and exact text with no decorative icons or nested anchors", () => {

@@ -6,7 +6,6 @@ import { resolveCodeReference } from "./destinations";
 import { inlineContextReference } from "./inline-context-reference";
 import type { CodeReferenceHelpRequest } from "./types";
 
-const componentSlugs = new Set(Object.values(catalog.components).map(({ slug }) => slug));
 const files = new Set(catalog.files);
 
 /** Resolve verified symbols or whole context labels, preserving the exact visible code. */
@@ -51,10 +50,6 @@ export function inlineSourceReference(
   } else if (text !== label.trim()) {
     // Empty-call normalization applies to verified symbols, never a product or package name.
     return;
-  } else if (text.startsWith("@/components/kamod-ui/") || text === "@/lib/utils") {
-    const slug = text.split("/").at(-1);
-    if (text !== "@/lib/utils" && !componentSlugs.has(slug ?? "")) return;
-    module = text;
   } else if (files.has(text)) {
     // A real repository file uses the existing relative-file contract, with an explicit base.
     module = `./${text.split("/").at(-1)}`;

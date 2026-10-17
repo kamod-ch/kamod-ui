@@ -1,6 +1,7 @@
 /** @vitest-environment jsdom */
 import { act, cleanup, render } from "@testing-library/preact";
 import { afterEach, expect, it, vi } from "vitest";
+import { connectInlineCode } from "../../references/connect-inline-references";
 import { splitDisplayPath } from "./display-path";
 import { InlineCode, isDisplayPath, PathDisplay } from "./PathDisplay";
 
@@ -58,6 +59,26 @@ it("supports plain file-tree labels without nested code elements", () => {
   );
   expect(container.firstElementChild?.tagName).toBe("SPAN");
   expect(container.firstElementChild).toHaveClass("path-display", "file-label");
+});
+it.each([
+  "@/components/kamod-ui/accordion",
+  "@/components/kamod-ui/…",
+  "@/lib/utils",
+  "src/components/blocks/sidebar-01",
+])("renders the consumer path %s without source links or reference help", (path) => {
+  const { container } = render(<PathDisplay path={path} />);
+  const stop = connectInlineCode(document);
+  try {
+    expect(container.textContent).toBe(path);
+    expect(container.querySelector("code.path-display")).toHaveAttribute("title", path);
+    expect(
+      container.querySelector(
+        "a, .docs-kamod-link, [data-code-module], [data-inline-code-help], [aria-haspopup]",
+      ),
+    ).toBeNull();
+  } finally {
+    stop();
+  }
 });
 it.each([
   "pnpm add @kamod-ch/ui",

@@ -292,6 +292,13 @@ Unambiguous package/product names retain package identity, and an authored local
 href cannot turn a real package specifier into a generic page reference. Explicit
 navigation stays intact while tooltip resources are selected independently.
 
+Configuration filenames, assets and consumer-local path labels remain plain.
+They receive no automatic reference/glossary tooltip or detected underline,
+including when an authored documentation link surrounds the code. Consumer alias
+module strings are also plain in live readers and static Markdown fences. Actual
+imported component/function symbols, published package entrypoints, registered
+blocks and indexed repository sources retain their verified identities.
+
 A shared map covers fifteen verified Kamod package owners and their workspace
 folders, including the actual `kamod-ch/kamod-signals` repository where installed
 metadata is stale. One build collector reads workspace/installed manifests and

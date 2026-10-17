@@ -56,6 +56,7 @@ test("lazy help shows a reading placeholder and dismissed requests cannot reopen
   try {
     // The intentionally held optional chunk may keep the load event pending.
     await page.goto("./docs/code/installation#source-links", { waitUntil: "domcontentloaded" });
+    await expect(page.locator("html")).toHaveClass(/pp-ready/);
     const sample = page
       .locator('section[aria-labelledby="code-reference-navigation"] pre code')
       .filter({ hasText: "LocaleBoundary" });
@@ -102,6 +103,7 @@ test("lazy help shows a reading placeholder and dismissed requests cannot reopen
 test("failed optional details retain the source destination", async ({ page }) => {
   await page.route(/\/assets\/code-reference-help-[\w-]+\.js(?:\?|$)/, (route) => route.abort());
   await page.goto("./docs/code/installation#source-links");
+  await expect(page.locator("html")).toHaveClass(/pp-ready/);
   const sample = page
     .locator('section[aria-labelledby="code-reference-navigation"] pre code')
     .filter({ hasText: "LocaleBoundary" });
@@ -134,6 +136,7 @@ for (const motion of ["no-preference", "reduce"] as const) {
     });
     try {
       await page.goto("./docs/code/installation#source-links", { waitUntil: "domcontentloaded" });
+      await expect(page.locator("html")).toHaveClass(/pp-ready/);
       const sample = page
         .locator('section[aria-labelledby="code-reference-navigation"] pre code')
         .filter({ hasText: "LocaleBoundary" });

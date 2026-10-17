@@ -1,4 +1,5 @@
 import catalog from "virtual:kamod-code-references";
+import { findCodeReferences } from "@kamod-ch/ui/code";
 import { expect, it } from "vitest";
 import { repositoryUrl } from "../../.preactpress/reference-package-catalog";
 import { codeFenceMarkup } from "../docs/components/code-fence-markup";
@@ -8,17 +9,11 @@ it("prefers API destinations for symbols and source owners for package/module pa
   expect(resolveCodeReference({ module: "@kamod-ch/ui", imported: "Button", local: "Save" })).toBe(
     "/docs/button/installation#api-reference",
   );
-  expect(
-    resolveCodeReference({ module: "@/components/kamod-ui/card", imported: "CardContent" }),
-  ).toBe("/docs/card/installation#api-reference");
   expect(resolveCodeReference({ module: "@kamod-ch/ui/button" })).toBe(
     "https://github.com/kamod-ch/kamod-ui/tree/main/packages/core/src/components/button",
   );
   expect(resolveCodeReference({ module: "@kamod-ch/hooks" })).toBe(
     "https://github.com/kamod-ch/kamod-hooks/tree/main/packages/core",
-  );
-  expect(resolveCodeReference({ module: "@/lib/utils", imported: "cn" })).toBe(
-    "/docs/cn/installation#api-reference",
   );
   expect(resolveCodeReference({ module: "@kamod-ch/themes", imported: "useTheme" })).toBe(
     "/docs/theming/installation#read-and-change-appearance",
@@ -48,6 +43,34 @@ it("decorates static Markdown fences before hydration", () => {
   );
   expect(html).toContain('href="/docs/button/installation#api-reference"');
   expect(html.match(/class="kamod-code-reference"/g)).toHaveLength(3);
+});
+
+it("keeps consumer-local import paths plain while preserving verified symbol references", () => {
+  for (const module of [
+    "@/components/kamod-ui/button",
+    "@/lib/utils",
+    "./app.css",
+    "./package.json",
+  ]) {
+    expect(resolveCodeReference({ module, filePath: "src/app.tsx" }), module).toBeUndefined();
+    expect(
+      resolveCodeReference({ module, imported: "*", filePath: "src/app.tsx" }),
+      module,
+    ).toBeUndefined();
+  }
+  const source =
+    'import { Button } from "@/components/kamod-ui/button";\nimport { cn } from "@/lib/utils";\nconst App = () => <Button class={cn("px-4")} />;';
+  const references = findCodeReferences(source, "tsx", resolveCodeReference);
+  expect(references.map(({ start, end }) => source.slice(start, end))).toEqual([
+    "Button",
+    "cn",
+    "Button",
+    "cn",
+  ]);
+  const html = codeFenceMarkup(source, "tsx");
+  expect(html).toContain('data-code-imported="Button"');
+  expect(html).toContain('data-code-imported="cn"');
+  expect(html.match(/class="kamod-code-reference"/g)).toHaveLength(4);
 });
 
 it("accepts only GitHub repository metadata", () => {

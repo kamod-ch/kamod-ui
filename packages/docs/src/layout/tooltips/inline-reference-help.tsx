@@ -96,7 +96,7 @@ export function inlineReferenceHelp(
   }
   const slug = href.match(/^\/docs\/([^/]+)\/installation$/)?.[1];
   if (kind === "component" && slug && Object.hasOwn(componentReferenceNames, slug)) {
-    const path = `@/components/kamod-ui/${slug}`;
+    const path = `@kamod-ch/ui/${slug}`;
     return {
       path: { label: path, href: kamodReferenceHref(path)! },
       description: (
@@ -104,8 +104,7 @@ export function inlineReferenceHelp(
           <strong>{label}.</strong>{" "}
           {componentNotes[slug] ??
             "A composable Kamod UI component. Its guide covers installation, examples and supported props."}{" "}
-          This is a local-copy alias; package users can import from{" "}
-          <InlineCode>@kamod-ch/ui</InlineCode>.
+          Import the component from <InlineCode>@kamod-ch/ui</InlineCode>.
         </>
       ),
       href,

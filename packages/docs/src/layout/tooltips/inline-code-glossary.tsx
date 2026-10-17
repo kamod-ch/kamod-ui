@@ -114,7 +114,6 @@ const glossary: Record<string, InlineCodeExplanation> = {
       , including class strings, arrays and conditional object maps.
     </>,
   ),
-  "package.json": explain("Lists a project’s dependencies, scripts and package metadata."),
   ":root": explain(
     "Selects the document’s root element, often used to define shared CSS variables.",
     "/docs/theming/token-overrides",

@@ -32,7 +32,13 @@ export function inlineContextReference(
     return { label, module, referenceId, href: href ?? destination(target) };
   }
   // A section needs a verified owning page. An isolated #fragment cannot identify that page.
-  const target = href?.startsWith("/") ? href : text;
+  // File/path labels cannot borrow a page identity from an unrelated authored link.
+  // Verified package, technology and block aliases have already resolved above;
+  // a real route can still identify itself below.
+  const pathLabel =
+    /[/\\]|\.[\w-]+(?:[?#].*)?$/.test(text) ||
+    /^(?:Dockerfile|Makefile|Procfile|LICEN[CS]E|README)$/i.test(text);
+  const target = href?.startsWith("/") && !pathLabel ? href : text;
   const prefix = basePrefix();
   const path = prefix && target.startsWith(`${prefix}/`) ? target.slice(prefix.length) : target;
   const [page, section, extra] = path.split("#");

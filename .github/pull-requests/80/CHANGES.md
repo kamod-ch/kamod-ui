@@ -1729,3 +1729,24 @@ Cursor warm dark confirm zero document scroll. Normal portrait/desktop frames
 also have zero main scroll; the short landscape reading area retains access to
 longer text. Representative desktop/tablet/phone captures were inspected. No new
 Safari/WebKit result is claimed.
+
+## 66. Keep configuration, asset and consumer-path labels plain
+
+- **Remove automatic path references.** Stop enhancing consumer aliases such as `@/components/kamod-ui/button`, `@/lib/utils` and copied block destinations. Remove the `package.json` glossary fallback and local-alias brand links. These labels receive no added tooltip, keyboard trigger or detected-reference underline.
+- **Keep authored navigation independent.** Do not assign a page identity to a filename or path simply because it appears inside an authored documentation link. Cover relative, absolute and Windows paths, including spaces and extensionless assets. Preserve the original text, DOM and authored href.
+- **Keep real symbol references.** Leave concrete imported components/functions, published package entrypoints, indexed repository sources and registered block identities intact. Consumer module literals and namespace-only aliases stay plain in live code readers and static Markdown fences; named `Button` and `cn` imports/usages retain their own help.
+- **Guard incremental rendering.** Verify raw prose insertions, declarative inline code, brand/path components and detected terms edited into filenames. Production browser coverage checks the absence of help/dashes in both schemes at 320/1440px, alongside positive component controls. Wait for page readiness before scrolling the code-help fixtures, and establish keyboard input before exercising focus-only help.
+
+No dependencies, public core API or visual styles change. The contributor-local
+proposal list records this family as excluded, rather than a future detection
+feature.
+
+### Path-exclusion validation
+
+The documentation suite passes **981 tests in 105 files**, with the final path
+lookup regressions passing all 18 cases after extending the spaced-path guard.
+Documentation typecheck and final production build, root Oxlint/Oxfmt/Biome and
+whitespace checks pass. All **18 production Chrome reference cases** pass in the
+final sequential run, covering exclusions in both schemes at 320/1440px, preserved
+component/function/package identities, lazy loading/failure/dismissal, reduced
+motion and keyboard navigation. No new Safari/WebKit result is claimed.

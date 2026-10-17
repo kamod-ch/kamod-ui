@@ -121,11 +121,9 @@ export function brandReferenceHelp(term: string) {
   if (name) return brandReferences[name];
   const href = kamodReferenceHref(term);
   if (!href) return;
-  const alias = term.startsWith("@/");
   const packageName = term.match(/^@kamod-ch\/([^/]+)/)?.[1] ?? "ui";
-  const description = alias
-    ? "A local component import. Opens the original Kamod source; your app must provide the alias and files."
-    : term === "@kamod-ch/ui/utils"
+  const description =
+    term === "@kamod-ch/ui/utils"
       ? "The entry point for cn and its class-value type. Opens the utility’s source file."
       : href.includes("/packages/core/src/components/")
         ? "A focused Kamod component entry point. Opens its implementation and exports."

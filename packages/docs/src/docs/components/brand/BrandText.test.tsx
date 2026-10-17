@@ -22,13 +22,13 @@ const githubIcons = (root: Element) =>
 
 describe("inline brand references", () => {
   it("links verified packages and modules with private source metadata and unchanged text", () => {
-    const alias = "@/components/kamod-ui/accordion";
+    const entrypoint = "@kamod-ch/ui/accordion";
     const { container, getByRole } = render(
       <>
         <BrandText>
           Use @kamod-ch/signals with <code>@kamod-ch/icons</code>.
         </BrandText>
-        <InlineCode>{alias}</InlineCode>
+        <InlineCode>{entrypoint}</InlineCode>
         <PathDisplay path="@kamod-ch/ui" />
       </>,
     );
@@ -36,22 +36,41 @@ describe("inline brand references", () => {
       "href",
       "https://github.com/kamod-ch/kamod-signals/tree/main/packages/core",
     );
-    expect(getByRole("link", { name: alias })).toHaveAttribute(
+    expect(getByRole("link", { name: entrypoint })).toHaveAttribute(
       "href",
-      "/docs/accordion/installation#api-reference",
+      "https://github.com/kamod-ch/kamod-ui/tree/main/packages/core/src/components/accordion",
     );
     expect(getByRole("link", { name: "@kamod-ch/ui" })).toHaveAttribute(
       "href",
       "https://github.com/kamod-ch/kamod-ui/tree/main/packages/core",
     );
     expect(container.textContent).toBe(
-      `Use @kamod-ch/signals with @kamod-ch/icons.${alias}@kamod-ch/ui`,
+      `Use @kamod-ch/signals with @kamod-ch/icons.${entrypoint}@kamod-ch/ui`,
     );
     for (const link of container.querySelectorAll("a")) {
       expect(link).toHaveClass("kamod-code-reference");
       expect(link).toHaveAttribute("data-code-module");
       expect(link.querySelector("svg")).toBeNull();
     }
+  });
+  it.each([
+    "@/components/kamod-ui/accordion",
+    "@/components/kamod-ui/…",
+    "@/lib/utils",
+    "src/components/blocks/sidebar-01",
+  ])("keeps the complete consumer path %s free of automatic links", (path) => {
+    const { container } = render(
+      <>
+        <BrandText>Copy {path} into your app.</BrandText>
+        <BrandText>
+          <code>{path}</code>
+        </BrandText>
+        <InlineCode>{path}</InlineCode>
+      </>,
+    );
+    expect(container.textContent).toBe(`Copy ${path} into your app.${path}${path}`);
+    expect(container.querySelector("a, .docs-kamod-link, [data-code-module]")).toBeNull();
+    expect(kamodReferenceHref(path)).toBeUndefined();
   });
   it.each([
     "@kamod-ch",
@@ -104,6 +123,8 @@ describe("inline brand references", () => {
   it("does not guess unknown repositories, aliases or command destinations", () => {
     for (const value of [
       "@kamod-ch/unknown",
+      "@/components/kamod-ui/button",
+      "@/components/kamod-ui/…",
       "@/components/kamod-ui/missing",
       "@/components/kamod-ui/constructor",
       "@kamod-ch/ui/../private",

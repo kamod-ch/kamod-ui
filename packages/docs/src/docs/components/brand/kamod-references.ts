@@ -24,13 +24,8 @@ const coreSource = (path: string) => {
     : undefined;
 };
 
-/** Resolve authored package references and known local aliases without inventing repository names. */
+/** Resolve authored package references without inventing repository names. */
 export function kamodReferenceHref(text: string): string | undefined {
-  const alias = text.match(/^@\/components\/kamod-ui\/(.+)$/)?.[1];
-  if (alias)
-    return alias === "…"
-      ? `${github}kamod-ui/tree/main/packages/core/src/components`
-      : coreSource(alias);
   const match = text.match(/^@kamod-ch\/([a-z][a-z0-9-]*)(?:\/([\w./-]+))?$/);
   if (!match || !Object.hasOwn(referencePackages, `@kamod-ch/${match[1]}`)) return undefined;
   const [, name, path] = match;
@@ -43,7 +38,7 @@ export function kamodReferenceHref(text: string): string | undefined {
 }
 
 export const kamodReferencePattern =
-  /(?<![\w@/])(?:@kamod-ch\/[a-z][a-z0-9-]*(?:\/[\w/-]+(?:\.[\w-]+)*)*|@\/components\/kamod-ui\/(?:[a-z][a-z-]*|…))(?![\w/-])/g;
+  /(?<![\w@/])@kamod-ch\/[a-z][a-z0-9-]*(?:\/[\w/-]+(?:\.[\w-]+)*)*(?![\w/-])/g;
 
 /** Icon recognition is deliberately broader than safe repository-link resolution. */
 export const hasKamodNamespace = (text: string) => /kamod-ch/i.test(text);

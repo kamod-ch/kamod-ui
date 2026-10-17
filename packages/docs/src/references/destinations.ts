@@ -37,6 +37,9 @@ export const resolveCodeReference: CodeReferenceResolver = ({
     return;
   }
   const uiAlias = /^@\/(?:components\/kamod-ui\/|lib\/utils)/.test(module);
+  // A consumer path is not a reference. Concrete imports retain their existing
+  // component/function identity without decorating that path or a namespace.
+  if (uiAlias && (!imported || imported === "*")) return;
   const name = uiAlias ? "@kamod-ch/ui" : rootPackageName(module);
   if (module.split("/").some((segment) => segment === "." || segment === "..")) return;
   const repository =
@@ -46,16 +49,7 @@ export const resolveCodeReference: CodeReferenceResolver = ({
   const exportName = imported === "default" ? local : imported;
   if (name === "@kamod-ch/ui") {
     const slug = uiAlias ? module.split("/").at(-1) : module.slice(name.length + 1).split("/")[0];
-    if ((!imported || imported === "*") && !uiAlias) return source;
-    if (!imported || imported === "*") {
-      return withBasePath(
-        ["utils", "lib"].includes(slug ?? "") && module.endsWith("utils")
-          ? "/docs/cn/installation#api-reference"
-          : routes.has(slug ?? "")
-            ? `/docs/${slug}/installation#api-reference`
-            : "/docs/components",
-      );
-    }
+    if (!imported || imported === "*") return source;
     if (exportName === "cn") return withBasePath("/docs/cn/installation#api-reference");
     const component = componentFor(exportName);
     if (component && (!slug || slug === component.slug || slug === "index")) {
