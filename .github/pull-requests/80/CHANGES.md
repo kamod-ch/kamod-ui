@@ -1408,3 +1408,29 @@ Desktop-light, tablet-light and phone-dark captures were inspected with Ocean,
 Kamod and Cursor warm presets. Shapes align without a panel border or horizontal
 overflow; no page errors occurred, and reduced motion stops every loading
 animation. No new Safari/WebKit result is claimed.
+
+## 53. A flat resource ending and balanced reference metadata
+
+- **One ending list.** Replace Contracts/Resources subgroups with a semantic flat list beneath “Useful resources.” Put the tooltip's selected main reference first, retain all unique verified contract/source/guide/chapter/excerpt/declaration destinations, and preserve native navigation. Use the theme's secondary hue at the same highlight strength as the kind badge for that first item; other items retain one shared link style.
+- **A compact count row.** Pair the heading with a subtle dot-separated contracts/resources/guides/references/third-party descriptor. Reserve a shared12px minimum gap before the opposite total count; truncate only the descriptor as space tightens. Center the row's contents and give only the number slightly larger semibold emphasis.
+- **Independent header metadata.** Turn the destination below the title into a badge-hued underlined link with a small arrow. Move its fact into a separate right-side container beneath the badge/actions, with extra top spacing and a matching info icon. Remove the old dot; add a tiny decorative chain between the badge and open action, plus a small compass beside the linked title.
+- **A consistent reading scale.** Match main description, origin context and right-side fact at10px/450 with the same line height and restrained badge-hued ink. Raise the smallest private-tooltip text to the former subgroup-heading size,8.5px, including miniature metadata and continuation notes. Make the main icon's background more visible while retaining stationary background-only action hover.
+- **Scoped ownership.** Split header and ending paint into their own imported stylesheets. Keep shared density/color constants and miniature rules in help.css, retain actual source components and verified destinations, and add no state, listeners, timers, requests or dependencies.
+- **Behavioral coverage.** Exercise main-first insertion, source-first fallback, exact deduplication/counts, empty-resource handling and preservation of every resource family. Update existing production matrix checks for independent metadata, a flat list, shared typography and native link behavior; keep source accuracy, grammar fallback, bounded scrolling and pointer grace intact.
+
+### Resource-ending verification
+
+The full documentation suite passes **951 tests in102 files**. Documentation
+typecheck and the final production build pass, as do root Oxlint/Oxfmt/Biome,
+Knip/Syncpack and whitespace checks. All **16 affected production Chrome cases**
+pass together on the final build, including the eight-reference family matrix
+at320/768/1440px in both appearances, exact classification/source navigation,
+optional grammar failure, keyboard operation, bounded scrolling and pointer grace.
+
+Final Ocean desktop-light, Cursor warm phone-dark and Kamod tablet-light captures
+were inspected. Visible text stays at least8.5px, the resource row retains its12px
+gap and the summary/context/right fact have matching computed typography and ink.
+The primary destination is first, counts match unique links, and there is no
+header/document overflow or page error. An earlier classification case hit
+Chrome `ERR_NETWORK_CHANGED` for local chunks; its trace identifies that transport
+failure and the complete final suite passes. No new Safari/WebKit result is claimed.

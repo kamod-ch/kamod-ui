@@ -313,15 +313,18 @@ compact type badge, and a chain action exactly matching the badge's 22px height,
 background and ink. Its smaller chain uses a lighter stroke; the badge icon is
 slightly larger. Other compact source actions use the main icon's subtle surface
 and accent. Buttons remain stationary and change only their background on hover.
-The title's tiny, normal-weight subline shows the actual destination plus a real
-reference fact, such as a required field, source branch or reference-chapter count.
+The title gains a small decorative compass. Its linked destination subline uses
+the badge's background hue and an arrow; the independent fact beneath the right
+actions uses a matching info icon. A tiny decorative chain separates the badge
+and open action. The main icon has a more visible, still subtle background.
 Verified technology logos remain confined to the main icon; the type badge keeps
 the generic circuit-board mark.
 
 The origin row preserves the exact copyable path and a one-line purpose after a
-slash, both using primary reading ink. Descriptions retain source-backed prose
-with safe code, emphasis and local/HTTP(S) links. The smaller 8.5px postscript now
-uses the same primary ink, preserving useful alias, license and contract caveats
+slash. Context, main description and right-side fact share10px/450 typography
+and a slightly muted version of the badge background hue. Descriptions retain
+source-backed prose with safe code, emphasis and local/HTTP(S) links. The smaller
+8.5px postscript preserves useful alias, license and contract caveats
 without a second badge or duplicate execution warning.
 
 Substantive chapters reuse actual page components: BlockPropsTable for documented
@@ -350,13 +353,16 @@ the right of its heading. Short contextual notes sit below the card; clipped tab
 code and type collections also have real continuation links with a down chevron.
 Header, content stage and ending share the same base reading background.
 
-One final **Reference index** replaces the separate related-reading shelf and
-sticky action footer. It includes every distinct verified contract, source, page
-and chapter destination, including the selected primary resource. Small wrapping
+One final **Useful resources** list replaces the grouped index and sticky action
+footer. It includes every distinct verified contract, source, page and chapter
+destination, placing the selected primary resource first with a secondary-hue
+background at the badge's highlight strength. Small wrapping
 links use one consistent text/icon scale; only the destination label is underlined,
 leaving the `/` separator and resource-kind label plain. Native hints explain each
-destination. Contracts and Resources have compact subheadings with short context,
-and a factual local/external count closes the index without another action row.
+destination. A dot-separated keyword list truncates beside the heading, reserving
+a constant12px gap before the centered total-reference count. No subgroup headings
+or other footer content remain. Private tooltip text has a shared8.5px minimum,
+including table metadata, notes and links; source-page colors/layout remain intact.
 
 The local technology catalog contains 90 technologies with two authored chapters
 each. Examples and integration boundaries are specific to the technology; optional
@@ -585,7 +591,17 @@ branding and navigation changes. The public color-mode prop/type, inversion
 wrappers, paired theme values and mode-specific routes/tests are removed; the
 nine supported syntax palettes and normal application appearance remain.
 
-The page-opening refinement passes the same **946 documentation tests in101
+The flat-resource/header follow-up passes **951 documentation tests in102 files**,
+docs typecheck/final production build and root Oxlint/Oxfmt/Biome/Knip/Syncpack.
+All **16 affected production Chrome cases** pass together, including eight
+reference families at320/768/1440px in both appearances, source classification,
+native navigation, optional coloring failure, keyboard and scroll/pointer retention.
+Desktop/tablet/phone captures confirm the8.5px minimum,12px resource gap, shared
+summary/context/fact styling and no overflow/page errors. An earlier local-chunk
+`ERR_NETWORK_CHANGED` was verified in its trace; the complete final run passes.
+No new Safari/WebKit result is claimed.
+
+The preceding page-opening refinement passes the same **946 documentation tests in101
 files**, docs typecheck/production build and root Oxlint/Oxfmt/Biome. All **18
 production Chrome page-state cases** pass together, covering pending full/compact
 routes, both appearances, responsive/enlarged text, reduced motion, first paint
