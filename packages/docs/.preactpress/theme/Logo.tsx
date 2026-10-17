@@ -1,20 +1,25 @@
+/** @jsxImportSource preact */
 import { KamodIcon } from "@kamod-ch/brand";
 import type { FunctionalComponent } from "preact";
-import { withBasePath } from "../../src/base-path";
 
 interface LogoProps {
   class?: string;
   label?: string;
+  base?: string;
 }
 
 /** Preserve the official symbol while letting the wordmark follow the active site theme. */
-const Logo: FunctionalComponent<LogoProps> = ({ class: className, label = "Kamod UI" }) => (
+const Logo: FunctionalComponent<LogoProps> = ({
+  class: className,
+  label = "Kamod UI",
+  base = "/",
+}) => (
   <span
     class={["kamod-ui-logo", className].filter(Boolean).join(" ")}
     role="img"
     aria-label={label}
   >
-    <KamodIcon resolveAsset={withBasePath} />
+    <KamodIcon base={base} />
     <span class="kamod-ui-logo-wordmark" aria-hidden="true">
       kamod
     </span>

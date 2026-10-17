@@ -12,7 +12,7 @@ import { componentApiPlugin } from "./component-api-plugin";
 import { componentPreviewPlugin } from "./component-preview-plugin";
 import { compactGuidePageData } from "./guide-page-data";
 import { pageMetadataPlugin } from "./page-metadata-plugin";
-import { pagePreloader } from "./page-preloader";
+import { createPagePreloader } from "./page-preloader";
 import { runtimePerformancePlugin } from "./runtime-performance-plugin";
 
 const configDir = import.meta.dirname;
@@ -57,7 +57,7 @@ function fixDevClientModule(html: string): string {
 
 export default defineConfig({
   // Wait for loaded stylesheets without forcing computed styles every frame.
-  pageReady: { preloader: pagePreloader, probe: false },
+  pageReady: { preloader: createPagePreloader(base), probe: false },
   theme: "./theme/Layout.tsx",
   transformPageData: compactGuidePageData,
   srcExclude: ["dist/**", "playwright-report/**", "test-results/**", "README.md"],

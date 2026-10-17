@@ -68,14 +68,6 @@
 .page-state-eyebrow > span[aria-hidden="true"] {
   opacity: 0.65;
 }
-.page-state-loading h1 {
-  margin: 0;
-  font-size: clamp(2rem, 4.5vw, 3.75rem);
-  font-weight: 650;
-  line-height: 1.12;
-  letter-spacing: -0.04em;
-  text-wrap: balance;
-}
 .page-state-description {
   max-width: 57ch;
   margin: clamp(0.75rem, 2.5dvh, 1.5rem) 0 0;
@@ -90,134 +82,6 @@
   flex-wrap: wrap;
   gap: 0.75rem;
   padding-block: clamp(0.625rem, 2dvh, 1.25rem);
-}
-.page-state-loading {
-  max-width: 48rem;
-  margin-block: auto;
-  padding-block: clamp(0.25rem, 1dvh, 1rem);
-}
-.page-state-loading h1 {
-  font-size: clamp(1.8rem, 4vw, 3rem);
-}
-.page-state-skeleton {
-  --loading-skeleton-sheen: linear-gradient(
-    100deg,
-    transparent,
-    var(--primary) 38%,
-    var(--secondary-accent, var(--primary)) 62%,
-    transparent
-  );
-  --page-loading-shape: color-mix(in oklab, var(--primary) 9%, transparent);
-  --page-loading-detail: color-mix(
-    in oklab,
-    var(--secondary-accent, var(--primary)) 8%,
-    transparent
-  );
-  margin-top: clamp(1.25rem, 4.5dvh, 3rem);
-  max-width: 38rem;
-  display: grid;
-  gap: clamp(0.5rem, 1.5dvh, 0.75rem);
-}
-.page-state-skeleton span {
-  position: relative;
-  overflow: hidden;
-  display: block;
-  border-radius: 0.25rem;
-  background: var(--page-loading-shape);
-}
-.page-state-skeleton > span {
-  height: 0.6rem;
-}
-.page-state-skeleton > :nth-child(2) {
-  --loading-skeleton-step: 1;
-  width: 88%;
-}
-.page-state-skeleton > :nth-child(3) {
-  --loading-skeleton-step: 2;
-  width: 62%;
-}
-.page-loading-panel {
-  display: grid;
-  gap: clamp(0.5rem, 1.5dvh, 0.75rem);
-  margin-top: 0.375rem;
-}
-.page-loading-panel-header {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 0.25rem;
-}
-.page-state-skeleton :is(.page-loading-panel-icon, .page-loading-panel-action) {
-  --loading-skeleton-step: 5;
-  display: block;
-  flex: none;
-  border-radius: 0.375rem;
-  background: var(--page-loading-detail);
-}
-.page-loading-panel-icon {
-  width: 2rem;
-  height: 2rem;
-}
-.page-loading-panel-action {
-  width: 2.5rem;
-  height: 1.125rem;
-}
-.page-loading-panel-lines {
-  display: grid;
-  flex: 1;
-  gap: 0.5rem;
-  min-width: 0;
-}
-.page-state-skeleton :is(.page-loading-panel-lines > span, .page-loading-panel-line) {
-  height: 0.5rem;
-}
-.page-loading-panel-lines > span {
-  --loading-skeleton-step: 4;
-}
-.page-loading-panel-lines > span:first-child {
-  width: 38%;
-}
-.page-loading-panel-lines > span:last-child {
-  width: 62%;
-}
-.page-loading-panel-line {
-  --loading-skeleton-step: 6;
-  width: 88%;
-}
-.page-loading-panel-line + .page-loading-panel-line {
-  --loading-skeleton-step: 7;
-  width: 62%;
-}
-.page-loading-panel-footer {
-  display: grid;
-  grid-template-columns: 1fr 1.3fr 0.8fr;
-  gap: 0.625rem;
-  margin-top: 0.25rem;
-}
-.page-state-skeleton .page-loading-panel-footer > span {
-  --loading-skeleton-step: 8;
-  height: 1.375rem;
-  border-radius: 0.375rem;
-}
-.page-loading-panel-footer > span:nth-child(2) {
-  --loading-skeleton-step: 9;
-  background: var(--page-loading-detail);
-}
-.page-loading-panel-footer > span:nth-child(3) {
-  --loading-skeleton-step: 10;
-}
-
-.page-state-loading--compact {
-  padding: 2rem;
-}
-.page-state-loading--compact h1 {
-  font-size: 1.25rem;
-}
-.page-state-loading--compact .page-state-description {
-  font-size: 0.875rem;
-}
-.page-state-loading--compact .page-state-skeleton {
-  margin-top: 1.5rem;
 }
 .page-state-shell :is(a, button):focus-visible {
   outline: 2px solid var(--ring);
@@ -305,43 +169,6 @@
 @media (max-height: 600px) {
   .page-state-main {
     padding-block: 0.75rem;
-  }
-  .page-state-loading:not(.page-state-loading--compact) {
-    padding-block: 0.25rem;
-  }
-  .page-state-skeleton {
-    margin-top: 1rem;
-  }
-  .page-state-skeleton,
-  .page-loading-panel {
-    gap: 0.4375rem;
-  }
-  .page-state-loading:not(.page-state-loading--compact) h1 {
-    font-size: clamp(1.6rem, 3.25vw, 2.25rem);
-  }
-  .page-state-loading .page-state-description {
-    font-size: 0.875rem;
-    line-height: 1.65;
-  }
-  .page-loading-panel-icon {
-    width: 1.5rem;
-    height: 1.5rem;
-  }
-  .page-state-skeleton .page-loading-panel-footer > span {
-    height: 1rem;
-  }
-}
-/* Short desktop/landscape windows have more useful space beside the text. */
-@media (min-width: 768px) and (max-height: 600px) {
-  .page-state-loading:not(.page-state-loading--compact) {
-    display: grid;
-    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
-    align-items: center;
-    gap: clamp(1.5rem, 3vw, 3rem);
-    max-width: 64rem;
-  }
-  .page-state-loading:not(.page-state-loading--compact) .page-state-skeleton {
-    margin-top: 0;
   }
 }
 @media (min-width: 768px) and (hover: hover) and (pointer: fine) {

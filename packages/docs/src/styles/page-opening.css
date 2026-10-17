@@ -1,0 +1,349 @@
+/* Shared critical geometry: this stylesheet is also embedded before the site CSS loads. */
+.page-opening {
+  --opening-ink: var(--foreground, var(--pp-preloader-accent, #171717));
+  --opening-accent: var(--primary, var(--opening-ink));
+  --opening-detail: var(--secondary-accent, var(--opening-accent));
+  --opening-quiet: color-mix(in oklab, var(--opening-ink) 36%, transparent);
+  position: relative;
+  isolation: isolate;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  overflow: clip;
+  padding-block: env(safe-area-inset-top, 0px) env(safe-area-inset-bottom, 0px);
+  padding-inline: max(
+    clamp(1rem, 5vw, 5rem),
+    env(safe-area-inset-left, 0px),
+    env(safe-area-inset-right, 0px)
+  );
+  background: var(--background, var(--pp-preloader-bg, #fff));
+  color: var(--opening-ink);
+  font-family: var(--docs-font-sans, system-ui, sans-serif);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+.page-opening::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse 28% 30% at 73% 24%,
+      color-mix(in oklab, var(--opening-detail) 4%, transparent),
+      transparent 100%
+    ),
+    radial-gradient(
+      ellipse 35% 30% at 22% 65%,
+      color-mix(in oklab, var(--opening-accent) 4%, transparent),
+      transparent 100%
+    ),
+    radial-gradient(
+      ellipse 30% 22% at 67% 85%,
+      color-mix(in oklab, var(--opening-detail) 3%, transparent),
+      transparent 100%
+    );
+}
+.page-opening *,
+.page-opening *::before,
+.page-opening *::after {
+  box-sizing: border-box;
+}
+.page-opening-topbar {
+  display: flex;
+  align-items: center;
+  width: min(100%, 76rem);
+  flex: none;
+  margin-inline: auto;
+  padding-block: clamp(0.75rem, 2.5dvh, 1.5rem);
+  border: 0;
+}
+.page-opening .page-state-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+.page-opening a {
+  color: inherit;
+  text-decoration: none;
+}
+.page-opening a:focus-visible {
+  outline: 2px solid var(--ring, var(--opening-ink));
+  outline-offset: 5px;
+}
+.page-opening .kamod-ui-logo-wordmark,
+.page-opening .kamod-ui-logo-product {
+  color: color-mix(in oklab, var(--opening-accent) 12%, var(--opening-ink));
+}
+.page-opening .kamod-ui-logo-dot {
+  background: color-mix(in oklab, var(--opening-accent) 60%, var(--opening-ink));
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--opening-accent) 7%, transparent);
+}
+.page-opening-main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: min(100%, 64rem);
+  min-height: 0;
+  margin-inline: auto;
+  overflow-y: auto;
+  padding-block: clamp(1rem, 4dvh, 4rem);
+  scroll-padding-block: 1rem;
+}
+.page-opening-content {
+  flex: none;
+  width: min(100%, 48rem);
+  margin-block: auto;
+  padding-block: clamp(0.25rem, 1dvh, 1rem);
+}
+.page-opening-content .page-loading-label {
+  margin: 0 0 clamp(0.75rem, 2.5dvh, 1.5rem);
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5;
+}
+.page-opening-content .page-loading-brand {
+  color: var(--foreground, var(--pp-preloader-accent, currentColor));
+}
+.page-opening-content .page-loading-brand > strong {
+  font: inherit;
+  font-weight: 600;
+}
+.page-opening-content .page-loading-caption,
+.page-opening-content .page-loading-tagline {
+  color: var(--opening-quiet, color-mix(in oklab, var(--foreground) 36%, transparent));
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5;
+}
+.page-opening-content .page-loading-label > span[aria-hidden="true"] {
+  color: var(--opening-quiet, var(--muted-foreground));
+}
+.page-opening-content .page-loading-title {
+  margin: 0;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 650;
+  line-height: 1.12;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+}
+.page-opening-content .page-loading-description {
+  max-width: 57ch;
+  margin: clamp(0.75rem, 2.5dvh, 1.5rem) 0 0;
+  color: color-mix(
+    in oklab,
+    var(--muted-foreground, var(--pp-preloader-accent, #737373)) 65%,
+    var(--foreground, var(--pp-preloader-accent, #171717))
+  );
+  font-size: 0.9375rem;
+  font-weight: 450;
+  line-height: 1.8;
+}
+.page-state-skeleton {
+  --loading-skeleton-sheen: linear-gradient(
+    100deg,
+    transparent,
+    var(--primary) 38%,
+    var(--secondary-accent, var(--primary)) 62%,
+    transparent
+  );
+  --page-loading-shape: color-mix(in oklab, var(--primary) 9%, transparent);
+  --page-loading-detail: color-mix(
+    in oklab,
+    var(--secondary-accent, var(--primary)) 8%,
+    transparent
+  );
+  margin-top: clamp(1.25rem, 4.5dvh, 3rem);
+  max-width: 38rem;
+  display: grid;
+  gap: clamp(0.5rem, 1.5dvh, 0.75rem);
+}
+.page-state-skeleton span {
+  position: relative;
+  overflow: hidden;
+  display: block;
+  border-radius: 0.25rem;
+  background: var(--page-loading-shape);
+}
+.page-state-skeleton > span {
+  height: 0.6rem;
+}
+.page-state-skeleton > :nth-child(2) {
+  --loading-skeleton-step: 1;
+  width: 88%;
+}
+.page-state-skeleton > :nth-child(3) {
+  --loading-skeleton-step: 2;
+  width: 62%;
+}
+.page-loading-panel {
+  display: grid;
+  gap: clamp(0.5rem, 1.5dvh, 0.75rem);
+  margin-top: 0.375rem;
+}
+.page-loading-panel-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.25rem;
+}
+.page-state-skeleton :is(.page-loading-panel-icon, .page-loading-panel-action) {
+  --loading-skeleton-step: 5;
+  display: block;
+  flex: none;
+  border-radius: 0.375rem;
+  background: var(--page-loading-detail);
+}
+.page-loading-panel-icon {
+  width: 2rem;
+  height: 2rem;
+}
+.page-loading-panel-action {
+  width: 2.5rem;
+  height: 1.125rem;
+}
+.page-loading-panel-lines {
+  display: grid;
+  flex: 1;
+  gap: 0.5rem;
+  min-width: 0;
+}
+.page-state-skeleton :is(.page-loading-panel-lines > span, .page-loading-panel-line) {
+  height: 0.5rem;
+}
+.page-loading-panel-lines > span {
+  --loading-skeleton-step: 4;
+}
+.page-loading-panel-lines > span:first-child {
+  width: 38%;
+}
+.page-loading-panel-lines > span:last-child {
+  width: 62%;
+}
+.page-loading-panel-line {
+  --loading-skeleton-step: 6;
+  width: 88%;
+}
+.page-loading-panel-line + .page-loading-panel-line {
+  --loading-skeleton-step: 7;
+  width: 62%;
+}
+.page-loading-panel-footer {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr 0.8fr;
+  gap: 0.625rem;
+  margin-top: 0.25rem;
+}
+.page-state-skeleton .page-loading-panel-footer > span {
+  --loading-skeleton-step: 8;
+  height: 1.375rem;
+  border-radius: 0.375rem;
+}
+.page-loading-panel-footer > span:nth-child(2) {
+  --loading-skeleton-step: 9;
+  background: var(--page-loading-detail);
+}
+.page-loading-panel-footer > span:nth-child(3) {
+  --loading-skeleton-step: 10;
+}
+
+.page-opening .page-state-skeleton {
+  --loading-skeleton-sheen: linear-gradient(
+    100deg,
+    transparent,
+    var(--opening-accent) 38%,
+    var(--opening-detail) 62%,
+    transparent
+  );
+  --page-loading-shape: color-mix(in oklab, var(--opening-accent) 9%, transparent);
+  --page-loading-detail: color-mix(in oklab, var(--opening-detail) 8%, transparent);
+}
+.page-opening-content .page-loading-tagline {
+  margin: clamp(1rem, 3dvh, 1.75rem) 0 0;
+}
+.page-loading-rocket {
+  position: absolute;
+  top: clamp(5rem, 20dvh, 15rem);
+  right: clamp(2rem, 21vw, 24rem);
+  pointer-events: none;
+}
+.page-opening .getting-started-flight {
+  color: var(--opening-ink);
+}
+/* First paint has no hydration effect; its short-lived constellation uses the same CSS clock. */
+html:not(.pp-ready) .page-opening--startup .getting-started-flight * {
+  animation-play-state: running;
+}
+.page-state-loading--compact .page-loading-title {
+  font-size: 1.25rem;
+}
+.page-state-loading--compact .page-loading-description {
+  font-size: 0.875rem;
+}
+.page-state-loading--compact {
+  padding: 2rem;
+}
+.page-state-loading--compact .page-state-skeleton {
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 639px) {
+  .page-loading-rocket {
+    top: 1.25rem;
+    right: max(1.5rem, 10vw);
+  }
+}
+@media (max-height: 600px) {
+  .page-state-skeleton {
+    margin-top: 1rem;
+  }
+  .page-state-skeleton,
+  .page-loading-panel {
+    gap: 0.4375rem;
+  }
+  .page-loading-panel-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  .page-state-skeleton .page-loading-panel-footer > span {
+    height: 1rem;
+  }
+  .page-opening-main {
+    padding-block: 0.75rem;
+  }
+  .page-opening-content:not(.page-state-loading--compact) {
+    padding-block: 0.25rem;
+  }
+  .page-opening-content:not(.page-state-loading--compact) .page-loading-title {
+    font-size: clamp(1.6rem, 3.25vw, 2.25rem);
+  }
+  .page-opening-content .page-loading-description {
+    font-size: 0.875rem;
+    line-height: 1.65;
+  }
+  .page-opening-content .page-loading-tagline {
+    margin-top: 1rem;
+  }
+  .page-loading-rocket {
+    top: 0.5rem;
+    transform: scale(0.7);
+    transform-origin: top right;
+  }
+}
+@media (min-width: 768px) and (max-height: 600px) {
+  .page-opening-content:not(.page-state-loading--compact) {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(1.5rem, 3vw, 3rem);
+    width: 100%;
+    max-width: 64rem;
+  }
+  .page-opening-content:not(.page-state-loading--compact) .page-state-skeleton {
+    margin-top: 0;
+  }
+}

@@ -25,7 +25,7 @@ html[aria-busy="true"]:not(.pp-ready) body {
   flex-direction: column;
   justify-content: flex-start;
   overflow-y: auto;
-  padding-block: env(safe-area-inset-top, 0px) env(safe-area-inset-bottom, 0px);
+  padding: 0;
 }
 .page-state-message {
   box-sizing: border-box;
@@ -116,10 +116,7 @@ html[aria-busy="true"]:not(.pp-ready) body {
   height: 1rem;
   flex: none;
   color: var(--muted-foreground, var(--foreground, #737373));
-  border: 2px solid;
-  border-color: color-mix(in oklab, currentColor 25%, transparent);
-  border-top-color: currentColor;
-  border-radius: 50%;
+  border: 0;
   animation: page-loading-spin 1.15s linear infinite;
 }
 
@@ -163,42 +160,9 @@ html[aria-busy="true"]:not(.pp-ready) body {
   white-space: nowrap;
 }
 
-.page-loading-track {
-  position: relative;
-  overflow: hidden;
-}
-.page-state-message > .page-loading-track {
-  height: 4px;
-  margin-top: clamp(1rem, 4dvh, 2rem);
-  border-radius: 999px;
-  background: var(--page-state-rule);
-}
-
-.page-loading-track::after {
-  content: "";
-  position: absolute;
-  inset: 0 auto 0 0;
-  width: 38%;
-  border-radius: inherit;
-  background: linear-gradient(90deg, transparent, var(--primary, currentColor), transparent);
-  opacity: var(--page-loading-sheen-opacity, 0.65);
-  animation: page-loading-sweep 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-}
-
 @keyframes page-loading-spin {
   to {
     transform: rotate(1turn);
-  }
-}
-
-@keyframes page-loading-sweep {
-  0%,
-  8% {
-    transform: translateX(-110%);
-  }
-  80%,
-  100% {
-    transform: translateX(280%);
   }
 }
 
@@ -222,11 +186,7 @@ html[aria-busy="true"]:not(.pp-ready) body {
 
 @media (prefers-reduced-motion: reduce) {
   .page-loading-spinner,
-  .page-loading-ellipsis > i,
-  .page-loading-track::after {
+  .page-loading-ellipsis > i {
     animation: none;
-  }
-  .page-loading-track::after {
-    display: none;
   }
 }

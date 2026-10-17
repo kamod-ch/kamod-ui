@@ -78,6 +78,7 @@
 
 @import "./page-state.css";
 @import "./page-loading-motion.css";
+@import "./page-opening.css";
 @import "./not-found.css";
 
 @import "./docs-callout.css";

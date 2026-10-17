@@ -1,3 +1,4 @@
+/** @jsxImportSource preact */
 import { RocketIcon } from "@kamod-ch/icons/tabler/outline";
 import { useEffect, useRef } from "preact/hooks";
 import { observeViewportActivity } from "../../layout/runtime/viewport-activity";

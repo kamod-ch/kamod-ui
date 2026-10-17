@@ -7,8 +7,9 @@ import {
 } from "@kamod-ch/icons/lucide";
 import { BrandGithubIcon } from "@kamod-ch/icons/tabler/filled";
 import type { ComponentChildren } from "preact";
-import { withBasePath } from "../base-path";
+import { APP_BASE_URL, withBasePath } from "../base-path";
 import { KamodUiBrandLogo } from "./KamodUiBrandLogo";
+import { PageOpening } from "./PageOpening";
 
 /** Deliberately independent of the demo registry: recovery must load with the router. */
 function PageStateFrame({
@@ -69,66 +70,7 @@ export function PageNotFound() {
 }
 
 export function PageLoading({ compact = false }: { compact?: boolean }) {
-  const content = (
-    <section
-      class={`page-state-loading${compact ? " page-state-loading--compact" : ""}`}
-      aria-label="Loading content"
-      aria-busy="true"
-    >
-      <div role="status" aria-live="polite" aria-atomic="true">
-        <p class="page-state-eyebrow page-loading-label">
-          <span class="page-loading-brand">
-            <span class="page-loading-spinner" aria-hidden="true" />
-            <strong>Kamod</strong>
-          </span>
-          <span aria-hidden="true">·</span>
-          <span>
-            {compact ? "Preparing your interactive preview" : "Your next page is taking shape"}
-          </span>
-        </p>
-        <h1 aria-label={compact ? "Loading Preview…" : "Opening Your Next Page…"}>
-          {compact ? "Loading " : "Opening Your Next "}
-          <span class="page-loading-ending">
-            {compact ? "Preview" : "Page"}
-            <span class="page-loading-ellipsis" aria-hidden="true">
-              <i />
-              <i />
-              <i />
-            </span>
-            <span class="page-loading-ellipsis-label">…</span>
-          </span>
-        </h1>
-        <p class="page-state-description page-loading-description">
-          {compact
-            ? "Preparing the interactive example."
-            : "Loading the guide and preparing its examples for you to explore. The page will appear here automatically when it’s ready, so you can keep this view open without refreshing."}
-        </p>
-      </div>
-      <div class="page-state-skeleton docs-loading-skeleton" aria-hidden="true">
-        <span class="page-loading-track docs-loading-shape" />
-        <span class="docs-loading-shape" />
-        <span class="docs-loading-shape" />
-        <div class="page-loading-panel">
-          <div class="page-loading-panel-header">
-            <span class="page-loading-panel-icon docs-loading-shape" />
-            <div class="page-loading-panel-lines">
-              <span class="docs-loading-shape" />
-              <span class="docs-loading-shape" />
-            </div>
-            <span class="page-loading-panel-action docs-loading-shape" />
-          </div>
-          <span class="page-loading-panel-line docs-loading-shape" />
-          <span class="page-loading-panel-line docs-loading-shape" />
-          <div class="page-loading-panel-footer">
-            <span class="docs-loading-shape" />
-            <span class="docs-loading-shape" />
-            <span class="docs-loading-shape" />
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-  return compact ? content : <PageStateFrame>{content}</PageStateFrame>;
+  return <PageOpening base={APP_BASE_URL} compact={compact} />;
 }
 
 /** A static first-paint-sized message; a full reload also clears a rejected lazy import. */

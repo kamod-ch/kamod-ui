@@ -567,14 +567,22 @@ dots and a 3.8-second paired transform loop provide clear feedback with fewer
 competing effects. Shared activity and reduced-motion rules stop all descendants
 when appropriate; the redesign adds no timers or reactive progress state.
 
-The standalone page-opening view now uses a restrained semibold primary Kamod
-label in its neighboring text's font and a small neutral spinner. Full-route
-descriptions match ordinary documentation introductions, with slightly stronger
-weight. The upper bars and former lower panel form one aligned borderless skeleton
-with subtle primary/accent tints. A shared2.25-second staggered sheen covers every
-shape with a short pause; reduced motion remains static. This CSS-only refinement
-also keeps the first-paint label self-contained and compact preview typography
-intact, without adding runtime state, timers or dependencies.
+The first-paint overlay and route-loading screen now render one shared page-opening
+component and stylesheet. Both use the same heading, explanatory copy, neutral
+outline spinner, foreground semibold Kamod label, borderless skeleton and exact
+Getting Started rocket. The caption ends with an ellipsis and shares its faint
+ink and typography with “Made for Preact. Built to be yours.” beneath the skeleton.
+Loading keeps the official home logo while removing header/footer rules and extra
+navigation. Three quiet primary/accent radial fades surround the content. The
+shared 2.25-second skeleton clock and 14-second flight respect reduced motion;
+runtime flight activity uses the existing observer and cleans up on unmount.
+
+Critical styles and server-rendered markup remain available before any client
+request finishes, with neutral palette fallbacks. Startup markup omits route
+headings, landmarks, IDs and state markers so its persistent hidden overlay cannot
+become a second page in document queries. Logo assets and the home link use the
+same deployment base in both phases. PreactPress retains readiness, timeout and
+no-script behavior. Compact previews retain their smaller embedded layout.
 
 A same-code development tour through all 15 Button examples measured collected
 JavaScript heap of **93.70 MiB with unlimited retention versus 56.82 MiB with the
@@ -613,7 +621,7 @@ scroll range. The 404 body is a single minimal unit: a plain decorative 404,
 “Page not found,” one short sentence and two recovery links. It retains the shared
 header/footer and fits the viewport without document or main-content scrolling.
 Short wide windows place the number beside the message instead of stacking it.
-Header, footer and interrupted-load separators share a quiet 8% neutral-ink rule.
+The 404 header/footer and interrupted-load separators retain a quiet 8% neutral-ink rule.
 
 Genuinely taller loading and interrupted-load copy remains accessible in its
 reading scrollport on short or enlarged-text displays. Before startup is ready, the existing JavaScript-only

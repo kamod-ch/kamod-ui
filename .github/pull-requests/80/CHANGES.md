@@ -1701,3 +1701,31 @@ selection plate. Both selected+reading and selected-away-from-reading states ret
 weight600. Nested links keep their indentation and the document has no horizontal
 overflow. Inspected light/dark selected-link captures. No new tests duplicate the
 CSS declarations, and no new Safari/WebKit result is claimed.
+
+## 65. One page-opening design from first paint through navigation
+
+- **Share the complete view.** Render one PageOpening component for the static startup overlay and route loading: identical heading, explanation, skeleton, home logo and Getting Started rocket. Keep the smaller embedded preview variant. Remove the separate compact first-paint template.
+- **Simplify loading chrome.** Remove both rules, the Get Started action and the source footer. Place “Made for Preact. Built to be yours.” beneath the skeleton with moderate spacing. The top caption ends with “...” and shares the tagline’s faint 36% foreground ink and normal 0.875rem typography. Kamod uses that same base size with foreground/600 text and a normal neutral outline spinner.
+- **Reuse the flight and quiet palette.** Put the exact transparent six-star rocket in the upper-right quadrant, pulled inward. Preserve its 14-second ascent, star seams and existing viewport-activity cleanup. Three 3–4% primary/secondary radial fades echo the unbordered skeleton’s 9%/8% tint. Keep the existing 2.25-second skeleton clock, short-window layout and static reduced-motion treatment.
+- **Keep startup independent and safe.** Embed the same critical CSS and server-rendered view before client assets arrive. Supply neutral fallbacks, one safe-area owner and explicit deployment-base logo/home paths. Startup markup omits runtime state selectors, main/header landmarks, h1 and content ID so the persistent hidden overlay cannot become another page in queries. Preserve PreactPress readiness, fallback and no-script behavior; add no dependencies or browser boot scripts.
+- **Preserve other page states.** Leave 404/recovery behavior and their navigation chrome intact. Scope Getting Started’s browser checks to its header now that the rocket is deliberately reused elsewhere.
+
+### Unified-loading validation
+
+Documentation typecheck and the final production build pass, together with root
+Oxlint/Oxfmt/Biome and whitespace checks. All **972 documentation tests in 105 files**
+pass, including three shared-view SSR contracts for content/constellation parity,
+startup landmark isolation and deployment-base links/assets.
+
+All **37 affected production Chrome cases** pass sequentially. Coverage includes
+both loading phases, startup without site CSS, 14 responsive viewports, 200% text,
+light/dark appearances, reduced motion, compact previews,404/recovery keyboard
+behavior, no-JavaScript reading, stylesheet readiness, and the existing Getting
+Started rocket and page/snippet cases. Both phases require the same label/tagline
+styles, exact rocket, link-only logo header and no loading footer/rule.
+
+Ten additional captures at 320×568,768×1024,1024×768,1440×900 and568×320 in Ocean light/
+Cursor warm dark confirm zero document scroll. Normal portrait/desktop frames
+also have zero main scroll; the short landscape reading area retains access to
+longer text. Representative desktop/tablet/phone captures were inspected. No new
+Safari/WebKit result is claimed.

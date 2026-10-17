@@ -42,13 +42,13 @@ async function expectReachableControls(scope: Locator) {
 async function expectLoadingContentReachable(loading: Locator) {
   for (const part of await loading
     .locator(
-      ".page-loading-label, h1, .page-loading-description, .page-loading-track, .page-loading-panel-header, .page-loading-panel-footer",
+      ".page-loading-label, .page-loading-title, .page-loading-description, .page-loading-track, .page-loading-panel-header, .page-loading-panel-footer, .page-loading-tagline",
     )
     .all()) {
     const geometry = () =>
       part.evaluate((element) => {
         const bounds = element.getBoundingClientRect();
-        const main = element.closest<HTMLElement>(".page-state-main")!;
+        const main = element.closest<HTMLElement>(".page-state-main, .page-opening-main")!;
         const mainBounds = main.getBoundingClientRect();
         return {
           top: bounds.top,
@@ -76,9 +76,13 @@ async function expectLoadingContentReachable(loading: Locator) {
   }
 }
 
-async function expectStandaloneFrameFits(page: Page, requireNoContentScroll = false) {
-  const shell = page.locator(".page-state-shell");
+async function expectStandaloneFrameFits(
+  page: Page,
+  requireNoContentScroll = false,
+  shell = page.locator(".page-state-shell").filter({ visible: true }),
+) {
   await expect(shell).toBeVisible();
+  const isLoading = (await shell.getAttribute("class"))!.includes("page-opening");
   const brand = shell.getByRole("link", { name: "Kamod UI home", exact: true });
   await expect(brand).toHaveCount(1);
   await expect(brand.locator(".kamod-ui-logo-wordmark")).toHaveCSS("font-weight", "700");
@@ -89,26 +93,28 @@ async function expectStandaloneFrameFits(page: Page, requireNoContentScroll = fa
   const symbolSize = `${rootSize * (page.viewportSize()!.width < 480 ? 1.3125 : 1.625)}px`;
   await expect(brand.locator(".kamod-icon")).toHaveCSS("width", symbolSize);
   await expect(brand.locator(".kamod-icon")).toHaveCSS("height", symbolSize);
-  const main = shell.getByRole("main");
-  const heading = main.getByRole("heading", { level: 1 });
+  const main = shell.locator(".page-state-main, .page-opening-main");
+  const heading = isLoading
+    ? main.locator(".page-loading-title")
+    : main.getByRole("heading", { level: 1 });
   await heading.scrollIntoViewIfNeeded();
   await expect(heading).toBeInViewport({ ratio: viewportIntersectionRatio });
 
   const geometry = await shell.evaluate((element) => {
     const bounds = element.getBoundingClientRect();
-    const header = element.querySelector<HTMLElement>(".page-state-topbar")!;
-    const main = element.querySelector<HTMLElement>(".page-state-main")!;
-    const footer = element.querySelector<HTMLElement>(".page-state-footer")!;
+    const header = element.querySelector<HTMLElement>(".page-state-topbar, .page-opening-topbar")!;
+    const main = element.querySelector<HTMLElement>(".page-state-main, .page-opening-main")!;
+    const footer = element.querySelector<HTMLElement>(".page-state-footer");
     const mainBounds = main.getBoundingClientRect();
     const headerBounds = header.getBoundingClientRect();
-    const footerBounds = footer.getBoundingClientRect();
+    const footerBounds = footer?.getBoundingClientRect();
     return {
       top: bounds.top,
       bottom: bounds.bottom,
       headerTop: headerBounds.top,
       headerBottom: headerBounds.bottom,
-      footerTop: footerBounds.top,
-      footerBottom: footerBounds.bottom,
+      footerTop: footerBounds?.top ?? bounds.bottom,
+      footerBottom: footerBounds?.bottom ?? bounds.bottom,
       mainTop: mainBounds.top,
       mainBottom: mainBounds.bottom,
       mainHeight: main.clientHeight,
@@ -132,12 +138,67 @@ async function expectStandaloneFrameFits(page: Page, requireNoContentScroll = fa
   expect(geometry.documentHeight).toBe(geometry.viewportHeight);
   if (requireNoContentScroll) expect(geometry.mainScrollRange).toBe(0);
   await expectReachableControls(shell);
-  await expect(shell.locator(".page-state-topbar")).toBeInViewport({
+  const header = shell.locator(".page-state-topbar, .page-opening-topbar");
+  await expect(header).toBeInViewport({
     ratio: viewportIntersectionRatio,
   });
-  await expect(shell.locator(".page-state-footer")).toBeInViewport({
-    ratio: viewportIntersectionRatio,
+  if (isLoading) {
+    await expect(shell.locator(".page-state-footer")).toHaveCount(0);
+    await expect(header.locator("a")).toHaveCount(1);
+    await expect(header).toHaveCSS("border-bottom-width", "0px");
+  } else {
+    await expect(shell.locator(".page-state-footer")).toBeInViewport({
+      ratio: viewportIntersectionRatio,
+    });
+  }
+}
+
+async function expectSharedLoadingDesign(loading: Locator) {
+  const shell = loading.locator(
+    'xpath=ancestor::div[contains(concat(" ", normalize-space(@class), " "), " page-opening ")]',
+  );
+  await expect(loading).toHaveAttribute("aria-busy", "true");
+  await expect(loading.locator(".page-loading-title")).toContainText("Opening Your Next Page");
+  await expect(loading.locator(".page-loading-caption")).toHaveText(
+    "Your next page is taking shape...",
+  );
+  await expect(loading.locator(".page-loading-spinner")).toBeVisible();
+  await expect(loading.locator(".page-loading-brand > strong")).toHaveText("Kamod");
+  const typography = await loading.evaluate((node) => {
+    const brand = getComputedStyle(node.querySelector(".page-loading-brand > strong")!);
+    const caption = getComputedStyle(node.querySelector(".page-loading-caption")!);
+    const tagline = getComputedStyle(node.querySelector(".page-loading-tagline")!);
+    return {
+      brandSize: brand.fontSize,
+      captionSize: caption.fontSize,
+      captionColor: caption.color,
+      taglineSize: tagline.fontSize,
+      taglineColor: tagline.color,
+      brandWeight: brand.fontWeight,
+      brandColor: brand.color,
+      foreground: getComputedStyle(node).color,
+    };
   });
+  expect(typography.brandSize).toBe(typography.captionSize);
+  expect(typography.brandWeight).toBe("600");
+  expect(typography.brandColor).toBe(typography.foreground);
+  expect(typography.taglineSize).toBe(typography.captionSize);
+  expect(typography.taglineColor).toBe(typography.captionColor);
+  await expect(loading.locator(".page-state-skeleton")).toHaveAttribute("aria-hidden", "true");
+  await expect(shell.locator(".page-loading-rocket .getting-started-flight")).toHaveAttribute(
+    "aria-hidden",
+    "true",
+  );
+  await expect(shell.locator(".page-loading-rocket .getting-started-flight-star")).toHaveCount(6);
+  await expect(loading.locator(".page-loading-tagline")).toHaveText(
+    "Made for Preact. Built to be yours.",
+  );
+  const order = await loading.evaluate((node) => {
+    const skeleton = node.querySelector(".page-state-skeleton")!;
+    const tagline = node.querySelector(".page-loading-tagline")!;
+    return Boolean(skeleton.compareDocumentPosition(tagline) & Node.DOCUMENT_POSITION_FOLLOWING);
+  });
+  expect(order).toBe(true);
 }
 
 async function expectNotFoundFits(page: Page) {
@@ -414,16 +475,12 @@ for (const colorScheme of ["light", "dark"] as const) {
       await page.goto("./404");
       await page.getByRole("link", { name: "Getting Started", exact: true }).click();
       const loading = page.getByLabel("Loading content");
-      await expect(loading).toHaveAttribute("aria-busy", "true");
+      await expectSharedLoadingDesign(loading);
       await expect(
         loading.getByRole("heading", { name: "Opening Your Next Page…", exact: true }),
       ).toBeVisible();
       await expect(loading.getByRole("status")).toContainText("Opening Your Next Page…");
-      await expect(loading.locator(".page-loading-label")).toContainText(
-        "Your next page is taking shape",
-      );
-      await expect(loading.locator(".page-loading-spinner")).toBeVisible();
-      await expect(loading.locator(".page-state-skeleton")).toHaveAttribute("aria-hidden", "true");
+      await expectStandaloneFrameFits(page, true);
       for (const area of [".page-loading-track", ".page-loading-panel"]) {
         await expect
           .poll(() =>
@@ -542,19 +599,20 @@ for (const colorScheme of ["light", "dark"] as const) {
       }
       await expectEnlargedTextFits(page, () => expectNotFoundFits(page));
       await page.getByRole("link", { name: "Getting Started", exact: true }).click();
-      await expect(page.getByLabel("Loading content")).toBeVisible();
+      const loading = page.getByLabel("Loading content");
+      await expectSharedLoadingDesign(loading);
       for (const viewport of responsiveViewports) {
         await test.step(`Route loading at ${viewport.width}×${viewport.height}`, async () => {
           await page.setViewportSize(viewport);
           // The ordinary phone, tablet and desktop frames need no inner scroll either.
           // Short landscape windows retain scrolling so text is never clipped.
           await expectStandaloneFrameFits(page, viewport.height >= 568);
-          await expectLoadingContentReachable(page.getByLabel("Loading content"));
+          await expectLoadingContentReachable(loading);
         });
       }
       await expectEnlargedTextFits(page, async () => {
         await expectStandaloneFrameFits(page);
-        await expectLoadingContentReachable(page.getByLabel("Loading content"));
+        await expectLoadingContentReachable(loading);
       });
     } finally {
       release();
@@ -584,42 +642,21 @@ for (const colorScheme of ["light", "dark"] as const) {
       await page.goto("./404", { waitUntil: "commit" });
       await expect(preloader).toBeVisible();
       await expect(page.locator("html")).not.toHaveClass(/pp-ready/);
+      const shell = preloader.locator(".page-opening");
+      const loading = shell.locator(".page-opening-content");
+      await expectSharedLoadingDesign(loading);
       for (const viewport of responsiveViewports) {
         await test.step(`Bootstrap at ${viewport.width}×${viewport.height}`, async () => {
           await page.setViewportSize(viewport);
-          const geometry = await preloader.evaluate((element) => {
-            const bounds = element.getBoundingClientRect();
-            const message = element.querySelector<HTMLElement>(".page-state-message")!;
-            return {
-              top: bounds.top,
-              bottom: bounds.bottom,
-              left: bounds.left,
-              right: bounds.right,
-              horizontalOverflow:
-                element.scrollWidth > element.clientWidth + 1 ||
-                message.scrollWidth > message.clientWidth + 1,
-              viewportWidth: innerWidth,
-              viewportHeight: innerHeight,
-              documentHeight: document.scrollingElement!.scrollHeight,
-            };
-          });
-          expect(geometry.top).toBeGreaterThanOrEqual(-1);
-          expect(geometry.bottom).toBeLessThanOrEqual(geometry.viewportHeight + 1);
-          expect(geometry.left).toBeGreaterThanOrEqual(-1);
-          expect(geometry.right).toBeLessThanOrEqual(geometry.viewportWidth + 1);
-          expect(geometry.horizontalOverflow).toBe(false);
-          expect(geometry.documentHeight).toBe(geometry.viewportHeight);
-          for (const part of await preloader
-            .locator(
-              ".page-loading-label, .page-state-message-title, .page-loading-description, .page-loading-track",
-            )
-            .all()) {
-            await part.scrollIntoViewIfNeeded();
-            await expect(part).toBeInViewport({ ratio: viewportIntersectionRatio });
-          }
+          await expectStandaloneFrameFits(page, viewport.height >= 568, shell);
+          await expectLoadingContentReachable(loading);
           await expect(preloader).toBeVisible();
         });
       }
+      await expectEnlargedTextFits(page, async () => {
+        await expectStandaloneFrameFits(page, false, shell);
+        await expectLoadingContentReachable(loading);
+      });
     } finally {
       release();
     }

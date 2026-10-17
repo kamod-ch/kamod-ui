@@ -6,7 +6,7 @@ test("rocket sparkles change between loops and pause while the header is offscre
 }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto("/docs/getting-started");
-  const flight = page.locator(".getting-started-flight");
+  const flight = page.locator(".page-header-decoration .getting-started-flight");
   await expect(flight).toHaveAttribute("data-active", "true");
   const star = flight.locator(".getting-started-flight-star").first();
   const original = await star.getAttribute("style");
@@ -70,7 +70,7 @@ for (const scheme of ["light", "dark"] as const) {
       await page.goto("/docs/getting-started");
       await expect(page.locator("html")).toHaveClass(/pp-ready/);
       await page.evaluate(() => document.fonts.ready);
-      const flight = page.locator(".getting-started-flight");
+      const flight = page.locator(".page-header-decoration .getting-started-flight");
       const rocket = flight.locator(".getting-started-flight-rocket");
       await expect(flight).toHaveAttribute("aria-hidden", "true");
       await expect(rocket).toBeVisible();
