@@ -10,7 +10,9 @@
 .home-hero-badge {
   padding: var(--page-eyebrow-padding) 0.375rem;
   border-radius: 0.125rem;
-  background: var(--docs-soft-highlight-background);
+  background: var(--docs-status-background);
+  color: var(--foreground);
+  font-weight: 600;
 }
 .home-hero-badge {
   width: fit-content;
@@ -77,13 +79,9 @@
   font-weight: 600;
 }
 
-/* Eyebrow ink follows the selected brand with a small darkening, without changing geometry. */
-.block-guide-eyebrow-label,
-.home-hero-badge {
-  color: color-mix(in oklab, var(--primary) 88%, black);
-  font-weight: 600;
-}
 :is(.block-guide-eyebrow-label, .home-hero-badge) svg {
+  width: 0.875rem;
+  height: 0.875rem;
   color: inherit;
   stroke-width: 2.25;
 }

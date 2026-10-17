@@ -233,7 +233,7 @@ html[data-navigation-restoring] .docs-sidebar-scroll {
   color: color-mix(in oklab, var(--secondary-accent) 35%, var(--foreground));
 }
 .site-navigation-status {
-  background: color-mix(in oklab, var(--secondary) 20%, transparent);
+  background: var(--docs-status-background);
   color: color-mix(in oklab, var(--secondary) 35%, var(--foreground));
 }
 .site-navigation-count,

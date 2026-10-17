@@ -102,8 +102,6 @@
   display: block;
   flex: none;
   color: inherit;
-  /* A 16px icon needs a 1.5-unit stroke to match the regular 12px label. */
-  stroke-width: 1.5;
 }
 /* Detail pages use the same responsive title and lead sizes as library guides. */
 .block-guide-header h1,

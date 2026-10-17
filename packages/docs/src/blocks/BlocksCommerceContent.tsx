@@ -1,5 +1,4 @@
 import { type CommerceBlockId, commerceBlocks } from "@kamod-ch/blocks";
-import { LayersIcon } from "@kamod-ch/icons/lucide";
 import { Button, CopyButton, Tabs, TabsContent, TabsList, TabsTrigger } from "@kamod-ch/ui";
 import { ExternalLink, RefreshCw } from "lucide-preact";
 import { useMemo, useState } from "preact/hooks";
@@ -26,7 +25,7 @@ export const BlocksCommerceContent = () => (
     mainContent={
       <section class="docs-components-overview blocks-sidebar-page">
         <header class="blocks-hero">
-          <PageEyebrow icon={<LayersIcon size={16} aria-hidden="true" />}>
+          <PageEyebrow>
             {`${commerceBlocks.length} ${commerceBlocks.length === 1 ? "variant" : "variants"}`}
           </PageEyebrow>
           <PageTitle>{pageTitle}</PageTitle>

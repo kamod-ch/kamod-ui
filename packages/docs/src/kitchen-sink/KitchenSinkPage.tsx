@@ -1,4 +1,3 @@
-import { BoxesIcon } from "@kamod-ch/icons/lucide";
 import {
   Avatar,
   AvatarFallback,
@@ -987,9 +986,7 @@ export const KitchenSinkPage = () => (
       <div id="kitchen-sink" class="landing-shadcn-main" data-testid="kitchen-sink">
         <section class="landing-shadcn-intro" aria-labelledby="kitchen-sink-title">
           <div>
-            <PageEyebrow icon={<BoxesIcon size={16} aria-hidden="true" />}>
-              Kitchen Sink
-            </PageEyebrow>
+            <PageEyebrow>Kitchen Sink</PageEyebrow>
             <h1 id="kitchen-sink-title">Own Your UI. Built for Preact.</h1>
             <p class="landing-shadcn-intro-lead">
               A set of beautifully designed components that you can customize, extend, and build on.

@@ -16,6 +16,7 @@
 .light,
 .dark,
 [data-theme-scope] {
+  --docs-status-background: color-mix(in oklab, var(--secondary) 20%, transparent);
   --docs-inline-code-background: color-mix(
     in oklab,
     var(--secondary-accent) calc(10% + 9% * var(--docs-highlight-boost, 0)),

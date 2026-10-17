@@ -12,6 +12,7 @@ import {
   WandSparklesIcon,
 } from "@kamod-ch/icons/lucide";
 import { BrandGithubIcon } from "@kamod-ch/icons/tabler/filled";
+import { ApiBookIcon } from "@kamod-ch/icons/tabler/outline";
 import { Button, ThemeToggle } from "@kamod-ch/ui";
 import type { ComponentChildren } from "preact";
 import { withBasePath } from "../base-path";
@@ -91,7 +92,7 @@ export function HomePage() {
           <header class="home-hero" aria-labelledby="home-title">
             <div class="home-hero-copy">
               <p class="home-hero-badge">
-                <BookOpenIcon size={36} strokeWidth={2.5} aria-hidden="true" />
+                <ApiBookIcon size={14} aria-hidden="true" />
                 <span class="home-hero-badge-label">
                   <span>Kamod UI</span>
                   <span class="home-hero-badge-dot" aria-hidden="true">

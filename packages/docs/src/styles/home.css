@@ -102,16 +102,12 @@
   align-items: center;
   gap: 0.5rem;
   margin: calc(-2 * var(--page-eyebrow-padding)) 0 1.75rem;
-  color: color-mix(in oklab, var(--home-secondary) 80%, var(--background));
   font-size: clamp(0.75rem, 1vw, 0.8125rem);
   font-weight: 600;
   line-height: 1.4;
 }
 .home-hero-badge > svg {
   flex: none;
-  width: 1.15em;
-  height: 1.15em;
-  stroke-width: 2.5;
 }
 .home-hero-badge-label {
   display: flex;

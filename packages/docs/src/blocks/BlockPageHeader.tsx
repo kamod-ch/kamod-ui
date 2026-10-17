@@ -1,5 +1,4 @@
 /** Shared introduction and toolbar layout for block collections and individual variants. */
-import { LayersIcon } from "@kamod-ch/icons/lucide";
 import type { ComponentChildren } from "preact";
 import { PageEyebrow } from "../docs/components/PageEyebrow";
 import { PageTitle } from "../docs/components/PageTitle";
@@ -47,7 +46,7 @@ export function BlockPageHeader({
         variant={variant}
         className="blocks-page-header-breadcrumbs"
       />
-      <PageEyebrow icon={<LayersIcon size={16} aria-hidden="true" />}>{eyebrow}</PageEyebrow>
+      <PageEyebrow>{eyebrow}</PageEyebrow>
       <div
         class="blocks-page-header-title-row"
         id={titleAlias}
