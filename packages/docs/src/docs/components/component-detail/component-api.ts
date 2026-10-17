@@ -1,5 +1,6 @@
 /** Build-time source metadata; declarations are never parsed in the browser. */
 import { loaders, sources } from "virtual:kamod-component-api";
+import { apiTableOwner, apiTableRowOwners } from "./component-api-owners";
 
 export type ComponentTypeDefinition = {
   name: string;
@@ -39,18 +40,10 @@ export const componentTypeId = (entry: ComponentTypeDefinition) =>
 
 /** Match only a named owner's declared fields; inherited props are not inferred from defaults. */
 export function componentApiOwner(slug: string, title: string) {
-  const name = title.replace(/\s+(props|api|reference)$/i, "").replace(/[^a-z0-9]/gi, "");
-  return componentApiTypes(slug).find(
-    (entry) => entry.name.toLowerCase() === `${name}Props`.toLowerCase(),
-  );
+  return apiTableOwner(componentApiTypes(slug), title);
 }
 
 /** Qualified rows name their own helpers; unqualified rows inherit the section's owner. */
 export function componentApiRowOwners(slug: string, title: string, prop: string) {
-  const qualifiers = prop.split(/\s+/).slice(0, -1);
-  const matches = componentApiTypes(slug).filter(
-    ({ name }) => name.endsWith("Props") && qualifiers.includes(name.replace(/Props$/, "")),
-  );
-  const fallback = componentApiOwner(slug, title);
-  return matches.length ? matches : fallback ? [fallback] : [];
+  return apiTableRowOwners(componentApiTypes(slug), title, prop);
 }

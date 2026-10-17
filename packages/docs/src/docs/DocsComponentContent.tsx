@@ -46,18 +46,12 @@ import { PageTitle } from "./components/PageTitle";
 import { PathDisplay } from "./components/PathDisplay";
 import { getDocSections } from "./doc-sections";
 import { docImportFrom, rewriteKamodCoreImportsInDocString } from "./doc-snippet-imports";
+import { docUsageImport, docComponentName as toPascalCase } from "./doc-usage-import";
 import { docsShowMotion, isMotionDocSlug } from "./docs-feature-flags";
 import { scheduleSectionScroll } from "./scroll-to-section";
 import type { DocContentsSection, DocPageModule, DocRenderMainContext, DocSection } from "./types";
 
 const previewContents = [{ id: "component-preview", label: "Live Preview" }];
-
-const toPascalCase = (value: string) =>
-  value
-    .split("-")
-    .filter(Boolean)
-    .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
-    .join("");
 
 type ContentProps = { section?: string; previewIndex?: number };
 const loadedPages = new Map<string, ComponentType<ContentProps>>();
@@ -269,25 +263,11 @@ const ComponentContent = ({
       </>
     ),
     usage: () => {
-      const componentName = toPascalCase(activeDoc.slug);
       const isButtonDoc = activeDoc.slug === "button";
       const isButtonGroupDoc = activeDoc.slug === "button-group";
       const isTabsDoc = activeDoc.slug === "tabs";
       const isAlertDialogDoc = activeDoc.slug === "alert-dialog";
-      const importSnippet = activeDoc.usageImportSnippet
-        ? activeDoc.usageImportSnippet
-        : rewriteKamodCoreImportsInDocString(
-            isButtonDoc
-              ? `import { Button, Spinner } from "@kamod-ch/ui";`
-              : isButtonGroupDoc
-                ? `import { Button, ButtonGroup } from "@kamod-ch/ui";`
-                : isTabsDoc
-                  ? `import { Tabs, TabsContent, TabsList, TabsTrigger } from "@kamod-ch/ui";`
-                  : isAlertDialogDoc
-                    ? `import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@kamod-ch/ui";`
-                    : `import { ${componentName} } from "@kamod-ch/ui";`,
-            activeDoc.slug,
-          );
+      const importSnippet = docUsageImport(activeDoc);
       const usageSnippet =
         activeDoc.usageExampleSnippet ??
         (isButtonDoc
