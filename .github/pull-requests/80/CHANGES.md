@@ -1460,3 +1460,35 @@ base and the shared2.25-second cycle. No overflow or page errors occurred. Earli
 unit waits were updated to distinguish verified content from the new matching
 loading layout, and a mobile anchor/div specificity mismatch was corrected before
 the final comparisons. No new Safari/WebKit result is claimed.
+
+## 55. Consistent primary page labels with the sidebar badge surface
+
+- **One documentation icon.** Use the requested Tabler ApiBookIcon at14px with a slightly stronger2.25 stroke. Remove the private icon override prop and its eight Layers/Boxes call sites so component/package guides, block collections/variants and Kitchen Sink all follow the shared treatment. Update the standalone home label while retaining its compound label and unrelated book icons.
+- **Shared paint, clear ink.** Give both text and icon the primary foreground color. Resolve the existing sidebar status background—secondary at20% over transparent—once at theme/appearance boundaries, then reuse it for page labels and status badges. Remove obsolete home color/size overrides and the stale16px stroke comment.
+- **Stable surrounding content.** Keep label typography, padding, subtle corners and compensating top margins intact. The icon fits inside the existing text line box, retaining the main heading and following content positions. Keep page-opening spinners and the separate Getting Started flight decoration.
+- **Small implementation.** Simplify the private component and remove repeated icon imports/markup. Add no dependencies, runtime state, listeners, requests or animations. Existing heading, block-header and home-layout browser suites cover the affected behavior; no additional implementation-mirroring unit tests are needed.
+
+## 56. Restore shared block typography and compact palette metadata
+
+- **Keep shared headers in charge.** Exclude modern shared block headers from the generic variant-guide title and description rules. The later guide rules had reduced detail-only titles and leads, violating the established overview/detail typography contract. Retain standalone guide sizing and let the existing responsive block-header rules govern both block routes.
+- **Preserve token-label sizing.** Route the home palette grid's11px metadata sizing through the existing inline-code size override. The later project-wide prose rule had defeated its old important font declaration, clipping the nowrap background token around479px. Keep sentence-relative code sizing in prose and avoid a new specificity override.
+- **Use the existing regression suites.** Keep the strict header-equality and text-clipping assertions. They exposed both earlier cascade regressions during the new page-label validation; fix the source owners rather than weakening those checks or duplicating them. Update the old20px/12px showcase-gap assertion to the previously requested compact12px/8px layout, preserving its exact spacing check.
+
+### Page-label and responsive verification
+
+All **954 documentation tests in102 files** pass, along with documentation
+typecheck, the final production build, root Oxlint/Oxfmt/Biome and whitespace
+checks. All **14 affected production Chrome cases** pass together, including
+block overview/detail equality across four categories and27 widths in both
+appearances, home layouts at26 widths, enlarged text, page labels and keyboard
+operation.
+
+Before the independent shared-header repair,36 baseline comparisons across six
+page families,320/768/1440px and both appearances confirmed unchanged label
+heights and main-heading positions. Ocean desktop-light, Cursor warm phone-dark
+and Kamod tablet-light captures were inspected; label paint exactly matches the
+sidebar status badge and no page errors occurred. Existing suites exposed the
+older cascade regressions and an outdated showcase-gap assertion. The first
+post-build preview still held its previous asset manifest; restart it before
+browser checks. The final combined run uses fresh assets. No new Safari/WebKit
+result is claimed.

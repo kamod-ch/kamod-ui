@@ -228,6 +228,17 @@ reuses declared owners, direct field counts, required-field information, and the
 same anchor IDs used by the rendered documentation. Browser API payloads can be
 loaded per component while static rendering retains complete content.
 
+Page-heading labels share a smaller, slightly stronger ApiBook icon and primary
+foreground ink across guides, component/package pages, block collections/variants,
+the home page and Kitchen Sink. Their subtle background reuses the exact sidebar
+status-badge paint, resolved at appearance/palette boundaries. Existing label
+padding, breadcrumbs, heading positions and responsive spacing remain unchanged.
+
+The same validation also restores the established block overview/detail title and
+lead sizing by excluding shared headers from generic variant-guide overrides.
+Home palette metadata opts into its intended compact code size, preventing the
+prose-scaling rule from clipping token labels at intermediate phone widths.
+
 The content changes span foundational controls, inputs, overlays, navigation,
 data display, feedback, media, utilities, motion, Formisch, and theming. They add
 practical composition and ownership guidance without describing ordinary prose
