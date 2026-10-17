@@ -606,12 +606,14 @@ outer document at the screen height. The analytics image remains requested but
 is explicitly 1px and positioned out of flow, removing the extra pixel after a
 full-height page. Short loading screens use tighter decorative spacing and the
 intended smaller skeleton footer, so the normal 320×568 view fits without an inner
-scroll range. The 404 illustration takes less height and recovery destinations
-use balanced two-column/stacked layouts. Header, footer, recovery and destination
-separators share a quiet 8% neutral-ink rule.
+scroll range. The 404 body is a single minimal unit: a plain decorative 404,
+“Page not found,” one short sentence and two recovery links. It retains the shared
+header/footer and fits the viewport without document or main-content scrolling.
+Short wide windows place the number beside the message instead of stacking it.
+Header, footer and interrupted-load separators share a quiet 8% neutral-ink rule.
 
-Genuinely taller recovery copy remains accessible in the main scrollport on short
-or enlarged-text displays. Before startup is ready, the existing JavaScript-only
+Genuinely taller loading and interrupted-load copy remains accessible in its
+reading scrollport on short or enlarged-text displays. Before startup is ready, the existing JavaScript-only
 busy marker constrains the hidden SSR document while the fixed loading overlay
 keeps its own scrolling. The rule clears at readiness and never locks no-JS
 reading. Rendered recovery states are tested separately from a static host's

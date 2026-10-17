@@ -1653,3 +1653,28 @@ Verified4px on every corner in56 production Chrome combinations: seven page
 families at320/768/1024/1440px in both Ocean-light and Cursor warm-dark appearances.
 Inspected representative guide/home label captures. This cosmetic adjustment adds
 no runtime behavior or tests that duplicate its CSS declaration.
+
+## 63. Minimal 404 with no scrolling
+
+- **Reduce the body to one message.** Remove the folded-sheet illustration, repeated error labels, long explanation and four destination cards. Show a plain 404, “Page not found,” one short sentence and two recovery links. Home is a compact ink-filled action; Getting Started is a quiet underlined link.
+- **Preserve the outer frame.** Keep the existing brand/Get Started header and Preact/source footer, their links, safe-area insets and quiet neutral rules. All layout and overflow changes are scoped to the not-found frame; loading and interrupted-load behavior remain intact.
+- **Fit real content in the viewport.** Center one unit within a 38rem reading cap. Short windows use smaller decorative type and gaps; short wide windows put the number beside the message and actions. Cap the 404 shell at 100dvh and require both main and document scroll ranges to be 0px while every text/action box stays fully visible.
+- **Keep navigation simple.** Retain native base-path-aware anchors, main/heading/navigation landmarks and the shared keyboard focus outline. The page remains server-rendered and needs no new state, observers, dependencies or animation.
+- **Verify readability.** Use semantic muted ink for the large number and a stronger foreground mix for the short description. The initial accessibility pass caught insufficient contrast in the faint number and Cursor warm-light copy; increase the ink rather than relaxing those checks.
+
+### Minimal404 validation
+
+All **969 documentation tests in 104 files** pass, along with documentation
+typecheck/final production build, root Oxlint/Oxfmt/Biome and whitespace checks.
+All **21 affected production Chrome cases** pass in the final sequential run.
+They cover direct/client unknown URLs, keyboard recovery, 14 responsive viewports,
+200% text at 768×480, both appearances, accessibility, startup without site CSS,
+compact loading/recovery and static reading without JavaScript.
+
+The 404 checks now require zero document and main-content scroll and verify that
+the number, heading, short sentence and both recovery links remain within the
+actual main area. Loading/interrupted-load scroll allowances are preserved.
+Additional captures verify full chrome/content visibility and zero scroll at
+320×568,768×1024,1024×768,1440×900,320×320 and568×320 in Ocean-light/Cursor warm-dark,
+including an actual wheel gesture and a no-JavaScript phone view. Representative
+final screenshots were inspected. No new Safari/WebKit result is claimed.
