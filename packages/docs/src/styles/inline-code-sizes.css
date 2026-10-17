@@ -4,6 +4,7 @@
   --inline-code-font: calc(1em * var(--inline-code-text-scale));
   --inline-code-line: inherit;
   --inline-code-padding: 0.1875rem;
+  --inline-code-prose-padding: 0.04em 0.2em;
   --inline-code-arrow: 0.75em;
   --inline-code-compact-font: 0.75rem;
   --inline-code-regular-font: 0.875rem;
@@ -31,6 +32,29 @@
 ) {
   font-size: var(--inline-code-prose-font, calc(1em * var(--inline-code-text-scale))) !important;
   line-height: inherit !important;
+
+  /* One tight text box for plain and linked prose; standalone source labels keep their sizing. */
+  &:is(code):not(.library-source-package) {
+    padding: var(--inline-code-prose-padding) !important;
+    border-width: 1px !important;
+    border-style: solid;
+    border-color: transparent;
+    border-radius: 0.25rem;
+    line-height: 1.2 !important;
+    vertical-align: baseline;
+    white-space: nowrap;
+    overflow-wrap: normal;
+
+    /* Paths already form an atomic grid with a narrow-screen middle/end fallback. */
+    &:not(.path-display) {
+      display: inline-flex;
+      align-items: baseline;
+      min-width: 0;
+      max-width: 100%;
+      overflow-x: auto;
+      scrollbar-width: thin;
+    }
+  }
 }
 
 /* An anchor and its code are one label; avoid applying the reduction twice. */
