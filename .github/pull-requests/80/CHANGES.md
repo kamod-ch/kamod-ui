@@ -1678,3 +1678,26 @@ Additional captures verify full chrome/content visibility and zero scroll at
 320×568,768×1024,1024×768,1440×900,320×320 and568×320 in Ocean-light/Cursor warm-dark,
 including an actual wheel gesture and a no-JavaScript phone view. Representative
 final screenshots were inspected. No new Safari/WebKit result is claimed.
+
+## 64. URL-selected contents links match appearance selections
+
+- **Use the same selection surface.** Give the URL-chosen contents link the appearance menus’ page-colored base, neutral entry tint, shared directional/page washes and14% primary accent. Reuse existing navigation paint tokens across guides, component pages and block documentation.
+- **Make the chosen label clearer.** Use foreground ink,600 semibold text and8px corners. Place this rule after reading/depth typography so selected links retain the same treatment when they are also the section in view.
+- **Match selected hover.** Put the menu’s2% light/3.92% dark foreground wash above the selection plate and below its text in an isolated, pointer-inert layer. Its150ms transition respects reduced motion. Keep the straight reading marker trimmed inside the selected corners.
+- **Keep selection meaning intact.** Continue using the existing URL-derived attribute for incoming links, clicks, reloads and history. Passive reading keeps its separate marker and500 typography. Preserve label text, native focus, row padding, nesting, ellipsis and scrolling behavior. Add no markup, runtime state, listeners or dependencies.
+
+### Contents-selection validation
+
+The production documentation build, root Oxlint/Oxfmt/Biome and whitespace checks
+pass. All **30 focused navigation/heading unit tests** and **eight existing
+production Chrome cases** pass. Browser coverage retains URL/reading independence,
+incoming links, clearing selection, Back navigation, sidebar heading/hierarchy
+parity and theme/mode menu parity across320/768/1024/1440px in both schemes.
+
+Twelve additional comparisons cover guide, component and block contents at
+1440/1920px in Ocean-light and Cursor warm-dark. Their actual selected foreground,
+weight, corner radius, background layer stack and hover wash match the appearance
+selection plate. Both selected+reading and selected-away-from-reading states retain
+weight600. Nested links keep their indentation and the document has no horizontal
+overflow. Inspected light/dark selected-link captures. No new tests duplicate the
+CSS declarations, and no new Safari/WebKit result is claimed.

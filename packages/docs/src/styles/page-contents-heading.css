@@ -79,9 +79,6 @@
   background: var(--navigation-entry-background);
   background-image: var(--navigation-highlight-overlays);
 }
-:is(.docs-rightbar-contents > nav, .blocks-doc-toc) .page-contents-list a[data-contents-selected] {
-  background: var(--navigation-selected-entry-background);
-}
 @media (min-width: 1200px) {
   /* Pad the scrolling pane once; nested guide navigation uses its parent's scrollport. */
   .docs-rightbar-contents,
@@ -139,7 +136,16 @@
   :is(.docs-rightbar-contents > nav, .blocks-doc-toc)
     .page-contents-list
     a[data-contents-selected]:hover {
-    background-color: var(--navigation-selected-entry-hover-background);
+    background-color: var(--background);
+  }
+  :is(.docs-rightbar-contents > nav, .blocks-doc-toc)
+    .page-contents-list
+    a[data-contents-selected]:hover::after {
+    background-color: color-mix(
+      in oklab,
+      var(--foreground) calc(2% + 1.92% * var(--docs-highlight-boost, 0)),
+      transparent
+    );
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -177,6 +183,39 @@
 .docs-toc-group-label.is-active,
 .blocks-doc-toc li a[aria-current="location"] {
   font-weight: 500;
+}
+
+/* Match the appearance menus' page base, neutral washes and upper primary-accent layer.
+   Keep URL selection above reading/nesting typography without changing either state. */
+:is(.docs-rightbar-contents > nav, .blocks-doc-toc) .page-contents-list a[data-contents-selected] {
+  --contents-marker-inset: calc(0.5rem - 1px);
+  isolation: isolate;
+  border-radius: 0.5rem;
+  background-color: var(--background);
+  background-image:
+    var(--navigation-highlight-overlay), var(--navigation-highlight-overlays),
+    linear-gradient(var(--navigation-entry-background), var(--navigation-entry-background));
+  color: var(--foreground);
+  font-weight: 600;
+}
+/* The menu's subtle hover tint sits above its selection plate and below the text. */
+:is(.docs-rightbar-contents > nav, .blocks-doc-toc)
+  .page-contents-list
+  a[data-contents-selected]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background-color: transparent;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  :is(.docs-rightbar-contents > nav, .blocks-doc-toc)
+    .page-contents-list
+    a[data-contents-selected]::after {
+    transition: background-color 150ms ease;
+  }
 }
 
 /* Ellipsis is visual only: the link retains its full accessible name and destination. */

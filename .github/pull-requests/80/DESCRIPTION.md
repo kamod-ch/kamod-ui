@@ -523,8 +523,11 @@ ApiBook icon and 4px corners; compensating top spacing preserves page coordinate
 
 Right contents links distinguish the URL's chosen fragment from the section in
 view. Incoming links, reloads, history and native/router clicks update the chosen
-fill without rewriting scroll tracking. The reading destination uses the default
-main-group surface and a straight marker trimmed just inside its corner radius.
+fill without rewriting scroll tracking. The chosen link matches the appearance
+menus: foreground semibold text,8px corners and the same page base, neutral washes
+and14% primary accent. Its subtle hover wash sits above that plate and beneath
+the text. The reading destination uses the default main-group surface and a
+straight marker trimmed just inside its corner radius.
 Quieter hover paint stays beneath a slightly stronger rail with short fades and
 a6px upper extension. A border-image keeps the marker visible through ellipsis;
 only the viewed link can paint above the rail. Remove the heading divider while
