@@ -314,7 +314,7 @@ background and ink. Its smaller chain uses a lighter stroke; the badge icon is
 slightly larger. Other compact source actions use the main icon's subtle surface
 and accent. Buttons remain stationary and change only their background on hover.
 The title's tiny, normal-weight subline shows the actual destination plus a real
-reference fact, such as a required field, source branch or saved-excerpt count.
+reference fact, such as a required field, source branch or reference-chapter count.
 Verified technology logos remain confined to the main icon; the type badge keeps
 the generic circuit-board mark.
 
@@ -328,33 +328,43 @@ Substantive chapters reuse actual page components: BlockPropsTable for documente
 props/defaults, core TypeDefinition for real source declarations, Code for source
 excerpts, and Table for concise contextual facts. Build-time literal extraction
 reads authored setup and API data without executing documentation pages or
-mounting their demos. Components receive merged install/import guidance before
-relevant props and local declarations; blocks reuse their verified dependency,
-variant import and source-contract metadata. Sibling component/hook rows are
-excluded from an export's own table. Direct and inherited declarations remain
-explicitly distinguished rather than inventing resolved contracts.
+mounting their demos. Components receive a combined installation/usage chapter
+with the article's actual command, shared import snippet and authored text, then
+documented props/defaults and source declaration cards. Component overviews retain
+their actual composition table: Dialog includes all seven documented rows and
+the page's data-type cards, beginning with DialogContextValue. Exact subcomponents
+retain only their own rows and forward-owned declarations. Shared owner resolution
+preserves type links, requirements and fallback descriptions; safe structural JSX
+extraction retains Pagination's code, emphasis and real links without evaluating
+page code. Blocks retain verified dependency, variant-import and source metadata.
+Direct and inherited declarations remain explicitly distinguished.
 
 Miniatures retain the source components' page colors, borders and hierarchy at a
 much smaller local type scale. Excerpts, rows and disclosures are bounded; complete
 content remains available through precise source links. Each borderless outer
 card has a quiet 8% purple wash over a 17%-opacity version of the showcase pattern.
-Very small linked headings, short dot-separated extensions and inset rules order
-the chapters. Compact source actions sit inside their cards; centered notes below
-start with the exact referenced section and add a scope or integration caveat.
+Very small linked headings and inset rules order the chapters. Each chapter joins
+its heading, flush-width miniature and short, single-line continuation as one unit.
+A visible primary text link with chain/arrow icons opens the complete section from
+the right of its heading. Short contextual notes sit below the card; clipped tables,
+code and type collections also have real continuation links with a down chevron.
 Header, content stage and ending share the same base reading background.
 
 One final **Reference index** replaces the separate related-reading shelf and
 sticky action footer. It includes every distinct verified contract, source, page
 and chapter destination, including the selected primary resource. Small wrapping
-underlined links pair their label with `/` and a tiny resource-kind label; native
-hints explain each destination. Contracts and resources remain easy to scan, and
-a factual local/external count closes the index without another action row.
+links use one consistent text/icon scale; only the destination label is underlined,
+leaving the `/` separator and resource-kind label plain. Native hints explain each
+destination. Contracts and Resources have compact subheadings with short context,
+and a factual local/external count closes the index without another action row.
 
-The saved technology catalog contains 90 technologies with two authored chapters
+The local technology catalog contains 90 technologies with two authored chapters
 each. Examples and integration boundaries are specific to the technology; optional
 alternatives are not presented as installed dependencies. All 180 chapters stay in
 the existing lazy technology family, while the eager index retains identities and
-destinations only. Opening a card performs no web lookup or page scraping.
+destinations only. Opening a card performs no web lookup or page scraping. These
+profiles are project-authored summaries and examples, not snapshots of official
+websites; a future official-excerpt import must retain its source/version provenance.
 
 Long cards contain wheel scrolling at their boundaries, so scrolling to the end
 cannot chain into a page-scroll dismissal. A 350ms departure grace permits crossing
@@ -369,7 +379,9 @@ Source coloring stays optional and lazy. Actual Code miniatures disable copying,
 reference recursion and layout-observer controls; a local error boundary preserves
 literal text and navigation when the grammar chunk fails. Focused helpers own
 source extraction, source-section selection, miniature rendering, compact chapter
-structure and deduplicated resources. Internal command-inference and declaration-rendering helpers stay private; the dependency-hygiene checks require no unused-export suppressions. Browser coverage checks seven reference
+structure and deduplicated resources. Shared deep link normalization applies each
+deployment prefix once, including excerpt and owner destinations. Internal helpers
+stay private; dependency checks require no unused-export suppressions. Browser coverage checks eight reference
 families at 320/768/1440px in both appearances, alongside source navigation,
 loading/failure, scroll containment, hover reentry and keyboard dismissal.
 
@@ -551,6 +563,17 @@ rollback and all later reference, Prompt, performance, ecosystem, preset-study,
 branding and navigation changes. The public color-mode prop/type, inversion
 wrappers, paired theme values and mode-specific routes/tests are removed; the
 nine supported syntax palettes and normal application appearance remain.
+
+The latest documented-table follow-up passes the full workspace `test:ci`
+command (**1,583 tests**, including907 docs), followed by **908 documentation
+tests in98 files** after the final deployment-prefix regression. Documentation
+typecheck and the final production build, root Oxlint/Oxfmt/Biome,
+Knip/Syncpack and whitespace checks pass. All **30 production Chrome reference
+cases** pass together, including eight reference families at320/768/1440px in
+both appearances, actual Dialog composition/default/owner/type-card content,
+uniform index links, classification, optional grammar failure, native navigation,
+keyboard/touch and scroll/pointer retention. Desktop/mobile/tablet source-specific
+captures were inspected; no new Safari/WebKit result is claimed.
 
 Earlier full audit (before the reference-source follow-up below):
 

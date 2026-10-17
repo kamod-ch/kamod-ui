@@ -1319,3 +1319,37 @@ The follow-up also passes full workspace typechecking/builds, all three publint
 checks and all three ATTW checks under the packages' ESM-only profile, plus root
 format/lint/Biome, README synchronization and diff checks. ATTW used a task-local
 npm cache to keep its pack operations within the workspace sandbox.
+
+## 50. Faithful documented tables and cohesive reference chapters
+
+- **Actual composition tables.** Fix generic-page configuration selection and distinguish a page's component overview from an exact subcomponent reference. Dialog now retains all seven documented rows, including its content and trigger/close options, rather than substituting three unrelated declaration fields. Exact subcomponent/type references keep their narrow ownership scope.
+- **Shared API semantics.** Reuse the page table's pure owner resolver for requirements, source-definition links and description fallbacks. Preserve documented defaults separately from usage requirements. Safely serialize supported authored JSX descriptions, inline code, emphasis and links so Pagination keeps its accessibility and behavior guidance without importing or executing page functions.
+- **Installation and usage together.** Preserve both actual section texts and the installation command/import snippets in one chapter. Extract the page's usage-import helper for shared use, retaining authored overrides and the existing source/package rewrite rather than inventing example imports.
+- **Real data-type cards.** Give source declarations their own chapter linked to `component-data-types`. Root overviews preserve the full page's declaration order, including DialogContextValue; exact exports follow their own contracts. Miniature TypeDefinition cards retain file names, leading JSDoc, declared/required-field metadata and lazily mounted source readers.
+- **Honest continuation links.** Replace the plain “3 of 5 documented fields” status with a link and down chevron to the complete table. Use equivalent exact-source continuation links for bounded code and type-card collections. Keep three visible rows/cards and bounded snippets; complete declarations remain accessible in the index and source page.
+- **One chapter, one visual unit.** Align the miniature with the tooltip's content edges, reduce gaps above/below it and clamp the shortened continuation note to one line. Use small matching headings and balanced inset separators between chapters. Move the faint in-card source action into a visible primary text link with a chain and trailing arrow at the right of the centered heading row.
+- **A more consistent ending.** Give Contracts and Resources their own compact subheadings and context. Normalize link typography, icon sizing and spacing. Underline only each destination label; the slash and resource-kind suffix remain plain. Slightly enlarge the destination/fact subline under the main title and tighten its internal gap.
+- **Safe delivery and maintenance.** Keep source parsing at build time, optional coloring lazy, and miniature readers free of layout observers/clipboard controls. Share deep deployment-prefix normalization for excerpt sources, field owners and type definitions. Existing technology chapters remain explicitly project-authored profiles, ready to coexist with future reviewed official excerpts rather than being mislabeled as captured websites.
+- **Behavioral coverage.** Add real-checkout Dialog/Pagination regressions, ownership/default/source-card assertions, unsupported-JSX and shadowed-binding cases, complete-table navigation, disclosure laziness and nested-prefix checks. Expand the production matrix to eight reference families. Keep the pointer-reentry browser check inside the actual departure grace by returning the real pointer directly, avoiding locator actionability work during that short interval.
+
+### Documented-table verification
+
+The full workspace `corepack pnpm test:ci` passes **1,583 tests**:11 themes,
+427 core,19 OpenUI,25 motion,194 blocks and907 docs. After the final prose-prefix
+regression, **908 docs tests in98 files** pass. Documentation typecheck and the
+final production documentation build pass; root Oxlint, Oxfmt, Biome,
+Knip/Syncpack, commit hooks and whitespace checks pass.
+
+All **30 production Chrome reference cases** pass in the final combined run.
+The eight-family matrix covers320/768/1440px in both appearances, actual Dialog
+table/owner/default/setup/type-card content, flush alignment and one-line notes,
+uniform index styling, keyboard/touch and optional-coloring failure. The existing
+classification/source-navigation and contained-scroll/reentry cases pass too.
+An earlier reentry test exhausted its350ms grace on locator actionability checks;
+returning the real pointer directly fixes that test timing without changing
+production dismissal behavior. Final source-specific desktop/mobile/tablet
+captures were inspected. No new Safari/WebKit result is claimed.
+
+Upstream main remains an ancestor and the fork was synchronized before the new
+commits; no merge conflict needed resolution. Contributor-local guides/context
+and the protected ignore-file edit remain excluded.
