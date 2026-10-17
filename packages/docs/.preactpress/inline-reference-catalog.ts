@@ -3,6 +3,7 @@ import { technologies } from "../src/references/catalog/technologies";
 import type { CodeReferenceHelp, InlineReferenceIndex } from "../src/references/types";
 import { buildBlockReferences } from "./inline-reference-blocks";
 import { buildReferencePages } from "./inline-reference-pages";
+import { technologyReferenceResources } from "./technology-reference-resources";
 import { technologyReferenceSections } from "./technology-reference-sections";
 
 const commands: Record<string, string> = {
@@ -61,10 +62,15 @@ export async function buildInlineReferenceCatalog(root: string) {
         name: entry.name,
         module: entry.name,
         originLabel: "Technology",
+        context: entry.category,
         description: entry.description,
-        facts: [{ label: "Role", value: entry.category }],
         docs: { label: "Official documentation", href: entry.href },
-        related: entry.guide ? [{ label: "In Kamod", href: entry.guide, kind: "guide" }] : [],
+        related: [
+          ...technologyReferenceResources(entry.name),
+          ...(entry.guide
+            ? [{ label: "In Kamod", href: entry.guide, kind: "guide" as const }]
+            : []),
+        ],
         sections: technologyReferenceSections(entry.name, entry.href),
       },
       [entry.name, ...(entry.aliases ?? [])],

@@ -4,22 +4,55 @@ import { technologySection as section, type TechnologySections } from "./technol
 export const toolingSections: TechnologySections = {
   Vite: [
     section(
-      "Separate development and output",
-      "The development server serves transformed source; a production build emits deployable assets. Verify the built output when checking lazy chunks, CSS and deployed URLs.",
+      "CLI workflow",
+      "Use the development server while editing, build deployable files, then preview that output locally. `vite dev` and `vite serve` are aliases for `vite`.",
       {
-        code: ["bash", "corepack pnpm dev\ncorepack pnpm build:docs"],
-        rows: [
-          ["Site configuration", "packages/docs/.preactpress/config.ts"],
-          ["Deployed prefix", "VITE_BASE_PATH"],
+        detail: "Develop → build → preview",
+        href: "https://vite.dev/guide/cli",
+        code: [
+          "bash",
+          "# Development server\nnpx vite\n\n# Production files, then local verification\nnpx vite build\nnpx vite preview",
+          "Terminal · project with Vite installed",
         ],
+        note: "Preview is local verification, not a production server. Dependency pre-bundling is automatic; `vite optimize` is deprecated.",
       },
     ),
     section(
-      "Keep optional code optional",
-      "Static imports enter the importing module's dependency graph. Dynamic imports provide a boundary for infrequently opened readers, examples and reference content.",
+      "Adding a plugin",
+      "Install a plugin as a development dependency, then add its factory to `plugins` in your Vite config. This official example adds legacy-browser support.",
       {
-        code: ["typescript", 'const help = await import("./reference-help");'],
-        note: "Test the production route as well as development; dependency discovery and emitted chunk loading follow different paths.",
+        detail: "Install & register",
+        href: "https://vite.dev/guide/using-plugins#adding-a-plugin",
+        excerpts: [
+          {
+            title: "Install the example plugin",
+            code: { language: "bash", value: "npm add -D @vitejs/plugin-legacy" },
+          },
+          {
+            title: "Extend your config",
+            code: {
+              language: "typescript",
+              caption: "vite.config.ts",
+              value:
+                'import { defineConfig } from "vite";\nimport legacy from "@vitejs/plugin-legacy";\n\nexport default defineConfig({\n  plugins: [legacy({ targets: ["defaults", "not IE 11"] })],\n});',
+            },
+          },
+        ],
+        note: "Keep existing plugins. Presets can contain several plugins; Vite flattens the array and skips falsy entries.",
+      },
+    ),
+    section(
+      "Environments configuration",
+      "A regular SPA or MPA uses top-level options for its `client` environment. Add named environments only when server or edge code needs its own overrides.",
+      {
+        detail: "Client defaults · named overrides",
+        href: "https://vite.dev/guide/api-environment#environments-configuration",
+        code: [
+          "typescript",
+          'import { defineConfig } from "vite";\n\nexport default defineConfig({\n  build: { sourcemap: false },\n  environments: {\n    server: {},\n    edge: { resolve: { noExternal: true } },\n  },\n});',
+          "vite.config.ts · multi-environment example",
+        ],
+        note: "Most top-level options are inherited; `optimizeDeps` is client-specific. The Environment API is a release candidate in this saved guide.",
       },
     ),
   ],

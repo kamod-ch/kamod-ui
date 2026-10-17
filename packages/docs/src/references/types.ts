@@ -63,9 +63,13 @@ export type CodeReferenceHelp = {
   name: string;
   module: string;
   originLabel?: string;
+  /** Short authored purpose in the origin row, separate from the explanatory summary. */
+  context?: string;
   description: string;
   detail?: string;
   signature?: string;
+  /** Package entrypoints share their owner's saved profile and explain the specific subpath here. */
+  notice?: { description: string; source?: CodeReferenceHelpLink };
   source?: CodeReferenceHelpLink;
   docs?: CodeReferenceHelpLink;
   related?: (CodeReferenceHelpLink & { kind: "type" | "props" | "guide" | "source" })[];

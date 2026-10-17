@@ -48,14 +48,12 @@ const coreContexts: Record<string, string> = Object.fromEntries(
 
 /** Use an exact known owner or short authored role; never truncate a sentence into a label. */
 export function referenceContext(reference: CodeReferenceHelp, fallback: string): string {
-  const { module, kind, docs, facts } = reference;
+  const { module, kind, docs, context } = reference;
   if (module.endsWith(".css")) return "Stylesheet entrypoint";
   if (kind === "page" && docs?.href.includes("#")) return "Documentation section";
   const entry = module.match(/^(?:@\/components\/kamod-ui\/|@kamod-ch\/ui\/)([^/]+)$/)?.[1];
   if (entry && Object.hasOwn(coreContexts, entry)) return coreContexts[entry];
   if (module === "@/lib/utils") return coreContexts.utils;
-  const role =
-    kind === "technology" ? facts?.find(({ label }) => label === "Role")?.value : undefined;
-  const words = role?.trim().split(/\s+/).length ?? 0;
-  return role && words >= 1 && words <= 3 ? role : fallback;
+  const words = context?.trim().split(/\s+/).length ?? 0;
+  return context && words >= 1 && words <= 3 ? context : fallback;
 }

@@ -17,5 +17,9 @@ export function technologyReferenceSections(name: string, href: string) {
   return profile.map((section) => ({
     ...section,
     source: section.source ?? { label: `${name}: ${section.title}`, href },
+    excerpts: section.excerpts?.map((excerpt) => ({
+      ...excerpt,
+      source: excerpt.source ?? section.source ?? { label: `${name}: ${section.title}`, href },
+    })),
   }));
 }

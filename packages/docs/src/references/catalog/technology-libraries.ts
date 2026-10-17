@@ -4,28 +4,72 @@ import { technologySection as section, type TechnologySections } from "./technol
 export const librarySections: TechnologySections = {
   Valibot: [
     section(
-      "Describe valid input",
-      "Build a schema from small validation functions. A pipe combines the base type with constraints, keeping the accepted data and its validation messages together.",
+      "Install from npm",
+      "Add `valibot` with your project's package manager. Named imports and namespace imports both support tree shaking; choose the style that keeps your schemas readable.",
       {
-        code: [
-          "typescript",
-          'import * as v from "valibot";\nconst Schema = v.object({\n  title: v.pipe(v.string(), v.minLength(5), v.maxLength(32)),\n});',
-          "From the form guide's schema",
+        detail: "Choose one command",
+        href: "https://valibot.dev/guides/installation/#from-npm",
+        excerpts: [
+          {
+            title: "Your package manager",
+            code: {
+              language: "bash",
+              value:
+                "npm install valibot  # npm\nyarn add valibot     # Yarn\npnpm add valibot     # pnpm\nbun add valibot      # Bun",
+            },
+          },
+          {
+            title: "Import in JavaScript or TypeScript",
+            code: {
+              language: "typescript",
+              value:
+                'import * as v from "valibot";\n// Or import the functions you use:\nimport { object, string } from "valibot";',
+            },
+          },
         ],
-        href: "/docs/formisch/installation#schema-and-setup",
+        note: "Enable TypeScript `strict` mode for correct inference. Published files use ES2020 syntax.",
       },
     ),
     section(
-      "Connect the form boundary",
-      "Formisch reads the schema while Kamod renders controls and feedback. Preserve the difference between **field-validation errors** and a failed network submission.",
+      "Basic concept",
+      "Small schema functions describe primitives and objects. Unlike a TypeScript type, a schema also runs against unknown data; a pipeline adds checks or transformations in order.",
       {
-        rows: [
-          ["Schema", "Allowed input and transformed output"],
-          ["Form store", "Touched, dirty, validation and submission state"],
-          ["Application", "Service request and retry behavior"],
+        detail: "Types & runtime checks",
+        href: "https://valibot.dev/guides/quick-start/#basic-concept",
+        code: [
+          "typescript",
+          'import * as v from "valibot";\n\n// A type is checked during development.\ntype Account = { email: string; password: string };\n// A schema also validates values at runtime.\nconst AccountSchema = v.object({\n  email: v.string(),\n  password: v.string(),\n});',
+          "TypeScript type → executable schema",
         ],
-        href: "/docs/formisch/installation#approach",
-        note: "A valid client-side value still needs server-side validation at the service boundary.",
+        note: "Start a `pipe` with a schema, then compose validation or transformation actions.",
+      },
+    ),
+    section(
+      "A login schema",
+      "Validate an email and a minimum password length, then infer the output type from that schema. `safeParse` returns a result you can handle without catching an exception.",
+      {
+        detail: "Validate · infer · handle issues",
+        href: "https://valibot.dev/guides/introduction/#example",
+        excerpts: [
+          {
+            title: "Define the accepted input",
+            code: {
+              language: "typescript",
+              caption: "schema.ts",
+              value:
+                'import * as v from "valibot";\n\nconst LoginSchema = v.object({\n  email: v.pipe(v.string(), v.email()),\n  password: v.pipe(v.string(), v.minLength(8)),\n});\ntype LoginData = v.InferOutput<typeof LoginSchema>;',
+            },
+          },
+          {
+            title: "Read the validation result",
+            code: {
+              language: "typescript",
+              value:
+                'const result = v.safeParse(LoginSchema, {\n  email: "jane@example.com", password: "12345678",\n});\nif (result.success) {\n  console.log(result.output); // Typed LoginData\n} else {\n  console.log(result.issues); // Validation feedback\n}',
+            },
+          },
+        ],
+        note: "Use `parse` when you want invalid input to throw. Validate again at your service boundary.",
       },
     ),
   ],

@@ -82,27 +82,60 @@ export const foundationSections: TechnologySections = {
   ],
   Tailwind: [
     section(
-      "Connect the stylesheet",
-      "The shared stylesheet imports Tailwind first, then the selected Kamod theme. Semantic utilities keep components connected to the active palette.",
+      "Install with Vite",
+      "Start a Vite project if needed, then add `tailwindcss` and its Vite plugin. In an existing app, keep your project and run only the installation command.",
       {
-        code: ["css", '@import "tailwindcss";\n@import "@kamod-ch/themes/theme.css";'],
-        href: "/docs/theming/installation#css-setup",
-        rows: [
-          ["Action", "bg-primary text-primary-foreground"],
-          ["Surface", "bg-card text-card-foreground"],
+        detail: "Packages & project",
+        href: "https://tailwindcss.com/docs/installation/using-vite",
+        code: [
+          "bash",
+          "# New project only\nnpm create vite@latest my-project\ncd my-project\n# Add Tailwind to your app\nnpm install tailwindcss @tailwindcss/vite",
+          "Terminal",
         ],
       },
     ),
     section(
-      "Preserve token pairs",
-      "Change a surface together with its foreground. Reusing semantic roles makes **light, dark and brand presets** follow one contract instead of unrelated literal colors.",
+      "Connect plugin & CSS",
+      "Register `tailwindcss()` alongside your existing Vite plugins. Import Tailwind once in your application stylesheet, then load that stylesheet from your app.",
       {
-        code: [
-          "tsx",
-          '<div class="rounded-lg border bg-card p-4 text-card-foreground">\n  <p class="text-muted-foreground">Supporting text</p>\n</div>',
+        detail: "Build integration",
+        href: "https://tailwindcss.com/docs/installation/using-vite",
+        excerpts: [
+          {
+            title: "Vite configuration",
+            code: {
+              language: "typescript",
+              caption: "vite.config.ts",
+              value:
+                'import { defineConfig } from "vite";\nimport tailwindcss from "@tailwindcss/vite";\n\nexport default defineConfig({\n  plugins: [tailwindcss()],\n});',
+            },
+          },
+          {
+            title: "Application stylesheet",
+            code: { language: "css", caption: "src/style.css", value: '@import "tailwindcss";' },
+          },
         ],
-        href: "/docs/theming/installation",
-        note: "Keep complete utility names in source so the stylesheet build can discover them.",
+      },
+    ),
+    section(
+      "Run & style",
+      "Start your development script and write utility classes in your markup. Make sure the page includes your stylesheet; a framework may handle that import for you.",
+      {
+        detail: "Your first utilities",
+        href: "https://tailwindcss.com/docs/installation/using-vite",
+        excerpts: [
+          { title: "Start development", code: { language: "bash", value: "npm run dev" } },
+          {
+            title: "Style a heading",
+            code: {
+              language: "html",
+              caption: "HTML",
+              value:
+                '<!-- In a plain HTML entry -->\n<link href="/src/style.css" rel="stylesheet">\n<h1 class="text-3xl font-bold underline">\n  Hello world!\n</h1>',
+            },
+          },
+        ],
+        note: "Use complete class names so source detection can find each utility.",
       },
     ),
   ],
