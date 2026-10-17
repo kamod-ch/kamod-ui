@@ -39,58 +39,54 @@ const brief = (text: string) => {
   return normalized.length > 90 ? `${normalized.slice(0, 87).trimEnd()}…` : normalized;
 };
 
-/** Read names, never entered values: hints must not expose passwords or other form data. */
-export function tooltipLabel(element: HTMLElement): string {
-  const explicit =
-    element.getAttribute("data-tooltip") ||
-    element.getAttribute("aria-label") ||
-    element.getAttribute("title");
-  if (explicit) return brief(explicit);
+/** Check the current layout: responsive labels can turn a text button into an icon button. */
+function hasVisibleLabel(element: Element): boolean {
+  if (element.matches('svg, [hidden], .sr-only, [data-slot="tooltip-content"]')) return false;
+  const style = getComputedStyle(element);
+  if (style.display === "none" || style.visibility === "hidden") return false;
+  if (style.clip === "rect(0px, 0px, 0px, 0px)" || style.clipPath === "inset(50%)") return false;
+  return Array.from(element.childNodes).some((node) =>
+    node.nodeType === Node.TEXT_NODE
+      ? !!node.textContent?.trim()
+      : node instanceof Element && hasVisibleLabel(node),
+  );
+}
+
+/** Hints explain unlabeled icons or authored context, never repeat prose or entered values. */
+export function tooltipLabel(
+  element: HTMLElement,
+  originalTitle = element.getAttribute("title"),
+): string {
+  const authored = element.getAttribute("data-tooltip");
+  if (authored) return authored === "off" ? "" : brief(authored);
+  if (
+    element.matches(
+      'input, textarea, select, [contenteditable], [role="textbox"], [role="searchbox"], [role="combobox"], [role="slider"], [role="spinbutton"]',
+    )
+  )
+    return "";
+
+  const explicit = element.getAttribute("aria-label") || originalTitle;
   const labelledBy = element
     .getAttribute("aria-labelledby")
     ?.split(/\s+/)
     .map((id) => element.ownerDocument.getElementById(id)?.textContent ?? "")
     .join(" ");
-  if (labelledBy?.trim()) return brief(labelledBy);
-  if (element.isContentEditable || element.getAttribute("contenteditable") === "true")
-    return "Edit text";
-  if (
-    element instanceof HTMLInputElement ||
-    element instanceof HTMLTextAreaElement ||
-    element instanceof HTMLSelectElement
-  ) {
-    const label = Array.from(element.labels ?? [])
-      .map((node) => node.textContent)
-      .join(" ");
-    if (label.trim()) return brief(label);
-    if (
-      element instanceof HTMLInputElement &&
-      ["submit", "reset", "button"].includes(element.type)
-    ) {
-      return brief(element.value || (element.type === "reset" ? "Reset form" : "Submit form"));
-    }
-    return brief(
-      element.getAttribute("placeholder") ||
-        (element instanceof HTMLSelectElement ? "Choose an option" : "Edit field"),
-    );
+  const label = explicit || labelledBy;
+  // Do not manufacture generic "Open link" / "Activate control" hints.
+  if (!label?.trim()) return "";
+  if (hasVisibleLabel(element)) {
+    // A full path/name is useful only when the visible version is actually clipped.
+    const title = originalTitle;
+    const clipped =
+      title &&
+      [element, ...element.querySelectorAll<HTMLElement>("span")].some(
+        (node) =>
+          node.clientWidth > 0 &&
+          node.scrollWidth > node.clientWidth &&
+          ["hidden", "clip"].includes(getComputedStyle(node).overflowX),
+      );
+    return clipped ? brief(title) : "";
   }
-  // Prefer a card's heading to its entire description, and omit decorative/hidden descendants.
-  const copy = (element.querySelector("h2, h3, h4, h5, h6") ?? element).cloneNode(
-    true,
-  ) as HTMLElement;
-  copy
-    .querySelectorAll('svg, [aria-hidden="true"], [hidden], [data-slot="tooltip-content"]')
-    .forEach((node) => node.remove());
-  const name = brief(
-    copy.textContent || element.querySelector("img[alt]")?.getAttribute("alt") || "",
-  );
-  if (!name) return element.matches("a[href]") ? "Open link" : "Activate control";
-  if (element.getAttribute("role") === "tab") return brief(`Show ${name}`);
-  if (element.hasAttribute("aria-expanded") || element.tagName === "SUMMARY") {
-    const expanded =
-      element.getAttribute("aria-expanded") === "true" ||
-      element.parentElement?.matches("details[open]");
-    return brief(`${expanded ? "Collapse" : "Expand"} ${name}`);
-  }
-  return name;
+  return brief(label);
 }

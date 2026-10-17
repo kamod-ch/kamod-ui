@@ -1,0 +1,180 @@
+/* The four foundation cards share the catalog shell; detail and motion stay local. */
+.ecosystem-foundation-project {
+  container: ecosystem-project / inline-size;
+  transition: border-color 260ms ease;
+}
+.ecosystem-foundation-project [data-slot="card-header"] {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.625rem;
+}
+.ecosystem-foundation-project .ecosystem-project-heading {
+  flex: 1;
+  min-width: 0;
+  gap: 0.5rem;
+}
+.ecosystem-foundation-project .ecosystem-project-heading > svg {
+  transition: color 260ms ease;
+}
+.ecosystem-foundation-project .ecosystem-project-heading h3 {
+  flex: 0 0 auto;
+}
+.ecosystem-project-context {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  color: var(--ecosystem-secondary);
+  font-size: 0.6875rem;
+  line-height: 1.5;
+}
+.ecosystem-project-context > :first-child {
+  flex: none;
+}
+.ecosystem-project-context > :last-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ecosystem-foundation-project [data-slot="card-header"] .ecosystem-project-links {
+  flex: none;
+  width: auto;
+  gap: 0.25rem;
+}
+.ecosystem-foundation-project [data-slot="card-header"] .docs-icon-button {
+  --docs-icon-button-hover-offset: 0;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  border-radius: 0.375rem;
+}
+.ecosystem-guide .ecosystem-foundation-project .ecosystem-project-description {
+  margin: 0;
+  font-size: 0.84375rem;
+}
+.ecosystem-project-details {
+  display: grid;
+  gap: 0.625rem;
+  margin: 0.875rem 0 0;
+  padding: 0.75rem;
+  border: 1px solid var(--ecosystem-line);
+  border-radius: 0.5rem;
+  background: color-mix(in oklab, var(--foreground) 1.5%, transparent);
+}
+.ecosystem-project-details > div {
+  display: grid;
+  grid-template-columns: 3.5rem minmax(0, 1fr);
+  align-items: baseline;
+  gap: 0.5rem;
+}
+.ecosystem-project-details dt {
+  color: var(--ecosystem-control-ink);
+  font-size: 0.6875rem;
+  font-weight: 550;
+}
+.ecosystem-project-details dd {
+  min-width: 0;
+  margin: 0;
+  color: var(--ecosystem-secondary);
+  font-size: 0.75rem;
+  line-height: 1.65;
+}
+.ecosystem-project-examples {
+  --inline-code-font: 0.6875rem;
+  --inline-code-line: 1.125rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+}
+.ecosystem-project-examples a {
+  min-width: 0;
+  text-decoration: none;
+}
+.ecosystem-guide .ecosystem-project-examples code {
+  overflow-wrap: anywhere;
+}
+.ecosystem-guide .ecosystem-foundation-project code {
+  background: color-mix(in oklab, var(--foreground) 5%, transparent);
+  color: var(--foreground);
+  box-shadow: none;
+}
+.ecosystem-project-package {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.375rem 0.5rem;
+  min-width: 0;
+}
+.ecosystem-project-delivery,
+.ecosystem-project-detail {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  color: var(--ecosystem-secondary);
+  font-size: 0.6875rem;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+.ecosystem-project-detail {
+  flex: none;
+  margin-inline-start: auto;
+}
+.ecosystem-project-detail > svg {
+  flex: none;
+  color: color-mix(in oklab, var(--primary) 55%, var(--foreground));
+  transition: transform 360ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+/* A single short sweep connects the footer to the card; nothing animates while idle. */
+.ecosystem-foundation-project [data-slot="card-footer"]::after {
+  content: "";
+  position: absolute;
+  inset: 0 1rem auto;
+  height: 1px;
+  background: color-mix(in oklab, var(--primary) 24%, transparent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 480ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  pointer-events: none;
+}
+.ecosystem-guide .ecosystem-foundation-project:focus-within {
+  border-color: color-mix(in oklab, var(--primary) 12%, var(--ecosystem-line));
+}
+.ecosystem-foundation-project:focus-within [data-slot="card-footer"]::after {
+  transform: scaleX(1);
+}
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  .ecosystem-guide .ecosystem-foundation-project:hover {
+    border-color: color-mix(in oklab, var(--primary) 12%, var(--ecosystem-line));
+  }
+  .ecosystem-foundation-project:hover .ecosystem-project-heading > svg {
+    color: var(--primary);
+  }
+  .ecosystem-foundation-project:hover [data-slot="card-footer"]::after {
+    transform: scaleX(1);
+  }
+  .ecosystem-foundation-project:hover .ecosystem-project-detail > svg {
+    transform: translateX(2px);
+  }
+}
+@container ecosystem-project (max-width: 22rem) {
+  .ecosystem-project-context {
+    gap: 0.375rem;
+  }
+  .ecosystem-project-details > div {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.25rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ecosystem-foundation-project,
+  .ecosystem-foundation-project .ecosystem-project-heading > svg,
+  .ecosystem-foundation-project [data-slot="card-footer"]::after,
+  .ecosystem-project-detail > svg {
+    transition: none;
+  }
+  .ecosystem-project-detail > svg {
+    transform: none !important;
+  }
+}

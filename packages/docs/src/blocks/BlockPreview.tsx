@@ -1,6 +1,8 @@
 import { cn } from "@kamod-ch/ui";
 import type { ComponentType } from "preact";
+import { useRef } from "preact/hooks";
 import type { BlockPreviewViewport } from "./BlockViewportSwitcher";
+import { usePreviewActivity } from "./preview-activity";
 
 export type BlockPreviewMode = "desktop" | "collapsed" | "mobile";
 
@@ -25,9 +27,17 @@ export const BlockPreview = ({
   previewUrl,
 }: BlockPreviewProps) => {
   const useIframe = Boolean(previewUrl) && viewport !== "desktop";
+  const region = useRef<HTMLDivElement>(null);
+  const frame = useRef<HTMLIFrameElement>(null);
+  const applyActivity = usePreviewActivity(
+    region,
+    frame,
+    `${previewKey}:${appearance}:${viewport}:${mode}:${previewUrl}`,
+  );
 
   return (
     <div
+      ref={region}
       class={cn(
         "blocks-preview-frame blocks-preview-inline",
         appearance === "dark" && "dark",
@@ -42,10 +52,12 @@ export const BlockPreview = ({
       >
         {useIframe && previewUrl ? (
           <iframe
+            ref={frame}
             src={previewUrl}
             title="Block preview"
             class="blocks-preview-iframe"
             loading="lazy"
+            onLoad={applyActivity}
           />
         ) : (
           <Preview mode={mode} />

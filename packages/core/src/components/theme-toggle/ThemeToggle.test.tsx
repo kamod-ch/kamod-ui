@@ -38,6 +38,44 @@ describe("ThemeToggle", () => {
     expect(document.documentElement).toHaveClass("dark");
   });
 
+  it("retains both default SVGs across repeated scheme changes", () => {
+    render(<ThemeToggle />);
+    const button = screen.getByRole("button", { name: "Dark mode" });
+    const icons = [...button.querySelectorAll("svg")];
+    expect(icons).toHaveLength(2);
+    const [sun, moon] = icons;
+    expect(sun).not.toBeVisible();
+    expect(moon).toBeVisible();
+
+    fireEvent.click(button);
+    expect(button).toHaveAccessibleName("Light mode");
+    expect(button.querySelectorAll("svg")[0]).toBe(sun);
+    expect(button.querySelectorAll("svg")[1]).toBe(moon);
+    expect(sun).toBeVisible();
+    expect(moon).not.toBeVisible();
+
+    fireEvent.click(button);
+    expect(button).toHaveAccessibleName("Dark mode");
+    expect(button.querySelectorAll("svg")[0]).toBe(sun);
+    expect(button.querySelectorAll("svg")[1]).toBe(moon);
+    expect(sun).not.toBeVisible();
+    expect(moon).toBeVisible();
+  });
+
+  it("retains custom children without adding default icons", () => {
+    render(
+      <ThemeToggle>
+        <span>Change theme</span>
+      </ThemeToggle>,
+    );
+    const button = screen.getByRole("button", { name: "Change theme" });
+    const content = button.firstElementChild;
+    fireEvent.click(button);
+    expect(button.firstElementChild).toBe(content);
+    expect(button.querySelector("svg")).toBeNull();
+    expect(button).not.toHaveAttribute("aria-label");
+  });
+
   it("calls external onClick exactly once and respects defaultPrevented", () => {
     const onClick = vi.fn((event: Event) => {
       event.preventDefault();

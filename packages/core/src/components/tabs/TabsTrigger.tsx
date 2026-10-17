@@ -37,7 +37,7 @@ export const TabsTrigger = ({
         "group-data-[variant=default]/tabs-list:data-[state=active]:bg-background group-data-[variant=default]/tabs-list:data-[state=active]:font-semibold group-data-[variant=default]/tabs-list:data-[state=active]:text-foreground",
         "group-data-[variant=default]/tabs-list:data-[state=active]:shadow-[0_1px_2px_-0.5px_rgb(0_0_0/0.06),0_1px_3px_-1px_rgb(0_0_0/0.08)]",
         "dark:group-data-[variant=default]/tabs-list:data-[state=active]:shadow-[0_1px_2px_-0.5px_rgb(0_0_0/0.35)] dark:group-data-[variant=default]/tabs-list:data-[state=active]:ring-1 dark:group-data-[variant=default]/tabs-list:data-[state=active]:ring-white/[0.08]",
-        "group-data-[variant=line]/tabs-list:rounded-none group-data-[variant=line]/tabs-list:px-0 group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:group-data-[variant=line]/tabs-list:data-[state=active]:ring-0",
+        "group-data-[variant=line]/tabs-list:rounded-none group-data-[variant=line]/tabs-list:hover:rounded-[0.5rem] group-data-[variant=line]/tabs-list:px-0 group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:group-data-[variant=line]/tabs-list:data-[state=active]:ring-0",
         "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         "group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:font-semibold group-data-[variant=line]/tabs-list:data-[state=active]:text-foreground",
         "group-data-[variant=line]/tabs-list:data-[state=inactive]:font-normal group-data-[variant=line]/tabs-list:data-[state=inactive]:text-muted-foreground",

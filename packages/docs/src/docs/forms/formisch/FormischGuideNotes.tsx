@@ -1,8 +1,11 @@
 import { withBasePath } from "../../../base-path";
 import { BlockPropsTable } from "../../../blocks/detail/BlockPropsTable";
 import { ApiReference } from "../../components/ApiReference";
+import { BrandText } from "../../components/brand/BrandText";
 import { CodeBlock } from "../../components/CodeBlock";
-import { PathDisplay } from "../../components/PathDisplay";
+import { InlineCode } from "../../components/PathDisplay";
+
+import { FormischApproach } from "./FormischApproach";
 
 const contracts = [
   [
@@ -46,12 +49,14 @@ export function FormischGuideNotes({ sectionId }: { sectionId: string }) {
       return (
         <div class="block-guide-prose">
           <p>
-            Run the command in <strong>your application package</strong>. It adds the form and
-            schema libraries to an existing Preact/Kamod setup. In this repository, the equivalent
-            workspace command is{" "}
-            <code>pnpm --filter @kamod-ch/ui-docs add @formisch/preact valibot</code>. Keep your
-            existing dependencies and connect the{" "}
-            <a href={withBasePath("/docs/theming/css-setup")}>global stylesheet</a> once.
+            <BrandText>
+              Run the command in <strong>Your Application Package</strong>. It adds the form and
+              schema libraries to an existing Preact/Kamod setup. In this repository, the equivalent
+              workspace command is{" "}
+              <code>pnpm --filter @kamod-ch/ui-docs add @formisch/preact valibot</code>. Keep your
+              existing dependencies and connect the{" "}
+              <a href={withBasePath("/docs/theming/css-setup")}>Global Stylesheet</a> once.
+            </BrandText>
           </p>
         </div>
       );
@@ -59,11 +64,11 @@ export function FormischGuideNotes({ sectionId }: { sectionId: string }) {
       return (
         <div class="block-guide-prose">
           <p>
-            Follow the <a href="#demo">complete bug-report example</a> before extracting a field.
+            Follow the <a href="#demo">Complete Bug-Report Example</a> before extracting a field.
             Import <code>Field as FormischField</code> and <code>Form as FormischForm</code> from
-            <PathDisplay path={"@formisch/preact"} />; keep Kamod’s <code>Field</code> for the
+            <InlineCode>@formisch/preact</InlineCode>; keep Kamod’s <code>Field</code> for the
             visible wrapper.
-            <strong> These components have different jobs</strong>, even though their names overlap.
+            <strong> These Components Have Different Jobs</strong>, even though their names overlap.
           </p>
           <p>
             The previews keep submitted data in memory for inspection. They do not persist it or
@@ -73,29 +78,7 @@ export function FormischGuideNotes({ sectionId }: { sectionId: string }) {
         </div>
       );
     case "approach":
-      return (
-        <div class="block-guide-prose">
-          <ul>
-            <li>
-              <strong>Valibot:</strong> permitted values, validation messages and inferred types.
-            </li>
-            <li>
-              <strong>Formisch:</strong> field state, validation timing and validated submission.
-            </li>
-            <li>
-              <strong>Kamod UI:</strong> labels, layout, control behavior and theme-aware feedback.
-            </li>
-            <li>
-              <strong>Your application:</strong> authorization, server validation, requests and
-              recovery.
-            </li>
-          </ul>
-          <p>
-            Keep one source of field state. Mirroring every input in a separate{" "}
-            <code>useState</code> can make reset and validation disagree.
-          </p>
-        </div>
-      );
+      return <FormischApproach />;
     case "api-reference":
       return (
         <>
@@ -118,7 +101,7 @@ export function FormischGuideNotes({ sectionId }: { sectionId: string }) {
             ]}
           />
           <p class="docs-copy">
-            The following integration points come from <PathDisplay path={"@formisch/preact"} />.
+            The following integration points come from <InlineCode>@formisch/preact</InlineCode>.
             They describe the roles used throughout the examples; follow the package reference for
             their complete generic signatures.
           </p>
@@ -135,7 +118,7 @@ export function FormischGuideNotes({ sectionId }: { sectionId: string }) {
           />
           <p class="docs-copy">
             This is an integration map, not a replacement for the{" "}
-            <a href="https://formisch.dev/">Formisch API documentation</a>. Check the installed
+            <a href="https://formisch.dev/">Formisch API Documentation</a>. Check the installed
             version before adopting optional methods.
           </p>
         </>
@@ -176,7 +159,7 @@ export function FormischGuideNotes({ sectionId }: { sectionId: string }) {
         <div class="block-guide-prose">
           <p>
             <strong>
-              Client validation helps people correct mistakes; it does not authorize a request.
+              Client Validation Helps People Correct Mistakes; It Does Not Authorize a Request.
             </strong>{" "}
             Validate submitted data again on the server. Keep network or permission failures
             distinct from field constraints, and preserve the entered values so the user can
@@ -200,9 +183,11 @@ export function FormischGuideNotes({ sectionId }: { sectionId: string }) {
       return (
         <div class="block-guide-prose">
           <p>
-            In the Preact adapter, <code>field.input</code> and <code>field.errors</code> are
-            signals. Read their <code>.value</code> when branching, mapping errors or passing a
-            primitive into a controlled input.
+            <BrandText>
+              In the Preact adapter, <code>field.input</code> and <code>field.errors</code> are
+              signals. Read their <code>.value</code> when branching, mapping errors or passing a
+              primitive into a controlled input.
+            </BrandText>
           </p>
           <CodeBlock
             language="tsx"
@@ -244,7 +229,7 @@ const errors = field.errors.value?.map((message) => ({ message }));`}
       return (
         <div class="block-guide-prose">
           <p>
-            Keep <strong>row identity separate from field position</strong>: key rows by the IDs
+            Keep <strong>Row Identity Separate from Field Position</strong>: key rows by the IDs
             from <code>array.items.value</code>, and bind fields with their current index. Check
             removal in the middle of the list, an empty new row, the five-row limit and keyboard
             focus after removal.
@@ -255,12 +240,14 @@ const errors = field.errors.value?.map((message) => ({ message }));`}
       return (
         <div class="block-guide-prose">
           <p>
-            The original{" "}
-            <a href="https://ui.shadcn.com/docs/forms/formisch">shadcn/ui Formisch guide</a> is a
-            reference for the form patterns. Its examples use React; this page integrates{" "}
-            <PathDisplay path={"@formisch/preact"} /> with Kamod’s Preact components. Consult
-            Formisch for form APIs and Valibot for schema APIs, and check each project’s license
-            when reusing source.
+            <BrandText>
+              The original{" "}
+              <a href="https://ui.shadcn.com/docs/forms/formisch">shadcn/ui Formisch Guide</a> is a
+              reference for the form patterns. Its examples use React; this page integrates{" "}
+              <InlineCode>@formisch/preact</InlineCode> with Kamod’s Preact components. Consult
+              Formisch for form APIs and Valibot for schema APIs, and check each project’s license
+              when reusing source.
+            </BrandText>
           </p>
         </div>
       );

@@ -83,7 +83,7 @@ export function SignupForm({
   return (
     <form ref={formRef} onSubmit={submit} class="grid gap-6" noValidate>
       <div class="grid gap-2 text-center">
-        <h1 class="text-2xl font-semibold tracking-tight">Create an account</h1>
+        <h1 class="text-2xl font-semibold tracking-tight">Create an Account</h1>
         <p class="text-sm text-muted-foreground">Enter your information to get started</p>
       </div>
       {showSocial ? (

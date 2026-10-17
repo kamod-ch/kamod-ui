@@ -1,9 +1,9 @@
 import foundationSource from "virtual:kamod-theming-guide";
 import { withBasePath } from "../../base-path";
 import { GuideArticle } from "../components/GuideArticle";
-import { LibraryJumpLinks } from "../components/LibraryJumpLinks";
 import { LibraryPageHeader } from "../components/LibraryPageHeader";
 import { PathDisplay } from "../components/PathDisplay";
+import { ColorThemeGallery } from "../guides/color-themes/ColorThemeGallery";
 import { createComponentThemingSections } from "../guides/component-theming";
 import type { DocPageModule } from "../types";
 
@@ -18,46 +18,63 @@ export const themingDocPage: DocPageModule = {
   usageLabel:
     "Use shared tokens, built-in presets and light/dark controls across Preact components.",
   packagePath: "@kamod-ch/themes",
+  exampleSectionIds: [],
   // Keep established section routes discoverable by the static route generator.
   sections: [
     {
       id: "installation",
-      title: "Choose your theme foundation",
+      title: "Choose Your Theme Foundation",
       text: "Install missing packages and choose one theme CSS entry.",
     },
     {
       id: "usage",
-      title: "Style components through their roles",
+      title: "Style Components through Their Roles",
       text: "Combine component variants, local layout utilities and semantic colors.",
     },
     {
       id: "css-setup",
-      title: "Set up Tailwind and theme CSS",
+      title: "Set Up Tailwind and Theme CSS",
       text: "Connect global styles and source detection.",
     },
     {
+      id: "color-theme-presets",
+      title: "Color Theme Presets",
+      text: "Compare eight design directions through light/dark composition studies, type, shape and practical guidance.",
+      children: [
+        { id: "color-theme-kamod", label: "Kamod" },
+        { id: "color-theme-shadcn", label: "shadcn (Geist)" },
+        { id: "color-theme-ocean", label: "Ocean" },
+        { id: "color-theme-sunset", label: "Sunset" },
+        { id: "color-theme-cursor-warm", label: "Cursor warm" },
+        { id: "color-theme-voltage", label: "Voltage" },
+        { id: "color-theme-watson", label: "Watson" },
+        { id: "color-theme-professional", label: "Professional (Electronics)" },
+        { id: "themes-on-this-page", label: "How Themes Work on This Page" },
+      ],
+    },
+    {
       id: "token-overrides",
-      title: "Shape your design with tokens",
+      title: "Shape Your Design with Tokens",
       text: "Pair surfaces and foregrounds, then refine presets, typography and radius.",
     },
     {
       id: "provider-controls",
-      title: "Manage appearance preferences",
+      title: "Manage Appearance Preferences",
       text: "Connect preset and scheme controls and keep the first render consistent.",
     },
     {
       id: "tailwind-preset",
-      title: "Optional Tailwind preset",
+      title: "Optional Tailwind Preset",
       text: "Use configuration-based integration only when your project needs it.",
     },
     {
       id: "api-reference",
-      title: "Theme runtime reference",
+      title: "Theme Runtime Reference",
       text: "Public theme exports, provider options and persistence behavior.",
     },
     {
       id: "accessibility",
-      title: "Troubleshoot and verify",
+      title: "Troubleshoot and Verify",
       text: "Check production styles, contrast, focus and saved appearance choices.",
     },
   ],
@@ -65,16 +82,13 @@ export const themingDocPage: DocPageModule = {
   guideTitle: title,
   renderMain: () => (
     <GuideArticle
-      id="component-theming"
-      title={title}
       sections={sections}
-      contents={contents}
+      sectionContent={{ "color-theme-presets": <ColorThemeGallery /> }}
       header={
         <LibraryPageHeader
           parent={{ label: "Components", href: "/docs/components" }}
           label="Theming"
           eyebrow="Shared design foundation"
-          focus="Configure · Customize · Check"
           title={title}
           description={
             <>
@@ -87,38 +101,32 @@ export const themingDocPage: DocPageModule = {
                 repeating individual color values in every component.
               </p>
               <p>
-                This is the shared reference for <strong>components and complete blocks</strong>.
-                Follow the CSS setup, token and runtime steps here once, then use the{" "}
-                <a href={withBasePath("/blocks/theming")}>block theming guide</a> for copied-source
-                checks, sidebar surfaces and preview behavior. There is no separate block theme to
-                install. Add a{" "}
-                <a href={withBasePath("/docs/theme-toggle/installation")}>Theme Toggle</a> for a
-                compact Light/Dark action, or offer <strong>Light, Dark and System</strong> through
-                your own settings. Keep paired tokens such as <code>--card</code> and{" "}
-                <code>--card-foreground</code> readable, preserve focus feedback and verify the
-                first render as well as saved preferences.
+                Start with the foundation, compare the eight design studies, then refine the tokens
+                and connect runtime preferences. This reference serves{" "}
+                <strong>components and complete blocks</strong>; use the{" "}
+                <a href={withBasePath("/blocks/theming")}>Block Theming Guide</a> for copied-source
+                checks, sidebar surfaces and preview behavior. Keep pairs such as{" "}
+                <code>--card</code> and <code>--card-foreground</code> together. For a compact
+                appearance control, see{" "}
+                <a href={withBasePath("/docs/theme-toggle/installation")}>Theme Toggle</a>.
               </p>
             </>
           }
         >
-          <LibraryJumpLinks
-            class="block-guide-switcher"
-            label="Theming guide sections"
-            reference={{
-              label: "Theme Toggle",
-              href: withBasePath("/docs/theme-toggle/installation"),
-            }}
-          >
-            <li>
-              <a href="#css-setup">CSS setup</a>
-            </li>
-            <li>
-              <a href="#token-overrides">Tokens & presets</a>
-            </li>
-            <li>
-              <a href="#provider-controls">Appearance controls</a>
-            </li>
-          </LibraryJumpLinks>
+          <nav class="theme-reading-path" aria-label="Theming guide reading paths">
+            <a href="#installation">
+              <span>01</span>Choose a foundation
+            </a>
+            <a href="#color-theme-presets">
+              <span>02</span>Explore the palettes
+            </a>
+            <a href="#token-overrides">
+              <span>03</span>Understand the tokens
+            </a>
+            <a href="#provider-controls">
+              <span>04</span>Connect preferences
+            </a>
+          </nav>
         </LibraryPageHeader>
       }
     />

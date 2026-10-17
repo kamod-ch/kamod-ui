@@ -52,7 +52,7 @@ export const ConversionFunnel = ({
         {normalized.length === 0 ? (
           <Empty>
             <EmptyHeader>
-              <EmptyTitle>Need 3–6 stages</EmptyTitle>
+              <EmptyTitle>Need 3–6 Stages</EmptyTitle>
               <EmptyDescription>
                 Funnels require three to six stages with non-negative counts.
               </EmptyDescription>
@@ -122,7 +122,7 @@ export const ConversionFunnel = ({
                     <p class="text-muted-foreground text-xs">{stage.label}</p>
                     {!hideRetention && retention !== null ? (
                       <p class="text-info text-[10px] font-semibold tabular-nums">
-                        → {formatPercent(retention, locale)} retained
+                        → {formatPercent(retention, locale)} Retained
                       </p>
                     ) : null}
                   </div>

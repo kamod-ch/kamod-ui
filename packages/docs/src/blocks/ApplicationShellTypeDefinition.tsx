@@ -1,5 +1,6 @@
 /** @file Expandable source definitions and fragment navigation for the shell API guide. */
 import type { ComponentChildren } from "preact";
+import { linkTitleChildren } from "../link-title";
 import type { TypeReference } from "./application-shell-api-data";
 import {
   type ApplicationShellTypeName,
@@ -38,6 +39,11 @@ const ShellTypeDefinition = ({
       onOpenChange={onOpenChange}
       onReveal={onReveal}
       showFieldDocs={!isComponentSignature}
+      fieldCount={
+        isComponentSignature
+          ? applicationShellPropFields.length
+          : applicationShellTypeFields[entry.name].length
+      }
       source={
         isComponentSignature
           ? applicationShellPropsSignature
@@ -63,7 +69,7 @@ export const useShellTypeDefinitions = () => {
 
   const renderTypeLink = (name: ApplicationShellTypeName, label: ComponentChildren = name) => (
     <a href={`#${typeId(name)}`} onClick={() => definitions.reveal(typeId(name))}>
-      {label}
+      {linkTitleChildren(label)}
     </a>
   );
   const renderDefinition = (entry: TypeReference) => (

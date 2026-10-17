@@ -1,6 +1,7 @@
 /** Shared introduction and toolbar layout for block collections and individual variants. */
-import { Badge } from "@kamod-ch/ui";
 import type { ComponentChildren } from "preact";
+import { PageEyebrow } from "../docs/components/PageEyebrow";
+import { PageTitle } from "../docs/components/PageTitle";
 import { BlockBreadcrumbs } from "./BlockBreadcrumbs";
 import type { BlockCategory } from "./block-categories";
 
@@ -10,12 +11,15 @@ export type BlockPageHeaderProps = {
   variant?: string;
   title: ComponentChildren;
   description: ComponentChildren;
-  badge: string;
+  eyebrow: string;
   actions: ComponentChildren;
-  /** Optional introduction opposite the variant navigation above its showcase. */
+  /** Optional introduction opposite collection actions or variant navigation. */
   summaryLabel?: ComponentChildren;
+  /** Optional anchor at the divider so a collection jump includes its toolbar. */
+  summaryId?: string;
   /** Optional inline navigation; its description expands to keep the link reachable. */
   descriptionLink?: ComponentChildren;
+  /** Retain an existing title bookmark alongside the canonical page-title heading. */
   id?: string;
   className?: string;
 };
@@ -26,27 +30,29 @@ export function BlockPageHeader({
   variant,
   title,
   description,
-  badge,
+  eyebrow,
   actions,
   summaryLabel,
+  summaryId,
   descriptionLink,
   id,
   className = "",
 }: BlockPageHeaderProps) {
+  const titleAlias = id === "page-title" ? undefined : id;
   return (
-    <header class={`blocks-hero blocks-page-header ${className}`} aria-labelledby={id}>
+    <header class={`blocks-hero blocks-page-header ${className}`} aria-labelledby="page-title">
       <BlockBreadcrumbs
         category={category}
         variant={variant}
         className="blocks-page-header-breadcrumbs"
       />
-      <div class="blocks-page-header-title-row">
-        <h1 id={id} tabIndex={id ? -1 : undefined}>
-          {title}
-        </h1>
-        <Badge variant="secondary" size="md">
-          {badge}
-        </Badge>
+      <PageEyebrow>{eyebrow}</PageEyebrow>
+      <div
+        class="blocks-page-header-title-row"
+        id={titleAlias}
+        tabIndex={titleAlias ? -1 : undefined}
+      >
+        <PageTitle>{title}</PageTitle>
       </div>
       <div class={`blocks-page-header-description${descriptionLink ? " has-link" : ""}`}>
         <p class="blocks-hero-lead">
@@ -54,6 +60,7 @@ export function BlockPageHeader({
           {descriptionLink && <> {descriptionLink}</>}
         </p>
       </div>
+      <hr id={summaryId} class="page-intro-divider" />
       <div class="blocks-page-header-summary">
         {summaryLabel}
         <div class="blocks-page-header-actions">{actions}</div>

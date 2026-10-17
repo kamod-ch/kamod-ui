@@ -7,6 +7,7 @@ import { BlockPageHeader } from "./BlockPageHeader";
 import { type BlockCategory, blockCategories } from "./block-categories";
 import { blockIssueUrl, blockSourceUrl } from "./block-links";
 import { PreviewThemeInfo } from "./PreviewThemeInfo";
+import { ShowcaseHeading } from "./ShowcaseHeading";
 
 export function BlockCategoryHeader({ category }: { category: BlockCategory }) {
   const { title, description, blocks, label } = blockCategories[category];
@@ -16,7 +17,8 @@ export function BlockCategoryHeader({ category }: { category: BlockCategory }) {
       category={category}
       className="blocks-category-header"
       title={title}
-      badge={`${blocks.length} ${blocks.length === 1 ? "variant" : "variants"}`}
+      eyebrow={`${blocks.length} ${blocks.length === 1 ? "variant" : "variants"}`}
+      summaryId={`${category}-variants`}
       description={
         <>
           {/* Small inline markup keeps the metadata independent of JSX. */}
@@ -27,6 +29,15 @@ export function BlockCategoryHeader({ category }: { category: BlockCategory }) {
             return part;
           })}
         </>
+      }
+      summaryLabel={
+        <ShowcaseHeading
+          href={`#${category}-variants`}
+          title="Explore Block Variants"
+          description="Compare. Find your fit."
+          infoLabel="About block variants"
+          infoText="Compare the preview images to find a layout that fits. Open any variant for its interactive preview, source files and setup guide."
+        />
       }
       actions={
         <>

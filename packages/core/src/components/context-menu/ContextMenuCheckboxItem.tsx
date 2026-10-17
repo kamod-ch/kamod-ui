@@ -59,23 +59,22 @@ export const ContextMenuCheckboxItem = ({
       <span
         class="pointer-events-none absolute start-2 flex size-3.5 items-center justify-center"
         aria-hidden
+        style={{ visibility: checked ? "visible" : "hidden" }}
       >
-        {checked ? (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="size-4"
-          >
-            <path d="M20 6 9 17l-5-5" />
-          </svg>
-        ) : null}
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="size-4"
+        >
+          <path d="M20 6 9 17l-5-5" />
+        </svg>
       </span>
       {children}
     </button>

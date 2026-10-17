@@ -4,12 +4,14 @@ export type DocSection = {
   id: string;
   title: string;
   text: string;
+  children?: readonly DocContentsSection[];
 };
 
 export type DocContentsSection = {
   id: string;
   label: string;
-  children?: { id: string; label: string }[];
+  step?: number;
+  children?: readonly DocContentsSection[];
 };
 
 export type DocRenderMainContext = {
@@ -41,6 +43,8 @@ export type DocPageModule = {
   navLabel?: string;
   /** Overrides the title-row package path (e.g. @kamod-ch/openui). */
   packagePath?: string;
+  /** Preserve package imports for package-oriented guides; local-source examples are the default. */
+  snippetImports?: "local" | "package";
   /** Overrides auto-generated usage import snippet. */
   usageImportSnippet?: string;
   /** Overrides auto-generated usage example snippet. */
@@ -53,6 +57,8 @@ export type DocPageModule = {
   /** Visible H1 used for the guide’s first contents link. */
   guideTitle?: string;
   renderMain: (context: DocRenderMainContext) => ComponentChildren;
+  /** Optional page-specific ending in place of the shared Getting Started reference. */
+  renderFooter?: () => ComponentChildren;
 };
 
 export type ComponentOverviewItem = {

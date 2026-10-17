@@ -1,4 +1,6 @@
 import { Button } from "@kamod-ch/ui";
+import { linkTitle } from "../../../link-title";
+import { BrandText } from "../brand/BrandText";
 
 export type PackageTeaserStat = {
   value: string;
@@ -26,8 +28,10 @@ export const PackageTeaserHero = ({
 }: PackageTeaserHeroProps) => (
   <section class="docs-package-teaser" aria-label="Package overview">
     <p class="docs-package-teaser-eyebrow">{eyebrow}</p>
-    <h2 class="docs-package-teaser-headline">{headline}</h2>
-    <p class="docs-package-teaser-lead">{lead}</p>
+    <h2 class="docs-package-teaser-headline">{linkTitle(headline)}</h2>
+    <p class="docs-package-teaser-lead">
+      <BrandText>{lead}</BrandText>
+    </p>
     {stats.length ? (
       <dl class="docs-package-teaser-stats">
         {stats.map((stat) => (
@@ -41,7 +45,7 @@ export const PackageTeaserHero = ({
     <div class="docs-package-teaser-actions">
       <Button variant="default" size="sm" asChild>
         <a href={externalDocsUrl} target="_blank" rel="noopener noreferrer">
-          Open live docs
+          Open Live Docs
         </a>
       </Button>
       <Button variant="outline" size="sm" asChild>

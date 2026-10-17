@@ -3,7 +3,7 @@ export const guideExercises = [
   {
     slug: "getting-started",
     label: "Composition",
-    title: "Give your content a place to live",
+    title: "Give Your Content a Place to Live",
     description:
       "Create a small content wrapper inside your existing block. Keep the block’s sidebar and providers in place, then pass your own page content through children. Adjust the spacing here instead of adding padding to every child.",
     filePath: "src/components/PageSection.tsx",
@@ -25,7 +25,7 @@ export function PageSection({ children }: { children: ComponentChildren }) {
   {
     slug: "styles",
     label: "Actions",
-    title: "Make the primary action easy to find",
+    title: "Make the Primary Action Easy to Find",
     description:
       "Let the component’s variants establish the hierarchy. Keep one primary action and give the secondary action a quieter treatment. This reusable pair accepts real callbacks, so the example can connect to your app without hard-coded routes.",
     filePath: "src/components/EditorActions.tsx",
@@ -55,7 +55,7 @@ export function EditorActions({ onSave, onCancel }: EditorActionsProps) {
   {
     slug: "theming",
     label: "Surfaces",
-    title: "Style a surface that follows your theme",
+    title: "Style a Surface that Follows Your Theme",
     description:
       "Use semantic tokens for a local content surface after your global theme import. Background and foreground belong together; a paired surface stays consistent when you change the preset or color scheme without a second set of hard-coded colors.",
     filePath: "src/app.css",

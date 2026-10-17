@@ -2,7 +2,11 @@
 import type { VariantGuide } from "./VariantDocumentation";
 
 /** Import from the directory structure listed in the installation guide. */
-export function variantImport({ component, category, block }: VariantGuide): string {
+export function variantImport({
+  component,
+  category,
+  block,
+}: Pick<VariantGuide, "component" | "category" | "block">): string {
   if (category === "sidebar")
     return `import { ${component} } from "./components/blocks/${block.id}";`;
   return `import { ${component} } from "./components/blocks/${category}/${block.id}/page";`;

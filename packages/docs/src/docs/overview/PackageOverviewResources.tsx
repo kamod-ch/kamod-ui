@@ -2,9 +2,10 @@ import { ArrowRightIcon } from "@kamod-ch/icons/lucide";
 import { Button } from "@kamod-ch/ui";
 import { withBasePath } from "../../base-path";
 import { BlockHeadingLink } from "../../blocks/BlockHeadingLink";
+import { linkTitle } from "../../link-title";
 import { LibraryGuideSection } from "../components/LibraryGuideSection";
 import { PathDisplay } from "../components/PathDisplay";
-import { packageDocPages } from "../registry";
+import { packageDocPages } from "../package-pages";
 
 const responsibilities: Record<string, { purpose: string; detail: string }> = {
   "hooks-package": {
@@ -49,8 +50,8 @@ export function PackageDirectory() {
               class="package-directory-row"
             >
               <span class="package-directory-identity">
-                <strong>{doc.title}</strong>
-                {doc.packagePath && <PathDisplay path={doc.packagePath} />}
+                <strong>{linkTitle(doc.title)}</strong>
+                {doc.packagePath && <PathDisplay path={doc.packagePath} link={false} />}
               </span>
               <span class="package-directory-summary">
                 <span>{entry?.purpose ?? doc.usageLabel}</span>
@@ -67,7 +68,7 @@ export function PackageDirectory() {
 const foundations = [
   {
     id: "connect-styles",
-    title: "Connect your styles",
+    title: "Connect Your Styles",
     action: "CSS setup",
     href: "/docs/theming/css-setup",
     description: (
@@ -80,7 +81,7 @@ const foundations = [
   },
   {
     id: "customize-theme",
-    title: "Customize the theme",
+    title: "Customize the Theme",
     action: "Theming & Tailwind",
     href: "/docs/theming/installation",
     description: (
@@ -92,7 +93,7 @@ const foundations = [
   },
   {
     id: "explore-icons",
-    title: "Explore the icon library",
+    title: "Explore the Icon Library",
     action: "Icons guide",
     href: "/docs/icons-package/installation",
     description: (
@@ -107,12 +108,12 @@ const foundations = [
 /** Package-specific next steps retain existing guide anchors without repeating large resource cards. */
 export function PackageFoundations() {
   return (
-    <LibraryGuideSection id="library-guides-title" title="Connect the behavior to your interface">
+    <LibraryGuideSection id="library-guides-title" title="Connect the Behavior to Your Interface">
       <div class="block-guide-prose" id="library-guides">
         <p>
-          <strong>The package owns a capability; your interface gives it context.</strong> Pair
-          behavior with the <a href={withBasePath("/docs/components")}>component library</a>, or
-          explore <a href={withBasePath("/blocks")}>complete blocks</a> to see how navigation, forms
+          <strong>The Package Owns a Capability; Your Interface Gives It Context.</strong> Pair
+          behavior with the <a href={withBasePath("/docs/components")}>Component Library</a>, or
+          explore <a href={withBasePath("/blocks")}>Complete Blocks</a> to see how navigation, forms
           and content fit together. Keep these shared foundations in place as you integrate.
         </p>
       </div>
@@ -126,7 +127,7 @@ export function PackageFoundations() {
               <p>{description}</p>
             </div>
             <Button class="docs-icon-button" variant="ghost" size="sm" href={withBasePath(href)}>
-              {action}
+              {linkTitle(action)}
               <ArrowRightIcon size={14} aria-hidden="true" />
             </Button>
           </section>
@@ -134,10 +135,10 @@ export function PackageFoundations() {
       </div>
       <div class="block-guide-prose package-source-note">
         <h3 id="library-source-title" tabIndex={-1}>
-          <BlockHeadingLink id="library-source-title">Work with the source</BlockHeadingLink>
+          <BlockHeadingLink id="library-source-title">Work with the Source</BlockHeadingLink>
         </h3>
         <p>
-          Each <a href="#library-items">package guide</a> links to its own repository, API and
+          Each <a href="#library-items">Package Guide</a> links to its own repository, API and
           package listing. Compare the version in <code>package.json</code> with the documentation
           before adapting an example. For a bug report, include that version, the import path and
           the smallest reproduction that shows the behavior.
@@ -145,11 +146,11 @@ export function PackageFoundations() {
         <p>
           Read the{" "}
           <a href="https://github.com/kamod-ch/kamod-ui/tree/main/packages/core">
-            UI implementation
+            UI Implementation
           </a>{" "}
           for component behavior, or browse{" "}
-          <a href="https://github.com/kamod-ch">Kamod’s repositories</a> for the package that owns
-          the issue. <strong>Keep fixes with the responsibility they belong to.</strong>
+          <a href="https://github.com/kamod-ch">Kamod’s Repositories</a> for the package that owns
+          the issue. <strong>Keep Fixes with the Responsibility They Belong to.</strong>
         </p>
       </div>
     </LibraryGuideSection>

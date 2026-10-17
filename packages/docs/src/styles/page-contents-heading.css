@@ -1,0 +1,231 @@
+/* Geometry and typography come from the same pinned-row classes as the left sidebar. */
+.page-contents-header {
+  border-bottom: 0;
+}
+.page-contents-header .sidebar-entry-row {
+  cursor: default;
+}
+.page-contents-locate {
+  width: 1.75rem;
+  height: 1.75rem;
+  /* Grow around the existing center without moving the header or the list below. */
+  margin-block: -0.125rem;
+  margin-inline-start: 0.25rem;
+  color: var(--foreground);
+}
+.page-contents-top-link {
+  display: inline-flex;
+  align-items: center;
+  color: inherit;
+  text-decoration: none;
+}
+.page-contents-top-link:focus-visible,
+.page-contents-locate:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+  border-radius: 0.25rem;
+}
+
+/* Keep every contents renderer consistent, with a readable floor at deeper levels. */
+.page-contents-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.page-contents-list a {
+  position: relative;
+  margin-left: -1px;
+  border-left: 2px solid transparent;
+  border-radius: 0.375rem;
+  transition: background-color 150ms ease;
+}
+/* A separate rail stays above hover paint; its short fades don't mask any text. */
+.docs-rightbar-contents > nav,
+.blocks-doc-toc nav > .page-contents-list {
+  position: relative;
+  border-left: 1px solid transparent;
+}
+.docs-rightbar-contents > nav::before,
+.blocks-doc-toc nav > .page-contents-list::before {
+  content: "";
+  position: absolute;
+  inset-block: -0.375rem 0;
+  left: -1px;
+  z-index: 1;
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    color-mix(in oklab, var(--foreground) 4%, var(--border)) 0.875rem,
+    color-mix(in oklab, var(--foreground) 4%, var(--border)) calc(100% - 0.875rem),
+    transparent
+  );
+  pointer-events: none;
+}
+/* Reading and URL selection are independent: scrolling never rewrites the chosen fragment. */
+:is(.docs-rightbar-contents > nav, .blocks-doc-toc) .page-contents-list a[aria-current="location"] {
+  --contents-marker-inset: calc(0.375rem - 1px);
+  z-index: 2;
+  border-left-color: transparent;
+  /* Paint the straight marker in the border box so ellipsis cannot clip it. */
+  border-image: linear-gradient(
+      to bottom,
+      transparent var(--contents-marker-inset),
+      var(--foreground) var(--contents-marker-inset),
+      var(--foreground) calc(100% - var(--contents-marker-inset)),
+      transparent calc(100% - var(--contents-marker-inset))
+    )
+    1;
+  background: var(--navigation-entry-background);
+  background-image: var(--navigation-highlight-overlays);
+}
+@media (min-width: 1200px) {
+  /* Pad the scrolling pane once; nested guide navigation uses its parent's scrollport. */
+  .docs-rightbar-contents,
+  .blocks-doc-toc:not(:where(.docs-rightbar-contents *)) > nav {
+    padding-block-end: 1rem;
+    scroll-padding-block-end: 1rem;
+  }
+}
+/* Both sidebars start from the same muted ink; nesting blends it toward the page background. */
+:is(.docs-rightbar-contents > nav, .blocks-doc-toc) .page-contents-list a,
+.blocks-doc-toc .page-contents-list a[aria-current="location"] {
+  color: color-mix(
+    in oklab,
+    var(--navigation-sublink-foreground) var(--page-contents-link-ink, 100%),
+    var(--background)
+  );
+}
+.page-contents-list a[data-contents-depth="2"] {
+  --page-contents-link-ink: 92%;
+}
+.page-contents-list [data-contents-depth="3"] {
+  --page-contents-link-ink: 84%;
+  font-size: calc(0.8rem - var(--docs-rightbar-font-reduction, 0rem));
+  font-weight: 400;
+}
+.page-contents-list [data-contents-depth="4"] {
+  --page-contents-link-ink: 76%;
+  font-size: calc(0.75rem - var(--docs-rightbar-font-reduction, 0rem));
+  font-weight: 400;
+}
+.docs-toc-group-label,
+.docs-toc-group-label.is-active {
+  color: var(--navigation-sublink-foreground);
+}
+@media (hover: hover) and (pointer: fine) {
+  :is(.docs-rightbar-contents > nav, .blocks-doc-toc)
+    .page-contents-list
+    a:hover:not([aria-current="location"]) {
+    color: var(--foreground);
+  }
+}
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  :is(.docs-rightbar-contents > nav, .blocks-doc-toc) .page-contents-list a:hover {
+    background-color: color-mix(
+      in oklab,
+      var(--foreground) calc(2.5% + 2.4375% * var(--docs-highlight-boost, 0)),
+      var(--background)
+    );
+  }
+  :is(.docs-rightbar-contents > nav, .blocks-doc-toc)
+    .page-contents-list
+    a[aria-current="location"]:hover {
+    background-color: var(--navigation-entry-background);
+  }
+  :is(.docs-rightbar-contents > nav, .blocks-doc-toc)
+    .page-contents-list
+    a[data-contents-selected]:hover {
+    background-color: var(--background);
+  }
+  :is(.docs-rightbar-contents > nav, .blocks-doc-toc)
+    .page-contents-list
+    a[data-contents-selected]:hover::after {
+    background-color: color-mix(
+      in oklab,
+      var(--foreground) calc(2% + 1.92% * var(--docs-highlight-boost, 0)),
+      transparent
+    );
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .page-contents-list a {
+    transition: none;
+  }
+}
+.blocks-doc-toc .page-contents-list a[data-contents-depth="3"] {
+  padding-left: 2.65rem;
+  font-size: calc(0.8rem - var(--docs-rightbar-font-reduction, 0rem));
+}
+.blocks-doc-toc .page-contents-list a[data-contents-depth="4"] {
+  padding-left: 3.35rem;
+  font-size: calc(0.75rem - var(--docs-rightbar-font-reduction, 0rem));
+}
+.docs-rightbar-contents > nav .page-contents-list a {
+  display: block;
+  padding-block: 0.375rem;
+  padding-left: 0.5rem;
+  line-height: 1.5;
+  text-decoration: none;
+}
+.docs-rightbar-contents > nav .page-contents-list a[data-contents-depth="2"] {
+  padding-left: 0.75rem;
+}
+.docs-rightbar-contents > nav .page-contents-list a[data-contents-depth="3"] {
+  padding-left: 1.5rem;
+  font-size: calc(0.8rem - var(--docs-rightbar-font-reduction, 0rem));
+}
+.docs-rightbar-contents > nav .page-contents-list a[data-contents-depth="4"] {
+  padding-left: 2.25rem;
+  font-size: calc(0.75rem - var(--docs-rightbar-font-reduction, 0rem));
+}
+.docs-rightbar-contents > nav .page-contents-list a.is-active,
+.docs-toc-group-label.is-active,
+.blocks-doc-toc li a[aria-current="location"] {
+  font-weight: 500;
+}
+
+/* Match the appearance menus' page base, neutral washes and upper primary-accent layer.
+   Keep URL selection above reading/nesting typography without changing either state. */
+:is(.docs-rightbar-contents > nav, .blocks-doc-toc) .page-contents-list a[data-contents-selected] {
+  --contents-marker-inset: calc(0.5rem - 1px);
+  isolation: isolate;
+  border-radius: 0.5rem;
+  background-color: var(--background);
+  background-image:
+    var(--navigation-highlight-overlay), var(--navigation-highlight-overlays),
+    linear-gradient(var(--navigation-entry-background), var(--navigation-entry-background));
+  color: var(--foreground);
+  font-weight: 600;
+}
+/* The menu's subtle hover tint sits above its selection plate and below the text. */
+:is(.docs-rightbar-contents > nav, .blocks-doc-toc)
+  .page-contents-list
+  a[data-contents-selected]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background-color: transparent;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  :is(.docs-rightbar-contents > nav, .blocks-doc-toc)
+    .page-contents-list
+    a[data-contents-selected]::after {
+    transition: background-color 150ms ease;
+  }
+}
+
+/* Ellipsis is visual only: the link retains its full accessible name and destination. */
+@media (1200px <= width < 1536px) {
+  .docs-rightbar-contents > nav a,
+  .blocks-doc-toc li a {
+    display: block;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

@@ -1,4 +1,11 @@
 import type { PackageTeaserConfig } from "../../pages/kamod-package-doc-factory";
+import {
+  packageGuideConnections,
+  packageGuideHref,
+  packageGuideIdentities,
+  packageSourceNotices,
+  packageSourceResources,
+} from "./package-guide-connections";
 import { packageGuideDetails } from "./package-guide-details";
 import { packageGuidePractices } from "./package-guide-practices";
 import { packageGuideRecipes } from "./package-guide-recipes";
@@ -8,6 +15,14 @@ export function packageGuideReference(config: PackageTeaserConfig): string {
   const details = packageGuideDetails[config.slug];
   const practice = packageGuidePractices[config.slug];
   const recipe = packageGuideRecipes[config.slug];
+  const { companionIntro, companions, next } = packageGuideConnections[config.slug];
+  // Exported files must keep guide links usable outside the running documentation site.
+  const guideUrl = `https://ui.kamod.ch/docs/${config.slug}/installation`;
+  const portableDescription = (text: string) =>
+    text.replace(
+      /\]\(((?:#|\/(?!\/))[^\s)]+)\)/g,
+      (_, href: string) => `](${new URL(href, guideUrl).href})`,
+    );
   return (
     [
       `# ${config.title} — integration reference`,
@@ -19,9 +34,10 @@ export function packageGuideReference(config: PackageTeaserConfig): string {
         ({ need, approach, boundary }) => `### ${need}\n\n${approach}\n\n${boundary}`,
       ),
       "## Installation",
-      config.installationText,
+      portableDescription(config.installationText),
       `\`\`\`bash\n${config.command}\n\`\`\``,
       "## Starting example",
+      portableDescription(config.usageText),
       `\`\`\`tsx\n${config.quickStart.import}\n\n${config.quickStart.usage}\n\`\`\``,
       ...recipe.steps.map(
         ({ title, code, note }) => `### ${title}\n\n${note}\n\n\`\`\`tsx\n${code}\n\`\`\``,
@@ -37,10 +53,23 @@ export function packageGuideReference(config: PackageTeaserConfig): string {
       "## Troubleshooting",
       ...practice.failures.map(({ symptom, check }) => `### ${symptom}\n\n${check}`),
       "## Resources",
-      `- [Documentation](${config.externalDocsUrl})\n- [Source](${config.githubUrl})\n- [npm](${config.npmUrl})`,
+      ...packageSourceResources(config).map(
+        ({ title, text, href }) => `- [${title}](${href}) — ${text}`,
+      ),
       "attribution" in practice
         ? `## Attribution\n\n${practice.attribution.text}\n\n[${practice.attribution.label}](${practice.attribution.href})`
         : "",
+      ...packageSourceNotices(config),
+      "## Companion packages",
+      companionIntro,
+      ...companions.map(({ package: slug, title, text }) => {
+        const companion = packageGuideIdentities[slug];
+        return `### ${companion.title} — ${title}\n\n[\`${companion.path}\`](https://ui.kamod.ch${packageGuideHref(slug)})\n\n${text}`;
+      }),
+      `## ${next.title}`,
+      next.text,
+      `[${next.label}](https://ui.kamod.ch${next.href})\n\n${next.check}`,
+      "[All packages](https://ui.kamod.ch/docs/packages) · [The wider ecosystem](https://ui.kamod.ch/docs/ecosystem)",
     ]
       .filter(Boolean)
       .join("\n\n") + "\n"

@@ -1,9 +1,11 @@
 import { type ComponentChildren, createContext } from "preact";
 import { useContext } from "preact/hooks";
 import { withBasePath } from "../../base-path";
+import { BrandText } from "../../docs/components/brand/BrandText";
 import { DocsSidebarNavigation } from "../../layout/navigation/DocsSidebarNavigation";
 import { BlockHeadingLink } from "../BlockHeadingLink";
 import type { BlockCategory } from "../block-categories";
+import { getBlockDetailTitle } from "../block-detail-titles";
 import { BlockGuideContents } from "./BlockGuideContents";
 import { BlockGuideFooter } from "./BlockGuideFooter";
 import type { BlockGuideIdentity, BlockGuideSection } from "./types";
@@ -49,11 +51,10 @@ export function BlockDocSection({
   return (
     <section class={`blocks-doc-section ${className}`} aria-labelledby={id}>
       <header class="blocks-doc-section-header">
-        <p class="blocks-doc-eyebrow">{section.eyebrow}</p>
         <BlockGuideHeading id={id} level={2} />
-        {introduction}
+        <BrandText>{introduction}</BrandText>
       </header>
-      {children}
+      <BrandText>{children}</BrandText>
     </section>
   );
 }
@@ -63,11 +64,14 @@ export function BlockDocumentation({
   block,
   category,
   sections,
+  pageTitle = getBlockDetailTitle(block),
   contentsId = `${block.id}-contents`,
 }: {
   block: BlockGuideIdentity;
   category: BlockCategory;
   sections: readonly BlockGuideSection[];
+  /** Match an explicit header title, including variant-specific application shells. */
+  pageTitle?: string;
   /** Preserve an existing contents anchor when migrating a guide. */
   contentsId?: string;
 }) {
@@ -78,7 +82,12 @@ export function BlockDocumentation({
           <DocsSidebarNavigation pathname={withBasePath(`/blocks/${category}/${block.id}`)} />
         </aside>
         <div class="blocks-detail-documentation">
-          <BlockGuideContents block={block} sections={sections} id={contentsId} />
+          <BlockGuideContents
+            block={block}
+            sections={sections}
+            id={contentsId}
+            pageTitle={pageTitle}
+          />
           <div class="blocks-doc-body">
             {sections.map(({ id, Content }) => (
               <Content key={id} />

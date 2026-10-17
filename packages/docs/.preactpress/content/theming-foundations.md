@@ -1,6 +1,8 @@
 ## Set up Tailwind and theme CSS
 
-Connect the foundation in order: choose a theme entry, load it through your existing Tailwind pipeline, then make sure the build can find every utility class. Keep this setup in **one global stylesheet**.
+For a complete first integration, follow [Set Up Your App](/docs/getting-started#set-up-your-app), then return here for the detailed CSS and source-discovery options.
+
+Connect the foundation in order: choose a theme entry, load it through your existing Tailwind pipeline, then make sure the build can find every utility class. Keep this setup in **One Global Stylesheet**.
 
 ### Choose a theme entry
 
@@ -15,6 +17,26 @@ pnpm add @kamod-ch/themes @preact/signals
 ```
 
 This command adds theme dependencies only. Your app still needs Preact, Kamod UI and any dependencies of the components you use. Preserve packages your application already has installed; copied layouts have their own [block integration steps](/blocks/getting-started#check-your-project-foundation).
+
+#### Compare the actual contracts
+
+| Entry                          | Includes                                                                                       | Use it when                                                                      |
+| ------------------------------ | ---------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `@kamod-ch/themes/theme.css`   | Full semantic mappings, sidebar/feedback roles, local scope resets and all eight brand presets | You want a shared component-and-block foundation or selectable product palettes. |
+| `@kamod-ch/ui/theme.css`       | Common UI defaults, source discovery, and the UI package's Code, CopyButton and Tabs styles    | You want the smaller UI baseline and will own any additional mappings.           |
+| `@kamod-ch/ui/code/styles.css` | Code layout, its syntax palettes and CopyButton feedback; **no theme-token foundation**        | You already use the full themes entry and need the reader's component styles.    |
+
+The first two entries overlap in token defaults. The third is an additive **component stylesheet**, so it can accompany the full theme without importing another foundation:
+
+```css src/app.css
+@import "tailwindcss";
+@import "@kamod-ch/themes/theme.css";
+@import "@kamod-ch/ui/code/styles.css";
+```
+
+When using the UI theme entry, Code styles are already included; do not import the dedicated reader entry again. Components with separate styles should follow their own installation reference. CSS values, component rules and Tailwind's generated utilities are three related layers, not three names for the same file.
+
+**Load order does not erase selector specificity.** A later `:root` rule can lose to a more specific `:root[data-theme="ocean"]` rule. Match the preset's intended scope for a product override, then place it after the foundation. See [Customize a Preset](/docs/theming/token-overrides#customize-a-preset-with-tokens) for both schemes.
 
 ### Connect Tailwind CSS v4
 
@@ -65,6 +87,70 @@ These status utilities come from the full theme contract. The mapping controls p
 
 Once the styles are connected, work from shared color roles to the details of your brand. Start with surface and foreground pairs, include the sidebar, then refine your preset, typography and shape.
 
+### What a theme token actually is
+
+A token is a named value with a job. `--card` means a content surface; it does not promise white, a particular hex code or even the same color in both schemes. CSS custom properties carry those values through the DOM. Components request the role, so a brand change can update many elements without rewriting their markup.
+
+There are three useful levels:
+
+| Level                       | Example                                     | Who normally changes it?                                                             |
+| --------------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------ |
+| Raw palette value           | `--color-cyan-700` or `oklch(0.52 0.1 220)` | A palette author. It names a color, not its purpose.                                 |
+| Semantic application role   | `--primary`, `--card`, `--sidebar-accent`   | Your product theme. It assigns colors to interface responsibilities.                 |
+| Component-specific decision | `--kamod-code-keyword`                      | A focused component customization. It refines one reader without redefining the app. |
+
+A Tailwind utility is the convenient way to **consume** a role. It is not a fourth copy of the color. In the full foundation, `@theme inline` connects the Tailwind color namespace to the runtime value:
+
+```css
+/* The foundation provides this mapping; do not repeat it per component. */
+@theme inline {
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+}
+```
+
+```tsx
+<div class="bg-card text-card-foreground">A surface with its matching ink.</div>
+```
+
+The chain is **preset value → semantic custom property → utility → painted element**. Changing the selected preset changes `--card`; the existing `bg-card` utility reads the new value. It does not need another Tailwind build for every user's choice. Adding a previously unknown utility class still requires source discovery and a build, which is a different operation.
+
+You can consume the same value in ordinary CSS:
+
+```css src/activity.css
+.activity-panel {
+  background: var(--card);
+  color: var(--card-foreground);
+  border: 1px solid var(--border);
+}
+```
+
+**Use complete color values.** These tokens contain colors such as an `oklch(...)` expression or a reference to another color variable. `background: var(--primary)` is appropriate; wrapping it in `hsl(var(--primary))` assumes a channel-only format that this contract does not promise. Use `color-mix()` for a translucent or mixed treatment instead of changing the token's data format.
+
+A fallback such as `var(--chart-1, var(--primary))` is used if the first variable is missing or invalid as a custom property. It does not check whether the color has enough contrast. Inspect the computed declaration and the final background when debugging; a valid CSS value can still be a poor visual choice.
+
+### Follow inheritance and the cascade
+
+A custom property is inherited by descendants unless a nearer matching rule supplies a value. The root normally provides the application palette. A `[data-theme-scope]` boundary resets the full contract, then its `data-theme` preset and explicit `.dark` class select local values. This keeps a preview from accidentally borrowing half of a different parent palette.
+
+```css src/product-theme.css
+:root[data-theme="ocean"] {
+  --primary: oklch(0.48 0.1 220);
+  --primary-foreground: white;
+}
+
+:root.dark[data-theme="ocean"] {
+  --primary: oklch(0.8 0.11 220);
+  --primary-foreground: oklch(0.15 0.02 220);
+}
+```
+
+This example targets the document's Ocean preset. It intentionally does not target every local preview. For an application-owned container, add a product class and match that scope instead of assuming `:root` styles reach a portal or nested scope. A `:root` selector only matches the document root.
+
+The browser still resolves normal CSS rules: origin and layer order, selector specificity, then order among equally ranked declarations. An inline variable on a Code root can override its stylesheet value; the same variable on an ancestor may be reset by Code's own palette defaults. Put a component override on the actual component root when that is the intended owner.
+
+[CSS-first theme variables](https://tailwindcss.com/docs/theme) explain Tailwind's namespace side of this relationship. Kamod's source defines the semantic side; the role tables below describe the names actually shipped here.
+
 ### Work with semantic token pairs
 
 Many surfaces have a matching foreground token. Change both when adjusting a surface so text remains legible. The palette should communicate consistent roles rather than copying a screenshot’s individual color values into each component.
@@ -101,6 +187,40 @@ The sidebar has its own surface and interaction tokens so it can remain subtly d
 The full theme maps `bg-sidebar` to `--sidebar-background`, and `ring-sidebar-ring` to `--sidebar-outline`. Keep those mappings intact when adapting a palette. If ordinary buttons look themed but the sidebar does not, inspect this token family before changing every navigation row. For complete layouts, follow the [block application guide](/blocks/theming#shape-your-design-with-tokens).
 
 Remember that a block may also contain ordinary cards, popovers and page backgrounds. A sidebar-only palette does not replace their tokens. Check the complete screen, especially menus that open from the sidebar into a floating layer.
+
+#### Trace one navigation row
+
+The sidebar family is deliberately separate from ordinary page/card tokens. A useful navigation stack has a quiet base, readable labels, an interaction surface, a boundary and a focus cue. Map these together before changing individual rows:
+
+```tsx
+<nav class="border-r border-sidebar-border bg-sidebar p-3 text-sidebar-foreground">
+  <a
+    href="/projects"
+    aria-current="page"
+    class="block rounded-md bg-sidebar-accent px-3 py-2 text-sidebar-accent-foreground focus-visible:outline-2 focus-visible:outline-sidebar-outline"
+  >
+    Your projects
+  </a>
+</nav>
+```
+
+`aria-current` communicates the current destination; the accent classes paint it. The class alone does not make a link current for assistive technology. A reusable Sidebar component may choose its own supported treatment, so this small example explains the role mapping rather than replacing its navigation or keyboard behavior.
+
+**Sidebar primary is an available emphasis role, not a guarantee that every selected link uses it.** Inspect the actual consumer. Some rows use sidebar accent, an inset ring or a subtly mixed background. Changing `--sidebar-primary` cannot affect a selector that reads `--sidebar-accent` instead.
+
+| State or region              | Check together                                                        |
+| ---------------------------- | --------------------------------------------------------------------- |
+| Navigation base              | `--sidebar-background` and `--sidebar-foreground`.                    |
+| Quiet selected/hover surface | `--sidebar-accent` and `--sidebar-accent-foreground`.                 |
+| Strong navigation emphasis   | `--sidebar-primary` and `--sidebar-primary-foreground`.               |
+| Separating regions           | `--sidebar-border` against both adjoining surfaces.                   |
+| Keyboard focus               | `--sidebar-outline` against the item and its surrounding surface.     |
+| Account dropdown             | The popover pair, if the menu uses a floating component.              |
+| A card inside navigation     | The card pair, unless that card intentionally consumes sidebar roles. |
+
+Keep hover and selected states distinguishable, and inspect their combination. A selected link should retain its meaning when hovered; a keyboard focus indicator should not disappear into that highlight. Test collapsed icon-only navigation and the mobile sheet as well as the expanded desktop labels.
+
+If porting another theme, translate **semantic names**, not just values. A third-party `--sidebar` variable might mean the base surface, while Kamod expects `--sidebar-background`. Its `--sidebar-ring` might be a color, while the full Kamod mapping derives `ring-sidebar-ring` from `--sidebar-outline`. A name that resembles a familiar utility can still be the wrong custom property.
 
 ### Customize a preset with tokens
 
@@ -147,6 +267,22 @@ Typography has both a token and an asset side. Setting `--font-sans` names a fon
 Review headings, navigation labels, monospace paths and form errors after changing fonts. A different family changes text width and can expose truncation or wrapping problems even if the nominal font size stays the same.
 
 Animation styles are separate from color tokens. Inspect the chosen components and application setup for any required animation utilities; do not import every plugin used by the documentation site simply to reproduce a block. If you add `tw-animate-css` or another stylesheet for utilities you actually use, include it once and verify reduced-motion behavior. A color theme alone does not define every animation.
+
+### Connect application tokens to source colors
+
+Application roles and Prism token classes solve different problems. `--primary` expresses interface emphasis; `.token.keyword` identifies a piece of recognized source. They are connected only when a reader palette explicitly maps one to the other.
+
+```tsx
+import { Code } from "@kamod-ch/ui/code";
+
+<Code code={'const greeting = "Hello";'} language="typescript" syntaxTheme="theme" />;
+```
+
+The opt-in **Theme Tokens** palette borrows the current scope's primary and chart hues, then mixes them with foreground for readable small text. Ocean, Sunset, Cursor warm, Voltage, Watson, Professional, shadcn and Kamod therefore produce their own related syntax colors using one shared recipe. There is no second palette registry to synchronize and no per-reader theme listener.
+
+Its source surface stays in the normal application scheme. It does not invert light and dark or change the default syntax palette. Existing fixed Prism palettes remain available for readers who prefer a dedicated source canvas.
+
+Use the [live token palette lab](/docs/code/installation#code-theme-tokens) to compare every preset and scheme. The [Prism pipeline](/docs/code/installation#code-prism-pipeline) explains highlighting, and [custom palette recipes](/docs/code/installation#code-product-palette) cover component-specific variables. Keep that detailed syntax guidance in Code rather than repeating it in every component's theme instructions.
 
 ## Manage appearance preferences
 

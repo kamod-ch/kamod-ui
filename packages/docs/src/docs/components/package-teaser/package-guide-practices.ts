@@ -53,14 +53,14 @@ export const packageGuidePractices = {
       },
     ],
     related: {
-      label: "Persisted signals",
+      label: "Persisted Signals",
       href: "/docs/signals-package/installation",
       reason:
         "Compare persistent, shared reactive values with component-owned hook state before choosing a second state owner.",
     },
     attribution: {
       text: "Kamod Hooks is inspired by ahooks and adapts those patterns for Preact. Consult the package's LICENSE and NOTICE when redistributing source; compatibility and behavior should be checked against Kamod's own documentation.",
-      label: "ahooks by Alibaba",
+      label: "Ahooks by Alibaba",
       href: "https://github.com/alibaba/hooks",
     },
   },
@@ -107,7 +107,7 @@ export const packageGuidePractices = {
       },
     ],
     related: {
-      label: "Forms and validation",
+      label: "Forms and Validation",
       href: "/docs/formisch/installation",
       reason:
         "Include validation errors, field instructions and submit feedback in your message schema, not only navigation labels.",
@@ -154,7 +154,7 @@ export const packageGuidePractices = {
       },
     ],
     related: {
-      label: "Component styles",
+      label: "Component Styles",
       href: "/blocks/styles",
       reason:
         "Apply a coherent hierarchy of icon sizes, button variants and surface treatments across complete layouts.",
@@ -202,7 +202,7 @@ export const packageGuidePractices = {
       },
     ],
     related: {
-      label: "Reducer state",
+      label: "Reducer State",
       href: "/docs/state-package/installation",
       reason:
         "Use explicit events and transitions when a workflow needs more structure than a persisted preference.",
@@ -251,7 +251,7 @@ export const packageGuidePractices = {
       },
     ],
     related: {
-      label: "Component-owned hooks",
+      label: "Component-Owned Hooks",
       href: "/docs/hooks-package/installation",
       reason:
         "Keep transient UI behavior close to its component while the store owns the shared domain model.",

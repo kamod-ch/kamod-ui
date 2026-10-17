@@ -1,9 +1,9 @@
 /** Shared showcase controls, isolated live preview and on-demand source reference. */
 
-import { useSize } from "@kamod-ch/hooks";
 import { Tabs, TabsContent } from "@kamod-ch/ui";
 import { useRef } from "preact/hooks";
 import { withBasePath } from "../base-path";
+import { ShowcaseLoading } from "../docs/components/ShowcaseLoading";
 import { BlockShowcaseCode } from "./BlockShowcaseCode";
 import { BlockShowcasePreview } from "./BlockShowcasePreview";
 import { BlockShowcasePrompt } from "./BlockShowcasePrompt";
@@ -15,6 +15,7 @@ import { previewAppearanceUrl } from "./preview-appearance";
 import { ShowcaseTabMemory } from "./ShowcaseTabMemory";
 import { usePreviewRefresh } from "./usePreviewRefresh";
 import { useShowcasePreferences } from "./useShowcasePreferences";
+import { useShowcaseWidth } from "./useShowcaseWidth";
 
 /** Structural subset shared by Sidebar, Login, Signup and Application Shell registries. */
 export type ShowcaseBlock = {
@@ -33,17 +34,18 @@ export function BlockShowcase({
   block,
   loadSource,
   groupedFiles = true,
-  copyPath = true,
+  setupHref,
 }: {
   block: ShowcaseBlock;
   loadSource: BlockSourceLoader;
   groupedFiles?: boolean;
-  copyPath?: boolean;
+  /** Full guide destination when the showcase is embedded outside its detail page. */
+  setupHref?: string;
 }) {
   const { previewKey, phase, refresh, complete, cancel } = usePreviewRefresh();
   const { preferences, update, ready } = useShowcasePreferences(block.category, block.id);
   const container = useRef<HTMLElement>(null);
-  const availableWidth = useSize(container)?.width ?? 0;
+  const availableWidth = useShowcaseWidth(container);
   const viewport = fitBlockViewport(preferences.viewport, availableWidth);
   const { appearance, view } = preferences;
   const previewUrl = withBasePath(`/blocks/${block.category}/${block.id}/preview`);
@@ -56,7 +58,7 @@ export function BlockShowcase({
       tabIndex={-1}
       aria-label={`${block.title} showcase`}
     >
-      <h2 class="sr-only">Live preview and source</h2>
+      <h2 class="sr-only">Live Preview and Source</h2>
       <div id={`${block.id}-code`} class="blocks-card-body">
         <Tabs defaultValue="preview" class="blocks-showcase-tabs">
           <ShowcaseTabMemory
@@ -88,22 +90,27 @@ export function BlockShowcase({
               refreshing={phase === "loading"}
             />
           </TabsContent>
-          {ready && (
+          {ready ? (
             <BlockShowcaseCode
+              appearance={appearance}
               block={block}
               loadSource={loadSource}
               groupedFiles={groupedFiles}
-              copyPath={copyPath}
+              setupHref={setupHref}
             />
+          ) : (
+            <TabsContent value="code" class="blocks-showcase-source">
+              <ShowcaseLoading appearance={appearance} view="code" />
+            </TabsContent>
           )}
           <TabsContent value="prompt" class="blocks-showcase-prompt">
             <BlockShowcasePrompt
+              appearance={appearance}
+              setupHref={setupHref}
               block={block}
               loadSource={loadSource}
               mode={preferences.promptMode}
               onModeChange={(promptMode) => update({ promptMode })}
-              display={preferences.promptDisplay}
-              onDisplayChange={(promptDisplay) => update({ promptDisplay })}
             />
           </TabsContent>
         </Tabs>

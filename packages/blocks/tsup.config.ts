@@ -1,3 +1,4 @@
+import { copyFile } from "node:fs/promises";
 import { defineConfig } from "tsup";
 
 export default defineConfig({
@@ -5,6 +6,13 @@ export default defineConfig({
     "src/index.ts",
     "src/application-shell/index.ts",
     "src/application-shell/application-shell-1/index.ts",
+    "src/application-shell/application-shell-2/index.ts",
+    "src/application-shell/application-shell-3/index.ts",
+    "src/application-shell/application-shell-4/index.ts",
+    "src/application-shell/application-shell-5/index.ts",
+    "src/application-shell/application-shell-6/index.ts",
+    "src/application-shell/application-shell-7/index.ts",
+    "src/application-shell/application-shell-8/index.ts",
     "src/shared/index.ts",
     "src/sidebar/index.ts",
     "src/login/index.ts",
@@ -76,6 +84,9 @@ export default defineConfig({
     "src/marketing/pricing-01/index.ts",
     "src/marketing/testimonials-01/index.ts",
   ],
+  onSuccess: async () => {
+    await copyFile("src/shared/theme-picker/theme-picker.css", "dist/theme-picker.css");
+  },
   format: ["esm"],
   dts: false,
   sourcemap: true,

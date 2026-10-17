@@ -1,0 +1,233 @@
+/* The core Card, Field and Switch own semantics; this scope isolates playground
+   typography from surrounding guide prose and responds to the article width. */
+.code-parts-playground {
+  container: code-parts / inline-size;
+  min-width: 0;
+  margin-block: 1.25rem;
+}
+.code-parts-card {
+  gap: 0;
+  padding: 0;
+  background: color-mix(in oklab, var(--card) 65%, var(--background));
+  --tw-ring-color: color-mix(in oklab, var(--primary) 15%, var(--border));
+}
+.code-parts-card .code-parts-header {
+  align-items: center;
+  gap: 0.625rem 1rem;
+  padding: 1rem;
+  border-bottom: 1px solid var(--border);
+  border-radius: inherit;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  background: linear-gradient(
+    110deg,
+    color-mix(in oklab, var(--primary) 5%, transparent),
+    transparent
+  );
+}
+.code-parts-title {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  color: var(--foreground);
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+.code-parts-title > svg {
+  width: 1rem;
+  height: 1rem;
+  flex: none;
+  color: var(--primary);
+}
+.code-parts-header [data-slot="card-action"] {
+  align-self: center;
+  grid-row: 1;
+}
+.code-parts-reset {
+  --docs-icon-button-hover-offset: 0;
+  height: 2rem;
+  font-size: 0.75rem;
+}
+.code-parts-reset:disabled {
+  opacity: 0.45;
+}
+.code-parts-playground .code-parts-intro {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+  line-height: 1.65;
+}
+.code-parts-card .code-parts-content {
+  padding: 1rem;
+}
+.code-parts-groups {
+  display: grid;
+  gap: 1.25rem;
+}
+.code-parts-group > [data-slot="field-legend"] {
+  margin: 0;
+  padding: 0;
+  color: var(--foreground);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+.code-parts-playground .code-parts-group-hint {
+  margin: 0.25rem 0 0.75rem;
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  line-height: 1.6;
+}
+.code-parts-group [data-slot="field-group"] {
+  gap: 0;
+  margin: 0;
+}
+.code-parts-option {
+  display: grid;
+  grid-template-columns: 1rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+  padding-block: 0.75rem;
+}
+.code-parts-option + .code-parts-option {
+  border-top: 1px solid color-mix(in oklab, var(--border) 60%, transparent);
+}
+.code-parts-option-icon {
+  width: 1rem;
+  height: 1rem;
+  color: var(--muted-foreground);
+  stroke-width: 1.75;
+}
+.code-parts-option[data-enabled="true"] > .code-parts-option-icon {
+  color: var(--primary);
+}
+.code-parts-option [data-slot="field-content"] {
+  min-width: 0;
+  gap: 0.25rem;
+}
+.code-parts-option [data-slot="field-label"] {
+  color: var(--foreground);
+  font-size: 0.8125rem;
+  font-weight: 550;
+  line-height: 1.5;
+  cursor: pointer;
+}
+.code-parts-playground [data-slot="field-description"] {
+  margin: 0;
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  line-height: 1.6;
+}
+.code-parts-playground .code-parts-header-hint {
+  margin: 0.75rem 0 0;
+  padding-top: 0.875rem;
+  border-top: 1px solid var(--border);
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  line-height: 1.7;
+}
+.code-parts-header-hint strong {
+  color: var(--foreground);
+  font-weight: 550;
+}
+.code-parts-card .code-parts-footer {
+  padding: 0.25rem 1rem;
+  background: color-mix(in oklab, var(--primary) 3%, transparent);
+}
+.code-parts-preview {
+  min-width: 0;
+  margin-top: 1.25rem;
+}
+.code-parts-preview-label {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.375rem 1rem;
+  margin-bottom: 0.625rem;
+  color: var(--muted-foreground);
+  font-size: 0.6875rem;
+  line-height: 1.6;
+}
+.code-parts-preview-label > span:first-child {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  color: var(--foreground);
+  font-size: 0.75rem;
+  font-weight: 550;
+}
+.code-parts-preview-label svg {
+  width: 0.875rem;
+  height: 0.875rem;
+  flex: none;
+}
+.code-parts-playground .code-parts-source-note {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  line-height: 1.7;
+}
+.code-parts-source-note:first-child {
+  border-bottom: 1px solid var(--border);
+}
+.code-parts-source-note:last-child {
+  border-top: 1px solid var(--border);
+}
+@container code-parts (min-width: 37rem) {
+  .code-parts-card :is(.code-parts-header, .code-parts-content) {
+    padding: 1.25rem;
+  }
+  .code-parts-groups {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0;
+  }
+  .code-parts-group:first-child {
+    padding-inline-end: 1.25rem;
+  }
+  .code-parts-group + .code-parts-group {
+    padding-inline-start: 1.25rem;
+    border-inline-start: 1px solid var(--border);
+  }
+  .code-parts-card .code-parts-footer {
+    padding-inline: 1.25rem;
+  }
+}
+
+/* Keep the shared API-table geometry; add only the choice-specific hierarchy. */
+.code-parts-reference-table {
+  --code-parts-reference-secondary: color-mix(
+    in oklab,
+    var(--foreground) 25%,
+    var(--muted-foreground)
+  );
+  margin-block: 1.5rem;
+}
+.code-parts-reference-table thead th {
+  color: var(--foreground);
+  font-weight: 600;
+}
+.code-parts-reference-table th[scope="row"] {
+  width: 38%;
+  min-width: 16rem;
+}
+.code-parts-reference-table [data-slot="table-row"] {
+  background: transparent;
+  transition: none;
+}
+.code-parts-reference-purpose {
+  display: block;
+  margin-top: 0.625rem;
+  color: var(--code-parts-reference-secondary);
+  font-size: 0.75rem;
+  line-height: 1.7;
+}
+.code-parts-reference-table td {
+  color: var(--code-parts-reference-secondary);
+}
+.code-parts-reference-table td strong {
+  color: var(--foreground);
+}

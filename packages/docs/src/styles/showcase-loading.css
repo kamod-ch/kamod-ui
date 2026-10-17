@@ -1,0 +1,396 @@
+/* Shared loading surfaces: quiet structure, real status, no artificial progress. */
+.showcase-loading {
+  --showcase-loading-cycle: 3.8s;
+  --showcase-loading-surface: color-mix(in oklab, var(--card) 96%, var(--foreground));
+  --showcase-loading-border: color-mix(in oklab, var(--foreground) 13%, transparent);
+  --showcase-loading-line: color-mix(in oklab, var(--foreground) 12%, transparent);
+  --showcase-loading-accent: color-mix(in oklab, var(--primary) 20%, transparent);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  min-width: 0;
+  min-height: var(--source-code-min-height, 20rem);
+  gap: 1.375rem;
+  padding: 1.5rem 1rem;
+  border-radius: var(--showcase-radius, var(--radius-lg));
+  background: color-mix(in oklab, var(--primary) 3%, var(--background));
+  background-image: radial-gradient(
+    circle,
+    color-mix(in oklab, var(--foreground) 4%, transparent) 0.04rem,
+    transparent 0.07rem
+  );
+  background-size: 1.25rem 1.25rem;
+  background-position: center;
+  color: var(--muted-foreground);
+  text-align: center;
+  overflow: hidden;
+}
+.showcase-loading-sketch {
+  position: relative;
+  flex: none;
+  width: 10rem;
+  border: 1px solid var(--showcase-loading-border);
+  border-radius: 0.625rem;
+  background: var(--showcase-loading-surface);
+  box-shadow: 0 6px 20px -12px rgb(0 0 0 / 16%);
+  transform: rotate(-2.5deg);
+}
+.showcase-loading-chrome {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem 0.625rem;
+  border-bottom: 1px solid var(--showcase-loading-border);
+}
+.showcase-loading-chrome .showcase-loading-activity {
+  margin-inline-end: auto;
+  width: 1rem;
+  height: 1rem;
+  color: var(--primary);
+}
+.showcase-loading-chrome-marks {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--primary);
+}
+.showcase-loading-chrome-marks i {
+  width: 0.1875rem;
+  height: 0.1875rem;
+  border-radius: 50%;
+  background: currentColor;
+}
+.showcase-loading-sheet {
+  display: grid;
+  gap: 0.5rem;
+  padding: 0.875rem;
+}
+.showcase-loading-sheet i {
+  display: block;
+  height: 0.25rem;
+  width: 74%;
+  border-radius: 0.125rem;
+  background: var(--showcase-loading-line);
+}
+.showcase-loading-sheet i:first-child {
+  width: 43%;
+  background: var(--showcase-loading-accent);
+}
+.showcase-loading-sheet i:nth-child(2) {
+  margin-inline-start: 0.625rem;
+  width: 65%;
+}
+.showcase-loading-sheet i:nth-child(3) {
+  margin-inline-start: 0.625rem;
+  width: 50%;
+}
+.showcase-loading-sheet i:last-child {
+  width: 30%;
+}
+.showcase-loading[data-view="preview"] .showcase-loading-sheet {
+  grid-template-columns: 1fr 2fr;
+}
+.showcase-loading[data-view="preview"] .showcase-loading-sheet i {
+  width: 100%;
+  height: 1rem;
+  margin: 0;
+}
+.showcase-loading[data-view="preview"] .showcase-loading-sheet i:first-child {
+  grid-row: span 2;
+  height: auto;
+}
+.showcase-loading:is([data-view="prompt"], [data-view="markdown"])
+  .showcase-loading-sheet
+  i:first-child {
+  height: 0.375rem;
+  width: 60%;
+}
+/* A miniature reading layout shares the preview motion instead of adding another animation loop. */
+.showcase-loading[data-view="markdown"] .showcase-loading-sheet i:nth-child(2) {
+  width: 84%;
+  margin-inline-start: 0;
+}
+.showcase-loading[data-view="markdown"] .showcase-loading-sheet i:nth-child(3),
+.showcase-loading[data-view="markdown"] .showcase-loading-sheet i:nth-child(4) {
+  position: relative;
+  margin-inline-start: 0.625rem;
+}
+.showcase-loading[data-view="markdown"]
+  .showcase-loading-sheet
+  :is(i:nth-child(3), i:nth-child(4))::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: -0.625rem;
+  width: 0.25rem;
+  height: 0.25rem;
+  border-radius: 50%;
+  background: var(--showcase-loading-accent);
+}
+.showcase-loading-companion {
+  position: absolute;
+  right: -0.875rem;
+  bottom: -0.75rem;
+  display: grid;
+  grid-template-columns: 1.125rem 1fr;
+  align-items: center;
+  gap: 0.25rem 0.375rem;
+  width: 3.5rem;
+  height: 2.75rem;
+  padding: 0.9375rem 0.375rem 0.375rem;
+  border: 1px solid var(--showcase-loading-border);
+  border-radius: 0.375rem;
+  background: var(--showcase-loading-surface);
+  box-shadow: 0 3px 8px -5px rgb(0 0 0 / 16%);
+  transform: rotate(6deg);
+}
+.showcase-loading-companion::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 0.4375rem;
+  border-bottom: 1px solid var(--showcase-loading-border);
+  border-radius: 0.375rem 0.375rem 0 0;
+  background: color-mix(in oklab, var(--foreground) 3%, transparent);
+}
+.showcase-loading-companion i {
+  height: 0.1875rem;
+  border-radius: 0.125rem;
+  background: var(--showcase-loading-line);
+}
+.showcase-loading-companion i:first-child {
+  grid-row: span 2;
+  height: 1.125rem;
+  background: var(--showcase-loading-accent);
+}
+.showcase-loading-companion i:last-child {
+  width: 65%;
+}
+.showcase-loading-copy {
+  min-width: 0;
+  width: min(100%, 24rem);
+}
+/* Scope typography above article prose rules, including loaders nested inside documentation. */
+.showcase-loading .showcase-loading-title {
+  display: inline-block;
+  font-size: 0.78125rem;
+  line-height: 1.5;
+  font-weight: 700;
+  color: var(--foreground);
+}
+.showcase-loading .showcase-loading-copy p {
+  margin: 0.25rem 0 0;
+  font-size: 0.6875rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--muted-foreground);
+}
+.showcase-loading .showcase-loading-copy .showcase-loading-path {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--font-mono-custom);
+}
+.showcase-preview-surface {
+  position: relative;
+  min-width: 0;
+}
+.showcase-preview-surface > .showcase-loading,
+.showcase-preview-surface > .showcase-preview-error {
+  position: absolute;
+  inset: 0;
+  min-height: 0;
+}
+.showcase-preview-surface[data-loading] > iframe {
+  opacity: 0;
+  pointer-events: none;
+}
+/* Nearby pending work can animate; offscreen and hidden-tab placeholders stay still. */
+.showcase-loading:not([data-loading-active]) *,
+.showcase-loading:not([data-loading-active]) *::before,
+.showcase-loading:not([data-loading-active]) *::after,
+.showcase-preview-surface[data-deferred] .showcase-loading *,
+.showcase-preview-surface[data-deferred] .showcase-loading *::after {
+  animation-play-state: paused !important;
+}
+/* Retained documents keep their input, without spending energy on unseen spinner/pulse loops. */
+[data-preview-paused] *,
+[data-preview-paused] *::before,
+[data-preview-paused] *::after {
+  animation-play-state: paused !important;
+}
+.showcase-preview-error {
+  display: grid;
+  place-content: center;
+  padding: 1rem;
+  background: var(--card);
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+  text-align: center;
+}
+.blocks-code-pane[data-loading] {
+  min-height: var(--source-code-min-height, 22rem);
+}
+.blocks-code-pane[data-loading] > .showcase-loading {
+  min-height: 0;
+}
+.blocks-code-pane[data-loading] > .docs-code-toolbar {
+  flex: none;
+}
+/* Keep the paired skeletons inside the existing 320px preview, without resizing it. */
+@media (max-width: 639px) {
+  .showcase-loading {
+    gap: 1rem;
+    padding: 0.875rem;
+  }
+  .showcase-loading-sketch {
+    width: 9rem;
+  }
+  .showcase-loading-sheet {
+    padding: 0.625rem;
+    gap: 0.375rem;
+  }
+  .showcase-loading[data-view="preview"] .showcase-loading-sheet i {
+    height: 0.875rem;
+  }
+  .showcase-loading[data-view="preview"] .showcase-loading-sheet i:first-child {
+    height: auto;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* A short preload, handoff and settle; the smaller card answers a little later. */
+  .showcase-loading-sketch {
+    transform-origin: 65% 75%;
+    animation: showcase-loading-snap var(--showcase-loading-cycle) ease-in-out infinite;
+  }
+  .showcase-loading-companion {
+    animation: showcase-loading-follow var(--showcase-loading-cycle) ease-in-out infinite;
+  }
+  .showcase-loading-chrome-marks i {
+    animation: showcase-loading-dot var(--showcase-loading-cycle) ease-in-out infinite;
+  }
+  .showcase-loading-chrome-marks i:nth-child(2) {
+    animation-delay: 120ms;
+  }
+  .showcase-loading-chrome-marks i:nth-child(3) {
+    animation-delay: 240ms;
+  }
+  /* A short catch-and-settle keeps pending feedback visible and leaves the reserved track intact. */
+  .blocks-showcase-tabs > [data-slot="tabs-content"][data-state="active"] {
+    animation: showcase-panel-settle 340ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .blocks-showcase-toolbar [data-slot="tabs-trigger"][data-state="active"] > svg {
+    transform-origin: center;
+    animation: showcase-tab-tick 340ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .blocks-code-pane pre,
+  .showcase-preview-surface:not([data-loading]) > iframe {
+    animation: showcase-content-arrive 160ms ease-out;
+  }
+}
+@keyframes showcase-loading-snap {
+  0%,
+  88%,
+  100% {
+    transform: translate(0, 0) rotate(-2.5deg) scale(1);
+  }
+  18% {
+    transform: translate(-1.5px, 0.75px) rotate(-3.5deg) scale(0.995);
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  38% {
+    transform: translate(4px, -3px) rotate(0deg) scale(1.005);
+    animation-timing-function: cubic-bezier(0.65, 0, 0.3, 1);
+  }
+  60% {
+    transform: translate(-1px, 0.5px) rotate(-3.2deg) scale(0.998);
+  }
+  76% {
+    transform: translate(0.4px, -0.25px) rotate(-2.2deg) scale(1.001);
+  }
+}
+@keyframes showcase-loading-follow {
+  0%,
+  92%,
+  100% {
+    transform: translate(0, 0) rotate(6deg);
+  }
+  24% {
+    transform: translate(-1.5px, 1px) rotate(2deg);
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  48% {
+    transform: translate(2.5px, -2px) rotate(9deg);
+    animation-timing-function: cubic-bezier(0.65, 0, 0.3, 1);
+  }
+  68% {
+    transform: translate(-0.75px, 0.5px) rotate(4deg);
+  }
+  82% {
+    transform: translate(0.25px, -0.25px) rotate(6.5deg);
+  }
+}
+/* Three small lifts lead the cards' movement, with a softer echo on the return. */
+@keyframes showcase-loading-dot {
+  0%,
+  12%,
+  46%,
+  84%,
+  100% {
+    transform: none;
+  }
+  26% {
+    transform: translateY(-2px) scale(1.18);
+  }
+  36% {
+    transform: translateY(0.5px) scale(0.96);
+  }
+  68% {
+    transform: translateY(-1px) scale(1.08);
+  }
+}
+@keyframes showcase-content-arrive {
+  from {
+    opacity: 0.55;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes showcase-panel-settle {
+  0% {
+    opacity: 0.92;
+    transform: translateY(6px);
+  }
+  42% {
+    opacity: 1;
+    transform: translateY(-1px);
+  }
+  68% {
+    transform: translateY(0.5px);
+  }
+  84%,
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes showcase-tab-tick {
+  0% {
+    transform: rotate(-28deg) scale(0.9);
+    color: inherit;
+  }
+  42% {
+    transform: rotate(7deg) scale(1.08);
+    color: var(--primary);
+  }
+  68% {
+    transform: rotate(-2deg) scale(0.99);
+  }
+  84%,
+  100% {
+    transform: none;
+    color: inherit;
+  }
+}

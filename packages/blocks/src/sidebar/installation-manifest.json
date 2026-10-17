@@ -781,6 +781,16 @@
       "kind": "support"
     },
     {
+      "path": "src/shared/branding/kamod-brand-sizes.ts",
+      "label": "branding/kamod-brand-sizes.ts",
+      "kind": "support"
+    },
+    {
+      "path": "src/shared/branding/kamod-icon.tsx",
+      "label": "branding/kamod-icon.tsx",
+      "kind": "support"
+    },
+    {
       "path": "src/sidebar/shared/dashboard-shell.tsx",
       "label": "components/dashboard-shell.tsx",
       "kind": "support"

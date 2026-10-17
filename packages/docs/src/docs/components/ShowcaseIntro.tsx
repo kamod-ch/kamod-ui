@@ -1,37 +1,40 @@
+import { CodeIcon, SparklesIcon } from "@kamod-ch/icons/lucide";
 import type { ComponentChildren } from "preact";
-import { ShowcaseGuideLinks } from "./ShowcaseGuideLinks";
+import { linkTitle } from "../../link-title";
+import { BrandText } from "./brand/BrandText";
 
-/** Shared Code/Prompt header; each showcase supplies its own copy and installation target. */
+/** Shared full-width introduction for source and prompt views. */
 export function ShowcaseIntro({
+  view,
   title,
   note,
-  setupHref,
-  guideLabel = "Example guides",
-  metadata,
   children,
 }: {
+  view: "code" | "prompt";
   title: string;
   note: string;
-  setupHref: string;
-  guideLabel?: string;
-  /** Optional compact context above the heading, such as a block's import path. */
-  metadata?: ComponentChildren;
   children: ComponentChildren;
 }) {
+  const Icon = view === "code" ? CodeIcon : SparklesIcon;
   return (
-    <div class="blocks-showcase-intro">
+    <div class="blocks-showcase-intro" data-view={view}>
       <div class="blocks-showcase-intro-copy">
-        {metadata}
         <div class="blocks-showcase-intro-title">
-          <h3>{title}</h3>
+          <h3>
+            <Icon class="blocks-showcase-intro-icon" aria-hidden="true" />
+            <span class="blocks-showcase-intro-label">{linkTitle(title)}</span>
+          </h3>
           <span class="blocks-showcase-intro-note">
-            <span aria-hidden="true">·</span>
+            <span class="blocks-showcase-intro-separator" aria-hidden="true">
+              ·
+            </span>
             {note}
           </span>
         </div>
-        <p>{children}</p>
+        <p>
+          <BrandText>{children}</BrandText>
+        </p>
       </div>
-      <ShowcaseGuideLinks setupHref={setupHref} label={guideLabel} />
     </div>
   );
 }

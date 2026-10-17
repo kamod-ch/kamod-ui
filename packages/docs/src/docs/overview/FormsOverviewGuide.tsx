@@ -1,70 +1,119 @@
 import { withBasePath } from "../../base-path";
 import { BlockHeadingLink } from "../../blocks/BlockHeadingLink";
+import { BrandText } from "../components/brand/BrandText";
+import { InlineCodeLink } from "../components/InlineCodeLink";
 import { LibraryGuideSection } from "../components/LibraryGuideSection";
 import { OverviewExamples } from "../components/OverviewExamples";
 import { PathDisplay } from "../components/PathDisplay";
+import { FormExampleReview } from "./FormExampleReview";
 import { FormOverviewPreview } from "./OverviewPreviews";
 import { formExamples } from "./overview-examples";
 
 const controls = [
-  [
-    "A short answer",
-    "Input",
-    "input",
-    "Choose the right type and autocomplete hint. Keep the label visible after the person starts typing.",
-  ],
-  [
-    "A longer answer",
-    "Textarea",
-    "textarea",
-    "Explain length requirements before submission and leave enough room to review what was written.",
-  ],
-  [
-    "One choice",
-    "Radio Group",
-    "radio-group",
-    "Show a short set of meaningful options together. For a longer list, consider Select or Native Select.",
-  ],
-  [
-    "Independent choices",
-    "Checkbox",
-    "checkbox",
-    "Use separate values for choices that can be combined. Explain whether at least one selection is required.",
-  ],
-  [
-    "An on/off preference",
-    "Switch",
-    "switch",
-    "Clarify whether the change applies immediately or needs Save. Do not silently mix both models in one form.",
-  ],
-  [
-    "Related fields",
-    "Field",
-    "field",
-    "Keep labels, descriptions and errors with the control. Use a fieldset and legend for a named group.",
-  ],
+  {
+    task: "A short answer",
+    name: "Input",
+    slug: "input",
+    hint: "Single-line value",
+    advice: (
+      <>
+        Choose the right <code>type</code> and <code>autoComplete</code> hint. Keep a{" "}
+        <strong>Visible Label</strong> after the person starts typing.
+      </>
+    ),
+  },
+  {
+    task: "A longer answer",
+    name: "Textarea",
+    slug: "textarea",
+    hint: "Multi-line text",
+    advice: (
+      <>
+        Explain <a href="#validation-messages">Length Requirements</a> before submission. Set
+        appropriate <code>rows</code> and leave room to review what was written.
+      </>
+    ),
+  },
+  {
+    task: "One choice",
+    name: "RadioGroup",
+    slug: "radio-group",
+    hint: "One value from a set",
+    advice: (
+      <>
+        Show a short set of meaningful options together. For a longer list, consider{" "}
+        <InlineCodeLink href="/docs/select/installation">Select</InlineCodeLink> or{" "}
+        <InlineCodeLink href="/docs/native-select/installation">NativeSelect</InlineCodeLink>.
+      </>
+    ),
+  },
+  {
+    task: "Independent choices",
+    name: "Checkbox",
+    slug: "checkbox",
+    hint: "Separate selections",
+    advice: (
+      <>
+        Use <strong>Separate Values</strong> for choices that can be combined. Explain whether at
+        least one selection is required and when <a href="#validation-timing">Validation Runs</a>.
+      </>
+    ),
+  },
+  {
+    task: "An on/off preference",
+    name: "Switch",
+    slug: "switch",
+    hint: "Boolean setting",
+    advice: (
+      <>
+        Clarify whether the change applies <strong>Immediately</strong> or needs Save. Keep the{" "}
+        <a href="#submission-lifecycle">Saving Behavior</a> consistent throughout the form.
+      </>
+    ),
+  },
+  {
+    task: "Related fields",
+    name: "Field",
+    slug: "field",
+    hint: "Label, help and error",
+    advice: (
+      <>
+        Keep labels, descriptions and errors with the control. Use a <code>fieldset</code> and{" "}
+        <code>legend</code> for a{" "}
+        <a href={withBasePath("/docs/field/installation#field-fieldset")}>Named Group</a>.
+      </>
+    ),
+  },
 ];
 
 /** Form-specific guidance stays separate from the shared reading layout and interactive examples. */
 export function FormsOverviewGuide() {
   return (
     <>
-      <LibraryGuideSection id="design-forms" title="Design the task before the fields">
+      <LibraryGuideSection id="design-forms" title="Design the Task before the Fields">
         <div class="block-guide-prose">
           <p>
-            <strong>Ask for the smallest set of information that completes the task.</strong> Give
-            the form a clear purpose and make the primary action describe the result. A short
-            profile update and a multi-step application have different needs; neither benefits from
-            collecting fields that the application will not use.
+            <strong>Ask for the Smallest Set of Information that Completes the Task.</strong> Give
+            the form a <strong>Clear Purpose</strong> and make its{" "}
+            <InlineCodeLink href="/docs/button/installation">Button</InlineCodeLink> describe the
+            result—“Save Profile” or “Send Request.” A short profile update and a multi-step
+            application have different needs; collect only the values the application will use.
+            Start with a <a href="#form-examples">Working Example</a>, then choose the controls
+            below.
           </p>
           <p>
-            Order fields the way people think about the information. Group related choices, explain
-            unfamiliar requirements before the input, and distinguish optional fields consistently.
-            Keep <strong>labels, instructions and errors</strong> close enough to read as one unit.
+            <strong>Group Related Choices in a Predictable Order.</strong> Keep{" "}
+            <a href="#form-structure">Labels and Instructions</a> close to their inputs, explain
+            unfamiliar requirements before entry, and mark optional fields consistently. Use{" "}
+            <code>required</code> when an answer is necessary, then plan{" "}
+            <a href="#validation-timing">When to Validate</a> and{" "}
+            <a href="#validation-messages">How to Explain Errors</a> before connecting submission.
+            The <a href="#form-submission">Submission and Recovery Guide</a> covers what happens
+            next.
           </p>
         </div>
         <div
-          class="block-guide-table"
+          class="block-guide-table form-control-reference"
           role="region"
           aria-label="Form control selection"
           tabIndex={0}
@@ -72,17 +121,31 @@ export function FormsOverviewGuide() {
           <table>
             <thead>
               <tr>
-                <th scope="col">The input</th>
-                <th scope="col">Start with</th>
-                <th scope="col">Design detail</th>
+                <th scope="col">
+                  <span class="form-control-wide-label">The Input</span>
+                  <span class="form-control-compact">Input &amp; Control</span>
+                </th>
+                <th scope="col" class="form-control-start">
+                  Start With
+                </th>
+                <th scope="col">Design Detail</th>
               </tr>
             </thead>
             <tbody>
-              {controls.map(([task, label, slug, advice]) => (
+              {controls.map(({ task, name, slug, hint, advice }) => (
                 <tr key={slug}>
-                  <th scope="row">{task}</th>
-                  <td>
-                    <a href={withBasePath(`/docs/${slug}/installation`)}>{label}</a>
+                  <th scope="row">
+                    {task}
+                    <span class="form-control-compact">
+                      <InlineCodeLink href={`/docs/${slug}/installation`} hint={hint}>
+                        {name}
+                      </InlineCodeLink>
+                    </span>
+                  </th>
+                  <td class="form-control-start">
+                    <InlineCodeLink href={`/docs/${slug}/installation`} hint={hint}>
+                      {name}
+                    </InlineCodeLink>
                   </td>
                   <td>{advice}</td>
                 </tr>
@@ -92,55 +155,83 @@ export function FormsOverviewGuide() {
         </div>
         <div class="block-guide-prose">
           <h3 id="form-structure">
-            <BlockHeadingLink id="form-structure">Keep the structure native</BlockHeadingLink>
+            <BlockHeadingLink id="form-structure">Keep the Structure Native</BlockHeadingLink>
           </h3>
           <p>
-            Start with <code>form</code>, a visible label, a named input and a submit button. The
-            browser already understands keyboard submission, required fields and many common input
-            types. Kamod’s <code>Input</code>, <code>Label</code> and <code>Button</code> let you
-            retain those semantics while using your app’s theme.
+            Start with a native{" "}
+            <InlineCodeLink href="#form-examples" title="See the native form example">
+              form
+            </InlineCodeLink>
+            , a <strong>Visible Label</strong>, a named input and a submit button. The browser
+            already understands keyboard submission, required fields and many common input types.
+            Kamod’s <InlineCodeLink href="/docs/input/installation">Input</InlineCodeLink>,{" "}
+            <InlineCodeLink href="/docs/label/installation">Label</InlineCodeLink> and{" "}
+            <InlineCodeLink href="/docs/button/installation">Button</InlineCodeLink> let you retain
+            those semantics while using your app’s theme.
           </p>
           <p>
-            Give every submitted control a <code>name</code>. Match <code>htmlFor</code> to a unique{" "}
-            <code>id</code>, connect helper text with <code>aria-describedby</code>, and use
-            explicit button types. A secondary action inside a form should usually be{" "}
-            <code>type="button"</code>; use <code>type="reset"</code> only when clearing the form is
-            intentional and understandable.
+            Give every submitted control a{" "}
+            <InlineCodeLink href="/docs/input/installation#api-reference">name</InlineCodeLink>.
+            Match{" "}
+            <InlineCodeLink href="/docs/label/installation#api-reference">htmlFor</InlineCodeLink>{" "}
+            to a unique <code>id</code>, connect helper text with{" "}
+            <InlineCodeLink href="/docs/input/installation#accessibility">
+              aria-describedby
+            </InlineCodeLink>
+            , and use <strong>Explicit Button Types</strong>. A secondary action inside a form
+            should usually be{" "}
+            <InlineCodeLink href="/docs/button/installation#api-reference">
+              {'type="button"'}
+            </InlineCodeLink>
+            ; use{" "}
+            <InlineCodeLink
+              href="#form-recovery"
+              title="Read about form recovery and reset behavior"
+            >
+              {'type="reset"'}
+            </InlineCodeLink>{" "}
+            only when clearing the form is intentional and understandable.
           </p>
           <p>
-            Prefer a single column on small screens. Two fields can share a row when their
-            relationship is clear, but the reading and keyboard order should remain predictable.
-            Long error messages must wrap without pushing controls beyond the screen edge.
+            Prefer a <strong>Single Column</strong> on small screens. Two fields can share a row
+            when their relationship is clear, but the reading and keyboard order should remain
+            predictable. Long error messages must wrap without pushing controls beyond the screen
+            edge. Use the <a href="#form-review">Form Review Checklist</a> to check keyboard order,
+            focus and narrow layouts.
           </p>
         </div>
       </LibraryGuideSection>
-      <LibraryGuideSection id="form-examples" title="Build from a small, working example">
+      <LibraryGuideSection id="form-examples" title="Build from a Small, Working Example">
         <div class="block-guide-prose">
           <p>
-            These examples assume your <code>Preact</code> app already has Kamod UI and its styles
-            configured. Start with the native version, introduce a schema when rules need to be
-            reused, then use{" "}
-            <strong>Formisch for coordinated values, validation and submission</strong>. The schema
-            and Formisch examples additionally require <code>valibot</code> and{" "}
-            <PathDisplay path={"@formisch/preact"} />; follow the{" "}
-            <a href={withBasePath("/docs/formisch/installation")}>Formisch installation guide</a>.
+            <BrandText>
+              These examples assume your <code>Preact</code> app already has Kamod UI and its styles
+              configured. Start with the native version, introduce a schema when rules need to be
+              reused, then use{" "}
+              <InlineCodeLink href="/docs/formisch/installation">Formisch</InlineCodeLink>{" "}
+              <strong>for Coordinated Values, Validation and Submission</strong>. The schema and
+              Formisch examples additionally require <code>valibot</code> and{" "}
+              <PathDisplay path={"@formisch/preact"} />; follow the{" "}
+              <a href={withBasePath("/docs/formisch/installation")}>Formisch Installation Guide</a>.
+            </BrandText>
           </p>
           <p>
             The preview is a safe place to try empty input, an invalid email and a successful check.{" "}
-            <strong>It does not save data or contact a service.</strong> Copy the source into your
+            <strong>It Does Not Save Data or Contact a Service.</strong> Copy the source into your
             own project and supply the application callback when you are ready to integrate it.
           </p>
         </div>
         <OverviewExamples
-          label="Form examples"
+          label="Form Examples"
           examples={formExamples}
           preview={(id) => (id === "native" ? <FormOverviewPreview /> : null)}
+          review={(example) => <FormExampleReview example={example} />}
         />
       </LibraryGuideSection>
-      <LibraryGuideSection id="form-validation" title="Make validation understandable">
+      <LibraryGuideSection id="form-validation" title="Make Validation Understandable">
         <div class="block-guide-prose">
           <h3 id="validation-timing">
-            <BlockHeadingLink id="validation-timing">Choose when feedback appears</BlockHeadingLink>
+            <BlockHeadingLink id="validation-timing">Choose When Feedback Appears</BlockHeadingLink>
           </h3>
           <p>
             For many forms, validating on submit avoids showing errors before someone has had a
@@ -156,11 +247,11 @@ export function FormsOverviewGuide() {
           </p>
           <h3 id="validation-messages">
             <BlockHeadingLink id="validation-messages">
-              Explain the fix, not just the failure
+              Explain the Fix, Not Just the Failure
             </BlockHeadingLink>
           </h3>
           <p>
-            <strong>“Enter a valid email address” is useful; “Invalid input” is not enough.</strong>
+            <strong>“Enter a valid email address” Is Useful; “Invalid input” Is Not Enough.</strong>
             Describe the requirement in plain language, retain what was entered and associate the
             message with its field. Pair an error color with text and <code>aria-invalid</code>;
             color alone does not explain what happened.
@@ -178,17 +269,17 @@ export function FormsOverviewGuide() {
           </p>
         </div>
       </LibraryGuideSection>
-      <LibraryGuideSection id="form-submission" title="Connect submission and recovery">
+      <LibraryGuideSection id="form-submission" title="Connect Submission and Recovery">
         <div class="block-guide-prose">
           <h3 id="submission-lifecycle">
             <BlockHeadingLink id="submission-lifecycle">
-              Separate editing, saving and saved state
+              Separate Editing, Saving and Saved State
             </BlockHeadingLink>
           </h3>
           <p>
             Keep the current field values separate from the last confirmed result. When saving
             starts, show a concise pending label and prevent duplicate submissions.{" "}
-            <strong>Await the actual operation</strong> before showing success. A resolved client
+            <strong>Await the Actual Operation</strong> before showing success. A resolved client
             handler does not mean the server accepted the change unless your integration checks the
             response.
           </p>
@@ -199,7 +290,7 @@ export function FormsOverviewGuide() {
             useful message.
           </p>
           <h3 id="form-recovery">
-            <BlockHeadingLink id="form-recovery">Keep a path back to progress</BlockHeadingLink>
+            <BlockHeadingLink id="form-recovery">Keep a Path Back to Progress</BlockHeadingLink>
           </h3>
           <p>
             On failure, keep useful input and make retry possible. On success, decide whether the
@@ -210,7 +301,7 @@ export function FormsOverviewGuide() {
             For dynamic fields, use stable keys and meaningful labels. A removed row should not make
             keyboard focus disappear. For custom Select, Checkbox or Switch controls, connect the
             documented value/change props to Formisch explicitly. Use the
-            <a href={withBasePath("/docs/formisch/usage")}> full integration examples</a> for field
+            <a href={withBasePath("/docs/formisch/usage")}> Full Integration Examples</a> for field
             arrays, reset behavior and supported control adapters.
           </p>
         </div>
@@ -221,16 +312,16 @@ export function FormsOverviewGuide() {
 
 export function FormsOverviewReview() {
   return (
-    <LibraryGuideSection id="form-review" title="Review every path through the form">
+    <LibraryGuideSection id="form-review" title="Review Every Path through the Form">
       <div class="block-guide-prose">
         <p>
-          Test the complete task with <strong>realistic input and service responses</strong>. A form
+          Test the complete task with <strong>Realistic Input and Service Responses</strong>. A form
           that looks correct with one valid value may still be difficult to use when data is
           missing, a request is slow or a label is translated.
         </p>
         <ul>
           <li>
-            <strong>Keyboard and labels.</strong> Tab through every control, submit with Enter where
+            <strong>Keyboard and Labels.</strong> Tab through every control, submit with Enter where
             appropriate, and verify focus after errors, reset and dynamic field changes. Check that
             every control has an accessible name.
           </li>
@@ -239,7 +330,7 @@ export function FormsOverviewReview() {
             values at each minimum or maximum. Verify that the server and client rules agree.
           </li>
           <li>
-            <strong>Request states.</strong> Simulate pending, success, validation failure, offline
+            <strong>Request States.</strong> Simulate pending, success, validation failure, offline
             behavior and retry. Confirm repeated clicks cannot trigger duplicate writes.
           </li>
           <li>
@@ -256,7 +347,7 @@ export function FormsOverviewReview() {
         <p>
           Keep a small regression test for the most important success and failure paths. If a
           pattern repeats, extract the field composition or submit adapter after its behavior is
-          clear. <strong>Reuse the interaction, not just the appearance.</strong>
+          clear. <strong>Reuse the Interaction, Not Just the Appearance.</strong>
         </p>
       </div>
     </LibraryGuideSection>

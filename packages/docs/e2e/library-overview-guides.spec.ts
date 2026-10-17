@@ -5,7 +5,7 @@ const pages = [
   {
     route: "forms",
     title: "Forms that guide people from input to completion",
-    catalog: "Form guides",
+    catalog: "Form Guides",
     count: 1,
     examples: "form-examples",
     review: "form-review",
@@ -31,12 +31,20 @@ for (const topic of pages) {
       await page.addInitScript((scheme) => localStorage.setItem("theme", scheme), theme);
       await page.goto(`./docs/${topic.route}`);
       await expect(page.getByRole("heading", { level: 1, name: topic.title })).toBeVisible();
-      await expect(
-        page.getByRole("navigation", { name: topic.catalog, exact: true }).getByRole("link"),
-      ).toHaveCount(topic.count);
+      if (topic.route === "forms") {
+        const integration = page.locator(".formisch-integration");
+        await expect(integration.getByRole("heading", { level: 3 })).toHaveCount(3);
+        await expect(
+          integration.getByRole("link", { name: "Open the Formisch Guide" }),
+        ).toHaveAttribute("href", /\/docs\/formisch\/installation$/);
+      } else {
+        await expect(
+          page.getByRole("navigation", { name: topic.catalog, exact: true }).locator(":scope > *"),
+        ).toHaveCount(topic.count);
+      }
       const toc = page.locator(".docs-rightbar .blocks-doc-toc");
       const targets = await toc
-        .locator("a")
+        .locator('a[href^="#"]')
         .evaluateAll((links) => links.map((link) => link.getAttribute("href")!));
       for (const target of targets) await expect(page.locator(target)).toHaveCount(1);
       await toc.locator(`a[href="#${topic.examples}"]`).click();
@@ -81,9 +89,8 @@ for (const topic of pages) {
         );
       }
       await page.setViewportSize({ width: 375, height: 812 });
-      const mobile = page.locator(".block-guide-mobile-contents");
-      await mobile.locator("summary").click();
-      await mobile.locator(`a[href="#${topic.review}"]`).click();
+      await expect(page.locator(".block-guide-mobile-contents")).toHaveCount(0);
+      await page.goto(`./docs/${topic.route}#${topic.review}`);
       await expect(page.locator(`#${topic.review}`)).toBeInViewport();
       await assertNoBlockingA11yViolations(page, `${topic.route} overview`, {
         include: "main.docs-content",
@@ -126,9 +133,17 @@ test("Forms and Packages retain their catalog and reading content without JavaSc
     for (const topic of pages) {
       await page.goto(new URL(`./docs/${topic.route}/`, baseURL).href);
       await expect(page.getByRole("heading", { level: 1, name: topic.title })).toBeVisible();
-      await expect(
-        page.getByRole("navigation", { name: topic.catalog, exact: true }).getByRole("link"),
-      ).toHaveCount(topic.count);
+      if (topic.route === "forms") {
+        const integration = page.locator(".formisch-integration");
+        await expect(integration.getByRole("heading", { level: 3 })).toHaveCount(3);
+        await expect(
+          integration.getByRole("link", { name: "Open the Formisch Guide" }),
+        ).toHaveAttribute("href", /\/docs\/formisch\/installation$/);
+      } else {
+        await expect(
+          page.getByRole("navigation", { name: topic.catalog, exact: true }).locator(":scope > *"),
+        ).toHaveCount(topic.count);
+      }
       await expect(page.locator(`#${topic.review}`)).toBeVisible();
     }
   } finally {

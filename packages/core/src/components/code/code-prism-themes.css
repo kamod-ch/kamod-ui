@@ -1,0 +1,166 @@
+/*!
+ * Scoped color adaptations of Prism 1.30 themes (MIT).
+ * Okaidia: ocodia, based on Monokai; Tomorrow: Rose Pritchard, based on
+ * Chris Kempson's Tomorrow Night Eighties; Twilight: Remy Bach;
+ * Solarized: Ethan Schoonover, Prism port by Hector Matos.
+ * https://github.com/PrismJS/prism/tree/v1.30.0/themes
+ * Low-contrast tokens are adjusted for small source text. Layout, fonts,
+ * shadows and plugin decorations remain owned by Code.
+ *
+ * Copyright (c) 2012 Lea Verou
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+.kamod-code:where([data-syntax-theme="okaidia"]) {
+  --kamod-code-source-surface: #272822;
+  --kamod-code-prism-foreground: #f8f8f2;
+  --kamod-code-comment: #8292a2;
+  --kamod-code-punctuation: #f8f8f2;
+  --kamod-code-property: #ff5a91;
+  --kamod-code-number: #ae81ff;
+  --kamod-code-string: #a6e22e;
+  --kamod-code-operator: #f8f8f2;
+  --kamod-code-keyword: #66d9ef;
+  --kamod-code-function: #e6db74;
+  --kamod-code-variable: #fd971f;
+}
+.kamod-code:where([data-syntax-theme="tomorrow"]) {
+  --kamod-code-source-surface: #2d2d2d;
+  --kamod-code-prism-foreground: #cccccc;
+  --kamod-code-comment: #999999;
+  --kamod-code-punctuation: #cccccc;
+  --kamod-code-property: #f8c555;
+  --kamod-code-number: #f08d49;
+  --kamod-code-string: #7ec699;
+  --kamod-code-operator: #67cdcc;
+  --kamod-code-keyword: #cc99cd;
+  --kamod-code-function: #f08d49;
+  --kamod-code-variable: #7ec699;
+}
+.kamod-code:where([data-syntax-theme="twilight"]) {
+  --kamod-code-source-surface: #141414;
+  --kamod-code-prism-foreground: #ffffff;
+  --kamod-code-comment: #858585;
+  --kamod-code-punctuation: #bfbfbf;
+  --kamod-code-property: #f9ee98;
+  --kamod-code-number: #cf6a4c;
+  --kamod-code-string: #8f9d6a;
+  --kamod-code-operator: #8f9d6a;
+  --kamod-code-keyword: #f9ee98;
+  --kamod-code-function: #ffffff;
+  --kamod-code-variable: #e9c062;
+}
+.kamod-code:where([data-syntax-theme="solarized-light"]) {
+  --kamod-code-source-surface: #fdf6e3;
+  --kamod-code-prism-foreground: #586e75;
+  --kamod-code-comment: #586e75;
+  --kamod-code-punctuation: #586e75;
+  --kamod-code-property: #1e6ca1;
+  --kamod-code-number: #1e6ca1;
+  --kamod-code-string: #20756f;
+  --kamod-code-operator: #586e75;
+  --kamod-code-keyword: #5d6c00;
+  --kamod-code-function: #846600;
+  --kamod-code-variable: #a33a10;
+}
+
+/* Preserve Prism's exceptional token groups inside this viewer's own source only. */
+.kamod-code:where([data-syntax-theme="okaidia"])
+  > :is(.docs-code, .kamod-code-content)
+  .token:is(.atrule, .attr-value) {
+  color: var(--kamod-code-function);
+}
+.kamod-code:where([data-syntax-theme="okaidia"])
+  > :is(.docs-code, .kamod-code-content)
+  .token.variable {
+  color: var(--kamod-code-operator);
+}
+.kamod-code:where([data-syntax-theme="tomorrow"])
+  > :is(.docs-code, .kamod-code-content)
+  .token:is(.tag, .attr-name, .namespace, .deleted) {
+  color: #e2777a;
+}
+.kamod-code:where([data-syntax-theme="tomorrow"])
+  > :is(.docs-code, .kamod-code-content)
+  .token:is(.class-name, .constant, .symbol) {
+  color: var(--kamod-code-property);
+}
+.kamod-code:where([data-syntax-theme="tomorrow"])
+  > :is(.docs-code, .kamod-code-content)
+  .token:is(.selector, .important, .builtin) {
+  color: var(--kamod-code-keyword);
+}
+.kamod-code:where([data-syntax-theme="tomorrow"])
+  > :is(.docs-code, .kamod-code-content)
+  .token.attr-value {
+  color: var(--kamod-code-string);
+}
+.kamod-code:where([data-syntax-theme="tomorrow"])
+  > :is(.docs-code, .kamod-code-content)
+  .token.function-name {
+  color: #7ca8d8;
+}
+.kamod-code:where([data-syntax-theme="twilight"])
+  > :is(.docs-code, .kamod-code-content)
+  .token:is(.tag, .deleted) {
+  color: var(--kamod-code-number);
+}
+.kamod-code:where([data-syntax-theme="twilight"])
+  > :is(.docs-code, .kamod-code-content)
+  .token:is(.selector, .constant, .symbol, .builtin) {
+  color: var(--kamod-code-keyword);
+}
+.kamod-code:where([data-syntax-theme="twilight"])
+  > :is(.docs-code, .kamod-code-content)
+  .token:is(.attr-value, .variable) {
+  color: var(--kamod-code-string);
+}
+.kamod-code:where([data-syntax-theme="twilight"])
+  > :is(.docs-code, .kamod-code-content)
+  .token.atrule {
+  color: #7587a6;
+}
+.kamod-code:where([data-syntax-theme="solarized-light"])
+  > :is(.docs-code, .kamod-code-content)
+  .token.url {
+  color: var(--kamod-code-string);
+}
+
+.kamod-code:where(
+    [data-syntax-theme="okaidia"],
+    [data-syntax-theme="tomorrow"],
+    [data-syntax-theme="twilight"],
+    [data-syntax-theme="solarized-light"]
+  )
+  .docs-import-keyword {
+  color: var(--foreground);
+}
+.kamod-code:where(
+    [data-syntax-theme="okaidia"],
+    [data-syntax-theme="tomorrow"],
+    [data-syntax-theme="twilight"]
+  )
+  > :is(.docs-code, .kamod-code-content)
+  ::selection {
+  background: #4b4b4b;
+  color: #ffffff;
+}
+.kamod-code:where([data-syntax-theme="solarized-light"])
+  > :is(.docs-code, .kamod-code-content)
+  ::selection {
+  background: #073642;
+  color: #fdf6e3;
+}

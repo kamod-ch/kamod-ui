@@ -1,5 +1,6 @@
 import { useLayoutEffect, useRef } from "preact/hooks";
 import { basePrefix } from "../../base-path";
+import { connectRightSidebarLinks } from "./right-sidebar-links";
 
 type ScrollArea = "column" | "contents" | "block-contents";
 type SidebarMemory = { page: string; offsets: Partial<Record<ScrollArea, number>> };
@@ -64,7 +65,8 @@ export function useRightSidebarScroll<T extends HTMLElement>(area: ScrollArea, e
     let restoring = true;
     let visible = node.clientHeight > 0;
     let restoreFrame = 0;
-    let saveFrame = 0;
+    let saveTimer: ReturnType<typeof setTimeout> | undefined;
+    let links: ReturnType<typeof connectRightSidebarLinks> | undefined;
 
     const persist = () => {
       // An outgoing component must never replace the new page's memory during teardown.
@@ -75,26 +77,33 @@ export function useRightSidebarScroll<T extends HTMLElement>(area: ScrollArea, e
       writeMemory(memory);
     };
     const restore = () => {
-      if (restoring && node.clientHeight) node.scrollTop = top;
+      if (!node.clientHeight) return;
+      if (restoring) node.scrollTop = top;
+      links?.revealDestination();
     };
     const resize = () => {
       const nowVisible = node.clientHeight > 0;
       if (nowVisible && !visible) restoring = true;
       visible = nowVisible;
       cancelAnimationFrame(restoreFrame);
-      if (restoring && nowVisible) restoreFrame = requestAnimationFrame(restore);
+      if (nowVisible) restoreFrame = requestAnimationFrame(restore);
     };
-    const interact = () => {
+    const stopRestoring = () => {
       restoring = false;
       cancelAnimationFrame(restoreFrame);
+    };
+    const interact = () => {
+      stopRestoring();
+      links?.stopInitialReveal();
     };
     const scroll = () => {
       if (restoring || !node.clientHeight) return;
       top = node.scrollTop;
-      cancelAnimationFrame(saveFrame);
-      saveFrame = requestAnimationFrame(persist);
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(persist, 150);
     };
     const flush = () => {
+      clearTimeout(saveTimer);
       if (!restoring && node.clientHeight) top = node.scrollTop;
       persist();
     };
@@ -106,6 +115,7 @@ export function useRightSidebarScroll<T extends HTMLElement>(area: ScrollArea, e
       top = currentMemory().offsets[area] ?? 0;
       restoring = true;
       restore();
+      links?.revealDestination(true);
       resize();
     };
     const observer = new ResizeObserver(resize);
@@ -117,13 +127,15 @@ export function useRightSidebarScroll<T extends HTMLElement>(area: ScrollArea, e
     node.addEventListener("scroll", scroll, { passive: true });
     window.addEventListener("pagehide", flush);
     window.addEventListener("pageshow", show);
+    links = area === "column" ? undefined : connectRightSidebarLinks(node, stopRestoring, top);
     restore();
     resize();
     return () => {
       flush();
+      links?.disconnect();
       observer.disconnect();
       cancelAnimationFrame(restoreFrame);
-      cancelAnimationFrame(saveFrame);
+      clearTimeout(saveTimer);
       for (const event of intentEvents) node.removeEventListener(event, interact);
       node.removeEventListener("scroll", scroll);
       window.removeEventListener("pagehide", flush);

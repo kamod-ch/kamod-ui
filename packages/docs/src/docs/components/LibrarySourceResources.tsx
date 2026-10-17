@@ -1,13 +1,15 @@
 import { ArrowUpRightIcon } from "@kamod-ch/icons/lucide";
 import { BrandGithubIcon } from "@kamod-ch/icons/tabler/filled";
 import { Button } from "@kamod-ch/ui";
+import { linkTitle } from "../../link-title";
+import { BrandText } from "./brand/BrandText";
 import { LibraryHeading } from "./LibraryHeading";
 import { PathDisplay } from "./PathDisplay";
 
 const repositories = [
   {
     name: "kamod-ui",
-    label: "Components & blocks",
+    label: "Components & Blocks",
     packageName: "@kamod-ch/ui",
     description: (
       <>
@@ -19,7 +21,7 @@ const repositories = [
   },
   {
     name: "kamod-icons",
-    label: "Icons & visual details",
+    label: "Icons & Visual Details",
     packageName: "@kamod-ch/icons",
     description: (
       <>
@@ -38,7 +40,7 @@ export function LibrarySourceResources() {
         Work with the source
       </LibraryHeading>
       <p>
-        <strong>A useful next step: read the piece you want to change.</strong> These two
+        <strong>A Useful Next Step: Read the Piece You Want to Change.</strong> These two
         repositories cover the components and visual details behind the library. Check the README
         and the version in your <code>package.json</code> when comparing an example with your
         installed API.
@@ -51,14 +53,14 @@ export function LibrarySourceResources() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <span class="library-source-label">{label}</span>
+              <span class="library-source-label">{linkTitle(label)}</span>
               <span class="library-source-name">
                 <BrandGithubIcon size={17} aria-hidden="true" />
                 <strong>{name}</strong>
                 <ArrowUpRightIcon size={14} aria-hidden="true" />
               </span>
               <span class="library-source-description">{description}</span>
-              <PathDisplay class="library-source-package" path={packageName} />
+              <PathDisplay class="library-source-package" path={packageName} link={false} />
               <span class="sr-only"> (opens in a new tab)</span>
             </a>
           </li>
@@ -66,8 +68,10 @@ export function LibrarySourceResources() {
       </ul>
       <div class="library-source-footer">
         <p>
-          <strong>Looking beyond the interface?</strong> Explore Kamod’s hooks, persisted signals
-          and documentation tooling on GitHub. Add what your project needs, one piece at a time.
+          <BrandText>
+            <strong>Looking Beyond the Interface?</strong> Explore Kamod’s hooks, persisted signals
+            and documentation tooling on GitHub. Add what your project needs, one piece at a time.
+          </BrandText>
         </p>
         <Button
           class="docs-icon-button"
@@ -78,7 +82,7 @@ export function LibrarySourceResources() {
           rel="noopener noreferrer"
         >
           <BrandGithubIcon size={15} aria-hidden="true" />
-          All repositories
+          All Repositories
           <ArrowUpRightIcon size={13} aria-hidden="true" />
           <span class="sr-only"> (opens in a new tab)</span>
         </Button>

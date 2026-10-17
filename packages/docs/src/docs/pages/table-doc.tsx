@@ -27,7 +27,7 @@ export const tableDocPage = createGenericDocPage({
     {
       id: "invoice-table",
       title: "Invoice Table",
-      text: "A modern invoice table with status, payment method, and right-aligned amounts.",
+      text: "**Make Values Easy to Compare Across Rows.** Structure invoice data with columns for status, payment method and amount. Right-align numeric amounts for comparison and keep their units consistent, allowing the table to function as a readable record list before adding interactive features.\n\nUse semantic headers and stable row keys, and keep currency or unit information explicit rather than assuming the column's meaning from its numeric appearance.",
       code: `import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/kamod-ui/table";
 
 export const Example = () => (
@@ -85,7 +85,7 @@ export const Example = () => (
     {
       id: "table-footer",
       title: "Table Footer",
-      text: "Use a footer row for totals and quick financial summaries.",
+      text: "**State What the Total Includes.** Use `TableFooter` for an aggregate that belongs to the displayed records, such as a total. Align it with the relevant column and explain which rows contribute when filtering or pagination changes the visible collection.\n\nDerive the total from the intended dataset, format it consistently with the column and avoid presenting a partial-page sum as a complete financial result.",
       code: `import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHeader, TableHead, TableRow } from "@/components/kamod-ui/table";
 
 export const Example = () => (
@@ -159,7 +159,7 @@ export const Example = () => (
     {
       id: "table-actions",
       title: "Table Actions",
-      text: "Add contextual row actions with a compact dropdown menu.",
+      text: "**Keep Row Commands Attached to the Correct Record.** Add a compact dropdown to each row when several operations apply to the same record. Give the trigger a meaningful name and keep the row identity available so users can tell which item the actions affect.\n\nUse stable record identifiers in handlers and separate destructive commands clearly; sorting should never change which record an already-bound action targets.",
       code: `import { Dropdown, DropdownContent, DropdownItem, DropdownLabel, DropdownSeparator, DropdownTrigger } from "@/components/kamod-ui/dropdown"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/kamod-ui/table";
 
@@ -210,7 +210,7 @@ export const Example = () => (
               <TableCell class="text-right">
                 <Dropdown>
                   <DropdownTrigger class="inline-flex h-7 items-center justify-center rounded-md border border-input bg-background px-2 text-xs font-medium hover:bg-muted">
-                    Open menu
+                    Open Menu
                   </DropdownTrigger>
                   <DropdownContent class="min-w-40">
                     <DropdownLabel>Actions</DropdownLabel>
@@ -228,7 +228,7 @@ export const Example = () => (
               <TableCell class="text-right">
                 <Dropdown>
                   <DropdownTrigger class="inline-flex h-7 items-center justify-center rounded-md border border-input bg-background px-2 text-xs font-medium hover:bg-muted">
-                    Open menu
+                    Open Menu
                   </DropdownTrigger>
                   <DropdownContent class="min-w-40">
                     <DropdownLabel>Actions</DropdownLabel>
@@ -246,7 +246,7 @@ export const Example = () => (
               <TableCell class="text-right">
                 <Dropdown>
                   <DropdownTrigger class="inline-flex h-7 items-center justify-center rounded-md border border-input bg-background px-2 text-xs font-medium hover:bg-muted">
-                    Open menu
+                    Open Menu
                   </DropdownTrigger>
                   <DropdownContent class="min-w-40">
                     <DropdownLabel>Actions</DropdownLabel>

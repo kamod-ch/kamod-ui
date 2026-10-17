@@ -1,7 +1,7 @@
 /**
  * Watson design tokens (Tailwind v4 @theme + preset)
  * Reference palette aligned with Terra Nova / uison-style tokens.
- * Font faces: ../theme-fonts.css (imported first in index.css)
+ * Font stacks retain system fallbacks; consumers own optional font loading.
  */
 
 @theme {
@@ -259,7 +259,8 @@
 }
 
 /* Demo preset: semantic tokens → Kamod UI variables */
-:root[data-theme="watson"] {
+:root[data-theme="watson"],
+[data-theme-scope][data-theme="watson"] {
   --font-sans:
     "Nunito Sans", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol", "Noto Color Emoji";

@@ -15,7 +15,7 @@ export const nativeSelectDocPage = createGenericDocPage({
     {
       id: "native-select-default",
       title: "Default",
-      text: "Pair with Label and `id` / `for` for a visible field name. Use `required` with an empty first option so the placeholder uses theme colors (`invalid:text-muted-foreground`) instead of faint browser styling for disabled options.",
+      text: "**Keep the Browser-Native Interaction Predictable.** Pair `NativeSelect` with a `Label` and matching identifiers, then use an empty first option with `required` when a choice is mandatory. The native browser control supplies the picker while the field explains its purpose.\n\nUse stable option values and a deliberate empty state, and ensure application validation agrees with the native `required` behavior rather than relying on placeholder styling alone.",
       code: `import { Label } from "@/components/kamod-ui/label";
 import { NativeSelect, NativeSelectOption } from "@/components/kamod-ui/native-select";
 
@@ -47,7 +47,7 @@ export const Example = () => (
     {
       id: "native-select-groups",
       title: "Groups",
-      text: "Use NativeSelectOptGroup to organize options into categories.",
+      text: "**Categorize Options without Changing Selection Semantics.** Use `NativeSelectOptGroup` to organize related options under shared labels within the browser's own picker. This helps distinguish categories without replacing native selection behavior with a custom popup implementation.\n\nKeep category names brief, avoid many tiny groups, and test the actual platform picker because native presentation varies by device.",
       code: `import { NativeSelect, NativeSelectOptGroup, NativeSelectOption } from "@/components/kamod-ui/native-select";
 
 export const Example = () => (
@@ -80,7 +80,7 @@ export const Example = () => (
     {
       id: "native-select-disabled",
       title: "Disabled",
-      text: "Disable the whole control or individual options.",
+      text: "**Distinguish an Unavailable Field from an Unavailable Choice.** Disable the entire native select when the choice is unavailable, or disable individual options that cannot currently be selected. Preserve meaningful labels so the remaining options and current value still make sense in context.\n\nExplain prerequisites outside the picker and check the current value when options become unavailable after a related field changes.",
       code: `import { NativeSelect, NativeSelectOption } from "@/components/kamod-ui/native-select";
 
 export const Example = () => (
@@ -123,7 +123,7 @@ export const Example = () => (
     {
       id: "native-select-invalid",
       title: "Invalid",
-      text: "Use `aria-invalid` with a visible error message for validation feedback.",
+      text: "**Pair Invalid State with a Correction.** Set `aria-invalid` on the select and show a nearby explanation when validation rejects the current choice. The browser-native interaction stays familiar while the application's message describes what the user needs to correct.\n\nKeep the label visible and update feedback after correction; a colored border alone is not enough to describe the problem.",
       code: `import { Label } from "@/components/kamod-ui/label"
 import { NativeSelect, NativeSelectOption } from "@/components/kamod-ui/native-select";
 
@@ -161,7 +161,7 @@ export const Example = () => (
     {
       id: "native-select-size",
       title: "Size",
-      text: "Use the `size` prop for compact or larger touch targets.",
+      text: "**Match the Select to Nearby Fields.** Use the component's `size` option to coordinate the select's visual height with adjacent fields and actions. Compare compact and larger treatments with realistic option labels before choosing a density for the form.\n\nCheck long option names and touch interaction, remembering that the browser controls the opened picker even when the closed field uses your theme's dimensions.",
       code: `import { NativeSelect, NativeSelectOption } from "@/components/kamod-ui/native-select";
 
 export const Example = () => (
@@ -206,7 +206,7 @@ export const Example = () => (
     {
       id: "native-select-vs-select",
       title: "Native Select vs Select",
-      text: "Choose NativeSelect for platform-native pickers and simple forms. Use the custom Select component when you need search, grouped virtualized lists, or rich option UI.",
+      text: "**Choose the Least Complex Control that Fits the Task.** Choose [Select](/docs/select/installation) or [Combobox](/docs/combobox/installation) when custom popup structure or search is needed. `NativeSelect` is a simpler starting point when platform-native option selection adequately expresses the task.\n\nTry the native version with the keyboard and on a phone before adding more layers. Preserve its label, default value and form submission behavior if you later migrate to a custom control; appearance alone is not a reason to duplicate working field state.",
       code: `// NativeSelect — mobile-friendly, zero JS overlay, full form semantics.
 import { NativeSelect, NativeSelectOption } from "@/components/kamod-ui/native-select";
 
@@ -214,7 +214,7 @@ import { NativeSelect, NativeSelectOption } from "@/components/kamod-ui/native-s
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/kamod-ui/select";`,
       renderPreview: () => (
         <div class="bg-muted/50 text-muted-foreground rounded-lg border p-4 text-sm leading-relaxed">
-          <p class="text-foreground mb-2 font-medium">When to use which</p>
+          <p class="text-foreground mb-2 font-medium">When to Use Which</p>
           <ul class="list-inside list-disc space-y-1">
             <li>
               <span class="text-foreground font-medium">NativeSelect</span> — straightforward
@@ -231,7 +231,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
     {
       id: "native-select-rtl",
       title: "RTL",
-      text: 'Set `dir="rtl"` on a wrapper; padding and chevron use logical properties so the control mirrors correctly.',
+      text: '**Check the Whole Pattern in Its Reading Direction.** Apply `dir="rtl"` to the surrounding field when its language requires it. Logical padding and chevron positioning mirror the native-select presentation while the browser continues to provide the actual picker interaction.\n\nKeep values and keyboard behavior meaningful in the translated interface, and follow [Direction](/docs/direction/installation) when the page and its portaled controls need a shared direction.',
       code: `import { NativeSelect, NativeSelectOption } from "@/components/kamod-ui/native-select";
 
 export const Example = () => (

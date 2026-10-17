@@ -23,8 +23,8 @@ import type {
 
 /** Sample workspace identity with a decorative Kamod logo and a demo home destination. */
 export const applicationShell1Brand: ApplicationShellBrand = {
-  name: "Acme Inc",
-  description: "Enterprise",
+  name: "Kamod UI",
+  description: "Component library",
   href: "#home",
   logo: <img src={kamodLogoUrl} alt="" width={24} height={24} class="size-6 object-contain" />,
 };

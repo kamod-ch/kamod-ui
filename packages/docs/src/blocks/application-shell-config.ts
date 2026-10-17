@@ -1,5 +1,5 @@
 /** Shared route and repository metadata for application-shell documentation. */
-import type { applicationShellBlocks } from "@kamod-ch/blocks/application-shell";
+import type { applicationShellBlockMetadata } from "../../../blocks/src/application-shell/metadata";
 import { withBasePath } from "../base-path";
 import { demoTopNavItems } from "../layout/DemoShell";
 
@@ -8,4 +8,4 @@ export const blocksOverviewHref =
   demoTopNavItems.find((item) => item.label === "Blocks")?.href ?? withBasePath("/blocks");
 export { repositoryUrl } from "./block-links";
 /** One registry entry, keeping page props aligned with the available block metadata. */
-export type ApplicationShellBlock = (typeof applicationShellBlocks)[number];
+export type ApplicationShellBlock = (typeof applicationShellBlockMetadata)[number];

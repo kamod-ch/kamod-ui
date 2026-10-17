@@ -15,7 +15,7 @@ export const GithubRepoLink = () => (
     href={REPO_URL}
     target="_blank"
     rel="noreferrer noopener"
-    aria-label="Kamod UI repository on GitHub"
+    aria-label="Kamod UI Repository on GitHub"
   >
     <svg
       class="docs-topbar-github-mark"

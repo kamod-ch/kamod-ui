@@ -1,0 +1,24 @@
+/* Documentation favors stable, immediately available glyphs across all palettes.
+   Keep this after theme CSS: neither navigation nor CSS replacement should select
+   a downloadable face. Consumers remain free to use the public preset stacks. */
+:root {
+  --docs-font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --docs-font-serif: ui-serif, Georgia, Cambria, "Times New Roman", serif;
+  --docs-font-mono:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+    monospace;
+}
+
+:root,
+:root[data-theme],
+[data-theme-scope][data-theme] {
+  --font-sans: var(--docs-font-sans);
+  --default-font-family: var(--docs-font-sans);
+  --font-primary: var(--docs-font-sans);
+  --font-display: var(--docs-font-sans);
+  --font-serif: var(--docs-font-serif);
+  --font-mono: var(--docs-font-mono);
+  --font-mono-custom: var(--docs-font-mono);
+  --font-NunitoSans: var(--docs-font-sans);
+  --font-Onest: var(--docs-font-sans);
+}

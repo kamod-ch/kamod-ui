@@ -46,7 +46,7 @@ export const localeSegmentGroupDocPage = createGenericDocPage({
     {
       id: "basic-locale-segment-group",
       title: "Basic DE / EN",
-      text: "Default options match a German / English app chrome switch. Wire `value` and `onValueChange` for a controlled component.",
+      text: "**Make the Active Language Explicit.** Use `LocaleSegmentGroup` for a compact choice between locale values, with German and English as the default options. Pass `value` and `onValueChange` when the application owns the selected language and its translation updates.\n\nDecide whether the preference persists across visits, and test longer translated labels elsewhere in the interface after switching between the available languages.",
       code: `import { LocaleSegmentGroup } from "@/components/kamod-ui/locale-segment-group";
 import { useState } from "preact/hooks";
 
@@ -58,8 +58,8 @@ export const Example = () => {
     },
     {
       id: "custom-options",
-      title: "Custom options",
-      text: "Pass `options` to use different locale codes or labels. The active segment still cannot be deselected by clicking it again.",
+      title: "Custom Options",
+      text: "**Use Labels Your Audience Recognizes.** Supply `options` to choose your own locale codes and visible labels. The active segment stays selected when clicked again, making the control represent one current locale rather than an independently toggleable set of languages.\n\nInclude a meaningful accessible name for the group, keep the active value valid when options change, and avoid using flags as the sole representation of language.",
       code: `import { LocaleSegmentGroup } from "@/components/kamod-ui/locale-segment-group";
 import { useState } from "preact/hooks";
 

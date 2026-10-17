@@ -1,5 +1,6 @@
 /** Shared two-column API table, with scroll containment and contextual requirement markers. */
 import type { ComponentChildren } from "preact";
+import { utilityName } from "../../link-title";
 import { RequiredIndicator } from "../RequiredIndicator";
 
 /** Rich cells keep source-specific links and explanations in the owning guide. */
@@ -31,7 +32,7 @@ export function BlockPropsTable({
       tabIndex={0}
     >
       <table>
-        <caption class="sr-only">{caption}</caption>
+        <caption class="sr-only">{utilityName(caption)}</caption>
         <thead>
           <tr>
             <th scope="col">Prop / type</th>

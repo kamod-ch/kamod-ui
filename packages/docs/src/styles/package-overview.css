@@ -16,8 +16,14 @@
 .package-directory-row + .package-directory-row {
   border-top: 1px solid var(--border);
 }
-.package-directory-row:hover {
-  background: color-mix(in oklab, var(--primary) 4%, transparent);
+@media (hover: hover) and (pointer: fine) {
+  .package-directory-row:hover {
+    background: color-mix(
+      in oklab,
+      var(--primary) calc(4% + 3.84% * var(--docs-highlight-boost, 0)),
+      transparent
+    );
+  }
 }
 .package-directory-row:focus-visible {
   outline: 2px solid var(--ring);
@@ -35,9 +41,6 @@
   font-size: 1rem;
   font-weight: 600;
 }
-.docs-packages-overview .package-directory-identity code {
-  font-size: 0.6875rem;
-}
 .package-directory-summary {
   font-size: 0.8125rem;
   line-height: 1.7;
@@ -49,8 +52,10 @@
 .package-directory-row > svg {
   color: var(--muted-foreground);
 }
-.package-directory-row:hover > svg {
-  color: var(--primary);
+@media (hover: hover) and (pointer: fine) {
+  .package-directory-row:hover > svg {
+    color: var(--primary);
+  }
 }
 .package-decision-list {
   margin: 1.25rem 0 1.5rem;

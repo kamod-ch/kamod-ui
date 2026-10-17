@@ -157,7 +157,7 @@ export const CostBreakdown = ({
         {weeks.length === 0 || grandTotal === 0 ? (
           <Empty>
             <EmptyHeader>
-              <EmptyTitle>No spend to chart</EmptyTitle>
+              <EmptyTitle>No Spend to Chart</EmptyTitle>
               <EmptyDescription>
                 Empty, negative, or inconsistent series collapse to zero and show this empty state.
               </EmptyDescription>
@@ -327,7 +327,7 @@ const SharePie = ({
       {arcs.length === 0 ? (
         <Empty>
           <EmptyHeader>
-            <EmptyTitle>No positive slices</EmptyTitle>
+            <EmptyTitle>No Positive Slices</EmptyTitle>
             <EmptyDescription>Negative or empty categories are omitted.</EmptyDescription>
           </EmptyHeader>
         </Empty>

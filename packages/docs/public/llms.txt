@@ -84,6 +84,7 @@ Kamod UI is not aimed at:
 - [Carousel](https://ui.kamod.ch/docs/carousel)
 - [Chart](https://ui.kamod.ch/docs/chart)
 - [Checkbox](https://ui.kamod.ch/docs/checkbox)
+- [Code](https://ui.kamod.ch/docs/code): Syntax highlighting, exact-source copying, import folding and readable wrapping.
 - [Collapsible](https://ui.kamod.ch/docs/collapsible)
 - [Combobox](https://ui.kamod.ch/docs/combobox)
 - [Command](https://ui.kamod.ch/docs/command)

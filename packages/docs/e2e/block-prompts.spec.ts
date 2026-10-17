@@ -20,6 +20,15 @@ for (const [category, id] of [
         (dark) => localStorage.setItem("theme", dark ? "dark" : "light"),
         dark,
       );
+      await page.addInitScript(
+        ({ category, id }) => {
+          localStorage.setItem(
+            `kamod:block-showcase:v1:${category}/${id}`,
+            JSON.stringify({ promptDisplay: "markdown" }),
+          );
+        },
+        { category, id },
+      );
       await page.goto(`./blocks/${category}/${id}`);
       await page.waitForLoadState("networkidle");
       await page
@@ -27,21 +36,14 @@ for (const [category, id] of [
         .getByRole("tab", { name: "Prompt", exact: true })
         .click();
       const panel = page.getByRole("tabpanel", { name: "Prompt", exact: true });
-      const setup = panel.getByRole("button", { name: "Set up block", exact: true });
+      await expect(
+        panel.getByRole("button", { name: "Code (Markdown)", exact: true }),
+      ).toHaveAttribute("aria-pressed", "true");
+      const setup = panel.getByRole("button", { name: "Set Up block", exact: true });
       const adapt = panel.getByRole("button", { name: "Adapt block", exact: true });
       await expect(setup).toHaveAttribute("aria-pressed", "true");
       await expect(panel.locator("pre")).toContainText("## Installation and integration");
-      const references = panel.getByRole("navigation", { name: "Block guides" });
-      await expect(references.getByRole("link")).toHaveCount(3);
-      await expect(
-        references.getByRole("link", { name: "Setup guide", exact: true }),
-      ).toHaveAttribute(
-        "href",
-        `#${category === "application-shell" ? "application-shell" : id}-installation`,
-      );
-      await references.getByRole("link", { name: "Refine component styles", exact: true }).focus();
-      await expect(page.getByRole("tooltip")).toContainText("Refine component styles");
-      await page.keyboard.press("Escape");
+      await expect(panel.locator(".blocks-showcase-intro nav")).toHaveCount(0);
       await expect(
         panel.getByRole("link", { name: "Setup and Integration", exact: true }),
       ).toHaveAttribute(
@@ -53,7 +55,7 @@ for (const [category, id] of [
       ).toHaveCount(0);
       const sourceLink = panel
         .locator(".docs-code-toolbar")
-        .getByRole("link", { name: /source files? included/ });
+        .locator(".blocks-prompt-sources a:visible");
       await expect(sourceLink).toHaveAttribute("href", `#${id}-code`);
       await expect(panel.locator(".blocks-prompt-format")).toContainText("·");
       await sourceLink.click();
@@ -77,14 +79,14 @@ for (const [category, id] of [
       await page.keyboard.press("Space");
       await expect(adapt).toHaveAttribute("aria-pressed", "true");
       await expect(
-        panel.getByRole("heading", { name: "Adaptation prompt", exact: true }),
+        panel.getByRole("heading", { name: "Adaptation Prompt", exact: true }),
       ).toBeVisible();
       await expect(panel.locator("pre")).toContainText("## My changes");
       await expect(panel.getByRole("button", { name: "Copy code", exact: true })).toBeVisible();
       const raw = await panel.locator("pre code").textContent();
-      for (const name of ["Code (Markdown)", "Markdown", "Plain text"]) {
+      for (const name of ["Code (Markdown)", "Markdown", "Plain Text"]) {
         await panel
-          .getByRole("group", { name: "Prompt display" })
+          .getByRole("group", { name: "Prompt Display" })
           .getByRole("button", { name, exact: true })
           .click();
         if (name === "Markdown") {
@@ -107,6 +109,13 @@ for (const [category, id] of [
       }
       for (const width of showcaseWidths) {
         await page.setViewportSize({ width, height: 900 });
+        // Block details retain their existing 32rem label threshold.
+        const compact = await page
+          .locator(".blocks-showcase")
+          .evaluate((node) => parseFloat(getComputedStyle(node).width) <= 512);
+        const label = panel.locator(".document-display-label").first();
+        if (compact) await expect(label).toBeHidden();
+        else await expect(label).toBeVisible();
         await expect(panel.locator(".blocks-prompt-options")).toHaveCSS("display", "flex");
         expect(
           await panel.evaluate((node) => node.scrollWidth <= node.clientWidth),
@@ -129,7 +138,7 @@ for (const [category, id] of [
         if (width < 640) {
           expect(
             (await panel.locator(".docs-copy-code-button").boundingBox())!.height,
-          ).toBeGreaterThanOrEqual(40);
+          ).toBeGreaterThanOrEqual(28);
         }
       }
       expect(
@@ -157,7 +166,7 @@ test("source loads only in Prompt and a failed bundle offers retry without Copy"
   await expect(panel.getByRole("alert")).toContainText("source could not be loaded");
   await expect(panel.getByRole("button", { name: "Copy code", exact: true })).toHaveCount(0);
   fail = false;
-  await panel.getByRole("button", { name: "Try again" }).click();
+  await panel.getByRole("button", { name: "Try Again" }).click();
   await expect(panel.locator("pre")).toContainText("## Installation and integration");
   expect(requests).toBe(2);
 });

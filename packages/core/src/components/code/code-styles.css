@@ -1,0 +1,3 @@
+/* Standalone reader styles for applications using a separate semantic theme foundation. */
+@import "../copy-button/copy-button.css";
+@import "./code.css";

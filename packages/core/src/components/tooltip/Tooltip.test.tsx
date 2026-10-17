@@ -1,10 +1,12 @@
 import { act, cleanup, fireEvent, render, screen } from "@testing-library/preact";
+import { options } from "preact";
 import { useState } from "preact/hooks";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./index";
 
 afterEach(() => {
   cleanup();
   vi.useRealTimers();
+  vi.restoreAllMocks();
 });
 
 const DelayedTooltip = ({ controlled }: { controlled: boolean }) => {
@@ -153,4 +155,111 @@ describe("Tooltip", () => {
     await advance(200);
     expect(onOpenChange).not.toHaveBeenCalled();
   });
+});
+
+describe("tooltip viewport positioning", () => {
+  it("does not rerender for repeated identical resize measurements", () => {
+    let measure: ResizeObserverCallback | undefined;
+    vi.spyOn(globalThis, "ResizeObserver").mockImplementation(
+      class {
+        constructor(callback: ResizeObserverCallback) {
+          measure = callback;
+        }
+        observe() {}
+        unobserve() {}
+        disconnect() {}
+      },
+    );
+    vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockReturnValue(
+      new DOMRect(200, 200, 100, 40),
+    );
+    render(
+      <Tooltip defaultOpen>
+        <TooltipContent side="bottom">Stable source help</TooltipContent>
+      </Tooltip>,
+    );
+    const previous = options.diffed;
+    let renders = 0;
+    options.diffed = (vnode) => {
+      previous?.(vnode);
+      if (vnode.type === TooltipContent) renders++;
+    };
+    try {
+      for (let index = 0; index < 5; index++) act(() => measure?.([], {} as ResizeObserver));
+      expect(renders).toBe(0);
+    } finally {
+      options.diffed = previous;
+    }
+  });
+
+  it("remeasures lazy content only while open and disconnects its resize observer", () => {
+    let measure: ResizeObserverCallback | undefined;
+    const disconnect = vi.fn();
+    vi.spyOn(globalThis, "ResizeObserver").mockImplementation(
+      class {
+        constructor(callback: ResizeObserverCallback) {
+          measure = callback;
+        }
+        observe() {}
+        unobserve() {}
+        disconnect = disconnect;
+      },
+    );
+    vi.spyOn(window, "innerWidth", "get").mockReturnValue(1024);
+    let width = 200;
+    vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockImplementation(function (
+      this: HTMLElement,
+    ) {
+      return this.dataset.slot === "tooltip"
+        ? new DOMRect(950, 200, 32, 32)
+        : new DOMRect(0, 0, width, 100);
+    });
+    const view = render(
+      <Tooltip defaultOpen>
+        <TooltipContent side="bottom" align="start">
+          Lazy source help
+        </TooltipContent>
+      </Tooltip>,
+    );
+    expect(screen.getByRole("tooltip").style.left).toBe("-134px");
+    width = 360;
+    act(() => measure?.([], {} as ResizeObserver));
+    expect(screen.getByRole("tooltip").style.left).toBe("-294px");
+    view.unmount();
+    expect(disconnect).toHaveBeenCalled();
+  });
+
+  it.each([
+    { side: "bottom", x: 950, y: 200, left: -134, top: null, arrow: 150 },
+    { side: "bottom", x: 4, y: 200, left: 4, top: null, arrow: 12 },
+    { side: "bottom", x: 400, y: 200, left: -84, top: null, arrow: 100 },
+    { side: "right", x: 200, y: 740, left: null, top: -80, arrow: 88 },
+    { side: "right", x: 200, y: 4, left: null, top: 4, arrow: 12 },
+  ] as const)(
+    "keeps the arrow on its trigger at $x,$y ($side)",
+    ({ side, x, y, left, top, arrow }) => {
+      vi.spyOn(window, "innerWidth", "get").mockReturnValue(1024);
+      vi.spyOn(window, "innerHeight", "get").mockReturnValue(768);
+      vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockImplementation(function (
+        this: HTMLElement,
+      ) {
+        return this.dataset.slot === "tooltip"
+          ? new DOMRect(x, y, 32, 32)
+          : new DOMRect(0, 0, 200, 100);
+      });
+      render(
+        <Tooltip defaultOpen>
+          <TooltipTrigger>Source</TooltipTrigger>
+          <TooltipContent side={side}>View source on GitHub</TooltipContent>
+        </Tooltip>,
+      );
+      const tooltip = screen.getByRole("tooltip");
+      if (left !== null) expect(tooltip.style.left).toBe(`${left}px`);
+      if (top !== null) expect(tooltip.style.top).toBe(`${top}px`);
+      expect(
+        tooltip.style.getPropertyValue(left !== null ? "--tooltip-arrow-x" : "--tooltip-arrow-y"),
+      ).toBe(`${arrow}px`);
+      expect(tooltip.style.transform).toBe("none");
+    },
+  );
 });

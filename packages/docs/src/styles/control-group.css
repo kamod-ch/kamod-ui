@@ -1,0 +1,201 @@
+/* Resolve colors at each control boundary so a locally themed preview keeps its own palette. */
+:is(
+  .blocks-showcase-segmented,
+  .blocks-preview-viewport-switcher,
+  .component-example-links,
+  [data-slot="tabs-list"][data-variant="default"],
+  [data-slot="toggle-group-item"],
+  [data-slot="toggle"],
+  [data-slot="locale-segment-group"]
+) {
+  --docs-control-group-dark-weight: calc(100% * var(--docs-highlight-boost, 0));
+  /* Resolve missing neutral channels before a zero-weight light endpoint can supply its hue. */
+  --docs-control-group-ink: color-mix(in oklab, var(--foreground), black 0%);
+  --docs-control-group-paper: color-mix(in oklab, var(--background), black 0%);
+  --docs-control-group-dark-rest: color-mix(
+    in oklab,
+    var(--docs-control-group-ink) 28%,
+    var(--docs-control-group-paper)
+  );
+  --docs-control-group-dark-hover: color-mix(
+    in oklab,
+    var(--docs-control-group-ink) 36%,
+    var(--docs-control-group-paper)
+  );
+  --docs-control-group-dark-selected: color-mix(
+    in oklab,
+    var(--docs-control-group-ink) 8%,
+    var(--docs-control-group-paper)
+  );
+  --docs-control-group-dark-selected-hover: color-mix(
+    in oklab,
+    var(--docs-control-group-ink) 16%,
+    var(--docs-control-group-paper)
+  );
+  --docs-control-group-foreground: color-mix(
+    in oklab,
+    var(--foreground) calc(25% * var(--docs-highlight-boost, 0)),
+    var(--muted-foreground)
+  );
+}
+
+/* Rounded groups keep transparent idle items on one brighter track. */
+:is(.blocks-showcase-segmented, .blocks-preview-viewport-switcher, .component-example-links) {
+  --showcase-control-surface: color-mix(
+    in oklab,
+    var(--foreground) calc(5.5% + 22.5% * var(--docs-highlight-boost, 0)),
+    var(--background)
+  );
+  --showcase-control-hover-tint: color-mix(
+    in oklab,
+    var(--docs-control-group-dark-hover) var(--docs-control-group-dark-weight),
+    color-mix(in oklab, var(--foreground) var(--docs-icon-button-hover-step), transparent)
+  );
+  --docs-icon-button-foreground: var(--docs-control-group-foreground);
+}
+:is(.blocks-showcase-segmented, .blocks-preview-viewport-switcher) {
+  --docs-icon-button-selected-background: color-mix(
+    in oklab,
+    var(--docs-control-group-dark-selected) var(--docs-control-group-dark-weight),
+    var(--background)
+  );
+  --tabs-selected-background: var(--docs-icon-button-selected-background);
+  --tabs-hover-background: var(--showcase-control-hover-tint);
+  --docs-icon-button-selected-hover-background: color-mix(
+    in oklab,
+    var(--docs-control-group-dark-selected-hover) var(--docs-control-group-dark-weight),
+    color-mix(in oklab, var(--foreground) 2%, var(--background))
+  );
+}
+
+/* Native rounded tabs follow the same dark states; line/inset tabs retain their own design. */
+[data-slot="tabs-list"][data-variant="default"]:where(:not(.blocks-showcase-segmented)) {
+  --tabs-selected-background: color-mix(
+    in oklab,
+    var(--docs-control-group-dark-selected) var(--docs-control-group-dark-weight),
+    color-mix(in oklab, var(--foreground) var(--tabs-selected-strength), transparent)
+  );
+  --tabs-hover-background: color-mix(
+    in oklab,
+    var(--docs-control-group-dark-hover) var(--docs-control-group-dark-weight),
+    color-mix(in oklab, var(--foreground) var(--tabs-hover-strength), transparent)
+  );
+  --tabs-selected-hover-background: color-mix(
+    in oklab,
+    var(--docs-control-group-dark-selected-hover) var(--docs-control-group-dark-weight),
+    color-mix(
+      in oklab,
+      var(--foreground) calc(var(--tabs-selected-strength) + var(--tabs-hover-strength)),
+      transparent
+    )
+  );
+  background: color-mix(
+    in oklab,
+    var(--docs-control-group-dark-rest) var(--docs-control-group-dark-weight),
+    color-mix(in oklab, var(--muted) 80%, transparent)
+  );
+}
+[data-slot="tabs-list"][data-variant="default"]:where(:not(.blocks-showcase-segmented))
+  > [data-slot="tabs-trigger"]:where([data-state="inactive"]) {
+  color: var(--docs-control-group-foreground);
+}
+/* Core tab hover also runs with a mouse on a narrow window; retain the site's mobile rest states. */
+@media (max-width: 767px) and (hover: hover) and (pointer: fine) {
+  [data-slot="tabs-list"][data-variant="default"] {
+    --tabs-hover-background: transparent;
+    --tabs-selected-hover-background: var(--tabs-selected-background);
+  }
+  [data-slot="tabs-list"][data-variant="default"]
+    > [data-slot="tabs-trigger"][data-state="inactive"]:hover {
+    color: var(--docs-control-group-foreground);
+  }
+}
+
+/* Bare toggle examples keep their light variant fills and share dark control-group contrast. */
+:where(
+  [data-slot="toggle-group-item"],
+  [data-slot="toggle"],
+  [data-slot="locale-segment-group"] > button
+):not(.docs-icon-button) {
+  --docs-native-toggle-rest: transparent;
+  --docs-native-toggle-hover: var(--muted);
+  --docs-native-toggle-hover-foreground: var(--muted-foreground);
+  --docs-native-toggle-selected: var(--accent);
+  --docs-native-toggle-selected-foreground: var(--accent-foreground);
+  --docs-icon-button-selected-hover-background: color-mix(
+    in oklab,
+    var(--docs-control-group-dark-selected-hover) var(--docs-control-group-dark-weight),
+    color-mix(in oklab, var(--foreground) 8%, transparent)
+  );
+  background-color: color-mix(
+    in oklab,
+    var(--docs-control-group-dark-rest) var(--docs-control-group-dark-weight),
+    var(--docs-native-toggle-rest)
+  );
+}
+[data-slot="toggle-group-item"][data-variant="pill"]:not(.docs-icon-button) {
+  --docs-native-toggle-rest: color-mix(in oklab, var(--muted) 60%, transparent);
+}
+[data-slot="toggle"][data-variant="outline"] {
+  --docs-native-toggle-hover: var(--accent);
+  --docs-native-toggle-hover-foreground: var(--accent-foreground);
+}
+[data-slot="toggle-group-item"]:not(.docs-icon-button) {
+  --docs-native-toggle-hover: color-mix(in oklab, var(--foreground) 8%, transparent);
+  --docs-native-toggle-hover-foreground: var(--foreground);
+}
+[data-slot="locale-segment-group"] > button {
+  --docs-native-toggle-rest: #f7f4ee;
+  --docs-native-toggle-hover: rgb(0 0 0 / 5%);
+  --docs-native-toggle-hover-foreground: black;
+  --docs-native-toggle-selected: black;
+  --docs-native-toggle-selected-foreground: white;
+  color: color-mix(
+    in oklab,
+    var(--docs-control-group-foreground) var(--docs-control-group-dark-weight),
+    rgb(0 0 0 / 60%)
+  );
+}
+:is(
+    [data-slot="toggle-group-item"],
+    [data-slot="toggle"],
+    [data-slot="locale-segment-group"] > button
+  )[data-state="on"]:not(.docs-icon-button) {
+  background-color: color-mix(
+    in oklab,
+    var(--docs-control-group-dark-selected) var(--docs-control-group-dark-weight),
+    var(--docs-native-toggle-selected)
+  );
+  color: color-mix(
+    in oklab,
+    var(--docs-control-group-ink) var(--docs-control-group-dark-weight),
+    var(--docs-native-toggle-selected-foreground)
+  );
+}
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  :is(
+      [data-slot="toggle-group-item"],
+      [data-slot="toggle"],
+      [data-slot="locale-segment-group"] > button
+    )[data-state="off"]:not(.docs-icon-button):hover:not(:disabled, [aria-disabled="true"]) {
+    background-color: color-mix(
+      in oklab,
+      var(--docs-control-group-dark-hover) var(--docs-control-group-dark-weight),
+      var(--docs-native-toggle-hover)
+    );
+    color: color-mix(
+      in oklab,
+      var(--docs-control-group-ink) var(--docs-control-group-dark-weight),
+      var(--docs-native-toggle-hover-foreground)
+    );
+  }
+  :is([data-slot="toggle"], [data-slot="locale-segment-group"] > button)[data-state="on"]:not(
+      .docs-icon-button
+    ):hover:not(:disabled, [aria-disabled="true"]) {
+    background-color: color-mix(
+      in oklab,
+      var(--docs-control-group-dark-selected-hover) var(--docs-control-group-dark-weight),
+      var(--docs-native-toggle-selected)
+    );
+  }
+}

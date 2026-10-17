@@ -1,0 +1,73 @@
+/* One cue for authored, detected, legacy-nested and glossary inline code. */
+:is(
+  .docs-inline-source-reference > code,
+  code.docs-inline-source-reference,
+  code:has(> a.docs-inline-source-reference),
+  code[data-inline-code-help]
+) {
+  --code-reference-dash: var(--primary, currentColor);
+  --inline-reference-cue: color-mix(in oklab, var(--code-reference-dash) 55%, transparent);
+  --inline-reference-font-weight: 500;
+  position: relative;
+  top: 0;
+  text-decoration: none !important;
+  transition: none;
+
+  &:not(.docs-code-name) {
+    font-weight: var(--inline-reference-font-weight) !important;
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 1;
+    border-bottom: 1.5px dashed var(--inline-reference-cue);
+    pointer-events: none;
+    transition: border-color 180ms ease;
+  }
+
+  &::after {
+    content: none !important;
+  }
+}
+
+/* Keep short glossary chips together when they meet the end of a line. */
+code[data-inline-code-help]:not(.path-display) {
+  display: inline-block;
+  width: fit-content;
+  max-width: 100%;
+}
+
+:is(
+  .docs-inline-source-reference:focus-visible > code,
+  code.docs-inline-source-reference:focus-visible,
+  code:has(> a.docs-inline-source-reference:focus-visible),
+  code[data-inline-code-help]:focus-visible
+) {
+  --inline-reference-cue: var(--code-reference-dash);
+}
+@media (hover: hover) and (pointer: fine) {
+  :is(
+    .docs-inline-source-reference:hover > code,
+    code.docs-inline-source-reference:hover,
+    code:has(> a.docs-inline-source-reference:hover),
+    code[data-inline-code-help]:hover
+  ) {
+    --inline-reference-cue: var(--code-reference-dash);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :is(
+    .docs-inline-source-reference > code,
+    code.docs-inline-source-reference,
+    code:has(> a.docs-inline-source-reference),
+    code[data-inline-code-help]
+  ) {
+    transition: none;
+    &::before {
+      transition: none;
+    }
+  }
+}

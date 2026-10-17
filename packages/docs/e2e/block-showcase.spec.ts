@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { assertNoBlockingA11yViolations } from "./a11y-utils";
-import { enableTestClipboard } from "./browser-utils";
+import { choosePreviewTheme, enableTestClipboard } from "./browser-utils";
 import { showcaseWidths } from "./showcase-viewports";
 
 for (const category of ["application-shell", "sidebar", "login", "signup"]) {
@@ -82,13 +82,13 @@ for (const scheme of ["light", "dark"] as const) {
     const input = frame.getByRole("textbox", { name: "Name", exact: true });
     await input.fill("Ada Example");
     const initialDocument = await frame.locator("html").evaluate(() => performance.timeOrigin);
-    const theme = showcase.getByRole("combobox", { name: "Preview color theme" });
+    const theme = showcase.getByRole("button", { name: "Preview color theme" });
     const dark = showcase.getByRole("button", { name: "Dark preview", exact: true });
     await expect(dark).toHaveAttribute("aria-pressed", String(scheme === "dark"));
     await dark.click();
     const previewScheme = scheme === "light" ? "dark" : "light";
     for (const preset of ["ocean", "sunset", "shadcn", "kamod"]) {
-      await theme.selectOption(preset);
+      await choosePreviewTheme(theme, preset);
       await expect(frame.locator("html")).toHaveAttribute("data-theme", preset);
       await expect
         .poll(() => frame.locator("html").evaluate((node) => node.classList.contains("dark")))
@@ -118,7 +118,7 @@ for (const scheme of ["light", "dark"] as const) {
       await expect.poll(() => frame.locator("html").evaluate(() => innerWidth)).toBe(expected - 2);
       await expect(input).toHaveValue("Ada Example");
     }
-    await showcase.getByRole("button", { name: "Desktop view" }).click();
+    await showcase.getByRole("button", { name: "Desktop View" }).click();
     const newTab = page.waitForEvent("popup");
     await showcase.getByRole("link", { name: "Open preview in a new tab" }).click();
     const popup = await newTab;
@@ -155,7 +155,7 @@ test("keyboard tabs expose a copyable prompt and preserve source deep links", as
   await expect(prompt).toContainText("Installation and integration");
   await prompt.getByRole("button", { name: "Adapt block", exact: true }).click();
   await expect(prompt).toContainText("My changes");
-  const setup = prompt.getByRole("link", { name: "Setup guide", exact: true });
+  const setup = prompt.getByRole("link", { name: "Setup Guide", exact: true }).first();
   await expect(setup).toHaveAttribute("href", "#sidebar-05-installation");
   await expect(page.locator("#sidebar-05-installation")).toHaveCount(1);
   await prompt.getByRole("button", { name: "Copy code" }).click();
@@ -166,7 +166,7 @@ test("keyboard tabs expose a copyable prompt and preserve source deep links", as
   expect(await prompt.locator("pre").evaluate((node) => node.scrollWidth <= node.clientWidth)).toBe(
     true,
   );
-  await prompt.getByRole("link", { name: "Source files" }).click();
+  await prompt.getByRole("link", { name: "Included Source Files" }).click();
   await expect(showcase.getByRole("tab", { name: "Code", exact: true })).toHaveAttribute(
     "aria-selected",
     "true",

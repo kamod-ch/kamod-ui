@@ -1,5 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { PLACEHOLDER_BLOCK_CATEGORIES } from "../src/blocks/block-nav-config";
+import { docsNavigation } from "../src/docs/generated-navigation";
+import { linkTitle } from "../src/link-title";
 import { assertNoBlockingA11yViolations } from "./a11y-utils";
 import { forwardTabKey } from "./browser-utils";
 
@@ -17,50 +19,45 @@ const routes = [
   "blocks/signup/signup-01",
 ];
 
-test("sidebar project links stay reachable while the directory scrolls", async ({
-  page,
-  browserName,
-}) => {
-  await page.setViewportSize({ width: 980, height: 480 });
+test("ecosystem entry stays pinned while the directory scrolls", async ({ page, browserName }) => {
+  await page.setViewportSize({ width: 940, height: 480 });
   await page.goto("./docs/components");
   const sidebar = page.locator("aside.docs-sidebar");
-  const resources = sidebar.getByRole("group", { name: "Contribute to Kamod UI" });
-  const initial = await resources.boundingBox();
-  const lastGroup = sidebar.getByRole("button", { name: /^Packages Documentation/ });
+  const resources = sidebar.getByRole("navigation", { name: "Kamod Ecosystem", exact: true });
+  const initial = (await resources.boundingBox())!;
+  const lastGroup = sidebar.getByRole("button", { name: /^Packages Tools & Integrations/ });
   await lastGroup.focus();
   await expect(lastGroup).toBeInViewport();
   expect(
     await sidebar.locator(".docs-sidebar-scroll").evaluate((node) => node.scrollTop),
   ).toBeGreaterThan(0);
-  expect((await resources.boundingBox())!.y).toBeCloseTo(initial!.y, 0);
+  expect((await resources.boundingBox())!.y).toBeCloseTo(initial.y, 0);
+  const link = resources.getByRole("link", { name: /Kamod Ecosystem/ });
+  await expect(link).toHaveAttribute("href", /\/docs\/ecosystem$/);
+  await expect(link).not.toHaveAttribute("aria-expanded");
+  await page.keyboard.press("Escape");
   await page.keyboard.press(forwardTabKey(browserName));
-  const repository = resources.getByRole("link", { name: /^Kamod UI on GitHub/ });
-  await expect(repository).toBeFocused();
-  await expect(repository).toHaveAttribute("href", "https://github.com/kamod-ch/kamod-ui");
-  await expect(resources.getByRole("link", { name: /^Report a bug/ })).toHaveAttribute(
-    "href",
-    "https://github.com/kamod-ch/kamod-ui/issues/new/choose",
-  );
-  await expect(
-    resources.getByRole("link", { name: /^Read the contribution guide/ }),
-  ).toHaveAttribute("href", "https://github.com/kamod-ch/kamod-ui/blob/main/CONTRIBUTING.md");
-  for (const link of await resources.getByRole("link").all()) {
-    await expect(link).toBeInViewport();
-    await expect(link).toHaveAttribute("target", "_blank");
-    await expect(link).toHaveAttribute("rel", "noopener noreferrer");
-  }
-  await assertNoBlockingA11yViolations(page, "Sidebar project links", {
+  await expect(link).toBeFocused();
+  const title = (await link.locator("strong").boundingBox())!;
+  const action = (await link.locator(".sidebar-entry-action").boundingBox())!;
+  expect(Math.abs(title.y + title.height / 2 - action.y - action.height / 2)).toBeLessThan(1);
+  await assertNoBlockingA11yViolations(page, "Pinned ecosystem link", {
     include: "aside.docs-sidebar",
   });
-  await page.setViewportSize({ width: 390, height: 844 });
-  await expect(resources).toBeHidden();
+  await link.focus();
+  await page.keyboard.press("Enter");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("The Kamod Ecosystem");
+  await expect(sidebar.locator('[data-navigation-help="ecosystem"]')).toHaveAttribute(
+    "aria-current",
+    "page",
+  );
 });
 
 test("desktop sidebars share the mobile directory and current destination", async ({ page }) => {
   for (const [route, group, label] of [
-    ["blocks", "Blocks", "Blocks overview"],
+    ["blocks", "Blocks", "Blocks Overview"],
     ["blocks/sidebar", "Blocks", "Sidebar"],
-    ["docs/components", "Components", "Components overview"],
+    ["docs/components", "Components", "Components Overview"],
     ["docs/button/usage", "Components", "Button"],
   ]) {
     await page.setViewportSize({ width: 1440, height: 900 });
@@ -70,10 +67,12 @@ test("desktop sidebars share the mobile directory and current destination", asyn
       "aria-expanded",
       "true",
     );
-    const selected = desktop.getByRole("link", { name: label, exact: true });
+    const selected = desktop.getByRole("link", { name: linkTitle(label), exact: true });
     await expect(selected).toHaveAttribute("aria-current", "page");
+    // Desktop and mobile remember expansion independently; compare the current group.
+    const groupLinks = `.site-navigation-group:has([data-navigation-group="${group.toLowerCase()}"]) a`;
     const links = await desktop
-      .locator("a")
+      .locator(groupLinks)
       .evaluateAll((items) => items.map((a) => a.getAttribute("href")));
     const desktopStyle = await selected.evaluate((a) => {
       const style = getComputedStyle(a);
@@ -85,10 +84,18 @@ test("desktop sidebars share the mobile directory and current destination", asyn
     await page.getByRole("button", { name: "Open navigation menu" }).click();
     const mobile = page.locator(".site-navigation-panel .site-navigation-directory");
     expect(
-      await mobile.locator("a").evaluateAll((items) => items.map((a) => a.getAttribute("href"))),
+      await mobile
+        .locator(groupLinks)
+        .evaluateAll((items) => items.map((a) => a.getAttribute("href"))),
     ).toEqual(links);
-    const mobileSelected = mobile.getByRole("link", { name: label, exact: true });
+    const mobileSelected = mobile.getByRole("link", { name: linkTitle(label), exact: true });
     await expect(mobileSelected).toHaveAttribute("aria-current", "page");
+    for (const directory of [desktop, mobile]) {
+      const introductions = directory.locator(".site-navigation-link-overview");
+      await expect(
+        introductions.locator(".site-navigation-status, .site-navigation-variant-count"),
+      ).toHaveCount(0);
+    }
     if (group === "Blocks") {
       for (const directory of [desktop, mobile]) {
         const planned = directory.locator("a[data-block-placeholder]");
@@ -96,19 +103,25 @@ test("desktop sidebars share the mobile directory and current destination", asyn
         await expect(planned.locator(".site-navigation-status")).toHaveText(
           PLACEHOLDER_BLOCK_CATEGORIES.map(() => "Planned"),
         );
-        await expect(planned.locator(".site-navigation-status-dot")).toHaveCount(
+        await expect(planned.locator(".site-navigation-status > svg")).toHaveCount(
           PLACEHOLDER_BLOCK_CATEGORIES.length,
         );
-        for (const [name, count] of [
-          ["Sidebar", 16],
-          ["Application Shell", 1],
-          ["Login", 5],
-          ["Signup", 5],
+        for (const [name, status] of [
+          ["Sidebar", "Updated"],
+          ["Application Shell", "Fresh"],
+          ["Login", ""],
+          ["Signup", ""],
         ] as const) {
           const link = directory.getByRole("link", { name, exact: true, includeHidden: true });
+          // Registry counts are checked in navigation-data.test; verify their accessible wording here.
+          const count = Number(await link.locator(".site-navigation-variant-count").textContent());
+          expect(count).toBeGreaterThan(0);
+          if (status) await expect(link.locator(".site-navigation-status")).toHaveText(status);
+          else await expect(link.locator(".site-navigation-status")).toHaveCount(0);
+          await expect(link.locator(".site-navigation-status > svg")).toHaveCount(status ? 1 : 0);
           await expect(link.locator(".site-navigation-variant-count")).toHaveText(String(count));
           await expect(link).toHaveAccessibleDescription(
-            `${count} ${count === 1 ? "variant" : "variants"}`,
+            `${count} ${count === 1 ? "variant" : "variants"}${status ? ` · ${status}` : ""}${status === "Fresh" ? " — newly added to the library" : ""}`,
           );
         }
       }
@@ -124,11 +137,31 @@ test("desktop sidebars share the mobile directory and current destination", asyn
     if (group === "Components") {
       for (const directory of [desktop, mobile]) {
         // The desktop directory is hidden at this point; inspect its DOM by route.
-        const updated = directory.locator('a[href$="/docs/spinner/installation"]');
+        const updated = directory.locator('a[href$="/docs/alert/installation"]');
         await expect(updated.locator(".site-navigation-status")).toHaveText("Updated");
-        await expect(updated.locator(".site-navigation-status-dot")).toHaveCount(1);
-        await expect(updated).toHaveAccessibleDescription("Updated");
-        if (directory === mobile) await expect(updated).toHaveAccessibleName("Spinner");
+        await expect(updated.locator(".site-navigation-status > svg")).toHaveCount(1);
+        const alert = docsNavigation.find((doc) => doc.slug === "alert")!;
+        await expect(updated).toHaveAccessibleDescription(
+          `${alert.variantCount} variants · Updated`,
+        );
+        if (directory === mobile) await expect(updated).toHaveAccessibleName("Alert");
+        // Existing upstream statuses survive audits of this contributor's changes.
+        for (const slug of [
+          "popover",
+          "tooltip",
+          "toggle",
+          "toggle-group",
+          "tree",
+          "typography",
+          "textarea",
+          "spinner",
+          "switch",
+          "tabs",
+        ]) {
+          await expect(
+            directory.locator(`a[href$="/docs/${slug}/installation"] .site-navigation-status`),
+          ).toHaveText("Updated");
+        }
         await expect(
           directory
             .getByRole("link", {
@@ -138,6 +171,18 @@ test("desktop sidebars share the mobile directory and current destination", asyn
             })
             .locator(".site-navigation-status"),
         ).toHaveCount(0);
+        const added = directory.locator('a[href$="/docs/code/installation"]');
+        await expect(added.locator(".site-navigation-status")).toHaveText("Fresh");
+        await expect(added.locator(".site-navigation-status > svg")).toHaveCount(1);
+        if (directory === mobile) {
+          await expect(added).toHaveAccessibleName("Code");
+          await added.focus();
+          const code = docsNavigation.find((doc) => doc.slug === "code")!;
+          // Tooltips may temporarily remove title; status remains available while focused.
+          await expect(added).toHaveAccessibleDescription(
+            `${code.variantCount} variants · Fresh — newly added to the library`,
+          );
+        }
       }
     }
     expect(
@@ -161,8 +206,12 @@ for (const route of routes) {
     await trigger.click();
     const panel = page.getByRole("dialog", { name: "Explore Kamod", exact: true });
     await expect(panel).toBeVisible();
-    await expect(panel.getByRole("button", { name: /Components Documentation/ })).toBeVisible();
-    await expect(panel.getByRole("link", { name: "Home", exact: true })).toBeVisible();
+    await expect(
+      panel.getByRole("button", { name: /Components UI Building Blocks/ }),
+    ).toBeVisible();
+    const gettingStarted = panel.getByRole("link", { name: "Getting Started Guide", exact: true });
+    await expect(gettingStarted).toBeVisible();
+    await expect(gettingStarted).toHaveAttribute("href", /\/docs\/getting-started$/);
     await page.keyboard.press("Escape");
     await expect(panel).toBeHidden();
     await expect(trigger).toBeFocused();
@@ -181,7 +230,7 @@ for (const scheme of ["light", "dark"] as const) {
       [639, 800],
       [640, 800],
       [768, 1024],
-      [979, 800],
+      [939, 800],
       [740, 320],
       [740, 360],
     ]) {
@@ -200,16 +249,12 @@ for (const scheme of ["light", "dark"] as const) {
       expect(await panel.evaluate((element) => element.scrollWidth <= element.clientWidth)).toBe(
         true,
       );
-      await expect(panel.locator(".site-navigation-project")).toBeInViewport();
+      await expect(panel.locator(".site-navigation-footer")).toBeVisible();
       await expect(panel.getByRole("link", { name: "Sidebar", exact: true })).toHaveAttribute(
         "aria-current",
         "location",
       );
       await expect(panel.getByRole("button", { name: /Toggle .* variants/ })).toHaveCount(0);
-      const footer = panel.locator(".site-navigation-footer");
-      for (const control of await footer.locator("a, button").all()) {
-        await expect(control).toBeInViewport();
-      }
       expect((await panel.locator(".site-navigation-body").boundingBox())!.height).toBeGreaterThan(
         120,
       );
@@ -234,16 +279,58 @@ test("collection navigation, keyboard focus and theme picker", async ({ page, br
   await page.keyboard.press("Enter");
   const panel = page.getByRole("dialog", { name: "Explore Kamod", exact: true });
   await expect(panel.getByRole("searchbox")).toHaveCount(0);
-  await panel.getByRole("button", { name: /Blocks Layout collections/ }).click();
+  await expect(
+    panel.locator(".site-navigation-brand").getByRole("img", { name: "Kamod UI" }),
+  ).toBeVisible();
+  await expect(
+    panel.locator(".navigation-header").getByRole("heading", { name: "Getting Started" }),
+  ).toBeVisible();
+  await expect(panel.locator(".navigation-header")).toContainText("· Guide");
+  await expect(panel.locator(".navigation-header a")).toHaveAttribute(
+    "href",
+    /\/docs\/getting-started$/,
+  );
+  await expect(panel.locator(".site-navigation-head a")).toHaveCount(0);
+  await expect(panel.locator(".site-navigation-group").first()).toHaveAttribute(
+    "data-kind",
+    "components",
+  );
+  await expect(panel.locator(".site-navigation-group")).toHaveCount(4);
+  const brand = (await panel.locator(".site-navigation-brand .kamod-ui-logo").boundingBox())!;
+  const heading = (await panel.getByRole("heading", { name: "Explore Kamod" }).boundingBox())!;
+  expect(heading.x - brand.x - brand.width).toBeGreaterThanOrEqual(12);
+  expect(Math.abs(heading.y + heading.height / 2 - brand.y - brand.height / 2)).toBeLessThan(1);
+  await expect(panel.locator(".site-navigation-head [data-slot=dialog-description]")).toHaveCount(
+    0,
+  );
+  await expect(panel.locator(".site-navigation-footer-actions a")).toHaveCount(2);
+  await expect(
+    panel.locator(".site-navigation-footer").getByRole("button", { name: "Choose color mode" }),
+  ).toBeVisible();
+  await expect(
+    panel.locator(".site-navigation-footer").getByRole("button", { name: "Choose color theme" }),
+  ).toBeVisible();
+  await expect(panel.getByRole("button", { name: "Close navigation menu" })).toHaveCSS(
+    "width",
+    "28px",
+  );
+  await panel.getByRole("button", { name: /Blocks Application Layouts/ }).click();
   await expect(panel.getByRole("button", { name: /Toggle .* variants/ })).toHaveCount(0);
   await expect(panel.getByRole("link", { name: "Sidebar", exact: true })).toBeVisible();
   await assertNoBlockingA11yViolations(page, "Collection navigation", {
     include: ".site-navigation-panel",
   });
-  const last = panel.locator(".site-navigation-footer-actions .docs-topbar-github");
-  await last.focus();
+  const ecosystem = panel.getByRole("link", { name: /Kamod Ecosystem/ });
+  await expect(ecosystem).toHaveAttribute("href", /\/docs\/ecosystem$/);
+  await expect(ecosystem).not.toHaveAttribute("aria-expanded");
+  await page.keyboard.press("Shift");
+  await ecosystem.focus();
+  const ecosystemHelp = page.getByRole("dialog", { name: "Kamod Ecosystem explained" });
+  await expect(ecosystemHelp).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(ecosystemHelp).toBeHidden();
   await page.keyboard.press(forwardTabKey(browserName));
-  await expect(panel.getByRole("button", { name: "Close navigation menu" })).toBeFocused();
+  await expect(panel.getByRole("button", { name: "Choose color mode" })).toBeFocused();
   await panel.getByRole("link", { name: "Sidebar", exact: true }).click();
   await expect(page).toHaveURL(/\/blocks\/sidebar\/?$/);
   await expect(panel).toBeHidden();
@@ -256,7 +343,7 @@ test("collection navigation, keyboard focus and theme picker", async ({ page, br
     .getByRole("button", { name: "Choose color theme" })
     .filter({ visible: true });
   await palette.click();
-  const themes = page.getByRole("group", { name: "Site color theme" });
+  const themes = page.getByRole("group", { name: "Choose color theme" });
   const professional = themes.getByRole("button", {
     name: "Professional (Electronics)",
     exact: true,
@@ -271,15 +358,16 @@ test("navbar controls share one row and theme menus fit short screens", async ({
     [320, 568],
     [390, 844],
     [740, 360],
-    [979, 800],
-    [980, 800],
-    [1260, 900],
+    [939, 800],
+    [940, 800],
+    [1200, 900],
     [1440, 900],
     [1920, 1080],
   ]) {
     await page.setViewportSize({ width, height });
     await page.goto("./docs/components");
     const topbar = page.locator(".docs-topbar");
+    await expect(topbar).toHaveCSS("height", "58px");
     await expect(topbar.getByRole("combobox")).toHaveCount(0);
     const controls = topbar.locator(".site-icon-button:visible");
     await expect(controls).toHaveCount(3);
@@ -291,14 +379,14 @@ test("navbar controls share one row and theme menus fit short screens", async ({
     );
     expect(boxes).toHaveLength(3);
     for (const [index, box] of boxes.entries()) {
-      if (width >= 980 && index === 0) expect(box.width).toBeGreaterThan(36);
-      else expect(box.width).toBe(width < 980 ? 40 : 36);
-      expect(box.height).toBe(width < 980 ? 40 : 36);
+      if (width >= 940 && index === 0) expect(box.width).toBeGreaterThan(35);
+      else expect(box.width).toBe(width < 940 ? 39 : 35);
+      expect(box.height).toBe(width < 940 ? 39 : 35);
       expect(box.y).toBeCloseTo(boxes[0].y, 0);
     }
-    if (width < 980) await expect(topbar.locator(".docs-topbar-github")).toBeHidden();
+    if (width < 940) await expect(topbar.locator(".docs-topbar-github")).toBeHidden();
     else await expect(topbar.locator(".docs-topbar-github")).toBeVisible();
-    if (width < 980) {
+    if (width < 940) {
       await expect(controls.last()).toHaveAttribute("aria-label", "Choose color theme");
     }
     await page
@@ -311,7 +399,7 @@ test("navbar controls share one row and theme menus fit short screens", async ({
     expect(bounds.y).toBeGreaterThanOrEqual(0);
     expect(bounds.y + bounds.height).toBeLessThanOrEqual(height);
     await picker.getByRole("button", { name: "Professional (Electronics)", exact: true }).click();
-    if (width >= 980) {
+    if (width >= 940) {
       await expect(topbar.getByRole("button", { name: "Choose color theme" })).toContainText(
         "Professional (Electronics)",
       );
@@ -322,7 +410,7 @@ test("navbar controls share one row and theme menus fit short screens", async ({
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
       true,
     );
-    if (width >= 980) {
+    if (width >= 940) {
       await page.goto("./blocks/application-shell/application-shell-1");
       const navbar = page.locator(".docs-topbar-inner");
       const layout = page.locator(".docs-layout");
@@ -353,7 +441,7 @@ test("backdrop dismissal and desktop resize release the navigation and scroll lo
   await expect(page.getByRole("dialog", { name: "Explore Kamod", exact: true })).toBeHidden();
   await expect(trigger).toBeFocused();
   await trigger.click();
-  await page.setViewportSize({ width: 980, height: 900 });
+  await page.setViewportSize({ width: 940, height: 900 });
   await expect(trigger).toBeHidden();
   await expect(page.getByRole("dialog", { name: "Explore Kamod", exact: true })).toBeHidden();
   await expect(page.locator("html")).not.toHaveAttribute("data-kamod-scroll-lock", "");
@@ -362,10 +450,50 @@ test("backdrop dismissal and desktop resize release the navigation and scroll lo
   ).toBeVisible();
 });
 
+test("mobile reuses the desktop inventory and keeps compact footer tools accessible", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("./docs/getting-started");
+  await expect(page.locator("html")).toHaveClass(/pp-ready/);
+  const desktop = await page
+    .locator(".docs-sidebar .site-navigation-directory a")
+    .evaluateAll((links) =>
+      links.map((link) => ({ href: link.getAttribute("href"), label: link.textContent?.trim() })),
+    );
+  await page.setViewportSize({ width: 320, height: 568 });
+  await page.getByRole("button", { name: "Open navigation menu", exact: true }).click();
+  const sidebar = page.getByRole("dialog", { name: "Explore Kamod", exact: true });
+  const mobile = await sidebar
+    .locator(".site-navigation-directory a")
+    .evaluateAll((links) =>
+      links.map((link) => ({ href: link.getAttribute("href"), label: link.textContent?.trim() })),
+    );
+  expect(mobile).toEqual(desktop);
+  const footer = sidebar.locator(".site-navigation-footer");
+  expect((await footer.boundingBox())!.height).toBeLessThanOrEqual(54);
+  await expect(footer.getByRole("button", { name: "Choose color theme" })).not.toHaveText(/\S/);
+  await footer.getByRole("button", { name: "Choose color mode" }).click();
+  const modes = page.locator(".site-color-mode-menu");
+  await modes.getByRole("menuitemradio", { name: "Dark", exact: true }).click();
+  await expect(page.locator("html")).toHaveClass(/dark/);
+  await page.keyboard.press("Escape");
+  await expect(sidebar).toBeVisible();
+  await footer.getByRole("button", { name: "Choose color theme" }).click();
+  const palette = page.getByRole("dialog", { name: "Find your Palette", exact: true });
+  await palette.getByRole("button", { name: "Ocean", exact: true }).click();
+  await palette.getByRole("button", { name: "Close color theme picker" }).click();
+  await expect(sidebar).toBeVisible();
+  await expect(footer.getByRole("button", { name: "Choose color theme" })).toBeFocused();
+  await footer.getByRole("link", { name: "Go to the homepage", exact: true }).click();
+  await expect(page.getByTestId("home-page")).toBeVisible();
+  await expect(sidebar).toHaveCount(0);
+});
+
 test("desktop navigation fills its column and shares the navbar content edge", async ({ page }) => {
   for (const route of ["blocks", "blocks/sidebar", "blocks/getting-started", "docs/components"]) {
     await page.goto(`./${route}`);
-    for (const width of [980, 1260, 1920, 2560]) {
+    for (const width of [940, 1200, 1920, 2560]) {
       await page.setViewportSize({ width, height: 1000 });
       const geometry = await page.evaluate(() => {
         const rect = (selector: string) =>
@@ -387,4 +515,31 @@ test("desktop navigation fills its column and shares the navbar content edge", a
       expect(geometry.fits).toBe(true);
     }
   }
+});
+
+test("top navigation highlights the owning section on overview and nested pages", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1024, height: 900 });
+  for (const [route, label] of [
+    ["docs/components", "Components"],
+    ["docs/button/usage", "Components"],
+    ["docs/forms", "Forms"],
+    ["docs/formisch/installation", "Forms"],
+    ["docs/packages", "Packages"],
+    ["docs/hooks-package/installation", "Packages"],
+    ["blocks", "Blocks"],
+    ["blocks/application-shell/application-shell-1", "Blocks"],
+  ]) {
+    await page.goto(`./${route}`);
+    const links = page.locator(".docs-topbar-links");
+    await expect(links.locator("[aria-current]"), route).toHaveCount(1);
+    await expect(links.getByRole("link", { name: label, exact: true })).toHaveAttribute(
+      "aria-current",
+      "location",
+    );
+    await expect(links.locator("[aria-current]")).toHaveCSS("font-weight", "700");
+  }
+  await page.goto("./");
+  await expect(page.locator(".docs-topbar-links [aria-current]")).toHaveCount(0);
 });

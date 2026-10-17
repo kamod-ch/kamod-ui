@@ -162,7 +162,7 @@ export const KanbanBoard = ({
       ) : null}
       {status === "error" ? (
         <Alert>
-          <AlertTitle>Board unavailable</AlertTitle>
+          <AlertTitle>Board Unavailable</AlertTitle>
           <AlertDescription>{errorMessage}</AlertDescription>
         </Alert>
       ) : null}

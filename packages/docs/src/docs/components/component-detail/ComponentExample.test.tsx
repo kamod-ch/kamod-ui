@@ -50,11 +50,52 @@ function width(value: number) {
 }
 
 describe("component example controls", () => {
+  it("shows preview feedback before visibility arrives while keeping the frame request lazy", () => {
+    vi.useFakeTimers();
+    vi.stubGlobal("requestIdleCallback", undefined);
+    let reveal!: IntersectionObserverCallback;
+    const stop = vi.fn();
+    vi.stubGlobal(
+      "IntersectionObserver",
+      class {
+        constructor(callback: IntersectionObserverCallback) {
+          reveal = callback;
+        }
+        observe() {}
+        unobserve() {}
+        disconnect = stop;
+      },
+    );
+    const { container, unmount } = example();
+    const surface = container.querySelector(".showcase-preview-surface")!;
+    const frame = surface.querySelector("iframe")!;
+    expect(surface).toHaveAttribute("data-deferred");
+    expect(surface.querySelector('[role="status"]')).toHaveTextContent("Setting the scene");
+    expect(frame).toHaveAttribute("src", "about:blank");
+    act(() =>
+      reveal(
+        [{ target: frame, isIntersecting: true } as unknown as IntersectionObserverEntry],
+        {} as IntersectionObserver,
+      ),
+    );
+    expect(frame).toHaveAttribute("src", "about:blank");
+    act(() => {
+      vi.advanceTimersByTime(50);
+    });
+    expect(surface).not.toHaveAttribute("data-deferred");
+    expect(frame.getAttribute("src")).toContain("component=button&example=0");
+    expect(surface.querySelector('[role="status"]')).toHaveTextContent("Setting the scene");
+    unmount();
+    expect(stop).toHaveBeenCalled();
+  });
+
   it("disables ineffective widths, retains a narrow preference and resets only the example", async () => {
     const { container, unmount } = example();
     const narrow = screen.getByRole("button", { name: "Narrow container" });
     width(360);
     expect(narrow).toHaveProperty("disabled", true);
+    const caption = container.querySelector(".component-example-caption-mode");
+    expect(caption).toHaveTextContent("Full width");
     act(() =>
       resize(
         [
@@ -65,6 +106,7 @@ describe("component example controls", () => {
       ),
     );
     fireEvent.click(narrow);
+    expect(caption).toHaveTextContent("Narrow view");
     expect(container.querySelector(".component-example-frame-wrap")).toHaveAttribute(
       "data-narrow",
       "true",
@@ -78,16 +120,20 @@ describe("component example controls", () => {
     );
     width(320);
     expect(narrow).toHaveProperty("disabled", true);
+    expect(caption).toHaveTextContent("Full width");
     expect(container.querySelector(".component-example-frame-wrap")).not.toHaveAttribute(
       "data-narrow",
     );
     width(500);
+    expect(caption).toHaveTextContent("Narrow view");
     expect(container.querySelector(".component-example-frame-wrap")).toHaveAttribute(
       "data-narrow",
       "true",
     );
     fireEvent.click(screen.getByRole("tab", { name: "Code", exact: true }));
-    expect(container.querySelector("pre code")?.textContent).toBe("const example = 1;");
+    await waitFor(() =>
+      expect(container.querySelector("pre code")?.textContent).toBe("const example = 1;"),
+    );
     await waitFor(() =>
       expect(screen.getByRole("button", { name: "Reset example" })).toBeEnabled(),
     );
@@ -100,7 +146,7 @@ describe("component example controls", () => {
     expect(disconnect).toHaveBeenCalled();
   });
 
-  it("changes only the frame appearance and includes the actual example in both prompt modes", () => {
+  it("changes only the frame appearance and includes the actual example in both prompt modes", async () => {
     const { container } = example();
     const pageTheme = document.documentElement.outerHTML.split("<head>")[0];
     fireEvent.click(screen.getByRole("button", { name: "Dark preview" }));
@@ -110,9 +156,17 @@ describe("component example controls", () => {
     );
     expect(document.documentElement.outerHTML.split("<head>")[0]).toBe(pageTheme);
     fireEvent.click(screen.getByRole("tab", { name: "Prompt", exact: true }));
-    expect(container.querySelector("pre code")?.textContent).toContain("const example = 1;");
-    expect(container.querySelector("pre code")?.textContent).toContain("Set up and integrate");
-    fireEvent.click(screen.getByRole("button", { name: "Adapt example" }));
+    await waitFor(() =>
+      expect(container.querySelector("pre code")?.textContent).toContain("const example = 1;"),
+    );
+    await waitFor(() =>
+      expect(container.querySelector("pre code")?.textContent).toContain("Set up and integrate"),
+    );
+    expect(screen.getByRole("button", { name: "Code (Markdown)", exact: true })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Tailor Example" }));
     expect(container.querySelector("pre code")?.textContent).toContain("[describe the outcome]");
     expect(container.querySelector("pre code")?.textContent).toContain("const example = 1;");
   });
@@ -131,6 +185,9 @@ it("uses the block refresh phases and only completes after the replacement frame
   // A blank iframe load is not successful completion of an example reset.
   fireEvent.load(frame);
   expect(control).toHaveAttribute("data-refresh-state", "loading");
+  act(() => {
+    vi.advanceTimersByTime(50);
+  });
   const preview = document.implementation.createHTMLDocument("Example");
   preview.body.innerHTML = '<main id="component-preview-root">Example</main>';
   Object.defineProperty(frame, "contentDocument", { value: preview });
@@ -153,6 +210,9 @@ it("uses the block refresh phases and only completes after the replacement frame
   expect(control).toHaveAttribute("data-refresh-state", "idle");
   expect(control).toBeEnabled();
   fireEvent.click(control);
+  act(() => {
+    vi.advanceTimersByTime(50);
+  });
   fireEvent.error(container.querySelector("iframe")!);
   expect(control).toHaveAttribute("data-refresh-state", "resetting");
 });

@@ -1,9 +1,8 @@
 import { KamodOpenUIRenderer } from "@kamod-ch/openui";
 import { CONTACT_FORM_LANG, SETTINGS_UI_LANG, STATUS_CARD_LANG } from "@kamod-ch/openui/examples";
 import { createKamodOpenUISystemPrompt } from "@kamod-ch/openui/prompts";
-import { Button } from "@kamod-ch/ui";
+import { CopyButton } from "@kamod-ch/ui";
 import type { ComponentChildren } from "preact";
-import { useState } from "preact/hooks";
 import { ApiReference } from "../components/ApiReference";
 import { CodeBlock } from "../components/CodeBlock";
 import { OpenUIPlayground } from "../components/OpenUIPlayground";
@@ -54,31 +53,11 @@ const API_ROWS = [
   { prop: "navigation", type: "NavigationPolicy", defaultValue: "allowExternal: false" },
 ] as const;
 
-function CopyPromptButton() {
-  const [copied, setCopied] = useState(false);
-
-  return (
-    <Button
-      type="button"
-      size="sm"
-      variant="outline"
-      onClick={() => {
-        void navigator.clipboard.writeText(SYSTEM_PROMPT).then(() => {
-          setCopied(true);
-          window.setTimeout(() => setCopied(false), 2000);
-        });
-      }}
-    >
-      {copied ? "Copied" : "Copy system prompt"}
-    </Button>
-  );
-}
-
 function LangPreviewBlock({ lang, preview }: { lang: string; preview: ComponentChildren }) {
   return (
     <div class="openui-fixture-block">
       <div class="openui-fixture-preview">{preview}</div>
-      <CodeBlock code={lang} language="text" className="docs-tab-code" />
+      <CodeBlock code={lang} language="text" inferLanguage={false} className="docs-tab-code" />
     </div>
   );
 }
@@ -132,13 +111,18 @@ function renderSectionBody(sectionId: string): ComponentChildren {
             receive onAction and onError reports the blocked navigation.
           </p>
           <KamodOpenUIRenderer content={BLOCKED_NAVIGATE_LANG} />
-          <CodeBlock code={BLOCKED_NAVIGATE_LANG} language="text" className="docs-tab-code" />
+          <CodeBlock
+            code={BLOCKED_NAVIGATE_LANG}
+            language="text"
+            inferLanguage={false}
+            className="docs-tab-code"
+          />
         </div>
       );
     case "system-prompts":
       return (
         <div class="grid gap-3">
-          <CopyPromptButton />
+          <CopyButton value={SYSTEM_PROMPT} label="Copy system prompt" subject="system prompt" />
           <CodeBlock
             code={`import { createKamodOpenUISystemPrompt } from "@kamod-ch/openui/prompts";\n\nconst systemPrompt = createKamodOpenUISystemPrompt({\n  includeExamples: true,\n});`}
             language="tsx"
@@ -183,7 +167,7 @@ export const openuiDocPage: DocPageModule = {
     },
     {
       id: "usage",
-      title: "Quick start",
+      title: "Quick Start",
       text: "Pass OpenUI Lang strings to KamodOpenUIRenderer. The host app executes actions through onAction and onSubmit callbacks.",
     },
     {
@@ -193,12 +177,12 @@ export const openuiDocPage: DocPageModule = {
     },
     {
       id: "status-card",
-      title: "Status card",
+      title: "Status Card",
       text: "A deployment status card with badge, progress, and a declarative refresh action.",
     },
     {
       id: "contact-form",
-      title: "Contact form",
+      title: "Contact Form",
       text: "Named form fields with Input, Textarea, Checkbox, and SubmitButton. Handle submission in onSubmit.",
     },
     {
@@ -208,12 +192,12 @@ export const openuiDocPage: DocPageModule = {
     },
     {
       id: "actions",
-      title: "Actions & navigation",
+      title: "Actions & Navigation",
       text: "Models emit declarative actions only (event, submit, navigate). External navigation is blocked by default.",
     },
     {
       id: "system-prompts",
-      title: "System prompts",
+      title: "System Prompts",
       text: "Generate a system prompt from kamodOpenUILibrary so the model knows which components and rules apply.",
     },
     {
@@ -223,7 +207,7 @@ export const openuiDocPage: DocPageModule = {
     },
     {
       id: "accessibility",
-      title: "Security notes",
+      title: "Security Notes",
       text: "Only registered components are allowed. Props are Zod-validated with semantic tokens instead of free CSS. Tree depth, children-per-node, and total node limits apply. Actions are declarative — the host executes them via onAction and onSubmit.",
     },
   ],

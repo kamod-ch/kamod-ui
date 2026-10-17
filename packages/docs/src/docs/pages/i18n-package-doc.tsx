@@ -32,9 +32,9 @@ export const i18nDocPage = createPackageTeaserDoc({
     usage: `const en = { common: { save: "Save" } } as const;\nconst de = { common: { save: "Speichern" } } satisfies Messages<typeof en>;\n\nconst i18n = createI18n({ locale: "en", fallbackLocale: "en", messages: { en, de } });\ni18n.t("common.save");`,
   },
   installationText:
-    "Install @kamod-ch/i18n for the framework-independent core. Add Preact when using @kamod-ch/i18n/preact.",
+    "**Start with the translation core.** Install `@kamod-ch/i18n` for message lookup and locale-aware formatting without tying that code to a UI framework. For reactive Preact components, also provide Preact and import the adapter from `@kamod-ch/i18n/preact`; the adapter is included in the same package.\n\n**Keep the first setup easy to verify.** Prepare one default locale and one additional language, then try the [Usage Example](#usage) before adding lazy loading or persisted language preferences. If your app renders on the server, plan the instance boundary using [Account for the Environment](#environment-boundaries).",
   usageText:
-    "Define a default locale object as your schema, add locales with satisfies Messages<typeof en>, then call t(), setLocale(), and Intl formatters on a createI18n instance.",
+    "**Let the default language define the message shape.** Create the translation instance with `createI18n` and your locale objects, and use `satisfies Messages<typeof en>` to check that another language has the expected structure. The first example looks up a complete message by its stable key, keeping translation content separate from component markup.\n\n**Connect language changes to the interface.** For Preact consumers, pair `I18nProvider` with `useI18n` through the adapter and consult the [API Reference](#api-reference) for reactive locale updates. The [Named Values Example](#put-it-to-work) shows how to insert data without joining sentence fragments. When switching languages, also review document language, accessible labels and formatting in the [Accessibility Notes](#accessibility).",
   apiReferenceText:
     "This page is a Kamod UI overview. Full API docs, lazy locale loading, plural rules, and SSR guides live on the dedicated kamod-i18n docs.",
   accessibilityText:

@@ -28,6 +28,12 @@ export {
   prefersReducedMotion,
   subscribeReducedMotion,
 } from "./ssr";
+export {
+  ThemePicker,
+  ThemePickerActions,
+  type ThemePickerProps,
+  useSystemColorScheme,
+} from "./theme-picker";
 export type {
   CatalogBlockDefinition,
   CatalogBlockFile,

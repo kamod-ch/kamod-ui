@@ -53,7 +53,7 @@ test("every registered variant has a complete guide with valid, unique contents 
       id,
     ).toBe(true);
     expect(
-      await guide.locator(".blocks-doc-toc a").evaluateAll((links) =>
+      await guide.locator('.blocks-doc-toc a[href^="#"]').evaluateAll((links) =>
         links.every((link) => {
           const hash = (link as HTMLAnchorElement).hash;
           return hash === "#top" || !!document.getElementById(hash.slice(1));
@@ -89,7 +89,7 @@ for (const theme of ["light", "dark"]) {
       for (const width of [320, 640, 768, 979, 980, 1024, 1260, 1440, 1920]) {
         await page.setViewportSize({ width, height: 900 });
         const toc = page.locator(".blocks-doc-toc");
-        if (width < 1260) await expect(toc).toBeHidden();
+        if (width < 1200) await expect(toc).toBeHidden();
         else await expect(toc).toBeVisible();
         expect(
           await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1),
@@ -134,10 +134,10 @@ test("guide links, source disclosures and manager tabs work with keyboard and br
 }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto("./blocks/login/login-05");
-  const toc = page.getByRole("navigation", { name: "On this page" });
+  const toc = page.getByRole("navigation", { name: "On This Page" });
   await toc.getByRole("link", { name: "Usage", exact: true }).click();
   await expect(page).toHaveURL(/#login-05-usage$/);
-  await toc.getByRole("link", { name: "Data type reference", exact: true }).click();
+  await toc.getByRole("link", { name: "Data Type Reference", exact: true }).click();
   await page.goBack();
   await expect(page).toHaveURL(/#login-05-usage$/);
   await expect
@@ -147,23 +147,24 @@ test("guide links, source disclosures and manager tabs work with keyboard and br
   const disclosure = page
     .locator(".blocks-api-type")
     .filter({ has: page.locator("#login-05-type-MagicLinkValues") });
-  await expect(disclosure.getByRole("button", { name: /Hide MagicLinkValues/ })).toBeVisible();
+  const trigger = disclosure.locator(".blocks-api-type-trigger");
+  await expect(trigger).toBeVisible();
+  await expect(trigger).toHaveAttribute("aria-expanded", "true");
   await expect(disclosure.locator("pre")).toContainText("email: string");
   await expect(disclosure.locator("pre")).not.toContainText("password");
-  const trigger = disclosure.getByRole("button", { name: /Hide MagicLinkValues/ });
   await trigger.focus();
   await page.keyboard.press("Enter");
-  await expect(disclosure.getByRole("button", { name: /Show MagicLinkValues/ })).toBeVisible();
-  await disclosure.getByRole("link", { name: "Submission values", exact: true }).click();
-  await expect(disclosure.getByRole("button", { name: /Hide MagicLinkValues/ })).toBeVisible();
+  await expect(trigger).toHaveAttribute("aria-expanded", "false");
+  await disclosure.getByRole("link", { name: "Submission Values", exact: true }).click();
+  await expect(trigger).toHaveAttribute("aria-expanded", "true");
   await expect(page.locator("#login-05-type-MagicLinkValues")).toBeFocused();
-  await disclosure.getByRole("button", { name: /Hide MagicLinkValues/ }).click();
+  await trigger.click();
   await page.locator(".blocks-api-field-owner").filter({ hasText: "MagicLinkValues" }).click();
-  await expect(disclosure.getByRole("button", { name: /Hide MagicLinkValues/ })).toBeVisible();
+  await expect(trigger).toHaveAttribute("aria-expanded", "true");
   await page.getByRole("tab", { name: "npm", exact: true }).click();
   await expect(
     page.locator(".blocks-doc-guide pre").filter({ hasText: "npm install" }),
   ).toBeVisible();
-  await toc.getByRole("link", { name: "Overview", exact: true }).click();
-  await expect.poll(() => page.evaluate(() => scrollY)).toBe(0);
+  await toc.locator('a[href="#page-title"]').click();
+  await expect(page.locator("h1#page-title")).toBeInViewport();
 });

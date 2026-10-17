@@ -10,7 +10,7 @@ export const ItemDescription = ({ class: className, children, ...rest }: ItemDes
     data-slot="item-description"
     class={cn(
       "text-muted-foreground line-clamp-2 text-balance text-sm font-normal leading-normal",
-      "[&>a:hover]:text-primary [&>a]:underline [&>a]:underline-offset-4",
+      "[&>a]:hover:text-primary [&>a]:underline [&>a]:underline-offset-4",
       className,
     )}
     {...rest}

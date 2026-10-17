@@ -1,0 +1,13 @@
+.docs-state-icon {
+  display: inline-grid;
+  flex: none;
+  align-items: center;
+  justify-items: center;
+}
+.docs-state-icon > .docs-state-icon-item {
+  grid-area: 1 / 1;
+  visibility: hidden;
+}
+.docs-state-icon > .docs-state-icon-item[data-active="true"] {
+  visibility: visible;
+}

@@ -1,5 +1,7 @@
-import { useEffect, useLayoutEffect, useRef } from "preact/hooks";
+import { useEffect, useLayoutEffect, useRef, useState } from "preact/hooks";
+import { ShowcaseLoading } from "../docs/components/ShowcaseLoading";
 import type { BlockPreviewViewport } from "./BlockViewportSwitcher";
+import { usePreviewActivity } from "./preview-activity";
 import { applyPreviewAppearance, type PreviewAppearance } from "./preview-appearance";
 
 /** An isolated document gives every viewport accurate media queries and locally themed portals. */
@@ -23,19 +25,40 @@ export function BlockShowcasePreview({
   refreshing: boolean;
 }) {
   const iframe = useRef<HTMLIFrameElement>(null);
+  const region = useRef<HTMLDivElement>(null);
+  const applyActivity = usePreviewActivity(region, iframe, `${previewKey}:${url}`);
+  const [settled, setSettled] = useState<{ key: number; url: string; error?: boolean }>();
+  const pending = settled?.key !== previewKey || settled.url !== url;
   const applyAppearance = () => {
     const root = iframe.current?.contentDocument?.documentElement;
     if (root) applyPreviewAppearance(root, appearance);
   };
+  const complete = () => {
+    const frame = iframe.current;
+    const doc = frame?.contentDocument;
+    // Ignore about:blank and the previous document while a replacement is navigating.
+    if (!frame || doc?.readyState !== "complete" || doc.URL !== frame.src) return;
+    applyAppearance();
+    applyActivity();
+    setSettled({ key: previewKey, url });
+    onLoad(previewKey);
+  };
+  // An eager SSR iframe may finish before hydration attaches its load handler.
+  useLayoutEffect(complete, [previewKey, url]);
   // Updating the frame document preserves form input and sidebar state when changing themes.
   useLayoutEffect(applyAppearance, [appearance]);
   // Switching away from Preview unmounts its frame and cancels an unfinished refresh.
   useEffect(() => () => onCancel(previewKey), [previewKey, onCancel]);
 
   return (
-    <div class="blocks-showcase-preview blocks-preview-panel" aria-busy={refreshing}>
+    <div
+      ref={region}
+      class="blocks-showcase-preview blocks-preview-panel"
+      aria-busy={pending || refreshing}
+    >
       <div
-        class={`blocks-preview-frame blocks-preview-${viewport}`}
+        class={`blocks-preview-frame blocks-preview-${viewport} showcase-preview-surface`}
+        data-loading={pending || undefined}
         style={{ height: `${height}px` }}
       >
         <iframe
@@ -44,12 +67,20 @@ export function BlockShowcasePreview({
           src={url}
           title="Block preview"
           class="blocks-preview-iframe"
-          onLoad={() => {
-            applyAppearance();
-            onLoad(previewKey);
+          aria-hidden={pending || undefined}
+          tabIndex={pending ? -1 : undefined}
+          onLoad={complete}
+          onError={() => {
+            setSettled({ key: previewKey, url, error: true });
+            onCancel(previewKey);
           }}
-          onError={() => onCancel(previewKey)}
         />
+        {pending && <ShowcaseLoading appearance={appearance} view="preview" />}
+        {!pending && settled?.error && (
+          <div class="showcase-preview-error" role="alert">
+            The preview could not load. Use Refresh to try again.
+          </div>
+        )}
       </div>
     </div>
   );

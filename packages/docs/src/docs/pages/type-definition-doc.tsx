@@ -1,6 +1,7 @@
 import { Badge, Button, TypeDefinition } from "@kamod-ch/ui";
 import { useState } from "preact/hooks";
 import { withBasePath } from "../../base-path";
+import { CodeBlock } from "../components/CodeBlock";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 const source = `type NavigationItem = {
@@ -9,11 +10,9 @@ const source = `type NavigationItem = {
   disabled?: boolean;
 };`;
 
-/** Plain source keeps these examples independent of the documentation site's highlighter. */
+/** Preview-only highlighting; the copied examples keep their native pre/code composition. */
 const DefinitionCode = ({ code = source }: { code?: string }) => (
-  <pre class="m-0 max-w-full overflow-x-auto rounded-lg bg-muted p-4 text-xs leading-relaxed">
-    <code>{code}</code>
-  </pre>
+  <CodeBlock code={code} renderToolbar={() => null} showWrapControl={false} />
 );
 
 const ControlledDefinition = () => {
@@ -24,7 +23,7 @@ const ControlledDefinition = () => {
         Inspect navigation contract
       </Button>
       <TypeDefinition
-        title="Navigation item"
+        title="Navigation Item"
         typeName="NavigationItem"
         open={open}
         onOpenChange={setOpen}
@@ -48,46 +47,48 @@ export const typeDefinitionDocPage = createGenericDocPage({
   sectionExtras: {
     usage: () => (
       <p>
-        <strong>Choose the right boundary.</strong> Use{" "}
+        <strong>Choose the Right Boundary.</strong> Use{" "}
         <a href={withBasePath("/docs/collapsible/installation")}>Collapsible</a> for a general
         disclosure, <a href={withBasePath("/docs/accordion/installation")}>Accordion</a> for a
         coordinated question-and-answer list, and this component when the summary belongs to a named
-        contract. See the{" "}
+        contract. Preview source uses the documentation highlighter; the copied examples use native{" "}
+        <code>pre</code> and <code>code</code> elements so you can choose your own renderer. See the{" "}
         <a
           href={withBasePath(
             "/blocks/application-shell/application-shell-1#application-shell-type-ApplicationShellBrand",
           )}
         >
-          Application Shell brand reference
+          Application Shell Brand Reference
         </a>{" "}
         for a complete integration with source links and required-field documentation.
       </p>
     ),
     "rich-definition": () => (
       <p>
-        <strong>Keep metadata factual.</strong> A required-field list describes your contract; the
+        <strong>Keep Metadata Factual.</strong> A required-field list describes your contract; the
         card does not inspect TypeScript or validate inputs. Supply <code>headerAction</code> for a
-        badge or source link beside the heading, and put longer explanations in the definition
-        content. Follow the <a href="#component-data-types">source declarations</a> to see the exact
-        slot types.
+        badge or source link beside the heading. Add <code>titleMetadata</code> for a short field
+        count and <code>triggerHint</code> for the source language beside the disclosure label; both
+        receive a subtle dot separator. Put longer explanations in the definition content. Follow
+        the <a href="#component-data-types">Source Declarations</a> to see the exact slot types.
       </p>
     ),
     "controlled-definition": () => (
       <p>
-        <strong>Link, reveal, then navigate.</strong> Keep a stable <code>headingId</code> when
+        <strong>Link, Reveal, Then Navigate.</strong> Keep a stable <code>headingId</code> when
         linking from a props table. Your application can set <code>open</code> before scrolling to
         that anchor. If you close a card from an external control while focus is inside it, return
-        focus to its trigger. Read the <a href="#accessibility">accessibility guidance</a> before
+        focus to its trigger. Read the <a href="#accessibility">Accessibility Guidance</a> before
         adding custom navigation or asynchronous content.
       </p>
     ),
     "compact-definition": () => (
       <p>
-        <strong>Use density consistently.</strong> Compact cards work well for several small
+        <strong>Use Density Consistently.</strong> Compact cards work well for several small
         contracts in a vertical list. The disclosure keeps a minimum height of <code>2.75rem</code>{" "}
         in both densities. Prefer the default spacing for longer summaries and richly documented
         definitions; use{" "}
-        <a href={withBasePath("/docs/theming/installation")}>semantic theme colors</a> for any local
+        <a href={withBasePath("/docs/theming/installation")}>Semantic Theme Colors</a> for any local
         adjustments.
       </p>
     ),
@@ -95,8 +96,8 @@ export const typeDefinitionDocPage = createGenericDocPage({
   exampleSections: [
     {
       id: "basic-definition",
-      title: "Summary and source",
-      text: "Start with a concise description that stays visible when the definition is closed. The muted disclosure bar makes the next action recognizable in both states. Its stronger hover treatment and visible keyboard focus work independently of the surrounding page theme.",
+      title: "Summary and Source",
+      text: "**Make the Closed Card Useful on Its Own.** Use a concise visible description to introduce the type before its source is expanded. The disclosure bar communicates that more detail is available, with distinct hover and keyboard-focus treatments for discovering the interaction.\n\nKeep detailed declarations in the expanded region and link related concepts in the summary where helpful, so users can decide whether opening the definition answers their question.",
       code: `import { TypeDefinition } from "@kamod-ch/ui";
 
 export const Example = () => (
@@ -108,7 +109,7 @@ export const Example = () => (
       renderPreview: () => (
         <TypeDefinition
           class="w-full max-w-2xl"
-          title="Navigation item"
+          title="Navigation Item"
           typeName="NavigationItem"
           description="A label and destination for one navigation entry. Optional disabled state belongs to the consuming navigation control."
         >
@@ -118,8 +119,8 @@ export const Example = () => (
     },
     {
       id: "rich-definition",
-      title: "Metadata and field documentation",
-      text: "Keep essential context outside the disclosure. Required fields and a small status badge help readers understand a contract before opening it, while source, field explanations and related links can share the expanded content. The header action remains separate from the disclosure so nested buttons are unnecessary.",
+      title: "Metadata and Field Documentation",
+      text: "**Separate the Summary from the Detailed Contract.** Keep the required fields and essential contract summary visible, then place source, detailed explanations and related links in the expanded region. A separate header action can expose a reference without nesting another button inside the disclosure trigger.\n\nUse inline `code` for identifiers and ordinary prose for their meaning, with links to related contracts where they help. Expand the definition with the keyboard, then verify that its separate reference action can be reached without also toggling the content.",
       code: `import { Badge, TypeDefinition } from "@kamod-ch/ui";
 
 export const Example = () => (
@@ -127,7 +128,7 @@ export const Example = () => (
     headerAction={<Badge variant="outline">Configuration</Badge>}
     description="Supply destinations from your application's routes."
     metadata={<span>Required fields: <code>label</code>, <code>href</code></span>}
-    expandLabel="View definition and field docs" collapseLabel="Hide definition and field docs">
+    expandLabel="View Definition and Field Docs" collapseLabel="Hide Definition and Field Docs">
     <pre><code>{\`type NavigationItem = { label: string; href: string; disabled?: boolean };\`}</code></pre>
     <p><strong>label</strong> names the destination. <strong>href</strong> points to the route your application owns.</p>
   </TypeDefinition>
@@ -135,7 +136,7 @@ export const Example = () => (
       renderPreview: () => (
         <TypeDefinition
           class="w-full max-w-2xl"
-          title="Navigation item"
+          title="Navigation Item"
           typeName="NavigationItem"
           defaultOpen
           headerAction={<Badge variant="outline">Configuration</Badge>}
@@ -145,8 +146,8 @@ export const Example = () => (
               Required fields: <code>label</code>, <code>href</code>
             </span>
           }
-          expandLabel="View definition and field docs"
-          collapseLabel="Hide definition and field docs"
+          expandLabel="View Definition and Field Docs"
+          collapseLabel="Hide Definition and Field Docs"
         >
           <DefinitionCode />
           <p class="mt-4 text-sm leading-relaxed text-muted-foreground">
@@ -160,8 +161,8 @@ export const Example = () => (
     },
     {
       id: "controlled-definition",
-      title: "Reveal from another control",
-      text: "Use controlled state when multiple controls need to address the same definition. A single state owner keeps external actions, the disclosure label and aria-expanded synchronized. Treat defaultOpen as an initial value only; do not switch between controlled and uncontrolled modes after mounting.",
+      title: "Reveal from Another Control",
+      text: "**Reveal the Same Content from Several Entry Points.** Drive the definition's open state from one parent when external controls also need to reveal it. Keep the disclosure label and `aria-expanded` synchronized with that value; `defaultOpen` is only an initial-state option.\n\nDecide whether navigation should move focus or only reveal content, and verify that closing from either control leaves the accessible expanded state accurate.",
       code: `import { Button, TypeDefinition } from "@kamod-ch/ui";
 import { useState } from "preact/hooks";
 
@@ -179,8 +180,8 @@ export function Example() {
     },
     {
       id: "compact-definition",
-      title: "Compact contract list",
-      text: "Use compact density for short, related declarations. Each card keeps an independent open state and generated IDs, so expanding one never closes its neighbor. Choose headingLevel to fit the surrounding document hierarchy and retain descriptive type names even when the source is brief.",
+      title: "Compact Contract List",
+      text: "**Keep a Collection Readable without Flattening Its Structure.** Use compact density for a group of short declarations while keeping each definition independently expandable. Choose `headingLevel` to fit the surrounding article, and retain meaningful type names even when the source itself occupies only a few lines.\n\nUse the surrounding heading hierarchy deliberately and keep independent disclosure state so comparing two definitions does not require repeatedly reopening them.",
       code: `import { TypeDefinition } from "@kamod-ch/ui";
 
 export const Example = () => <div class="space-y-3">
@@ -193,10 +194,10 @@ export const Example = () => <div class="space-y-3">
 </div>;`,
       renderPreview: () => (
         <div class="w-full max-w-2xl space-y-3">
-          <TypeDefinition density="compact" title="Display mode" typeName="DisplayMode">
+          <TypeDefinition density="compact" title="Display Mode" typeName="DisplayMode">
             <DefinitionCode code={'type DisplayMode = "list" | "grid";'} />
           </TypeDefinition>
-          <TypeDefinition density="compact" title="Sort direction" typeName="SortDirection">
+          <TypeDefinition density="compact" title="Sort Direction" typeName="SortDirection">
             <DefinitionCode code={'type SortDirection = "asc" | "desc";'} />
           </TypeDefinition>
         </div>
@@ -223,6 +224,13 @@ export const Example = () => <div class="space-y-3">
       type: "ComponentChildren",
       defaultValue: "undefined",
       description: "Summary below the type name. Remains visible in both disclosure states.",
+    },
+    {
+      prop: "titleMetadata / triggerHint",
+      type: "string",
+      defaultValue: "undefined",
+      description:
+        "Optional secondary text beside the heading and disclosure label, separated by a dot. Supply factual context such as declared field counts or source language. Hints do not change the disclosure’s accessible name or add another focus target.",
     },
     {
       prop: "metadata / headerAction",
@@ -268,7 +276,7 @@ export const Example = () => <div class="space-y-3">
     {
       prop: "expandLabel / collapseLabel",
       type: "string",
-      defaultValue: '"View definition" / "Hide definition"',
+      defaultValue: '"View Definition" / "Hide Definition"',
       description:
         "Visible disclosure labels. Translate both together; the exact type name is appended to their accessible name.",
     },

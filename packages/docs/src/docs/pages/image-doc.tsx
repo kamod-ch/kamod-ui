@@ -11,7 +11,7 @@ export const imageDocPage = createGenericDocPage({
     {
       id: "basic-image",
       title: "Basic Image",
-      text: "Display an image with rounded corners.",
+      text: "**Reserve Space and Describe Meaningful Media.** Place an image in a simple rounded frame to establish its role in the layout. Supply an appropriate text alternative and reserve sensible dimensions so the visual does not disrupt nearby content as it loads.\n\nProvide useful `alt` text for informative images and an empty alternative for purely decorative ones; rounded corners change presentation, not the image's accessible meaning.",
       code: `import { Image } from "@/components/kamod-ui/image";
 
 export const Example = () => (
@@ -32,7 +32,7 @@ export const Example = () => (
     {
       id: "image-thumbnail",
       title: "Image Thumbnail",
-      text: "Use compact image previews in lists or cards.",
+      text: "**Keep Compact Media Recognizable.** Use a smaller image frame when media supports a list row or card rather than leading the page. Keep the crop and dimensions consistent across neighboring items so the text remains easy to scan alongside the previews.\n\nCheck cropping with real images and use [Aspect Ratio](/docs/aspect-ratio/installation) when different source dimensions need a consistent frame; preserve a clear destination if the preview is clickable.",
       code: `import { Image } from "@/components/kamod-ui/image";
 
 export const Example = () => (

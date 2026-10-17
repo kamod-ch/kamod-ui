@@ -6,7 +6,7 @@ const Footer: FunctionalComponent = () => (
   <footer class="kiw-footer">
     <a
       class="kiw-footer-logo"
-      aria-label="Kamod website"
+      aria-label="Kamod Website"
       href="https://www.kamod.ch"
       target="_blank"
       rel="noopener noreferrer"

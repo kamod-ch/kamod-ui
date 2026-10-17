@@ -61,7 +61,7 @@ export const dropdownDocPage = createGenericDocPage({
     {
       id: "basic-dropdown",
       title: "Basic",
-      text: "Default trigger styling and menu items.",
+      text: "**Keep the Menu Focused on Related Commands.** Pair the default dropdown trigger with a short menu of related operations. Each menu item should represent an action available from that trigger, giving the reader a predictable set of choices when the popup opens.\n\nEssential actions should have a discoverable trigger, and navigation items should retain link semantics where appropriate; a menu's visual grouping does not replace the behavior of its individual entries.",
       code: `import { Dropdown, DropdownContent, DropdownItem, DropdownTrigger } from "@/components/kamod-ui/dropdown";
 
 export const Example = () => (
@@ -86,7 +86,7 @@ export const Example = () => (
     {
       id: "as-child",
       title: "Trigger asChild",
-      text: "Use a Button (or other element) as the trigger.",
+      text: "**Make the Existing Control the Actual Trigger.** Use `asChild` to make a `Button` or another compatible element the dropdown trigger. The child keeps its chosen presentation while receiving the behavior needed to open and control the associated menu.\n\nPreserve a meaningful accessible name, forwarded attributes and focus styling, and choose a label that explains the menu rather than the visual symbol used to open it.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Dropdown, DropdownContent, DropdownItem, DropdownTrigger } from "@/components/kamod-ui/dropdown";
 
@@ -113,8 +113,8 @@ export const Example = () => (
     },
     {
       id: "grouped-shortcuts-icons",
-      title: "Groups, shortcuts, icons",
-      text: "Labels, separators, keyboard hints, and leading icons.",
+      title: "Groups, Shortcuts, Icons",
+      text: "**Add Structure Only Where It Helps Scanning.** Organize a longer dropdown with labels, separators and recognizable icons, reserving trailing space for shortcut hints. These elements explain the hierarchy of the actions without changing the operation attached to each item.\n\nKeep these cues secondary to the command text, and do not show a shortcut unless your application actually registers and maintains that behavior.",
       code: `import { Dropdown, DropdownContent, DropdownGroup, DropdownItem, DropdownLabel, DropdownSeparator, DropdownShortcut, DropdownTrigger } from "@/components/kamod-ui/dropdown";
 
 export const Example = () => (
@@ -155,7 +155,7 @@ export const Example = () => (
     {
       id: "submenu",
       title: "Submenu",
-      text: "Nested menu; open via hover or click on the sub trigger.",
+      text: "**Keep Less Frequent Choices under a Clear Category.** Place related secondary actions in a submenu opened from a labeled sub-trigger. This keeps the main dropdown shorter while giving the reader a meaningful category to enter before choosing the nested operation.\n\nLimit nesting and verify keyboard access to every level; users should be able to predict the child choices from the parent label before opening another panel.",
       code: `import { Dropdown, DropdownContent, DropdownItem, DropdownSub, DropdownSubContent, DropdownSubTrigger, DropdownTrigger } from "@/components/kamod-ui/dropdown";
 
 export const Example = () => (
@@ -191,8 +191,8 @@ export const Example = () => (
     },
     {
       id: "checkbox-items",
-      title: "Checkbox items",
-      text: "Toggle state without closing the root menu.",
+      title: "Checkbox Items",
+      text: "**Use Checkmarks for Independent Settings.** Use checkbox menu items for independent settings that can be changed without closing the root menu. Their checked values should describe the same state used by the rest of the interface after the menu is dismissed.\n\nBind each checked value to the actual application state and make the effect of each label clear; a checked menu item should reflect a setting, not merely the last command clicked.",
       code: `import { Dropdown, DropdownCheckboxItem, DropdownContent, DropdownLabel, DropdownSeparator, DropdownTrigger } from "@/components/kamod-ui/dropdown";
 
 export const Example = () => (
@@ -222,8 +222,8 @@ export const Example = () => (
     },
     {
       id: "radio-items",
-      title: "Radio group",
-      text: "Single selection; menu closes after choosing (DropdownRadioItem).",
+      title: "Radio Group",
+      text: "**Represent One Current Choice.** Use `DropdownRadioItem` within a radio group for one choice among alternatives. Selecting an item updates the chosen value and closes the menu, so the trigger or surrounding interface should make the result visible.\n\nReopen the menu after changing the setting elsewhere in the application to verify that the marked option follows parent state. Use stable option values, keeping translated labels separate from the data used to apply the preference.",
       code: `import { Dropdown, DropdownContent, DropdownLabel, DropdownRadioGroup, DropdownRadioItem, DropdownTrigger } from "@/components/kamod-ui/dropdown";
 
 export const Example = () => (
@@ -256,7 +256,7 @@ export const Example = () => (
     {
       id: "positioning",
       title: "Positioning",
-      text: "side, align, and sideOffset on DropdownContent.",
+      text: "**Position for the Available Space.** Set `side`, `align` and `sideOffset` on `DropdownContent` to position the menu relative to its trigger. These choices tune the available space around the popup without changing the labels or behavior of its actions.\n\nTest triggers near each edge and within scrolling containers, and avoid using large offsets that make the menu feel disconnected from its source.",
       code: `import { Dropdown, DropdownContent, DropdownItem, DropdownTrigger } from "@/components/kamod-ui/dropdown";
 
 export const Example = () => (

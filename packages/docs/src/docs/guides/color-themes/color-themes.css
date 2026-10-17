@@ -1,0 +1,335 @@
+@import "./theme-palette-preview.css";
+@import "./theme-gallery-guide.css";
+@import "./theme-preset-pill.css";
+@import "./theme-study-details.css";
+
+/* Text follows the page; decorative signatures wash each frame with its actual preset. */
+.theme-studies {
+  container: theme-studies / inline-size;
+  --theme-study-secondary: color-mix(in oklab, var(--muted-foreground) 75%, var(--foreground));
+  --theme-study-line: color-mix(in oklab, var(--primary) 7%, var(--border));
+  --theme-study-panel: color-mix(in oklab, var(--foreground) 1.5%, transparent);
+  --theme-study-frame-radius: var(--radius-xl, 0.75rem);
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 1.25rem;
+}
+.theme-studies .theme-study {
+  position: relative;
+  isolation: isolate;
+  min-width: 0;
+  gap: 0.75rem;
+  padding: clamp(0.875rem, 2cqi, 1.125rem);
+  background: var(--background);
+  box-shadow: none;
+  border: 1px solid var(--theme-study-line);
+  border-radius: var(--theme-study-frame-radius);
+}
+.theme-study-header-actions,
+.theme-study-signature {
+  display: flex;
+  align-items: center;
+}
+.theme-study-header-actions {
+  flex: none;
+  gap: 0.75rem;
+}
+.theme-study-signature {
+  gap: 0.1875rem;
+}
+.theme-study-signature > i:not(.theme-study-wash) {
+  width: 0.75rem;
+  height: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+}
+.theme-study-signature .theme-study-wash {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: var(--theme-study-frame-radius);
+  background:
+    linear-gradient(125deg, color-mix(in oklab, var(--primary) 3%, transparent), transparent 58%),
+    linear-gradient(305deg, color-mix(in oklab, var(--secondary) 2%, transparent), transparent 65%);
+  pointer-events: none;
+}
+.theme-study-signature-dark,
+:root.dark .theme-study-signature-light {
+  display: none;
+}
+:root.dark .theme-study-signature-dark {
+  display: flex;
+}
+.theme-study-header,
+.theme-study-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.875rem;
+}
+.theme-study-header > div {
+  min-width: 0;
+}
+.theme-study .theme-study-character {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin: 0 0 0.375rem;
+  color: var(--theme-study-secondary);
+  font-size: 0.6875rem;
+  line-height: 1.6;
+}
+.theme-study-character > span {
+  font-family: ui-monospace, monospace;
+  flex: none;
+  white-space: nowrap;
+}
+.theme-study h3 {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  font-weight: 600;
+}
+.theme-study h3 code {
+  font-size: 0.6875rem;
+  font-weight: 400;
+  line-height: 1.5;
+}
+.theme-study-use {
+  flex: none;
+  min-width: 6rem;
+  gap: 0.375rem;
+  font-size: 0.75rem;
+}
+.theme-study-use[aria-pressed="true"] {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  border-color: transparent;
+}
+.theme-study .theme-study-direction {
+  margin: 0;
+  font-weight: 550;
+  font-size: 0.84375rem;
+  line-height: 1.7;
+  color: var(--foreground);
+}
+.theme-study-introduction {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--theme-study-line);
+}
+.theme-study-section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+.theme-study-section-heading h4 {
+  margin-bottom: 0.125rem;
+}
+.theme-study-section-heading p {
+  margin: 0;
+  color: var(--theme-study-secondary);
+  font-size: 0.6875rem;
+  line-height: 1.6;
+}
+.theme-study-section-heading a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex: none;
+  font-size: 0.6875rem;
+}
+.theme-studies .docs-code-action {
+  color: var(--theme-study-secondary);
+}
+.theme-study .theme-study-intro {
+  margin: 0;
+  color: var(--theme-study-secondary);
+  font-size: 0.78125rem;
+  line-height: 1.75;
+}
+.theme-study-fits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.theme-study-fits li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.1875rem 0.4375rem;
+  border-radius: 0.25rem;
+  background: color-mix(in oklab, var(--foreground) 4%, transparent);
+  color: var(--theme-study-secondary);
+  font-size: 0.65625rem;
+  line-height: 1.4;
+}
+.theme-study-comparison {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+.theme-study h4 {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin: 0 0 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.6;
+}
+.theme-study h4 code {
+  margin-left: auto;
+  font-size: 0.6875rem;
+  font-weight: 400;
+}
+.theme-study-observations {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+.theme-study-notes p,
+.theme-study-principles p,
+.theme-study-materials p,
+.theme-study-practice p,
+.theme-study-review p {
+  margin: 0;
+  color: var(--theme-study-secondary);
+  font-size: 0.78125rem;
+  line-height: 1.75;
+}
+.theme-study-observations > section,
+.theme-study-principles li,
+.theme-study-materials > section {
+  min-width: 0;
+  padding: 0.75rem;
+  border: 1px solid var(--theme-study-line);
+  border-radius: 0.5rem;
+  background: var(--theme-study-panel);
+}
+.theme-study-principles ol {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.theme-study-principles li {
+  display: flex;
+  align-items: start;
+  gap: 0.5rem;
+}
+.theme-study-note-number {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 1.125rem;
+  height: 1.125rem;
+  margin-top: 0.1875rem;
+  border: 1px solid var(--theme-study-line);
+  border-radius: 0.3125rem;
+  background: color-mix(in oklab, var(--primary) 6%, transparent);
+  color: var(--theme-study-secondary);
+  font-size: 0.625rem;
+}
+.theme-study-principles strong {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 550;
+  line-height: 1.6;
+}
+.theme-study-note-roles {
+  --inline-code-font: 0.625rem;
+  --inline-code-line: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  margin-top: 0.375rem;
+}
+.theme-study-note-roles code {
+  font-size: 0.625rem;
+  font-weight: 400;
+}
+.theme-study :is(h3, h4, .theme-study-note-roles) code {
+  background: color-mix(in oklab, var(--foreground) 5%, transparent);
+  color: var(--foreground);
+  box-shadow: none;
+}
+.theme-study-footer {
+  padding-top: 0.625rem;
+  border-top: 1px solid var(--theme-study-line);
+  color: var(--theme-study-secondary);
+  font-size: 0.6875rem;
+  line-height: 1.6;
+}
+.theme-study-footer a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex: none;
+}
+.theme-study summary:focus-visible {
+  outline: 2px solid var(--outline);
+  outline-offset: -3px;
+}
+@container theme-studies (max-width: 35rem) {
+  .theme-study-comparison,
+  .theme-study-observations,
+  .theme-study-principles ol,
+  .theme-study-materials,
+  .theme-study-practice,
+  .theme-gallery-continuation {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@container theme-studies (max-width: 48rem) {
+  .theme-study-practice {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.5rem;
+  }
+}
+@container theme-studies (max-width: 23rem) {
+  .theme-study-footer {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .theme-study-header-actions {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.375rem;
+  }
+  .theme-study-review {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.375rem;
+  }
+  .theme-study-section-heading {
+    align-items: start;
+    flex-direction: column;
+  }
+  .theme-study-sample figcaption > span:last-child {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .theme-study-token-details summary > svg,
+  .theme-study-advice summary > svg,
+  .theme-study-recipe summary > svg,
+  .theme-study-notes summary > svg {
+    transition: none;
+  }
+}

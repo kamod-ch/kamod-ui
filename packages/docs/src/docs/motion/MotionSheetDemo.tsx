@@ -10,7 +10,7 @@ export function MotionSheetDemo() {
       </SheetTrigger>
       <MotionSheetContent side="right" class="max-w-md">
         <SheetHeader>
-          <SheetTitle>Edit profile</SheetTitle>
+          <SheetTitle>Edit Profile</SheetTitle>
           <SheetDescription>
             Motion enter/exit via @kamod-ch/motion presets — overlay and panel animate together.
           </SheetDescription>

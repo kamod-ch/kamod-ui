@@ -1,12 +1,13 @@
 import { resolve } from "node:path";
 import { defineConfig } from "vitest/config";
 import { blockPagesPlugin } from "./.preactpress/block-pages-plugin";
+import { codeReferencePlugin } from "./.preactpress/code-reference-plugin";
 import { componentApiPlugin } from "./.preactpress/component-api-plugin";
 
 const coreSrc = resolve(import.meta.dirname, "../core/src");
 
 export default defineConfig({
-  plugins: [blockPagesPlugin(), componentApiPlugin()],
+  plugins: [blockPagesPlugin(), componentApiPlugin(), codeReferencePlugin()],
   resolve: {
     alias: [
       {
@@ -20,6 +21,10 @@ export default defineConfig({
       {
         find: "@kamod-ch/ui/lib/interactive",
         replacement: resolve(coreSrc, "lib/interactive/index.ts"),
+      },
+      {
+        find: "@kamod-ch/ui/code/highlight",
+        replacement: resolve(coreSrc, "components/code/highlight-code.ts"),
       },
       {
         find: /^@kamod-ch\/ui\/(.+)$/,

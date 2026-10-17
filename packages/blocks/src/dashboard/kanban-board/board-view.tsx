@@ -31,7 +31,7 @@ export const BoardView = ({
     return (
       <Empty>
         <EmptyHeader>
-          <EmptyTitle>No columns</EmptyTitle>
+          <EmptyTitle>No Columns</EmptyTitle>
           <EmptyDescription>
             Pass columns and onColumnsChange. The block does not persist.
           </EmptyDescription>

@@ -1,6 +1,9 @@
+import { InfoIcon } from "@kamod-ch/icons/lucide";
 /** @file Typed navigation, router callbacks and desktop-state integration examples. */
 import { Badge } from "@kamod-ch/ui";
+import { BrandText } from "../docs/components/brand/BrandText";
 import { CodeBlock } from "../docs/components/CodeBlock";
+import { DocsCallout } from "../docs/components/DocsCallout";
 import { PathDisplay } from "../docs/components/PathDisplay";
 import type { ShellTypeDefinitions } from "./ApplicationShellTypeDefinition";
 import { BlockGuideHeading } from "./detail/BlockDocumentation";
@@ -94,7 +97,7 @@ export const ShellNavigationData = ({
     <BlockGuideHeading id="application-shell-navigation-data" />
     <div role="paragraph">
       Use stable IDs{" "}
-      <RequiredIndicator label="Required navigation IDs" tooltip="Required stable navigation IDs" />{" "}
+      <RequiredIndicator label="Required Navigation IDs" tooltip="Required stable navigation IDs" />{" "}
       and keep child destinations to one level. Group IDs must be unique among groups, and item IDs
       among siblings. This example gives Projects its own page and an expandable submenu. Pass the
       resulting array to <code>navigationGroups</code> and set{" "}
@@ -132,14 +135,14 @@ export const ShellCallbacks = ({
     <BlockGuideHeading id="application-shell-callbacks" />
     <div role="paragraph">
       Native links need no callback. For client routing{" "}
-      <RequiredIndicator label="Client routing requirement" tooltip="Cancel handled navigation" />,
+      <RequiredIndicator label="Client Routing Requirement" tooltip="Cancel handled navigation" />,
       supply <code>onNavigate</code> and cancel only the clicks your router handles. Keep{" "}
       <code>currentPath</code> and breadcrumbs in sync with your router; the shell does not infer
       either.
     </div>
     {renderDefinition({
       name: "ApplicationShellNavigate",
-      title: "Navigation handler",
+      title: "Navigation Handler",
       description:
         "Receives a destination and the Preact click event from its link or action button.",
       note: (
@@ -156,14 +159,16 @@ export const ShellCallbacks = ({
       pass the returned handler to <code>onNavigate</code>.
     </p>
     <CodeBlock code={routerExample} language="tsx" />
-    <p class="blocks-doc-note">
-      <strong>Mobile navigation:</strong> ordinary brand and navigation selections close the mobile
-      sheet after the callback runs, including when it calls <code>preventDefault()</code>. Modified
-      clicks leave the sheet open. Disabled destinations do not call the handler.
-    </p>
+    <DocsCallout class="docs-callout-spaced" title="Mobile Navigation" icon={<InfoIcon />}>
+      <p>
+        Ordinary brand and navigation selections close the mobile sheet after the callback runs,
+        including when it calls <code>preventDefault()</code>. Modified clicks leave the sheet open.
+        Disabled destinations do not call the handler.
+      </p>
+    </DocsCallout>
     {renderDefinition({
       name: "ApplicationShellUserAction",
-      title: "Account menu actions",
+      title: "Account Menu Actions",
       description: "The exact action identifiers passed to onUserAction, without a click event.",
       note: (
         <>
@@ -199,7 +204,7 @@ export const ShellSidebarState = () => (
         <dt>
           Controlled{" "}
           <RequiredIndicator
-            label="Controlled state requirement"
+            label="Controlled State Requirement"
             tooltip="Update open in onOpenChange"
           />
         </dt>
@@ -211,23 +216,31 @@ export const ShellSidebarState = () => (
       </div>
     </dl>
     <CodeBlock code={stateExample} language="tsx" />
-    <p class="blocks-doc-note">
-      <strong>Desktop and mobile are separate.</strong> Below 768px the sidebar uses an
-      independently managed sheet that starts closed when the shell mounts. The toggle opens that
-      sheet instead of changing desktop expansion, so mobile toggles do not call{" "}
-      <code>onOpenChange</code>. Setting <code>open</code> or <code>defaultOpen</code> does not open
-      the mobile sheet; your desktop preference still applies when returning to a wider screen.
-    </p>
+    <DocsCallout
+      class="docs-callout-spaced"
+      title="Desktop and Mobile Are Separate"
+      icon={<InfoIcon />}
+    >
+      <p>
+        Below 768px the sidebar uses an independently managed sheet that starts closed when the
+        shell mounts. The toggle opens that sheet instead of changing desktop expansion, so mobile
+        toggles do not call <code>onOpenChange</code>. Setting <code>open</code> or{" "}
+        <code>defaultOpen</code> does not open the mobile sheet; your desktop preference still
+        applies when returning to a wider screen.
+      </p>
+    </DocsCallout>
     <p class="blocks-api-example-intro">
-      <strong>Remember the desktop preference.</strong> For optional persistence, install{" "}
-      <PathDisplay path={"@kamod-ch/hooks"} /> with your package manager (for example,{" "}
-      <code>pnpm add @kamod-ch/hooks</code>) and use this version of <code>AppFrame</code>. Kamod
-      Hooks'{" "}
-      <a href="https://kamod-ch.github.io/kamod-hooks/hooks/use-local-storage-state/">
-        <code>useLocalStorageState</code>
-      </a>{" "}
-      handles storage and state updates while keeping the same <code>open</code>/
-      <code>onOpenChange</code> wiring. This package is only needed for this optional example.
+      <BrandText>
+        <strong>Remember the Desktop Preference.</strong> For optional persistence, install{" "}
+        <PathDisplay path={"@kamod-ch/hooks"} /> with your package manager (for example,{" "}
+        <code>pnpm add @kamod-ch/hooks</code>) and use this version of <code>AppFrame</code>. Kamod
+        Hooks'{" "}
+        <a href="https://kamod-ch.github.io/kamod-hooks/hooks/use-local-storage-state/">
+          <code>useLocalStorageState</code>
+        </a>{" "}
+        handles storage and state updates while keeping the same <code>open</code>/
+        <code>onOpenChange</code> wiring. This package is only needed for this optional example.
+      </BrandText>
     </p>
     <CodeBlock code={persistedStateExample} language="tsx" />
     <dl class="blocks-doc-callouts">

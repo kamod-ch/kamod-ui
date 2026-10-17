@@ -1,4 +1,5 @@
-import { CheckIcon, RefreshCwIcon } from "@kamod-ch/icons/lucide";
+import { RefreshCwIcon } from "@kamod-ch/icons/lucide";
+import { ChecksIcon } from "@kamod-ch/icons/tabler/outline";
 import { useTabs } from "@kamod-ch/ui/tabs";
 import type { PreviewRefreshPhase } from "./usePreviewRefresh";
 
@@ -22,7 +23,7 @@ export function PreviewRefreshControl({
     <>
       <button
         type="button"
-        class="docs-icon-button blocks-showcase-control blocks-showcase-refresh"
+        class={`docs-icon-button blocks-showcase-control blocks-showcase-refresh kamod-action-feedback${phase === "complete" ? " is-complete" : ""}`}
         data-refresh-state={phase}
         disabled={phase !== "idle"}
         aria-busy={phase === "loading"}
@@ -36,9 +37,12 @@ export function PreviewRefreshControl({
           if (onRefresh()) setValue("preview");
         }}
       >
-        <span class="blocks-showcase-refresh-icon" aria-hidden="true">
-          <RefreshCwIcon class="blocks-showcase-refresh-spinner" />
-          <CheckIcon class="blocks-showcase-refresh-check" />
+        <span class="blocks-showcase-refresh-icon kamod-action-glyph" aria-hidden="true">
+          <RefreshCwIcon
+            size={15}
+            class={`blocks-showcase-refresh-spinner${phase === "complete" ? " kamod-action-outgoing" : ""}`}
+          />
+          <ChecksIcon size={15} class="blocks-showcase-refresh-check kamod-action-confirmation" />
         </span>
         <span
           class={`blocks-showcase-refresh-label blocks-showcase-control-label${reset ? " component-example-reset-label" : ""}`}

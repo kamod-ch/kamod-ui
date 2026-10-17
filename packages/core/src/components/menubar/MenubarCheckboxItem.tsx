@@ -66,8 +66,12 @@ export const MenubarCheckboxItem = ({
       }}
       {...rest}
     >
-      <span class="absolute start-2 flex size-3.5 items-center justify-center">
-        {checked ? <CheckIcon /> : null}
+      <span
+        class="absolute start-2 flex size-3.5 items-center justify-center"
+        aria-hidden="true"
+        style={{ visibility: checked ? "visible" : "hidden" }}
+      >
+        <CheckIcon />
       </span>
       {children}
     </button>

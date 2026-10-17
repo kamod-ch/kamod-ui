@@ -1,6 +1,7 @@
 import { withBasePath } from "../../../base-path";
+import { linkTitle } from "../../../link-title";
 import type { PackageTeaserConfig } from "../../pages/kamod-package-doc-factory";
-import { LibraryJumpLinks } from "../LibraryJumpLinks";
+import { BrandText } from "../brand/BrandText";
 import { LibraryPageHeader } from "../LibraryPageHeader";
 import { InlineCode } from "../PathDisplay";
 import { PackageResources } from "./PackageResources";
@@ -16,7 +17,7 @@ function PackageHeaderItems({ text }: { text: string }) {
             {part}
           </span>
         ) : (
-          part
+          linkTitle(part)
         ),
       )}
     </>
@@ -31,7 +32,13 @@ export function PackageText({ text }: { text: string }) {
         .split(
           /(@[\w-]+\/[\w./-]+|\b(?:use[A-Z]\w*|create[A-Z]\w*|persistedSignal|I18nProvider|Intl(?:\.\w+)?|currentColor|aria-hidden|aria-label)\b|\.value|\.match\(\))/g,
         )
-        .map((part, index) => (index % 2 ? <InlineCode key={index}>{part}</InlineCode> : part))}
+        .map((part, index) =>
+          index % 2 ? (
+            <InlineCode key={index}>{part}</InlineCode>
+          ) : (
+            <BrandText key={index}>{part}</BrandText>
+          ),
+        )}
     </>
   );
 }
@@ -44,7 +51,6 @@ export function PackageGuideHeader({ config }: { config: PackageTeaserConfig }) 
       parent={{ label: "Packages", href: "/docs/packages" }}
       label={config.title}
       eyebrow={<PackageHeaderItems text={config.eyebrow} />}
-      focus={<PackageHeaderItems text="Install · Compose · Explore" />}
       title={config.headline}
       description={
         <>
@@ -53,28 +59,17 @@ export function PackageGuideHeader({ config }: { config: PackageTeaserConfig }) 
           </p>
           <p>
             {notes.introduction} Pair it with the{" "}
-            <a href={withBasePath("/docs/components")}>component library</a> when building your
-            interface.
+            <a href={withBasePath("/docs/components")}>Component Library</a> when building your
+            interface. Continue with the{" "}
+            <a href={config.externalDocsUrl} target="_blank" rel="noopener noreferrer">
+              Full Documentation
+            </a>{" "}
+            for the complete package reference.
           </p>
         </>
       }
     >
       <PackageResources config={config} />
-      <LibraryJumpLinks
-        class="block-guide-switcher"
-        label="Package sections"
-        reference={{ label: "Full documentation", href: config.externalDocsUrl, external: true }}
-      >
-        <li>
-          <a href="#installation">Installation</a>
-        </li>
-        <li>
-          <a href="#usage">Usage</a>
-        </li>
-        <li>
-          <a href="#integration">Integration</a>
-        </li>
-      </LibraryJumpLinks>
     </LibraryPageHeader>
   );
 }

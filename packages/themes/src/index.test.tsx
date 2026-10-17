@@ -38,6 +38,33 @@ describe("theme runtime", () => {
     expect(document.documentElement).not.toHaveClass("dark");
   });
 
+  it("does not mutate or schedule frames for an already applied appearance", () => {
+    const target = document.createElement("div");
+    target.setAttribute("data-theme", "ocean");
+    target.className = "dark";
+    const observer = new MutationObserver(() => {});
+    observer.observe(target, { attributes: true });
+    const requestFrame = vi.fn();
+    vi.stubGlobal("requestAnimationFrame", requestFrame);
+    vi.stubGlobal("matchMedia", () => ({ matches: true }));
+    try {
+      for (let consumer = 0; consumer < 4; consumer++) {
+        applyThemePreset("ocean", target);
+        expect(applyColorScheme("dark", target)).toBe("dark");
+        expect(applyColorScheme("system", target)).toBe("dark");
+      }
+      expect(observer.takeRecords()).toEqual([]);
+      expect(requestFrame).not.toHaveBeenCalled();
+      // A real change must still update a custom target, not just the document.
+      applyThemePreset("sunset", target);
+      expect(target).toHaveAttribute("data-theme", "sunset");
+      expect(requestFrame).toHaveBeenCalledTimes(1);
+    } finally {
+      observer.disconnect();
+      vi.unstubAllGlobals();
+    }
+  });
+
   it("temporarily adds theme-switching while applying color scheme", () => {
     const rafCallbacks: FrameRequestCallback[] = [];
     vi.stubGlobal(

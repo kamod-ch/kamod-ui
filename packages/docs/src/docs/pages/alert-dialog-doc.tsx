@@ -33,7 +33,7 @@ function BasicHero() {
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogTitle>Are You Absolutely Sure?</AlertDialogTitle>
           <AlertDialogDescription>
             This action cannot be undone. This will permanently delete your account from our
             servers.
@@ -84,7 +84,7 @@ const sectionBlocks: Record<string, { preview: () => ComponentChildren; code: st
         </AlertDialogTrigger>
         <AlertDialogContent size="sm">
           <AlertDialogHeader>
-            <AlertDialogTitle>Allow accessory to connect?</AlertDialogTitle>
+            <AlertDialogTitle>Allow Accessory to Connect?</AlertDialogTitle>
             <AlertDialogDescription>
               Do you want to allow the USB accessory to connect to this device?
             </AlertDialogDescription>
@@ -128,7 +128,7 @@ export const Example = () => (
             <AlertDialogMedia>
               <CircleFadingPlus />
             </AlertDialogMedia>
-            <AlertDialogTitle>Share this project?</AlertDialogTitle>
+            <AlertDialogTitle>Share This Project?</AlertDialogTitle>
             <AlertDialogDescription>
               Anyone with the link will be able to view and edit this project.
             </AlertDialogDescription>
@@ -176,7 +176,7 @@ export const Example = () => (
             <AlertDialogMedia>
               <Bluetooth />
             </AlertDialogMedia>
-            <AlertDialogTitle>Allow accessory to connect?</AlertDialogTitle>
+            <AlertDialogTitle>Allow Accessory to Connect?</AlertDialogTitle>
             <AlertDialogDescription>
               Do you want to allow the USB accessory to connect to this device?
             </AlertDialogDescription>
@@ -211,7 +211,7 @@ import { Bluetooth } from "lucide-preact";
             <AlertDialogMedia class="bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive">
               <Trash2 />
             </AlertDialogMedia>
-            <AlertDialogTitle>Delete chat?</AlertDialogTitle>
+            <AlertDialogTitle>Delete Chat?</AlertDialogTitle>
             <AlertDialogDescription>
               This will permanently delete this chat conversation. View{" "}
               <a
@@ -474,37 +474,37 @@ export const alertDialogDocPage: DocPageModule = {
     {
       id: "basic",
       title: "Basic",
-      text: "Title, description, cancel and continue — matches the shadcn demo.",
+      text: "**Reserve Confirmation for Consequential Decisions.** Compose `AlertDialogTitle`, `AlertDialogDescription` and the footer actions into one decision. The title names what will happen, the description explains its consequence, and Cancel gives the reader an explicit way back.\n\nKeep cancellation available and connect the confirmed action to your own operation, including pending and failure handling.",
     },
     {
       id: "small",
       title: "Small",
-      text: 'Use size="sm" on AlertDialogContent for a narrower panel.',
+      text: '**Use a Compact Panel for a Short Decision.** Set `size="sm"` on `AlertDialogContent` when the decision fits in a short explanation. This narrows the panel while retaining the same title, description and action structure as the full-size example.\n\nIt changes presentation, not the importance of the confirmation; test longer translated labels before choosing this density.',
     },
     {
       id: "media",
       title: "Media",
-      text: "AlertDialogMedia centers an icon or graphic above the title.",
+      text: "**Give the Decision a Recognizable Visual Cue.** Place a relevant symbol inside `AlertDialogMedia` above the title to establish context before the reader reaches the decision. The graphic supports the explanation; the dialog's accessible name still comes from its title.\n\nMark a purely decorative symbol appropriately so it is not announced as a second title. Check the dialog without the graphic to confirm the text still identifies the affected resource and the decision being requested.",
     },
     {
       id: "small-media",
-      title: "Small with media",
-      text: 'Combine size="sm" with AlertDialogMedia for compact hardware-style prompts.',
+      title: "Small with Media",
+      text: '**Balance a Visual Cue with Concise Copy.** Combine `AlertDialogMedia` with `size="sm"` on the content panel for a concise device or connection prompt. The illustration, explanation and actions remain in the same reading order within the smaller surface.\n\nKeep the graphic small enough to leave room for the consequences and action labels, especially when the viewport or translated copy is narrow.',
     },
     {
       id: "destructive",
       title: "Destructive",
-      text: 'Style media with destructive tokens; use variant="destructive" on AlertDialogAction and variant="outline" on Cancel.',
+      text: '**Make the Consequence Explicit.** Use `variant="destructive"` on `AlertDialogAction` and destructive theme tokens on the media to reinforce the consequence. An outlined cancel action offers a visually distinct alternative without changing the confirmation workflow.\n\nBefore connecting the handler, test a long resource name and translated action labels in the panel. Keep the dangerous operation separate from Cancel and show pending or failure feedback if confirmation starts asynchronous work.',
     },
     {
       id: "rtl",
       title: "RTL",
-      text: "Set dir on the overlay via AlertDialogContent and wrap with DirectionProvider for logical layout.",
+      text: "**Check the Whole Pattern in Its Reading Direction.** Give `AlertDialogContent` the translated `dir` value and share it through `DirectionProvider`. This keeps the portaled decision panel consistent with the surrounding interface rather than relying on the trigger's visual position.\n\nKeep values and keyboard behavior meaningful in the translated interface, and follow [Direction](/docs/direction/installation) when the page and its portaled controls need a shared direction.",
     },
     {
       id: "with-motion",
       title: "With Motion",
-      text: "Optional Presence-managed exit animations via @kamod-ch/ui-motion — same cancel/confirm flow and dismiss semantics as the core alert dialog.",
+      text: "**Keep Motion Separate from the Interaction Contract.** The optional motion composition adds an overlay fade and panel transition around the existing confirmation controls. Its Presence-managed exit keeps dismissal visible while the core alert dialog supplies the interaction contract.\n\nTest repeated activation and reduced-motion preferences, keep the underlying controlled state in one place and avoid making application logic depend on a decorative transition finishing.",
     },
     { id: "api-reference", title: "API Reference", text: "Props overview." },
   ],

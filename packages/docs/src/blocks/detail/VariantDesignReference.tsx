@@ -1,5 +1,6 @@
 import { ExternalLinkIcon } from "@kamod-ch/icons/lucide";
 import type { LoginBlockId, SignupBlockId } from "../../../../blocks/src/auth/types";
+import { BrandText } from "../../docs/components/brand/BrandText";
 import { BlockHeadingLink } from "../BlockHeadingLink";
 import { authDesignReferences } from "./auth-design-references";
 import { BlockDocSection } from "./BlockDocumentation";
@@ -28,7 +29,7 @@ export function VariantDesignReference({ guide }: { guide: VariantGuide }) {
               When adapting the Kamod version, start with your navigation hierarchy and page
               content, then follow the{" "}
               <a class="underline" href={`#${anchor("customize")}`}>
-                local composition example
+                Local Composition Example
               </a>{" "}
               to connect the layout to your app.
             </>
@@ -36,7 +37,7 @@ export function VariantDesignReference({ guide }: { guide: VariantGuide }) {
             <>
               Adapt the branding, copy and destinations to your product, then follow the{" "}
               <a class="underline" href={`#${anchor("usage")}`}>
-                usage example
+                Usage Example
               </a>{" "}
               to connect the form’s callbacks to your authentication service.
             </>
@@ -63,42 +64,47 @@ export function VariantDesignReference({ guide }: { guide: VariantGuide }) {
           </p>
         </div>
         <p>
-          {sidebar ? (
-            <>
-              Kamod expresses this layout with Preact components, its own sidebar behavior and
-              semantic theme tokens. The copied variant keeps its composition, helpers and demo data
-              together; your application supplies real destinations, content and actions.
-            </>
-          ) : (
-            <>
-              This version uses Kamod’s Preact form components and theme tokens. {auth?.adaptation}
-            </>
-          )}
-          {block.id === "sidebar-10" && (
-            <>
-              {" "}
-              The original reference is cataloged as a sidebar in a popover. Kamod’s current version
-              instead uses an icon-collapsible sidebar with favorites and action menus; it does not
-              place the entire sidebar in a popover.
-            </>
-          )}
+          <BrandText>
+            {sidebar ? (
+              <>
+                Kamod expresses this layout with Preact components, its own sidebar behavior and
+                semantic theme tokens. The copied variant keeps its composition, helpers and demo
+                data together; your application supplies real destinations, content and actions.
+              </>
+            ) : (
+              <>
+                This version uses Kamod’s Preact form components and theme tokens.{" "}
+                {auth?.adaptation}
+              </>
+            )}
+            {block.id === "sidebar-10" && (
+              <>
+                {" "}
+                The original reference is cataloged as a sidebar in a popover. Kamod’s current
+                version instead uses an icon-collapsible sidebar with favorites and action menus; it
+                does not place the entire sidebar in a popover.
+              </>
+            )}
+          </BrandText>
         </p>
         <p class="blocks-doc-attribution-note">
           Inspect the{" "}
           <a href={sourceUrl} target="_blank" rel="noreferrer noopener">
-            original variant’s source
+            Original Variant’s Source
           </a>{" "}
-          for the reference composition. The <a href={`#${anchor("behavior")}`}>variant details</a>{" "}
+          for the reference composition. The <a href={`#${anchor("behavior")}`}>Variant Details</a>{" "}
           above describe this implementation’s behavior and integration boundaries.
         </p>
       </div>
       <p class="blocks-doc-reference-note">
-        Use the original as a design reference. To install the Preact version shown here, follow{" "}
-        <a class="underline" href={`#${anchor("installation")}`}>
-          Add this block
-        </a>{" "}
-        and use this page’s {sidebar ? "download or Code tab" : "Code tab"}. Its files and imports
-        are prepared for Kamod.
+        <BrandText>
+          Use the original as a design reference. To install the Preact version shown here, follow{" "}
+          <a class="underline" href={`#${anchor("installation")}`}>
+            Add This Block
+          </a>{" "}
+          and use this page’s {sidebar ? "download or Code tab" : "Code tab"}. Its files and imports
+          are prepared for Kamod.
+        </BrandText>
       </p>
     </BlockDocSection>
   );

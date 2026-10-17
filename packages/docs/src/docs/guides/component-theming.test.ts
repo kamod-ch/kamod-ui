@@ -10,12 +10,23 @@ const source = readFileSync(
 );
 
 describe("component theming guide", () => {
+  it("offers manager alternatives for the theme installation dependencies", () => {
+    const installation = createComponentThemingSections(source).find(
+      ({ id }) => id === "installation",
+    );
+    expect(installation?.parts).toContainEqual({
+      kind: "dependencies",
+      dependencies: ["@kamod-ch/ui", "@kamod-ch/themes", "@preact/signals"],
+    });
+  });
+
   it("preserves existing section routes and gives every contents entry a unique target", () => {
     const sections = createComponentThemingSections(source);
     expect(sections.map(({ id }) => id)).toEqual([
       "installation",
       "usage",
       "css-setup",
+      "color-theme-presets",
       "token-overrides",
       "provider-controls",
       "tailwind-preset",
@@ -27,7 +38,7 @@ describe("component theming guide", () => {
       ...(children ?? []).map((child) => child.id),
     ]);
     expect(new Set(ids).size).toBe(ids.length);
-    for (const section of sections) {
+    for (const section of sections.filter(({ id }) => id !== "color-theme-presets")) {
       for (const child of section.children ?? []) {
         expect(section.parts).toContainEqual({ kind: "heading", id: child.id, title: child.label });
       }

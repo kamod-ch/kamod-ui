@@ -189,7 +189,7 @@ export const toastDocPage = createGenericDocPage({
     {
       id: "basic-toast",
       title: "Basic Toast",
-      text: "Trigger a toast with title and optional description.",
+      text: "**Make the Notification Specific to the Action.** Trigger a toast with a concise title and an optional description when an action produces useful feedback. The title communicates the outcome, while the supporting line can clarify its scope without interrupting the current task.\n\nKeep important results available in the page when users may miss a transient message, and mount the toaster at the appropriate shared application level.",
       code: `import { Toaster, useToast } from "lucide-preact"
 import { Button } from "@/components/kamod-ui/button";
 
@@ -209,7 +209,7 @@ export const Example = () => {
     {
       id: "toast-dismiss",
       title: "Toast Dismiss",
-      text: "Dismiss notifications programmatically when workflow changes.",
+      text: "**Manage the Message Alongside Its Operation.** Keep the toast identifier when the application needs to dismiss a message after a workflow change. Removing obsolete feedback can be as important as showing the initial result, particularly when the user retries or reverses an action.\n\nDistinguish dismissing a message from cancelling the underlying work, and avoid clearing unrelated feedback during a local state change.",
       code: `import { Toaster, useToast } from "lucide-preact"
 import { Button } from "@/components/kamod-ui/button";
 
@@ -231,7 +231,7 @@ export const Example = () => {
     {
       id: "toast-types",
       title: "Toast Types",
-      text: "Show the available Sonner-style variants: default, success, info, warning and error.",
+      text: "**Choose a Tone that Matches the Result.** Choose default, success, info, warning or error presentation according to the message's meaning. The visual variant helps recognition, while the actual title and description must still explain the outcome and any necessary response.\n\nUse the same meanings throughout the application and avoid presenting a recoverable warning as a completed success merely to soften its appearance.",
       code: `import { Toaster, useToast } from "lucide-preact"
 import { Button } from "@/components/kamod-ui/button";
 
@@ -253,7 +253,7 @@ export const Example = () => {
     {
       id: "toast-position",
       title: "Toast Position",
-      text: "Switch between all supported Toaster positions and trigger a notification.",
+      text: "**Keep Notifications Clear of Important Controls.** Compare the supported `Toaster` positions with the surrounding interface before selecting a default. The notification should remain discoverable without covering an important action or competing with persistent navigation at the same edge.\n\nTest short and long messages at narrow widths, and choose one consistent position unless different regions have a clear purpose that users can understand.",
       code: `import { Toaster, useToast } from "lucide-preact"
 import { Button } from "@/components/kamod-ui/button";
 import { useState } from "preact/hooks";

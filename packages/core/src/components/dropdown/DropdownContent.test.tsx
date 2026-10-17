@@ -1,10 +1,12 @@
 import { act, cleanup, fireEvent, render, screen, waitFor } from "@testing-library/preact";
 import type { ButtonHTMLAttributes } from "preact";
+import { useRef } from "preact/hooks";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { Dropdown } from "./Dropdown";
 import { DropdownContent } from "./DropdownContent";
 import { DropdownItem } from "./DropdownItem";
 import { DropdownTrigger } from "./DropdownTrigger";
+import { useDropdownPlacement } from "./useDropdownPlacement";
 
 afterEach(() => {
   cleanup();
@@ -13,6 +15,35 @@ afterEach(() => {
 });
 
 describe("dropdown content placement", () => {
+  it("bounds portal attachment retries when a trigger never mounts and cancels on unmount", () => {
+    const jobs: VoidFunction[] = [];
+    vi.stubGlobal("queueMicrotask", (job: VoidFunction) => jobs.push(job));
+    function MissingTrigger({ enabled }: { enabled: boolean }) {
+      const triggerRef = useRef<HTMLElement>(null);
+      const contentRef = useRef<HTMLDivElement>(null);
+      useDropdownPlacement({
+        enabled,
+        triggerRef,
+        contentRef,
+        side: "bottom",
+        align: "start",
+        sideOffset: 4,
+      });
+      return null;
+    }
+    const view = render(<MissingTrigger enabled />);
+    expect(jobs).toHaveLength(1);
+    act(() => jobs.shift()!());
+    expect(jobs).toHaveLength(0);
+
+    view.rerender(<MissingTrigger enabled={false} />);
+    view.rerender(<MissingTrigger enabled />);
+    expect(jobs).toHaveLength(1);
+    view.unmount();
+    act(() => jobs.shift()!());
+    expect(jobs).toHaveLength(0);
+  });
+
   it("keeps existing dropdown content inline unless portal is requested", () => {
     const { container } = render(
       <Dropdown defaultOpen>

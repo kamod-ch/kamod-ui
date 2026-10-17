@@ -38,7 +38,7 @@ export type TypeReference = {
 export const dataTypes: readonly TypeReference[] = [
   {
     name: "ApplicationShellBrand",
-    title: "Brand and logo",
+    title: "Brand and Logo",
     description: "The identity shown at the top of the sidebar, including in icon mode.",
     note: (
       <>
@@ -50,7 +50,7 @@ export const dataTypes: readonly TypeReference[] = [
   },
   {
     name: "ApplicationShellUser",
-    title: "Account identity",
+    title: "Account Identity",
     description: "Display data for the sidebar footer and account menu.",
     note: (
       <>
@@ -62,7 +62,7 @@ export const dataTypes: readonly TypeReference[] = [
   },
   {
     name: "ApplicationShellNavigationGroup",
-    title: "Navigation groups",
+    title: "Navigation Groups",
     description: "The outer level of your navigation: an ID, optional heading and ordered items.",
     note: (
       <>
@@ -73,7 +73,7 @@ export const dataTypes: readonly TypeReference[] = [
   },
   {
     name: "ApplicationShellNavigationItem",
-    title: "Top-level items and branches",
+    title: "Top-Level Items and Branches",
     description: "A navigation link that can also contain one level of child links.",
     note: (
       <>
@@ -85,7 +85,7 @@ export const dataTypes: readonly TypeReference[] = [
   },
   {
     name: "ApplicationShellNavigationLink",
-    title: "Leaf and child destinations",
+    title: "Leaf and Child Destinations",
     description: "A destination plus its stable ID, optional icon and interaction state.",
     note: (
       <>
@@ -97,7 +97,7 @@ export const dataTypes: readonly TypeReference[] = [
   },
   {
     name: "ApplicationShellDestination",
-    title: "Breadcrumbs and callback destinations",
+    title: "Breadcrumbs and Callback Destinations",
     description: "The shared label and optional URL used by breadcrumbs and navigation callbacks.",
     note: (
       <>
@@ -109,7 +109,7 @@ export const dataTypes: readonly TypeReference[] = [
   },
   {
     name: "ApplicationShellIcon",
-    title: "Navigation icons",
+    title: "Navigation Icons",
     description: "A Preact component that accepts the shell's SVG styling and accessibility props.",
     note: (
       <>
