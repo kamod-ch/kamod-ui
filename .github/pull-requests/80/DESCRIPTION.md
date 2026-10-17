@@ -385,7 +385,7 @@ stay private; dependency checks require no unused-export suppressions. Browser c
 families at 320/768/1440px in both appearances, alongside source navigation,
 loading/failure, scroll containment, hover reentry and keyboard dismissal.
 
-### Showcase Prompts and download feedback
+### Showcase Prompts and source downloads
 
 All showcase Prompts start in Code, including block details and the home example.
 Display switches remain local while mounted; obsolete persisted Prompt display
@@ -393,13 +393,25 @@ state is removed. Non-block compact layouts show icons for Plain Text/Code/Markd
 while block details keep their narrower threshold. Setup/Adaptation Prompt text
 and icons match the introduction heading, with tighter Source Included metadata.
 
-A private reusable Markdown action sits before Copy and downloads the complete
-original document in every display mode. It hands a native Blob link to the browser
-within the click gesture, then shows finite downloading/downloaded feedback before
-resetting. Three persistent glyphs and a purple version of the shared copy ring,
-orbit and glow avoid SVG replacement glitches. Status text describes browser
-handoff, not unverifiable disk completion. Repeat clicks, source changes, errors
-and unmount release timers/object URLs; compact controls retain accessible names.
+A private reusable file action sits before Copy throughout the site's source
+readers: showcase files, ordinary snippets, guide/type/source readers and live Code
+demonstrations. It saves the original complete string, including folded imports,
+whitespace and Unicode. Real source basenames retain their extensions; unnamed
+snippets use the reader's resolved language. Prompt documents retain their named
+Markdown download in every display format without duplicating the action.
+
+The host composes this through the existing Copy slot, preserving custom controls
+and the public core API. Readers without Copy or a toolbar remain action-free;
+static nested fences and tooltip miniatures do not acquire downloads. Live core
+demonstrations retain their original overflow policy and copyable public examples.
+
+The action hands a native Blob link to the browser within the click gesture, then
+shows finite downloading/downloaded feedback before resetting. Three persistent
+glyphs and a purple version of the shared copy ring, orbit and glow avoid SVG
+replacement glitches. Status text describes browser handoff, not disk completion.
+Repeat clicks, source/name/MIME changes, failures and unmount clean up the single
+timer and object URL. Compact controls match Copy's footprint and accessible names;
+the spinner owns its reduced-motion-aware keyframes without a block-style dependency.
 
 ### Package guides and portable references
 
@@ -564,7 +576,16 @@ branding and navigation changes. The public color-mode prop/type, inversion
 wrappers, paired theme values and mode-specific routes/tests are removed; the
 nine supported syntax palettes and normal application appearance remain.
 
-The latest documented-table follow-up passes the full workspace `test:ci`
+The source-download follow-up passes **946 documentation tests in101 files**,
+documentation typecheck and the production build, plus root Oxlint/Oxfmt/Biome,
+Knip/Syncpack and whitespace checks. All **29 affected production Chrome cases**
+pass together, covering exact source bytes/filenames, compact selected showcase
+files in both appearances, custom Copy composition, hidden-action opt-outs,
+existing Prompt downloads and clipboard/control feedback. Desktop-light and
+phone-dark idle/completion captures were inspected without overflow or page errors.
+This docs-host addition changes no public core API or dependency.
+
+The preceding documented-table follow-up passes the full workspace `test:ci`
 command (**1,583 tests**, including907 docs), followed by **908 documentation
 tests in98 files** after the final deployment-prefix regression. Documentation
 typecheck and the final production build, root Oxlint/Oxfmt/Biome,

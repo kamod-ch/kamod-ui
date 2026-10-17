@@ -1357,3 +1357,31 @@ and the protected ignore-file edit remain excluded.
 The final PR prose also reconciles earlier overview facts with the current source:
 90 technology profiles,4px kind badges, eight main palette roles and three static
 sketches per appearance. This documentation-only correction changes no product behavior.
+
+## 51. Downloads beside Copy across documentation source readers
+
+- **One shared file action.** Generalize the existing Markdown download into a private FileDownloadButton/useFileDownload, retaining the purple Copy-style animation, persistent icons, loading/completion/reset phases, retry feedback and native user-gesture handoff. Keep MarkdownDownloadButton as a thin adapter with its established accessible names and selectors.
+- **Every Copy-enabled source reader.** Compose the action once in ReferenceCode through the existing core Copy slot. Ordinary CodeBlock readers, selected showcase files, guides, type declarations and source panels inherit it. Route the five live Code demonstration modules through the same host while preserving their original overflow policy and literal public API examples. Public core Code props/exports and dependencies remain unchanged.
+- **Complete source and useful filenames.** Save the exact original string, including folded imports, whitespace and Unicode. Preserve a supplied source basename/extension while removing path/query/fragment/line metadata. Infer unnamed snippet extensions with the same language rules as the reader; select matching UTF-8 MIME metadata. A private filename override keeps Prompt Markdown names independent of Plain Text/Code/Markdown display.
+- **Retained composition and opt-outs.** Place Download immediately before the existing Copy control, retaining custom Copy renderers and toolbar composition. Hidden Copy/toolbar and explicitly omitted custom controls omit Download too. Static nested Markdown fences and action-free reference miniatures remain unchanged; unrelated CopyButton product demos keep their own behavior.
+- **Compact styling without duplicate Prompt actions.** Remove PromptDocument's extra action injection and obsolete Prompt-only action layout. Share source-toolbar label/glyph sizing and compact28px controls between Copy and Download. Retain Copy's base typography/background and the existing purple feedback. Give the loading spinner self-contained keyframes and a static reduced-motion fallback.
+- **Bounded lifecycle.** Allocate no Blob, URL or timer until activation. Guard repeat clicks during feedback, release the URL after browser handoff or on failure/replacement/unmount, cancel phase timers on source/name/MIME changes and retain focus. Completion reports browser handoff without claiming a confirmed disk write.
+- **Regression coverage.** Add exact-byte lifecycle/SSR/error tests, filename/language/MIME cases and reader integration tests for folded source, custom Copy composition, Markdown override, opt-outs and file replacement. Add production download cases for ordinary snippets, selected files, both compact appearances and live custom-control/visibility examples. Scope existing Copy feedback assertions to their own live region now that Download has a separate announcement.
+
+### Source-download verification
+
+The final documentation suite passes **946 tests in101 files**, including the
+new file/lifecycle/metadata and reader-composition regressions. Documentation
+typecheck, the production documentation build, root Oxlint/Oxfmt/Biome,
+Knip/Syncpack and whitespace checks pass. Run the full documentation suite after
+workspace runtime dependencies finish building: its installation fixtures compile
+against those real outputs.
+
+All **29 production Chrome cases** pass together: new exact-byte downloads,
+selected showcase files at320px in both appearances, custom Copy composition,
+hidden-action settings, all existing Prompt formats/names and clipboard/control
+regressions. Desktop-light and phone-dark idle/completion captures were inspected;
+Download matches Copy's alignment, compact dimensions and base paint, retains its
+purple feedback, and introduces no horizontal overflow or page errors. No new
+Safari/WebKit result is claimed. Core public APIs, dependencies and lockfile are
+unchanged.
