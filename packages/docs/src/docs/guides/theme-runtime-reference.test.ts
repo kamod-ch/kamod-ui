@@ -8,8 +8,28 @@ import { renderThemeRuntimeTable } from "./theme-runtime-table";
 
 it("links each API shortcut to a real explanation with an icon and trailing arrow", () => {
   const [section] = parseGuide(themeRuntimeReference, renderThemeRuntimeTable);
-  const ids = new Set(
-    section.parts.filter((part) => part.kind === "heading").map((part) => part.id),
+  const ids = new Set([
+    section.id,
+    ...section.parts.filter((part) => part.kind === "heading").map((part) => part.id),
+  ]);
+  // Published fragments remain useful even when their explanations are shortened.
+  expect([...ids]).toEqual(
+    expect.arrayContaining([
+      "theme-runtime-reference",
+      "connect-the-provider",
+      "choose-starting-values",
+      "read-and-change-appearance",
+      "preference-versus-visible-appearance",
+      "check-a-preset-before-applying-it",
+      "storage-and-initial-appearance",
+      "skip-provider-storage-access",
+      "match-the-first-render",
+      "use-the-default-startup-script",
+      "match-custom-starting-values",
+      "choose-the-theme-target",
+      "css-entrypoints",
+      "check-the-result-before-moving-on",
+    ]),
   );
   const table = section.parts.find(
     (part) => part.kind === "html" && part.html.includes("theme-runtime-table"),
@@ -38,7 +58,7 @@ it("typechecks the copyable runtime examples against the actual theme package", 
       writeFileSync(file, part.code);
       return [file];
     });
-    expect(files.length).toBeGreaterThan(5);
+    expect(files).toHaveLength(3);
     const program = ts.createProgram(files, {
       noEmit: true,
       strict: true,

@@ -1816,3 +1816,21 @@ all four responsive cases and the language/copy/download/help case pass again
 on the reviewed production build. Final desktop/tablet/phone captures were
 inspected in both appearances, with no page errors or horizontal overflow.
 No new Safari/WebKit result is claimed.
+
+## 69. A shorter theming guide and a practical conclusion
+
+- **Cut repeated explanations.** Reduce the three supporting theming sources from 7,512 to 2,516 words, retaining the CSS-entry comparison, source detection, semantic/sidebar token contracts and a targeted light/dark override. Keep three compilable runtime examples and the precise saved-choice, System, startup, shared-state and target caveats. The existing eight application and 24 Prism studies and their styles remain unchanged.
+- **Join the optional setup.** Move the config-driven Tailwind recipe into CSS setup while preserving its generated route and actual heading. Remove redundant state walkthroughs, repeated import/control examples and repeated verification recaps. Retain important block, API and gallery destinations.
+- **End with a useful handoff.** Add “From Palette to Product”: three linked takeaways, a local keyboard-operable review checklist and two clear paths into components and complete layouts. Quiet theme color, neutral rules and container-aware columns give the ending structure without another set of cards. Preserve the existing `finish-with-a-theme-review` destination used by the palette studies.
+
+### Theming cleanup validation
+
+The full documentation suite passes **1,052 tests in 112 files**. Documentation
+typecheck/production build, root Oxlint/Oxfmt/Biome, dependency and whitespace
+checks pass. All **five affected production Chrome cases** pass together on the
+final build: 320/768/1024/1440px in both appearances, keyboard review, contrast,
+preference isolation, links and the relocated config route. The existing source-
+grammar case also passes. An earlier page-readiness timeout passed in isolation
+and three further consecutive runs. Final phone/tablet/desktop captures were
+inspected in both appearances, with no page errors or horizontal overflow.
+No new Safari/WebKit result is claimed.

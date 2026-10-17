@@ -29,9 +29,9 @@ describe("component theming guide", () => {
       "color-theme-presets",
       "token-overrides",
       "provider-controls",
-      "tailwind-preset",
       "api-reference",
       "accessibility",
+      "finish-with-a-theme-review",
     ]);
     const ids = sections.flatMap(({ id, children }) => [
       id,
@@ -54,9 +54,10 @@ describe("component theming guide", () => {
       ["provider-controls", "manage-appearance-preferences"],
       ["accessibility", "troubleshoot-and-verify"],
     ]) {
-      expect(sections.find((section) => section.id === target)?.parts).toEqual(
-        shared.find((section) => section.id === original)?.parts,
-      );
+      const originalParts = shared.find((section) => section.id === original)?.parts ?? [];
+      expect(
+        sections.find((section) => section.id === target)?.parts.slice(0, originalParts.length),
+      ).toEqual(originalParts);
     }
     const appearance = sections.find((section) => section.id === "provider-controls")!;
     expect(
@@ -64,6 +65,20 @@ describe("component theming guide", () => {
         (part) => part.kind === "html" && part.html.includes("/docs/theme-toggle/installation"),
       ),
     ).toBe(true);
+  });
+
+  it("keeps the optional config recipe within CSS setup and preserves gallery review links", () => {
+    const sections = createComponentThemingSections(source);
+    const css = sections.find(({ id }) => id === "css-setup")!;
+    expect(css.children).toContainEqual({
+      id: "tailwind-preset",
+      label: "Optional Tailwind preset",
+    });
+    expect(
+      css.parts.some((part) => part.kind === "code" && part.filePath === "tailwind.config.ts"),
+    ).toBe(true);
+    expect(sections.some(({ id }) => id === "tailwind-preset")).toBe(false);
+    expect(sections.at(-1)?.id).toBe("finish-with-a-theme-review");
   });
   it("keeps block deep links valid and points shared setup back to the canonical reference", () => {
     const blockSource = readFileSync(

@@ -1114,6 +1114,7 @@ export const docsRouteManifest = [
       "installation",
       "usage",
       "css-setup",
+      "tailwind-preset",
       "color-theme-presets",
       "color-theme-kamod",
       "color-theme-shadcn",
@@ -1152,9 +1153,9 @@ export const docsRouteManifest = [
       "themes-on-this-page",
       "token-overrides",
       "provider-controls",
-      "tailwind-preset",
       "api-reference",
       "accessibility",
+      "finish-with-a-theme-review",
     ],
   },
   {

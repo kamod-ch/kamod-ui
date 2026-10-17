@@ -153,13 +153,16 @@ existing route/heading identities and shared integration guidance stay intact.
 Container layouts support narrow articles without changing the shipped palettes,
 loading fonts or adding dependencies.
 
-An expandable Prism index adds 24 saved original/community syntax studies with
-TSX/CSS/JSON specimens, exact token inspection, contrast hints and licensed scoped
-CSS copy/downloads. Pinned snapshots retain author credits and integrity hashes;
-no live theme fetch is used. Source paint stays local while Code owns controls.
-Compact opening attribution and fuller closing integration/credit notes crosslink
-the Code guide. Nested contents expand for direct destinations; filtering affects
-only navigation. The public syntax palette API stays unchanged.
+An expandable, searchable Prism index adds 24 saved syntax studies with TSX/CSS/JSON
+specimens, token inspection, contrast hints and licensed CSS downloads. Pinned
+sources retain credits and integrity hashes. Source paint stays local; nested
+contents reveal direct destinations. Opening attribution and closing integration
+notes crosslink the Code guide without changing its public palette API.
+
+The surrounding theming guide removes repeated setup/control explanations and
+folds optional configuration into CSS setup. A final recap, local review checklist
+and component/block reading paths close the guide. Existing palette studies stay
+unchanged.
 
 ### Source references stay generic in core
 
@@ -703,18 +706,16 @@ branding and navigation changes. The public color-mode prop/type, inversion
 wrappers, paired theme values and mode-specific routes/tests are removed; the
 nine supported syntax palettes and normal application appearance remain.
 
-The expanded theme/Prism studies pass **1,051 documentation tests in 112 files**,
-documentation typecheck/production build, root Oxlint/Oxfmt/Biome, dependency and
-authored-file whitespace checks. All **13 affected production Chrome cases** pass across two
-sequential runs: 24 palettes in both page appearances, 320/768/1024/1440px layouts,
-keyboard disclosures/search/help, exact source/color copying, licensed downloads,
-recipes, direct routes/reloads and existing app-theme/sidebar history behavior.
-Five layout/control cases pass again after final visual refinements; captures
-show no page errors or horizontal overflow.
-Original historical source `pre` elements retain their upstream contrast and are
-excluded from contrast auditing; their toolbar and surrounding controls are checked.
-The preceding app-study audit additionally covered all eight applied presets,
-working playgrounds, bright actions and three consecutive block reload repeats.
+The theme guides pass **1,052 documentation tests in 112 files**, docs
+typecheck/production build, root Oxlint/Oxfmt/Biome, dependency and authored-file
+whitespace checks. Thirteen preceding production Chrome cases cover the 24 Prism
+palettes, required widths, keyboard controls, exact copies/downloads and existing
+app-theme/sidebar history. Five layout/control cases pass after visual refinement.
+The latest guide cleanup passes four responsive cases in both appearances, the
+incoming config route (plus three repeats) and its existing grammar regression.
+Historical source `pre` colors remain excluded from contrast auditing; toolbar
+and surrounding controls are checked. The preceding app-study audit covers all
+eight presets, working playgrounds, bright actions and three block reload repeats.
 No new Safari/WebKit result is claimed.
 
 The loader-handoff follow-up passes **954 documentation tests in102 files**, docs

@@ -5,6 +5,7 @@ import { LibraryPageHeader } from "../components/LibraryPageHeader";
 import { PathDisplay } from "../components/PathDisplay";
 import { ColorThemeGallery } from "../guides/color-themes/ColorThemeGallery";
 import { createComponentThemingSections } from "../guides/component-theming";
+import { ThemingOutro } from "../guides/ThemingOutro";
 import type { DocPageModule } from "../types";
 
 const title = "Theming & Tailwind for your entire app";
@@ -35,6 +36,7 @@ export const themingDocPage: DocPageModule = {
       id: "css-setup",
       title: "Set Up Tailwind and Theme CSS",
       text: "Connect global styles and source detection.",
+      children: [{ id: "tailwind-preset", label: "Optional Tailwind Preset" }],
     },
     {
       id: "color-theme-presets",
@@ -95,11 +97,6 @@ export const themingDocPage: DocPageModule = {
       text: "Connect preset and scheme controls and keep the first render consistent.",
     },
     {
-      id: "tailwind-preset",
-      title: "Optional Tailwind Preset",
-      text: "Use configuration-based integration only when your project needs it.",
-    },
-    {
       id: "api-reference",
       title: "Theme Runtime Reference",
       text: "Public theme exports, provider options and persistence behavior.",
@@ -109,13 +106,21 @@ export const themingDocPage: DocPageModule = {
       title: "Troubleshoot and Verify",
       text: "Check production styles, contrast, focus and saved appearance choices.",
     },
+    {
+      id: "finish-with-a-theme-review",
+      title: "From Palette to Product",
+      text: "Keep the core decisions in view, review your app and choose what to build next.",
+    },
   ],
   guideContents: contents,
   guideTitle: title,
   renderMain: () => (
     <GuideArticle
       sections={sections}
-      sectionContent={{ "color-theme-presets": <ColorThemeGallery /> }}
+      sectionContent={{
+        "color-theme-presets": <ColorThemeGallery />,
+        "finish-with-a-theme-review": <ThemingOutro />,
+      }}
       header={
         <LibraryPageHeader
           parent={{ label: "Components", href: "/docs/components" }}
@@ -125,22 +130,11 @@ export const themingDocPage: DocPageModule = {
           description={
             <>
               <p>
-                Give buttons, forms, cards and menus a consistent foundation with{" "}
-                <code>Tailwind CSS v4</code>, semantic tokens and{" "}
-                <PathDisplay path={"@kamod-ch/themes"} />. Connect your stylesheet once, then choose{" "}
-                <strong>shared colors, typography and appearance preferences</strong> that work
-                across the interface. Start with a built-in preset and refine its roles rather than
-                repeating individual color values in every component.
-              </p>
-              <p>
-                Start with the foundation, compare the eight design studies and the Prism source
-                palettes, then refine the tokens and connect runtime preferences. This reference
-                serves <strong>components and complete blocks</strong>; use the{" "}
-                <a href={withBasePath("/blocks/theming")}>Block Theming Guide</a> for copied-source
-                checks, sidebar surfaces and preview behavior. Keep pairs such as{" "}
-                <code>--card</code> and <code>--card-foreground</code> together. For a compact
-                appearance control, see{" "}
-                <a href={withBasePath("/docs/theme-toggle/installation")}>Theme Toggle</a>.
+                Connect <code>Tailwind CSS v4</code> and <PathDisplay path={"@kamod-ch/themes"} />{" "}
+                once, then share colors, typography and appearance preferences across your
+                interface. Start with a preset, refine its semantic roles and keep Light, Dark and
+                System working together. For copied layouts, continue with{" "}
+                <a href={withBasePath("/blocks/theming")}>Block Theming</a>.
               </p>
             </>
           }

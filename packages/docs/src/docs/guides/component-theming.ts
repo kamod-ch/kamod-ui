@@ -8,7 +8,7 @@ import { renderThemeRuntimeTable } from "./theme-runtime-table";
 const reference = `
 ## Optional Tailwind preset
 
-Tailwind CSS v4 uses the CSS-first setup above. The exported configuration preset is for projects that deliberately use a compatible config-driven pipeline; it does not replace loading theme values or scanning your component source.
+For a compatible config-driven pipeline, the package also exports a preset. Skip this for the CSS-first v4 setup above.
 
 \`\`\`ts tailwind.config.ts
 import kamodThemes from "@kamod-ch/themes/tailwind-preset";
@@ -16,7 +16,7 @@ import kamodThemes from "@kamod-ch/themes/tailwind-preset";
 export default { presets: [kamodThemes] };
 \`\`\`
 
-Keep your existing build conventions. Do not add a second Tailwind configuration simply to follow this optional example.
+This does not replace theme CSS or source scanning.
 
 `;
 
@@ -30,6 +30,12 @@ export function createComponentThemingSections(foundationSource: string): GuideS
   };
   const [installation, usage] = parseGuide(introduction);
   const [preset, api] = parseGuide(reference + themeRuntimeReference, renderThemeRuntimeTable);
+  const css = select("set-up-tailwind-and-theme-css", "css-setup");
+  const [outro] = parseGuide(`
+## From palette to product
+
+The palette gives your app its character. **Shared roles make it hold together.** Take these three decisions into the next screen you build.
+`);
   const [palettes] = parseGuide(`
 ## Color theme presets
 
@@ -42,7 +48,15 @@ For source code, open the **Prism syntax themes** group after the application pr
   return [
     { ...installation, id: "installation" },
     { ...usage, id: "usage" },
-    select("set-up-tailwind-and-theme-css", "css-setup"),
+    {
+      ...css,
+      children: [...(css.children ?? []), { id: "tailwind-preset", label: preset.title }],
+      parts: [
+        ...css.parts,
+        { kind: "heading", id: "tailwind-preset", title: preset.title },
+        ...preset.parts,
+      ],
+    },
     {
       ...palettes,
       children: [
@@ -59,8 +73,8 @@ For source code, open the **Prism syntax themes** group after the application pr
     },
     select("shape-your-design-with-tokens", "token-overrides"),
     select("manage-appearance-preferences", "provider-controls"),
-    { ...preset, id: "tailwind-preset" },
     { ...api, id: "api-reference" },
     select("troubleshoot-and-verify", "accessibility"),
+    { ...outro, id: "finish-with-a-theme-review" },
   ];
 }

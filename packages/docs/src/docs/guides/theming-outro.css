@@ -1,0 +1,191 @@
+.theming-outro {
+  --theming-outro-rule: color-mix(in oklab, var(--foreground) 10%, transparent);
+  --theming-outro-secondary: color-mix(in oklab, var(--foreground) 65%, var(--background));
+  container-type: inline-size;
+  margin-top: 1.25rem;
+}
+.theming-outro-recap {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1.5rem;
+  padding-block: 1.25rem;
+  border-block: 1px solid var(--theming-outro-rule);
+  background: radial-gradient(
+    ellipse at 95% 0%,
+    color-mix(in oklab, var(--primary) 4%, transparent),
+    transparent 65%
+  );
+}
+.theming-outro-principles {
+  display: grid;
+  gap: 1.125rem;
+  margin: 0;
+}
+.theming-outro-principles dt {
+  display: flex;
+  align-items: baseline;
+  gap: 0.625rem;
+  color: var(--foreground);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.6;
+}
+.theming-outro-principles dt > span {
+  flex: none;
+  color: var(--theming-outro-secondary);
+  font:
+    0.625rem/1.6 ui-monospace,
+    monospace;
+}
+.theming-outro-principles dd {
+  margin: 0.375rem 0 0 1.375rem;
+  color: var(--theming-outro-secondary);
+  font-size: 0.75rem;
+  line-height: 1.8;
+}
+.theming-outro-principles dd a {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  width: fit-content;
+  margin-top: 0.375rem;
+  color: var(--foreground);
+}
+.theming-outro-review {
+  min-width: 0;
+  padding-left: 1.5rem;
+  border-left: 1px solid var(--theming-outro-rule);
+}
+.theming-outro-review-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.theming-outro .theming-outro-review-heading h3 {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.6;
+}
+.theming-outro-review-heading > span {
+  margin-left: auto;
+  color: var(--theming-outro-secondary);
+  font:
+    0.625rem/1.6 ui-monospace,
+    monospace;
+}
+.theming-outro .theming-outro-review > p {
+  margin: 0.375rem 0 0;
+  color: var(--theming-outro-secondary);
+  font-size: 0.75rem;
+  line-height: 1.8;
+}
+.theming-outro-review fieldset {
+  display: grid;
+  gap: 1rem;
+  min-width: 0;
+  margin: 1rem 0;
+  padding: 0;
+  border: 0;
+}
+.theming-outro-review label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.625rem;
+  cursor: pointer;
+}
+.theming-outro-review [data-slot="checkbox"] {
+  flex: none;
+  margin-top: 0.1875rem;
+}
+.theming-outro-review-copy {
+  display: grid;
+  gap: 0.1875rem;
+  color: var(--theming-outro-secondary);
+  font-size: 0.75rem;
+  line-height: 1.75;
+}
+.theming-outro-review label strong {
+  color: var(--foreground);
+  font-size: 0.75rem;
+  font-weight: 550;
+}
+.theming-outro-next {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+  padding-block: 1.25rem;
+  border-bottom: 1px solid var(--theming-outro-rule);
+}
+.theming-outro-next > a {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+  color: var(--foreground);
+  text-decoration: none;
+}
+.theming-outro-next > a > svg {
+  flex: none;
+}
+.theming-outro-next > a > span {
+  display: grid;
+  gap: 0.25rem;
+  min-width: 0;
+  flex: 1;
+}
+.theming-outro-next small {
+  color: var(--theming-outro-secondary);
+  font-size: 0.6875rem;
+  line-height: 1.5;
+}
+.theming-outro-next strong {
+  font-size: 0.8125rem;
+  font-weight: 550;
+  line-height: 1.6;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, currentColor 35%, transparent);
+  text-underline-offset: 0.2em;
+}
+.theming-outro-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  padding-top: 1rem;
+  color: var(--theming-outro-secondary);
+  font-size: 0.6875rem;
+  line-height: 1.7;
+}
+.theming-outro-footer a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  color: var(--foreground);
+}
+.theming-outro a:focus-visible {
+  outline: 2px solid var(--outline);
+  outline-offset: 4px;
+  border-radius: 0.1875rem;
+}
+@media (hover: hover) and (pointer: fine) {
+  .theming-outro a:hover,
+  .theming-outro-next a:hover strong {
+    text-decoration-color: currentColor;
+  }
+}
+@container (max-width: 36rem) {
+  .theming-outro-recap,
+  .theming-outro-next {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .theming-outro-review {
+    border-left: 0;
+    border-top: 1px solid var(--theming-outro-rule);
+    padding: 1.25rem 0 0;
+  }
+  .theming-outro-next {
+    gap: 1.25rem;
+  }
+}
