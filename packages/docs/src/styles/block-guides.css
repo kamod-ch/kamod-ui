@@ -103,13 +103,13 @@
   flex: none;
   color: inherit;
 }
-/* Detail pages use the same responsive title and lead sizes as library guides. */
+/* Shared block headers own their title and lead sizes independently of guide introductions. */
 .block-guide-header h1,
-.blocks-variant-header h1 {
+.blocks-variant-header:not(.blocks-page-header) h1 {
   font-size: clamp(1.5rem, 2.3vw, 2rem);
 }
 .block-guide-description,
-.blocks-variant-header .blocks-page-header-description {
+.blocks-variant-header:not(.blocks-page-header) .blocks-page-header-description {
   font-size: 0.9375rem;
 }
 .block-guide-header h1 {

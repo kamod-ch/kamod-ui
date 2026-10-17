@@ -1017,7 +1017,8 @@ html.home-workspace-document {
   margin-bottom: 0.625rem;
 }
 .home-token-grid code {
-  font-size: 0.6875rem !important;
+  --inline-code-prose-font: 0.6875rem;
+  font-size: var(--inline-code-prose-font);
   white-space: nowrap;
   color: var(--home-secondary);
 }

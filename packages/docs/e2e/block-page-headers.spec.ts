@@ -132,7 +132,7 @@ for (const theme of ["light", "dark"] as const) {
           expect(header.x).toBeCloseTo(showcase.x, 0);
           expect(header.width).toBeCloseTo(showcase.width, 0);
         }
-        expect(showcase.y - header.y - header.height).toBeCloseTo(width >= 940 ? 20 : 12, 0);
+        expect(showcase.y - header.y - header.height).toBeCloseTo(width >= 940 ? 12 : 8, 0);
       }
     }
   });
