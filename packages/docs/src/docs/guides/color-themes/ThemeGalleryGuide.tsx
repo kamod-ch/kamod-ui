@@ -2,6 +2,7 @@ import { withBasePath } from "../../../base-path";
 import { BlockHeadingLink } from "../../../blocks/BlockHeadingLink";
 import { CodeBlock } from "../../components/CodeBlock";
 import { presetStudies, presetStudyId } from "./preset-studies";
+import { PrismThemeNavigation } from "./prism/PrismThemeNavigation";
 import { ThemePresetPill } from "./ThemePresetPill";
 
 /** Explain the comparison once so each preset can concentrate on its own design decisions. */
@@ -30,6 +31,7 @@ export function ThemeGalleryIntroduction() {
         {presetStudies.map(({ id, label }) => (
           <ThemePresetPill key={id} id={id} label={label} />
         ))}
+        <PrismThemeNavigation />
       </nav>
       <p class="theme-gallery-comparison-note">
         Compare <strong>real theme tokens</strong> such as <code>--primary</code> and{" "}
@@ -120,6 +122,7 @@ export function ThemeGalleryGuide() {
           <a href={withBasePath("/docs/code/installation#code-theme-tokens")}>
             Explore syntax colors ↗
           </a>
+          <a href="#prism-color-themes">Compare the Prism collection ↗</a>
           <a href={withBasePath("/blocks/theming")}>Theme a complete block ↗</a>
         </div>
       </div>

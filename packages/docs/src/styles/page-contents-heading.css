@@ -32,6 +32,44 @@
   padding: 0;
   list-style: none;
 }
+/* Large opt-in collections keep their destination separate from expansion. */
+.page-contents-disclosure-row {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: 0.125rem;
+}
+.page-contents-disclosure-row > a {
+  flex: 1;
+  min-width: 0;
+}
+.page-contents-disclosure-toggle {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0.375rem;
+  background: transparent;
+  color: var(--navigation-sublink-foreground);
+  cursor: pointer;
+}
+.page-contents-disclosure-toggle:hover {
+  background: color-mix(in oklab, var(--foreground) 4%, transparent);
+  color: var(--foreground);
+}
+.page-contents-disclosure-toggle:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+.page-contents-disclosure-toggle[aria-expanded="true"] > svg {
+  rotate: 180deg;
+}
+.page-contents-disclosure-panel[hidden] {
+  display: none;
+}
 .page-contents-list a {
   position: relative;
   margin-left: -1px;

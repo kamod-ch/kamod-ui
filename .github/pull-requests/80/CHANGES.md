@@ -1781,3 +1781,38 @@ Safari/WebKit result is claimed.
 
 Final phone/tablet/desktop captures in both appearances were inspected. The
 capture run reports no page errors or horizontal overflow.
+
+## 68. A saved Prism theme collection with local reader studies
+
+- **Extend the palette navigation.** Add a final expandable Prism group after the eight application presets. Search by palette or author and filter light/dark canvases without hiding chapter destinations. Reset returns focus to search. Add an opt-in right-contents disclosure with separate navigation and toggle actions, retained child identities and automatic reveal for incoming/current descendants. Preserve manual closure, keyboard focus and existing contents/history behavior.
+- **Document 24 real source palettes.** Include the eight Prism 1.30 themes and sixteen pinned community themes: Dracula, Nord, Night Owl, One Dark/Light, GHColors, VS Code Dark+, Material Dark/Light/Oceanic, Synthwave ’84, Gruvbox Dark/Light, a11y Dark, Duotone Light and Atom Dark. Use ordinary linked chapters, compact language controls, the same TSX/CSS/JSON sources, useful design notes and source/author links.
+- **Keep original paint and clear ownership.** Save unmodified CSS, both upstream MIT licenses, author metadata, integrity hashes and a provenance notice. Derive local Code adapters preserving token/language exceptions, selection paint, emphasis and self-contained patterns. Omit upstream layout/plugin chrome and external resource rules. Scope paint through the actual Code boundary so legacy dark-mode documentation rules cannot recolor it. Retain Synthwave’s real gradient rather than inventing a solid canvas. No public palette enum or dependency changes.
+- **Inspect and use the colors.** Offer exact role/value/selector help, source-value copying and honest ink/canvas contrast hints. Keep inherited roles explicit and avoid numeric contrast claims for gradients. Copy/download a licensed scoped CSS adapter and reveal a matching TSX integration example. Shared source controls still copy/download the complete selected specimen. Highlight only approached chapters through the existing shared activity observer; release that observation after activation.
+- **Credit sources at both ends.** Add a moderate opening source callout and a fuller closing provenance/integration/review section, with pinned stylesheet/license links and useful icon actions. Crosslink the Code palette, porting, theme-token and verification guides, application token pairs, top index and individual studies. Publish every chapter as a real generated section route. Keep source/value metadata out of prose-code scaling and automatic reference detection; application preferences remain untouched.
+
+The exact historical source specimens retain their original contrast; browser
+accessibility checks audit the surrounding interface and source toolbar while
+excluding only the original source `pre`. An initial production review identified
+and fixed a phone credits-row shrink overflow and a legacy dark-mode syntax
+override. The latter has a source-backed regression against the real docs rule.
+
+### Prism collection validation
+
+The full documentation suite passes **1,051 tests in 112 files**, including saved
+source integrity/scoping, local language/inspection/copy/download behavior,
+nearby activation/cleanup, filter reset focus and nested contents navigation.
+Documentation typecheck and the production build, root Oxlint/Oxfmt/Biome,
+Knip/Syncpack and authored-file whitespace checks pass. Vendored files retain
+their exact upstream bytes, including license whitespace.
+
+All **eight new production Chrome cases** pass: the four
+required widths in both page appearances, all 24 palettes' actual keyword colors
+against their inspectors in light/dark page CSS, keyboard disclosure/search/help,
+exact source/value copying, byte-matched MIT-bearing CSS downloads, local language
+and recipe state, incoming generated routes and reload reveal. Five existing
+app-theme/sidebar regression cases also pass. These are two sequential runs,
+not a single combined invocation. After final typography/layout refinements,
+all four responsive cases and the language/copy/download/help case pass again
+on the reviewed production build. Final desktop/tablet/phone captures were
+inspected in both appearances, with no page errors or horizontal overflow.
+No new Safari/WebKit result is claimed.

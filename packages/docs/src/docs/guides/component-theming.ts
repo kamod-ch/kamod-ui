@@ -1,6 +1,7 @@
 import introduction from "virtual:kamod-guide-content/theme-component-foundations";
 import { type GuideSection, parseGuide } from "../../blocks/guides/guide-markdown";
 import { presetStudies, presetStudyId } from "./color-themes/preset-studies";
+import { prismThemeId, prismThemes } from "./color-themes/prism/prism-theme-catalog";
 import { themeRuntimeReference } from "./theme-runtime-reference";
 import { renderThemeRuntimeTable } from "./theme-runtime-table";
 
@@ -35,6 +36,8 @@ export function createComponentThemingSections(foundationSource: string): GuideS
 Explore **Eight Palettes from Color to Working Interface**. Start with the main colors, inspect the complete light and dark token reference, then see those roles in the same compositions and an interactive workspace. Every study includes copyable color values, practical design notes, typography and shape.
 
 Start with the direction that suits your content. **Use theme** applies a preset to this documentation while keeping your current appearance preference; comparisons and playgrounds keep their own local appearance. The complete TSX example is always visible. Suggested uses are starting points, not restrictions.
+
+For source code, open the **Prism syntax themes** group after the application presets. Compare 24 locally saved palettes, inspect token colors and copy a scoped reader recipe. Each study credits its source; the collection ends with integration, licensing and contrast guidance.
 `);
   return [
     { ...installation, id: "installation" },
@@ -44,6 +47,13 @@ Start with the direction that suits your content. **Use theme** applies a preset
       ...palettes,
       children: [
         ...presetStudies.map(({ id, label }) => ({ id: presetStudyId(id), label })),
+        {
+          id: "prism-color-themes",
+          label: "Prism syntax themes",
+          collapsible: true,
+          children: prismThemes.map(({ id, label }) => ({ id: prismThemeId(id), label })),
+        },
+        { id: "prism-theme-resources", label: "Prism sources & credits" },
         { id: "themes-on-this-page", label: "How Themes Work on This Page" },
       ],
     },

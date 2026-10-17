@@ -2,6 +2,7 @@ import { setThemePreset } from "@kamod-ch/themes";
 import { useLayoutEffect, useState } from "preact/hooks";
 import { useSiteThemePreset } from "../../../theme/useSiteThemePreset";
 import { presetStudies } from "./preset-studies";
+import { PrismThemeCollection } from "./prism/PrismThemeCollection";
 import { ThemeGalleryGuide, ThemeGalleryIntroduction } from "./ThemeGalleryGuide";
 import { ThemePresetStudy } from "./ThemePresetStudy";
 import "./color-themes.css";
@@ -24,6 +25,7 @@ export function ColorThemeGallery() {
           onApply={() => setThemePreset(study.id)}
         />
       ))}
+      <PrismThemeCollection />
       <ThemeGalleryGuide />
     </div>
   );

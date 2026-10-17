@@ -147,6 +147,8 @@ import { Code } from "@kamod-ch/ui/code";
 
 For more options, start with the [official Prism stylesheets](https://github.com/PrismJS/prism/tree/v1.30.0/themes) or the [Prism Themes collection](https://github.com/PrismJS/prism-themes). Read the theme's actual file and license. Names shared with an editor theme do not guarantee that every port assigns the same color to the same token.
 
+The [Prism palette studies](/docs/theming/installation#prism-color-themes) compare 24 saved original and community themes in this documentation, with shared language samples, exact source colors and scoped reader recipes. Each chapter links its pinned stylesheet and author; the [source notes](/docs/theming/installation#prism-theme-resources) explain attribution and what the previews preserve.
+
 ### Understand a direct stylesheet import
 
 A conventional **standalone Prism host** can load a stylesheet from its installed package:

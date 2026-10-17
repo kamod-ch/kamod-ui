@@ -11,6 +11,8 @@ export type DocContentsSection = {
   id: string;
   label: string;
   step?: number;
+  /** Opt a large child collection into a separate navigation disclosure. */
+  collapsible?: boolean;
   children?: readonly DocContentsSection[];
 };
 

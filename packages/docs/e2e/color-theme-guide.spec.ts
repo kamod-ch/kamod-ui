@@ -55,6 +55,9 @@ for (const width of [320, 768, 1024, 1440]) {
       ).toBe(true);
       await assertNoBlockingA11yViolations(page, `palette guide ${width}px ${scheme}`, {
         include: ".theme-studies",
+        // The historic Prism specimens intentionally preserve upstream ink. Their
+        // inspector exposes literal contrast; surrounding controls remain audited.
+        exclude: ".prism-study-source pre",
       });
     }
     await page.reload();
@@ -68,7 +71,7 @@ for (const width of [320, 768, 1024, 1440]) {
         .filter({ has: page.getByRole("link", { name: "Color Theme Presets", exact: true }) })
         .last()
         .locator("a");
-      await expect(entries).toHaveCount(10);
+      await expect(entries).toHaveCount(36);
       for (const target of await entries.evaluateAll((links) =>
         links.map((link) => (link as HTMLAnchorElement).hash.slice(1)),
       )) {

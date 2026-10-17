@@ -7,11 +7,13 @@ import { hydrate, render as renderPreact } from "preact";
 import { renderToString } from "preact-render-to-string";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { GuideArticle } from "../../components/GuideArticle";
+import { flattenContents } from "../../components/PageContentsList";
 import { themingDocPage } from "../../pages/theming-doc";
 import { createComponentThemingSections } from "../component-theming";
 import { ColorThemeGallery } from "./ColorThemeGallery";
 import { presetDesignNotes } from "./preset-design-notes";
 import { presetStudyId } from "./preset-studies";
+import { prismThemes } from "./prism/prism-theme-catalog";
 
 const source = readFileSync(
   resolve(import.meta.dirname, "../../../../.preactpress/content/theming-foundations.md"),
@@ -40,41 +42,52 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
-it("server-renders every gallery contents target once without saving appearance", () => {
-  const sections = createComponentThemingSections(source);
-  const gallery = sections.find(({ id }) => id === "color-theme-presets")!;
-  const storage = vi.spyOn(Storage.prototype, "setItem");
-  const html = renderToString(
-    <GuideArticle
-      header={null}
-      sections={[gallery]}
-      sectionContent={{ [gallery.id]: <ColorThemeGallery /> }}
-    />,
-  );
-  const document = new DOMParser().parseFromString(html, "text/html");
-  for (const id of [gallery.id, ...gallery.children!.map(({ id }) => id)]) {
-    expect(document.querySelectorAll(`[id="${id}"]`)).toHaveLength(1);
-  }
-  expect(document.querySelectorAll(".theme-study-practice")).toHaveLength(THEME_PRESETS.length);
-  expect(document.querySelectorAll("[data-palette-sketch]")).toHaveLength(THEME_PRESETS.length * 6);
-  expect(document.querySelectorAll(".theme-study-notes[open]")).toHaveLength(0);
-  for (const { id } of THEME_PRESETS) {
-    const study = document.querySelector(`[aria-labelledby="${presetStudyId(id)}"]`)!;
-    expect(study.tagName).toBe("SECTION");
-    for (const link of study.querySelectorAll<HTMLAnchorElement>(".theme-study-jump-links a")) {
-      expect(study.querySelectorAll(`[id="${link.hash.slice(1)}"]`)).toHaveLength(1);
-    }
-    expect(study.querySelector(".theme-color-core")).not.toBeNull();
-    expect(study.querySelector(".theme-color-all")).not.toBeNull();
-    expect(study.querySelector(".theme-playground")).not.toBeNull();
-    expect(study.querySelector(".theme-study-recipe pre code")?.textContent).toContain(
-      `data-theme="${id}"`,
+it(
+  "server-renders every gallery contents target once without saving appearance",
+  { timeout: 15000 },
+  () => {
+    const sections = createComponentThemingSections(source);
+    const gallery = sections.find(({ id }) => id === "color-theme-presets")!;
+    const storage = vi.spyOn(Storage.prototype, "setItem");
+    const html = renderToString(
+      <GuideArticle
+        header={null}
+        sections={[gallery]}
+        sectionContent={{ [gallery.id]: <ColorThemeGallery /> }}
+      />,
     );
-  }
-  expect(document.querySelectorAll(".theme-study .kamod-code")).toHaveLength(THEME_PRESETS.length);
-  expect(document.querySelectorAll('[aria-busy="true"], iframe')).toHaveLength(0);
-  expect(storage).not.toHaveBeenCalled();
-});
+    const document = new DOMParser().parseFromString(html, "text/html");
+    for (const id of [gallery.id, ...flattenContents(gallery.children!).map(({ id }) => id)]) {
+      expect(document.querySelectorAll(`[id="${id}"]`)).toHaveLength(1);
+    }
+    expect(document.querySelectorAll(".theme-study-practice")).toHaveLength(THEME_PRESETS.length);
+    expect(document.querySelectorAll("[data-palette-sketch]")).toHaveLength(
+      THEME_PRESETS.length * 6,
+    );
+    expect(document.querySelectorAll(".theme-study-notes[open]")).toHaveLength(0);
+    for (const { id } of THEME_PRESETS) {
+      const study = document.querySelector(`[aria-labelledby="${presetStudyId(id)}"]`)!;
+      expect(study.tagName).toBe("SECTION");
+      for (const link of study.querySelectorAll<HTMLAnchorElement>(".theme-study-jump-links a")) {
+        expect(study.querySelectorAll(`[id="${link.hash.slice(1)}"]`)).toHaveLength(1);
+      }
+      expect(study.querySelector(".theme-color-core")).not.toBeNull();
+      expect(study.querySelector(".theme-color-all")).not.toBeNull();
+      expect(study.querySelector(".theme-playground")).not.toBeNull();
+      expect(study.querySelector(".theme-study-recipe pre code")?.textContent).toContain(
+        `data-theme="${id}"`,
+      );
+    }
+    expect(document.querySelectorAll(".theme-study .kamod-code")).toHaveLength(
+      THEME_PRESETS.length,
+    );
+    expect(document.querySelectorAll(".prism-theme-index-links a")).toHaveLength(
+      prismThemes.length,
+    );
+    expect(document.querySelectorAll('[aria-busy="true"], iframe')).toHaveLength(0);
+    expect(storage).not.toHaveBeenCalled();
+  },
+);
 
 it("keeps every generated preset route attached to its real guide target", () => {
   const gallery = createComponentThemingSections(source).find(

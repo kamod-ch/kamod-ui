@@ -1,0 +1,526 @@
+.prism-theme-gallery {
+  container: theme-studies / inline-size;
+  --prism-study-line: color-mix(in oklab, var(--foreground) 11%, transparent);
+  --prism-study-quiet: color-mix(in oklab, var(--foreground) 77%, var(--background));
+  --prism-study-tint: color-mix(in oklab, var(--foreground) 4%, var(--background));
+  min-width: 0;
+}
+.prism-theme-study {
+  min-width: 0;
+  padding-block: 1.5rem;
+  border-top: 1px solid var(--prism-study-line);
+}
+.prism-theme-study:first-of-type {
+  padding-top: 1.1rem;
+  border-top: 0;
+}
+.prism-theme-study:last-child {
+  padding-bottom: 1rem;
+}
+.prism-study-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem 1rem;
+}
+.prism-theme-study .prism-study-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0 0 0.28rem;
+  color: var(--prism-study-quiet);
+  font-size: 0.6875rem;
+  font-weight: 500;
+}
+.prism-study-eyebrow > span {
+  margin-right: 0.25rem;
+  font-variant-numeric: tabular-nums;
+}
+.prism-theme-study .prism-study-heading h4 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.prism-study-heading nav,
+.prism-study-footer > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55rem 0.85rem;
+}
+.prism-theme-study a:not(.blocks-doc-heading-link) {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  color: var(--foreground);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, var(--foreground) 35%, transparent);
+  text-underline-offset: 0.2em;
+}
+.prism-theme-study a:not(.blocks-doc-heading-link):hover {
+  text-decoration-color: currentColor;
+}
+.prism-theme-study .prism-study-direction {
+  max-width: 67ch;
+  margin: 0.8rem 0 0;
+  color: var(--foreground);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.65;
+}
+.prism-theme-study .prism-study-usage {
+  max-width: 80ch;
+  margin: 0.3rem 0 1rem;
+  color: var(--prism-study-quiet);
+  font-size: 0.75rem;
+  line-height: 1.65;
+}
+.prism-study-workbench {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(14rem, 0.7fr);
+  gap: 1rem;
+  align-items: start;
+  min-width: 0;
+}
+.prism-study-preview,
+.prism-study-inspector {
+  min-width: 0;
+}
+.prism-study-row-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  min-width: 0;
+  min-height: 1.75rem;
+  margin-bottom: 0.45rem;
+}
+.prism-theme-study .prism-study-row-heading h5 {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0;
+  color: var(--foreground);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+.prism-study-languages {
+  display: flex;
+  gap: 0.1rem;
+  padding: 0.15rem;
+  border-radius: 0.4rem;
+  background: var(--prism-study-tint);
+}
+.prism-study-languages button {
+  min-height: 1.55rem;
+  padding: 0.1rem 0.4rem;
+  border: 0;
+  border-radius: 0.25rem;
+  background: transparent;
+  color: var(--prism-study-quiet);
+  font: inherit;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  line-height: 1.3;
+  cursor: pointer;
+}
+.prism-study-languages button[aria-pressed="true"] {
+  background: var(--background);
+  color: var(--foreground);
+  box-shadow: 0 1px 3px color-mix(in oklab, var(--foreground) 9%, transparent);
+  font-weight: 600;
+}
+.prism-study-languages button:hover {
+  color: var(--foreground);
+}
+.prism-study-source {
+  min-width: 0;
+}
+.prism-study-source .kamod-code {
+  --kamod-code-font-size: 0.6875rem;
+  --kamod-code-line-height: 1.7;
+  min-width: 0;
+}
+.prism-study-source .kamod-code .docs-code {
+  min-height: 19.5rem;
+  max-height: 24rem;
+  padding: 0.85rem;
+  scrollbar-width: thin;
+}
+.prism-study-source .docs-code-toolbar {
+  min-height: 2.2rem;
+  padding: 0.4rem 0.5rem;
+  gap: 0.25rem;
+}
+.prism-study-source .docs-code-file-name {
+  font-size: 0.6875rem;
+}
+.prism-study-source .docs-code-file-path {
+  font-size: 0.6875rem;
+}
+.prism-study-source .docs-code-file-path > [data-path-part] {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.prism-theme-study .prism-study-caption {
+  margin: 0.45rem 0 0;
+  color: var(--prism-study-quiet);
+  font-size: 0.6875rem;
+  line-height: 1.6;
+}
+.prism-study-info {
+  display: grid;
+  width: 1.5rem;
+  height: 1.5rem;
+  flex-shrink: 0;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 0.35rem;
+  background: transparent;
+  color: var(--prism-study-quiet);
+  cursor: help;
+}
+.prism-study-info:hover {
+  background: var(--prism-study-tint);
+  color: var(--foreground);
+}
+.prism-study-swatches {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.45rem;
+}
+.prism-study-swatches .prism-token-hint {
+  min-width: 0;
+}
+.prism-token-swatch {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.22rem;
+  border: 1px solid transparent;
+  border-radius: 0.4rem;
+  background: transparent;
+  color: var(--prism-study-quiet);
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+.prism-token-paint {
+  display: block;
+  width: 100%;
+  height: 1.3rem;
+  border: 1px solid color-mix(in oklab, var(--foreground) 13%, transparent);
+  border-radius: 0.25rem;
+}
+.prism-token-name {
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  font-size: 0.625rem;
+  line-height: 1.4;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.prism-token-swatch[aria-pressed="true"] {
+  border-color: color-mix(in oklab, var(--foreground) 25%, transparent);
+  background: var(--prism-study-tint);
+  color: var(--foreground);
+}
+.prism-token-swatch:hover {
+  background: var(--prism-study-tint);
+  color: var(--foreground);
+}
+.prism-token-tooltip[data-slot="tooltip-content"] {
+  display: flex;
+  width: min(19rem, calc(100vw - 2rem));
+  max-width: min(19rem, calc(100vw - 2rem));
+  flex-direction: column;
+  align-items: start;
+  gap: 0.35rem;
+  padding: 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 0.65rem;
+  background: var(--popover);
+  color: var(--popover-foreground);
+  font-size: 0.75rem;
+  line-height: 1.6;
+  text-align: start;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.prism-token-tooltip p,
+.prism-token-tooltip small,
+.prism-token-tooltip code {
+  margin: 0;
+  color: inherit;
+  font-size: inherit;
+}
+.prism-token-tooltip small {
+  font-size: 0.6875rem;
+}
+.prism-token-tooltip code {
+  max-width: 100%;
+  padding: 0.12rem 0.25rem;
+  overflow-wrap: anywhere;
+  border: 0;
+  border-radius: 0.2rem;
+  background: color-mix(in oklab, var(--popover-foreground) 6%, transparent);
+  white-space: normal;
+}
+/* These are inspector values, not highlighted sentence-code chips. */
+.prism-study-inspector code,
+.prism-token-tooltip code {
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: inherit !important;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-weight: 400;
+}
+.prism-theme-study .prism-study-token-detail {
+  min-width: 0;
+  margin-top: 0.7rem;
+  padding: 0.8rem;
+  border: 1px solid var(--prism-study-line);
+  border-radius: 0.6rem;
+  background: var(--prism-study-tint);
+}
+.prism-study-token-value {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+.prism-study-token-value > div {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+.prism-study-token-value strong {
+  color: var(--foreground);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.prism-theme-study .prism-study-token-value code {
+  width: fit-content;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-wrap: anywhere;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--foreground);
+  font-size: 0.6875rem;
+  white-space: normal;
+}
+.prism-selected-paint {
+  width: 1.8rem;
+  height: 1.8rem;
+  flex-shrink: 0;
+  border: 1px solid var(--prism-study-line);
+  border-radius: 0.35rem;
+}
+.prism-theme-study .prism-study-token-detail > p {
+  margin: 0.65rem 0 0.45rem;
+  color: var(--prism-study-quiet);
+  font-size: 0.6875rem;
+  line-height: 1.7;
+}
+.prism-theme-study .prism-token-selector {
+  display: block;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-wrap: anywhere;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--prism-study-quiet);
+  font-size: 0.625rem;
+  line-height: 1.7;
+  white-space: normal;
+}
+.prism-token-tooltip .prism-token-selector {
+  color: inherit;
+}
+.prism-study-token-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 0.6rem;
+  margin-top: 0.65rem;
+  color: var(--prism-study-quiet);
+  font-size: 0.625rem;
+  line-height: 1.6;
+}
+.prism-token-contrast strong {
+  color: inherit;
+  font-size: inherit;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.prism-token-contrast[data-low-contrast] {
+  text-decoration: underline dotted;
+  text-decoration-color: color-mix(in oklab, currentColor 40%, transparent);
+  text-underline-offset: 0.2em;
+}
+.prism-study-notes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem 1.25rem;
+  margin: 1rem 0;
+}
+.prism-study-notes dt {
+  margin: 0 0 0.2rem;
+  color: var(--foreground);
+  font-size: 0.6875rem;
+  font-weight: 600;
+}
+.prism-study-notes dd {
+  margin: 0;
+  color: var(--prism-study-quiet);
+  font-size: 0.6875rem;
+  line-height: 1.7;
+}
+.prism-study-recipe {
+  margin-top: 1rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--prism-study-line);
+}
+.prism-theme-study .prism-study-recipe > p {
+  max-width: 90ch;
+  margin: 0.3rem 0 0.65rem;
+  color: var(--prism-study-quiet);
+  font-size: 0.6875rem;
+  line-height: 1.7;
+}
+.prism-theme-study .prism-study-recipe > p code {
+  padding: 0.05rem 0.2rem;
+  border: 0;
+  font-size: inherit;
+}
+.prism-study-recipe-actions,
+.prism-study-css-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+.prism-study-recipe-actions {
+  justify-content: space-between;
+  gap: 0.55rem 1rem;
+}
+.prism-study-css-actions :is(.kamod-copy-button, .docs-file-download),
+.prism-study-token-value .kamod-copy-button {
+  min-height: 1.8rem;
+  border: 0;
+  background: color-mix(in oklab, var(--foreground) 6%, transparent);
+  color: var(--foreground);
+  font-size: 0.6875rem;
+}
+.prism-study-css-actions :is(.kamod-copy-button, .docs-file-download):hover,
+.prism-study-token-value .kamod-copy-button:hover {
+  background: color-mix(in oklab, var(--foreground) 10%, transparent);
+}
+.prism-study-recipe-toggle {
+  display: inline-flex;
+  min-height: 1.8rem;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0;
+  border: 0;
+  background: transparent;
+  color: var(--foreground);
+  font: inherit;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, var(--foreground) 35%, transparent);
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+.prism-study-recipe-toggle[aria-expanded="true"] svg {
+  transform: rotate(180deg);
+}
+.prism-study-integration:not([hidden]) {
+  margin-top: 0.75rem;
+}
+.prism-theme-study .prism-study-builtin-note {
+  margin-top: 0.7rem;
+}
+.prism-study-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  margin-top: 1rem;
+  color: var(--prism-study-quiet);
+  font-size: 0.625rem;
+  line-height: 1.7;
+}
+.prism-study-footer > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.prism-study-footer > span > span {
+  padding-inline: 0.25rem;
+}
+.prism-theme-study :is(button, a):focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+}
+@container theme-studies (max-width: 40rem) {
+  .prism-study-workbench {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+  .prism-study-swatches {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+  .prism-study-source .kamod-code .docs-code {
+    min-height: 16rem;
+  }
+}
+@container theme-studies (max-width: 26rem) {
+  .prism-study-heading nav {
+    gap: 0.65rem;
+  }
+  .prism-study-row-heading {
+    flex-wrap: wrap;
+    row-gap: 0.4rem;
+  }
+  .prism-study-swatches {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .prism-study-notes {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .prism-study-source .docs-code-toolbar {
+    padding-inline: 0.4rem;
+  }
+}
+@media (pointer: coarse) {
+  .prism-study-languages button,
+  .prism-study-info,
+  .prism-study-recipe-toggle,
+  .prism-study-css-actions :is(.kamod-copy-button, .docs-file-download) {
+    min-height: 2.75rem;
+  }
+  .prism-study-info {
+    min-width: 2.75rem;
+  }
+}

@@ -39,7 +39,7 @@ export const themingDocPage: DocPageModule = {
     {
       id: "color-theme-presets",
       title: "Color Theme Presets",
-      text: "Explore eight palettes through copyable core colors, complete light/dark token references, interactive playgrounds and scoped app examples.",
+      text: "Explore eight application palettes through complete color references and local playgrounds, then compare 24 source-backed Prism syntax themes with scoped reader recipes.",
       children: [
         { id: "color-theme-kamod", label: "Kamod" },
         { id: "color-theme-shadcn", label: "shadcn (Geist)" },
@@ -49,6 +49,38 @@ export const themingDocPage: DocPageModule = {
         { id: "color-theme-voltage", label: "Voltage" },
         { id: "color-theme-watson", label: "Watson" },
         { id: "color-theme-professional", label: "Professional (Electronics)" },
+        {
+          id: "prism-color-themes",
+          label: "Prism syntax themes",
+          collapsible: true,
+          children: [
+            { id: "prism-theme-default", label: "Prism Default" },
+            { id: "prism-theme-coy", label: "Coy" },
+            { id: "prism-theme-dark", label: "Prism Dark" },
+            { id: "prism-theme-funky", label: "Funky" },
+            { id: "prism-theme-okaidia", label: "Okaidia" },
+            { id: "prism-theme-solarized-light", label: "Solarized Light" },
+            { id: "prism-theme-tomorrow", label: "Tomorrow Night Eighties" },
+            { id: "prism-theme-twilight", label: "Twilight" },
+            { id: "prism-theme-dracula", label: "Dracula" },
+            { id: "prism-theme-nord", label: "Nord" },
+            { id: "prism-theme-night-owl", label: "Night Owl" },
+            { id: "prism-theme-one-dark", label: "One Dark" },
+            { id: "prism-theme-one-light", label: "One Light" },
+            { id: "prism-theme-ghcolors", label: "GHColors" },
+            { id: "prism-theme-vsc-dark-plus", label: "VS Code Dark+" },
+            { id: "prism-theme-material-dark", label: "Material Dark" },
+            { id: "prism-theme-material-light", label: "Material Light" },
+            { id: "prism-theme-material-oceanic", label: "Material Oceanic" },
+            { id: "prism-theme-synthwave84", label: "Synthwave ’84" },
+            { id: "prism-theme-gruvbox-dark", label: "Gruvbox Dark" },
+            { id: "prism-theme-gruvbox-light", label: "Gruvbox Light" },
+            { id: "prism-theme-a11y-dark", label: "a11y Dark" },
+            { id: "prism-theme-duotone-light", label: "Duotone Light" },
+            { id: "prism-theme-atom-dark", label: "Atom Dark" },
+          ],
+        },
+        { id: "prism-theme-resources", label: "Prism sources & credits" },
         { id: "themes-on-this-page", label: "How Themes Work on This Page" },
       ],
     },
@@ -101,9 +133,9 @@ export const themingDocPage: DocPageModule = {
                 repeating individual color values in every component.
               </p>
               <p>
-                Start with the foundation, compare the eight design studies, then refine the tokens
-                and connect runtime preferences. This reference serves{" "}
-                <strong>components and complete blocks</strong>; use the{" "}
+                Start with the foundation, compare the eight design studies and the Prism source
+                palettes, then refine the tokens and connect runtime preferences. This reference
+                serves <strong>components and complete blocks</strong>; use the{" "}
                 <a href={withBasePath("/blocks/theming")}>Block Theming Guide</a> for copied-source
                 checks, sidebar surfaces and preview behavior. Keep pairs such as{" "}
                 <code>--card</code> and <code>--card-foreground</code> together. For a compact

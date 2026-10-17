@@ -122,6 +122,14 @@ export function CodeSyntaxThemeGuide() {
         </p>
         <CodePrismPaletteStudies />
         <p>
+          For a wider comparison, open the{" "}
+          <a href={withBasePath("/docs/theming/installation#prism-color-themes")}>
+            24-theme Prism collection
+          </a>{" "}
+          in the Theming guide. It includes original and community palettes, TSX/CSS/JSON samples,
+          inspectable source colors, scoped CSS downloads and per-theme author credits.
+        </p>
+        <p>
           The colors are <strong>scoped to an individual reader</strong>, so every palette can
           appear on the same page without overriding another. Some original small-text colors are
           strengthened for readability: Okaidia's pink, Twilight's comments and the Solarized Light
