@@ -1,14 +1,9 @@
 import {
   ArrowRightIcon,
   ArrowUpRightIcon,
-  BookOpenIcon,
-  ComponentIcon,
   HouseIcon,
-  LayersIcon,
-  PackageIcon,
   RotateCcwIcon,
   RouteIcon,
-  WaypointsIcon,
 } from "@kamod-ch/icons/lucide";
 import { BrandGithubIcon } from "@kamod-ch/icons/tabler/filled";
 import type { ComponentChildren } from "preact";
@@ -47,82 +42,27 @@ function PageStateFrame({
   );
 }
 
-const destinations = [
-  {
-    label: "Components",
-    description: "Small pieces. Plenty of possibilities.",
-    href: "/docs/components",
-    Icon: ComponentIcon,
-  },
-  {
-    label: "Blocks",
-    description: "A head start on your next screen.",
-    href: "/blocks",
-    Icon: LayersIcon,
-  },
-  {
-    label: "Forms",
-    description: "Inputs, validation, and a little clarity.",
-    href: "/docs/forms",
-    Icon: BookOpenIcon,
-  },
-  {
-    label: "Packages",
-    description: "Meet the rest of the toolkit.",
-    href: "/docs/packages",
-    Icon: PackageIcon,
-  },
-];
-
 /** A standalone recovery page, with no demo registry or browser-only state. */
 export function PageNotFound() {
   return (
     <PageStateFrame notFound>
       <section class="not-found-hero" aria-labelledby="page-state-title">
-        <div class="not-found-art" aria-hidden="true">
-          <div class="not-found-sheet">
-            <span>404</span>
-            <span class="not-found-sheet-line" />
-          </div>
-        </div>
-        <p class="not-found-status">
-          <strong>Error 404</strong> <i aria-hidden="true">/</i> <span>Page not found</span>
+        <p class="not-found-status" aria-hidden="true">
+          404
         </p>
-        <h1 id="page-state-title">This page is off the map.</h1>
-        <p class="not-found-description">
-          A moved link or a mistyped address may have brought you here. This page isn’t available,
-          but there’s plenty still to explore. Head{" "}
-          <a class="not-found-inline-link" href={withBasePath("/")}>
-            <HouseIcon size={14} aria-hidden="true" />
-            Back to Home
-            <ArrowUpRightIcon size={12} aria-hidden="true" />
-          </a>{" "}
-          to find your next idea, or open{" "}
-          <a class="not-found-inline-link" href={withBasePath("/docs/getting-started")}>
-            <BookOpenIcon size={14} aria-hidden="true" />
-            Getting Started
-            <ArrowUpRightIcon size={12} aria-hidden="true" />
-          </a>{" "}
-          for a clear path from your first component to a working interface.
-        </p>
-      </section>
-      <section class="not-found-destinations" aria-labelledby="page-state-explore">
-        <div class="not-found-divider">
-          <h2 id="page-state-explore">Good places to get lost in</h2>
-          <WaypointsIcon size={19} strokeWidth={1.7} aria-hidden="true" />
-        </div>
-        <nav class="not-found-links" aria-label="Explore the documentation">
-          {destinations.map(({ label, description, href, Icon }) => (
-            <a key={href} href={withBasePath(href)}>
-              <Icon class="not-found-link-icon" size={19} strokeWidth={1.7} aria-hidden="true" />
-              <span>
-                <strong>{label}</strong>
-                <span>{description}</span>
-              </span>
-              <ArrowRightIcon class="not-found-link-arrow" size={15} aria-hidden="true" />
+        <div class="not-found-copy">
+          <h1 id="page-state-title">Page not found</h1>
+          <p class="not-found-description">We couldn’t find that page.</p>
+          <nav class="not-found-actions" aria-label="Page recovery">
+            <a class="not-found-home" href={withBasePath("/")}>
+              <HouseIcon size={15} aria-hidden="true" />
+              Back to Home
             </a>
-          ))}
-        </nav>
+            <a class="not-found-guide" href={withBasePath("/docs/getting-started")}>
+              Getting Started <ArrowRightIcon size={14} aria-hidden="true" />
+            </a>
+          </nav>
+        </div>
       </section>
     </PageStateFrame>
   );

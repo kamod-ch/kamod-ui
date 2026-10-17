@@ -1,220 +1,142 @@
-/* Recovery stays independent of the documentation shell and demo registry. */
+/* A single quiet recovery message; the shared header and footer keep their layout. */
 .page-state-shell--not-found {
-  --not-found-muted: color-mix(in oklab, var(--muted-foreground) 75%, var(--foreground));
+  max-height: 100vh;
+  max-height: 100dvh;
+  overflow: clip;
 }
 .page-state-shell--not-found .page-state-main {
-  display: flex;
-  flex-direction: column;
-  width: min(100%, 46rem);
-}
-.not-found-hero {
-  margin-top: auto;
-  text-align: center;
-}
-.not-found-art {
   display: grid;
   place-items: center;
-  margin: 0 auto clamp(0.75rem, 2dvh, 1.5rem);
-  padding: clamp(0.25rem, 1dvh, 0.5rem);
+  width: min(100%, 38rem);
+  padding-block: clamp(0.75rem, 3dvh, 2rem);
+  overflow: clip;
 }
-/* A single folded sheet replaces the layered map; its small accent follows the chosen preset. */
-.not-found-sheet {
-  position: relative;
+.not-found-hero,
+.not-found-copy {
   display: grid;
   justify-items: center;
-  align-content: center;
-  gap: 0.75rem;
-  width: clamp(7rem, 20dvh, 12rem);
-  aspect-ratio: 28 / 19;
-  border: 1px solid;
-  border-color: color-mix(in oklab, var(--primary) 18%, var(--border));
-  border-radius: 1rem 1.75rem 1rem 1rem;
-  background: linear-gradient(
-    135deg,
-    color-mix(in oklab, var(--primary) 6%, var(--background)),
-    var(--background) 75%
-  );
-  color: color-mix(in oklab, var(--primary) 28%, var(--foreground));
-  box-shadow: 0 8px 22px -18px color-mix(in oklab, var(--foreground) 35%, transparent);
-  transform: rotate(-3deg);
+  min-width: 0;
+  text-align: center;
 }
-.not-found-sheet::after {
-  content: "";
-  position: absolute;
-  top: -1px;
-  right: -1px;
-  width: 1.75rem;
-  height: 1.75rem;
-  border-bottom: 1px solid color-mix(in oklab, var(--primary) 22%, var(--border));
-  border-left: 1px solid color-mix(in oklab, var(--primary) 22%, var(--border));
-  border-radius: 0 1.75rem 0 0.5rem;
-  background: color-mix(in oklab, var(--primary) 9%, var(--background));
+.not-found-hero {
+  width: 100%;
+  gap: clamp(0.75rem, 2dvh, 1.25rem);
 }
-.not-found-sheet > span:first-child {
-  font-size: clamp(2.75rem, 9dvh, 5.5rem);
+.not-found-status {
+  margin: 0;
+  color: var(--muted-foreground);
+  font-size: clamp(3rem, 12dvh, 6rem);
   font-weight: 650;
   line-height: 1;
   letter-spacing: -0.07em;
 }
-.not-found-sheet-line {
-  width: 3rem;
-  height: 3px;
-  border-radius: 2px;
-  background: color-mix(in oklab, var(--primary) 35%, transparent);
-}
-.not-found-status {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.625rem;
-  margin: 0 0 0.85rem;
-  color: color-mix(in oklab, var(--muted-foreground) 65%, var(--foreground));
-  font-size: 0.75rem;
-  font-weight: 550;
-}
-.not-found-status strong {
-  color: var(--foreground);
-  font-size: 1rem;
-  font-weight: 650;
-}
-.not-found-status i {
-  font-style: normal;
-  opacity: 0.5;
+.not-found-copy {
+  gap: clamp(0.75rem, 1.75dvh, 1rem);
 }
 .not-found-hero h1 {
   margin: 0;
   color: var(--foreground);
-  font-size: clamp(1.8rem, 4.5vw, 2.65rem);
-  font-weight: 650;
-  letter-spacing: -0.045em;
-  line-height: 1.15;
+  font-size: clamp(1.5rem, 3.5vw, 2rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.04em;
   text-wrap: balance;
 }
 .not-found-description {
-  margin: 1rem auto 0;
-  max-width: 64ch;
-  color: var(--not-found-muted);
+  margin: 0;
+  color: color-mix(in oklab, var(--muted-foreground) 65%, var(--foreground));
   font-size: 0.875rem;
-  line-height: 1.9;
-  text-wrap: pretty;
+  line-height: 1.5;
 }
-.not-found-description > .not-found-inline-link {
+.not-found-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.375rem;
+}
+.not-found-actions a {
   display: inline-flex;
   align-items: center;
-  gap: 0.25rem;
-  color: var(--foreground);
+  justify-content: center;
+  gap: 0.5rem;
+  box-sizing: border-box;
+  min-height: 2.5rem;
+  padding: 0.5rem 0.875rem;
+  border-radius: 0.5rem;
+  font-size: 0.8125rem;
   font-weight: 550;
-  border-radius: 0.2rem;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+.not-found-actions svg {
+  flex: none;
+  stroke-width: 1.75;
+}
+.not-found-home {
+  background: var(--foreground);
+  color: var(--background);
+}
+.not-found-actions .not-found-guide {
+  padding-inline: 0.25rem;
+  color: var(--foreground);
   text-decoration: underline;
   text-decoration-color: color-mix(in oklab, currentColor 25%, transparent);
   text-underline-offset: 0.2em;
 }
-.not-found-inline-link > svg {
-  flex: none;
+.not-found-guide svg {
+  opacity: 0.6;
 }
-.not-found-inline-link > svg:last-child {
-  opacity: 0.45;
-}
-.not-found-inline-link:is(:hover, :focus-visible) {
-  text-decoration-color: currentColor;
-}
-.not-found-inline-link:is(:hover, :focus-visible) > svg:last-child {
-  opacity: 1;
-}
-.not-found-inline-link:focus-visible,
-.not-found-links a:focus-visible {
-  outline: 2px solid var(--ring);
-  outline-offset: 3px;
-}
-.not-found-destinations {
-  margin-top: clamp(1.5rem, 3dvh, 3rem);
-  margin-bottom: auto;
-}
-.not-found-divider {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 0 0.75rem 0.75rem;
-  border-bottom: 1px solid var(--page-state-rule);
-  color: var(--not-found-muted);
-}
-.not-found-divider h2 {
-  margin: 0;
-  font-size: 0.75rem;
-  font-weight: 500;
-}
-.not-found-links {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
-  gap: 0.625rem;
-  margin-top: 0.75rem;
-}
-.not-found-links a {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.875rem 0.75rem;
-  border: 1px solid;
-  border-color: color-mix(in oklab, var(--foreground) 5%, transparent);
-  border-radius: 0.75rem;
-  background: color-mix(in oklab, var(--foreground) 3%, transparent);
-}
-.not-found-links a > span {
-  flex: 1;
-  min-width: 0;
-}
-.not-found-links svg {
-  flex: none;
-}
-.not-found-link-icon {
-  color: var(--muted-foreground);
-}
-.not-found-links strong {
-  display: block;
-  font-size: 0.8125rem;
-  font-weight: 600;
-}
-.not-found-links a > span > span {
-  display: block;
-  margin-top: 0.2rem;
-  color: var(--not-found-muted);
-  font-size: 0.6875rem;
-  line-height: 1.6;
-}
-.not-found-link-arrow {
-  color: var(--not-found-muted);
-}
-.not-found-links a:is(:hover, :focus-visible) {
-  background: color-mix(in oklab, var(--foreground) 6%, transparent);
-  border-color: color-mix(in oklab, var(--primary) 20%, var(--border));
+@media (hover: hover) and (pointer: fine) {
+  .not-found-home:hover {
+    background: color-mix(in oklab, var(--foreground) 85%, var(--background));
+  }
+  .not-found-guide:hover {
+    text-decoration-color: currentColor;
+  }
 }
 @media (prefers-reduced-motion: no-preference) {
-  .not-found-inline-link > svg:last-child {
-    transition: opacity 150ms ease;
-  }
-  .not-found-links a {
+  .not-found-actions a {
     transition:
       background-color 150ms ease,
-      border-color 150ms ease;
-  }
-  .not-found-link-arrow {
-    transition: transform 180ms ease;
-  }
-  .not-found-links a:is(:hover, :focus-visible) .not-found-link-arrow {
-    transform: translateX(3px);
+      text-decoration-color 150ms ease;
   }
 }
-@media (min-width: 768px) and (max-height: 600px) {
+@media (max-height: 600px) {
   .page-state-shell--not-found .page-state-main {
-    flex-direction: row;
-    gap: clamp(1.5rem, 3vw, 3rem);
-    width: min(100%, 64rem);
+    padding-block: 0.5rem;
   }
   .not-found-hero,
-  .not-found-destinations {
-    flex: 1;
-    min-width: 0;
-    margin-block: auto;
+  .not-found-copy {
+    gap: clamp(0.375rem, 1dvh, 0.625rem);
+  }
+  .not-found-status {
+    font-size: clamp(2rem, 10dvh, 3.5rem);
+  }
+  .not-found-hero h1 {
+    font-size: clamp(1.375rem, 3.5vw, 1.75rem);
+  }
+  .not-found-description {
+    font-size: 0.8125rem;
+  }
+  .not-found-actions a {
+    min-height: 2.25rem;
+    padding-block: 0.375rem;
+  }
+}
+@media (min-width: 640px) and (max-height: 600px) {
+  .not-found-hero {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    column-gap: clamp(1.25rem, 4vw, 3rem);
+    width: auto;
+  }
+  .not-found-copy {
+    justify-items: start;
+    text-align: left;
+  }
+  .not-found-actions {
+    justify-content: start;
   }
 }

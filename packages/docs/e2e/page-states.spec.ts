@@ -140,6 +140,30 @@ async function expectStandaloneFrameFits(page: Page, requireNoContentScroll = fa
   });
 }
 
+async function expectNotFoundFits(page: Page) {
+  await expectStandaloneFrameFits(page, true);
+  const hero = page.locator(".not-found-hero");
+  for (const part of await hero
+    .locator(".not-found-status, h1, .not-found-description, a[href]")
+    .all()) {
+    const geometry = await part.evaluate((element) => {
+      const bounds = element.getBoundingClientRect();
+      const main = element.closest<HTMLElement>(".page-state-main")!;
+      const mainBounds = main.getBoundingClientRect();
+      return {
+        top: bounds.top,
+        bottom: bounds.bottom,
+        mainTop: mainBounds.top + main.clientTop,
+        mainBottom: mainBounds.top + main.clientTop + main.clientHeight,
+      };
+    });
+    // A fixed-height shell must fit the content, rather than hide it behind its chrome.
+    expect(geometry.top).toBeGreaterThanOrEqual(geometry.mainTop - 1);
+    expect(geometry.bottom).toBeLessThanOrEqual(geometry.mainBottom + 1);
+    await expect(part).toBeInViewport({ ratio: viewportIntersectionRatio });
+  }
+}
+
 async function expectRecoveryFits(page: Page, compact: boolean) {
   const recovery = page.locator(".page-state-recovery");
   const heading = recovery.getByRole("heading", { level: 1 });
@@ -273,21 +297,24 @@ test("unknown addresses offer working recovery links on direct and client naviga
   });
   await page.goto("./this-page-does-not-exist");
   await expect(page).toHaveURL(/\/this-page-does-not-exist$/);
-  await expect(page.locator("h1")).toHaveText("This page is off the map.");
-  await expect(
-    page.getByRole("navigation", { name: "Explore the documentation" }).getByRole("link"),
-  ).toHaveCount(4);
+  await expect(page.locator("h1")).toHaveText("Page not found");
+  await expect(page.locator(".page-state-main").getByRole("link")).toHaveCount(2);
   await page.getByRole("link", { name: "Getting Started", exact: true }).click();
   await expect(page.locator("h1")).toContainText("Getting Started with Kamod UI");
   await page.evaluate(() => {
     history.pushState({}, "", "./another-missing-page");
     dispatchEvent(new PopStateEvent("popstate"));
   });
-  await expect(page.locator("h1")).toHaveText("This page is off the map.");
+  await expect(page.locator("h1")).toHaveText("Page not found");
   const home = page.getByRole("link", { name: "Back to Home", exact: true });
+  const gettingStarted = page.getByRole("link", { name: "Getting Started", exact: true });
   await home.focus();
   await expect(home).toBeFocused();
-  await page.keyboard.press("Enter");
+  await home.press("Tab");
+  await expect(gettingStarted).toBeFocused();
+  await gettingStarted.press("Shift+Tab");
+  await expect(home).toBeFocused();
+  await home.press("Enter");
   await expect(page.getByTestId("home-page")).toBeVisible();
 });
 
@@ -510,10 +537,10 @@ for (const colorScheme of ["light", "dark"] as const) {
       for (const viewport of responsiveViewports) {
         await test.step(`404 at ${viewport.width}×${viewport.height}`, async () => {
           await page.setViewportSize(viewport);
-          await expectStandaloneFrameFits(page);
+          await expectNotFoundFits(page);
         });
       }
-      await expectEnlargedTextFits(page, () => expectStandaloneFrameFits(page));
+      await expectEnlargedTextFits(page, () => expectNotFoundFits(page));
       await page.getByRole("link", { name: "Getting Started", exact: true }).click();
       await expect(page.getByLabel("Loading content")).toBeVisible();
       for (const viewport of responsiveViewports) {
@@ -607,18 +634,10 @@ for (const width of [320, 768, 1024, 1440]) {
       await page.emulateMedia({ colorScheme, reducedMotion: "reduce" });
       await page.addInitScript(() => localStorage.setItem("theme-preset", "cursor-warm"));
       await page.goto("./404");
-      await expect(page.locator("h1")).toBeVisible();
-      await expect(page.locator(".not-found-status")).toContainText("Error 404 / Page not found");
-      await expect(page.locator(".not-found-art")).toHaveAttribute("aria-hidden", "true");
-      expect(
-        await page
-          .locator(".not-found-art")
-          .evaluate((node) => node.getAnimations({ subtree: true }).length),
-      ).toBe(0);
-      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
-        true,
-      );
-      await expect(page.getByRole("link", { name: "Getting Started", exact: true })).toBeVisible();
+      await expect(page.locator("h1")).toHaveText("Page not found");
+      await expect(page.locator(".not-found-status")).toHaveText("404");
+      await expect(page.locator(".page-state-main").getByRole("link")).toHaveCount(2);
+      await expectNotFoundFits(page);
       if (width === 1440) await assertNoBlockingA11yViolations(page, `404 / ${colorScheme}`);
     });
   }
