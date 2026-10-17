@@ -46,6 +46,15 @@ for (const scheme of ["light", "dark"] as const) {
       await page.addInitScript((scheme) => localStorage.setItem("theme", scheme), scheme);
       await page.goto("/docs/getting-started");
       await expect(page.locator("html")).toHaveClass(/pp-ready/);
+      const pagePaint = await page.locator("main").evaluate((node) => {
+        const sample = document.createElement("span");
+        sample.style.cssText = "background:var(--background);color:var(--foreground)";
+        node.append(sample);
+        const style = getComputedStyle(sample);
+        const paint = { background: style.backgroundColor, ink: style.color };
+        sample.remove();
+        return paint;
+      });
       await page.evaluate((labels) => {
         const fixture = document.createElement("p");
         fixture.id = "tooltip-design-fixture";
@@ -125,9 +134,9 @@ for (const scheme of ["light", "dark"] as const) {
         await expect(location).toHaveAttribute("title", shownDestination);
         const fact = card.locator(".code-reference-help-location-detail");
         await expect(fact.locator("span")).not.toBeEmpty();
-        await expect(card.locator(".code-reference-help-heading-meta")).toContainText(
-          (await fact.locator("span").innerText()).trim(),
-        );
+        await expect(
+          card.locator(".code-reference-help-heading-meta .code-reference-help-location-detail"),
+        ).toHaveCount(0);
         await expect(location).not.toContainText((await fact.locator("span").innerText()).trim());
         for (const icon of [
           title.locator(".code-reference-help-title-mark"),
@@ -138,6 +147,13 @@ for (const scheme of ["light", "dark"] as const) {
         }
         const origin = card.locator(".code-reference-help-origin");
         const context = origin.locator(".code-reference-help-context");
+        await expect(origin.locator(".code-reference-help-location-detail")).toHaveCount(1);
+        const factBox = (await fact.boundingBox())!;
+        const contextBox = (await context.boundingBox())!;
+        const pathBox = (await origin.locator(".code-reference-help-path").boundingBox())!;
+        for (const box of [contextBox, pathBox])
+          expect(box.y + box.height / 2).toBeCloseTo(factBox.y + factBox.height / 2, 1);
+        expect(factBox.x).toBeGreaterThanOrEqual(contextBox.x + contextBox.width - 1);
         const summaryStyle = await card
           .locator(".code-reference-help-summary > p")
           .first()
@@ -176,6 +192,11 @@ for (const scheme of ["light", "dark"] as const) {
             await expect(heading).toHaveCSS("font-size", "9.5px");
             await expect(heading.locator(".code-reference-help-section-open")).toHaveCount(0);
             await expect(panel).toHaveCSS("border-top-width", "0px");
+            await expect(panel).toHaveCSS("background-color", pagePaint.background);
+            for (const miniature of await panel.locator(".code-reference-help-miniature").all()) {
+              await expect(miniature).toHaveCSS("background-color", pagePaint.background);
+              await expect(miniature).toHaveCSS("color", pagePaint.ink);
+            }
             expect(await heading.evaluate((node) => node.scrollWidth <= node.clientWidth + 1)).toBe(
               true,
             );

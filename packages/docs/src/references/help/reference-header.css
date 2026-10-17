@@ -53,10 +53,7 @@
   flex: none;
 }
 .code-reference-help-heading-meta {
-  display: grid;
-  justify-items: end;
-  gap: 0.375rem;
-  flex: 0 1 auto;
+  flex: none;
   max-width: 60%;
   min-width: 0;
 }
@@ -65,7 +62,9 @@
   align-items: center;
   gap: 0.25rem;
   min-width: 0;
-  max-width: 100%;
+  flex: 0 1 auto;
+  max-width: 40%;
+  margin-inline-start: auto;
 }
 .code-reference-help-location-detail > span {
   min-width: 0;
@@ -184,7 +183,11 @@
 .code-reference-help-origin > .code-reference-help-path {
   flex: 0 1 auto;
   min-width: 3ch;
-  max-width: 72%;
+  max-width: 45%;
+}
+.code-reference-help-origin-path {
+  display: flex;
+  align-items: center;
 }
 .code-reference-help .code-reference-help-origin a {
   text-decoration: none;

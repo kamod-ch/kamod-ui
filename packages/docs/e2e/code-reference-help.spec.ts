@@ -242,7 +242,7 @@ test("source references reveal verified context after deliberate hover and keep 
 });
 
 for (const scheme of ["light", "dark"] as const) {
-  test(`types and module cards fit narrow screens and keyboard links work (${scheme})`, async ({
+  test(`types and package cards fit narrow screens and keyboard links work (${scheme})`, async ({
     page,
   }) => {
     await page.addInitScript((scheme) => localStorage.setItem("theme", scheme), scheme);
@@ -269,6 +269,19 @@ for (const scheme of ["light", "dark"] as const) {
     await page.keyboard.press("Escape");
     await expect(type).toBeFocused();
     await expect(card).toHaveCount(0);
+    await page.keyboard.press("Tab");
+    await type.focus();
+    await expect(card.locator('[data-reference-kind="type"]')).toBeVisible();
+    await card.locator(".code-reference-help-primary-link").click();
+    await expect(page).toHaveURL(
+      /\/docs\/direction\/installation\/?#component-type-Direction-DirectionProviderProps$/,
+    );
+    await expect(page.locator("#component-type-Direction-DirectionProviderProps")).toBeInViewport();
+
+    await page.goto("./docs/code/installation#source-links");
+    await expect(page.locator("html")).toHaveClass(/pp-ready/);
+    await sample.scrollIntoViewIfNeeded();
+    await expect(sample.locator(".token")).not.toHaveCount(0);
     await page.setViewportSize({ width: 320, height: 900 });
     const module = sample.getByRole("link", { name: "@kamod-ch/ui/direction", exact: true });
     await module.scrollIntoViewIfNeeded();
@@ -278,18 +291,23 @@ for (const scheme of ["light", "dark"] as const) {
       name: "@kamod-ch/ui/direction reference",
       exact: true,
     });
-    await expect(moduleCard.locator('[data-reference-kind="module"]')).toBeVisible();
+    await expect(moduleCard.locator('[data-reference-kind="package"]')).toBeVisible();
+    await expect(
+      moduleCard.locator(".code-reference-help-ready .code-reference-help-title code"),
+    ).toHaveText("@kamod-ch/ui");
+    await expect(moduleCard.getByRole("note", { name: "Package subpath" })).toContainText(
+      "@kamod-ch/ui/direction",
+    );
+    await expect(moduleCard.locator(".code-reference-help-section")).toHaveCount(3);
     const bounds = (await moduleCard.boundingBox())!;
     expect(bounds.x).toBeGreaterThanOrEqual(0);
     expect(bounds.x + bounds.width).toBeLessThanOrEqual(320);
     expect(await moduleCard.evaluate((node) => node.scrollWidth <= node.clientWidth)).toBe(true);
     await moduleCard
       .locator(".code-reference-help-related")
-      .getByRole("link", { name: "DirectionProviderProps", exact: true })
+      .getByRole("link", { name: "Component guides", exact: true })
       .click();
-    await expect(page).toHaveURL(
-      /\/docs\/direction\/installation\/?#component-type-Direction-DirectionProviderProps$/,
-    );
-    await expect(page.locator("#component-type-Direction-DirectionProviderProps")).toBeInViewport();
+    await expect(page).toHaveURL(/\/docs\/components\/?$/);
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("Components");
   });
 }

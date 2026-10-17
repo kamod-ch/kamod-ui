@@ -1,5 +1,14 @@
 const github = "https://github.com/kamod-ch/";
 
+/** Only identities are eager; the reviewed README content stays in the lazy help chunk. */
+export const savedPackageRoots = [
+  "@kamod-ch/ui",
+  "@kamod-ch/hooks",
+  "@kamod-ch/preactpress",
+  "@kamod-ch/signals",
+  "@kamod-ch/icons",
+] as const;
+
 /** Verified repository owners; package names do not always match their repository names. */
 export const referencePackages: Record<
   string,

@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 for (const scheme of ["light", "dark"] as const) {
-  test(`component identity and precise package sources survive page aliases (${scheme})`, async ({
+  test(`component identity and root package readings survive page aliases (${scheme})`, async ({
     page,
   }) => {
     await page.addInitScript((scheme) => localStorage.setItem("theme", scheme), scheme);
@@ -45,12 +45,15 @@ for (const scheme of ["light", "dark"] as const) {
       name: "@kamod-ch/ui/theme.css reference",
       exact: true,
     });
-    await expect(card.locator('[data-reference-kind="module"]')).toBeVisible();
+    await expect(card.locator('[data-reference-kind="package"]')).toBeVisible();
     const resources = card.locator(
       ".code-reference-help-related .code-reference-help-primary-link",
     );
     await expect(resources).toHaveCount(1);
-    await expect(resources.first()).toHaveAttribute("href", source);
+    await expect(resources.first()).toHaveAttribute("href", "https://github.com/kamod-ch/kamod-ui");
+    await expect(
+      card.getByRole("note", { name: "Package subpath" }).getByRole("link"),
+    ).toHaveAttribute("href", source);
     await expect(
       card.locator(
         '.code-reference-help-related-link[href="/docs/theming/installation#css-setup"]',
@@ -80,7 +83,7 @@ for (const scheme of ["light", "dark"] as const) {
     });
     for (const [label, kind, destination] of [
       ["Getting Started Guide", "page", "/docs/getting-started#set-up-your-app"],
-      ["@kamod-ch/ui/theme.css", "module", "/docs/components"],
+      ["@kamod-ch/ui/theme.css", "package", "/docs/components"],
     ]) {
       const term = page.locator("#classification-regression a").filter({ hasText: label });
       await expect(term).toHaveAttribute("data-code-module");
@@ -90,11 +93,14 @@ for (const scheme of ["light", "dark"] as const) {
       await term.focus();
       const card = page.getByRole("dialog", { name: `${label} reference`, exact: true });
       await expect(card.locator(`[data-reference-kind="${kind}"]`)).toBeVisible();
-      if (kind === "module") {
+      if (kind === "package") {
         await expect(card.locator(".code-reference-help-primary-link")).toHaveAttribute(
           "href",
-          source,
+          "https://github.com/kamod-ch/kamod-ui",
         );
+        await expect(
+          card.getByRole("note", { name: "Package subpath" }).getByRole("link"),
+        ).toHaveAttribute("href", source);
         await expect(
           card.locator(
             '.code-reference-help-related-link[href="/docs/theming/installation#css-setup"]',

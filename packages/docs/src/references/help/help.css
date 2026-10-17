@@ -2,7 +2,7 @@
 @import "./reference-related.css";
 @import "./reference-loading.css";
 
-/* The card is inverse; shared inline chips deliberately retain the page's own highlight. */
+/* The outer tooltip is inverse; source cards and shared chips use the current page palette. */
 [data-slot="tooltip"] [data-slot="tooltip-content"].code-reference-help {
   --code-help-font-min: 0.53125rem;
   --code-help-font-context: 0.625rem;
@@ -32,6 +32,39 @@
   gap: 0.75rem;
   min-width: 0;
   color: var(--background);
+}
+.code-reference-help .code-reference-help-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.375rem;
+  padding: 0.375rem 0.5rem;
+  border: 1px solid color-mix(in oklab, var(--primary) 25%, transparent);
+  border-radius: 0.375rem;
+  background: var(--background);
+  color: var(--foreground);
+  font-size: var(--code-help-font-min);
+  line-height: 1.7;
+}
+.code-reference-help .code-reference-help-notice > svg {
+  width: 0.6875rem;
+  height: 0.6875rem;
+  margin-top: 0.0625rem;
+  color: var(--primary);
+  transform: none;
+}
+.code-reference-help-notice a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.1875rem;
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.code-reference-help-notice code {
+  border-radius: 3px;
+  padding: 0.0625rem 0.1875rem;
+  background: var(--docs-inline-code-background);
+  font-size: inherit;
 }
 /* Header, chapters and final index share the same uninterrupted reading surface. */
 .code-reference-help-content {
@@ -71,38 +104,13 @@
 }
 .code-reference-help-panel {
   position: relative;
-  isolation: isolate;
   min-width: 0;
   overflow: hidden;
   padding: 0;
   border: 0;
   border-radius: 0.5rem;
-  background: var(--foreground);
-}
-.code-reference-help-panel::before,
-.code-reference-help-panel::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  border-radius: inherit;
-  pointer-events: none;
-}
-/* Reuse the actual showcase dot/grid recipe beneath an independently quiet purple wash. */
-.code-reference-help-panel::before {
-  opacity: 0.17;
-  background-image:
-    radial-gradient(circle, var(--showcase-canvas-dot) 1.1px, transparent 1.45px),
-    linear-gradient(var(--showcase-canvas-line) 1.25px, transparent 0),
-    linear-gradient(90deg, var(--showcase-canvas-line) 1.25px, transparent 0);
-  background-size:
-    16px 16px,
-    64px 64px,
-    64px 64px;
-  background-position: center;
-}
-.code-reference-help-panel::after {
-  background: color-mix(in oklab, var(--color-purple-500) 8%, transparent);
+  background: var(--background);
+  color: var(--foreground);
 }
 .code-reference-help-section {
   display: grid;

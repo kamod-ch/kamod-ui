@@ -1,5 +1,5 @@
 /** @vitest-environment jsdom */
-import { CircuitBoardIcon } from "@kamod-ch/icons/lucide";
+import { CircuitBoardIcon, ExternalLinkIcon, LinkIcon } from "@kamod-ch/icons/lucide";
 import { BrandReactIcon, BrandTailwindIcon } from "@kamod-ch/icons/tabler/outline";
 import { cleanup, fireEvent, render, waitFor, within } from "@testing-library/preact";
 import renderToString from "preact-render-to-string";
@@ -58,6 +58,14 @@ it("preserves exact copyable origins, linked headings and top-frame navigation",
   expect(container.querySelector(".code-reference-help-location-detail")).toHaveTextContent(
     "Required: dir",
   );
+  expect(
+    container.querySelector(".code-reference-help-origin > .code-reference-help-location-detail"),
+  ).toHaveTextContent("Required: dir");
+  expect(
+    container.querySelector(
+      ".code-reference-help-heading-meta .code-reference-help-location-detail",
+    ),
+  ).toBeNull();
   expect(container.querySelector(".code-reference-help-location")).not.toHaveTextContent(
     "Required: dir",
   );
@@ -65,6 +73,19 @@ it("preserves exact copyable origins, linked headings and top-frame navigation",
     expect(container.querySelector(selector)).toHaveAttribute("aria-hidden", "true");
   for (const link of container.querySelectorAll("a"))
     expect(link).toHaveAttribute("target", "_top");
+});
+
+it("distinguishes the external reference action from its decorative chain", () => {
+  const { container } = render(<CodeReferenceHelpContent reference={reference} />);
+  const expected = document.createElement("div");
+  expected.innerHTML = renderToString(<ExternalLinkIcon />);
+  expect(container.querySelector(".code-reference-help-open svg")!.innerHTML).toBe(
+    expected.querySelector("svg")!.innerHTML,
+  );
+  expected.innerHTML = renderToString(<LinkIcon />);
+  expect(container.querySelector(".code-reference-help-connection")!.innerHTML).toBe(
+    expected.querySelector("svg")!.innerHTML,
+  );
 });
 
 it("renders source-derived prose safely, with only supported emphasis and destinations", () => {
@@ -83,6 +104,35 @@ it("renders source-derived prose safely, with only supported emphasis and destin
   expect(summary.querySelectorAll("a")).toHaveLength(1);
   expect(summary.querySelector("a")).toHaveAttribute("href", "/docs/direction/installation");
   expect(summary.textContent).toContain("[unsafe](javascript:alert)");
+});
+
+it("keeps a subpath's source note separate from the package's main destination", () => {
+  const source = {
+    label: "Open stylesheet entrypoint",
+    href: "https://github.com/kamod-ch/kamod-ui/blob/main/packages/core/src/theme.css",
+  };
+  const repository = "https://github.com/kamod-ch/kamod-ui";
+  const { container, getByRole } = render(
+    <CodeReferenceHelpContent
+      reference={{
+        kind: "package",
+        name: "@kamod-ch/ui",
+        module: "@kamod-ch/ui",
+        description: "Package overview.",
+        source: { label: "Package repository", href: repository },
+        notice: { description: "`@kamod-ch/ui/theme.css` is a stylesheet entrypoint.", source },
+      }}
+    />,
+  );
+  const notice = getByRole("note", { name: "Package subpath" });
+  expect(notice.querySelector("code")).toHaveTextContent("@kamod-ch/ui/theme.css");
+  expect(within(notice).getByRole("link", { name: source.label })).toHaveAttribute(
+    "href",
+    source.href,
+  );
+  expect(within(notice).getByRole("link")).toHaveAttribute("target", "_top");
+  for (const selector of [".code-reference-help-open", ".code-reference-help-primary-link"])
+    expect(container.querySelector(selector)).toHaveAttribute("href", repository);
 });
 
 it("uses a single badge, short origin context, and one ending index for all verified resources", () => {

@@ -1,10 +1,17 @@
-import { ArrowUpRightIcon, CompassIcon, InfoIcon, LinkIcon } from "@kamod-ch/icons/lucide";
+import {
+  ArrowUpRightIcon,
+  CompassIcon,
+  ExternalLinkIcon,
+  InfoIcon,
+  LinkIcon,
+} from "@kamod-ch/icons/lucide";
 import { Badge } from "@kamod-ch/ui/badge";
 import { splitDisplayPath } from "../../docs/components/display-path";
 import type { CodeReferenceHelp } from "../types";
 import { hasReferenceContract, ReferenceContract } from "./reference-contract";
 import { ReferenceFacts } from "./reference-facts";
 import { referenceKinds } from "./reference-kinds";
+import { ReferenceNotice } from "./reference-notice";
 import { referencePresentation } from "./reference-presentation";
 import { ReferenceRelated } from "./reference-related";
 import { ReferenceSentence } from "./reference-sentence";
@@ -97,17 +104,11 @@ export function CodeReferenceHelpContent({ reference }: { reference: CodeReferen
                   aria-label={`Open ${primary.label} for ${name}`}
                   title={primary.label}
                 >
-                  <LinkIcon size={11} strokeWidth={1.75} aria-hidden="true" />
+                  <ExternalLinkIcon size={11} strokeWidth={1.75} aria-hidden="true" />
                 </a>
               </>
             )}
           </div>
-          {location && (
-            <p class="code-reference-help-location-detail" title={location.detail}>
-              <InfoIcon size={10} strokeWidth={1.75} aria-hidden="true" />
-              <span>{location.detail}</span>
-            </p>
-          )}
         </div>
       </header>
       <nav class="code-reference-help-origin" aria-label="Reference locations">
@@ -127,6 +128,12 @@ export function CodeReferenceHelpContent({ reference }: { reference: CodeReferen
           <span aria-hidden="true">/</span>
           <span>{context}</span>
         </span>
+        {location && (
+          <span class="code-reference-help-location-detail" title={location.detail}>
+            <InfoIcon size={10} strokeWidth={1.75} aria-hidden="true" />
+            <span>{location.detail}</span>
+          </span>
+        )}
       </nav>
       <div class="code-reference-help-summary">
         <p>
@@ -145,6 +152,7 @@ export function CodeReferenceHelpContent({ reference }: { reference: CodeReferen
           </p>
         )}
       </div>
+      {reference.notice && <ReferenceNotice notice={reference.notice} />}
       {hasReferenceContract(reference) && (
         <div class="code-reference-help-content">
           <ReferenceContract reference={reference} />

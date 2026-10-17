@@ -1,5 +1,6 @@
 import type { ComponentType } from "preact";
 import { useEffect, useState } from "preact/hooks";
+import { rootPackageName, savedPackageRoots } from "./catalog/packages";
 import {
   CodeReferenceHelpLoading,
   CodeReferenceHelpUnavailable,
@@ -21,6 +22,8 @@ function ReferenceTooltipRequest({ request }: { request: CodeReferenceHelpReques
   const [content, setContent] = useState<Content | null>(null);
   const [failed, setFailed] = useState(false);
   const { label, module, imported, local, filePath, referenceId, href } = request;
+  const root = rootPackageName(module);
+  const pendingName = !imported && savedPackageRoots.some((name) => name === root) ? root : label;
   useEffect(() => {
     let active = true;
     void Promise.all([
@@ -56,7 +59,7 @@ function ReferenceTooltipRequest({ request }: { request: CodeReferenceHelpReques
         aria-hidden={content ? "true" : undefined}
         inert={content ? true : undefined}
       >
-        <CodeReferenceHelpLoading name={label} module={module ?? label} active={!content} />
+        <CodeReferenceHelpLoading name={pendingName} module={module ?? label} active={!content} />
       </div>
       {content && (
         <div class="code-reference-help-ready">

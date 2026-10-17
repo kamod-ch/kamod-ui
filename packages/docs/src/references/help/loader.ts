@@ -3,7 +3,7 @@ import { withBasePath } from "../../base-path";
 import { componentPropsId } from "../../docs/components/component-detail/component-api-id";
 import { packageApiReferences } from "../../docs/components/package-api-references";
 import { docsNavigation } from "../../docs/generated-navigation";
-import { packageGuide, rootPackageName } from "../catalog/packages";
+import { packageGuide, rootPackageName, savedPackageRoots } from "../catalog/packages";
 import { packageSource } from "../package-source";
 import type {
   CodeReferenceHelp,
@@ -302,6 +302,15 @@ export function describeCodeReference(
 export async function loadCodeReferenceHelp(
   request: CodeReferenceHelpRequest,
 ): Promise<CodeReferenceHelp> {
+  if (
+    !request.referenceId &&
+    !request.imported &&
+    savedPackageRoots.some((name) => name === rootPackageName(request.module))
+  ) {
+    const { packageReferenceHelp } = await import("./package-help");
+    const saved = packageReferenceHelp(request);
+    if (saved) return saved;
+  }
   const data = await helpCatalog();
   if (request.referenceId) return loadInlineReferenceHelp(data, request);
   const [module, declaration] = await Promise.all([

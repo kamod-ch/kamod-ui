@@ -35,6 +35,29 @@ it.each([
     "blob/main/packages/core/src/components/code/code-styles.css",
     "/docs/code/installation#code-css-ownership",
   ],
+])(
+  "%s keeps its inline destination while opening the saved root package",
+  async (label, source, guide) => {
+    const request = inlineSourceReference(label)!;
+    const inlineDestination = `https://github.com/kamod-ch/kamod-ui/${source}`;
+    expect(request.href).toBe(inlineDestination);
+    const help = await loadCodeReferenceHelp(request);
+    expect(help).toMatchObject({ kind: "package", name: "@kamod-ch/ui", module: "@kamod-ch/ui" });
+    expect(help.source?.href).toBe("https://github.com/kamod-ch/kamod-ui");
+    expect(help.docs?.href).toBe("/docs/components");
+    expect(help.related).toEqual(
+      expect.arrayContaining([expect.objectContaining({ href: guide })]),
+    );
+    if (label === "@kamod-ch/ui") expect(help.notice).toBeUndefined();
+    else {
+      expect(help.notice?.description).toContain(`\`${label}\``);
+      expect(help.notice?.source?.href).toBe(inlineDestination);
+    }
+    expect(request.href).toBe(inlineDestination);
+  },
+);
+
+it.each([
   [
     "@kamod-ch/themes/theme.css",
     "blob/main/packages/themes/src/theme.css",
@@ -87,10 +110,18 @@ it("keeps public source links separate from an explicitly authored local destina
   const request = inlineSourceReference("@kamod-ch/ui/theme.css", "/docs/components")!;
   expect(request.href).toBe("/docs/components");
   const help = await loadCodeReferenceHelp(request);
-  expect(help.source?.href).toBe(
+  expect(help.kind).toBe("package");
+  expect(help.source?.href).toBe("https://github.com/kamod-ch/kamod-ui");
+  expect(help.docs?.href).toBe("/docs/components");
+  expect(help.notice?.source?.href).toBe(
     "https://github.com/kamod-ch/kamod-ui/blob/main/packages/core/src/theme.css",
   );
-  expect(help.docs?.href).toBe("/docs/theming/installation#css-setup");
+  expect(help.related).toEqual(
+    expect.arrayContaining([
+      expect.objectContaining({ href: "/docs/theming/installation#css-setup" }),
+    ]),
+  );
+  expect(request.href).toBe("/docs/components");
   const page = inlineSourceReference(
     "Getting Started Guide",
     "/docs/getting-started#set-up-your-app",
