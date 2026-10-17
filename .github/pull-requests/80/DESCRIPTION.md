@@ -119,12 +119,12 @@ examples are typechecked against the real component API.
 
 ### Presets as complete design studies
 
-All eight color presets now have a structured design study with four small,
-static compositions: a workspace and action card in both light and dark. The
+All eight color presets have a structured design study with six small,
+static compositions: workspace, action and feature sketches in both appearances. The
 sketches use the real shipped roles and corner values, while their surrounding
 frames gain a restrained wash and three-role signature from their own preset,
-with explanatory text remaining in the page palette. Four labeled swatches give an immediate comparison; native
-disclosures reveal additional surface, navigation and feedback roles.
+with explanatory text remaining in the page palette. Eight labeled core-color
+swatches lead each comparison; native disclosures reveal text, focus and feedback roles.
 
 Each study explains its direction, two practical design principles, declared
 body/display/mono stacks, radius family and a focused review before shipping.
@@ -258,7 +258,7 @@ lazy declaration-backed function help. One package list drives both name indexin
 and lazy loading, and declared function-valued exports retain their signatures.
 
 Four additional inline families extend the original nine kinds: commands, blocks,
-technologies and pages/sections. Named guides use the same Page / section category. The catalog includes 76 curated technology
+technologies and pages/sections. Named guides use the same Page / section category. The catalog includes 90 curated technology
 labels, twenty CLI tools, registry-derived block identities, verified route titles
 and real fragments. Aliases resolve conservatively; unknown or ambiguous labels
 stay literal. Command parsing is bounded and rejects shell composition or expansion;
@@ -268,7 +268,7 @@ arbitrary word matching.
 The eager index contains lightweight identity/destination data. Four lazy family
 modules provide descriptions and facts, sharing bounded promises and evicting
 failures for retry. Kind icons, labels and optional contract headings have one
-owner, and the kind badges share the page inline-code highlight and subtle 3px
+owner, and the kind badges share the page inline-code highlight and subtle 4px
 corners. Existing stale-result and delegated-event boundaries remain in place.
 
 ### Reference identity and package source accuracy

@@ -1353,3 +1353,7 @@ captures were inspected. No new Safari/WebKit result is claimed.
 Upstream main remains an ancestor and the fork was synchronized before the new
 commits; no merge conflict needed resolution. Contributor-local guides/context
 and the protected ignore-file edit remain excluded.
+
+The final PR prose also reconciles earlier overview facts with the current source:
+90 technology profiles,4px kind badges, eight main palette roles and three static
+sketches per appearance. This documentation-only correction changes no product behavior.
