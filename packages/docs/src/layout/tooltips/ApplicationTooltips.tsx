@@ -101,6 +101,7 @@ function ActiveTooltip({
           whiteSpace: "normal",
           overflowWrap: "anywhere",
           ...(detailed && { maxWidth: `min(${maxWidth}px, calc(100vw - 32px))` }),
+          ...(source && { "--code-help-width": `${maxWidth}px` }),
           ...(detailed && {
             maxHeight: `${Math.max(80, rect.top > window.innerHeight / 2 ? rect.top - 24 : window.innerHeight - rect.bottom - 24)}px`,
             overflowY: "auto",

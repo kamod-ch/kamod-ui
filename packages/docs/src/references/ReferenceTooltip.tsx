@@ -45,6 +45,24 @@ function ReferenceTooltipRequest({ request }: { request: CodeReferenceHelpReques
   }, [label, module, imported, local, filePath, referenceId, href]);
   if (failed)
     return <CodeReferenceHelpUnavailable name={label} module={module ?? label} href={href} />;
-  if (!content) return <CodeReferenceHelpLoading name={label} module={module ?? label} />;
-  return <content.Component reference={content.reference} />;
+  return (
+    <div
+      class="code-reference-help-transition"
+      data-reference-phase={content ? "ready" : "loading"}
+    >
+      {/* Retain one quiet, inert layer for the CSS handoff; unmounting cancels all work. */}
+      <div
+        class="code-reference-help-pending"
+        aria-hidden={content ? "true" : undefined}
+        inert={content ? true : undefined}
+      >
+        <CodeReferenceHelpLoading name={label} module={module ?? label} active={!content} />
+      </div>
+      {content && (
+        <div class="code-reference-help-ready">
+          <content.Component reference={content.reference} />
+        </div>
+      )}
+    </div>
+  );
 }

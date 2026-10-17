@@ -63,7 +63,7 @@ for (const scheme of ["light", "dark"] as const) {
         await page.keyboard.press("Tab");
         await term.focus();
         const card = page.getByRole("dialog", { name: `${label} reference`, exact: true });
-        const layout = card.locator(".code-reference-help-layout");
+        const layout = card.locator(".code-reference-help-layout[data-reference-kind]");
         await expect(layout).toBeVisible();
         await expect
           .poll(() =>

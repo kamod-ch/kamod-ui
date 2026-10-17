@@ -1,5 +1,6 @@
 @import "./reference-header.css";
 @import "./reference-related.css";
+@import "./reference-loading.css";
 
 /* The card is inverse; shared inline chips deliberately retain the page's own highlight. */
 [data-slot="tooltip"] [data-slot="tooltip-content"].code-reference-help {
@@ -31,7 +32,6 @@
   gap: 0.75rem;
   min-width: 0;
   color: var(--background);
-  animation: code-reference-help-reveal 180ms ease-out both;
 }
 /* Header, chapters and final index share the same uninterrupted reading surface. */
 .code-reference-help-content {
@@ -461,114 +461,6 @@
 .code-reference-help a:is(:hover, :focus-visible) {
   text-decoration-color: currentColor;
 }
-.code-reference-help-loading {
-  min-width: 0;
-  padding: 0.125rem;
-  color: var(--background);
-}
-.code-reference-help-loading-top {
-  display: flex;
-  align-items: center;
-  gap: 0.625rem;
-}
-.code-reference-help-loading-mark {
-  display: grid;
-  gap: 0.25rem;
-  flex: none;
-  width: 1.625rem;
-  padding: 0.3125rem;
-  border: 1px solid var(--code-help-rule);
-  border-radius: 0.375rem;
-  background: var(--code-help-surface);
-  transform: rotate(-4deg);
-  animation: code-reference-help-page 2.8s ease-in-out infinite;
-}
-.code-reference-help-loading-mark i {
-  height: 0.125rem;
-  border-radius: 0.125rem;
-  background: color-mix(in oklab, currentColor 20%, transparent);
-}
-.code-reference-help-loading-mark i:first-child {
-  width: 65%;
-  background: color-mix(in oklab, var(--primary) 25%, currentColor);
-}
-.code-reference-help-loading-heading {
-  display: grid;
-  flex: 1;
-  min-width: 0;
-  gap: 0.1875rem;
-}
-.code-reference-help-loading-heading > code {
-  justify-self: start;
-  max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: 0.6875rem;
-}
-.code-reference-help-loading-title {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-}
-.code-reference-help-loading-spinner {
-  flex: none;
-  width: 0.6875rem;
-  height: 0.6875rem;
-  border: 1.5px solid color-mix(in oklab, currentColor 18%, transparent);
-  border-top-color: currentColor;
-  border-radius: 50%;
-  animation: code-reference-help-spin 900ms linear infinite;
-}
-.code-reference-help-loading-module {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  color: var(--code-help-muted);
-  font: 0.625rem/1.5 var(--font-mono, monospace);
-}
-.code-reference-help-loading-lines {
-  display: grid;
-  gap: 0.4375rem;
-  margin-block: 0.875rem;
-}
-.code-reference-help-loading-lines i {
-  height: 0.3125rem;
-  border-radius: 0.1875rem;
-  background: linear-gradient(
-    100deg,
-    color-mix(in oklab, currentColor 6%, transparent) 25%,
-    color-mix(in oklab, var(--primary) 18%, currentColor) 50%,
-    color-mix(in oklab, currentColor 6%, transparent) 75%
-  );
-  background-size: 250% 100%;
-  animation: code-reference-help-shimmer 2.4s ease-in-out infinite;
-}
-.code-reference-help-loading-lines i:nth-child(2) {
-  width: 91%;
-  animation-delay: 120ms;
-}
-.code-reference-help-loading-lines i:nth-child(3) {
-  width: 76%;
-  animation-delay: 240ms;
-}
-.code-reference-help-loading-lines > span {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 0.5rem;
-  margin-top: 0.1875rem;
-}
-.code-reference-help-loading-lines > span i {
-  width: auto;
-  height: 1.125rem;
-  animation-delay: 360ms;
-}
-.code-reference-help-loading-note {
-  color: var(--code-help-muted);
-  font-size: var(--code-help-font-min);
-  line-height: 1.6;
-}
 .code-reference-help-unavailable > p {
   color: var(--code-help-muted);
   font-size: 0.6875rem;
@@ -582,45 +474,7 @@
   margin-top: 0.125rem;
   font-size: 0.6875rem;
 }
-@keyframes code-reference-help-reveal {
-  from {
-    opacity: 0;
-    transform: translateY(2px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-@keyframes code-reference-help-page {
-  0%,
-  100% {
-    transform: rotate(-4deg);
-  }
-  50% {
-    transform: rotate(0);
-  }
-}
-@keyframes code-reference-help-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-@keyframes code-reference-help-shimmer {
-  from {
-    background-position: 150% 0;
-  }
-  to {
-    background-position: -150% 0;
-  }
-}
 @media (prefers-reduced-motion: reduce) {
-  .code-reference-help-layout,
-  .code-reference-help-loading-mark,
-  .code-reference-help-loading-spinner,
-  .code-reference-help-loading-lines i {
-    animation: none;
-  }
   .code-reference-help-related-link {
     transition: none;
   }

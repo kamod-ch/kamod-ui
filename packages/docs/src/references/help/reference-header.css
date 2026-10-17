@@ -14,8 +14,7 @@
   gap: 0.1875rem;
   min-width: 2ch;
 }
-.code-reference-help a.code-reference-help-title,
-.code-reference-help-title {
+.code-reference-help .code-reference-help-title {
   display: flex;
   align-items: center;
   gap: 0.3125rem;
@@ -246,7 +245,7 @@
   .code-reference-help-header {
     gap: 0.375rem;
   }
-  .code-reference-help a.code-reference-help-title {
+  .code-reference-help .code-reference-help-title {
     font-size: 0.75rem;
   }
   .code-reference-help-badges {

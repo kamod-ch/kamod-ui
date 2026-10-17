@@ -22,6 +22,26 @@ async function assertReferenceContrast(card: Locator) {
   expect(textAlpha.every((alpha) => alpha >= 180)).toBe(true);
 }
 
+/** Loading and loaded headings share typography and the same offset from their leading icon. */
+async function referenceTitleMetrics(layer: Locator) {
+  return layer.locator(".code-reference-help-title code").evaluate((node) => {
+    const style = getComputedStyle(node);
+    const title = node.getBoundingClientRect();
+    const icon = node
+      .closest(".code-reference-help-header")!
+      .querySelector(".code-reference-help-kind-icon")!
+      .getBoundingClientRect();
+    return {
+      fontSize: style.fontSize,
+      fontWeight: style.fontWeight,
+      fontFamily: style.fontFamily,
+      lineHeight: style.lineHeight,
+      x: title.x - icon.x,
+      y: title.y - icon.y,
+    };
+  });
+}
+
 test("lazy help shows a reading placeholder and dismissed requests cannot reopen it", async ({
   page,
 }) => {
@@ -48,20 +68,23 @@ test("lazy help shows a reading placeholder and dismissed requests cannot reopen
     const loading = card.locator(".code-reference-help-loading");
     const title = loading.getByText("Following the reference...", { exact: true });
     await expect(title).toBeVisible();
-    const spinner = loading.locator(".code-reference-help-loading-spinner");
+    await expect(loading.locator(".code-reference-help-title code")).toHaveText(
+      "DirectionProvider",
+    );
+    const spinner = loading.locator(
+      ".code-reference-help-kind-icon > .code-reference-help-loading-spinner",
+    );
     await expect(spinner).toBeVisible();
+    await expect(loading.locator(".code-reference-help-loading-spinner")).toHaveCount(1);
+    await expect(loading.locator(".code-reference-help-loading-mark")).toHaveCount(0);
     await expect(loading.locator(".code-reference-help-loading-pulse")).toHaveCount(0);
     await expect(loading.locator(".code-reference-help-loading-module")).toHaveCount(0);
-    expect(
-      await loading
-        .locator(".code-reference-help-loading-note")
-        .evaluate((node) => Number.parseFloat(getComputedStyle(node).fontSize)),
-    ).toBeGreaterThanOrEqual(8.5);
-    const headingBox = (await title.boundingBox())!;
-    const spinnerBox = (await spinner.boundingBox())!;
-    expect(
-      Math.abs(headingBox.y + headingBox.height / 2 - spinnerBox.y - spinnerBox.height / 2),
-    ).toBeLessThan(1);
+    const noteSize = await loading
+      .locator(".code-reference-help-loading-note")
+      .evaluate((node) => Number.parseFloat(getComputedStyle(node).fontSize));
+    expect(noteSize).toBeLessThan(
+      await title.evaluate((node) => Number.parseFloat(getComputedStyle(node).fontSize)),
+    );
     await expect(card.locator('[aria-busy="true"]')).toHaveCount(1);
     await page.keyboard.press("Escape");
     await expect(card).toHaveCount(0);
@@ -94,6 +117,85 @@ test("failed optional details retain the source destination", async ({ page }) =
   await card.getByRole("link", { name: "Open the reference", exact: true }).click();
   await expect(page).toHaveURL(/\/docs\/direction\/installation\/?#api-reference$/);
 });
+
+for (const motion of ["no-preference", "reduce"] as const) {
+  test(`loading yields one accessible reference without stealing focus (${motion})`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: motion === "reduce" ? 320 : 768, height: 900 });
+    await page.emulateMedia({ reducedMotion: motion });
+    let release!: () => void;
+    const held = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+    await page.route(/\/assets\/code-reference-help-[\w-]+\.js(?:\?|$)/, async (route) => {
+      await held;
+      await route.continue();
+    });
+    try {
+      await page.goto("./docs/code/installation#source-links", { waitUntil: "domcontentloaded" });
+      const sample = page
+        .locator('section[aria-labelledby="code-reference-navigation"] pre code')
+        .filter({ hasText: "LocaleBoundary" });
+      await sample.scrollIntoViewIfNeeded();
+      await expect(sample.locator(".token")).not.toHaveCount(0);
+      const term = sample.getByRole("link", { name: "DirectionProvider", exact: true }).first();
+      await page.keyboard.press("Tab");
+      await term.focus();
+      const card = page.getByRole("dialog", { name: "DirectionProvider reference", exact: true });
+      const pending = card.locator(".code-reference-help-pending");
+      await expect(pending.locator('[aria-busy="true"]')).toBeVisible();
+      await expect(card.getByRole("status")).toHaveCount(1);
+      const original = await card.elementHandle();
+      const pendingWidth = (await card.boundingBox())!.width;
+      const iconBox = (await pending.locator(".code-reference-help-kind-icon").boundingBox())!;
+      const pendingTitle = await referenceTitleMetrics(pending);
+      const spinner = pending.locator(".code-reference-help-loading-spinner");
+      const skeleton = pending.locator(".code-reference-help-loading-lines i");
+      if (motion === "reduce") {
+        await expect(spinner).toHaveCSS("animation-name", "none");
+        for (const block of await skeleton.all())
+          await expect(block).toHaveCSS("animation-name", "none");
+      }
+      release();
+      await expect(
+        card.locator('.code-reference-help-transition[data-reference-phase="ready"]'),
+      ).toBeVisible();
+      await expect(pending).toHaveAttribute("aria-hidden", "true");
+      await expect(pending).toHaveAttribute("inert");
+      await expect(card.locator('[aria-busy="true"]')).toHaveCount(0);
+      await expect(card.getByRole("status")).toHaveCount(0);
+      await expect(spinner).toHaveCSS("animation-name", "none");
+      for (const block of await skeleton.all())
+        await expect(block).toHaveCSS("animation-name", "none");
+      await expect(term).toBeFocused();
+      expect(await card.evaluate((node, before) => node === before, original)).toBe(true);
+      await original?.dispose();
+      const main = card.locator(".code-reference-help-ready a.code-reference-help-kind-icon");
+      const loadedIcon = (await main.boundingBox())!;
+      expect(loadedIcon.width).toBeCloseTo(iconBox.width, 1);
+      expect(loadedIcon.height).toBeCloseTo(iconBox.height, 1);
+      const loadedTitle = await referenceTitleMetrics(card.locator(".code-reference-help-ready"));
+      expect({ ...loadedTitle, x: pendingTitle.x, y: pendingTitle.y }).toEqual(pendingTitle);
+      expect(loadedTitle.x).toBeCloseTo(pendingTitle.x, 1);
+      expect(loadedTitle.y).toBeCloseTo(pendingTitle.y, 1);
+      const bounds = (await card.boundingBox())!;
+      expect(bounds.width).toBeCloseTo(pendingWidth, 1);
+      expect(bounds.x).toBeGreaterThanOrEqual(0);
+      expect(bounds.x + bounds.width).toBeLessThanOrEqual(page.viewportSize()!.width + 1);
+      expect(bounds.y).toBeGreaterThanOrEqual(0);
+      expect(bounds.y + bounds.height).toBeLessThanOrEqual(page.viewportSize()!.height + 1);
+      await expect(pending).toBeHidden();
+      await page.keyboard.press("Tab");
+      await expect(main).toBeFocused();
+      await page.keyboard.press("Enter");
+      await expect(page).toHaveURL(/\/docs\/direction\/installation\/?#api-reference$/);
+      await expect(card).toHaveCount(0);
+    } finally {
+      release();
+    }
+  });
+}
 
 test("source references reveal verified context after deliberate hover and keep native navigation", async ({
   page,

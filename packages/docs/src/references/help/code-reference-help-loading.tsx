@@ -1,32 +1,56 @@
+import { CompassIcon, LoaderCircleIcon } from "@kamod-ch/icons/lucide";
+
 /** A quiet reading placeholder while the shared reference module loads on demand. */
-export function CodeReferenceHelpLoading({ name, module }: { name: string; module: string }) {
+export function CodeReferenceHelpLoading({
+  name,
+  module,
+  active = true,
+}: {
+  name: string;
+  module: string;
+  /** The outgoing crossfade remains decorative after the real reference is ready. */
+  active?: boolean;
+}) {
   return (
-    <div class="code-reference-help-loading" aria-busy="true">
-      <div class="code-reference-help-loading-top">
-        <span class="code-reference-help-loading-mark" aria-hidden="true">
-          <i />
-          <i />
-          <i />
+    <div
+      class="code-reference-help-layout code-reference-help-loading"
+      aria-busy={active || undefined}
+    >
+      <header class="code-reference-help-header">
+        <span class="code-reference-help-kind-icon" aria-hidden="true">
+          <LoaderCircleIcon
+            class="code-reference-help-loading-spinner"
+            size={16}
+            strokeWidth={2}
+            aria-hidden="true"
+          />
         </span>
-        <div class="code-reference-help-loading-heading">
-          <div class="code-reference-help-loading-title">
-            <strong>Following the reference...</strong>
-            <span class="code-reference-help-loading-spinner" aria-hidden="true" />
+        <div class="code-reference-help-heading">
+          <div class="code-reference-help-title">
+            <strong>
+              <code title={module}>{name}</code>
+            </strong>
+            <CompassIcon
+              class="code-reference-help-title-mark"
+              size={12}
+              strokeWidth={1.75}
+              aria-hidden="true"
+            />
           </div>
-          <code title={module}>{name}</code>
+          <p class="code-reference-help-loading-context">Following the reference...</p>
         </div>
-      </div>
-      <div class="code-reference-help-loading-lines" aria-hidden="true">
-        <i />
-        <i />
-        <i />
+      </header>
+      <div class="code-reference-help-loading-lines docs-loading-skeleton" aria-hidden="true">
+        <i class="docs-loading-shape" />
+        <i class="docs-loading-shape" />
+        <i class="docs-loading-shape" />
         <span>
-          <i />
-          <i />
+          <i class="docs-loading-shape" />
+          <i class="docs-loading-shape" />
         </span>
       </div>
-      <p class="code-reference-help-loading-note" role="status">
-        Bringing the reference and its useful links into view.
+      <p class="code-reference-help-loading-note" role={active ? "status" : undefined}>
+        Just grabbing the details for you.
       </p>
     </div>
   );

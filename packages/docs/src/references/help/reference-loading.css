@@ -1,0 +1,153 @@
+.code-reference-help-transition {
+  --code-help-reveal-duration: 420ms;
+  position: relative;
+  min-width: 0;
+  /* Reserve the final reading width so the title and icon never slide sideways on arrival. */
+  inline-size: calc(min(var(--code-help-width, 480px), calc(100vw - 32px)) - 1.75rem - 2px);
+  max-inline-size: 100%;
+}
+.code-reference-help-loading-context {
+  color: var(--code-help-muted);
+  font-size: var(--code-help-font-context);
+  font-weight: 400;
+  line-height: 1.6;
+}
+.code-reference-help-loading-spinner {
+  width: 1rem;
+  height: 1rem;
+  animation: code-reference-help-spin 900ms linear infinite;
+}
+.code-reference-help-loading-lines {
+  /* The shared page motion carries a quiet tint, with no reflective/white highlight. */
+  --loading-skeleton-sheen: color-mix(in oklab, var(--docs-inline-code-background) 6%, transparent);
+  --loading-skeleton-sheen-opacity: 1;
+  display: grid;
+  gap: 0.4375rem;
+  margin-block: 0.125rem;
+}
+.code-reference-help-loading-lines i {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  height: 0.3125rem;
+  border-radius: 0.1875rem;
+  background: color-mix(in oklab, var(--docs-inline-code-background) 14%, transparent);
+}
+.code-reference-help-loading-lines > i:nth-child(2) {
+  --loading-skeleton-step: 1;
+  width: 91%;
+}
+.code-reference-help-loading-lines > i:nth-child(3) {
+  --loading-skeleton-step: 2;
+  width: 76%;
+}
+.code-reference-help-loading-lines > span {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 0.5rem;
+  margin-top: 0.1875rem;
+}
+.code-reference-help-loading-lines > span i {
+  --loading-skeleton-step: 3;
+  height: 1.125rem;
+}
+.code-reference-help-loading-lines > span i:last-child {
+  --loading-skeleton-step: 4;
+  background: color-mix(in oklab, var(--docs-inline-code-background) 12%, transparent);
+}
+.code-reference-help-loading-note {
+  color: var(--code-help-quiet);
+  font-size: calc(var(--code-help-font-min) - 0.015625rem);
+  line-height: 1.6;
+}
+.code-reference-help-loading-module {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--code-help-muted);
+  font: var(--code-help-font-context) / 1.5 var(--font-mono, monospace);
+}
+.code-reference-help-transition[data-reference-phase="ready"] > .code-reference-help-pending {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  animation: code-reference-help-retire calc(var(--code-help-reveal-duration) * 0.4) ease-out;
+}
+.code-reference-help-ready
+  :is(
+    .code-reference-help-kind-icon > svg,
+    .code-reference-help-location,
+    .code-reference-help-heading-meta
+  ) {
+  animation: code-reference-help-arrive var(--code-help-reveal-duration) ease-out;
+}
+/* Keep the name/frame anchored; let the old bars leave before the detailed reading appears. */
+.code-reference-help-transition[data-reference-phase="ready"]
+  .code-reference-help-pending
+  .code-reference-help-heading {
+  visibility: hidden;
+}
+.code-reference-help-transition[data-reference-phase="ready"]
+  .code-reference-help-pending
+  .code-reference-help-kind-icon {
+  background: transparent;
+}
+.code-reference-help-ready > .code-reference-help-layout > :not(.code-reference-help-header) {
+  animation: code-reference-help-details var(--code-help-reveal-duration) ease-out;
+}
+/* Once facts arrive, the decorative outgoing layer has no repeating work or interactions. */
+.code-reference-help-transition[data-reference-phase="ready"]
+  :is(.code-reference-help-loading-spinner, .docs-loading-shape),
+.code-reference-help-transition[data-reference-phase="ready"] .docs-loading-shape::after {
+  animation: none;
+}
+@keyframes code-reference-help-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes code-reference-help-arrive {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes code-reference-help-retire {
+  from {
+    opacity: 1;
+    visibility: visible;
+  }
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+@keyframes code-reference-help-details {
+  0%,
+  25% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .code-reference-help-loading-spinner,
+  .code-reference-help-ready
+    :is(
+      .code-reference-help-layout > *,
+      .code-reference-help-kind-icon > svg,
+      .code-reference-help-location,
+      .code-reference-help-heading-meta
+    ) {
+    animation: none;
+  }
+  .code-reference-help-transition[data-reference-phase="ready"] > .code-reference-help-pending {
+    display: none;
+    animation: none;
+  }
+}

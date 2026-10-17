@@ -349,7 +349,9 @@ it.each([
   const trigger = screen.getByRole("link", { name: path });
   act(() => trigger.focus());
   const help = screen.getByRole("dialog", { name: `${path} reference` });
-  await waitFor(() => expect(help.querySelector(".code-reference-help-layout")).not.toBeNull());
+  await waitFor(() =>
+    expect(help.querySelector(".code-reference-help-layout[data-reference-kind]")).not.toBeNull(),
+  );
   const link = help.querySelector("a")!;
   expect(trigger).toHaveAttribute("data-code-module", path);
   expect(trigger.querySelector("code")).not.toHaveAttribute("title");

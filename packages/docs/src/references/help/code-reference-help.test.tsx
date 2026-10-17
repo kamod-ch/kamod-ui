@@ -372,10 +372,26 @@ it("announces pending work once, removes the duplicate module row, and preserves
     <CodeReferenceHelpLoading name={reference.name} module={reference.module} />,
   );
   expect(loading.getByText("Following the reference...")).toBeVisible();
-  expect(loading.getByRole("status")).toHaveTextContent("Bringing the reference");
+  expect(loading.getByRole("status")).toHaveTextContent("Just grabbing the details for you.");
   expect(loading.container.firstElementChild).toHaveAttribute("aria-busy", "true");
-  expect(loading.container.querySelector(".code-reference-help-loading-spinner")).not.toBeNull();
+  expect(loading.container.querySelector(".code-reference-help-title code")).toHaveTextContent(
+    reference.name,
+  );
+  expect(
+    loading.container.querySelector(
+      ".code-reference-help-kind-icon > .code-reference-help-loading-spinner",
+    ),
+  ).toHaveAttribute("aria-hidden", "true");
+  expect(loading.container.querySelectorAll(".code-reference-help-loading-spinner")).toHaveLength(
+    1,
+  );
+  expect(loading.container.querySelector(".code-reference-help-loading-mark")).toBeNull();
   expect(loading.container.querySelector(".code-reference-help-loading-module")).toBeNull();
+  loading.rerender(
+    <CodeReferenceHelpLoading name={reference.name} module={reference.module} active={false} />,
+  );
+  expect(loading.container.firstElementChild).not.toHaveAttribute("aria-busy");
+  expect(loading.queryByRole("status")).toBeNull();
   loading.unmount();
   const unavailable = render(
     <CodeReferenceHelpUnavailable
