@@ -1834,3 +1834,24 @@ grammar case also passes. An earlier page-readiness timeout passed in isolation
 and three further consecutive runs. Final phone/tablet/desktop captures were
 inspected in both appearances, with no page errors or horizontal overflow.
 No new Safari/WebKit result is claimed.
+
+## 70. Theming conclusion audit and component boundaries
+
+- **Keep interaction local.** Extract the checklist into a small same-file component, leaving the static recap and destinations outside its updates. Render the three recap rows from shared metadata. Give each mounted review a unique accessible label with Preact's `useId`, and document both component responsibilities. Keep the established layout, text, public destinations and all palette studies intact.
+- **Avoid unnecessary machinery.** The review owns only three local booleans. It introduces no effects, timers, observers, subscriptions, persistence, caching layers or dependencies. Independent source reviews found no correctness or lifetime defect; the refactor clarifies ownership rather than adding cleanup for resources that do not exist.
+- **Close the useful coverage gaps.** Add one focused regression for SSR labels, independent review instances, completion/backtracking and reset after unmount. Extend the existing five browser cases with the standalone ending route and reload, plus full local-storage, root appearance and scheme-cookie comparisons. Retain legacy-hash and moved-config coverage.
+
+### Implementation audit validation
+
+The full local workspace typecheck, build and `test:ci` pass: **1,729 tests**,
+including **1,053 documentation tests in 113 files**. Root Oxlint/Oxfmt/Biome,
+README sync, Knip/Syncpack, whitespace and `qa:publint` checks pass. `qa:attw`
+also passes with `npm_config_cache=/tmp/kamod-theming-audit-npm-cache`: the
+default npm cache is unwritable in this sandbox, so packing uses an isolated
+temporary cache without changing user permissions or project configuration.
+
+All **five focused production Chrome cases** pass together at 320/768/1024/1440px
+in both appearances, including the standalone ending URL/reload, legacy hashes,
+keyboard interaction, Axe contrast/semantics, complete storage/root-appearance/
+scheme-cookie isolation and the moved config destination. No new Safari/WebKit
+result is claimed.

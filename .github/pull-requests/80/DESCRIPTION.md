@@ -161,8 +161,9 @@ notes crosslink the Code guide without changing its public palette API.
 
 The surrounding theming guide removes repeated setup/control explanations and
 folds optional configuration into CSS setup. A final recap, local review checklist
-and component/block reading paths close the guide. Existing palette studies stay
-unchanged.
+and component/block reading paths close the guide. A small checklist component
+owns its progress and unique labels, with SSR, instance and reload coverage.
+Existing palette studies stay unchanged.
 
 ### Source references stay generic in core
 
@@ -706,13 +707,13 @@ branding and navigation changes. The public color-mode prop/type, inversion
 wrappers, paired theme values and mode-specific routes/tests are removed; the
 nine supported syntax palettes and normal application appearance remain.
 
-The theme guides pass **1,052 documentation tests in 112 files**, docs
-typecheck/production build, root Oxlint/Oxfmt/Biome, dependency and authored-file
-whitespace checks. Thirteen preceding production Chrome cases cover the 24 Prism
+The audit passes workspace typecheck/build and **1,729 tests**, including
+**1,053 documentation tests in 113 files**, plus root Oxlint/Oxfmt/Biome,
+dependency, package-shape and authored-file whitespace checks. Thirteen preceding production Chrome cases cover the 24 Prism
 palettes, required widths, keyboard controls, exact copies/downloads and existing
-app-theme/sidebar history. Five layout/control cases pass after visual refinement.
-The latest guide cleanup passes four responsive cases in both appearances, the
-incoming config route (plus three repeats) and its existing grammar regression.
+app-theme/sidebar history. Five guide browser cases cover 320–1440px in both appearances, keyboard review,
+appearance isolation, standalone/legacy routes and reloads; the existing grammar
+regression also passes.
 Historical source `pre` colors remain excluded from contrast auditing; toolbar
 and surrounding controls are checked. The preceding app-study audit covers all
 eight presets, working playgrounds, bright actions and three block reload repeats.
