@@ -519,7 +519,7 @@ soft inline-code surface; selected main groups and pinned top/bottom destination
 use exactly two-thirds of that fill on desktop and mobile. Counts remain plain,
 and Fresh/Updated/Planned badges use20% of the actual secondary role. Page labels
 share that status-badge paint, compact padding,600 foreground ink, the smaller
-ApiBook icon and2px corners; compensating top spacing preserves page coordinates.
+ApiBook icon and 4px corners; compensating top spacing preserves page coordinates.
 
 Right contents links distinguish the URL's chosen fragment from the section in
 view. Incoming links, reloads, history and native/router clicks update the chosen

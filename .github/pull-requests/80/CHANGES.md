@@ -1641,3 +1641,15 @@ forward while visible. The no-JavaScript capture retains a visible paused rocket
 No new Safari/WebKit result is claimed. Earlier failures exposed a midpoint-based
 travel assertion, a test-owned Web Animations play override and the pre-readiness
 snippet scroll; the final checks retain their behavior and geometry requirements.
+
+## 62. Moderately rounder page-heading labels
+
+Increase the shared page-label corner radius from2px to4px. The same rule covers
+the home hero, guides, component/package pages, block collections/variants and
+Kitchen Sink, while preserving their paint, typography, insets and heading flow.
+
+The production documentation build, root Oxlint/Oxfmt and whitespace checks pass.
+Verified4px on every corner in56 production Chrome combinations: seven page
+families at320/768/1024/1440px in both Ocean-light and Cursor warm-dark appearances.
+Inspected representative guide/home label captures. This cosmetic adjustment adds
+no runtime behavior or tests that duplicate its CSS declaration.

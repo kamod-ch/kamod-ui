@@ -9,7 +9,7 @@
 .block-guide-eyebrow-label,
 .home-hero-badge {
   padding: var(--page-eyebrow-padding) 0.375rem;
-  border-radius: 0.125rem;
+  border-radius: 0.25rem;
   background: var(--docs-status-background);
   color: var(--foreground);
   font-weight: 600;
