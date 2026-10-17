@@ -1492,3 +1492,33 @@ older cascade regressions and an outdated showcase-gap assertion. The first
 post-build preview still held its previous asset manifest; restart it before
 browser checks. The final combined run uses fresh assets. No new Safari/WebKit
 result is claimed.
+
+## 57. Separate chosen contents links from reading and soften sidebar hierarchy
+
+- **A quieter parent hierarchy.** Keep the selected left sublink surface; give selected main groups and pinned top/bottom entries exactly two-thirds of its visibility, including their hover paint. Share those derived tokens with right contents links and retain the same desktop/mobile behavior.
+- **A real URL selection.** Mark only actual same-document fragment matches as selected, independently from aria-current and the section in view. Handle decoded hashes, incoming cross-page links, reload, hash clearing and Back/Forward. Reuse the existing hash listener and post-click animation frame so router history writes are observed without new async machinery. Keep scroll revelation and cleanup intact.
+- **Separate reading feedback.** Give the current reading link the same base/layers as an idle main group. Keep its straight2px marker, trim only the5px needed inside the6px corner radius, and paint through the border box so narrow-desktop ellipsis cannot clip it. Reserve the elevated stacking level for the currently viewed link.
+- **A clear, fading rail.** Extend the rail6px above the list, fade its ends over14px and add a small foreground contribution for visibility. Keep ordinary hover fills quieter and below the rail, with no pointer interception or content masking.
+- **Stable contents heading.** Remove the separator below On This Page while preserving its top and title center; the list rises only the removed1px. Use a familiar16px compass with a slightly stronger stroke inside a28px shortcut, add4px of left separation, and grow around the original center rather than enlarging the row.
+- **Focused behavior coverage.** Add six unit cases covering encoded/document-isolated selection, actual versus prospective navigation, clearing, reload and disposal. Add light/dark production cases for real incoming navigation, independent scrolling, following another section, page-top clearing and history. Update existing shortcut expectations while preserving shared row geometry, palette/ink hierarchy, keyboard navigation, scroll memory and expansion tests.
+
+### Sidebar hierarchy and selection verification
+
+All **960 documentation tests in102 files** pass, including the six new selection
+regressions. Documentation typecheck and the final production build pass, as do
+root Oxlint/Oxfmt/Biome and whitespace checks. All **21 affected production Chrome
+cases** pass together on the final build, covering both appearances, real incoming
+links, history, reload, keyboard shortcuts, natural scroll limits, manual pane
+position, offscreen reading revelation, final-entry clearance and desktop/mobile
+expansion. Existing styling checks retain the shared row geometry and ink hierarchy.
+
+Production Ocean-light, Cursor warm-dark and Kamod-wide captures plus both mobile
+appearances were inspected. Group/sublink alpha is exactly170/255, selected right
+paint matches the group paint, and reading paint matches an idle group. Header
+top/title-center offsets remain0px and the list moves up exactly1px. The straight
+marker remains visible with ellipsis, the rail stays over ordinary hover fills,
+and mobile has no document overflow. Captured desktop pages emit no page errors. No new Safari/WebKit result
+is claimed. Earlier parallel runs encountered traced local Chrome
+ERR_NETWORK_CHANGED chunk failures; the final sequential combined run passes.
+The new cross-page test's initially ambiguous selector was narrowed to the actual
+list item, retaining coverage of the shortcut that shares its destination.

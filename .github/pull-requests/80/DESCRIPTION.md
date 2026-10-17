@@ -483,14 +483,23 @@ selection surfaces, badges, neutral menu triggers, stationary navbar hover, and
 persistent state glyphs make controls consistent across pages. Appearance choices
 now have exactly three sample bars; palette choices retain four.
 
-Both sidebar gutters are wider and link hover fills are easier to see. Page labels
-use a softened inline-code surface, compact padding,600 weight, subtly darkened
-primary ink, matching stronger icons and2px corners; an equal
-reduction in their preceding gap preserves title/content coordinates. The same
-surface paints selected groups, nested links and pinned left destinations on
-desktop/mobile. Numeric counts have no background; Fresh/Updated/Planned badges
-use 20% of the actual secondary role with readable text/icon ink. These changes
-are shared CSS, without additional subscriptions or animation loops.
+Both sidebar gutters are wider. Selected left sublinks retain the strongest
+soft inline-code surface; selected main groups and pinned top/bottom destinations
+use exactly two-thirds of that fill on desktop and mobile. Counts remain plain,
+and Fresh/Updated/Planned badges use20% of the actual secondary role. Page labels
+share that status-badge paint, compact padding,600 foreground ink, the smaller
+ApiBook icon and2px corners; compensating top spacing preserves page coordinates.
+
+Right contents links distinguish the URL's chosen fragment from the section in
+view. Incoming links, reloads, history and native/router clicks update the chosen
+fill without rewriting scroll tracking. The reading destination uses the default
+main-group surface and a straight marker trimmed just inside its corner radius.
+Quieter hover paint stays beneath a slightly stronger rail with short fades and
+a6px upper extension. A border-image keeps the marker visible through ellipsis;
+only the viewed link can paint above the rail. Remove the heading divider while
+retaining its position and enlarge its compass shortcut around the original
+center. Reuse the existing navigation lifecycle and cleanup, adding no listeners,
+observers, subscriptions or dependencies.
 
 ## Runtime, loading, and performance
 
