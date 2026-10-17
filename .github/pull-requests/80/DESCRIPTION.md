@@ -852,6 +852,14 @@ twice. Heading names, source readers, file/control labels and private tooltip
 content keep their own typography. Explicit compact/regular demonstration choices
 remain available, while old context-based12/14px prose overrides are removed.
 
+Plain and linked prose code share a compact text box with1.2 line height and a
+small em-based inset. Each fitting token moves intact to the next sentence line;
+oversized literals remain selectable in their own bounded horizontal scroll area.
+Paths retain their atomic grid, middle shortening and emergency endpoint handling.
+Standalone source-card package identities keep their existing font, inherited line
+height and roomier highlight geometry. No text, destination, reference cue or
+runtime navigation behavior changes.
+
 ### Shared page flow and route-local flight
 
 Implementation/design reading notes and their cards now share a heading above

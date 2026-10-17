@@ -1522,3 +1522,31 @@ is claimed. Earlier parallel runs encountered traced local Chrome
 ERR_NETWORK_CHANGED chunk failures; the final sequential combined run passes.
 The new cross-page test's initially ambiguous selector was narrowed to the actual
 list item, retaining coverage of the shortcut that shares its destination.
+
+## 58. Whole prose-code tokens and consistently compact highlights
+
+- **Move the whole token.** Make ordinary and detected prose code atomic and nowrap, so a fitting multiword term moves to the next line instead of splitting inside a sentence. Bound oversized literals to their container and retain their complete selectable text through local horizontal scrolling with a thin scrollbar.
+- **One compact highlight box.** Keep the agreed94% surrounding-font scale and normalize plain/linked prose code to the same1.2 line height,1px border geometry and small0.04em/0.2em inset. This replaces competing context paddings without changing the underlying theme paint or reference-hover cue.
+- **Preserve contextual identities.** Leave the source-card package chips shown in the reference at their existing font, inherited line-height and0px/3px padding. Preserve heading names, source readers, toolbar/file/control labels and private tooltip typography. Paths keep their existing atomic grid, middle ellipsis and emergency endpoint fallback for very narrow layouts.
+- **No runtime machinery.** Use one nested rule in the existing late-loaded inline-code stylesheet and one shared padding token. Add no components, measurement effects, listeners, observers, requests, dependencies or generated content.
+- **Meaningful regression checks.** Cover plain/detected whole-token wrapping, sentence-relative font scaling, equal highlight geometry without enlarging surrounding line boxes, full selection of oversized values and unchanged package-chip identities/destinations. Keep explicit compact inventory sizes outside the prose-only font-ratio matrix. Update the older path test to verify exact source metadata/native titles or stable text, retaining both-end visibility and overflow assertions for rich references that intentionally omit native titles.
+
+### Inline-code wrapping and highlight verification
+
+All **960 documentation tests in102 files** pass, as do documentation typecheck,
+the final production build, root Oxlint/Oxfmt/Biome and whitespace checks.
+All **20 focused production Chrome cases** pass: five inline-size/wrapping cases,
+ten guide cases across20 breakpoints in both appearances, and five path cases at
+1440/768/390/320px. The checks cover sentence-relative fonts, whole multiword
+references, matching compact boxes within the surrounding line height, full
+selection/scrolling of oversized literals, preserved package chips and exact path
+text with visible endpoints. No new unit tests duplicate CSS declarations.
+
+Ocean desktop-light and Cursor warm phone-dark source cards, plus a Kamod Theming
+introduction, were inspected. Prose code follows the parent at94% with shared
+compact insets, while source-card package labels retain15.04px text and0px/3px
+padding in their16px context. Captures have no document overflow or page errors.
+No new Safari/WebKit result is claimed. Initial browser failures exposed outdated
+test assumptions about explicit token-inventory font overrides, inherited unitless
+line heights, native titles on rich references and configured-but-unused endpoint
+ellipsis; the final tests verify the actual text/geometry contracts instead.
