@@ -65,8 +65,14 @@ export function connectRightSidebarLinks(
     }
   };
   let previousActive = activeLink();
-  const canScroll = () =>
-    node.clientHeight > 0 && /^(auto|scroll)$/.test(getComputedStyle(node).overflowY);
+  const canScroll = () => {
+    const style = getComputedStyle(node);
+    return (
+      node.clientHeight > 0 &&
+      /^(auto|scroll)$/.test(style.overflowY) &&
+      style.visibility === "visible"
+    );
+  };
 
   const reveal = (link: HTMLAnchorElement, reading = false) => {
     if (!canScroll()) return;
@@ -118,8 +124,15 @@ export function connectRightSidebarLinks(
     }
     if (initializing && typeof restoredTop === "number" && Number.isFinite(restoredTop)) {
       const maximum = Math.max(0, doc.documentElement.scrollHeight - win.innerHeight);
-      // Wait for the existing article restoration before measuring its active contents link.
-      if (Math.abs(win.scrollY - Math.min(Math.max(0, restoredTop), maximum)) > 1) return;
+      // Wait for restoration to start. A lazy page can overwrite history with a
+      // temporary clamped position; once the article moves, its active tracker
+      // owns the actual destination rather than this one-time history snapshot.
+      if (
+        !pageMoved &&
+        win.scrollY === 0 &&
+        Math.abs(win.scrollY - Math.min(Math.max(0, restoredTop), maximum)) > 1
+      )
+        return;
     }
     if (followedLink) {
       if (!canScroll()) return;
@@ -165,12 +178,29 @@ export function connectRightSidebarLinks(
     }
     // The aria-current observer schedules a reveal only when the active section changes.
   };
-  const activeObserver = new MutationObserver(scheduleReading);
-  activeObserver.observe(node, {
-    subtree: true,
-    attributes: true,
-    attributeFilter: ["aria-current"],
+  let waitingForVisibility = getComputedStyle(node).visibility !== "visible";
+  const watchActiveLink = () =>
+    activeObserver.observe(node, {
+      subtree: true,
+      attributes: true,
+      attributeFilter: ["aria-current"],
+    });
+  const activeObserver = new MutationObserver(() => {
+    if (waitingForVisibility && getComputedStyle(node).visibility === "visible") {
+      waitingForVisibility = false;
+      activeObserver.disconnect();
+      watchActiveLink();
+    }
+    scheduleReading();
   });
+  watchActiveLink();
+  // A visibility-only page reveal leaves bounds and aria-current unchanged. Retry
+  // that initial destination, then stop watching page chrome for this connection.
+  if (waitingForVisibility)
+    activeObserver.observe(doc.documentElement, {
+      attributes: true,
+      attributeFilter: ["class", "style"],
+    });
   win.addEventListener("scroll", pageScroll, { passive: true });
 
   const follow = (url: URL) => {

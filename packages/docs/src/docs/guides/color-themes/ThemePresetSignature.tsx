@@ -1,6 +1,6 @@
 import type { ThemePresetId } from "@kamod-ch/themes";
 
-/** Real preset tokens supply both the color signature and the faint wash behind the study. */
+/** A small signature uses the actual preset without painting a card behind the page chapter. */
 export function ThemePresetSignature({ preset }: { preset: ThemePresetId }) {
   return (
     <span class="theme-study-signatures" aria-hidden="true">
@@ -11,7 +11,6 @@ export function ThemePresetSignature({ preset }: { preset: ThemePresetId }) {
           data-theme-scope=""
           data-theme={preset}
         >
-          <i class="theme-study-wash" />
           {["primary", "secondary", "accent"].map((role) => (
             <i key={role} style={{ background: `var(--${role})` }} />
           ))}

@@ -1,8 +1,8 @@
-/* Compact type, shape, exercise and source sections share the study frame tokens. */
+/* Page-layout guidance surrounds the typography and shape specimens. */
 .theme-study-materials {
   display: grid;
   grid-template-columns: 1.35fr 1fr;
-  gap: 0.75rem;
+  gap: 1.75rem;
 }
 .theme-study-fonts {
   display: grid;
@@ -81,11 +81,9 @@
   display: grid;
   grid-template-columns: 7.5rem minmax(0, 1fr);
   align-items: start;
-  gap: 0.625rem;
-  padding: 0.625rem 0.75rem;
-  border: 1px solid var(--theme-study-line);
-  border-radius: 0.5rem;
-  background: color-mix(in oklab, var(--primary) 4%, transparent);
+  gap: 0.75rem;
+  padding-block: 0.875rem;
+  border-top: 1px solid var(--theme-study-line);
 }
 .theme-study-review > strong {
   display: flex;
@@ -103,10 +101,8 @@
   grid-template-columns: 0.85fr 1.25fr 1fr;
   align-items: start;
   gap: 0.875rem;
-  padding: 0.75rem;
-  border: 1px solid var(--theme-study-line);
-  border-radius: 0.5rem;
-  background: var(--theme-study-panel);
+  padding-block: 0.875rem;
+  border-top: 1px solid var(--theme-study-line);
 }
 .theme-study-practice > div > strong {
   color: var(--foreground);
@@ -126,39 +122,38 @@
   color: var(--foreground);
 }
 .theme-study-recipe {
-  border: 1px solid var(--theme-study-line);
-  border-radius: 0.5rem;
-  overflow: hidden;
-}
-.theme-study-recipe summary {
-  font-size: 0.75rem;
-  font-weight: 500;
-  background: var(--theme-study-panel);
-}
-.theme-study-recipe summary > span {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  min-width: 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--theme-study-line);
 }
 .theme-study-recipe-format {
-  padding: 0.0625rem 0.25rem;
-  border-radius: 0.1875rem;
-  background: color-mix(in oklab, var(--foreground) 5%, transparent);
   color: var(--theme-study-secondary);
   font:
-    0.5625rem/1.5 ui-monospace,
+    0.6875rem/1.5 ui-monospace,
     monospace;
 }
-.theme-study-recipe summary:hover {
-  background: color-mix(in oklab, var(--foreground) 4%, transparent);
-}
 .theme-study-recipe-content {
-  padding: 0 0.875rem 0.875rem;
+  min-width: 0;
+}
+/* Reader controls need readable metadata ink, independent of a preset's muted alpha. */
+.theme-study-recipe .docs-code-toolbar {
+  --theme-recipe-control-ink: color-mix(in oklab, var(--foreground) 75%, var(--background));
+}
+.theme-study-recipe
+  .docs-code-toolbar
+  :is(.docs-code-line-count, .docs-code-file-path, .docs-code-label, .docs-code-action) {
+  color: var(--theme-recipe-control-ink);
+}
+.theme-study-recipe .docs-code-toolbar .docs-code-action {
+  color: var(--foreground);
+}
+.theme-study-recipe .docs-code-toolbar :is(.docs-import-toggle, .docs-code-wrap-control) {
+  --code-control-secondary: var(--theme-recipe-control-ink);
 }
 .theme-study-recipe-content > p {
   margin: 0 0 0.875rem;
   color: var(--theme-study-secondary);
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   line-height: 1.85;
 }
 

@@ -1750,3 +1750,34 @@ whitespace checks pass. All **18 production Chrome reference cases** pass in the
 final sequential run, covering exclusions in both schemes at 320/1440px, preserved
 component/function/package identities, lazy loading/failure/dismissal, reduced
 motion and keyboard navigation. No new Safari/WebKit result is claimed.
+
+## 67. Theme chapters, complete color references and working playgrounds
+
+- **Use normal page structure.** Replace the eight outer study cards and their washes with linked chapters, short introductions, neutral separators and local reading paths. Keep swatches and working specimens framed. Retain preset identity, source links, typography, shape guidance and practical design notes.
+- **Separate the overview from the full palette.** Show eight large core colors with local Light/Dark controls and copy formats. Give every preset a searchable, paired reference for all 43 semantic colors; include 13 Cursor Warm source colors and 63 Watson source shades. Read declarations and ownership from the shipped CSS, including real inheritance and appearance overrides. Fonts, radius and shadow recipes are not presented as individual colors.
+- **Make each value useful.** Copy CSS variables, browser-resolved CSS, HEX or RGB through the shared CopyButton. Label converted values as 8-bit sRGB and retain alpha. Disable unavailable conversions. Detailed focus/hover help explains purpose, pairing, declaration and source; an inline inspector follows the selected row. Core activation clears restrictive searches and moves keyboard focus to the inspector. Resolve colors once per nearby preset, with no per-token observers.
+- **Experiment in a real local workspace.** Add editable release text, a checklist and progress, local appearance controls, content/loading/validation states, a notification preference, publish feedback and chart-role samples. Keep state and paint isolated from page preferences and global dark utilities. Skeleton animation requires opt-in, pauses outside the viewport/in hidden tabs and respects reduced motion. The preview sends no releases or messages.
+- **Keep the complete TSX example visible.** Replace the recipe disclosure with a normal code section using shared copy/download actions. Code still defers grammar work until near the viewport. Preserve all existing preset routes and headings, and use container layouts for the expanded content.
+- **Follow headings after they gain layout.** Direct fragments and legacy section routes wait for hidden or late-mounted guide headings. Temporary subscriptions stop after following, reading intent, navigation or unmount. Preserve reload and Back/Forward positions instead of forcing a second initial jump. Once the article restores, reveal its actual active destination even if hydration recorded a temporary clamped history offset.
+
+Metadata values use their own compact typography and wrapping/truncation instead
+of sentence-code highlights or horizontal scrollports. Compact controls use
+stronger local ink and selection tints; bright primary fills retain their exact
+color with readable action text. Initial reading tracking also waits for the
+startup visibility reveal, including fresh visits without fragments. No shipped palette,
+public component API, dependency or downloaded font changes.
+
+### Theme-study validation
+
+The full documentation suite passes **1,023 tests in 107 files**. Documentation
+typecheck and final production build, root Oxlint/Oxfmt/Biome and whitespace checks
+pass. The final production Chrome run passes **12 cases**, including all presets
+in both page appearances, exact color exports and recipe copying, keyboard help,
+shareable subsection links, local experiments, enabled/published bright actions
+and incoming/history/reload navigation. The intermittent block reload case passes
+three additional consecutive runs on the same build. Seven preceding responsive,
+expanded-study and pill cases pass, covering 320/768/1024/1440px. No new
+Safari/WebKit result is claimed.
+
+Final phone/tablet/desktop captures in both appearances were inspected. The
+capture run reports no page errors or horizontal overflow.

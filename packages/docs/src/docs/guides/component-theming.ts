@@ -32,9 +32,9 @@ export function createComponentThemingSections(foundationSource: string): GuideS
   const [palettes] = parseGuide(`
 ## Color theme presets
 
-Explore **Eight Palettes through the Same Small Compositions**. Every study pairs a simple workspace and action card in light and dark. Compare how the surfaces, accents and navigation relate, then read the preset's practical design notes, declared typography and shape.
+Explore **Eight Palettes from Color to Working Interface**. Start with the main colors, inspect the complete light and dark token reference, then see those roles in the same compositions and an interactive workspace. Every study includes copyable color values, practical design notes, typography and shape.
 
-Start with the direction that suits your content. **Use theme** applies a preset to this documentation while keeping your current appearance preference; the comparison sketches stay fixed. Each local code example opens on request. Suggested uses are starting points, not restrictions.
+Start with the direction that suits your content. **Use theme** applies a preset to this documentation while keeping your current appearance preference; comparisons and playgrounds keep their own local appearance. The complete TSX example is always visible. Suggested uses are starting points, not restrictions.
 `);
   return [
     { ...installation, id: "installation" },

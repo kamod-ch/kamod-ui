@@ -39,7 +39,7 @@ export const themingDocPage: DocPageModule = {
     {
       id: "color-theme-presets",
       title: "Color Theme Presets",
-      text: "Compare eight design directions through light/dark composition studies, type, shape and practical guidance.",
+      text: "Explore eight palettes through copyable core colors, complete light/dark token references, interactive playgrounds and scoped app examples.",
       children: [
         { id: "color-theme-kamod", label: "Kamod" },
         { id: "color-theme-shadcn", label: "shadcn (Geist)" },

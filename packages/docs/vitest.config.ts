@@ -37,6 +37,8 @@ export default defineConfig({
     ],
   },
   test: {
+    // Palette documentation reads the shipped declarations as data, including ?raw imports.
+    css: { include: [/packages\/themes\/src\/.*\.css/] },
     environment: "node",
     globals: true,
     setupFiles: ["./src/test/setup.ts"],

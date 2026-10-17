@@ -2,12 +2,14 @@
 import { useEffect, useState } from "preact/hooks";
 import { PageContentsHeading } from "../../docs/components/PageContentsHeading";
 import { flattenContents, PageContentsList } from "../../docs/components/PageContentsList";
+import { scheduleSectionScroll } from "../../docs/scroll-to-section";
 import { useRightSidebarScroll } from "../../layout/navigation/right-sidebar-memory";
 import { linkTitle } from "../../link-title";
 import type { BlockGuideIdentity, BlockGuideSection } from "./types";
 
 type OverviewChild = ContentsSection;
 const noOverviewChildren: readonly OverviewChild[] = [];
+const mountedNavigations = new WeakSet<PerformanceNavigationTiming>();
 
 type ContentsSection = Pick<BlockGuideSection, "id" | "label" | "children">;
 
@@ -27,18 +29,31 @@ const useActiveHeading = (
       ...flattenContents(overviewChildren).map(({ id }) => id),
       ...flattenContents(sections).map(({ id }) => id),
     ];
-    const headings = ids
-      .map((id) => document.getElementById(id))
-      .filter((element): element is HTMLElement => element !== null);
+    const resolveHeadings = () =>
+      ids
+        .map((id) => document.getElementById(id))
+        .filter((element): element is HTMLElement => element !== null);
+    let headings = resolveHeadings();
     const topbar = document.querySelector<HTMLElement>(".docs-topbar");
     const desktop = window.matchMedia("(min-width: 1200px)");
     const visible = () => desktop.matches;
     let frame = 0;
     let offsets: number[] | undefined;
     let readingLine = 112;
+    let readingReady = false;
+    const refreshHeadings = () => {
+      if (!headings.some((heading) => !heading.isConnected)) return;
+      headings = resolveHeadings();
+      offsets = undefined;
+      readingReady = false;
+    };
     const update = () => {
       frame = 0;
+      refreshHeadings();
       if (!visible()) return;
+      if (!readingReady && headings[0] && getComputedStyle(headings[0]).visibility !== "visible")
+        return;
+      readingReady = true;
       if (!offsets) {
         readingLine = (topbar?.getBoundingClientRect().height ?? 64) + 48;
         const padding =
@@ -78,6 +93,7 @@ const useActiveHeading = (
       schedule();
     };
     const restoreHash = () => {
+      refreshHeadings();
       // The single contents instance restores history at every viewport width.
       // PreactPress sets scrollRestoration to manual, including same-page Back/Forward.
       if (window.location.hash === "#top") {
@@ -88,12 +104,54 @@ const useActiveHeading = (
       }
       schedule();
     };
+    // Hydration can briefly hide a lazy guide and undo the browser's first anchor jump.
+    // Follow it once after this guide's real headings mount, yielding to reading intent.
+    const initialHref = window.location.href;
+    const navigation = performance.getEntriesByType?.("navigation")[0] as
+      | PerformanceNavigationTiming
+      | undefined;
+    // The browser's navigation entry outlives SPA route changes. A later return to
+    // this original URL is a fresh anchor request, not another document reload.
+    const firstContentsMount = !navigation || !mountedNavigations.has(navigation);
+    if (navigation) mountedNavigations.add(navigation);
+    const documentPath = (href: string) => {
+      const url = new URL(href, initialHref);
+      return `${url.origin}${url.pathname.replace(/\/+$/, "")}${url.search}`;
+    };
+    const restoringHistory =
+      firstContentsMount &&
+      (navigation?.type === "reload" || navigation?.type === "back_forward") &&
+      (!navigation.name || documentPath(navigation.name) === documentPath(initialHref));
+    const initialTop = window.location.hash === "#top";
+    const initialTarget = initialTop
+      ? (headings.find((heading) => heading.id === overviewId) ?? headings[0])
+      : document.getElementById(window.location.hash.slice(1));
+    let cancelInitialFollow: (() => void) | undefined;
+    if (!restoringHistory && window.location.hash && initialTarget) {
+      cancelInitialFollow = scheduleSectionScroll(initialTarget.id, "instant", (target) => {
+        if (initialTop) window.scrollTo({ top: 0, behavior: "instant" });
+        else target.scrollIntoView({ block: "start", behavior: "instant" });
+        offsets = undefined;
+        update();
+      });
+    }
+    // Visibility-only page reveal does not emit a resize or article scroll. Initialize
+    // reading after that reveal without changing the article's saved/fresh position.
+    const cancelReadyUpdate =
+      !cancelInitialFollow && headings[0]
+        ? scheduleSectionScroll(headings[0].id, "instant", () => {
+            offsets = undefined;
+            update();
+          })
+        : undefined;
     update();
     window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("resize", resize);
     window.addEventListener("hashchange", restoreHash);
     desktop.addEventListener("change", resize);
     return () => {
+      cancelInitialFollow?.();
+      cancelReadyUpdate?.();
       window.cancelAnimationFrame(frame);
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", resize);

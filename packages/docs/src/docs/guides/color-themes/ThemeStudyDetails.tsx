@@ -1,6 +1,5 @@
 import { ChevronDownIcon, CodeIcon, TypeIcon } from "@kamod-ch/icons/lucide";
 import type { ThemePresetId } from "@kamod-ch/themes";
-import { useState } from "preact/hooks";
 import { withBasePath } from "../../../base-path";
 import { CodeBlock } from "../../components/CodeBlock";
 import type { PresetDesignNotes } from "./preset-design-notes";
@@ -78,7 +77,7 @@ export function ThemeStudyDetails({ notes }: { notes: PresetDesignNotes }) {
   );
 }
 
-/** Mount a source reader only when requested; closed studies need no highlighting observers. */
+/** Keep the complete scoped example visible; Code defers coloring until it nears the viewport. */
 export function ThemeStudyRecipe({
   id,
   label,
@@ -88,30 +87,30 @@ export function ThemeStudyRecipe({
   label: string;
   example: string;
 }) {
-  const [open, setOpen] = useState(false);
   return (
-    <details class="theme-study-recipe" onToggle={(event) => setOpen(event.currentTarget.open)}>
-      <summary>
-        <span>
+    <section class="theme-study-recipe" aria-labelledby={`color-theme-${id}-app-example`}>
+      <div class="theme-study-section-heading">
+        <h4 id={`color-theme-${id}-app-example`}>
           <CodeIcon size={14} aria-hidden="true" />
           Try {label} in your app
-          <small class="theme-study-recipe-format">TSX</small>
-        </span>
-        <ChevronDownIcon size={14} aria-hidden="true" />
-      </summary>
-      {open && (
-        <div class="theme-study-recipe-content">
-          <p>
-            Inside a component’s return, scope this palette to a small region. Keep your{" "}
-            <a href={withBasePath("/docs/theming/css-setup#choose-a-theme-entry")}>
-              full theme stylesheet
-            </a>{" "}
-            at the app entry. Change <code>light</code> to <code>dark</code> for the other
-            appearance; this wrapper does not save a page preference.
-          </p>
-          <CodeBlock code={presetScopeSnippet(id, example)} language="tsx" />
-        </div>
-      )}
-    </details>
+        </h4>
+        <small class="theme-study-recipe-format">TSX · Local scope</small>
+      </div>
+      <div class="theme-study-recipe-content">
+        <p>
+          Inside a component’s return, scope this palette to a small region. Keep your{" "}
+          <a href={withBasePath("/docs/theming/css-setup#choose-a-theme-entry")}>
+            full theme stylesheet
+          </a>{" "}
+          at the app entry. Change <code>light</code> to <code>dark</code> for the other appearance;
+          this wrapper does not save a page preference.
+        </p>
+        <CodeBlock
+          code={presetScopeSnippet(id, example)}
+          language="tsx"
+          filePath="ThemeRegion.tsx"
+        />
+      </div>
+    </section>
   );
 }

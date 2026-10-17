@@ -1,0 +1,641 @@
+/* Page-level reading sections; only the colors and the selected value need a frame. */
+.theme-color-reference {
+  display: grid;
+  gap: 2rem;
+  min-width: 0;
+  --theme-color-quiet: color-mix(in oklab, var(--foreground) 75%, var(--background));
+  --theme-color-rule: color-mix(in oklab, var(--foreground) 10%, transparent);
+}
+.theme-color-core,
+.theme-color-all {
+  min-width: 0;
+}
+.theme-color-resolver {
+  position: absolute;
+  visibility: hidden;
+  pointer-events: none;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+.theme-color-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.875rem 1.25rem;
+  margin-bottom: 0.875rem;
+}
+.theme-color-heading > div:first-child {
+  min-width: 0;
+}
+.theme-study .theme-color-heading h4 {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  margin: 0;
+  color: var(--foreground);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.6;
+}
+.theme-color-heading h4 > svg {
+  flex: none;
+}
+.theme-color-heading h4 > span,
+.theme-color-heading small {
+  color: var(--theme-color-quiet);
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+.theme-study .theme-color-heading p {
+  max-width: 62ch;
+  margin: 0.25rem 0 0;
+  color: var(--theme-color-quiet);
+  font-size: 0.8125rem;
+  line-height: 1.7;
+}
+.theme-color-mode {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 0.1875rem;
+  padding: 0.1875rem;
+  border-radius: 0.5rem;
+  background: color-mix(in oklab, var(--foreground) 5%, transparent);
+}
+.theme-color-mode button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3125rem;
+  min-height: 2rem;
+  padding: 0.3125rem 0.625rem;
+  border: 0;
+  border-radius: 0.375rem;
+  color: var(--theme-color-quiet);
+  background: transparent;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
+}
+.theme-color-mode button[aria-pressed="true"] {
+  color: var(--foreground);
+  background: var(--background);
+  box-shadow: 0 1px 3px color-mix(in oklab, var(--foreground) 8%, transparent);
+}
+.theme-color-copy-format,
+.theme-color-filter-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  margin-bottom: 0.625rem;
+  color: var(--theme-color-quiet);
+  font-size: 0.6875rem;
+  line-height: 1.5;
+}
+.theme-color-copy-format > span,
+.theme-color-copy-format label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+.theme-color-copy-format select {
+  width: auto;
+  min-height: 1.875rem;
+  max-width: 10rem;
+  padding: 0.1875rem 1.625rem 0.1875rem 0.5rem;
+  border: 1px solid var(--theme-color-rule);
+  border-radius: 0.375rem;
+  background-color: var(--background);
+  color: var(--foreground);
+  font: inherit;
+}
+.theme-color-core-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.625rem;
+}
+.theme-color-swatch {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--theme-color-rule);
+  border-radius: 0.625rem;
+  background: var(--background);
+}
+.theme-color-swatch-inspect {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--foreground);
+  text-align: left;
+  cursor: pointer;
+}
+.theme-color-paint {
+  display: flex;
+  min-height: 5.5rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.375rem;
+  padding: 0.875rem;
+}
+.theme-color-paint > span:first-child {
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+}
+.theme-color-swatch-label {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.1875rem 0.375rem;
+  padding: 0.625rem 0.625rem 0.375rem;
+  border-top: 1px solid var(--theme-color-rule);
+}
+.theme-color-swatch-label strong {
+  font-size: 0.8125rem;
+  font-weight: 550;
+}
+.theme-color-swatch-label svg {
+  color: var(--theme-color-quiet);
+}
+.theme-color-reference code,
+.theme-color-tooltip code {
+  /* Metadata truncates or wraps; it is never a separate horizontal scrollport. */
+  overflow: clip;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: inherit !important;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-weight: 400;
+}
+.theme-color-swatch-label code {
+  grid-column: 1 / -1;
+  color: var(--theme-color-quiet);
+  font-size: 0.625rem;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+.theme-color-swatch-value {
+  display: flex;
+  min-height: 2rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.375rem;
+  padding: 0 0.375rem 0.375rem 0.625rem;
+}
+.theme-color-swatch-value > code {
+  min-width: 0;
+  overflow: clip;
+  color: var(--theme-color-quiet);
+  font-size: 0.625rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.theme-color-reference .kamod-copy-button {
+  flex: none;
+  width: 1.75rem;
+  min-width: 1.75rem;
+  height: 1.75rem;
+  min-height: 1.75rem;
+  padding: 0;
+  border-radius: 0.375rem;
+  color: var(--foreground);
+  background: color-mix(in oklab, var(--foreground) 5%, transparent);
+}
+.theme-color-reference .kamod-copy-glyph svg {
+  width: 0.8125rem;
+  height: 0.8125rem;
+}
+.theme-study .theme-color-note {
+  margin: 0.625rem 0 0;
+  color: var(--theme-color-quiet);
+  font-size: 0.6875rem;
+  line-height: 1.7;
+}
+.theme-color-note code {
+  font-size: 0.97em;
+}
+.theme-color-inspector {
+  position: relative;
+  z-index: 2;
+  margin-bottom: 1rem;
+  padding: 0.875rem;
+  border: 1px solid var(--theme-color-rule);
+  border-radius: 0.625rem;
+  background: var(--background);
+  box-shadow: 0 2px 12px color-mix(in oklab, var(--foreground) 3%, transparent);
+}
+.theme-color-inspector-intro {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  margin-bottom: 0.75rem;
+}
+.theme-color-inspector-dot {
+  flex: none;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid var(--theme-color-rule);
+  border-radius: 0.4375rem;
+}
+.theme-color-inspector-intro > div {
+  display: grid;
+  gap: 0.125rem;
+  min-width: 0;
+}
+.theme-color-inspector-intro strong {
+  color: var(--foreground);
+  font-size: 0.8125rem;
+  font-weight: 550;
+}
+.theme-color-inspector-intro strong span {
+  color: var(--theme-color-quiet);
+  font-size: 0.6875rem;
+  font-weight: 400;
+}
+.theme-color-inspector-intro code {
+  font-size: 0.625rem;
+  overflow-wrap: anywhere;
+}
+.theme-color-inspector-values {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+.theme-color-inspector-values > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.1875rem 0.375rem;
+  min-width: 0;
+}
+.theme-color-inspector-values > div > span {
+  grid-column: 1 / -1;
+  color: var(--theme-color-quiet);
+  font-size: 0.625rem;
+}
+.theme-color-inspector-values code {
+  font-size: 0.6875rem;
+  line-height: 1.6;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.theme-color-inspector-context {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 0.625rem 1rem;
+  margin-top: 0.75rem;
+  padding-top: 0.625rem;
+  border-top: 1px solid var(--theme-color-rule);
+}
+.theme-study .theme-color-inspector-context p {
+  margin: 0;
+  color: var(--theme-color-quiet);
+  font-size: 0.6875rem;
+  line-height: 1.65;
+}
+.theme-color-inspector-context a {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  gap: 0.25rem;
+  font-size: 0.6875rem;
+}
+.theme-color-filter-row > label {
+  display: flex;
+  align-items: center;
+  width: min(100%, 19rem);
+  gap: 0.4375rem;
+  padding: 0.4375rem 0.625rem;
+  border: 1px solid var(--theme-color-rule);
+  border-radius: 0.4375rem;
+  background: var(--background);
+  color: var(--theme-color-quiet);
+}
+.theme-color-filter-row input {
+  min-width: 0;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--foreground);
+  font-size: 0.75rem;
+  line-height: 1.5;
+  box-shadow: none;
+}
+.theme-color-filter-row input:focus {
+  outline: none;
+  box-shadow: none;
+}
+.theme-color-filter-row label:focus-within {
+  outline: 2px solid var(--outline);
+  outline-offset: 2px;
+}
+.theme-color-token-groups {
+  display: grid;
+  gap: 1.5rem;
+}
+.theme-color-group-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.1875rem 0.75rem;
+  margin-bottom: 0.5rem;
+}
+.theme-color-group-heading h5 {
+  margin: 0;
+  color: var(--foreground);
+  font-size: 0.8125rem;
+  font-weight: 550;
+  line-height: 1.5;
+}
+.theme-study .theme-color-group-heading p {
+  grid-row: 2;
+  margin: 0;
+  color: var(--theme-color-quiet);
+  font-size: 0.6875rem;
+  line-height: 1.6;
+}
+.theme-color-group-heading > span {
+  grid-area: 1 / 2 / 3;
+  color: var(--theme-color-quiet);
+  font-size: 0.6875rem;
+  font-variant-numeric: tabular-nums;
+}
+.theme-color-token-group table {
+  table-layout: fixed;
+  width: 100%;
+  margin: 0;
+  border: 0;
+  border-collapse: collapse;
+  background: transparent;
+  text-align: left;
+}
+.theme-color-token-group thead {
+  background: color-mix(in oklab, var(--foreground) 3%, transparent);
+}
+.theme-color-token-group thead th {
+  padding: 0.375rem 0.5rem;
+  color: var(--theme-color-quiet);
+  font-size: 0.625rem;
+  font-weight: 500;
+  line-height: 1.5;
+  border: 0;
+}
+.theme-color-token-group thead th:first-child {
+  width: 38%;
+}
+.theme-color-token-group thead svg {
+  display: inline;
+  vertical-align: -0.125rem;
+  margin-right: 0.125rem;
+}
+.theme-color-token-group tbody tr {
+  border-bottom: 1px solid var(--theme-color-rule);
+  background: transparent;
+}
+.theme-color-token-group tbody th,
+.theme-color-token-group tbody td {
+  min-width: 0;
+  padding: 0.375rem 0.5rem;
+  border: 0;
+  vertical-align: middle;
+}
+.theme-color-token-group tbody th {
+  font-weight: 400;
+}
+.theme-color-token-group tbody th > span {
+  display: block;
+  color: var(--foreground);
+  font-size: 0.75rem;
+}
+.theme-color-token-group tbody th > code {
+  display: block;
+  margin-top: 0.125rem;
+  color: var(--theme-color-quiet);
+  font-size: 0.625rem;
+  line-height: 1.5;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.theme-color-token-value {
+  display: flex;
+  width: 100%;
+  min-height: 2.25rem;
+  align-items: center;
+  gap: 0.4375rem;
+  padding: 0.3125rem;
+  border: 1px solid transparent;
+  border-radius: 0.375rem;
+  background: transparent;
+  color: var(--foreground);
+  text-align: left;
+  cursor: pointer;
+}
+.theme-color-token-value[aria-pressed="true"] {
+  border-color: color-mix(in oklab, var(--primary) 25%, transparent);
+  background: color-mix(in oklab, var(--primary) 6%, transparent);
+}
+.theme-color-token-paint {
+  width: 1.625rem;
+  height: 1.625rem;
+  flex: none;
+  border: 1px solid color-mix(in oklab, currentColor 13%, transparent);
+  border-radius: 0.3125rem;
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, white 6%, transparent);
+}
+.theme-color-token-value > code {
+  min-width: 0;
+  overflow: clip;
+  font-size: 0.625rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.theme-color-token-value > svg {
+  flex: none;
+  margin-left: auto;
+  color: var(--theme-color-quiet);
+}
+.theme-color-empty {
+  padding-block: 1.5rem;
+  color: var(--theme-color-quiet);
+  font-size: 0.8125rem;
+  text-align: center;
+}
+.theme-color-tooltip {
+  --theme-color-tooltip-quiet: color-mix(in oklab, var(--popover-foreground) 75%, var(--popover));
+  width: min(22rem, calc(100vw - 1.5rem));
+  padding: 0.875rem;
+  border: 1px solid var(--border);
+  border-radius: 0.625rem;
+  background: var(--popover);
+  color: var(--popover-foreground);
+  box-shadow: 0 8px 32px color-mix(in oklab, var(--foreground) 12%, transparent);
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.75rem;
+  line-height: 1.65;
+}
+.theme-color-tooltip-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+.theme-color-tooltip-title strong {
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+.theme-color-tooltip-title span {
+  color: var(--theme-color-tooltip-quiet);
+  font-size: 0.625rem;
+}
+.theme-color-tooltip-token {
+  display: block;
+  margin-top: 0.1875rem;
+  font-size: 0.6875rem;
+}
+.theme-color-tooltip p {
+  margin: 0.625rem 0;
+  font-size: 0.75rem;
+  line-height: 1.65;
+}
+.theme-color-tooltip-pair {
+  color: var(--theme-color-tooltip-quiet);
+}
+.theme-color-tooltip dl {
+  display: grid;
+  gap: 0.375rem;
+  margin: 0.625rem 0;
+  padding-block: 0.625rem;
+  border-block: 1px solid var(--border);
+}
+.theme-color-tooltip dl > div {
+  display: grid;
+  grid-template-columns: 3.625rem minmax(0, 1fr);
+  gap: 0.375rem;
+  font-size: 0.6875rem;
+}
+.theme-color-tooltip dt {
+  color: var(--theme-color-tooltip-quiet);
+}
+.theme-color-tooltip dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.theme-color-tooltip-hint {
+  display: block;
+  color: var(--theme-color-tooltip-quiet);
+  font-size: 0.625rem;
+  line-height: 1.65;
+}
+.theme-color-reference button:focus-visible {
+  outline: 2px solid var(--outline);
+  outline-offset: 2px;
+}
+.theme-color-inspector:focus-visible {
+  outline: 2px solid var(--outline);
+  outline-offset: 2px;
+}
+.theme-color-swatch-inspect:focus-visible {
+  outline-offset: -3px;
+}
+@media (hover: hover) {
+  .theme-color-mode button:hover,
+  .theme-color-token-value:hover,
+  .theme-color-reference .kamod-copy-button:hover {
+    background-color: color-mix(in oklab, var(--foreground) 7%, transparent);
+  }
+  .theme-color-swatch-inspect:hover .theme-color-swatch-label {
+    background: color-mix(in oklab, var(--foreground) 3%, transparent);
+  }
+}
+@container theme-studies (max-width: 43rem) {
+  .theme-color-heading {
+    align-items: start;
+    flex-direction: column;
+  }
+  .theme-color-inspector-context {
+    flex-direction: column;
+  }
+  .theme-color-token-value > svg {
+    display: none;
+  }
+}
+@container theme-studies (max-width: 36rem) {
+  .theme-color-core-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@container theme-studies (max-width: 27rem) {
+  .theme-color-inspector-values {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.625rem;
+  }
+  .theme-color-inspector-values > div {
+    grid-template-columns: 4.75rem minmax(0, 1fr) auto;
+    gap: 0.375rem;
+  }
+  .theme-color-inspector-values > div > span {
+    grid-column: auto;
+  }
+  .theme-color-token-group thead th,
+  .theme-color-token-group tbody th,
+  .theme-color-token-group tbody td {
+    padding-inline: 0.1875rem;
+  }
+  .theme-color-token-value {
+    align-items: start;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  .theme-color-token-paint {
+    width: 100%;
+    height: 1.5rem;
+  }
+  .theme-color-token-value > code {
+    width: 100%;
+    font-size: 0.5625rem;
+  }
+  .theme-color-swatch-label,
+  .theme-color-swatch-value {
+    padding-inline: 0.4375rem;
+  }
+  .theme-color-paint {
+    min-height: 5rem;
+    padding: 0.625rem;
+  }
+  .theme-color-filter-row > label {
+    width: 100%;
+  }
+}
+@media (max-width: 767px) {
+  .theme-color-filter-row input,
+  .theme-color-copy-format select {
+    font-size: 1rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .theme-color-mode button {
+    transition: none;
+  }
+}
+.theme-color-token-group .theme-color-inspector-row > td {
+  padding: 0.375rem 0 0.75rem;
+}
+.theme-color-inspector-row .theme-color-inspector {
+  margin: 0;
+  box-shadow: none;
+  background: color-mix(in oklab, var(--foreground) 2%, var(--background));
+}

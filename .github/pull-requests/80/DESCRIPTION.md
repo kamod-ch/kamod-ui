@@ -119,29 +119,39 @@ examples are typechecked against the real component API.
 
 ### Presets as complete design studies
 
-All eight color presets have a structured design study with six small,
-static compositions: workspace, action and feature sketches in both appearances. The
-sketches use the real shipped roles and corner values, while their surrounding
-frames gain a restrained wash and three-role signature from their own preset,
-with explanatory text remaining in the page palette. Eight labeled core-color
-swatches lead each comparison; native disclosures reveal text, focus and feedback roles.
+All eight presets have normal page chapters with linked subsections, a concise
+introduction and a local reading path. The outer cards and their decorative
+washes are removed; swatches, specimens and working canvases retain useful frames.
+Six static workspace/action/feature compositions still compare both appearances.
 
-Each study explains its direction, two practical design principles, declared
-body/display/mono stacks, radius family and a focused review before shipping.
-Each preset also provides three suggested contexts and an actionable task/check.
-Exact typography and corner facts stay visible, while longer advice uses native
-disclosures; an optional local-scope recipe mounts its source reader only while open. Direct
-links reach the actual preset CSS, and shared next steps cover persistence,
-token pairs, sidebar roles, typography, syntax colors and complete layouts.
+A core-color section presents eight large swatches with an independent Light/Dark
+control and copy formats for CSS variables, resolved CSS, HEX and RGB. A separate
+searchable reference covers all 43 semantic colors in both modes, plus Cursor
+Warm's 13 extra colors and Watson's 63 source shades. Declarations and ownership
+come from the shipped foundation/preset CSS, including inherited roles and alpha.
+One hover/focus tooltip per active palette explains purpose, pairings and source;
+a selected row opens its values and copy controls. HEX/RGB are labeled 8-bit sRGB
+exports; resolved CSS retains the browser's color space. Unavailable conversions
+cannot be copied. A near-viewport batch resolves colors once per preset.
 
-The Theming introduction gains four reading paths, the gallery gains compact
-preset links, and ten generated subsection routes preserve the real heading
-hierarchy. Nested section URLs now recognize descendant headings when opening
-without a fragment. Container-based layout stacks comparison and advice on
-narrow articles, with secondary text strengthened locally for readable contrast
-without changing the underlying palettes or adding downloaded fonts. A balanced
-introduction/comparison row and compact guidance remove unused space; observed
-wide studies became approximately 9–15% shorter despite the additional guidance.
+Initial fragment and legacy section links wait for real layout boxes instead of
+scrolling headings hidden by lazy hydration. Pending follows yield to reading
+intent, route changes and history navigation; reload restoration stays intact.
+
+Each chapter also provides a real local release workspace with editable text,
+checklist/progress, appearance and content/loading/validation states, notification
+preferences, publish feedback and chart roles. These controls do not change page
+preferences or send messages. Skeleton animation requires explicit opt-in, pauses
+offscreen/in hidden tabs and remains static under reduced motion. Local control
+paint stays independent of the document's dark-mode utilities.
+
+Typography, radius examples, design principles and practical checks retain the
+preset-specific guidance. The complete scoped TSX example is always visible,
+with the shared copy/download actions and lazy near-viewport source coloring.
+Native disclosures remain for longer design advice. Exact preset CSS links,
+existing route/heading identities and shared integration guidance stay intact.
+Container layouts support narrow articles without changing the shipped palettes,
+loading fonts or adding dependencies.
 
 ### Source references stay generic in core
 
@@ -685,6 +695,18 @@ branding and navigation changes. The public color-mode prop/type, inversion
 wrappers, paired theme values and mode-specific routes/tests are removed; the
 nine supported syntax palettes and normal application appearance remain.
 
+The expanded theme studies pass **1,023 documentation tests in 107 files**,
+documentation typecheck/final production build and root Oxlint/Oxfmt/Biome and
+whitespace checks. The final production Chrome regression run passes **12 cases**:
+all eight applied presets in both appearances, direct preset/subsection links,
+complete recipe copying, real color exports, detailed keyboard help, local
+playground states, bright enabled/published actions and incoming/history/reload
+navigation. The formerly intermittent block reload case passes three additional
+consecutive runs on that build. Earlier responsive, expanded-study and pill checks
+pass seven further cases, including 320/768/1024/1440px. No new Safari/WebKit result
+is claimed. Final phone/tablet/desktop captures in both appearances were inspected;
+the capture run reports no page errors or horizontal overflow.
+
 The loader-handoff follow-up passes **954 documentation tests in102 files**, docs
 typecheck/production builds and root Oxlint/Oxfmt/Biome/Knip/Syncpack. All **36
 combined production Chrome reference/page-state cases** pass together, with both
@@ -817,35 +839,11 @@ the source for the latest documentation revision's CI result. Existing condition
 browser skips retain their documented feature/platform gates; no focused tests
 or unmerged index entries were found.
 
-## Visual-first color-theme studies
+## Color-theme guidance
 
-Each of the eight individual preset studies now opens with a quieter frame and a
-clear color-system section. Its two explicit appearances each show eight larger,
-labeled semantic swatches before the same Workspace, Action Card and new Feature
-sketches. Primary, secondary, accent, canvas, card, muted, danger and sidebar
-colors come from the shipped theme CSS; text stays on a readable surface below
-each fill. Supporting foreground pairs, focus, boundaries and feedback remain in
-an expandable role list. The frame wash is reduced from 9%/6% to 3%/2% so that the
-actual palette samples provide the color emphasis.
-
-A shorter direction/use row, icon-led subheadings, a token-guide link and thin
-separators make the study easier to scan. A compact native-font specimen and the
-source-backed font-stack labels sit alongside larger corner-family samples. The
-complete palette narrative, design principles, task and review remain available
-under **Design notes & practical checks**, rather than extending the default view.
-Preset-specific type/shape notes and copyable scoped recipes retain their own
-native disclosures. The main section now shows more visual information with less
-always-visible prose.
-
-`PaletteSketch` owns the three static compositions, and `ThemeStudyNotes` owns the
-longer reading. The gallery retains its original preset/scheme persistence,
-hydration-safe selection, local appearance boundaries, subsection routes, source
-links and lazy recipe cleanup. No font downloads, animated skeletons, timers,
-observers, dependencies or additional background activity are introduced.
-Container queries adapt the swatches and paired appearances to the available
-content width. Existing regression tests now cover the eight main roles, six
-sketches per preset, closed notes, keyboard expansion, swatch dimensions and
-palette isolation, with 1024px added to the existing 320/768/1440px browser matrix.
+The complete preset chapters described above share the existing gallery reading
+path and palette-specific navigation. The following validation records cover
+earlier refinements; the latest expanded-study checks are recorded separately.
 
 ### Visual-study validation
 

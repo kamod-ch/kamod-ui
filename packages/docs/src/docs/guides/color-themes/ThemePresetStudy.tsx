@@ -1,19 +1,21 @@
 import { ArrowUpRightIcon, CheckIcon, PaletteIcon } from "@kamod-ch/icons/lucide";
-import { Button, Card } from "@kamod-ch/ui";
+import { Button } from "@kamod-ch/ui";
 import { withBasePath } from "../../../base-path";
 import { BlockHeadingLink } from "../../../blocks/BlockHeadingLink";
 import { StateIcon } from "../../components/StateIcon";
 import { presetDesignNotes } from "./preset-design-notes";
 import { presetExercises } from "./preset-exercises";
 import { type presetStudies, presetStudyId } from "./preset-studies";
+import { ThemeColorReference } from "./ThemeColorReference";
 import { ThemePalettePreview } from "./ThemePalettePreview";
+import { ThemePlayground } from "./ThemePlayground";
 import { ThemePresetSignature } from "./ThemePresetSignature";
 import { ThemeStudyDetails, ThemeStudyRecipe } from "./ThemeStudyDetails";
 import { ThemeStudyNotes } from "./ThemeStudyNotes";
 
 type Study = (typeof presetStudies)[number];
 
-/** A visual-first study; preset colors remain local and longer guidance is opt-in. */
+/** A page chapter: real palette values, fixed comparisons and an isolated working experiment. */
 export function ThemePresetStudy({
   study,
   index,
@@ -30,7 +32,7 @@ export function ThemePresetStudy({
   const exercise = presetExercises[id];
   const file = id === "kamod" ? "tokens.css" : `brands/${id}.css`;
   return (
-    <Card size="sm" class="theme-study" role="group" aria-labelledby={presetStudyId(id)}>
+    <section class="theme-study" aria-labelledby={presetStudyId(id)}>
       <div class="theme-study-header">
         <div>
           <p class="theme-study-character">
@@ -71,14 +73,34 @@ export function ThemePresetStudy({
           ))}
         </ul>
       </div>
-      <section class="theme-study-color-section" aria-label={`${label} color system`}>
+      <nav class="theme-study-jump-links" aria-label={`Explore ${label}`}>
+        {[
+          ["core-colors", "Core colors"],
+          ["all-colors", "Every token"],
+          ["compositions", "In context"],
+          ["playground", "Playground"],
+          ["app-example", "Use in your app"],
+        ].map(([target, text]) => (
+          <a key={target} href={`#${presetStudyId(id)}-${target}`}>
+            {text}
+          </a>
+        ))}
+      </nav>
+      <ThemeColorReference preset={id} label={label} />
+      <section
+        class="theme-study-color-section"
+        aria-labelledby={`${presetStudyId(id)}-compositions`}
+      >
         <div class="theme-study-section-heading">
           <div>
-            <h4>
+            <h4 id={`${presetStudyId(id)}-compositions`}>
               <PaletteIcon size={14} aria-hidden="true" />
-              Color system
+              The palette in context
             </h4>
-            <p>Eight core roles. The same compositions, in both appearances.</p>
+            <p>
+              One layout, two appearances. Compare the action, the surface and the space between
+              them.
+            </p>
           </div>
           <a href={withBasePath("/docs/theming/token-overrides#what-a-theme-token-actually-is")}>
             Token guide <ArrowUpRightIcon size={12} aria-hidden="true" />
@@ -89,15 +111,16 @@ export function ThemePresetStudy({
           <ThemePalettePreview preset={id} scheme="dark" />
         </div>
       </section>
+      <ThemePlayground preset={id} label={label} example={notes.example} />
       <ThemeStudyDetails notes={notes} />
       <ThemeStudyNotes study={study} />
       <ThemeStudyRecipe id={id} label={label} example={notes.example} />
       <footer class="theme-study-footer">
-        <span>2 appearances · 6 compositions · Live theme tokens</span>
+        <span>Keep surface and text colors paired.</span>
         <a href={`https://github.com/kamod-ch/kamod-ui/blob/main/packages/themes/src/${file}`}>
           Read preset CSS <ArrowUpRightIcon size={13} aria-hidden="true" />
         </a>
       </footer>
-    </Card>
+    </section>
   );
 }

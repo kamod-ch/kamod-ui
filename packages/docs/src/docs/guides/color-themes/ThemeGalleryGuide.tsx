@@ -34,8 +34,8 @@ export function ThemeGalleryIntroduction() {
       <p class="theme-gallery-comparison-note">
         Compare <strong>real theme tokens</strong> such as <code>--primary</code> and{" "}
         <code>--card</code>, in both appearances. Layouts and native type stay fixed, so{" "}
-        <em>color relationships</em> lead. Expand <strong>Text, focus &amp; feedback</strong> for
-        more roles, or review the{" "}
+        <em>color relationships</em> lead. Copy a core color, inspect every semantic role in light
+        and dark, then try a real workflow in the <strong>local playground</strong>. Review the{" "}
         <a href={withBasePath("/docs/theming/token-overrides#work-with-semantic-token-pairs")}>
           surface and text pairings
         </a>{" "}
@@ -53,9 +53,10 @@ export function ThemeGalleryGuide() {
       </h3>
       <p>
         <strong>Compare locally. Apply deliberately.</strong> The sketches keep their own preset and
-        explicit light/dark appearance, even when the rest of the documentation changes. “Use theme”
-        applies a preset to this page and saves <code>theme-preset</code>; it keeps your Light, Dark
-        or System preference. A manual appearance is stored separately as <code>theme</code>.
+        explicit light/dark appearance, even when the rest of the documentation changes. Color
+        inspectors and playground controls stay local too. “Use theme” applies a preset to this page
+        and saves <code>theme-preset</code>; it keeps your Light, Dark or System preference. A
+        manual appearance is stored separately as <code>theme</code>.
       </p>
       <div class="theme-gallery-next-steps">
         <section>

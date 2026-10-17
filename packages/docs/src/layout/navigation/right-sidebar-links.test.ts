@@ -276,6 +276,90 @@ it("waits for reload restoration and its heading tracker before revealing a dest
   expect(navigate).not.toHaveBeenCalled();
 });
 
+it("follows restored reading when hydration captured an intermediate history position", () => {
+  disconnect();
+  history.replaceState({ ppScrollY: 6900 }, "");
+  vi.spyOn(window, "performance", "get").mockReturnValue({
+    getEntriesByType: () => [{ type: "reload" }],
+  } as unknown as Performance);
+  vi.spyOn(document.documentElement, "scrollHeight", "get").mockReturnValue(30000);
+  let articleTop = 0;
+  vi.spyOn(window, "scrollY", "get").mockImplementation(() => articleTop);
+  const target = node.firstElementChild as HTMLAnchorElement;
+  target.setAttribute("aria-current", "location");
+  vi.spyOn(target, "getBoundingClientRect").mockImplementation(
+    () => ({ top: 900 - node.scrollTop, bottom: 940 - node.scrollTop }) as DOMRect,
+  );
+  node.scrollTop = 120;
+  const connection = connectRightSidebarLinks(node, navigate);
+  disconnect = connection.disconnect;
+  connection.revealDestination();
+  expect(node.scrollTop).toBe(120);
+  expect(navigate).not.toHaveBeenCalled();
+  // The real reload restoration moves farther than the temporary saved position.
+  // Its heading tracker is authoritative even before the debounced history write.
+  articleTop = 16000;
+  window.dispatchEvent(new Event("scroll"));
+  vi.runAllTimers();
+  expect(history.state.ppScrollY).toBe(6900);
+  expect(node.scrollTop).toBe(572);
+  expect(navigate).toHaveBeenCalledOnce();
+});
+
+it("reveals already-restored reading when its listener mounts after the article scroll", () => {
+  disconnect();
+  history.replaceState({ ppScrollY: 6900 }, "");
+  vi.spyOn(window, "performance", "get").mockReturnValue({
+    getEntriesByType: () => [{ type: "reload" }],
+  } as unknown as Performance);
+  vi.spyOn(document.documentElement, "scrollHeight", "get").mockReturnValue(30000);
+  vi.spyOn(window, "scrollY", "get").mockReturnValue(16000);
+  const target = node.firstElementChild as HTMLAnchorElement;
+  target.setAttribute("aria-current", "location");
+  vi.spyOn(target, "getBoundingClientRect").mockImplementation(
+    () => ({ top: 900 - node.scrollTop, bottom: 940 - node.scrollTop }) as DOMRect,
+  );
+  node.scrollTop = 120;
+  const connection = connectRightSidebarLinks(node, navigate);
+  disconnect = connection.disconnect;
+  connection.revealDestination();
+  expect(history.state.ppScrollY).toBe(6900);
+  expect(node.scrollTop).toBe(572);
+  expect(navigate).toHaveBeenCalledOnce();
+});
+
+it("reveals an unchanged active link after page-ready makes the pane visible", async () => {
+  disconnect();
+  const target = node.firstElementChild as HTMLAnchorElement;
+  target.setAttribute("aria-current", "location");
+  vi.spyOn(target, "getBoundingClientRect").mockImplementation(
+    () => ({ top: 1500 - node.scrollTop, bottom: 1540 - node.scrollTop }) as DOMRect,
+  );
+  vi.spyOn(node, "getBoundingClientRect").mockReturnValue({ top: 1500 } as DOMRect);
+  node.style.visibility = "hidden";
+  node.scrollTop = 120;
+  const pageScroll = vi.spyOn(window, "scrollTo");
+  const connection = connectRightSidebarLinks(node, navigate);
+  disconnect = connection.disconnect;
+  connection.revealDestination();
+  expect(node.scrollTop).toBe(120);
+  expect(navigate).not.toHaveBeenCalled();
+  node.style.visibility = "visible";
+  document.documentElement.classList.add("pp-ready");
+  await Promise.resolve();
+  vi.runAllTimers();
+  expect(node.scrollTop).toBe(0);
+  expect(navigate).toHaveBeenCalledOnce();
+  expect(pageScroll).not.toHaveBeenCalled();
+  // Page chrome no longer participates after the first visible reveal.
+  node.scrollTop = 120;
+  document.documentElement.classList.add("dark");
+  await Promise.resolve();
+  vi.runAllTimers();
+  expect(node.scrollTop).toBe(120);
+  document.documentElement.classList.remove("pp-ready", "dark");
+});
+
 it("retries an initial fragment when its scroll container becomes visible", () => {
   disconnect();
   history.replaceState(null, "", "#last");
