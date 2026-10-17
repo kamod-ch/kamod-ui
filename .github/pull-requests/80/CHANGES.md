@@ -1385,3 +1385,26 @@ Download matches Copy's alignment, compact dimensions and base paint, retains it
 purple feedback, and introduces no horizontal overflow or page errors. No new
 Safari/WebKit result is claimed. Core public APIs, dependencies and lockfile are
 unchanged.
+
+## 52. A quieter, unified page-opening state
+
+- **Consistent label typography.** Let the loading label's Kamod name inherit its neighboring text's font, style and line height, then add only a6.25% size increase, primary ink and600 weight. Use a smaller, ordinary2px neutral spinner instead of the heavy brand-colored ring. The shared first-paint label receives the same self-contained styling.
+- **Normal introduction copy.** Match full-route loading descriptions to documentation introduction text:15px, muted semantic ink and1.8 line height, with a modest450 weight. Compact preview descriptions retain their smaller typography.
+- **One borderless skeleton.** Remove the lower group's border, surface, inset padding and minimum height. Align its shapes with the upper three bars and tighten the intervening space. Keep the small layout groups for alignment, using just low-opacity primary and secondary-accent tints across the composition.
+- **A shorter shared animation.** Replace the long assembly/rest cycle and separate panel sweep with the same staggered sheen and restrained lift on every upper/lower shape. The2.25-second loop has a short5% rest, with stronger but still translucent two-color highlighting. Animate transforms/opacity only; add no JavaScript, requests, timers or dependencies. Reduced motion leaves all loading elements static.
+- **Targeted browser coverage.** Check both appearances, the upper/lower animation loop, reduced motion and successful route handoff. Preserve compact-preview loading, first paint without site CSS, recovery navigation, narrow/landscape viewports and enlarged-text behavior. Inspect the label, neutral spinner and unified skeleton geometry in production captures rather than adding tests that merely repeat paint declarations.
+
+### Page-opening verification
+
+All **946 documentation tests in101 files** pass, along with documentation
+typecheck and production build, root Oxlint/Oxfmt/Biome and whitespace checks.
+All **18 production Chrome page-state cases** pass together, including both
+appearances, pending full/compact routes, first paint without site CSS, static
+recovery and keyboard navigation, narrow/landscape layouts and enlarged text.
+The initial added compact test was corrected to use client navigation: hydration
+preserves its server-rendered placeholder rather than mounting that fallback.
+
+Desktop-light, tablet-light and phone-dark captures were inspected with Ocean,
+Kamod and Cursor warm presets. Shapes align without a panel border or horizontal
+overflow; no page errors occurred, and reduced motion stops every loading
+animation. No new Safari/WebKit result is claimed.

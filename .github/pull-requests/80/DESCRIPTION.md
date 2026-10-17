@@ -495,6 +495,15 @@ dots and a 3.8-second paired transform loop provide clear feedback with fewer
 competing effects. Shared activity and reduced-motion rules stop all descendants
 when appropriate; the redesign adds no timers or reactive progress state.
 
+The standalone page-opening view now uses a restrained semibold primary Kamod
+label in its neighboring text's font and a small neutral spinner. Full-route
+descriptions match ordinary documentation introductions, with slightly stronger
+weight. The upper bars and former lower panel form one aligned borderless skeleton
+with subtle primary/accent tints. A shared2.25-second staggered sheen covers every
+shape with a short pause; reduced motion remains static. This CSS-only refinement
+also keeps the first-paint label self-contained and compact preview typography
+intact, without adding runtime state, timers or dependencies.
+
 A same-code development tour through all 15 Button examples measured collected
 JavaScript heap of **93.70 MiB with unlimited retention versus 56.82 MiB with the
 three-document budget** (39.4% lower). This is a measured retention improvement,
@@ -576,7 +585,15 @@ branding and navigation changes. The public color-mode prop/type, inversion
 wrappers, paired theme values and mode-specific routes/tests are removed; the
 nine supported syntax palettes and normal application appearance remain.
 
-The source-download follow-up passes **946 documentation tests in101 files**,
+The page-opening refinement passes the same **946 documentation tests in101
+files**, docs typecheck/production build and root Oxlint/Oxfmt/Biome. All **18
+production Chrome page-state cases** pass together, covering pending full/compact
+routes, both appearances, responsive/enlarged text, reduced motion, first paint
+without site CSS and recovery navigation. Ocean desktop, Kamod tablet and Cursor
+warm phone captures were inspected with aligned borderless skeletons, no overflow
+and no page errors. No new Safari/WebKit result is claimed.
+
+The preceding source-download follow-up passes **946 documentation tests in101 files**,
 documentation typecheck and the production build, plus root Oxlint/Oxfmt/Biome,
 Knip/Syncpack and whitespace checks. All **29 affected production Chrome cases**
 pass together, covering exact source bytes/filenames, compact selected showcase
