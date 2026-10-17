@@ -164,25 +164,25 @@ export function PageLoading({ compact = false }: { compact?: boolean }) {
             : "Loading the guide and preparing its examples for you to explore. The page will appear here automatically when it’s ready, so you can keep this view open without refreshing."}
         </p>
       </div>
-      <div class="page-state-skeleton" aria-hidden="true">
-        <span class="page-loading-track" />
-        <span />
-        <span />
+      <div class="page-state-skeleton docs-loading-skeleton" aria-hidden="true">
+        <span class="page-loading-track docs-loading-shape" />
+        <span class="docs-loading-shape" />
+        <span class="docs-loading-shape" />
         <div class="page-loading-panel">
           <div class="page-loading-panel-header">
-            <span class="page-loading-panel-icon" />
+            <span class="page-loading-panel-icon docs-loading-shape" />
             <div class="page-loading-panel-lines">
-              <span />
-              <span />
+              <span class="docs-loading-shape" />
+              <span class="docs-loading-shape" />
             </div>
-            <span class="page-loading-panel-action" />
+            <span class="page-loading-panel-action docs-loading-shape" />
           </div>
-          <span class="page-loading-panel-line" />
-          <span class="page-loading-panel-line" />
+          <span class="page-loading-panel-line docs-loading-shape" />
+          <span class="page-loading-panel-line docs-loading-shape" />
           <div class="page-loading-panel-footer">
-            <span />
-            <span />
-            <span />
+            <span class="docs-loading-shape" />
+            <span class="docs-loading-shape" />
+            <span class="docs-loading-shape" />
           </div>
         </div>
       </div>
