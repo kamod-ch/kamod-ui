@@ -6,7 +6,7 @@ import {
   RocketIcon,
 } from "@kamod-ch/icons/lucide";
 import { Checkbox } from "@kamod-ch/ui";
-import { useState } from "preact/hooks";
+import { useId, useState } from "preact/hooks";
 import { withBasePath } from "../../base-path";
 import "./theming-outro.css";
 
@@ -25,85 +25,94 @@ const review = [
   },
 ];
 
-/** A local review and a few useful destinations, rather than another theme tutorial. */
-export function ThemingOutro() {
+const principles = [
+  {
+    title: "One foundation",
+    description:
+      "Load the global stylesheet once. Let components, navigation and overlays share it.",
+    href: "#css-setup",
+    link: "Keep the setup together",
+  },
+  {
+    title: "Roles before individual colors",
+    description:
+      "Change surfaces with their foregrounds. Refine the palette without restyling every control.",
+    href: "#token-overrides",
+    link: "Work with the tokens",
+  },
+  {
+    title: "A choice that stays chosen",
+    description:
+      "Keep brand and appearance separate. Match saved preferences from the first paint onward.",
+    href: "#provider-controls",
+    link: "Connect preferences",
+  },
+];
+
+/** A self-contained review whose progress resets with its mounted instance. */
+function ThemeReview() {
+  const headingId = useId();
   const [checked, setChecked] = useState<boolean[]>(() => review.map(() => false));
   const completed = checked.filter(Boolean).length;
+  return (
+    <section class="theming-outro-review" aria-labelledby={headingId}>
+      <div class="theming-outro-review-heading">
+        <ListChecksIcon size={17} strokeWidth={1.7} aria-hidden="true" />
+        <h3 id={headingId}>Before you ship</h3>
+        <span aria-hidden="true">
+          {completed} / {review.length}
+        </span>
+      </div>
+      <p>Tick these off in your own app.</p>
+      <fieldset>
+        <legend class="sr-only">Your theme review</legend>
+        {review.map(({ title, description }, index) => (
+          <label key={title}>
+            <Checkbox
+              checked={checked[index]}
+              onCheckedChange={(next) => {
+                const value = next === true;
+                setChecked((current) => current.map((item, i) => (i === index ? value : item)));
+              }}
+            />
+            <span class="theming-outro-review-copy">
+              <strong>{title}</strong>
+              <span>{description}</span>
+            </span>
+          </label>
+        ))}
+      </fieldset>
+      <p class="theming-outro-review-status" role="status">
+        {completed === review.length
+          ? "Review complete. Take it into your next screen."
+          : `${completed} of ${review.length} checks reviewed.`}
+      </p>
+    </section>
+  );
+}
 
+/** Keep the guide recap static while the checklist owns its local interaction. */
+export function ThemingOutro() {
   return (
     <div class="theming-outro">
       <div class="theming-outro-recap">
         <dl class="theming-outro-principles">
-          <div>
-            <dt>
-              <span>01</span>One foundation
-            </dt>
-            <dd>
-              Load the global stylesheet once. Let components, navigation and overlays share it.
-              <a href="#css-setup">
-                Keep the setup together <ArrowRightIcon size={12} aria-hidden="true" />
-              </a>
-            </dd>
-          </div>
-          <div>
-            <dt>
-              <span>02</span>Roles before individual colors
-            </dt>
-            <dd>
-              Change surfaces with their foregrounds. Refine the palette without restyling every
-              control.
-              <a href="#token-overrides">
-                Work with the tokens <ArrowRightIcon size={12} aria-hidden="true" />
-              </a>
-            </dd>
-          </div>
-          <div>
-            <dt>
-              <span>03</span>A choice that stays chosen
-            </dt>
-            <dd>
-              Keep brand and appearance separate. Match saved preferences from the first paint
-              onward.
-              <a href="#provider-controls">
-                Connect preferences <ArrowRightIcon size={12} aria-hidden="true" />
-              </a>
-            </dd>
-          </div>
+          {principles.map(({ title, description, href, link }, index) => (
+            <div key={href}>
+              <dt>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                {title}
+              </dt>
+              <dd>
+                {description}
+                <a href={href}>
+                  {link} <ArrowRightIcon size={12} aria-hidden="true" />
+                </a>
+              </dd>
+            </div>
+          ))}
         </dl>
-
-        <section class="theming-outro-review" aria-labelledby="theme-review-heading">
-          <div class="theming-outro-review-heading">
-            <ListChecksIcon size={17} strokeWidth={1.7} aria-hidden="true" />
-            <h3 id="theme-review-heading">Before you ship</h3>
-            <span aria-hidden="true">
-              {completed} / {review.length}
-            </span>
-          </div>
-          <p>Tick these off in your own app.</p>
-          <fieldset>
-            <legend class="sr-only">Your theme review</legend>
-            {review.map(({ title, description }, index) => (
-              <label key={title}>
-                <Checkbox
-                  checked={checked[index]}
-                  onCheckedChange={(next) => {
-                    const value = next === true;
-                    setChecked((current) => current.map((item, i) => (i === index ? value : item)));
-                  }}
-                />
-                <span class="theming-outro-review-copy">
-                  <strong>{title}</strong>
-                  <span>{description}</span>
-                </span>
-              </label>
-            ))}
-          </fieldset>
-          <p class="theming-outro-review-status" role="status">
-            {completed === review.length
-              ? "Review complete. Take it into your next screen."
-              : `${completed} of ${review.length} checks reviewed.`}
-          </p>
-        </section>
+        <ThemeReview />
       </div>
 
       <nav class="theming-outro-next" aria-label="Put your theme into practice">
