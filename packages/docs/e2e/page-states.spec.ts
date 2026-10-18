@@ -162,7 +162,37 @@ async function expectSharedLoadingDesign(loading: Locator) {
   await expect(loading.locator(".page-loading-caption")).toHaveText(
     "Your next page is taking shape...",
   );
-  await expect(loading.locator(".page-loading-spinner")).toBeVisible();
+  const spinner = loading.locator('.page-loading-spinner[data-slot="spinner"]');
+  await expect(spinner).toBeVisible();
+  await expect(spinner).toHaveAttribute("aria-hidden", "true");
+  await expect(spinner.locator("svg")).toHaveAttribute("stroke-width", "1.5");
+  const spinnerMotion = await spinner.evaluate((node) => ({
+    reduced: matchMedia("(prefers-reduced-motion: reduce)").matches,
+    outer: node.getAnimations().length,
+    innerRunning: node
+      .firstElementChild!.getAnimations()
+      .some((animation) => animation.playState === "running"),
+    svg: node.querySelector("svg")!.getAnimations().length,
+  }));
+  expect(spinnerMotion.outer).toBe(0);
+  expect(spinnerMotion.innerRunning).toBe(!spinnerMotion.reduced);
+  expect(spinnerMotion.svg).toBe(0);
+  const backdrop = await shell.evaluate((node) => {
+    const wash = getComputedStyle(node, "::before");
+    const glass = getComputedStyle(node, "::after");
+    const content = getComputedStyle(node.querySelector(".page-opening-content")!);
+    return {
+      pointerEvents: [wash.pointerEvents, glass.pointerEvents],
+      behindContent:
+        getComputedStyle(node).isolation === "isolate" &&
+        Number(wash.zIndex) < Number(glass.zIndex) &&
+        Number(glass.zIndex) < (Number.parseInt(content.zIndex, 10) || 0),
+      contentFilter: content.filter,
+    };
+  });
+  expect(backdrop.pointerEvents).toEqual(["none", "none"]);
+  expect(backdrop.behindContent).toBe(true);
+  expect(backdrop.contentFilter).toBe("none");
   await expect(loading.locator(".page-loading-brand > strong")).toHaveText("Kamod");
   const typography = await loading.evaluate((node) => {
     const brand = getComputedStyle(node.querySelector(".page-loading-brand > strong")!);
@@ -189,7 +219,7 @@ async function expectSharedLoadingDesign(loading: Locator) {
     "aria-hidden",
     "true",
   );
-  await expect(shell.locator(".page-loading-rocket .getting-started-flight-star")).toHaveCount(6);
+  await expect(shell.locator(".page-loading-rocket .getting-started-flight-star")).toHaveCount(4);
   await expect(loading.locator(".page-loading-tagline")).toHaveText(
     "Made for Preact. Built to be yours.",
   );

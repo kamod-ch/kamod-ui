@@ -1,3 +1,4 @@
+import { basePrefix, withBasePath } from "../../base-path";
 import type { CodeReferenceHelp } from "../types";
 import { referenceContext } from "./reference-context";
 
@@ -81,6 +82,7 @@ export function referencePresentation(reference: CodeReferenceHelp) {
     (kind === "module" && !module.startsWith("@/") && !module.startsWith("."));
   const primary = sourceFirst ? (source ?? docs) : (docs ?? source);
   const secondary = sourceFirst ? docs : source;
+  const page = kind === "page" && primary ? pageDestination(module, primary.href) : undefined;
   const reading: NonNullable<CodeReferenceHelp["related"]> = [];
   for (const link of [
     ...(secondary
@@ -97,6 +99,8 @@ export function referencePresentation(reference: CodeReferenceHelp) {
   for (const link of reading) {
     if (!resources.some(({ href }) => href === link.href)) resources.push(link);
   }
+  if (page?.parentHref && !resources.some(({ href }) => href === page.parentHref))
+    resources.push({ label: "Full page", href: page.parentHref, kind: "guide" });
   for (const section of reference.sections ?? []) {
     const { source } = section;
     if (source && !resources.some(({ href }) => href === source.href))
@@ -117,6 +121,7 @@ export function referencePresentation(reference: CodeReferenceHelp) {
   const [fallback, detail] = contexts[kind];
   return {
     primary,
+    page,
     location: primary ? referenceLocation(reference, primary.href) : undefined,
     context: referenceContext(reference, fallback),
     reading,
@@ -134,10 +139,26 @@ export function referencePresentation(reference: CodeReferenceHelp) {
   };
 }
 
-/** Show the real destination and a fact specific to this reference, without another badge. */
+/** Both hash links and indexed section redirects retain their verified owning page. */
+function pageDestination(module: string, href: string) {
+  if (!module.startsWith("/")) return;
+  const parent = module.startsWith(`${basePrefix()}/`) ? module : withBasePath(module);
+  const url = new URL(href, "https://reference.local");
+  const canonical = new URL(parent, url);
+  const section =
+    !!url.hash || url.pathname.replace(/\/$/, "") !== canonical.pathname.replace(/\/$/, "");
+  return {
+    href,
+    label: section ? "Section" : "Page",
+    path: `${url.pathname}${url.search}`,
+    anchor: url.hash,
+    parentHref: section ? parent : undefined,
+  };
+}
+
+/** Pick a fact specific to this reference, without another badge or repeated destination. */
 function referenceLocation(reference: CodeReferenceHelp, href: string) {
   const url = new URL(href, "https://reference.local");
-  const path = `${url.origin === "https://reference.local" ? "" : url.host}${url.pathname}${url.search}${url.hash}`;
   const version = reference.facts?.find(({ label }) => /version|license/i.test(label));
   const required = reference.fields?.filter(({ required }) => required).map(({ name }) => name);
   const branch =
@@ -155,5 +176,5 @@ function referenceLocation(reference: CodeReferenceHelp, href: string) {
             : url.origin === "https://reference.local"
               ? "Local documentation"
               : "External reference";
-  return { path, detail };
+  return { detail };
 }

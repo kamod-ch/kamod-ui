@@ -20,37 +20,12 @@
   gap: 0.3125rem;
   min-width: 0;
   color: inherit;
-  font-size: 0.78125rem;
+  font-size: var(--code-help-font-title);
   line-height: 1.5;
   text-decoration: none;
 }
 .code-reference-help-title > strong {
   min-width: 0;
-}
-.code-reference-help-title-mark {
-  flex: none;
-}
-.code-reference-help .code-reference-help-location {
-  display: flex;
-  align-items: center;
-  gap: 0.1875rem;
-  min-width: 0;
-  color: var(--docs-inline-code-background);
-  font-size: 0.5625rem;
-  font-weight: 400;
-  line-height: 1.6;
-  text-decoration: underline;
-  text-decoration-color: color-mix(in oklab, currentColor 55%, transparent);
-  text-underline-offset: 0.2em;
-}
-.code-reference-help-location > span {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.code-reference-help-location > svg {
-  flex: none;
 }
 .code-reference-help-heading-meta {
   flex: none;
@@ -77,15 +52,6 @@
   font-weight: 450;
   line-height: 1.65;
   color: var(--code-help-muted);
-}
-.code-reference-help-location-detail > svg,
-.code-reference-help-connection {
-  flex: none;
-  color: inherit;
-}
-.code-reference-help-connection {
-  margin-inline: 0.0625rem;
-  color: var(--background);
 }
 .code-reference-help .code-reference-help-header code {
   display: block;
@@ -120,7 +86,7 @@
   padding: 0.0625rem 0.3125rem;
   --code-help-chip-radius: 4px;
   border: 0;
-  font-size: 0.6875rem;
+  font-size: var(--code-help-font-badge);
   font-weight: 500;
   line-height: 1.5;
   white-space: nowrap;
@@ -175,8 +141,6 @@
   align-items: center;
   gap: 0.4375rem;
   min-width: 0;
-  padding-bottom: 0.75rem;
-  border-bottom: 1px solid var(--code-help-rule);
   white-space: nowrap;
 }
 .code-reference-help-origin-path,
@@ -189,13 +153,10 @@
   display: flex;
   align-items: center;
 }
-.code-reference-help .code-reference-help-origin a {
-  text-decoration: none;
-}
 .code-reference-help .code-reference-help-path {
   width: max-content;
   max-width: 100%;
-  font-size: 0.6875rem;
+  font-size: var(--code-help-font-context);
 }
 .code-reference-help .code-reference-help-path[data-path-middle] {
   grid-template-columns: minmax(0, max-content) minmax(1ch, 1fr) minmax(0, max-content);

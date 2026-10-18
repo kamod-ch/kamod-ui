@@ -1,4 +1,4 @@
-import { CompassIcon, LoaderCircleIcon } from "@kamod-ch/icons/lucide";
+import { LoaderCircleIcon } from "@kamod-ch/icons/lucide";
 
 /** A quiet reading placeholder while the shared reference module loads on demand. */
 export function CodeReferenceHelpLoading({
@@ -30,12 +30,6 @@ export function CodeReferenceHelpLoading({
             <strong>
               <code title={module}>{name}</code>
             </strong>
-            <CompassIcon
-              class="code-reference-help-title-mark"
-              size={12}
-              strokeWidth={1.75}
-              aria-hidden="true"
-            />
           </div>
           <p class="code-reference-help-loading-context">Following the reference...</p>
         </div>

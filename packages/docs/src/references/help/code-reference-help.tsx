@@ -1,10 +1,4 @@
-import {
-  ArrowUpRightIcon,
-  CompassIcon,
-  ExternalLinkIcon,
-  InfoIcon,
-  LinkIcon,
-} from "@kamod-ch/icons/lucide";
+import { ExternalLinkIcon } from "@kamod-ch/icons/lucide";
 import { Badge } from "@kamod-ch/ui/badge";
 import { splitDisplayPath } from "../../docs/components/display-path";
 import type { CodeReferenceHelp } from "../types";
@@ -12,6 +6,7 @@ import { hasReferenceContract, ReferenceContract } from "./reference-contract";
 import { ReferenceFacts } from "./reference-facts";
 import { referenceKinds } from "./reference-kinds";
 import { ReferenceNotice } from "./reference-notice";
+import { ReferencePage } from "./reference-page";
 import { referencePresentation } from "./reference-presentation";
 import { ReferenceRelated } from "./reference-related";
 import { ReferenceSentence } from "./reference-sentence";
@@ -33,11 +28,12 @@ function ReferencePath({ path }: { path: string }) {
   );
 }
 
-/** One compact reading surface, using verified facts and existing delegated tooltip behavior. */
+/** One responsive reading surface, using verified facts and existing delegated tooltip behavior. */
 export function CodeReferenceHelpContent({ reference }: { reference: CodeReferenceHelp }) {
   const { kind, name, module, description } = reference;
   const { Icon, label } = referenceKinds[kind];
-  const { primary, location, context, resources, note, caption } = referencePresentation(reference);
+  const { primary, location, context, resources, note, caption, page } =
+    referencePresentation(reference);
   const MainIcon = (kind === "technology" && technologyIcon(module)) || Icon;
   const IconTag = primary ? "a" : "span";
   const TitleTag = primary ? "a" : "span";
@@ -63,95 +59,65 @@ export function CodeReferenceHelpContent({ reference }: { reference: CodeReferen
             <strong>
               <code>{name}</code>
             </strong>
-            <CompassIcon
-              class="code-reference-help-title-mark"
-              size={12}
-              strokeWidth={1.75}
-              aria-hidden="true"
-            />
           </TitleTag>
-          {location && primary && (
-            <a
-              class="code-reference-help-location"
-              href={primary.href}
-              target="_top"
-              aria-label={`Open ${location.path}`}
-              title={location.path}
-            >
-              <span dir="ltr">{location.path}</span>
-              <ArrowUpRightIcon size={10} strokeWidth={1.75} aria-hidden="true" />
-            </a>
-          )}
         </div>
         <div class="code-reference-help-heading-meta">
           <div class="code-reference-help-badges">
             <Badge class="code-reference-help-kind" size="xxs">
               <Icon size={12} strokeWidth={2} aria-hidden="true" />
-              {label}
+              {page?.label ?? label}
             </Badge>
             {primary && (
-              <>
-                <LinkIcon
-                  class="code-reference-help-connection"
-                  size={8}
-                  strokeWidth={1.75}
-                  aria-hidden="true"
-                />
-                <a
-                  class="docs-icon-button code-reference-help-open"
-                  href={primary.href}
-                  target="_top"
-                  aria-label={`Open ${primary.label} for ${name}`}
-                  title={primary.label}
-                >
-                  <ExternalLinkIcon size={11} strokeWidth={1.75} aria-hidden="true" />
-                </a>
-              </>
+              <a
+                class="docs-icon-button code-reference-help-open"
+                href={primary.href}
+                target="_top"
+                aria-label={`Open ${primary.label} for ${name}`}
+                title={primary.label}
+              >
+                <ExternalLinkIcon size={11} strokeWidth={1.75} aria-hidden="true" />
+              </a>
             )}
           </div>
         </div>
       </header>
-      <nav class="code-reference-help-origin" aria-label="Reference locations">
-        {primary ? (
-          <a
-            class="code-reference-help-origin-path"
-            href={primary.href}
-            target="_top"
-            aria-label={`Open ${module} reference`}
-          >
-            <ReferencePath path={module} />
-          </a>
-        ) : (
-          <ReferencePath path={module} />
-        )}
-        <span class="code-reference-help-context" title={context}>
-          <span aria-hidden="true">/</span>
-          <span>{context}</span>
-        </span>
-        {location && (
-          <span class="code-reference-help-location-detail" title={location.detail}>
-            <InfoIcon size={10} strokeWidth={1.75} aria-hidden="true" />
-            <span>{location.detail}</span>
-          </span>
-        )}
-      </nav>
-      <div class="code-reference-help-summary">
-        <p>
-          <ReferenceSentence text={description} />
-        </p>
-        <ReferenceFacts reference={reference} />
-        {caption && (
-          <p class="code-reference-help-detail">
-            <ReferenceSentence text={caption} />
-            {kind !== "command" && (
-              <>
-                {" "}
-                <ReferenceSentence text={note} />
-              </>
+      {page ? (
+        <ReferencePage reference={reference} destination={page} />
+      ) : (
+        <>
+          <div class="code-reference-help-origin">
+            <span class="code-reference-help-origin-path">
+              <ReferencePath path={module} />
+            </span>
+            <span class="code-reference-help-context" title={context}>
+              <span aria-hidden="true">/</span>
+              <span>{context}</span>
+            </span>
+            {location && (
+              <span class="code-reference-help-location-detail" title={location.detail}>
+                <span>{location.detail}</span>
+              </span>
             )}
-          </p>
-        )}
-      </div>
+          </div>
+          <div class="code-reference-help-summary">
+            <p>
+              <ReferenceSentence text={description} />
+            </p>
+            <ReferenceFacts reference={reference} />
+            {caption && (
+              <p class="code-reference-help-detail">
+                <ReferenceSentence text={caption} />
+                {kind !== "command" && (
+                  <>
+                    {" "}
+                    <ReferenceSentence text={note} />
+                  </>
+                )}
+              </p>
+            )}
+          </div>
+        </>
+      )}
       {reference.notice && <ReferenceNotice notice={reference.notice} />}
       {hasReferenceContract(reference) && (
         <div class="code-reference-help-content">

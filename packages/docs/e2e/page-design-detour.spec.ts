@@ -23,11 +23,16 @@ test("rocket sparkles change between loops and pause while the header is offscre
     await star.evaluate((node) => {
       const field = node.closest(".getting-started-flight")!.getBoundingClientRect();
       const rect = node.getBoundingClientRect();
+      const style = getComputedStyle(node);
+      const x = Number.parseFloat(style.getPropertyValue("--star-x"));
+      const y = Number.parseFloat(style.getPropertyValue("--star-y"));
       return (
         rect.left >= field.left &&
         rect.right <= field.right &&
         rect.top >= field.top &&
-        rect.bottom <= field.bottom
+        rect.bottom <= field.bottom &&
+        (x < 30 || x > 70) &&
+        (y < 30 || y > 70)
       );
     }),
   ).toBe(true);
@@ -104,15 +109,35 @@ for (const scheme of ["light", "dark"] as const) {
       // Sample the actual flight, rather than merely checking that a keyframe name exists.
       const motion = await flight.evaluate((node) => {
         const moving = node.querySelector(".getting-started-flight-rocket")!;
+        const thrust = node.querySelector(".getting-started-flight-thrust")!;
+        const trails = [...node.querySelectorAll("svg.getting-started-flight-trail")];
         const animations = node.getAnimations({ subtree: true });
-        const movingAnimations = moving.getAnimations({ subtree: true });
-        const duration = Math.max(
-          ...movingAnimations.map((animation) =>
-            Number(animation.effect!.getComputedTiming().duration),
-          ),
-        );
+        const duration = (element: Element) =>
+          Number(element.getAnimations()[0]!.effect!.getComputedTiming().duration);
+        const sample = (animation: Animation, fraction: number) => {
+          const timing = animation.effect!.getTiming();
+          const delay = Number(timing.delay);
+          const duration = Number(timing.duration);
+          // Stay after local time zero even when a negative delay skips most of the first cycle.
+          const cycle = 1 + Math.max(0, Math.ceil(-delay / duration));
+          animation.currentTime = delay + duration * (cycle + fraction);
+        };
+        // Compare either side of the seam, including each animation's negative phase offset.
+        const seamless = (element: Element) => {
+          const states = [0, 0.9999].map((fraction) => {
+            element.getAnimations().forEach((animation) => sample(animation, fraction));
+            const style = getComputedStyle(element);
+            return [...new DOMMatrix(style.transform).toFloat64Array(), Number(style.opacity)];
+          });
+          return states[0].every((value, index) => Math.abs(value - states[1][index]) < 0.03);
+        };
         animations.forEach((animation) => animation.pause());
         const field = node.getBoundingClientRect();
+        const insideField = (box: DOMRect) =>
+          box.left >= field.left - 1 &&
+          box.right <= field.right + 1 &&
+          box.top >= field.top - 1 &&
+          box.bottom <= field.bottom + 1;
         const header = node.closest("header")!;
         const text: DOMRect[] = [];
         for (const element of header.querySelectorAll(
@@ -127,19 +152,14 @@ for (const scheme of ["light", "dark"] as const) {
           }
         }
         const frames = Array.from({ length: 17 }, (_, index) => {
-          for (const animation of animations) {
-            animation.currentTime =
-              (Number(animation.effect!.getComputedTiming().duration) * index) / 16;
-          }
+          animations.forEach((animation) => sample(animation, index / 16));
           const box = moving.getBoundingClientRect();
+          const vehicle = thrust.getBoundingClientRect();
           return {
-            x: box.x,
-            y: box.y,
-            bounded:
-              box.left >= field.left - 1 &&
-              box.right <= field.right + 1 &&
-              box.top >= field.top - 1 &&
-              box.bottom <= field.bottom + 1,
+            x: vehicle.x,
+            y: vehicle.y,
+            visible: [moving, thrust].every((part) => Number(getComputedStyle(part).opacity) === 1),
+            bounded: insideField(box) && insideField(vehicle),
             clear: text.every(
               (rect) =>
                 box.right <= rect.left ||
@@ -152,19 +172,37 @@ for (const scheme of ["light", "dark"] as const) {
         const stars = [...node.querySelectorAll(".getting-started-flight-star")].map((star) => {
           const style = getComputedStyle(star);
           const rect = star.getBoundingClientRect();
+          const x = Number.parseFloat(style.getPropertyValue("--star-x"));
+          const y = Number.parseFloat(style.getPropertyValue("--star-y"));
           return {
-            size: style.width,
+            size: Number.parseFloat(style.width),
             x: rect.x,
             y: rect.y,
-            bounded:
-              rect.left >= field.left - 1 &&
-              rect.right <= field.right + 1 &&
-              rect.top >= field.top - 1 &&
-              rect.bottom <= field.bottom + 1,
+            outer: (x < 30 || x > 70) && (y < 30 || y > 70),
+            clearance:
+              Math.hypot(((x - 50) * field.width) / 100, ((y - 50) * field.height) / 100) >
+              Math.min(field.width, field.height) * 0.42,
+            bounded: insideField(rect),
+          };
+        });
+        const exhaust = trails.map((trail) => {
+          const animation = trail.getAnimations()[0]!;
+          const states = [0.2, 0.6].map((fraction) => {
+            sample(animation, fraction);
+            const style = getComputedStyle(trail);
+            return `${style.transform}/${style.opacity}`;
+          });
+          return {
+            duration: duration(trail),
+            phase: animation.effect!.getTiming().delay,
+            moving: states[0] !== states[1],
           };
         });
         return {
-          duration,
+          holdDuration: duration(moving),
+          thrustDuration: duration(thrust),
+          seamless: seamless(moving) && seamless(thrust),
+          alwaysVisible: frames.every((frame) => frame.visible),
           distance: Math.max(
             ...frames.flatMap((frame) =>
               frames.map((other) => Math.hypot(frame.x - other.x, frame.y - other.y)),
@@ -174,20 +212,43 @@ for (const scheme of ["light", "dark"] as const) {
           clear: frames.every((frame) => frame.clear),
           fieldVisible: field.left >= 0 && field.right <= innerWidth,
           stars: stars.length,
+          outerStars: stars.every((star) => star.outer),
+          clearStars: stars.every((star) => star.clearance),
+          starSizes: stars.map((star) => star.size),
           boundedStars: stars.every((star) => star.bounded),
           variedSizes: new Set(stars.map((star) => star.size)).size > 1,
           spread: new Set(stars.map((star) => `${star.x},${star.y}`)).size > 3,
+          exhaust,
         };
       });
-      expect(motion.duration).toBeGreaterThan(6_000);
-      expect(motion.distance).toBeGreaterThan(10);
+      expect(motion.holdDuration).toBeGreaterThan(1_000);
+      expect(motion.holdDuration).toBeLessThan(3_000);
+      expect(motion.thrustDuration).toBeGreaterThan(100);
+      expect(motion.thrustDuration).toBeLessThan(1_000);
+      expect(motion.distance).toBeGreaterThan(0.15);
+      expect(motion.distance).toBeLessThan(6);
+      expect(motion.seamless).toBe(true);
+      expect(motion.alwaysVisible).toBe(true);
       expect(motion.bounded).toBe(true);
       expect(motion.clear).toBe(true);
       expect(motion.fieldVisible).toBe(true);
-      expect(motion.stars).toBeGreaterThan(3);
+      expect(motion.stars).toBe(4);
+      expect(motion.outerStars).toBe(true);
+      expect(motion.clearStars).toBe(true);
+      for (const size of motion.starSizes) {
+        expect(size).toBeGreaterThanOrEqual(width < 640 ? 11.8 : 14);
+        expect(size).toBeLessThanOrEqual(width < 640 ? 13.7 : 16);
+      }
       expect(motion.boundedStars).toBe(true);
       expect(motion.variedSizes).toBe(true);
       expect(motion.spread).toBe(true);
+      expect(motion.exhaust).toHaveLength(3);
+      expect(new Set(motion.exhaust.map(({ phase }) => phase)).size).toBe(3);
+      for (const trail of motion.exhaust) {
+        expect(trail.duration).toBeGreaterThan(200);
+        expect(trail.duration).toBeLessThan(1_000);
+        expect(trail.moving).toBe(true);
+      }
 
       const sidebarRocket = page.locator("aside.docs-sidebar .navigation-header-link > svg");
       expect(await sidebarRocket.evaluate((node) => node.getAnimations().length > 0)).toBe(

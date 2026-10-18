@@ -1,9 +1,10 @@
 /** @vitest-environment jsdom */
-import { CircuitBoardIcon, ExternalLinkIcon, LinkIcon } from "@kamod-ch/icons/lucide";
+import { CircuitBoardIcon, ExternalLinkIcon } from "@kamod-ch/icons/lucide";
 import { BrandReactIcon, BrandTailwindIcon } from "@kamod-ch/icons/tabler/outline";
 import { cleanup, fireEvent, render, waitFor, within } from "@testing-library/preact";
 import renderToString from "preact-render-to-string";
-import { afterEach, expect, it } from "vitest";
+import { afterEach, expect, it, vi } from "vitest";
+import * as basePath from "../../base-path";
 import type { CodeReferenceHelp } from "../types";
 import { CodeReferenceHelpContent } from "./code-reference-help";
 import {
@@ -11,7 +12,10 @@ import {
   CodeReferenceHelpUnavailable,
 } from "./code-reference-help-loading";
 
-afterEach(cleanup);
+afterEach(() => {
+  cleanup();
+  vi.restoreAllMocks();
+});
 
 const reference: CodeReferenceHelp = {
   kind: "component",
@@ -48,44 +52,120 @@ it("preserves exact copyable origins, linked headings and top-frame navigation",
     "href",
     reference.docs!.href,
   );
-  expect(container.querySelector(".code-reference-help-location")).toHaveTextContent(
-    reference.docs!.href,
-  );
-  expect(container.querySelector(".code-reference-help-location")).toHaveAttribute(
-    "href",
-    reference.docs!.href,
-  );
-  expect(container.querySelector(".code-reference-help-location-detail")).toHaveTextContent(
-    "Required: dir",
-  );
+  expect(path.closest("a")).toBeNull();
   expect(
     container.querySelector(".code-reference-help-origin > .code-reference-help-location-detail"),
   ).toHaveTextContent("Required: dir");
-  expect(
-    container.querySelector(
-      ".code-reference-help-heading-meta .code-reference-help-location-detail",
-    ),
-  ).toBeNull();
-  expect(container.querySelector(".code-reference-help-location")).not.toHaveTextContent(
-    "Required: dir",
-  );
-  for (const selector of [".code-reference-help-title-mark", ".code-reference-help-connection"])
-    expect(container.querySelector(selector)).toHaveAttribute("aria-hidden", "true");
+  for (const selector of [
+    ".code-reference-help-location",
+    ".code-reference-help-title-mark",
+    ".code-reference-help-connection",
+    ".code-reference-help-location-detail svg",
+    ".code-reference-help-heading-meta .code-reference-help-location-detail",
+  ])
+    expect(container.querySelector(selector)).toBeNull();
   for (const link of container.querySelectorAll("a"))
     expect(link).toHaveAttribute("target", "_top");
 });
 
-it("distinguishes the external reference action from its decorative chain", () => {
+it("keeps the external reference action without decorative connectors", () => {
   const { container } = render(<CodeReferenceHelpContent reference={reference} />);
   const expected = document.createElement("div");
   expected.innerHTML = renderToString(<ExternalLinkIcon />);
   expect(container.querySelector(".code-reference-help-open svg")!.innerHTML).toBe(
     expected.querySelector("svg")!.innerHTML,
   );
-  expected.innerHTML = renderToString(<LinkIcon />);
-  expect(container.querySelector(".code-reference-help-connection")!.innerHTML).toBe(
-    expected.querySelector("svg")!.innerHTML,
+  expect(container.querySelectorAll(".code-reference-help-open")).toHaveLength(1);
+  expect(container.querySelector(".code-reference-help-connection")).toBeNull();
+});
+
+it.each([
+  { module: "/docs/getting-started", href: "/docs/getting-started", section: false, prefix: "" },
+  { module: "/docs/components", href: "/docs/components#library-items", section: true, prefix: "" },
+  {
+    module: "/docs/code/installation",
+    href: "/docs/code/code-prism-pipeline",
+    section: true,
+    prefix: "",
+  },
+  {
+    module: "/kamod-ui/docs/components",
+    href: "/kamod-ui/docs/components#library-items",
+    section: true,
+    prefix: "/kamod-ui",
+  },
+])(
+  "renders the verified page destination $href without inventing an excerpt",
+  ({ module, href, section, prefix }) => {
+    if (prefix) {
+      vi.spyOn(basePath, "basePrefix").mockReturnValue(prefix);
+      vi.spyOn(basePath, "withBasePath").mockImplementation((path) => `${prefix}${path}`);
+    }
+    const value: CodeReferenceHelp = {
+      kind: "page",
+      name: "Saved guide",
+      module,
+      description: "Build a **theme** with `--primary`.",
+      detail: "Generic reference guidance should not appear in this reading preview.",
+      docs: { label: section ? "Read the section" : "Read the page", href },
+    };
+    const { container, getByRole } = render(<CodeReferenceHelpContent reference={value} />);
+    const page = getByRole("region", { name: "Documentation destination" });
+    const summary = page.querySelector(".code-reference-help-summary")!;
+    expect(summary.querySelector("strong")).toHaveTextContent("theme");
+    expect(summary.querySelector("code")).toHaveTextContent("--primary");
+    const destination = within(page).getByRole("link", {
+      name: new RegExp(`Read the ${section ? "section" : "page"}`),
+    });
+    expect(destination).toHaveAttribute("href", href);
+    expect(destination).toHaveAttribute("target", "_top");
+    expect(destination).toHaveTextContent(href.split("#")[0]);
+    if (href.includes("#"))
+      expect(destination.querySelector("code")).toHaveTextContent("#library-items");
+    expect(container.querySelector(".code-reference-help-kind")).toHaveTextContent(
+      section ? "Section" : "Page",
+    );
+    const parent = within(page).queryByRole("link", { name: "See the full page" });
+    if (section) {
+      expect(parent).toHaveAttribute("href", module);
+      expect(parent).toHaveAttribute("target", "_top");
+    } else expect(parent).toBeNull();
+    expect(
+      [...container.querySelectorAll(".code-reference-help-related-link")].map((link) =>
+        link.getAttribute("href"),
+      ),
+    ).toEqual(section ? [href, module] : [href]);
+    for (const selector of [
+      ".code-reference-help-origin",
+      ".code-reference-help-detail",
+      ".code-reference-help-content",
+    ])
+      expect(container.querySelector(selector)).toBeNull();
+    expect(container).not.toHaveTextContent(value.detail!);
+  },
+);
+
+it("does not invent a reading destination or parent when page documentation is missing", () => {
+  const { container } = render(
+    <CodeReferenceHelpContent
+      reference={{
+        kind: "page",
+        name: "Unavailable guide",
+        module: "/docs/components",
+        description: "Saved description only.",
+      }}
+    />,
   );
+  expect(container.querySelector(".code-reference-help-summary")).toHaveTextContent(
+    "Saved description only.",
+  );
+  for (const selector of [
+    ".code-reference-help-page",
+    ".code-reference-help-page-parent",
+    ".code-reference-help-related",
+    "a",
+  ])
+    expect(container.querySelector(selector)).toBeNull();
 });
 
 it("renders source-derived prose safely, with only supported emphasis and destinations", () => {
@@ -143,7 +223,7 @@ it("uses a single badge, short origin context, and one ending index for all veri
     within(header).getByRole("link", { name: "Open API reference for DirectionProvider" }),
   ).toHaveAttribute("href", reference.docs!.href);
   const origin = container.querySelector(".code-reference-help-origin")!;
-  expect(origin.querySelectorAll("a")).toHaveLength(1);
+  expect(origin.querySelectorAll("a")).toHaveLength(0);
   expect(origin.querySelector(".code-reference-help-context")).toHaveTextContent(
     "Layout direction",
   );
@@ -436,6 +516,7 @@ it("announces pending work once, removes the duplicate module row, and preserves
     1,
   );
   expect(loading.container.querySelector(".code-reference-help-loading-mark")).toBeNull();
+  expect(loading.container.querySelector(".code-reference-help-title-mark")).toBeNull();
   expect(loading.container.querySelector(".code-reference-help-loading-module")).toBeNull();
   loading.rerender(
     <CodeReferenceHelpLoading name={reference.name} module={reference.module} active={false} />,

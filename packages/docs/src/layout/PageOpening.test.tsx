@@ -19,6 +19,12 @@ describe("shared page opening screen", () => {
     expect(startup.querySelector(".page-loading-rocket")!.innerHTML).toBe(
       navigation.querySelector(".page-loading-rocket")!.innerHTML,
     );
+    for (const root of [startup, navigation]) {
+      const spinner = root.querySelector(".page-loading-spinner")!;
+      expect(spinner.getAttribute("data-slot")).toBe("spinner");
+      expect(spinner.getAttribute("aria-hidden")).toBe("true");
+      expect(spinner.querySelector("svg")!.getAttribute("stroke-width")).toBe("1.5");
+    }
   });
 
   it("keeps the persistent startup overlay out of route landmarks and state selectors", () => {

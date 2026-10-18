@@ -159,30 +159,13 @@
   }
 }
 @media (min-width: 768px) and (hover: hover) and (pointer: fine) {
-  :is(.docs-rightbar-contents > nav, .blocks-doc-toc) .page-contents-list a:hover {
+  :is(.docs-rightbar-contents > nav, .blocks-doc-toc)
+    .page-contents-list
+    a:hover:not([aria-current="location"], [data-contents-selected]) {
     background-color: color-mix(
       in oklab,
       var(--foreground) calc(2.5% + 2.4375% * var(--docs-highlight-boost, 0)),
       var(--background)
-    );
-  }
-  :is(.docs-rightbar-contents > nav, .blocks-doc-toc)
-    .page-contents-list
-    a[aria-current="location"]:hover {
-    background-color: var(--navigation-entry-background);
-  }
-  :is(.docs-rightbar-contents > nav, .blocks-doc-toc)
-    .page-contents-list
-    a[data-contents-selected]:hover {
-    background-color: var(--background);
-  }
-  :is(.docs-rightbar-contents > nav, .blocks-doc-toc)
-    .page-contents-list
-    a[data-contents-selected]:hover::after {
-    background-color: color-mix(
-      in oklab,
-      var(--foreground) calc(2% + 1.92% * var(--docs-highlight-boost, 0)),
-      transparent
     );
   }
 }
@@ -227,7 +210,6 @@
    Keep URL selection above reading/nesting typography without changing either state. */
 :is(.docs-rightbar-contents > nav, .blocks-doc-toc) .page-contents-list a[data-contents-selected] {
   --contents-marker-inset: calc(0.5rem - 1px);
-  isolation: isolate;
   border-radius: 0.5rem;
   background-color: var(--background);
   background-image:
@@ -236,26 +218,6 @@
   color: var(--foreground);
   font-weight: 600;
 }
-/* The menu's subtle hover tint sits above its selection plate and below the text. */
-:is(.docs-rightbar-contents > nav, .blocks-doc-toc)
-  .page-contents-list
-  a[data-contents-selected]::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  border-radius: inherit;
-  background-color: transparent;
-  pointer-events: none;
-}
-@media (prefers-reduced-motion: no-preference) {
-  :is(.docs-rightbar-contents > nav, .blocks-doc-toc)
-    .page-contents-list
-    a[data-contents-selected]::after {
-    transition: background-color 150ms ease;
-  }
-}
-
 /* Ellipsis is visual only: the link retains its full accessible name and destination. */
 @media (1200px <= width < 1536px) {
   .docs-rightbar-contents > nav a,

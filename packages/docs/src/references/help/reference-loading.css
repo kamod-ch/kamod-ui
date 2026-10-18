@@ -76,11 +76,7 @@
   animation: code-reference-help-retire calc(var(--code-help-reveal-duration) * 0.4) ease-out;
 }
 .code-reference-help-ready
-  :is(
-    .code-reference-help-kind-icon > svg,
-    .code-reference-help-location,
-    .code-reference-help-heading-meta
-  ) {
+  :is(.code-reference-help-kind-icon > svg, .code-reference-help-heading-meta) {
   animation: code-reference-help-arrive var(--code-help-reveal-duration) ease-out;
 }
 /* Keep the name/frame anchored; let the old bars leave before the detailed reading appears. */
@@ -141,7 +137,6 @@
     :is(
       .code-reference-help-layout > *,
       .code-reference-help-kind-icon > svg,
-      .code-reference-help-location,
       .code-reference-help-heading-meta
     ) {
     animation: none;

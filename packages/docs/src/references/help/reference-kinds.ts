@@ -29,7 +29,7 @@ export const referenceKinds = {
   command: { Icon: TerminalIcon, label: "Command", contract: "Invocation" },
   block: { Icon: BlocksIcon, label: "Block variant", contract: "Block contract" },
   technology: { Icon: CircuitBoardIcon, label: "Technology", contract: "Technology details" },
-  page: { Icon: FileTextIcon, label: "Page / section", contract: "Page details" },
+  page: { Icon: FileTextIcon, label: "Page", contract: "Page details" },
 } satisfies Record<
   CodeReferenceHelpKind,
   { Icon: typeof ComponentIcon; label: string; contract: string }

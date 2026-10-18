@@ -16,7 +16,7 @@
 .code-reference-help-reading-heading {
   gap: var(--code-help-resource-gap);
   margin-bottom: 0.25rem;
-  font-size: 0.59375rem;
+  font-size: var(--code-help-font-label);
   line-height: 1.6;
 }
 .code-reference-help-reading-heading-left {
@@ -46,7 +46,7 @@
   align-items: center;
   gap: 0.1875rem;
   color: var(--background);
-  font-size: 0.5625rem;
+  font-size: var(--code-help-font-minor);
   white-space: nowrap;
 }
 .code-reference-help-reading-count > strong {

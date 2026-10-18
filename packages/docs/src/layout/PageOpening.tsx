@@ -1,5 +1,5 @@
 /** @jsxImportSource preact */
-import { LoaderCircleIcon } from "@kamod-ch/icons/lucide";
+import { Spinner } from "@kamod-ch/ui/spinner";
 import Logo from "../../.preactpress/theme/Logo";
 import { GettingStartedRocket } from "../docs/components/GettingStartedRocket";
 
@@ -32,12 +32,7 @@ export function PageOpening({
       >
         <p class="page-state-eyebrow page-loading-label">
           <span class="page-loading-brand">
-            <LoaderCircleIcon
-              class="page-loading-spinner"
-              size={16}
-              strokeWidth={2}
-              aria-hidden="true"
-            />
+            <Spinner class="page-loading-spinner" strokeWidth={1.5} aria-hidden="true" />
             <strong>Kamod</strong>
           </span>
           <span aria-hidden="true">·</span>

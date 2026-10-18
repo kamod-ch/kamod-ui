@@ -3,23 +3,27 @@ import { RocketIcon } from "@kamod-ch/icons/tabler/outline";
 import { useEffect, useRef } from "preact/hooks";
 import { observeViewportActivity } from "../../layout/runtime/viewport-activity";
 
-// Stable first paint on the server and client; each star chooses a new spot only while invisible.
+// Outer corner lanes leave air around the vehicle; random placement happens only at hidden seams.
 const STARS = [
-  { x: 12, y: 33, size: 9, duration: 5.2, delay: -0.5 },
-  { x: 30, y: 10, size: 10.2, duration: 6.6, delay: -3.3 },
-  { x: 72, y: 12, size: 8.7, duration: 5.8, delay: -2 },
-  { x: 91, y: 43, size: 11, duration: 7.2, delay: -4.6 },
-  { x: 72, y: 84, size: 9.7, duration: 6.2, delay: -1.4 },
-  { x: 19, y: 83, size: 10.6, duration: 7.6, delay: -5.4 },
+  { x: 14, y: 17, size: 15, duration: 4.6, delay: -0.8 },
+  { x: 85, y: 16, size: 16, duration: 5.3, delay: -3.2 },
+  { x: 86, y: 83, size: 14, duration: 4.9, delay: -1.9 },
+  { x: 15, y: 84, size: 15.5, duration: 5.8, delay: -4.7 },
+] as const;
+const TRAILS = [
+  { x: 13, y: 72, size: 19, duration: 0.48, delay: -0.16 },
+  { x: 20, y: 81, size: 24, duration: 0.62, delay: -0.42 },
+  { x: 31, y: 87, size: 16, duration: 0.54, delay: -0.29 },
 ] as const;
 
-function moveStar(star: SVGSVGElement) {
-  star.style.setProperty("--star-x", `${8 + Math.random() * 84}%`);
-  star.style.setProperty("--star-y", `${10 + Math.random() * 80}%`);
-  star.style.setProperty("--star-size", `${9 + Math.random() * 2}px`);
+function moveStar(star: SVGSVGElement, index: number) {
+  const lane = STARS[index];
+  star.style.setProperty("--star-x", `${(lane.x < 50 ? 12 : 82) + Math.random() * 6}%`);
+  star.style.setProperty("--star-y", `${(lane.y < 50 ? 14 : 79) + Math.random() * 7}%`);
+  star.style.setProperty("--star-size", `${14 + Math.random() * 2}px`);
 }
 
-/** A transparent constellation with a forward-only flight and no timers or frame loop. */
+/** Stationary flight: layered CSS turbulence and independent wake icons, without a frame loop. */
 export function GettingStartedRocket() {
   const field = useRef<HTMLSpanElement>(null);
   useEffect(() => {
@@ -50,26 +54,36 @@ export function GettingStartedRocket() {
             "--star-duration": `${star.duration}s`,
             "--star-delay": `${star.delay}s`,
           }}
-          onAnimationIteration={(event) => moveStar(event.currentTarget)}
+          onAnimationIteration={(event) => moveStar(event.currentTarget, index)}
         >
           <path d="M12 2c1 7 3 9 10 10-7 1-9 3-10 10C11 15 9 13 2 12c7-1 9-3 10-10Z" />
         </svg>
       ))}
       <span class="getting-started-flight-rocket">
-        <svg
-          class="getting-started-flight-trail"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={0.7}
-          strokeLinecap="round"
-          focusable="false"
-        >
-          <path d="m5 17-3 3" />
-          <path d="m7 19-4 4" />
-          <path d="m9 21-2 2" />
-        </svg>
-        <RocketIcon size={78} strokeWidth={1.4} />
+        <span class="getting-started-flight-thrust">
+          {TRAILS.map((trail, index) => (
+            <svg
+              key={index}
+              class="getting-started-flight-trail"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={1.35}
+              strokeLinecap="round"
+              focusable="false"
+              style={{
+                left: `${trail.x}%`,
+                top: `${trail.y}%`,
+                "--trail-size": `${trail.size}px`,
+                "--trail-duration": `${trail.duration}s`,
+                "--trail-delay": `${trail.delay}s`,
+              }}
+            >
+              <path d="m17 7-10 10" />
+            </svg>
+          ))}
+          <RocketIcon class="getting-started-flight-vehicle" size={78} strokeWidth={1.4} />
+        </span>
       </span>
     </span>
   );

@@ -3,6 +3,18 @@
   --opening-ink: var(--foreground, var(--pp-preloader-accent, #171717));
   --opening-accent: var(--primary, var(--opening-ink));
   --opening-detail: var(--secondary-accent, var(--opening-accent));
+  --opening-glow-source: color-mix(in oklch, var(--opening-accent) 60%, var(--opening-detail));
+  /* Equal endpoints along the longer hue arc give theme-matched 120° and 240° rotations. */
+  --opening-glow-third: color-mix(
+    in oklch longer hue,
+    var(--opening-glow-source) 66.6667%,
+    var(--opening-glow-source)
+  );
+  --opening-glow-fourth: color-mix(
+    in oklch longer hue,
+    var(--opening-glow-source) 33.3333%,
+    var(--opening-glow-source)
+  );
   --opening-quiet: color-mix(in oklab, var(--opening-ink) 36%, transparent);
   position: relative;
   isolation: isolate;
@@ -25,28 +37,43 @@
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
-.page-opening::before {
+.page-opening::before,
+.page-opening::after {
   content: "";
   position: absolute;
-  z-index: -1;
   inset: 0;
   pointer-events: none;
+}
+.page-opening::before {
+  z-index: -2;
+  /* Saturated washes stay soft beneath the 90% page-colored glass. */
   background:
     radial-gradient(
-      ellipse 28% 30% at 73% 24%,
-      color-mix(in oklab, var(--opening-detail) 4%, transparent),
+      ellipse 45% 44% at 0% 0%,
+      color-mix(in oklab, var(--opening-accent) 55%, transparent),
       transparent 100%
     ),
     radial-gradient(
-      ellipse 35% 30% at 22% 65%,
-      color-mix(in oklab, var(--opening-accent) 4%, transparent),
+      ellipse 34% 36% at 68% -3%,
+      color-mix(in oklab, var(--opening-detail) 50%, transparent),
       transparent 100%
     ),
     radial-gradient(
-      ellipse 30% 22% at 67% 85%,
-      color-mix(in oklab, var(--opening-detail) 3%, transparent),
+      ellipse 36% 28% at 92% 98%,
+      color-mix(in oklab, var(--opening-glow-third) 50%, transparent),
+      transparent 100%
+    ),
+    radial-gradient(
+      ellipse 13% 16% at 18% 100%,
+      color-mix(in oklab, var(--opening-glow-fourth) 60%, transparent),
       transparent 100%
     );
+}
+.page-opening::after {
+  z-index: -1;
+  background: color-mix(in oklab, var(--background, var(--pp-preloader-bg, #fff)) 90%, transparent);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
 }
 .page-opening *,
 .page-opening *::before,
