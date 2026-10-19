@@ -1,4 +1,4 @@
-import { expect, type Page, test } from "@playwright/test";
+import { expect, type Locator, type Page, test } from "@playwright/test";
 
 /** Block remote sites before opening a reference: every reading must come from local assets. */
 async function savedReferencePage(page: Page, scheme: "light" | "dark", width: number) {
@@ -44,6 +44,17 @@ async function openReference(page: Page, label: string, kind: string) {
   const card = page.getByRole("dialog", { name: `${label} reference`, exact: true });
   await expect(card.locator(`[data-reference-kind="${kind}"]`)).toBeVisible();
   return { card, term };
+}
+
+async function titleOffset(title: Locator) {
+  return title.evaluate((node) => {
+    const box = node.getBoundingClientRect();
+    const icon = node
+      .closest("header")!
+      .querySelector(".code-reference-help-kind-icon")!
+      .getBoundingClientRect();
+    return { x: box.x - icon.x, y: box.y - icon.y };
+  });
 }
 
 const technologyChapters = {
@@ -167,5 +178,88 @@ for (const [scheme, width] of [
     expect(remoteRequests).toEqual([]);
     expect(errors).toEqual([]);
     await expect(page).toHaveURL(/\/docs\/getting-started\/?$/);
+  });
+}
+
+test("saved technology chapters wait for their local project resource index", async ({ page }) => {
+  let release!: () => void;
+  const held = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  let requested = false;
+  await page.route(/\/assets\/technology-resources-[\w-]+\.js(?:\?|$)/, async (route) => {
+    requested = true;
+    await held;
+    await route.continue();
+  });
+  try {
+    await page.setViewportSize({ width: 320, height: 900 });
+    await page.goto("/docs/getting-started", { waitUntil: "domcontentloaded" });
+    await expect(page.locator("html")).toHaveClass(/pp-ready/);
+    await addReferences(page, ["Tailwind CSS"]);
+    const term = page.locator("#saved-reference-fixture code");
+    await expect(term).toHaveAttribute("data-code-module");
+    await term.scrollIntoViewIfNeeded();
+    await page.keyboard.press("Tab");
+    await term.focus();
+    const card = page.getByRole("dialog", { name: "Tailwind CSS reference", exact: true });
+    await expect(card.getByText("Following the reference...", { exact: true })).toBeVisible();
+    await expect.poll(() => requested).toBe(true);
+    await expect(card.locator(".code-reference-help-ready")).toHaveCount(0);
+    const pendingTitle = await titleOffset(
+      card.locator(".code-reference-help-loading .code-reference-help-title code"),
+    );
+    release();
+    const ready = card.locator(".code-reference-help-ready");
+    await expect(ready).toBeVisible();
+    const loadedTitle = await titleOffset(ready.locator(".code-reference-help-title code"));
+    expect(loadedTitle.x).toBeCloseTo(pendingTitle.x, 1);
+    expect(loadedTitle.y).toBeCloseTo(pendingTitle.y, 1);
+    await expect(ready.locator(".code-reference-help-section")).toHaveCount(3);
+    await expect(ready.locator(".code-reference-help-role")).toHaveText("/Utility Styling");
+    const resources = ready.locator(".code-reference-help-related");
+    await expect(resources.locator('a[href="/docs/getting-started"]')).toHaveCount(1);
+    await expect(resources.locator('a[href="/docs/theming/installation"]')).toHaveCount(1);
+    await expect(resources.locator('a[href="https://tailwindcss.com/docs/theme"]')).toHaveCount(1);
+  } finally {
+    release();
+  }
+});
+
+for (const [route, technology] of [
+  ["/docs/getting-started", "tailwind"],
+  ["/docs/getting-started", "vite"],
+  ["/docs/formisch/installation", "valibot"],
+] as const) {
+  test(`authored ${technology} inline code opens the complete saved guide on ${route}`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 320, height: 900 });
+    await page.goto(route);
+    await expect(page.locator("html")).toHaveClass(/pp-ready/);
+    const term = page
+      .locator(`main :is(code, a)[data-code-reference="technology:${technology}"]`)
+      .first();
+    await expect(term).toBeAttached();
+    await term.scrollIntoViewIfNeeded();
+    await page.keyboard.press("Tab");
+    await term.focus();
+    const card = page.getByRole("dialog", {
+      name: `${await term.innerText()} reference`,
+      exact: true,
+    });
+    const ready = card.locator(".code-reference-help-ready");
+    await expect(ready.locator(".code-reference-help-section")).toHaveCount(3);
+    const role = ready.locator(".code-reference-help-role");
+    await expect(role).not.toBeEmpty();
+    expect(
+      await role
+        .locator("span")
+        .last()
+        .evaluate((node) => node.scrollWidth <= node.clientWidth + 1),
+    ).toBe(true);
+    await expect(ready.locator(".code-reference-help-facts")).toHaveCount(0);
+    expect(await ready.locator("pre code").count()).toBeGreaterThan(2);
+    expect(await ready.locator(".code-reference-help-related a").count()).toBeGreaterThan(3);
   });
 }

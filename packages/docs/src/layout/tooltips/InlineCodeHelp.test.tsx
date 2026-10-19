@@ -284,8 +284,10 @@ it.each(Object.entries(brandReferences))(
     const trigger = screen.getByRole("link", { name });
     act(() => trigger.focus());
     const help = screen.getByRole("dialog", { name: `${name} reference` });
-    await waitFor(() =>
-      expect(help.querySelector('[data-reference-kind="technology"]')).not.toBeNull(),
+    // The first technology also compiles/loads its separate local resource index in Vitest.
+    await waitFor(
+      () => expect(help.querySelector('[data-reference-kind="technology"]')).not.toBeNull(),
+      { timeout: 5000 },
     );
     expect(help.querySelector(".code-reference-help-summary")).toHaveTextContent(
       reference.description,

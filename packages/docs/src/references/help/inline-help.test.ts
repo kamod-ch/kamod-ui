@@ -154,3 +154,51 @@ it("applies a deployment prefix once to lazy family reading links", async () => 
     vi.doUnmock("../../base-path");
   }
 });
+
+it("keeps saved chapters pending until the selected local resource index resolves, with shared work and retry", async () => {
+  const { loadInlineReferenceHelp } = await import("./inline-help");
+  let release!: (links: Record<string, NonNullable<CodeReferenceHelp["related"]>>) => void;
+  const resource = vi
+    .fn()
+    .mockRejectedValueOnce(new Error("Index unavailable"))
+    .mockImplementation(
+      () =>
+        new Promise((resolve) => {
+          release = resolve;
+        }),
+    );
+  const base = {
+    ...facts,
+    sections: [{ title: "Installation", code: { language: "bash", value: "npm install preact" } }],
+  };
+  const family = vi.fn(async () => ({ "technology:preact": base }));
+
+  const data: CodeReferenceHelpCatalog = {
+    packages: {},
+    loaders: {},
+    inlineLoaders: { technology: family },
+    technologyResources: resource,
+  };
+  await expect(loadInlineReferenceHelp(data, request)).rejects.toThrow("Index unavailable");
+  let ready = false;
+  const first = loadInlineReferenceHelp(data, request).then((value) => {
+    ready = true;
+    return value;
+  });
+  const second = loadInlineReferenceHelp(data, { ...request, label: "PREACT" });
+  await Promise.resolve();
+  expect(ready).toBe(false);
+  expect(resource).toHaveBeenCalledTimes(2);
+  expect(family).toHaveBeenCalledOnce();
+
+  release({
+    "technology:preact": [
+      { label: "Existing guide", href: "/docs/getting-started", kind: "guide" },
+      { label: "Forms", href: "/docs/forms", kind: "guide" },
+    ],
+  });
+  const result = await first;
+  expect(result.sections).toEqual(base.sections);
+  expect(result.related?.map(({ href }) => href)).toEqual(["/docs/getting-started", "/docs/forms"]);
+  expect((await second).name).toBe("PREACT");
+});

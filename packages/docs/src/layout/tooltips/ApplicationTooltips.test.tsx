@@ -512,3 +512,35 @@ it("keeps keyboard help when scrolling moves rows beneath a stationary pointer",
   expect(screen.getByRole("dialog", { name: "Components explained" })).toBeVisible();
   expect(screen.queryByRole("dialog", { name: "Blocks explained" })).toBeNull();
 });
+
+it("uses the larger side and caps the complete tooltip box within viewport edges", () => {
+  render(
+    <>
+      <ApplicationTooltips page="viewport" />
+      <button aria-label="Copy">
+        <svg aria-hidden="true" />
+      </button>
+    </>,
+  );
+  const button = screen.getByRole("button");
+  const measure = vi.spyOn(button, "getBoundingClientRect").mockReturnValue({
+    top: 300,
+    bottom: 600,
+    left: 100,
+    right: 130,
+    width: 30,
+    height: 300,
+    x: 100,
+    y: 300,
+    toJSON() {},
+  });
+  act(() => {
+    button.dispatchEvent(new FocusEvent("focusin", { bubbles: true }));
+  });
+  const tooltip = screen.getByRole("tooltip");
+  expect(tooltip).toHaveAttribute("data-side", "top");
+  expect(tooltip.style.maxHeight).toBe("min(276px, 100dvh - 32px)");
+  expect(tooltip.style.boxSizing).toBe("border-box");
+  expect(tooltip.style.overflowY).toBe("auto");
+  measure.mockRestore();
+});

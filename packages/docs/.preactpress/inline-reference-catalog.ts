@@ -5,6 +5,7 @@ import { buildBlockReferences } from "./inline-reference-blocks";
 import { buildReferencePages } from "./inline-reference-pages";
 import { technologyReferenceResources } from "./technology-reference-resources";
 import { technologyReferenceSections } from "./technology-reference-sections";
+import { technologySnapshots } from "./technology-reference-snapshots";
 
 const commands: Record<string, string> = {
   pnpm: "https://pnpm.io/cli/run",
@@ -31,6 +32,7 @@ const commands: Record<string, string> = {
 
 /** Build-only: collect real route/block identities without importing previews or component runtimes. */
 export async function buildInlineReferenceCatalog(root: string) {
+  const saved = technologySnapshots(root);
   const index: InlineReferenceIndex = { aliases: {}, routes: {}, commands };
   const families: Record<string, Record<string, CodeReferenceHelp>> = {};
   const ambiguous = new Map<string, number>();
@@ -66,12 +68,12 @@ export async function buildInlineReferenceCatalog(root: string) {
         description: entry.description,
         docs: { label: "Official documentation", href: entry.href },
         related: [
-          ...technologyReferenceResources(entry.name),
+          ...technologyReferenceResources(entry.name, saved),
           ...(entry.guide
             ? [{ label: "In Kamod", href: entry.guide, kind: "guide" as const }]
             : []),
         ],
-        sections: technologyReferenceSections(entry.name, entry.href),
+        sections: technologyReferenceSections(entry.name, entry.href, saved),
       },
       [entry.name, ...(entry.aliases ?? [])],
       entry.href,

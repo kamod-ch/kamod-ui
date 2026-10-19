@@ -128,6 +128,8 @@ export type CodeReferenceHelpCatalog = {
   loaders: Record<string, () => Promise<CodeReferenceSourceModule>>;
   packageLoaders?: Record<string, () => Promise<Record<string, CodeReferenceSourceSymbol[]>>>;
   inlineLoaders?: Record<string, () => Promise<Record<string, CodeReferenceHelp>>>;
+  /** Local-source indexes load separately from the saved base chapters, only for the opened term. */
+  technologyResources?: () => Promise<Record<string, NonNullable<CodeReferenceHelp["related"]>>>;
 };
 
 /** Only identities and destinations are eager; descriptions and contracts stay in lazy chunks. */

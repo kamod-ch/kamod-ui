@@ -1,18 +1,12 @@
-import { foundationSections } from "../src/references/catalog/technology-foundations";
-import { integrationSections } from "../src/references/catalog/technology-integrations";
-import { librarySections } from "../src/references/catalog/technology-libraries";
-import { toolingSections } from "../src/references/catalog/technology-tooling";
+import { technologySnapshots } from "./technology-reference-snapshots";
 
-const sections = {
-  ...foundationSections,
-  ...toolingSections,
-  ...librarySections,
-  ...integrationSections,
-};
-
-/** Build-only: saved technology chapters go into the lazy family, never the eager alias index. */
-export function technologyReferenceSections(name: string, href: string) {
-  const profile = Object.hasOwn(sections, name) ? sections[name] : undefined;
+/** Build-only: saved chapters enter the lazy family, never the eager alias index. */
+export function technologyReferenceSections(
+  name: string,
+  href: string,
+  saved = technologySnapshots(),
+) {
+  const profile = Object.hasOwn(saved, name) ? saved[name].sections : undefined;
   if (!profile) throw new Error(`Missing saved technology reference sections: ${name}`);
   return profile.map((section) => ({
     ...section,

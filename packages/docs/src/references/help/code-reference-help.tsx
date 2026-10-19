@@ -2,6 +2,7 @@ import { ExternalLinkIcon } from "@kamod-ch/icons/lucide";
 import { Badge } from "@kamod-ch/ui/badge";
 import { splitDisplayPath } from "../../docs/components/display-path";
 import type { CodeReferenceHelp } from "../types";
+import { technologyRole } from "./reference-context";
 import { hasReferenceContract, ReferenceContract } from "./reference-contract";
 import { ReferenceFacts } from "./reference-facts";
 import { referenceKinds } from "./reference-kinds";
@@ -35,6 +36,7 @@ export function CodeReferenceHelpContent({ reference }: { reference: CodeReferen
   const { primary, location, context, resources, note, caption, page } =
     referencePresentation(reference);
   const MainIcon = (kind === "technology" && technologyIcon(module)) || Icon;
+  const role = technologyRole(reference);
   const IconTag = primary ? "a" : "span";
   const TitleTag = primary ? "a" : "span";
   return (
@@ -51,15 +53,23 @@ export function CodeReferenceHelpContent({ reference }: { reference: CodeReferen
           <MainIcon size={16} strokeWidth={2} aria-hidden="true" />
         </IconTag>
         <div class="code-reference-help-heading">
-          <TitleTag
-            class="code-reference-help-title"
-            href={primary?.href}
-            target={primary ? "_top" : undefined}
-          >
-            <strong>
-              <code>{name}</code>
-            </strong>
-          </TitleTag>
+          <div class="code-reference-help-title-row">
+            <TitleTag
+              class="code-reference-help-title"
+              href={primary?.href}
+              target={primary ? "_top" : undefined}
+            >
+              <strong>
+                <code>{name}</code>
+              </strong>
+            </TitleTag>
+            {role && (
+              <span class="code-reference-help-role" title={role}>
+                <span aria-hidden="true">/</span>
+                <span>{role}</span>
+              </span>
+            )}
+          </div>
         </div>
         <div class="code-reference-help-heading-meta">
           <div class="code-reference-help-badges">
@@ -91,7 +101,7 @@ export function CodeReferenceHelpContent({ reference }: { reference: CodeReferen
             </span>
             <span class="code-reference-help-context" title={context}>
               <span aria-hidden="true">/</span>
-              <span>{context}</span>
+              <span>{kind === "technology" ? "Setup & Usage" : context}</span>
             </span>
             {location && (
               <span class="code-reference-help-location-detail" title={location.detail}>

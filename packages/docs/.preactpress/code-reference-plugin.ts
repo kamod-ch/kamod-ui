@@ -10,6 +10,11 @@ import {
 } from "./code-reference-help";
 import { buildInlineReferenceCatalog } from "./inline-reference-catalog";
 import { buildReferencePackages } from "./reference-package-catalog";
+import {
+  buildTechnologyProjectResources,
+  isTechnologyResourceSource,
+} from "./technology-project-resources";
+import { technologySnapshotFile } from "./technology-reference-snapshots";
 
 const id = "virtual:kamod-code-references";
 const resolvedId = `\0${id}`;
@@ -23,6 +28,11 @@ export function codeReferencePlugin(): Plugin {
   let helpCatalog: ReturnType<typeof buildHelpCatalog> | undefined;
   let inlineCatalog: ReturnType<typeof buildInlineReferenceCatalog> | undefined;
   const inline = () => (inlineCatalog ??= buildInlineReferenceCatalog(root));
+  let projectResources: ReturnType<typeof buildTechnologyProjectResources> | undefined;
+  const resources = () =>
+    (projectResources ??= inline().then(({ families }) =>
+      buildTechnologyProjectResources(root, families.page),
+    ));
   let packageCatalog: ReturnType<typeof buildReferencePackages> | undefined;
   const packageFacts = () => (packageCatalog ??= buildReferencePackages(root));
   const sourceHelp = new Map<string, ReturnType<typeof buildSourceHelp>>();
@@ -192,8 +202,10 @@ export function codeReferencePlugin(): Plugin {
           ? `\0${source}`
           : undefined,
     async load(source) {
-      if (source === resolvedId)
+      if (source === resolvedId) {
+        this.addWatchFile(technologySnapshotFile(root));
         return `export default ${JSON.stringify(await (catalog ??= buildCatalog()))}`;
+      }
       if (source === resolvedHelpId) {
         const { packages, groups } = await (helpCatalog ??= buildHelpCatalog());
         const familyLoaders = Object.keys((await inline()).families)
@@ -202,7 +214,7 @@ export function codeReferencePlugin(): Plugin {
               `${JSON.stringify(kind)}:()=>import(${JSON.stringify(`${helpId}/inline/${kind}`)}).then(module=>module.default)`,
           )
           .join(",");
-        return `export default {packages:${JSON.stringify(packages)},inlineLoaders:{${familyLoaders}},packageLoaders:{${declarationPackages.map((name) => `${JSON.stringify(name)}:()=>import(${JSON.stringify(`${helpId}/dependency/${name}`)}).then(module=>module.default)`).join(",")}},loaders:{${Object.keys(
+        return `export default {packages:${JSON.stringify(packages)},technologyResources:()=>import(${JSON.stringify(`${helpId}/technology-resources`)}).then(module=>module.default),inlineLoaders:{${familyLoaders}},packageLoaders:{${declarationPackages.map((name) => `${JSON.stringify(name)}:()=>import(${JSON.stringify(`${helpId}/dependency/${name}`)}).then(module=>module.default)`).join(",")}},loaders:{${Object.keys(
           groups,
         )
           .sort()
@@ -212,7 +224,13 @@ export function codeReferencePlugin(): Plugin {
           )
           .join(",")}}};`;
       }
+      if (source === `${resolvedHelpId}/technology-resources`) {
+        const indexed = await resources();
+        for (const file of indexed.files) this.addWatchFile(file);
+        return `export default ${JSON.stringify(indexed.resources)};`;
+      }
       if (source.startsWith(`${resolvedHelpId}/inline/`)) {
+        this.addWatchFile(technologySnapshotFile(root));
         const kind = source.slice(`${resolvedHelpId}/inline/`.length);
         const families = (await inline()).families;
         if (!Object.hasOwn(families, kind))
@@ -237,8 +255,11 @@ export function codeReferencePlugin(): Plugin {
       }
     },
     configureServer(server) {
+      server.watcher.add(technologySnapshotFile(root));
       const invalidate = (_event: string, path: string) => {
         if (
+          path !== technologySnapshotFile(root) &&
+          !isTechnologyResourceSource(path) &&
           !/package\.json$|packages\/(core|blocks)\/src\/.*\.(ts|tsx|css|json)$|packages\/docs\/(?:docs|blocks)\/.*\.md$|packages\/docs\/src\/(?:references\/catalog\/|docs\/|blocks\/(?:detail\/|BlockOverviewPage)).*\.(ts|tsx)$/.test(
             path,
           )
@@ -247,12 +268,15 @@ export function codeReferencePlugin(): Plugin {
         catalog = undefined;
         packageCatalog = undefined;
         inlineCatalog = undefined;
+        projectResources = undefined;
         helpCatalog = undefined;
         sourceHelp.clear();
         packageHelp.clear();
         for (const module of server.moduleGraph.idToModuleMap.values())
           if (module.id === resolvedId || module.id?.startsWith(resolvedHelpId))
             server.moduleGraph.invalidateModule(module);
+        // Browser family promises must not keep data from a previous authored snapshot/index.
+        server.ws.send({ type: "full-reload" });
       };
       server.watcher.on("all", invalidate);
       server.httpServer?.once("close", () => server.watcher.off("all", invalidate));

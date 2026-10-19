@@ -5,15 +5,17 @@ export function CodeReferenceHelpLoading({
   name,
   module,
   active = true,
+  technology = false,
 }: {
   name: string;
   module: string;
   /** The outgoing crossfade remains decorative after the real reference is ready. */
   active?: boolean;
+  technology?: boolean;
 }) {
   return (
     <div
-      class="code-reference-help-layout code-reference-help-loading"
+      class={`code-reference-help-layout code-reference-help-loading${technology ? " code-reference-help-loading-technology" : ""}`}
       aria-busy={active || undefined}
     >
       <header class="code-reference-help-header">

@@ -1,0 +1,4315 @@
+{
+  "schemaVersion": 1,
+  "profiles": {
+    "Tailwind": {
+      "reviewedAt": "2026-10-17",
+      "sections": [
+        {
+          "title": "Install with Vite",
+          "description": "Start a Vite project if needed, then add `tailwindcss` and its Vite plugin. In an existing app, keep your project and run only the installation command.",
+          "detail": "Packages & project",
+          "source": {
+            "label": "Install with Vite",
+            "href": "https://tailwindcss.com/docs/installation/using-vite"
+          },
+          "code": {
+            "language": "bash",
+            "value": "# New project only\nnpm create vite@latest my-project\ncd my-project\n# Add Tailwind to your app\nnpm install tailwindcss @tailwindcss/vite",
+            "caption": "Terminal"
+          }
+        },
+        {
+          "title": "Connect plugin & CSS",
+          "description": "Register `tailwindcss()` alongside your existing Vite plugins. Import Tailwind once in your application stylesheet, then load that stylesheet from your app.",
+          "detail": "Build integration",
+          "source": {
+            "label": "Connect plugin & CSS",
+            "href": "https://tailwindcss.com/docs/installation/using-vite"
+          },
+          "excerpts": [
+            {
+              "title": "Vite configuration",
+              "code": {
+                "language": "typescript",
+                "caption": "vite.config.ts",
+                "value": "import { defineConfig } from \"vite\";\nimport tailwindcss from \"@tailwindcss/vite\";\n\nexport default defineConfig({\n  plugins: [tailwindcss()],\n});"
+              },
+              "source": {
+                "label": "Connect plugin & CSS",
+                "href": "https://tailwindcss.com/docs/installation/using-vite"
+              }
+            },
+            {
+              "title": "Application stylesheet",
+              "code": {
+                "language": "css",
+                "caption": "src/style.css",
+                "value": "@import \"tailwindcss\";"
+              },
+              "source": {
+                "label": "Connect plugin & CSS",
+                "href": "https://tailwindcss.com/docs/installation/using-vite"
+              }
+            }
+          ]
+        },
+        {
+          "title": "Run & style",
+          "description": "Start your development script and write utility classes in your markup. Make sure the page includes your stylesheet; a framework may handle that import for you.",
+          "detail": "Your first utilities",
+          "source": {
+            "label": "Run & style",
+            "href": "https://tailwindcss.com/docs/installation/using-vite"
+          },
+          "excerpts": [
+            {
+              "title": "Start development",
+              "code": {
+                "language": "bash",
+                "value": "npm run dev"
+              },
+              "source": {
+                "label": "Run & style",
+                "href": "https://tailwindcss.com/docs/installation/using-vite"
+              }
+            },
+            {
+              "title": "Style a heading",
+              "code": {
+                "language": "html",
+                "caption": "HTML",
+                "value": "<!-- In a plain HTML entry -->\n<link href=\"/src/style.css\" rel=\"stylesheet\">\n<h1 class=\"text-3xl font-bold underline\">\n  Hello world!\n</h1>"
+              },
+              "source": {
+                "label": "Run & style",
+                "href": "https://tailwindcss.com/docs/installation/using-vite"
+              }
+            }
+          ],
+          "note": "Use complete class names so source detection can find each utility."
+        }
+      ],
+      "resources": [
+        {
+          "label": "Getting started",
+          "href": "https://tailwindcss.com/docs/installation/using-vite",
+          "kind": "guide"
+        },
+        {
+          "label": "Tailwind CLI",
+          "href": "https://tailwindcss.com/docs/installation/tailwind-cli",
+          "kind": "guide"
+        },
+        {
+          "label": "Utility classes",
+          "href": "https://tailwindcss.com/docs/styling-with-utility-classes",
+          "kind": "guide"
+        },
+        {
+          "label": "Theme variables",
+          "href": "https://tailwindcss.com/docs/theme",
+          "kind": "guide"
+        },
+        {
+          "label": "Source detection",
+          "href": "https://tailwindcss.com/docs/detecting-classes-in-source-files",
+          "kind": "guide"
+        }
+      ]
+    },
+    "Vite": {
+      "reviewedAt": "2026-10-17",
+      "sections": [
+        {
+          "title": "CLI workflow",
+          "description": "Use the development server while editing, build deployable files, then preview that output locally. `vite dev` and `vite serve` are aliases for `vite`.",
+          "detail": "Develop → build → preview",
+          "source": {
+            "label": "CLI workflow",
+            "href": "https://vite.dev/guide/cli"
+          },
+          "code": {
+            "language": "bash",
+            "value": "# Development server\nnpx vite\n\n# Production files, then local verification\nnpx vite build\nnpx vite preview",
+            "caption": "Terminal · project with Vite installed"
+          },
+          "note": "Preview is local verification, not a production server. Dependency pre-bundling is automatic; `vite optimize` is deprecated."
+        },
+        {
+          "title": "Adding a plugin",
+          "description": "Install a plugin as a development dependency, then add its factory to `plugins` in your Vite config. This official example adds legacy-browser support.",
+          "detail": "Install & register",
+          "source": {
+            "label": "Adding a plugin",
+            "href": "https://vite.dev/guide/using-plugins#adding-a-plugin"
+          },
+          "excerpts": [
+            {
+              "title": "Install the example plugin",
+              "code": {
+                "language": "bash",
+                "value": "npm add -D @vitejs/plugin-legacy"
+              },
+              "source": {
+                "label": "Adding a plugin",
+                "href": "https://vite.dev/guide/using-plugins#adding-a-plugin"
+              }
+            },
+            {
+              "title": "Extend your config",
+              "code": {
+                "language": "typescript",
+                "caption": "vite.config.ts",
+                "value": "import { defineConfig } from \"vite\";\nimport legacy from \"@vitejs/plugin-legacy\";\n\nexport default defineConfig({\n  plugins: [legacy({ targets: [\"defaults\", \"not IE 11\"] })],\n});"
+              },
+              "source": {
+                "label": "Adding a plugin",
+                "href": "https://vite.dev/guide/using-plugins#adding-a-plugin"
+              }
+            }
+          ],
+          "note": "Keep existing plugins. Presets can contain several plugins; Vite flattens the array and skips falsy entries."
+        },
+        {
+          "title": "Environments configuration",
+          "description": "A regular SPA or MPA uses top-level options for its `client` environment. Add named environments only when server or edge code needs its own overrides.",
+          "detail": "Client defaults · named overrides",
+          "source": {
+            "label": "Environments configuration",
+            "href": "https://vite.dev/guide/api-environment#environments-configuration"
+          },
+          "note": "Most top-level options are inherited; `optimizeDeps` is client-specific. The Environment API is a release candidate in this saved guide.",
+          "excerpts": [
+            {
+              "title": "Client defaults",
+              "description": "For a regular SPA or MPA, top-level options configure the client environment. `optimizeDeps.include` is useful for a dependency that needs explicit pre-bundling.",
+              "code": {
+                "language": "typescript",
+                "caption": "vite.config.ts · client configuration",
+                "value": "import { defineConfig } from \"vite\";\n\nexport default defineConfig({\n  build: { sourcemap: false },\n  optimizeDeps: { include: [\"your-dependency\"] },\n});"
+              }
+            },
+            {
+              "title": "Named environments",
+              "description": "Add named environments only when separate server or edge builds need their own configuration.",
+              "code": {
+                "language": "typescript",
+                "value": "import { defineConfig } from \"vite\";\n\nexport default defineConfig({\n  build: { sourcemap: false },\n  environments: {\n    server: {},\n    edge: { resolve: { noExternal: true } },\n  },\n});",
+                "caption": "vite.config.ts · multi-environment example"
+              }
+            }
+          ]
+        }
+      ],
+      "resources": [
+        {
+          "label": "Getting started",
+          "href": "https://vite.dev/guide/",
+          "kind": "guide"
+        },
+        {
+          "label": "Features",
+          "href": "https://vite.dev/guide/features",
+          "kind": "guide"
+        },
+        {
+          "label": "CLI",
+          "href": "https://vite.dev/guide/cli",
+          "kind": "guide"
+        },
+        {
+          "label": "Configuration",
+          "href": "https://vite.dev/config/",
+          "kind": "guide"
+        },
+        {
+          "label": "Plugins",
+          "href": "https://vite.dev/guide/using-plugins",
+          "kind": "guide"
+        },
+        {
+          "label": "Environments",
+          "href": "https://vite.dev/guide/api-environment#environments-configuration",
+          "kind": "guide"
+        }
+      ]
+    },
+    "Valibot": {
+      "reviewedAt": "2026-10-17",
+      "sections": [
+        {
+          "title": "Install from npm",
+          "description": "Add `valibot` with your project's package manager. Named imports and namespace imports both support tree shaking; choose the style that keeps your schemas readable.",
+          "detail": "Choose one command",
+          "source": {
+            "label": "Install from npm",
+            "href": "https://valibot.dev/guides/installation/#from-npm"
+          },
+          "excerpts": [
+            {
+              "title": "Your package manager",
+              "code": {
+                "language": "bash",
+                "value": "npm install valibot  # npm\nyarn add valibot     # Yarn\npnpm add valibot     # pnpm\nbun add valibot      # Bun"
+              },
+              "source": {
+                "label": "Install from npm",
+                "href": "https://valibot.dev/guides/installation/#from-npm"
+              }
+            },
+            {
+              "title": "Import in JavaScript or TypeScript",
+              "code": {
+                "language": "typescript",
+                "value": "import * as v from \"valibot\";\n// Or import the functions you use:\nimport { object, string } from \"valibot\";"
+              },
+              "source": {
+                "label": "Install from npm",
+                "href": "https://valibot.dev/guides/installation/#from-npm"
+              }
+            }
+          ],
+          "note": "Enable TypeScript `strict` mode for correct inference. Published files use ES2020 syntax."
+        },
+        {
+          "title": "Basic concept",
+          "description": "Small schema functions describe primitives and objects. Unlike a TypeScript type, a schema also runs against unknown data; a pipeline adds checks or transformations in order.",
+          "detail": "Types & runtime checks",
+          "source": {
+            "label": "Basic concept",
+            "href": "https://valibot.dev/guides/quick-start/#basic-concept"
+          },
+          "code": {
+            "language": "typescript",
+            "value": "import * as v from \"valibot\";\n\n// A type is checked during development.\ntype Account = { email: string; password: string };\n// A schema also validates values at runtime.\nconst AccountSchema = v.object({\n  email: v.string(),\n  password: v.string(),\n});",
+            "caption": "TypeScript type → executable schema"
+          },
+          "note": "Start a `pipe` with a schema, then compose validation or transformation actions."
+        },
+        {
+          "title": "A login schema",
+          "description": "Validate an email and a minimum password length, then infer the output type from that schema. `safeParse` returns a result you can handle without catching an exception.",
+          "detail": "Validate · infer · handle issues",
+          "source": {
+            "label": "A login schema",
+            "href": "https://valibot.dev/guides/introduction/#example"
+          },
+          "excerpts": [
+            {
+              "title": "Define the accepted input",
+              "code": {
+                "language": "typescript",
+                "caption": "schema.ts",
+                "value": "import * as v from \"valibot\";\n\nconst LoginSchema = v.object({\n  email: v.pipe(v.string(), v.email()),\n  password: v.pipe(v.string(), v.minLength(8)),\n});\ntype LoginData = v.InferOutput<typeof LoginSchema>;"
+              },
+              "source": {
+                "label": "A login schema",
+                "href": "https://valibot.dev/guides/introduction/#example"
+              }
+            },
+            {
+              "title": "Parse valid input",
+              "description": "`parse` returns the typed value or throws a validation error. Use `safeParse` below when invalid input is an expected result.",
+              "source": {
+                "label": "Valibot example",
+                "href": "https://valibot.dev/guides/introduction/#example"
+              },
+              "code": {
+                "language": "typescript",
+                "caption": "Parse the schema",
+                "value": "const login = v.parse(LoginSchema, {\n  email: \"jane@example.com\",\n  password: \"12345678\",\n});\n// Empty email or a short password throws a ValiError.\n// v.parse(LoginSchema, { email: \"\", password: \"\" });"
+              }
+            },
+            {
+              "title": "Read the validation result",
+              "code": {
+                "language": "typescript",
+                "value": "const result = v.safeParse(LoginSchema, {\n  email: \"jane@example.com\", password: \"12345678\",\n});\nif (result.success) {\n  console.log(result.output); // Typed LoginData\n} else {\n  console.log(result.issues); // Validation feedback\n}"
+              },
+              "source": {
+                "label": "A login schema",
+                "href": "https://valibot.dev/guides/introduction/#example"
+              }
+            }
+          ],
+          "note": "Use `parse` when you want invalid input to throw. Validate again at your service boundary."
+        }
+      ],
+      "resources": [
+        {
+          "label": "Introduction",
+          "href": "https://valibot.dev/guides/introduction/",
+          "kind": "guide"
+        },
+        {
+          "label": "Installation",
+          "href": "https://valibot.dev/guides/installation/",
+          "kind": "guide"
+        },
+        {
+          "label": "API reference",
+          "href": "https://valibot.dev/api/",
+          "kind": "guide"
+        },
+        {
+          "label": "Quick start",
+          "href": "https://valibot.dev/guides/quick-start/",
+          "kind": "guide"
+        },
+        {
+          "label": "Parse data",
+          "href": "https://valibot.dev/guides/parse-data/",
+          "kind": "guide"
+        }
+      ]
+    },
+    "Preact": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Render from state",
+          "description": "A component returns **JSX** from its current props and state. Event handlers update state; the renderer reconciles the resulting tree.",
+          "detail": "Component model",
+          "source": {
+            "label": "Render from state",
+            "href": "/docs/getting-started"
+          },
+          "code": {
+            "language": "tsx",
+            "value": "import { useState } from \"preact/hooks\";\n\nfunction Counter() {\n  const [count, setCount] = useState(0);\n  return <button onClick={() => setCount(count + 1)}>{count}</button>;\n}"
+          }
+        },
+        {
+          "title": "Own the lifecycle",
+          "description": "Allocate browser work inside an effect and return its cleanup. This keeps **listeners, timers and subscriptions** tied to the component that needs them.",
+          "detail": "Resource cleanup",
+          "source": {
+            "label": "Preact: Own the lifecycle",
+            "href": "https://preactjs.com/"
+          },
+          "code": {
+            "language": "tsx",
+            "value": "useEffect(() => {\n  const onResize = () => updateSize();\n  window.addEventListener(\"resize\", onResize);\n  return () => window.removeEventListener(\"resize\", onResize);\n}, []);"
+          },
+          "note": "Browser globals belong behind an effect or an explicit environment check when rendering on the server."
+        }
+      ],
+      "resources": []
+    },
+    "React": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Keep the renderer clear",
+          "description": "React and Preact share familiar component concepts, but their **renderers, hooks and types** are separate dependencies. Kamod components are authored for Preact.",
+          "source": {
+            "label": "React: Keep the renderer clear",
+            "href": "https://react.dev/"
+          },
+          "rows": [
+            {
+              "label": "Kamod JSX types",
+              "value": "preact"
+            },
+            {
+              "label": "Kamod hooks",
+              "value": "preact/hooks"
+            },
+            {
+              "label": "React examples",
+              "value": "Adapt imports and verify behavior"
+            }
+          ]
+        },
+        {
+          "title": "Check compatibility",
+          "description": "A compatibility alias translates selected React entry points. It does not turn every React integration into a supported Preact API or remove the need to test its behavior.",
+          "source": {
+            "label": "React: Check compatibility",
+            "href": "https://react.dev/"
+          },
+          "code": {
+            "language": "ts",
+            "value": "// Compatibility is configured by the application.\n\"react\": \"preact/compat\"\n\"react-dom\": \"preact/compat\"\n\"react/jsx-runtime\": \"preact/jsx-runtime\"",
+            "caption": "Alias illustration"
+          },
+          "note": "Prefer native Preact packages for new Kamod compositions; retain deliberate aliases for existing integrations."
+        }
+      ],
+      "resources": []
+    },
+    "TypeScript": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Describe the contract",
+          "description": "Type aliases and interfaces make component inputs explicit. An optional property permits omission; a union limits the accepted values.",
+          "source": {
+            "label": "TypeScript: Describe the contract",
+            "href": "https://www.typescriptlang.org/"
+          },
+          "code": {
+            "language": "typescript",
+            "value": "type ActionProps = {\n  label: string;\n  size?: \"sm\" | \"md\";\n  onActivate: () => void;\n};"
+          },
+          "rows": [
+            {
+              "label": "Check",
+              "value": "corepack pnpm typecheck"
+            },
+            {
+              "label": "JSX source",
+              "value": ".tsx files"
+            }
+          ]
+        },
+        {
+          "title": "Validate runtime input",
+          "description": "Type information is erased from emitted JavaScript. Data from a form, URL or service still needs **runtime validation** before it can be trusted.",
+          "source": {
+            "label": "TypeScript: Validate runtime input",
+            "href": "https://www.typescriptlang.org/"
+          },
+          "code": {
+            "language": "typescript",
+            "value": "function isLabel(value: unknown): value is string {\n  return typeof value === \"string\" && value.trim().length > 0;\n}"
+          },
+          "note": "Use a schema library when a boundary needs structured errors or inferred output types."
+        }
+      ],
+      "resources": []
+    },
+    "JavaScript": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Make updates explicit",
+          "description": "Use functions and immutable collection updates to make the transition from **old state to new state** visible in application code.",
+          "source": {
+            "label": "JavaScript: Make updates explicit",
+            "href": "https://tc39.es/ecma262/"
+          },
+          "code": {
+            "language": "javascript",
+            "value": "const nextItems = items.map((item) =>\n  item.id === changedId ? { ...item, selected: true } : item\n);"
+          },
+          "rows": [
+            {
+              "label": "Browser behavior",
+              "value": "Events, DOM APIs and asynchronous work"
+            },
+            {
+              "label": "Static checking",
+              "value": "Added by TypeScript before execution"
+            }
+          ]
+        },
+        {
+          "title": "Finish asynchronous work",
+          "description": "A promise can outlive the view that started it. Cancel supported requests or ignore obsolete results when the owner is disposed or the input changes.",
+          "source": {
+            "label": "JavaScript: Finish asynchronous work",
+            "href": "https://tc39.es/ecma262/"
+          },
+          "code": {
+            "language": "javascript",
+            "value": "const controller = new AbortController();\nfetch(url, { signal: controller.signal });\n// When the owning view is disposed:\ncontroller.abort();"
+          },
+          "note": "Cancellation and rejection handling are separate responsibilities; display only errors relevant to the current request."
+        }
+      ],
+      "resources": []
+    },
+    "GitHub": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Follow the source",
+          "description": "Repository files explain how a component is implemented; pull requests explain a proposed change and its validation. Prefer a **specific file or package** when citing code.",
+          "source": {
+            "label": "Follow the source",
+            "href": "https://github.com/kamod-ch/kamod-ui"
+          },
+          "rows": [
+            {
+              "label": "Components",
+              "value": "packages/core/src/components"
+            },
+            {
+              "label": "Compositions",
+              "value": "packages/blocks/src"
+            },
+            {
+              "label": "Documentation",
+              "value": "packages/docs"
+            }
+          ]
+        },
+        {
+          "title": "Review the change",
+          "description": "A useful review connects the diff, its tests and the resulting behavior. Branch links follow new commits; a commit permalink preserves the exact version being discussed.",
+          "source": {
+            "label": "GitHub: Review the change",
+            "href": "https://github.com/"
+          },
+          "rows": [
+            {
+              "label": "Moving reference",
+              "value": "A branch such as main"
+            },
+            {
+              "label": "Stable reference",
+              "value": "A full commit SHA"
+            },
+            {
+              "label": "Automation",
+              "value": "Checks associated with that commit"
+            }
+          ],
+          "note": "A successful old check does not verify a newer head commit."
+        }
+      ],
+      "resources": []
+    },
+    "Git": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Inspect before editing",
+          "description": "The working tree, index and current branch describe different states. Read the diff before staging so an unrelated local adjustment is not bundled into a feature.",
+          "source": {
+            "label": "Git: Inspect before editing",
+            "href": "https://git-scm.com/"
+          },
+          "code": {
+            "language": "bash",
+            "value": "git status --short\ngit diff --stat\ngit diff -- path/to/file"
+          }
+        },
+        {
+          "title": "Stage a focused change",
+          "description": "Explicit paths make a commit reviewable and preserve local-only context. The staged diff is the content the next commit records.",
+          "source": {
+            "label": "Git: Stage a focused change",
+            "href": "https://git-scm.com/"
+          },
+          "code": {
+            "language": "bash",
+            "value": "git add path/to/changed-file\ngit diff --cached\ngit commit"
+          },
+          "rows": [
+            {
+              "label": "Working tree",
+              "value": "Edits not yet staged"
+            },
+            {
+              "label": "Index",
+              "value": "Content selected for the next commit"
+            },
+            {
+              "label": "Commit",
+              "value": "Recorded project snapshot"
+            }
+          ]
+        }
+      ],
+      "resources": []
+    },
+    "pnpm": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Use the workspace version",
+          "description": "This repository pins its package manager in `package.json`. Corepack selects that version so local commands and the committed lockfile use the same package-manager contract.",
+          "source": {
+            "label": "pnpm: Use the workspace version",
+            "href": "https://pnpm.io/"
+          },
+          "code": {
+            "language": "bash",
+            "value": "corepack pnpm install --frozen-lockfile"
+          },
+          "rows": [
+            {
+              "label": "Workspace packages",
+              "value": "pnpm-workspace.yaml"
+            },
+            {
+              "label": "Resolved dependencies",
+              "value": "pnpm-lock.yaml"
+            }
+          ]
+        },
+        {
+          "title": "Target the affected package",
+          "description": "Workspace filters run a script in its owning package. Build dependencies before a test that imports their published runtime output.",
+          "source": {
+            "label": "pnpm: Target the affected package",
+            "href": "https://pnpm.io/"
+          },
+          "code": {
+            "language": "bash",
+            "value": "corepack pnpm --filter @kamod-ch/ui-docs test\ncorepack pnpm --filter @kamod-ch/blocks test"
+          },
+          "note": "The root test command runs core tests; it does not stand in for every workspace suite."
+        }
+      ],
+      "resources": []
+    },
+    "npm": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Distinguish registry and client",
+          "description": "The npm registry hosts published package metadata and tarballs; the npm CLI installs packages and runs scripts. Another client can consume the same registry.",
+          "source": {
+            "label": "npm: Distinguish registry and client",
+            "href": "https://www.npmjs.com/"
+          },
+          "rows": [
+            {
+              "label": "Package identity",
+              "value": "A name such as @kamod-ch/ui"
+            },
+            {
+              "label": "Registry metadata",
+              "value": "Versions, exports and dependency declarations"
+            },
+            {
+              "label": "Local client here",
+              "value": "The packageManager-pinned pnpm command"
+            }
+          ]
+        },
+        {
+          "title": "Read before installing",
+          "description": "Check the public export and peer dependencies of the requested package. A displayed install command is an example for a consumer application, not a command executed by this documentation.",
+          "source": {
+            "label": "npm: Read before installing",
+            "href": "https://www.npmjs.com/"
+          },
+          "code": {
+            "language": "bash",
+            "value": "npm view @kamod-ch/ui exports peerDependencies",
+            "caption": "Read-only metadata lookup"
+          },
+          "note": "Keep this workspace's pnpm lockfile authoritative instead of introducing a second installation lockfile."
+        }
+      ],
+      "resources": []
+    },
+    "Yarn": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Use the selected client",
+          "description": "Yarn manages JavaScript dependencies and scripts. Its lockfile and workspace behavior belong to a Yarn-configured project; this checkout selects pnpm instead.",
+          "source": {
+            "label": "Yarn: Use the selected client",
+            "href": "https://yarnpkg.com/"
+          },
+          "rows": [
+            {
+              "label": "Package client",
+              "value": "Yarn"
+            },
+            {
+              "label": "Project selection",
+              "value": "packageManager metadata"
+            },
+            {
+              "label": "This repository",
+              "value": "Use corepack pnpm"
+            }
+          ]
+        },
+        {
+          "title": "Translate the intent",
+          "description": "When following a Yarn example, preserve what it does: add a runtime dependency, add development tooling, or run a package script. Choose the equivalent command for the consuming project.",
+          "source": {
+            "label": "Yarn: Translate the intent",
+            "href": "https://yarnpkg.com/"
+          },
+          "code": {
+            "language": "bash",
+            "value": "yarn add preact\nyarn add --dev typescript\nyarn run build",
+            "caption": "Consumer-project command examples"
+          },
+          "note": "Do not mix package clients merely because a third-party guide shows a different command."
+        }
+      ],
+      "resources": []
+    },
+    "Node.js": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Keep build APIs off the client",
+          "description": "Node supplies file-system and process APIs for scripts and build plugins. Those APIs belong in build-time modules rather than browser tooltip or component imports.",
+          "source": {
+            "label": "Node.js: Keep build APIs off the client",
+            "href": "https://nodejs.org/"
+          },
+          "code": {
+            "language": "typescript",
+            "value": "import { readFile } from \"node:fs/promises\";\nconst manifest = JSON.parse(await readFile(\"package.json\", \"utf8\"));"
+          },
+          "rows": [
+            {
+              "label": "Build plugins",
+              "value": "packages/docs/.preactpress"
+            },
+            {
+              "label": "Browser UI",
+              "value": "packages/docs/src"
+            }
+          ]
+        },
+        {
+          "title": "Check the module environment",
+          "description": "The root package declares ESM. Scripts should use the correct module syntax and inspect the installed runtime before relying on a recently introduced platform feature.",
+          "source": {
+            "label": "Node.js: Check the module environment",
+            "href": "https://nodejs.org/"
+          },
+          "code": {
+            "language": "bash",
+            "value": "node --version\ncorepack pnpm --version"
+          },
+          "note": "Type declarations describe an API; they do not prove that the running Node version implements it."
+        }
+      ],
+      "resources": []
+    },
+    "Next.js": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Identify the framework boundary",
+          "description": "Next.js is a React application framework. Its routing, rendering and server/client boundaries belong to that framework, while this documentation site runs on PreactPress.",
+          "source": {
+            "label": "Next.js: Identify the framework boundary",
+            "href": "https://nextjs.org/"
+          },
+          "rows": [
+            {
+              "label": "Framework",
+              "value": "Next.js"
+            },
+            {
+              "label": "Renderer integration",
+              "value": "React"
+            },
+            {
+              "label": "Current docs host",
+              "value": "PreactPress"
+            }
+          ]
+        },
+        {
+          "title": "Adapt the application contract",
+          "description": "A copied example may assume framework-specific links, image components or server conventions. Keep reusable Kamod block APIs independent of those choices and supply routing through the consumer.",
+          "source": {
+            "label": "Next.js: Adapt the application contract",
+            "href": "https://nextjs.org/"
+          },
+          "rows": [
+            {
+              "label": "Reusable block",
+              "value": "Data and explicit navigation callbacks"
+            },
+            {
+              "label": "Application",
+              "value": "Router and service integration"
+            },
+            {
+              "label": "Verification",
+              "value": "Renderer, focus and hydration behavior"
+            }
+          ],
+          "note": "Do not add a React framework dependency merely to reproduce the appearance of an example."
+        }
+      ],
+      "resources": []
+    },
+    "Figma": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Translate design into roles",
+          "description": "A design file describes visual relationships. Map colors, type and spacing to the project's semantic tokens before introducing new literal values.",
+          "source": {
+            "label": "Translate design into roles",
+            "href": "/docs/theming/installation"
+          },
+          "rows": [
+            {
+              "label": "Surface and text",
+              "value": "Paired background and foreground tokens"
+            },
+            {
+              "label": "Emphasis",
+              "value": "Primary, secondary and muted roles"
+            },
+            {
+              "label": "Shape",
+              "value": "Existing radius and spacing scales"
+            }
+          ]
+        },
+        {
+          "title": "Specify interaction states",
+          "description": "A static frame does not define keyboard behavior, focus order or loading feedback. Review those states alongside light, dark and narrow layouts before treating a design as complete.",
+          "source": {
+            "label": "Figma: Specify interaction states",
+            "href": "https://www.figma.com/"
+          },
+          "rows": [
+            {
+              "label": "Default",
+              "value": "Readable content and discoverable actions"
+            },
+            {
+              "label": "Interaction",
+              "value": "Focus, hover, expanded and disabled states"
+            },
+            {
+              "label": "Async",
+              "value": "Loading, empty, success and failure states"
+            }
+          ],
+          "note": "Keep the component's accessible behavior when translating a visual reference."
+        }
+      ],
+      "resources": []
+    },
+    "Docker": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Separate build and runtime",
+          "description": "A container packages a chosen environment. Build tools, generated assets and the final serving process have different responsibilities and can live in separate stages.",
+          "source": {
+            "label": "Docker: Separate build and runtime",
+            "href": "https://www.docker.com/"
+          },
+          "rows": [
+            {
+              "label": "Build stage",
+              "value": "Install dependencies and produce assets"
+            },
+            {
+              "label": "Runtime stage",
+              "value": "Serve the generated application"
+            },
+            {
+              "label": "Configuration",
+              "value": "Pass environment values deliberately"
+            }
+          ]
+        },
+        {
+          "title": "Preserve the deployment path",
+          "description": "Containerizing a static documentation build does not remove its URL-prefix or routing requirements. Serve emitted assets at the prefix used during the build.",
+          "source": {
+            "label": "Docker: Preserve the deployment path",
+            "href": "https://www.docker.com/"
+          },
+          "rows": [
+            {
+              "label": "Asset URLs",
+              "value": "Match the configured base path"
+            },
+            {
+              "label": "Routes",
+              "value": "Use the static host's fallback behavior"
+            },
+            {
+              "label": "Secrets",
+              "value": "Keep outside browser bundles and image source"
+            }
+          ],
+          "note": "Docker is an integration option; no container is required to develop Kamod components."
+        }
+      ],
+      "resources": []
+    },
+    "Zod": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Validate a structured value",
+          "description": "A schema describes accepted data and returns a typed result after validation. Use a non-throwing result when invalid input is an expected user interaction.",
+          "source": {
+            "label": "Zod: Validate a structured value",
+            "href": "https://zod.dev/"
+          },
+          "code": {
+            "language": "typescript",
+            "value": "import { z } from \"zod\";\nconst Label = z.string().min(1);\nconst result = Label.safeParse(input);\nif (result.success) save(result.data);"
+          }
+        },
+        {
+          "title": "Keep schema ownership clear",
+          "description": "Kamod's OpenUI adapter declares Zod compatibility in its package metadata. The form guide uses Valibot; adding a second schema should solve a real integration need.",
+          "source": {
+            "label": "Zod: Keep schema ownership clear",
+            "href": "https://zod.dev/"
+          },
+          "rows": [
+            {
+              "label": "OpenUI package",
+              "value": "Zod peer dependency"
+            },
+            {
+              "label": "Form guide",
+              "value": "Valibot schemas"
+            },
+            {
+              "label": "Validation boundary",
+              "value": "Unknown data entering a typed application"
+            }
+          ],
+          "note": "Read the installed peer range before reusing examples written for a different Zod major version."
+        }
+      ],
+      "resources": []
+    },
+    "shadcn/ui": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Adopt editable source",
+          "description": "The shadcn approach exposes component code for a project's design system. Kamod follows that source-oriented idea with its own **Preact-native implementations**.",
+          "source": {
+            "label": "Adopt editable source",
+            "href": "/docs/getting-started"
+          },
+          "rows": [
+            {
+              "label": "Shared idea",
+              "value": "Composable primitives and semantic tokens"
+            },
+            {
+              "label": "Kamod runtime",
+              "value": "Preact"
+            },
+            {
+              "label": "Source ownership",
+              "value": "The copied or installed component implementation"
+            }
+          ]
+        },
+        {
+          "title": "Port the behavior deliberately",
+          "description": "A React-oriented example may import React, Radix or framework-specific helpers. Reuse the existing Kamod equivalents instead of pasting a second interaction stack into a Preact block.",
+          "source": {
+            "label": "Port the behavior deliberately",
+            "href": "/docs/components"
+          },
+          "code": {
+            "language": "tsx",
+            "value": "import { Button } from \"@kamod-ch/ui/button\";\n// Compose the existing Kamod primitive.\n<Button variant=\"outline\">Continue</Button>"
+          },
+          "note": "Matching CSS variables makes themes portable; it does not make renderer-specific component code interchangeable."
+        }
+      ],
+      "resources": []
+    },
+    "Prism.js": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Tokenize then style",
+          "description": "A grammar identifies tokens such as strings, keywords and comments. CSS gives those token classes their colors; grammar loading and theme styling are separate steps.",
+          "source": {
+            "label": "Tokenize then style",
+            "href": "/docs/code/installation#code-prism-pipeline"
+          },
+          "rows": [
+            {
+              "label": "Input",
+              "value": "Literal source plus a language identifier"
+            },
+            {
+              "label": "Grammar",
+              "value": "Token structure"
+            },
+            {
+              "label": "Presentation",
+              "value": "The shared code theme"
+            }
+          ]
+        },
+        {
+          "title": "Keep failure readable",
+          "description": "Load optional grammars when a reader needs them and preserve the literal source while loading or after a failed request. Syntax color must never be a prerequisite for copying the code.",
+          "source": {
+            "label": "Keep failure readable",
+            "href": "/docs/code/installation#code-prism-pipeline"
+          },
+          "rows": [
+            {
+              "label": "Pending",
+              "value": "A bounded loading treatment over literal text"
+            },
+            {
+              "label": "Loaded",
+              "value": "Highlighted token markup"
+            },
+            {
+              "label": "Unavailable",
+              "value": "Readable unformatted source"
+            }
+          ],
+          "note": "Reuse shared grammar promises rather than fetching one grammar for every token or line."
+        }
+      ],
+      "resources": []
+    },
+    "Formisch": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Create one form store",
+          "description": "Pass the Valibot schema and initial input to `useForm`. The guide validates on submit, then revalidates edited input after that first attempt.",
+          "source": {
+            "label": "Create one form store",
+            "href": "/docs/formisch/installation#demo"
+          },
+          "code": {
+            "language": "tsx",
+            "value": "const form = useForm({\n  schema: Schema,\n  initialInput: { title: \"\", description: \"\" },\n  validate: \"submit\",\n  revalidate: \"input\",\n});",
+            "caption": "From the bug-report example"
+          }
+        },
+        {
+          "title": "Bridge custom controls",
+          "description": "Native inputs receive the field props. Composite controls explicitly pass their current input and forward the value callback so form state remains the single owner.",
+          "source": {
+            "label": "Bridge custom controls",
+            "href": "/docs/formisch/installation#select"
+          },
+          "code": {
+            "language": "tsx",
+            "value": "<Select\n  value={typeof field.input.value === \"string\" ? field.input.value : \"\"}\n  onValueChange={field.onChange}\n>\n  {/* Trigger and items */}\n</Select>"
+          },
+          "note": "Keep label, description and error associations connected when changing the surrounding layout."
+        }
+      ],
+      "resources": []
+    },
+    "PreactPress": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Build the documentation shell",
+          "description": "PreactPress connects site configuration, routes and a Preact theme. This checkout adds build plugins for component contracts, block downloads and lazy reference data.",
+          "source": {
+            "label": "PreactPress: Build the documentation shell",
+            "href": "https://github.com/kamod-ch/preactpress"
+          },
+          "rows": [
+            {
+              "label": "Site configuration",
+              "value": "packages/docs/.preactpress/config.ts"
+            },
+            {
+              "label": "Theme entry",
+              "value": "packages/docs/.preactpress/theme/Layout.tsx"
+            },
+            {
+              "label": "Page source",
+              "value": "packages/docs/src/docs"
+            }
+          ]
+        },
+        {
+          "title": "Keep page payloads focused",
+          "description": "Extract metadata at build time instead of importing every page's interactive example into shared navigation or a tooltip. Runtime code should load the selected detail when it is needed.",
+          "source": {
+            "label": "PreactPress: Keep page payloads focused",
+            "href": "https://github.com/kamod-ch/preactpress"
+          },
+          "rows": [
+            {
+              "label": "Eager",
+              "value": "Reference identities and destinations"
+            },
+            {
+              "label": "Lazy",
+              "value": "Descriptions, examples and contracts"
+            },
+            {
+              "label": "Build-only",
+              "value": "Source extraction and compiler APIs"
+            }
+          ],
+          "note": "A documentation reference should not mount the complete page or its live demos inside a tooltip."
+        }
+      ],
+      "resources": []
+    },
+    "Lucide": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Choose a verified export",
+          "description": "Lucide provides stroke-based interface icons. New Kamod code can use the matching names exposed by the installed Kamod Icons Lucide entry point.",
+          "source": {
+            "label": "Choose a verified export",
+            "href": "/docs/icons-package/installation"
+          },
+          "code": {
+            "language": "tsx",
+            "value": "import { LinkIcon } from \"@kamod-ch/icons/lucide\";\n<LinkIcon size={14} strokeWidth={2} aria-hidden=\"true\" />"
+          }
+        },
+        {
+          "title": "Keep the icon subordinate",
+          "description": "Use one consistent size and stroke weight for a control family. The action's accessible name belongs to its button or link, while the decorative icon inherits its color.",
+          "source": {
+            "label": "Lucide: Keep the icon subordinate",
+            "href": "https://lucide.dev/"
+          },
+          "rows": [
+            {
+              "label": "Paint",
+              "value": "currentColor"
+            },
+            {
+              "label": "Weight",
+              "value": "Consistent strokeWidth"
+            },
+            {
+              "label": "Accessibility",
+              "value": "Label the action; hide decorative SVG"
+            }
+          ]
+        }
+      ],
+      "resources": []
+    },
+    "Tabler": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Select the right family",
+          "description": "Kamod Icons exposes Tabler outline and filled collections through separate package entry points. Brand marks and interface strokes have different visual weights.",
+          "source": {
+            "label": "Select the right family",
+            "href": "/docs/icons-package/installation"
+          },
+          "code": {
+            "language": "typescript",
+            "value": "import { BrandGithubIcon } from \"@kamod-ch/icons/tabler/filled\";"
+          },
+          "rows": [
+            {
+              "label": "Outline",
+              "value": "Stroke-oriented collection"
+            },
+            {
+              "label": "Filled",
+              "value": "Solid and brand-oriented shapes"
+            }
+          ]
+        },
+        {
+          "title": "Balance mixed icon styles",
+          "description": "When a brand mark sits beside outline controls, size it by its visible shape and retain the same alignment box. Avoid adding a stroke that changes a filled logo's geometry.",
+          "source": {
+            "label": "Tabler: Balance mixed icon styles",
+            "href": "https://tabler.io/icons"
+          },
+          "rows": [
+            {
+              "label": "Control box",
+              "value": "Consistent dimensions"
+            },
+            {
+              "label": "Visible mark",
+              "value": "Adjusted optical size when needed"
+            },
+            {
+              "label": "Meaning",
+              "value": "A nearby label or accessible name"
+            }
+          ],
+          "note": "Verify the actual installed export; icon naming is not identical across collections."
+        }
+      ],
+      "resources": []
+    },
+    "Heroicons": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Pick a deliberate weight",
+          "description": "Heroicons supplies interface symbols in several sizes and styles. Choose the supported Kamod Icons entry point before importing an individual name.",
+          "source": {
+            "label": "Pick a deliberate weight",
+            "href": "/docs/icons-package/installation"
+          },
+          "rows": [
+            {
+              "label": "Collection",
+              "value": "Heroicons"
+            },
+            {
+              "label": "Outline entry",
+              "value": "@kamod-ch/icons/heroicons/outline"
+            },
+            {
+              "label": "Solid entry",
+              "value": "@kamod-ch/icons/heroicons/solid"
+            }
+          ]
+        },
+        {
+          "title": "Match the control scale",
+          "description": "A small icon-only action needs a readable shape within a consistent interaction target. Do not shrink the click target merely to match the painted symbol.",
+          "source": {
+            "label": "Heroicons: Match the control scale",
+            "href": "https://heroicons.com/"
+          },
+          "rows": [
+            {
+              "label": "Target",
+              "value": "The button or link box"
+            },
+            {
+              "label": "Symbol",
+              "value": "Its visible SVG size"
+            },
+            {
+              "label": "Label",
+              "value": "The purpose of the action"
+            }
+          ],
+          "note": "Use a coherent collection within the same control group unless a brand logo requires a different source."
+        }
+      ],
+      "resources": []
+    },
+    "Iconoir": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Use outline shapes consistently",
+          "description": "Iconoir is an outline SVG collection. Match line weight, dimensions and optical alignment to the surrounding Kamod controls.",
+          "source": {
+            "label": "Use outline shapes consistently",
+            "href": "/docs/icons-package/installation"
+          },
+          "rows": [
+            {
+              "label": "Collection",
+              "value": "Iconoir"
+            },
+            {
+              "label": "Regular entry",
+              "value": "@kamod-ch/icons/iconoir/regular"
+            },
+            {
+              "label": "Solid entry",
+              "value": "@kamod-ch/icons/iconoir/solid"
+            }
+          ]
+        },
+        {
+          "title": "Separate symbol and action",
+          "description": "The same symbol can mean different actions in different contexts. Name the control for what it does and provide a tooltip only when it adds useful clarification.",
+          "source": {
+            "label": "Iconoir: Separate symbol and action",
+            "href": "https://iconoir.com/"
+          },
+          "rows": [
+            {
+              "label": "Accessible name",
+              "value": "Open documentation, rather than icon name"
+            },
+            {
+              "label": "Decorative SVG",
+              "value": "aria-hidden"
+            },
+            {
+              "label": "Tooltip",
+              "value": "Destination and useful resource context"
+            }
+          ]
+        }
+      ],
+      "resources": []
+    },
+    "Reicon": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Inspect the published set",
+          "description": "Kamod Icons exposes Reicon entry points alongside other collections. Read the installed package's export map to identify the available set and individual symbol names.",
+          "source": {
+            "label": "Inspect the published set",
+            "href": "/docs/icons-package/installation"
+          },
+          "rows": [
+            {
+              "label": "Package",
+              "value": "@kamod-ch/icons"
+            },
+            {
+              "label": "Collection",
+              "value": "Reicon"
+            },
+            {
+              "label": "Reference",
+              "value": "Published exports and source"
+            }
+          ]
+        },
+        {
+          "title": "Avoid renderer assumptions",
+          "description": "An upstream icon name or React wrapper is not automatically a Kamod export. Use the Preact component supplied by the installed collection and preserve its SVG attributes.",
+          "source": {
+            "label": "Reicon: Avoid renderer assumptions",
+            "href": "https://github.com/kamod-ch/kamod-icons"
+          },
+          "rows": [
+            {
+              "label": "Renderer",
+              "value": "Preact icon component"
+            },
+            {
+              "label": "Color",
+              "value": "Inherited from the surrounding control"
+            },
+            {
+              "label": "Semantics",
+              "value": "Provided by the button, link or graphic label"
+            }
+          ]
+        }
+      ],
+      "resources": []
+    },
+    "Motion": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Choose the Preact integration",
+          "description": "Kamod's motion package supplies Preact-oriented animation primitives; `@kamod-ch/ui-motion` adds compositions around existing UI behavior.",
+          "source": {
+            "label": "Choose the Preact integration",
+            "href": "/docs/ui-motion/installation"
+          },
+          "rows": [
+            {
+              "label": "Primitives",
+              "value": "@kamod-ch/motion"
+            },
+            {
+              "label": "UI compositions",
+              "value": "@kamod-ch/ui-motion"
+            },
+            {
+              "label": "Base behavior",
+              "value": "@kamod-ch/ui"
+            }
+          ]
+        },
+        {
+          "title": "Give animation one owner",
+          "description": "Keep interaction state in the base primitive and motion in the matching content composition. The guide warns against combining CSS animation classes and motion presets on the same node.",
+          "source": {
+            "label": "Give animation one owner",
+            "href": "/docs/ui-motion/installation"
+          },
+          "rows": [
+            {
+              "label": "Dialog trigger and state",
+              "value": "Base UI components"
+            },
+            {
+              "label": "Animated content",
+              "value": "Matching motion composition"
+            },
+            {
+              "label": "Reduced motion",
+              "value": "A deliberate quieter or static state"
+            }
+          ],
+          "note": "Animations should stop with their owning view and should not hide the final content when motion is reduced."
+        }
+      ],
+      "resources": []
+    },
+    "OpenUI": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Render a structured description",
+          "description": "Kamod's adapter connects supported OpenUI descriptions to registered Preact components. The component registry is the boundary between generated structure and executable UI.",
+          "source": {
+            "label": "OpenUI: Render a structured description",
+            "href": "https://github.com/thesysdev/openui"
+          },
+          "rows": [
+            {
+              "label": "Input",
+              "value": "Supported structured UI description"
+            },
+            {
+              "label": "Registry",
+              "value": "Known component names and contracts"
+            },
+            {
+              "label": "Output",
+              "value": "Preact-rendered Kamod components"
+            }
+          ]
+        },
+        {
+          "title": "Keep execution controlled",
+          "description": "Generated interface data should select supported components and validated props. Application code remains responsible for event handling, service access and permission-sensitive actions.",
+          "source": {
+            "label": "OpenUI: Keep execution controlled",
+            "href": "https://github.com/thesysdev/openui"
+          },
+          "rows": [
+            {
+              "label": "Validate",
+              "value": "Names, props and allowed data shapes"
+            },
+            {
+              "label": "Bind",
+              "value": "Explicit application callbacks"
+            },
+            {
+              "label": "Reject",
+              "value": "Unsupported components or arbitrary code"
+            }
+          ],
+          "note": "A rendered description does not authorize an action or make untrusted content safe."
+        }
+      ],
+      "resources": []
+    },
+    "Preact Signals": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Model a reactive value",
+          "description": "Signals hold values that readers can observe. A computed value derives from other signals so a component does not need a second, manually synchronized copy.",
+          "source": {
+            "label": "Model a reactive value",
+            "href": "/docs/signals-package/installation"
+          },
+          "code": {
+            "language": "typescript",
+            "value": "import { computed, signal } from \"@preact/signals\";\nconst count = signal(0);\nconst doubled = computed(() => count.value * 2);"
+          }
+        },
+        {
+          "title": "Separate reactivity and storage",
+          "description": "The Preact signal primitive models reactive state. Kamod Signals adds explicit persistence choices such as browser storage; choose one owner for each state value.",
+          "source": {
+            "label": "Separate reactivity and storage",
+            "href": "/docs/signals-package/installation"
+          },
+          "rows": [
+            {
+              "label": "Reactive state",
+              "value": "@preact/signals"
+            },
+            {
+              "label": "Persistence helpers",
+              "value": "@kamod-ch/signals"
+            },
+            {
+              "label": "Server rendering",
+              "value": "Avoid sharing request-specific mutable state"
+            }
+          ],
+          "note": "A subscription or effect created outside a component still needs a deliberate disposal lifetime."
+        }
+      ],
+      "resources": []
+    },
+    "HTML": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Start with semantics",
+          "description": "Native elements carry roles, focus behavior and browser interaction. A real button or link usually needs less custom behavior than a clickable generic container.",
+          "source": {
+            "label": "HTML: Start with semantics",
+            "href": "https://html.spec.whatwg.org/"
+          },
+          "code": {
+            "language": "html",
+            "value": "<button type=\"button\">Open settings</button>\n<a href=\"/docs/getting-started\">Read the guide</a>"
+          },
+          "rows": [
+            {
+              "label": "Action",
+              "value": "button"
+            },
+            {
+              "label": "Navigation",
+              "value": "a with href"
+            }
+          ]
+        },
+        {
+          "title": "Name the control",
+          "description": "Connect visible labels to their inputs, retain an accessible name on icon-only actions, and use headings to describe the document rather than their visual size.",
+          "source": {
+            "label": "HTML: Name the control",
+            "href": "https://html.spec.whatwg.org/"
+          },
+          "code": {
+            "language": "html",
+            "value": "<label for=\"email\">Email</label>\n<input id=\"email\" name=\"email\" type=\"email\"\n  aria-describedby=\"email-note\">\n<p id=\"email-note\">Used for account updates.</p>"
+          }
+        }
+      ],
+      "resources": []
+    },
+    "CSS": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Use semantic roles",
+          "description": "Custom properties let the same component use a different palette without changing its markup. Keep the surface and its readable text color together.",
+          "source": {
+            "label": "Use semantic roles",
+            "href": "/docs/theming/installation"
+          },
+          "code": {
+            "language": "css",
+            "value": ".surface {\n  background: var(--card);\n  color: var(--card-foreground);\n  border: 1px solid var(--border);\n}"
+          }
+        },
+        {
+          "title": "Respect motion choices",
+          "description": "Transitions should explain state without making interaction depend on movement. Provide a reduced-motion rule for decorative animation.",
+          "source": {
+            "label": "CSS: Respect motion choices",
+            "href": "https://www.w3.org/Style/CSS/"
+          },
+          "code": {
+            "language": "css",
+            "value": "@media (prefers-reduced-motion: reduce) {\n  .decoration {\n    animation: none;\n    transition: none;\n  }\n}"
+          },
+          "note": "A stopped animation should leave useful content visible and controls operable."
+        }
+      ],
+      "resources": []
+    },
+    "JSX": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Compose the tree",
+          "description": "JSX mixes element structure with JavaScript expressions. Preact components receive props and children; the compiler turns the syntax into element-creation calls.",
+          "source": {
+            "label": "JSX: Compose the tree",
+            "href": "https://preactjs.com/guide/v10/getting-started/"
+          },
+          "code": {
+            "language": "jsx",
+            "value": "function Greeting({ name }) {\n  return <p>Hello, <strong>{name}</strong>.</p>;\n}"
+          }
+        },
+        {
+          "title": "Keep identity stable",
+          "description": "A list key identifies the same item across updates. Use an item's persistent identity when reordering, inserting or deleting items.",
+          "source": {
+            "label": "JSX: Keep identity stable",
+            "href": "https://preactjs.com/guide/v10/getting-started/"
+          },
+          "code": {
+            "language": "jsx",
+            "value": "<ul>\n  {items.map((item) => <li key={item.id}>{item.label}</li>)}\n</ul>"
+          },
+          "note": "JSX is source syntax; renderer selection comes from imports and build configuration."
+        }
+      ],
+      "resources": []
+    },
+    "TSX": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Type a component",
+          "description": "A `.tsx` file combines TypeScript with JSX. Use Preact's public types for event, child and intrinsic-element contracts in Kamod code.",
+          "source": {
+            "label": "TSX: Type a component",
+            "href": "https://www.typescriptlang.org/docs/handbook/jsx.html"
+          },
+          "code": {
+            "language": "tsx",
+            "value": "import type { ComponentChildren } from \"preact\";\n\ntype NoticeProps = { children: ComponentChildren };\nconst Notice = ({ children }: NoticeProps) => <aside>{children}</aside>;"
+          }
+        },
+        {
+          "title": "Separate source and output",
+          "description": "The compiler checks JSX types while a configured transform emits runnable JavaScript. Match the JSX import source to the renderer used by the application.",
+          "source": {
+            "label": "TSX: Separate source and output",
+            "href": "https://www.typescriptlang.org/docs/handbook/jsx.html"
+          },
+          "code": {
+            "language": "json",
+            "value": "{\n  \"compilerOptions\": {\n    \"jsx\": \"react-jsx\",\n    \"jsxImportSource\": \"preact\"\n  }\n}"
+          },
+          "note": "The react-jsx transform name does not itself install or select the React renderer."
+        }
+      ],
+      "resources": []
+    },
+    "JSON": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Represent structured values",
+          "description": "JSON uses quoted property names, arrays and primitive values. Package manifests and generated reference payloads use it to carry data without executable functions.",
+          "source": {
+            "label": "JSON: Represent structured values",
+            "href": "https://www.json.org/"
+          },
+          "code": {
+            "language": "json",
+            "value": "{\n  \"name\": \"example\",\n  \"private\": true,\n  \"tags\": [\"preact\", \"ui\"]\n}"
+          }
+        },
+        {
+          "title": "Check the parsed shape",
+          "description": "Parsing verifies syntax, not the application's data contract. Validate the resulting value before reading fields supplied by a service or user.",
+          "source": {
+            "label": "JSON: Check the parsed shape",
+            "href": "https://www.json.org/"
+          },
+          "code": {
+            "language": "typescript",
+            "value": "const value: unknown = JSON.parse(source);\n// Validate value before using application-specific fields."
+          },
+          "rows": [
+            {
+              "label": "Syntax",
+              "value": "Double quotes; no trailing commas"
+            },
+            {
+              "label": "Not represented",
+              "value": "Functions, undefined or circular references"
+            }
+          ]
+        }
+      ],
+      "resources": []
+    },
+    "SVG": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Scale a vector",
+          "description": "A viewBox defines the drawing coordinates independently of display size. Stroke-based icons can inherit the surrounding text color with `currentColor`.",
+          "source": {
+            "label": "SVG: Scale a vector",
+            "href": "https://www.w3.org/Graphics/SVG/"
+          },
+          "code": {
+            "language": "html",
+            "value": "<svg viewBox=\"0 0 24 24\" width=\"16\" height=\"16\"\n  fill=\"none\" stroke=\"currentColor\" aria-hidden=\"true\">\n  <path d=\"M5 12h14M12 5v14\" />\n</svg>"
+          }
+        },
+        {
+          "title": "Name the action",
+          "description": "Decorative SVGs should not compete with a control's accessible name. Give an icon-only button a label that explains the action rather than the shape.",
+          "source": {
+            "label": "Name the action",
+            "href": "/docs/icons-package/installation"
+          },
+          "code": {
+            "language": "tsx",
+            "value": "<button type=\"button\" aria-label=\"Add item\">\n  <PlusIcon aria-hidden=\"true\" />\n</button>"
+          },
+          "rows": [
+            {
+              "label": "Decorative icon",
+              "value": "aria-hidden"
+            },
+            {
+              "label": "Meaningful graphic",
+              "value": "Provide an accessible name or adjacent explanation"
+            }
+          ]
+        }
+      ],
+      "resources": []
+    },
+    "Markdown": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Author a document",
+          "description": "Headings, lists, links and fenced code express document structure in plain text. Supply the language after a code fence when syntax highlighting is useful.",
+          "source": {
+            "label": "Markdown: Author a document",
+            "href": "https://spec.commonmark.org/"
+          },
+          "code": {
+            "language": "markdown",
+            "value": "## Install\n\nRead the [setup guide](/docs/getting-started).\n\n```bash\ncorepack pnpm install\n```"
+          }
+        },
+        {
+          "title": "Keep rendering safe",
+          "description": "Markdown parsing and safe HTML handling are different stages. This site's authoring configuration disables raw Markdown HTML; arbitrary parsed HTML still needs a trust policy.",
+          "source": {
+            "label": "Markdown: Keep rendering safe",
+            "href": "https://spec.commonmark.org/"
+          },
+          "rows": [
+            {
+              "label": "Authoring",
+              "value": "Headings, prose, links and fences"
+            },
+            {
+              "label": "Rendering",
+              "value": "A parser and project-specific presentation"
+            },
+            {
+              "label": "Untrusted HTML",
+              "value": "Sanitize before inserting into a document"
+            }
+          ],
+          "note": "A parser is not automatically an HTML sanitizer."
+        }
+      ],
+      "resources": []
+    },
+    "MDX": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Combine prose and components",
+          "description": "MDX compiles Markdown with JSX. Imported components can make a document interactive, but that also means the document participates in the application's module graph.",
+          "source": {
+            "label": "MDX: Combine prose and components",
+            "href": "https://mdxjs.com/"
+          },
+          "code": {
+            "language": "mdx",
+            "value": "import { Example } from \"./Example\";\n\n# A documented interaction\n\n<Example />",
+            "caption": "MDX syntax illustration"
+          }
+        },
+        {
+          "title": "Choose the authoring boundary",
+          "description": "Use ordinary Markdown for portable prose and a supported component document for application UI. An `.mdx` example does not establish that a project has configured an MDX compiler.",
+          "source": {
+            "label": "MDX: Choose the authoring boundary",
+            "href": "https://mdxjs.com/"
+          },
+          "rows": [
+            {
+              "label": "Input",
+              "value": "Markdown with JSX and imports"
+            },
+            {
+              "label": "Required tooling",
+              "value": "A compatible MDX compilation pipeline"
+            },
+            {
+              "label": "Trust boundary",
+              "value": "Imported code can execute in its configured environment"
+            }
+          ]
+        }
+      ],
+      "resources": []
+    },
+    "DOM": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Scope document work",
+          "description": "Query within the owning element instead of repeatedly scanning the whole document. A mutation observer can watch just the subtree whose changes matter.",
+          "source": {
+            "label": "DOM: Scope document work",
+            "href": "https://dom.spec.whatwg.org/"
+          },
+          "code": {
+            "language": "javascript",
+            "value": "const observer = new MutationObserver(update);\nobserver.observe(container, { childList: true, subtree: true });\n// Dispose with the owning view:\nobserver.disconnect();"
+          }
+        },
+        {
+          "title": "Separate reads and writes",
+          "description": "Read layout once, compute the next result, then update styles. Repeatedly interleaving layout reads and DOM writes can force extra synchronous layout work.",
+          "source": {
+            "label": "DOM: Separate reads and writes",
+            "href": "https://dom.spec.whatwg.org/"
+          },
+          "rows": [
+            {
+              "label": "Read",
+              "value": "getBoundingClientRect or client dimensions"
+            },
+            {
+              "label": "Compute",
+              "value": "Placement and size constraints"
+            },
+            {
+              "label": "Write",
+              "value": "A bounded style or attribute update"
+            }
+          ],
+          "note": "Disconnect observers and remove document listeners when their owner is disposed."
+        }
+      ],
+      "resources": []
+    },
+    "WAI-ARIA": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Expose interaction state",
+          "description": "ARIA describes roles, states and relationships to assistive technology. It complements a working interaction rather than creating keyboard behavior by itself.",
+          "source": {
+            "label": "WAI-ARIA: Expose interaction state",
+            "href": "https://www.w3.org/WAI/ARIA/"
+          },
+          "code": {
+            "language": "html",
+            "value": "<button type=\"button\" aria-expanded=\"false\"\n  aria-controls=\"details\">Show details</button>\n<div id=\"details\" hidden>Additional information</div>"
+          }
+        },
+        {
+          "title": "Keep behavior in sync",
+          "description": "Expanded state, focus movement and visibility must describe the same actual state. Prefer native HTML where it already supplies the expected semantics.",
+          "source": {
+            "label": "WAI-ARIA: Keep behavior in sync",
+            "href": "https://www.w3.org/WAI/ARIA/"
+          },
+          "rows": [
+            {
+              "label": "Role",
+              "value": "What a widget is"
+            },
+            {
+              "label": "State",
+              "value": "Its current value or condition"
+            },
+            {
+              "label": "Behavior",
+              "value": "Implemented by the component, not the ARIA attribute"
+            }
+          ],
+          "note": "Use the relevant authoring pattern alongside keyboard and assistive-technology testing."
+        }
+      ],
+      "resources": []
+    },
+    "WCAG": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Check usable outcomes",
+          "description": "Accessibility checks cover perceivable content, operable controls, understandable behavior and robust semantics. A single automated score cannot verify every success criterion.",
+          "source": {
+            "label": "WCAG: Check usable outcomes",
+            "href": "https://www.w3.org/WAI/standards-guidelines/wcag/"
+          },
+          "rows": [
+            {
+              "label": "Keyboard",
+              "value": "Reach and operate every necessary control"
+            },
+            {
+              "label": "Focus",
+              "value": "Keep the current position visible"
+            },
+            {
+              "label": "Content",
+              "value": "Provide meaningful labels and error recovery"
+            }
+          ]
+        },
+        {
+          "title": "Combine review methods",
+          "description": "Automated rules catch a useful subset of problems. Pair them with keyboard, zoom, contrast and assistive-technology review for the actual interaction being shipped.",
+          "source": {
+            "label": "WCAG: Combine review methods",
+            "href": "https://www.w3.org/WAI/standards-guidelines/wcag/"
+          },
+          "rows": [
+            {
+              "label": "Automated",
+              "value": "Repeatable rules over rendered markup"
+            },
+            {
+              "label": "Manual",
+              "value": "Task flow, focus order and understandable feedback"
+            },
+            {
+              "label": "Evidence",
+              "value": "Record scope, states and environments checked"
+            }
+          ],
+          "note": "Passing an automated audit alone is not a conformance claim."
+        }
+      ],
+      "resources": []
+    },
+    "ECMAScript": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Separate language and host",
+          "description": "ECMAScript specifies JavaScript values, expressions and built-in language behavior. Browser DOM APIs and Node file APIs are supplied by their host environments.",
+          "source": {
+            "label": "ECMAScript: Separate language and host",
+            "href": "https://tc39.es/ecma262/"
+          },
+          "rows": [
+            {
+              "label": "Language",
+              "value": "Objects, promises, modules and expressions"
+            },
+            {
+              "label": "Browser host",
+              "value": "document and DOM events"
+            },
+            {
+              "label": "Node host",
+              "value": "File system and process APIs"
+            }
+          ]
+        },
+        {
+          "title": "Match the runtime target",
+          "description": "Source transforms can rewrite syntax, while missing runtime APIs may require a separate implementation. A TypeScript target is not a blanket browser-support guarantee.",
+          "source": {
+            "label": "ECMAScript: Match the runtime target",
+            "href": "https://tc39.es/ecma262/"
+          },
+          "code": {
+            "language": "javascript",
+            "value": "const result = await Promise.resolve(\"ready\");\n// Promise is a language built-in; document is a browser API."
+          },
+          "note": "Check the environments actually supported by the application before choosing syntax or APIs."
+        }
+      ],
+      "resources": []
+    },
+    "ESM": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Import public entry points",
+          "description": "ES modules declare dependencies with `import` and expose bindings with `export`. Package exports describe which subpaths consumers are intended to resolve.",
+          "source": {
+            "label": "ESM: Import public entry points",
+            "href": "https://nodejs.org/api/esm.html"
+          },
+          "code": {
+            "language": "typescript",
+            "value": "import { Button } from \"@kamod-ch/ui/button\";\nexport { Button };"
+          },
+          "rows": [
+            {
+              "label": "This workspace",
+              "value": "type: module"
+            },
+            {
+              "label": "Focused entry",
+              "value": "A verified package subpath"
+            }
+          ]
+        },
+        {
+          "title": "Load optional work lazily",
+          "description": "Dynamic imports create an asynchronous module boundary. Cache successful shared loads, handle rejection and keep heavyweight optional code out of the initial route.",
+          "source": {
+            "label": "ESM: Load optional work lazily",
+            "href": "https://nodejs.org/api/esm.html"
+          },
+          "code": {
+            "language": "javascript",
+            "value": "const { feature } = await import(\"./optional-feature.js\");\nfeature();"
+          },
+          "note": "The runtime and bundler determine resolution rules; filesystem paths are not interchangeable with package exports."
+        }
+      ],
+      "resources": []
+    },
+    "CommonJS": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Recognize the module shape",
+          "description": "CommonJS exports with `module.exports` and loads with `require`. A `.cjs` extension is an explicit way to distinguish it inside an ESM-oriented project.",
+          "source": {
+            "label": "CommonJS: Recognize the module shape",
+            "href": "https://nodejs.org/api/modules.html"
+          },
+          "code": {
+            "language": "javascript",
+            "value": "const path = require(\"node:path\");\nmodule.exports = { output: path.join(\"dist\", \"index.cjs\") };",
+            "caption": "CommonJS illustration"
+          }
+        },
+        {
+          "title": "Check interoperability",
+          "description": "Named exports inferred from CommonJS and default-import behavior depend on the host and tooling. Read the installed package's export map instead of guessing an import shape.",
+          "source": {
+            "label": "CommonJS: Check interoperability",
+            "href": "https://nodejs.org/api/modules.html"
+          },
+          "rows": [
+            {
+              "label": "Workspace source",
+              "value": "ES modules"
+            },
+            {
+              "label": "CommonJS consumer",
+              "value": "Requires a compatible published output"
+            },
+            {
+              "label": "Package boundary",
+              "value": "Inspect exports, main and module metadata"
+            }
+          ],
+          "note": "Do not replace a documented ESM import with require without checking the target environment."
+        }
+      ],
+      "resources": []
+    },
+    "React DOM": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Know the renderer",
+          "description": "React DOM renders React components into browser documents. Kamod's component implementations instead use Preact's renderer and JSX types.",
+          "source": {
+            "label": "React DOM: Know the renderer",
+            "href": "https://react.dev/reference/react-dom"
+          },
+          "rows": [
+            {
+              "label": "React application",
+              "value": "React DOM entry points"
+            },
+            {
+              "label": "Kamod application",
+              "value": "Preact rendering"
+            },
+            {
+              "label": "Existing integration",
+              "value": "May deliberately use preact/compat aliases"
+            }
+          ]
+        },
+        {
+          "title": "Avoid mixed ownership",
+          "description": "Two renderers should not independently own the same DOM subtree. Choose a deliberate integration boundary and preserve focus, events and cleanup when mounting or disposing it.",
+          "source": {
+            "label": "React DOM: Avoid mixed ownership",
+            "href": "https://react.dev/reference/react-dom"
+          },
+          "rows": [
+            {
+              "label": "Mount",
+              "value": "One renderer owns a container"
+            },
+            {
+              "label": "Update",
+              "value": "Use that renderer's state and lifecycle"
+            },
+            {
+              "label": "Dispose",
+              "value": "Unmount through the owning renderer"
+            }
+          ],
+          "note": "A compatibility alias is application configuration, not a new dependency required by native Kamod blocks."
+        }
+      ],
+      "resources": []
+    },
+    "Bun": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Know the tool boundary",
+          "description": "Bun combines a JavaScript runtime, package manager and other tooling. A Bun command in an external guide does not change this workspace's pinned pnpm workflow.",
+          "source": {
+            "label": "Bun: Know the tool boundary",
+            "href": "https://bun.sh/docs"
+          },
+          "rows": [
+            {
+              "label": "Runtime",
+              "value": "Executes supported JavaScript"
+            },
+            {
+              "label": "Package command",
+              "value": "bun add"
+            },
+            {
+              "label": "Script command",
+              "value": "bun run"
+            }
+          ]
+        },
+        {
+          "title": "Verify before switching",
+          "description": "Changing the runtime or installer affects dependency resolution, script execution and lockfiles. Test the actual build and browser output rather than assuming every Node-oriented tool behaves identically.",
+          "source": {
+            "label": "Bun: Verify before switching",
+            "href": "https://bun.sh/docs"
+          },
+          "code": {
+            "language": "bash",
+            "value": "bun run build",
+            "caption": "Example for a Bun-configured consumer"
+          },
+          "note": "Use corepack pnpm for this checkout and preserve its existing lockfile."
+        }
+      ],
+      "resources": []
+    },
+    "Corepack": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Dispatch the pinned manager",
+          "description": "Corepack uses project package-manager configuration to choose a supported client. The root `packageManager` field is the version-selection source for this workspace.",
+          "source": {
+            "label": "Corepack: Dispatch the pinned manager",
+            "href": "https://github.com/nodejs/corepack"
+          },
+          "code": {
+            "language": "bash",
+            "value": "corepack pnpm --version\ncorepack pnpm install --frozen-lockfile"
+          }
+        },
+        {
+          "title": "Keep selection reproducible",
+          "description": "Calling the dispatcher avoids accidentally using an unrelated standalone pnpm version. The selected manager then owns installation, workspace filtering and script execution.",
+          "source": {
+            "label": "Corepack: Keep selection reproducible",
+            "href": "https://github.com/nodejs/corepack"
+          },
+          "rows": [
+            {
+              "label": "Selector",
+              "value": "Corepack"
+            },
+            {
+              "label": "Version source",
+              "value": "package.json → packageManager"
+            },
+            {
+              "label": "Dependency resolution",
+              "value": "The selected pnpm client and lockfile"
+            }
+          ],
+          "note": "Corepack availability depends on the installed environment; it is not browser application code."
+        }
+      ],
+      "resources": []
+    },
+    "Vitest": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Test observable behavior",
+          "description": "Use a test runner to verify the result of a change: returned data, rendered behavior or lifecycle cleanup. Avoid assertions that merely repeat the implementation.",
+          "source": {
+            "label": "Vitest: Test observable behavior",
+            "href": "https://vitest.dev/"
+          },
+          "code": {
+            "language": "typescript",
+            "value": "import { expect, it } from \"vitest\";\n\nit(\"keeps the original value\", () => {\n  expect(normalize(\"ready\")).toBe(\"ready\");\n});"
+          }
+        },
+        {
+          "title": "Choose the environment",
+          "description": "Pure catalog and extraction tests can run in Node. DOM interaction tests opt into jsdom and must clean up mounted components, timers and observers.",
+          "source": {
+            "label": "Vitest: Choose the environment",
+            "href": "https://vitest.dev/"
+          },
+          "code": {
+            "language": "typescript",
+            "value": "/** @vitest-environment jsdom */\nimport { cleanup } from \"@testing-library/preact\";\nimport { afterEach } from \"vitest\";\nafterEach(cleanup);"
+          },
+          "note": "Use browser tests for layout and real browser behavior that a DOM simulation cannot establish."
+        }
+      ],
+      "resources": []
+    },
+    "Playwright": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Exercise the browser",
+          "description": "Browser checks can verify navigation, keyboard focus, responsive geometry and scroll retention against the production documentation preview.",
+          "source": {
+            "label": "Playwright: Exercise the browser",
+            "href": "https://playwright.dev/"
+          },
+          "code": {
+            "language": "typescript",
+            "value": "await page.goto(\"/docs/getting-started\");\nawait page.getByRole(\"link\", { name: \"Components\", exact: true }).first().focus();"
+          },
+          "rows": [
+            {
+              "label": "Tests",
+              "value": "packages/docs/e2e"
+            },
+            {
+              "label": "Configuration",
+              "value": "packages/docs/playwright.config.ts"
+            }
+          ]
+        },
+        {
+          "title": "Wait for the real condition",
+          "description": "Prefer observable locators and auto-retrying assertions to fixed sleeps. A test should wait for the specific interactive state or lazy content it is about to inspect.",
+          "source": {
+            "label": "Playwright: Wait for the real condition",
+            "href": "https://playwright.dev/"
+          },
+          "code": {
+            "language": "typescript",
+            "value": "await expect(page.getByRole(\"dialog\")).toBeVisible();\nawait expect(page.getByRole(\"dialog\")).toContainText(\"Props\");"
+          },
+          "note": "Record the browser and tested states; passing Chrome does not establish Safari behavior."
+        }
+      ],
+      "resources": []
+    },
+    "Testing Library": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Query what users perceive",
+          "description": "Role and accessible-name queries connect a component test to its semantics. They also expose controls whose visible appearance lacks an accessible name.",
+          "source": {
+            "label": "Testing Library: Query what users perceive",
+            "href": "https://testing-library.com/docs/preact-testing-library/intro/"
+          },
+          "code": {
+            "language": "tsx",
+            "value": "const { getByRole } = render(<button>Save</button>);\nexpect(getByRole(\"button\", { name: \"Save\" })).toBeVisible();"
+          }
+        },
+        {
+          "title": "Dispose every render",
+          "description": "Unmount test trees after each test so listeners, effects and detached elements do not leak into the next case. Use a real browser when the assertion depends on layout.",
+          "source": {
+            "label": "Testing Library: Dispose every render",
+            "href": "https://testing-library.com/docs/preact-testing-library/intro/"
+          },
+          "code": {
+            "language": "typescript",
+            "value": "import { cleanup } from \"@testing-library/preact\";\nafterEach(cleanup);"
+          },
+          "rows": [
+            {
+              "label": "Component behavior",
+              "value": "DOM output and interactions"
+            },
+            {
+              "label": "Layout fidelity",
+              "value": "A browser test"
+            },
+            {
+              "label": "Resources",
+              "value": "Assert cleanup when the feature owns them"
+            }
+          ]
+        }
+      ],
+      "resources": []
+    },
+    "Oxlint": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Check source correctness",
+          "description": "Oxlint is the repository's primary lint command. Run the existing configuration so new code follows the same correctness rules as the surrounding package.",
+          "source": {
+            "label": "Oxlint: Check source correctness",
+            "href": "https://oxc.rs/docs/guide/usage/linter"
+          },
+          "code": {
+            "language": "bash",
+            "value": "corepack pnpm lint\ncorepack pnpm exec oxlint path/to/changed-file.ts"
+          },
+          "rows": [
+            {
+              "label": "Root script",
+              "value": "lint → oxlint ."
+            },
+            {
+              "label": "Purpose",
+              "value": "Configured static diagnostics"
+            }
+          ]
+        },
+        {
+          "title": "Keep fixes scoped",
+          "description": "Review a diagnostic before changing code. Broad automatic fixes can introduce unrelated churn; a focused feature should leave unaffected files alone.",
+          "source": {
+            "label": "Oxlint: Keep fixes scoped",
+            "href": "https://oxc.rs/docs/guide/usage/linter"
+          },
+          "rows": [
+            {
+              "label": "Lint",
+              "value": "Potential correctness and source-rule issues"
+            },
+            {
+              "label": "Typecheck",
+              "value": "Type and module contracts"
+            },
+            {
+              "label": "Tests",
+              "value": "Executable behavior and regression coverage"
+            }
+          ],
+          "note": "A clean lint result complements tests and typechecking; it does not replace them."
+        }
+      ],
+      "resources": []
+    },
+    "Oxfmt": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Format the changed files",
+          "description": "Oxfmt owns source formatting in this repository. Format explicit paths, then use check mode to verify the final state without rewriting other files.",
+          "source": {
+            "label": "Oxfmt: Format the changed files",
+            "href": "https://oxc.rs/docs/guide/usage/formatter"
+          },
+          "code": {
+            "language": "bash",
+            "value": "corepack pnpm exec oxfmt path/to/changed-file.ts\ncorepack pnpm exec oxfmt --check path/to/changed-file.ts"
+          }
+        },
+        {
+          "title": "Keep the review readable",
+          "description": "Consistent formatting makes the functional diff easier to inspect. Retain the repository's other checks instead of treating formatter success as a replacement for them.",
+          "source": {
+            "label": "Oxfmt: Keep the review readable",
+            "href": "https://oxc.rs/docs/guide/usage/formatter"
+          },
+          "rows": [
+            {
+              "label": "Write mode",
+              "value": "Apply source formatting"
+            },
+            {
+              "label": "Check mode",
+              "value": "Report formatting differences"
+            },
+            {
+              "label": "Scope",
+              "value": "Only files relevant to the feature"
+            }
+          ],
+          "note": "Generated build output and local context should not be swept into a formatting commit."
+        }
+      ],
+      "resources": []
+    },
+    "Biome": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Retain the existing check",
+          "description": "The root configuration keeps Biome alongside Oxlint and Oxfmt. Its configured checks remain part of repository validation.",
+          "source": {
+            "label": "Biome: Retain the existing check",
+            "href": "https://biomejs.dev/"
+          },
+          "code": {
+            "language": "bash",
+            "value": "corepack pnpm biome:ci"
+          },
+          "rows": [
+            {
+              "label": "Configuration",
+              "value": "biome.json"
+            },
+            {
+              "label": "Primary linter",
+              "value": "Oxlint"
+            },
+            {
+              "label": "Primary formatter",
+              "value": "Oxfmt"
+            }
+          ]
+        },
+        {
+          "title": "Avoid conflicting rewrites",
+          "description": "Run the project's check command after formatting. If two tools disagree, inspect the configured rule and make the smallest targeted correction rather than reformatting the repository.",
+          "source": {
+            "label": "Biome: Avoid conflicting rewrites",
+            "href": "https://biomejs.dev/"
+          },
+          "rows": [
+            {
+              "label": "Review",
+              "value": "Changed paths and diagnostics"
+            },
+            {
+              "label": "Preserve",
+              "value": "Existing aggregate scripts"
+            },
+            {
+              "label": "Report",
+              "value": "The actual command and outcome"
+            }
+          ],
+          "note": "Do not remove an existing validation layer simply because another tool covers part of the same area."
+        }
+      ],
+      "resources": []
+    },
+    "tsup": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Build package entry points",
+          "description": "Package build configuration determines which public modules are emitted. Keep entry points aligned with `package.json` exports when exposing a new component or block.",
+          "source": {
+            "label": "tsup: Build package entry points",
+            "href": "https://tsup.egoist.dev/"
+          },
+          "rows": [
+            {
+              "label": "Entry configuration",
+              "value": "Each package's tsup.config.ts"
+            },
+            {
+              "label": "Public names",
+              "value": "package.json exports"
+            },
+            {
+              "label": "Type surface",
+              "value": "Emitted declarations"
+            }
+          ]
+        },
+        {
+          "title": "Restore runtime output",
+          "description": "Type-only output cannot satisfy a consumer that imports built JavaScript. In this workspace, rebuild after declaration-only typechecking before tests that consume package distributions.",
+          "source": {
+            "label": "tsup: Restore runtime output",
+            "href": "https://tsup.egoist.dev/"
+          },
+          "code": {
+            "language": "bash",
+            "value": "corepack pnpm typecheck\ncorepack pnpm build"
+          },
+          "note": "Check both the declaration contract and the runtime entry that a package consumer actually imports."
+        }
+      ],
+      "resources": []
+    },
+    "Rollup": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Understand the output graph",
+          "description": "A module bundler starts from entry points and follows imports to produce distributable files. Entry selection, externals and output format determine what consumers receive.",
+          "source": {
+            "label": "Rollup: Understand the output graph",
+            "href": "https://rollupjs.org/"
+          },
+          "rows": [
+            {
+              "label": "Entry",
+              "value": "A public application or library module"
+            },
+            {
+              "label": "External",
+              "value": "A dependency left for the consumer"
+            },
+            {
+              "label": "Output",
+              "value": "Bundled files and optional chunks"
+            }
+          ]
+        },
+        {
+          "title": "Inspect the emitted bundle",
+          "description": "Tree shaking depends on analyzable modules and side-effect information. Verify the generated assets rather than inferring bundle size from a short import statement.",
+          "source": {
+            "label": "Rollup: Inspect the emitted bundle",
+            "href": "https://rollupjs.org/"
+          },
+          "code": {
+            "language": "typescript",
+            "value": "import { Button } from \"@kamod-ch/ui/button\";",
+            "caption": "Focused public entry point"
+          },
+          "note": "Consult the current build configuration before assuming a particular bundler backend or plugin is active."
+        }
+      ],
+      "resources": []
+    },
+    "Rolldown": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Check the configured backend",
+          "description": "Rolldown is a JavaScript bundler with a Rust implementation. Its public configuration and plugin compatibility should be checked against the installed build-tool version.",
+          "source": {
+            "label": "Rolldown: Check the configured backend",
+            "href": "https://rolldown.rs/"
+          },
+          "rows": [
+            {
+              "label": "Role",
+              "value": "Module bundling"
+            },
+            {
+              "label": "Input",
+              "value": "Application or library entry points"
+            },
+            {
+              "label": "Verification",
+              "value": "Production assets and browser behavior"
+            }
+          ]
+        },
+        {
+          "title": "Treat migration as behavior",
+          "description": "A bundler change can affect chunk boundaries, dependency interoperation and emitted assets. Recheck dynamic imports and deployed route prefixes even when source files are unchanged.",
+          "source": {
+            "label": "Rolldown: Treat migration as behavior",
+            "href": "https://rolldown.rs/"
+          },
+          "rows": [
+            {
+              "label": "Lazy paths",
+              "value": "Optional readers and examples"
+            },
+            {
+              "label": "CSS",
+              "value": "Order and emitted asset references"
+            },
+            {
+              "label": "Deployment",
+              "value": "Base-prefixed URLs"
+            }
+          ],
+          "note": "Rollup-compatible API goals do not remove the need to validate the plugins used by this project."
+        }
+      ],
+      "resources": []
+    },
+    "esbuild": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Separate transforms and checks",
+          "description": "esbuild transforms and bundles source. Transpiling TypeScript removes type syntax; it does not replace the repository's TypeScript checking stage.",
+          "source": {
+            "label": "esbuild: Separate transforms and checks",
+            "href": "https://esbuild.github.io/"
+          },
+          "rows": [
+            {
+              "label": "Transform",
+              "value": "Convert supported syntax"
+            },
+            {
+              "label": "Bundle",
+              "value": "Resolve and combine the module graph"
+            },
+            {
+              "label": "Typecheck",
+              "value": "Run the project's compiler checks separately"
+            }
+          ]
+        },
+        {
+          "title": "Respect runtime dependencies",
+          "description": "Library builds often keep framework peers external so consumers share one renderer. Verify package metadata and emitted imports when changing entry points.",
+          "source": {
+            "label": "esbuild: Respect runtime dependencies",
+            "href": "https://esbuild.github.io/"
+          },
+          "rows": [
+            {
+              "label": "Framework",
+              "value": "Preact peer dependency"
+            },
+            {
+              "label": "Public API",
+              "value": "Exported package entry points"
+            },
+            {
+              "label": "Validation",
+              "value": "Import the built output, not only the source"
+            }
+          ],
+          "note": "A fast successful build is useful evidence about output, not proof of runtime behavior."
+        }
+      ],
+      "resources": []
+    },
+    "PostCSS": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Read the plugin pipeline",
+          "description": "PostCSS parses CSS and lets configured plugins transform it. Its presence alone does not identify which transformations an application applies.",
+          "source": {
+            "label": "PostCSS: Read the plugin pipeline",
+            "href": "https://postcss.org/"
+          },
+          "rows": [
+            {
+              "label": "Parser",
+              "value": "CSS source into a syntax tree"
+            },
+            {
+              "label": "Plugins",
+              "value": "Explicit transformations"
+            },
+            {
+              "label": "Output",
+              "value": "CSS passed to the next build stage"
+            }
+          ]
+        },
+        {
+          "title": "Avoid duplicate styling owners",
+          "description": "This docs app connects Tailwind through its Vite plugin. Add another CSS pipeline only for a verified requirement and inspect the resulting import order.",
+          "source": {
+            "label": "PostCSS: Avoid duplicate styling owners",
+            "href": "https://postcss.org/"
+          },
+          "code": {
+            "language": "typescript",
+            "value": "import tailwindcss from \"@tailwindcss/vite\";\n// Included in the documentation Vite plugin list:\ntailwindcss();"
+          },
+          "note": "A third-party PostCSS recipe may describe a different Tailwind version or integration."
+        }
+      ],
+      "resources": []
+    },
+    "Autoprefixer": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Transform for browser targets",
+          "description": "Autoprefixer is a PostCSS plugin that adds vendor prefixes according to configured browser support data. It is distinct from a utility CSS generator.",
+          "source": {
+            "label": "Autoprefixer: Transform for browser targets",
+            "href": "https://github.com/postcss/autoprefixer"
+          },
+          "rows": [
+            {
+              "label": "Input",
+              "value": "Authored CSS"
+            },
+            {
+              "label": "Decision",
+              "value": "Configured browser targets"
+            },
+            {
+              "label": "Output",
+              "value": "Required prefixed declarations"
+            }
+          ]
+        },
+        {
+          "title": "Verify before adding it",
+          "description": "Check the current Tailwind integration and build pipeline before copying an older setup command. Duplicate transforms add complexity without establishing broader browser support.",
+          "source": {
+            "label": "Autoprefixer: Verify before adding it",
+            "href": "https://github.com/postcss/autoprefixer"
+          },
+          "rows": [
+            {
+              "label": "Current docs integration",
+              "value": "@tailwindcss/vite"
+            },
+            {
+              "label": "Consumer requirement",
+              "value": "Its chosen browser-support policy"
+            },
+            {
+              "label": "Verification",
+              "value": "Built CSS and supported browsers"
+            }
+          ],
+          "note": "Prefix generation does not implement every missing browser feature."
+        }
+      ],
+      "resources": []
+    },
+    "ESLint": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Recognize a different rule engine",
+          "description": "ESLint checks code through its configured parser, rules and plugins. An ESLint example may be useful in a consumer project while this repository uses Oxlint as its primary linter.",
+          "source": {
+            "label": "ESLint: Recognize a different rule engine",
+            "href": "https://eslint.org/"
+          },
+          "rows": [
+            {
+              "label": "Rule configuration",
+              "value": "Project-specific"
+            },
+            {
+              "label": "This repository",
+              "value": "corepack pnpm lint"
+            },
+            {
+              "label": "Primary engine here",
+              "value": "Oxlint"
+            }
+          ]
+        },
+        {
+          "title": "Transfer the requirement",
+          "description": "When a guide mentions an ESLint rule, identify the actual requirement—hook ordering, unused values or accessibility—then verify the corresponding project checks.",
+          "source": {
+            "label": "ESLint: Transfer the requirement",
+            "href": "https://eslint.org/"
+          },
+          "rows": [
+            {
+              "label": "Rule intent",
+              "value": "The behavior being protected"
+            },
+            {
+              "label": "Tool support",
+              "value": "The configured linter and typechecker"
+            },
+            {
+              "label": "Regression",
+              "value": "A focused test for observable behavior"
+            }
+          ],
+          "note": "Do not add a second lint stack solely to reproduce an external guide's command."
+        }
+      ],
+      "resources": []
+    },
+    "Prettier": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Keep formatter ownership clear",
+          "description": "Prettier formats source in projects that select it. This checkout uses Oxfmt, so retain the existing formatter configuration when adapting examples.",
+          "source": {
+            "label": "Prettier: Keep formatter ownership clear",
+            "href": "https://prettier.io/"
+          },
+          "code": {
+            "language": "bash",
+            "value": "corepack pnpm format:check",
+            "caption": "Repository formatting check"
+          },
+          "rows": [
+            {
+              "label": "External guide",
+              "value": "May show a Prettier command"
+            },
+            {
+              "label": "This checkout",
+              "value": "Oxfmt"
+            }
+          ]
+        },
+        {
+          "title": "Separate formatting and semantics",
+          "description": "Formatting should preserve behavior and make a diff easier to read. Review substantive changes separately from generated whitespace or unrelated formatting churn.",
+          "source": {
+            "label": "Prettier: Separate formatting and semantics",
+            "href": "https://prettier.io/"
+          },
+          "rows": [
+            {
+              "label": "Source layout",
+              "value": "Formatter responsibility"
+            },
+            {
+              "label": "Correctness rules",
+              "value": "Linter responsibility"
+            },
+            {
+              "label": "Type contract",
+              "value": "Compiler responsibility"
+            }
+          ],
+          "note": "Use explicit changed-file paths when applying formatting locally."
+        }
+      ],
+      "resources": []
+    },
+    "Astro": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Choose the interactive island",
+          "description": "Astro can combine static page content with selectively interactive components. A component's hydration boundary determines when browser behavior becomes available.",
+          "source": {
+            "label": "Astro: Choose the interactive island",
+            "href": "https://astro.build/"
+          },
+          "rows": [
+            {
+              "label": "Static content",
+              "value": "Delivered page markup"
+            },
+            {
+              "label": "Interactive island",
+              "value": "A configured client-rendered component"
+            },
+            {
+              "label": "Renderer",
+              "value": "The integration selected by the application"
+            }
+          ]
+        },
+        {
+          "title": "Keep one owner per island",
+          "description": "A Kamod composition needs a Preact-compatible boundary and its global theme styles. State, overlay ownership and focus handling should remain inside the deliberate integration.",
+          "source": {
+            "label": "Astro: Keep one owner per island",
+            "href": "https://astro.build/"
+          },
+          "rows": [
+            {
+              "label": "Theme",
+              "value": "Import the chosen global stylesheet once"
+            },
+            {
+              "label": "State",
+              "value": "Owned by the interactive composition"
+            },
+            {
+              "label": "Overlays",
+              "value": "Test portals and focus across the island boundary"
+            }
+          ],
+          "note": "This checkout does not require Astro to run or document its Preact components."
+        }
+      ],
+      "resources": []
+    },
+    "Remix": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Read the selected version",
+          "description": "Remix is a web framework with its own application and routing contracts. Use the documentation for the version in the consumer rather than assuming an external example matches this project.",
+          "source": {
+            "label": "Remix: Read the selected version",
+            "href": "https://remix.run/"
+          },
+          "rows": [
+            {
+              "label": "Framework concern",
+              "value": "Routes and application data flow"
+            },
+            {
+              "label": "Component concern",
+              "value": "Props, state and interaction"
+            },
+            {
+              "label": "This documentation",
+              "value": "PreactPress"
+            }
+          ]
+        },
+        {
+          "title": "Keep blocks framework-independent",
+          "description": "Pass navigation and application state into reusable compositions. A block should not require a framework-specific route module or authentication implementation to render its layout.",
+          "source": {
+            "label": "Remix: Keep blocks framework-independent",
+            "href": "https://remix.run/"
+          },
+          "rows": [
+            {
+              "label": "Input",
+              "value": "Navigation entries and current path"
+            },
+            {
+              "label": "Callback",
+              "value": "Consumer-owned navigation behavior"
+            },
+            {
+              "label": "Boundary",
+              "value": "The application's chosen router"
+            }
+          ],
+          "note": "Verify the renderer integration before adopting a framework's component example."
+        }
+      ],
+      "resources": []
+    },
+    "Svelte": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Recognize compiled components",
+          "description": "Svelte compiles its component format into application code. A Svelte component is not interchangeable with a Preact component merely because both render HTML.",
+          "source": {
+            "label": "Svelte: Recognize compiled components",
+            "href": "https://svelte.dev/"
+          },
+          "rows": [
+            {
+              "label": "Source format",
+              "value": "Svelte components"
+            },
+            {
+              "label": "Kamod source",
+              "value": "Preact TSX"
+            },
+            {
+              "label": "Shared layer",
+              "value": "HTML semantics and CSS design roles"
+            }
+          ]
+        },
+        {
+          "title": "Port the visual contract",
+          "description": "When a design reference comes from Svelte, reuse its layout ideas while keeping Kamod's existing state, focus and overlay primitives. Translate the interaction rather than copying incompatible component syntax.",
+          "source": {
+            "label": "Svelte: Port the visual contract",
+            "href": "https://svelte.dev/"
+          },
+          "rows": [
+            {
+              "label": "Portable",
+              "value": "Content hierarchy, spacing and semantic colors"
+            },
+            {
+              "label": "Adapt",
+              "value": "Events, state and child composition"
+            },
+            {
+              "label": "Retain",
+              "value": "Preact lifecycle and accessible behavior"
+            }
+          ],
+          "note": "A separate renderer boundary is an application integration choice, not a default block dependency."
+        }
+      ],
+      "resources": []
+    },
+    "Vue": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Keep component models distinct",
+          "description": "Vue provides its own component and reactivity APIs. Kamod implementations use Preact props, hooks and JSX types, so examples need a deliberate translation at that boundary.",
+          "source": {
+            "label": "Vue: Keep component models distinct",
+            "href": "https://vuejs.org/"
+          },
+          "rows": [
+            {
+              "label": "Vue example",
+              "value": "Its component and reactivity model"
+            },
+            {
+              "label": "Kamod implementation",
+              "value": "Preact component model"
+            },
+            {
+              "label": "Common output",
+              "value": "Browser HTML and CSS"
+            }
+          ]
+        },
+        {
+          "title": "Translate state ownership",
+          "description": "A port should preserve which value controls the interaction and how changes reach the caller. Reuse a Kamod controlled/uncontrolled API rather than adding a parallel state model.",
+          "source": {
+            "label": "Vue: Translate state ownership",
+            "href": "https://vuejs.org/"
+          },
+          "rows": [
+            {
+              "label": "Value",
+              "value": "The selected or open state"
+            },
+            {
+              "label": "Change callback",
+              "value": "How the caller learns about an update"
+            },
+            {
+              "label": "Lifecycle",
+              "value": "Cleanup owned by the Preact view"
+            }
+          ],
+          "note": "Template syntax and framework-specific directives do not become valid TSX by copying them."
+        }
+      ],
+      "resources": []
+    },
+    "KaTeX": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Render mathematical notation",
+          "description": "KaTeX converts supported mathematical source into web markup. Inline formulas and display formulas serve different layout roles.",
+          "source": {
+            "label": "Render mathematical notation",
+            "href": "https://katex.org/docs/options"
+          },
+          "rows": [
+            {
+              "label": "Inline",
+              "value": "A formula within a sentence"
+            },
+            {
+              "label": "Display",
+              "value": "A separate mathematical block"
+            },
+            {
+              "label": "Presentation",
+              "value": "The required KaTeX stylesheet and output markup"
+            }
+          ]
+        },
+        {
+          "title": "Handle invalid expressions",
+          "description": "Unsupported commands or invalid notation need a readable failure state. Choose deliberate error handling instead of allowing one formula to fail an entire document render.",
+          "source": {
+            "label": "Handle invalid expressions",
+            "href": "https://katex.org/docs/error"
+          },
+          "rows": [
+            {
+              "label": "Default failure",
+              "value": "A parse error can be thrown"
+            },
+            {
+              "label": "Alternative",
+              "value": "Configure non-throwing error presentation"
+            },
+            {
+              "label": "Content policy",
+              "value": "Control trusted commands and external links"
+            }
+          ],
+          "note": "Typesetting support and safe handling of untrusted author input are separate decisions."
+        }
+      ],
+      "resources": []
+    },
+    "chrono-node": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Parse a human date",
+          "description": "The date-picker example uses `parseDate` with a reference date and a forward-date preference. Parsing is separate from how the resulting date is displayed or saved.",
+          "source": {
+            "label": "Parse a human date",
+            "href": "/docs/date-picker/installation"
+          },
+          "code": {
+            "language": "typescript",
+            "value": "import { parseDate } from \"chrono-node\";\nconst parsed = parseDate(value, referenceDate, { forwardDate: true });"
+          }
+        },
+        {
+          "title": "Keep ambiguity visible",
+          "description": "Relative phrases depend on the reference date and parsing context. Show the resolved date before committing a consequential change and handle an unrecognized phrase explicitly.",
+          "source": {
+            "label": "chrono-node: Keep ambiguity visible",
+            "href": "https://github.com/wanasit/chrono"
+          },
+          "rows": [
+            {
+              "label": "Input",
+              "value": "Human-readable date phrase"
+            },
+            {
+              "label": "Context",
+              "value": "Reference date and parser options"
+            },
+            {
+              "label": "Output",
+              "value": "A resolved date or no result"
+            }
+          ],
+          "note": "A parsed Date does not by itself establish the user's intended time zone or business deadline."
+        }
+      ],
+      "resources": []
+    },
+    "React DayPicker": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Distinguish example and dependency",
+          "description": "React DayPicker is a calendar library with its own renderer integration. Kamod's calendar documentation is not evidence that the core component depends on that package.",
+          "source": {
+            "label": "Distinguish example and dependency",
+            "href": "/docs/calendar/installation"
+          },
+          "rows": [
+            {
+              "label": "Upstream library",
+              "value": "React DayPicker"
+            },
+            {
+              "label": "Kamod implementation",
+              "value": "Inspect the calendar source"
+            },
+            {
+              "label": "Integration",
+              "value": "Check the actual application's dependencies"
+            }
+          ]
+        },
+        {
+          "title": "Preserve date interaction",
+          "description": "When adapting a calendar example, verify focus movement, disabled dates, selection mode and locale behavior. Matching its visual grid does not reproduce those contracts.",
+          "source": {
+            "label": "React DayPicker: Preserve date interaction",
+            "href": "https://daypicker.dev/"
+          },
+          "rows": [
+            {
+              "label": "Selection",
+              "value": "Single date, range or multiple values"
+            },
+            {
+              "label": "Keyboard",
+              "value": "A reachable and predictable focused date"
+            },
+            {
+              "label": "Locale",
+              "value": "Week start, labels and formatted output"
+            }
+          ],
+          "note": "Choose a native Preact implementation or a deliberately tested compatibility boundary."
+        }
+      ],
+      "resources": []
+    },
+    "clsx": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Assemble conditional classes",
+          "description": "clsx collects strings and conditional values into a class string. It decides which classes are present; it does not resolve competing Tailwind utilities.",
+          "source": {
+            "label": "Assemble conditional classes",
+            "href": "/docs/cn/installation#api-reference"
+          },
+          "code": {
+            "language": "typescript",
+            "value": "clsx(\"inline-flex\", active && \"font-semibold\", { \"opacity-50\": disabled });"
+          }
+        },
+        {
+          "title": "Use the shared composition",
+          "description": "Kamod's `cn` utility feeds conditional class assembly into Tailwind conflict resolution. Consumers can override a default without duplicating this two-stage behavior.",
+          "source": {
+            "label": "Use the shared composition",
+            "href": "/docs/cn/installation#api-reference"
+          },
+          "code": {
+            "language": "typescript",
+            "value": "import { clsx } from \"clsx\";\nimport { twMerge } from \"tailwind-merge\";\nreturn twMerge(clsx(inputs));",
+            "caption": "The two-stage cn pipeline"
+          },
+          "note": "A class string still needs complete utility names discoverable by the CSS build."
+        }
+      ],
+      "resources": []
+    },
+    "tailwind-merge": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Resolve utility conflicts",
+          "description": "Tailwind Merge removes recognized conflicting utility classes according to its class-group rules. It operates on class names rather than computed browser styles.",
+          "source": {
+            "label": "Resolve utility conflicts",
+            "href": "/docs/cn/installation#api-reference"
+          },
+          "code": {
+            "language": "typescript",
+            "value": "twMerge(\"px-2 py-1\", \"px-4\");\n// Keeps the later horizontal padding and the vertical padding."
+          }
+        },
+        {
+          "title": "Keep configuration compatible",
+          "description": "Use the version and configuration matched to the project's Tailwind vocabulary. Custom utilities and variants may need explicit support rather than being recognized automatically.",
+          "source": {
+            "label": "Keep configuration compatible",
+            "href": "/docs/cn/installation#api-reference"
+          },
+          "rows": [
+            {
+              "label": "Input",
+              "value": "A class string assembled by clsx"
+            },
+            {
+              "label": "Resolution",
+              "value": "Known utility conflict groups"
+            },
+            {
+              "label": "Output",
+              "value": "The resulting class string"
+            }
+          ],
+          "note": "It does not inspect stylesheets, evaluate selectors or guarantee a particular computed visual result."
+        }
+      ],
+      "resources": []
+    },
+    "Embla Carousel": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Separate engine and layout",
+          "description": "Embla supplies the scrolling engine while Kamod provides the component composition. The viewport, track and slides each retain their structural role.",
+          "source": {
+            "label": "Separate engine and layout",
+            "href": "/docs/carousel/installation"
+          },
+          "rows": [
+            {
+              "label": "Viewport",
+              "value": "Visible scroll area"
+            },
+            {
+              "label": "Track",
+              "value": "Container holding slides"
+            },
+            {
+              "label": "Controls",
+              "value": "Previous, next and selection feedback"
+            }
+          ]
+        },
+        {
+          "title": "Dispose engine subscriptions",
+          "description": "Selection listeners and engine state belong to the mounted carousel. Detach subscribed callbacks when replacing the engine or unmounting the owning component.",
+          "source": {
+            "label": "Embla Carousel: Dispose engine subscriptions",
+            "href": "https://www.embla-carousel.com/"
+          },
+          "rows": [
+            {
+              "label": "Subscribe",
+              "value": "Listen to the active engine"
+            },
+            {
+              "label": "Update",
+              "value": "Read the selected slide and control availability"
+            },
+            {
+              "label": "Cleanup",
+              "value": "Remove listeners and destroy the owned instance"
+            }
+          ],
+          "note": "Slide count and width affect available movement; test controls at both ends rather than assuming they always scroll."
+        }
+      ],
+      "resources": []
+    },
+    "embla-carousel-autoplay": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Make motion optional",
+          "description": "The autoplay plugin advances slides automatically. A pause control lets someone stop the movement without losing access to manual navigation.",
+          "source": {
+            "label": "Make motion optional",
+            "href": "/docs/carousel/installation"
+          },
+          "rows": [
+            {
+              "label": "Engine",
+              "value": "Embla Carousel"
+            },
+            {
+              "label": "Enhancement",
+              "value": "Automatic slide advancement"
+            },
+            {
+              "label": "User control",
+              "value": "Pause and resume"
+            }
+          ]
+        },
+        {
+          "title": "Stop when appropriate",
+          "description": "Coordinate autoplay with user interaction, hidden content and reduced-motion preferences. The timer should not continue consuming resources after its carousel is disposed.",
+          "source": {
+            "label": "embla-carousel-autoplay: Stop when appropriate",
+            "href": "https://www.embla-carousel.com/plugins/autoplay/"
+          },
+          "rows": [
+            {
+              "label": "Interaction",
+              "value": "A deliberate pause or stop policy"
+            },
+            {
+              "label": "Reduced motion",
+              "value": "Prefer a quiet or stopped initial state"
+            },
+            {
+              "label": "Lifecycle",
+              "value": "Dispose with the owning carousel"
+            }
+          ],
+          "note": "Autoplay must remain an enhancement; every slide should still be reachable without waiting."
+        }
+      ],
+      "resources": []
+    },
+    "Tailwind Variants": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Define a variant contract",
+          "description": "A variant recipe groups base classes and named choices. Components can expose semantic options instead of scattering repeated utility strings through every caller.",
+          "source": {
+            "label": "Tailwind Variants: Define a variant contract",
+            "href": "https://github.com/heroui-inc/tailwind-variants"
+          },
+          "rows": [
+            {
+              "label": "Base",
+              "value": "Classes shared by every variant"
+            },
+            {
+              "label": "Variants",
+              "value": "Named dimensions such as size or intent"
+            },
+            {
+              "label": "Defaults",
+              "value": "The selected option when omitted"
+            }
+          ]
+        },
+        {
+          "title": "Keep API and style aligned",
+          "description": "Document which variant names are public and what they change. Forward a consumer class deliberately and keep disabled, focus and responsive behavior in the same recipe.",
+          "source": {
+            "label": "Keep API and style aligned",
+            "href": "/docs/button/installation"
+          },
+          "code": {
+            "language": "tsx",
+            "value": "<Button variant=\"outline\" size=\"sm\">Continue</Button>",
+            "caption": "A semantic component-facing contract"
+          },
+          "note": "Read the component's actual prop type; a style recipe does not make arbitrary variant names valid."
+        }
+      ],
+      "resources": []
+    },
+    "TanStack": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Choose the individual library",
+          "description": "TanStack is a family of libraries, not one installable behavior. Table, Query, Router and other products solve different problems and have separate integration contracts.",
+          "source": {
+            "label": "TanStack: Choose the individual library",
+            "href": "https://tanstack.com/"
+          },
+          "rows": [
+            {
+              "label": "Product",
+              "value": "The specific capability required"
+            },
+            {
+              "label": "Adapter",
+              "value": "The supported UI framework integration"
+            },
+            {
+              "label": "Version",
+              "value": "The installed package's public API"
+            }
+          ]
+        },
+        {
+          "title": "Keep state ownership explicit",
+          "description": "Adopting a headless library should replace a defined responsibility rather than duplicate it. Decide which layer owns data fetching, pagination or table state before connecting the UI.",
+          "source": {
+            "label": "TanStack: Keep state ownership explicit",
+            "href": "https://tanstack.com/"
+          },
+          "rows": [
+            {
+              "label": "Application",
+              "value": "Domain data and service boundaries"
+            },
+            {
+              "label": "Headless library",
+              "value": "Its selected state or computation model"
+            },
+            {
+              "label": "Kamod",
+              "value": "Presentation and interaction primitives"
+            }
+          ],
+          "note": "A React example is not the default integration contract for a Preact application."
+        }
+      ],
+      "resources": []
+    },
+    "TanStack Table": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Separate table logic and markup",
+          "description": "Headless table logic computes a row model while the application renders accessible table elements. Sorting and pagination state must be connected to the chosen data owner.",
+          "source": {
+            "label": "Separate table logic and markup",
+            "href": "https://tanstack.com/table/latest/docs/framework/preact/quick-start"
+          },
+          "rows": [
+            {
+              "label": "Data",
+              "value": "Records with stable identities"
+            },
+            {
+              "label": "Columns",
+              "value": "Accessors, labels and cell presentation"
+            },
+            {
+              "label": "Rendering",
+              "value": "Table markup and interaction controls"
+            }
+          ]
+        },
+        {
+          "title": "Read this example's implementation",
+          "description": "Kamod's current data-table example uses local Preact state. Its appearance is not a claim that TanStack Table is installed or required for the primitive.",
+          "source": {
+            "label": "Read this example's implementation",
+            "href": "/docs/data-table/installation"
+          },
+          "rows": [
+            {
+              "label": "Kamod table",
+              "value": "Presentation components"
+            },
+            {
+              "label": "Current demo",
+              "value": "Local sorting, filtering and pagination state"
+            },
+            {
+              "label": "Alternative integration",
+              "value": "A separately selected table adapter"
+            }
+          ],
+          "note": "Use the adapter and API documented for the version installed by the consuming application."
+        }
+      ],
+      "resources": []
+    },
+    "Marked": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Parse the authoring format",
+          "description": "Marked turns Markdown source into tokens or HTML. Parsing gives the document structure; the application chooses the rendering and trust policy.",
+          "source": {
+            "label": "Marked: Parse the authoring format",
+            "href": "https://marked.js.org/"
+          },
+          "rows": [
+            {
+              "label": "Source",
+              "value": "Markdown text"
+            },
+            {
+              "label": "Parser result",
+              "value": "Tokens or HTML"
+            },
+            {
+              "label": "Presentation",
+              "value": "Project typography and code components"
+            }
+          ]
+        },
+        {
+          "title": "Keep HTML trust separate",
+          "description": "Do not insert arbitrary parsed HTML into the page without sanitizing or otherwise enforcing the application's content policy. Link destinations and raw HTML need their own checks.",
+          "source": {
+            "label": "Marked: Keep HTML trust separate",
+            "href": "https://marked.js.org/"
+          },
+          "rows": [
+            {
+              "label": "Parsing",
+              "value": "Recognize Markdown syntax"
+            },
+            {
+              "label": "Sanitizing",
+              "value": "Remove disallowed HTML and attributes"
+            },
+            {
+              "label": "Link policy",
+              "value": "Allow supported destinations only"
+            }
+          ],
+          "note": "A Markdown parser is not an HTML sanitizer."
+        }
+      ],
+      "resources": []
+    },
+    "jsdom": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Simulate the DOM",
+          "description": "jsdom provides a document environment for Node-based component tests. It supports DOM assertions without starting a full graphical browser.",
+          "source": {
+            "label": "jsdom: Simulate the DOM",
+            "href": "https://github.com/jsdom/jsdom"
+          },
+          "code": {
+            "language": "typescript",
+            "value": "/** @vitest-environment jsdom */\nimport { render } from \"@testing-library/preact\";"
+          },
+          "rows": [
+            {
+              "label": "Useful for",
+              "value": "Markup, events and lifecycle tests"
+            },
+            {
+              "label": "Different from",
+              "value": "A browser layout engine"
+            }
+          ]
+        },
+        {
+          "title": "Use a browser for geometry",
+          "description": "Responsive sizes, clipping, scroll placement and visual contrast need browser evidence. Mocking a rectangle can test placement logic but cannot verify real rendered layout.",
+          "source": {
+            "label": "jsdom: Use a browser for geometry",
+            "href": "https://github.com/jsdom/jsdom"
+          },
+          "rows": [
+            {
+              "label": "Unit test",
+              "value": "A controlled geometry input"
+            },
+            {
+              "label": "Browser test",
+              "value": "Actual dimensions and interactions"
+            },
+            {
+              "label": "Cleanup",
+              "value": "Unmount and restore mocks between cases"
+            }
+          ],
+          "note": "A jsdom test should not claim visual compatibility with Chrome or Safari."
+        }
+      ],
+      "resources": []
+    },
+    "Blobatar": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Keep generated identity stable",
+          "description": "The optional SmartAvatar recipe derives a repeatable generated fallback from a stable name or user identifier. Core Avatar remains the underlying primitive.",
+          "source": {
+            "label": "Keep generated identity stable",
+            "href": "/docs/avatar/installation#smartavatar-recipe"
+          },
+          "code": {
+            "language": "tsx",
+            "value": "<SmartAvatar name=\"stable-user-id\" />",
+            "caption": "Optional documentation recipe"
+          },
+          "rows": [
+            {
+              "label": "Dependencies",
+              "value": "blobatar and @blobatar/preact"
+            },
+            {
+              "label": "Ownership",
+              "value": "A separately copied docs recipe"
+            }
+          ]
+        },
+        {
+          "title": "Opt into motion deliberately",
+          "description": "The guide imports Blobatar motion styles only for animated fallbacks. Static avatars and ordinary remote photos do not need that animation layer.",
+          "source": {
+            "label": "Opt into motion deliberately",
+            "href": "/docs/avatar/installation#smartavatar-recipe"
+          },
+          "code": {
+            "language": "css",
+            "value": "@import \"blobatar/motion.css\";"
+          },
+          "note": "Verify missing, failed and slow image states; a fallback should not change a user's visual identity on every render."
+        }
+      ],
+      "resources": []
+    },
+    "fflate": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Build an archive from source",
+          "description": "Documentation download scripts encode each source file and construct a ZIP archive at build time. The browser receives the generated artifact rather than running the archive builder.",
+          "source": {
+            "label": "fflate: Build an archive from source",
+            "href": "https://github.com/101arrowz/fflate"
+          },
+          "code": {
+            "language": "javascript",
+            "value": "import { strToU8, zipSync } from \"fflate\";\nconst archive = zipSync({ \"example.ts\": strToU8(source) });"
+          },
+          "rows": [
+            {
+              "label": "Encoding",
+              "value": "UTF-8 source bytes"
+            },
+            {
+              "label": "Output",
+              "value": "A generated ZIP download"
+            }
+          ]
+        },
+        {
+          "title": "Make downloads reproducible",
+          "description": "The block exporters set stable archive timestamps and preserve exact destination paths. Tests unzip the result to verify the file inventory and source content.",
+          "source": {
+            "label": "fflate: Make downloads reproducible",
+            "href": "https://github.com/101arrowz/fflate"
+          },
+          "rows": [
+            {
+              "label": "Stable metadata",
+              "value": "Deterministic modification time"
+            },
+            {
+              "label": "Correct layout",
+              "value": "Exact relative destination paths"
+            },
+            {
+              "label": "Validation",
+              "value": "Read the generated archive back"
+            }
+          ],
+          "note": "Synchronous compression belongs in the build script here, not the tooltip or an idle animation loop."
+        }
+      ],
+      "resources": []
+    },
+    "axe-core": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Audit rendered markup",
+          "description": "axe-core runs automated accessibility rules over a document. The Playwright integration lets this repository audit pages in a real browser state.",
+          "source": {
+            "label": "axe-core: Audit rendered markup",
+            "href": "https://github.com/dequelabs/axe-core"
+          },
+          "code": {
+            "language": "bash",
+            "value": "corepack pnpm test:a11y"
+          },
+          "rows": [
+            {
+              "label": "Engine",
+              "value": "axe-core"
+            },
+            {
+              "label": "Browser adapter",
+              "value": "@axe-core/playwright"
+            }
+          ]
+        },
+        {
+          "title": "Interpret the scope",
+          "description": "Check the rule result, affected nodes and tested state. A passing automated scan cannot verify every keyboard flow, understandable label or assistive-technology experience.",
+          "source": {
+            "label": "axe-core: Interpret the scope",
+            "href": "https://github.com/dequelabs/axe-core"
+          },
+          "rows": [
+            {
+              "label": "Automated",
+              "value": "Configured rules over rendered content"
+            },
+            {
+              "label": "Manual",
+              "value": "Keyboard, focus and task flow"
+            },
+            {
+              "label": "Evidence",
+              "value": "The page and state actually audited"
+            }
+          ],
+          "note": "Keep hidden, expanded and error states in the verification plan when they change the interaction."
+        }
+      ],
+      "resources": []
+    },
+    "preact-render-to-string": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Render without a browser",
+          "description": "The renderer converts a Preact tree to HTML for server rendering and markup tests. It does not run a browser layout engine or client-side effects.",
+          "source": {
+            "label": "preact-render-to-string: Render without a browser",
+            "href": "https://github.com/preactjs/preact-render-to-string"
+          },
+          "code": {
+            "language": "tsx",
+            "value": "import { renderToString } from \"preact-render-to-string\";\nconst html = renderToString(<p>Ready</p>);"
+          }
+        },
+        {
+          "title": "Keep server output deterministic",
+          "description": "Browser globals, per-user storage and random values can make server output unsafe or inconsistent with the client. Provide stable initial state and defer browser-only work to effects.",
+          "source": {
+            "label": "preact-render-to-string: Keep server output deterministic",
+            "href": "https://github.com/preactjs/preact-render-to-string"
+          },
+          "rows": [
+            {
+              "label": "Server",
+              "value": "Initial markup from explicit inputs"
+            },
+            {
+              "label": "Client",
+              "value": "Hydration and interaction"
+            },
+            {
+              "label": "Effects",
+              "value": "Browser resources after mounting"
+            }
+          ],
+          "note": "A render-to-string assertion verifies markup, not effect cleanup or final visual layout."
+        }
+      ],
+      "resources": []
+    },
+    "tw-animate-css": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Use the shared animation layer",
+          "description": "The documentation stylesheet imports `tw-animate-css` alongside its other global styling. Component state classes can then select the intended animation treatment.",
+          "source": {
+            "label": "tw-animate-css: Use the shared animation layer",
+            "href": "https://github.com/Wombosvideo/tw-animate-css"
+          },
+          "code": {
+            "language": "css",
+            "value": "@import \"tw-animate-css\";",
+            "caption": "From the documentation stylesheet"
+          },
+          "rows": [
+            {
+              "label": "Owner",
+              "value": "Global documentation CSS"
+            },
+            {
+              "label": "Trigger",
+              "value": "The component's actual state"
+            }
+          ]
+        },
+        {
+          "title": "Avoid competing animation owners",
+          "description": "The motion guide keeps CSS animation classes and motion presets off the same nodes. Choose one owner so transforms and timing do not fight each other.",
+          "source": {
+            "label": "Avoid competing animation owners",
+            "href": "/docs/ui-motion/installation"
+          },
+          "rows": [
+            {
+              "label": "CSS-driven node",
+              "value": "Utility animation treatment"
+            },
+            {
+              "label": "Motion-driven node",
+              "value": "The selected motion preset"
+            },
+            {
+              "label": "Reduced motion",
+              "value": "A usable quiet state"
+            }
+          ],
+          "note": "Decorative loops should stop when their content is no longer mounted or relevant."
+        }
+      ],
+      "resources": []
+    },
+    "Lefthook": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Run repository hooks",
+          "description": "Lefthook dispatches the configured Git hooks. This repository's hook configuration runs checks on staged paths before a commit is recorded.",
+          "source": {
+            "label": "Lefthook: Run repository hooks",
+            "href": "https://lefthook.dev/"
+          },
+          "rows": [
+            {
+              "label": "Configuration",
+              "value": "lefthook.yml"
+            },
+            {
+              "label": "Installation",
+              "value": "Root prepare script"
+            },
+            {
+              "label": "Input",
+              "value": "Files selected in the Git index"
+            }
+          ]
+        },
+        {
+          "title": "Keep checks reproducible",
+          "description": "Hooks support the contributor workflow, while explicit check commands make validation visible and repeatable. Inspect a hook failure and correct its cause before retrying.",
+          "source": {
+            "label": "Lefthook: Keep checks reproducible",
+            "href": "https://lefthook.dev/"
+          },
+          "code": {
+            "language": "bash",
+            "value": "git diff --cached --stat\ncorepack pnpm lint\ncorepack pnpm format:check"
+          },
+          "note": "A hook validates its configured scope; it does not imply every test suite has run."
+        }
+      ],
+      "resources": []
+    },
+    "Knip": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Audit the dependency surface",
+          "description": "Knip reports candidates such as unused files, exports and dependencies. The result depends on entry points and tooling configuration, especially generated or virtual routes.",
+          "source": {
+            "label": "Knip: Audit the dependency surface",
+            "href": "https://knip.dev/"
+          },
+          "code": {
+            "language": "bash",
+            "value": "corepack pnpm knip"
+          },
+          "rows": [
+            {
+              "label": "Configuration",
+              "value": "knip.json"
+            },
+            {
+              "label": "Root workflow",
+              "value": "qa:deps"
+            }
+          ]
+        },
+        {
+          "title": "Verify before removing",
+          "description": "A statically unused symbol may still be an intentional public export or a build-generated entry. Check package exports and route plugins before deleting a reported candidate.",
+          "source": {
+            "label": "Knip: Verify before removing",
+            "href": "https://knip.dev/"
+          },
+          "rows": [
+            {
+              "label": "Public entry",
+              "value": "package.json exports"
+            },
+            {
+              "label": "Generated entry",
+              "value": "Build plugin or route manifest"
+            },
+            {
+              "label": "Evidence",
+              "value": "A real consumer or emitted bundle"
+            }
+          ],
+          "note": "Treat reports as review candidates rather than blanket deletion instructions."
+        }
+      ],
+      "resources": []
+    },
+    "Syncpack": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Check workspace versions",
+          "description": "Syncpack audits dependency declarations across packages. The repository exposes a read-only lint command alongside an explicit version-fix command.",
+          "source": {
+            "label": "Syncpack: Check workspace versions",
+            "href": "https://jamiemason.github.io/syncpack/"
+          },
+          "code": {
+            "language": "bash",
+            "value": "corepack pnpm syncpack:check"
+          },
+          "rows": [
+            {
+              "label": "Check",
+              "value": "syncpack lint"
+            },
+            {
+              "label": "Explicit mutation",
+              "value": "syncpack fix"
+            }
+          ]
+        },
+        {
+          "title": "Preserve dependency intent",
+          "description": "A peer range describes consumer compatibility, while a development dependency selects local tooling. Align versions only when those different responsibilities permit it.",
+          "source": {
+            "label": "Syncpack: Preserve dependency intent",
+            "href": "https://jamiemason.github.io/syncpack/"
+          },
+          "rows": [
+            {
+              "label": "Peer dependency",
+              "value": "Supported consumer range"
+            },
+            {
+              "label": "Development dependency",
+              "value": "Local verification and build tools"
+            },
+            {
+              "label": "Workspace dependency",
+              "value": "Another local package"
+            }
+          ],
+          "note": "Version alignment is not a reason to widen a peer contract that has not been tested."
+        }
+      ],
+      "resources": []
+    },
+    "publint": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Inspect the published shape",
+          "description": "publint checks package metadata against the built package. It helps catch publication problems that a source-only typecheck does not exercise.",
+          "source": {
+            "label": "publint: Inspect the published shape",
+            "href": "https://publint.dev/"
+          },
+          "code": {
+            "language": "bash",
+            "value": "corepack pnpm qa:publint"
+          },
+          "rows": [
+            {
+              "label": "Input",
+              "value": "Built workspace package"
+            },
+            {
+              "label": "Focus",
+              "value": "Package entry and publication metadata"
+            }
+          ]
+        },
+        {
+          "title": "Build before checking",
+          "description": "Run the affected library build so the checker can inspect the actual files referenced by exports. Keep public names, output filenames and declaration paths aligned.",
+          "source": {
+            "label": "publint: Build before checking",
+            "href": "https://publint.dev/"
+          },
+          "rows": [
+            {
+              "label": "Manifest",
+              "value": "package.json exports"
+            },
+            {
+              "label": "Runtime",
+              "value": "Emitted JavaScript"
+            },
+            {
+              "label": "Types",
+              "value": "Emitted declaration files"
+            }
+          ],
+          "note": "Metadata checks complement, rather than replace, importing and testing the built API."
+        }
+      ],
+      "resources": []
+    },
+    "Are the Types Wrong": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Check consumer type resolution",
+          "description": "Are the Types Wrong inspects how a package's declarations resolve for different module environments. This workspace exposes it through the `attw` verification scripts.",
+          "source": {
+            "label": "Are the Types Wrong: Check consumer type resolution",
+            "href": "https://arethetypeswrong.github.io/"
+          },
+          "code": {
+            "language": "bash",
+            "value": "corepack pnpm qa:attw"
+          },
+          "rows": [
+            {
+              "label": "Package",
+              "value": "@arethetypeswrong/cli"
+            },
+            {
+              "label": "Input",
+              "value": "Built package output"
+            }
+          ]
+        },
+        {
+          "title": "Align runtime and declarations",
+          "description": "A valid declaration file is useful only if consumers resolve it alongside the matching runtime export. Review export conditions when ESM and CommonJS consumers behave differently.",
+          "source": {
+            "label": "Are the Types Wrong: Align runtime and declarations",
+            "href": "https://arethetypeswrong.github.io/"
+          },
+          "rows": [
+            {
+              "label": "Runtime contract",
+              "value": "Resolved JavaScript entry"
+            },
+            {
+              "label": "Type contract",
+              "value": "Matching declaration entry"
+            },
+            {
+              "label": "Resolution context",
+              "value": "The consumer's module mode"
+            }
+          ],
+          "note": "Build the package before interpreting resolution diagnostics about its emitted files."
+        }
+      ],
+      "resources": []
+    },
+    "GitHub Actions": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Read checks for the commit",
+          "description": "A workflow run belongs to a specific revision and trigger. Review the run associated with the current pull-request head before treating automation as merge evidence.",
+          "source": {
+            "label": "GitHub Actions: Read checks for the commit",
+            "href": "https://docs.github.com/en/actions"
+          },
+          "rows": [
+            {
+              "label": "Configuration",
+              "value": ".github/workflows"
+            },
+            {
+              "label": "Execution",
+              "value": "Jobs and steps"
+            },
+            {
+              "label": "Revision",
+              "value": "The run's commit SHA"
+            }
+          ]
+        },
+        {
+          "title": "Keep validation attributable",
+          "description": "A useful check reports the exact command, package scope and failure. Local success can help reproduce a problem, but it should not be presented as a remote workflow result.",
+          "source": {
+            "label": "GitHub Actions: Keep validation attributable",
+            "href": "https://docs.github.com/en/actions"
+          },
+          "rows": [
+            {
+              "label": "Queued",
+              "value": "Not started"
+            },
+            {
+              "label": "In progress",
+              "value": "No final result yet"
+            },
+            {
+              "label": "Completed",
+              "value": "Inspect conclusion and job output"
+            }
+          ],
+          "note": "A newly pushed commit requires its own checks even when its parent passed."
+        }
+      ],
+      "resources": []
+    },
+    "YAML": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Read structured configuration",
+          "description": "YAML uses indentation to describe mappings and sequences. This workspace uses it for its package inventory and Git-hook configuration, among other tool inputs.",
+          "source": {
+            "label": "YAML: Read structured configuration",
+            "href": "https://yaml.org/spec/1.2.2/"
+          },
+          "code": {
+            "language": "yaml",
+            "value": "packages:\n  - packages/*",
+            "caption": "Workspace package pattern"
+          },
+          "rows": [
+            {
+              "label": "Workspace",
+              "value": "pnpm-workspace.yaml"
+            },
+            {
+              "label": "Hooks",
+              "value": "lefthook.yml"
+            }
+          ]
+        },
+        {
+          "title": "Keep syntax and schema separate",
+          "description": "Valid YAML can still contain an invalid workflow or tool setting. Check the consuming tool's schema and preserve indentation when changing nested values.",
+          "source": {
+            "label": "YAML: Keep syntax and schema separate",
+            "href": "https://yaml.org/spec/1.2.2/"
+          },
+          "rows": [
+            {
+              "label": "Syntax",
+              "value": "Mappings, sequences and scalar values"
+            },
+            {
+              "label": "Schema",
+              "value": "Keys and values accepted by the consuming tool"
+            },
+            {
+              "label": "Review",
+              "value": "The exact configuration diff"
+            }
+          ],
+          "note": "Quote values when their intended string meaning would otherwise be ambiguous."
+        }
+      ],
+      "resources": []
+    },
+    "Radix UI": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Distinguish inspiration and runtime",
+          "description": "The docs mention Radix-style patterns, but Kamod supplies its own Preact interaction primitives. Similar API names do not establish a Radix dependency.",
+          "source": {
+            "label": "Distinguish inspiration and runtime",
+            "href": "/docs/components"
+          },
+          "rows": [
+            {
+              "label": "Reference",
+              "value": "An interaction or composition pattern"
+            },
+            {
+              "label": "Kamod runtime",
+              "value": "Existing Preact components"
+            },
+            {
+              "label": "Dependency evidence",
+              "value": "The package manifest and imports"
+            }
+          ]
+        },
+        {
+          "title": "Reuse established behavior",
+          "description": "Port a reference by composing the existing Kamod trigger, content and state APIs. Verify keyboard operation, focus restoration and dismissal rather than introducing another overlay implementation.",
+          "source": {
+            "label": "Radix UI: Reuse established behavior",
+            "href": "https://www.radix-ui.com/primitives/docs/overview/introduction"
+          },
+          "rows": [
+            {
+              "label": "Trigger",
+              "value": "The existing accessible control"
+            },
+            {
+              "label": "Content",
+              "value": "The matching Kamod panel or overlay"
+            },
+            {
+              "label": "State",
+              "value": "One controlled or uncontrolled owner"
+            }
+          ],
+          "note": "New native Preact blocks should not add React-only Radix dependencies."
+        }
+      ],
+      "resources": []
+    },
+    "Sass": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Identify the stylesheet format",
+          "description": "Sass is a stylesheet language compiled to CSS. SCSS uses CSS-like braces; recognizing an `.scss` file does not mean the current app has enabled a Sass compiler.",
+          "source": {
+            "label": "Identify the stylesheet format",
+            "href": "/docs/theming/installation#css-setup"
+          },
+          "rows": [
+            {
+              "label": "Source",
+              "value": ".scss or .sass"
+            },
+            {
+              "label": "Compiler output",
+              "value": "CSS"
+            },
+            {
+              "label": "Current theme setup",
+              "value": "CSS imports and semantic custom properties"
+            }
+          ]
+        },
+        {
+          "title": "Choose runtime tokens deliberately",
+          "description": "Sass variables are resolved during compilation, while CSS custom properties remain available to the browser. Theme switching needs the runtime token contract used by Kamod components.",
+          "source": {
+            "label": "Sass: Choose runtime tokens deliberately",
+            "href": "https://sass-lang.com/documentation/"
+          },
+          "code": {
+            "language": "css",
+            "value": ":root { --primary: #a21caf; }\n.action { background: var(--primary); }",
+            "caption": "Runtime CSS token illustration"
+          },
+          "note": "Adding a preprocessor is unnecessary when the existing CSS and Tailwind pipeline already expresses the requirement."
+        }
+      ],
+      "resources": []
+    }
+  },
+  "savedAt": "2026-10-19"
+}

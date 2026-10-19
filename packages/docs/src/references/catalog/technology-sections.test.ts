@@ -66,7 +66,7 @@ it("preserves complete authored setup examples and official continuations for th
   const vite = entries["technology:vite"].sections!;
   expect(vite[0].code?.value).toContain("npx vite build\nnpx vite preview");
   expect(vite[0].note).toContain("`vite optimize` is deprecated");
-  expect(vite[2].code?.value).toContain("environments:");
+  expect(vite[2].excerpts?.map(({ code }) => code?.value).join("\n")).toContain("environments:");
   const valibot = entries["technology:valibot"].sections!.at(-1)!;
   expect(valibot.excerpts?.map(({ code }) => code?.value).join("\n")).toContain(
     "v.safeParse(LoginSchema",

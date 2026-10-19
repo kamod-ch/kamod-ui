@@ -134,7 +134,20 @@ for (const scheme of ["light", "dark"] as const) {
         expect(openBox.width).toBeCloseTo(openBox.height, 2);
         expect(openBox.height).toBeCloseTo(22, 2);
         expect(openBox.y).toBeCloseTo(mainBox.y, 1);
-        expect((await title.boundingBox())!.y).toBeCloseTo(mainBox.y, 1);
+        const technologyRole = card.locator(".code-reference-help-role");
+        const titleBox = (await title.boundingBox())!;
+        if (await technologyRole.count()) {
+          const roleBox = (await technologyRole.boundingBox())!;
+          expect(roleBox.y + roleBox.height / 2).toBeCloseTo(titleBox.y + titleBox.height / 2, 1);
+          expect(
+            await technologyRole
+              .locator("span")
+              .last()
+              .evaluate((node) => node.scrollWidth <= node.clientWidth + 1),
+          ).toBe(true);
+          if (width < 400) expect(titleBox.y).toBeGreaterThan(mainBox.y + mainBox.height);
+          else expect(titleBox.y).toBeCloseTo(mainBox.y, 1);
+        } else expect(titleBox.y).toBeCloseTo(mainBox.y, 1);
         await expect(open).toHaveCSS(
           "background-color",
           await badge.evaluate((node) => getComputedStyle(node).backgroundColor),

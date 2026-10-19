@@ -32,7 +32,38 @@ function ActiveTooltip({
   hint: TooltipHint;
 }) {
   const id = useId();
+  // The visible viewport can be smaller than innerHeight (zoom or the phone keyboard).
+  const [viewport, setViewport] = useState(() => ({
+    top: window.visualViewport?.offsetTop ?? 0,
+    height: window.visualViewport?.height ?? window.innerHeight,
+  }));
+  useLayoutEffect(() => {
+    const update = () =>
+      setViewport({
+        top: window.visualViewport?.offsetTop ?? 0,
+        height: window.visualViewport?.height ?? window.innerHeight,
+      });
+    const visual = window.visualViewport;
+    visual?.addEventListener("resize", update);
+    visual?.addEventListener("scroll", update);
+    return () => {
+      visual?.removeEventListener("resize", update);
+      visual?.removeEventListener("scroll", update);
+    };
+  }, []);
   const rect = target.getBoundingClientRect();
+  const viewportInset = 16;
+  const sideOffset = 8;
+  const spaceAbove = Math.max(0, rect.top - viewport.top - viewportInset - sideOffset);
+  const spaceBelow = Math.max(
+    0,
+    viewport.top + viewport.height - rect.bottom - viewportInset - sideOffset,
+  );
+  const side = spaceAbove > spaceBelow ? "top" : "bottom";
+  const availableHeight = Math.min(
+    Math.max(spaceAbove, spaceBelow),
+    Math.max(0, viewport.height - viewportInset * 2),
+  );
   const interactive = !!(source || explanation || navigation?.group);
   const detailed = !!(source || explanation || navigation);
   const maxWidth = source ? 480 : 400;
@@ -81,7 +112,7 @@ function ActiveTooltip({
                 ? "docs-code-explanation"
                 : undefined
         }
-        side={detailed && rect.top > window.innerHeight / 2 ? "top" : "bottom"}
+        side={side}
         align={detailed ? "start" : "center"}
         alignOffset={
           detailed
@@ -94,7 +125,8 @@ function ActiveTooltip({
               ) - rect.left
             : 0
         }
-        sideOffset={8}
+        sideOffset={sideOffset}
+        collisionPadding={viewportInset}
         style={{
           pointerEvents: "auto",
           width: "max-content",
@@ -102,9 +134,10 @@ function ActiveTooltip({
           overflowWrap: "anywhere",
           ...(detailed && { maxWidth: `min(${maxWidth}px, calc(100vw - 32px))` }),
           ...(source && { "--code-help-width": `${maxWidth}px` }),
+          boxSizing: "border-box",
+          maxHeight: `min(${availableHeight}px, calc(100dvh - ${viewportInset * 2}px))`,
+          overflowY: "auto",
           ...(detailed && {
-            maxHeight: `${Math.max(80, rect.top > window.innerHeight / 2 ? rect.top - 24 : window.innerHeight - rect.bottom - 24)}px`,
-            overflowY: "auto",
             // Reaching a long card's edge must not scroll the page and dismiss its reference.
             overscrollBehavior: "contain",
           }),

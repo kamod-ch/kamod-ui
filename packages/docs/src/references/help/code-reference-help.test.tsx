@@ -567,3 +567,29 @@ it.each([
     );
   },
 );
+
+it("places a title-cased technology role beside its name and removes the repeated role fact", () => {
+  const { container } = render(
+    <CodeReferenceHelpContent
+      reference={{
+        kind: "technology",
+        name: "Tailwind CSS",
+        module: "Tailwind",
+        context: "utility styling",
+        description: "Build interfaces with utility classes.",
+        facts: [{ label: "Role", value: "Utility styling" }],
+        docs: { label: "Official documentation", href: "https://tailwindcss.com/" },
+      }}
+    />,
+  );
+  const row = container.querySelector(".code-reference-help-title-row")!;
+  expect(row.querySelector(".code-reference-help-title")).toHaveTextContent("Tailwind CSS");
+  expect(row.querySelector(".code-reference-help-role")).toHaveTextContent("/Utility Styling");
+  expect(container.querySelector(".code-reference-help-summary")).not.toHaveTextContent(
+    "Utility styling",
+  );
+  expect(container.querySelector(".code-reference-help-facts")).toBeNull();
+  expect(container.querySelector(".code-reference-help-context")).toHaveTextContent(
+    "Setup & Usage",
+  );
+});

@@ -46,7 +46,7 @@
 }
 .page-opening::before {
   z-index: -2;
-  /* Saturated washes stay soft beneath the 90% page-colored glass. */
+  /* The page-colored glass softens the washes while keeping their hues visible. */
   background:
     radial-gradient(
       ellipse 45% 44% at 0% 0%,
@@ -71,7 +71,7 @@
 }
 .page-opening::after {
   z-index: -1;
-  background: color-mix(in oklab, var(--background, var(--pp-preloader-bg, #fff)) 90%, transparent);
+  background: color-mix(in oklab, var(--background, var(--pp-preloader-bg, #fff)) 70%, transparent);
   -webkit-backdrop-filter: blur(2px);
   backdrop-filter: blur(2px);
 }
@@ -290,7 +290,16 @@
   --page-loading-detail: color-mix(in oklab, var(--opening-detail) 8%, transparent);
 }
 .page-opening-content .page-loading-tagline {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
   margin: clamp(1rem, 3dvh, 1.75rem) 0 0;
+}
+.page-loading-tagline > svg {
+  flex: none;
+  width: 1em;
+  height: 1em;
+  color: inherit;
 }
 .page-loading-rocket {
   position: absolute;

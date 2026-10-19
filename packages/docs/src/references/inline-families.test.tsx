@@ -66,21 +66,23 @@ it.each([
 });
 
 it("covers every authored technology name and alias, case-insensitively, without changing visible spelling", async () => {
-  for (const { name, aliases = [] } of technologies) {
-    for (const label of [name, name.toLowerCase(), ...aliases]) {
-      const request = inlineSourceReference(label)!;
-      expect(request, label).toBeDefined();
-      // Verified exports and unambiguous package names take precedence over technology aliases.
-      if (request.imported) continue;
-      if (Object.hasOwn(packageLabels, label.toLowerCase())) {
-        expect(request.module, label).toBe(packageLabels[label.toLowerCase()]);
-        expect((await loadCodeReferenceHelp(request)).kind, label).toBe("package");
-        continue;
+  await Promise.all(
+    technologies.map(async ({ name, aliases = [] }) => {
+      for (const label of [name, name.toLowerCase(), ...aliases]) {
+        const request = inlineSourceReference(label)!;
+        expect(request, label).toBeDefined();
+        // Verified exports and unambiguous package names take precedence over technology aliases.
+        if (request.imported) continue;
+        if (Object.hasOwn(packageLabels, label.toLowerCase())) {
+          expect(request.module, label).toBe(packageLabels[label.toLowerCase()]);
+          expect((await loadCodeReferenceHelp(request)).kind, label).toBe("package");
+          continue;
+        }
+        expect(request.referenceId, label).toMatch(/^technology:/);
+        expect((await loadCodeReferenceHelp(request)).name).toBe(label);
       }
-      expect(request.referenceId, label).toMatch(/^technology:/);
-      expect((await loadCodeReferenceHelp(request)).name).toBe(label);
-    }
-  }
+    }),
+  );
   expect(inlineSourceReference("Tailwind CSS v4")?.referenceId).toBe("technology:tailwind");
   expect(inlineSourceReference("preact/hooks")?.referenceId).toBeUndefined();
   expect(inlineSourceReference("@formisch/preact")?.referenceId).toBeUndefined();

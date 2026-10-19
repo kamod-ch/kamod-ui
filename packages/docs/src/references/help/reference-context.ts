@@ -57,3 +57,19 @@ export function referenceContext(reference: CodeReferenceHelp, fallback: string)
   const words = context?.trim().split(/\s+/).length ?? 0;
   return context && words >= 1 && words <= 3 ? context : fallback;
 }
+
+/** Keep the role beside a technology title; preserve acronyms while title-casing ordinary words. */
+export function technologyRole(reference: CodeReferenceHelp) {
+  if (reference.kind !== "technology") return;
+  const role =
+    reference.context ?? reference.facts?.find(({ label }) => /^role$/i.test(label))?.value;
+  return role
+    ?.trim()
+    .split(/\s+/)
+    .map((word, index) =>
+      index > 0 && /^(and|or|the|a|an|of|for|to|in|with|that)$/i.test(word)
+        ? word.toLowerCase()
+        : word.charAt(0).toUpperCase() + word.slice(1),
+    )
+    .join(" ");
+}

@@ -36,7 +36,7 @@ export function ReferenceRelated({
       <div class="code-reference-help-reading-heading">
         <div class="code-reference-help-reading-heading-left">
           <strong>
-            <LayersIcon size={10} strokeWidth={2} aria-hidden="true" /> Useful resources
+            <LayersIcon size={12} strokeWidth={2} aria-hidden="true" /> Useful resources
           </strong>
           <span class="code-reference-help-reading-detail" title={descriptor}>
             <span aria-hidden="true">·</span> {descriptor}

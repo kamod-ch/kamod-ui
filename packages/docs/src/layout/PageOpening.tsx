@@ -1,5 +1,5 @@
 /** @jsxImportSource preact */
-import { Spinner } from "@kamod-ch/ui/spinner";
+import { ZapIcon } from "@kamod-ch/icons/lucide";
 import Logo from "../../.preactpress/theme/Logo";
 import { GettingStartedRocket } from "../docs/components/GettingStartedRocket";
 
@@ -32,7 +32,6 @@ export function PageOpening({
       >
         <p class="page-state-eyebrow page-loading-label">
           <span class="page-loading-brand">
-            <Spinner class="page-loading-spinner" strokeWidth={1.5} aria-hidden="true" />
             <strong>Kamod</strong>
           </span>
           <span aria-hidden="true">·</span>
@@ -86,7 +85,12 @@ export function PageOpening({
             </div>
           </div>
         </div>
-        {!compact && <p class="page-loading-tagline">Made for Preact. Built to be yours.</p>}
+        {!compact && (
+          <p class="page-loading-tagline">
+            <ZapIcon size={14} stroke-width={1.5} aria-hidden="true" />
+            Made for Preact. Built to be yours.
+          </p>
+        )}
       </div>
     </section>
   );

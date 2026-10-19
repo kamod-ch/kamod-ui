@@ -162,21 +162,9 @@ async function expectSharedLoadingDesign(loading: Locator) {
   await expect(loading.locator(".page-loading-caption")).toHaveText(
     "Your next page is taking shape...",
   );
-  const spinner = loading.locator('.page-loading-spinner[data-slot="spinner"]');
-  await expect(spinner).toBeVisible();
-  await expect(spinner).toHaveAttribute("aria-hidden", "true");
-  await expect(spinner.locator("svg")).toHaveAttribute("stroke-width", "1.5");
-  const spinnerMotion = await spinner.evaluate((node) => ({
-    reduced: matchMedia("(prefers-reduced-motion: reduce)").matches,
-    outer: node.getAnimations().length,
-    innerRunning: node
-      .firstElementChild!.getAnimations()
-      .some((animation) => animation.playState === "running"),
-    svg: node.querySelector("svg")!.getAnimations().length,
-  }));
-  expect(spinnerMotion.outer).toBe(0);
-  expect(spinnerMotion.innerRunning).toBe(!spinnerMotion.reduced);
-  expect(spinnerMotion.svg).toBe(0);
+  await expect(
+    loading.locator('.page-loading-brand :is(.page-loading-spinner, [data-slot="spinner"])'),
+  ).toHaveCount(0);
   const backdrop = await shell.evaluate((node) => {
     const wash = getComputedStyle(node, "::before");
     const glass = getComputedStyle(node, "::after");

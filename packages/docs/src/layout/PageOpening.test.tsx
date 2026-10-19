@@ -20,10 +20,8 @@ describe("shared page opening screen", () => {
       navigation.querySelector(".page-loading-rocket")!.innerHTML,
     );
     for (const root of [startup, navigation]) {
-      const spinner = root.querySelector(".page-loading-spinner")!;
-      expect(spinner.getAttribute("data-slot")).toBe("spinner");
-      expect(spinner.getAttribute("aria-hidden")).toBe("true");
-      expect(spinner.querySelector("svg")!.getAttribute("stroke-width")).toBe("1.5");
+      expect(root.querySelector(".page-loading-brand")!.textContent).toBe("Kamod");
+      expect(root.querySelector('.page-loading-brand [data-slot="spinner"]')).toBeNull();
     }
   });
 

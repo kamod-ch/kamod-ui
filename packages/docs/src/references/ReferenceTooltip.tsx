@@ -59,7 +59,12 @@ function ReferenceTooltipRequest({ request }: { request: CodeReferenceHelpReques
         aria-hidden={content ? "true" : undefined}
         inert={content ? true : undefined}
       >
-        <CodeReferenceHelpLoading name={pendingName} module={module ?? label} active={!content} />
+        <CodeReferenceHelpLoading
+          name={pendingName}
+          module={module ?? label}
+          active={!content}
+          technology={referenceId?.startsWith("technology:")}
+        />
       </div>
       {content && (
         <div class="code-reference-help-ready">

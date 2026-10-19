@@ -8,6 +8,9 @@ import type {
 import { referenceFieldLinks, referenceSectionLinks } from "./reference-section-links";
 
 const families = new Map<string, Promise<Record<string, CodeReferenceHelp>>>();
+let technologyResources:
+  | Promise<Record<string, NonNullable<CodeReferenceHelp["related"]>>>
+  | undefined;
 const localLink = (href: string) =>
   href.startsWith("/") && !href.startsWith(`${basePrefix()}/`) ? withBasePath(href) : href;
 const operations: Record<string, string> = {
@@ -40,15 +43,30 @@ export async function loadInlineReferenceHelp(
     });
     families.set(kind, pending);
   }
-  const entries = await pending;
+  if (kind === "technology" && data.technologyResources && !technologyResources) {
+    technologyResources = data.technologyResources().catch((error) => {
+      technologyResources = undefined;
+      throw error;
+    });
+  }
+  const [entries, indexed] = await Promise.all([
+    pending,
+    kind === "technology" ? technologyResources : undefined,
+  ]);
+  const projectLinks = indexed && Object.hasOwn(indexed, id) ? indexed[id] : [];
   if (!Object.hasOwn(entries, id)) throw new Error("Unknown inline-reference identity");
   const facts = entries[id];
+  const reading = new Map<string, NonNullable<CodeReferenceHelp["related"]>[number]>();
+  for (const link of [...(facts.related ?? []), ...projectLinks]) {
+    const href = localLink(link.href);
+    if (!reading.has(href)) reading.set(href, { ...link, href });
+  }
   const result: CodeReferenceHelp = {
     ...facts,
     name: request.label,
     source: facts.source && { ...facts.source, href: localLink(facts.source.href) },
     docs: facts.docs && { ...facts.docs, href: localLink(facts.docs.href) },
-    related: facts.related?.map((link) => ({ ...link, href: localLink(link.href) })),
+    related: [...reading.values()],
     fields: facts.fields?.map(referenceFieldLinks),
     sections: facts.sections?.map(referenceSectionLinks),
   };
