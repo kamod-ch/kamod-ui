@@ -1,6 +1,6 @@
 import { escapeCodeHtml, normalizeCodeLanguage } from "@kamod-ch/ui/code";
-import { highlightCode } from "@kamod-ch/ui/code/highlight";
 import { useMemo } from "preact/hooks";
+import { highlightCode } from "../../docs/components/highlight-code";
 
 /** The existing grammar escapes source; no source HTML, execution or token-level subscriptions. */
 export default function HighlightedDeclaration({

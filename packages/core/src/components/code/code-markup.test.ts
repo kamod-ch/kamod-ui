@@ -3,7 +3,6 @@ import { expect, it } from "vitest";
 import { findCodeImports } from "./code-imports";
 import { escapeCodeHtml, selectCodeMarkup } from "./code-markup";
 import { readableCodeLines } from "./code-wrap";
-import { highlightCode } from "./highlight-code";
 
 it.each([
   'import { Button } from "ui";\n\nexport const Example = () => <Button title="a & b">Save</Button>;',
@@ -20,7 +19,10 @@ it.each([
       .map((part) => (typeof part === "string" ? part : source.slice(part.start, part.end)))
       .join(""),
   ).toBe(imports.folded);
-  for (const html of [escapeCodeHtml(source), highlightCode(source, "tsx")]) {
+  for (const html of [
+    escapeCodeHtml(source),
+    `<span class="token keyword">${escapeCodeHtml(source)}</span>`,
+  ]) {
     const foldedHtml = selectCodeMarkup(html, imports.parts);
     const code = document.createElement("code");
     code.innerHTML = readableCodeLines(foldedHtml, imports.folded);
@@ -33,10 +35,13 @@ it.each([
 it("reopens a token spanning a removed source range without changing its class", () => {
   const source = "/* First\n hidden\n last */";
   const code = document.createElement("code");
-  code.innerHTML = selectCodeMarkup(highlightCode(source, "tsx"), [
-    { start: 0, end: 8 },
-    { start: 16, end: source.length },
-  ]);
+  code.innerHTML = selectCodeMarkup(
+    `<span class="token comment">${escapeCodeHtml(source)}</span>`,
+    [
+      { start: 0, end: 8 },
+      { start: 16, end: source.length },
+    ],
+  );
   expect(code.textContent).toBe(source.slice(0, 8) + source.slice(16));
   expect(code.querySelectorAll(".token.comment")).toHaveLength(2);
 });

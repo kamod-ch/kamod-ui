@@ -1,11 +1,11 @@
 /** @vitest-environment jsdom */
 
-import { highlightCode } from "@kamod-ch/ui/code/highlight";
 import { act, cleanup, render, waitFor } from "@testing-library/preact";
 import { afterEach, expect, it, vi } from "vitest";
 import { CodeBlock } from "./CodeBlock";
+import { highlightCode } from "./highlight-code";
 
-vi.mock("@kamod-ch/ui/code/highlight", () => ({
+vi.mock("./highlight-code", () => ({
   highlightCode: vi.fn(() => '<span class="token">highlighted</span>'),
 }));
 afterEach(() => {

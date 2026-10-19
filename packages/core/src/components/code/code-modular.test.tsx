@@ -1,7 +1,6 @@
 import { act, cleanup, fireEvent, render, waitFor } from "@testing-library/preact";
 import { renderToString } from "preact-render-to-string";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
-import { highlightCode } from "./highlight-code";
 import {
   Code,
   type CodeCopyActionContext,
@@ -258,9 +257,6 @@ it("retains copy error announcements when the copy button is replaced", async ()
 
 it.each(codeLanguages)("publishes only supported canonical language values: %s", (language) => {
   expect(normalizeCodeLanguage(language)).toBe(language);
-  if (language !== "text") {
-    expect(() => highlightCode("const value = 1;", language)).not.toThrow();
-  }
 });
 
 it("decorates a resolved language without changing source or explicit file headers", () => {

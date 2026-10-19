@@ -1,7 +1,10 @@
 /** @vitest-environment jsdom */
 import { expect, it } from "vitest";
+import { escapeCodeHtml } from "./code-markup";
 import { readableCodeLines } from "./code-wrap";
-import { highlightCode } from "./highlight-code";
+
+const highlighted = (source: string, token = "keyword") =>
+  `<span class="token ${token}">${escapeCodeHtml(source)}</span>`;
 
 it.each([
   'const value = "<span> & other markup";\n',
@@ -13,7 +16,7 @@ it.each([
   "",
 ])("preserves exact source text and balanced highlight tokens: %j", (source) => {
   const node = document.createElement("code");
-  node.innerHTML = readableCodeLines(highlightCode(source, "tsx"), source);
+  node.innerHTML = readableCodeLines(highlighted(source), source);
   expect(node.textContent).toBe(source);
   expect(node.querySelectorAll(":scope > .docs-code-line")).toHaveLength(
     source.split(/\r\n|\r|\n/).length,
@@ -27,7 +30,7 @@ it.each([
 it("keeps multiline comment highlighting on each logical line", () => {
   const source = "/* Start\n    Continue\n End */";
   const node = document.createElement("code");
-  node.innerHTML = readableCodeLines(highlightCode(source, "tsx"), source);
+  node.innerHTML = readableCodeLines(highlighted(source, "comment"), source);
   expect(node.querySelectorAll(".docs-code-line > .token.comment")).toHaveLength(3);
   expect(node.children[1].getAttribute("style")).toBe("--code-indent-ch:4ch");
 });

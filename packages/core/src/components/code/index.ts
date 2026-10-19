@@ -21,6 +21,7 @@ export { type CodeSyntaxTheme, codeSyntaxThemes } from "./code-themes";
 export type {
   CodeCopyActionContext,
   CodeCopyStatus,
+  CodeHighlighter,
   CodeImportControlContext,
   CodeProps,
   CodeWrapControlContext,

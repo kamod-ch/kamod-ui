@@ -31,13 +31,26 @@ export const codeCustomizationApi: readonly ApiReferenceSection[] = [
         ),
       },
       {
+        prop: "highlighter",
+        type: "CodeHighlighter",
+        defaultValue: "—",
+        description: (
+          <>
+            Supply the application’s syntax engine as a synchronous or asynchronous adapter. Core
+            ships without one and otherwise displays escaped source. Returned HTML must already be
+            escaped and safe to insert.
+          </>
+        ),
+      },
+      {
         prop: "highlight",
         type: "boolean",
         defaultValue: "true",
         description: (
           <>
-            Allow deferred syntax highlighting. False preserves escaped source, selected language,
-            copying and reading behavior without loading the highlighter for this instance.
+            Allow deferred syntax highlighting when a highlighter is supplied. False preserves
+            escaped source, selected language, copying and reading behavior without invoking the
+            adapter for this instance.
           </>
         ),
       },

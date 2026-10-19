@@ -23,6 +23,7 @@ export function Code({
   language: languageHint,
   inferLanguage = true,
   highlight = true,
+  highlighter,
   syntaxTheme = "default",
   resolveReference: resolveReferenceProp,
   filePath,
@@ -109,6 +110,7 @@ export function Code({
     language,
     rendersCode,
     highlight,
+    highlighter,
   );
   const linkedHtml = useMemo(() => linkCodeMarkup(html, references), [html, references]);
   const showLoading = Boolean(loadingContent) && pending;

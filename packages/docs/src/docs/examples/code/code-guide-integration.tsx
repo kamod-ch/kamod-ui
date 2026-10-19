@@ -89,10 +89,10 @@ export function CodePerformanceGuide() {
     <>
       <Topic id="code-lazy-highlighting" title="Start readable, highlight near the viewport">
         <p>
-          Code first renders the escaped source, then loads its syntax highlighter near the visible
-          area. The highlighter is loaded lazily rather than added to every route’s initial work.
-          Language selection uses small bounded checks, and expensive derived display strings are
-          reused until their inputs change.
+          Code first renders the escaped source, then invokes the supplied highlighter near the
+          visible area. Make the adapter dynamically import its syntax engine so that engine is not
+          added to every route’s initial work. Language selection uses small bounded checks, and
+          expensive derived display strings are reused until their inputs change.
         </p>
         <p>
           The component disconnects visibility observers and ignores stale highlighting results when
@@ -140,16 +140,16 @@ export function CodeTroubleshootingGuide() {
     <>
       <Topic id="code-missing-colors" title="Why does this snippet look like plain text?">
         <p>
-          First check that the shared theme CSS is loaded. Then check the source’s language or
-          extension. Inference is intentionally conservative, so a single expression such as{" "}
-          <code>workspace.name</code> may need <code>language="typescript"</code>. A language
-          outside the supported families remains readable but does not gain a grammar just because
-          its name is supplied.
+          First check that a <code>highlighter</code> adapter is supplied and that the shared theme
+          CSS is loaded. Then check the source’s language or extension. Inference is intentionally
+          conservative, so a single expression such as <code>workspace.name</code> may need{" "}
+          <code>language="typescript"</code>. A language outside the supported families remains
+          readable but does not gain a grammar just because its name is supplied.
         </p>
         <p>
-          If colors appear shortly after the source enters view, that is the lazy highlighter
-          arriving. If they never arrive, inspect failed script requests and the selected language.
-          A failed highlighter load should leave the complete source visible. See{" "}
+          If colors appear shortly after the source enters view, that is the lazy adapter arriving.
+          If they never arrive, inspect failed script requests, the adapter and the selected
+          language. A failed highlighter load should leave the complete source visible. See{" "}
           <a href="#code-language-list">Supported Languages</a> and{" "}
           <a href="#code-install-styles">Stylesheet Setup</a>.
         </p>

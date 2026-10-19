@@ -64,20 +64,20 @@ it("highlights the replacement source when an earlier lazy highlight is still pe
   );
   const before = "export const oldValue = true;";
   const after = "export const nextValue = false;";
-  const view = render(<Code code={before} language="tsx" />);
+  const highlighter = vi.fn((code: string) =>
+    code === before ? new Promise<string>(() => {}) : `<span class="token keyword">${code}</span>`,
+  );
+  const view = render(<Code code={before} language="tsx" highlighter={highlighter} />);
   const approach = (index: number) =>
     observers[index].notify(
       [{ isIntersecting: true } as IntersectionObserverEntry],
       {} as IntersectionObserver,
     );
   act(() => approach(0));
-  view.rerender(<Code code={after} language="typescript" />);
+  view.rerender(<Code code={after} language="typescript" highlighter={highlighter} />);
   expect(view.container.querySelector("pre")?.textContent).toBe(after);
   expect(observers[0].disconnect).toHaveBeenCalled();
   act(() => approach(1));
-  await act(async () => {
-    await vi.dynamicImportSettled();
-  });
   await waitFor(() => expect(view.container.querySelector("pre .token.keyword")).not.toBeNull());
   expect(view.container.querySelector("pre")?.textContent).toBe(after);
   expect(view.container.querySelector("pre")).toHaveAttribute("data-language", "typescript");

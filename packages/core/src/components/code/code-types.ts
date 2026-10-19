@@ -4,6 +4,12 @@ import type { CodeLanguage } from "./code-language";
 import type { CodeReferenceResolver } from "./code-references";
 import type { CodeSyntaxTheme } from "./code-themes";
 
+/** Optional syntax-coloring adapter. Returned HTML must be escaped and safe to insert. */
+export type CodeHighlighter = (
+  code: string,
+  language: Exclude<CodeLanguage, "text">,
+) => string | Promise<string>;
+
 /** State and behavior supplied to a replacement import-folding control. */
 export interface CodeImportControlContext {
   /** ID of the source element, for `aria-controls`. */
@@ -51,8 +57,10 @@ export interface CodeProps extends Omit<
   language?: string;
   /** Infer missing/generic languages from the filename and bounded syntax checks. */
   inferLanguage?: boolean;
-  /** Enable deferred syntax coloring. False keeps escaped source, language metadata and reading controls. */
+  /** Enable deferred syntax coloring when a highlighter is supplied. False keeps escaped source, language metadata and reading controls. */
   highlight?: boolean;
+  /** Optional syntax-coloring adapter. Core ships without a grammar engine and otherwise renders escaped source. */
+  highlighter?: CodeHighlighter;
   /**
    * Lightweight syntax palette. "theme" derives colors from application semantic tokens.
    * Kamod presets follow light/dark mode; Prism presets

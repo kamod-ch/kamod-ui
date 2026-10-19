@@ -6,6 +6,7 @@ import {
 } from "@kamod-ch/ui/code";
 import type { ComponentChildren } from "preact";
 import { useMemo } from "preact/hooks";
+import { docsCodeHighlighter } from "../docs/components/code-highlighter";
 import { FileDownloadButton } from "../docs/components/file-download/FileDownloadButton";
 import { MarkdownDownloadButton } from "../docs/components/markdown-download/MarkdownDownloadButton";
 import { codeDownloadFile } from "./code-download-file";
@@ -44,6 +45,7 @@ export function ReferenceCode({
   return (
     <Code
       {...props}
+      highlighter={props.highlighter ?? docsCodeHighlighter}
       renderCopyAction={copyAction}
       readingControls={props.readingControls ?? "imports"}
       resolveReference={

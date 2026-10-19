@@ -41,11 +41,11 @@ export function CodeInstallationGuide() {
           language="bash"
         />
         <p>
-          The syntax highlighter is an implementation dependency of{" "}
-          <InlineCode>@kamod-ch/ui</InlineCode>. You do not need to install or configure Prism
-          separately to use the built-in languages. Use the focused{" "}
-          <InlineCode>@kamod-ch/ui/code</InlineCode> entrypoint when your file only needs this
-          component.
+          <InlineCode>@kamod-ch/ui</InlineCode> does not install a syntax engine. Code renders safe,
+          escaped source by default; applications that want token colors supply a highlighter
+          adapter. This documentation keeps Prism in its own package and passes that adapter to
+          Code. Use the focused <InlineCode>@kamod-ch/ui/code</InlineCode> entrypoint when your file
+          only needs this component.
         </p>
         <CodeBlock code={componentImport} language="typescript" />
       </Topic>

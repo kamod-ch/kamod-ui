@@ -5,7 +5,6 @@ import { linkCodeMarkup } from "./code-reference-markup";
 import { referenceTokens } from "./code-reference-tokens";
 import { type CodeReferenceResolver, findCodeReferences } from "./code-references";
 import { readableCodeLines } from "./code-wrap";
-import { highlightCode } from "./highlight-code";
 
 const resolve: CodeReferenceResolver = ({ module, imported }) =>
   `https://example.test/${module}/${imported ?? "package"}`;
@@ -84,7 +83,9 @@ it.each([false, true])(
     const source =
       'import { Button } from "ui";\r\n\r\nexport const Example = () => <Button title="a & b">Save</Button>;\r\n';
     const html = linkCodeMarkup(
-      highlighted ? highlightCode(source, "tsx") : escapeCodeHtml(source),
+      highlighted
+        ? `<span class="token tag">${escapeCodeHtml(source)}</span>`
+        : escapeCodeHtml(source),
       findCodeReferences(source, "tsx", resolve),
     );
     const node = document.createElement("code");

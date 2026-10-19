@@ -83,6 +83,7 @@ export {
   type CodeCopyStatus,
   CodeFileHeader,
   type CodeFileHeaderProps,
+  type CodeHighlighter,
   type CodeImportControlContext,
   type CodeLanguage,
   type CodeProps,

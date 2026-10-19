@@ -1,15 +1,15 @@
 /** @vitest-environment jsdom */
 import { act, cleanup, fireEvent, render, waitFor } from "@testing-library/preact";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
-import { Code } from "./Code";
+import { Code as CoreCode } from "./Code";
+import { escapeCodeHtml } from "./code-markup";
 import { codeSyntaxThemes } from "./code-themes";
+import type { CodeHighlighter, CodeProps } from "./code-types";
 import { readableCodeLines } from "./code-wrap";
-import { highlightCode } from "./highlight-code";
 import { useCodeHighlight } from "./use-code-highlight";
 
-vi.mock("./highlight-code", () => ({
-  highlightCode: vi.fn(() => '<span class="token">highlighted</span>'),
-}));
+const highlightCode = vi.fn<CodeHighlighter>(() => '<span class="token">highlighted</span>');
+const Code = (props: CodeProps) => <CoreCode highlighter={highlightCode} {...props} />;
 vi.mock("./code-wrap", async (original) => {
   const module = await original<typeof import("./code-wrap")>();
   return { ...module, readableCodeLines: vi.fn(module.readableCodeLines) };
@@ -24,6 +24,17 @@ afterEach(() => {
   vi.clearAllMocks();
   vi.unstubAllGlobals();
   vi.restoreAllMocks();
+});
+
+it("keeps escaped source readable without loading a grammar engine when no adapter is supplied", () => {
+  const observer = vi.fn();
+  vi.stubGlobal("IntersectionObserver", observer);
+  const code = 'const text = "<hello>";';
+  const view = render(<CoreCode code={code} language="tsx" loadingContent={<p>Formatting</p>} />);
+  expect(view.container.querySelector("pre code")?.textContent).toBe(code);
+  expect(view.container.querySelector("script")).toBeNull();
+  expect(view.queryByText("Formatting")).toBeNull();
+  expect(observer).not.toHaveBeenCalled();
 });
 
 it("keeps off-screen code readable without highlighting, then highlights on approach", async () => {
@@ -255,9 +266,9 @@ it("does not rerun the syntax highlighter when wrapping changes", async () => {
 it.each([false, true])(
   "folds imports immediately with complete colored source and no repeated work (wrapped: %s)",
   async (wrapped) => {
-    const highlighter =
-      await vi.importActual<typeof import("./highlight-code")>("./highlight-code");
-    vi.mocked(highlightCode).mockImplementationOnce(highlighter.highlightCode);
+    vi.mocked(highlightCode).mockImplementationOnce(
+      (code) => `<span class="token keyword">${escapeCodeHtml(code)}</span>`,
+    );
     const observers: IntersectionObserverCallback[] = [];
     vi.stubGlobal(
       "IntersectionObserver",
