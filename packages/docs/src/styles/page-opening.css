@@ -102,13 +102,8 @@
   outline: 2px solid var(--ring, var(--opening-ink));
   outline-offset: 5px;
 }
-.page-opening .kamod-ui-logo-wordmark,
-.page-opening .kamod-ui-logo-product {
-  color: color-mix(in oklab, var(--opening-accent) 12%, var(--opening-ink));
-}
-.page-opening .kamod-ui-logo-dot {
-  background: color-mix(in oklab, var(--opening-accent) 60%, var(--opening-ink));
-  box-shadow: 0 0 0 3px color-mix(in oklab, var(--opening-accent) 7%, transparent);
+.page-opening .kamod-logo__suffix {
+  color: color-mix(in oklab, var(--opening-accent) 60%, var(--opening-ink));
 }
 .page-opening-main {
   display: flex;

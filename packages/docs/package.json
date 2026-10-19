@@ -29,7 +29,7 @@
     "@blobatar/preact": "^2.7.0",
     "@formisch/preact": "1.1.0",
     "@kamod-ch/blocks": "workspace:*",
-    "@kamod-ch/brand": "^0.3.0",
+    "@kamod-ch/brand": "^0.4.0",
     "@kamod-ch/hooks": "^1.0.0",
     "@kamod-ch/icons": "^1.1.0",
     "@kamod-ch/motion": "^0.1.0",

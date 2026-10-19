@@ -1,4 +1,4 @@
-/* Bundle the wordmark and symbol together so standalone routes need no extra logo stylesheet. */
+/* Bundle the brand logo styles so standalone routes need no extra stylesheet. */
 .kamod-ui-logo {
   display: inline-flex;
   align-items: center;
@@ -6,79 +6,68 @@
   gap: 0.4375rem;
   height: 1.875rem;
   white-space: nowrap;
-  font-family: var(--docs-font-sans, system-ui, sans-serif);
-  font-size: 1.625rem;
+  text-decoration: none;
   -webkit-font-smoothing: antialiased;
 }
-.kamod-ui-logo .kamod-icon {
+.kamod-ui-logo .kamod-logo__mark {
   display: grid;
   align-items: center;
   flex: none;
-  width: 1.625rem;
   height: 1.625rem;
-  margin-right: 0.125rem;
 }
-.kamod-ui-logo .kamod-icon__img {
+.kamod-ui-logo .kamod-logo__mark-img {
   grid-area: 1 / 1;
   display: block;
-  width: 100%;
-  height: 100%;
+  width: auto;
+  height: 1.625rem;
   object-fit: contain;
   opacity: 1;
   pointer-events: none;
 }
-.kamod-ui-logo .kamod-icon__img--dark {
+.kamod-ui-logo .kamod-logo__mark-img--dark {
   display: none;
 }
 /* The root appearance controls the mark, including system mode before theme initialization. */
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme]):not(.dark) .kamod-ui-logo .kamod-icon__img--light {
+  :root:not([data-theme]):not(.dark) .kamod-ui-logo .kamod-logo__mark-img--light {
     display: none;
   }
-  :root:not([data-theme]):not(.dark) .kamod-ui-logo .kamod-icon__img--dark {
+  :root:not([data-theme]):not(.dark) .kamod-ui-logo .kamod-logo__mark-img--dark {
     display: block;
   }
 }
-:root[data-theme="dark"] .kamod-ui-logo .kamod-icon__img--light,
-html.dark .kamod-ui-logo .kamod-icon__img--light {
+:root[data-theme="dark"] .kamod-ui-logo .kamod-logo__mark-img--light,
+html.dark .kamod-ui-logo .kamod-logo__mark-img--light {
   display: none;
 }
-:root[data-theme="dark"] .kamod-ui-logo .kamod-icon__img--dark,
-html.dark .kamod-ui-logo .kamod-icon__img--dark {
+:root[data-theme="dark"] .kamod-ui-logo .kamod-logo__mark-img--dark,
+html.dark .kamod-ui-logo .kamod-logo__mark-img--dark {
   display: block;
 }
-.kamod-ui-logo-wordmark,
-.kamod-ui-logo-product {
-  color: color-mix(in oklab, var(--primary) 12%, var(--foreground));
-  font-size: 1em;
+.kamod-ui-logo .kamod-logo__suffix {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 1.625rem;
+  color: var(--kamod-logo-suffix, var(--kamod-brand-orange, #f8a721));
+  font-family: "Quicksand", var(--docs-font-sans, system-ui, sans-serif);
+  font-size: 1.4rem;
   font-weight: 700;
-  letter-spacing: -0.035em;
   line-height: 1;
-}
-.kamod-ui-logo-dot {
-  flex: none;
-  width: 0.25rem;
-  height: 0.25rem;
-  margin-inline: 0.125rem;
-  border-radius: 50%;
-  background: color-mix(in oklab, var(--primary) 60%, var(--foreground));
-  box-shadow: 0 0 0 3px color-mix(in oklab, var(--primary) 7%, transparent);
-}
-.kamod-ui-logo-product {
-  font-size: 0.9em;
+  letter-spacing: -0.03em;
+  translate: 0 0.05rem;
 }
 @media (max-width: 479px) {
   .kamod-ui-logo {
     gap: 0.375rem;
     height: 1.625rem;
-    font-size: 1.3125rem;
   }
-  .kamod-ui-logo .kamod-icon {
-    width: 1.3125rem;
+  .kamod-ui-logo .kamod-logo__mark,
+  .kamod-ui-logo .kamod-logo__mark-img {
     height: 1.3125rem;
-    margin-right: 0;
   }
-  .kamod-ui-logo-dot {
-    margin-inline: 0;
+  .kamod-ui-logo .kamod-logo__suffix {
+    height: 1.3125rem;
+    font-size: 1.15rem;
   }
 }

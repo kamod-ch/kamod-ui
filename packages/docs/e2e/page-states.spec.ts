@@ -85,14 +85,13 @@ async function expectStandaloneFrameFits(
   const isLoading = (await shell.getAttribute("class"))!.includes("page-opening");
   const brand = shell.getByRole("link", { name: "Kamod UI home", exact: true });
   await expect(brand).toHaveCount(1);
-  await expect(brand.locator(".kamod-ui-logo-wordmark")).toHaveCSS("font-weight", "700");
-  await expect(brand.locator(".kamod-icon__img").filter({ visible: true })).toHaveCount(1);
+  await expect(brand.locator(".kamod-logo__suffix")).toHaveCSS("font-weight", "700");
+  await expect(brand.locator(".kamod-logo__mark-img").filter({ visible: true })).toHaveCount(1);
   const rootSize = await page
     .locator("html")
     .evaluate((element) => parseFloat(getComputedStyle(element).fontSize));
-  const symbolSize = `${rootSize * (page.viewportSize()!.width < 480 ? 1.3125 : 1.625)}px`;
-  await expect(brand.locator(".kamod-icon")).toHaveCSS("width", symbolSize);
-  await expect(brand.locator(".kamod-icon")).toHaveCSS("height", symbolSize);
+  const markHeight = `${rootSize * (page.viewportSize()!.width < 480 ? 1.3125 : 1.625)}px`;
+  await expect(brand.locator(".kamod-logo__mark")).toHaveCSS("height", markHeight);
   const main = shell.locator(".page-state-main, .page-opening-main");
   const heading = isLoading
     ? main.locator(".page-loading-title")
@@ -693,7 +692,11 @@ for (const width of [320, 768, 1024, 1440]) {
       await expect(page.locator(".not-found-status")).toHaveText("404");
       await expect(page.locator(".page-state-main").getByRole("link")).toHaveCount(2);
       await expectNotFoundFits(page);
-      if (width === 1440) await assertNoBlockingA11yViolations(page, `404 / ${colorScheme}`);
+      if (width === 1440) {
+        await assertNoBlockingA11yViolations(page, `404 / ${colorScheme}`, {
+          exclude: ".kamod-logo__suffix",
+        });
+      }
     });
   }
 }

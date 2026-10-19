@@ -152,8 +152,8 @@ importers:
         specifier: workspace:*
         version: link:../blocks
       '@kamod-ch/brand':
-        specifier: ^0.3.0
-        version: 0.3.0(preact@11.0.0)
+        specifier: ^0.4.0
+        version: 0.4.0(preact@11.0.0)
       '@kamod-ch/hooks':
         specifier: ^1.0.0
         version: 1.0.0(preact@11.0.0)
@@ -874,6 +874,12 @@ packages:
 
   '@kamod-ch/brand@0.3.0':
     resolution: {integrity: sha512-CfzOuBOrRveq87LczrodpEganCZx3RvMhODipt8hJRbbx8Edch+IZw+peLJvt4B21w3C0i0/r4g++TKIxjZh3Q==}
+    hasBin: true
+    peerDependencies:
+      preact: '>=11'
+
+  '@kamod-ch/brand@0.4.0':
+    resolution: {integrity: sha512-WA3Ei0M1INegwIJz1w/SbUc1NoTfZKLWtKEX1KOXSsBbr96u1ZIBPVUyd9z6/oybMYOCoCGTWGHbPtRST+V8Tg==}
     hasBin: true
     peerDependencies:
       preact: '>=11'
@@ -4917,6 +4923,10 @@ snapshots:
       '@jridgewell/sourcemap-codec': 1.6.0
 
   '@kamod-ch/brand@0.3.0(preact@11.0.0)':
+    dependencies:
+      preact: 11.0.0(preact-render-to-string@6.7.0)
+
+  '@kamod-ch/brand@0.4.0(preact@11.0.0)':
     dependencies:
       preact: 11.0.0(preact-render-to-string@6.7.0)
 

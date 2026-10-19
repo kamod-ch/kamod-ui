@@ -120,9 +120,13 @@
   gap: 0.375rem;
   font-size: 1.25rem;
 }
-.site-navigation-brand .kamod-ui-logo .kamod-icon {
-  width: 1.25rem;
+.site-navigation-brand .kamod-ui-logo .kamod-logo__mark,
+.site-navigation-brand .kamod-ui-logo .kamod-logo__mark-img {
   height: 1.25rem;
+}
+.site-navigation-brand .kamod-ui-logo .kamod-logo__suffix {
+  height: 1.25rem;
+  font-size: 1.075rem;
 }
 .site-navigation-brand [data-slot="dialog-title"] {
   margin: 0;
