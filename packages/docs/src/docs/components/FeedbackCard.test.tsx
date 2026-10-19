@@ -5,17 +5,19 @@ import { FeedbackCard } from "./FeedbackCard";
 
 beforeEach(() => localStorage.clear());
 afterEach(() => {
-  cleanup();
+  act(() => cleanup());
   vi.restoreAllMocks();
 });
 
 it("removes the card and preserves dismissal when another page mounts it", async () => {
   const first = render(<FeedbackCard />);
   fireEvent.click(await screen.findByRole("button", { name: "Dismiss feedback card" }));
-  expect(screen.queryByRole("region", { name: "Straight talk" })).not.toBeInTheDocument();
-  first.unmount();
+  expect(screen.queryByRole("region", { name: "Straight Talk" })).not.toBeInTheDocument();
+  act(() => {
+    first.unmount();
+  });
   render(<FeedbackCard />);
-  expect(screen.queryByText("Straight talk")).not.toBeInTheDocument();
+  expect(screen.queryByText("Straight Talk")).not.toBeInTheDocument();
   expect(localStorage.getItem("kamod:feedback-dismissed")).toBe("true");
 });
 
@@ -28,18 +30,20 @@ it("can still be dismissed when storage access is blocked", async () => {
   });
   render(<FeedbackCard />);
   fireEvent.click(await screen.findByRole("button", { name: "Dismiss feedback card" }));
-  expect(screen.queryByText("Straight talk")).not.toBeInTheDocument();
+  expect(screen.queryByText("Straight Talk")).not.toBeInTheDocument();
 });
 
 it("syncs dismissal from another tab and removes its listener on unmount", async () => {
   const remove = vi.spyOn(window, "removeEventListener");
   const view = render(<FeedbackCard />);
-  await screen.findByText("Straight talk");
+  await screen.findByText("Straight Talk");
   act(() => {
     localStorage.setItem("kamod:feedback-dismissed", "true");
     window.dispatchEvent(new StorageEvent("storage", { key: "kamod:feedback-dismissed" }));
   });
-  expect(screen.queryByText("Straight talk")).not.toBeInTheDocument();
-  view.unmount();
+  expect(screen.queryByText("Straight Talk")).not.toBeInTheDocument();
+  act(() => {
+    view.unmount();
+  });
   expect(remove).toHaveBeenCalledWith("storage", expect.any(Function));
 });

@@ -49,7 +49,7 @@ function PreviewGuideBody({ id }: { id: string }) {
   return (
     <>
       <div class="blocks-preview-theme-info-heading">
-        <PopoverTitle id={`${id}-title`}>Preview guide</PopoverTitle>
+        <PopoverTitle id={`${id}-title`}>Preview Guide</PopoverTitle>
         <span class="blocks-preview-theme-info-dot" aria-hidden="true">
           ·
         </span>
@@ -68,7 +68,7 @@ function PreviewGuideBody({ id }: { id: string }) {
           rel="noreferrer noopener"
           aria-label="How preview images are generated (opens in a new tab)"
         >
-          saved images <ArrowUpRightIcon size={10} strokeWidth={1.75} aria-hidden="true" />
+          Saved Images <ArrowUpRightIcon size={10} strokeWidth={1.75} aria-hidden="true" />
         </a>{" "}
         keep collections quick to browse without loading every live demo.
       </PopoverDescription>

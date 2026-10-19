@@ -8,10 +8,10 @@ for (const route of [
   test(`${route}: shared hints support hover, focus and dismissal`, async ({ page }) => {
     await page.goto(`./${route}`);
     await expect(page.locator("html")).toHaveClass(/pp-ready/);
-    const control = page.locator('button[aria-label="Toggle color scheme"]:visible').first();
+    const control = page.locator('button[aria-label="Choose color mode"]:visible').first();
     const hint = page.locator('[data-application-tooltip] [role="tooltip"]');
     await control.hover();
-    await expect(hint).toHaveText("Toggle color scheme");
+    await expect(hint).toHaveText("Choose color mode");
     await hint.hover();
     await expect(hint).toBeVisible();
     const bounds = await hint.boundingBox();
@@ -29,25 +29,22 @@ for (const route of [
   });
 }
 
-test("showcase tabs still activate and authored guide tooltips are not duplicated", async ({
-  page,
-}) => {
+test("showcase tabs still activate without obsolete guide shortcuts", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 900 });
   await page.goto("./docs/formisch/installation");
   await expect(page.locator("html")).toHaveClass(/pp-ready/);
   const showcase = page.locator(".component-example").first();
   const code = showcase.getByRole("tab", { name: "Code", exact: true });
   await code.scrollIntoViewIfNeeded();
   await page.waitForLoadState("networkidle");
+  // Exercise the icon-only layout explicitly; desktop tabs now have visible labels.
+  await expect(code.locator(".blocks-showcase-control-label")).toBeHidden();
   await code.hover();
-  await expect(page.locator('[data-application-tooltip] [role="tooltip"]')).toContainText("Code");
+  await expect(page.locator('[data-application-tooltip] [role="tooltip"]')).toHaveText("Code");
+  await expect(code).not.toHaveAttribute("title");
   await code.click();
   await expect(code).toHaveAttribute("aria-selected", "true");
-  const setup = showcase
-    .getByRole("navigation", { name: "Example guides" })
-    .getByRole("link", { name: "Setup guide", exact: true });
-  await setup.hover();
-  await expect(page.getByRole("tooltip")).toHaveText("Setup guide");
-  await expect(page.locator("[data-application-tooltip]")).toHaveCount(0);
+  await expect(showcase.locator(".blocks-showcase-intro nav")).toHaveCount(0);
 });
 
 test("touch navigation opens without an automatic hint covering the menu", async ({
@@ -71,9 +68,7 @@ test("touch navigation opens without an automatic hint covering the menu", async
   }
 });
 
-test("component preview frames include field hints without exposing entered data", async ({
-  page,
-}) => {
+test("component preview fields do not repeat their visible labels", async ({ page }) => {
   await page.goto("./docs/formisch/installation");
   const showcase = page.locator(".component-example").first();
   await showcase.scrollIntoViewIfNeeded();
@@ -83,19 +78,37 @@ test("component preview frames include field hints without exposing entered data
   await page.mouse.move(0, 0);
   await field.hover();
   const hint = frame.locator('[data-application-tooltip] [role="tooltip"]');
-  await expect(hint).toBeVisible();
-  await expect(hint).not.toContainText("private-input-value");
-  const bounds = await hint.evaluate((node) => {
-    const rect = node.getBoundingClientRect();
-    return {
-      left: rect.left,
-      right: rect.right,
-      bottom: rect.bottom,
-      width: innerWidth,
-      height: innerHeight,
-    };
-  });
-  expect(bounds.left).toBeGreaterThanOrEqual(0);
-  expect(bounds.right).toBeLessThanOrEqual(bounds.width);
-  expect(bounds.bottom).toBeLessThanOrEqual(bounds.height);
+  await page.waitForTimeout(550);
+  await expect(hint).toHaveCount(0);
+  await expect(field).toHaveValue("private-input-value");
+});
+
+test("text controls stay quiet while responsive icon-only controls retain hints", async ({
+  page,
+}) => {
+  await page.goto("./blocks/application-shell/application-shell-1");
+  await expect(page.locator("html")).toHaveClass(/pp-ready/);
+  const showcase = page.locator(".blocks-showcase").first();
+  const code = showcase.getByRole("tab", { name: "Code", exact: true });
+  const hint = page.locator('[data-application-tooltip] [role="tooltip"]');
+  await code.hover();
+  await page.waitForTimeout(550);
+  await expect(hint).toHaveCount(0);
+  await code.click();
+  await expect(showcase.locator("pre")).toContainText("ApplicationShell1");
+  const copy = showcase.getByRole("button", { name: "Copy code", exact: true });
+  await copy.hover();
+  await page.waitForTimeout(550);
+  await expect(hint).toHaveCount(0);
+  await page.setViewportSize({ width: 375, height: 850 });
+  await expect(code.locator(".blocks-showcase-control-label")).toBeHidden();
+  await code.scrollIntoViewIfNeeded();
+  await page.evaluate(
+    () => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))),
+  );
+  await page.mouse.move(0, 0);
+  await code.hover();
+  await expect(hint).toHaveText("Code");
+  await page.keyboard.press("Escape");
+  await expect(hint).toHaveCount(0);
 });

@@ -15,17 +15,18 @@ import {
   ContextMenuSubTrigger,
   ContextMenuTrigger,
 } from "@kamod-ch/ui";
+import { CopyButton } from "@kamod-ch/ui/copy-button";
 import {
   ArrowLeft,
   ArrowRight,
   ClipboardPaste,
-  Copy,
   Pencil,
   RotateCw,
   Scissors,
   Share2,
   Trash2,
 } from "lucide-preact";
+import { cloneElement } from "preact";
 import { useState } from "preact/hooks";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
@@ -116,10 +117,22 @@ const ContextMenuSubmenuPreview = () => (
     </ContextMenuTrigger>
     <ContextMenuContent>
       <ContextMenuGroup>
-        <ContextMenuItem>
-          Copy
-          <ContextMenuShortcut>⌘C</ContextMenuShortcut>
-        </ContextMenuItem>
+        <CopyButton
+          value="Context menu example"
+          subject="example"
+          role="menuitem"
+          class="w-full"
+          renderControl={({ defaultControl }) =>
+            cloneElement(
+              defaultControl,
+              {},
+              <>
+                {defaultControl.props.children}
+                <ContextMenuShortcut>⌘C</ContextMenuShortcut>
+              </>,
+            )
+          }
+        />
         <ContextMenuItem>
           Cut
           <ContextMenuShortcut>⌘X</ContextMenuShortcut>
@@ -221,10 +234,22 @@ const ContextMenuGroupsPreview = () => (
           Cut
           <ContextMenuShortcut>⌘X</ContextMenuShortcut>
         </ContextMenuItem>
-        <ContextMenuItem>
-          Copy
-          <ContextMenuShortcut>⌘C</ContextMenuShortcut>
-        </ContextMenuItem>
+        <CopyButton
+          value="Context menu example"
+          subject="example"
+          role="menuitem"
+          class="w-full"
+          renderControl={({ defaultControl }) =>
+            cloneElement(
+              defaultControl,
+              {},
+              <>
+                {defaultControl.props.children}
+                <ContextMenuShortcut>⌘C</ContextMenuShortcut>
+              </>,
+            )
+          }
+        />
         <ContextMenuItem>
           Paste
           <ContextMenuShortcut>⌘V</ContextMenuShortcut>
@@ -248,10 +273,7 @@ const ContextMenuIconsPreview = () => (
     </ContextMenuTrigger>
     <ContextMenuContent>
       <ContextMenuGroup>
-        <ContextMenuItem>
-          <Copy class="size-4" />
-          Copy
-        </ContextMenuItem>
+        <CopyButton value="Context menu example" subject="example" role="menuitem" class="w-full" />
         <ContextMenuItem>
           <Scissors class="size-4" />
           Cut
@@ -468,71 +490,71 @@ export const Example = () => (
   exampleSections: [
     {
       id: "full-demo",
-      title: "Combined demo",
-      text: "Shortcuts, submenu, checkboxes, and radio group in one menu — matches the overview example on ui.shadcn.com.",
+      title: "Combined Demo",
+      text: "**Combine Commands without Obscuring Their Roles.** Combine ordinary actions, submenus, checkbox items and a radio group inside one context menu. The example demonstrates their different roles: invoking an operation, revealing more actions, toggling a setting or choosing one value.\n\nKeep common actions near the start and provide another discoverable entry point for essential functionality; right-click alone is not enough for every input method.",
       code: "// See context-menu-doc.tsx — ContextMenuFullDemoPreview",
       renderPreview: () => <ContextMenuFullDemoPreview />,
     },
     {
       id: "basic-example",
       title: "Basic",
-      text: "Small action list inside a group.",
+      text: "**Start with a Short, Contextual Action List.** Start with a small `ContextMenu` action group attached to a clearly identifiable target. This keeps the relationship between the selected content and the available commands easy to understand before adding nested or stateful options.\n\nAvoid placing unrelated global navigation here, and ensure the same important operations remain reachable from an ordinary visible control.",
       code: "// ContextMenuBasicPreview in context-menu-doc.tsx",
       renderPreview: () => <ContextMenuBasicPreview />,
     },
     {
       id: "submenu-example",
       title: "Submenu",
-      text: "`ContextMenuSub`, `ContextMenuSubTrigger`, and `ContextMenuSubContent` for nested actions.",
+      text: "**Group Secondary Choices One Level Deeper.** Compose `ContextMenuSub`, `ContextMenuSubTrigger` and `ContextMenuSubContent` when related actions need a secondary panel. The parent item names the category, while the nested content contains the actual operations.\n\nKeep nesting shallow, label the parent according to its contents, and test keyboard travel between levels rather than checking only pointer movement.",
       code: "// ContextMenuSubmenuPreview in context-menu-doc.tsx",
       renderPreview: () => <ContextMenuSubmenuPreview />,
     },
     {
       id: "shortcuts-example",
       title: "Shortcuts",
-      text: "`ContextMenuShortcut` for trailing keyboard hints.",
+      text: "**Use Key Hints as Accurate Documentation.** Use `ContextMenuShortcut` for a trailing keyboard hint that stays visually separate from the action label. Keep the hint consistent with the shortcut your application implements; displaying it does not register a key handler.\n\nKeep hints synchronized with registered actions and platform conventions, and avoid implying that a command works while its contextual target is unavailable.",
       code: "// ContextMenuShortcutsPreview",
       renderPreview: () => <ContextMenuShortcutsPreview />,
     },
     {
       id: "groups-example",
       title: "Groups",
-      text: "`ContextMenuLabel` + `ContextMenuSeparator` to structure sections.",
+      text: "**Use Headings to Explain Relationships.** Use `ContextMenuLabel` to name a section and `ContextMenuSeparator` between distinct action groups. A small amount of structure can make a longer menu readable without assigning every operation its own submenu.\n\nKeep groups small and meaningful, and avoid decorative separators between every item when spacing and clear labels already provide enough structure.",
       code: "// ContextMenuGroupsPreview",
       renderPreview: () => <ContextMenuGroupsPreview />,
     },
     {
       id: "icons-example",
       title: "Icons",
-      text: "Leading icons (lucide-preact) with destructive row.",
+      text: "**Support Recognition without Replacing Labels.** Place a supporting icon before each menu label, reserving destructive styling for the operation with that consequence. The icons reinforce recognizable actions, while the text remains sufficient to choose the correct command.\n\nTreat decorative icons as hidden from assistive technology and keep destructive meaning explicit in the label rather than relying on an icon or color alone.",
       code: "// ContextMenuIconsPreview",
       renderPreview: () => <ContextMenuIconsPreview />,
     },
     {
       id: "checkboxes-example",
       title: "Checkboxes",
-      text: "`ContextMenuCheckboxItem` with `checked` / `defaultChecked` / `onCheckedChange`.",
+      text: "**Expose Persistent Independent Preferences.** Use `ContextMenuCheckboxItem` for an independent on/off setting, with `defaultChecked` for initial state or `checked` and `onCheckedChange` for parent-owned state. Its checkmark represents a persistent choice rather than a one-time action.\n\nConnect checked state to the application's actual preference source, and decide whether it persists beyond the current page; reopening the menu should accurately reflect the latest value.",
       code: "// ContextMenuCheckboxesPreview",
       renderPreview: () => <ContextMenuCheckboxesPreview />,
     },
     {
       id: "radio-example",
       title: "Radio",
-      text: "Controlled `ContextMenuRadioGroup` with `value` and `onValueChange`.",
+      text: "**Choose One Value from a Related Set.** Use `ContextMenuRadioGroup` with `value` and `onValueChange` for mutually exclusive choices. Each item's value identifies one option, and the group's selected value remains the single source of truth for the setting.\n\nUse stable values, keep the selected option consistent with the visible result, and ensure the group label explains what changing that choice affects.",
       code: "// ContextMenuRadioPreview",
       renderPreview: () => <ContextMenuRadioPreview />,
     },
     {
       id: "destructive-example",
       title: "Destructive",
-      text: '`ContextMenuItem variant="destructive"` for dangerous actions.',
+      text: "**Keep Risky Commands Unmistakable.** Set `variant=\"destructive\"` on the context-menu item that performs a dangerous operation. Keep its label specific, and use the application's confirmation or recovery flow to handle the consequence beyond the menu itself.\n\nThe styling does not perform confirmation; compose [Alert Dialog](/docs/alert-dialog/installation) or offer undo according to the application's recovery model.",
       code: "// ContextMenuDestructivePreview",
       renderPreview: () => <ContextMenuDestructivePreview />,
     },
     {
       id: "rtl-example",
       title: "RTL",
-      text: "`dir` on trigger and content; localized trigger hints EN/AR/HE.",
+      text: "**Check the Whole Pattern in Its Reading Direction.** Apply the translated direction to both the context-menu trigger area and its content. Review nested panels and shortcut hints as well as the labels, since these elements may be positioned outside the trigger's normal layout.\n\nKeep values and keyboard behavior meaningful in the translated interface, and follow [Direction](/docs/direction/installation) when the page and its portaled controls need a shared direction.",
       code: "// ContextMenuRtlPreview",
       renderPreview: () => <ContextMenuRtlPreview />,
     },

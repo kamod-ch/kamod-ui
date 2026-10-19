@@ -149,3 +149,26 @@ it("does not undo an early user scroll when the initial pageshow arrives", () =>
   fireEvent(window, new Event("pagehide"));
   expect(saved().offsets.contents).toBe(180);
 });
+
+it("coalesces scroll persistence and flushes the last offset before leaving", () => {
+  vi.useFakeTimers();
+  try {
+    const view = mount();
+    const node = view.getByTestId("contents");
+    const write = vi.spyOn(Storage.prototype, "setItem");
+    for (let top = 1; top <= 10; top++) {
+      scroll(node, top * 10);
+      vi.advanceTimersByTime(16);
+    }
+    expect(write).not.toHaveBeenCalled();
+    vi.advanceTimersByTime(150);
+    expect(write).toHaveBeenCalledOnce();
+    expect(saved().offsets.contents).toBe(100);
+    scroll(node, 250);
+    view.unmount();
+    expect(saved().offsets.contents).toBe(250);
+    expect(vi.getTimerCount()).toBe(0);
+  } finally {
+    vi.useRealTimers();
+  }
+});

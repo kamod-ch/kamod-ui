@@ -31,7 +31,7 @@ export const sidebarDocPage = createGenericDocPage({
     {
       id: "basic-sidebar",
       title: "Basic Sidebar",
-      text: "A sidebar with grouped navigation and an inset content area.",
+      text: "**Build Navigation Around Real Destinations.** Compose a sidebar with grouped navigation alongside an inset main area. The sidebar organizes destinations, while the adjacent content region supplies the current page; your routing layer decides which link represents that page.\n\nKeep route decisions outside the visual sidebar primitives, preserve keyboard access to nested controls and test both desktop collapse and the mobile presentation with realistic link lengths.",
       code: `import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
   SidebarHeader, SidebarInset, SidebarMenu, SidebarMenuButton, SidebarMenuItem,
@@ -107,8 +107,8 @@ export const Example = () => (
     },
     {
       id: "sidebar-with-inset",
-      title: "Sidebar With Inset",
-      text: 'Use variant="inset" for a padded floating content panel.',
+      title: "Sidebar with Inset",
+      text: '**Let the Content Surface Establish the Application Frame.** Use `variant="inset"` to give the main content a padded surface alongside the sidebar. The treatment changes the relationship between navigation and content without requiring a different destination model or sidebar interaction pattern.\n\nKeep header and content alignment consistent as the sidebar changes state, and compare [Sidebar Blocks](/blocks) for complete compositions built from these primitives.',
       code: `import { Sidebar, SidebarContent, SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/kamod-ui/sidebar";
 
 export const Example = () => (

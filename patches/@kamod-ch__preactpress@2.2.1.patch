@@ -1,0 +1,104 @@
+diff --git a/dist/node/plugin.js b/dist/node/plugin.js
+index edf7876ccd814143d39bc1aba828dbdd6a698f6e..dc2161d4c1fdcecc17f17c626976e6546e2014da 100644
+--- a/dist/node/plugin.js
++++ b/dist/node/plugin.js
+@@ -37,14 +37,19 @@ export async function listMarkdownRoutes(site) {
+     return [...routeSet, ...tagRoutes].sort();
+ }
+ export function preactPressPlugin(site) {
+-    const routeToFile = new Map();
+-    const dynamicRoutes = new Map();
+-    let pageDataByRoute = new Map();
++    let catalog = { routeToFile: new Map(), dynamicRoutes: new Map(), pageDataByRoute: new Map() };
++    let scanQueue = Promise.resolve();
+     let ssrPagesModule = "";
+     let clientPagesModule = "";
+-    async function scan() {
+-        routeToFile.clear();
+-        dynamicRoutes.clear();
++    function scan() {
++        // Serialize refreshes; requests keep the last complete snapshot while work is pending.
++        const request = scanQueue.then(scanNext);
++        scanQueue = request.catch(() => {});
++        return request;
++    }
++    async function scanNext() {
++        const routeToFile = new Map();
++        const dynamicRoutes = new Map();
+         for (const file of await scanContentFiles(site)) {
+             if (isDraftPage(readMarkdownMetadata(file.file).meta))
+                 continue;
+@@ -56,18 +61,21 @@ export function preactPressPlugin(site) {
+             }
+             dynamicRoutes.set(entry.route, entry);
+         }
+-        pageDataByRoute = await resolvePageDataMap(site);
++        const pageDataByRoute = await resolvePageDataMap(site);
+         if (Object.keys(site.rewrites).length > 0) {
+             applyRouteRewrites(routeToFile, site.rewrites);
+         }
+-    }
+-    function attachPageData(route, meta) {
+-        const data = pageDataByRoute.get(route);
+-        if (data === undefined)
+-            return meta;
+-        return { ...meta, contentData: data };
++        // Publish all three tables together, only after every async step succeeds.
++        catalog = { routeToFile, dynamicRoutes, pageDataByRoute };
+     }
+     async function buildPagesModule(ssr) {
++        const { routeToFile, dynamicRoutes, pageDataByRoute } = catalog;
++        function attachPageData(route, meta) {
++            const data = pageDataByRoute.get(route);
++            if (data === undefined)
++                return meta;
++            return { ...meta, contentData: data };
++        }
+         const filesList = [...routeToFile.values()];
+         const tagPages = collectTagIndexPages(filesList, site);
+         const fileRouteSet = new Set([...routeToFile.keys(), ...dynamicRoutes.keys()]);
+@@ -253,8 +261,14 @@ export function preactPressPlugin(site) {
+                 if (CONTENT_EXTENSIONS.some((ext) => file.endsWith(ext)) ||
+                     file.endsWith(".data.ts") ||
+                     file.endsWith(".paths.ts")) {
+-                    await scan();
+-                    invalidateVirtuals(server);
++                    try {
++                        await scan();
++                        invalidateVirtuals(server);
++                    }
++                    catch (error) {
++                        // A transient edit must not discard working routes or crash the dev watcher.
++                        site.logger.warn(`preactpress catalog refresh failed: ${error instanceof Error ? error.message : error}`);
++                    }
+                 }
+             });
+         },
+@@ -276,14 +290,20 @@ export function preactPressPlugin(site) {
+                 return `export const site = ${JSON.stringify(data.site)};\nexport const themeConfig = ${JSON.stringify(data.themeConfig)};\nexport const i18n = ${JSON.stringify(data.i18n)};\nexport const mpa = ${JSON.stringify(Boolean(data.mpa))};\n`;
+             }
+             if (id === VIRTUAL_PAGES) {
+-                if (options?.ssr) {
+-                    if (!ssrPagesModule)
+-                        ssrPagesModule = await buildPagesModule(true);
+-                    return ssrPagesModule;
++                const ssr = Boolean(options?.ssr);
++                const cached = ssr ? ssrPagesModule : clientPagesModule;
++                if (cached)
++                    return cached;
++                const snapshot = catalog;
++                const rendered = await buildPagesModule(ssr);
++                // An older request may finish after invalidation; never cache its stale snapshot.
++                if (snapshot === catalog) {
++                    if (ssr)
++                        ssrPagesModule = rendered;
++                    else
++                        clientPagesModule = rendered;
+                 }
+-                if (!clientPagesModule)
+-                    clientPagesModule = await buildPagesModule(false);
+-                return clientPagesModule;
++                return rendered;
+             }
+             return undefined;
+         },

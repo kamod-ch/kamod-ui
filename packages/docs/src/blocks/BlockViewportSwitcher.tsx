@@ -3,7 +3,7 @@ import { ToggleGroup, ToggleGroupItem } from "@kamod-ch/ui";
 
 export type BlockPreviewViewport = "desktop" | "tablet" | "mobile";
 
-/** Mobile fits narrower containers; tablet uses its 768px frame, desktop the docs' 980px breakpoint. */
+/** Mobile fits narrower containers; tablet uses its 768px frame, desktop a 980px reference frame. */
 export const BLOCK_VIEWPORT_MIN_WIDTH = { mobile: 0, tablet: 768, desktop: 980 } as const;
 
 /** Clamp the rendered mode without replacing the user's saved preference when the page narrows. */
@@ -19,9 +19,9 @@ type BlockViewportSwitcherProps = {
 };
 
 const VIEWPORTS = [
-  { value: "mobile" as const, label: "Mobile view", Icon: SmartphoneIcon },
-  { value: "tablet" as const, label: "Tablet view", Icon: TabletIcon },
-  { value: "desktop" as const, label: "Desktop view", Icon: MonitorIcon },
+  { value: "mobile" as const, label: "Mobile View", Icon: SmartphoneIcon },
+  { value: "tablet" as const, label: "Tablet View", Icon: TabletIcon },
+  { value: "desktop" as const, label: "Desktop View", Icon: MonitorIcon },
 ];
 
 export const BlockViewportSwitcher = ({

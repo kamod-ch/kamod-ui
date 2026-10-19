@@ -1,10 +1,15 @@
 /** Shared native contents links, active reading position and history restoration. */
 import { useEffect, useState } from "preact/hooks";
+import { PageContentsHeading } from "../../docs/components/PageContentsHeading";
+import { flattenContents, PageContentsList } from "../../docs/components/PageContentsList";
+import { scheduleSectionScroll } from "../../docs/scroll-to-section";
 import { useRightSidebarScroll } from "../../layout/navigation/right-sidebar-memory";
+import { linkTitle } from "../../link-title";
 import type { BlockGuideIdentity, BlockGuideSection } from "./types";
 
-type OverviewChild = { id: string; label: string };
+type OverviewChild = ContentsSection;
 const noOverviewChildren: readonly OverviewChild[] = [];
+const mountedNavigations = new WeakSet<PerformanceNavigationTiming>();
 
 type ContentsSection = Pick<BlockGuideSection, "id" | "label" | "children">;
 
@@ -12,7 +17,6 @@ type ContentsSection = Pick<BlockGuideSection, "id" | "label" | "children">;
 const useActiveHeading = (
   blockId: string | undefined,
   sections: readonly ContentsSection[],
-  mobile: boolean,
   overviewId: string,
   overviewChildren: readonly OverviewChild[],
 ) => {
@@ -22,22 +26,36 @@ const useActiveHeading = (
     const ids = [
       overviewId,
       ...(blockId ? [blockId] : []),
-      ...overviewChildren.map(({ id }) => id),
-      ...sections.flatMap((entry) => [entry.id, ...(entry.children?.map(({ id }) => id) ?? [])]),
+      ...flattenContents(overviewChildren).map(({ id }) => id),
+      ...flattenContents(sections).map(({ id }) => id),
     ];
-    const headings = ids
-      .map((id) => document.getElementById(id))
-      .filter((element): element is HTMLElement => element !== null);
+    const resolveHeadings = () =>
+      ids
+        .map((id) => document.getElementById(id))
+        .filter((element): element is HTMLElement => element !== null);
+    let headings = resolveHeadings();
     const topbar = document.querySelector<HTMLElement>(".docs-topbar");
-    const desktop = window.matchMedia("(min-width: 1260px)");
-    const visible = () => desktop.matches !== mobile;
+    const desktop = window.matchMedia("(min-width: 1200px)");
+    const visible = () => desktop.matches;
     let frame = 0;
     let offsets: number[] | undefined;
+    let readingLine = 112;
+    let readingReady = false;
+    const refreshHeadings = () => {
+      if (!headings.some((heading) => !heading.isConnected)) return;
+      headings = resolveHeadings();
+      offsets = undefined;
+      readingReady = false;
+    };
     const update = () => {
       frame = 0;
+      refreshHeadings();
       if (!visible()) return;
-      const readingLine = (topbar?.getBoundingClientRect().height ?? 64) + 48;
+      if (!readingReady && headings[0] && getComputedStyle(headings[0]).visibility !== "visible")
+        return;
+      readingReady = true;
       if (!offsets) {
+        readingLine = (topbar?.getBoundingClientRect().height ?? 64) + 48;
         const padding =
           Number.parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
         // Anchor styles only change with layout breakpoints, not on every scroll frame.
@@ -47,10 +65,20 @@ const useActiveHeading = (
         );
       }
       let current = overviewId;
-      for (const [index, heading] of headings.entries()) {
-        if (heading.getBoundingClientRect().top > Math.max(readingLine, offsets[index]) + 1) break;
-        current = heading.id;
+      // Contents follow document order. Binary search avoids measuring every preceding
+      // heading on every frame, while still handling lazy content changing their positions.
+      let low = 0;
+      let high = headings.length;
+      while (low < high) {
+        const middle = (low + high) >>> 1;
+        if (
+          headings[middle].getBoundingClientRect().top <=
+          Math.max(readingLine, offsets[middle]) + 1
+        )
+          low = middle + 1;
+        else high = middle;
       }
+      if (low) current = headings[low - 1].id;
       // A short final section may never reach the reading line before the page ends.
       if (Math.ceil(window.scrollY + window.innerHeight) >= document.documentElement.scrollHeight) {
         current = headings.at(-1)?.id ?? current;
@@ -65,8 +93,8 @@ const useActiveHeading = (
       schedule();
     };
     const restoreHash = () => {
-      // Guides have two instances; block details have one that also restores mobile history.
-      if (!blockId && !visible()) return;
+      refreshHeadings();
+      // The single contents instance restores history at every viewport width.
       // PreactPress sets scrollRestoration to manual, including same-page Back/Forward.
       if (window.location.hash === "#top") {
         window.scrollTo({ top: 0, behavior: "instant" });
@@ -76,19 +104,61 @@ const useActiveHeading = (
       }
       schedule();
     };
+    // Hydration can briefly hide a lazy guide and undo the browser's first anchor jump.
+    // Follow it once after this guide's real headings mount, yielding to reading intent.
+    const initialHref = window.location.href;
+    const navigation = performance.getEntriesByType?.("navigation")[0] as
+      | PerformanceNavigationTiming
+      | undefined;
+    // The browser's navigation entry outlives SPA route changes. A later return to
+    // this original URL is a fresh anchor request, not another document reload.
+    const firstContentsMount = !navigation || !mountedNavigations.has(navigation);
+    if (navigation) mountedNavigations.add(navigation);
+    const documentPath = (href: string) => {
+      const url = new URL(href, initialHref);
+      return `${url.origin}${url.pathname.replace(/\/+$/, "")}${url.search}`;
+    };
+    const restoringHistory =
+      firstContentsMount &&
+      (navigation?.type === "reload" || navigation?.type === "back_forward") &&
+      (!navigation.name || documentPath(navigation.name) === documentPath(initialHref));
+    const initialTop = window.location.hash === "#top";
+    const initialTarget = initialTop
+      ? (headings.find((heading) => heading.id === overviewId) ?? headings[0])
+      : document.getElementById(window.location.hash.slice(1));
+    let cancelInitialFollow: (() => void) | undefined;
+    if (!restoringHistory && window.location.hash && initialTarget) {
+      cancelInitialFollow = scheduleSectionScroll(initialTarget.id, "instant", (target) => {
+        if (initialTop) window.scrollTo({ top: 0, behavior: "instant" });
+        else target.scrollIntoView({ block: "start", behavior: "instant" });
+        offsets = undefined;
+        update();
+      });
+    }
+    // Visibility-only page reveal does not emit a resize or article scroll. Initialize
+    // reading after that reveal without changing the article's saved/fresh position.
+    const cancelReadyUpdate =
+      !cancelInitialFollow && headings[0]
+        ? scheduleSectionScroll(headings[0].id, "instant", () => {
+            offsets = undefined;
+            update();
+          })
+        : undefined;
     update();
     window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("resize", resize);
     window.addEventListener("hashchange", restoreHash);
     desktop.addEventListener("change", resize);
     return () => {
+      cancelInitialFollow?.();
+      cancelReadyUpdate?.();
       window.cancelAnimationFrame(frame);
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", resize);
       window.removeEventListener("hashchange", restoreHash);
       desktop.removeEventListener("change", resize);
     };
-  }, [blockId, overviewId, overviewChildren, sections, mobile]);
+  }, [blockId, overviewId, overviewChildren, sections]);
 
   return activeId;
 };
@@ -98,7 +168,6 @@ export const BlockGuideContents = ({
   block,
   sections,
   id,
-  mobile = false,
   pageTitle,
   overviewChildren = noOverviewChildren,
 }: {
@@ -109,84 +178,46 @@ export const BlockGuideContents = ({
   overviewChildren?: readonly OverviewChild[];
   id: string;
   sections: readonly ContentsSection[];
-  /** Render the same section tree as an inline disclosure instead of a desktop sidebar. */
-  mobile?: boolean;
 }) => {
-  const contentsRef = useRightSidebarScroll<HTMLElement>("block-contents", !mobile);
-  const overviewId = block ? `${block.id}-overview` : pageTitle ? "page-title" : "top";
-  const activeId = useActiveHeading(block?.id, sections, mobile, overviewId, overviewChildren);
-  const links = () => (
-    <ul>
-      <li>
-        <a
-          href={pageTitle && !block ? "#page-title" : "#top"}
-          aria-current={activeId === overviewId ? "location" : undefined}
-        >
-          {pageTitle ?? "Overview"}
-        </a>
-        {!!overviewChildren.length && (
-          <ul>
-            {overviewChildren.map((child) => (
-              <li key={child.id}>
-                <a
-                  href={`#${child.id}`}
-                  aria-current={activeId === child.id ? "location" : undefined}
-                >
-                  {child.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        )}
-        {block && (
-          <ul>
+  const contentsRef = useRightSidebarScroll<HTMLElement>("block-contents");
+  const overviewId = pageTitle ? "page-title" : block ? `${block.id}-overview` : "top";
+  const activeId = useActiveHeading(block?.id, sections, overviewId, overviewChildren);
+  const overview = (
+    <li>
+      <a
+        href={pageTitle ? "#page-title" : "#top"}
+        data-contents-depth="1"
+        aria-current={activeId === overviewId ? "location" : undefined}
+      >
+        {linkTitle(pageTitle ?? "Overview")}
+      </a>
+      {!!overviewChildren.length && (
+        <PageContentsList entries={overviewChildren} activeId={activeId} depth={2} />
+      )}
+    </li>
+  );
+  return (
+    <aside class="blocks-doc-toc">
+      <nav aria-labelledby={id} ref={contentsRef}>
+        <PageContentsHeading
+          id={id}
+          count={sections.length + (block ? 2 : 1)}
+          activeId={activeId}
+        />
+        <PageContentsList entries={sections} activeId={activeId}>
+          {overview}
+          {block && (
             <li>
               <a
                 href={`#${block.id}`}
+                data-contents-depth="1"
                 aria-current={activeId === block.id ? "location" : undefined}
               >
-                {block.title} <span class="blocks-doc-toc-hint">Showcase</span>
+                Live Preview
               </a>
             </li>
-          </ul>
-        )}
-      </li>
-      {sections.map((entry) => (
-        <li key={entry.id}>
-          <a href={`#${entry.id}`} aria-current={activeId === entry.id ? "location" : undefined}>
-            {entry.label}
-          </a>
-          {!!entry.children?.length && (
-            <ul>
-              {entry.children.map((child) => (
-                <li key={child.id}>
-                  <a
-                    href={`#${child.id}`}
-                    aria-current={activeId === child.id ? "location" : undefined}
-                  >
-                    {child.step ? `${child.step}. ` : ""}
-                    {child.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
           )}
-        </li>
-      ))}
-    </ul>
-  );
-  return mobile ? (
-    <details class="block-guide-mobile-contents">
-      <summary>
-        In this guide <span>{sections.length} sections</span>
-      </summary>
-      <nav aria-label="Guide contents">{links()}</nav>
-    </details>
-  ) : (
-    <aside class="blocks-doc-toc">
-      <nav aria-labelledby={id} ref={contentsRef}>
-        <h2 id={id}>On this page</h2>
-        {links()}
+        </PageContentsList>
       </nav>
     </aside>
   );

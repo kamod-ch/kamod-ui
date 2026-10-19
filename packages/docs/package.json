@@ -5,7 +5,7 @@
   "description": "PreactPress documentation site for @kamod-ch/ui",
   "type": "module",
   "scripts": {
-    "brand:sync": "kamod-brand-sync-docs --target public",
+    "brand:sync": "node ./scripts/sync-brand-assets.mjs",
     "docs:routes": "node ./scripts/generate-docs-route-manifest.mjs",
     "dev": "pnpm brand:sync && pnpm docs:routes && preactpress dev",
     "build": "pnpm brand:sync && pnpm docs:routes && preactpress build",
@@ -27,7 +27,6 @@
   },
   "dependencies": {
     "@blobatar/preact": "^2.7.0",
-    "@fontsource-variable/inter": "^5.3.0",
     "@formisch/preact": "1.1.0",
     "@kamod-ch/blocks": "workspace:*",
     "@kamod-ch/brand": "^0.3.0",
@@ -49,7 +48,6 @@
     "marked": "18.0.14",
     "motion": "^13.4.6",
     "preact": "^11.0.0",
-    "prismjs": "^1.30.0",
     "valibot": "^1.5.0",
     "zod": "^4.6.5"
   },
@@ -61,7 +59,6 @@
     "@tailwindcss/vite": "^4.3.3",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/preact": "^3.2.4",
-    "@types/prismjs": "^1.26.6",
     "axe-core": "^4.13.0",
     "fflate": "0.8.3",
     "jsdom": "^30.1.1",

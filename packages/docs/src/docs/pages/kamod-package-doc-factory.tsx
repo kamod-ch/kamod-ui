@@ -61,6 +61,6 @@ export const createPackageTeaserDoc = (config: PackageTeaserConfig): DocPageModu
         text: config.accessibilityText,
       },
     ],
-    renderMain: (context) => <PackageGuide config={config} context={context} contents={contents} />,
+    renderMain: (context) => <PackageGuide config={config} context={context} />,
   };
 };

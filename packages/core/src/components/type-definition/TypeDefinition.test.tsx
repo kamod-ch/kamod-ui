@@ -11,16 +11,23 @@ describe("TypeDefinition", () => {
         typeName="NavigationItem"
         headingId="navigation"
         headingLevel={4}
+        titleMetadata="2 declared fields"
+        triggerHint="TypeScript source"
       >
         <button type="button">Copy source</button>
       </TypeDefinition>,
     );
-    const toggle = screen.getByRole("button", { name: "View definition: NavigationItem" });
+    const toggle = screen.getByRole("button", { name: "View Definition: NavigationItem" });
     expect(screen.getByRole("heading", { level: 4 })).toHaveAttribute("id", "navigation");
     expect(toggle).toHaveAttribute("aria-expanded", "false");
+    expect(screen.getByText("2 declared fields")).toBeVisible();
+    expect(toggle).toContainElement(screen.getByText("TypeScript source"));
+    expect(toggle.querySelector("button, a, [tabindex]")).toBeNull();
     expect(screen.queryByText("Copy source")).toBeNull();
     fireEvent.click(toggle);
     expect(toggle).toHaveAttribute("aria-expanded", "true");
+    expect(toggle).toHaveAccessibleName("Hide Definition: NavigationItem");
+    expect(toggle).toContainElement(screen.getByText("TypeScript source"));
     expect(toggle).toHaveAttribute("aria-controls", "navigation-content");
     expect(document.getElementById("navigation-content")).toContainElement(
       screen.getByText("Copy source"),

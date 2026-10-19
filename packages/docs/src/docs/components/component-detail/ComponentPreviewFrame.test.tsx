@@ -1,15 +1,60 @@
 /** @vitest-environment jsdom */
-import { act, cleanup, render } from "@testing-library/preact";
+import { act, cleanup, fireEvent, render, screen } from "@testing-library/preact";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { ComponentPreviewFrame } from "./ComponentPreviewFrame";
 
-beforeEach(() => vi.useFakeTimers());
+beforeEach(() => {
+  vi.useFakeTimers();
+  vi.stubGlobal("requestIdleCallback", undefined);
+});
 
 afterEach(() => {
   cleanup();
   vi.runOnlyPendingTimers();
   vi.useRealTimers();
   vi.unstubAllGlobals();
+});
+
+it("keeps loading until the example is ready, and removes pending listeners on teardown", () => {
+  vi.stubGlobal("IntersectionObserver", undefined);
+  vi.stubGlobal(
+    "ResizeObserver",
+    class {
+      observe() {}
+      disconnect() {}
+    },
+  );
+  const onLoad = vi.fn();
+  const { container, unmount } = render(
+    <ComponentPreviewFrame
+      slug="button"
+      index={0}
+      title="Button"
+      appearance={{ preset: "kamod", scheme: "light" }}
+      onLoad={onLoad}
+    />,
+  );
+  expect(screen.getByRole("status")).toHaveTextContent("Setting the scene");
+  act(() => {
+    vi.advanceTimersByTime(50);
+  });
+  const frame = container.querySelector("iframe")!;
+  const preview = document.implementation.createHTMLDocument();
+  preview.body.innerHTML = '<main id="component-preview-root"></main>';
+  Object.defineProperty(frame, "contentDocument", { value: preview });
+  fireEvent.load(frame);
+  expect(onLoad).not.toHaveBeenCalled();
+  expect(frame).toHaveAttribute("aria-hidden", "true");
+  act(() => {
+    preview.dispatchEvent(new Event("kamod:preview-ready"));
+  });
+  expect(screen.queryByRole("status")).not.toBeInTheDocument();
+  expect(frame).not.toHaveAttribute("aria-hidden");
+  expect(onLoad).toHaveBeenCalledOnce();
+  fireEvent.load(frame);
+  unmount();
+  preview.dispatchEvent(new Event("kamod:preview-ready"));
+  expect(onLoad).toHaveBeenCalledOnce();
 });
 
 it("loads after a batched hidden-to-visible jump and disconnects on teardown", () => {
@@ -22,6 +67,7 @@ it("loads after a batched hidden-to-visible jump and disconnects on teardown", (
         notify = callback;
       }
       observe() {}
+      unobserve() {}
       disconnect = disconnect;
     },
   );
@@ -34,22 +80,25 @@ it("loads after a batched hidden-to-visible jump and disconnects on teardown", (
     />,
   );
   const frame = container.querySelector("iframe")!;
-  expect(frame.hasAttribute("src")).toBe(false);
+  expect(frame).toHaveAttribute("src", "about:blank");
   act(() =>
     notify(
       [
-        { isIntersecting: false } as IntersectionObserverEntry,
-        { isIntersecting: true } as IntersectionObserverEntry,
+        { target: frame, isIntersecting: false } as unknown as IntersectionObserverEntry,
+        { target: frame, isIntersecting: true } as unknown as IntersectionObserverEntry,
       ],
       {} as IntersectionObserver,
     ),
   );
+  act(() => {
+    vi.advanceTimersByTime(50);
+  });
   expect(frame.getAttribute("src")).toBe(
     "/component-preview-frame.htm?component=formisch&example=4",
   );
-  expect(disconnect).toHaveBeenCalledTimes(1);
+  expect(disconnect).not.toHaveBeenCalled();
   unmount();
-  expect(disconnect).toHaveBeenCalledTimes(2);
+  expect(disconnect).toHaveBeenCalledOnce();
 });
 
 it("replaces resize observers on reload and cancels pending measurements on unmount", () => {
@@ -84,6 +133,9 @@ it("replaces resize observers on reload and cancels pending measurements on unmo
     />,
   );
   const frame = container.querySelector("iframe")!;
+  act(() => {
+    vi.advanceTimersByTime(50);
+  });
   const previewDocument = document.implementation.createHTMLDocument();
   previewDocument.body.innerHTML =
     '<main id="component-preview-root" data-preview-ready="true"></main>';
@@ -106,4 +158,56 @@ it("replaces resize observers on reload and cancels pending measurements on unmo
   unmount();
   expect(observers[1].disconnect).toHaveBeenCalledOnce();
   expect(pending.has(measurement)).toBe(false);
+});
+
+it("does not retain a resize observer for a document evicted as it finishes loading", () => {
+  let notify!: IntersectionObserverCallback;
+  vi.stubGlobal(
+    "IntersectionObserver",
+    class {
+      constructor(callback: IntersectionObserverCallback) {
+        notify = callback;
+      }
+      observe() {}
+      unobserve() {}
+      disconnect() {}
+    },
+  );
+  const observe = vi.fn();
+  vi.stubGlobal(
+    "ResizeObserver",
+    class {
+      observe = observe;
+      disconnect() {}
+    },
+  );
+  const visibility = (target: Element, isIntersecting: boolean) =>
+    act(() =>
+      notify(
+        [{ target, isIntersecting } as unknown as IntersectionObserverEntry],
+        {} as IntersectionObserver,
+      ),
+    );
+  for (let index = 0; index < 4; index++) {
+    const { container } = render(
+      <ComponentPreviewFrame
+        slug="button"
+        index={index}
+        title="Button"
+        appearance={{ preset: "kamod", scheme: "light" }}
+      />,
+    );
+    const frame = container.querySelector("iframe")!;
+    visibility(frame, true);
+    act(() => {
+      vi.advanceTimersByTime(50);
+    });
+    if (index === 3) visibility(frame, false);
+    const doc = document.implementation.createHTMLDocument();
+    doc.body.innerHTML = '<main id="component-preview-root" data-preview-ready="true"></main>';
+    Object.defineProperty(frame, "contentDocument", { value: doc });
+    fireEvent.load(frame);
+    if (index === 3) expect(frame).toHaveAttribute("src", "about:blank");
+  }
+  expect(observe).toHaveBeenCalledTimes(3);
 });

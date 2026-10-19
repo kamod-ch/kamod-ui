@@ -1,46 +1,42 @@
-import { BookOpenIcon } from "@kamod-ch/icons/lucide";
 import type { ComponentChildren } from "preact";
-import { BlockHeadingLink } from "../../blocks/BlockHeadingLink";
+import { BrandText } from "./brand/BrandText";
 import { PageBreadcrumbs } from "./PageBreadcrumbs";
+import { PageEyebrow } from "./PageEyebrow";
+import { PageTitle } from "./PageTitle";
 
 /** Keeps overview and guide introductions aligned while their content stays route-specific. */
 export function LibraryPageHeader({
   parent,
   label,
   eyebrow,
-  focus,
   title,
   description,
   children,
-  special = true,
+  decoration,
 }: {
-  special?: boolean;
   parent: { label: string; href: string };
   label: string;
   eyebrow: ComponentChildren;
-  focus: ComponentChildren;
   title: string;
   description: ComponentChildren;
-  children: ComponentChildren;
+  children?: ComponentChildren;
+  /** Optional decorative art positioned without changing the title flow. */
+  decoration?: ComponentChildren;
 }) {
   return (
-    <header class="block-guide-header">
+    <header class={`block-guide-header${decoration ? " has-page-decoration" : ""}`}>
       <PageBreadcrumbs
         ancestors={parent.href === "/" ? [parent] : [{ label: "Home", href: "/" }, parent]}
         current={label}
       />
-      <p class="block-guide-eyebrow">
-        <span class="block-guide-eyebrow-label">
-          <BookOpenIcon size={16} aria-hidden="true" />
-          <span>{eyebrow}</span>
-        </span>
-        <span class="block-guide-eyebrow-focus">{focus}</span>
-      </p>
-      <h1 id={special ? "page-title" : undefined} tabIndex={special ? -1 : undefined}>
-        {special ? <BlockHeadingLink id="page-title">{title}</BlockHeadingLink> : title}
-      </h1>
-      <div class="block-guide-description">{description}</div>
+      {decoration && <span class="page-header-decoration">{decoration}</span>}
+      <PageEyebrow>{eyebrow}</PageEyebrow>
+      <PageTitle>{title}</PageTitle>
+      <div class="block-guide-description">
+        <BrandText>{description}</BrandText>
+      </div>
       {children}
+      <hr class="page-intro-divider" />
     </header>
   );
 }

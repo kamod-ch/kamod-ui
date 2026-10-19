@@ -13,6 +13,8 @@ const tabsList = tv({
   variants: {
     variant: {
       default: "",
+      // Rounded triggers with an inset stripe, styled by the shared theme stylesheet.
+      inset: "",
       line: "gap-1 rounded-none bg-transparent p-0 ring-0 group-data-[orientation=horizontal]/tabs:rounded-none",
     },
   },

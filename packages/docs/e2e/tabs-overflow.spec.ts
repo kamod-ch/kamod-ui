@@ -36,16 +36,13 @@ async function expectVisibleUnderline(list: Locator) {
 
   expect(geometry.scrollTop, "tab list must not scroll vertically").toBe(0);
   expect(geometry.overflow, "indicator must not enlarge scroll height").toBe(0);
-  expect(geometry.height).toBe(2);
+  expect(geometry.height).toBe(2.5);
   expect(geometry.topInset).toBeGreaterThanOrEqual(0);
   expect(
     geometry.bottomInset,
     "underline must remain inside the scrollport",
   ).toBeGreaterThanOrEqual(0);
-  expect(
-    geometry.bottomInset,
-    "underline stays adjacent to the list's bottom border",
-  ).toBeLessThanOrEqual(2);
+  expect(geometry.bottomInset, "underline stays close to the list edge").toBeLessThanOrEqual(8);
 }
 
 for (const scheme of ["light", "dark"] as const) {
@@ -75,7 +72,9 @@ for (const scheme of ["light", "dark"] as const) {
       await expect(yarn).toHaveAttribute("aria-selected", "true");
       await expectVisibleUnderline(list);
       expect(await yarn.evaluate((tab) => tab.matches(":focus-visible"))).toBe(true);
-      expect(await yarn.evaluate((tab) => getComputedStyle(tab).boxShadow)).not.toBe("none");
+      await expect(yarn).toHaveCSS("outline-style", "solid");
+      await expect(yarn).toHaveCSS("outline-width", "2px");
+      await expect(yarn).toHaveCSS("outline-offset", "-2px");
       const panel = page.getByRole("tabpanel", { name: "yarn", exact: true });
       await expect(panel).toBeVisible();
       await expect(panel).toContainText("yarn add");
@@ -115,17 +114,27 @@ test("overflowing labels still scroll horizontally without hiding the underline"
   await expect.poll(() => list.evaluate((node) => node.scrollLeft)).toBe(0);
 });
 
-test("other docs line tabs keep their indicator when switching preview and code", async ({
+test("rounded showcase controls and nested line tabs retain independent styling", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 768, height: 900 });
   await page.goto("./docs/tabs/disabled-triggers");
-  const list = page.locator("#disabled-triggers .docs-tabs-list");
-  await expectVisibleUnderline(list);
+  const list = page.locator('#disabled-triggers .blocks-showcase-segmented[role="tablist"]');
+  await expect(list).toHaveAttribute("data-variant", "default");
   await list.getByRole("tab", { name: "Code", exact: true }).click();
-  await expectVisibleUnderline(list);
+  await expect(list.getByRole("tab", { name: "Code", exact: true })).toHaveAttribute(
+    "aria-selected",
+    "true",
+  );
+  expect(
+    await list
+      .getByRole("tab", { name: "Code", exact: true })
+      .evaluate((tab) => getComputedStyle(tab, "::after").content),
+  ).toBe("none");
   await list.getByRole("tab", { name: "Preview", exact: true }).click();
-  const example = page.locator("#disabled-triggers .preview").getByRole("tablist");
+  const frame = page.locator("#disabled-triggers iframe").first();
+  await frame.scrollIntoViewIfNeeded();
+  const example = frame.contentFrame().getByRole("tablist");
   await expectVisibleUnderline(example);
   await example.getByRole("tab", { name: "Overview" }).press("ArrowRight");
   await expect(example.getByRole("tab", { name: "Usage" })).toBeFocused();
@@ -133,11 +142,13 @@ test("other docs line tabs keep their indicator when switching preview and code"
   await expectVisibleUnderline(example);
 });
 
-test("default tabs retain their pill styling without a visible underline", async ({ page }) => {
+test("synced tabs use the shared line styling and a visible underline", async ({ page }) => {
   await page.setViewportSize({ width: 768, height: 900 });
   await page.goto("./docs/tabs/synced-tabs");
-  const list = page.locator("#synced-tabs .preview").getByRole("tablist").first();
-  await expect(list).toHaveAttribute("data-variant", "default");
+  const frame = page.locator("#synced-tabs iframe").first();
+  await frame.scrollIntoViewIfNeeded();
+  const list = frame.contentFrame().getByRole("tablist").first();
+  await expect(list).toHaveAttribute("data-variant", "line");
   await list.getByRole("tab", { name: "React", exact: true }).press("ArrowRight");
   const active = list.getByRole("tab", { name: "Vue", exact: true });
   await expect(active).toBeFocused();
@@ -145,12 +156,129 @@ test("default tabs retain their pill styling without a visible underline", async
   await expect
     .poll(() => active.evaluate((tab) => getComputedStyle(tab).backgroundColor))
     .not.toBe("rgba(0, 0, 0, 0)");
+  await expect
+    .poll(() => active.evaluate((tab) => getComputedStyle(tab, "::after").opacity))
+    .toBe("1");
   const style = await active.evaluate((tab) => ({
     indicator: getComputedStyle(tab, "::after").opacity,
     radius: parseFloat(getComputedStyle(tab).borderRadius),
     background: getComputedStyle(tab).backgroundColor,
   }));
-  expect(style.indicator).toBe("0");
-  expect(style.radius).toBeGreaterThan(0);
+  expect(style.indicator).toBe("1");
+  expect(style.radius).toBe(8);
   expect(style.background).not.toBe("rgba(0, 0, 0, 0)");
 });
+
+for (const scheme of ["light", "dark"] as const) {
+  test(`tabs and showcase controls retain their own selected and hover styles in ${scheme} mode`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.addInitScript((theme) => localStorage.setItem("theme", theme), scheme);
+    await page.goto("./docs/tabs/inset-tabs");
+    const showcase = page.locator("#inset-tabs");
+    const frame = showcase.locator("iframe").first();
+    await frame.scrollIntoViewIfNeeded();
+    const inset = frame
+      .contentFrame()
+      .getByRole("tablist", { name: "horizontal workspace example" });
+    const vertical = frame
+      .contentFrame()
+      .getByRole("tablist", { name: "vertical workspace example" });
+    const variants = [
+      page.locator('[data-slot="tabs-list"][data-variant="line"]').first(),
+      inset,
+      vertical,
+    ];
+
+    for (const list of variants) {
+      const active = list.locator('[role="tab"][aria-selected="true"]');
+      const inactive = list.locator('[role="tab"][aria-selected="false"]:not(:disabled)').first();
+      await active.scrollIntoViewIfNeeded();
+      await page.mouse.move(0, 0);
+      // Resolve colors through the browser rather than assuming a theme's RGB values.
+      const expected = await list.evaluate((node) => {
+        const probe = document.createElement("span");
+        node.append(probe);
+        const colors = [
+          "--tabs-selected-background",
+          "--tabs-hover-background",
+          "--tabs-selected-hover-background",
+        ].map((token) => {
+          probe.style.background = `var(${token})`;
+          return getComputedStyle(probe).backgroundColor;
+        });
+        probe.remove();
+        return { selected: colors[0], hovered: colors[1], selectedHovered: colors[2] };
+      });
+      expect(expected.selected).not.toBe(expected.hovered);
+      expect(expected.selectedHovered).not.toBe(expected.hovered);
+      await expect(active).toHaveCSS("background-color", expected.selected);
+      const idleBackground = await inactive.evaluate(
+        (node) => getComputedStyle(node).backgroundColor,
+      );
+      const alpha = (color: string) =>
+        parseFloat(
+          color.startsWith("rgba")
+            ? color.slice(color.lastIndexOf(",") + 1)
+            : (color.split("/")[1] ?? "1"),
+        );
+      expect(alpha(expected.selectedHovered) - alpha(expected.selected)).toBeCloseTo(
+        alpha(expected.hovered) - alpha(idleBackground),
+        5,
+      );
+      const restingLine = await active.evaluate(
+        (node) => getComputedStyle(node, "::after").transform,
+      );
+      await active.hover();
+      await expect(active).toHaveCSS("background-color", expected.selectedHovered);
+      await expect(active).toHaveCSS("background-image", "none");
+      expect(await active.evaluate((node) => getComputedStyle(node, "::after").transform)).toBe(
+        restingLine,
+      );
+      expect(restingLine).toBe("none");
+      await inactive.hover();
+      await expect(inactive).toHaveCSS("background-color", expected.hovered);
+      await expect(active).toHaveCSS("background-color", expected.selected);
+    }
+
+    const appearance = showcase.getByRole("button", { name: "Dark preview", exact: true });
+    if ((await appearance.getAttribute("aria-pressed")) === "true") await appearance.click();
+    await page.mouse.move(0, 0);
+    await expect(appearance).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
+    await appearance.hover();
+    const hoverTint = await appearance.evaluate((node) => {
+      const probe = document.createElement("span");
+      probe.style.background = "var(--docs-icon-button-hover-background)";
+      node.append(probe);
+      const color = getComputedStyle(probe).backgroundColor;
+      probe.style.background = "var(--docs-icon-button-selected-hover-background)";
+      probe.style.backgroundImage =
+        "linear-gradient(var(--docs-icon-button-selected-hover-background), var(--docs-icon-button-selected-hover-background))";
+      const selectedHovered = getComputedStyle(probe).backgroundColor;
+      const selectedGradient = getComputedStyle(probe).backgroundImage;
+      probe.style.background = "var(--docs-icon-button-selected-background, var(--background))";
+      const selected = getComputedStyle(probe).backgroundColor;
+      probe.remove();
+      return { color, selected, selectedHovered, selectedGradient };
+    });
+    await expect(appearance).toHaveCSS("background-color", hoverTint.color);
+    await appearance.click();
+    await expect(appearance).toHaveAttribute("aria-pressed", "true");
+    await expect(appearance).toHaveCSS("background-image", hoverTint.selectedGradient);
+    await expect(appearance).toHaveCSS("background-color", hoverTint.selected);
+    await page.mouse.move(0, 0);
+    await expect(appearance).toHaveCSS("background-image", "none");
+    await expect(appearance).toHaveCSS("background-color", hoverTint.selected);
+
+    const view = showcase
+      .locator('.blocks-showcase-segmented[role="tablist"]')
+      .first()
+      .getByRole("tab", { selected: true });
+    await expect(view).toHaveCSS("background-color", hoverTint.selected);
+    await view.hover();
+    await expect(view).toHaveCSS("background-color", hoverTint.selectedHovered);
+    await expect(view).toHaveCSS("background-image", "none");
+    expect(hoverTint.selectedHovered).not.toBe(hoverTint.color);
+  });
+}

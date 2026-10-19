@@ -534,28 +534,28 @@ export const breadcrumbDocPage: DocPageModule = {
     },
     {
       id: "custom-separator",
-      title: "Custom separator",
-      text: "Pass any node as children of BreadcrumbSeparator (for example a dot icon).",
+      title: "Custom Separator",
+      text: "**Let the Trail Carry the Hierarchy.** Pass your preferred separator node as the children of `BreadcrumbSeparator`. A small dot can create a quieter trail while the surrounding breadcrumb links continue to describe the same hierarchy.\n\nKeep it decorative and consistent across pages, and choose a neutral symbol if the same navigation must work in both left-to-right and right-to-left layouts.",
     },
     {
       id: "dropdown",
       title: "Dropdown",
-      text: "Place a Dropdown in a BreadcrumbItem to expose sibling routes without cluttering the trail.",
+      text: "**Expose Nearby Destinations without Lengthening the Trail.** Place a [Dropdown](/docs/dropdown/installation) inside `BreadcrumbItem` when readers need nearby destinations from the same level. The breadcrumb supplies location context; the menu exposes additional routes without lengthening the visible trail.\n\nGive its trigger a meaningful name and keep the current location clear; the menu should supplement the breadcrumb hierarchy rather than introduce unrelated global navigation.",
     },
     {
       id: "collapsed",
       title: "Collapsed",
-      text: "BreadcrumbEllipsis marks omitted intermediate segments; pair with a dropdown on the hero example for an interactive menu.",
+      text: "**Shorten the Middle without Losing Orientation.** Use `BreadcrumbEllipsis` to indicate omitted intermediate locations in a long path. If those destinations should remain reachable, connect the collapsed segment to a menu as shown in the full preview.\n\nAn ellipsis is only an omission marker unless you give it an actual disclosure control; use the [Dropdown](#dropdown) pattern when hidden ancestors must remain directly reachable.",
     },
     {
       id: "link-component",
-      title: "Link component",
-      text: "Use BreadcrumbLink asChild so your framework Link or anchor receives breadcrumb styles and data-slot.",
+      title: "Link Component",
+      text: "**Keep Routing Behavior in Your Router.** Set `asChild` on `BreadcrumbLink` to pass its styling and `data-slot` onto an anchor or compatible router link. Your navigation layer owns the destination while the breadcrumb owns its presentation in the trail.\n\nPreserve its destination and focus behavior, and make sure the final item communicates the current page even when it is also navigable.",
     },
     {
       id: "rtl",
       title: "RTL",
-      text: "Set dir on Breadcrumb (or wrap with DirectionProvider). Default chevron separator flips in RTL; keep icon separators neutral or mirror explicitly if needed.",
+      text: "**Check the Whole Pattern in Its Reading Direction.** Set `dir` on `Breadcrumb`, or provide a shared direction for the surrounding interface. The default chevron mirrors for RTL; a custom separator needs its own deliberate treatment when its shape implies direction.\n\nKeep values and keyboard behavior meaningful in the translated interface, and follow [Direction](/docs/direction/installation) when the page and its portaled controls need a shared direction.",
     },
     {
       id: "api-reference",

@@ -62,7 +62,8 @@ for (const slug of ["accordion", "formisch"]) {
           "data-reset-test",
           "old",
         );
-        expect((await button.boundingBox())!.width).toBe(width);
+        // Feedback uses a different font weight; allow subpixel glyph rounding.
+        expect((await button.boundingBox())!.width).toBeCloseTo(width, 0);
         await expect(button).toHaveAttribute("data-refresh-state", "idle");
         await expect(button).toBeEnabled();
       } finally {
@@ -105,7 +106,9 @@ test("leaving a loading example cancels its reset without a success state", asyn
     await example.getByRole("tab", { name: "Prompt", exact: true }).click();
     await expect(button).toHaveAttribute("data-refresh-state", "idle");
     await expect(button).toBeEnabled();
-    await expect(example.getByRole("status")).not.toHaveText("Example reset.");
+    await expect(example.locator('.blocks-showcase-refresh + [role="status"]')).not.toHaveText(
+      "Example reset.",
+    );
   } finally {
     release();
   }

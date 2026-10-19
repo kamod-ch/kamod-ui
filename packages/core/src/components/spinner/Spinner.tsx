@@ -40,17 +40,23 @@ export const Spinner = ({
     )}
     {...rest}
   >
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width={strokeWidth}
-      stroke-linecap="round"
-      class="size-full motion-safe:animate-spin motion-reduce:animate-none [animation-duration:0.7s]"
+    {/* Rotate an HTML box so browsers can composite the motion without laying out SVG each frame. */}
+    <span
+      class="inline-grid size-full motion-safe:animate-spin motion-reduce:animate-none [animation-duration:0.7s]"
       aria-hidden="true"
     >
-      <circle cx="12" cy="12" r="9" class="opacity-20" />
-      <path d="M12 3a9 9 0 1 1-9 9" class="opacity-90" stroke-dasharray="42 16" />
-    </svg>
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width={strokeWidth}
+        stroke-linecap="round"
+        class="size-full"
+        aria-hidden="true"
+      >
+        <circle cx="12" cy="12" r="9" class="opacity-20" />
+        <path d="M12 3a9 9 0 1 1-9 9" class="opacity-90" stroke-dasharray="42 16" />
+      </svg>
+    </span>
   </span>
 );

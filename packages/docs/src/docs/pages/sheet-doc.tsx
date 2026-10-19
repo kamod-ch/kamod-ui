@@ -32,7 +32,7 @@ export const sheetDocPage = createGenericDocPage({
     {
       id: "basic-sheet",
       title: "Basic",
-      text: "Open a Sheet and present focused context with title and description.",
+      text: "**Keep a Focused Task Beside the Page.** Open `Sheet` with a clear title and description to provide temporary context beside the main page. The edge panel can support a focused task while preserving the reader's sense of the screen behind it.\n\nOpen and dismiss the preview with the keyboard, checking that focus returns to a sensible trigger. If the task grows into a long, multi-step workflow, consider a dedicated page instead of making the temporary panel increasingly dense.",
       code: `import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/kamod-ui/sheet";
 
 export const Example = () => (
@@ -60,7 +60,7 @@ export const Example = () => (
           <SheetTrigger>Open</SheetTrigger>
           <SheetContent side="right" class="max-w-md">
             <SheetHeader>
-              <SheetTitle>Edit profile</SheetTitle>
+              <SheetTitle>Edit Profile</SheetTitle>
               <SheetDescription>
                 Make changes to your profile here. Click save when you're done.
               </SheetDescription>
@@ -79,7 +79,7 @@ export const Example = () => (
     {
       id: "sheet-side",
       title: "Side",
-      text: "Set side on SheetContent to top, right, bottom, or left. Top and bottom sheets span the full viewport width; use max-width classes only for left and right.",
+      text: "**Match the Edge to the Available Reading Space.** Set `side` on `SheetContent` to choose the panel's edge. Top and bottom sheets span the viewport width, while left and right sheets can use maximum-width utilities appropriate to their content.\n\nTest long content and short viewports for every supported direction; width utilities suitable for a right sheet may make a bottom sheet feel unexpectedly narrow.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/kamod-ui/sheet";
 
@@ -112,7 +112,7 @@ export const Example = () => (
                 class={side === "top" || side === "bottom" ? undefined : "max-w-md"}
               >
                 <SheetHeader>
-                  <SheetTitle>{side} sheet</SheetTitle>
+                  <SheetTitle>{side} Sheet</SheetTitle>
                   <SheetDescription>This Sheet opens from the {side} edge.</SheetDescription>
                 </SheetHeader>
               </SheetContent>
@@ -124,7 +124,7 @@ export const Example = () => (
     {
       id: "sheet-no-close-button",
       title: "No Close Button",
-      text: "Disable the built-in close button with showCloseButton={false}.",
+      text: "**Provide Another Visible Way to Leave.** Set `showCloseButton={false}` when your sheet supplies another visible dismissal control. Removing the built-in corner action should be a deliberate composition choice, with an understandable way to leave the panel still available.\n\nKeep a named close or cancel action in the content, preserve keyboard behavior and define what happens to unsaved input when the panel closes.",
       code: `import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/kamod-ui/sheet";
 
 export const Example = () => (
@@ -145,7 +145,7 @@ export const Example = () => (
           <SheetTrigger>Open Sheet</SheetTrigger>
           <SheetContent side="right" showCloseButton={false} class="max-w-md">
             <SheetHeader>
-              <SheetTitle>Custom closing flow</SheetTitle>
+              <SheetTitle>Custom Closing Flow</SheetTitle>
               <SheetDescription>
                 This variant hides the default close button for custom UI patterns.
               </SheetDescription>
@@ -157,7 +157,7 @@ export const Example = () => (
     {
       id: "with-motion",
       title: "With Motion",
-      text: "Replace SheetContent with MotionSheetContent for Presence-managed exit and directional presets from @kamod-ch/motion.",
+      text: "**Keep Motion Separate from the Interaction Contract.** Replace `SheetContent` with `MotionSheetContent` for a Presence-managed exit and directional motion presets. The animation follows the sheet's placement while the underlying sheet continues to define its focus and dismissal behavior.\n\nTest repeated activation and reduced-motion preferences, keep the underlying controlled state in one place and avoid making application logic depend on a decorative transition finishing.",
       code: MOTION_SHEET_EXAMPLE_CODE,
       renderPreview: () => <MotionSheetSidesPreview />,
     },

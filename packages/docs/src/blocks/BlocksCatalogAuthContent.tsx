@@ -1,10 +1,13 @@
 import { type CatalogAuthBlockId, catalogAuthBlocks } from "@kamod-ch/blocks";
-import { Button, Tabs, TabsContent, TabsList, TabsTrigger } from "@kamod-ch/ui";
-import { Check, Copy, ExternalLink, RefreshCw } from "lucide-preact";
+import { Button, CopyButton, Tabs, TabsContent, TabsList, TabsTrigger } from "@kamod-ch/ui";
+import { ExternalLink, RefreshCw } from "lucide-preact";
 import { useMemo, useState } from "preact/hooks";
 import { withBasePath } from "../base-path";
+import { BrandText } from "../docs/components/brand/BrandText";
 import { CodeBlock } from "../docs/components/CodeBlock";
 import { DocsShell } from "../docs/components/DocsShell";
+import { PageEyebrow } from "../docs/components/PageEyebrow";
+import { PageTitle } from "../docs/components/PageTitle";
 import { PathDisplay } from "../docs/components/PathDisplay";
 import { BlockPreviewPanel } from "./BlockPreviewPanel";
 import { catalogAuthPreviewProps } from "./catalog-auth-fixtures";
@@ -12,19 +15,27 @@ import { getCatalogAuthBlockSource } from "./catalog-auth-source";
 
 type CatalogAuthBlock = (typeof catalogAuthBlocks)[number];
 
+const pageTitle = "Auth Blocks";
+
 export const BlocksCatalogAuthContent = () => (
   <DocsShell
     sidebarScope="blocks"
     activeDoc={null}
+    pageTitle={pageTitle}
     activeSection=""
     activeBlock="auth"
     mainContent={
       <section class="docs-components-overview blocks-sidebar-page">
         <header class="blocks-hero">
-          <h1>Auth Blocks</h1>
+          <PageEyebrow>
+            {`${catalogAuthBlocks.length} ${catalogAuthBlocks.length === 1 ? "variant" : "variants"}`}
+          </PageEyebrow>
+          <PageTitle>{pageTitle}</PageTitle>
           <p class="blocks-hero-lead">
-            Preact-native authentication screens ported from the uipkge catalog. The consumer owns
-            network and session logic. Built with Kamod UI tokens and Tailwind v4.
+            <BrandText>
+              Preact-native authentication screens ported from the uipkge catalog. The consumer owns
+              network and session logic. Built with Kamod UI tokens and Tailwind v4.
+            </BrandText>
           </p>
         </header>
         <div class="grid gap-10">
@@ -53,7 +64,6 @@ const buildFileTree = (files: CatalogAuthBlock["files"]) => {
 const BlockCard = ({ block }: { block: CatalogAuthBlock }) => {
   const [selectedFile, setSelectedFile] = useState(block.files[0]?.label ?? "");
   const [previewKey, setPreviewKey] = useState(0);
-  const [copied, setCopied] = useState(false);
   const previewUrl = withBasePath(`/blocks/auth/${block.id}/preview`);
   const source = getCatalogAuthBlockSource(block.id as CatalogAuthBlockId, selectedFile);
   const fileTree = useMemo(() => buildFileTree(block.files), [block.files]);
@@ -62,16 +72,6 @@ const BlockCard = ({ block }: { block: CatalogAuthBlock }) => {
   const Preview = () => {
     const Component = block.component;
     return <Component {...previewProps} />;
-  };
-
-  const copyInstall = async () => {
-    try {
-      await navigator.clipboard.writeText(installCommand);
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 1600);
-    } catch {
-      /* noop */
-    }
   };
 
   return (
@@ -113,11 +113,19 @@ const BlockCard = ({ block }: { block: CatalogAuthBlock }) => {
           </table>
         </div>
         <Tabs defaultValue="preview" class="docs-tabs">
-          <TabsList class="docs-tabs-list" variant="line">
-            <TabsTrigger value="preview">Preview</TabsTrigger>
-            <TabsTrigger value="dark">Dark Mode</TabsTrigger>
-            <TabsTrigger value="usage">Usage</TabsTrigger>
-            <TabsTrigger value="code">Code</TabsTrigger>
+          <TabsList class="docs-tabs-list blocks-showcase-segmented">
+            <TabsTrigger value="preview" class="docs-icon-button">
+              Preview
+            </TabsTrigger>
+            <TabsTrigger value="dark" class="docs-icon-button">
+              Dark Mode
+            </TabsTrigger>
+            <TabsTrigger value="usage" class="docs-icon-button">
+              Usage
+            </TabsTrigger>
+            <TabsTrigger value="code" class="docs-icon-button">
+              Code
+            </TabsTrigger>
           </TabsList>
           <TabsContent value="preview">
             <BlockPreviewPanel
@@ -142,15 +150,12 @@ const BlockCard = ({ block }: { block: CatalogAuthBlock }) => {
           <TabsContent value="code">
             <div class="blocks-install">
               <PathDisplay path={installCommand} />
-              <Button
-                class="docs-icon-button"
-                size="icon-sm"
-                variant="ghost"
+              <CopyButton
+                value={installCommand}
+                subject="block path"
                 aria-label="Copy block path"
-                onClick={copyInstall}
-              >
-                {copied ? <Check size={14} /> : <Copy size={14} />}
-              </Button>
+                iconOnly
+              />
             </div>
             <div class="blocks-code-layout mt-3">
               <aside class="blocks-file-tree" aria-label="Block files">

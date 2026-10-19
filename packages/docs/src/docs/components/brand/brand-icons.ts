@@ -1,0 +1,35 @@
+import {
+  BrandDockerIcon,
+  BrandFigmaIcon,
+  BrandGithubIcon,
+  BrandGitIcon,
+  BrandJavascriptIcon,
+  BrandNextjsIcon,
+  BrandNodejsIcon,
+  BrandNpmIcon,
+  BrandPnpmIcon,
+  BrandReactIcon,
+  BrandTailwindIcon,
+  BrandTypescriptIcon,
+  BrandViteIcon,
+  BrandYarnIcon,
+} from "@kamod-ch/icons/tabler/outline";
+
+/** Verified brand marks shared by authored prose and reference headings. */
+export const brandIcons = {
+  Preact: BrandReactIcon,
+  React: BrandReactIcon,
+  TypeScript: BrandTypescriptIcon,
+  Tailwind: BrandTailwindIcon,
+  JavaScript: BrandJavascriptIcon,
+  GitHub: BrandGithubIcon,
+  Git: BrandGitIcon,
+  Vite: BrandViteIcon,
+  pnpm: BrandPnpmIcon,
+  npm: BrandNpmIcon,
+  Yarn: BrandYarnIcon,
+  "Node.js": BrandNodejsIcon,
+  "Next.js": BrandNextjsIcon,
+  Figma: BrandFigmaIcon,
+  Docker: BrandDockerIcon,
+};

@@ -1,0 +1,48 @@
+/* Page and reference loaders share one clock; their own styles supply the quiet paint. */
+.docs-loading-skeleton {
+  --loading-skeleton-cycle: 2.25s;
+  --loading-skeleton-stagger: 0.045s;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .docs-loading-skeleton .docs-loading-shape {
+    transform-origin: left center;
+    animation: docs-loading-settle var(--loading-skeleton-cycle) ease-in-out
+      calc(var(--loading-skeleton-step, 0) * var(--loading-skeleton-stagger)) infinite;
+  }
+  .docs-loading-skeleton .docs-loading-shape::after {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 50%;
+    border-radius: inherit;
+    pointer-events: none;
+    background: var(--loading-skeleton-sheen);
+    opacity: var(--loading-skeleton-sheen-opacity, 0.13);
+    animation: docs-loading-sweep var(--loading-skeleton-cycle) ease-in-out
+      calc(var(--loading-skeleton-step, 0) * var(--loading-skeleton-stagger)) infinite;
+  }
+}
+@keyframes docs-loading-settle {
+  0%,
+  100% {
+    opacity: 0.78;
+    transform: none;
+  }
+  35% {
+    opacity: 1;
+    transform: translateY(-1px) scaleX(0.992);
+  }
+  75% {
+    opacity: 0.9;
+    transform: none;
+  }
+}
+@keyframes docs-loading-sweep {
+  0% {
+    transform: translateX(-110%);
+  }
+  95%,
+  100% {
+    transform: translateX(310%);
+  }
+}

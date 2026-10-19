@@ -1,5 +1,5 @@
 /** Shared category → detail navigation for every visible block category. */
-import { useEffect } from "preact/hooks";
+import { useEffect, useMemo } from "preact/hooks";
 import { withBasePath } from "../base-path";
 import { DocsShell } from "../docs/components/DocsShell";
 import { BlockCategoryHeader } from "./BlockCategoryHeader";
@@ -7,9 +7,14 @@ import { BlockCategoryPreview } from "./BlockCategoryPreview";
 import { BlockOverviewCard } from "./BlockOverviewCard";
 import { type BlockCategory, blockCategories, legacyBlockDestination } from "./block-categories";
 import { SHOW_CATEGORY_PREVIEW } from "./block-display-options";
+import { BlockGuideContents } from "./detail/BlockGuideContents";
 
 export const BlockCategoryPage = ({ category }: { category: BlockCategory }) => {
-  const { blocks, label } = blockCategories[category];
+  const { blocks, label, title } = blockCategories[category];
+  const contents = useMemo(
+    () => [{ id: `${category}-variants`, label: "Explore Block Variants" }],
+    [category],
+  );
 
   useEffect(() => {
     // Old auth pages used /blocks/login#login-01. Replace the entry so Back does not loop.
@@ -32,6 +37,9 @@ export const BlockCategoryPage = ({ category }: { category: BlockCategory }) => 
       activeDoc={null}
       activeSection=""
       activeBlock={category}
+      pageContents={
+        <BlockGuideContents id={`${category}-contents`} pageTitle={title} sections={contents} />
+      }
       contentHeader={
         SHOW_CATEGORY_PREVIEW ? <BlockCategoryHeader category={category} /> : undefined
       }

@@ -18,7 +18,7 @@ export type DirectionProviderProps = Omit<HTMLAttributes<HTMLDivElement>, "dir">
 };
 
 /**
- * Sets both React context and the HTML `dir` attribute on a wrapping element so logical CSS (`ms-*`, `me-*`, etc.) resolves correctly.
+ * Sets both Preact context and the HTML `dir` attribute on a wrapping element so logical CSS (`ms-*`, `me-*`, etc.) resolves correctly.
  * For full-document RTL, also set `dir` on `<html>` (see docs).
  */
 export const DirectionProvider = ({

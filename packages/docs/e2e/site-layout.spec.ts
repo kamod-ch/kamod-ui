@@ -30,8 +30,9 @@ test("page containers and sidebar tracks share the navbar geometry", async ({ pa
     await page.goto(`./${route}`);
     await expect(page.locator(".docs-layout")).toBeVisible();
     for (const width of [
-      320, 375, 390, 414, 479, 480, 481, 639, 640, 641, 767, 768, 769, 979, 980, 981, 1023, 1024,
-      1025, 1259, 1260, 1261, 1439, 1440, 1441, 1679, 1680, 1681, 1920, 2560,
+      320, 375, 390, 414, 479, 480, 481, 639, 640, 641, 767, 768, 769, 939, 940, 941, 979, 980, 981,
+      1023, 1024, 1025, 1199, 1200, 1201, 1259, 1260, 1261, 1439, 1440, 1441, 1679, 1680, 1681,
+      1920, 2560,
     ]) {
       await page.setViewportSize({ width, height: 1000 });
       const geometry = await page.evaluate(() => {
@@ -75,6 +76,55 @@ test("page containers and sidebar tracks share the navbar geometry", async ({ pa
       }
       if (route === "blocks") layouts.set(width, geometry);
       if (!route) await expect(page.locator("aside.docs-rightbar")).toHaveCount(0);
+    }
+  }
+});
+
+test("sidebar gutters stay equal and grow within bounds at the new layout thresholds", async ({
+  page,
+}) => {
+  for (const route of ["docs/forms", "blocks/application-shell/application-shell-1"]) {
+    await page.goto(`./${route}`, { waitUntil: "domcontentloaded" });
+    await expect(page.locator("html")).toHaveClass(/pp-ready/);
+    let previousGap = 0;
+    for (const width of [939, 940, 1199, 1200, 1440, 1920, 2560]) {
+      await page.setViewportSize({ width, height: 1000 });
+      const left = page.locator("aside.docs-sidebar");
+      const right = page.locator(
+        "aside.docs-rightbar, .blocks-detail-documentation > .blocks-doc-toc",
+      );
+      if (width < 940) {
+        await expect(left).toBeHidden();
+        await expect(page.getByRole("button", { name: "Open navigation menu" })).toBeVisible();
+        continue;
+      }
+      await expect(left).toBeVisible();
+      await expect(page.getByRole("button", { name: "Open navigation menu" })).toBeHidden();
+      if (width < 1200) await expect(right).toBeHidden();
+      else await expect(right).toBeVisible();
+      const geometry = await page.evaluate(() => {
+        const layout = document.querySelector(".docs-layout")!;
+        const article =
+          document.querySelector(".blocks-doc-body") ?? document.querySelector(".docs-content")!;
+        const left = document.querySelector(".docs-sidebar-scroll")!.getBoundingClientRect();
+        const right = document.querySelector(".docs-rightbar-contents, .blocks-doc-toc nav")!;
+        const articleBox = article.getBoundingClientRect();
+        return {
+          gap: parseFloat(getComputedStyle(layout).columnGap),
+          leftGap: articleBox.left - left.right,
+          rightGap: right.getBoundingClientRect().left - articleBox.right,
+          contentWidth: articleBox.width,
+          fits: document.documentElement.scrollWidth <= innerWidth,
+        };
+      });
+      expect(geometry.fits).toBe(true);
+      expect(geometry.gap).toBeGreaterThanOrEqual(previousGap);
+      expect(geometry.gap).toBeGreaterThanOrEqual(12);
+      expect(geometry.gap).toBeLessThanOrEqual(40);
+      expect(geometry.leftGap).toBeCloseTo(geometry.gap + 4, 0);
+      if (width >= 1200) expect(geometry.rightGap).toBeCloseTo(geometry.leftGap, 0);
+      expect(geometry.contentWidth).toBeGreaterThan(width < 1200 ? 540 : 460);
+      previousGap = geometry.gap;
     }
   }
 });

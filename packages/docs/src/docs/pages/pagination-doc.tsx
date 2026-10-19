@@ -14,6 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@kamod-ch/ui";
+import { withBasePath } from "../../base-path";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const paginationDocPage = createGenericDocPage({
@@ -28,7 +29,7 @@ export const paginationDocPage = createGenericDocPage({
     {
       id: "pagination-demo",
       title: "Demo",
-      text: "Full navigation: previous, page numbers with an active state, ellipsis, and next — matching the primary shadcn/ui example.",
+      text: "**Keep the Current Location and Available Destinations Clear.** Compose previous/next links, numbered pages and an ellipsis around the active page. The pagination presents the available destinations, while your routing or data layer supplies the records belonging to each page.\n\nBuild the visible range from your dataset, distinguish ellipsis from selectable pages, and define what happens at the first and last page before connecting remote results.",
       code: `import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/kamod-ui/pagination";
 
 export const Example = () => (
@@ -87,7 +88,7 @@ export const Example = () => (
     {
       id: "pagination-simple",
       title: "Simple",
-      text: "Numeric pages only — useful when previous/next live elsewhere or the range is small.",
+      text: "**Use a Compact Range When Every Page Can Remain Visible.** Use numbered page links alone when the range is short or previous/next controls already exist elsewhere. Mark the current page clearly so the compact layout still communicates where the reader is within the result set.\n\nGive the navigation a useful accessible name, keep the current page explicit, and switch patterns before the list becomes too long for narrow screens.",
       code: `import { Pagination, PaginationContent, PaginationItem, PaginationLink } from "@/components/kamod-ui/pagination";
 
 export const Example = () => (
@@ -139,8 +140,8 @@ export const Example = () => (
     },
     {
       id: "pagination-icons-only",
-      title: "Icons only (with rows per page)",
-      text: "Previous and next without page numbers, beside a rows-per-page select — typical for data tables.",
+      title: "Icons Only (with Rows per Page)",
+      text: "**Keep Navigation Distinct from Page Size.** Pair icon-only previous/next controls with a rows-per-page selector for a compact table footer. The controls change which records are displayed, while accessible names explain their direction without requiring visible button labels.\n\nGive icon-only links descriptive accessible names, reset or clamp the current page when page size changes, and expose a readable result summary so users can tell where they are.",
       code: `import { Label } from "@/components/kamod-ui/label"
 import { Pagination, PaginationContent, PaginationItem, PaginationNext, PaginationPrevious } from "@/components/kamod-ui/pagination"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/kamod-ui/select";
@@ -212,8 +213,8 @@ export const Example = () => (
     },
     {
       id: "pagination-rtl",
-      title: "RTL labels",
-      text: 'Set `dir="rtl"` on the nav and use the `text` prop on previous/next for translated strings (shadcn-style i18n hook optional).',
+      title: "RTL Labels",
+      text: '**Check the Whole Pattern in Its Reading Direction.** Set `dir="rtl"` on the navigation and provide translated `text` for previous and next controls. Keep the meaning of each destination consistent with the reading direction rather than only reversing the visual order.\n\nKeep values and keyboard behavior meaningful in the translated interface, and follow [Direction](/docs/direction/installation) when the page and its portaled controls need a shared direction.',
       code: `import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/kamod-ui/pagination";
 
 export const Example = () => (
@@ -271,22 +272,71 @@ export const Example = () => (
     },
   ],
   apiRows: [
-    { prop: "PaginationLink isActive", type: "boolean", defaultValue: "false" },
-    { prop: "PaginationLink size", type: "Button size token", defaultValue: '"default"' },
+    {
+      prop: "PaginationLink isActive",
+      type: "boolean",
+      defaultValue: "false",
+      description: (
+        <>
+          <strong>Mark the Current Page.</strong> Sets <code>aria-current="page"</code> and switches
+          the link from <code>ghost</code> to <code>outline</code> styling. Update it from your own
+          page state; it does not change the destination. See the{" "}
+          <a href="#pagination-demo">Full Navigation Example</a>.
+        </>
+      ),
+    },
+    {
+      prop: "PaginationLink size",
+      type: "Button size token",
+      defaultValue: '"default"',
+      description: (
+        <>
+          Uses the shared{" "}
+          <a href={withBasePath("/docs/button/installation#api-reference")}>Button Size Tokens</a>.
+          Pagination also applies <code>h-9</code>, <code>min-w-9</code> and its own horizontal
+          padding, so the token alone does not determine every dimension. Keep page links{" "}
+          <strong>Consistently Sized</strong>.
+        </>
+      ),
+    },
     {
       prop: "PaginationPrevious / PaginationNext text",
       type: "string",
       defaultValue: '"Previous" / "Next"',
+      description: (
+        <>
+          <strong>Localize the Visible Label.</strong> The default label appears from the{" "}
+          <code>sm</code> breakpoint while the chevron remains visible on smaller screens. Also
+          supply a translated <code>aria-label</code>; changing <code>text</code> does not replace
+          the English accessible name. Compare the <a href="#pagination-rtl">RTL Example</a>.
+        </>
+      ),
     },
     {
       prop: "PaginationPrevious / PaginationNext children",
       type: "ComponentChildren",
-      defaultValue: "chevron + hidden sm:text (or custom)",
+      defaultValue: "undefined",
+      description: (
+        <>
+          Replace the <strong>Entire Link Content</strong> with your own icon or label. When{" "}
+          <code>children</code> is <code>undefined</code> or <code>null</code>, the component
+          renders its chevron and responsive <code>text</code> label. Keep a meaningful{" "}
+          <code>aria-label</code> for <a href="#pagination-icons-only">Icon-Only Navigation</a>.
+        </>
+      ),
     },
     {
       prop: "Pagination class",
       type: "string",
       defaultValue: '"mx-auto flex w-full justify-center"',
+      description: (
+        <>
+          Merge classes into the outer <code>nav</code> to adjust{" "}
+          <strong>Alignment and Width</strong>. For example, <code>mx-0 w-auto</code> fits
+          pagination beside a rows-per-page control. These layout defaults remain unless conflicting
+          classes override them; see the <a href="#pagination-icons-only">Compact Table Layout</a>.
+        </>
+      ),
     },
   ],
   accessibilityText:

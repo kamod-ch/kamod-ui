@@ -2,52 +2,54 @@
 import { ShellDesignReference, ShellExplanation } from "../ApplicationShellAbout";
 import { ShellProps } from "../ApplicationShellProps";
 import { ShellSetup, ShellUsage } from "../ApplicationShellSetup";
+import { shellProductionSection } from "./ShellProductionGuide";
 import type { BlockGuideSection } from "./types";
 
 export const applicationShellSections: readonly BlockGuideSection[] = [
   {
     id: "application-shell-installation",
-    label: "Add this block",
-    eyebrow: "Getting started",
+    label: "Add This Block",
+    eyebrow: "Getting Started",
     Content: ShellSetup,
     children: [
-      { id: "application-shell-copy", label: "Copy the block", step: 1 },
-      { id: "application-shell-dependencies", label: "Install missing dependencies", step: 2 },
-      { id: "application-shell-styles", label: "Set up styles and import", step: 3 },
+      { id: "application-shell-copy", label: "Copy the Block", step: 1 },
+      { id: "application-shell-dependencies", label: "Install Missing Dependencies", step: 2 },
+      { id: "application-shell-styles", label: "Set Up Styles and Import", step: 3 },
     ],
   },
   { id: "application-shell-usage", label: "Usage", eyebrow: "Integration", Content: ShellUsage },
   {
     id: "application-shell-props",
-    label: "Props and data",
-    eyebrow: "API reference",
+    label: "Props and Data",
+    eyebrow: "API Reference",
     Content: ShellProps,
     children: [
-      { id: "application-shell-prop-reference", label: "Component props" },
-      { id: "application-shell-navigation-data", label: "Type your navigation data" },
-      { id: "application-shell-data-types", label: "Data type reference" },
-      { id: "application-shell-callbacks", label: "Navigation and callbacks" },
-      { id: "application-shell-state", label: "Sidebar state" },
+      { id: "application-shell-prop-reference", label: "Component Props" },
+      { id: "application-shell-navigation-data", label: "Type Your Navigation Data" },
+      { id: "application-shell-data-types", label: "Data Type Reference" },
+      { id: "application-shell-callbacks", label: "Navigation and Callbacks" },
+      { id: "application-shell-state", label: "Sidebar State" },
     ],
   },
   {
     id: "application-shell-about",
-    label: "About this block",
-    eyebrow: "A closer look",
+    label: "About This Block",
+    eyebrow: "A Closer Look",
     Content: ShellExplanation,
     children: [
-      { id: "application-shell-structure", label: "Structure and composition" },
-      { id: "application-shell-navigation", label: "Navigation and routing" },
-      { id: "application-shell-responsive", label: "Responsive behavior and state" },
-      { id: "application-shell-account", label: "Account menu and page content" },
-      { id: "application-shell-accessibility", label: "Accessibility and styling" },
-      { id: "application-shell-demo", label: "Making it your own" },
+      { id: "application-shell-structure", label: "Structure and Composition" },
+      { id: "application-shell-navigation", label: "Navigation and Routing" },
+      { id: "application-shell-responsive", label: "Responsive Behavior and State" },
+      { id: "application-shell-account", label: "Account Menu and Page Content" },
+      { id: "application-shell-accessibility", label: "Accessibility and Styling" },
+      { id: "application-shell-demo", label: "Making It Your Own" },
     ],
   },
+  shellProductionSection,
   {
     id: "application-shell-reference",
-    label: "Design reference",
-    eyebrow: "Design inspiration",
+    label: "Design Reference",
+    eyebrow: "Design Inspiration",
     Content: ShellDesignReference,
   },
 ];

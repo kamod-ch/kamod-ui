@@ -41,6 +41,7 @@ export const ScrollBar = ({
     scrollSize: 0,
   });
   const dragRef = useRef<{ startPointer: number; startScroll: number } | null>(null);
+  const stopDragRef = useRef<(() => void) | null>(null);
   const [thumb, setThumb] = useState<ThumbState>({ size: 0, offset: 0, hidden: true });
 
   useLayoutEffect(() => {
@@ -48,6 +49,14 @@ export const ScrollBar = ({
     const track = trackRef.current;
     if (!scrollEl || !track) return;
 
+    const updateThumb = (size: number, offset: number, hidden: boolean) => {
+      // Content mutations can leave geometry unchanged; retain state to skip a render.
+      setThumb((previous) =>
+        previous.size === size && previous.offset === offset && previous.hidden === hidden
+          ? previous
+          : { size, offset, hidden },
+      );
+    };
     const compute = () => {
       const isVertical = orientation === "vertical";
       const viewportSize = isVertical ? scrollEl.clientHeight : scrollEl.clientWidth;
@@ -64,7 +73,7 @@ export const ScrollBar = ({
           viewportSize,
           scrollSize,
         };
-        setThumb({ size: 0, offset: 0, hidden: true });
+        updateThumb(0, 0, true);
         return;
       }
 
@@ -81,7 +90,7 @@ export const ScrollBar = ({
         viewportSize,
         scrollSize,
       };
-      setThumb({ size, offset, hidden: false });
+      updateThumb(size, offset, false);
     };
 
     compute();
@@ -93,6 +102,7 @@ export const ScrollBar = ({
     mutationObserver.observe(scrollEl, { childList: true, subtree: true, characterData: true });
 
     return () => {
+      stopDragRef.current?.();
       scrollEl.removeEventListener("scroll", compute);
       resizeObserver.disconnect();
       mutationObserver.disconnect();
@@ -111,12 +121,16 @@ export const ScrollBar = ({
     const m = metricsRef.current;
     if (m.maxThumbTravel <= 0) return;
 
+    stopDragRef.current?.();
     dragRef.current = {
       startPointer: isVertical ? e.clientY : e.clientX,
       startScroll: isVertical ? scrollEl.scrollTop : scrollEl.scrollLeft,
     };
 
-    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+    // Native event.currentTarget resets after dispatch; retain the thumb for drag cleanup.
+    const thumbNode = e.currentTarget;
+    const pointerId = e.pointerId;
+    thumbNode.setPointerCapture(pointerId);
 
     const onMove = (ev: globalThis.PointerEvent) => {
       if (!dragRef.current) return;
@@ -136,14 +150,19 @@ export const ScrollBar = ({
       }
     };
 
-    const onUp = (ev: globalThis.PointerEvent) => {
-      (e.currentTarget as HTMLElement).releasePointerCapture(ev.pointerId);
+    const stop = () => {
       dragRef.current = null;
+      stopDragRef.current = null;
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("pointerup", onUp);
       window.removeEventListener("pointercancel", onUp);
+      if (thumbNode.hasPointerCapture(pointerId)) thumbNode.releasePointerCapture(pointerId);
+    };
+    const onUp = (ev: globalThis.PointerEvent) => {
+      if (ev.pointerId === pointerId) stop();
     };
 
+    stopDragRef.current = stop;
     window.addEventListener("pointermove", onMove);
     window.addEventListener("pointerup", onUp);
     window.addEventListener("pointercancel", onUp);

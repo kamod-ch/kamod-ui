@@ -85,7 +85,7 @@ describe("dashboard chart and theme blocks", () => {
 
   it("validates funnel stage counts and keeps zero-safe ratios in the table", () => {
     const { rerender } = render(<ConversionFunnel stages={[{ id: "a", label: "A", value: 10 }]} />);
-    expect(screen.getByText("Need 3–6 stages")).toBeTruthy();
+    expect(screen.getByText("Need 3–6 Stages")).toBeTruthy();
 
     rerender(
       <ConversionFunnel
@@ -104,7 +104,7 @@ describe("dashboard chart and theme blocks", () => {
     const { rerender } = render(
       <CostBreakdown weeks={[]} series={[]} byLane={[]} byCarrier={[]} />,
     );
-    expect(screen.getByText("No spend to chart")).toBeTruthy();
+    expect(screen.getByText("No Spend to Chart")).toBeTruthy();
 
     rerender(
       <CostBreakdown
@@ -114,7 +114,7 @@ describe("dashboard chart and theme blocks", () => {
         byCarrier={[{ id: "carrier", label: "Carrier", value: Number.NaN }]}
       />,
     );
-    expect(screen.getByText("No spend to chart")).toBeTruthy();
+    expect(screen.getByText("No Spend to Chart")).toBeTruthy();
   });
 
   it("keeps metrics-grid cards in a single column from 320px", () => {

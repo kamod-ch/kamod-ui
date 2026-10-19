@@ -1,6 +1,6 @@
 import type { FieldStore } from "@formisch/preact";
 import { Card, CardContent, CardHeader, CardTitle } from "@kamod-ch/ui";
-import type { ComponentChildren } from "preact";
+import { CodeBlock } from "../../components/CodeBlock";
 
 export const errorsToFieldErrors = (errors: readonly string[] | null) =>
   errors?.map((message) => ({ message })) ?? undefined;
@@ -18,19 +18,21 @@ export const ResultCard = ({
   children,
 }: {
   title?: string;
-  children: ComponentChildren;
+  children: string;
 }) => (
   <Card class="border-border/80 bg-muted/30">
     <CardHeader class="pb-2">
       <CardTitle class="text-sm">{title}</CardTitle>
     </CardHeader>
     <CardContent>
-      <pre
-        class="overflow-auto rounded-md bg-background p-3 text-xs text-foreground shadow-xs"
-        aria-live="polite"
-      >
-        {children}
-      </pre>
+      <div aria-live="polite">
+        <CodeBlock
+          code={children}
+          language="json"
+          renderToolbar={() => null}
+          showWrapControl={false}
+        />
+      </div>
     </CardContent>
   </Card>
 );

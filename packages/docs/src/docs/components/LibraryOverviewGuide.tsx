@@ -1,18 +1,16 @@
 import type { ComponentChildren, ComponentProps } from "preact";
+import { withBasePath } from "../../base-path";
 import { BlockPageEnding } from "../../blocks/BlockPageEnding";
 import { BlockGuideContents } from "../../blocks/detail/BlockGuideContents";
 import { DocsShell } from "./DocsShell";
-import { LibraryJumpLinks } from "./LibraryJumpLinks";
 import { LibraryPageHeader } from "./LibraryPageHeader";
 
 type Props = {
   scope: "forms" | "packages";
   label: string;
   title: string;
-  focus: string;
   description: ComponentChildren;
   contents: ComponentProps<typeof BlockGuideContents>["sections"];
-  jumps: readonly { id: string; label: string }[];
   children: ComponentChildren;
 };
 
@@ -21,10 +19,8 @@ export function LibraryOverviewGuide({
   scope,
   label,
   title,
-  focus,
   description,
   contents,
-  jumps,
   children,
 }: Props) {
   return (
@@ -48,23 +44,19 @@ export function LibraryOverviewGuide({
             parent={{ label: "Home", href: "/" }}
             label={label}
             eyebrow={`${label} library`}
-            focus={focus}
             title={title}
-            description={description}
-          >
-            <LibraryJumpLinks class="block-guide-switcher" label="Directory sections">
-              {jumps.map(({ id, label }) => (
-                <li key={id}>
-                  <a href={`#${id}`}>{label}</a>
-                </li>
-              ))}
-            </LibraryJumpLinks>
-          </LibraryPageHeader>
-          <BlockGuideContents
-            id={`${scope}-overview-mobile-contents`}
-            sections={contents}
-            pageTitle={title}
-            mobile
+            description={
+              <>
+                {description}
+                <p>
+                  New to the library? The{" "}
+                  <a href={withBasePath(`/docs/getting-started#${scope}`)}>Getting Started Guide</a>{" "}
+                  connects {label.toLowerCase()} to the shared setup and your first working screen.
+                  For stylesheet setup, see the{" "}
+                  <a href={withBasePath("/docs/theming/css-setup")}>CSS Guide</a>.
+                </p>
+              </>
+            }
           />
           <div class="block-guide-documentation">
             <div class="blocks-doc-body">

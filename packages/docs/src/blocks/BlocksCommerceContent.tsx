@@ -1,26 +1,34 @@
 import { type CommerceBlockId, commerceBlocks } from "@kamod-ch/blocks";
-import { Button, Tabs, TabsContent, TabsList, TabsTrigger } from "@kamod-ch/ui";
-import { Check, Copy, ExternalLink, RefreshCw } from "lucide-preact";
+import { Button, CopyButton, Tabs, TabsContent, TabsList, TabsTrigger } from "@kamod-ch/ui";
+import { ExternalLink, RefreshCw } from "lucide-preact";
 import { useMemo, useState } from "preact/hooks";
 import { withBasePath } from "../base-path";
 import { CodeBlock } from "../docs/components/CodeBlock";
 import { DocsShell } from "../docs/components/DocsShell";
+import { PageEyebrow } from "../docs/components/PageEyebrow";
+import { PageTitle } from "../docs/components/PageTitle";
 import { PathDisplay } from "../docs/components/PathDisplay";
 import { BlockPreviewPanel } from "./BlockPreviewPanel";
 import { getCommerceBlockSource } from "./commerce-source";
 
 type CommerceBlock = (typeof commerceBlocks)[number];
 
+const pageTitle = "Commerce Blocks";
+
 export const BlocksCommerceContent = () => (
   <DocsShell
     sidebarScope="blocks"
     activeDoc={null}
+    pageTitle={pageTitle}
     activeSection=""
     activeBlock="commerce"
     mainContent={
       <section class="docs-components-overview blocks-sidebar-page">
         <header class="blocks-hero">
-          <h1>Commerce Blocks</h1>
+          <PageEyebrow>
+            {`${commerceBlocks.length} ${commerceBlocks.length === 1 ? "variant" : "variants"}`}
+          </PageEyebrow>
+          <PageTitle>{pageTitle}</PageTitle>
           <p class="blocks-hero-lead">
             Payment UI, saved tokenized cards, and a checkout state machine. PAN/CVC never persist.
             These blocks do not make an app PCI compliant — use PSP-hosted fields in production.
@@ -52,21 +60,10 @@ const buildFileTree = (files: CommerceBlock["files"]) => {
 const BlockCard = ({ block }: { block: CommerceBlock }) => {
   const [selectedFile, setSelectedFile] = useState(block.files[0]?.label ?? "");
   const [previewKey, setPreviewKey] = useState(0);
-  const [copied, setCopied] = useState(false);
   const previewUrl = withBasePath(`/blocks/commerce/${block.id}/preview`);
   const source = getCommerceBlockSource(block.id as CommerceBlockId, selectedFile);
   const fileTree = useMemo(() => buildFileTree(block.files), [block.files]);
   const installCommand = block.installCommand;
-
-  const copyInstall = async () => {
-    try {
-      await navigator.clipboard.writeText(installCommand);
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 1600);
-    } catch {
-      /* noop */
-    }
-  };
 
   return (
     <article id={block.id} class="blocks-card">
@@ -107,11 +104,19 @@ const BlockCard = ({ block }: { block: CommerceBlock }) => {
           </table>
         </div>
         <Tabs defaultValue="preview" class="docs-tabs">
-          <TabsList class="docs-tabs-list" variant="line">
-            <TabsTrigger value="preview">Preview</TabsTrigger>
-            <TabsTrigger value="dark">Dark Mode</TabsTrigger>
-            <TabsTrigger value="usage">Usage</TabsTrigger>
-            <TabsTrigger value="code">Code</TabsTrigger>
+          <TabsList class="docs-tabs-list blocks-showcase-segmented">
+            <TabsTrigger value="preview" class="docs-icon-button">
+              Preview
+            </TabsTrigger>
+            <TabsTrigger value="dark" class="docs-icon-button">
+              Dark Mode
+            </TabsTrigger>
+            <TabsTrigger value="usage" class="docs-icon-button">
+              Usage
+            </TabsTrigger>
+            <TabsTrigger value="code" class="docs-icon-button">
+              Code
+            </TabsTrigger>
           </TabsList>
           <TabsContent value="preview">
             <BlockPreviewPanel
@@ -136,15 +141,12 @@ const BlockCard = ({ block }: { block: CommerceBlock }) => {
           <TabsContent value="code">
             <div class="blocks-install">
               <PathDisplay path={installCommand} />
-              <Button
-                class="docs-icon-button"
-                size="icon-sm"
-                variant="ghost"
+              <CopyButton
+                value={installCommand}
+                subject="block path"
                 aria-label="Copy block path"
-                onClick={copyInstall}
-              >
-                {copied ? <Check size={14} /> : <Copy size={14} />}
-              </Button>
+                iconOnly
+              />
             </div>
             <div class="blocks-code-layout mt-3">
               <aside class="blocks-file-tree" aria-label="Block files">

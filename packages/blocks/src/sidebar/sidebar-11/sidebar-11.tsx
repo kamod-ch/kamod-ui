@@ -19,6 +19,7 @@ import {
   SidebarRail,
 } from "@kamod-ch/ui";
 import { useState } from "preact/hooks";
+import { KamodIcon } from "../../shared/branding/kamod-icon";
 import { filesTree } from "../data/file-tree-data";
 import { DashboardShell } from "../shared/dashboard-shell";
 import { stopNavigation } from "../shared/navigation";
@@ -34,11 +35,11 @@ export const Sidebar11 = () => {
             <SidebarMenuItem>
               <SidebarMenuButton size="lg">
                 <div class="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                  <FolderIcon class="size-4" />
+                  <KamodIcon class="size-4" />
                 </div>
                 <div class="flex flex-col gap-0.5 leading-none">
-                  <span class="font-medium">Files</span>
-                  <span class="text-xs">workspace</span>
+                  <span class="font-medium">Kamod UI</span>
+                  <span class="text-xs">Source workspace</span>
                 </div>
               </SidebarMenuButton>
             </SidebarMenuItem>

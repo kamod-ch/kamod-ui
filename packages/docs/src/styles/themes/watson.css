@@ -394,13 +394,15 @@ html[data-theme="watson"] *::after {
  * Buttons default to fg-on-bg in core; badges default match. For Watson, force pink
  * across variants (utilities win without !important on bg/color).
  */
-:root[data-theme="watson"] [data-slot="button"][data-variant="default"]:hover,
-.dark[data-theme="watson"] [data-slot="button"][data-variant="default"]:hover,
-:root[data-theme="watson"] [data-slot="button"][data-variant="secondary"]:hover,
-.dark[data-theme="watson"] [data-slot="button"][data-variant="secondary"]:hover,
-:root[data-theme="watson"] [data-slot="button"][data-variant="destructive"]:hover,
-.dark[data-theme="watson"] [data-slot="button"][data-variant="destructive"]:hover {
-  background-color: var(--primary-accent) !important;
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  :root[data-theme="watson"] [data-slot="button"][data-variant="default"]:hover,
+  .dark[data-theme="watson"] [data-slot="button"][data-variant="default"]:hover,
+  :root[data-theme="watson"] [data-slot="button"][data-variant="secondary"]:hover,
+  .dark[data-theme="watson"] [data-slot="button"][data-variant="secondary"]:hover,
+  :root[data-theme="watson"] [data-slot="button"][data-variant="destructive"]:hover,
+  .dark[data-theme="watson"] [data-slot="button"][data-variant="destructive"]:hover {
+    background-color: var(--primary-accent) !important;
+  }
 }
 
 :root[data-theme="watson"] [data-slot="button"][data-variant="default"],
@@ -421,10 +423,12 @@ html[data-theme="watson"] *::after {
   color: var(--primary) !important;
 }
 
-:root[data-theme="watson"] [data-slot="button"][data-variant="outline"]:hover,
-.dark[data-theme="watson"] [data-slot="button"][data-variant="outline"]:hover {
-  background-color: color-mix(in srgb, var(--primary) 12%, var(--background)) !important;
-  color: var(--primary) !important;
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  :root[data-theme="watson"] [data-slot="button"][data-variant="outline"]:hover,
+  .dark[data-theme="watson"] [data-slot="button"][data-variant="outline"]:hover {
+    background-color: color-mix(in srgb, var(--primary) 12%, var(--background)) !important;
+    color: var(--primary) !important;
+  }
 }
 
 :root[data-theme="watson"] [data-slot="button"][data-variant="ghost"],
@@ -432,10 +436,12 @@ html[data-theme="watson"] *::after {
   color: var(--primary) !important;
 }
 
-:root[data-theme="watson"] [data-slot="button"][data-variant="ghost"]:hover,
-.dark[data-theme="watson"] [data-slot="button"][data-variant="ghost"]:hover {
-  background-color: color-mix(in srgb, var(--primary) 16%, var(--background)) !important;
-  color: var(--primary) !important;
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  :root[data-theme="watson"] [data-slot="button"][data-variant="ghost"]:hover,
+  .dark[data-theme="watson"] [data-slot="button"][data-variant="ghost"]:hover {
+    background-color: color-mix(in srgb, var(--primary) 16%, var(--background)) !important;
+    color: var(--primary) !important;
+  }
 }
 
 :root[data-theme="watson"] [data-slot="button"][data-variant="link"],
@@ -465,23 +471,25 @@ html[data-theme="watson"] *::after {
   color: var(--primary-foreground) !important;
 }
 
-:root[data-theme="watson"] [data-slot="badge"][data-variant="default"]:hover,
-.dark[data-theme="watson"] [data-slot="badge"][data-variant="default"]:hover,
-:root[data-theme="watson"] [data-slot="badge"][data-variant="primary"]:hover,
-.dark[data-theme="watson"] [data-slot="badge"][data-variant="primary"]:hover,
-:root[data-theme="watson"] [data-slot="badge"][data-variant="secondary"]:hover,
-.dark[data-theme="watson"] [data-slot="badge"][data-variant="secondary"]:hover,
-:root[data-theme="watson"] [data-slot="badge"][data-variant="destructive"]:hover,
-.dark[data-theme="watson"] [data-slot="badge"][data-variant="destructive"]:hover,
-:root[data-theme="watson"] [data-slot="badge"][data-variant="info"]:hover,
-.dark[data-theme="watson"] [data-slot="badge"][data-variant="info"]:hover,
-:root[data-theme="watson"] [data-slot="badge"][data-variant="success"]:hover,
-.dark[data-theme="watson"] [data-slot="badge"][data-variant="success"]:hover,
-:root[data-theme="watson"] [data-slot="badge"][data-variant="warning"]:hover,
-.dark[data-theme="watson"] [data-slot="badge"][data-variant="warning"]:hover,
-:root[data-theme="watson"] [data-slot="badge"][data-variant="error"]:hover,
-.dark[data-theme="watson"] [data-slot="badge"][data-variant="error"]:hover {
-  background-color: var(--primary-accent) !important;
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  :root[data-theme="watson"] [data-slot="badge"][data-variant="default"]:hover,
+  .dark[data-theme="watson"] [data-slot="badge"][data-variant="default"]:hover,
+  :root[data-theme="watson"] [data-slot="badge"][data-variant="primary"]:hover,
+  .dark[data-theme="watson"] [data-slot="badge"][data-variant="primary"]:hover,
+  :root[data-theme="watson"] [data-slot="badge"][data-variant="secondary"]:hover,
+  .dark[data-theme="watson"] [data-slot="badge"][data-variant="secondary"]:hover,
+  :root[data-theme="watson"] [data-slot="badge"][data-variant="destructive"]:hover,
+  .dark[data-theme="watson"] [data-slot="badge"][data-variant="destructive"]:hover,
+  :root[data-theme="watson"] [data-slot="badge"][data-variant="info"]:hover,
+  .dark[data-theme="watson"] [data-slot="badge"][data-variant="info"]:hover,
+  :root[data-theme="watson"] [data-slot="badge"][data-variant="success"]:hover,
+  .dark[data-theme="watson"] [data-slot="badge"][data-variant="success"]:hover,
+  :root[data-theme="watson"] [data-slot="badge"][data-variant="warning"]:hover,
+  .dark[data-theme="watson"] [data-slot="badge"][data-variant="warning"]:hover,
+  :root[data-theme="watson"] [data-slot="badge"][data-variant="error"]:hover,
+  .dark[data-theme="watson"] [data-slot="badge"][data-variant="error"]:hover {
+    background-color: var(--primary-accent) !important;
+  }
 }
 
 :root[data-theme="watson"] [data-slot="badge"][data-variant="outline"],
@@ -491,9 +499,11 @@ html[data-theme="watson"] *::after {
   color: var(--primary) !important;
 }
 
-:root[data-theme="watson"] [data-slot="badge"][data-variant="outline"]:hover,
-.dark[data-theme="watson"] [data-slot="badge"][data-variant="outline"]:hover {
-  background-color: color-mix(in srgb, var(--primary) 12%, var(--background)) !important;
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  :root[data-theme="watson"] [data-slot="badge"][data-variant="outline"]:hover,
+  .dark[data-theme="watson"] [data-slot="badge"][data-variant="outline"]:hover {
+    background-color: color-mix(in srgb, var(--primary) 12%, var(--background)) !important;
+  }
 }
 
 :root[data-theme="watson"] [data-slot="badge"][data-variant="ghost"],
@@ -501,10 +511,12 @@ html[data-theme="watson"] *::after {
   color: var(--primary) !important;
 }
 
-:root[data-theme="watson"] [data-slot="badge"][data-variant="ghost"]:hover,
-.dark[data-theme="watson"] [data-slot="badge"][data-variant="ghost"]:hover {
-  background-color: color-mix(in srgb, var(--primary) 16%, var(--background)) !important;
-  color: var(--primary) !important;
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  :root[data-theme="watson"] [data-slot="badge"][data-variant="ghost"]:hover,
+  .dark[data-theme="watson"] [data-slot="badge"][data-variant="ghost"]:hover {
+    background-color: color-mix(in srgb, var(--primary) 16%, var(--background)) !important;
+    color: var(--primary) !important;
+  }
 }
 
 :root[data-theme="watson"] [data-slot="badge"][data-variant="link"],
@@ -603,9 +615,11 @@ html[data-theme="watson"] [data-slot="kitchen-hear-about-chip"][data-state="unch
   border-color: color-mix(in srgb, var(--primary) 45%, var(--border)) !important;
 }
 
-html[data-theme="watson"] [data-slot="kitchen-hear-about-chip"][data-state="unchecked"]:hover {
-  border-color: var(--primary) !important;
-  background-color: color-mix(in srgb, var(--primary) 10%, var(--background)) !important;
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  html[data-theme="watson"] [data-slot="kitchen-hear-about-chip"][data-state="unchecked"]:hover {
+    border-color: var(--primary) !important;
+    background-color: color-mix(in srgb, var(--primary) 10%, var(--background)) !important;
+  }
 }
 
 html[data-theme="watson"] [data-slot="kitchen-hear-about-chip-indicator"] {
@@ -614,16 +628,31 @@ html[data-theme="watson"] [data-slot="kitchen-hear-about-chip-indicator"] {
 }
 
 /* Toggles (outline): dark:hover:bg-input/50 is not accent/muted — pink hover */
-html.dark[data-theme="watson"] [data-slot="toggle"][data-variant="outline"]:hover,
-html.dark[data-theme="watson"] [data-slot="toggle-group-item"][data-variant="outline"]:hover {
-  background-color: color-mix(in srgb, var(--primary) 24%, var(--card)) !important;
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  html.dark[data-theme="watson"] [data-slot="toggle"][data-variant="outline"]:hover,
+  html.dark[data-theme="watson"]
+    [data-slot="toggle-group-item"][data-variant="outline"]:not(.docs-icon-button):hover {
+    background-color: color-mix(in srgb, var(--primary) 26%, var(--card)) !important;
+  }
+  html.dark[data-theme="watson"]
+    [data-slot="toggle-group-item"][data-variant="outline"][data-state="on"]:not(
+      .docs-icon-button
+    ):hover {
+    background-color: color-mix(in srgb, var(--primary) 34%, var(--card)) !important;
+  }
 }
 
 /* Menu destructive row: hover:bg-destructive/10 → Watson pink wash */
-html[data-theme="watson"] [data-slot="dropdown-item"][data-variant="destructive"]:hover,
 html[data-theme="watson"] [data-slot="dropdown-item"][data-variant="destructive"]:focus-visible {
   background-color: color-mix(in srgb, var(--primary) 18%, transparent) !important;
   color: var(--primary) !important;
+}
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  html[data-theme="watson"] [data-slot="dropdown-item"][data-variant="destructive"]:hover,
+  html[data-theme="watson"] [data-slot="dropdown-item"][data-variant="destructive"]:focus-visible {
+    background-color: color-mix(in srgb, var(--primary) 18%, transparent) !important;
+    color: var(--primary) !important;
+  }
 }
 
 html[data-theme="watson"] [data-slot="context-menu-item"][data-variant="destructive"]:focus-visible,

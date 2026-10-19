@@ -7,7 +7,11 @@ import { chromium } from "@playwright/test";
 import { preview } from "vite";
 
 const { values } = parseArgs({
-  options: { base: { type: "string", default: "/" }, block: { type: "string" } },
+  options: {
+    base: { type: "string", default: "/" },
+    block: { type: "string" },
+    channel: { type: "string" },
+  },
 });
 const base = `/${values.base.split("/").filter(Boolean).join("/")}/`.replace(/^\/\//, "/");
 const root = resolve(import.meta.dirname, "..");
@@ -74,7 +78,7 @@ async function discoverBlocks(browser, origin) {
     await ready(page, `${origin}${base}blocks/sidebar/`, false);
     const categories = await page
       .locator(
-        'aside.docs-sidebar nav[aria-label="Docs blocks"] a.blocks-category-link:not([data-block-placeholder])',
+        "aside.docs-sidebar [data-kind=blocks] a.site-navigation-link:not(.site-navigation-link-overview):not([data-block-placeholder])",
       )
       .evaluateAll((links) => links.map((link) => link.href));
     if (!categories.length)
@@ -211,9 +215,14 @@ async function generate() {
   let browser;
   try {
     const address = server.httpServer.address();
-    browser = await chromium.launch();
-    const blocks = await discoverBlocks(browser, `http://127.0.0.1:${address.port}`);
-    const selected = values.block ? blocks.filter((block) => block.key === values.block) : blocks;
+    browser = await chromium.launch({ channel: values.channel });
+    const origin = `http://127.0.0.1:${address.port}`;
+    const selected = values.block
+      ? values.block.split(",").map((key) => {
+          if (!/^[a-z0-9-]+\/[a-z0-9-]+$/.test(key)) throw new Error(`Invalid block key: ${key}`);
+          return { key, url: `${origin}${base}blocks/${key}/preview/` };
+        })
+      : await discoverBlocks(browser, origin);
     if (!selected.length) throw new Error(`No matching blocks: ${values.block ?? "all"}`);
     const manifest = values.block ? JSON.parse(await readFile(manifestPath, "utf8")) : {};
     const assets = new Map();

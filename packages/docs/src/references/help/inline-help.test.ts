@@ -1,0 +1,204 @@
+import { beforeEach, expect, it, vi } from "vitest";
+import type {
+  CodeReferenceHelp,
+  CodeReferenceHelpCatalog,
+  CodeReferenceHelpRequest,
+} from "../types";
+
+beforeEach(() => vi.resetModules());
+const request: CodeReferenceHelpRequest = {
+  label: "preact",
+  module: "Preact",
+  referenceId: "technology:preact",
+  href: "https://preactjs.com/",
+};
+const facts: CodeReferenceHelp = {
+  kind: "technology",
+  name: "Preact",
+  module: "Preact",
+  description: "UI library.",
+  related: [{ label: "Guide", href: "/docs/getting-started", kind: "guide" }],
+};
+
+it("shares in-flight family requests across labels without loading other families", async () => {
+  const { loadInlineReferenceHelp } = await import("./inline-help");
+  let release!: (value: Record<string, CodeReferenceHelp>) => void;
+  const load = vi.fn(
+    () =>
+      new Promise<Record<string, CodeReferenceHelp>>((resolve) => {
+        release = resolve;
+      }),
+  );
+  const unused = vi.fn();
+  const data: CodeReferenceHelpCatalog = {
+    packages: {},
+    loaders: {},
+    inlineLoaders: { technology: load, block: unused },
+  };
+  const first = loadInlineReferenceHelp(data, request);
+  const second = loadInlineReferenceHelp(data, { ...request, label: "PREACT" });
+  expect(load).toHaveBeenCalledOnce();
+  expect(unused).not.toHaveBeenCalled();
+  release({ "technology:preact": facts });
+  expect((await first).name).toBe("preact");
+  expect((await second).name).toBe("PREACT");
+  expect(facts.name).toBe("Preact");
+});
+
+it("evicts failed family requests for retry and rejects absent families or identities", async () => {
+  const { loadInlineReferenceHelp } = await import("./inline-help");
+  const load = vi
+    .fn()
+    .mockRejectedValueOnce(new Error("Offline"))
+    .mockResolvedValue({ "technology:preact": facts });
+  const data: CodeReferenceHelpCatalog = {
+    packages: {},
+    loaders: {},
+    inlineLoaders: { technology: load },
+  };
+  await expect(loadInlineReferenceHelp(data, request)).rejects.toThrow("Offline");
+  expect((await loadInlineReferenceHelp(data, request)).kind).toBe("technology");
+  expect(load).toHaveBeenCalledTimes(2);
+  await expect(
+    loadInlineReferenceHelp(data, { ...request, referenceId: "technology:missing" }),
+  ).rejects.toThrow("identity");
+  await expect(
+    loadInlineReferenceHelp(data, { ...request, referenceId: "constructor:bad" }),
+  ).rejects.toThrow("family");
+});
+
+it("applies a deployment prefix once to lazy family reading links", async () => {
+  vi.doMock("../../base-path", () => ({
+    basePrefix: () => "/kamod-ui",
+    withBasePath: (path: string) => `/kamod-ui${path}`,
+  }));
+  try {
+    const { loadInlineReferenceHelp } = await import("./inline-help");
+    const data: CodeReferenceHelpCatalog = {
+      packages: {},
+      loaders: {},
+      inlineLoaders: {
+        technology: async () => ({
+          "technology:preact": {
+            ...facts,
+            source: { label: "Existing", href: "/kamod-ui/docs/components" },
+            sections: [
+              {
+                title: "Local chapter",
+                source: { label: "Chapter", href: "/docs/getting-started#page-title" },
+                excerpts: [
+                  {
+                    title: "Usage",
+                    source: { label: "Usage", href: "/docs/dialog/installation#usage" },
+                  },
+                ],
+                fields: [
+                  {
+                    name: "value",
+                    type: "string",
+                    required: true,
+                    description: "Current value.",
+                    owners: [{ label: "Owner", href: "/docs/dialog/installation#owner" }],
+                  },
+                ],
+                definitions: [
+                  {
+                    name: "Contract",
+                    code: "type Contract = string;",
+                    source: { label: "Contract", href: "/kamod-ui/docs/components" },
+                    fields: [
+                      {
+                        name: "id",
+                        type: "string",
+                        required: true,
+                        description: "Identifier.",
+                        owners: [
+                          {
+                            label: "Existing owner",
+                            href: "/kamod-ui/docs/dialog/installation#owner",
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                  {
+                    name: "External",
+                    code: "type External = number;",
+                    source: { label: "Official", href: "https://preactjs.com/" },
+                  },
+                ],
+              },
+            ],
+          },
+        }),
+      },
+    };
+    const result = await loadInlineReferenceHelp(data, request);
+    expect(result.related?.[0].href).toBe("/kamod-ui/docs/getting-started");
+    expect(result.source?.href).toBe("/kamod-ui/docs/components");
+    expect(result.sections?.[0].source?.href).toBe("/kamod-ui/docs/getting-started#page-title");
+    expect(result.sections?.[0].excerpts?.[0].source?.href).toBe(
+      "/kamod-ui/docs/dialog/installation#usage",
+    );
+    expect(result.sections?.[0].fields?.[0].owners?.[0].href).toBe(
+      "/kamod-ui/docs/dialog/installation#owner",
+    );
+    expect(result.sections?.[0].definitions?.[0].fields?.[0].owners?.[0].href).toBe(
+      "/kamod-ui/docs/dialog/installation#owner",
+    );
+    expect(result.sections?.[0].definitions?.map(({ source }) => source?.href)).toEqual([
+      "/kamod-ui/docs/components",
+      "https://preactjs.com/",
+    ]);
+  } finally {
+    vi.doUnmock("../../base-path");
+  }
+});
+
+it("keeps saved chapters pending until the selected local resource index resolves, with shared work and retry", async () => {
+  const { loadInlineReferenceHelp } = await import("./inline-help");
+  let release!: (links: Record<string, NonNullable<CodeReferenceHelp["related"]>>) => void;
+  const resource = vi
+    .fn()
+    .mockRejectedValueOnce(new Error("Index unavailable"))
+    .mockImplementation(
+      () =>
+        new Promise((resolve) => {
+          release = resolve;
+        }),
+    );
+  const base = {
+    ...facts,
+    sections: [{ title: "Installation", code: { language: "bash", value: "npm install preact" } }],
+  };
+  const family = vi.fn(async () => ({ "technology:preact": base }));
+
+  const data: CodeReferenceHelpCatalog = {
+    packages: {},
+    loaders: {},
+    inlineLoaders: { technology: family },
+    technologyResources: resource,
+  };
+  await expect(loadInlineReferenceHelp(data, request)).rejects.toThrow("Index unavailable");
+  let ready = false;
+  const first = loadInlineReferenceHelp(data, request).then((value) => {
+    ready = true;
+    return value;
+  });
+  const second = loadInlineReferenceHelp(data, { ...request, label: "PREACT" });
+  await Promise.resolve();
+  expect(ready).toBe(false);
+  expect(resource).toHaveBeenCalledTimes(2);
+  expect(family).toHaveBeenCalledOnce();
+
+  release({
+    "technology:preact": [
+      { label: "Existing guide", href: "/docs/getting-started", kind: "guide" },
+      { label: "Forms", href: "/docs/forms", kind: "guide" },
+    ],
+  });
+  const result = await first;
+  expect(result.sections).toEqual(base.sections);
+  expect(result.related?.map(({ href }) => href)).toEqual(["/docs/getting-started", "/docs/forms"]);
+  expect((await second).name).toBe("PREACT");
+});

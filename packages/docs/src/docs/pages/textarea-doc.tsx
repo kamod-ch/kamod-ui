@@ -95,7 +95,7 @@ export const textareaDocPage = createGenericDocPage({
     {
       id: "basic-textarea",
       title: "Basic Textarea",
-      text: "A clean default surface for short notes and feedback.",
+      text: "**Give Longer Input a Clear Purpose.** Use `Textarea` for a short note, comment or feedback response that may span several lines. Its default surface provides the editable area, while a persistent label should explain what kind of answer the field expects.\n\nChoose an initial height that fits the expected answer and keep instructions outside the editable value so they remain available as the user writes.",
       code: `import { Textarea } from "@/components/kamod-ui/textarea";
 
 export const Example = () => <Textarea placeholder="Write your feedback..." class="max-w-lg" />;`,
@@ -111,7 +111,7 @@ export const Example = () => <Textarea placeholder="Write your feedback..." clas
     {
       id: "textarea-field",
       title: "Field + Description",
-      text: "Wrap Textarea with Field for semantic labels and helper text.",
+      text: "**Keep Help Close to the Writing Area.** Compose `Textarea` with `Field` to keep the label and helper text close to the multiline value. The wrapper organizes the explanation, while the textarea remains the actual editable control associated with that label.\n\nPreserve those associations when adjusting the layout, and explain length or content expectations before users invest time in a long answer.",
       code: `import { Field } from "@/components/kamod-ui/field"
 import { Textarea } from "@/components/kamod-ui/textarea";
 
@@ -136,7 +136,7 @@ export const Example = () => (
     {
       id: "textarea-disabled-invalid",
       title: "Disabled + Invalid",
-      text: "Support disabled and invalid states with clear visual feedback.",
+      text: "**Distinguish Unavailable Editing from a Correctable Error.** Show disabled state when editing is unavailable and invalid state when the current answer needs correction. Keep the entered text visible in both cases, pairing validation styling with a message that explains how to fix the value.\n\nKeep the entered text available for review and avoid discarding a long response when validation or submission fails.",
       code: `import { Field } from "@/components/kamod-ui/field"
 import { Textarea } from "@/components/kamod-ui/textarea";
 
@@ -166,7 +166,7 @@ export const Example = () => (
     {
       id: "textarea-sizes",
       title: "Textarea Sizes",
-      text: "Render size variants for compact and roomy layouts.",
+      text: "**Choose a Comfortable Starting Area.** Compare the textarea size options using the same content and surrounding field layout. A compact setting may suit short notes, while a roomier one can give longer responses enough visible space for review.\n\nTest multiline content and error messages at narrow widths, and avoid using a small initial height as an arbitrary limit on the answer.",
       code: `import { Textarea } from "@/components/kamod-ui/textarea";
 
 export const Example = () => (
@@ -187,7 +187,7 @@ export const Example = () => (
     {
       id: "textarea-counter",
       title: "Character Counter",
-      text: "Track input length in real time for message limits and form guidance.",
+      text: "**Derive the Count from the Submitted Value.** Derive a character count from the textarea's current value and display it beside the relevant limit. This gives immediate guidance as the user types, while the form's validation decides how an over-limit answer is handled.\n\nExplain how much text is allowed, decide what happens at the boundary and avoid announcing every keystroke in a way that overwhelms assistive-technology users.",
       code: `import { Field } from "@/components/kamod-ui/field"
 import { Textarea } from "@/components/kamod-ui/textarea";
 import { useState } from "preact/hooks";
@@ -211,8 +211,8 @@ export const Example = () => {
     },
     {
       id: "textarea-autoresize",
-      title: "Auto-resize",
-      text: "Auto-grow textarea height on input for longer, distraction-free writing.",
+      title: "Auto-Resize",
+      text: "**Let the Field Grow without Losing Page Context.** Resize the textarea in response to input when the field should grow with the answer. The example illustrates that behavior around an ordinary multiline control; choose sensible bounds so a long response does not consume the entire screen.\n\nRecalculate after programmatic changes as well as typing, and avoid repeated layout work that makes editing feel sluggish.",
       code: `import { Field } from "@/components/kamod-ui/field"
 import { Textarea } from "@/components/kamod-ui/textarea";
 import type { TargetedEvent } from "preact";
@@ -239,7 +239,7 @@ export const Example = () => {
     {
       id: "textarea-production-field",
       title: "Production Field Pattern",
-      text: "Combine label, hint, validation error and live character count in one practical form pattern.",
+      text: "**Coordinate Label, Help, Count and Error Around One Value.** Combine a label, hint, validation message and live character count around one textarea value. Each element answers a different question: what to write, how to format it, what needs correction and how much space remains.\n\nKeep validation associated with the textarea, preserve the user's text after failure and ensure the character count agrees with the actual accepted limit.",
       code: `import { Field } from "@/components/kamod-ui/field"
 import { Textarea } from "@/components/kamod-ui/textarea";
 import { useState } from "preact/hooks";
@@ -274,7 +274,7 @@ export const Example = () => {
     {
       id: "textarea-with-action",
       title: "Textarea + Action",
-      text: "Pair the input with a trailing action for modern message flows.",
+      text: "**Make Sending Distinct from Editing.** Place a send or submit action beside the textarea when composing a message is one focused task. Keep the editable content prominent and make the action's pending and error behavior part of the same message workflow.\n\nKeep pending and error states clear, prevent accidental duplicate sends and decide deliberately whether Enter inserts a line break or performs an application shortcut.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Textarea } from "@/components/kamod-ui/textarea";
 

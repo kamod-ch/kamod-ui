@@ -1,0 +1,162 @@
+/* Real source canvases supply the color; surrounding study cards stay in the page's language. */
+.code-prism-studies {
+  container: syntax-studies / inline-size;
+  margin-block: 1.25rem;
+}
+.code-prism-studies-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.code-theme-token-lab {
+  container: theme-token-study / inline-size;
+  min-width: 0;
+  margin-block: 1.25rem;
+}
+.code-theme-token-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 0.75rem 1rem;
+  margin-bottom: 0.875rem;
+}
+.code-theme-token-controls label {
+  display: grid;
+  flex: 1 1 10rem;
+  gap: 0.375rem;
+  min-width: 0;
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+}
+.code-theme-token-controls select {
+  width: 100%;
+  min-width: 0;
+  min-height: 2.25rem;
+  padding: 0.375rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) - 2px);
+  background: var(--background);
+  color: var(--foreground);
+  font: inherit;
+}
+.code-theme-token-controls select:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+.code-theme-token-controls > span {
+  flex-basis: 100%;
+  color: var(--muted-foreground);
+  font-size: 0.6875rem;
+}
+.code-theme-token-preview {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--background);
+  color: var(--foreground);
+  color-scheme: light;
+}
+.code-theme-token-preview.dark {
+  color-scheme: dark;
+}
+.code-theme-token-preview > .kamod-code {
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+}
+.code-theme-token-preview .docs-code {
+  border: 0;
+  border-radius: 0;
+}
+.code-theme-token-roles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.875rem;
+  margin: 0;
+  padding: 1rem;
+  border-top: 1px solid var(--border);
+}
+.code-theme-token-roles dt {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+.code-theme-token-roles dt > span {
+  width: 0.5rem;
+  height: 0.5rem;
+  flex: none;
+  border-radius: 50%;
+}
+.code-theme-token-roles dd {
+  margin: 0.25rem 0 0 0.875rem;
+  color: var(--muted-foreground);
+  font-size: 0.6875rem;
+}
+.code-syntax-prose > :is(h4, h5, h6) {
+  margin: 1.75rem 0 0.75rem;
+  color: var(--foreground);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.6;
+}
+@container theme-token-study (min-width: 30rem) {
+  .code-theme-token-roles {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+.code-prism-study {
+  background: var(--background);
+  gap: 0.875rem;
+}
+.code-prism-study .code-prism-study-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+.code-prism-study-heading > div {
+  min-width: 0;
+}
+.code-prism-study .code-prism-study-heading h4 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+.code-prism-study-heading svg {
+  flex: none;
+}
+.code-prism-study .code-prism-study-heading p {
+  margin: 0.25rem 0 0;
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+}
+.code-prism-study .docs-code {
+  min-height: 12rem;
+}
+.code-prism-study [data-slot="card-content"] {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.code-prism-study .code-prism-study-description {
+  margin: 0.875rem 0 0.625rem;
+  font-size: 0.8125rem;
+  line-height: 1.75;
+  color: var(--muted-foreground);
+}
+.code-prism-study .code-prism-study-prop {
+  margin: auto 0 0;
+  font-size: 0.75rem;
+}
+/* Read the existing guide column rather than the page's sidebar-inclusive viewport. */
+@container syntax-studies (min-width: 40rem) {
+  .code-prism-studies-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

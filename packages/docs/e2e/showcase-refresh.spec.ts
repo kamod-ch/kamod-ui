@@ -53,6 +53,11 @@ test("refresh follows the frame load, holds completion, and blocks repeat clicks
     await expect(button).toHaveAttribute("data-refresh-state", "complete");
     await expect(button).toHaveAccessibleName("Refreshed");
     await expect(button).toBeDisabled();
+    await expect(button.locator(".blocks-showcase-refresh-check")).toHaveCSS("opacity", "1");
+    await expect(button.locator(".blocks-showcase-refresh-check")).toHaveCSS(
+      "animation-name",
+      "none",
+    );
     const completeWidth = (await button.boundingBox())!.width;
     expect(completeWidth).toBeGreaterThan(width);
     expect(completeWidth).toBeLessThan(loadingWidth);
@@ -61,12 +66,24 @@ test("refresh follows the frame load, holds completion, and blocks repeat clicks
     await expect(button).toBeEnabled();
     await expect(button).toHaveAccessibleName("Refresh");
     expect((await button.boundingBox())!.width).toBeCloseTo(width, 1);
+    await page.emulateMedia({ reducedMotion: "no-preference" });
     await showcase.getByRole("tab", { name: "Code", exact: true }).click();
     await button.click();
     await expect(showcase.getByRole("tab", { name: "Preview", exact: true })).toHaveAttribute(
       "aria-selected",
       "true",
     );
+    await expect(button).toHaveAttribute("data-refresh-state", "complete");
+    const check = button.locator(".blocks-showcase-refresh-check");
+    await expect(check).toHaveCSS("width", "15px");
+    await expect(check).toHaveCSS("height", "15px");
+    await expect(check).toHaveCSS("animation-name", "kamod-action-stamp");
+    expect(
+      await button
+        .locator(".kamod-action-glyph")
+        .evaluate((node) => getComputedStyle(node, "::after").animationName),
+    ).toBe("kamod-action-stamp-ring");
+    await expect(check).toHaveCSS("transform", "none");
     await expect(button).toBeEnabled();
   } finally {
     release();

@@ -4,7 +4,9 @@
   "private": true,
   "description": "Composable Preact blocks for Kamod UI.",
   "type": "module",
-  "sideEffects": false,
+  "sideEffects": [
+    "**/*.css"
+  ],
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
@@ -91,7 +93,8 @@
     "./marketing/*": {
       "types": "./dist/marketing/*/index.d.ts",
       "import": "./dist/marketing/*/index.js"
-    }
+    },
+    "./theme-picker.css": "./dist/theme-picker.css"
   },
   "scripts": {
     "build": "NODE_OPTIONS=--max-old-space-size=8192 tsup && tsc -p tsconfig.declarations.json",

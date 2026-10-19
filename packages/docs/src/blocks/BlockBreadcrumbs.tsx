@@ -16,7 +16,7 @@ export function BlockBreadcrumbs({
   const label = blockCategories[category].label.replace(/\b\w/g, (letter) => letter.toUpperCase());
   return (
     <PageBreadcrumbs
-      label="Block breadcrumb"
+      label="Block Breadcrumb"
       className={className}
       ancestors={[
         { label: "Home", href: "/" },

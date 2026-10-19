@@ -1,8 +1,37 @@
 import { describe, expect, it } from "vitest";
-import { extractComponentTypes } from "../../../../.preactpress/component-api-plugin";
-import { componentApiOwner, componentApiTypes, componentTypeId } from "./component-api";
+import {
+  componentApiCatalogModule,
+  extractComponentTypes,
+} from "../../../../.preactpress/component-api-plugin";
+import {
+  componentApiOwner,
+  componentApiRowOwners,
+  componentApiTypes,
+  componentTypeId,
+} from "./component-api";
 
 describe("component API source extraction", () => {
+  it("keeps declarations out of the browser entry while preserving synchronous SSR", () => {
+    const browser = componentApiCatalogModule(["accordion", "button"], false);
+    expect(browser).toContain("export const sources = {};");
+    expect(browser).not.toMatch(/import\s+\w+\s+from/);
+    expect(browser).toContain('import("virtual:kamod-component-api/accordion")');
+    const server = componentApiCatalogModule(["accordion", "button"], true);
+    expect(server).toContain('from "virtual:kamod-component-api/accordion"');
+    expect(server).toContain('from "virtual:kamod-component-api/button"');
+    expect(server).toContain("export const loaders = {};");
+  });
+  it("resolves qualified rows to their helper types instead of the enclosing component", () => {
+    const owners = (prop: string) =>
+      componentApiRowOwners("pagination", "Pagination", prop).map(({ name }) => name);
+    expect(owners("PaginationLink isActive")).toEqual(["PaginationLinkProps"]);
+    expect(owners("PaginationPrevious / PaginationNext text").sort()).toEqual([
+      "PaginationNextProps",
+      "PaginationPreviousProps",
+    ]);
+    expect(owners("class")).toEqual(["PaginationProps"]);
+    expect(componentApiRowOwners("missing", "Missing", "value")).toEqual([]);
+  });
   it("preserves declarations, optional callbacks and direct required fields without flattening inheritance", () => {
     const source = `type Hidden = string;
 /** A configured control. */

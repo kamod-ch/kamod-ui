@@ -1,0 +1,105 @@
+/* Appearance shares palette chrome; only its extra action, icons and mode samples differ. */
+.site-color-mode-glyph,
+.site-color-mode-icon,
+.site-color-mode-header-actions {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+.site-color-mode-menu [data-slot="popover-title"] {
+  flex: none;
+}
+.site-color-mode-caption {
+  min-width: 0;
+  flex: 1;
+}
+.site-color-mode-caption > span:first-child {
+  flex: none;
+}
+.site-color-mode-caption > span:last-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.site-color-mode-header-actions {
+  gap: 0.25rem;
+  margin-inline-start: auto;
+}
+/* The primitive's radio indicator is replaced by the palette picker's aligned check. */
+.site-color-mode-option > span:first-child:not(.site-theme-option-label) {
+  display: none;
+}
+.site-color-mode-icon {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+.site-color-mode-option[aria-checked="true"] .site-color-mode-icon {
+  animation: site-color-mode-select 420ms ease-out;
+}
+.site-color-mode-option[aria-checked="true"] .site-theme-selection-check {
+  animation: site-color-mode-check 300ms ease-out both;
+}
+/* Keep the system sample in sync without adding another media listener. */
+.site-color-mode-palette[data-mode="system"] > .dark {
+  display: none;
+}
+@media (prefers-color-scheme: dark) {
+  .site-color-mode-palette[data-mode="system"] > .light {
+    display: none;
+  }
+  .site-color-mode-palette[data-mode="system"] > .dark {
+    display: inline-flex;
+  }
+}
+.site-color-mode-glyph[data-animate] .docs-state-icon-item[data-active="true"] {
+  animation: site-color-mode-snap 460ms ease-out;
+}
+@keyframes site-color-mode-snap {
+  0% {
+    opacity: 0;
+    transform: rotate(-95deg) scale(0.65);
+  }
+  45% {
+    opacity: 1;
+    transform: rotate(14deg) scale(1.16);
+  }
+  72% {
+    transform: rotate(-5deg) scale(0.96);
+  }
+  100% {
+    transform: rotate(0) scale(1);
+  }
+}
+@keyframes site-color-mode-select {
+  0% {
+    transform: rotate(-24deg) scale(0.86);
+  }
+  45% {
+    transform: rotate(9deg) scale(1.08);
+  }
+  100% {
+    transform: rotate(0) scale(1);
+  }
+}
+@keyframes site-color-mode-check {
+  from {
+    opacity: 0;
+    transform: scale(0.6) rotate(-18deg);
+  }
+  65% {
+    opacity: 1;
+    transform: scale(1.15) rotate(4deg);
+  }
+  to {
+    transform: scale(1) rotate(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-color-mode-glyph,
+  .site-color-mode-glyph .docs-state-icon-item,
+  .site-color-mode-icon,
+  .site-color-mode-option .site-theme-selection-check {
+    animation: none !important;
+  }
+}

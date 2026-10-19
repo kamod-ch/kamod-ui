@@ -1,0 +1,300 @@
+/* A package ending is one static reading surface; its own width controls density. */
+.package-guide-sources {
+  --package-source-line: color-mix(in oklab, var(--foreground) 8%, transparent);
+  --package-source-surface: color-mix(in oklab, var(--foreground) 2%, transparent);
+  container: package-ending / inline-size;
+  display: grid;
+  gap: 1.75rem;
+  min-width: 0;
+}
+.package-guide .package-source-intro p {
+  margin-block: 0;
+}
+.package-source-desk,
+.package-companions,
+.package-source-finish {
+  border: 1px solid var(--package-source-line);
+  border-radius: 0.875rem;
+  background: var(--package-source-surface);
+}
+.package-source-desk {
+  padding: 1rem;
+}
+.package-source-heading,
+.package-source-context,
+.package-companion-heading,
+.package-source-next,
+.package-source-browse,
+.package-source-browse a,
+.package-source-action {
+  display: flex;
+  align-items: center;
+}
+.package-source-heading {
+  gap: 0.5rem;
+  min-width: 0;
+  color: var(--foreground);
+}
+.package-guide .package-source-heading h3 {
+  flex: 0 1 auto;
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+.package-guide-sources svg {
+  flex: none;
+  stroke-width: 1.75;
+}
+.package-source-context {
+  min-width: 0;
+  gap: 0.5rem;
+  font-size: 0.6875rem;
+  color: var(--muted-foreground);
+}
+.package-source-context > :first-child {
+  flex: none;
+}
+.package-source-context > :last-child {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.package-source-links {
+  display: grid;
+  gap: 0.25rem;
+  margin-block: 0.875rem;
+}
+.package-source-links > a,
+.package-companions > a {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+  border-radius: 0.5rem;
+  color: var(--foreground);
+  text-decoration: none;
+  transition: background-color 150ms ease;
+}
+.package-source-links > a {
+  padding: 0.75rem;
+}
+.package-source-links > a > svg:first-child {
+  color: var(--muted-foreground);
+}
+.package-guide-sources a > svg:last-child {
+  color: var(--muted-foreground);
+}
+.package-source-links strong,
+.package-companion-heading strong {
+  font-size: 0.8125rem;
+  font-weight: 550;
+}
+.package-source-description {
+  display: block;
+  margin-top: 0.25rem;
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  line-height: 1.8;
+}
+.package-source-notices {
+  --inline-code-font: 0.6875rem;
+  --inline-code-line: 1rem;
+  --inline-code-padding: 0.1875rem;
+  --inline-code-arrow: 0.625rem;
+  margin-inline: 0.75rem;
+  padding-top: 0.875rem;
+  border-top: 1px solid var(--package-source-line);
+}
+.package-source-notices p {
+  margin: 0;
+  color: var(--muted-foreground);
+  font-size: 0.6875rem;
+  line-height: 1.8;
+}
+.package-source-notices p + p {
+  margin-top: 0.625rem;
+}
+.package-source-notices a {
+  color: var(--foreground);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  text-decoration-color: var(--package-source-line);
+}
+.package-guide-sources .package-source-lead {
+  margin: 0.625rem 0 1rem;
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+  line-height: 1.8;
+}
+.package-companions {
+  padding: 0.25rem;
+}
+.package-companions > a {
+  position: relative;
+  grid-template-columns: auto minmax(0, 1fr);
+  padding: 1rem 0.875rem;
+}
+.package-companions > a > svg:last-child {
+  position: absolute;
+  inset: 1.3rem 0.875rem auto auto;
+}
+.package-companions > a + a::before {
+  content: "";
+  position: absolute;
+  inset: 0 1rem auto;
+  height: 1px;
+  background: var(--package-source-line);
+}
+.package-companion-icon {
+  display: grid;
+  place-items: center;
+  align-self: start;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid var(--package-source-line);
+  border-radius: 0.625rem;
+  background: color-mix(in oklab, var(--foreground) 3%, transparent);
+  color: var(--muted-foreground);
+}
+.package-companion-content {
+  min-width: 0;
+}
+.package-companion-heading {
+  flex-wrap: wrap;
+  gap: 0.25rem 0.5rem;
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  line-height: 1.6;
+  padding-inline-end: 1.5rem;
+}
+.package-companion-heading strong {
+  color: var(--foreground);
+}
+.package-guide-sources code.package-companion-path {
+  display: inline-block;
+  max-width: 100%;
+  margin-inline-start: auto;
+  border-radius: 0.25rem;
+  background: color-mix(in oklab, var(--foreground) 4%, transparent);
+  color: var(--muted-foreground);
+  font-weight: 400;
+  box-shadow: none;
+  overflow-wrap: anywhere;
+}
+.package-source-finish {
+  position: relative;
+  padding: 1.125rem;
+  background: linear-gradient(
+    120deg,
+    color-mix(in oklab, var(--primary) 3%, transparent),
+    transparent 65%
+  );
+}
+.package-source-alias {
+  position: absolute;
+  inset: 0 auto auto 0;
+  scroll-margin-top: 6rem;
+}
+.package-guide-sources .package-source-check {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin: 0;
+  color: var(--muted-foreground);
+  font-size: 0.6875rem;
+  line-height: 1.8;
+}
+.package-source-check > svg {
+  align-self: start;
+  margin-top: 0.1875rem;
+  color: color-mix(in oklab, var(--primary) 60%, var(--muted-foreground));
+}
+.package-source-next {
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.875rem;
+  margin-top: 1rem;
+  padding-top: 0.875rem;
+  border-top: 1px solid var(--package-source-line);
+}
+.package-source-action {
+  min-height: 2rem;
+  gap: 0.5rem;
+  padding-inline: 0.625rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+.package-source-browse {
+  flex-wrap: wrap;
+  gap: 0.625rem;
+  color: var(--muted-foreground);
+  font-size: 0.6875rem;
+}
+.package-source-browse a {
+  gap: 0.25rem;
+  color: inherit;
+  text-decoration: none;
+}
+.package-guide-sources a:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+}
+@container package-ending (min-width: 36rem) {
+  .package-source-links {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .package-source-links > a {
+    align-items: start;
+    gap: 0.5rem;
+  }
+  .package-source-links > a > svg {
+    margin-top: 0.1875rem;
+  }
+}
+@container package-ending (max-width: 26rem) {
+  .package-source-context {
+    display: none;
+  }
+  .package-source-desk,
+  .package-source-finish {
+    padding: 0.875rem;
+  }
+  .package-companions > a {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 0.875rem;
+  }
+  .package-companion-icon {
+    display: none;
+  }
+  .package-guide-sources code.package-companion-path {
+    margin-inline-start: 0;
+  }
+  .package-source-notices {
+    margin-inline: 0.5rem;
+  }
+}
+@media (hover: hover) and (pointer: fine) {
+  .package-source-links > a:hover,
+  .package-companions > a:hover {
+    background: color-mix(in oklab, var(--foreground) 4%, transparent);
+  }
+  .package-source-browse a:hover,
+  .package-source-notices a:hover {
+    color: var(--foreground);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+  .package-companions > a:hover .package-companion-icon {
+    color: var(--primary);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .package-source-links > a,
+  .package-companions > a {
+    transition: none;
+  }
+}

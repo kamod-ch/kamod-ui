@@ -57,7 +57,7 @@ export function BlockShowcaseToolbar({
             target="_blank"
             rel="noreferrer"
             title="Open the preview in a new tab"
-            aria-label="Open preview in a new tab"
+            aria-label="Open Preview in a New Tab"
           >
             <ArrowsMaximizeIcon aria-hidden="true" />
             <span class="blocks-showcase-control-label">Open</span>

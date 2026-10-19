@@ -4,7 +4,15 @@ export {
   AccordionItem,
   AccordionTrigger,
 } from "./components/accordion";
-export { Alert, AlertAction, AlertDescription, AlertTitle, alert } from "./components/alert";
+export {
+  Alert,
+  AlertAction,
+  AlertCallout,
+  type AlertCalloutProps,
+  AlertDescription,
+  AlertTitle,
+  alert,
+} from "./components/alert";
 export {
   AlertDialog,
   AlertDialogAction,
@@ -69,6 +77,24 @@ export {
 } from "./components/carousel";
 export { Chart } from "./components/chart";
 export { Checkbox, type CheckboxCheckedState } from "./components/checkbox";
+export {
+  Code,
+  type CodeCopyActionContext,
+  type CodeCopyStatus,
+  CodeFileHeader,
+  type CodeFileHeaderProps,
+  type CodeImportControlContext,
+  type CodeLanguage,
+  type CodeProps,
+  type CodeReference,
+  CodeReferenceProvider,
+  type CodeReferenceResolver,
+  CodeSnippetLabel,
+  type CodeSyntaxTheme,
+  type CodeWrapControlContext,
+  codeLanguages,
+  codeSyntaxThemes,
+} from "./components/code";
 export { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./components/collapsible";
 export type {
   ComboboxChipProps,
@@ -139,6 +165,12 @@ export {
   ContextMenuSubTrigger,
   ContextMenuTrigger,
 } from "./components/context-menu";
+export {
+  CopyButton,
+  type CopyButtonContext,
+  type CopyButtonProps,
+  type CopyStatus,
+} from "./components/copy-button";
 export { DataTable } from "./components/data-table";
 export { DatePicker, formatDatePickerDisplay } from "./components/date-picker";
 export type { DialogContentPresentation } from "./components/dialog";

@@ -24,8 +24,10 @@
   transition: color 0.15s ease;
 }
 
-.blocks-detail-back:hover {
-  color: var(--foreground);
+@media (hover: hover) and (pointer: fine) {
+  .blocks-detail-back:hover {
+    color: var(--foreground);
+  }
 }
 
 .blocks-detail-back:focus-visible {
@@ -150,13 +152,6 @@
   padding: 0.75rem;
   border-radius: 0.75rem;
   border: 1px solid var(--border);
-  background: repeating-linear-gradient(
-    -45deg,
-    color-mix(in oklab, var(--muted) 55%, transparent),
-    color-mix(in oklab, var(--muted) 55%, transparent) 8px,
-    color-mix(in oklab, var(--muted) 30%, transparent) 8px,
-    color-mix(in oklab, var(--muted) 30%, transparent) 16px
-  );
 }
 
 .blocks-preview-panel-toolbar {
@@ -170,7 +165,11 @@
   padding: 0.2rem;
   border-radius: 0.55rem;
   border: 1px solid color-mix(in oklab, var(--border) 85%, transparent);
-  background: color-mix(in oklab, var(--muted) 92%, var(--background));
+  background: color-mix(
+    in oklab,
+    var(--muted) calc(92% + 7.36% * var(--docs-highlight-boost, 0)),
+    var(--background)
+  );
   box-shadow: 0 1px 2px rgb(0 0 0 / 6%);
 }
 
@@ -203,7 +202,11 @@
 
 .blocks-preview-placeholder {
   height: 100%;
-  background: color-mix(in srgb, var(--muted) 35%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--muted) calc(35% + 22.75% * var(--docs-highlight-boost, 0)),
+    transparent
+  );
 }
 
 .blocks-preview-host [data-slot="sidebar-wrapper"] {
@@ -312,8 +315,14 @@
   cursor: pointer;
 }
 
-.blocks-file-tree-btn:hover {
-  background: color-mix(in srgb, var(--foreground) 6%, transparent);
+@media (hover: hover) and (pointer: fine) {
+  .blocks-file-tree-btn:hover {
+    background: color-mix(
+      in srgb,
+      var(--foreground) calc(6% + 5.64% * var(--docs-highlight-boost, 0)),
+      transparent
+    );
+  }
 }
 
 .blocks-file-tree-btn.is-active {
@@ -326,7 +335,6 @@
   min-width: 0;
   max-height: 480px;
   overflow: auto;
-  background: var(--background);
 }
 
 .blocks-code-pane .docs-tab-code {

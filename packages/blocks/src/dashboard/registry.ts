@@ -615,12 +615,12 @@ export const Example = () => (
     id: "theme-customize",
     title: "Theme Customize",
     description:
-      "Popover for scheme, Kamod preset, and radius. Uses the Kamod theme API (no next-themes). Changes apply to a local scope by default; persistence and clipboard copy run only after user action.",
+      "Shared theme dropdown for scheme, Kamod preset, and radius. Uses the Kamod theme API (no next-themes). Changes apply to a local scope by default; persistence is opt-in and clipboard copy runs only after user action.",
     category: "dashboard",
     catalogUrl: catalog("theme-customize"),
     files: [componentFile("theme-customize", "theme-customize.tsx")],
     dependencies: ["@kamod-ch/ui", "@kamod-ch/themes", "@kamod-ch/icons", "preact"],
-    uiComponents: ["Button", "Label", "Popover", "Slider", "ToggleGroup"],
+    uiComponents: ["Button", "Dropdown", "Label", "Separator", "Slider"],
     tags: ["dashboard", "theme"],
     features: ["controlled-scheme", "optional-persist", "system-listener", "clipboard-on-action"],
     preview: { height: 360, fullWidth: true },
@@ -640,6 +640,7 @@ export const Example = () => (
       },
     ],
     usage: `import { ThemeCustomize } from "@kamod-ch/blocks/dashboard/theme-customize";
+import "@kamod-ch/blocks/theme-picker.css";
 
 export const Example = () => (
   <ThemeCustomize persist defaultScheme="system" defaultPreset="kamod" />

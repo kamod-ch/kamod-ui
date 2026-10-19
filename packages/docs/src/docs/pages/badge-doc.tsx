@@ -211,7 +211,7 @@ export const Example = () => (
     preview: () => (
       <Badge asChild>
         <a href="#link">
-          Open link <ArrowUpRight data-icon="inline-end" />
+          Open Link <ArrowUpRight data-icon="inline-end" />
         </a>
       </Badge>
     ),
@@ -255,8 +255,8 @@ export const Example = () => (
   sizes: {
     preview: () => (
       <div class="flex flex-wrap items-center gap-2">
-        <Badge size="xxs">Extra extra small</Badge>
-        <Badge size="xs">Extra small</Badge>
+        <Badge size="xxs">Extra Extra Small</Badge>
+        <Badge size="xs">Extra Small</Badge>
         <Badge size="sm">Small</Badge>
         <Badge size="md">Medium</Badge>
         <Badge size="lg">Large</Badge>
@@ -315,37 +315,37 @@ export const badgeDocPage: DocPageModule = {
     {
       id: "variants",
       title: "Variants",
-      text: "Shadcn-compatible set plus additional semantic colors for product UI.",
+      text: "**Build a Consistent Status Vocabulary.** Choose a `Badge` variant to communicate the category or status represented by its text. The examples compare familiar neutral treatments with semantic colors so you can establish a consistent vocabulary across lists and detail views.\n\nA badge describes information rather than performing an action by default; use the [Link](#link) example when it should navigate.",
     },
     {
       id: "with-icon",
-      title: "With icon",
-      text: 'Set data-icon="inline-start" or data-icon="inline-end" on the icon so padding stays balanced.',
+      title: "With Icon",
+      text: '**Reinforce the Label without Crowding It.** Place the icon before or after the badge label and mark it with `data-icon="inline-start"` or `data-icon="inline-end"`. These attributes keep the padding balanced around the combined symbol and text.\n\nKeep decorative icons hidden from assistive technology and use the placement attribute instead of adding unrelated padding to each badge.',
     },
     {
       id: "with-spinner",
-      title: "With spinner",
-      text: "Short-lived states: pair Spinner with the same data-icon attributes.",
+      title: "With Spinner",
+      text: "**Name the Work in Progress.** Compose `Spinner` with a concise badge label for a temporary state such as processing. Use the same `data-icon` placement as a static symbol so the badge keeps a stable visual rhythm while work is pending.\n\nReplace it with a clear result when work finishes, and avoid leaving a loading badge active after an error or cancelled request.",
     },
     {
       id: "link",
       title: "Link",
-      text: "Use asChild so an anchor (or router Link) receives badge styling. You can still pass href without asChild to render a native anchor.",
+      text: "**Make Navigable Metadata Behave Like a Link.** Use `asChild` to apply badge styling to your own anchor, or supply `href` for a native link. This makes the badge a destination rather than a static status label while preserving its compact appearance.\n\nSupply a meaningful `href` and preserve visible focus; use a button instead when the action changes local state without navigation.",
     },
     {
       id: "custom-colors",
-      title: "Custom colors",
-      text: "Override with utility classes for brand-specific chips (including dark mode pairs).",
+      title: "Custom Colors",
+      text: "**Keep One-Off Colors Intentional.** Add coordinated light and dark `class` utilities when a badge needs a brand-specific palette. Treat background, text and border as one combination, rather than changing only the fill and assuming the label remains legible.\n\nCheck its light and dark combinations together; repeated semantic colors belong in the [Theming Guide](/docs/theming/installation) rather than scattered per-instance utilities.",
     },
     {
       id: "sizes",
       title: "Sizes",
-      text: "Kamod-specific density scale from xxs through lg.",
+      text: "**Choose Density for the Surrounding Content.** Use the badge's `size` scale, from `xxs` through `lg`, to match surrounding metadata or controls. The comparison makes density a deliberate local choice instead of a collection of unrelated padding overrides.\n\nKeep labels short and test translations before reducing padding, particularly when a badge is also a link and needs a usable interaction target.",
     },
     {
       id: "rtl",
       title: "RTL",
-      text: "Wrap with DirectionProvider and set dir on the row; icons follow inline start/end.",
+      text: "**Check the Whole Pattern in Its Reading Direction.** Wrap the translated composition in `DirectionProvider` and set the row's `dir`. Icons marked with logical inline placement retain their relationship to the badge label when the reading direction changes.\n\nKeep values and keyboard behavior meaningful in the translated interface, and follow [Direction](/docs/direction/installation) when the page and its portaled controls need a shared direction.",
     },
     {
       id: "api-reference",

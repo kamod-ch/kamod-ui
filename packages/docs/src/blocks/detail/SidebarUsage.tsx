@@ -1,5 +1,7 @@
+import { InfoIcon } from "@kamod-ch/icons/lucide";
 /** Practical integration steps tailored to the files included with each sidebar. */
 import { CodeBlock } from "../../docs/components/CodeBlock";
+import { DocsCallout } from "../../docs/components/DocsCallout";
 import { PathDisplay } from "../../docs/components/PathDisplay";
 import { BlockDocSection, BlockGuideHeading } from "./BlockDocumentation";
 import { SidebarUsageIntroduction } from "./SidebarUsageIntroduction";
@@ -25,7 +27,7 @@ export function SidebarUsage({ guide }: { guide: VariantGuide }) {
       introduction={
         <p>
           Start with the complete preview composition, then adapt its local source to your app. The
-          exported <code>{component}</code> takes <strong>no props</strong>; navigation, content and
+          exported <code>{component}</code> takes <strong>No Props</strong>; navigation, content and
           behavior are configured inside your copied files.
         </p>
       }
@@ -52,11 +54,17 @@ export function SidebarUsage({ guide }: { guide: VariantGuide }) {
           that file; keep the surrounding provider and layout in place.
         </p>
         <CodeBlock code={integrationExample(guide)} language="tsx" />
-        <p class="blocks-doc-note">
-          These are local edits, not props to pass to <code>{`<${component} />`}</code>. See{" "}
-          <a href={`#${anchor("prop-reference")}`}>Local props and data</a> for the helpers this
-          variant actually includes and their supported inputs.
-        </p>
+        <DocsCallout
+          class="docs-callout-spaced"
+          title="Local edits, local ownership"
+          icon={<InfoIcon />}
+        >
+          <p>
+            These are local edits, not props to pass to <code>{`<${component} />`}</code>. See{" "}
+            <a href={`#${anchor("prop-reference")}`}>Local Props and Data</a> for the helpers this
+            variant actually includes and their supported inputs.
+          </p>
+        </DocsCallout>
       </section>
       <section aria-labelledby={anchor("connect-app")}>
         <BlockGuideHeading id={anchor("connect-app")} />
@@ -87,7 +95,7 @@ export function SidebarUsage({ guide }: { guide: VariantGuide }) {
         )}
         <ul class="blocks-doc-integration-notes">
           <li>
-            <strong>{isSettingsDialog ? "Selection and actions." : "Routing and actions."}</strong>{" "}
+            <strong>{isSettingsDialog ? "Selection and Actions." : "Routing and Actions."}</strong>{" "}
             {isSettingsDialog ? (
               <>
                 The first settings item is highlighted in the demo; derive that selection from your
@@ -104,7 +112,7 @@ export function SidebarUsage({ guide }: { guide: VariantGuide }) {
           </li>
           {!isSettingsDialog && (
             <li>
-              <strong>Close mobile navigation deliberately.</strong> The demo link helper only
+              <strong>Close Mobile Navigation Deliberately.</strong> The demo link helper only
               prevents <code>#</code> navigation. It does not close the mobile sheet after a
               client-side route change. In a helper rendered inside the existing provider, use{" "}
               <code>useSidebar()</code> and call <code>setOpenMobile(false)</code> after handling an
@@ -113,12 +121,12 @@ export function SidebarUsage({ guide }: { guide: VariantGuide }) {
             </li>
           )}
           <li>
-            <strong>Preserve the layout.</strong> Keep the existing main landmark and keep sidebar
+            <strong>Preserve the Layout.</strong> Keep the existing main landmark and keep sidebar
             controls inside their existing provider. Keep the composition mounted across page
             changes to retain its local UI state. Review this variant’s{" "}
-            <a href={`#${anchor("responsive")}`}>responsive behavior</a> before moving controls;
+            <a href={`#${anchor("responsive")}`}>Responsive Behavior</a> before moving controls;
             desktop and mobile navigation can differ. Follow the{" "}
-            <a href={`#${anchor("production")}`}>production checklist</a> before shipping.
+            <a href={`#${anchor("production")}`}>Production Checklist</a> before shipping.
           </li>
         </ul>
       </section>

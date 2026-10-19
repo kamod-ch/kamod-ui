@@ -1,4 +1,7 @@
 /** Build-time source metadata; declarations are never parsed in the browser. */
+import { loaders, sources } from "virtual:kamod-component-api";
+import { apiTableOwner, apiTableRowOwners } from "./component-api-owners";
+
 export type ComponentTypeDefinition = {
   name: string;
   source: string;
@@ -8,22 +11,23 @@ export type ComponentTypeDefinition = {
   fields: { name: string; type: string; required: boolean; description: string }[];
 };
 
-const sources = import.meta.glob<ComponentTypeDefinition[]>(
-  [
-    "../../../../../core/src/components/**/*.{ts,tsx}",
-    "../../forms/formisch/*.{ts,tsx}",
-    "!**/*.test.*",
-    "!**/* 2.*",
-  ],
-  { query: "?component-api", import: "default", eager: true },
-);
+const catalog = new Map<string, ComponentTypeDefinition[]>(Object.entries(sources));
+const pending = new Map<string, Promise<void>>();
 
-const catalog = new Map<string, ComponentTypeDefinition[]>();
-for (const [path, entries] of Object.entries(sources)) {
-  const slug = path.includes("/forms/formisch/")
-    ? "formisch"
-    : path.split("/components/")[1]?.split("/")[0];
-  if (slug && entries.length) catalog.set(slug, [...(catalog.get(slug) ?? []), ...entries]);
+/** Load before rendering an article; standalone previews never request documentation metadata. */
+export function loadComponentApi(slug: string): Promise<void> {
+  if (catalog.has(slug) || !loaders[slug]) return Promise.resolve();
+  const existing = pending.get(slug);
+  if (existing) return existing;
+  const request = loaders[slug]()
+    .then((entries) => {
+      catalog.set(slug, entries);
+    })
+    .finally(() => {
+      pending.delete(slug);
+    });
+  pending.set(slug, request);
+  return request;
 }
 
 const emptyTypes: ComponentTypeDefinition[] = [];
@@ -36,8 +40,10 @@ export const componentTypeId = (entry: ComponentTypeDefinition) =>
 
 /** Match only a named owner's declared fields; inherited props are not inferred from defaults. */
 export function componentApiOwner(slug: string, title: string) {
-  const name = title.replace(/\s+(props|api|reference)$/i, "").replace(/[^a-z0-9]/gi, "");
-  return componentApiTypes(slug).find(
-    (entry) => entry.name.toLowerCase() === `${name}Props`.toLowerCase(),
-  );
+  return apiTableOwner(componentApiTypes(slug), title);
+}
+
+/** Qualified rows name their own helpers; unqualified rows inherit the section's owner. */
+export function componentApiRowOwners(slug: string, title: string, prop: string) {
+  return apiTableRowOwners(componentApiTypes(slug), title, prop);
 }

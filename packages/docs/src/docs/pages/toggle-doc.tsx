@@ -14,7 +14,7 @@ export const toggleDocPage = createGenericDocPage({
     {
       id: "basic-toggle",
       title: "Basic Toggle",
-      text: "A compact default toggle with an initial pressed state.",
+      text: "**Represent a Persistent on/off Choice.** Use `Toggle` for a boolean pressed state, such as an active formatting option. An initial pressed value establishes the starting presentation, while subsequent changes should represent a persistent choice rather than a one-time command.\n\nKeep its accessible name stable enough to understand the state and connect the pressed value to the actual feature; use an ordinary [Button](/docs/button/installation) for actions without a retained selection.",
       code: `import { Toggle } from "@/components/kamod-ui/toggle";
 import { Bold } from "lucide-preact";
 
@@ -34,7 +34,7 @@ export const Example = () => (
     {
       id: "toggle-options",
       title: "Toolbar Actions",
-      text: "Render grouped actions in a compact, modern formatting toolbar.",
+      text: "**Keep Formatting Choices Independently Meaningful.** Arrange related toggles in a formatting toolbar when each button represents an on/off option. If the choices need shared exclusive or multiple selection behavior, compare [Toggle Group](/docs/toggle-group/installation) before assembling separate state handlers.\n\nGive each icon a clear accessible name and keep pressed states synchronized with the edited content rather than only the last pointer interaction.",
       code: `import { Toggle } from "@/components/kamod-ui/toggle";
 import { Bold, Italic, Underline } from "lucide-preact";
 
@@ -68,7 +68,7 @@ export const Example = () => (
     {
       id: "variants-and-sizes",
       title: "Variants and Sizes",
-      text: "Use `outline` for elevated surfaces and `icon` size for compact controls.",
+      text: "**Match Visual Weight to the Toolbar.** Choose the outline treatment when a toggle needs a more explicit boundary and an icon size when its symbol is sufficient visually. Give icon-only options accessible names that explain the setting they enable or disable.\n\nPreserve a clear pressed state and visible keyboard focus in every combination, and avoid making the active treatment indistinguishable from a hover effect.",
       code: `import { Toggle } from "@/components/kamod-ui/toggle";
 import { Bold, Underline } from "lucide-preact";
 

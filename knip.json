@@ -36,6 +36,7 @@
         "index.html",
         "src/main.tsx",
         "src/kitchen-sink/KitchenSinkPage.tsx",
+        "src/home/HomePage.tsx",
         "src/blocks/**/*.{ts,tsx}",
         "src/docs/**/*.{ts,tsx}",
         "src/**/*.test.{ts,tsx}",
@@ -49,7 +50,6 @@
         "@preact/preset-vite",
         "tailwindcss",
         "tw-animate-css",
-        "@fontsource-variable/inter",
         "@tailwindcss/forms",
         "@kamod-ch/signals"
       ]

@@ -1,5 +1,6 @@
 import type { ComponentChildren } from "preact";
 import { BlockHeadingLink } from "../../blocks/BlockHeadingLink";
+import { BrandText } from "./brand/BrandText";
 
 /** Uses the same section rhythm and native permalinks as the block guides. */
 export function LibraryGuideSection({
@@ -16,7 +17,7 @@ export function LibraryGuideSection({
       <h2 id={id} tabIndex={-1}>
         <BlockHeadingLink id={id}>{title}</BlockHeadingLink>
       </h2>
-      {children}
+      <BrandText>{children}</BrandText>
     </section>
   );
 }

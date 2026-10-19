@@ -1,0 +1,25 @@
+.docs-file-download.kamod-action-feedback {
+  /* Match Copy's 72/28 blend and light/dark contrast, with a violet/purple accent. */
+  --action-feedback-vivid: color-mix(
+    in oklab,
+    var(--color-violet-500, #8b5cf6) 72%,
+    var(--color-purple-600, #9333ea)
+  );
+}
+.docs-file-download [data-download-visible="false"] {
+  opacity: 0;
+  pointer-events: none;
+}
+.docs-file-download-complete {
+  font-weight: 600;
+}
+@keyframes docs-file-download-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .docs-file-download[data-download-state="loading"] .docs-file-download-spinner {
+    animation: docs-file-download-spin 1.2s linear infinite;
+  }
+}

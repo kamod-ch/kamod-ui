@@ -1,3 +1,6 @@
+import { InfoIcon } from "@kamod-ch/icons/lucide";
+import { BrandText } from "../docs/components/brand/BrandText";
+import { DocsCallout } from "../docs/components/DocsCallout";
 import { PathDisplay } from "../docs/components/PathDisplay";
 /** Copy-and-adapt setup instructions and a minimal Preact integration. */
 
@@ -21,9 +24,12 @@ export const ShellSetup = () => (
     introduction={
       <>
         <p>
-          Add a complete navigation layout to an existing Preact app in three steps. Copy the
-          source, connect the Kamod dependencies and bring your own pages. The files live in your
-          project, so you can adapt the sidebar, header and account menu as your application grows.
+          <BrandText>
+            Add a complete navigation layout to an existing Preact app in three steps. Copy the
+            source, connect the Kamod dependencies and bring your own pages. The files live in your
+            project, so you can adapt the sidebar, header and account menu as your application
+            grows.
+          </BrandText>
         </p>
       </>
     }
@@ -40,7 +46,7 @@ export const ShellSetup = () => (
           demo branding, copy the SVG into the same <code>assets</code> subfolder.
         </p>
         <p>
-          <strong>Keep the reusable files together:</strong> <code>application-shell-1.tsx</code>,{" "}
+          <strong>Keep the Reusable Files Together:</strong> <code>application-shell-1.tsx</code>,{" "}
           <code>app-sidebar.tsx</code>, <code>nav-main.tsx</code>, <code>nav-user.tsx</code>,{" "}
           <code>menu.tsx</code>, <code>types.ts</code> and <code>index.ts</code>. Their relative
           imports work within this folder; the entrypoint exports the component and its public
@@ -50,44 +56,68 @@ export const ShellSetup = () => (
         </p>
       </li>
       <li>
-        <BlockGuideHeading id="application-shell-dependencies" />
-        <p>
-          Install the packages your app does not already have. Kamod UI supplies the interactive
-          components, Icons supplies the SVG icons, and Themes and Preact Signals support the shared
-          styling and state setup. Use your project's existing package manager.
-        </p>
-        <DependencyCommands
-          dependencies={["@kamod-ch/ui", "@kamod-ch/icons", "@kamod-ch/themes", "@preact/signals"]}
-        />
-        <div role="paragraph" class="blocks-doc-note">
-          <strong>Compatibility:</strong>{" "}
-          <RequiredIndicator label="Required UI compatibility" tooltip="Required Kamod UI APIs" />{" "}
-          <PathDisplay path={"@kamod-ch/ui"} /> must export <code>useDropdown</code> and support the{" "}
-          <code>portal</code> prop on <code>DropdownContent</code>, and expose{" "}
-          <code>createRovingFocus</code> from <PathDisplay path={"@kamod-ch/ui/lib/interactive"} />.
-          The shell's menu adapters use these APIs to manage keyboard navigation and keep menus
-          outside the sidebar's scroll container. Use a UI release that includes these APIs before
-          integrating the block.
-        </div>
+        <BrandText>
+          <BlockGuideHeading id="application-shell-dependencies" />
+          <p>
+            Install the packages your app does not already have. Kamod UI supplies the interactive
+            components, Icons supplies the SVG icons, and Themes and Preact Signals support the
+            shared styling and state setup. Use your project's existing package manager.
+          </p>
+          <DependencyCommands
+            dependencies={[
+              "@kamod-ch/ui",
+              "@kamod-ch/icons",
+              "@kamod-ch/themes",
+              "@preact/signals",
+            ]}
+          />
+          <DocsCallout
+            class="docs-callout-spaced"
+            title="Keep your existing setup"
+            icon={<InfoIcon />}
+          >
+            <div role="paragraph">
+              <strong>Compatibility:</strong>{" "}
+              <RequiredIndicator
+                label="Required UI Compatibility"
+                tooltip="Required Kamod UI APIs"
+              />{" "}
+              <PathDisplay path={"@kamod-ch/ui"} /> must export <code>useDropdown</code> and support
+              the <code>portal</code> prop on <code>DropdownContent</code>, and expose{" "}
+              <code>createRovingFocus</code> from{" "}
+              <PathDisplay path={"@kamod-ch/ui/lib/interactive"} />. The shell's menu adapters use
+              these APIs to manage keyboard navigation and keep menus outside the sidebar's scroll
+              container. Use a UI release that includes these APIs before integrating the block.
+            </div>
+          </DocsCallout>
+        </BrandText>
       </li>
       <li>
-        <BlockGuideHeading id="application-shell-styles" />
-        <div role="paragraph">
-          Follow the{" "}
-          <a class="underline" href={withBasePath("/docs/theming/css-setup")}>
-            theme and Tailwind setup
-          </a>{" "}
-          <RequiredIndicator label="Required styling setup" tooltip="Required CSS setup" /> in your
-          app's global stylesheet, then ensure Tailwind scans the copied files as well as the Kamod
-          components. An app that already uses Kamod can keep its existing theme setup. Import the
-          shell from your new local folder:
-        </div>
-        <CodeBlock code={shellImport} language="tsx" />
-        <p class="blocks-doc-note">
-          <strong>Check the first render:</strong> the sidebar, borders and page background should
-          follow your app's theme. If the layout appears unstyled, check the global CSS import and
-          Tailwind source detection before changing the block's classes.
-        </p>
+        <BrandText>
+          <BlockGuideHeading id="application-shell-styles" />
+          <div role="paragraph">
+            Follow the{" "}
+            <a class="underline" href={withBasePath("/docs/theming/css-setup")}>
+              Theme and Tailwind Setup
+            </a>{" "}
+            <RequiredIndicator label="Required Styling Setup" tooltip="Required CSS setup" /> in
+            your app's global stylesheet, then ensure Tailwind scans the copied files as well as the
+            Kamod components. An app that already uses Kamod can keep its existing theme setup.
+            Import the shell from your new local folder:
+          </div>
+          <CodeBlock code={shellImport} language="tsx" />
+          <DocsCallout
+            class="docs-callout-spaced"
+            title="Check the First Render"
+            icon={<InfoIcon />}
+          >
+            <p>
+              The sidebar, borders and page background should follow your app's theme. If the layout
+              appears unstyled, check the global CSS import and Tailwind source detection before
+              changing the block's classes.
+            </p>
+          </DocsCallout>
+        </BrandText>
       </li>
     </ol>
   </BlockDocSection>
@@ -97,7 +127,7 @@ const usage = `${shellImport}
 
 export const App = () => (
   <ApplicationShell1
-    brand={{ name: "Acme Inc", description: "Enterprise", href: "/" }}
+    brand={{ name: "Kamod UI", description: "Component library", href: "/" }}
     navigationGroups={[{
       id: "workspace", label: "Workspace",
       items: [{ id: "overview", label: "Overview", href: "/overview" }],
@@ -120,7 +150,7 @@ export const ShellUsage = () => (
       <>
         <div role="paragraph">
           Pass your brand, navigation, user and breadcrumbs{" "}
-          <RequiredIndicator label="Required usage data" tooltip="Four required data props" />, then
+          <RequiredIndicator label="Required Usage Data" tooltip="Four required data props" />, then
           place your page content inside the shell. Mount it in your app's shared layout so pages
           can reuse the same navigation. The example below starts with one destination and lets the
           shell manage its own sidebar state.
@@ -129,12 +159,18 @@ export const ShellUsage = () => (
     }
   >
     <CodeBlock code={usage} language="tsx" />
-    <p class="blocks-doc-note">
-      <strong>Keep the shell mounted across routes.</strong> Replace its children and route data
-      without changing the shell’s key to preserve local sidebar state. The shell already owns its{" "}
-      <code>SidebarProvider</code>; adding a second provider outside it will not control its inner
-      navigation. Use the public <a href="#application-shell-state">desktop state props</a> instead.
-    </p>
+    <DocsCallout
+      class="docs-callout-spaced"
+      title="Keep the Shell Mounted Across Routes"
+      icon={<InfoIcon />}
+    >
+      <p>
+        Replace its children and route data without changing the shell’s key to preserve local
+        sidebar state. The shell already owns its <code>SidebarProvider</code>; adding a second
+        provider outside it will not control its inner navigation. Use the public{" "}
+        <a href="#application-shell-state">Desktop State Props</a> instead.
+      </p>
+    </DocsCallout>
     <dl class="blocks-doc-callouts">
       <div>
         <dt>Connect navigation</dt>

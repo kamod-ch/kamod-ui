@@ -3,7 +3,7 @@ import type { AccessibilityProfiles } from "./types";
 export const inputAccessibility: AccessibilityProfiles = {
   input: {
     example: {
-      title: "Keep the name, help and error connected",
+      title: "Keep the Name, Help and Error Connected",
       note: "The caller supplies the validation message. useId keeps label relationships unique when this field appears more than once; the error is referenced only while it is rendered.",
       code: `import { Input, Label } from "@kamod-ch/ui";
 import { useId } from "preact/hooks";

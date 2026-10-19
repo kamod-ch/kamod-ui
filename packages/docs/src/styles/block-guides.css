@@ -8,9 +8,16 @@
   opacity: 0;
 }
 :is(.block-guide, .docs-blocks-overview)
-  .blocks-doc-heading-link:is(:hover, :focus-visible)
+  .blocks-doc-heading-link:is(:focus-visible)
   .blocks-doc-heading-icon {
   opacity: 1;
+}
+@media (hover: hover) and (pointer: fine) {
+  :is(.block-guide, .docs-blocks-overview)
+    .blocks-doc-heading-link:is(:hover, :focus-visible)
+    .blocks-doc-heading-icon {
+    opacity: 1;
+  }
 }
 
 .docs-blocks-overview .library-directory-section::before {
@@ -58,17 +65,26 @@
 .block-guide-breadcrumb [data-slot="breadcrumb-separator"] {
   color: color-mix(in oklab, var(--foreground) 35%, var(--background));
 }
-.block-guide-breadcrumb a:hover {
-  color: var(--foreground);
+@media (hover: hover) and (pointer: fine) {
+  .block-guide-breadcrumb a:hover {
+    color: var(--foreground);
+  }
 }
-.block-guide-breadcrumb a:not([aria-current="page"]):hover {
-  background: color-mix(in oklab, var(--primary) 6%, var(--background));
+@media (hover: hover) and (pointer: fine) {
+  .block-guide-breadcrumb a:not([aria-current="page"]):hover {
+    background: color-mix(
+      in oklab,
+      var(--primary) calc(6% + 5.64% * var(--docs-highlight-boost, 0)),
+      var(--background)
+    );
+  }
 }
 .block-guide-breadcrumb a:focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 3px;
 }
 .block-guide-eyebrow {
+  margin: 0 0 0.875rem;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -82,24 +98,29 @@
   gap: 0.5rem;
   min-width: 0;
 }
-.block-guide-eyebrow-label svg {
+.block-guide-eyebrow-label > svg {
+  display: block;
   flex: none;
+  color: inherit;
 }
-.block-guide-eyebrow-focus {
-  margin-left: auto;
-  font-size: 0.6875rem;
+/* Shared block headers own their title and lead sizes independently of guide introductions. */
+.block-guide-header h1,
+.blocks-variant-header:not(.blocks-page-header) h1 {
+  font-size: clamp(1.5rem, 2.3vw, 2rem);
+}
+.block-guide-description,
+.blocks-variant-header:not(.blocks-page-header) .blocks-page-header-description {
+  font-size: 0.9375rem;
 }
 .block-guide-header h1 {
   scroll-margin-top: 6rem;
   margin: 0.875rem 0 1rem;
-  font-size: clamp(1.5rem, 2.3vw, 2rem);
   font-weight: 600;
   line-height: 1.18;
   letter-spacing: -0.035em;
 }
 .block-guide-description {
   color: var(--muted-foreground);
-  font-size: 0.9375rem;
   line-height: 1.8;
 }
 .block-guide-description p {
@@ -107,19 +128,6 @@
 }
 .block-guide-description p + p {
   margin-top: 0.875rem;
-}
-.block-guide-description strong {
-  color: var(--foreground);
-  font-weight: 550;
-}
-.block-guide-switcher {
-  margin-top: 1.5rem;
-}
-.block-guide-switcher a:is(:hover, [aria-current]) {
-  color: var(--foreground);
-}
-.block-guide-switcher a[aria-current] {
-  font-weight: 500;
 }
 .block-guide-section {
   margin-top: 2.5rem;
@@ -130,7 +138,7 @@
   border-top: 0;
   padding-top: 0;
 }
-.block-guide-section > h3 {
+.block-guide-section > :is(h3, h4, h5, h6) {
   margin-top: 1.75rem;
 }
 .block-guide-prose {
@@ -153,12 +161,11 @@
 .block-guide-prose li + li {
   margin-top: 0.75rem;
 }
-.block-guide-section > .docs-code-wrap {
-  margin-block: 1.25rem;
-}
 .block-guide-table {
   max-width: 100%;
   overflow-x: auto;
+  /* Preserve readable words; the local scroll region handles intrinsic table width. */
+  overflow-wrap: normal;
   margin: 1.5rem 0;
   border: 1px solid var(--border);
   border-radius: 0.625rem;
@@ -170,7 +177,11 @@
   line-height: 1.7;
 }
 .block-guide-table th {
-  background: color-mix(in oklab, var(--muted) 45%, transparent);
+  background: color-mix(
+    in oklab,
+    var(--muted) calc(45% + 24.75% * var(--docs-highlight-boost, 0)),
+    transparent
+  );
   color: var(--foreground);
   font-weight: 500;
   text-align: left;
@@ -183,38 +194,11 @@
 .block-guide-table tbody tr:first-child td {
   border-top: 1px solid color-mix(in oklab, var(--border) 65%, transparent);
 }
-.block-guide-mobile-contents {
-  display: none;
-  border-bottom: 1px solid var(--border);
-  padding-block: 1rem;
-}
-.block-guide-mobile-contents summary {
-  cursor: pointer;
-  font-size: 0.8125rem;
-  font-weight: 500;
-}
-.block-guide-mobile-contents summary span {
-  float: right;
-  color: var(--muted-foreground);
-  font-size: 0.75rem;
-  font-weight: 400;
-}
-.block-guide-mobile-contents nav {
-  padding-top: 0.75rem;
-}
 .block-guide :is(a, summary, .block-guide-table):focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 3px;
 }
-@media (max-width: 1259px) {
-  .block-guide-mobile-contents {
-    display: block;
-  }
-}
 @media (max-width: 479px) {
-  .block-guide-eyebrow-focus {
-    display: none;
-  }
   .block-guide-table :is(th, td) {
     padding: 0.625rem;
     min-width: 8rem;
@@ -225,14 +209,18 @@
   }
 }
 
-:is(.block-guide-prose, .block-guide-description) a:not(.docs-icon-button) {
+:is(.block-guide-prose, .block-guide-description)
+  a:not(.docs-icon-button, .getting-started-check-link):not(:where(pre *)) {
   color: var(--foreground);
   text-decoration: underline;
   text-decoration-color: color-mix(in oklab, currentColor 35%, transparent);
   text-underline-offset: 0.2em;
 }
-:is(.block-guide-prose, .block-guide-description) a:not(.docs-icon-button):hover {
-  text-decoration-color: currentColor;
+@media (hover: hover) and (pointer: fine) {
+  :is(.block-guide-prose, .block-guide-description)
+    a:not(.docs-icon-button, .getting-started-check-link):not(:where(pre *)):hover {
+    text-decoration-color: currentColor;
+  }
 }
 
 .block-guide-prose ul {
@@ -249,24 +237,220 @@
 .block-guide-section:first-child {
   margin-top: 0;
 }
-.block-guide-mobile-contents {
-  margin-bottom: 2rem;
+
+.block-guide-section > :is(h4, h5, h6) {
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+  line-height: 1.5;
+  scroll-margin-top: 1rem;
 }
-.block-guide-mobile-contents ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+.block-guide-section > h4 {
+  font-size: 1rem;
 }
-.block-guide-mobile-contents ul ul {
-  padding-left: 1rem;
+.block-guide-section > :is(h5, h6) {
+  font-size: 0.9375rem;
 }
-.block-guide-mobile-contents a {
-  display: block;
-  padding: 0.375rem 0;
+
+.getting-started-reference {
+  container: guide-reference / inline-size;
+  margin-top: 3rem;
+  padding-block: 1.75rem;
+  border-top: 1px solid color-mix(in oklab, var(--border) 65%, transparent);
   font-size: 0.8125rem;
+  line-height: 1.8;
+}
+.getting-started-reference-heading,
+.getting-started-reference-heading > span {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+.getting-started-reference-heading {
+  justify-content: space-between;
+  gap: 1rem;
+}
+.getting-started-reference-heading h2 {
+  margin: 0;
+  font-size: 1.1875rem;
+  font-weight: 600;
+}
+.getting-started-reference svg {
+  flex: none;
+}
+.getting-started-reference > p {
+  margin: 0.875rem 0 0;
   color: var(--muted-foreground);
 }
-.block-guide-mobile-contents a[aria-current] {
+.getting-started-reference strong {
   color: var(--foreground);
+  font-weight: 550;
+}
+.getting-started-reference-paths {
+  display: grid;
+  gap: 1.25rem;
+  margin-block: 1.5rem;
+}
+.getting-started-reference-paths > div {
+  min-width: 0;
+}
+.getting-started-reference-paths h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 550;
+}
+.getting-started-reference-paths h3 svg {
+  color: var(--primary);
+}
+.getting-started-reference-paths p {
+  margin: 0.625rem 0 0;
+  color: var(--muted-foreground);
+}
+.getting-started-reference a:not(.docs-icon-button) {
+  color: var(--foreground);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.getting-started-reference .getting-started-reference-note {
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.75rem;
+}
+@container guide-reference (min-width: 40rem) {
+  .getting-started-reference-paths {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+/* A reading table: descriptions reflow instead of creating a horizontal scroll region. */
+.getting-started-checks {
+  margin-block: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+}
+.getting-started-checks table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  text-align: left;
+}
+.getting-started-check-column {
+  width: 11rem;
+}
+.getting-started-checks :is(th, td) {
+  padding: 0.875rem 1rem;
+  vertical-align: top;
+  overflow-wrap: anywhere;
+}
+.getting-started-checks thead th {
+  color: var(--foreground);
+  font-size: 0.8125rem;
+  font-weight: 550;
+  background: color-mix(
+    in oklab,
+    var(--muted) calc(30% + 21% * var(--docs-highlight-boost, 0)),
+    transparent
+  );
+}
+.getting-started-checks thead th:first-child {
+  border-start-start-radius: 0.75rem;
+}
+.getting-started-checks thead th:last-child {
+  border-start-end-radius: 0.75rem;
+}
+.getting-started-checks tbody tr {
+  border-top: 1px solid var(--border);
+}
+.block-guide-prose .getting-started-check-link {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  color: var(--foreground);
+  font-size: 0.875rem;
+  line-height: 1.6;
   font-weight: 600;
+  text-decoration: none;
+}
+.getting-started-check-link span {
+  min-width: 0;
+}
+.getting-started-check-link svg {
+  flex: none;
+  color: inherit;
+}
+.block-guide-prose .getting-started-checks p {
+  margin: 0;
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+  line-height: 1.75;
+}
+.getting-started-checks td strong {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: var(--foreground);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+@media (max-width: 639px) {
+  .getting-started-check-column {
+    width: 9rem;
+  }
+  .getting-started-checks :is(th, td) {
+    padding: 0.75rem 0.5rem;
+  }
+  .block-guide-prose .getting-started-check-link {
+    gap: 0.25rem;
+  }
+}
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  .block-guide-prose .getting-started-check-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+}
+
+/* Keep the API shortcut beside its explanation, then stack each pair on phones. */
+.theme-runtime-table table {
+  width: 100%;
+}
+.theme-runtime-table tbody th {
+  background: transparent;
+  font-weight: 400;
+  vertical-align: top;
+}
+.theme-runtime-table tbody tr {
+  border-top: 1px solid color-mix(in oklab, var(--border) 65%, transparent);
+}
+.theme-runtime-table tbody tr > :is(th, td) {
+  border-top: 0;
+}
+.theme-runtime-table .docs-reference-code > span {
+  white-space: nowrap;
+}
+@media (min-width: 640px) {
+  .theme-runtime-table tbody th {
+    width: 1%;
+    white-space: nowrap;
+  }
+}
+@media (max-width: 639px) {
+  .theme-runtime-table thead {
+    display: none;
+  }
+  .theme-runtime-table tbody,
+  .theme-runtime-table tr,
+  .theme-runtime-table :is(th, td) {
+    display: block;
+    width: 100%;
+  }
+  .theme-runtime-table tbody th {
+    padding-bottom: 0.375rem;
+    border-bottom: 0;
+  }
+  .theme-runtime-table td {
+    padding-top: 0;
+  }
 }

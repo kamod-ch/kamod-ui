@@ -13,7 +13,28 @@ declare module "virtual:kamod-block-guides" {
   export default sources;
 }
 
+declare module "virtual:kamod-guide-content/*" {
+  const source: string;
+  export default source;
+}
+
 declare module "virtual:kamod-theming-guide" {
   const source: string;
   export default source;
+}
+
+declare module "virtual:kamod-getting-started" {
+  const source: string;
+  export default source;
+}
+
+declare module "virtual:kamod-ecosystem" {
+  const source: string;
+  export default source;
+}
+
+declare module "virtual:kamod-doc-pages" {
+  type Doc = import("../../src/docs/types").DocPageModule;
+  export const docs: Record<string, Doc>;
+  export const loaders: Record<string, () => Promise<Doc>>;
 }

@@ -17,7 +17,7 @@ export const motionAccordionDocPage = createMotionDocPage({
     {
       id: "basic",
       title: "Basic",
-      text: "Single collapsible accordion with slide-up enter/exit on each panel.",
+      text: "**Keep Motion Separate from the Interaction Contract.** Use the motion accordion for a single collapsible answer with enter and exit transitions on its panel. The animated reveal helps connect the trigger to its content while the accordion continues to define the expanded state.\n\nTest repeated activation and reduced-motion preferences, keep the underlying controlled state in one place and avoid making application logic depend on a decorative transition finishing.",
       code: `import { Accordion, AccordionItem, AccordionTrigger } from "@kamod-ch/ui/accordion";
 import { MotionAccordionContent } from "@kamod-ch/ui-motion/accordion";
 

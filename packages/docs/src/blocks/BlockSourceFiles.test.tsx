@@ -15,6 +15,7 @@ describe("block source loading", () => {
   it("hides the previous block's code when a new loader uses the same filename", async () => {
     const { rerender } = render(
       <BlockSourceFiles
+        appearance={{ preset: "kamod", scheme: "light" }}
         files={files}
         selectedFile="first.tsx"
         onSelect={() => {}}
@@ -28,6 +29,7 @@ describe("block source loading", () => {
     });
     rerender(
       <BlockSourceFiles
+        appearance={{ preset: "kamod", scheme: "light" }}
         files={files}
         selectedFile="first.tsx"
         onSelect={() => {}}
@@ -45,6 +47,7 @@ describe("block source loading", () => {
   it("handles a loader that throws before returning a promise", async () => {
     render(
       <BlockSourceFiles
+        appearance={{ preset: "kamod", scheme: "light" }}
         files={files}
         selectedFile="first.tsx"
         onSelect={() => {}}
@@ -63,6 +66,7 @@ describe("block source loading", () => {
     );
     const { rerender } = render(
       <BlockSourceFiles
+        appearance={{ preset: "kamod", scheme: "light" }}
         files={files}
         selectedFile="first.tsx"
         onSelect={() => {}}
@@ -72,16 +76,23 @@ describe("block source loading", () => {
     expect(loadSource).toHaveBeenCalledWith("first.tsx");
     rerender(
       <BlockSourceFiles
+        appearance={{ preset: "kamod", scheme: "light" }}
         files={files}
         selectedFile="second.tsx"
         onSelect={() => {}}
         loadSource={loadSource}
       />,
     );
+    expect(screen.getByRole("status")).toHaveTextContent("second.tsx");
+    expect(screen.getByRole("status").closest(".blocks-code-pane")).toHaveAttribute(
+      "aria-busy",
+      "true",
+    );
     await act(async () => {
       resolvers.get("second.tsx")!("Current file");
     });
     expect(screen.getByText("Current file")).toBeVisible();
+    expect(screen.queryByRole("status")).not.toBeInTheDocument();
     await act(async () => {
       resolvers.get("first.tsx")!("Stale file");
     });
@@ -96,6 +107,7 @@ describe("block source loading", () => {
       .mockResolvedValue("Recovered source");
     render(
       <BlockSourceFiles
+        appearance={{ preset: "kamod", scheme: "light" }}
         files={files}
         selectedFile="first.tsx"
         onSelect={() => {}}
@@ -103,7 +115,7 @@ describe("block source loading", () => {
       />,
     );
     expect(await screen.findByRole("alert")).toHaveTextContent("Could not load the source file");
-    fireEvent.click(screen.getByRole("button", { name: "Try again" }));
+    fireEvent.click(screen.getByRole("button", { name: "Try Again" }));
     expect(await screen.findByText("Recovered source")).toBeVisible();
     expect(loadSource).toHaveBeenCalledTimes(2);
   });

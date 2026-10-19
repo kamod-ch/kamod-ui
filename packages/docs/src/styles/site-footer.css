@@ -24,10 +24,12 @@
   text-decoration: none;
 }
 
-.kiw-footer-built a:hover,
-.kiw-footer-copy a:hover {
-  text-decoration: underline;
-  text-underline-offset: 2px;
+@media (hover: hover) and (pointer: fine) {
+  .kiw-footer-built a:hover,
+  .kiw-footer-copy a:hover {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
 }
 
 .kiw-footer-logo {

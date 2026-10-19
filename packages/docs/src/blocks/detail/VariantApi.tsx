@@ -1,7 +1,11 @@
+import { InfoIcon } from "@kamod-ch/icons/lucide";
+import { BrandText } from "../../docs/components/brand/BrandText";
+import { DocsCallout } from "../../docs/components/DocsCallout";
+import { linkTitle } from "../../link-title";
 /** Source signatures and field descriptions share the Application Shell API presentation. */
-import { CodeIcon } from "@kamod-ch/icons/lucide";
-import { Badge } from "@kamod-ch/ui";
+
 import { useMemo } from "preact/hooks";
+import { ApiSourceNote } from "../../docs/components/ApiSourceNote";
 import { PathDisplay } from "../../docs/components/PathDisplay";
 import { RequiredIndicator } from "../RequiredIndicator";
 import { BlockDocSection, BlockGuideHeading } from "./BlockDocumentation";
@@ -26,7 +30,7 @@ export function VariantApi({ guide }: { guide: VariantGuide }) {
           <p>
             <code>{component}</code> is a ready-made demonstration page with no public props. The
             reference below describes the{" "}
-            <strong>local {category === "sidebar" ? "helpers and data" : "form"}</strong> you can
+            <strong>Local {category === "sidebar" ? "Helpers and Data" : "Form"}</strong> you can
             configure after copying the source. Definitions come directly from the implementation;
             descriptions explain where your application takes over. Start with the component or data
             shape you want to change, then follow its type link to the complete definition.
@@ -39,19 +43,15 @@ export function VariantApi({ guide }: { guide: VariantGuide }) {
               </>
             )}
           </p>
-          <div class="blocks-api-source-note">
-            <CodeIcon size={18} strokeWidth={2} aria-hidden="true" />
-            <span>
-              The signatures below come from the copied source files. Use the{" "}
-              <a href={`#${anchor("data-types")}`}>data type reference</a> to inspect complete
-              definitions and required fields. Optional callbacks do not imply that a backend is
-              included. Select a table row’s type name to open its definition automatically. Use{" "}
-              <code>import type</code> from the corresponding copied file when typing your own data
-              or component inputs. This reference describes the shipped source; changes in your
-              local files will not update this page.
-            </span>
-            <Badge variant="secondary">TypeScript</Badge>
-          </div>
+          <ApiSourceNote>
+            The signatures below come from the copied source files. Use the{" "}
+            <a href={`#${anchor("data-types")}`}>Data Type Reference</a> to inspect complete
+            definitions and required fields. Optional callbacks do not imply that a backend is
+            included. Select a table row’s type name to open its definition automatically. Use{" "}
+            <code>import type</code> from the corresponding copied file when typing your own data or
+            component inputs. This reference describes the shipped source; changes in your local
+            files will not update this page.
+          </ApiSourceNote>
         </>
       }
     >
@@ -59,7 +59,7 @@ export function VariantApi({ guide }: { guide: VariantGuide }) {
         <BlockGuideHeading id={anchor("prop-reference")} />
         <div role="paragraph">
           Each field includes its type and integration behavior. The asterisk{" "}
-          <RequiredIndicator label="Required field indicator" tooltip="Required field" /> marks
+          <RequiredIndicator label="Required Field Indicator" tooltip="Required field" /> marks
           required fields. {category === "sidebar" && "Navigation helpers require their data; "}
           {category === "sidebar" ? "omitted" : "Omitted"} optional fields use the defaults
           described below. The definitions retain the actual source’s optional markers and callback
@@ -83,46 +83,57 @@ export function VariantApi({ guide }: { guide: VariantGuide }) {
                   class="blocks-api-field-owner"
                   onClick={() => definitions.reveal(anchor(`type-${entry.name}`))}
                 >
-                  {entry.name}
+                  {linkTitle(entry.name)}
                 </a>
               ),
             })),
           )}
         />
         {category === "sidebar" && (
-          <p class="blocks-doc-note">
-            Configure the core <code>Sidebar</code> directly in your copied page: <code>side</code>{" "}
-            chooses left or right, <code>variant</code> controls the surface, and{" "}
-            <code>collapsible</code> chooses offcanvas, icon or none. The references here list only
-            types included in this variant’s download.
-            {api.some((entry) => entry.name === "NavigationItem") && (
-              <>
-                {" "}
-                Inherited types are shown separately: <code>NavigationItem</code> adds an icon and
-                optional children to <code>NavigationLink</code>, which owns the required title and
-                URL. Read both definitions when building a navigation item.
-              </>
-            )}
-            {api.some((entry) => entry.name === "SearchFormProps") && (
-              <>
-                {" "}
-                <code>SearchFormProps</code> refers to Preact’s form attributes rather than
-                declaring custom search inputs. The helper does not implement search or expose its
-                input value as a prop; connect the input and prevent the form’s default submission
-                in your local copy when implementing client-side search.
-              </>
-            )}
-          </p>
+          <DocsCallout
+            class="docs-callout-spaced"
+            title="Configure the copied sidebar"
+            icon={<InfoIcon />}
+          >
+            <p>
+              <BrandText>
+                Configure the core <code>Sidebar</code> directly in your copied page:{" "}
+                <code>side</code> chooses left or right, <code>variant</code> controls the surface,
+                and <code>collapsible</code> chooses offcanvas, icon or none. The references here
+                list only types included in this variant’s download.
+                {api.some((entry) => entry.name === "NavigationItem") && (
+                  <>
+                    {" "}
+                    Inherited types are shown separately: <code>NavigationItem</code> adds an icon
+                    and optional children to <code>NavigationLink</code>, which owns the required
+                    title and URL. Read both definitions when building a navigation item.
+                  </>
+                )}
+                {api.some((entry) => entry.name === "SearchFormProps") && (
+                  <>
+                    {" "}
+                    <code>SearchFormProps</code> refers to Preact’s form attributes rather than
+                    declaring custom search inputs. The helper does not implement search or expose
+                    its input value as a prop; connect the input and prevent the form’s default
+                    submission in your local copy when implementing client-side search.
+                  </>
+                )}
+              </BrandText>
+            </p>
+          </DocsCallout>
         )}
       </section>
       <section class="blocks-api-section" aria-labelledby={anchor("data-types")}>
         <BlockGuideHeading id={anchor("data-types")} />
         <p>
-          Expand a definition to copy its exact TypeScript shape. Required fields are listed below
-          each summary for fields declared in that definition. The code header shows the file's
-          installation path; copy the definition with the button beside it. For intersections, also
-          inspect the referenced base type’s required fields. Local types can be imported from the
-          same files as your copied components; they are not added to the zero-prop page wrapper.
+          <BrandText>
+            Expand a definition to copy its exact TypeScript shape. Required fields are listed below
+            each summary for fields declared in that definition. The code header shows the file's
+            installation path; copy the definition with the button beside it. For intersections,
+            also inspect the referenced base type’s required fields. Local types can be imported
+            from the same files as your copied components; they are not added to the zero-prop page
+            wrapper.
+          </BrandText>
         </p>
         <div class="blocks-api-types">
           {api.map((entry) => (
@@ -132,6 +143,7 @@ export function VariantApi({ guide }: { guide: VariantGuide }) {
               entry={entry}
               source={entry.source}
               filePath={entry.filePath}
+              fieldCount={entry.fields.length}
               showFieldDocs={entry.source.includes("/**")}
               open={definitions.isOpen(anchor(`type-${entry.name}`))}
               onOpenChange={(open) => definitions.setOpen(anchor(`type-${entry.name}`), open)}

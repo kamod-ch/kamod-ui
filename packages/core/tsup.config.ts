@@ -24,6 +24,7 @@ export default defineConfig({
     "lib/signals/index": "src/lib/signals/index.ts",
     "lib/interactive/index": "src/lib/interactive/index.ts",
     ...componentEntries,
+    "components/code/highlight-code": "src/components/code/highlight-code.ts",
   },
   format: ["esm"],
   dts: false,

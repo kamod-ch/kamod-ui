@@ -298,7 +298,7 @@ export const Inbox = ({
         ) : (
           <Empty>
             <EmptyHeader>
-              <EmptyTitle>Select a message</EmptyTitle>
+              <EmptyTitle>Select a Message</EmptyTitle>
               <EmptyDescription>Choose a conversation from the list.</EmptyDescription>
             </EmptyHeader>
           </Empty>

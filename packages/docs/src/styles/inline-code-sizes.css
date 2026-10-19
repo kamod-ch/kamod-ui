@@ -1,0 +1,120 @@
+/* Prose code follows its own sentence, then applies one shared, small optical reduction. */
+:root {
+  --inline-code-text-scale: 0.94;
+  --inline-code-font: calc(1em * var(--inline-code-text-scale));
+  --inline-code-line: inherit;
+  --inline-code-padding: 0.1875rem;
+  --inline-code-prose-padding: 0.04em 0.2em;
+  --inline-code-arrow: 0.75em;
+  --inline-code-compact-font: 0.75rem;
+  --inline-code-regular-font: 0.875rem;
+}
+
+:is(code, a.docs-brand-link:not(:has(code))):not(
+  :where(
+    pre *,
+    h1 *,
+    h2 *,
+    h3 *,
+    h4 *,
+    h5 *,
+    h6 *,
+    .docs-code-name,
+    .code-reference-help *,
+    .theme-color-reference *,
+    .theme-color-tooltip *,
+    .prism-study-inspector *,
+    .prism-token-tooltip *,
+    .docs-code-toolbar *,
+    .docs-import-label,
+    .docs-import-label *,
+    .docs-code-file-path,
+    .docs-code-file-path *,
+    .docs-code-explanation *,
+    [contenteditable] *
+  )
+) {
+  font-size: var(--inline-code-prose-font, calc(1em * var(--inline-code-text-scale))) !important;
+  line-height: inherit !important;
+
+  /* One tight text box for plain and linked prose; standalone source labels keep their sizing. */
+  &:is(code):not(.library-source-package) {
+    padding: var(--inline-code-prose-padding) !important;
+    border-width: 1px !important;
+    border-style: solid;
+    border-color: transparent;
+    border-radius: 0.25rem;
+    line-height: 1.2 !important;
+    vertical-align: baseline;
+    white-space: nowrap;
+    overflow-wrap: normal;
+
+    /* Paths already form an atomic grid with a narrow-screen middle/end fallback. */
+    &:not(.path-display) {
+      display: inline-flex;
+      align-items: baseline;
+      min-width: 0;
+      max-width: 100%;
+      overflow-x: auto;
+      scrollbar-width: thin;
+    }
+  }
+}
+
+/* An anchor and its code are one label; avoid applying the reduction twice. */
+a:is(.docs-inline-code-link, .docs-inline-source-reference, .docs-brand-link):has(code),
+code > :is(a, .docs-brand-link, .docs-kamod-link) {
+  font-size: inherit !important;
+  line-height: inherit !important;
+}
+
+/* Explicit reader demonstrations may still opt into an absolute size. */
+[data-inline-code-size="compact"] {
+  --inline-code-font: var(--inline-code-compact-font);
+  --inline-code-prose-font: var(--inline-code-compact-font);
+}
+[data-inline-code-size="regular"] {
+  --inline-code-font: var(--inline-code-regular-font);
+  --inline-code-prose-font: var(--inline-code-regular-font);
+}
+
+:is(a code, code:has(a), code.docs-reference-code, code.docs-kamod-path):not(
+  :where(
+    pre *,
+    .docs-code-name,
+    .code-reference-help *,
+    .theme-color-reference *,
+    .theme-color-tooltip *,
+    .prism-study-inspector *,
+    .prism-token-tooltip *,
+    .docs-code-toolbar *,
+    .docs-import-label *,
+    .docs-code-file-path *,
+    [contenteditable] *
+  )
+) {
+  padding: 0 var(--inline-code-padding) !important;
+  border-width: 1px !important;
+  border-style: solid;
+  border-color: transparent;
+  border-radius: 0.25rem;
+  vertical-align: baseline;
+}
+:is(code, a.docs-brand-link):not(:where(pre *, .code-reference-help *))
+  :is(.docs-brand-icon, .docs-reference-icon, .path-display-icon) {
+  width: 1em !important;
+  height: 1em !important;
+}
+
+/* Names in headings are typography, not shrunken prose chips. */
+code.docs-code-name {
+  font-family: var(--font-mono-custom);
+  font-size: inherit !important;
+  font-weight: inherit;
+  line-height: inherit !important;
+  color: inherit !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+}

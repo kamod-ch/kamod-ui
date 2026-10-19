@@ -1,0 +1,187 @@
+.page-state-shell {
+  box-sizing: border-box;
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--background);
+  color: var(--foreground);
+  padding-block: env(safe-area-inset-top, 0px) env(safe-area-inset-bottom, 0px);
+  padding-inline: max(
+    clamp(1rem, 5vw, 5rem),
+    env(safe-area-inset-left, 0px),
+    env(safe-area-inset-right, 0px)
+  );
+}
+
+.page-state-topbar,
+.page-state-footer {
+  width: min(100%, 76rem);
+  margin-inline: auto;
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-block: clamp(0.75rem, 2.5dvh, 1.5rem);
+}
+
+.page-state-topbar {
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--page-state-rule);
+}
+.page-state-brand,
+.page-state-text-link,
+.page-state-footer a,
+.page-state-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+.page-state-shell a {
+  text-decoration: none;
+}
+.page-state-text-link {
+  font-size: 0.875rem;
+  font-weight: 550;
+}
+.page-state-main {
+  display: flex;
+  flex-direction: column;
+  width: min(100%, 64rem);
+  min-height: 0;
+  margin-inline: auto;
+  flex: 1;
+  overflow-y: auto;
+  padding-block: clamp(1rem, 4dvh, 4rem);
+  scroll-padding-block: 1rem;
+}
+/* Auto margins center short states without losing the start of taller content. */
+.page-state-main > * {
+  flex: none;
+}
+.page-state-eyebrow {
+  margin: 0 0 clamp(0.75rem, 2.5dvh, 1.5rem);
+  color: color-mix(in oklab, var(--muted-foreground) 65%, var(--foreground));
+  font-size: 0.875rem;
+}
+.page-state-eyebrow > span[aria-hidden="true"] {
+  opacity: 0.65;
+}
+.page-state-description {
+  max-width: 57ch;
+  margin: clamp(0.75rem, 2.5dvh, 1.5rem) 0 0;
+  color: color-mix(in oklab, var(--muted-foreground) 65%, var(--foreground));
+  font-size: 1rem;
+  line-height: 1.8;
+}
+.page-state-footer {
+  border-top: 1px solid var(--page-state-rule);
+  color: color-mix(in oklab, var(--muted-foreground) 65%, var(--foreground));
+  font-size: 0.8rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding-block: clamp(0.625rem, 2dvh, 1.25rem);
+}
+.page-state-shell :is(a, button):focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 5px;
+}
+/* Match the first-paint loading column, while keeping preview failures in their parent. */
+.page-state-recovery {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  height: 100dvh;
+  overflow-y: auto;
+  padding-block: env(safe-area-inset-top, 0px) env(safe-area-inset-bottom, 0px);
+  background: var(--background);
+  color: var(--foreground);
+}
+.page-state-recovery--compact {
+  height: auto;
+  overflow: visible;
+}
+.page-state-message-brand > svg {
+  flex: none;
+  stroke-width: 1.8;
+}
+.page-recovery-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+.page-recovery-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-height: 2rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--foreground);
+  font-family: inherit;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.5;
+  text-decoration: none;
+  cursor: pointer;
+}
+.page-recovery-link svg {
+  flex: none;
+  stroke-width: 1.75;
+}
+.page-recovery-link > svg:last-child {
+  opacity: 0.45;
+}
+.page-recovery-action-divider {
+  color: color-mix(in oklab, var(--muted-foreground) 45%, transparent);
+  font-size: 0.75rem;
+}
+.page-recovery-divider {
+  height: 3px;
+  margin: clamp(1rem, 4dvh, 2rem) 0 0;
+  border: 0;
+  border-radius: 999px;
+  background: var(--page-state-rule);
+}
+.page-recovery-link:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 4px;
+  border-radius: 0.125rem;
+}
+.page-recovery-link:focus-visible > span {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.page-recovery-link:focus-visible > svg:last-child {
+  opacity: 1;
+}
+@media (max-width: 600px) {
+  .page-state-topbar {
+    gap: 0.75rem;
+  }
+}
+@media (max-height: 600px) {
+  .page-state-main {
+    padding-block: 0.75rem;
+  }
+}
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  .page-state-text-link:hover,
+  .page-state-footer a:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+  .page-recovery-link:hover > span {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+  .page-recovery-link:hover > svg:last-child {
+    opacity: 1;
+  }
+}

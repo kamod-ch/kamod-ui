@@ -1,0 +1,149 @@
+.theme-gallery-index .theme-preset-pill {
+  display: inline-flex;
+  max-width: 100%;
+  border-radius: 999px;
+  text-decoration: none;
+}
+.theme-preset-pill-paint {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4375rem;
+  min-width: 0;
+  overflow: hidden;
+  padding: 0.375rem 0.625rem;
+  border: 1px solid var(--border);
+  border-radius: inherit;
+  background: var(--background);
+  color: var(--primary);
+  font-size: 0.71875rem;
+  font-weight: 600;
+  line-height: 1.65;
+  transition:
+    border-color 260ms ease,
+    box-shadow 320ms ease;
+}
+/* Primary-hue ink stays readable at this size; bright yellow needs a deeper shade. */
+.theme-preset-pill-light {
+  color: color-mix(in oklab, var(--primary) 65%, var(--foreground));
+}
+.theme-preset-pill-light[data-theme="professional"] {
+  color: color-mix(in oklab, var(--primary) 45%, var(--foreground));
+}
+.theme-preset-pill-dark {
+  color: color-mix(in oklab, var(--primary) 85%, var(--foreground));
+}
+.theme-preset-pill-dark,
+:root.dark .theme-preset-pill-light {
+  display: none;
+}
+:root.dark .theme-preset-pill-dark {
+  display: inline-flex;
+}
+.theme-preset-pill-paint::before,
+.theme-preset-pill-paint::after {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  content: "";
+  pointer-events: none;
+}
+.theme-preset-pill-paint::before {
+  background: linear-gradient(
+    115deg,
+    color-mix(in oklab, var(--primary) 9%, transparent),
+    color-mix(in oklab, var(--secondary) 7%, transparent) 55%,
+    color-mix(in oklab, var(--accent) 18%, transparent)
+  );
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+.theme-preset-pill-paint::after {
+  background: linear-gradient(
+    105deg,
+    transparent 15%,
+    color-mix(in oklab, var(--secondary) 16%, transparent) 40%,
+    color-mix(in oklab, var(--primary) 12%, transparent) 60%,
+    transparent 85%
+  );
+  opacity: 0;
+  transform: translateX(-105%);
+}
+.theme-preset-pill-colors {
+  display: flex;
+  flex: none;
+  align-items: center;
+  padding-right: 0.125rem;
+}
+.theme-preset-pill-colors i {
+  width: 0.625rem;
+  height: 0.625rem;
+  border: 1px solid color-mix(in oklab, var(--foreground) 12%, var(--background));
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px var(--background);
+}
+.theme-preset-pill-colors i + i {
+  margin-left: -0.1875rem;
+}
+.theme-preset-pill-label {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.theme-preset-pill-arrow {
+  flex: none;
+  margin-left: 0.125rem;
+  color: var(--foreground);
+  opacity: 0.45;
+  transition:
+    color 260ms ease,
+    opacity 260ms ease,
+    transform 360ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.theme-preset-pill:is(:hover, :focus-visible) .theme-preset-pill-paint {
+  border-color: color-mix(in oklab, var(--primary) 35%, var(--border));
+  box-shadow: 0 2px 8px color-mix(in oklab, var(--primary) 9%, transparent);
+}
+.theme-preset-pill:is(:hover, :focus-visible) .theme-preset-pill-paint::before {
+  opacity: 1;
+}
+/* A single sweep on interaction, never an idle loop or a JavaScript animation. */
+.theme-preset-pill:is(:hover, :focus-visible) .theme-preset-pill-paint::after {
+  animation: theme-preset-pill-sweep 700ms ease-out;
+}
+.theme-preset-pill:is(:hover, :focus-visible) .theme-preset-pill-arrow {
+  color: var(--primary);
+  opacity: 1;
+  transform: translate(1px, -1px) scale(1.12);
+}
+.theme-gallery-index .theme-preset-pill:focus-visible {
+  outline: 2px solid var(--outline);
+  outline-offset: 3px;
+}
+@keyframes theme-preset-pill-sweep {
+  0% {
+    opacity: 0;
+    transform: translateX(-105%);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(105%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .theme-preset-pill-paint,
+  .theme-preset-pill-paint::before,
+  .theme-preset-pill-arrow {
+    transition: none;
+  }
+  .theme-preset-pill:is(:hover, :focus-visible) .theme-preset-pill-paint::after {
+    animation: none;
+  }
+  .theme-preset-pill:is(:hover, :focus-visible) .theme-preset-pill-arrow {
+    transform: none;
+  }
+}

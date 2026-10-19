@@ -23,14 +23,14 @@ export const defaultUser: AppUser = {
 };
 
 export const defaultWorkspace: AppWorkspace = {
-  name: "Kamod",
-  hint: "kamod.ch",
+  name: "Kamod UI",
+  hint: "Component library",
 };
 
 export const defaultTeams: AppTeam[] = [
-  { id: "kamod", name: "Kamod GmbH", plan: "Enterprise", initials: "K" },
-  { id: "acme", name: "Acme Corp.", plan: "Startup", initials: "A" },
-  { id: "studio", name: "Studio North", plan: "Free", initials: "S" },
+  { id: "kamod", name: "Kamod UI", plan: "Component library", initials: "K" },
+  { id: "acme", name: "Kamod UI Labs", plan: "Preview builds", initials: "L" },
+  { id: "studio", name: "Kamod UI Docs", plan: "Documentation", initials: "D" },
 ];
 
 export const workspaceGroups: AppNavGroup[] = [

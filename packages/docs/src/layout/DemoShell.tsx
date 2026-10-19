@@ -1,9 +1,11 @@
 import type { ComponentChildren } from "preact";
 import Footer from "../../.preactpress/theme/Footer";
 import { withBasePath } from "../base-path";
+import { linkTitle } from "../link-title";
 import { KamodUiBrandLogo } from "./KamodUiBrandLogo";
 import { useRightSidebarScroll } from "./navigation/right-sidebar-memory";
 import { SiteNavigation } from "./navigation/SiteNavigation";
+import { useTopbarOffset } from "./useTopbarOffset";
 
 export type DemoTopNavItem = {
   label: string;
@@ -21,6 +23,8 @@ type DemoShellProps = {
   brand: string;
   brandHref?: string;
   topNavItems: DemoTopNavItem[];
+  /** Section destination from page metadata, including its nested documentation routes. */
+  activeTopNavHref?: string;
   /** Optional test id for the top nav links container (e.g. kitchen sink e2e). */
   topNavLinksTestId?: string;
   topbarActions?: ComponentChildren;
@@ -32,12 +36,15 @@ type DemoShellProps = {
   mainContent: ComponentChildren;
   rightSidebar?: ComponentChildren;
   rootClassName?: string;
+  /** Optional resource footer for the documentation home page. */
+  footer?: ComponentChildren;
 };
 
 export const DemoShell = ({
   brand,
   brandHref = withBasePath("/"),
   topNavItems,
+  activeTopNavHref,
   topNavLinksTestId,
   topbarActions,
   leftSidebar,
@@ -46,7 +53,9 @@ export const DemoShell = ({
   mainContent,
   rightSidebar,
   rootClassName,
+  footer,
 }: DemoShellProps) => {
+  const topbar = useTopbarOffset();
   const rightSidebarRef = useRightSidebarScroll<HTMLElement>("column", rightSidebar != null);
   const layoutClass = [
     "docs-layout",
@@ -61,7 +70,7 @@ export const DemoShell = ({
   const Content = contentHeader != null ? "div" : "main";
   return (
     <div class={`${rootClassName ?? ""}`.trim()}>
-      <header class="docs-topbar">
+      <header ref={topbar} class="docs-topbar">
         <div class="docs-topbar-inner">
           <div class="docs-topbar-leading">
             <SiteNavigation />
@@ -71,8 +80,12 @@ export const DemoShell = ({
           </div>
           <div class="docs-topbar-links" data-testid={topNavLinksTestId}>
             {topNavItems.map((item) => (
-              <a href={item.href} key={item.label}>
-                {item.label}
+              <a
+                href={item.href}
+                key={item.label}
+                aria-current={item.href === activeTopNavHref ? "location" : undefined}
+              >
+                {linkTitle(item.label)}
               </a>
             ))}
           </div>
@@ -94,7 +107,7 @@ export const DemoShell = ({
         )}
       </Layout>
 
-      <Footer />
+      {footer ?? <Footer />}
     </div>
   );
 };

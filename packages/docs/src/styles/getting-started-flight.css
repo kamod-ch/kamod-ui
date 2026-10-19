@@ -1,0 +1,196 @@
+.has-page-decoration {
+  position: relative;
+}
+.page-header-decoration {
+  position: absolute;
+  inset: 0.625rem 1.25rem auto auto;
+  pointer-events: none;
+}
+.page-header-decoration,
+.getting-started-flight,
+.getting-started-flight-rocket,
+.getting-started-flight svg {
+  padding: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+}
+.getting-started-flight {
+  --vehicle-size: 4.875rem;
+  --trail-scale: 1;
+  --wake-distance: 0.875rem;
+  position: relative;
+  display: block;
+  width: 8rem;
+  height: 6.75rem;
+  color: var(--foreground);
+}
+.getting-started-flight-rocket {
+  position: absolute;
+  top: calc(50% - var(--vehicle-size) / 2);
+  left: calc(50% - var(--vehicle-size) / 2);
+  width: var(--vehicle-size);
+  height: var(--vehicle-size);
+  /* The vehicle never resets or fades; a small closed bank sits above quicker engine vibration. */
+  animation: getting-started-flight-hold 2.4s ease-in-out infinite;
+}
+.getting-started-flight-thrust {
+  display: block;
+  width: 100%;
+  height: 100%;
+  animation: getting-started-flight-turbulence 0.32s linear infinite;
+}
+.getting-started-flight-vehicle {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.getting-started-flight-trail {
+  position: absolute;
+  width: calc(var(--trail-size) * var(--trail-scale));
+  height: calc(var(--trail-size) * var(--trail-scale));
+  opacity: 0;
+  translate: -50% -50%;
+  /* Each wake leaves the nozzle independently and resets only after it has disappeared. */
+  animation: getting-started-exhaust var(--trail-duration) linear var(--trail-delay) infinite;
+}
+.getting-started-flight-star {
+  position: absolute;
+  left: var(--star-x);
+  top: var(--star-y);
+  display: block;
+  width: var(--star-size);
+  height: var(--star-size);
+  color: inherit;
+  opacity: 0;
+  translate: -50% -50%;
+  animation: getting-started-star var(--star-duration) ease-in-out var(--star-delay) infinite;
+}
+.getting-started-flight[data-active="false"] * {
+  animation-play-state: paused;
+}
+@keyframes getting-started-flight-hold {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(-0.5deg);
+  }
+  25% {
+    transform: translate(1.5px, 0.5px) rotate(0.65deg);
+  }
+  50% {
+    transform: translate(0.2px, -0.3px) rotate(-0.4deg);
+  }
+  75% {
+    transform: translate(-1.4px, -0.5px) rotate(-1.65deg);
+  }
+}
+@keyframes getting-started-flight-turbulence {
+  0%,
+  100% {
+    transform: translate(0.25px, -0.25px) rotate(0.15deg);
+  }
+  20% {
+    transform: translate(-0.3px, 0.15px) rotate(-0.2deg);
+  }
+  45% {
+    transform: translate(0.15px, 0.3px) rotate(0.1deg);
+  }
+  70% {
+    transform: translate(-0.2px, -0.1px) rotate(-0.1deg);
+  }
+}
+@keyframes getting-started-exhaust {
+  0% {
+    opacity: 0;
+    transform: translate(2px, -2px) scale(0.45);
+  }
+  18% {
+    opacity: 0.52;
+  }
+  55% {
+    opacity: 0.28;
+  }
+  90%,
+  100% {
+    opacity: 0;
+    transform: translate(calc(-1 * var(--wake-distance)), var(--wake-distance)) scale(1.15);
+  }
+}
+@keyframes getting-started-star {
+  0%,
+  12% {
+    opacity: 0;
+    transform: translate(1px, -1px) scale(0.3) rotate(-25deg);
+  }
+  28% {
+    opacity: 0.62;
+    transform: scale(1.12) rotate(0deg);
+  }
+  38% {
+    opacity: 0.22;
+    transform: scale(0.8) rotate(8deg);
+  }
+  48% {
+    opacity: 0.48;
+    transform: scale(1) rotate(14deg);
+  }
+  66%,
+  100% {
+    opacity: 0;
+    transform: translate(-1px, 1px) scale(0.25) rotate(30deg);
+  }
+}
+@media (min-width: 1024px) {
+  aside.docs-sidebar .navigation-header-link[aria-current="page"] > svg {
+    color: var(--foreground);
+    animation: getting-started-sidebar-flight 0.8s ease-in-out infinite;
+  }
+}
+@keyframes getting-started-sidebar-flight {
+  0%,
+  100% {
+    transform: translate(0.25px, -0.15px) rotate(0.5deg);
+  }
+  25% {
+    transform: translate(-0.35px, 0.2px) rotate(-1.5deg);
+  }
+  50% {
+    transform: translate(0.35px, 0.1px) rotate(0.75deg);
+  }
+  75% {
+    transform: translate(-0.15px, -0.3px) rotate(-1deg);
+  }
+}
+@media (max-width: 639px) {
+  .page-header-decoration {
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+  .getting-started-flight {
+    --vehicle-size: 3.25rem;
+    --trail-scale: 0.67;
+    --wake-distance: 0.5625rem;
+    width: 5.5rem;
+    height: 4.5rem;
+  }
+  .getting-started-flight-star {
+    width: calc(var(--star-size) * 0.85);
+    height: calc(var(--star-size) * 0.85);
+  }
+  .has-page-decoration .block-guide-eyebrow-label {
+    max-width: calc(100% - 6rem);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .getting-started-flight *,
+  aside.docs-sidebar .navigation-header-link[aria-current="page"] > svg {
+    animation: none;
+  }
+  .getting-started-flight-star {
+    opacity: 0.32;
+  }
+  .getting-started-flight-trail {
+    opacity: 0.2;
+  }
+}

@@ -17,7 +17,7 @@ export const motionCollapsibleDocPage = createMotionDocPage({
     {
       id: "basic",
       title: "Basic",
-      text: "Expandable details with slide-up motion instead of CSS height transitions.",
+      text: "**Keep Motion Separate from the Interaction Contract.** Use motion-managed content for an expandable detail region when a slide transition fits the interface. The trigger should continue to explain the open state, so the disclosure remains clear without relying on the animated movement.\n\nTest repeated activation and reduced-motion preferences, keep the underlying controlled state in one place and avoid making application logic depend on a decorative transition finishing.",
       code: `import { Collapsible, CollapsibleTrigger } from "@kamod-ch/ui/collapsible";
 import { MotionCollapsibleContent } from "@kamod-ch/ui-motion/collapsible";
 
