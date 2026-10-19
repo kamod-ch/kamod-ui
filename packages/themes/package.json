@@ -72,7 +72,7 @@
     "jsdom": "^30.1.1",
     "publint": "^0.3.24",
     "tailwindcss": "^4.3.3",
-    "tsup": "^8.5.1",
+    "tsup": "^9.0.0",
     "vitest": "^5.0.2"
   },
   "peerDependencies": {
