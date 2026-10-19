@@ -1,7 +1,7 @@
 /** @jsxImportSource preact */
 import { RocketIcon } from "@kamod-ch/icons/tabler/outline";
 import { useEffect, useRef } from "preact/hooks";
-import { observeViewportActivity } from "../../layout/runtime/viewport-activity";
+import { observeViewportActivity } from "../../layout/runtime/viewport-activity.ts";
 
 // Outer corner lanes leave air around the vehicle; random placement happens only at hidden seams.
 const STARS = [

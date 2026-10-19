@@ -1,5 +1,5 @@
-import type { TechnologySnapshot } from "./technology-reference-snapshots";
-import { technologySnapshots } from "./technology-reference-snapshots";
+import type { TechnologySnapshot } from "./technology-reference-snapshots.ts";
+import { technologySnapshots } from "./technology-reference-snapshots.ts";
 
 /** Saved official continuations are data, not instructions to contact those websites. */
 export function technologyReferenceResources(

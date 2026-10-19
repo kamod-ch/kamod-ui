@@ -1,4 +1,4 @@
-import { referencePackages } from "../../../references/catalog/packages";
+import { referencePackages } from "../../../references/catalog/packages.ts";
 
 const github = "https://github.com/kamod-ch/";
 // Match actual core folders, not arbitrary consumer aliases or executable expressions.

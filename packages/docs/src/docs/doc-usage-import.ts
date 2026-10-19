@@ -1,5 +1,5 @@
 /** The article and lazy reference previews share the exact default usage import. */
-import { rewriteKamodCoreImportsInDocString } from "./doc-snippet-imports";
+import { rewriteKamodCoreImportsInDocString } from "./doc-snippet-imports.ts";
 
 const imports: Record<string, string> = {
   button: "Button, Spinner",

@@ -1,7 +1,7 @@
 import { access, readFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
-import { referencePackages } from "../src/references/catalog/packages";
-import type { CodeReferencePackage } from "../src/references/types";
+import { referencePackages } from "../src/references/catalog/packages.ts";
+import type { CodeReferencePackage } from "../src/references/types.ts";
 
 type PackageManifest = {
   name: string;

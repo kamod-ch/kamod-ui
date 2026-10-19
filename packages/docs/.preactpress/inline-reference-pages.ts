@@ -2,9 +2,9 @@ import { readdir, readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import ts from "@typescript/typescript6";
 import { marked } from "marked";
-import { docsRouteManifest } from "../src/docs/generated-manifest";
-import { docsNavigation } from "../src/docs/generated-navigation";
-import type { CodeReferenceHelp } from "../src/references/types";
+import { docsRouteManifest } from "../src/docs/generated-manifest.ts";
+import { docsNavigation } from "../src/docs/generated-navigation.ts";
+import type { CodeReferenceHelp } from "../src/references/types.ts";
 
 /** Read authored literal heading IDs without importing/evaluating a page or its demo components. */
 export function sourceSectionIds(source: string, category?: string, prefix = "") {

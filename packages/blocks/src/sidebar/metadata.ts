@@ -3,9 +3,9 @@
 /** Component-free registry data for lightweight documentation overviews. */
 /** Component-free registry data for lightweight documentation overviews. */
 
-import installationManifest from "./installation-manifest.json";
-import type { BlockDefinition, BlockFile } from "./sidebar-data";
-import { sidebarVariants } from "./sidebar-data";
+import installationManifest from "./installation-manifest.json" with { type: "json" };
+import type { BlockDefinition, BlockFile } from "./sidebar-data.ts";
+import { sidebarVariants } from "./sidebar-data.ts";
 
 export const sidebarBlockMetadata: Omit<BlockDefinition, "component">[] = sidebarVariants.map(
   (variant) => ({

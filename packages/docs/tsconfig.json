@@ -3,6 +3,7 @@
   "compilerOptions": {
     "types": ["vite/client", "vitest/globals", "@testing-library/jest-dom/vitest"],
     "noEmit": true,
+    "allowImportingTsExtensions": true,
     "paths": {
       "@kamod-ch/ui": ["../core/src/index.ts"],
       "@kamod-ch/ui/code": ["../core/src/components/code/index.ts"],

@@ -1,11 +1,11 @@
-import { inlineReferences } from "../src/docs/components/inline-reference-catalog";
-import { technologies } from "../src/references/catalog/technologies";
-import type { CodeReferenceHelp, InlineReferenceIndex } from "../src/references/types";
-import { buildBlockReferences } from "./inline-reference-blocks";
-import { buildReferencePages } from "./inline-reference-pages";
-import { technologyReferenceResources } from "./technology-reference-resources";
-import { technologyReferenceSections } from "./technology-reference-sections";
-import { technologySnapshots } from "./technology-reference-snapshots";
+import { inlineReferences } from "../src/docs/components/inline-reference-catalog.ts";
+import { technologies } from "../src/references/catalog/technologies.ts";
+import type { CodeReferenceHelp, InlineReferenceIndex } from "../src/references/types.ts";
+import { buildBlockReferences } from "./inline-reference-blocks.ts";
+import { buildReferencePages } from "./inline-reference-pages.ts";
+import { technologyReferenceResources } from "./technology-reference-resources.ts";
+import { technologyReferenceSections } from "./technology-reference-sections.ts";
+import { technologySnapshots } from "./technology-reference-snapshots.ts";
 
 const commands: Record<string, string> = {
   pnpm: "https://pnpm.io/cli/run",

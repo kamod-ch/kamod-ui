@@ -3,18 +3,18 @@ import { readdir, readFile, realpath } from "node:fs/promises";
 import { resolve } from "node:path";
 import ts from "@typescript/typescript6";
 import type { Plugin } from "vite";
-import { docsNavigation } from "../src/docs/generated-navigation";
+import { docsNavigation } from "../src/docs/generated-navigation.ts";
 import {
   createCodeReferenceSourceModule,
   extractPackageReferenceSymbols,
-} from "./code-reference-help";
-import { buildInlineReferenceCatalog } from "./inline-reference-catalog";
-import { buildReferencePackages } from "./reference-package-catalog";
+} from "./code-reference-help.ts";
+import { buildInlineReferenceCatalog } from "./inline-reference-catalog.ts";
+import { buildReferencePackages } from "./reference-package-catalog.ts";
 import {
   buildTechnologyProjectResources,
   isTechnologyResourceSource,
-} from "./technology-project-resources";
-import { technologySnapshotFile } from "./technology-reference-snapshots";
+} from "./technology-project-resources.ts";
+import { technologySnapshotFile } from "./technology-reference-snapshots.ts";
 
 const id = "virtual:kamod-code-references";
 const resolvedId = `\0${id}`;

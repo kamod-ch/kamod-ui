@@ -1,4 +1,4 @@
-import { technologySnapshots } from "./technology-reference-snapshots";
+import { technologySnapshots } from "./technology-reference-snapshots.ts";
 
 /** Build-only: saved chapters enter the lazy family, never the eager alias index. */
 export function technologyReferenceSections(

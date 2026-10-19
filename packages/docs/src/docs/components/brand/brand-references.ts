@@ -1,4 +1,4 @@
-import { kamodReferenceHref } from "./kamod-references";
+import { kamodReferenceHref } from "./kamod-references.ts";
 
 const reference = (href: string, description: string, linkLabel = href) => ({
   href,

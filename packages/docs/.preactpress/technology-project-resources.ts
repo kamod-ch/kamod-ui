@@ -1,7 +1,7 @@
 import { readdir, readFile } from "node:fs/promises";
 import { resolve } from "node:path";
-import { technologies } from "../src/references/catalog/technologies";
-import type { CodeReferenceHelp } from "../src/references/types";
+import { technologies } from "../src/references/catalog/technologies.ts";
+import type { CodeReferenceHelp } from "../src/references/types.ts";
 
 type Resources = NonNullable<CodeReferenceHelp["related"]>;
 type SourceDocument = { file: string; source: string; href?: string; title?: string };

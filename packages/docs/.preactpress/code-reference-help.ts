@@ -1,8 +1,11 @@
 /** Build-only source extraction for lazy help cards; the TypeScript compiler stays out of the client. */
 import ts from "@typescript/typescript6";
-import type { CodeReferenceSourceModule, CodeReferenceSourceSymbol } from "../src/references/types";
-import { extractCodeReferenceSections } from "./code-reference-sections";
-import { extractComponentTypes } from "./component-api-plugin";
+import type {
+  CodeReferenceSourceModule,
+  CodeReferenceSourceSymbol,
+} from "../src/references/types.ts";
+import { extractCodeReferenceSections } from "./code-reference-sections.ts";
+import { extractComponentTypes } from "./component-api-plugin.ts";
 
 const compact = (value: string, limit = 260) => {
   const text = value.replace(/\s+/g, " ").trim();

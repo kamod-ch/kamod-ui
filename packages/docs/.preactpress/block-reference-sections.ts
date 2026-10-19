@@ -1,10 +1,10 @@
 /** Block previews read registered source and reuse the installation guide's own import formatter. */
-import type { BlockCategory, BlockOverviewEntry } from "../src/blocks/block-categories";
-import { getBlockOverviewDetails } from "../src/blocks/block-overview-details";
-import { variantImport } from "../src/blocks/detail/variant-examples";
-import { getVariantFieldDescription } from "../src/blocks/detail/variant-field-descriptions";
-import type { CodeReferenceHelpSection } from "../src/references/types";
-import { extractCodeReferenceSymbols } from "./code-reference-help";
+import type { BlockCategory, BlockOverviewEntry } from "../src/blocks/block-categories.ts";
+import { getBlockOverviewDetails } from "../src/blocks/block-overview-details.ts";
+import { variantImport } from "../src/blocks/detail/variant-examples.ts";
+import { getVariantFieldDescription } from "../src/blocks/detail/variant-field-descriptions.ts";
+import type { CodeReferenceHelpSection } from "../src/references/types.ts";
+import { extractCodeReferenceSymbols } from "./code-reference-help.ts";
 
 export function blockReferenceSections(
   category: BlockCategory,

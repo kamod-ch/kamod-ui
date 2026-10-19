@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import type { CodeReferenceHelp, CodeReferenceHelpSection } from "../src/references/types";
+import type { CodeReferenceHelp, CodeReferenceHelpSection } from "../src/references/types.ts";
 
 export type TechnologySnapshot = {
   reviewedAt?: string;

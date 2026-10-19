@@ -2,7 +2,7 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import type { Plugin } from "vite";
-import { blockGuides } from "../src/blocks/guides/guide-catalog";
+import { blockGuides } from "../src/blocks/guides/guide-catalog.ts";
 
 const docsId = "virtual:kamod-doc-pages";
 const gettingStartedId = "virtual:kamod-getting-started";

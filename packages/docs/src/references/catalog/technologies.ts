@@ -1,4 +1,4 @@
-import { brandReferences } from "../../docs/components/brand/brand-references";
+import { brandReferences } from "../../docs/components/brand/brand-references.ts";
 
 type Technology = {
   name: string;

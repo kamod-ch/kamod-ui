@@ -1,7 +1,7 @@
 /** Presentation and setup links shared by overview cards and basic block guides. */
-import type { BlockCategory, BlockOverviewEntry } from "./block-categories";
+import type { BlockCategory, BlockOverviewEntry } from "./block-categories.ts";
 
-import { blockSourceUrl } from "./block-links";
+import { blockSourceUrl } from "./block-links.ts";
 
 const notes: Record<BlockCategory, string> = {
   sidebar:

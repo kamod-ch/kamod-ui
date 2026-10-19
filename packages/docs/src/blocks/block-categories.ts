@@ -1,8 +1,8 @@
 /** Overview metadata comes from the block registries without importing their demo components. */
-import { applicationShellBlockMetadata } from "../../../blocks/src/application-shell/metadata";
-import { loginBlockMetadata } from "../../../blocks/src/login/metadata";
-import { sidebarBlockMetadata } from "../../../blocks/src/sidebar/metadata";
-import { signupBlockMetadata } from "../../../blocks/src/signup/metadata";
+import { applicationShellBlockMetadata } from "../../../blocks/src/application-shell/metadata.ts";
+import { loginBlockMetadata } from "../../../blocks/src/login/metadata.ts";
+import { sidebarBlockMetadata } from "../../../blocks/src/sidebar/metadata.ts";
+import { signupBlockMetadata } from "../../../blocks/src/signup/metadata.ts";
 
 /** The fields needed to link a registered block to its documentation. */
 export type BlockOverviewEntry = {

@@ -1,9 +1,9 @@
 import { access, readFile } from "node:fs/promises";
 import { resolve } from "node:path";
-import { type BlockCategory, blockCategories } from "../src/blocks/block-categories";
-import type { CodeReferenceHelp } from "../src/references/types";
-import { blockReferenceSections } from "./block-reference-sections";
-import { sourceSectionIds } from "./inline-reference-pages";
+import { type BlockCategory, blockCategories } from "../src/blocks/block-categories.ts";
+import type { CodeReferenceHelp } from "../src/references/types.ts";
+import { blockReferenceSections } from "./block-reference-sections.ts";
+import { sourceSectionIds } from "./inline-reference-pages.ts";
 
 /** Component-free metadata owns variants, dependencies and file lists; folders must exist. */
 export async function buildBlockReferences(root: string) {

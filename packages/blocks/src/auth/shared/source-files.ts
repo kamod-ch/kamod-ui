@@ -1,5 +1,5 @@
 /** Shared copy dependencies; keep the original folder structure when copying a page. */
-import type { BlockFile } from "../types";
+import type { BlockFile } from "../types.ts";
 export function authSupportFiles(id: string): BlockFile[] {
   const files = ["auth-utils.ts", "google-icon.tsx"];
   if (id.endsWith("-02") || id.endsWith("-03")) {

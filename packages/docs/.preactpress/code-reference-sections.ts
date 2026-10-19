@@ -1,9 +1,9 @@
 /** Read authored examples and API rows without importing a documentation page or its demos. */
 import ts from "@typescript/typescript6";
-import { componentPropsId } from "../src/docs/components/component-detail/component-api-id";
-import { docUsageImport } from "../src/docs/doc-usage-import";
-import type { CodeReferenceHelpField, CodeReferenceHelpSection } from "../src/references/types";
-import { extractCodeReferenceProse } from "./code-reference-prose";
+import { componentPropsId } from "../src/docs/components/component-detail/component-api-id.ts";
+import { docUsageImport } from "../src/docs/doc-usage-import.ts";
+import type { CodeReferenceHelpField, CodeReferenceHelpSection } from "../src/references/types.ts";
+import { extractCodeReferenceProse } from "./code-reference-prose.ts";
 
 type Literal = string | Literal[] | { [key: string]: Literal };
 type RecordLiteral = { [key: string]: Literal };

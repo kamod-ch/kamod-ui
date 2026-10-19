@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { h } from "preact";
 import { renderToString } from "preact-render-to-string";
-import { PageOpening } from "../src/layout/PageOpening";
+import { PageOpening } from "../src/layout/PageOpening.tsx";
 
 // Embed the same layout, logo, skeleton and flight styles before any client request completes.
 const loadingStyles = [

@@ -1,5 +1,5 @@
-import { docsNavigation } from "../generated-navigation";
-import { packageApiReferences } from "./package-api-references";
+import { docsNavigation } from "../generated-navigation.ts";
+import { packageApiReferences } from "./package-api-references.ts";
 
 /** Public component names grouped by their documented entrypoint; no component runtime imports. */
 export const componentReferenceNames: Record<string, string> = {

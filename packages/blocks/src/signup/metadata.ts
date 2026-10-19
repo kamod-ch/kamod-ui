@@ -1,6 +1,6 @@
 /** Component-free registry data for lightweight documentation overviews. */
-import { authSupportFiles } from "../auth/shared/source-files";
-import type { BlockDefinition, BlockFile, SignupBlockId } from "../auth/types";
+import { authSupportFiles } from "../auth/shared/source-files.ts";
+import type { BlockDefinition, BlockFile, SignupBlockId } from "../auth/types.ts";
 
 const descriptions: Record<SignupBlockId, string> = {
   "signup-01": "A simple signup form.",

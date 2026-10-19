@@ -1,5 +1,5 @@
 /** Copyable local integrations; presentation components do not own code templates. */
-import type { VariantGuide } from "./VariantDocumentation";
+import type { VariantGuide } from "./VariantDocumentation.tsx";
 
 /** Import from the directory structure listed in the installation guide. */
 export function variantImport({

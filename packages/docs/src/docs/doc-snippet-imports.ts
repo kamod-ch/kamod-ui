@@ -6,8 +6,8 @@ import {
   buildDocsPageSlugsLongestFirst,
   docImportFrom as docImportFromPath,
   rewriteKamodCoreImportsInDocString as rewriteWithSlugs,
-} from "./doc-snippet-rewrite";
-import { docsRouteManifest } from "./generated-manifest";
+} from "./doc-snippet-rewrite.ts";
+import { docsRouteManifest } from "./generated-manifest.ts";
 
 // Importing the runtime registry here pulled every example into each preview frame.
 const docsPageSlugsLongestFirst = buildDocsPageSlugsLongestFirst(

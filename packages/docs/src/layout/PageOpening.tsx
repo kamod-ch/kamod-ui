@@ -1,7 +1,7 @@
 /** @jsxImportSource preact */
 import { ZapIcon } from "@kamod-ch/icons/lucide";
-import Logo from "../../.preactpress/theme/Logo";
-import { GettingStartedRocket } from "../docs/components/GettingStartedRocket";
+import Logo from "../../.preactpress/theme/Logo.tsx";
+import { GettingStartedRocket } from "../docs/components/GettingStartedRocket.tsx";
 
 /** Shared by first paint and route loading; no Vite environment or page registry dependency. */
 export function PageOpening({

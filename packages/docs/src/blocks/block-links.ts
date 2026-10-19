@@ -1,5 +1,5 @@
 /** Upstream destinations shared by category headers, variant cards and setup guides. */
-import type { BlockCategory } from "./block-categories";
+import type { BlockCategory } from "./block-categories.ts";
 
 export const repositoryUrl = "https://github.com/kamod-ch/kamod-ui";
 
