@@ -1,4 +1,27 @@
 import {
+  ArrowUpIcon,
+  AtSignIcon,
+  BookOpenIcon,
+  CalendarIcon,
+  CheckIcon,
+  CrosshairIcon,
+  EllipsisIcon,
+  FileTextIcon,
+  GlobeIcon,
+  InfoIcon,
+  LayoutDashboardIcon,
+  LayoutGridIcon,
+  LightbulbIcon,
+  MicIcon,
+  PaperclipIcon,
+  PlusIcon,
+  SearchIcon,
+  TargetIcon,
+  UsersIcon,
+  WalletIcon,
+  XIcon,
+} from "@kamod-ch/icons/lucide";
+import {
   Avatar,
   AvatarFallback,
   AvatarGroup,
@@ -50,29 +73,6 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@kamod-ch/ui";
-import {
-  ArrowUp,
-  AtSign,
-  BookOpen,
-  Calendar,
-  Check,
-  Crosshair,
-  FileText,
-  Globe,
-  Info,
-  LayoutDashboard,
-  LayoutGrid,
-  Lightbulb,
-  Mic,
-  MoreHorizontal,
-  Paperclip,
-  Plus,
-  Search,
-  Target,
-  Users,
-  Wallet,
-  X,
-} from "lucide-preact";
 import { useState } from "preact/hooks";
 
 const PRICE_RANGE_MIN = 0;
@@ -138,7 +138,7 @@ const AiPromptSourcesMenu = () => {
           class="h-6 gap-1 rounded-full border-border/70 px-2 text-[11px] font-normal leading-none text-muted-foreground shadow-none hover:bg-muted/40"
           aria-label="Search sources"
         >
-          <Globe class="size-3 opacity-80" strokeWidth={1.75} />
+          <GlobeIcon class="size-3 opacity-80" strokeWidth={1.75} />
           All Sources
         </Button>
       </DropdownTrigger>
@@ -154,7 +154,11 @@ const AiPromptSourcesMenu = () => {
             onCheckedChange={setWebSearch}
             class={`${row} ps-1.5 [&>span:first-child]:hidden`}
           >
-            <Globe class="size-3 shrink-0 text-muted-foreground" strokeWidth={1.75} aria-hidden />
+            <GlobeIcon
+              class="size-3 shrink-0 text-muted-foreground"
+              strokeWidth={1.75}
+              aria-hidden
+            />
             <span class="min-w-0 flex-1 text-left">Web Search</span>
             <span aria-hidden="true" class={sourceSwitchWrapClass}>
               <Switch
@@ -171,7 +175,7 @@ const AiPromptSourcesMenu = () => {
             onCheckedChange={setAppsIntegrations}
             class={`${row} ps-1.5 [&>span:first-child]:hidden`}
           >
-            <LayoutGrid
+            <LayoutGridIcon
               class="size-3 shrink-0 text-muted-foreground"
               strokeWidth={1.75}
               aria-hidden
@@ -188,7 +192,7 @@ const AiPromptSourcesMenu = () => {
             </span>
           </DropdownCheckboxItem>
           <DropdownItem class={item}>
-            <Crosshair class="size-3 text-muted-foreground" strokeWidth={1.75} />
+            <CrosshairIcon class="size-3 text-muted-foreground" strokeWidth={1.75} />
             All Sources I can access
           </DropdownItem>
           <DropdownSub>
@@ -206,7 +210,7 @@ const AiPromptSourcesMenu = () => {
             >
               <InputGroup class="mb-1.5 rounded-full border border-border/45 bg-muted/35 shadow-none">
                 <InputGroupText class="pl-2 text-muted-foreground">
-                  <Search class="size-3 shrink-0 opacity-70" strokeWidth={1.75} />
+                  <SearchIcon class="size-3 shrink-0 opacity-70" strokeWidth={1.75} />
                 </InputGroupText>
                 <InputGroupInput
                   placeholder="Find or use knowledge in…"
@@ -242,14 +246,14 @@ const AiPromptSourcesMenu = () => {
             </DropdownSubContent>
           </DropdownSub>
           <DropdownItem class={item}>
-            <BookOpen class="size-3 text-muted-foreground" strokeWidth={1.75} />
+            <BookOpenIcon class="size-3 text-muted-foreground" strokeWidth={1.75} />
             Help Center
           </DropdownItem>
         </div>
         <DropdownSeparator class="my-1.5 bg-border/70" />
         <div class="px-0.5 pb-0.5">
           <DropdownItem class={item}>
-            <Plus class="size-3 text-muted-foreground" strokeWidth={1.75} />
+            <PlusIcon class="size-3 text-muted-foreground" strokeWidth={1.75} />
             Connect Apps
           </DropdownItem>
           <p class="px-1.5 pb-0.5 pt-1 text-[10px] leading-snug text-muted-foreground">
@@ -262,14 +266,14 @@ const AiPromptSourcesMenu = () => {
 };
 
 const ADD_CONTEXT_PAGES = [
-  { id: "notes", label: "Meeting Notes", Icon: FileText },
-  { id: "dashboard", label: "Project Dashboard", Icon: LayoutDashboard },
-  { id: "ideas", label: "Ideas & Brainstorming", Icon: Lightbulb },
-  { id: "calendar", label: "Calendar & Events", Icon: Calendar },
-  { id: "docs", label: "Documentation", Icon: BookOpen },
-  { id: "goals", label: "Goals & Objectives", Icon: Target },
-  { id: "budget", label: "Budget Planning", Icon: Wallet },
-  { id: "team", label: "Team Directory", Icon: Users },
+  { id: "notes", label: "Meeting Notes", Icon: FileTextIcon },
+  { id: "dashboard", label: "Project Dashboard", Icon: LayoutDashboardIcon },
+  { id: "ideas", label: "Ideas & Brainstorming", Icon: LightbulbIcon },
+  { id: "calendar", label: "Calendar & Events", Icon: CalendarIcon },
+  { id: "docs", label: "Documentation", Icon: BookOpenIcon },
+  { id: "goals", label: "Goals & Objectives", Icon: TargetIcon },
+  { id: "budget", label: "Budget Planning", Icon: WalletIcon },
+  { id: "team", label: "Team Directory", Icon: UsersIcon },
 ] as const;
 
 type AddContextPageId = (typeof ADD_CONTEXT_PAGES)[number]["id"];
@@ -298,7 +302,7 @@ const AiPromptAddContextMenu = ({
           aria-label="Add context"
           aria-haspopup="menu"
         >
-          <AtSign class="size-3 text-muted-foreground" strokeWidth={1.75} />
+          <AtSignIcon class="size-3 text-muted-foreground" strokeWidth={1.75} />
           Add context
         </Button>
       </DropdownTrigger>
@@ -310,7 +314,7 @@ const AiPromptAddContextMenu = ({
       >
         <InputGroup class="mb-1.5 rounded-full border border-border/40 bg-muted/35 shadow-none">
           <InputGroupText class="pl-2 text-muted-foreground">
-            <Search class="size-3 shrink-0 opacity-70" strokeWidth={1.75} />
+            <SearchIcon class="size-3 shrink-0 opacity-70" strokeWidth={1.75} />
           </InputGroupText>
           <InputGroupInput
             placeholder="Search pages..."
@@ -396,7 +400,7 @@ const KitchenSinkAiPromptComposer = () => {
                     aria-label={`Remove ${page.label}`}
                     onClick={() => removeContextPage(page.id)}
                   >
-                    <X class="size-2.5" strokeWidth={2} />
+                    <XIcon class="size-2.5" strokeWidth={2} />
                   </button>
                 </Badge>
               );
@@ -421,7 +425,7 @@ const KitchenSinkAiPromptComposer = () => {
                 class="h-6 w-6 shrink-0 border border-border/70 text-muted-foreground hover:bg-muted/40 hover:text-foreground"
                 aria-label="Attach file"
               >
-                <Paperclip class="size-3.5" strokeWidth={1.75} />
+                <PaperclipIcon class="size-3.5" strokeWidth={1.75} />
               </Button>
             </TooltipTrigger>
             <TooltipContent side="top">Attach file</TooltipContent>
@@ -438,7 +442,7 @@ const KitchenSinkAiPromptComposer = () => {
             class="landing-ai-prompt-send h-[1.375rem] w-[1.375rem] min-h-[1.375rem] min-w-[1.375rem] shrink-0 rounded-full bg-foreground p-0 text-background shadow-none hover:bg-foreground/90 [&_svg]:size-3"
             aria-label="Submit"
           >
-            <ArrowUp strokeWidth={1.75} />
+            <ArrowUpIcon strokeWidth={1.75} />
           </Button>
         </div>
       </div>
@@ -574,7 +578,7 @@ const HearAboutUsChips = () => {
                 class="flex size-3 shrink-0 items-center justify-center rounded-full bg-foreground text-background dark:bg-background dark:text-foreground"
                 aria-hidden="true"
               >
-                <Check class="size-2" strokeWidth={2.5} />
+                <CheckIcon class="size-2" strokeWidth={2.5} />
               </span>
             ) : null}
             <span>{label}</span>
@@ -720,7 +724,7 @@ export function KitchenSinkShowcase() {
               Invite your team to collaborate on this project.
             </p>
             <Button type="button" size="sm" class="landing-invite-members-btn rounded-full">
-              <Plus class="size-3.5" strokeWidth={2.5} />
+              <PlusIcon class="size-3.5" strokeWidth={2.5} />
               Invite Members
             </Button>
           </div>
@@ -748,7 +752,7 @@ export function KitchenSinkShowcase() {
               class="rounded-full shrink-0 shadow-xs"
               aria-label="Add"
             >
-              <Plus class="size-4" strokeWidth={2} />
+              <PlusIcon class="size-4" strokeWidth={2} />
             </Button>
             <InputGroup class="min-w-0 flex-1 rounded-full shadow-xs">
               <InputGroupInput placeholder="Send a message..." class="text-sm" />
@@ -760,7 +764,7 @@ export function KitchenSinkShowcase() {
                     variant="ghost"
                     aria-label="Voice input"
                   >
-                    <Mic class="size-4 opacity-60" strokeWidth={2} />
+                    <MicIcon class="size-4 opacity-60" strokeWidth={2} />
                   </InputGroupButton>
                 </TooltipTrigger>
                 <TooltipContent side="top">Voice input</TooltipContent>
@@ -772,7 +776,7 @@ export function KitchenSinkShowcase() {
 
           <InputGroup class="rounded-full shadow-xs">
             <InputGroupText class="pl-3 text-muted-foreground">
-              <Search class="size-4 shrink-0 opacity-70" strokeWidth={2} />
+              <SearchIcon class="size-4 shrink-0 opacity-70" strokeWidth={2} />
             </InputGroupText>
             <InputGroupInput placeholder="Search..." class="text-sm" />
             <InputGroupText class="pr-3 text-xs text-muted-foreground tabular-nums">
@@ -794,7 +798,7 @@ export function KitchenSinkShowcase() {
                   class="text-muted-foreground"
                   aria-label="Info"
                 >
-                  <Info class="size-4 opacity-80" strokeWidth={2} />
+                  <InfoIcon class="size-4 opacity-80" strokeWidth={2} />
                 </InputGroupButton>
               </TooltipTrigger>
               <TooltipContent side="top">This is content in a tooltip.</TooltipContent>
@@ -815,7 +819,7 @@ export function KitchenSinkShowcase() {
                 class="landing-chat-composer-icon-btn shrink-0 rounded-full border-border/70 bg-background shadow-none"
                 aria-label="Add"
               >
-                <Plus class="size-3" strokeWidth={1.5} />
+                <PlusIcon class="size-3" strokeWidth={1.5} />
               </Button>
               <ChatComposerModeDropdown />
               <span class="min-w-0 flex-1" />
@@ -828,7 +832,7 @@ export function KitchenSinkShowcase() {
                 class="landing-chat-composer-send shrink-0 rounded-full shadow-none"
                 aria-label="Send"
               >
-                <ArrowUp class="size-3" strokeWidth={1.75} />
+                <ArrowUpIcon class="size-3" strokeWidth={1.75} />
               </Button>
             </div>
           </div>
@@ -843,7 +847,7 @@ export function KitchenSinkShowcase() {
                 role="status"
                 aria-label="Selected"
               >
-                <Check strokeWidth={2.5} />
+                <CheckIcon strokeWidth={2.5} />
               </Badge>
             </InputGroupAddon>
           </InputGroup>
@@ -860,7 +864,7 @@ export function KitchenSinkShowcase() {
           </div>
           <div class="flex items-start gap-2.5 rounded-lg border border-border bg-muted/25 px-3 py-2.5">
             <span class="mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full bg-primary/15 text-primary">
-              <Check class="size-3.5" strokeWidth={2.5} />
+              <CheckIcon class="size-3.5" strokeWidth={2.5} />
             </span>
             <p class="text-sm leading-snug">Your profile has been verified.</p>
           </div>
@@ -916,7 +920,7 @@ export function KitchenSinkShowcase() {
             <Button variant="outline">Report</Button>
             <Button variant="outline">Snooze</Button>
             <Button size="icon" variant="ghost" aria-label="More">
-              <MoreHorizontal class="size-4" />
+              <EllipsisIcon class="size-4" />
             </Button>
           </div>
           <label class="flex cursor-pointer items-start gap-2 text-sm">
