@@ -622,6 +622,45 @@ html.home-workspace-document {
   text-align: center;
   line-height: 1.6;
 }
+.home-kitchen-sink {
+  margin-top: clamp(2rem, 4vw, 3rem);
+  margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: clip;
+}
+.home-kitchen-sink .landing-showcase {
+  max-width: 100%;
+  min-width: 0;
+}
+.home-kitchen-sink .landing-showcase-panel {
+  min-width: 0;
+}
+.home-kitchen-sink-intro {
+  max-width: 42rem;
+  margin-bottom: 1.75rem;
+}
+.home-kitchen-sink-intro h2 {
+  margin: 0.65rem 0 0.75rem;
+  font-size: clamp(1.5rem, 3vw, 1.875rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+.home-kitchen-sink-lead {
+  margin: 0 0 1rem;
+  color: var(--home-secondary);
+  font-size: 0.9375rem;
+  line-height: 1.65;
+}
+.home-kitchen-sink-loading {
+  display: grid;
+  place-items: center;
+  min-height: 12rem;
+  margin: clamp(2rem, 4vw, 3rem) 0;
+  color: var(--home-secondary);
+  font-size: 0.8125rem;
+}
 .home-library-map {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));

@@ -17,6 +17,7 @@ import { Button, ThemeToggle } from "@kamod-ch/ui";
 import type { ComponentChildren } from "preact";
 import { withBasePath } from "../base-path";
 import { BrandLink, BrandText } from "../docs/components/brand/BrandText";
+import { lazyShowcase } from "../docs/components/lazy-showcase";
 import { ShowcaseCodePane } from "../docs/components/ShowcaseCodePane";
 import { FormOverviewPreview } from "../docs/overview/OverviewPreviews";
 import { DemoShell, demoTopNavItems } from "../layout/DemoShell";
@@ -28,6 +29,8 @@ import { HomeBlockExamples, WorkspaceExample } from "./HomeExamples";
 import { HomeFooter } from "./HomeFooter";
 import { HomeHeroBackdrop } from "./HomeHeroBackdrop";
 import { ecosystemEntries, guideEntries, libraryEntries } from "./home-content";
+
+const HomeKitchenSinkSection = lazyShowcase(() => import("./HomeKitchenSinkSection"));
 
 const buttonExample = `import { Button } from "@kamod-ch/ui";
 
@@ -155,6 +158,14 @@ export function HomePage() {
             </div>
           </header>
           <hr class="page-intro-divider" />
+
+          <HomeKitchenSinkSection
+            fallback={
+              <p class="home-kitchen-sink-loading" role="status">
+                Loading kitchen sink…
+              </p>
+            }
+          />
 
           <nav class="home-library-map" aria-label="Explore the Kamod UI documentation">
             {libraryEntries.map((item, index) => (

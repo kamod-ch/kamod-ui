@@ -86,7 +86,7 @@ export function blockPagesPlugin(): Plugin {
       }
       if (id !== resolvedId) return;
       const glob =
-        '["/src/blocks/Blocks*Content.tsx", "/src/docs/GettingStartedContent.tsx", "/src/docs/EcosystemContent.tsx", "/src/blocks/BlockCategoryPage.tsx", "/src/blocks/BlockOverviewPage.tsx", "/src/docs/components/component-detail/ComponentPreviewPage.tsx", "/src/docs/DocsComponentContent.tsx", "/src/docs/DocsFormsOverviewContent.tsx", "/src/docs/DocsOverviewContent.tsx", "/src/docs/DocsPackagesOverviewContent.tsx", "/src/kitchen-sink/KitchenSinkPage.tsx", "/src/home/HomePage.tsx"]';
+        '["/src/blocks/Blocks*Content.tsx", "/src/docs/GettingStartedContent.tsx", "/src/docs/EcosystemContent.tsx", "/src/blocks/BlockCategoryPage.tsx", "/src/blocks/BlockOverviewPage.tsx", "/src/docs/components/component-detail/ComponentPreviewPage.tsx", "/src/docs/DocsComponentContent.tsx", "/src/docs/DocsFormsOverviewContent.tsx", "/src/docs/DocsOverviewContent.tsx", "/src/docs/DocsPackagesOverviewContent.tsx", "/src/kitchen-sink/KitchenSinkPage.tsx", "/src/kitchen-sink/KitchenSinkShowcase.tsx", "/src/home/HomePage.tsx", "/src/home/HomeKitchenSinkSection.tsx"]';
       return options?.ssr
         ? `export const pages = import.meta.glob(${glob}, { eager: true }); export const loaders = {};`
         : `export const pages = {}; export const loaders = import.meta.glob(${glob});`;

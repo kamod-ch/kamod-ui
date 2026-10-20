@@ -1,6 +1,14 @@
 import { expect, test } from "@playwright/test";
 import { choosePreviewTheme } from "./browser-utils";
 
+test("home includes the kitchen sink showcase", async ({ page }) => {
+  await page.goto("./");
+  await expect(page.getByTestId("home-page")).toBeVisible();
+  await expect(page.getByTestId("kitchen-sink")).toBeVisible();
+  await expect(page.getByTestId("kitchen-sink-showcase")).toBeVisible();
+  await expect(page.getByTestId("kitchen-sink-payment-panel")).toBeVisible();
+});
+
 test("home introduces the library and links prominently to Getting Started", async ({ page }) => {
   await page.goto("./");
   await expect(page.getByTestId("home-page")).toBeVisible();
