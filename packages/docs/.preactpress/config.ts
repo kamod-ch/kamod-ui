@@ -107,6 +107,11 @@ export default defineConfig({
         "chrono-node",
         "valibot",
         "zod",
+        // Prism is a direct docs dependency used by the docs highlighter.
+        "prismjs",
+        ...["bash", "css", "diff", "json", "jsx", "markdown", "tsx", "typescript", "yaml"].map(
+          (language) => `prismjs/components/prism-${language}.js`,
+        ),
         // These dependencies belong to the linked UI package, not the docs package.
         ...[
           "clsx",
@@ -114,10 +119,6 @@ export default defineConfig({
           "tailwind-variants",
           "embla-carousel",
           "embla-carousel-autoplay",
-          "prismjs",
-          ...["bash", "css", "diff", "json", "jsx", "markdown", "tsx", "typescript", "yaml"].map(
-            (language) => `prismjs/components/prism-${language}.js`,
-          ),
         ].map((dependency) => `@kamod-ch/ui > ${dependency}`),
       ],
     },

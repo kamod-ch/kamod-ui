@@ -38,7 +38,7 @@ function replaceBetween(source: string, start: string, end: string, after: strin
 }
 
 /**
- * Scoped compatibility for PreactPress 2.2.1. Keep upstream routing/SSR intact;
+ * Scoped compatibility for PreactPress 3.0.1. Keep upstream routing/SSR intact;
  * replace only speculative scheduling, pending-request sharing and scroll saves.
  * Remove this bridge when those fixes are available in the dependency itself.
  */
@@ -158,9 +158,9 @@ export function runtimePerformancePlugin(): Plugin {
       clientBuild = config.command === "build" && !config.build.ssr;
       transformed.clear();
       const { version } = JSON.parse(readFileSync(resolve(packageRoot, "package.json"), "utf8"));
-      if (version !== "2.2.1")
+      if (version !== "3.0.1")
         throw new Error(
-          `PreactPress ${version}: review runtime-performance-plugin.ts before upgrading the supported 2.2.1 runtime.`,
+          `PreactPress ${version}: review runtime-performance-plugin.ts before upgrading the supported 3.0.1 runtime.`,
         );
     },
     transform(source, id) {

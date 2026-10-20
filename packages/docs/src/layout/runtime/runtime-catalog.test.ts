@@ -26,15 +26,16 @@ function fixture() {
   const markdown = { title: "Existing", meta: {}, html: "<p>Visible text</p>", headings: [] };
   const services = {
     path,
-    scanContentFiles: vi.fn().mockResolvedValue([file]),
+    fs: { existsSync: () => true },
+    scanAllContentFiles: vi.fn().mockResolvedValue([file]),
+    readMarkdownDraftMeta: () => ({}),
     readMarkdownMetadata: () => markdown,
     isDraftPage: () => false,
     resolveDynamicRoutes: vi.fn().mockResolvedValue([]),
     resolvePageDataMap: vi.fn().mockResolvedValue(new Map([[route, "first"]])),
     applyRouteRewrites: () => {},
     collectTagIndexPages: () => [],
-    resolveFileLastUpdated: async () => undefined,
-    readMarkdownFile: vi.fn().mockResolvedValue(markdown),
+    resolveFileLastUpdated: vi.fn().mockResolvedValue(undefined),
     localeFromRoute: () => undefined,
     resolvePageTags: () => [],
     pageImageFromMeta: () => undefined,
@@ -45,6 +46,7 @@ function fixture() {
     VIRTUAL_PAGES: "\0pages",
     VIRTUAL_LAYOUT: "\0layout",
     VIRTUAL_SITE: "\0site",
+    VIRTUAL_CLIENT: "\0client",
   };
   const start = source.indexOf("export function preactPressPlugin(site)");
   if (start < 0) throw new Error("Review the pinned PreactPress catalog patch after an upgrade.");
@@ -54,14 +56,16 @@ function fixture() {
   )(...Object.values(services));
   const warn = vi.fn();
   const plugin = factory({
+    root: "/fixture",
     srcDir: "/fixture",
     site: { base: "/" },
     rewrites: {},
     markdown: {},
     logger: { warn },
   });
-  let changed!: (event: string, file: string) => Promise<void>;
+  let changed!: (event: string, file: string) => void;
   plugin.configureServer({
+    config: { logger: { warn } },
     middlewares: { use: () => {} },
     watcher: {
       add: () => {},
@@ -95,31 +99,33 @@ it.each([false, true])(
     const { plugin, services, changed, pages, file } = fixture();
     await plugin.buildStart();
     const gate = deferred<(typeof file)[]>();
-    services.scanContentFiles.mockReturnValueOnce(gate.promise);
-    const refreshing = changed();
-    await vi.waitFor(() => expect(services.scanContentFiles).toHaveBeenCalledTimes(2));
+    services.scanAllContentFiles.mockReturnValueOnce(gate.promise);
+    changed();
+    await vi.waitFor(() => expect(services.scanAllContentFiles).toHaveBeenCalledTimes(2));
     expect((await pages(ssr))[file.route].title).toBe("Existing");
     gate.resolve([file]);
-    await refreshing;
-    expect((await pages(ssr))[file.route].title).toBe("Existing");
+    await vi.waitFor(async () => expect((await pages(ssr))[file.route].title).toBe("Existing"));
   },
 );
 
 it("keeps the last good catalog after a failed refresh and allows a later retry", async () => {
   const { plugin, services, changed, pages, file, warn } = fixture();
   await plugin.buildStart();
-  services.scanContentFiles.mockResolvedValueOnce([]);
+  services.scanAllContentFiles.mockResolvedValueOnce([]);
   services.resolvePageDataMap.mockRejectedValueOnce(new Error("temporary read failure"));
-  await changed();
-  expect(warn).toHaveBeenCalledWith(expect.stringContaining("temporary read failure"));
+  changed();
+  await vi.waitFor(() =>
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining("temporary read failure")),
+  );
   expect((await pages())[file.route].meta.contentData).toBe("first");
-  await changed();
+  changed();
+  await vi.waitFor(() => expect(services.scanAllContentFiles).toHaveBeenCalledTimes(3));
   expect((await pages())[file.route].title).toBe("Existing");
 });
 
 it("still rejects an invalid initial build instead of concealing its error", async () => {
   const { plugin, services, warn } = fixture();
-  services.scanContentFiles.mockRejectedValueOnce(new Error("invalid initial content"));
+  services.scanAllContentFiles.mockRejectedValueOnce(new Error("invalid initial content"));
   await expect(plugin.buildStart()).rejects.toThrow("invalid initial content");
   expect(warn).not.toHaveBeenCalled();
 });
@@ -128,30 +134,32 @@ it("serializes overlapping scans rather than exposing partial or out-of-order ta
   const { plugin, services, changed, file } = fixture();
   await plugin.buildStart();
   const gate = deferred<(typeof file)[]>();
-  services.scanContentFiles.mockReturnValueOnce(gate.promise);
-  const first = changed();
-  await vi.waitFor(() => expect(services.scanContentFiles).toHaveBeenCalledTimes(2));
-  const second = changed();
-  await Promise.resolve();
-  expect(services.scanContentFiles).toHaveBeenCalledTimes(2);
+  services.scanAllContentFiles.mockReturnValueOnce(gate.promise);
+  changed();
+  await vi.waitFor(() => expect(services.scanAllContentFiles).toHaveBeenCalledTimes(2));
+  changed();
+  await new Promise((resolve) => setTimeout(resolve, 175));
+  expect(services.scanAllContentFiles).toHaveBeenCalledTimes(2);
   gate.resolve([file]);
-  await Promise.all([first, second]);
-  expect(services.scanContentFiles).toHaveBeenCalledTimes(3);
+  await vi.waitFor(() => expect(services.scanAllContentFiles).toHaveBeenCalledTimes(3));
 });
 
 it.each([false, true])(
   "keeps one content/metadata snapshot without stale caching (SSR: %s)",
   async (ssr) => {
-    const { plugin, services, changed, pages, markdown, file } = fixture();
+    const { plugin, services, changed, pages, file } = fixture();
     await plugin.buildStart();
-    const gate = deferred<typeof markdown>();
-    services.readMarkdownFile.mockReturnValueOnce(gate.promise);
+    const gate = deferred<undefined>();
+    services.resolveFileLastUpdated.mockReturnValueOnce(gate.promise);
     const rendering = pages(ssr);
-    await vi.waitFor(() => expect(services.readMarkdownFile).toHaveBeenCalledTimes(1));
+    await vi.waitFor(() => expect(services.resolveFileLastUpdated).toHaveBeenCalledTimes(1));
     services.resolvePageDataMap.mockResolvedValueOnce(new Map([[file.route, "second"]]));
-    await changed();
-    gate.resolve(markdown);
+    changed();
+    await vi.waitFor(() => expect(services.scanAllContentFiles).toHaveBeenCalledTimes(2));
+    gate.resolve(undefined);
     expect((await rendering)[file.route].meta.contentData).toBe("first");
-    expect((await pages(ssr))[file.route].meta.contentData).toBe("second");
+    await vi.waitFor(async () =>
+      expect((await pages(ssr))[file.route].meta.contentData).toBe("second"),
+    );
   },
 );

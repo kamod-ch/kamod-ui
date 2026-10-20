@@ -1,9 +1,9 @@
 diff --git a/dist/node/plugin.js b/dist/node/plugin.js
-index edf7876ccd814143d39bc1aba828dbdd6a698f6e..dc2161d4c1fdcecc17f17c626976e6546e2014da 100644
+index b6b18260ff86db89392fb7b78f218c693870d956..5f49cfa78919c8f385ffd82f2bd51ec49ba789ba 100644
 --- a/dist/node/plugin.js
 +++ b/dist/node/plugin.js
-@@ -37,14 +37,19 @@ export async function listMarkdownRoutes(site) {
-     return [...routeSet, ...tagRoutes].sort();
+@@ -56,14 +56,19 @@ export async function listMarkdownRoutes(site) {
+     return [...new Set([...routeToFile.keys(), ...tagRoutes])].sort();
  }
  export function preactPressPlugin(site) {
 -    const routeToFile = new Map();
@@ -25,10 +25,10 @@ index edf7876ccd814143d39bc1aba828dbdd6a698f6e..dc2161d4c1fdcecc17f17c626976e654
 +    async function scanNext() {
 +        const routeToFile = new Map();
 +        const dynamicRoutes = new Map();
-         for (const file of await scanContentFiles(site)) {
-             if (isDraftPage(readMarkdownMetadata(file.file).meta))
+         for (const file of await scanAllContentFiles(site)) {
+             if (!fs.existsSync(file.file))
                  continue;
-@@ -56,18 +61,21 @@ export function preactPressPlugin(site) {
+@@ -77,18 +82,21 @@ export function preactPressPlugin(site) {
              }
              dynamicRoutes.set(entry.route, entry);
          }
@@ -57,25 +57,32 @@ index edf7876ccd814143d39bc1aba828dbdd6a698f6e..dc2161d4c1fdcecc17f17c626976e654
          const filesList = [...routeToFile.values()];
          const tagPages = collectTagIndexPages(filesList, site);
          const fileRouteSet = new Set([...routeToFile.keys(), ...dynamicRoutes.keys()]);
-@@ -253,8 +261,14 @@ export function preactPressPlugin(site) {
-                 if (CONTENT_EXTENSIONS.some((ext) => file.endsWith(ext)) ||
-                     file.endsWith(".data.ts") ||
-                     file.endsWith(".paths.ts")) {
--                    await scan();
--                    invalidateVirtuals(server);
-+                    try {
-+                        await scan();
-+                        invalidateVirtuals(server);
-+                    }
-+                    catch (error) {
-+                        // A transient edit must not discard working routes or crash the dev watcher.
-+                        site.logger.warn(`preactpress catalog refresh failed: ${error instanceof Error ? error.message : error}`);
-+                    }
-                 }
-             });
+@@ -254,7 +262,7 @@ export function preactPressPlugin(site) {
+             await scan();
          },
-@@ -276,14 +290,20 @@ export function preactPressPlugin(site) {
-                 return `export const site = ${JSON.stringify(data.site)};\nexport const themeConfig = ${JSON.stringify(data.themeConfig)};\nexport const i18n = ${JSON.stringify(data.i18n)};\nexport const mpa = ${JSON.stringify(Boolean(data.mpa))};\n`;
+         configureServer(server) {
+-            server.middlewares.use(createDevSsrMiddleware(site, server, (route) => routeToFile.get(route), () => [...routeToFile.keys()].sort()));
++            server.middlewares.use(createDevSsrMiddleware(site, server, (route) => catalog.routeToFile.get(route), () => [...catalog.routeToFile.keys()].sort()));
+             server.middlewares.use(createFaviconMiddleware(site.site.base, path.join(site.srcDir, "public")));
+             server.middlewares.use((req, res, next) => {
+                 const pathname = req.url?.split("?")[0] ?? "";
+@@ -281,12 +289,8 @@ export function preactPressPlugin(site) {
+                                 invalidateVirtuals(server);
+                             }
+                             catch (error) {
+-                                const err = error;
+-                                if (err.code === "ENOENT") {
+-                                    server.config.logger.warn(`preactpress: content scan skipped (file missing): ${err.path ?? file}`);
+-                                    return;
+-                                }
+-                                throw error;
++                                // A transient edit must not discard working routes or crash the dev watcher.
++                                server.config.logger.warn(`preactpress: content scan failed: ${error instanceof Error ? error.message : error}`);
+                             }
+                         })();
+                     }, 150);
+@@ -313,14 +317,20 @@ export function preactPressPlugin(site) {
+                 return `export const site = ${JSON.stringify(data.site)};\nexport const themeConfig = ${JSON.stringify(data.themeConfig)};\nexport const i18n = ${JSON.stringify(data.i18n)};\nexport const versions = ${JSON.stringify(data.versions)};\nexport const workspaces = ${JSON.stringify(data.workspaces)};\nexport const mpa = ${JSON.stringify(Boolean(data.mpa))};\nexport const ai = ${JSON.stringify(data.ai ?? false)};\n`;
              }
              if (id === VIRTUAL_PAGES) {
 -                if (options?.ssr) {
@@ -100,5 +107,5 @@ index edf7876ccd814143d39bc1aba828dbdd6a698f6e..dc2161d4c1fdcecc17f17c626976e654
 -                return clientPagesModule;
 +                return rendered;
              }
-             return undefined;
-         },
+             if (id === VIRTUAL_CLIENT) {
+                 const modules = collectPluginClientModules(site.plugins ?? []);

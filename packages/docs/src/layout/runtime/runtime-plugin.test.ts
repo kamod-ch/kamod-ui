@@ -68,7 +68,8 @@ const fixturePlugin: Plugin = {
     if (id === "\0virtual:preactpress-pages")
       return "export const pagesMeta = {}, routes = [], mdxLoaders = {};";
     if (id === "\0virtual:preactpress-site")
-      return 'export const i18n = undefined, mpa = false, site = { base: "/" }, themeConfig = {};';
+      return 'export const ai = false, i18n = undefined, mpa = false, site = { base: "/" }, themeConfig = {}, versions = undefined, workspaces = undefined;';
+    if (id === "\0virtual:preactpress-client-plugins") return "export const clientPlugins = [];";
     if (id === "\0mermaid")
       return "export default { initialize() {}, async render() { return { svg: '' }; } };";
   },

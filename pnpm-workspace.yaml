@@ -7,13 +7,13 @@ allowBuilds:
 overrides:
   react: 19.2.8
 peerDependencyRules:
-  # These libraries are runtime-compatible with Preact 11 but have not widened
-  # their published peer ranges yet.
+  # These libraries remain runtime-compatible beyond their published peer ranges.
   allowedVersions:
+    motion: "^14.3.0"
     preact: ">=10 <12"
 minimumReleaseAgeExclude:
-  - "@kamod-ch/preactpress@2.2.1"
+  - "@kamod-ch/preactpress@3.0.1"
   - "@kamod-ch/brand@0.1.0 || 0.1.11 || 0.1.12 || 0.3.0"
   - "@kamod-ch/motion@0.1.0"
 patchedDependencies:
-  "@kamod-ch/preactpress@2.2.1": patches/@kamod-ch__preactpress@2.2.1.patch
+  "@kamod-ch/preactpress@3.0.1": patches/@kamod-ch__preactpress@3.0.1.patch

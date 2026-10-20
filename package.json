@@ -73,15 +73,15 @@
     "brand:readme": "kamod-brand-readme --product UI --output .github/assets"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.5.14",
-    "@kamod-ch/brand": "^0.3.0",
-    "@types/node": "^26.6.3",
+    "@biomejs/biome": "^2.5.15",
+    "@kamod-ch/brand": "^0.4.0",
+    "@types/node": "^26.6.5",
     "@typescript/typescript6": "^6.0.2",
-    "knip": "^6.38.0",
-    "lefthook": "^2.1.15",
-    "oxfmt": "^0.71.0",
-    "oxlint": "^1.86.0",
-    "preact": "^11.0.0",
+    "knip": "^6.42.0",
+    "lefthook": "^2.2.2",
+    "oxfmt": "^0.73.0",
+    "oxlint": "^1.88.0",
+    "preact": "^11.0.1",
     "syncpack": "^15.3.3",
     "typescript": "^7.0.2"
   },
