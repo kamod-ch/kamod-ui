@@ -1,6 +1,10 @@
 import { access, readFile } from "node:fs/promises";
 import { resolve } from "node:path";
-import { type BlockCategory, blockCategories } from "../src/blocks/block-categories.ts";
+import {
+  type BlockCategory,
+  blockCategories,
+  isCatalogBlockCategory,
+} from "../src/blocks/block-categories.ts";
 import type { CodeReferenceHelp } from "../src/references/types.ts";
 import { blockReferenceSections } from "./block-reference-sections.ts";
 import { sourceSectionIds } from "./inline-reference-pages.ts";
@@ -49,7 +53,13 @@ export async function buildBlockReferences(root: string) {
         `${group.label.replaceAll(" ", "")}${position + 1}`,
         `${group.label.replaceAll(" ", "")}${String(position + 1).padStart(2, "0")}`,
       ];
-      if (files.some((file) => file.endsWith(`/${block.id}.tsx`))) aliases.push(`${block.id}.tsx`);
+      if (files.some((file) => file.endsWith(`/${block.id}.tsx`))) {
+        if (isCatalogBlockCategory(category as BlockCategory)) {
+          aliases.push(`${category}/${block.id}.tsx`);
+        } else {
+          aliases.push(`${block.id}.tsx`);
+        }
+      }
       const sections =
         category === "application-shell"
           ? sourceSectionIds(

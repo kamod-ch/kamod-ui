@@ -1,13 +1,15 @@
 import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
-import { blockCategories } from "./block-categories";
+import { blockCategories, catalogBlockCategories } from "./block-categories";
 import thumbnails from "./generated/block-thumbnails.json";
 
 describe("generated block thumbnails", () => {
-  it("covers exactly the visible registry variants", () => {
+  it("covers registry variants that have generated captures (catalog blocks use card fallbacks)", () => {
     const keys = Object.entries(blockCategories).flatMap(([category, { blocks }]) =>
-      blocks.map((block) => `${category}/${block.id}`),
+      catalogBlockCategories.includes(category as (typeof catalogBlockCategories)[number])
+        ? []
+        : blocks.map((block) => `${category}/${block.id}`),
     );
     expect(Object.keys(thumbnails).sort()).toEqual(keys.sort());
   });

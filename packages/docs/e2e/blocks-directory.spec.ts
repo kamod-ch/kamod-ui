@@ -4,7 +4,9 @@ import { assertNoBlockingA11yViolations } from "./a11y-utils";
 
 const categories = [
   ["Application Shell", "application-shell", 8],
+  ["Auth", "auth", 7],
   ["Login", "login", 5],
+  ["Marketing", "marketing", 14],
   ["Sidebar", "sidebar", 16],
   ["Signup", "signup", 5],
 ] as const;
@@ -59,7 +61,7 @@ test("the Blocks directory lists published collections and links through the sit
       level: 1,
     }),
   ).toBeVisible();
-  await expect(page.getByText(/Browse 34 reusable/)).toBeVisible();
+  await expect(page.getByText(/Browse 55 reusable/)).toBeVisible();
   await expect(page.getByText("Straight Talk", { exact: true })).toBeVisible();
   await expect(
     page.locator(".docs-topbar-links").getByRole("link", { name: "Blocks" }),
@@ -165,7 +167,7 @@ test("directory links are present in static HTML without JavaScript", async ({
     ).toBeVisible();
     await expect(
       page.getByRole("navigation", { name: "Block categories", exact: true }).getByRole("link"),
-    ).toHaveCount(4);
+    ).toHaveCount(categories.length);
   } finally {
     await context.close();
   }

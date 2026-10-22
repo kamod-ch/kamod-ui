@@ -11,6 +11,7 @@ it("combines the registered block setup with local-helper props without inventin
       installCommand: "@kamod-ch/blocks/sidebar/sidebar-01",
       dependencies: ["@kamod-ch/ui", "preact"],
       tags: [],
+      files: [],
     },
     [
       {

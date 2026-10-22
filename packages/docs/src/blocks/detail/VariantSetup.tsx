@@ -5,6 +5,7 @@ import { BrandText } from "../../docs/components/brand/BrandText";
 import { CodeBlock } from "../../docs/components/CodeBlock";
 import { DocsCallout } from "../../docs/components/DocsCallout";
 import { PathDisplay } from "../../docs/components/PathDisplay";
+import { isCatalogBlockCategory } from "../block-categories";
 import { getBlockOverviewDetails } from "../block-overview-details";
 import { ShowcaseCodeLink } from "../ShowcaseCodeLink";
 import { AuthUsage } from "./AuthUsage";
@@ -18,6 +19,7 @@ import { variantImport } from "./variant-examples";
 export function VariantSetup({ guide }: { guide: VariantGuide }) {
   const { block, category, anchor, files } = guide;
   const sidebar = category === "sidebar";
+  const catalog = isCatalogBlockCategory(category);
   const details = getBlockOverviewDetails(category, block);
   return (
     <BlockDocSection
@@ -27,8 +29,13 @@ export function VariantSetup({ guide }: { guide: VariantGuide }) {
           <BrandText>
             {sidebar ? "Download" : "Copy"} this variant into your Preact project, install the
             dependencies you are missing and connect your own{" "}
-            {sidebar ? "navigation and page content" : "authentication service"}. The source stays
-            local, so you can change its layout without introducing another application framework.
+            {sidebar
+              ? "navigation and page content"
+              : catalog
+                ? "data and callbacks"
+                : "authentication service"}
+            . The source stays local, so you can change its layout without introducing another
+            application framework.
           </BrandText>
         </p>
       }
@@ -130,5 +137,24 @@ export function VariantSetup({ guide }: { guide: VariantGuide }) {
 
 export function VariantUsage({ guide }: { guide: VariantGuide }) {
   if (guide.category === "sidebar") return <SidebarUsage guide={guide} />;
+  if (isCatalogBlockCategory(guide.category)) {
+    return (
+      <BlockDocSection
+        id={guide.anchor("usage")}
+        introduction={
+          <p>
+            <BrandText>
+              Import the component from your copied source or the documented package path, then pass
+              the typed props your screen needs. The registry usage snippet matches the catalog
+              export for this variant.
+            </BrandText>
+          </p>
+        }
+      >
+        <BlockGuideHeading id={guide.anchor("render")} />
+        <CodeBlock code={variantImport(guide)} language="tsx" />
+      </BlockDocSection>
+    );
+  }
   return <AuthUsage guide={guide} />;
 }

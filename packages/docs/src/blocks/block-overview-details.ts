@@ -12,6 +12,17 @@ const notes: Record<BlockCategory, string> = {
     "Connect the form callbacks to your authentication service. Explore the validation and submission feedback before adapting the fields and branding.",
   signup:
     "Connect registration callbacks to your account service, then adapt the fields, terms links and branding to your signup flow.",
+  "app-sidebar":
+    "Wire navigation, team and user callbacks to your routes. Wrap the sidebar in SidebarProvider and render your pages in SidebarInset.",
+  auth: "Connect submit and OAuth callbacks to your authentication service. Catalog variants use typed props; network and session logic stay in your app.",
+  marketing:
+    "Pass typed content props into each section component. Replace demo copy and links, then compose sections on your landing pages.",
+  dashboard:
+    "Supply controlled data and event handlers for charts, lists and layout shells. Demo fixtures illustrate structure; your app owns persistence.",
+  communication:
+    "Provide messages, threads and send handlers from your backend. Previews use fixtures; production code should avoid shipping demo data.",
+  commerce:
+    "Connect payment and checkout callbacks to your PSP or tokenization layer. Never persist PAN/CVC; use hosted fields in production.",
 };
 
 /** Turn registry titles into readable variant labels without changing their route IDs. */

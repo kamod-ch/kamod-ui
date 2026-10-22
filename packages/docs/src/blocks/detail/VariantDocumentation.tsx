@@ -1,6 +1,11 @@
 /** Standard guide assembly; category-specific content shares the same section and navigation contract. */
 import { useMemo } from "preact/hooks";
-import { type BlockCategory, type BlockOverviewEntry, blockCategories } from "../block-categories";
+import {
+  type BlockCategory,
+  type BlockOverviewEntry,
+  blockCategories,
+  isCatalogBlockCategory,
+} from "../block-categories";
 import { BlockDocumentation } from "./BlockDocumentation";
 import { SidebarAbout } from "./SidebarAbout";
 import { sidebarGuideProfiles } from "./sidebar-guide-profiles";
@@ -82,18 +87,31 @@ export function VariantDocumentation({
                 heading("customize", "Adapt the local composition"),
                 heading("connect-app", "Connect your application"),
               ]
-            : [
-                heading("render", "Render the page or form"),
-                heading("connect-app", "Connect your authentication service"),
-                heading("verify-flow", "Check the complete flow"),
-              ],
+            : isCatalogBlockCategory(category)
+              ? [
+                  heading("render", "Render the component"),
+                  heading("connect-app", "Connect your application data"),
+                  heading("verify-flow", "Check the complete flow"),
+                ]
+              : [
+                  heading("render", "Render the page or form"),
+                  heading("connect-app", "Connect your authentication service"),
+                  heading("verify-flow", "Check the complete flow"),
+                ],
       },
       {
         ...heading("props", "Props and data"),
         eyebrow: "API Reference",
         Content: () => <VariantApi guide={guide} />,
         children: [
-          heading("prop-reference", category === "sidebar" ? "Local props and data" : "Form props"),
+          heading(
+            "prop-reference",
+            category === "sidebar"
+              ? "Local props and data"
+              : isCatalogBlockCategory(category)
+                ? "Component props"
+                : "Form props",
+          ),
           heading("data-types", "Data type reference"),
         ],
       },
@@ -101,11 +119,13 @@ export function VariantDocumentation({
         ...heading(
           "behavior",
           guide.sidebar?.title ??
-            (category === "signup"
-              ? "Registration and consent"
-              : block.id === "login-05"
-                ? "Email-only sign-in"
-                : "Sign-in and provider callbacks"),
+            (isCatalogBlockCategory(category)
+              ? "Integration boundaries"
+              : category === "signup"
+                ? "Registration and consent"
+                : block.id === "login-05"
+                  ? "Email-only sign-in"
+                  : "Sign-in and provider callbacks"),
         ),
         eyebrow: "Variant Details",
         Content: () => <VariantBehavior guide={guide} />,

@@ -79,6 +79,10 @@ const MarketingBlocksPreviewContent = blockPage(
 const BlocksPreviewContent = blockPage("BlocksSidebarContent", "BlocksPreviewContent");
 const BlocksSidebarDetailContent = blockPage("BlocksSidebarContent", "BlocksSidebarDetailContent");
 const BlocksAuthDetailContent = blockPage("BlocksAuthContent", "BlocksAuthDetailContent");
+const BlocksCatalogDetailContent = blockPage(
+  "BlocksCatalogDetailContent",
+  "BlocksCatalogDetailContent",
+);
 
 if (typeof window !== "undefined") {
   syncThemeFromStorage();
@@ -122,14 +126,15 @@ type DemoPageKind =
   | "marketing-block-preview"
   | "dashboard-block-preview"
   | "communication-block-preview"
-  | "commerce-block-preview";
+  | "commerce-block-preview"
+  | "blocks-detail";
 
 type DemoPageMeta = {
   pageKind?: DemoPageKind;
   slug?: string;
   section?: string;
   blockId?: string;
-  blockCategory?: "login" | "signup";
+  blockCategory?: string;
   previewMode?: "desktop" | "collapsed" | "mobile";
 };
 
@@ -144,12 +149,7 @@ const readPageMeta = (page: LayoutProps["page"]): DemoPageMeta => {
       meta.previewMode === "collapsed" || meta.previewMode === "mobile"
         ? meta.previewMode
         : "desktop",
-    blockCategory:
-      meta.blockCategory === "signup"
-        ? "signup"
-        : meta.blockCategory === "login"
-          ? "login"
-          : undefined,
+    blockCategory: typeof meta.blockCategory === "string" ? meta.blockCategory : undefined,
   };
 };
 
@@ -220,36 +220,46 @@ const PageContent: FunctionalComponent<LayoutProps> = ({ page }) => {
     return <BlocksSidebarDetailContent blockId={meta.blockId} />;
   }
 
-  if (meta.pageKind === "blocks-app-sidebar") {
-    return <BlocksAppSidebarContent />;
-  }
-
   if (meta.pageKind === "blocks-auth" && meta.blockCategory) {
-    return <BlockCategoryPage category={meta.blockCategory} />;
+    return <BlockCategoryPage category={meta.blockCategory as "login" | "signup" | "auth"} />;
   }
 
   if (meta.pageKind === "blocks-auth-detail" && meta.blockCategory) {
-    return <BlocksAuthDetailContent category={meta.blockCategory} blockId={meta.blockId} />;
+    return (
+      <BlocksAuthDetailContent
+        category={meta.blockCategory as "login" | "signup"}
+        blockId={meta.blockId}
+      />
+    );
   }
 
-  if (meta.pageKind === "blocks-auth-catalog") {
-    return <BlocksCatalogAuthContent />;
+  if (meta.pageKind === "blocks-detail" && meta.blockCategory) {
+    return (
+      <BlocksCatalogDetailContent
+        category={meta.blockCategory as import("../../src/blocks/block-categories").BlockCategory}
+        blockId={meta.blockId}
+      />
+    );
+  }
+
+  if (meta.pageKind === "blocks-app-sidebar") {
+    return <BlockCategoryPage category="app-sidebar" />;
   }
 
   if (meta.pageKind === "blocks-marketing") {
-    return <BlocksMarketingContent />;
+    return <BlockCategoryPage category="marketing" />;
   }
 
   if (meta.pageKind === "blocks-dashboard") {
-    return <BlocksDashboardContent />;
+    return <BlockCategoryPage category="dashboard" />;
   }
 
   if (meta.pageKind === "blocks-communication") {
-    return <BlocksCommunicationContent />;
+    return <BlockCategoryPage category="communication" />;
   }
 
   if (meta.pageKind === "blocks-commerce") {
-    return <BlocksCommerceContent />;
+    return <BlockCategoryPage category="commerce" />;
   }
 
   if (meta.pageKind === "block-preview") {
@@ -261,7 +271,12 @@ const PageContent: FunctionalComponent<LayoutProps> = ({ page }) => {
   }
 
   if (meta.pageKind === "auth-block-preview") {
-    return <AuthBlocksPreviewContent category={meta.blockCategory} id={meta.blockId} />;
+    return (
+      <AuthBlocksPreviewContent
+        category={meta.blockCategory as "login" | "signup" | undefined}
+        id={meta.blockId}
+      />
+    );
   }
 
   if (meta.pageKind === "catalog-auth-block-preview") {

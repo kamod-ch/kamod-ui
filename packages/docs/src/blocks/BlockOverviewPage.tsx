@@ -6,8 +6,8 @@ import { LibraryPageHeader } from "../docs/components/LibraryPageHeader";
 import { LibrarySection } from "../docs/components/LibrarySection";
 import { PathDisplay } from "../docs/components/PathDisplay";
 import { BlockPageEnding } from "./BlockPageEnding";
-import { type BlockCategory, blockCategories } from "./block-categories";
-import { PLACEHOLDER_BLOCK_CATEGORIES, visibleBlockNavItems } from "./block-nav-config";
+import { PLACEHOLDER_BLOCK_CATEGORIES } from "./block-nav-config";
+import { overviewTeaser, publishedBlockOverviewItems } from "./block-overview-items";
 import { BlockGuideContents } from "./detail/BlockGuideContents";
 
 const title = "Blocks for complete application layouts";
@@ -26,13 +26,7 @@ const contents = [
   },
 ];
 
-// Keep the directory aligned with published collections, without loading their demos.
-const categories = visibleBlockNavItems
-  .flatMap((item) => {
-    const category = blockCategories[item.key as BlockCategory];
-    return category ? [{ ...item, count: category.blocks.length }] : [];
-  })
-  .sort((a, b) => a.label.localeCompare(b.label));
+const categories = publishedBlockOverviewItems();
 const total = categories.reduce((sum, category) => sum + category.count, 0);
 
 /** The entry point to block collections, using the same shell and grid as Components. */
@@ -52,10 +46,7 @@ export function BlockOverviewPage() {
           footer={<BlockPageEnding page="overview" />}
           items={categories.map((item) => ({
             ...item,
-            detail:
-              blockCategories[item.key as BlockCategory].description
-                .replace(/[`*]/g, "")
-                .split(". ")[0] + ".",
+            detail: overviewTeaser(item.description),
           }))}
           header={
             <LibraryPageHeader

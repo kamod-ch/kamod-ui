@@ -4,6 +4,20 @@ import { SHOW_CATEGORY_PREVIEW } from "../src/blocks/block-display-options";
 import { assertNoBlockingA11yViolations } from "./a11y-utils";
 
 for (const [category, count] of [
+  ["marketing", 14],
+  ["dashboard", 15],
+] as const) {
+  test(`${category}: catalog cards link to variant detail pages`, async ({ page }) => {
+    await page.goto(`./blocks/${category}`);
+    const cards = page.locator("a.blocks-overview-card");
+    await expect(cards).toHaveCount(count);
+    await expect(cards.first()).toHaveAttribute("href", new RegExp(`/blocks/${category}/[^/]+$`));
+    await cards.first().click();
+    await expect(page.locator("article.blocks-card")).toBeVisible();
+  });
+}
+
+for (const [category, count] of [
   ["sidebar", 16],
   ["application-shell", applicationShellBlockMetadata.length],
   ["login", 5],

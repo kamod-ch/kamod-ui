@@ -37,6 +37,43 @@ const guidance: Record<BlockCategory, ComponentChildren> = {
       live demo, then use the source and setup steps to integrate your onboarding flow.
     </>
   ),
+  "app-sidebar": (
+    <>
+      Pass navigation and user callbacks from your router, then render page content in{" "}
+      <code>SidebarInset</code>. Explore collapse and mobile behavior in the preview before wiring
+      production routes.
+    </>
+  ),
+  auth: (
+    <>
+      Connect submit and OAuth handlers to your authentication service. Catalog variants expose
+      typed props; session persistence and network calls remain in your application.
+    </>
+  ),
+  marketing: (
+    <>
+      Replace demo copy and links with your product content. Each section accepts typed props rather
+      than a CMS schema—compose blocks on your landing pages as ordinary Preact components.
+    </>
+  ),
+  dashboard: (
+    <>
+      Supply controlled data and event handlers for charts, lists and shells. Demo fixtures show
+      structure and accessibility patterns; your app owns fetching and persistence.
+    </>
+  ),
+  communication: (
+    <>
+      Provide messages, threads and send handlers from your backend. Use the preview to validate
+      layout and keyboard behavior before connecting live data.
+    </>
+  ),
+  commerce: (
+    <>
+      Wire payment and checkout callbacks to your PSP or tokenization layer. Treat PAN/CVC as
+      transient input only and prefer hosted fields in production.
+    </>
+  ),
 };
 
 /** Keep variant-specific features first, followed by practical category guidance. */

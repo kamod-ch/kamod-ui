@@ -1,4 +1,5 @@
 /** Copyable local integrations; presentation components do not own code templates. */
+import { blockCategories, isCatalogBlockCategory } from "../block-categories";
 import type { VariantGuide } from "./VariantDocumentation.tsx";
 
 /** Import from the directory structure listed in the installation guide. */
@@ -9,6 +10,11 @@ export function variantImport({
 }: Pick<VariantGuide, "component" | "category" | "block">): string {
   if (category === "sidebar")
     return `import { ${component} } from "./components/blocks/${block.id}";`;
+  if (isCatalogBlockCategory(category)) {
+    const entry = blockCategories[category].blocks.find((item) => item.id === block.id);
+    if (entry?.usage) return entry.usage;
+    return `import { ${component} } from "${entry?.installCommand ?? `@kamod-ch/blocks/${category}/${block.id}`}";`;
+  }
   return `import { ${component} } from "./components/blocks/${category}/${block.id}/page";`;
 }
 

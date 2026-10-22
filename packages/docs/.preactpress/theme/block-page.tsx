@@ -33,6 +33,7 @@ type BlockModules = {
   BlocksCommunicationContent: typeof import("../../src/blocks/BlocksCommunicationContent");
   BlocksDashboardContent: typeof import("../../src/blocks/BlocksDashboardContent");
   BlocksMarketingContent: typeof import("../../src/blocks/BlocksMarketingContent");
+  BlocksCatalogDetailContent: typeof import("../../src/blocks/BlocksCatalogDetailContent");
 };
 type PropsOf<T> = T extends ComponentType<infer Props> ? Props & object : never;
 

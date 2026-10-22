@@ -1,19 +1,28 @@
 import { describe, expect, it } from "vitest";
-import { blockCategories } from "./block-categories";
+import type { ShowcaseBlock } from "./BlockShowcase";
+import { type BlockCategory, blockCategories } from "./block-categories";
 import { createBlockPrompt, promptDestination } from "./block-prompts";
 
 describe("block prompts", () => {
   it("assigns unique local destinations for every published variant, without using auth display labels", () => {
-    for (const category of Object.values(blockCategories)) {
+    for (const [categoryKey, category] of Object.entries(blockCategories) as [
+      BlockCategory,
+      (typeof blockCategories)[BlockCategory],
+    ][]) {
       for (const block of category.blocks) {
-        const paths = block.files.map((file) => promptDestination(block, file));
+        const showcase: ShowcaseBlock = {
+          ...block,
+          category: (block.category ?? categoryKey) as BlockCategory,
+          preview: block.preview ?? { height: 720 },
+        };
+        const paths = block.files.map((file) => promptDestination(showcase, file));
         expect(new Set(paths).size).toBe(block.files.length);
         expect(
           paths.every((path) => path.startsWith("src/components/") && !path.includes("..")),
         ).toBe(true);
         const sources = paths.map((destination) => ({ destination, code: "// source" }));
         for (const mode of ["setup", "adapt"] as const) {
-          const prompt = createBlockPrompt(block, mode, sources);
+          const prompt = createBlockPrompt(showcase, mode, sources);
           for (const path of paths) expect(prompt).toContain(`### ${path}\n`);
           expect(prompt).toContain(`Source files (${block.files.length})`);
         }

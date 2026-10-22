@@ -1,6 +1,13 @@
 /** Overview metadata comes from the block registries without importing their demo components. */
+
+import { appSidebarBlockMetadata } from "../../../blocks/src/app-sidebar/metadata.ts";
 import { applicationShellBlockMetadata } from "../../../blocks/src/application-shell/metadata.ts";
+import { catalogAuthBlockMetadata } from "../../../blocks/src/auth/catalog-metadata.ts";
+import { commerceBlockMetadata } from "../../../blocks/src/commerce/metadata.ts";
+import { communicationBlockMetadata } from "../../../blocks/src/communication/metadata.ts";
+import { dashboardBlockMetadata } from "../../../blocks/src/dashboard/metadata.ts";
 import { loginBlockMetadata } from "../../../blocks/src/login/metadata.ts";
+import { marketingBlockMetadata } from "../../../blocks/src/marketing/metadata.ts";
 import { sidebarBlockMetadata } from "../../../blocks/src/sidebar/metadata.ts";
 import { signupBlockMetadata } from "../../../blocks/src/signup/metadata.ts";
 
@@ -13,6 +20,11 @@ export type BlockOverviewEntry = {
   dependencies: readonly string[];
   tags: readonly string[];
   features?: readonly string[];
+  category?: string;
+  files: readonly { label: string; path: string; kind?: string }[];
+  preview?: { height: number; fullWidth?: boolean };
+  props?: readonly { name: string; type: string; description: string }[];
+  usage?: string;
 };
 
 export const blockCategories = {
@@ -44,12 +56,69 @@ export const blockCategories = {
     label: "Signup",
     blocks: signupBlockMetadata,
   },
+  "app-sidebar": {
+    title: "App Sidebar Blocks",
+    description:
+      "Preact-native application sidebars ported from the uipkge catalog. Existing Kamod sidebar-01…16 stay on the Sidebar page. Each variant composes `@kamod-ch/ui` sidebar primitives with typed navigation data. Open a block for its live preview, source files and setup steps.",
+    label: "App Sidebar",
+    blocks: appSidebarBlockMetadata as BlockOverviewEntry[],
+  },
+  auth: {
+    title: "Auth Catalog Blocks",
+    description:
+      "Preact-native authentication screens ported from the uipkge catalog. The consumer owns network and session logic. These catalog variants complement the dedicated Login and Signup collections with additional MFA, OAuth and registration layouts.",
+    label: "Auth",
+    blocks: catalogAuthBlockMetadata as BlockOverviewEntry[],
+  },
+  marketing: {
+    title: "Marketing Blocks",
+    description:
+      "Preact-native landing-page sections ported from the uipkge catalog. Contents are typed props, not schema renderers. Browse heroes, pricing, logos and contact sections, then copy the variant that fits your marketing site.",
+    label: "Marketing",
+    blocks: marketingBlockMetadata as BlockOverviewEntry[],
+  },
+  dashboard: {
+    title: "Dashboard Blocks",
+    description:
+      "Preact-native dashboard utilities ported from the uipkge catalog. Chart blocks ship dummy data, empty states and accessible summaries. Pick metrics grids, calendars, kanban boards and layout shells for your workspace.",
+    label: "Dashboard",
+    blocks: dashboardBlockMetadata as BlockOverviewEntry[],
+  },
+  communication: {
+    title: "Communication Blocks",
+    description:
+      "Preact-native chat, inbox, and LLM blocks. Consumer data is controlled; fixtures live in previews. Streaming uses AbortSignal. Explore thread, two-pane, inbox and AI chat layouts before wiring your backend.",
+    label: "Communication",
+    blocks: communicationBlockMetadata as BlockOverviewEntry[],
+  },
+  commerce: {
+    title: "Commerce Blocks",
+    description:
+      "Payment UI, saved tokenized cards, and a checkout state machine. PAN/CVC never persist in these demos. Use the previews to understand callbacks and state before connecting your payment service provider.",
+    label: "Commerce",
+    blocks: commerceBlockMetadata as BlockOverviewEntry[],
+  },
 } satisfies Record<
   string,
   { title: string; description: string; label: string; blocks: readonly BlockOverviewEntry[] }
 >;
 
 export type BlockCategory = keyof typeof blockCategories;
+
+export const catalogBlockCategories = [
+  "app-sidebar",
+  "auth",
+  "marketing",
+  "dashboard",
+  "communication",
+  "commerce",
+] as const satisfies readonly BlockCategory[];
+
+export type CatalogBlockCategory = (typeof catalogBlockCategories)[number];
+
+export function isCatalogBlockCategory(category: BlockCategory): category is CatalogBlockCategory {
+  return (catalogBlockCategories as readonly string[]).includes(category);
+}
 
 /** Resolve only registered legacy anchors; unknown or malformed fragments stay on the overview. */
 export function legacyBlockDestination(category: BlockCategory, hash: string): string | undefined {

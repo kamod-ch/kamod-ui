@@ -69,8 +69,33 @@ function reference(
   return { name, title, description, source: text, filePath, fields };
 }
 
+import { type BlockCategory, blockCategories, isCatalogBlockCategory } from "../block-categories";
+
 /** Each form's own signature is read, so email-only login and social signup cannot drift silently. */
-export function getVariantApi(category: "sidebar" | "login" | "signup", id: string): GuideType[] {
+export function getVariantApi(
+  category: Exclude<BlockCategory, "application-shell">,
+  id: string,
+): GuideType[] {
+  if (isCatalogBlockCategory(category)) {
+    const block = blockCategories[category].blocks.find((entry) => entry.id === id);
+    const props = block?.props ?? [];
+    if (!props.length) return [];
+    return [
+      {
+        name: "ComponentProps",
+        title: "Component props",
+        description: "Public props documented in the uipkge-derived catalog registry.",
+        source: props.map((field) => `${field.name}: ${field.type}`).join("\n"),
+        filePath: block?.installCommand ?? `@kamod-ch/blocks/${category}/${id}`,
+        fields: props.map((field) => ({
+          name: field.name,
+          type: field.type,
+          required: !field.type.includes("?") && !field.type.includes("undefined"),
+          description: field.description,
+        })),
+      },
+    ];
+  }
   if (category === "sidebar") {
     const files = sidebarBlockMetadata.find((block) => block.id === id)?.files;
     if (!files) throw new Error(`Unknown sidebar: ${id}`);

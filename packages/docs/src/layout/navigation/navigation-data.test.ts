@@ -2,7 +2,11 @@ import { existsSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { blockCategories } from "../../blocks/block-categories";
-import { PLACEHOLDER_BLOCK_CATEGORIES } from "../../blocks/block-nav-config";
+import {
+  HIDDEN_BLOCK_NAV_KEYS,
+  PLACEHOLDER_BLOCK_CATEGORIES,
+  visibleBlockNavItems,
+} from "../../blocks/block-nav-config";
 import { docsAddedComponentSlugs, docsUpdatedComponentSlugs } from "../../docs/component-status";
 import { getComponentExamples } from "../../docs/components/component-detail/component-examples";
 import { getDocSections } from "../../docs/doc-sections";
@@ -132,8 +136,11 @@ describe("site navigation", () => {
     const links = navigationGroups
       .filter((group) => group.kind === "blocks")
       .flatMap((group) => group.links);
+    const publishedCategories = Object.keys(blockCategories).filter(
+      (key) => !HIDDEN_BLOCK_NAV_KEYS.has(key),
+    );
     const expected = [
-      ...Object.keys(blockCategories),
+      ...publishedCategories,
       ...PLACEHOLDER_BLOCK_CATEGORIES.map(({ key }) => key),
     ].map((category) => `/blocks/${category}`);
     expect(
@@ -144,6 +151,7 @@ describe("site navigation", () => {
     expect(links.map((link) => link.href).sort()).toEqual(expected.sort());
     expect(new Set(links.map((link) => link.href)).size).toBe(links.length);
     for (const [category, { blocks }] of Object.entries(blockCategories)) {
+      if (HIDDEN_BLOCK_NAV_KEYS.has(category)) continue;
       expect(links.find((link) => link.href === `/blocks/${category}`)?.variantCount).toBe(
         blocks.length,
       );
@@ -174,7 +182,7 @@ describe("site navigation", () => {
     const blocks = navigationGroups.find((group) => group.id === "blocks")!;
     expect(blocks.overview.href).toBe("/blocks");
     expect(blocks.links).toHaveLength(
-      Object.keys(blockCategories).length + PLACEHOLDER_BLOCK_CATEGORIES.length,
+      visibleBlockNavItems.length + PLACEHOLDER_BLOCK_CATEGORIES.length,
     );
     expect(
       blocks.links.filter((link) => !link.planned).every((link) => link.matchDescendants),

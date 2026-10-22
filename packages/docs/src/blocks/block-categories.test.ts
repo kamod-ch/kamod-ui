@@ -1,14 +1,34 @@
 import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
-import { blockCategories, legacyBlockDestination } from "./block-categories";
-import { PLACEHOLDER_BLOCK_CATEGORIES, visibleBlockNavItems } from "./block-nav-config";
+import {
+  blockCategories,
+  catalogBlockCategories,
+  legacyBlockDestination,
+} from "./block-categories";
+import {
+  BLOCK_NAV_ITEMS,
+  HIDDEN_BLOCK_NAV_KEYS,
+  PLACEHOLDER_BLOCK_CATEGORIES,
+  visibleBlockNavItems,
+} from "./block-nav-config";
 
 describe("block category documentation", () => {
-  it("covers exactly the visible categories without enabling hidden routes", () => {
-    expect(Object.keys(blockCategories).sort()).toEqual(
-      visibleBlockNavItems.map((item) => item.key).sort(),
-    );
+  it("keeps every implemented category in navigation, hiding only configured keys", () => {
+    const navKeys = BLOCK_NAV_ITEMS.map((item) => item.key);
+    const visibleKeys = visibleBlockNavItems.map((item) => item.key);
+    for (const key of Object.keys(blockCategories)) {
+      expect(navKeys).toContain(key);
+      if (HIDDEN_BLOCK_NAV_KEYS.has(key)) {
+        expect(visibleKeys).not.toContain(key);
+      } else {
+        expect(visibleKeys).toContain(key);
+      }
+    }
+    for (const key of catalogBlockCategories) {
+      expect(navKeys).toContain(key);
+    }
+    expect(new Set(visibleKeys).size).toBe(visibleKeys.length);
   });
 
   it("keeps planned navigation categories separate from implemented routes and variants", () => {
@@ -30,6 +50,15 @@ describe("block category documentation", () => {
         expect(existsSync(resolve(directory, "preview.md"))).toBe(true);
         const detail = readFileSync(resolve(directory, "index.md"), "utf8");
         expect(detail).toContain(`blockId: "${block.id}"`);
+        const pageKind =
+          category === "application-shell"
+            ? "blocks-application-shell-detail"
+            : category === "login" || category === "signup"
+              ? "blocks-auth-detail"
+              : category === "sidebar"
+                ? "blocks-sidebar-detail"
+                : "blocks-detail";
+        expect(detail).toContain(`pageKind: ${pageKind}`);
         expect(block).not.toHaveProperty("component");
       }
     });

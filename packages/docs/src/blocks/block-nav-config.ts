@@ -1,11 +1,9 @@
 /** Block categories hidden from docs navigation (routes remain reachable by URL). */
-export const HIDDEN_BLOCK_NAV_KEYS = new Set([
+export const HIDDEN_BLOCK_NAV_KEYS = new Set<string>([
   "app-sidebar",
-  "auth",
-  "marketing",
+  "commerce",
   "dashboard",
   "communication",
-  "commerce",
 ]);
 
 export const BLOCK_NAV_ITEMS = [
