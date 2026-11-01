@@ -95,19 +95,16 @@ html[aria-busy="true"]:not(.pp-ready) body {
   color: var(--foreground, var(--pp-preloader-accent, currentColor));
 }
 
-.page-state-message-brand > strong {
-  font-size: 1.125rem;
-  font-weight: 700;
+.page-loading-brand .kamod-ui-logo,
+.page-state-message-brand .kamod-ui-logo {
+  height: 1.625rem;
 }
 
-.page-loading-brand > strong {
-  font: inherit;
-  font-size: 1.0625em;
-  font-weight: 600;
-}
-
-.page-loading-brand {
-  color: var(--primary, var(--pp-preloader-accent, currentColor));
+@media (max-width: 479px) {
+  .page-loading-brand .kamod-ui-logo,
+  .page-state-message-brand .kamod-ui-logo {
+    height: 1.3125rem;
+  }
 }
 
 .page-loading-ending {

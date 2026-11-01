@@ -1,10 +1,4 @@
-import {
-  ArrowRightIcon,
-  ArrowUpRightIcon,
-  HouseIcon,
-  RotateCcwIcon,
-  RouteIcon,
-} from "@kamod-ch/icons/lucide";
+import { ArrowRightIcon, ArrowUpRightIcon, HouseIcon, RotateCcwIcon } from "@kamod-ch/icons/lucide";
 import { BrandGithubIcon } from "@kamod-ch/icons/tabler/filled";
 import type { ComponentChildren } from "preact";
 import { APP_BASE_URL, withBasePath } from "../base-path";
@@ -84,9 +78,8 @@ export function PageLoadError({ compact = false }: { compact?: boolean }) {
     >
       <section class="page-state-message" role="alert">
         <p class="page-state-message-label">
-          <span class="page-state-message-brand">
-            <RouteIcon size={18} aria-hidden="true" />
-            <strong>kamod</strong>
+          <span class="page-state-message-brand" aria-hidden="true">
+            <KamodUiBrandLogo />
           </span>
           <span aria-hidden="true">·</span>
           <span>Loading interrupted</span>

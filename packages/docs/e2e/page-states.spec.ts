@@ -180,25 +180,19 @@ async function expectSharedLoadingDesign(loading: Locator) {
   expect(backdrop.pointerEvents).toEqual(["none", "none"]);
   expect(backdrop.behindContent).toBe(true);
   expect(backdrop.contentFilter).toBe("none");
-  await expect(loading.locator(".page-loading-brand > strong")).toHaveText("kamod");
+  await expect(
+    loading.locator(".page-loading-brand .kamod-logo__mark-img").filter({ visible: true }),
+  ).toHaveCount(1);
   const typography = await loading.evaluate((node) => {
-    const brand = getComputedStyle(node.querySelector(".page-loading-brand > strong")!);
     const caption = getComputedStyle(node.querySelector(".page-loading-caption")!);
     const tagline = getComputedStyle(node.querySelector(".page-loading-tagline")!);
     return {
-      brandSize: brand.fontSize,
       captionSize: caption.fontSize,
       captionColor: caption.color,
       taglineSize: tagline.fontSize,
       taglineColor: tagline.color,
-      brandWeight: brand.fontWeight,
-      brandColor: brand.color,
-      foreground: getComputedStyle(node).color,
     };
   });
-  expect(typography.brandSize).toBe(typography.captionSize);
-  expect(typography.brandWeight).toBe("600");
-  expect(typography.brandColor).toBe(typography.foreground);
   expect(typography.taglineSize).toBe(typography.captionSize);
   expect(typography.taglineColor).toBe(typography.captionColor);
   await expect(loading.locator(".page-state-skeleton")).toHaveAttribute("aria-hidden", "true");

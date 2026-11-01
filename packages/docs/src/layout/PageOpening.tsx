@@ -31,8 +31,8 @@ export function PageOpening({
         aria-atomic="true"
       >
         <p class="page-state-eyebrow page-loading-label">
-          <span class="page-loading-brand">
-            <strong>kamod</strong>
+          <span class="page-loading-brand" aria-hidden="true">
+            <Logo base={base} />
           </span>
           <span aria-hidden="true">·</span>
           <span class="page-loading-caption">

@@ -1,5 +1,7 @@
 /* Shared critical geometry: this stylesheet is also embedded before the site CSS loads. */
 .page-opening {
+  --kamod-brand-orange: #f8a721;
+  --kamod-logo-suffix: var(--kamod-brand-orange);
   --opening-ink: var(--foreground, var(--pp-preloader-accent, #171717));
   --opening-accent: var(--primary, var(--opening-ink));
   --opening-detail: var(--secondary-accent, var(--opening-accent));
@@ -102,9 +104,6 @@
   outline: 2px solid var(--ring, var(--opening-ink));
   outline-offset: 5px;
 }
-.page-opening .kamod-logo__suffix {
-  color: color-mix(in oklab, var(--opening-accent) 60%, var(--opening-ink));
-}
 .page-opening-main {
   display: flex;
   flex-direction: column;
@@ -130,10 +129,6 @@
 }
 .page-opening-content .page-loading-brand {
   color: var(--foreground, var(--pp-preloader-accent, currentColor));
-}
-.page-opening-content .page-loading-brand > strong {
-  font: inherit;
-  font-weight: 600;
 }
 .page-opening-content .page-loading-caption,
 .page-opening-content .page-loading-tagline {

@@ -104,10 +104,6 @@
   height: auto;
   overflow: visible;
 }
-.page-state-message-brand > svg {
-  flex: none;
-  stroke-width: 1.8;
-}
 .page-recovery-actions {
   display: flex;
   flex-wrap: wrap;
