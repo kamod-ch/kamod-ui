@@ -20,7 +20,7 @@ describe("shared page opening screen", () => {
       navigation.querySelector(".page-loading-rocket")!.innerHTML,
     );
     for (const root of [startup, navigation]) {
-      expect(root.querySelector(".page-loading-brand")!.textContent).toBe("Kamod");
+      expect(root.querySelector(".page-loading-brand")!.textContent).toBe("kamod");
       expect(root.querySelector('.page-loading-brand [data-slot="spinner"]')).toBeNull();
     }
   });

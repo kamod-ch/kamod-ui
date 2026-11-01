@@ -32,7 +32,7 @@ export function PageOpening({
       >
         <p class="page-state-eyebrow page-loading-label">
           <span class="page-loading-brand">
-            <strong>Kamod</strong>
+            <strong>kamod</strong>
           </span>
           <span aria-hidden="true">·</span>
           <span class="page-loading-caption">

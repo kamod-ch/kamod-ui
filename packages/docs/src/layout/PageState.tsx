@@ -86,7 +86,7 @@ export function PageLoadError({ compact = false }: { compact?: boolean }) {
         <p class="page-state-message-label">
           <span class="page-state-message-brand">
             <RouteIcon size={18} aria-hidden="true" />
-            <strong>Kamod</strong>
+            <strong>kamod</strong>
           </span>
           <span aria-hidden="true">·</span>
           <span>Loading interrupted</span>

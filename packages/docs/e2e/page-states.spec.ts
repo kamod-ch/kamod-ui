@@ -180,7 +180,7 @@ async function expectSharedLoadingDesign(loading: Locator) {
   expect(backdrop.pointerEvents).toEqual(["none", "none"]);
   expect(backdrop.behindContent).toBe(true);
   expect(backdrop.contentFilter).toBe("none");
-  await expect(loading.locator(".page-loading-brand > strong")).toHaveText("Kamod");
+  await expect(loading.locator(".page-loading-brand > strong")).toHaveText("kamod");
   const typography = await loading.evaluate((node) => {
     const brand = getComputedStyle(node.querySelector(".page-loading-brand > strong")!);
     const caption = getComputedStyle(node.querySelector(".page-loading-caption")!);
