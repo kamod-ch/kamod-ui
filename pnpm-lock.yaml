@@ -19,7 +19,7 @@ importers:
         version: 2.5.15
       '@kamod-ch/brand':
         specifier: ^0.4.0
-        version: 0.4.0(preact@11.0.1)
+        version: 0.4.0(preact@11.1.0)
       '@types/node':
         specifier: ^26.6.5
         version: 26.6.5
@@ -40,7 +40,7 @@ importers:
         version: 1.88.0
       preact:
         specifier: ^11.0.1
-        version: 11.0.1(preact-render-to-string@6.8.1)
+        version: 11.1.0(preact-render-to-string@6.8.2)
       syncpack:
         specifier: ^15.3.3
         version: 15.3.3
@@ -52,7 +52,7 @@ importers:
     dependencies:
       '@kamod-ch/icons':
         specifier: ^2.0.0
-        version: 2.0.0(preact@11.0.1)
+        version: 2.0.0(preact@11.1.0)
     devDependencies:
       '@kamod-ch/themes':
         specifier: workspace:*
@@ -62,16 +62,16 @@ importers:
         version: link:../core
       '@preact/signals':
         specifier: ^2.11.3
-        version: 2.11.3(preact@11.0.1)
+        version: 2.11.4(preact@11.1.0)
       '@testing-library/preact':
         specifier: ^3.2.4
-        version: 3.2.4(preact@11.0.1)
+        version: 3.2.4(preact@11.1.0)
       jsdom:
         specifier: ^30.1.3
         version: 30.1.3
       preact:
         specifier: ^11.0.1
-        version: 11.0.1(preact-render-to-string@6.8.1)
+        version: 11.1.0(preact-render-to-string@6.8.2)
       tsup:
         specifier: ^9.0.0
         version: 9.0.0(jiti@2.7.0)(postcss@8.5.31)(typescript@7.0.2)(yaml@2.9.1)
@@ -83,7 +83,7 @@ importers:
     dependencies:
       '@kamod-ch/icons':
         specifier: ^2.0.0
-        version: 2.0.0(preact@11.0.1)
+        version: 2.0.0(preact@11.1.0)
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -95,7 +95,7 @@ importers:
         version: 8.6.0(embla-carousel@8.6.0)
       preact:
         specifier: ^11.0.1
-        version: 11.0.1(preact-render-to-string@6.8.1)
+        version: 11.1.0(preact-render-to-string@6.8.2)
       tailwind-merge:
         specifier: ^3.7.0
         version: 3.7.0
@@ -111,13 +111,13 @@ importers:
         version: link:../themes
       '@preact/signals':
         specifier: ^2.11.3
-        version: 2.11.3(preact@11.0.1)
+        version: 2.11.4(preact@11.1.0)
       '@testing-library/jest-dom':
         specifier: ^7.0.1
         version: 7.0.1(@testing-library/dom@10.4.1)(vitest@5.0.5)
       '@testing-library/preact':
         specifier: ^3.2.4
-        version: 3.2.4(preact@11.0.1)
+        version: 3.2.4(preact@11.1.0)
       '@vitest/coverage-v8':
         specifier: ^5.0.5
         version: 5.0.5(vitest@5.0.5)
@@ -126,7 +126,7 @@ importers:
         version: 30.1.3
       preact-render-to-string:
         specifier: ^6.8.1
-        version: 6.8.1(preact@11.0.1)
+        version: 6.8.2(preact@11.1.0)
       publint:
         specifier: ^0.3.25
         version: 0.3.25
@@ -144,31 +144,31 @@ importers:
     dependencies:
       '@blobatar/preact':
         specifier: ^2.7.0
-        version: 2.7.0(blobatar@2.7.0(react@19.2.8))(preact@11.0.1)
+        version: 2.7.0(blobatar@2.7.0(react@19.2.8))(preact@11.1.0)
       '@formisch/preact':
         specifier: 1.1.0
-        version: 1.1.0(@preact/signals@2.11.3(preact@11.0.1))(preact@11.0.1)(typescript@7.0.2)(valibot@1.5.0(typescript@7.0.2))
+        version: 1.1.0(@preact/signals@2.11.4(preact@11.1.0))(preact@11.1.0)(typescript@7.0.2)(valibot@1.5.0(typescript@7.0.2))
       '@kamod-ch/blocks':
         specifier: workspace:*
         version: link:../blocks
       '@kamod-ch/brand':
         specifier: ^0.4.0
-        version: 0.4.0(preact@11.0.1)
+        version: 0.4.0(preact@11.1.0)
       '@kamod-ch/hooks':
         specifier: ^1.0.0
-        version: 1.0.0(preact@11.0.1)
+        version: 1.0.0(preact@11.1.0)
       '@kamod-ch/icons':
         specifier: ^2.0.0
-        version: 2.0.0(preact@11.0.1)
+        version: 2.0.0(preact@11.1.0)
       '@kamod-ch/motion':
         specifier: ^0.1.0
-        version: 0.1.0(motion@14.3.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(preact@11.0.1)
+        version: 0.1.0(motion@14.3.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(preact@11.1.0)
       '@kamod-ch/openui':
         specifier: workspace:*
         version: link:../openui
       '@kamod-ch/signals':
         specifier: ^1.0.3
-        version: 1.0.3(@preact/signals@2.11.3(preact@11.0.1))(preact@11.0.1)
+        version: 1.0.3(@preact/signals@2.11.4(preact@11.1.0))(preact@11.1.0)
       '@kamod-ch/themes':
         specifier: workspace:*
         version: link:../themes
@@ -186,7 +186,7 @@ importers:
         version: 1.0.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(zod@4.6.7)
       '@preact/signals':
         specifier: ^2.11.3
-        version: 2.11.3(preact@11.0.1)
+        version: 2.11.4(preact@11.1.0)
       '@tailwindcss/forms':
         specifier: ^0.5.11
         version: 0.5.11(tailwindcss@4.3.3)
@@ -198,7 +198,7 @@ importers:
         version: 2.10.3
       lucide-preact:
         specifier: ^1.59.0
-        version: 1.59.0(preact@11.0.1)
+        version: 1.59.0(preact@11.1.0)
       marked:
         specifier: 18.1.1
         version: 18.1.1
@@ -207,7 +207,7 @@ importers:
         version: 14.3.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       preact:
         specifier: ^11.0.1
-        version: 11.0.1(preact-render-to-string@6.8.1)
+        version: 11.1.0(preact-render-to-string@6.8.2)
       prismjs:
         specifier: ^1.30.0
         version: 1.30.0
@@ -229,7 +229,7 @@ importers:
         version: 1.64.1
       '@preact/preset-vite':
         specifier: ^2.10.6
-        version: 2.10.6(@babel/core@7.29.7(supports-color@7.2.0))(preact@11.0.1)(rollup@4.64.10)(supports-color@7.2.0)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1))
+        version: 2.10.6(@babel/core@7.29.7(supports-color@7.2.0))(preact@11.1.0)(rollup@4.64.10)(supports-color@7.2.0)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1))
       '@tailwindcss/vite':
         specifier: ^4.3.3
         version: 4.3.3(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1))
@@ -238,7 +238,7 @@ importers:
         version: 7.0.1(@testing-library/dom@10.4.1)(vitest@5.0.5)
       '@testing-library/preact':
         specifier: ^3.2.4
-        version: 3.2.4(preact@11.0.1)
+        version: 3.2.4(preact@11.1.0)
       '@types/prismjs':
         specifier: ^1.26.6
         version: 1.26.6
@@ -253,7 +253,7 @@ importers:
         version: 30.1.3
       preact-render-to-string:
         specifier: ^6.8.1
-        version: 6.8.1(preact@11.0.1)
+        version: 6.8.2(preact@11.1.0)
       tailwindcss:
         specifier: ^4.3.3
         version: 4.3.3
@@ -274,19 +274,19 @@ importers:
         version: 0.18.5
       '@kamod-ch/motion':
         specifier: ^0.1.0
-        version: 0.1.0(motion@14.3.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(preact@11.0.1)
+        version: 0.1.0(motion@14.3.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(preact@11.1.0)
       '@kamod-ch/ui':
         specifier: workspace:*
         version: link:../core
       '@preact/signals':
         specifier: ^2.11.3
-        version: 2.11.3(preact@11.0.1)
+        version: 2.11.4(preact@11.1.0)
       '@testing-library/jest-dom':
         specifier: ^7.0.1
         version: 7.0.1(@testing-library/dom@10.4.1)(vitest@5.0.5)
       '@testing-library/preact':
         specifier: ^3.2.4
-        version: 3.2.4(preact@11.0.1)
+        version: 3.2.4(preact@11.1.0)
       '@types/node':
         specifier: ^26.6.5
         version: 26.6.5
@@ -298,10 +298,10 @@ importers:
         version: 14.3.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       preact:
         specifier: ^11.0.1
-        version: 11.0.1(preact-render-to-string@6.8.1)
+        version: 11.1.0(preact-render-to-string@6.8.2)
       preact-render-to-string:
         specifier: ^6.8.1
-        version: 6.8.1(preact@11.0.1)
+        version: 6.8.2(preact@11.1.0)
       publint:
         specifier: ^0.3.25
         version: 0.3.25
@@ -328,13 +328,13 @@ importers:
         version: 1.0.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(zod@4.6.7)
       '@preact/signals':
         specifier: ^2.11.3
-        version: 2.11.3(preact@11.0.1)
+        version: 2.11.4(preact@11.1.0)
       '@testing-library/jest-dom':
         specifier: ^7.0.1
         version: 7.0.1(@testing-library/dom@10.4.1)(vitest@5.0.5)
       '@testing-library/preact':
         specifier: ^3.2.4
-        version: 3.2.4(preact@11.0.1)
+        version: 3.2.4(preact@11.1.0)
       '@types/node':
         specifier: ^26.6.5
         version: 26.6.5
@@ -343,10 +343,10 @@ importers:
         version: 30.1.3
       preact:
         specifier: ^11.0.1
-        version: 11.0.1(preact-render-to-string@6.8.1)
+        version: 11.1.0(preact-render-to-string@6.8.2)
       preact-render-to-string:
         specifier: ^6.8.1
-        version: 6.8.1(preact@11.0.1)
+        version: 6.8.2(preact@11.1.0)
       publint:
         specifier: ^0.3.25
         version: 0.3.25
@@ -364,20 +364,20 @@ importers:
     dependencies:
       preact:
         specifier: ^11.0.1
-        version: 11.0.1(preact-render-to-string@6.8.1)
+        version: 11.1.0(preact-render-to-string@6.8.2)
     devDependencies:
       '@arethetypeswrong/cli':
         specifier: ^0.18.5
         version: 0.18.5
       '@preact/signals':
         specifier: ^2.11.3
-        version: 2.11.3(preact@11.0.1)
+        version: 2.11.4(preact@11.1.0)
       '@testing-library/jest-dom':
         specifier: ^7.0.1
         version: 7.0.1(@testing-library/dom@10.4.1)(vitest@5.0.5)
       '@testing-library/preact':
         specifier: ^3.2.4
-        version: 3.2.4(preact@11.0.1)
+        version: 3.2.4(preact@11.1.0)
       '@types/node':
         specifier: ^26.6.5
         version: 26.6.5
@@ -1439,11 +1439,11 @@ packages:
       '@babel/core': 7.x
       vite: 2.x || 3.x || 4.x || 5.x || 6.x || 7.x || 8.x
 
-  '@preact/signals-core@1.14.4':
-    resolution: {integrity: sha512-HNB6HYeYKhQbJ1aKl+YRjrS4+QWHLKX6qKoUsfS/m0vqzsVaEBiZiaKbG/e+NKk2ch5ALQr/ihWaMHxiCuuWHA==}
+  '@preact/signals-core@1.14.5':
+    resolution: {integrity: sha512-vcRv7Ityz5JVmeiVqIluLFzT/PDS/AlhHUpw3/aUWqcVUs6bDGIPXE/6RSC4evBNWYvnniozg5Syfj33al3gkg==}
 
-  '@preact/signals@2.11.3':
-    resolution: {integrity: sha512-mttwFM98G/JiriTgMwU+UWygL6sfVmYEiNcPSKkUnv4PxPpZhmP2ugGC4qi360+ZIHyQ8NY05bfJT3b4RUIGlw==}
+  '@preact/signals@2.11.4':
+    resolution: {integrity: sha512-Rb+5RPo9gWSaHtzJeauhHxiC8KP/IF2DEPkHPEOGOnuy2wnJzRqyeLRankUCYd6ADqtxS6GnWGv6Ie343d8aYw==}
     peerDependencies:
       preact: '>= 10.25.0 || >=11.0.0-0'
 
@@ -3465,13 +3465,13 @@ packages:
     resolution: {integrity: sha512-YUbWYCgErwnMAVkjUnYa+KlMBzGpHwiIt/DE7f0G33AuX2LH9UcTk6KgWxd3zRU+pN3u/C+Xl3EnMLM4Hea7Sg==}
     engines: {node: ^10 || ^12 || >=14}
 
-  preact-render-to-string@6.8.1:
-    resolution: {integrity: sha512-EIaLVlarET55f737gG/g1bK1UfjAgT3Z7Ch1Z7UX4/TwHh1O7EI5sCtwhVP+cs0n37SyV2HjZCSRtrpMm4Bujw==}
+  preact-render-to-string@6.8.2:
+    resolution: {integrity: sha512-Hdx7cKD3AMYgt795TdddBpUbuGEFoL/VeA6s7VrBt9Gjt0r6rCy5wMp5xkDjQ9cbKj62frHsEx1x8yV6EjoOpg==}
     peerDependencies:
       preact: '>=10 || >= 11.0.0-0'
 
-  preact@11.0.1:
-    resolution: {integrity: sha512-TNNwEq++jYNHy747LziCjPRVgEwnLSOIOAw/oYcjI3Tdnubx2EXtt76I0an8PATvUWtx/DX1kFIg1eFN+O/fkw==}
+  preact@11.1.0:
+    resolution: {integrity: sha512-hz1VsjWx5pSYPDVEzb9w+XyOmQpP1qW/ZEaMiYm+C8ykJr8KP+TKGZIbCW0QmZ/Yr/jg3XkZoziEWn9iWHZ9Mw==}
     peerDependencies:
       preact-render-to-string: '>=6.7.0'
     peerDependenciesMeta:
@@ -4344,10 +4344,10 @@ snapshots:
   '@biomejs/cli-win32-x64@2.5.15':
     optional: true
 
-  '@blobatar/preact@2.7.0(blobatar@2.7.0(react@19.2.8))(preact@11.0.1)':
+  '@blobatar/preact@2.7.0(blobatar@2.7.0(react@19.2.8))(preact@11.1.0)':
     dependencies:
       blobatar: 2.7.0(react@19.2.8)
-      preact: 11.0.1(preact-render-to-string@6.8.1)
+      preact: 11.1.0(preact-render-to-string@6.8.2)
 
   '@braidai/lang@1.1.2': {}
 
@@ -4482,10 +4482,10 @@ snapshots:
 
   '@exodus/bytes@1.16.0': {}
 
-  '@formisch/preact@1.1.0(@preact/signals@2.11.3(preact@11.0.1))(preact@11.0.1)(typescript@7.0.2)(valibot@1.5.0(typescript@7.0.2))':
+  '@formisch/preact@1.1.0(@preact/signals@2.11.4(preact@11.1.0))(preact@11.1.0)(typescript@7.0.2)(valibot@1.5.0(typescript@7.0.2))':
     dependencies:
-      '@preact/signals': 2.11.3(preact@11.0.1)
-      preact: 11.0.1(preact-render-to-string@6.8.1)
+      '@preact/signals': 2.11.4(preact@11.1.0)
+      preact: 11.1.0(preact-render-to-string@6.8.2)
       valibot: 1.5.0(typescript@7.0.2)
     optionalDependencies:
       typescript: 7.0.2
@@ -4509,29 +4509,29 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.6.0
 
-  '@kamod-ch/brand@0.4.0(preact@11.0.1)':
+  '@kamod-ch/brand@0.4.0(preact@11.1.0)':
     dependencies:
-      preact: 11.0.1(preact-render-to-string@6.8.1)
+      preact: 11.1.0(preact-render-to-string@6.8.2)
 
-  '@kamod-ch/hooks@1.0.0(preact@11.0.1)':
+  '@kamod-ch/hooks@1.0.0(preact@11.1.0)':
     dependencies:
-      preact: 11.0.1(preact-render-to-string@6.8.1)
+      preact: 11.1.0(preact-render-to-string@6.8.2)
 
-  '@kamod-ch/icons@2.0.0(preact@11.0.1)':
+  '@kamod-ch/icons@2.0.0(preact@11.1.0)':
     dependencies:
-      preact: 11.0.1(preact-render-to-string@6.8.1)
+      preact: 11.1.0(preact-render-to-string@6.8.2)
 
-  '@kamod-ch/motion@0.1.0(motion@14.3.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(preact@11.0.1)':
+  '@kamod-ch/motion@0.1.0(motion@14.3.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(preact@11.1.0)':
     dependencies:
       motion: 14.3.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
-      preact: 11.0.1(preact-render-to-string@6.8.1)
+      preact: 11.1.0(preact-render-to-string@6.8.2)
 
   '@kamod-ch/preactpress@3.0.1(patch_hash=dd022c06e810c74b2fc39cd82b81ccd6f6a3d00895ad090bd25e78d02a3eff41)(@babel/core@7.29.7(supports-color@7.2.0))(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(rollup@4.64.10)(supports-color@7.2.0)(yaml@2.9.1)':
     dependencies:
       '@docsearch/css': 5.1.2
       '@docsearch/js': 5.1.2
       '@mdx-js/rollup': 3.1.1(rollup@4.64.10)(supports-color@7.2.0)
-      '@preact/preset-vite': 2.10.6(@babel/core@7.29.7(supports-color@7.2.0))(preact@11.0.1)(rollup@4.64.10)(supports-color@7.2.0)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1))
+      '@preact/preset-vite': 2.10.6(@babel/core@7.29.7(supports-color@7.2.0))(preact@11.1.0)(rollup@4.64.10)(supports-color@7.2.0)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1))
       '@shikijs/transformers': 4.5.0
       gray-matter: 4.0.3
       markdown-it: 15.0.3
@@ -4540,8 +4540,8 @@ snapshots:
       minimist: 1.2.8
       node-html-parser: 9.0.4
       picocolors: 1.1.1
-      preact: 11.0.1(preact-render-to-string@6.8.1)
-      preact-render-to-string: 6.8.1(preact@11.0.1)
+      preact: 11.1.0(preact-render-to-string@6.8.2)
+      preact-render-to-string: 6.8.2(preact@11.1.0)
       remark-frontmatter: 5.0.0(supports-color@7.2.0)
       shiki: 4.5.0
       sirv: 3.0.2
@@ -4565,10 +4565,10 @@ snapshots:
       - tsx
       - yaml
 
-  '@kamod-ch/signals@1.0.3(@preact/signals@2.11.3(preact@11.0.1))(preact@11.0.1)':
+  '@kamod-ch/signals@1.0.3(@preact/signals@2.11.4(preact@11.1.0))(preact@11.1.0)':
     dependencies:
-      '@preact/signals': 2.11.3(preact@11.0.1)
-      preact: 11.0.1(preact-render-to-string@6.8.1)
+      '@preact/signals': 2.11.4(preact@11.1.0)
+      preact: 11.1.0(preact-render-to-string@6.8.2)
 
   '@loaderkit/resolve@1.0.6':
     dependencies:
@@ -4890,12 +4890,12 @@ snapshots:
 
   '@polka/url@1.0.0-next.29': {}
 
-  '@preact/preset-vite@2.10.6(@babel/core@7.29.7(supports-color@7.2.0))(preact@11.0.1)(rollup@4.64.10)(supports-color@7.2.0)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1))':
+  '@preact/preset-vite@2.10.6(@babel/core@7.29.7(supports-color@7.2.0))(preact@11.1.0)(rollup@4.64.10)(supports-color@7.2.0)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1))':
     dependencies:
       '@babel/core': 7.29.7(supports-color@7.2.0)
       '@babel/plugin-transform-react-jsx': 7.29.7(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0)
       '@babel/plugin-transform-react-jsx-development': 7.29.7(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0)
-      '@prefresh/vite': 2.4.12(preact@11.0.1)(supports-color@7.2.0)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1))
+      '@prefresh/vite': 2.4.12(preact@11.1.0)(supports-color@7.2.0)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1))
       '@rollup/pluginutils': 5.4.0(rollup@4.64.10)
       babel-plugin-transform-hook-names: 1.0.2(@babel/core@7.29.7(supports-color@7.2.0))
       debug: 4.4.3(supports-color@7.2.0)
@@ -4909,31 +4909,31 @@ snapshots:
       - rollup
       - supports-color
 
-  '@preact/signals-core@1.14.4': {}
+  '@preact/signals-core@1.14.5': {}
 
-  '@preact/signals@2.11.3(preact@11.0.1)':
+  '@preact/signals@2.11.4(preact@11.1.0)':
     dependencies:
-      '@preact/signals-core': 1.14.4
-      preact: 11.0.1(preact-render-to-string@6.8.1)
+      '@preact/signals-core': 1.14.5
+      preact: 11.1.0(preact-render-to-string@6.8.2)
 
   '@prefresh/babel-plugin@0.5.4(@babel/core@7.29.7(supports-color@7.2.0))':
     dependencies:
       '@babel/core': 7.29.7(supports-color@7.2.0)
 
-  '@prefresh/core@1.5.11(preact@11.0.1)':
+  '@prefresh/core@1.5.11(preact@11.1.0)':
     dependencies:
-      preact: 11.0.1(preact-render-to-string@6.8.1)
+      preact: 11.1.0(preact-render-to-string@6.8.2)
 
   '@prefresh/utils@1.2.1': {}
 
-  '@prefresh/vite@2.4.12(preact@11.0.1)(supports-color@7.2.0)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1))':
+  '@prefresh/vite@2.4.12(preact@11.1.0)(supports-color@7.2.0)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1))':
     dependencies:
       '@babel/core': 7.29.7(supports-color@7.2.0)
       '@prefresh/babel-plugin': 0.5.4(@babel/core@7.29.7(supports-color@7.2.0))
-      '@prefresh/core': 1.5.11(preact@11.0.1)
+      '@prefresh/core': 1.5.11(preact@11.1.0)
       '@prefresh/utils': 1.2.1
       '@rollup/pluginutils': 4.2.1
-      preact: 11.0.1(preact-render-to-string@6.8.1)
+      preact: 11.1.0(preact-render-to-string@6.8.2)
       vite: 8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1)
     transitivePeerDependencies:
       - supports-color
@@ -5268,10 +5268,10 @@ snapshots:
     optionalDependencies:
       vitest: 5.0.5(@types/node@26.6.5)(@vitest/coverage-v8@5.0.5)(jsdom@30.1.3)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1))
 
-  '@testing-library/preact@3.2.4(preact@11.0.1)':
+  '@testing-library/preact@3.2.4(preact@11.1.0)':
     dependencies:
       '@testing-library/dom': 8.20.1
-      preact: 11.0.1(preact-render-to-string@6.8.1)
+      preact: 11.1.0(preact-render-to-string@6.8.2)
 
   '@tybys/wasm-util@0.10.4':
     dependencies:
@@ -6334,9 +6334,9 @@ snapshots:
     dependencies:
       yallist: 3.1.1
 
-  lucide-preact@1.59.0(preact@11.0.1):
+  lucide-preact@1.59.0(preact@11.1.0):
     dependencies:
-      preact: 11.0.1(preact-render-to-string@6.8.1)
+      preact: 11.1.0(preact-render-to-string@6.8.2)
 
   lucide-react@0.575.0(react@19.2.8):
     dependencies:
@@ -6978,13 +6978,13 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.2
 
-  preact-render-to-string@6.8.1(preact@11.0.1):
+  preact-render-to-string@6.8.2(preact@11.1.0):
     dependencies:
-      preact: 11.0.1(preact-render-to-string@6.8.1)
+      preact: 11.1.0(preact-render-to-string@6.8.2)
 
-  preact@11.0.1(preact-render-to-string@6.8.1):
+  preact@11.1.0(preact-render-to-string@6.8.2):
     optionalDependencies:
-      preact-render-to-string: 6.8.1(preact@11.0.1)
+      preact-render-to-string: 6.8.2(preact@11.1.0)
 
   pretty-format@27.5.1:
     dependencies:
