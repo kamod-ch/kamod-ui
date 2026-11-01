@@ -1,6 +1,6 @@
 ---
 title: Getting Started with Kamod UI
-description: A complete path through setup, components, blocks, forms and the Kamod ecosystem, with working examples and detailed reference links.
+description: Preact UI setup with Kamod UI — components, blocks, forms, and the Kamod ecosystem, with working examples and detailed reference links.
 pageKind: getting-started-guide
 sidebar: false
 outline: false
@@ -8,7 +8,7 @@ outline: false
 
 ## Choose Your Starting Point
 
-Kamod UI is a **Preact-Native Component System** built with `TypeScript` and `Tailwind CSS`. It gives you reusable interface controls, complete layout examples and a shared styling foundation. Your application supplies the routes, records, permissions and services that turn those pieces into a product.
+Kamod UI is a **Preact UI library** — a Preact-native component system built with `TypeScript` and `Tailwind CSS`. It gives you reusable interface controls, complete layout examples and a shared styling foundation. Your application supplies the routes, records, permissions and services that turn those pieces into a product.
 
 This guide follows one practical sequence: **Establish the Stylesheet, Build a Small Screen, Compose a Feature, Then Connect Real Behavior**. Read it from the beginning for a new integration. For an existing app, jump to the responsibility you are working on and follow the linked references for its complete API.
 

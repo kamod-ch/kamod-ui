@@ -11,6 +11,7 @@ import { codeReferencePlugin } from "./code-reference-plugin.ts";
 import { componentApiPlugin } from "./component-api-plugin.ts";
 import { componentPreviewPlugin } from "./component-preview-plugin.ts";
 import { compactGuidePageData } from "./guide-page-data.ts";
+import { kamodUiStructuredDataHead } from "./kamod-ui-seo.ts";
 import { pageMetadataPlugin } from "./page-metadata-plugin.ts";
 import { createPagePreloader } from "./page-preloader.ts";
 import { runtimePerformancePlugin } from "./runtime-performance-plugin.ts";
@@ -64,7 +65,7 @@ export default defineConfig({
   site: {
     title: "Kamod UI",
     description:
-      "Lightweight UI components for Preact and Tailwind: composable primitives you can customize, extend, and ship without a heavy runtime.",
+      "Preact UI components and blocks for Tailwind: Kamod UI is a lightweight library of composable primitives you can customize, extend, and ship without a heavy runtime.",
     // PreactPress appends base to this origin when generating canonical and social URLs.
     url: "https://kamod-ch.github.io",
     base,
@@ -358,6 +359,9 @@ export default defineConfig({
   transformHtml(html) {
     const withAssets = prefixSubpathAssetUrls(fixDevClientModule(html));
     return withAssets.replace("</body>", `  ${matomoImageTracker}\n  </body>`);
+  },
+  transformHead(ctx) {
+    return kamodUiStructuredDataHead(ctx);
   },
   head: [
     ["link", { rel: "icon", href: publicUrl("favicon.svg"), type: "image/svg+xml" }],

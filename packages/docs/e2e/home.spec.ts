@@ -13,7 +13,7 @@ test("home introduces the library and links prominently to Getting Started", asy
   await page.goto("./");
   await expect(page.getByTestId("home-page")).toBeVisible();
   await expect(page.locator("h1")).toHaveText(
-    "Good Interfaces.Clear Foundations.Your Next Project.",
+    "Preact UI componentswith clear foundations.Build your next project with Kamod UI.",
   );
   await page.getByRole("link", { name: "Get Started", exact: true }).click();
   await expect(page).toHaveURL(/\/docs\/getting-started/);

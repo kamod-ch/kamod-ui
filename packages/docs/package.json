@@ -2,7 +2,7 @@
   "name": "@kamod-ch/ui-docs",
   "version": "0.0.0",
   "private": true,
-  "description": "PreactPress documentation site for @kamod-ch/ui",
+  "description": "PreactPress documentation site for Kamod UI — the Preact UI component library",
   "type": "module",
   "scripts": {
     "brand:sync": "node ./scripts/sync-brand-assets.mjs",

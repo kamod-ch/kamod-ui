@@ -5,7 +5,7 @@
 
 # Kamod UI
 
-A lightweight, accessible component system built natively for **Preact 11** and **Tailwind CSS v4**. Kamod UI provides composable TypeScript primitives, tree-shakeable subpath exports, signals-based interaction, and themes you can customize without pulling in a heavy runtime.
+**Preact UI library** — a lightweight, accessible component system built natively for **Preact 11** and **Tailwind CSS v4**. Kamod UI provides composable TypeScript primitives, tree-shakeable subpath exports, signals-based interaction, and themes you can customize without pulling in a heavy runtime.
 
 <p align="center">
   <a href="https://www.npmjs.com/package/@kamod-ch/ui"><img src="https://img.shields.io/npm/v/@kamod-ch/ui" alt="npm version" /></a>
@@ -28,9 +28,9 @@ A lightweight, accessible component system built natively for **Preact 11** and 
 
 ## Why Kamod UI?
 
-Many UI kits are heavier than necessary, overly opinionated, or tied to React. Kamod UI targets a smaller stack instead:
+Many UI kits are heavier than necessary, overly opinionated, or tied to React. Kamod UI is a **Preact UI** stack for teams who want a smaller surface area:
 
-- **Preact 11 native** — designed and tested against Preact 11 instead of relying on a React compatibility layer.
+- **Preact UI, Preact 11 native** — designed and tested against Preact 11 instead of relying on a React compatibility layer.
 - **Tailwind v4 native** — import-based setup, semantic CSS tokens, dark mode, and brand presets.
 - **Accessible interaction** — keyboard navigation, focus management, overlays, and controlled state are built into the primitives.
 - **Tree-shakeable** — import from the root barrel or one of 66 per-component subpaths.

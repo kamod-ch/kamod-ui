@@ -105,18 +105,17 @@ export function HomePage() {
                 </span>
               </p>
               <h1 id="home-title" tabIndex={-1}>
-                Good Interfaces.
+                Preact UI components
                 <br />
-                Clear Foundations.
+                with clear foundations.
                 <br />
-                <span>Your Next Project.</span>
+                <span>Build your next project with Kamod UI.</span>
               </h1>
               <Text>
                 <p>
-                  Build with{" "}
-                  <strong>Preact Components, Complete Blocks and a Shared Design Language</strong>.
-                  Explore working examples, understand the code, and shape an interface that feels
-                  like your product.
+                  Kamod UI is a <strong>Preact UI library</strong> of components, complete blocks,
+                  and a shared design language. Explore working examples, understand the code, and
+                  shape an interface that feels like your product.
                 </p>
                 <p class="home-hero-secondary">
                   A practical home for <code>TypeScript</code>, <code>Tailwind CSS</code> and the

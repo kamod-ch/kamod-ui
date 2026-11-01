@@ -1,12 +1,14 @@
 {
   "name": "@kamod-ch/ui",
   "version": "2.0.1",
-  "description": "Lightweight Preact + Tailwind UI components: composable primitives you can customize, extend, and ship without a heavy runtime.",
+  "description": "Preact UI components and blocks for Tailwind CSS v4 — composable Kamod UI primitives you can customize, extend, and ship without a heavy runtime.",
   "keywords": [
     "components",
     "design-system",
     "headless",
     "preact",
+    "preact ui",
+    "preact-ui",
     "tailwind",
     "tailwindcss",
     "typescript",

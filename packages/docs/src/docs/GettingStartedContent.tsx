@@ -34,10 +34,11 @@ export function GettingStartedContent() {
               description={
                 <>
                   <p>
-                    Take a <code>Preact</code> app from its first styled control to a complete,
-                    working screen. Connect <code>Tailwind CSS</code> and <code>TypeScript</code>,
-                    choose <strong>Components, Blocks, Forms and Companion Packages</strong>, then
-                    bring your own routes, data and services into the composition.
+                    Set up a <strong>Preact UI</strong> project with Kamod UI: take a{" "}
+                    <code>Preact</code> app from its first styled control to a complete, working
+                    screen. Connect <code>Tailwind CSS</code> and <code>TypeScript</code>, choose{" "}
+                    <strong>Components, Blocks, Forms and Companion Packages</strong>, then bring
+                    your own routes, data and services into the composition.
                   </p>
                   <p>
                     Follow the setup in order, or use the page contents to find your next step. Each
