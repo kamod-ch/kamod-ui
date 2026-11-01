@@ -1,7 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 
 /**
- * - **chromium**: all E2E specs (component smoke + kitchen sink).
+ * - **chromium**: all E2E specs (component smoke, kitchen sink, home visual baselines).
  * - **webkit**: kitchen-sink, home responsiveness, appearance menus, application-shell, sidebar, navigation, tabs and block showcases.
  * - **iphone**: kitchen-sink specs (visual + smoke on demo home / kitchen sink).
  *
