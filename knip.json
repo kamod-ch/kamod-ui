@@ -42,12 +42,13 @@
         "src/blocks/**/*.{ts,tsx}",
         "src/docs/**/*.{ts,tsx}",
         "src/**/*.test.{ts,tsx}",
+        ".preactpress/**/*.test.{ts,tsx}",
         "src/test/setup.ts",
         "e2e/**/*.ts",
         "scripts/**/*.{js,mjs}"
       ],
       "project": ["src/**/*.{ts,tsx}", "e2e/**/*.ts", ".preactpress/**/*.{ts,tsx}"],
-      "ignore": ["src/base-path.ts", "src/theme/theme-presets.ts"],
+      "ignore": ["src/theme/theme-presets.ts"],
       "ignoreDependencies": [
         "@preact/preset-vite",
         "tailwindcss",
