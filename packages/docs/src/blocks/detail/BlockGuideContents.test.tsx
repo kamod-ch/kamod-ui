@@ -96,7 +96,7 @@ it("follows a real subsection fragment even when it is not listed in the content
   target.getClientRects = () => [new DOMRect(0, 500, 100, 20)] as unknown as DOMRectList;
   const scroll = vi.fn();
   target.scrollIntoView = scroll;
-  expect(view.queryByRole("link", { name: "Details", exact: true })).toBeNull();
+  expect(view.queryByRole("link", { name: "Details" })).toBeNull();
   act(() => {
     vi.advanceTimersByTime(40);
   });
@@ -205,10 +205,7 @@ it("refreshes detached heading nodes for both active reading and later hash navi
       />
     </>,
   );
-  expect(view.getByRole("link", { name: "Usage", exact: true })).toHaveAttribute(
-    "aria-current",
-    "location",
-  );
+  expect(view.getByRole("link", { name: "Usage" })).toHaveAttribute("aria-current", "location");
   const original = document.getElementById("usage")!;
   const originalScroll = vi.fn();
   original.scrollIntoView = originalScroll;
@@ -222,10 +219,7 @@ it("refreshes detached heading nodes for both active reading and later hash navi
   act(() => {
     vi.advanceTimersByTime(40);
   });
-  expect(view.getByRole("link", { name: "Overview", exact: true })).toHaveAttribute(
-    "aria-current",
-    "location",
-  );
+  expect(view.getByRole("link", { name: "Overview" })).toHaveAttribute("aria-current", "location");
   act(() => {
     history.replaceState(null, "", "#usage");
     window.dispatchEvent(new HashChangeEvent("hashchange"));
@@ -281,20 +275,14 @@ it("initializes reading after a visibility-only page reveal without scrolling th
   act(() => {
     vi.advanceTimersByTime(40);
   });
-  expect(view.getByRole("link", { name: "Overview", exact: true })).toHaveAttribute(
-    "aria-current",
-    "location",
-  );
+  expect(view.getByRole("link", { name: "Overview" })).toHaveAttribute("aria-current", "location");
   act(() => {
     document.getElementById("usage")!.style.visibility = "visible";
     document.getElementById("later")!.style.visibility = "visible";
     for (const notify of mutations) notify([], {} as MutationObserver);
     vi.advanceTimersByTime(40);
   });
-  expect(view.getByRole("link", { name: "Usage", exact: true })).toHaveAttribute(
-    "aria-current",
-    "location",
-  );
+  expect(view.getByRole("link", { name: "Usage" })).toHaveAttribute("aria-current", "location");
   expect(scroll).not.toHaveBeenCalled();
 });
 
@@ -611,7 +599,7 @@ it("bounds heading measurements on long guides while following layout changes", 
   rect.mockClear();
   top = 20000;
   scroll();
-  expect(view.getByRole("link", { name: "Section 49", exact: true })).toHaveAttribute(
+  expect(view.getByRole("link", { name: "Section 49" })).toHaveAttribute(
     "aria-current",
     "location",
   );
@@ -619,7 +607,7 @@ it("bounds heading measurements on long guides while following layout changes", 
   // A newly loaded preview above the headings shifts layout without a window resize.
   shift = 800;
   scroll();
-  expect(view.getByRole("link", { name: "Section 47", exact: true })).toHaveAttribute(
+  expect(view.getByRole("link", { name: "Section 47" })).toHaveAttribute(
     "aria-current",
     "location",
   );

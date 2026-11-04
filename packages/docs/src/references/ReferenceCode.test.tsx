@@ -50,8 +50,8 @@ it("downloads the exact complete source even while imports are folded and lines 
       defaultImportsCollapsed
     />,
   );
-  const download = view.getByRole("button", { name: "Download code", exact: true });
-  const copy = view.getByRole("button", { name: "Copy code", exact: true });
+  const download = view.getByRole("button", { name: "Download code" });
+  const copy = view.getByRole("button", { name: "Copy code" });
   expect(download.compareDocumentPosition(copy) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   expect(view.container.querySelector("pre code")).not.toHaveTextContent("import");
   expect(createObjectURL).not.toHaveBeenCalled();
@@ -73,7 +73,7 @@ it("retains custom Copy composition and a format-independent Markdown download n
     />,
   );
   expect(view.container.querySelector("[data-custom-copy] [data-slot=code-copy]")).not.toBeNull();
-  const download = view.getByRole("button", { name: "Download Markdown", exact: true });
+  const download = view.getByRole("button", { name: "Download Markdown" });
   expect(view.container.querySelectorAll("[data-slot=markdown-download]")).toHaveLength(1);
   fireEvent.click(download);
   expect(downloadedNames).toEqual(["setup-prompt.md"]);
@@ -95,12 +95,12 @@ it.each([
 
 it("follows source-file replacement instead of downloading a stale selection", async () => {
   const view = render(<ReferenceCode code="first" filePath="first.ts" highlight={false} />);
-  fireEvent.click(view.getByRole("button", { name: "Download code", exact: true }));
+  fireEvent.click(view.getByRole("button", { name: "Download code" }));
   view.rerender(
     <ReferenceCode code={"second — Ω\n"} filePath="nested/second.css" highlight={false} />,
   );
   expect(revokeObjectURL).toHaveBeenCalledTimes(1);
-  fireEvent.click(view.getByRole("button", { name: "Download code", exact: true }));
+  fireEvent.click(view.getByRole("button", { name: "Download code" }));
   expect(downloadedNames).toEqual(["first.ts", "second.css"]);
   expect(await blobText(createObjectURL.mock.calls[1][0])).toBe("second — Ω\n");
 });

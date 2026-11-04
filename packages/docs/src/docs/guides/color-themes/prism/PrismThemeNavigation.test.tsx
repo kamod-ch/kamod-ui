@@ -31,7 +31,7 @@ it("filters only navigation by theme/author and canvas and offers a complete res
   const search = view.getByRole("searchbox", { name: "Find a Prism theme" });
   fireEvent.input(search, { target: { value: "dracula" } });
   expect(view.container.querySelectorAll(".prism-theme-index-links a")).toHaveLength(1);
-  expect(view.getByRole("link", { name: "Dracula", exact: true })).toHaveAttribute(
+  expect(view.getByRole("link", { name: "Dracula" })).toHaveAttribute(
     "href",
     "#prism-theme-dracula",
   );

@@ -1,9 +1,9 @@
-import type { ImgHTMLAttributes } from "preact";
+import type { LooseImgHTMLAttributes } from "preact";
 import { useEffect } from "preact/hooks";
 import { cn } from "../../lib/utils";
 import { useAvatarContext } from "./context";
 
-export type AvatarImageProps = ImgHTMLAttributes<HTMLImageElement>;
+export type AvatarImageProps = LooseImgHTMLAttributes<HTMLImageElement>;
 
 export const AvatarImage = ({
   class: className,

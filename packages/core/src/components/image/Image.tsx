@@ -1,7 +1,7 @@
-import type { ImgHTMLAttributes } from "preact";
+import type { LooseImgHTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 
-export type ImageProps = ImgHTMLAttributes<HTMLImageElement>;
+export type ImageProps = LooseImgHTMLAttributes<HTMLImageElement>;
 
 export const Image = ({ class: className, alt = "", ...rest }: ImageProps) => (
   <img

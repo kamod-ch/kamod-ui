@@ -55,18 +55,16 @@ it("delegates appearance changes without modifying the page or storage", async (
   );
   fireEvent.click(screen.getByRole("button", { name: "Choose color theme" }));
   const picker = within(await screen.findByRole("dialog", { name: "Find your Palette" }));
-  fireEvent.click(picker.getByRole("button", { name: "Sunset", exact: true }));
+  fireEvent.click(picker.getByRole("button", { name: "Sunset" }));
   fireEvent.click(picker.getByRole("button", { name: "Switch to dark mode" }));
   fireEvent.click(picker.getByRole("button", { name: "Use system color mode" }));
   expect(onPresetChange).toHaveBeenCalledWith("sunset");
   expect(onSchemeChange.mock.calls).toEqual([["dark"], ["system"]]);
-  expect(
-    picker.getByRole("button", { name: "Ocean", exact: true }).getAttribute("aria-pressed"),
-  ).toBe("true");
+  expect(picker.getByRole("button", { name: "Ocean" }).getAttribute("aria-pressed")).toBe("true");
   expect(picker.getByText("active").closest("button")?.getAttribute("aria-label")).toBe("Ocean");
-  expect(
-    picker.getByRole("button", { name: "Ocean", exact: true }).getAttribute("data-tooltip"),
-  ).toBe("Cool cyan and indigo accents over slate surfaces: calm, clear and refreshing.");
+  expect(picker.getByRole("button", { name: "Ocean" }).getAttribute("data-tooltip")).toBe(
+    "Cool cyan and indigo accents over slate surfaces: calm, clear and refreshing.",
+  );
   expect(document.documentElement.getAttribute("data-theme")).toBe(pageTheme);
   expect(document.documentElement.className).toBe(pageClass);
   expect(storage).not.toHaveBeenCalled();

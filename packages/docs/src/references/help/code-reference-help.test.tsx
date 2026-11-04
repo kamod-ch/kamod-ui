@@ -45,9 +45,10 @@ it("preserves exact copyable origins, linked headings and top-frame navigation",
   expect(path.textContent).toBe(reference.module);
   expect(path.querySelector('[data-path-part="root"]')).toHaveTextContent("@/");
   expect(path.querySelector('[data-path-part="end"]')).toHaveTextContent("/direction");
-  expect(
-    getByRole("link", { name: "View DirectionProvider reference", exact: true }),
-  ).toHaveAttribute("href", reference.docs!.href);
+  expect(getByRole("link", { name: "View DirectionProvider reference" })).toHaveAttribute(
+    "href",
+    reference.docs!.href,
+  );
   expect(container.querySelector("a.code-reference-help-title")).toHaveAttribute(
     "href",
     reference.docs!.href,

@@ -36,7 +36,7 @@ it("renders the themed Code loader when selected before saved controls finish re
   };
   const loadSource = vi.fn(async () => "export const Sidebar = () => null;");
   const { getByRole } = render(<BlockShowcase block={block} loadSource={loadSource} />);
-  fireEvent.click(getByRole("tab", { name: "Code", exact: true }));
+  fireEvent.click(getByRole("tab", { name: "Code" }));
   const panel = getByRole("tabpanel");
   const loader = panel.querySelector(".showcase-loading");
   expect(loader).toHaveAttribute("data-view", "code");
@@ -63,16 +63,13 @@ it.each(["Code", "Preview"])(
     };
     const loadSource = vi.fn(async () => "export const Sidebar = () => null;");
     const { getByRole, rerender } = render(<BlockShowcase block={block} loadSource={loadSource} />);
-    fireEvent.click(getByRole("tab", { name: "Code", exact: true }));
-    if (choice === "Preview") fireEvent.click(getByRole("tab", { name: "Preview", exact: true }));
+    fireEvent.click(getByRole("tab", { name: "Code" }));
+    if (choice === "Preview") fireEvent.click(getByRole("tab", { name: "Preview" }));
     saved.ready = true;
     saved.preferences.view = "prompt";
     rerender(<BlockShowcase block={{ ...block }} loadSource={loadSource} />);
     await waitFor(() => expect(saved.update).toHaveBeenCalledWith({ view: choice.toLowerCase() }));
-    expect(getByRole("tab", { name: choice, exact: true })).toHaveAttribute(
-      "aria-selected",
-      "true",
-    );
+    expect(getByRole("tab", { name: choice })).toHaveAttribute("aria-selected", "true");
     if (choice === "Preview") expect(loadSource).not.toHaveBeenCalled();
     else expect(loadSource).toHaveBeenCalledWith("sidebar.tsx");
   },

@@ -285,7 +285,7 @@ describe("Application Shell 1", () => {
       };
       await openMenu();
       const role = defaultOpen ? "link" : "menuitem";
-      const parent = screen.getByRole(role, { name: "Projects", exact: true });
+      const parent = screen.getByRole(role, { name: "Projects" });
       expect(parent.getAttribute("href")).toBe("/projects");
       expect(parent.hasAttribute("aria-current")).toBe(false);
       fireEvent.click(parent);

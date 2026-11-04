@@ -130,7 +130,7 @@ describe("component example controls", () => {
       "data-narrow",
       "true",
     );
-    fireEvent.click(screen.getByRole("tab", { name: "Code", exact: true }));
+    fireEvent.click(screen.getByRole("tab", { name: "Code" }));
     await waitFor(() =>
       expect(container.querySelector("pre code")?.textContent).toBe("const example = 1;"),
     );
@@ -138,10 +138,7 @@ describe("component example controls", () => {
       expect(screen.getByRole("button", { name: "Reset example" })).toBeEnabled(),
     );
     fireEvent.click(screen.getByRole("button", { name: "Reset example" }));
-    expect(screen.getByRole("tab", { name: "Preview", exact: true })).toHaveAttribute(
-      "aria-selected",
-      "true",
-    );
+    expect(screen.getByRole("tab", { name: "Preview" })).toHaveAttribute("aria-selected", "true");
     unmount();
     expect(disconnect).toHaveBeenCalled();
   });
@@ -155,14 +152,14 @@ describe("component example controls", () => {
       "true",
     );
     expect(document.documentElement.outerHTML.split("<head>")[0]).toBe(pageTheme);
-    fireEvent.click(screen.getByRole("tab", { name: "Prompt", exact: true }));
+    fireEvent.click(screen.getByRole("tab", { name: "Prompt" }));
     await waitFor(() =>
       expect(container.querySelector("pre code")?.textContent).toContain("const example = 1;"),
     );
     await waitFor(() =>
       expect(container.querySelector("pre code")?.textContent).toContain("Set up and integrate"),
     );
-    expect(screen.getByRole("button", { name: "Code (Markdown)", exact: true })).toHaveAttribute(
+    expect(screen.getByRole("button", { name: "Code (Markdown)" })).toHaveAttribute(
       "aria-pressed",
       "true",
     );

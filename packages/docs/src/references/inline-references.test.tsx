@@ -57,7 +57,7 @@ it.each(["useAnything()", "cn(value)", "cn()()", "cn ()", "preact/hooks()", "con
 
 it("renders cn() with its API destination, original text and shared source-help metadata", () => {
   const { getByRole } = render(<InlineCodeReference>cn()</InlineCodeReference>);
-  const link = getByRole("link", { name: "cn()", exact: true });
+  const link = getByRole("link", { name: "cn()" });
   expect(link).toHaveAttribute("href", "/docs/cn/installation#api-reference");
   expect(link.querySelector("code")).toHaveTextContent("cn()");
   expect(sourceReferenceHelp(link)).toMatchObject({

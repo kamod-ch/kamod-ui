@@ -45,12 +45,13 @@ it("changes only the selected workspace appearance and preserves page preference
   );
   const kamod = view.container.querySelector('[data-theme="kamod"]')!;
   const ocean = view.container.querySelector('[data-theme="ocean"]')!;
-  fireEvent.click(within(ocean as HTMLElement).getByRole("button", { name: "Dark", exact: true }));
+  fireEvent.click(within(ocean as HTMLElement).getByRole("button", { name: "Dark" }));
   expect(ocean).toHaveClass("dark");
   expect(kamod).toHaveClass("light");
-  expect(
-    within(ocean as HTMLElement).getByRole("button", { name: "Dark", exact: true }),
-  ).toHaveAttribute("aria-pressed", "true");
+  expect(within(ocean as HTMLElement).getByRole("button", { name: "Dark" })).toHaveAttribute(
+    "aria-pressed",
+    "true",
+  );
   expect([...document.documentElement.attributes].map(({ name, value }) => [name, value])).toEqual(
     attributes,
   );
@@ -80,23 +81,20 @@ it("keeps publishing unavailable until the real form is valid and all checks are
 
 it("previews validation and paused skeleton states without losing the edited release", () => {
   const view = render(<ThemePlayground preset="kamod" label="Kamod" />);
-  fireEvent.click(view.getByRole("button", { name: "Validation", exact: true }));
+  fireEvent.click(view.getByRole("button", { name: "Validation" }));
   const title = view.getByRole("textbox", { name: "Release title" });
   expect(title).toHaveAttribute("aria-invalid", "true");
   expect(view.getByRole("alert")).toHaveTextContent("already in use");
   fireEvent.input(title, { target: { value: "A fresh title" } });
   expect(view.queryByRole("alert")).toBeNull();
-  expect(view.getByRole("button", { name: "Content", exact: true })).toHaveAttribute(
-    "aria-pressed",
-    "true",
-  );
-  fireEvent.click(view.getByRole("button", { name: "Loading", exact: true }));
+  expect(view.getByRole("button", { name: "Content" })).toHaveAttribute("aria-pressed", "true");
+  fireEvent.click(view.getByRole("button", { name: "Loading" }));
   expect(view.getByLabelText("Loading state specimen")).toBeTruthy();
   expect(view.getByRole("switch", { name: "Animate placeholders" })).not.toBeChecked();
   expect(view.container.querySelectorAll('[data-slot="skeleton"]')).toHaveLength(12);
   expect(view.queryByRole("textbox")).toBeNull();
   expect(view.getByRole("button", { name: "Publish preview" })).toBeDisabled();
-  fireEvent.click(view.getByRole("button", { name: "Content", exact: true }));
+  fireEvent.click(view.getByRole("button", { name: "Content" }));
   expect(view.getByRole("textbox", { name: "Release title" })).toHaveValue("A fresh title");
 });
 
@@ -119,7 +117,7 @@ it("animates only on request near the viewport in a visible tab and releases eac
   let hidden = false;
   vi.spyOn(document, "hidden", "get").mockImplementation(() => hidden);
   const view = render(<ThemePlayground preset="kamod" label="Kamod" />);
-  fireEvent.click(view.getByRole("button", { name: "Loading", exact: true }));
+  fireEvent.click(view.getByRole("button", { name: "Loading" }));
   const specimen = view.getByLabelText("Loading state specimen");
   expect(observe).not.toHaveBeenCalled();
   expect(specimen).not.toHaveAttribute("data-loading-active");
@@ -153,9 +151,9 @@ it("animates only on request near the viewport in a visible tab and releases eac
 
   fireEvent.click(view.getByRole("switch", { name: "Animate placeholders" }));
   visibility(true);
-  fireEvent.click(view.getByRole("button", { name: "Content", exact: true }));
+  fireEvent.click(view.getByRole("button", { name: "Content" }));
   expect(disconnect).toHaveBeenCalledTimes(2);
-  fireEvent.click(view.getByRole("button", { name: "Loading", exact: true }));
+  fireEvent.click(view.getByRole("button", { name: "Loading" }));
   expect(view.getByRole("switch", { name: "Animate placeholders" })).not.toBeChecked();
   expect(observe).toHaveBeenCalledTimes(2);
   fireEvent.click(view.getByRole("switch", { name: "Animate placeholders" }));
@@ -166,7 +164,7 @@ it("animates only on request near the viewport in a visible tab and releases eac
 
 it("changes notification feedback and resets the experiment without changing appearance", () => {
   const view = render(<ThemePlayground preset="kamod" label="Kamod" />);
-  fireEvent.click(view.getByRole("button", { name: "Dark", exact: true }));
+  fireEvent.click(view.getByRole("button", { name: "Dark" }));
   fireEvent.click(view.getByRole("switch", { name: "Notify the team" }));
   fireEvent.click(view.getByRole("checkbox", { name: /Both modes checked/ }));
   fireEvent.click(view.getByRole("button", { name: "Publish preview" }));
@@ -176,10 +174,7 @@ it("changes notification feedback and resets the experiment without changing app
     "A better first impression",
   );
   expect(view.getByRole("switch", { name: "Notify the team" })).toBeChecked();
-  expect(view.getByRole("button", { name: "Dark", exact: true })).toHaveAttribute(
-    "aria-pressed",
-    "true",
-  );
+  expect(view.getByRole("button", { name: "Dark" })).toHaveAttribute("aria-pressed", "true");
   expect(view.getByRole("progressbar")).toHaveAttribute("aria-valuenow", "2");
   expect(view.getByRole("button", { name: "Publish preview" })).toBeDisabled();
 });

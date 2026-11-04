@@ -32,7 +32,7 @@ describe("documentation references", () => {
       ["preact", "https://preactjs.com/"],
       ["@formisch/preact", "https://github.com/open-circle/formisch"],
     ]) {
-      const link = getByRole("link", { name: label, exact: true });
+      const link = getByRole("link", { name: label });
       expect(link).toHaveAttribute("href", href);
       expect(link.querySelectorAll('svg[aria-hidden="true"]')).toHaveLength(
         link.classList.contains("kamod-code-reference") ? 0 : 2,
@@ -70,7 +70,7 @@ describe("documentation references", () => {
     );
     for (const name of ["useToggle", "useCounter", "useLocalStorageState"]) {
       const href = `https://github.com/kamod-ch/kamod-hooks/blob/main/packages/core/src/${name}/index.ts`;
-      const link = getByRole("link", { name, exact: true });
+      const link = getByRole("link", { name });
       expect(link).toHaveAttribute("href", href);
       expect(link.querySelectorAll('svg[aria-hidden="true"]')).toHaveLength(
         link.classList.contains("kamod-code-reference") ? 0 : 2,

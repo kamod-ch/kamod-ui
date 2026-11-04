@@ -15,6 +15,8 @@ export function PageContentsHeading({
   level?: "h2" | "h3";
 }) {
   const sectionLabel = count === 1 ? "Section" : "Sections";
+  const pageTopHref =
+    typeof location === "undefined" ? "" : `${location.pathname}${location.search}`;
   return (
     <div class="page-contents-header navigation-header">
       <div class="sidebar-entry-row">
@@ -23,7 +25,11 @@ export function PageContentsHeading({
           heading={level}
           icon={<ListTreeIcon size={16} strokeWidth={1.8} aria-hidden="true" />}
           title={
-            <a class="page-contents-top-link" href="" title="Return to the start of this page">
+            <a
+              class="page-contents-top-link"
+              href={pageTopHref}
+              title="Return to the start of this page"
+            >
               On This Page
             </a>
           }

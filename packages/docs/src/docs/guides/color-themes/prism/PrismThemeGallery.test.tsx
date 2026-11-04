@@ -25,8 +25,11 @@ vi.mock("../../../components/CodeBlock", () => ({
   ),
 }));
 
-afterEach(() => {
+afterEach(async () => {
   cleanup();
+  // Preact 11.1 schedules effect work with RAF plus a 35 ms fallback. Let it
+  // settle before jsdom removes cancelAnimationFrame during environment teardown.
+  await new Promise<void>((resolve) => setTimeout(resolve, 40));
   vi.unstubAllGlobals();
   vi.restoreAllMocks();
 });
@@ -66,16 +69,16 @@ it("switches source language only inside the chosen study without changing the p
     </>,
   );
   const studies = view.container.querySelectorAll<HTMLElement>(".prism-theme-study");
-  fireEvent.click(within(studies[0]).getByRole("button", { name: "CSS", exact: true }));
+  fireEvent.click(within(studies[0]).getByRole("button", { name: "CSS" }));
   expect(within(studies[0]).getByLabelText(prismSpecimens.css.fileName)).toHaveTextContent(
     ".review-queue",
   );
-  expect(within(studies[0]).getByRole("button", { name: "CSS", exact: true })).toHaveAttribute(
+  expect(within(studies[0]).getByRole("button", { name: "CSS" })).toHaveAttribute(
     "aria-pressed",
     "true",
   );
   expect(within(studies[1]).getByLabelText(prismSpecimens.tsx.fileName)).toBeTruthy();
-  expect(within(studies[1]).getByRole("button", { name: "TSX", exact: true })).toHaveAttribute(
+  expect(within(studies[1]).getByRole("button", { name: "TSX" })).toHaveAttribute(
     "aria-pressed",
     "true",
   );
@@ -183,7 +186,7 @@ it("copies the currently inspected source color and the complete licensed adapte
     });
     expect(writeText).toHaveBeenLastCalledWith(token.value);
     await act(async () => {
-      fireEvent.click(view.getByRole("button", { name: "Copy scoped CSS", exact: true }));
+      fireEvent.click(view.getByRole("button", { name: "Copy scoped CSS" }));
     });
     expect(writeText).toHaveBeenLastCalledWith(first.css);
     expect(writeText).toHaveBeenCalledTimes(2);

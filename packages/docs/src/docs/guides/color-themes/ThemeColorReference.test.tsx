@@ -166,7 +166,7 @@ it("uses one lazy batch per preset and keeps inspection, keyboard help and filte
     target: { value: "sidebar" },
   });
   expect(view.container.querySelectorAll(".theme-color-token-value")).toHaveLength(16);
-  fireEvent.click(view.getByRole("button", { name: "Dark", exact: true }));
+  fireEvent.click(view.getByRole("button", { name: "Dark" }));
   expect(view.container.querySelectorAll(".theme-color-paint.dark")).toHaveLength(8);
   expect(storage).not.toHaveBeenCalled();
 });
