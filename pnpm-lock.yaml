@@ -285,9 +285,6 @@ importers:
       publint:
         specifier: ^0.3.25
         version: 0.3.25
-      tailwindcss:
-        specifier: ^4.3.3
-        version: 4.3.3
       tsup:
         specifier: ^9.0.0
         version: 9.0.0(jiti@2.7.0)(postcss@8.5.32)(typescript@7.0.2)(yaml@2.9.1)
