@@ -14,20 +14,17 @@ export type DropdownContextValue = {
   rootRef: { current: HTMLDivElement | null };
   triggerRef: { current: HTMLElement | null };
   contentRef: { current: HTMLDivElement | null };
+  /** Set when DropdownTrigger handled a trigger click in the same turn. */
+  triggerClickHandledRef: { current: boolean };
 };
 
 const DropdownContext = createContext<DropdownContextValue | null>(null);
-const dropdownToggleHandledByCapture = new WeakSet<Event>();
 
 export const useDropdown = () => {
   const context = useContext(DropdownContext);
   if (!context) throw new Error("Dropdown subcomponents must be used within Dropdown");
   return context;
 };
-
-/** @internal Skip duplicate open toggles when the capture fallback already handled one. */
-export const isDropdownToggleHandledByCapture = (event: Event) =>
-  dropdownToggleHandledByCapture.has(event);
 
 const dropdownRoot = tv({
   base: "relative inline-flex",
@@ -48,6 +45,7 @@ export const Dropdown = ({
   const rootRef = useRef<HTMLDivElement | null>(null);
   const triggerRef = useRef<HTMLElement | null>(null);
   const contentRef = useRef<HTMLDivElement | null>(null);
+  const triggerClickHandledRef = useRef(false);
   const instanceId = useId();
   const triggerId = `kamod-dropdown-${instanceId}-trigger`;
   const contentId = `kamod-dropdown-${instanceId}-content`;
@@ -76,7 +74,6 @@ export const Dropdown = ({
     if (!root) return;
 
     const onClick = (event: Event) => {
-      if (dropdownToggleHandledByCapture.has(event)) return;
       const target = event.target;
       if (!(target instanceof Element)) return;
       const trigger = target.closest(`#${CSS.escape(triggerId)}`);
@@ -84,31 +81,13 @@ export const Dropdown = ({
       // Menu items handle their own activation.
       if (target.closest('[data-slot="dropdown-item"]')) return;
 
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      dropdownToggleHandledByCapture.add(event);
-      open.value = !open.value;
-
-      if (!(event instanceof MouseEvent)) return;
-      const userEvent = new MouseEvent("click", {
-        bubbles: true,
-        cancelable: true,
-        composed: true,
-        view: event.view,
-        detail: event.detail,
-        screenX: event.screenX,
-        screenY: event.screenY,
-        clientX: event.clientX,
-        clientY: event.clientY,
-        button: event.button,
-        buttons: event.buttons,
-        ctrlKey: event.ctrlKey,
-        shiftKey: event.shiftKey,
-        altKey: event.altKey,
-        metaKey: event.metaKey,
+      triggerClickHandledRef.current = false;
+      queueMicrotask(() => {
+        if (!triggerClickHandledRef.current) {
+          open.value = !open.value;
+        }
+        triggerClickHandledRef.current = false;
       });
-      dropdownToggleHandledByCapture.add(userEvent);
-      trigger.dispatchEvent(userEvent);
     };
 
     root.addEventListener("click", onClick, true);
@@ -125,6 +104,7 @@ export const Dropdown = ({
         rootRef,
         triggerRef,
         contentRef,
+        triggerClickHandledRef,
       }}
     >
       <div

@@ -4,6 +4,7 @@ import {
   cloneElement,
   type HTMLAttributes,
   isValidElement,
+  type TargetedMouseEvent,
 } from "preact";
 import { useEffect, useId, useLayoutEffect, useRef, useState } from "preact/hooks";
 import { useTooltip } from "./Tooltip";
@@ -223,7 +224,9 @@ export const TooltipContent = ({
       return null;
     }
 
-    const childProps = (children.props ?? {}) as HTMLAttributes<HTMLElement>;
+    const childProps = (children.props ?? {}) as HTMLAttributes<HTMLElement> & {
+      ref?: unknown;
+    };
     const nextChildren = (
       <>
         {childProps.children}
@@ -232,11 +235,43 @@ export const TooltipContent = ({
     );
 
     return cloneElement(children, {
-      ...childProps,
-      ...commonProps,
-      ...remainingProps,
+      ...(childProps as Record<string, unknown>),
+      ...(remainingProps as Record<string, unknown>),
+      id: contentId,
+      role: "tooltip",
+      "data-slot": "tooltip-content",
+      "data-state": tooltip.open.value ? "open" : "closed",
+      "data-side": resolvedSide,
+      "data-align": align,
+      "data-flip-animating": isFlipAnimating ? "true" : "false",
+      style: mergedStyle,
+      onMouseEnter: (event: TargetedMouseEvent<HTMLElement>) => {
+        childProps.onMouseEnter?.(event);
+        if (!tooltip.disableHoverableContent) {
+          tooltip.cancelTimers();
+          tooltip.setOpen(true);
+        }
+        onMouseEnter?.(event);
+      },
+      onMouseLeave: (event: TargetedMouseEvent<HTMLElement>) => {
+        childProps.onMouseLeave?.(event);
+        tooltip.closeWithDelay();
+        onMouseLeave?.(event);
+      },
+      ref: (node: HTMLElement | null) => {
+        contentRef.current = node;
+        if (typeof childProps.ref === "function") {
+          childProps.ref(node);
+        } else if (
+          childProps.ref &&
+          typeof childProps.ref === "object" &&
+          "current" in childProps.ref
+        ) {
+          (childProps.ref as { current: HTMLElement | null }).current = node;
+        }
+      },
       children: nextChildren,
-    });
+    } as never);
   }
 
   return (

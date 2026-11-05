@@ -141,6 +141,34 @@ describe("Tooltip", () => {
     expect(screen.getByRole("tooltip")).toBeInTheDocument();
   });
 
+  it("runs child handlers before tooltip behavior for asChild", () => {
+    const onFocus = vi.fn();
+    const onClick = vi.fn();
+    render(
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <button type="button" onFocus={onFocus} onClick={onClick}>
+              Custom
+            </button>
+          </TooltipTrigger>
+          <TooltipContent>Help</TooltipContent>
+        </Tooltip>
+      </TooltipProvider>,
+    );
+
+    const trigger = screen.getByRole("button", { name: "Custom" });
+    expect(trigger).not.toHaveAttribute("aria-describedby");
+
+    fireEvent.focus(trigger);
+    expect(onFocus).toHaveBeenCalledOnce();
+    expect(screen.getByRole("tooltip")).toBeInTheDocument();
+    expect(trigger).toHaveAttribute("aria-describedby", screen.getByRole("tooltip").id);
+
+    fireEvent.click(trigger);
+    expect(onClick).toHaveBeenCalledOnce();
+  });
+
   it("cancels pending state callbacks on unmount", async () => {
     vi.useFakeTimers();
     const onOpenChange = vi.fn();

@@ -8,7 +8,7 @@ import {
 } from "preact";
 import { tv } from "tailwind-variants";
 import { cn } from "../../lib/utils";
-import { isDropdownToggleHandledByCapture, useDropdown } from "./Dropdown";
+import { useDropdown } from "./Dropdown";
 
 const dropdownTrigger = tv({
   base: [
@@ -45,9 +45,9 @@ export const DropdownTrigger = ({
   const dropdown = useDropdown();
 
   const handleClick = (event: TargetedMouseEvent<HTMLElement>) => {
+    dropdown.triggerClickHandledRef.current = true;
     onClick?.(event as TargetedMouseEvent<HTMLButtonElement>);
     if (event.defaultPrevented) return;
-    if (isDropdownToggleHandledByCapture(event)) return;
     dropdown.setOpen(!dropdown.open.value);
   };
 
