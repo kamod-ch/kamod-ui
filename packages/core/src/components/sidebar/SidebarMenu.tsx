@@ -4,7 +4,7 @@ import type {
   ComponentChildren,
   HTMLAttributes,
 } from "preact";
-import { useMemo } from "preact/hooks";
+import { useId } from "preact/hooks";
 import { tv, type VariantProps } from "tailwind-variants";
 import { cn } from "../../lib/utils";
 import { Skeleton } from "../skeleton";
@@ -218,12 +218,21 @@ export type SidebarMenuSkeletonProps = HTMLAttributes<HTMLDivElement> & {
   showIcon?: boolean;
 };
 
+/** Stable 50–90% width from a Preact useId string (SSR-safe, no Math.random). */
+const skeletonTextWidthFromId = (id: string): string => {
+  let hash = 0;
+  for (let index = 0; index < id.length; index += 1) {
+    hash = (hash * 31 + id.charCodeAt(index)) >>> 0;
+  }
+  return `${50 + (hash % 41)}%`;
+};
+
 export const SidebarMenuSkeleton = ({
   class: className,
   showIcon = false,
   ...rest
 }: SidebarMenuSkeletonProps) => {
-  const width = useMemo(() => `${Math.floor(Math.random() * 40) + 50}%`, []);
+  const width = skeletonTextWidthFromId(useId());
   return (
     <div
       data-slot="sidebar-menu-skeleton"
