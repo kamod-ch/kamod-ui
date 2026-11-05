@@ -1,4 +1,6 @@
 import type { ComponentChildren, HTMLAttributes } from "preact";
+import { cloneElement, isValidElement } from "preact";
+import { useId } from "preact/hooks";
 import { cn } from "../../lib/utils";
 import { type FieldRootVariants, fieldRoot } from "./field-variants";
 
@@ -17,6 +19,36 @@ export type FieldProps = HTMLAttributes<HTMLDivElement> &
     children?: ComponentChildren;
   };
 
+const augmentFieldControl = (
+  children: ComponentChildren,
+  {
+    controlId,
+    describedBy,
+  }: {
+    controlId: string;
+    describedBy?: string;
+  },
+): { children: ComponentChildren; labelFor: string } => {
+  if (!isValidElement(children)) {
+    return { children, labelFor: controlId };
+  }
+
+  const childProps = (children.props ?? {}) as Record<string, unknown>;
+  const resolvedId = (childProps.id as string | undefined) ?? controlId;
+  const existingDescribedBy = childProps["aria-describedby"] as string | undefined;
+  const mergedDescribedBy =
+    [existingDescribedBy, describedBy].filter(Boolean).join(" ") || undefined;
+
+  return {
+    labelFor: resolvedId,
+    children: cloneElement(children, {
+      ...childProps,
+      id: resolvedId,
+      ...(mergedDescribedBy ? { "aria-describedby": mergedDescribedBy } : {}),
+    }),
+  };
+};
+
 export const Field = ({
   class: className,
   label,
@@ -31,9 +63,20 @@ export const Field = ({
 }: FieldProps) => {
   const legacy = label != null || description != null || error != null;
   const resolvedRequired = required && label != null;
+  const controlId = useId();
+  const descriptionId = useId();
+  const errorId = useId();
+  const describedBy =
+    [description != null ? descriptionId : undefined, error != null ? errorId : undefined]
+      .filter(Boolean)
+      .join(" ") || undefined;
 
   if (legacy) {
     const isHorizontal = orientation === "horizontal";
+    const { children: enhancedChildren, labelFor } = augmentFieldControl(children, {
+      controlId,
+      describedBy,
+    });
 
     return (
       <div
@@ -52,7 +95,11 @@ export const Field = ({
         {...(invalid ? { "data-invalid": "" } : {})}
       >
         {label != null ? (
-          <label data-slot="field-label" class="text-sm leading-none font-medium">
+          <label
+            data-slot="field-label"
+            class="text-sm leading-none font-medium"
+            htmlFor={labelFor}
+          >
             {label}
             {resolvedRequired ? (
               <span aria-hidden="true" class="ms-1 text-destructive">
@@ -62,17 +109,21 @@ export const Field = ({
           </label>
         ) : null}
         {isHorizontal && label != null ? (
-          <div class="flex min-w-0 flex-row flex-wrap items-center gap-3">{children}</div>
+          <div class="flex min-w-0 flex-row flex-wrap items-center gap-3">{enhancedChildren}</div>
         ) : (
-          children
+          enhancedChildren
         )}
         {description != null ? (
-          <p data-slot="field-description" class="text-muted-foreground text-sm leading-normal">
+          <p
+            id={descriptionId}
+            data-slot="field-description"
+            class="text-muted-foreground text-sm leading-normal"
+          >
             {description}
           </p>
         ) : null}
         {error != null ? (
-          <p data-slot="field-error" role="alert" class="text-destructive text-sm">
+          <p id={errorId} data-slot="field-error" role="alert" class="text-destructive text-sm">
             {error}
           </p>
         ) : null}

@@ -122,13 +122,16 @@ export const Button = ({
     );
   }
 
+  const buttonRest = rest as ButtonHTMLAttributes<HTMLButtonElement>;
+
   return (
     <button
       class={resolvedClassName}
       data-slot="button"
       data-variant={resolvedVariant}
       data-size={resolvedSize}
-      {...(rest as Record<string, unknown>)}
+      {...(buttonRest as Record<string, unknown>)}
+      type={buttonRest.type ?? "button"}
     >
       {children}
     </button>

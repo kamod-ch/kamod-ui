@@ -1,5 +1,5 @@
-import { render, screen } from "@testing-library/preact";
-import { describe, expect, it } from "vitest";
+import { fireEvent, render, screen } from "@testing-library/preact";
+import { describe, expect, it, vi } from "vitest";
 import { Button } from "./Button";
 
 describe("Button cn migration", () => {
@@ -48,5 +48,39 @@ describe("Button cn migration", () => {
     expect(el.className).toContain("h-12");
     expect(el.className).not.toMatch(/\bh-8\b/);
     expect(el).toHaveAttribute("data-slot", "button");
+  });
+
+  it("defaults to type button so it does not submit a parent form", () => {
+    const onSubmit = vi.fn();
+    render(
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          onSubmit();
+        }}
+      >
+        <Button>Action</Button>
+      </form>,
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Action" }));
+    expect(onSubmit).not.toHaveBeenCalled();
+    expect(screen.getByRole("button", { name: "Action" })).toHaveAttribute("type", "button");
+  });
+
+  it("submits the parent form when type is submit", () => {
+    const onSubmit = vi.fn();
+    render(
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          onSubmit();
+        }}
+      >
+        <Button type="submit">Send</Button>
+      </form>,
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Send" }));
+    expect(onSubmit).toHaveBeenCalledTimes(1);
+    expect(screen.getByRole("button", { name: "Send" })).toHaveAttribute("type", "submit");
   });
 });

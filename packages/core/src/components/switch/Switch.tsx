@@ -1,5 +1,5 @@
 import type { ButtonHTMLAttributes, ComponentChildren } from "preact";
-import { useState } from "preact/hooks";
+import { useId, useState } from "preact/hooks";
 import { tv, type VariantProps } from "tailwind-variants";
 import { cn } from "../../lib/utils";
 
@@ -59,18 +59,23 @@ export const Switch = ({
   class: className,
   children,
   onClick,
+  id,
+  "aria-labelledby": ariaLabelledBy,
   ...rest
 }: SwitchProps) => {
   const [localChecked, setLocalChecked] = useState(defaultChecked);
   const isControlled = typeof checked === "boolean";
   const nextChecked = isControlled ? checked : localChecked;
+  const generatedId = useId();
+  const labelId = useId();
+  const switchId = id ?? generatedId;
+  const hasLabel = children != null && children !== false;
 
   return (
     <span data-slot="switch-root" class="inline-flex items-center gap-2">
       <button
         type="button"
         role="switch"
-        aria-checked={nextChecked}
         data-slot="switch"
         data-state={nextChecked ? "checked" : "unchecked"}
         data-size={size ?? "default"}
@@ -84,6 +89,9 @@ export const Switch = ({
           onClick?.(event);
         }}
         {...rest}
+        id={switchId}
+        aria-checked={nextChecked}
+        aria-labelledby={hasLabel ? labelId : ariaLabelledBy}
       >
         <span
           data-slot="switch-thumb"
@@ -92,7 +100,16 @@ export const Switch = ({
           class={cn(switchThumb({ size }))}
         />
       </button>
-      {children ? <span data-slot="switch-label">{children}</span> : null}
+      {hasLabel ? (
+        <label
+          id={labelId}
+          htmlFor={switchId}
+          data-slot="switch-label"
+          class="cursor-pointer text-sm leading-none font-medium"
+        >
+          {children}
+        </label>
+      ) : null}
     </span>
   );
 };
