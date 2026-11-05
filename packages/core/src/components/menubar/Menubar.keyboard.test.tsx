@@ -4,6 +4,9 @@ import { Menubar } from "./Menubar";
 import { MenubarContent } from "./MenubarContent";
 import { MenubarItem } from "./MenubarItem";
 import { MenubarMenu } from "./MenubarMenu";
+import { MenubarSub } from "./MenubarSub";
+import { MenubarSubContent } from "./MenubarSubContent";
+import { MenubarSubTrigger } from "./MenubarSubTrigger";
 import { MenubarTrigger } from "./MenubarTrigger";
 
 afterEach(() => {
@@ -68,5 +71,34 @@ describe("Menubar keyboard", () => {
     fireEvent.keyDown(screen.getByRole("menu"), { key: " " });
     expect(onSelect).toHaveBeenCalledOnce();
     expect(screen.queryByRole("menu")).toBeNull();
+  });
+
+  it("opens a submenu with ArrowRight and Escape keeps the parent menu", async () => {
+    render(
+      <Menubar>
+        <MenubarMenu>
+          <MenubarTrigger>File</MenubarTrigger>
+          <MenubarContent>
+            <MenubarSub>
+              <MenubarSubTrigger>Share</MenubarSubTrigger>
+              <MenubarSubContent>
+                <MenubarItem disabled>Blocked</MenubarItem>
+                <MenubarItem>Email</MenubarItem>
+              </MenubarSubContent>
+            </MenubarSub>
+          </MenubarContent>
+        </MenubarMenu>
+      </Menubar>,
+    );
+    fireEvent.click(screen.getByRole("button", { name: "File" }));
+    const subTrigger = screen.getByRole("menuitem", { name: "Share" });
+    subTrigger.focus();
+    fireEvent.keyDown(subTrigger, { key: "ArrowRight" });
+    await waitFor(() =>
+      expect(document.activeElement).toBe(screen.getByRole("menuitem", { name: "Email" })),
+    );
+    fireEvent.keyDown(document, { key: "Escape" });
+    await waitFor(() => expect(subTrigger).toHaveFocus());
+    expect(screen.getAllByRole("menu")).toHaveLength(1);
   });
 });

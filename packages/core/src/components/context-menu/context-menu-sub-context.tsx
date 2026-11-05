@@ -6,6 +6,8 @@ import { useContext, useMemo } from "preact/hooks";
 export type ContextMenuSubContextValue = {
   open: ReturnType<typeof signal<boolean>>;
   setOpen: (next: boolean) => void;
+  markFocusOnOpen: () => void;
+  consumeFocusOnOpen: () => boolean;
 };
 
 const ContextMenuSubContext = createContext<ContextMenuSubContextValue | null>(null);
@@ -27,10 +29,20 @@ export const useContextMenuSub = () => {
 export const useMemoContextMenuSub = (): ContextMenuSubContextValue =>
   useMemo(() => {
     const open = signal(false);
+    let focusOnOpen = false;
     return {
       open,
       setOpen: (next) => {
         open.value = next;
+        if (!next) focusOnOpen = false;
+      },
+      markFocusOnOpen: () => {
+        focusOnOpen = true;
+      },
+      consumeFocusOnOpen: () => {
+        const next = focusOnOpen;
+        focusOnOpen = false;
+        return next;
       },
     };
   }, []);

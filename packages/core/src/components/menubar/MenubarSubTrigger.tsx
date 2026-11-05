@@ -1,4 +1,5 @@
 import type { ButtonHTMLAttributes, ComponentChildren } from "preact";
+import { handleMenuSubTriggerKeyDown } from "../../lib/interactive";
 import { cn } from "../../lib/utils";
 import { useMenubarSub } from "./menubar-context";
 
@@ -29,6 +30,7 @@ export const MenubarSubTrigger = ({
   children,
   onClick,
   onPointerEnter,
+  onKeyDown,
   ...rest
 }: MenubarSubTriggerProps) => {
   const sub = useMenubarSub();
@@ -57,6 +59,16 @@ export const MenubarSubTrigger = ({
         onClick?.(e);
         if (e.defaultPrevented) return;
         sub.setOpen(!open);
+      }}
+      onKeyDown={(event) => {
+        onKeyDown?.(event);
+        if (event.defaultPrevented) return;
+        handleMenuSubTriggerKeyDown(event, event.currentTarget, {
+          onOpen: () => {
+            sub.markFocusOnOpen();
+            sub.setOpen(true);
+          },
+        });
       }}
       {...rest}
     >

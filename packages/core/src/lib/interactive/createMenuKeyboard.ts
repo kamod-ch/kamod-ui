@@ -15,6 +15,84 @@ export const focusInitialMenuItem = (menuRoot: HTMLElement) => {
   (items[0] ?? menuRoot).focus();
 };
 
+export const resolveMenuDirection = (node: HTMLElement): "ltr" | "rtl" => {
+  const scoped = node.closest("[dir]");
+  const dir = scoped?.getAttribute("dir") ?? node.ownerDocument.documentElement.getAttribute("dir");
+  return dir === "rtl" ? "rtl" : "ltr";
+};
+
+export type SubmenuSide = "inline-end" | "inline-start";
+
+export const getSubmenuOpenCloseKeys = (
+  direction: "ltr" | "rtl",
+  side: SubmenuSide = "inline-end",
+): { open: "ArrowLeft" | "ArrowRight"; close: "ArrowLeft" | "ArrowRight" } => {
+  const towardInlineEnd = side === "inline-end";
+  if (direction === "ltr") {
+    return towardInlineEnd
+      ? { open: "ArrowRight", close: "ArrowLeft" }
+      : { open: "ArrowLeft", close: "ArrowRight" };
+  }
+  return towardInlineEnd
+    ? { open: "ArrowLeft", close: "ArrowRight" }
+    : { open: "ArrowRight", close: "ArrowLeft" };
+};
+
+export const getSubmenuRoot = (node: HTMLElement) =>
+  node.closest<HTMLElement>('[data-slot$="-sub"]');
+
+export const getSubmenuTrigger = (subRoot: HTMLElement) =>
+  subRoot.querySelector<HTMLElement>('[data-slot$="-sub-trigger"]');
+
+export const getSubmenuContent = (subRoot: HTMLElement) =>
+  subRoot.querySelector<HTMLElement>('[data-slot$="-sub-content"]');
+
+export type MenuSubTriggerKeyDownOptions = {
+  side?: SubmenuSide;
+  onOpen: () => void;
+};
+
+export const handleMenuSubTriggerKeyDown = (
+  event: KeyboardEvent,
+  trigger: HTMLElement,
+  options: MenuSubTriggerKeyDownOptions,
+) => {
+  const { open: openKey } = getSubmenuOpenCloseKeys(
+    resolveMenuDirection(trigger),
+    options.side ?? "inline-end",
+  );
+  if (event.key !== openKey) return;
+  event.preventDefault();
+  options.onOpen();
+};
+
+export type MenuSubContentKeyDownOptions = {
+  side?: SubmenuSide;
+  onCloseSubmenu: () => void;
+  getParentTrigger: () => HTMLElement | null;
+};
+
+export const handleMenuSubContentKeyDown = (
+  event: KeyboardEvent,
+  menuRoot: HTMLElement,
+  options: MenuSubContentKeyDownOptions,
+) => {
+  const { close: closeKey } = getSubmenuOpenCloseKeys(
+    resolveMenuDirection(menuRoot),
+    options.side ?? "inline-end",
+  );
+
+  if (event.key === closeKey || event.key === "Escape") {
+    event.preventDefault();
+    event.stopPropagation();
+    options.onCloseSubmenu();
+    options.getParentTrigger()?.focus();
+    return;
+  }
+
+  handleMenuContentKeyDown(event, menuRoot);
+};
+
 export const handleMenuContentKeyDown = (
   event: KeyboardEvent,
   menuRoot: HTMLElement,

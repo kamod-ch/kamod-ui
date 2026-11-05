@@ -9,6 +9,17 @@ export {
   enabledMenuItemSelector,
   focusInitialMenuItem,
   getEnabledMenuItems,
+  getSubmenuContent,
+  getSubmenuOpenCloseKeys,
+  getSubmenuRoot,
+  getSubmenuTrigger,
   handleMenuContentKeyDown,
+  handleMenuSubContentKeyDown,
+  handleMenuSubTriggerKeyDown,
+  type MenuSubContentKeyDownOptions,
+  type MenuSubTriggerKeyDownOptions,
+  resolveMenuDirection,
+  type SubmenuSide,
 } from "./createMenuKeyboard";
 export { createRovingFocus } from "./createRovingFocus";
+export { useMenuSubDismissableLayer } from "./useMenuSubDismissableLayer";

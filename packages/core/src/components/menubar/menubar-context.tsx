@@ -47,6 +47,8 @@ export const useMenubarRadio = () => {
 export type MenubarSubContextValue = {
   open: ReturnType<typeof signal<boolean>>;
   setOpen: (next: boolean) => void;
+  markFocusOnOpen: () => void;
+  consumeFocusOnOpen: () => boolean;
 };
 
 export const MenubarSubContext = createContext<MenubarSubContextValue | null>(null);

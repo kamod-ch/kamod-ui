@@ -1,4 +1,5 @@
 import type { ButtonHTMLAttributes, ComponentChildren } from "preact";
+import { handleMenuSubTriggerKeyDown, type SubmenuSide } from "../../lib/interactive";
 import { cn } from "../../lib/utils";
 import { useDropdownSub } from "./dropdown-sub-context";
 
@@ -22,6 +23,8 @@ const ChevronRight = ({ class: className }: { class?: string }) => (
 
 export type DropdownSubTriggerProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   children?: ComponentChildren;
+  /** Must match `DropdownSubContent` `side` for arrow-key open direction. */
+  side?: SubmenuSide;
 };
 
 export const DropdownSubTrigger = ({
@@ -29,6 +32,8 @@ export const DropdownSubTrigger = ({
   children,
   onClick,
   onPointerEnter,
+  onKeyDown,
+  side = "inline-end",
   ...rest
 }: DropdownSubTriggerProps) => {
   const sub = useDropdownSub();
@@ -58,6 +63,17 @@ export const DropdownSubTrigger = ({
         onClick?.(e);
         if (e.defaultPrevented) return;
         sub.setOpen(!open);
+      }}
+      onKeyDown={(event) => {
+        onKeyDown?.(event);
+        if (event.defaultPrevented) return;
+        handleMenuSubTriggerKeyDown(event, event.currentTarget, {
+          side,
+          onOpen: () => {
+            sub.markFocusOnOpen();
+            sub.setOpen(true);
+          },
+        });
       }}
       {...rest}
     >
