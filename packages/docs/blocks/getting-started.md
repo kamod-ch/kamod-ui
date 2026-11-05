@@ -42,8 +42,10 @@ Check `package.json` first. If Preact, Kamod UI or Tailwind is already configure
 For a typical sidebar foundation, the packages used by these guides are:
 
 ```bash
-pnpm add preact @kamod-ch/ui @kamod-ch/icons @kamod-ch/themes @preact/signals
+pnpm add preact@^11.1.1 @kamod-ch/ui @kamod-ch/icons @kamod-ch/themes@^0.2.2 @preact/signals@^2.11.4
 ```
+
+`@kamod-ch/themes` here is the preset and sidebar token foundation these block guides assume — not a required peer for every Kamod component on its own. `@preact/signals` is a required UI peer and is not `@kamod-ch/signals`.
 
 For a Vite project that does not yet process Tailwind CSS v4:
 

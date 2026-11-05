@@ -15,7 +15,7 @@ const contents = sections.map(({ id, title, children }) => ({ id, label: title, 
 export const themingDocPage: DocPageModule = {
   slug: "theming",
   title: "Theming",
-  command: "pnpm add @kamod-ch/ui @kamod-ch/themes @preact/signals",
+  command: "pnpm add @kamod-ch/ui preact@^11.1.1 @preact/signals@^2.11.4 @kamod-ch/themes@^0.2.2",
   usageLabel:
     "Use shared tokens, built-in presets and light/dark controls across Preact components.",
   packagePath: "@kamod-ch/themes",

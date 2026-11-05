@@ -63,15 +63,13 @@ Continue with [Versions & Peers](/docs/packages#package-installation) for depend
 
 ### Install the UI and Theme Foundation
 
-For an existing Preact app, install the UI, full theme foundation and Preact Signals peer dependency. The tabs below provide equivalent commands for the common package managers:
+For an existing Preact app, install Kamod UI with the required Preact and Signals peers. Pin the versions shown so they match `@kamod-ch/ui`'s peer contract. The tabs below provide equivalent commands for the common package managers:
 
 ```bash package-manager
-pnpm add @kamod-ch/ui @kamod-ch/themes @preact/signals
+pnpm add @kamod-ch/ui preact@^11.1.1 @preact/signals@^2.11.4
 ```
 
-`@kamod-ch/ui` supplies components. `@kamod-ch/themes` supplies the full token and preset foundation used throughout these guides. `@preact/signals` belongs to Preact; it is distinct from the optional `@kamod-ch/signals` persistence package described [Later in This Guide](#signals). Ensure `preact` is already installed and compatible with the packages' peer requirements.
-
-Add `@kamod-ch/icons` when your interface or a copied example imports icons. Other dependencies belong to the feature that needs them: a schema form may require `valibot` and `@formisch/preact`, while a plain input does not.
+`@kamod-ch/ui` supplies components. `preact` and `@preact/signals` are required peers — `@preact/signals` comes from Preact and is **not** the optional `@kamod-ch/signals` persistence package described [Later in This Guide](#signals). `@kamod-ch/themes` (^0.2.2) is an **optional** peer: add it when you import `ThemeToggle` or the full preset entry `@kamod-ch/themes/theme.css`. `Button`, `Input`, and `Dialog` do not need `@kamod-ch/themes`. Add `@kamod-ch/icons` when your interface or a copied example imports icons. Other dependencies belong to the feature that needs them: a schema form may require `valibot` and `@formisch/preact`, while a plain input does not.
 
 #### Connect Tailwind to Your Build Tool
 
@@ -104,7 +102,7 @@ Import the stylesheet once from the application entry or your framework's global
 import "./app.css";
 ```
 
-Keep the existing `render` or hydration call in place. Avoid importing Tailwind repeatedly in component stylesheets. The full `@kamod-ch/themes/theme.css` entry includes preset and sidebar mappings; the smaller `@kamod-ch/ui/theme.css` entry serves simpler setups. [Choose One Theme Entry](/docs/theming/installation#choose-a-theme-entry) deliberately instead of combining both and relying on cascade order.
+Keep the existing `render` or hydration call in place. Avoid importing Tailwind repeatedly in component stylesheets. The full `@kamod-ch/themes/theme.css` entry (after installing `@kamod-ch/themes@^0.2.2`) includes preset and sidebar mappings; the smaller `@kamod-ch/ui/theme.css` entry is enough for many apps and does not require `@kamod-ch/themes`. [Choose One Theme Entry](/docs/theming/installation#choose-a-theme-entry) deliberately instead of combining both and relying on cascade order.
 
 #### Verify One Surface and One Interaction
 

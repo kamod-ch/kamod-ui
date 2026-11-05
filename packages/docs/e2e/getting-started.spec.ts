@@ -88,7 +88,7 @@ test("Getting Started: package-manager tabs and copied commands", async ({ page,
     .click();
   await expect
     .poll(() => page.evaluate(() => navigator.clipboard.readText()))
-    .toBe("npm install @kamod-ch/ui @kamod-ch/themes @preact/signals");
+    .toBe("npm install @kamod-ch/ui preact@^11.1.1 @preact/signals@^2.11.4");
 });
 
 test("Getting Started: contextual references across the library", async ({ page }) => {

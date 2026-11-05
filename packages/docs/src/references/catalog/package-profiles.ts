@@ -40,7 +40,7 @@ const profiles: Record<string, SavedPackageProfile> = {
     description:
       "Accessible Preact primitives with Tailwind CSS v4, semantic theme tokens and composable interaction. Import a component from the package root or its public subpath.",
     detail:
-      "Kamod UI 2 uses Preact 11. Install the signals and themes peers even when the first component is presentational; demo-only `@/components/` aliases belong to this documentation.",
+      "Kamod UI 2 uses Preact 11. Install `preact@^11.1.1` and `@preact/signals@^2.11.4` with the UI package; add `@kamod-ch/themes@^0.2.2` only for `ThemeToggle` or the full preset CSS — not for presentational components such as `Button`. `@preact/signals` is not `@kamod-ch/signals`. Demo-only `@/components/` aliases belong to this documentation.",
     source: source("Kamod UI repository", repository("kamod-ui")),
     docs: source("Component guides", "/docs/components"),
     related: [
@@ -66,7 +66,7 @@ const profiles: Record<string, SavedPackageProfile> = {
           "Start with `npm create kamod@latest`, or add the library to an existing Preact application. Runtime peers and the Tailwind Vite plugin serve different roles; install both groups before wiring the stylesheet.",
         code: snippet(
           "bash",
-          "# Existing Preact app: components and runtime peers\npnpm add @kamod-ch/ui @kamod-ch/themes preact@^11 @preact/signals@^2.11.3\n# Build-time CSS processing\npnpm add -D tailwindcss@^4 @tailwindcss/vite",
+          "# Existing Preact app: UI and required peers\npnpm add @kamod-ch/ui preact@^11.1.1 @preact/signals@^2.11.4\n# Optional: ThemeToggle and @kamod-ch/themes/theme.css\npnpm add @kamod-ch/themes@^0.2.2\n# Build-time CSS processing\npnpm add -D tailwindcss@^4 @tailwindcss/vite",
           "Terminal · existing application",
         ),
         note: "Keep the package manager already selected by the consuming application.",

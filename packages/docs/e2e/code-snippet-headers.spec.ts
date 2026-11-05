@@ -28,7 +28,7 @@ async function expectHeaderAboveSource(snippet: Locator) {
 }
 
 const foundationCommand =
-  "pnpm add preact @kamod-ch/ui @kamod-ch/icons @kamod-ch/themes @preact/signals";
+  "pnpm add preact@^11.1.1 @kamod-ch/ui @kamod-ch/icons @kamod-ch/themes@^0.2.2 @preact/signals@^2.11.4";
 const tailwindCommand = "pnpm add -D tailwindcss @tailwindcss/vite";
 const viteConfig = `import { defineConfig } from "vite";
 import preact from "@preact/preset-vite";
@@ -93,7 +93,10 @@ for (const dark of [false, true]) {
           "pnpm list @kamod-ch/ui @kamod-ch/themes preact @preact/signals\npnpm why preact",
           "Run Command·Terminal",
         ],
-        ["pnpm add @kamod-ch/ui @kamod-ch/themes @preact/signals", "Install Packages·Terminal"],
+        [
+          "pnpm add @kamod-ch/ui preact@^11.1.1 @preact/signals@^2.11.4",
+          "Install Packages·Terminal",
+        ],
         ['import "./app.css";', "Import Setup·TypeScript"],
       ] as const) {
         const snippet = section.locator(".docs-code-wrap").filter({
