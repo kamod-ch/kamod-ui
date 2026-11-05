@@ -19,7 +19,7 @@ export const ContextMenuTrigger = ({
   onPointerLeave,
   ...rest
 }: ContextMenuTriggerProps) => {
-  const { setOpen, setPosition } = useContextMenu();
+  const { setOpen, setPosition, triggerRef } = useContextMenu();
   const longPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lastPointer = useRef({ x: 0, y: 0 });
 
@@ -32,6 +32,10 @@ export const ContextMenuTrigger = ({
 
   return (
     <div
+      ref={(node) => {
+        triggerRef.current = node;
+      }}
+      tabIndex={-1}
       data-slot="context-menu-trigger"
       class={cn(className)}
       onContextMenu={(event) => {

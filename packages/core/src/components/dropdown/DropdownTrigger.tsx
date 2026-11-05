@@ -8,7 +8,7 @@ import {
 } from "preact";
 import { tv } from "tailwind-variants";
 import { cn } from "../../lib/utils";
-import { useDropdown } from "./Dropdown";
+import { isDropdownToggleHandledByCapture, useDropdown } from "./Dropdown";
 
 const dropdownTrigger = tv({
   base: [
@@ -38,6 +38,7 @@ export const DropdownTrigger = ({
   class: className,
   children,
   onClick,
+  onKeyDown,
   ref: outerRef,
   ...rest
 }: DropdownTriggerProps) => {
@@ -46,7 +47,21 @@ export const DropdownTrigger = ({
   const handleClick = (event: TargetedMouseEvent<HTMLElement>) => {
     onClick?.(event as TargetedMouseEvent<HTMLButtonElement>);
     if (event.defaultPrevented) return;
+    if (isDropdownToggleHandledByCapture(event)) return;
     dropdown.setOpen(!dropdown.open.value);
+  };
+
+  const handleKeyDown: NonNullable<ButtonHTMLAttributes<HTMLButtonElement>["onKeyDown"]> = (
+    event,
+  ) => {
+    onKeyDown?.(event);
+    if (event.defaultPrevented) return;
+    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+      event.preventDefault();
+      if (!dropdown.open.value) {
+        dropdown.setOpen(true);
+      }
+    }
   };
 
   if (asChild) {
@@ -72,6 +87,10 @@ export const DropdownTrigger = ({
         childProps.onClick?.(event);
         handleClick(event);
       },
+      onKeyDown: (event: Parameters<NonNullable<typeof handleKeyDown>>[0]) => {
+        childProps.onKeyDown?.(event);
+        handleKeyDown(event);
+      },
       ref: (node: HTMLElement | null) => {
         dropdown.triggerRef.current = node;
         callRef(childProps.ref, node);
@@ -95,6 +114,7 @@ export const DropdownTrigger = ({
       aria-haspopup="menu"
       aria-expanded={dropdown.open.value}
       onClick={(event) => handleClick(event as unknown as TargetedMouseEvent<HTMLElement>)}
+      onKeyDown={handleKeyDown}
       {...rest}
     >
       {children}

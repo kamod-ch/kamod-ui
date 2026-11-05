@@ -6,6 +6,7 @@ export type MenubarRootContextValue = {
   openMenuId: ReturnType<typeof signal<string | null>>;
   setOpenMenuId: (id: string | null) => void;
   rootRef: { current: HTMLDivElement | null };
+  rememberTrigger: (node: HTMLButtonElement | null) => void;
 };
 
 export const MenubarRootContext = createContext<MenubarRootContextValue | null>(null);
@@ -18,6 +19,7 @@ export const useMenubarRoot = () => {
 
 export type MenubarMenuContextValue = {
   menuId: string;
+  triggerRef: { current: HTMLButtonElement | null };
 };
 
 export const MenubarMenuContext = createContext<MenubarMenuContextValue | null>(null);

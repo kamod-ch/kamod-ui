@@ -1,7 +1,11 @@
 import type { ComponentChildren, HTMLAttributes } from "preact";
 import { useEffect, useLayoutEffect, useRef, useState } from "preact/hooks";
 import { createPortal } from "../../lib/createPortal";
-import { createDismissableLayer } from "../../lib/interactive";
+import {
+  createDismissableLayer,
+  focusInitialMenuItem,
+  handleMenuContentKeyDown,
+} from "../../lib/interactive";
 import { cn } from "../../lib/utils";
 import { useContextMenu } from "./ContextMenu";
 
@@ -15,10 +19,12 @@ export const ContextMenuContent = ({
   class: className,
   children,
   style,
+  onKeyDown,
   ...rest
 }: ContextMenuContentProps) => {
-  const { open, setOpen, position, contentWrapperRef } = useContextMenu();
+  const { open, setOpen, position, contentWrapperRef, triggerRef } = useContextMenu();
   const innerRef = useRef<HTMLDivElement | null>(null);
+  const menuRef = useRef<HTMLDivElement | null>(null);
   const pt = position.value ?? { x: 0, y: 0 };
   const [fixedPos, setFixedPos] = useState(() => ({ left: pt.x, top: pt.y }));
 
@@ -45,6 +51,12 @@ export const ContextMenuContent = ({
     });
   }, [isOpen, px, py]);
 
+  useLayoutEffect(() => {
+    if (!isOpen) return;
+    const menu = menuRef.current;
+    if (menu) focusInitialMenuItem(menu);
+  }, [isOpen]);
+
   useEffect(() => {
     const setOpenRef = { current: setOpen };
     setOpenRef.current = setOpen;
@@ -52,9 +64,13 @@ export const ContextMenuContent = ({
       root: () => contentWrapperRef.current,
       open: () => Boolean(open.value),
       onDismiss: () => setOpenRef.current(false),
+      onEscapeDismiss: () => {
+        setOpenRef.current(false);
+        triggerRef.current?.focus();
+      },
     });
     return () => layer.dispose();
-  }, [open, setOpen, contentWrapperRef]);
+  }, [open, setOpen, contentWrapperRef, triggerRef]);
 
   if (!isOpen) return null;
 
@@ -78,8 +94,19 @@ export const ContextMenuContent = ({
       {...rest}
     >
       <div
+        ref={menuRef}
         role="menu"
-        class="text-popover-foreground max-h-[min(24rem,calc(100dvh-2rem))] overflow-y-auto rounded-md border bg-popover p-1 shadow-md"
+        tabIndex={-1}
+        class="text-popover-foreground max-h-[min(24rem,calc(100dvh-2rem))] overflow-y-auto rounded-md border bg-popover p-1 shadow-md outline-none"
+        onKeyDown={(event) => {
+          handleMenuContentKeyDown(event, event.currentTarget, {
+            onEscape: () => {
+              setOpen(false);
+              triggerRef.current?.focus();
+            },
+          });
+          onKeyDown?.(event);
+        }}
       >
         {children}
       </div>

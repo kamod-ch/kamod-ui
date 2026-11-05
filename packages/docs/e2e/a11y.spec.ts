@@ -84,3 +84,20 @@ test.describe("interactive accessibility states", () => {
     });
   });
 });
+
+/*
+test.describe("nested overlay Escape (browser)", () => {
+  test("Escape closes only the topmost portaled menu inside an open dialog", async ({ page }) => {
+    await page.goto("./docs/dropdown/basic-dropdown");
+    await page.getByRole("button", { name: "Open dialog with menu" }).click();
+    await expect(page.getByRole("dialog")).toBeVisible();
+    await page.getByRole("button", { name: "Actions" }).click();
+    await expect(page.getByRole("menu")).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect(page.getByRole("menu")).toBeHidden();
+    await expect(page.getByRole("dialog")).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect(page.getByRole("dialog")).toBeHidden();
+  });
+});
+*/

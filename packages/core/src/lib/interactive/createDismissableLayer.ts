@@ -33,16 +33,25 @@ type CreateDismissableLayerOptions = {
   root: () => HTMLElement | null;
   open: () => boolean;
   onDismiss: () => void;
+  /** Escape handling; defaults to `onDismiss`. */
+  onEscapeDismiss?: () => void;
 };
+
+type DismissableLayerEntry = {
+  onDismiss: () => void;
+};
+
+const escapeDismissStack: DismissableLayerEntry[] = [];
 
 export const createDismissableLayer = ({
   root,
   open,
   onDismiss,
+  onEscapeDismiss,
 }: CreateDismissableLayerOptions) => {
   const enabled = signal(true);
   const portalLayerSelector =
-    '[role="dialog"][aria-modal="true"], [data-slot="dialog-content"], [data-slot="command-dialog-content"], [data-slot="alert-dialog-content"], [data-slot="sheet-content"], [data-slot="popover-content"], [data-slot="select-content"], [data-slot="dropdown-content"]';
+    '[role="dialog"][aria-modal="true"], [data-slot="dialog-content"], [data-slot="command-dialog-content"], [data-slot="alert-dialog-content"], [data-slot="sheet-content"], [data-slot="popover-content"], [data-slot="select-content"], [data-slot="dropdown-content"], [data-slot="menubar-content"], [data-slot="context-menu-content"]';
   const overlayLayerSlots = new Set([
     "dialog-content",
     "command-dialog-content",
@@ -51,6 +60,9 @@ export const createDismissableLayer = ({
 
   const stop = effect(() => {
     if (!enabled.value || !open()) return;
+
+    const entry: DismissableLayerEntry = { onDismiss };
+    escapeDismissStack.push(entry);
 
     const onPointerDown = (event: PointerEvent) => {
       const node = root();
@@ -92,17 +104,22 @@ export const createDismissableLayer = ({
     };
 
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        onDismiss();
-      }
+      if (event.key !== "Escape") return;
+      const top = escapeDismissStack[escapeDismissStack.length - 1];
+      if (top !== entry) return;
+      event.preventDefault();
+      event.stopPropagation();
+      (onEscapeDismiss ?? onDismiss)();
     };
 
     document.addEventListener("pointerdown", onPointerDown);
-    document.addEventListener("keydown", onKeyDown);
+    document.addEventListener("keydown", onKeyDown, true);
 
     return () => {
+      const index = escapeDismissStack.indexOf(entry);
+      if (index >= 0) escapeDismissStack.splice(index, 1);
       document.removeEventListener("pointerdown", onPointerDown);
-      document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("keydown", onKeyDown, true);
     };
   });
 

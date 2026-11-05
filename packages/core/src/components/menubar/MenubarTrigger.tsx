@@ -10,14 +10,25 @@ export const MenubarTrigger = ({
   class: className,
   children,
   onClick,
+  onKeyDown,
+  ref: outerRef,
   ...rest
 }: MenubarTriggerProps) => {
   const root = useMenubarRoot();
-  const { menuId } = useMenubarMenu();
+  const { menuId, triggerRef } = useMenubarMenu();
   const open = root.openMenuId.value === menuId;
 
   return (
     <button
+      ref={(node) => {
+        triggerRef.current = node;
+        root.rememberTrigger(node);
+        if (typeof outerRef === "function") {
+          outerRef(node);
+        } else if (outerRef && typeof outerRef === "object" && "current" in outerRef) {
+          outerRef.current = node;
+        }
+      }}
       type="button"
       data-slot="menubar-trigger"
       data-state={open ? "open" : "closed"}
@@ -33,6 +44,16 @@ export const MenubarTrigger = ({
         onClick?.(e);
         if (e.defaultPrevented) return;
         root.setOpenMenuId(open ? null : menuId);
+      }}
+      onKeyDown={(e) => {
+        onKeyDown?.(e);
+        if (e.defaultPrevented) return;
+        if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+          e.preventDefault();
+          if (!open) {
+            root.setOpenMenuId(menuId);
+          }
+        }
       }}
       {...rest}
     >

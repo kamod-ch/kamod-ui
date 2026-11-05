@@ -1,6 +1,8 @@
 import type { ComponentChildren, CSSProperties, HTMLAttributes } from "preact";
+import { useLayoutEffect } from "preact/hooks";
 import { tv, type VariantProps } from "tailwind-variants";
 import { createPortal } from "../../lib/createPortal";
+import { focusInitialMenuItem, handleMenuContentKeyDown } from "../../lib/interactive";
 import { cn } from "../../lib/utils";
 import { useDropdown } from "./Dropdown";
 import { useDropdownPlacement } from "./useDropdownPlacement";
@@ -72,6 +74,12 @@ export const DropdownContent = ({
 }: DropdownContentProps) => {
   const dropdown = useDropdown();
   const isOpen = dropdown.open.value;
+
+  useLayoutEffect(() => {
+    const content = dropdown.contentRef.current;
+    if (isOpen && content) focusInitialMenuItem(content);
+  }, [isOpen, dropdown.contentRef]);
+
   const placement = useDropdownPlacement({
     enabled: portal && (isOpen || forceMount),
     triggerRef: dropdown.triggerRef,
@@ -134,14 +142,13 @@ export const DropdownContent = ({
             : offsetStyle
       }
       onKeyDown={(event) => {
-        if (event.key === "Escape") {
-          event.preventDefault();
-          // A portaled menu has no enclosing Dropdown DOM node to stop a parent Sheet dismissal.
-          if (portal) event.stopPropagation();
-          dropdown.setOpen(false);
-          dropdown.triggerRef.current?.focus();
-          return;
-        }
+        handleMenuContentKeyDown(event, event.currentTarget, {
+          onEscape: () => {
+            if (portal) event.stopPropagation();
+            dropdown.setOpen(false);
+            dropdown.triggerRef.current?.focus();
+          },
+        });
         onKeyDown?.(event);
       }}
       {...rest}

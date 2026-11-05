@@ -5,4 +5,10 @@ export {
 } from "./createDismissableLayer";
 export { getFocusableElements, type TrapFocusOptions, trapFocus } from "./createFocusTrap";
 export { createIdFactory } from "./createIdFactory";
+export {
+  enabledMenuItemSelector,
+  focusInitialMenuItem,
+  getEnabledMenuItems,
+  handleMenuContentKeyDown,
+} from "./createMenuKeyboard";
 export { createRovingFocus } from "./createRovingFocus";

@@ -58,4 +58,35 @@ describe("portaled mobile sidebar dismissal", () => {
     dropdown.dispose();
     sheet.dispose();
   });
+
+  it("dismisses only the topmost open layer on Escape", () => {
+    const dialogRoot = document.createElement("div");
+    dialogRoot.dataset.slot = "dialog-content";
+    dialogRoot.setAttribute("data-state", "open");
+    const dropdownRoot = document.createElement("div");
+    const dismissDialog = vi.fn();
+    const dismissDropdown = vi.fn();
+    document.body.append(dialogRoot, dropdownRoot);
+
+    const dialog = createDismissableLayer({
+      root: () => dialogRoot,
+      open: () => true,
+      onDismiss: dismissDialog,
+    });
+    const dropdown = createDismissableLayer({
+      root: () => dropdownRoot,
+      open: () => true,
+      onDismiss: dismissDropdown,
+    });
+
+    document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+    expect(dismissDropdown).toHaveBeenCalledOnce();
+    expect(dismissDialog).not.toHaveBeenCalled();
+
+    dropdown.dispose();
+    document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+    expect(dismissDialog).toHaveBeenCalledOnce();
+
+    dialog.dispose();
+  });
 });

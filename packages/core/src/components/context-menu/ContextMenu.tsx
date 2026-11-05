@@ -12,6 +12,7 @@ export type ContextMenuContextValue = {
   position: ReturnType<typeof signal<ContextMenuPoint>>;
   setPosition: (p: ContextMenuPoint) => void;
   contentWrapperRef: { current: HTMLDivElement | null };
+  triggerRef: { current: HTMLElement | null };
 };
 
 const ContextMenuContext = createContext<ContextMenuContextValue | null>(null);
@@ -41,6 +42,7 @@ export const ContextMenu = ({
   const open = useMemo(() => signal(isControlled ? Boolean(openProp) : defaultOpen), []);
   const position = useMemo(() => signal<ContextMenuPoint>({ x: 0, y: 0 }), []);
   const contentWrapperRef = useRef<HTMLDivElement | null>(null);
+  const triggerRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     if (isControlled && openProp !== undefined) {
@@ -68,6 +70,7 @@ export const ContextMenu = ({
           position.value = p;
         },
         contentWrapperRef,
+        triggerRef,
       }}
     >
       <div

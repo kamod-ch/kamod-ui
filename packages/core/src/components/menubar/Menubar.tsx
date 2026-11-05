@@ -13,6 +13,7 @@ export type MenubarProps = HTMLAttributes<HTMLDivElement> & {
 export const Menubar = ({ class: className, children, dir, ...rest }: MenubarProps) => {
   const openMenuId = useMemo(() => signal<string | null>(null), []);
   const rootRef = useRef<HTMLDivElement | null>(null);
+  const lastTriggerRef = useRef<HTMLButtonElement | null>(null);
 
   const ctx = useMemo(
     () => ({
@@ -21,6 +22,9 @@ export const Menubar = ({ class: className, children, dir, ...rest }: MenubarPro
         openMenuId.value = id;
       },
       rootRef,
+      rememberTrigger: (node: HTMLButtonElement | null) => {
+        lastTriggerRef.current = node;
+      },
     }),
     [openMenuId],
   );
@@ -31,6 +35,10 @@ export const Menubar = ({ class: className, children, dir, ...rest }: MenubarPro
       open: () => openMenuId.value != null,
       onDismiss: () => {
         openMenuId.value = null;
+      },
+      onEscapeDismiss: () => {
+        openMenuId.value = null;
+        lastTriggerRef.current?.focus();
       },
     });
     return () => layer.dispose();
