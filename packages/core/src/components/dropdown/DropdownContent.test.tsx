@@ -5,6 +5,9 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { Dropdown } from "./Dropdown";
 import { DropdownContent } from "./DropdownContent";
 import { DropdownItem } from "./DropdownItem";
+import { DropdownSub } from "./DropdownSub";
+import { DropdownSubContent } from "./DropdownSubContent";
+import { DropdownSubTrigger } from "./DropdownSubTrigger";
 import { DropdownTrigger } from "./DropdownTrigger";
 import { useDropdownPlacement } from "./useDropdownPlacement";
 
@@ -27,6 +30,27 @@ describe("dropdown content placement", () => {
     const menu = screen.getByRole("menu");
     expect(menu.className).toContain("bg-popover");
     expect(menu.className).not.toContain("bg-white");
+  });
+
+  it("uses the popover surface token on sub content instead of bg-white", () => {
+    render(
+      <Dropdown defaultOpen>
+        <DropdownTrigger>Actions</DropdownTrigger>
+        <DropdownContent>
+          <DropdownSub>
+            <DropdownSubTrigger>More</DropdownSubTrigger>
+            <DropdownSubContent>
+              <DropdownItem>Nested</DropdownItem>
+            </DropdownSubContent>
+          </DropdownSub>
+        </DropdownContent>
+      </Dropdown>,
+    );
+    fireEvent.pointerEnter(screen.getByRole("menuitem", { name: "More" }));
+    const subMenu = document.querySelector('[data-slot="dropdown-sub-content"]');
+    expect(subMenu).not.toBeNull();
+    expect(subMenu!.className).toContain("bg-popover");
+    expect(subMenu!.className).not.toContain("bg-white");
   });
 
   it("bounds portal attachment retries when a trigger never mounts and cancels on unmount", () => {
