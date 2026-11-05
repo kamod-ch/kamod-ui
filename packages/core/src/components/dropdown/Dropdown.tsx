@@ -1,9 +1,9 @@
 import { signal } from "@preact/signals";
 import type { ComponentChildren, HTMLAttributes } from "preact";
 import { createContext } from "preact";
-import { useContext, useEffect, useMemo, useRef } from "preact/hooks";
+import { useContext, useEffect, useId, useMemo, useRef } from "preact/hooks";
 import { tv } from "tailwind-variants";
-import { createDismissableLayer, createIdFactory } from "../../lib/interactive";
+import { createDismissableLayer } from "../../lib/interactive";
 import { cn } from "../../lib/utils";
 
 export type DropdownContextValue = {
@@ -17,7 +17,6 @@ export type DropdownContextValue = {
 };
 
 const DropdownContext = createContext<DropdownContextValue | null>(null);
-const nextDropdownId = createIdFactory("kamod-dropdown");
 const dropdownToggleHandledByCapture = new WeakSet<Event>();
 
 export const useDropdown = () => {
@@ -49,10 +48,9 @@ export const Dropdown = ({
   const rootRef = useRef<HTMLDivElement | null>(null);
   const triggerRef = useRef<HTMLElement | null>(null);
   const contentRef = useRef<HTMLDivElement | null>(null);
-  const instanceId = useMemo(() => nextDropdownId(), []);
-
-  const triggerId = `${instanceId}-trigger`;
-  const contentId = `${instanceId}-content`;
+  const instanceId = useId();
+  const triggerId = `kamod-dropdown-${instanceId}-trigger`;
+  const contentId = `kamod-dropdown-${instanceId}-content`;
   const setOpen = (next: boolean) => {
     open.value = next;
   };

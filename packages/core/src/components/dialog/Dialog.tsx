@@ -1,7 +1,7 @@
-import { type Signal, signal } from "@preact/signals";
+import { signal } from "@preact/signals";
 import type { ComponentChildren, HTMLAttributes } from "preact";
 import { createContext } from "preact";
-import { useContext, useEffect, useMemo, useRef } from "preact/hooks";
+import { useContext, useEffect, useId, useMemo, useRef } from "preact/hooks";
 import { createDismissableLayer } from "../../lib/interactive";
 import { createControllableSignal } from "../../lib/signals";
 
@@ -86,8 +86,8 @@ export type DialogContextValue = {
   open: ReturnType<typeof signal<boolean>>;
   setOpen: (next: boolean) => void;
   triggerRef: { current: HTMLElement | null };
-  titleId: Signal<string | undefined>;
-  descriptionId: Signal<string | undefined>;
+  defaultTitleId: string;
+  defaultDescriptionId: string;
 };
 
 const DialogContext = createContext<DialogContextValue | null>(null);
@@ -118,8 +118,9 @@ export const Dialog = ({
   const onOpenChangeRef = useRef(onOpenChange);
   onOpenChangeRef.current = onOpenChange;
   const triggerRef = useRef<HTMLElement | null>(null);
-  const titleId = useMemo(() => signal<string | undefined>(undefined), []);
-  const descriptionId = useMemo(() => signal<string | undefined>(undefined), []);
+  const instanceId = useId();
+  const defaultTitleId = `dialog-title-${instanceId}`;
+  const defaultDescriptionId = `dialog-description-${instanceId}`;
 
   const controllable = useMemo(
     () =>
@@ -170,7 +171,9 @@ export const Dialog = ({
   }, [lockBodyScroll, open.value]);
 
   return (
-    <DialogContext.Provider value={{ open, setOpen, triggerRef, titleId, descriptionId }}>
+    <DialogContext.Provider
+      value={{ open, setOpen, triggerRef, defaultTitleId, defaultDescriptionId }}
+    >
       <div ref={rootRef} data-slot="dialog" data-state={open.value ? "open" : "closed"} {...rest}>
         {children}
       </div>

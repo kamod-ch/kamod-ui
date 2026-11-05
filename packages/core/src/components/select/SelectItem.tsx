@@ -1,6 +1,5 @@
 import type { ComponentChildren, HTMLAttributes, TargetedMouseEvent } from "preact";
-import { useEffect, useMemo, useRef } from "preact/hooks";
-import { createIdFactory } from "../../lib/interactive";
+import { useEffect, useId, useRef } from "preact/hooks";
 import { cn } from "../../lib/utils";
 import { useSelect } from "./Select";
 
@@ -24,9 +23,9 @@ export const SelectItem = ({
 }: SelectItemProps) => {
   const select = useSelect();
   const itemRef = useRef<HTMLDivElement | null>(null);
-  const autoIdFactory = useMemo(() => createIdFactory("select-item"), []);
+  const generatedId = useId();
   const explicitId = typeof id === "string" ? id : undefined;
-  const itemId = useMemo(() => autoIdFactory(explicitId), [autoIdFactory, explicitId]);
+  const itemId = explicitId ?? `select-item-${generatedId}`;
   const selected = select.selectedValue.value === value;
   const active = select.activeItemId.value === itemId;
 

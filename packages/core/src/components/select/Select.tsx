@@ -1,8 +1,8 @@
 import { signal } from "@preact/signals";
 import type { ComponentChildren, HTMLAttributes } from "preact";
 import { createContext } from "preact";
-import { useContext, useEffect, useMemo, useRef } from "preact/hooks";
-import { createDismissableLayer, createIdFactory } from "../../lib/interactive";
+import { useContext, useEffect, useId, useMemo, useRef } from "preact/hooks";
+import { createDismissableLayer } from "../../lib/interactive";
 import { cn } from "../../lib/utils";
 
 type SelectItemRecord = {
@@ -56,9 +56,9 @@ export const Select = ({
   const rootRef = useRef<HTMLDivElement | null>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const itemsRef = useRef<SelectItemRecord[]>([]);
-  const idFactory = useMemo(() => createIdFactory("select"), []);
-  const triggerId = useMemo(() => idFactory(), [idFactory]);
-  const contentId = useMemo(() => idFactory(), [idFactory]);
+  const instanceId = useId();
+  const triggerId = `select-${instanceId}-trigger`;
+  const contentId = `select-${instanceId}-content`;
 
   const open = useMemo(() => signal(false), []);
   const isControlled = typeof value === "string";

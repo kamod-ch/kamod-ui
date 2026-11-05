@@ -1,10 +1,7 @@
 import type { ComponentChildren, HTMLAttributes } from "preact";
-import { useMemo, useRef } from "preact/hooks";
-import { createIdFactory } from "../../lib/interactive";
+import { useId, useRef } from "preact/hooks";
 import { cn } from "../../lib/utils";
 import { MenubarMenuContext } from "./menubar-context";
-
-const nextMenuId = createIdFactory("menubar-menu");
 
 export type MenubarMenuProps = HTMLAttributes<HTMLDivElement> & {
   children?: ComponentChildren;
@@ -18,7 +15,8 @@ export const MenubarMenu = ({
   value: valueProp,
   ...rest
 }: MenubarMenuProps) => {
-  const menuId = useMemo(() => nextMenuId(valueProp), [valueProp]);
+  const generatedId = useId();
+  const menuId = valueProp ?? `menubar-menu-${generatedId}`;
   const triggerRef = useRef<HTMLButtonElement | null>(null);
 
   return (

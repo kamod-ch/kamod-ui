@@ -36,7 +36,7 @@ export const SheetContent = ({
 }: SheetContentProps) => {
   const dialog = useDialog();
   const isOpen = dialog.open.value;
-  const { panelRef, labelledBy, describedBy } = useModalPanelA11y(isOpen || forceMount);
+  const { panelRef, labelledBy, describedBy } = useModalPanelA11y(isOpen || forceMount, children);
   if (!isOpen && !forceMount) return null;
 
   const state = isOpen ? "open" : "closed";

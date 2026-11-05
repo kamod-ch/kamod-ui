@@ -1,9 +1,9 @@
 import { signal } from "@preact/signals";
 import type { ComponentChildren, HTMLAttributes } from "preact";
 import { createContext } from "preact";
-import { useContext, useEffect, useMemo, useRef } from "preact/hooks";
+import { useContext, useEffect, useId, useMemo, useRef } from "preact/hooks";
 import { tv } from "tailwind-variants";
-import { createDismissableLayer, createIdFactory } from "../../lib/interactive";
+import { createDismissableLayer } from "../../lib/interactive";
 import { cn } from "../../lib/utils";
 
 type PopoverContextValue = {
@@ -17,7 +17,6 @@ type PopoverContextValue = {
 };
 
 const PopoverContext = createContext<PopoverContextValue | null>(null);
-const nextPopoverId = createIdFactory("kamod-popover");
 
 export const usePopover = () => {
   const context = useContext(PopoverContext);
@@ -49,7 +48,9 @@ export const Popover = ({
   const rootRef = useRef<HTMLDivElement | null>(null);
   const triggerRef = useRef<HTMLElement | null>(null);
   const contentRef = useRef<HTMLDivElement | null>(null);
-  const instanceId = useMemo(() => nextPopoverId(), []);
+  const instanceId = useId();
+  const triggerId = `kamod-popover-${instanceId}-trigger`;
+  const contentId = `kamod-popover-${instanceId}-content`;
 
   useEffect(() => {
     if (isControlled && openProp !== undefined) {
@@ -83,8 +84,8 @@ export const Popover = ({
       value={{
         open,
         setOpen,
-        triggerId: `${instanceId}-trigger`,
-        contentId: `${instanceId}-content`,
+        triggerId,
+        contentId,
         rootRef,
         triggerRef,
         contentRef,
