@@ -1,10 +1,10 @@
-import { signal } from "@preact/signals";
+import { type Signal, signal } from "@preact/signals";
 import type { ComponentChildren } from "preact";
 import { createContext } from "preact";
 import { useContext, useMemo } from "preact/hooks";
 
 export type ContextMenuSubContextValue = {
-  open: ReturnType<typeof signal<boolean>>;
+  open: Signal<boolean>;
   setOpen: (next: boolean) => void;
   markFocusOnOpen: () => void;
   consumeFocusOnOpen: () => boolean;
