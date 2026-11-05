@@ -68,7 +68,7 @@ Choose a starter:
 ```bash
 pnpm create vite@latest my-app -- --template preact-ts
 cd my-app
-pnpm add @kamod-ch/ui @kamod-ch/themes preact@^11.1.1 @preact/signals@^2.11.4
+pnpm add @kamod-ch/ui preact@^11.1.1 @preact/signals@^2.11.4
 pnpm add -D tailwindcss@^4 @tailwindcss/vite
 ```
 
@@ -115,7 +115,7 @@ export function App() {
 }
 ```
 
-This is the smallest full setup. If you already have a Vite app, keep the `@kamod-ch/ui/theme.css` import and install all runtime peers (`preact`, `@preact/signals`, and `@kamod-ch/themes`).
+This is the smallest full setup. If you already have a Vite app, keep the `@kamod-ch/ui/theme.css` import and install the required runtime peers (`preact` and `@preact/signals`). Add **`@kamod-ch/themes`** only when you import **`ThemeToggle`** — components such as **`Button`**, **`Input`**, and **`Dialog`** do not need that package.
 
 Browse the [live component docs](https://ui.kamod.ch/docs/button) for variants, composition, and RTL examples.
 
@@ -172,7 +172,7 @@ Browse the [live component docs](https://ui.kamod.ch/docs/button) for variants, 
 
 - **Preact** `^11.1.1` (Preact 10 is not supported by Kamod UI 2)
 - **`@preact/signals`** `^2.11.4` (required peer dependency — see below)
-- **`@kamod-ch/themes`** `^0.2.2` (theme runtime used by components such as `ThemeToggle`)
+- **`@kamod-ch/themes`** `^0.2.2` (optional peer — required only when you import **`ThemeToggle`**; not needed for **`Button`**, **`Input`**, **`Dialog`**, or other core components)
 - **Tailwind CSS v4** (v3 is not supported)
 - **Node.js** 20 or newer for development and package tooling
 - An ESM-friendly bundler (Vite, Rolldown, esbuild, …). Kamod UI is **ESM-only**; it does not ship a CommonJS build.
@@ -181,7 +181,7 @@ Browse the [live component docs](https://ui.kamod.ch/docs/button) for variants, 
 ### Install
 
 ```bash
-pnpm add @kamod-ch/ui @kamod-ch/themes preact@^11.1.1 @preact/signals@^2.11.4
+pnpm add @kamod-ch/ui preact@^11.1.1 @preact/signals@^2.11.4
 ```
 
 The published library on npm is **[`@kamod-ch/ui`](https://www.npmjs.com/package/@kamod-ch/ui)**. This monorepo root and `packages/docs` are not published. The former package [`@kamod-ui/core`](https://www.npmjs.com/package/@kamod-ui/core) and the unscoped [`kamod-ui`](https://www.npmjs.com/package/kamod-ui) name are legacy — install `@kamod-ch/ui` instead.
@@ -208,6 +208,16 @@ Import the default theme once so Tailwind compiles component classes and semanti
 | Advanced toast / sonner integration | `@kamod-ch/ui/toast` or `@kamod-ch/ui/sonner` stores                           |
 
 See the [**Signals** column in the component reference](.docs/COMPONENTS.md) for which exports use signals internally (direct, indirect via Dialog/Popover, or none).
+
+### `@kamod-ch/themes`
+
+`@kamod-ch/themes` is an **optional peer dependency** of `@kamod-ch/ui`. Install it when you import **`ThemeToggle`** (or other code that depends on the themes runtime). **`Button`**, **`Input`**, **`Dialog`**, and the rest of the core library do not require `@kamod-ch/themes` — only `@kamod-ch/ui/theme.css` in your app styles for design tokens.
+
+If `@kamod-ch/themes` is not installed and your bundle imports **`ThemeToggle`**, module resolution fails at build time (there is no silent fallback).
+
+```bash
+pnpm add @kamod-ch/themes
+```
 
 ### Per-component imports (tree-shaking)
 
