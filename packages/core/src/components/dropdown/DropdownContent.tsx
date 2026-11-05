@@ -30,7 +30,7 @@ const alignByAxis = {
 export const dropdownContent = tv({
   base: [
     // overflow-x visible so DropdownSubContent (absolute start-full) is not clipped; keep vertical scroll for long menus
-    "bg-white text-popover-foreground z-50 flex min-w-[7rem] flex-col gap-0 overflow-x-visible overflow-y-auto rounded-lg p-px shadow-md outline-none ring-1 ring-foreground/10 dark:bg-popover",
+    "bg-popover text-popover-foreground z-50 flex min-w-[7rem] flex-col gap-0 overflow-x-visible overflow-y-auto rounded-lg p-px shadow-md outline-none ring-1 ring-foreground/10",
     "dark:ring-foreground/15",
     "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=open]:duration-100",
     "data-[state=closed]:animate-out data-[state=closed]:fill-mode-forwards data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=closed]:duration-100",
@@ -52,7 +52,11 @@ export const dropdownContent = tv({
 export type DropdownContentProps = HTMLAttributes<HTMLDivElement> &
   VariantProps<typeof dropdownContent> & {
     forceMount?: boolean;
-    /** Render in document.body and keep the menu inside the viewport, escaping scroll clipping. */
+    /**
+     * Render in `document.body`, align to the trigger, and keep the menu in the viewport.
+     * Default `false` (inline next to the trigger). Set `portal` when a parent uses
+     * `overflow: hidden` or scroll clipping would cut off the menu.
+     */
     portal?: boolean;
     side?: "top" | "bottom" | "left" | "right";
     align?: "start" | "center" | "end";

@@ -15,6 +15,20 @@ afterEach(() => {
 });
 
 describe("dropdown content placement", () => {
+  it("uses the popover surface token instead of a hard-coded white background", () => {
+    render(
+      <Dropdown defaultOpen>
+        <DropdownTrigger>Actions</DropdownTrigger>
+        <DropdownContent>
+          <DropdownItem>Account</DropdownItem>
+        </DropdownContent>
+      </Dropdown>,
+    );
+    const menu = screen.getByRole("menu");
+    expect(menu.className).toContain("bg-popover");
+    expect(menu.className).not.toContain("bg-white");
+  });
+
   it("bounds portal attachment retries when a trigger never mounts and cancels on unmount", () => {
     const jobs: VoidFunction[] = [];
     vi.stubGlobal("queueMicrotask", (job: VoidFunction) => jobs.push(job));

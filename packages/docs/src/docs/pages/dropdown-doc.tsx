@@ -256,25 +256,29 @@ export const Example = () => (
     {
       id: "positioning",
       title: "Positioning",
-      text: "**Position for the Available Space.** Set `side`, `align` and `sideOffset` on `DropdownContent` to position the menu relative to its trigger. These choices tune the available space around the popup without changing the labels or behavior of its actions.\n\nTest triggers near each edge and within scrolling containers, and avoid using large offsets that make the menu feel disconnected from its source.",
+      text: "**Position for the Available Space.** Set `side`, `align` and `sideOffset` on `DropdownContent` to position the menu relative to its trigger. These choices tune the available space around the popup without changing the labels or behavior of its actions.\n\nTest triggers near each edge and within scrolling containers. When a parent clips overflow, pass `portal` so the menu renders in `document.body` instead of being cut off. Avoid large offsets that make the menu feel disconnected from its source.",
       code: `import { Dropdown, DropdownContent, DropdownItem, DropdownTrigger } from "@/components/kamod-ui/dropdown";
 
 export const Example = () => (
-  <Dropdown>
-    <DropdownTrigger>Top / end</DropdownTrigger>
-    <DropdownContent side="top" align="end" sideOffset={8}>
-      <DropdownItem>One</DropdownItem>
-    </DropdownContent>
-  </Dropdown>
+  <div class="h-24 overflow-hidden rounded-lg border p-2">
+    <Dropdown>
+      <DropdownTrigger>Top / end</DropdownTrigger>
+      <DropdownContent portal side="top" align="end" sideOffset={8}>
+        <DropdownItem>One</DropdownItem>
+      </DropdownContent>
+    </Dropdown>
+  </div>
 );`,
       renderPreview: () => (
-        <Dropdown>
-          <DropdownTrigger>Top / end</DropdownTrigger>
-          <DropdownContent side="top" align="end" sideOffset={8}>
-            <DropdownItem>One</DropdownItem>
-            <DropdownItem>Two</DropdownItem>
-          </DropdownContent>
-        </Dropdown>
+        <div class="h-24 w-full overflow-hidden rounded-lg border p-2">
+          <Dropdown>
+            <DropdownTrigger>Top / end</DropdownTrigger>
+            <DropdownContent portal side="top" align="end" sideOffset={8}>
+              <DropdownItem>One</DropdownItem>
+              <DropdownItem>Two</DropdownItem>
+            </DropdownContent>
+          </Dropdown>
+        </div>
       ),
     },
   ],
@@ -282,6 +286,7 @@ export const Example = () => (
     { prop: "defaultOpen", type: "boolean", defaultValue: "false" },
     { prop: "DropdownTrigger asChild", type: "boolean", defaultValue: "false" },
     { prop: "DropdownContent forceMount", type: "boolean", defaultValue: "false" },
+    { prop: "DropdownContent portal", type: "boolean", defaultValue: "false" },
     {
       prop: "DropdownContent side",
       type: '"top" | "bottom" | "left" | "right"',
