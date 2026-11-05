@@ -107,7 +107,7 @@ In `packages/docs` you can also run `pnpm qa:themes` for theme regression checks
 
 Please ensure `pnpm typecheck`, `pnpm lint`, and relevant tests pass before opening a pull request.
 
-**Accessibility audits** (`pnpm lint:a11y`, `pnpm test:a11y`) are documented in [docs/accessibility-testing.md](docs/accessibility-testing.md). They run locally today but are **not** enforced in GitHub CI until both commands pass reliably in a clean checkout.
+**Accessibility audits** (`pnpm lint:a11y`, `pnpm test:a11y`) are documented in [docs/accessibility-testing.md](docs/accessibility-testing.md). GitHub Actions runs them in the **`a11y`** job on pull requests and pushes to `main` / `master`.
 
 ## Components and documentation
 

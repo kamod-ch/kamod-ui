@@ -14,7 +14,14 @@ afterEach(() => {
 function Preview({ onSuspend = () => {} }: { onSuspend?: () => void }) {
   const frame = useRef<HTMLIFrameElement>(null);
   const { active, complete } = usePreviewActivation(frame, onSuspend);
-  return <iframe ref={frame} src={active ? "/preview" : "about:blank"} onLoad={complete} />;
+  return (
+    <iframe
+      ref={frame}
+      title="Preview"
+      src={active ? "/preview" : "about:blank"}
+      onLoad={complete}
+    />
+  );
 }
 
 function startNext() {
