@@ -1,4 +1,5 @@
 import type { ComponentChildren, HTMLAttributes, TargetedKeyboardEvent } from "preact";
+import { useMemo } from "preact/hooks";
 import { createPortal } from "../../lib/createPortal";
 import { isPointerWithinModalDialogPanelSlop } from "../../lib/interactive";
 import { cn } from "../../lib/utils";
@@ -36,6 +37,9 @@ export type DialogContentProps = HTMLAttributes<HTMLDivElement> & {
    */
   presentation?: DialogContentPresentation;
   showCloseButton?: boolean;
+  role?: "dialog" | "alertdialog";
+  /** Override the default focus target when the modal opens (for example AlertDialog cancel). */
+  getInitialFocus?: (panel: HTMLElement) => HTMLElement | null | undefined;
   children?: ComponentChildren;
   "data-slot"?: string;
 };
@@ -50,6 +54,8 @@ export const DialogContent = ({
   forceMount = false,
   presentation = "modal",
   showCloseButton = true,
+  role = "dialog",
+  getInitialFocus,
   class: className,
   children,
   onKeyDown,
@@ -60,7 +66,15 @@ export const DialogContent = ({
 }: DialogContentProps) => {
   const dialog = useDialog();
   const isOpen = dialog.open.value;
-  const { panelRef, labelledBy, describedBy } = useModalPanelA11y(isOpen || forceMount, children);
+  const trapOptions = useMemo(
+    () => (getInitialFocus ? { focusContainer: false as const, getInitialFocus } : undefined),
+    [getInitialFocus],
+  );
+  const { panelRef, labelledBy, describedBy } = useModalPanelA11y(
+    isOpen || forceMount,
+    children,
+    trapOptions,
+  );
   if (!isOpen && !forceMount) return null;
 
   const state = isOpen ? "open" : "closed";
@@ -81,7 +95,7 @@ export const DialogContent = ({
     const content = (
       <div
         ref={panelRef}
-        role="dialog"
+        role={role}
         aria-modal="true"
         tabIndex={-1}
         data-slot={dataSlot}
@@ -115,7 +129,7 @@ export const DialogContent = ({
       />
       <div
         ref={panelRef}
-        role="dialog"
+        role={role}
         aria-modal="true"
         tabIndex={-1}
         data-slot={dataSlot}

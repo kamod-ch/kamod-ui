@@ -3,6 +3,32 @@ import { describe, expect, it } from "vitest";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./index";
 
 describe("Accordion", () => {
+  it("links each trigger to its panel with distinct aria-controls values", () => {
+    render(
+      <Accordion type="multiple" defaultValue={["one", "two"]}>
+        <AccordionItem value="one">
+          <AccordionTrigger>Section one</AccordionTrigger>
+          <AccordionContent>Panel one body</AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="two">
+          <AccordionTrigger>Section two</AccordionTrigger>
+          <AccordionContent>Panel two body</AccordionContent>
+        </AccordionItem>
+      </Accordion>,
+    );
+
+    const first = screen.getByRole("button", { name: "Section one" });
+    const second = screen.getByRole("button", { name: "Section two" });
+    const panelOne = screen.getByRole("region", { name: "Section one" });
+    const panelTwo = screen.getByRole("region", { name: "Section two" });
+
+    expect(first).toHaveAttribute("aria-controls", panelOne.id);
+    expect(second).toHaveAttribute("aria-controls", panelTwo.id);
+    expect(first.getAttribute("aria-controls")).not.toBe(second.getAttribute("aria-controls"));
+    expect(panelOne).toHaveAttribute("aria-labelledby", first.id);
+    expect(panelTwo).toHaveAttribute("aria-labelledby", second.id);
+  });
+
   it("toggles aria-expanded and settles without remounting open content", async () => {
     render(
       <Accordion type="single" collapsible defaultValue="one">

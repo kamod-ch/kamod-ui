@@ -1,6 +1,7 @@
 import type { ComponentChildren, CSSProperties, HTMLAttributes } from "preact";
 import { useHeightDisclosureContent } from "../../lib/disclosure/use-height-disclosure-content";
 import { cn } from "../../lib/utils";
+import { useAccordion } from "./Accordion";
 import { useAccordionItem } from "./AccordionItem";
 
 export type AccordionContentProps = HTMLAttributes<HTMLDivElement> & {
@@ -22,9 +23,13 @@ export const AccordionContent = ({
   children,
   class: className,
   style,
+  id: idProp,
   ...rest
 }: AccordionContentProps) => {
-  const { isOpen } = useAccordionItem();
+  const { contentId, triggerId } = useAccordion();
+  const { value, isOpen } = useAccordionItem();
+  const panelId = idProp ?? contentId(value);
+  const labelledBy = triggerId(value);
   const {
     allowRender,
     isAnimatingClose,
@@ -53,6 +58,9 @@ export const AccordionContent = ({
   return (
     <div
       ref={outerRef}
+      id={panelId}
+      role="region"
+      aria-labelledby={labelledBy}
       data-slot="accordion-content"
       data-state={isOpen ? "open" : "closed"}
       onTransitionEnd={handleTransitionEnd}

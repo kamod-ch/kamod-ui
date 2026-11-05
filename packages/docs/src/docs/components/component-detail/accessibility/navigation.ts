@@ -78,9 +78,9 @@ export const navigationAccessibility: AccessibilityProfiles = {
   },
   accordion: {
     foundation:
-      "AccordionTrigger is a button with `aria-expanded`; disabled items use the button's native disabled state. Accordion defaults to single-item selection. The current trigger does not automatically create a heading or a trigger-to-panel `aria-controls` relationship.",
+      "AccordionTrigger is a button with `aria-expanded`, `aria-controls`, and a stable `id`; AccordionContent is a labeled region with a matching panel `id`. Disabled items use the button's native disabled state. Accordion defaults to single-item selection. Closed panels stay inert while hidden content unmounts after close animations.",
     naming:
-      "Write a useful title for each disclosure and place it at an appropriate heading level when it represents a document section. Add stable trigger/content IDs and a relationship when your composition needs it; do not invent IDs that differ between server and client.",
+      "Write a useful title for each disclosure and place it at an appropriate heading level when it represents a document section. Trigger and panel IDs are coordinated with `useId` for SSR-safe relationships; override `id` only when you manage uniqueness yourself.",
     interaction:
       "Tab reaches available triggers; Enter and Space toggle through native button behavior. Do not promise Up/Down or Home/End navigation between headers when using this implementation. Confirm collapsed content cannot retain unreachable keyboard focus.",
     pitfalls:

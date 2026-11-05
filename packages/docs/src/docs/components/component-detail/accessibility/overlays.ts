@@ -40,11 +40,11 @@ export function ExportDetails() {
   },
   "alert-dialog": {
     foundation:
-      "AlertDialog wraps Kamod Dialog and locks body scrolling. AlertDialogContent uses the slot presentation to supply its own overlay and panel. Its current inherited surface uses dialog semantics; the component name does not automatically change the role to alertdialog.",
+      'AlertDialog wraps Kamod Dialog and locks body scrolling. AlertDialogContent uses the slot presentation with `role="alertdialog"`, its own overlay and panel, and initial focus on Cancel when that action is present (otherwise the portaled root panel).',
     naming:
       "State the specific consequence in the title and explanation: identify what will be deleted or changed. Use explicit action text such as Delete workspace, and provide an equally understandable cancellation action.",
     interaction:
-      "Verify initial focus deliberately for consequential actions; do not assume the Cancel button automatically receives it. Test the inherited Escape and outside-interaction behavior against the confirmation flow your application needs.",
+      "Verify initial focus lands on Cancel when provided, then test Tab order, Escape dismissal and return focus to the trigger. Confirm the destructive action remains reachable without bypassing the confirmation copy your product requires.",
     pitfalls:
       "Do not use a destructive color as the only warning, and do not claim that this wrapper prevents every accidental dismissal. Handle pending, failed and completed actions without closing the dialog before an error can be understood.",
     checks: [

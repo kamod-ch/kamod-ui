@@ -1,7 +1,7 @@
 import { type Signal, signal } from "@preact/signals";
 import type { ComponentChildren, HTMLAttributes } from "preact";
 import { createContext } from "preact";
-import { useContext, useMemo } from "preact/hooks";
+import { useCallback, useContext, useId, useMemo } from "preact/hooks";
 
 type AccordionType = "single" | "multiple";
 
@@ -9,6 +9,8 @@ type AccordionContextValue = {
   type: AccordionType;
   openValues: Signal<Set<string>>;
   toggleValue: (value: string) => void;
+  triggerId: (itemValue: string) => string;
+  contentId: (itemValue: string) => string;
 };
 
 const AccordionContext = createContext<AccordionContextValue | null>(null);
@@ -41,9 +43,15 @@ export const Accordion = ({
     return signal(initialSet);
   }, []);
 
+  const baseId = `accordion-${useId()}`;
+  const triggerId = useCallback((itemValue: string) => `${baseId}-trigger-${itemValue}`, [baseId]);
+  const contentId = useCallback((itemValue: string) => `${baseId}-content-${itemValue}`, [baseId]);
+
   const context: AccordionContextValue = {
     type,
     openValues,
+    triggerId,
+    contentId,
     toggleValue: (value) => {
       const next = new Set(openValues.value);
       const isOpen = next.has(value);

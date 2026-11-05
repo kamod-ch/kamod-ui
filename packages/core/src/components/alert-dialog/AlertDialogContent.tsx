@@ -5,6 +5,7 @@ import {
   type DialogContentProps,
   dialogViewportBleedClass,
 } from "../dialog/DialogContent";
+import { getAlertDialogInitialFocus } from "./alertDialogInitialFocus";
 
 export type AlertDialogContentSize = "default" | "sm";
 
@@ -23,6 +24,8 @@ export const AlertDialogContent = ({
   // presentation="slot": we own the full-screen flex overlay + inner panel; default "modal" would add a second backdrop.
   <DialogContent
     presentation="slot"
+    role="alertdialog"
+    getInitialFocus={getAlertDialogInitialFocus}
     class={cn(
       dialogViewportBleedClass,
       "z-50 flex items-center justify-center bg-black/50 p-3 sm:p-6 pointer-events-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fill-mode-forwards fade-in fade-out",

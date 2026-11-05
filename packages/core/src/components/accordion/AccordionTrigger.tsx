@@ -27,16 +27,22 @@ export const AccordionTrigger = ({
   children,
   class: className,
   onClick,
+  id: idProp,
   ...rest
 }: AccordionTriggerProps) => {
-  const { toggleValue } = useAccordion();
+  const accordion = useAccordion();
+  const { toggleValue, triggerId, contentId } = accordion;
   const { value, isOpen, disabled } = useAccordionItem();
+  const id = idProp ?? triggerId(value);
+  const controlsId = contentId(value);
 
   return (
     <button
       type="button"
       data-slot="accordion-trigger"
+      id={id}
       aria-expanded={isOpen}
+      aria-controls={controlsId}
       disabled={disabled}
       data-state={isOpen ? "open" : "closed"}
       class={cn(

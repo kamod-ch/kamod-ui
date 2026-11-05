@@ -30,15 +30,22 @@ export const getFocusableElements = (root: HTMLElement): HTMLElement[] =>
 export type TrapFocusOptions = {
   /** When true (default), focus the container on mount if it is focusable. */
   focusContainer?: boolean;
+  /** Prefer a specific initial focus target; falls back to default trap behavior when omitted or null. */
+  getInitialFocus?: (container: HTMLElement) => HTMLElement | null | undefined;
 };
 
 /**
  * Keeps keyboard focus inside `container` while active. Returns a dispose function.
  */
 export const trapFocus = (container: HTMLElement, options: TrapFocusOptions = {}): (() => void) => {
-  const { focusContainer = true } = options;
+  const { focusContainer = true, getInitialFocus } = options;
 
   const focusInitial = () => {
+    const preferred = getInitialFocus?.(container);
+    if (preferred) {
+      preferred.focus();
+      return;
+    }
     if (focusContainer) {
       container.focus();
       if (container.ownerDocument.activeElement === container) return;
