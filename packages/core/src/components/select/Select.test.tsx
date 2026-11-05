@@ -108,4 +108,57 @@ describe("Select", () => {
     expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
     expect(trigger).toHaveFocus();
   });
+
+  it("typeahead skips disabled options and focuses the next prefix match", async () => {
+    render(
+      <Select defaultValue="preact">
+        <SelectTrigger aria-label="Framework">
+          <SelectValue placeholder="Pick a framework" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="preact">Preact</SelectItem>
+          <SelectItem value="svelte" disabled>
+            Svelte
+          </SelectItem>
+          <SelectItem value="solid">Solid</SelectItem>
+        </SelectContent>
+      </Select>,
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "Framework" }));
+    const listbox = screen.getByRole("listbox");
+
+    fireEvent.keyDown(listbox, { key: "s" });
+
+    await waitFor(() =>
+      expect(listbox).toHaveAttribute(
+        "aria-activedescendant",
+        screen.getByRole("option", { name: "Solid" }).id,
+      ),
+    );
+    expect(screen.getByRole("option", { name: "Solid" })).toHaveFocus();
+  });
+
+  it("portals the listbox to document.body and returns focus on Escape", async () => {
+    render(
+      <Select>
+        <SelectTrigger aria-label="Framework">
+          <SelectValue placeholder="Pick a framework" />
+        </SelectTrigger>
+        <SelectContent portal>
+          <SelectItem value="preact">Preact</SelectItem>
+          <SelectItem value="solid">Solid</SelectItem>
+        </SelectContent>
+      </Select>,
+    );
+
+    const trigger = screen.getByRole("button", { name: "Framework" });
+    fireEvent.click(trigger);
+    const listbox = screen.getByRole("listbox");
+    expect(listbox.parentElement).toBe(document.body);
+
+    fireEvent.keyDown(listbox, { key: "Escape" });
+    await waitFor(() => expect(trigger).toHaveFocus());
+    expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
+  });
 });

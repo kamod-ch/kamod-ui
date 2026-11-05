@@ -1,5 +1,5 @@
 import type { ComponentChildren, HTMLAttributes, TargetedMouseEvent } from "preact";
-import { useEffect, useId, useRef } from "preact/hooks";
+import { useEffect, useId, useLayoutEffect, useRef } from "preact/hooks";
 import { cn } from "../../lib/utils";
 import { useSelect } from "./Select";
 
@@ -29,7 +29,7 @@ export const SelectItem = ({
   const selected = select.selectedValue.value === value;
   const active = select.activeItemId.value === itemId;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     select.registerItem({
       id: itemId,
       value,
@@ -39,7 +39,7 @@ export const SelectItem = ({
     return () => {
       select.unregisterItem(itemId);
     };
-  }, [itemId, value, disabled]);
+  }, [itemId, value, disabled, select]);
 
   return (
     <div

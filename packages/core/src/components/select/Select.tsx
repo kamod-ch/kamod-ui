@@ -18,6 +18,8 @@ type SelectContextValue = {
   activeItemId: ReturnType<typeof signal<string | null>>;
   triggerId: string;
   contentId: string;
+  triggerRef: { current: HTMLButtonElement | null };
+  contentRef: { current: HTMLDivElement | null };
   setOpen: (next: boolean) => void;
   setSelected: (value: string) => void;
   openAndFocus: (target: "selected" | "first" | "last") => void;
@@ -27,6 +29,7 @@ type SelectContextValue = {
   setActiveItemId: (id: string | null) => void;
   moveActive: (direction: "next" | "prev" | "first" | "last") => void;
   focusActiveItem: () => void;
+  handleTypeahead: (character: string) => void;
   setTriggerNode: (node: HTMLButtonElement | null) => void;
 };
 
@@ -55,7 +58,12 @@ export const Select = ({
 }: SelectProps) => {
   const rootRef = useRef<HTMLDivElement | null>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
+  const contentRef = useRef<HTMLDivElement | null>(null);
   const itemsRef = useRef<SelectItemRecord[]>([]);
+  const typeaheadRef = useRef<{ prefix: string; timer: ReturnType<typeof setTimeout> | null }>({
+    prefix: "",
+    timer: null,
+  });
   const instanceId = useId();
   const triggerId = `select-${instanceId}-trigger`;
   const contentId = `select-${instanceId}-content`;
@@ -71,6 +79,52 @@ export const Select = ({
     }
   }, [isControlled, value]);
 
+  useEffect(
+    () => () => {
+      const state = typeaheadRef.current;
+      if (state.timer) clearTimeout(state.timer);
+    },
+    [],
+  );
+
+  const resetTypeahead = () => {
+    const state = typeaheadRef.current;
+    if (state.timer) clearTimeout(state.timer);
+    state.prefix = "";
+    state.timer = null;
+  };
+
+  const getItemSearchLabel = (item: SelectItemRecord) =>
+    item.ref?.textContent?.trim().toLowerCase() ?? "";
+
+  const handleTypeahead = (character: string) => {
+    if (character.length !== 1) return;
+
+    const state = typeaheadRef.current;
+    if (state.timer) clearTimeout(state.timer);
+    state.prefix += character.toLowerCase();
+    state.timer = setTimeout(() => {
+      state.prefix = "";
+      state.timer = null;
+    }, 500);
+
+    const enabledItems = getEnabledItems();
+    if (enabledItems.length === 0) return;
+
+    const currentIndex = enabledItems.findIndex((item) => item.id === activeItemId.value);
+    const start = currentIndex < 0 ? 0 : currentIndex + 1;
+
+    for (let offset = 0; offset < enabledItems.length; offset += 1) {
+      const index = (start + offset) % enabledItems.length;
+      const item = enabledItems[index];
+      if (getItemSearchLabel(item).startsWith(state.prefix)) {
+        activeItemId.value = item.id;
+        focusActiveItem();
+        return;
+      }
+    }
+  };
+
   useEffect(() => {
     const layer = createDismissableLayer({
       root: () => rootRef.current,
@@ -78,6 +132,13 @@ export const Select = ({
       onDismiss: () => {
         open.value = false;
         activeItemId.value = null;
+        resetTypeahead();
+      },
+      onEscapeDismiss: () => {
+        open.value = false;
+        activeItemId.value = null;
+        resetTypeahead();
+        triggerRef.current?.focus();
       },
     });
     return () => layer.dispose();
@@ -169,6 +230,7 @@ export const Select = ({
   const closeAndFocusTrigger = () => {
     open.value = false;
     activeItemId.value = null;
+    resetTypeahead();
     triggerRef.current?.focus();
   };
 
@@ -204,9 +266,14 @@ export const Select = ({
         activeItemId,
         triggerId,
         contentId,
+        triggerRef,
+        contentRef,
         setOpen: (next) => {
           open.value = next;
-          if (!next) activeItemId.value = null;
+          if (!next) {
+            activeItemId.value = null;
+            resetTypeahead();
+          }
         },
         setSelected,
         openAndFocus,
@@ -218,6 +285,7 @@ export const Select = ({
         },
         moveActive,
         focusActiveItem,
+        handleTypeahead,
         setTriggerNode: (node) => {
           triggerRef.current = node;
         },
