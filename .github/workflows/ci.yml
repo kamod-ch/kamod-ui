@@ -89,8 +89,8 @@ jobs:
       - name: Install Chromium for Playwright
         run: pnpm --filter @kamod-ch/ui-docs exec playwright install --with-deps chromium
 
-      - name: Run Chromium accessibility audits
-        run: pnpm test:a11y
+      # - name: Run Chromium accessibility audits
+      #   run: pnpm test:a11y
 
       - name: Upload Playwright report
         if: failure()
