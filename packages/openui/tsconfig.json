@@ -5,7 +5,7 @@
     "rootDir": "src",
     "declaration": true,
     "declarationMap": true,
-    "types": ["node", "vitest/globals", "@testing-library/jest-dom"],
+    "types": ["node", "vitest/globals", "@testing-library/jest-dom/vitest"],
     "paths": {
       "react": ["./node_modules/preact/compat/"],
       "react-dom": ["./node_modules/preact/compat/"],

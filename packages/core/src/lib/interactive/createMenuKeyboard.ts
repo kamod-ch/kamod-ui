@@ -1,7 +1,7 @@
 import { createRovingFocus } from "./createRovingFocus";
 
 export const enabledMenuItemSelector =
-  '[role="menuitem"]:not([disabled]):not([aria-disabled="true"]):not([data-disabled="true"])';
+  ':is([role="menuitem"], [role="menuitemcheckbox"], [role="menuitemradio"]):not([disabled]):not([aria-disabled="true"]):not([data-disabled="true"])';
 
 export const getEnabledMenuItems = (menuRoot: HTMLElement) =>
   Array.from(menuRoot.querySelectorAll<HTMLElement>(enabledMenuItemSelector));

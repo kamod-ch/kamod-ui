@@ -24,7 +24,7 @@ export function MotionAlertDialogContent({
 }: MotionAlertDialogContentProps) {
   const dialog = useDialog();
   const open = dialog.open.value === true;
-  const { panelRef, labelledBy, describedBy } = useModalPanelA11y(open);
+  const { panelRef, labelledBy, describedBy } = useModalPanelA11y(open, children);
 
   return (
     <Motion

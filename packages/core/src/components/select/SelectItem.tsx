@@ -1,5 +1,5 @@
 import type { ComponentChildren, HTMLAttributes, TargetedMouseEvent } from "preact";
-import { useEffect, useId, useLayoutEffect, useRef } from "preact/hooks";
+import { useId, useLayoutEffect, useRef } from "preact/hooks";
 import { cn } from "../../lib/utils";
 import { useSelect } from "./Select";
 

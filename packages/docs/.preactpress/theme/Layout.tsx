@@ -46,32 +46,23 @@ const AppSidebarBlocksPreviewContent = blockPage(
   "BlocksAppSidebarContent",
   "AppSidebarBlocksPreviewContent",
 );
-const BlocksAppSidebarContent = blockPage("BlocksAppSidebarContent", "BlocksAppSidebarContent");
 const AuthBlocksPreviewContent = blockPage("BlocksAuthContent", "AuthBlocksPreviewContent");
-const BlocksCatalogAuthContent = blockPage("BlocksCatalogAuthContent", "BlocksCatalogAuthContent");
 const CatalogAuthBlocksPreviewContent = blockPage(
   "BlocksCatalogAuthContent",
   "CatalogAuthBlocksPreviewContent",
 );
-const BlocksCommerceContent = blockPage("BlocksCommerceContent", "BlocksCommerceContent");
 const CommerceBlocksPreviewContent = blockPage(
   "BlocksCommerceContent",
   "CommerceBlocksPreviewContent",
-);
-const BlocksCommunicationContent = blockPage(
-  "BlocksCommunicationContent",
-  "BlocksCommunicationContent",
 );
 const CommunicationBlocksPreviewContent = blockPage(
   "BlocksCommunicationContent",
   "CommunicationBlocksPreviewContent",
 );
-const BlocksDashboardContent = blockPage("BlocksDashboardContent", "BlocksDashboardContent");
 const DashboardBlocksPreviewContent = blockPage(
   "BlocksDashboardContent",
   "DashboardBlocksPreviewContent",
 );
-const BlocksMarketingContent = blockPage("BlocksMarketingContent", "BlocksMarketingContent");
 const MarketingBlocksPreviewContent = blockPage(
   "BlocksMarketingContent",
   "MarketingBlocksPreviewContent",

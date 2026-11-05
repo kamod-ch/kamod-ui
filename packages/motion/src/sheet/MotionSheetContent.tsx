@@ -31,7 +31,7 @@ export function MotionSheetContent({
 }: MotionSheetContentProps) {
   const dialog = useDialog();
   const open = dialog.open.value === true;
-  const { panelRef, labelledBy, describedBy } = useModalPanelA11y(open);
+  const { panelRef, labelledBy, describedBy } = useModalPanelA11y(open, children);
   const preset = sheetPreset(side);
   const isHorizontalEdge = side === "top" || side === "bottom";
   const edgePadding =

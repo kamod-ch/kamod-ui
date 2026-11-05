@@ -34,7 +34,7 @@ export function MotionDialogContent({
 }: MotionDialogContentProps) {
   const dialog = useDialog();
   const open = dialog.open.value === true;
-  const { panelRef, labelledBy, describedBy } = useModalPanelA11y(open);
+  const { panelRef, labelledBy, describedBy } = useModalPanelA11y(open, children);
 
   const handleKeyDown = (event: TargetedKeyboardEvent<HTMLDivElement>) => {
     if (event.key === "Escape") {

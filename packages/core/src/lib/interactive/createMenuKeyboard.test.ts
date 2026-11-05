@@ -1,4 +1,3 @@
-import { fireEvent } from "@testing-library/preact";
 import { describe, expect, it, vi } from "vitest";
 import { createRovingFocus, getEnabledMenuItems, handleMenuContentKeyDown } from "./index";
 
@@ -30,6 +29,31 @@ describe("createMenuKeyboard", () => {
     const focus = createRovingFocus(items.length, 0);
     focus.moveNext();
     expect(items[focus.activeIndex.value]).toBe(last);
+  });
+
+  it("moves across menu items, checkbox items, and radio items", () => {
+    const menu = document.createElement("div");
+    menu.setAttribute("role", "menu");
+    const items = ["menuitem", "menuitemcheckbox", "menuitemradio"].map((role) => {
+      const item = document.createElement("button");
+      item.setAttribute("role", role);
+      menu.append(item);
+      return item;
+    });
+    document.body.append(menu);
+
+    items[0].focus();
+    handleMenuContentKeyDown(
+      new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true, cancelable: true }),
+      menu,
+    );
+    expect(document.activeElement).toBe(items[1]);
+
+    handleMenuContentKeyDown(
+      new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true, cancelable: true }),
+      menu,
+    );
+    expect(document.activeElement).toBe(items[2]);
   });
 
   it("activates the focused item with Enter", () => {

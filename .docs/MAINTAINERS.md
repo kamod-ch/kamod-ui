@@ -10,9 +10,9 @@ Publishing is **not** limited to `packages/core` alone, but the automated publis
 
 [`scripts/publish-packages.mjs`](../scripts/publish-packages.mjs) iterates:
 
-| npm package        | Workspace        |
-| ------------------ | ---------------- |
-| `@kamod-ch/ui`     | `packages/core`  |
+| npm package        | Workspace         |
+| ------------------ | ----------------- |
+| `@kamod-ch/ui`     | `packages/core`   |
 | `@kamod-ch/themes` | `packages/themes` |
 
 Tagged releases (`v*`) run [`.github/workflows/publish.yml`](../.github/workflows/publish.yml), which uses this script (via `pnpm release:publish` in maintainer flows). Each package is skipped if that exact version is already on npm.

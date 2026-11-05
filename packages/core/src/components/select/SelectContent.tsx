@@ -1,4 +1,4 @@
-import type { ComponentChildren, CSSProperties, HTMLAttributes } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { createPortal } from "../../lib/createPortal";
 import { cn } from "../../lib/utils";
 import { useDropdownPlacement } from "../dropdown/useDropdownPlacement";

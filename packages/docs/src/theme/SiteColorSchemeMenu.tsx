@@ -92,26 +92,9 @@ function ColorModeContent({
       sideOffset={8}
       class="site-theme-picker-content site-color-mode-menu"
       onKeyDown={(event) => {
-        if (event.key === "Tab") {
-          dropdown.setOpen(false);
-          dropdown.triggerRef.current?.focus();
-          return;
-        }
-        if (!["ArrowDown", "ArrowUp", "Home", "End"].includes(event.key)) return;
-        event.preventDefault();
-        const items = [
-          ...event.currentTarget.querySelectorAll<HTMLElement>(
-            '[role="menuitem"], [role="menuitemradio"]',
-          ),
-        ];
-        const current = items.indexOf(document.activeElement as HTMLElement);
-        const next =
-          event.key === "Home"
-            ? 0
-            : event.key === "End"
-              ? items.length - 1
-              : (current + (event.key === "ArrowDown" ? 1 : -1) + items.length) % items.length;
-        items[next]?.focus();
+        if (event.key !== "Tab") return;
+        dropdown.setOpen(false);
+        dropdown.triggerRef.current?.focus();
       }}
     >
       <ColorModeMenuHeader />
