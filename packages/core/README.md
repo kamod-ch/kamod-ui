@@ -68,7 +68,7 @@ Choose a starter:
 ```bash
 pnpm create vite@latest my-app -- --template preact-ts
 cd my-app
-pnpm add @kamod-ch/ui @kamod-ch/themes preact@^11 @preact/signals@^2.11.3
+pnpm add @kamod-ch/ui @kamod-ch/themes preact@^11.1.1 @preact/signals@^2.11.4
 pnpm add -D tailwindcss@^4 @tailwindcss/vite
 ```
 
@@ -170,8 +170,8 @@ Browse the [live component docs](https://ui.kamod.ch/docs/button) for variants, 
 
 ### Requirements
 
-- **Preact** `^11.0.0` (Preact 10 is not supported by Kamod UI 2)
-- **`@preact/signals`** `^2.11.3` (required peer dependency — see below)
+- **Preact** `^11.1.1` (Preact 10 is not supported by Kamod UI 2)
+- **`@preact/signals`** `^2.11.4` (required peer dependency — see below)
 - **`@kamod-ch/themes`** `^0.2.2` (theme runtime used by components such as `ThemeToggle`)
 - **Tailwind CSS v4** (v3 is not supported)
 - **Node.js** 20 or newer for development and package tooling
@@ -181,7 +181,7 @@ Browse the [live component docs](https://ui.kamod.ch/docs/button) for variants, 
 ### Install
 
 ```bash
-pnpm add @kamod-ch/ui @kamod-ch/themes preact@^11 @preact/signals@^2.11.3
+pnpm add @kamod-ch/ui @kamod-ch/themes preact@^11.1.1 @preact/signals@^2.11.4
 ```
 
 The published library on npm is **[`@kamod-ch/ui`](https://www.npmjs.com/package/@kamod-ch/ui)**. This monorepo root and `packages/docs` are not published. The former package [`@kamod-ui/core`](https://www.npmjs.com/package/@kamod-ui/core) and the unscoped [`kamod-ui`](https://www.npmjs.com/package/kamod-ui) name are legacy — install `@kamod-ch/ui` instead.

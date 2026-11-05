@@ -11,23 +11,32 @@ If you report a security issue, use the process in [SECURITY.md](./SECURITY.md) 
 This repository is a **pnpm monorepo** ([workspaces](https://pnpm.io/workspaces)).
 
 - **Package manager:** [pnpm](https://pnpm.io) (version pinned via `packageManager` in the root `package.json`).
-- **Runtime / UI:** [Preact](https://preactjs.com/) component library plus a Vite-powered demo app.
+- **Runtime / UI:** [Preact](https://preactjs.com/) component library, documentation app, and supporting packages.
 
 There is no Turborepo or Changesets setup in this repo; releases and tooling follow what is defined in the root and package `package.json` files.
 
 ## Structure
 
 ```
-packages
-└── core          # @kamod-ch/ui — published-style component library (tsup, Vitest)
-apps
-└── demo          # Vite + Preact kitchen sink and in-app documentation
+packages/
+├── core/          # @kamod-ch/ui — published component library (tsup, Vitest)
+├── docs/          # @kamod-ch/ui-docs — kitchen sink, component docs, Playwright E2E
+├── themes/        # @kamod-ch/themes — theme runtime and CSS tokens
+├── motion/        # @kamod-ch/ui-motion — motion helpers (publishConfig on npm)
+├── openui/        # @kamod-ch/openui — OpenUI-related package (publishConfig on npm)
+├── blocks/        # @kamod-ch/blocks — documented block compositions
+└── typeset/       # @kamod-ch/typeset — typography/typesetting utilities
 ```
 
-| Path            | Description                                                |
-| --------------- | ---------------------------------------------------------- |
-| `packages/core` | Component library source, types, and unit tests.           |
-| `packages/docs` | Local docs UI, examples, Vitest tests, and Playwright E2E. |
+| Path               | Description                                                |
+| ------------------ | ---------------------------------------------------------- |
+| `packages/core`    | Component library source, types, and unit tests.           |
+| `packages/docs`    | Local docs UI, examples, Vitest tests, and Playwright E2E. |
+| `packages/themes`  | Theme presets and runtime used by docs and consumers.      |
+| `packages/motion`  | Motion utilities consumed by docs and apps.                |
+| `packages/openui`  | OpenUI integration package.                                |
+| `packages/blocks`  | Application-shell and other block compositions.            |
+| `packages/typeset` | Shared typesetting helpers for docs.                       |
 
 Component documentation pages and registry wiring live under `packages/docs/src/docs/` (for example `docs/pages/*-doc.tsx` and `docs/registry.ts`).
 
@@ -97,6 +106,8 @@ model, and automation limits.
 In `packages/docs` you can also run `pnpm qa:themes` for theme regression checks, and use `pnpm format` / `pnpm format:check` (oxfmt) for formatting when working in that app.
 
 Please ensure `pnpm typecheck`, `pnpm lint`, and relevant tests pass before opening a pull request.
+
+**Accessibility audits** (`pnpm lint:a11y`, `pnpm test:a11y`) are documented in [docs/accessibility-testing.md](docs/accessibility-testing.md). They run locally today but are **not** enforced in GitHub CI until both commands pass reliably in a clean checkout.
 
 ## Components and documentation
 

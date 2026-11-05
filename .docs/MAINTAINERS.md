@@ -4,9 +4,33 @@ Internal notes for publishing and releasing `@kamod-ch/ui` from the kamod-ui mon
 
 ## What gets published
 
-Only **`packages/core`** (`@kamod-ch/ui`) is published to npm. The root workspace is `"private": true` so `npm publish` from the repo root cannot accidentally republish the unscoped `kamod-ui` name.
+Publishing is **not** limited to `packages/core` alone, but the automated publish script only publishes a **fixed list** of packages.
 
-Publishing requires the npm organization **`kamod-ch`** (scope `@kamod-ch`). New installs should use **`@kamod-ch/ui`**.
+### Packages published by CI / `scripts/publish-packages.mjs`
+
+[`scripts/publish-packages.mjs`](../scripts/publish-packages.mjs) iterates:
+
+| npm package        | Workspace        |
+| ------------------ | ---------------- |
+| `@kamod-ch/ui`     | `packages/core`  |
+| `@kamod-ch/themes` | `packages/themes` |
+
+Tagged releases (`v*`) run [`.github/workflows/publish.yml`](../.github/workflows/publish.yml), which uses this script (via `pnpm release:publish` in maintainer flows). Each package is skipped if that exact version is already on npm.
+
+The root workspace stays **`"private": true`** so `npm publish` from the repo root cannot accidentally ship the unscoped `kamod-ui` name.
+
+### Other packages with `publishConfig`
+
+These workspaces declare npm `publishConfig` in their `package.json` but are **not** in the `publish-packages.mjs` array today — they are **not** published by the default release script unless you add them there and run a manual publish:
+
+- `@kamod-ch/ui-motion` (`packages/motion`)
+- `@kamod-ch/openui` (`packages/openui`)
+
+Do **not** extend `publish-packages.mjs` without an explicit maintainer decision; document any change here first.
+
+### Not published from this repo
+
+Examples: `@kamod-ch/ui-docs`, `@kamod-ch/blocks`, `@kamod-ch/typeset` (consumers install `@kamod-ch/ui` and peers from npm; docs and blocks stay monorepo-local).
 
 ### Legacy packages on npm
 

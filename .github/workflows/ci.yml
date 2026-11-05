@@ -63,6 +63,7 @@ jobs:
       - name: Validate published package shape
         run: pnpm qa:publint && pnpm qa:attw
 
+  # Disabled until `pnpm lint:a11y` and `pnpm test:a11y` pass on a clean install — see docs/accessibility-testing.md
   # a11y:
   # name: Accessibility audits
   # runs-on: ubuntu-latest

@@ -2,7 +2,23 @@
 
 All notable changes to this project will be documented in this file. Update manually before running `pnpm release`.
 
+The published npm package is **`@kamod-ch/ui`** (currently **2.1.0** in `packages/core/package.json`). Tags `v2.0.0`, `v2.0.1`, and `v2.1.0` mark releases on the 2.x line; see `git log` between those tags for commit-level history. This file does not enumerate every 2.x change — only what is recorded below and in git.
+
+## [2.1.0] - 2026-11-04
+
+Released as `@kamod-ch/ui@2.1.0` (tag `v2.1.0`, release commit `chore(core): release v2.1.0`).
+
+## [2.0.1] - 2026-10-05
+
+Released as `@kamod-ch/ui@2.0.1` (tag `v2.0.1`).
+
+## [2.0.0] - 2026-10-01
+
+Released as `@kamod-ch/ui@2.0.0` (tag `v2.0.0`). Kamod UI 2 targets Preact 11 and Tailwind CSS v4.
+
 ## [1.1.0] - Unreleased
+
+The notes below describe sidebar and application-shell work tracked before the current **2.x** release line on npm. They are kept for history; they do not replace the git history for 2.0+.
 
 ### Features
 
