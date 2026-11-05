@@ -3,11 +3,11 @@ import type { AccessibilityProfiles } from "./types";
 export const navigationAccessibility: AccessibilityProfiles = {
   button: {
     foundation:
-      "Button renders a native button, an anchor when `href` is supplied, or the provided child with `asChild`. Its variant changes appearance, not semantics. The native button path does not set a default type, so browser form-submission behavior still matters.",
+      'Button renders a native button, an anchor when `href` is supplied, or the provided child with `asChild`. Its variant changes appearance, not semantics. On the native button path, an omitted `type` defaults to `button`; explicit `type="submit"` or `type="reset"` replaces that default. An `href` button remains an anchor without a `type` attribute.',
     naming:
       "Use visible action text wherever possible. An icon-only button needs a name describing its result, such as Download invoice. Decorative icons should be hidden from assistive technology, and a tooltip should supplement rather than supply the only dependable name.",
     interaction:
-      'Native buttons activate with Enter and Space; links retain normal navigation behavior. Set `type="button"` for secondary form actions and `type="submit"` for submission. With asChild, choose an element that already supports the required interaction.',
+      'Native buttons activate with Enter and Space; links retain normal navigation behavior. Use `type="submit"` for primary form submission. Kamod defaults native buttons to `type="button"` when `type` is omitted, so secondary actions usually do not submit a surrounding form; set `type="button"` explicitly only when you need to override a different type. With asChild, choose an element that already supports the required interaction.',
     pitfalls:
       "A disabled-looking anchor is still a link unless your application handles it appropriately. Avoid replacing a button with a clickable div, hiding the focus ring or using loading feedback that erases the action's accessible name.",
     checks: [
