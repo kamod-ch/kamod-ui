@@ -3,7 +3,7 @@
 **Choose a brand preset and an appearance scheme separately.** Ocean, for example, works in Light or Dark; System follows the device. Static CSS needs no provider. Add runtime controls only when users need a saved choice.
 
 ```bash package-manager
-pnpm add @kamod-ch/ui preact@^11.1.1 @preact/signals@^2.11.4 @kamod-ch/themes@^0.2.2
+pnpm add @kamod-ch/ui preact @preact/signals @kamod-ch/themes
 ```
 
 Pin these versions to match `@kamod-ch/ui`'s peer contract. `@preact/signals` is a required peer (it is not `@kamod-ch/signals`). `@kamod-ch/themes@^0.2.2` supplies the full preset foundation this guide uses — including `ThemeToggle` and `@kamod-ch/themes/theme.css`. That is separate from the UI-only minimum in [Getting Started](/docs/getting-started#set-up-your-app), which can use `@kamod-ch/ui/theme.css` without installing `@kamod-ch/themes`.

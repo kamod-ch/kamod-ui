@@ -56,15 +56,31 @@ const previewContents = [{ id: "component-preview", label: "Live Preview" }];
 type ContentProps = { section?: string; previewIndex?: number };
 const loadedPages = new Map<string, ComponentType<ContentProps>>();
 
+function resolveDocSlug(slug: string | undefined): string | null {
+  const requested = slug?.trim() ?? "";
+  if (!requested) return null;
+  if (!docsShowMotion && isMotionDocSlug(requested)) return "accordion";
+  if (docs[requested] || loaders[requested]) return requested;
+  return null;
+}
+
+function UnknownDocSlugMessage({ requestedSlug }: { requestedSlug: string }) {
+  const label = requestedSlug === "" ? "(empty)" : requestedSlug;
+  return (
+    <main class="docs-content" id="content" tabIndex={-1}>
+      <p class="docs-copy" role="status">
+        No documentation page is registered for slug <code>{label}</code>.
+      </p>
+    </main>
+  );
+}
+
 /** Keep unrelated examples out of both the article and its isolated preview frames. */
-export function DocsComponentContent({
-  slug = "accordion",
-  ...props
-}: ContentProps & { slug?: string }) {
-  const selected =
-    (!docsShowMotion && isMotionDocSlug(slug)) || !(docs[slug] || loaders[slug])
-      ? "accordion"
-      : slug;
+export function DocsComponentContent({ slug, ...props }: ContentProps & { slug?: string }) {
+  const selected = resolveDocSlug(slug);
+  if (selected === null) {
+    return <UnknownDocSlugMessage requestedSlug={slug?.trim() ?? ""} />;
+  }
   if (docs[selected]) return <ComponentContent {...props} activeDoc={docs[selected]} />;
   let Page = loadedPages.get(selected);
   if (!Page) {
