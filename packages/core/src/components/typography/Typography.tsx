@@ -1,4 +1,4 @@
-import type { ComponentChildren, HTMLAttributes, JSX } from "preact";
+import { type ComponentChildren, createElement, type JSX } from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
 import { cn } from "../../lib/utils";
 
@@ -30,24 +30,26 @@ export const typography = tv({
 
 export type TypographyVariants = VariantProps<typeof typography>;
 
-export type TypographyProps = HTMLAttributes<HTMLElementTagNameMap[keyof HTMLElementTagNameMap]> &
-  TypographyVariants & {
-    as?: keyof HTMLElementTagNameMap;
-    children?: ComponentChildren;
-  };
+export type TypographyProps<T extends keyof JSX.IntrinsicElements = "p"> = TypographyVariants & {
+  as?: T;
+  children?: ComponentChildren;
+} & Omit<JSX.IntrinsicElements[T], "children">;
 
-export const Typography = ({
-  as = "p",
+export function Typography<T extends keyof JSX.IntrinsicElements = "p">({
+  as,
   variant,
   class: className,
   children,
   ...rest
-}: TypographyProps) => {
-  const Tag = as as keyof JSX.IntrinsicElements;
-  const props = {
-    "data-slot": "typography",
-    class: cn(typography({ variant }), className),
-    ...rest,
-  } as any;
-  return <Tag {...props}>{children}</Tag>;
-};
+}: TypographyProps<T>): JSX.Element {
+  const tag = (as ?? "p") as T;
+  return createElement(
+    tag,
+    {
+      "data-slot": "typography",
+      class: cn(typography({ variant }), className),
+      ...rest,
+    } as unknown as JSX.IntrinsicElements[T],
+    children,
+  );
+}

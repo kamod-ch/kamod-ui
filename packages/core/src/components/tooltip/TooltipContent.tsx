@@ -245,7 +245,7 @@ export const TooltipContent = ({
       "data-align": align,
       "data-flip-animating": isFlipAnimating ? "true" : "false",
       style: mergedStyle,
-      onMouseEnter: (event: TargetedMouseEvent<HTMLElement>) => {
+      onMouseEnter: (event: TargetedMouseEvent<HTMLDivElement>) => {
         childProps.onMouseEnter?.(event);
         if (!tooltip.disableHoverableContent) {
           tooltip.cancelTimers();
@@ -253,7 +253,7 @@ export const TooltipContent = ({
         }
         onMouseEnter?.(event);
       },
-      onMouseLeave: (event: TargetedMouseEvent<HTMLElement>) => {
+      onMouseLeave: (event: TargetedMouseEvent<HTMLDivElement>) => {
         childProps.onMouseLeave?.(event);
         tooltip.closeWithDelay();
         onMouseLeave?.(event);

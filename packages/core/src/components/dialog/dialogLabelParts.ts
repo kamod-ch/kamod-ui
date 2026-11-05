@@ -17,14 +17,14 @@ const visit = (nodes: ComponentChildren, parts: DialogLabelParts) => {
     const element = node as VNode;
     if (element.type === DialogTitle || element.type === AlertDialogTitle) {
       parts.hasTitle = true;
-      const explicitId = element.props?.id;
+      const explicitId = (element.props as { id?: string } | null | undefined)?.id;
       if (typeof explicitId === "string") {
         parts.titleId = explicitId;
       }
     }
     if (element.type === DialogDescription || element.type === AlertDialogDescription) {
       parts.hasDescription = true;
-      const explicitId = element.props?.id;
+      const explicitId = (element.props as { id?: string } | null | undefined)?.id;
       if (typeof explicitId === "string") {
         parts.descriptionId = explicitId;
       }

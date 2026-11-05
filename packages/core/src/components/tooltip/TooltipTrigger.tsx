@@ -140,12 +140,24 @@ export const TooltipTrigger = ({ asChild = false, children, ...rest }: TooltipTr
       data-slot="tooltip-trigger"
       data-state={tooltip.open.value ? "open" : "closed"}
       aria-describedby={describedBy ?? ariaDescribedBy}
-      onPointerEnter={(event) => runPointerEnter(event as TargetedPointerEvent<HTMLElement>)}
-      onPointerLeave={(event) => runPointerLeave(event as TargetedPointerEvent<HTMLElement>)}
-      onMouseEnter={(event) => runMouseEnter(event as TargetedMouseEvent<HTMLElement>)}
-      onMouseLeave={(event) => runMouseLeave(event as TargetedMouseEvent<HTMLElement>)}
-      onFocus={(event) => runFocus(event as TargetedFocusEvent<HTMLElement>)}
-      onBlur={(event) => runBlur(event as TargetedFocusEvent<HTMLElement>)}
+      onPointerEnter={(event) => {
+        runPointerEnter(event);
+      }}
+      onPointerLeave={(event) => {
+        runPointerLeave(event);
+      }}
+      onMouseEnter={(event) => {
+        runMouseEnter(event);
+      }}
+      onMouseLeave={(event) => {
+        runMouseLeave(event);
+      }}
+      onFocus={(event) => {
+        runFocus(event);
+      }}
+      onBlur={(event) => {
+        runBlur(event);
+      }}
       ref={(node) => callRef(outerRef, node)}
       {...remainingProps}
     >
