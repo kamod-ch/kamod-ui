@@ -241,7 +241,7 @@ export const Example = () => (
     {
       id: "popover-form-compact",
       title: "With Form (Compact)",
-      text: "**Use Density Only for Genuinely Short Settings.** Arrange labels and inputs in short horizontal rows inside a narrow settings popover. This saves vertical space for concise values, but the field names and editable areas still need enough room when content becomes longer.\n\nKeep labels associated with inputs and allow the layout to adapt before narrowing the editable value or clipping helpful feedback.",
+      text: "**Use Density Only for Genuinely Short SettingsIcon.** Arrange labels and inputs in short horizontal rows inside a narrow settings popover. This saves vertical space for concise values, but the field names and editable areas still need enough room when content becomes longer.\n\nKeep labels associated with inputs and allow the layout to adapt before narrowing the editable value or clipping helpful feedback.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Input } from "@/components/kamod-ui/input"
 import { Label } from "@/components/kamod-ui/label"
@@ -450,25 +450,25 @@ export const Example = () => (
     },
     {
       id: "popover-settings",
-      title: "Settings Panel",
+      title: "SettingsIcon Panel",
       text: "**Keep Related Preferences Together.** Combine switches and fields inside a settings popover when the options belong to one local configuration task. Keep each control tied to the same application settings model so closing the panel does not obscure whether changes were applied.\n\nLabel each control, explain whether changes are immediate, and move the workflow to a larger surface if the panel grows into several independent sections.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Input } from "@/components/kamod-ui/input"
 import { Label } from "@/components/kamod-ui/label"
 import { Popover, PopoverClose, PopoverContent, PopoverDescription, PopoverHeader, PopoverTitle, PopoverTrigger } from "@/components/kamod-ui/popover";
-import { Settings } from "lucide-preact";
+import { SettingsIcon } from "@kamod-ch/icons/lucide";
 
 export const Example = () => (
   <Popover>
     <PopoverTrigger asChild>
       <Button variant="outline" size="icon">
-        <Settings class="size-4" />
+        <SettingsIcon class="size-4" />
       </Button>
     </PopoverTrigger>
     <PopoverContent class="w-80">
       <PopoverClose />
       <PopoverHeader>
-        <PopoverTitle>Settings</PopoverTitle>
+        <PopoverTitle>SettingsIcon</PopoverTitle>
         <PopoverDescription>Configure your workspace preferences.</PopoverDescription>
       </PopoverHeader>
       <div class="grid gap-3">
@@ -512,7 +512,7 @@ export const Example = () => (
             <PopoverContent class="w-80">
               <PopoverClose />
               <PopoverHeader>
-                <PopoverTitle>Settings</PopoverTitle>
+                <PopoverTitle>SettingsIcon</PopoverTitle>
                 <PopoverDescription>Configure your workspace preferences.</PopoverDescription>
               </PopoverHeader>
               <div class="grid gap-3">

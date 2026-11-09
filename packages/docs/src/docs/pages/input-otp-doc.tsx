@@ -1,3 +1,4 @@
+import { RefreshCwIcon } from "@kamod-ch/icons/lucide";
 import {
   Button,
   Card,
@@ -14,7 +15,6 @@ import {
   REGEXP_ONLY_DIGITS,
   REGEXP_ONLY_DIGITS_AND_CHARS,
 } from "@kamod-ch/ui";
-import { RefreshCw } from "lucide-preact";
 import { useState } from "preact/hooks";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
@@ -128,8 +128,7 @@ export const Example = () => (
       id: "otp-pattern",
       title: "Pattern",
       text: "**Filter Entry without Replacing Verification.** Pass an exported pattern constant to restrict the permitted characters, choosing digits or a mixed alphanumeric code. Keep that restriction consistent with the actual code issued by the service rather than only its visual example.\n\nExplain the accepted alphabet, handle incomplete entry clearly, and avoid rejecting legitimate characters merely because the visual example uses digits.",
-      code: `import { REGEXP_ONLY_DIGITS } from "lucide-preact"
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/kamod-ui/input-otp"
+      code: `import { InputOTP, InputOTPGroup, InputOTPSlot, REGEXP_ONLY_DIGITS } from "@/components/kamod-ui/input-otp"
 import { Label } from "@/components/kamod-ui/label";
 
 export const Example = () => (
@@ -302,8 +301,7 @@ export const Example = () => {
       id: "otp-four",
       title: "Four Digits",
       text: "**Use Four Slots Only for a Four-Character Contract.** Use four slots and a digits pattern when the issued PIN has exactly four numeric characters. The number of visible slots should match the expected value, avoiding an interface that suggests extra characters are required.\n\nLabel the field, support paste and provide a clear retry route; a shorter visual pattern does not define security requirements.",
-      code: `import { REGEXP_ONLY_DIGITS } from "lucide-preact"
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/kamod-ui/input-otp";
+      code: `import { InputOTP, InputOTPGroup, InputOTPSlot, REGEXP_ONLY_DIGITS } from "@/components/kamod-ui/input-otp";
 
 export const Example = () => (
   <InputOTP maxLength={4} pattern={REGEXP_ONLY_DIGITS}>
@@ -332,8 +330,13 @@ export const Example = () => (
       id: "otp-alphanumeric",
       title: "Alphanumeric",
       text: "**Make the Accepted Alphabet Clear.** Use `REGEXP_ONLY_DIGITS_AND_CHARS` when the verification code may contain letters as well as numbers. Explain that format before entry so users do not mistake alphabetic characters for a numeric-only PIN.\n\nKeep the displayed groups readable and test pasted values; input filtering should prevent obvious mistakes without silently changing a valid code into a different value.",
-      code: `import { REGEXP_ONLY_DIGITS_AND_CHARS } from "lucide-preact"
-import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "@/components/kamod-ui/input-otp";
+      code: `import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+  REGEXP_ONLY_DIGITS_AND_CHARS,
+} from "@/components/kamod-ui/input-otp";
 
 export const Example = () => (
   <InputOTP maxLength={6} pattern={REGEXP_ONLY_DIGITS_AND_CHARS}>
@@ -386,7 +389,7 @@ export const Example = () => (
               <div class="flex items-center justify-between gap-2">
                 <Label htmlFor="otp-verification-doc">Verification code</Label>
                 <Button variant="outline" size="xs" type="button" class="shrink-0 gap-1">
-                  <RefreshCw class="size-3.5" />
+                  <RefreshCwIcon class="size-3.5" />
                   Resend
                 </Button>
               </div>

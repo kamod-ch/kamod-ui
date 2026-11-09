@@ -12,6 +12,7 @@ export function useFileDownload(
   source: string,
   fileName: string,
   mimeType = "text/plain;charset=utf-8",
+  onDelivered?: () => void,
 ) {
   const [phase, setPhase] = useState<DownloadPhase>("idle");
   const current = useRef<DownloadPhase>("idle");
@@ -35,11 +36,12 @@ export function useFileDownload(
     if (current.current !== phase || phase === "idle" || phase === "error") return;
     const step = feedbackSteps[phase];
     const timer = setTimeout(() => {
+      if (phase === "complete") onDelivered?.();
       if (step.next === "resetting") release();
       transition(step.next);
     }, step.delay);
     return () => clearTimeout(timer);
-  }, [phase, source, fileName, mimeType]);
+  }, [phase, source, fileName, mimeType, onDelivered]);
 
   const download = () => {
     if (current.current !== "idle" && current.current !== "error") return;

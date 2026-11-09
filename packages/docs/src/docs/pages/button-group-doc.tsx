@@ -1,4 +1,27 @@
 import {
+  ArchiveIcon,
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  AudioLinesIcon,
+  BanIcon,
+  BotIcon,
+  CalendarPlusIcon,
+  CheckIcon,
+  ChevronDownIcon,
+  ClockIcon,
+  EllipsisIcon,
+  ListFilterIcon,
+  MailCheckIcon,
+  MinusIcon,
+  PlusIcon,
+  SearchIcon,
+  Share2Icon,
+  TagIcon,
+  Trash2Icon,
+  TriangleAlertIcon,
+  Volume2Icon,
+} from "@kamod-ch/icons/lucide";
+import {
   Button,
   ButtonGroup,
   ButtonGroupSeparator,
@@ -41,29 +64,6 @@ import {
   TooltipTrigger,
 } from "@kamod-ch/ui";
 import { CopyButton } from "@kamod-ch/ui/copy-button";
-import {
-  AlertTriangle,
-  Archive,
-  ArrowLeft,
-  ArrowRight,
-  AudioLines,
-  Ban,
-  Bot,
-  CalendarPlus,
-  Check,
-  ChevronDown,
-  Clock,
-  ListFilter,
-  MailCheck,
-  Minus,
-  MoreHorizontal,
-  Plus,
-  Search,
-  Share2,
-  Tag,
-  Trash2,
-  Volume2,
-} from "lucide-preact";
 import type { ComponentChildren } from "preact";
 import { useState } from "preact/hooks";
 import { ApiReference } from "../components/ApiReference";
@@ -77,11 +77,11 @@ function ToolbarDemo() {
     <ButtonGroup class="max-w-full flex-wrap">
       <ButtonGroup class="hidden sm:flex">
         <Button variant="outline" size="icon" aria-label="Go back">
-          <ArrowLeft />
+          <ArrowLeftIcon />
         </Button>
       </ButtonGroup>
       <ButtonGroup>
-        <Button variant="outline">Archive</Button>
+        <Button variant="outline">ArchiveIcon</Button>
         <Button variant="outline">Report</Button>
       </ButtonGroup>
       <ButtonGroup>
@@ -89,37 +89,37 @@ function ToolbarDemo() {
         <Dropdown>
           <DropdownTrigger asChild>
             <Button variant="outline" size="icon" aria-label="More options">
-              <MoreHorizontal />
+              <EllipsisIcon />
             </Button>
           </DropdownTrigger>
           <DropdownContent side="bottom" align="end" class="w-44">
             <DropdownGroup>
               <DropdownItem>
-                <MailCheck class="size-4" />
+                <MailCheckIcon class="size-4" />
                 Mark as read
               </DropdownItem>
               <DropdownItem>
-                <Archive class="size-4" />
-                Archive
+                <ArchiveIcon class="size-4" />
+                ArchiveIcon
               </DropdownItem>
             </DropdownGroup>
             <DropdownSeparator />
             <DropdownGroup>
               <DropdownItem>
-                <Clock class="size-4" />
+                <ClockIcon class="size-4" />
                 Snooze
               </DropdownItem>
               <DropdownItem>
-                <CalendarPlus class="size-4" />
+                <CalendarPlusIcon class="size-4" />
                 Add to calendar
               </DropdownItem>
               <DropdownItem>
-                <ListFilter class="size-4" />
+                <ListFilterIcon class="size-4" />
                 Add to list
               </DropdownItem>
               <DropdownSub>
                 <DropdownSubTrigger>
-                  <Tag class="size-4" />
+                  <TagIcon class="size-4" />
                   Label as…
                 </DropdownSubTrigger>
                 <DropdownSubContent class="w-40">
@@ -134,7 +134,7 @@ function ToolbarDemo() {
             <DropdownSeparator />
             <DropdownGroup>
               <DropdownItem variant="destructive">
-                <Trash2 class="size-4" />
+                <Trash2Icon class="size-4" />
                 Trash
               </DropdownItem>
             </DropdownGroup>
@@ -159,7 +159,7 @@ function SizeDemo() {
           Group
         </Button>
         <Button variant="outline" size="icon-sm" aria-label="Add">
-          <Plus />
+          <PlusIcon />
         </Button>
       </ButtonGroup>
       <ButtonGroup>
@@ -167,7 +167,7 @@ function SizeDemo() {
         <Button variant="outline">Button</Button>
         <Button variant="outline">Group</Button>
         <Button variant="outline" size="icon" aria-label="Add">
-          <Plus />
+          <PlusIcon />
         </Button>
       </ButtonGroup>
       <ButtonGroup>
@@ -181,7 +181,7 @@ function SizeDemo() {
           Group
         </Button>
         <Button variant="outline" size="icon-lg" aria-label="Add">
-          <Plus />
+          <PlusIcon />
         </Button>
       </ButtonGroup>
     </div>
@@ -193,7 +193,7 @@ function NestedDemo() {
     <ButtonGroup>
       <ButtonGroup>
         <Button variant="outline" size="icon" aria-label="Add">
-          <Plus />
+          <PlusIcon />
         </Button>
       </ButtonGroup>
       <ButtonGroup class="min-w-0">
@@ -202,7 +202,7 @@ function NestedDemo() {
           <Tooltip>
             <TooltipTrigger asChild>
               <InputGroupAddon align="inline-end">
-                <AudioLines class="text-muted-foreground size-4" />
+                <AudioLinesIcon class="text-muted-foreground size-4" />
               </InputGroupAddon>
             </TooltipTrigger>
             <TooltipContent>Voice mode</TooltipContent>
@@ -220,7 +220,7 @@ function InputGroupVoiceDemo() {
     <ButtonGroup class="max-w-full rounded-full [--radius:9999px]">
       <ButtonGroup>
         <Button variant="outline" size="icon" aria-label="Add">
-          <Plus />
+          <PlusIcon />
         </Button>
       </ButtonGroup>
       <ButtonGroup class="min-w-0 flex-1">
@@ -240,7 +240,7 @@ function InputGroupVoiceDemo() {
                   class="data-[active=true]:bg-orange-100 data-[active=true]:text-orange-700 dark:data-[active=true]:bg-orange-800 dark:data-[active=true]:text-orange-100"
                   onClick={() => setVoiceEnabled(!voiceEnabled)}
                 >
-                  <AudioLines class="size-4" />
+                  <AudioLinesIcon class="size-4" />
                 </InputGroupButton>
               </TooltipTrigger>
               <TooltipContent>Voice mode</TooltipContent>
@@ -259,29 +259,29 @@ function DropdownSplitDemo() {
       <Dropdown>
         <DropdownTrigger asChild>
           <Button variant="outline" class="!px-2" aria-label="Open menu">
-            <ChevronDown />
+            <ChevronDownIcon />
           </Button>
         </DropdownTrigger>
         <DropdownContent side="bottom" align="end" class="w-52">
           <DropdownGroup>
             <DropdownItem>
-              <Volume2 class="size-4" />
+              <Volume2Icon class="size-4" />
               Mute conversation
             </DropdownItem>
             <DropdownItem>
-              <Check class="size-4" />
+              <CheckIcon class="size-4" />
               Mark as read
             </DropdownItem>
             <DropdownItem>
-              <AlertTriangle class="size-4" />
+              <TriangleAlertIcon class="size-4" />
               Report conversation
             </DropdownItem>
             <DropdownItem>
-              <Ban class="size-4" />
+              <BanIcon class="size-4" />
               Block user
             </DropdownItem>
             <DropdownItem>
-              <Share2 class="size-4" />
+              <Share2Icon class="size-4" />
               Share conversation
             </DropdownItem>
             <CopyButton
@@ -295,7 +295,7 @@ function DropdownSplitDemo() {
           <DropdownSeparator />
           <DropdownGroup>
             <DropdownItem variant="destructive">
-              <Trash2 class="size-4" />
+              <Trash2Icon class="size-4" />
               Delete conversation
             </DropdownItem>
           </DropdownGroup>
@@ -334,7 +334,7 @@ function SelectAmountDemo() {
       </ButtonGroup>
       <ButtonGroup>
         <Button variant="outline" size="icon" aria-label="Send">
-          <ArrowRight />
+          <ArrowRightIcon />
         </Button>
       </ButtonGroup>
     </ButtonGroup>
@@ -345,13 +345,13 @@ function PopoverCopilotDemo() {
   return (
     <ButtonGroup>
       <Button variant="outline">
-        <Bot class="size-4" />
+        <BotIcon class="size-4" />
         Copilot
       </Button>
       <Popover>
         <PopoverTrigger asChild>
           <Button variant="outline" size="icon" aria-label="Open popover">
-            <ChevronDown />
+            <ChevronDownIcon />
           </Button>
         </PopoverTrigger>
         <PopoverContent side="bottom" align="end" class="w-80 rounded-xl text-sm">
@@ -388,7 +388,7 @@ const rtlCopy: Record<
   en: {
     dir: "ltr",
     label: "English (LTR)",
-    archive: "Archive",
+    archive: "ArchiveIcon",
     report: "Report",
     snooze: "Snooze",
     more: "More options",
@@ -435,7 +435,7 @@ function RtlToolbarDemo() {
           <ButtonGroup class="max-w-full flex-wrap">
             <ButtonGroup class="hidden sm:flex">
               <Button variant="outline" size="icon" aria-label="Go back">
-                <ArrowLeft class={t.dir === "rtl" ? "rotate-180" : ""} />
+                <ArrowLeftIcon class={t.dir === "rtl" ? "rotate-180" : ""} />
               </Button>
             </ButtonGroup>
             <ButtonGroup>
@@ -447,12 +447,12 @@ function RtlToolbarDemo() {
               <Dropdown>
                 <DropdownTrigger asChild>
                   <Button variant="outline" size="icon" aria-label={t.more}>
-                    <MoreHorizontal />
+                    <EllipsisIcon />
                   </Button>
                 </DropdownTrigger>
                 <DropdownContent side="bottom" align="end" class="w-44">
                   <DropdownItem>
-                    <MailCheck class="size-4" />
+                    <MailCheckIcon class="size-4" />
                     OK
                   </DropdownItem>
                 </DropdownContent>
@@ -465,17 +465,7 @@ function RtlToolbarDemo() {
   );
 }
 
-const heroCode = `import {
-  Archive,
-  ArrowLeft,
-  CalendarPlus,
-  Clock,
-  ListFilter,
-  MailCheck,
-  MoreHorizontal,
-  Tag,
-  Trash2,
-} from "lucide-preact";
+const heroCode = `import { ArchiveIcon, ArrowLeftIcon, CalendarPlusIcon, ClockIcon, ListFilterIcon, MailCheckIcon, EllipsisIcon, TagIcon, Trash2Icon } from "@kamod-ch/icons/lucide";
 import { Button } from "@/components/kamod-ui/button"
 import { ButtonGroup } from "@/components/kamod-ui/button-group";
 import { Dropdown, DropdownContent, DropdownGroup, DropdownItem, DropdownRadioGroup, DropdownRadioItem, DropdownSeparator, DropdownSub, DropdownSubContent, DropdownSubTrigger, DropdownTrigger } from "@/components/kamod-ui/dropdown";
@@ -533,22 +523,22 @@ export const Example = () => (
       <div class="docs-button-row items-start">
         <ButtonGroup orientation="vertical" class="h-fit" aria-label="Media controls">
           <Button variant="outline" size="icon" aria-label="Increase">
-            <Plus />
+            <PlusIcon />
           </Button>
           <Button variant="outline" size="icon" aria-label="Decrease">
-            <Minus />
+            <MinusIcon />
           </Button>
         </ButtonGroup>
       </div>
     ),
     code: `import { Button } from "@/components/kamod-ui/button"
 import { ButtonGroup } from "@/components/kamod-ui/button-group";
-import { Minus, Plus } from "lucide-preact";
+import { MinusIcon, PlusIcon } from "@kamod-ch/icons/lucide";
 
 export const Example = () => (
   <ButtonGroup orientation="vertical" aria-label="Media controls" class="h-fit">
-    <Button variant="outline" size="icon" aria-label="Increase"><Plus /></Button>
-    <Button variant="outline" size="icon" aria-label="Decrease"><Minus /></Button>
+    <Button variant="outline" size="icon" aria-label="Increase"><PlusIcon /></Button>
+    <Button variant="outline" size="icon" aria-label="Decrease"><MinusIcon /></Button>
   </ButtonGroup>
 );`,
   },
@@ -556,14 +546,14 @@ export const Example = () => (
     preview: () => <SizeDemo />,
     code: `import { Button } from "@/components/kamod-ui/button"
 import { ButtonGroup } from "@/components/kamod-ui/button-group";
-import { Plus } from "lucide-preact";
+import { PlusIcon } from "@kamod-ch/icons/lucide";
 
 export const Example = () => (
   <div class="flex flex-col items-start gap-8">
     <ButtonGroup>
       <Button variant="outline" size="sm">Small</Button>
       <Button variant="outline" size="sm">Button</Button>
-      <Button variant="outline" size="icon-sm" aria-label="Add"><Plus /></Button>
+      <Button variant="outline" size="icon-sm" aria-label="Add"><PlusIcon /></Button>
     </ButtonGroup>
     {/* default + lg rows */}
   </div>
@@ -575,19 +565,19 @@ export const Example = () => (
 import { ButtonGroup } from "@/components/kamod-ui/button-group"
 import { InputGroup, InputGroupInput, InputGroupAddon } from "@/components/kamod-ui/input-group"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/kamod-ui/tooltip";
-import { AudioLines, Plus } from "lucide-preact";
+import { AudioLinesIcon, PlusIcon } from "@kamod-ch/icons/lucide";
 
 export const Example = () => (
   <ButtonGroup>
     <ButtonGroup>
-      <Button variant="outline" size="icon" aria-label="Add"><Plus /></Button>
+      <Button variant="outline" size="icon" aria-label="Add"><PlusIcon /></Button>
     </ButtonGroup>
     <ButtonGroup class="min-w-0">
       <InputGroup>
         <InputGroupInput placeholder="Send a message…" />
         <Tooltip>
           <TooltipTrigger asChild>
-            <InputGroupAddon align="inline-end"><AudioLines class="size-4" /></InputGroupAddon>
+            <InputGroupAddon align="inline-end"><AudioLinesIcon class="size-4" /></InputGroupAddon>
           </TooltipTrigger>
           <TooltipContent>Voice mode</TooltipContent>
         </Tooltip>
@@ -626,40 +616,40 @@ export const Example = () => (
         </Button>
         <ButtonGroupSeparator />
         <Button variant="secondary" size="icon" aria-label="Add">
-          <Plus />
+          <PlusIcon />
         </Button>
       </ButtonGroup>
     ),
     code: `import { Button } from "@/components/kamod-ui/button"
 import { ButtonGroup, ButtonGroupSeparator } from "@/components/kamod-ui/button-group";
-import { Plus } from "lucide-preact";
+import { PlusIcon } from "@kamod-ch/icons/lucide";
 
 export const Example = () => (
   <ButtonGroup>
     <Button variant="secondary">Button</Button>
     <ButtonGroupSeparator />
-    <Button variant="secondary" size="icon" aria-label="Add"><Plus /></Button>
+    <Button variant="secondary" size="icon" aria-label="Add"><PlusIcon /></Button>
   </ButtonGroup>
 );`,
   },
   input: {
     preview: () => (
       <ButtonGroup class="max-w-md w-full">
-        <Input type="search" placeholder="Search…" class="h-8" />
-        <Button variant="outline" size="icon" aria-label="Search">
-          <Search />
+        <Input type="search" placeholder="SearchIcon…" class="h-8" />
+        <Button variant="outline" size="icon" aria-label="SearchIcon">
+          <SearchIcon />
         </Button>
       </ButtonGroup>
     ),
     code: `import { Button } from "@/components/kamod-ui/button"
 import { ButtonGroup } from "@/components/kamod-ui/button-group"
 import { Input } from "@/components/kamod-ui/input";
-import { Search } from "lucide-preact";
+import { SearchIcon } from "@kamod-ch/icons/lucide";
 
 export const Example = () => (
   <ButtonGroup class="max-w-md w-full">
-    <Input placeholder="Search…" class="h-8" />
-    <Button variant="outline" size="icon" aria-label="Search"><Search /></Button>
+    <Input placeholder="SearchIcon…" class="h-8" />
+    <Button variant="outline" size="icon" aria-label="SearchIcon"><SearchIcon /></Button>
   </ButtonGroup>
 );`,
   },
@@ -672,14 +662,14 @@ export const Example = () => (
     code: `import { Button } from "@/components/kamod-ui/button"
 import { ButtonGroup } from "@/components/kamod-ui/button-group"
 import { Dropdown, DropdownContent, DropdownItem, DropdownGroup, DropdownSeparator, DropdownTrigger } from "@/components/kamod-ui/dropdown";
-import { ChevronDown } from "lucide-preact";
+import { ChevronDownIcon } from "@kamod-ch/icons/lucide";
 
 export const Example = () => (
   <ButtonGroup>
     <Button variant="outline">Follow</Button>
     <Dropdown>
       <DropdownTrigger asChild>
-        <Button variant="outline" class="!px-2" aria-label="Open menu"><ChevronDown /></Button>
+        <Button variant="outline" class="!px-2" aria-label="Open menu"><ChevronDownIcon /></Button>
       </DropdownTrigger>
       <DropdownContent side="bottom" align="end">…</DropdownContent>
     </Dropdown>
@@ -692,7 +682,7 @@ export const Example = () => (
 import { ButtonGroup } from "@/components/kamod-ui/button-group"
 import { Input } from "@/components/kamod-ui/input"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger } from "@/components/kamod-ui/select";
-import { ArrowRight } from "lucide-preact";
+import { ArrowRightIcon } from "@kamod-ch/icons/lucide";
 
 export const Example = () => (
   <ButtonGroup class="w-full max-w-md">
@@ -701,14 +691,14 @@ export const Example = () => (
       <Input placeholder="10.00" class="h-9" />
     </ButtonGroup>
     <ButtonGroup>
-      <Button variant="outline" size="icon" aria-label="Send"><ArrowRight /></Button>
+      <Button variant="outline" size="icon" aria-label="Send"><ArrowRightIcon /></Button>
     </ButtonGroup>
   </ButtonGroup>
 );`,
   },
   popover: {
     preview: () => <PopoverCopilotDemo />,
-    code: `import { Bot, ChevronDown } from "lucide-preact";
+    code: `import { BotIcon, ChevronDownIcon } from "@kamod-ch/icons/lucide";
 import { Button } from "@/components/kamod-ui/button"
 import { ButtonGroup } from "@/components/kamod-ui/button-group"
 import { Field, FieldDescription, FieldLabel } from "@/components/kamod-ui/field"
@@ -717,10 +707,10 @@ import { Textarea } from "@/components/kamod-ui/textarea";
 
 export const Example = () => (
   <ButtonGroup>
-    <Button variant="outline"><Bot class="size-4" /> Copilot</Button>
+    <Button variant="outline"><BotIcon class="size-4" /> Copilot</Button>
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="outline" size="icon" aria-label="Open"><ChevronDown /></Button>
+        <Button variant="outline" size="icon" aria-label="Open"><ChevronDownIcon /></Button>
       </PopoverTrigger>
       <PopoverContent side="bottom" align="end" class="w-80 rounded-xl">…</PopoverContent>
     </Popover>
@@ -869,7 +859,7 @@ export const buttonGroupDocPage: DocPageModule = {
     {
       id: "rtl",
       title: "RTL",
-      text: "**Check the Whole Pattern in Its Reading Direction.** Provide the translated direction to the group and review any back or forward symbols separately. Logical layout preserves the joined control order, while directional icons may need an explicit mirrored treatment.\n\nKeep values and keyboard behavior meaningful in the translated interface, and follow [Direction](/docs/direction/installation) when the page and its portaled controls need a shared direction.",
+      text: "**CheckIcon the Whole Pattern in Its Reading Direction.** Provide the translated direction to the group and review any back or forward symbols separately. Logical layout preserves the joined control order, while directional icons may need an explicit mirrored treatment.\n\nKeep values and keyboard behavior meaningful in the translated interface, and follow [Direction](/docs/direction/installation) when the page and its portaled controls need a shared direction.",
     },
     {
       id: "api-reference",

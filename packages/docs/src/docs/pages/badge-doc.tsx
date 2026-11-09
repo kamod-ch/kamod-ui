@@ -1,5 +1,5 @@
+import { ArrowUpRightIcon, BadgeCheckIcon, BookmarkIcon } from "@kamod-ch/icons/lucide";
 import { Badge, Button, DirectionProvider, Spinner } from "@kamod-ch/ui";
-import { ArrowUpRight, BadgeCheck, Bookmark } from "lucide-preact";
 import type { ComponentChildren } from "preact";
 import { useState } from "preact/hooks";
 import { ApiReference } from "../components/ApiReference";
@@ -30,7 +30,7 @@ const rtlCopy: Record<
     destructive: "Destructive",
     outline: "Outline",
     verified: "Verified",
-    bookmark: "Bookmark",
+    bookmark: "BookmarkIcon",
   },
   ar: {
     dir: "rtl",
@@ -80,12 +80,12 @@ function BadgeRtlDemo() {
           <Badge variant="destructive">{t.destructive}</Badge>
           <Badge variant="outline">{t.outline}</Badge>
           <Badge variant="secondary">
-            <BadgeCheck data-icon="inline-start" />
+            <BadgeCheckIcon data-icon="inline-start" />
             {t.verified}
           </Badge>
           <Badge variant="outline">
             {t.bookmark}
-            <Bookmark data-icon="inline-end" />
+            <BookmarkIcon data-icon="inline-end" />
           </Badge>
         </div>
       </DirectionProvider>
@@ -153,27 +153,27 @@ export const Example = () => (
     preview: () => (
       <div class="flex flex-wrap gap-2">
         <Badge variant="secondary">
-          <BadgeCheck data-icon="inline-start" />
+          <BadgeCheckIcon data-icon="inline-start" />
           Verified
         </Badge>
         <Badge variant="outline">
-          Bookmark
-          <Bookmark data-icon="inline-end" />
+          BookmarkIcon
+          <BookmarkIcon data-icon="inline-end" />
         </Badge>
       </div>
     ),
     code: `import { Badge } from "@/components/kamod-ui/badge";
-import { BadgeCheck, Bookmark } from "lucide-preact";
+import { BadgeCheckIcon, BookmarkIcon } from "@kamod-ch/icons/lucide";
 
 export const Example = () => (
   <div class="flex flex-wrap gap-2">
     <Badge variant="secondary">
-      <BadgeCheck data-icon="inline-start" />
+      <BadgeCheckIcon data-icon="inline-start" />
       Verified
     </Badge>
     <Badge variant="outline">
-      Bookmark
-      <Bookmark data-icon="inline-end" />
+      BookmarkIcon
+      <BookmarkIcon data-icon="inline-end" />
     </Badge>
   </div>
 );`,
@@ -211,17 +211,17 @@ export const Example = () => (
     preview: () => (
       <Badge asChild>
         <a href="#link">
-          Open Link <ArrowUpRight data-icon="inline-end" />
+          Open Link <ArrowUpRightIcon data-icon="inline-end" />
         </a>
       </Badge>
     ),
     code: `import { Badge } from "@/components/kamod-ui/badge";
-import { ArrowUpRight } from "lucide-preact";
+import { ArrowUpRightIcon } from "@kamod-ch/icons/lucide";
 
 export const Example = () => (
   <Badge asChild>
     <a href="#link">
-      Open link <ArrowUpRight data-icon="inline-end" />
+      Open link <ArrowUpRightIcon data-icon="inline-end" />
     </a>
   </Badge>
 );`,
@@ -278,7 +278,7 @@ export const Example = () => (
     preview: () => <BadgeRtlDemo />,
     code: `import { Badge } from "@/components/kamod-ui/badge"
 import { DirectionProvider } from "@/components/kamod-ui/direction";
-import { BadgeCheck, Bookmark } from "lucide-preact";
+import { BadgeCheckIcon, BookmarkIcon } from "@kamod-ch/icons/lucide";
 // Wrap row with DirectionProvider and dir on the flex container.`,
   },
 };

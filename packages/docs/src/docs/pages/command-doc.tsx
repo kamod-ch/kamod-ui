@@ -1,4 +1,29 @@
 import {
+  BellIcon,
+  CalculatorIcon,
+  CalendarIcon,
+  CircleQuestionMarkIcon,
+  ClipboardPasteIcon,
+  CodeIcon,
+  CreditCardIcon,
+  FileTextIcon,
+  FolderIcon,
+  FolderPlusIcon,
+  HouseIcon,
+  ImageIcon,
+  InboxIcon,
+  LayoutGridIcon,
+  ListIcon,
+  PlusIcon,
+  ScissorsIcon,
+  SettingsIcon,
+  SmileIcon,
+  Trash2Icon,
+  UserIcon,
+  ZoomInIcon,
+  ZoomOutIcon,
+} from "@kamod-ch/icons/lucide";
+import {
   Button,
   Command,
   CommandDialog,
@@ -11,31 +36,6 @@ import {
   CommandShortcut,
 } from "@kamod-ch/ui";
 import { CopyButton } from "@kamod-ch/ui/copy-button";
-import {
-  Bell,
-  Calculator,
-  Calendar,
-  ClipboardPaste,
-  Code,
-  CreditCard,
-  FileText,
-  Folder,
-  FolderPlus,
-  HelpCircle,
-  Home,
-  Image,
-  Inbox,
-  LayoutGrid,
-  List,
-  Plus,
-  Scissors,
-  Settings,
-  Smile,
-  Trash2,
-  User,
-  ZoomIn,
-  ZoomOut,
-} from "lucide-preact";
 import { useState } from "preact/hooks";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
@@ -48,33 +48,33 @@ const CommandDemoPreview = () => (
       <CommandEmpty>No results found.</CommandEmpty>
       <CommandGroup heading="Suggestions">
         <CommandItem value="calendar">
-          <Calendar class="size-4" />
-          <span>Calendar</span>
+          <CalendarIcon class="size-4" />
+          <span>CalendarIcon</span>
         </CommandItem>
         <CommandItem value="emoji">
-          <Smile class="size-4" />
+          <SmileIcon class="size-4" />
           <span>Search Emoji</span>
         </CommandItem>
         <CommandItem value="calculator" disabled>
-          <Calculator class="size-4" />
-          <span>Calculator</span>
+          <CalculatorIcon class="size-4" />
+          <span>CalculatorIcon</span>
         </CommandItem>
       </CommandGroup>
       <CommandSeparator />
-      <CommandGroup heading="Settings">
+      <CommandGroup heading="SettingsIcon">
         <CommandItem value="profile">
-          <User class="size-4" />
+          <UserIcon class="size-4" />
           <span>Profile</span>
           <CommandShortcut>⌘P</CommandShortcut>
         </CommandItem>
         <CommandItem value="billing">
-          <CreditCard class="size-4" />
+          <CreditCardIcon class="size-4" />
           <span>Billing</span>
           <CommandShortcut>⌘B</CommandShortcut>
         </CommandItem>
         <CommandItem value="settings">
-          <Settings class="size-4" />
-          <span>Settings</span>
+          <SettingsIcon class="size-4" />
+          <span>SettingsIcon</span>
           <CommandShortcut>⌘S</CommandShortcut>
         </CommandItem>
       </CommandGroup>
@@ -95,9 +95,9 @@ const CommandBasicDialogPreview = () => {
           <CommandList>
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup heading="Suggestions">
-              <CommandItem value="calendar">Calendar</CommandItem>
+              <CommandItem value="calendar">CalendarIcon</CommandItem>
               <CommandItem value="emoji">Search Emoji</CommandItem>
-              <CommandItem value="calculator">Calculator</CommandItem>
+              <CommandItem value="calculator">CalculatorIcon</CommandItem>
             </CommandGroup>
           </CommandList>
         </Command>
@@ -118,20 +118,20 @@ const CommandShortcutsDialogPreview = () => {
           <CommandInput placeholder="Type a command or search…" />
           <CommandList>
             <CommandEmpty>No results found.</CommandEmpty>
-            <CommandGroup heading="Settings">
+            <CommandGroup heading="SettingsIcon">
               <CommandItem value="profile">
-                <User class="size-4" />
+                <UserIcon class="size-4" />
                 <span>Profile</span>
                 <CommandShortcut>⌘P</CommandShortcut>
               </CommandItem>
               <CommandItem value="billing">
-                <CreditCard class="size-4" />
+                <CreditCardIcon class="size-4" />
                 <span>Billing</span>
                 <CommandShortcut>⌘B</CommandShortcut>
               </CommandItem>
               <CommandItem value="settings">
-                <Settings class="size-4" />
-                <span>Settings</span>
+                <SettingsIcon class="size-4" />
+                <span>SettingsIcon</span>
                 <CommandShortcut>⌘S</CommandShortcut>
               </CommandItem>
             </CommandGroup>
@@ -156,33 +156,33 @@ const CommandGroupsDialogPreview = () => {
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup heading="Suggestions">
               <CommandItem value="calendar">
-                <Calendar class="size-4" />
-                <span>Calendar</span>
+                <CalendarIcon class="size-4" />
+                <span>CalendarIcon</span>
               </CommandItem>
               <CommandItem value="emoji">
-                <Smile class="size-4" />
+                <SmileIcon class="size-4" />
                 <span>Search Emoji</span>
               </CommandItem>
               <CommandItem value="calculator">
-                <Calculator class="size-4" />
-                <span>Calculator</span>
+                <CalculatorIcon class="size-4" />
+                <span>CalculatorIcon</span>
               </CommandItem>
             </CommandGroup>
             <CommandSeparator />
-            <CommandGroup heading="Settings">
+            <CommandGroup heading="SettingsIcon">
               <CommandItem value="profile">
-                <User class="size-4" />
+                <UserIcon class="size-4" />
                 <span>Profile</span>
                 <CommandShortcut>⌘P</CommandShortcut>
               </CommandItem>
               <CommandItem value="billing">
-                <CreditCard class="size-4" />
+                <CreditCardIcon class="size-4" />
                 <span>Billing</span>
                 <CommandShortcut>⌘B</CommandShortcut>
               </CommandItem>
               <CommandItem value="settings">
-                <Settings class="size-4" />
-                <span>Settings</span>
+                <SettingsIcon class="size-4" />
+                <span>SettingsIcon</span>
                 <CommandShortcut>⌘S</CommandShortcut>
               </CommandItem>
             </CommandGroup>
@@ -207,22 +207,22 @@ const CommandScrollableDialogPreview = () => {
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup heading="Navigation">
               <CommandItem value="home">
-                <Home class="size-4" />
+                <HouseIcon class="size-4" />
                 <span>Home</span>
                 <CommandShortcut>⌘H</CommandShortcut>
               </CommandItem>
               <CommandItem value="inbox">
-                <Inbox class="size-4" />
-                <span>Inbox</span>
+                <InboxIcon class="size-4" />
+                <span>InboxIcon</span>
                 <CommandShortcut>⌘I</CommandShortcut>
               </CommandItem>
               <CommandItem value="documents">
-                <FileText class="size-4" />
+                <FileTextIcon class="size-4" />
                 <span>Documents</span>
                 <CommandShortcut>⌘D</CommandShortcut>
               </CommandItem>
               <CommandItem value="folders">
-                <Folder class="size-4" />
+                <FolderIcon class="size-4" />
                 <span>Folders</span>
                 <CommandShortcut>⌘F</CommandShortcut>
               </CommandItem>
@@ -230,13 +230,13 @@ const CommandScrollableDialogPreview = () => {
             <CommandSeparator />
             <CommandGroup heading="Actions">
               <CommandItem value="new file">
-                <Plus class="size-4" />
+                <PlusIcon class="size-4" />
                 <span>New File</span>
                 <CommandShortcut>⌘N</CommandShortcut>
               </CommandItem>
               <CommandItem value="new folder">
-                <FolderPlus class="size-4" />
-                <span>New Folder</span>
+                <FolderPlusIcon class="size-4" />
+                <span>New FolderIcon</span>
                 <CommandShortcut>⇧⌘N</CommandShortcut>
               </CommandItem>
               <CopyButton
@@ -250,17 +250,17 @@ const CommandScrollableDialogPreview = () => {
                 )}
               />
               <CommandItem value="cut">
-                <Scissors class="size-4" />
+                <ScissorsIcon class="size-4" />
                 <span>Cut</span>
                 <CommandShortcut>⌘X</CommandShortcut>
               </CommandItem>
               <CommandItem value="paste">
-                <ClipboardPaste class="size-4" />
+                <ClipboardPasteIcon class="size-4" />
                 <span>Paste</span>
                 <CommandShortcut>⌘V</CommandShortcut>
               </CommandItem>
               <CommandItem value="delete">
-                <Trash2 class="size-4" />
+                <Trash2Icon class="size-4" />
                 <span>Delete</span>
                 <CommandShortcut>⌫</CommandShortcut>
               </CommandItem>
@@ -268,20 +268,20 @@ const CommandScrollableDialogPreview = () => {
             <CommandSeparator />
             <CommandGroup heading="View">
               <CommandItem value="grid">
-                <LayoutGrid class="size-4" />
+                <LayoutGridIcon class="size-4" />
                 <span>Grid View</span>
               </CommandItem>
               <CommandItem value="list">
-                <List class="size-4" />
-                <span>List View</span>
+                <ListIcon class="size-4" />
+                <span>ListIcon View</span>
               </CommandItem>
               <CommandItem value="zoom in">
-                <ZoomIn class="size-4" />
+                <ZoomInIcon class="size-4" />
                 <span>Zoom In</span>
                 <CommandShortcut>⌘+</CommandShortcut>
               </CommandItem>
               <CommandItem value="zoom out">
-                <ZoomOut class="size-4" />
+                <ZoomOutIcon class="size-4" />
                 <span>Zoom Out</span>
                 <CommandShortcut>⌘-</CommandShortcut>
               </CommandItem>
@@ -289,46 +289,46 @@ const CommandScrollableDialogPreview = () => {
             <CommandSeparator />
             <CommandGroup heading="Account">
               <CommandItem value="profile">
-                <User class="size-4" />
+                <UserIcon class="size-4" />
                 <span>Profile</span>
                 <CommandShortcut>⌘P</CommandShortcut>
               </CommandItem>
               <CommandItem value="billing">
-                <CreditCard class="size-4" />
+                <CreditCardIcon class="size-4" />
                 <span>Billing</span>
                 <CommandShortcut>⌘B</CommandShortcut>
               </CommandItem>
               <CommandItem value="settings">
-                <Settings class="size-4" />
-                <span>Settings</span>
+                <SettingsIcon class="size-4" />
+                <span>SettingsIcon</span>
                 <CommandShortcut>⌘S</CommandShortcut>
               </CommandItem>
               <CommandItem value="notifications">
-                <Bell class="size-4" />
+                <BellIcon class="size-4" />
                 <span>Notifications</span>
               </CommandItem>
               <CommandItem value="help">
-                <HelpCircle class="size-4" />
+                <CircleQuestionMarkIcon class="size-4" />
                 <span>Help &amp; Support</span>
               </CommandItem>
             </CommandGroup>
             <CommandSeparator />
             <CommandGroup heading="Tools">
               <CommandItem value="calculator">
-                <Calculator class="size-4" />
-                <span>Calculator</span>
+                <CalculatorIcon class="size-4" />
+                <span>CalculatorIcon</span>
               </CommandItem>
               <CommandItem value="calendar">
-                <Calendar class="size-4" />
-                <span>Calendar</span>
+                <CalendarIcon class="size-4" />
+                <span>CalendarIcon</span>
               </CommandItem>
               <CommandItem value="image">
-                <Image class="size-4" />
-                <span>Image Editor</span>
+                <ImageIcon class="size-4" />
+                <span>ImageIcon Editor</span>
               </CommandItem>
               <CommandItem value="code">
-                <Code class="size-4" />
-                <span>Code Editor</span>
+                <CodeIcon class="size-4" />
+                <span>CodeIcon Editor</span>
               </CommandItem>
             </CommandGroup>
           </CommandList>
@@ -361,13 +361,13 @@ const rtlCopy: Record<
     placeholder: "Type a command or search…",
     empty: "No results found.",
     suggestions: "Suggestions",
-    settings: "Settings",
-    calendar: "Calendar",
+    settings: "SettingsIcon",
+    calendar: "CalendarIcon",
     emoji: "Search Emoji",
-    calculator: "Calculator",
+    calculator: "CalculatorIcon",
     profile: "Profile",
     billing: "Billing",
-    settingsLabel: "Settings",
+    settingsLabel: "SettingsIcon",
   },
   ar: {
     dir: "rtl",
@@ -420,32 +420,32 @@ const CommandRtlPreview = () => {
           <CommandEmpty>{t.empty}</CommandEmpty>
           <CommandGroup heading={t.suggestions}>
             <CommandItem value="calendar">
-              <Calendar class="size-4" />
+              <CalendarIcon class="size-4" />
               <span>{t.calendar}</span>
             </CommandItem>
             <CommandItem value="emoji">
-              <Smile class="size-4" />
+              <SmileIcon class="size-4" />
               <span>{t.emoji}</span>
             </CommandItem>
             <CommandItem value="calculator" disabled>
-              <Calculator class="size-4" />
+              <CalculatorIcon class="size-4" />
               <span>{t.calculator}</span>
             </CommandItem>
           </CommandGroup>
           <CommandSeparator />
           <CommandGroup heading={t.settings}>
             <CommandItem value="profile">
-              <User class="size-4" />
+              <UserIcon class="size-4" />
               <span>{t.profile}</span>
               <CommandShortcut>⌘P</CommandShortcut>
             </CommandItem>
             <CommandItem value="billing">
-              <CreditCard class="size-4" />
+              <CreditCardIcon class="size-4" />
               <span>{t.billing}</span>
               <CommandShortcut>⌘B</CommandShortcut>
             </CommandItem>
             <CommandItem value="settings">
-              <Settings class="size-4" />
+              <SettingsIcon class="size-4" />
               <span>{t.settingsLabel}</span>
               <CommandShortcut>⌘S</CommandShortcut>
             </CommandItem>
@@ -503,14 +503,14 @@ export const Example = () => (
     {
       id: "dialog-groups",
       title: "Dialog: Groups",
-      text: "**Separate Frequent Suggestions from Broader Settings.** Separate suggestions and settings with named groups and `CommandSeparator`. This preserves the relationship between related actions, helping readers interpret the list even before they begin filtering its contents.\n\nKeep category names stable and remove empty groups when appropriate; commands should remain understandable when search results appear outside their original context.",
+      text: "**Separate Frequent Suggestions from Broader SettingsIcon.** Separate suggestions and settings with named groups and `CommandSeparator`. This preserves the relationship between related actions, helping readers interpret the list even before they begin filtering its contents.\n\nKeep category names stable and remove empty groups when appropriate; commands should remain understandable when search results appear outside their original context.",
       code: "// CommandGroupsDialogPreview",
       renderPreview: () => <CommandGroupsDialogPreview />,
     },
     {
       id: "dialog-scrollable",
       title: "Dialog: Scrollable",
-      text: "**Constrain the List without Hiding Navigation.** Constrain `CommandList` with `max-h-80` when many actions would otherwise make the palette too tall. The surrounding dialog stays compact while the results form a scrollable area within it.\n\nTest keyboard movement into offscreen items and long labels, and keep the search field and empty-result feedback visible without requiring users to scroll the entire page.",
+      text: "**Constrain the ListIcon without Hiding Navigation.** Constrain `CommandList` with `max-h-80` when many actions would otherwise make the palette too tall. The surrounding dialog stays compact while the results form a scrollable area within it.\n\nTest keyboard movement into offscreen items and long labels, and keep the search field and empty-result feedback visible without requiring users to scroll the entire page.",
       code: "// CommandScrollableDialogPreview",
       renderPreview: () => <CommandScrollableDialogPreview />,
     },

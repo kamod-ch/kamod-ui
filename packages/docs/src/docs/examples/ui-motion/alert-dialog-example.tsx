@@ -1,3 +1,4 @@
+import { Trash2Icon } from "@kamod-ch/icons/lucide";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,7 +17,6 @@ import {
   MotionAlertDialogPortal,
   MotionAlertDialogViewport,
 } from "@kamod-ch/ui-motion/alert-dialog";
-import { Trash2 } from "lucide-preact";
 import type { UiMotionDocExample } from "./types.js";
 
 export const MOTION_ALERT_DIALOG_EXAMPLE_CODE = `import {
@@ -37,7 +37,7 @@ import {
   MotionAlertDialogPortal,
   MotionAlertDialogViewport,
 } from "@kamod-ch/ui-motion/alert-dialog";
-import { Trash2 } from "lucide-preact";
+import { Trash2Icon } from "@kamod-ch/icons/lucide";
 
 export function DeleteProjectAlert() {
   return (
@@ -51,7 +51,7 @@ export function DeleteProjectAlert() {
           <MotionAlertDialogContent size="sm">
             <AlertDialogHeader>
               <AlertDialogMedia class="bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive">
-                <Trash2 />
+                <Trash2Icon />
               </AlertDialogMedia>
               <AlertDialogTitle>Delete this project?</AlertDialogTitle>
               <AlertDialogDescription>
@@ -84,7 +84,7 @@ export function MotionAlertDialogDestructivePreview() {
           <MotionAlertDialogContent size="sm">
             <AlertDialogHeader>
               <AlertDialogMedia class="bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive">
-                <Trash2 />
+                <Trash2Icon />
               </AlertDialogMedia>
               <AlertDialogTitle>Delete This Project?</AlertDialogTitle>
               <AlertDialogDescription>

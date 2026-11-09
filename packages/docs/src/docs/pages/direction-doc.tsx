@@ -218,8 +218,7 @@ export const Example = () => (
       id: "hook-usage",
       title: "useDirection",
       text: "**Read Direction When Behavior Must Adapt.** Read the current direction from the provider inside a descendant when its behavior depends on reading order. This is useful for directional symbols or positioning decisions that cannot be expressed through logical CSS alone.\n\nPrefer logical CSS for ordinary spacing, and avoid copying the direction into unrelated state that can become stale when the language changes.",
-      code: `import { useDirection } from "lucide-preact"
-import { DirectionProvider } from "@/components/kamod-ui/direction";
+      code: `import { DirectionProvider, useDirection } from "@/components/kamod-ui/direction";
 
 const Child = () => {
   const direction = useDirection();

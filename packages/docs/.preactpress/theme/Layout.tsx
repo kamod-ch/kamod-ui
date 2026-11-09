@@ -9,6 +9,7 @@ import { HighlightedProse } from "../../src/docs/components/HighlightedProse";
 import { PathCopySupport } from "../../src/docs/components/PathCopySupport";
 import { useRightSidebarPageMemory } from "../../src/layout/navigation/right-sidebar-memory";
 import { PageLoading, PageNotFound } from "../../src/layout/PageState";
+import { StarInvitationHost } from "../../src/layout/star-invitation/StarInvitationHost";
 import { ApplicationTooltips } from "../../src/layout/tooltips/ApplicationTooltips";
 import { usePageReloadScroll } from "../../src/layout/usePageReloadScroll";
 import { ReferenceCodeProvider } from "../../src/references/ReferenceCode";
@@ -18,6 +19,9 @@ import "../../src/styles/index.css";
 
 const BlockCategoryPage = blockPage("BlockCategoryPage", "BlockCategoryPage");
 const BlockOverviewPage = blockPage("BlockOverviewPage", "BlockOverviewPage");
+const BlockRoadmapPage = blockPage("BlockRoadmapPage", "BlockRoadmapPage");
+const BlockPlannedCategoryPage = blockPage("BlockPlannedCategoryPage", "BlockPlannedCategoryPage");
+const SaasTeamDemoPage = blockPage("SaasTeamDemoPage", "SaasTeamDemoPage");
 const ComponentPreviewPage = blockPage("ComponentPreviewPage", "ComponentPreviewPage");
 const DocsComponentContent = blockPage("DocsComponentContent", "DocsComponentContent");
 const DocsFormsOverviewContent = blockPage("DocsFormsOverviewContent", "DocsFormsOverviewContent");
@@ -118,7 +122,10 @@ type DemoPageKind =
   | "dashboard-block-preview"
   | "communication-block-preview"
   | "commerce-block-preview"
-  | "blocks-detail";
+  | "blocks-detail"
+  | "blocks-roadmap"
+  | "blocks-planned-category"
+  | "saas-team-demo";
 
 type DemoPageMeta = {
   pageKind?: DemoPageKind;
@@ -126,6 +133,7 @@ type DemoPageMeta = {
   section?: string;
   blockId?: string;
   blockCategory?: string;
+  plannedCategoryKey?: string;
   previewMode?: "desktop" | "collapsed" | "mobile";
 };
 
@@ -141,6 +149,8 @@ const readPageMeta = (page: LayoutProps["page"]): DemoPageMeta => {
         ? meta.previewMode
         : "desktop",
     blockCategory: typeof meta.blockCategory === "string" ? meta.blockCategory : undefined,
+    plannedCategoryKey:
+      typeof meta.plannedCategoryKey === "string" ? meta.plannedCategoryKey : undefined,
   };
 };
 
@@ -166,6 +176,10 @@ const PageContent: FunctionalComponent<LayoutProps> = ({ page }) => {
     return <KitchenSinkPage />;
   }
 
+  if (meta.pageKind === "saas-team-demo") {
+    return <SaasTeamDemoPage />;
+  }
+
   if (meta.pageKind === "docs-overview") {
     return <DocsOverviewContent />;
   }
@@ -179,6 +193,14 @@ const PageContent: FunctionalComponent<LayoutProps> = ({ page }) => {
 
   if (meta.pageKind === "blocks-overview") {
     return <BlockOverviewPage />;
+  }
+
+  if (meta.pageKind === "blocks-roadmap") {
+    return <BlockRoadmapPage />;
+  }
+
+  if (meta.pageKind === "blocks-planned-category" && meta.plannedCategoryKey) {
+    return <BlockPlannedCategoryPage categoryKey={meta.plannedCategoryKey} />;
   }
 
   if (meta.pageKind === "docs-forms-overview") {
@@ -306,6 +328,7 @@ const Layout: FunctionalComponent<LayoutProps> = (props) => (
     <PathCopySupport />
     <SiteColorSchemeSync page={props.page} />
     <ApplicationTooltips page={props.page} />
+    <StarInvitationHost />
     <PageContent {...props} />
   </ReferenceCodeProvider>
 );

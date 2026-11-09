@@ -1,4 +1,10 @@
 import {
+  CircleAlertIcon,
+  CircleCheckIcon,
+  InfoIcon,
+  TriangleAlertIcon,
+} from "@kamod-ch/icons/lucide";
+import {
   Alert,
   AlertAction,
   AlertCallout,
@@ -7,7 +13,6 @@ import {
   Button,
   DirectionProvider,
 } from "@kamod-ch/ui";
-import { AlertCircle, AlertTriangle, CheckCircle2, Info } from "lucide-preact";
 import type { ComponentChildren } from "preact";
 import { useState } from "preact/hooks";
 import { ApiReference } from "../components/ApiReference";
@@ -19,14 +24,14 @@ function AlertHero() {
   return (
     <div class="grid w-full max-w-md items-start gap-4">
       <Alert>
-        <CheckCircle2 />
+        <CircleCheckIcon />
         <AlertTitle>Payment Successful</AlertTitle>
         <AlertDescription>
           Your payment of $29.99 has been processed. A receipt has been sent to your email address.
         </AlertDescription>
       </Alert>
       <Alert>
-        <Info />
+        <InfoIcon />
         <AlertTitle>New Feature Available</AlertTitle>
         <AlertDescription>
           We&apos;ve added dark mode support. You can enable it in your account settings.
@@ -37,17 +42,17 @@ function AlertHero() {
 }
 
 const heroCode = `import { Alert, AlertDescription, AlertTitle } from "@/components/kamod-ui/alert";
-import { CheckCircle2, Info } from "lucide-preact";
+import { CircleCheckIcon, InfoIcon } from "@kamod-ch/icons/lucide";
 
 export const Example = () => (
   <div class="grid w-full max-w-md items-start gap-4">
     <Alert>
-      <CheckCircle2 />
+      <CircleCheckIcon />
       <AlertTitle>Payment successful</AlertTitle>
       <AlertDescription>…</AlertDescription>
     </Alert>
     <Alert>
-      <Info />
+      <InfoIcon />
       <AlertTitle>New feature available</AlertTitle>
       <AlertDescription>…</AlertDescription>
     </Alert>
@@ -61,7 +66,7 @@ const sectionBlocks: Record<string, { preview: () => ComponentChildren; code: st
         class="max-w-xl"
         title="Start with one working screen"
         eyebrow="A useful first step"
-        icon={<Info />}
+        icon={<InfoIcon />}
         meta="01"
         footer={
           <Button variant="outline" size="sm" href="#installation">
@@ -92,7 +97,7 @@ import { InfoIcon } from "@kamod-ch/icons/lucide";
   basic: {
     preview: () => (
       <Alert class="max-w-md">
-        <CheckCircle2 />
+        <CircleCheckIcon />
         <AlertTitle>Account Updated Successfully</AlertTitle>
         <AlertDescription>
           Your profile information has been saved. Changes will be reflected immediately.
@@ -100,10 +105,10 @@ import { InfoIcon } from "@kamod-ch/icons/lucide";
       </Alert>
     ),
     code: `import { Alert, AlertDescription, AlertTitle } from "@/components/kamod-ui/alert";
-import { CheckCircle2 } from "lucide-preact";
+import { CircleCheckIcon } from "@kamod-ch/icons/lucide";
 
 <Alert class="max-w-md">
-  <CheckCircle2 />
+  <CircleCheckIcon />
   <AlertTitle>Account updated successfully</AlertTitle>
   <AlertDescription>…</AlertDescription>
 </Alert>`,
@@ -111,7 +116,7 @@ import { CheckCircle2 } from "lucide-preact";
   destructive: {
     preview: () => (
       <Alert variant="destructive" class="max-w-md">
-        <AlertCircle />
+        <CircleAlertIcon />
         <AlertTitle>Payment Failed</AlertTitle>
         <AlertDescription>
           Your payment could not be processed. Please check your payment method and try again.
@@ -119,10 +124,10 @@ import { CheckCircle2 } from "lucide-preact";
       </Alert>
     ),
     code: `import { Alert, AlertDescription, AlertTitle } from "@/components/kamod-ui/alert";
-import { AlertCircle } from "lucide-preact";
+import { CircleAlertIcon } from "@kamod-ch/icons/lucide";
 
 <Alert variant="destructive" class="max-w-md">
-  <AlertCircle />
+  <CircleAlertIcon />
   <AlertTitle>Payment failed</AlertTitle>
   <AlertDescription>…</AlertDescription>
 </Alert>`,
@@ -153,7 +158,7 @@ import { Button } from "@/components/kamod-ui/button";
   colors: {
     preview: () => (
       <Alert class="max-w-md border-amber-200 bg-amber-50 text-amber-900 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-50">
-        <AlertTriangle />
+        <TriangleAlertIcon />
         <AlertTitle>Your Subscription Will Expire in 3 Days.</AlertTitle>
         <AlertDescription>
           Renew now to avoid service interruption or upgrade to a paid plan to continue using the
@@ -162,7 +167,7 @@ import { Button } from "@/components/kamod-ui/button";
       </Alert>
     ),
     code: `<Alert class="max-w-md border-amber-200 bg-amber-50 text-amber-900 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-50">
-  <AlertTriangle />
+  <TriangleAlertIcon />
   <AlertTitle>…</AlertTitle>
   <AlertDescription>…</AlertDescription>
 </Alert>`,
@@ -171,7 +176,7 @@ import { Button } from "@/components/kamod-ui/button";
     preview: () => <AlertRtlDemo />,
     code: `import { Alert, AlertDescription, AlertTitle } from "@/components/kamod-ui/alert"
 import { DirectionProvider } from "@/components/kamod-ui/direction";
-import { CheckCircle2, Info } from "lucide-preact";
+import { CircleCheckIcon, InfoIcon } from "@kamod-ch/icons/lucide";
 
 // Wrap grid with dir={dir}; optional DirectionProvider for logical components below.`,
   },
@@ -241,12 +246,12 @@ function AlertRtlDemo() {
       <DirectionProvider direction={t.dir}>
         <div class="grid w-full max-w-md items-start gap-4" dir={t.dir}>
           <Alert>
-            <CheckCircle2 />
+            <CircleCheckIcon />
             <AlertTitle>{t.paymentTitle}</AlertTitle>
             <AlertDescription>{t.paymentDescription}</AlertDescription>
           </Alert>
           <Alert>
-            <Info />
+            <InfoIcon />
             <AlertTitle>{t.featureTitle}</AlertTitle>
             <AlertDescription>{t.featureDescription}</AlertDescription>
           </Alert>
@@ -369,10 +374,10 @@ export const alertDocPage: DocPageModule = {
           <CodeBlock
             code={`import { Alert, AlertAction, AlertDescription, AlertTitle } from "@/components/kamod-ui/alert"
 import { Button } from "@/components/kamod-ui/button";
-import { Info } from "lucide-preact";
+import { InfoIcon } from "@kamod-ch/icons/lucide";
 
 <Alert>
-  <Info />
+  <InfoIcon />
   <AlertTitle>Heads up!</AlertTitle>
   <AlertDescription>You can add components using the CLI.</AlertDescription>
   <AlertAction>

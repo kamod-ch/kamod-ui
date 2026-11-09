@@ -8,6 +8,7 @@ import {
   useForm,
   validate,
 } from "@formisch/preact";
+import { XIcon } from "@kamod-ch/icons/lucide";
 import {
   Button,
   Card,
@@ -37,7 +38,6 @@ import {
   Switch,
   Textarea,
 } from "@kamod-ch/ui";
-import { X } from "lucide-preact";
 import type { ComponentChildren } from "preact";
 import { useState } from "preact/hooks";
 import * as v from "valibot";
@@ -688,7 +688,7 @@ export const ContactEmailsForm = ({ idPrefix }: ExampleProps) => {
                             disabled={array.items.value.length <= 1}
                             onClick={() => remove(form, { path: ["emails"], at: index })}
                           >
-                            <X size={16} />
+                            <XIcon size={16} />
                           </Button>
                         </div>
                         <FieldError errors={errorsToFieldErrors(field.errors.value)} />

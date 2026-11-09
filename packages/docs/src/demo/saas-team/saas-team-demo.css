@@ -1,0 +1,79 @@
+.saas-team-demo {
+  --saas-team-demo-pad: clamp(1rem, 3vw, 1.5rem);
+}
+
+.saas-team-demo [data-application-shell="1"] {
+  min-height: 100dvh;
+}
+
+.saas-team-demo-main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: var(--saas-team-demo-pad);
+  min-width: 0;
+}
+
+.saas-team-demo-banner {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: color-mix(in oklch, var(--muted) 45%, transparent);
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  line-height: 1.45;
+}
+
+.saas-team-metrics {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+}
+
+.saas-team-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--card);
+}
+
+.saas-team-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.saas-team-toolbar-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: flex-end;
+  min-width: 0;
+  flex: 1 1 12rem;
+}
+
+.saas-team-sort-btn {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-align: inherit;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.2em;
+}
+
+.saas-team-sort-btn:hover,
+.saas-team-sort-btn:focus-visible {
+  text-decoration-color: currentColor;
+}
+
+@media (max-width: 360px) {
+  .saas-team-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

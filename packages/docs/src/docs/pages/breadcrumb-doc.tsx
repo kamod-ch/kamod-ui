@@ -1,3 +1,4 @@
+import { ChevronDownIcon, DotIcon } from "@kamod-ch/icons/lucide";
 import {
   Breadcrumb,
   BreadcrumbEllipsis,
@@ -14,7 +15,6 @@ import {
   DropdownItem,
   DropdownTrigger,
 } from "@kamod-ch/ui";
-import { ChevronDown, Dot } from "lucide-preact";
 import type { ComponentChildren } from "preact";
 import { useState } from "preact/hooks";
 import { ApiReference } from "../components/ApiReference";
@@ -149,14 +149,14 @@ function BreadcrumbRtlDemo() {
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator>
-              <Dot />
+              <DotIcon />
             </BreadcrumbSeparator>
             <BreadcrumbItem>
               <Dropdown>
                 <DropdownTrigger asChild>
                   <button type="button" class={breadcrumbDropdownTriggerClass}>
                     {t.components}
-                    <ChevronDown class="size-3.5 shrink-0 opacity-70" />
+                    <ChevronDownIcon class="size-3.5 shrink-0 opacity-70" />
                   </button>
                 </DropdownTrigger>
                 <DropdownContent align="start">
@@ -169,7 +169,7 @@ function BreadcrumbRtlDemo() {
               </Dropdown>
             </BreadcrumbItem>
             <BreadcrumbSeparator>
-              <Dot />
+              <DotIcon />
             </BreadcrumbSeparator>
             <BreadcrumbItem>
               <BreadcrumbPage>{t.breadcrumb}</BreadcrumbPage>
@@ -267,7 +267,7 @@ export const Example = () => (
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator>
-            <Dot />
+            <DotIcon />
           </BreadcrumbSeparator>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
@@ -275,7 +275,7 @@ export const Example = () => (
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator>
-            <Dot />
+            <DotIcon />
           </BreadcrumbSeparator>
           <BreadcrumbItem>
             <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
@@ -283,7 +283,7 @@ export const Example = () => (
         </BreadcrumbList>
       </Breadcrumb>
     ),
-    code: `import { Dot } from "lucide-preact";
+    code: `import { DotIcon } from "@kamod-ch/icons/lucide";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/kamod-ui/breadcrumb";
 
 export const Example = () => (
@@ -292,7 +292,7 @@ export const Example = () => (
       <BreadcrumbItem>
         <BreadcrumbLink asChild><a href="#">Home</a></BreadcrumbLink>
       </BreadcrumbItem>
-      <BreadcrumbSeparator><Dot /></BreadcrumbSeparator>
+      <BreadcrumbSeparator><DotIcon /></BreadcrumbSeparator>
       …
     </BreadcrumbList>
   </Breadcrumb>
@@ -308,14 +308,14 @@ export const Example = () => (
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator>
-            <Dot />
+            <DotIcon />
           </BreadcrumbSeparator>
           <BreadcrumbItem>
             <Dropdown>
               <DropdownTrigger asChild>
                 <button type="button" class={breadcrumbDropdownTriggerClass}>
                   Components
-                  <ChevronDown class="size-3.5 shrink-0 opacity-70" />
+                  <ChevronDownIcon class="size-3.5 shrink-0 opacity-70" />
                 </button>
               </DropdownTrigger>
               <DropdownContent align="start">
@@ -328,7 +328,7 @@ export const Example = () => (
             </Dropdown>
           </BreadcrumbItem>
           <BreadcrumbSeparator>
-            <Dot />
+            <DotIcon />
           </BreadcrumbSeparator>
           <BreadcrumbItem>
             <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
@@ -336,7 +336,7 @@ export const Example = () => (
         </BreadcrumbList>
       </Breadcrumb>
     ),
-    code: `import { ChevronDown, Dot } from "lucide-preact";
+    code: `import { ChevronDownIcon, DotIcon } from "@kamod-ch/icons/lucide";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/kamod-ui/breadcrumb"
 import { Dropdown, DropdownContent, DropdownGroup, DropdownItem, DropdownTrigger } from "@/components/kamod-ui/dropdown";
 
@@ -349,13 +349,13 @@ export const Example = () => (
       <BreadcrumbItem>
         <BreadcrumbLink asChild><a href="#">Home</a></BreadcrumbLink>
       </BreadcrumbItem>
-      <BreadcrumbSeparator><Dot /></BreadcrumbSeparator>
+      <BreadcrumbSeparator><DotIcon /></BreadcrumbSeparator>
       <BreadcrumbItem>
         <Dropdown>
           <DropdownTrigger asChild>
             <button type="button" class={triggerClass}>
               Components
-              <ChevronDown class="size-3.5 shrink-0 opacity-70" />
+              <ChevronDownIcon class="size-3.5 shrink-0 opacity-70" />
             </button>
           </DropdownTrigger>
           <DropdownContent align="start">
@@ -471,8 +471,8 @@ export const Example = () => (
   rtl: {
     preview: () => <BreadcrumbRtlDemo />,
     code: `import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, DirectionProvider, Dropdown, … } from "@/components/kamod-ui/breadcrumb";
-import { ChevronDown, Dot } from "lucide-preact";
-// Set dir on Breadcrumb; use Dot separators and a dropdown trigger row for the middle segment.`,
+import { ChevronDownIcon, DotIcon } from "@kamod-ch/icons/lucide";
+// Set dir on Breadcrumb; use DotIcon separators and a dropdown trigger row for the middle segment.`,
   },
 };
 

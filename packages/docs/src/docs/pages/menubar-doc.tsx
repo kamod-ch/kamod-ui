@@ -1,4 +1,12 @@
 import {
+  CircleQuestionMarkIcon,
+  FileTextIcon,
+  FolderOpenIcon,
+  SaveIcon,
+  SettingsIcon,
+  Trash2Icon,
+} from "@kamod-ch/icons/lucide";
+import {
   Menubar,
   MenubarCheckboxItem,
   MenubarContent,
@@ -15,7 +23,6 @@ import {
   MenubarTrigger,
 } from "@kamod-ch/ui";
 import { CopyButton } from "@kamod-ch/ui/copy-button";
-import { FileText, FolderOpen, HelpCircle, Save, Settings, Trash2 } from "lucide-preact";
 import { useState } from "preact/hooks";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
@@ -252,17 +259,17 @@ function MenubarIconsExample() {
         <MenubarTrigger>File</MenubarTrigger>
         <MenubarContent>
           <MenubarItem>
-            <FileText class="size-4" />
+            <FileTextIcon class="size-4" />
             New File <MenubarShortcut>⌘N</MenubarShortcut>
           </MenubarItem>
           <MenubarItem>
-            <FolderOpen class="size-4" />
+            <FolderOpenIcon class="size-4" />
             Open Folder
           </MenubarItem>
           <MenubarSeparator />
           <MenubarItem>
-            <Save class="size-4" />
-            Save <MenubarShortcut>⌘S</MenubarShortcut>
+            <SaveIcon class="size-4" />
+            SaveIcon <MenubarShortcut>⌘S</MenubarShortcut>
           </MenubarItem>
         </MenubarContent>
       </MenubarMenu>
@@ -271,16 +278,16 @@ function MenubarIconsExample() {
         <MenubarContent>
           <MenubarGroup>
             <MenubarItem>
-              <Settings class="size-4" />
-              Settings
+              <SettingsIcon class="size-4" />
+              SettingsIcon
             </MenubarItem>
             <MenubarItem>
-              <HelpCircle class="size-4" />
+              <CircleQuestionMarkIcon class="size-4" />
               Help
             </MenubarItem>
             <MenubarSeparator />
             <MenubarItem variant="destructive">
-              <Trash2 class="size-4" />
+              <Trash2Icon class="size-4" />
               Delete
             </MenubarItem>
           </MenubarGroup>
@@ -489,7 +496,7 @@ export const Example = () => (
       id: "icons",
       title: "With Icons",
       text: "**Make Scanning Faster without Changing Meaning.** Place recognizable icons before menu labels and use the destructive variant only for actions with that consequence. The visual treatment supplements the text, keeping the menu understandable even when an icon is unfamiliar.\n\nKeep decorative icons out of the accessible name and separate risky operations through clear wording and grouping rather than relying on a red icon alone.",
-      code: `import { FileText, Trash2 } from "lucide-preact";
+      code: `import { FileTextIcon, Trash2Icon } from "@kamod-ch/icons/lucide";
 import { Menubar, MenubarContent, MenubarGroup, MenubarItem, MenubarMenu, MenubarSeparator, MenubarShortcut, MenubarTrigger } from "@/components/kamod-ui/menubar";
 
 export const Example = () => (
@@ -498,13 +505,13 @@ export const Example = () => (
       <MenubarTrigger>File</MenubarTrigger>
       <MenubarContent>
         <MenubarItem>
-          <FileText class="size-4" />
+          <FileTextIcon class="size-4" />
           New <MenubarShortcut>⌘N</MenubarShortcut>
         </MenubarItem>
         <MenubarSeparator />
         <MenubarGroup>
           <MenubarItem variant="destructive">
-            <Trash2 class="size-4" />
+            <Trash2Icon class="size-4" />
             Delete
           </MenubarItem>
         </MenubarGroup>

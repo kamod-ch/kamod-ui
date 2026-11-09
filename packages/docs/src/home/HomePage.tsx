@@ -15,6 +15,7 @@ import { BrandGithubIcon } from "@kamod-ch/icons/tabler/filled";
 import { ApiBookIcon } from "@kamod-ch/icons/tabler/outline";
 import { Button, ThemeToggle } from "@kamod-ch/ui";
 import type { ComponentChildren } from "preact";
+import { markDemoEntryLocation } from "../analytics/growth-meta";
 import { withBasePath } from "../base-path";
 import { BrandLink, BrandText } from "../docs/components/brand/BrandText";
 import { lazyShowcase } from "../docs/components/lazy-showcase";
@@ -26,9 +27,12 @@ import { utilityName } from "../link-title";
 import { ThemePresetPicker } from "../theme/ThemePresetPicker";
 import { HomeComponentDirectory } from "./HomeComponentDirectory";
 import { HomeBlockExamples, WorkspaceExample } from "./HomeExamples";
+import { HomeFeaturedBlocks } from "./HomeFeaturedBlocks";
 import { HomeFooter } from "./HomeFooter";
 import { HomeHeroBackdrop } from "./HomeHeroBackdrop";
+import { HomeSaasDemoPromo } from "./HomeSaasDemoPromo";
 import { ecosystemEntries, guideEntries, libraryEntries } from "./home-content";
+import { StarterTemplateDownloadButton } from "./StarterTemplateDownloadButton";
 
 const HomeKitchenSinkSection = lazyShowcase(() => import("./HomeKitchenSinkSection"));
 
@@ -118,26 +122,33 @@ export function HomePage() {
                   shape an interface that feels like your product.
                 </p>
                 <p class="home-hero-secondary">
-                  A practical home for <code>TypeScript</code>, <code>Tailwind CSS</code> and the
-                  Kamod stack. Start small. Learn each piece. Build with confidence.
+                  A practical home for <code>Preact</code>, <code>Tailwind CSS</code>, and usable
+                  components and blocks you can copy into your own app.
                 </p>
               </Text>
               <div class="home-hero-actions">
                 <Button
                   class="home-primary-cta"
                   size="lg"
-                  href={withBasePath("/docs/getting-started")}
+                  href={withBasePath("/demo/saas-team")}
+                  onClick={() => markDemoEntryLocation("landing")}
                 >
                   <RocketIcon size={19} aria-hidden="true" />
-                  <span class="home-cta-label">Get Started</span>
+                  <span class="home-cta-label">Explore demo</span>
                   <span class="home-cta-arrow" aria-hidden="true">
                     <ArrowRightIcon size={18} />
                   </span>
                 </Button>
-                <Link href="/docs/components">
-                  <ComponentIcon size={17} aria-hidden="true" />
-                  Explore Components
-                </Link>
+                <StarterTemplateDownloadButton />
+                <a
+                  class="home-text-link home-hero-source-link"
+                  href="https://github.com/kamod-ch/kamod-ui/tree/main/packages/docs/src/demo/saas-team"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  View demo source
+                  <ArrowUpRightIcon size={16} aria-hidden="true" />
+                </a>
               </div>
               <p class="home-hero-note">
                 <CheckIcon size={14} aria-hidden="true" /> Open Source{" "}
@@ -146,16 +157,26 @@ export function HomePage() {
               </p>
             </div>
             <div class="home-hero-example">
-              <div class="home-hero-stage">
+              <div class="home-hero-stage home-hero-stage--saas">
                 <HomeHeroBackdrop />
-                <WorkspaceExample />
+                <HomeSaasDemoPromo />
               </div>
               <p class="home-example-note">
-                Try the controls, explore the code, or reset and start again. Theme changes stay in
-                this preview.
+                Full team demo at <a href={withBasePath("/demo/saas-team")}>demo/saas-team</a> —
+                shell, table, and local invite flow. The kitchen sink stays{" "}
+                <a href={withBasePath("/kitchen-sink")}>on its own route</a>.
               </p>
             </div>
           </header>
+          <section class="home-section home-workspace-hero" aria-labelledby="home-workspace-title">
+            <SectionHeading
+              step="00"
+              label="Composition"
+              title="Try a Small Control Before the Full Demo"
+              id="home-workspace-title"
+            />
+            <WorkspaceExample />
+          </section>
           <hr class="page-intro-divider" />
 
           <HomeKitchenSinkSection
@@ -396,6 +417,7 @@ export function HomePage() {
               <Link href="/blocks">Browse Block Collections</Link>
             </div>
             <HomeBlockExamples />
+            <HomeFeaturedBlocks />
             <div class="home-three-notes">
               <div>
                 <span>01 / Explore</span>

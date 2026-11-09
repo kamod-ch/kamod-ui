@@ -1,7 +1,7 @@
+import { ChevronsUpDownIcon } from "@kamod-ch/icons/lucide";
 import { Button } from "@kamod-ch/ui/button";
 import { Collapsible, CollapsibleTrigger } from "@kamod-ch/ui/collapsible";
 import { MotionCollapsibleContent } from "@kamod-ch/ui-motion/collapsible";
-import { ChevronsUpDown } from "lucide-preact";
 import { useState } from "preact/hooks";
 
 export function MotionCollapsibleDemo() {
@@ -17,7 +17,7 @@ export function MotionCollapsibleDemo() {
         <h4 class="text-sm font-semibold">Order #4189</h4>
         <CollapsibleTrigger asChild>
           <Button variant="ghost" size="icon" class="size-8 shrink-0">
-            <ChevronsUpDown class="size-4" />
+            <ChevronsUpDownIcon class="size-4" />
             <span class="sr-only">Toggle details</span>
           </Button>
         </CollapsibleTrigger>

@@ -114,12 +114,33 @@ html {
 }
 
 .docs-topbar-github {
-  /* Match ThemeToggle `size="icon"` (size-8) in the top bar */
-  width: 2rem;
-  height: 2rem;
-  min-width: 2rem;
-  padding: 0;
   flex-shrink: 0;
+}
+
+.docs-topbar-github-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 2rem;
+  padding: 0.35rem 0.65rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--foreground);
+  font-size: 0.82rem;
+  font-weight: 500;
+  text-decoration: none;
+  line-height: 1.2;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.docs-topbar-github-link:hover {
+  background: var(--muted);
+  border-color: var(--border);
+}
+
+.docs-topbar-github-label {
+  white-space: nowrap;
 }
 
 .docs-topbar-github-mark {
@@ -985,5 +1006,52 @@ html {
   .docs-rightbar,
   .blocks-doc-toc {
     --docs-rightbar-font-reduction: 0.03125rem;
+  }
+}
+
+.star-invitation-toast {
+  position: fixed;
+  z-index: 60;
+  right: max(1rem, env(safe-area-inset-right, 0px));
+  bottom: max(1rem, env(safe-area-inset-bottom, 0px));
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: min(22rem, calc(100vw - 2rem));
+  padding: 1rem 1.1rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--foreground);
+  box-shadow: 0 12px 40px rgb(0 0 0 / 0.12);
+}
+
+.star-invitation-toast-message {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.star-invitation-toast-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.star-invitation-toast-dismiss {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--muted-foreground);
+}
+
+.star-invitation-toast-dismiss-label {
+  font-size: 0.82rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .docs-topbar-github-link {
+    transition: none;
   }
 }

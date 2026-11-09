@@ -1,4 +1,13 @@
 import {
+  ArrowUpRightIcon,
+  BellIcon,
+  CloudIcon,
+  FolderIcon,
+  PlusIcon,
+  RefreshCwIcon,
+  SearchIcon,
+} from "@kamod-ch/icons/lucide";
+import {
   Avatar,
   AvatarFallback,
   AvatarImage,
@@ -14,7 +23,6 @@ import {
   InputGroupInput,
   Kbd,
 } from "@kamod-ch/ui";
-import { ArrowUpRight, Bell, Cloud, Folder, Plus, RefreshCw, Search } from "lucide-preact";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const emptyDocPage = createGenericDocPage({
@@ -22,13 +30,13 @@ export const emptyDocPage = createGenericDocPage({
   title: "Empty",
   previewCode: `import { Button } from "@/components/kamod-ui/button"
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/kamod-ui/empty";
-import { ArrowUpRight, Folder } from "lucide-preact";
+import { ArrowUpRightIcon, FolderIcon } from "@kamod-ch/icons/lucide";
 
 export const Example = () => (
   <Empty>
     <EmptyHeader>
       <EmptyMedia variant="icon">
-        <Folder aria-hidden />
+        <FolderIcon aria-hidden />
       </EmptyMedia>
       <EmptyTitle>No Projects Yet</EmptyTitle>
       <EmptyDescription>
@@ -41,7 +49,7 @@ export const Example = () => (
     </EmptyContent>
     <Button variant="link" asChild class="text-muted-foreground" size="sm">
       <a href="#empty-doc">
-        Learn More <ArrowUpRight class="size-4" aria-hidden />
+        Learn More <ArrowUpRightIcon class="size-4" aria-hidden />
       </a>
     </Button>
   </Empty>
@@ -59,13 +67,13 @@ export const Example = () => (
       text: "**Explain the Absence and Offer a Useful Next Step.** Compose `EmptyMedia`, a title, a description and a useful action to explain why a region has no content yet. The footer link can offer secondary guidance without competing with the main step toward creating or finding content.\n\nUse one clear primary action and keep the footer link secondary; an empty state should reduce uncertainty rather than simply fill unused space.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/kamod-ui/empty";
-import { ArrowUpRight, Folder } from "lucide-preact";
+import { ArrowUpRightIcon, FolderIcon } from "@kamod-ch/icons/lucide";
 
 export const Example = () => (
   <Empty>
     <EmptyHeader>
       <EmptyMedia variant="icon">
-        <Folder aria-hidden />
+        <FolderIcon aria-hidden />
       </EmptyMedia>
       <EmptyTitle>No Projects Yet</EmptyTitle>
       <EmptyDescription>
@@ -78,7 +86,7 @@ export const Example = () => (
     </EmptyContent>
     <Button variant="link" asChild class="text-muted-foreground" size="sm">
       <a href="#">
-        Learn More <ArrowUpRight class="size-4" aria-hidden />
+        Learn More <ArrowUpRightIcon class="size-4" aria-hidden />
       </a>
     </Button>
   </Empty>
@@ -87,7 +95,7 @@ export const Example = () => (
         <Empty>
           <EmptyHeader>
             <EmptyMedia variant="icon">
-              <Folder aria-hidden />
+              <FolderIcon aria-hidden />
             </EmptyMedia>
             <EmptyTitle>No Projects Yet</EmptyTitle>
             <EmptyDescription>
@@ -100,7 +108,7 @@ export const Example = () => (
           </EmptyContent>
           <Button variant="link" asChild class="text-muted-foreground" size="sm">
             <a href="#empty-doc-learn">
-              Learn More <ArrowUpRight class="size-4" aria-hidden />
+              Learn More <ArrowUpRightIcon class="size-4" aria-hidden />
             </a>
           </Button>
         </Empty>
@@ -177,15 +185,15 @@ export const Example = () => (
       text: "**Mark the Boundary of a Missing Collection.** Add `border border-dashed` to `Empty` when the missing content needs a clearly defined region. The outline gives the placeholder a boundary while leaving the message and recovery action responsible for explaining its purpose.\n\nKeep the surface secondary and the instruction readable; the border alone should not imply that users can drag files into it unless that behavior exists.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/kamod-ui/empty";
-import { Cloud } from "lucide-preact";
+import { CloudIcon } from "@kamod-ch/icons/lucide";
 
 export const Example = () => (
   <Empty class="rounded-lg border border-dashed p-8">
     <EmptyHeader>
       <EmptyMedia variant="icon">
-        <Cloud aria-hidden />
+        <CloudIcon aria-hidden />
       </EmptyMedia>
-      <EmptyTitle>Cloud Storage Empty</EmptyTitle>
+      <EmptyTitle>CloudIcon Storage Empty</EmptyTitle>
       <EmptyDescription>Upload files to your cloud storage to access them anywhere.</EmptyDescription>
     </EmptyHeader>
     <EmptyContent>
@@ -199,9 +207,9 @@ export const Example = () => (
         <Empty class="rounded-lg border border-dashed p-8">
           <EmptyHeader>
             <EmptyMedia variant="icon">
-              <Cloud aria-hidden />
+              <CloudIcon aria-hidden />
             </EmptyMedia>
-            <EmptyTitle>Cloud Storage Empty</EmptyTitle>
+            <EmptyTitle>CloudIcon Storage Empty</EmptyTitle>
             <EmptyDescription>
               Upload files to your cloud storage to access them anywhere.
             </EmptyDescription>
@@ -220,13 +228,13 @@ export const Example = () => (
       text: "**Separate the Message from the Surrounding Page.** Use a muted background and a deliberate panel height to reserve space for an empty region. This keeps the layout recognizable before data arrives without presenting an empty surface as if it were a loading skeleton.\n\nAvoid fixing an excessive height merely to fill space, and check that the message still feels connected to the controls that produced the empty result.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/kamod-ui/empty";
-import { Bell, RefreshCw } from "lucide-preact";
+import { BellIcon, RefreshCwIcon } from "@kamod-ch/icons/lucide";
 
 export const Example = () => (
   <Empty class="min-h-48 rounded-lg bg-muted/30 p-8">
     <EmptyHeader>
       <EmptyMedia variant="icon">
-        <Bell aria-hidden />
+        <BellIcon aria-hidden />
       </EmptyMedia>
       <EmptyTitle>No Notifications</EmptyTitle>
       <EmptyDescription class="max-w-xs text-pretty">
@@ -235,7 +243,7 @@ export const Example = () => (
     </EmptyHeader>
     <EmptyContent>
       <Button variant="outline">
-        <RefreshCw class="size-4" aria-hidden />
+        <RefreshCwIcon class="size-4" aria-hidden />
         Refresh
       </Button>
     </EmptyContent>
@@ -245,7 +253,7 @@ export const Example = () => (
         <Empty class="min-h-48 rounded-lg bg-muted/30 p-8">
           <EmptyHeader>
             <EmptyMedia variant="icon">
-              <Bell aria-hidden />
+              <BellIcon aria-hidden />
             </EmptyMedia>
             <EmptyTitle>No Notifications</EmptyTitle>
             <EmptyDescription class="max-w-xs text-pretty">
@@ -254,7 +262,7 @@ export const Example = () => (
           </EmptyHeader>
           <EmptyContent>
             <Button variant="outline">
-              <RefreshCw class="size-4" aria-hidden />
+              <RefreshCwIcon class="size-4" aria-hidden />
               Refresh
             </Button>
           </EmptyContent>
@@ -311,7 +319,7 @@ export const Example = () => (
       code: `import { Avatar, AvatarFallback, AvatarImage } from "@/components/kamod-ui/avatar"
 import { Button } from "@/components/kamod-ui/button"
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/kamod-ui/empty";
-import { Plus } from "lucide-preact";
+import { PlusIcon } from "@kamod-ch/icons/lucide";
 
 export const Example = () => (
   <Empty>
@@ -337,7 +345,7 @@ export const Example = () => (
     </EmptyHeader>
     <EmptyContent>
       <Button size="sm">
-        <Plus class="size-4" aria-hidden />
+        <PlusIcon class="size-4" aria-hidden />
         Invite Members
       </Button>
     </EmptyContent>
@@ -367,7 +375,7 @@ export const Example = () => (
           </EmptyHeader>
           <EmptyContent>
             <Button size="sm">
-              <Plus class="size-4" aria-hidden />
+              <PlusIcon class="size-4" aria-hidden />
               Invite Members
             </Button>
           </EmptyContent>
@@ -381,7 +389,7 @@ export const Example = () => (
       code: `import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/kamod-ui/empty"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/kamod-ui/input-group"
 import { Kbd } from "@/components/kamod-ui/kbd";
-import { Search } from "lucide-preact";
+import { SearchIcon } from "@kamod-ch/icons/lucide";
 
 export const Example = () => (
   <Empty>
@@ -393,7 +401,7 @@ export const Example = () => (
       <InputGroup class="w-full max-w-md sm:w-3/4">
         <InputGroupInput placeholder="Try searching for pages..." />
         <InputGroupAddon>
-          <Search class="size-4" aria-hidden />
+          <SearchIcon class="size-4" aria-hidden />
         </InputGroupAddon>
         <InputGroupAddon align="inline-end">
           <Kbd>/</Kbd>
@@ -417,7 +425,7 @@ export const Example = () => (
             <InputGroup class="w-full max-w-md sm:w-3/4">
               <InputGroupInput placeholder="Try searching for pages..." />
               <InputGroupAddon>
-                <Search class="size-4" aria-hidden />
+                <SearchIcon class="size-4" aria-hidden />
               </InputGroupAddon>
               <InputGroupAddon align="inline-end">
                 <Kbd>/</Kbd>
@@ -439,13 +447,13 @@ export const Example = () => (
       text: '**Check the Whole Pattern in Its Reading Direction.** Set `dir="rtl"` on `Empty` for translated right-to-left content. Keep the media, explanation and next action in the same conceptual order while text alignment and logical spacing follow the language.\n\nKeep values and keyboard behavior meaningful in the translated interface, and follow [Direction](/docs/direction/installation) when the page and its portaled controls need a shared direction.',
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/kamod-ui/empty";
-import { ArrowUpRight, Folder } from "lucide-preact";
+import { ArrowUpRightIcon, FolderIcon } from "@kamod-ch/icons/lucide";
 
 export const Example = () => (
   <Empty dir="rtl">
     <EmptyHeader>
       <EmptyMedia variant="icon">
-        <Folder aria-hidden />
+        <FolderIcon aria-hidden />
       </EmptyMedia>
       <EmptyTitle>لا توجد مشاريع بعد</EmptyTitle>
       <EmptyDescription>لم تقم بإنشاء أي مشاريع بعد. ابدأ بإنشاء مشروعك الأول.</EmptyDescription>
@@ -456,7 +464,7 @@ export const Example = () => (
     </EmptyContent>
     <Button variant="link" asChild class="text-muted-foreground" size="sm">
       <a href="#">
-        تعرف على المزيد <ArrowUpRight class="size-4 rtl:rotate-270" aria-hidden data-icon="inline-end" />
+        تعرف على المزيد <ArrowUpRightIcon class="size-4 rtl:rotate-270" aria-hidden data-icon="inline-end" />
       </a>
     </Button>
   </Empty>
@@ -465,7 +473,7 @@ export const Example = () => (
         <Empty dir="rtl">
           <EmptyHeader>
             <EmptyMedia variant="icon">
-              <Folder aria-hidden />
+              <FolderIcon aria-hidden />
             </EmptyMedia>
             <EmptyTitle>لا توجد مشاريع بعد</EmptyTitle>
             <EmptyDescription>
@@ -479,7 +487,7 @@ export const Example = () => (
           <Button variant="link" asChild class="text-muted-foreground" size="sm">
             <a href="#empty-rtl-more">
               تعرف على المزيد{" "}
-              <ArrowUpRight class="size-4 rtl:rotate-270" aria-hidden data-icon="inline-end" />
+              <ArrowUpRightIcon class="size-4 rtl:rotate-270" aria-hidden data-icon="inline-end" />
             </a>
           </Button>
         </Empty>

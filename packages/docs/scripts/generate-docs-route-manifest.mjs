@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import ts from "@typescript/typescript6";
 import { ROUTE_SKIP_SLUGS } from "./docs-hidden-slugs.mjs";
 import { removeStaleComponentRoutes } from "./docs-route-cleanup.mjs";
+import { collectSectionIds } from "./docs-route-section-ids.mjs";
 import { writeFormattedIfChanged, writeIfChanged } from "./write-generated.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -101,7 +102,7 @@ for (const file of files) {
     ...(group === "components" || group === "motion" ? countVariants(source, file) : {}),
   });
 
-  const ids = [...source.matchAll(/id:\s*"([^"]+)"/g)].map((match) => match[1]);
+  const ids = collectSectionIds(source, file);
   const seen = new Set();
   const sections = [];
 

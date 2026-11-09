@@ -73,6 +73,25 @@ export function kamodUiStructuredDataHead(ctx: {
     ];
   }
 
+  if (route === "/demo/saas-team") {
+    return [
+      jsonLdScript({
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        name: ctx.title,
+        description: ctx.description,
+        url: pageUrl,
+        inLanguage: "en",
+        isPartOf: {
+          "@type": "WebSite",
+          name: ctx.site.title,
+          url: siteUrl,
+        },
+        about: kamodUiSoftwareApplication(siteUrl, appDescription),
+      }),
+    ];
+  }
+
   if (route === "/docs/getting-started") {
     return [
       jsonLdScript(kamodUiSoftwareApplication(siteUrl, appDescription)),

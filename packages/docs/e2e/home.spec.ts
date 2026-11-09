@@ -9,15 +9,16 @@ test("home includes the kitchen sink showcase", async ({ page }) => {
   await expect(page.getByTestId("kitchen-sink-payment-panel")).toBeVisible();
 });
 
-test("home introduces the library and links prominently to Getting Started", async ({ page }) => {
+test("home links prominently to the SaaS demo and starter archive", async ({ page }) => {
   await page.goto("./");
   await expect(page.getByTestId("home-page")).toBeVisible();
   await expect(page.locator("h1")).toHaveText(
     "Preact UI componentswith clear foundations.Build your next project with Kamod UI.",
   );
-  await page.getByRole("link", { name: "Get Started", exact: true }).click();
-  await expect(page).toHaveURL(/\/docs\/getting-started/);
-  await expect(page.locator("h1")).toContainText("Getting Started with Kamod UI");
+  await page.getByRole("link", { name: "Explore demo", exact: true }).click();
+  await expect(page).toHaveURL(/\/demo\/saas-team/);
+  await page.goto("./");
+  await expect(page.getByRole("button", { name: "Use this template", exact: true })).toBeVisible();
 });
 
 test("workspace controls retain their local state and report a completed interaction", async ({

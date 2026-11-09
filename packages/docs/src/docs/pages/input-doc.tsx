@@ -1,3 +1,4 @@
+import { InfoIcon } from "@kamod-ch/icons/lucide";
 import {
   Badge,
   Button,
@@ -15,7 +16,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@kamod-ch/ui";
-import { Info } from "lucide-preact";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 const p = "input-doc";
@@ -315,7 +315,7 @@ export const Example = () => (
       id: "input-input-group",
       title: "Input Group",
       text: "**Clarify the Value with a Prefix or Suffix.** Compose [Input Group](/docs/input-group/installation) around the input when a prefix, suffix or icon explains its format. The surrounding addon provides context without requiring that decorative text to become part of the editable value.\n\nKeep decorative addons out of the focus order; give real addon actions their own accessible names. Test a long value beside the prefix and icon, allowing the field to grow before the supporting elements crowd out the editable content.",
-      code: `import { Info } from "lucide-preact";
+      code: `import { InfoIcon } from "@kamod-ch/icons/lucide";
 import { Field } from "@/components/kamod-ui/field"
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "@/components/kamod-ui/input-group";
 
@@ -327,7 +327,7 @@ export const Example = () => (
         <InputGroupText>https://</InputGroupText>
       </InputGroupAddon>
       <InputGroupAddon align="inline-end">
-        <Info class="size-4" aria-hidden />
+        <InfoIcon class="size-4" aria-hidden />
       </InputGroupAddon>
     </InputGroup>
   </Field>
@@ -340,7 +340,7 @@ export const Example = () => (
               <InputGroupText>https://</InputGroupText>
             </InputGroupAddon>
             <InputGroupAddon align="inline-end">
-              <Info class="size-4" aria-hidden />
+              <InfoIcon class="size-4" aria-hidden />
             </InputGroupAddon>
           </InputGroup>
         </Field>

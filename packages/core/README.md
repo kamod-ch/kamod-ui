@@ -5,7 +5,7 @@
 
 # Kamod UI
 
-**Preact UI library** — a lightweight, accessible component system built natively for **Preact 11** and **Tailwind CSS v4**. Kamod UI provides composable TypeScript primitives, tree-shakeable subpath exports, signals-based interaction, and themes you can customize without pulling in a heavy runtime.
+**Preact UI library** for teams who want composable components, real block examples, and source they can read and adapt — without a React compatibility layer or a heavy runtime.
 
 <p align="center">
   <a href="https://www.npmjs.com/package/@kamod-ch/ui"><img src="https://img.shields.io/npm/v/@kamod-ch/ui" alt="npm version" /></a>
@@ -16,15 +16,17 @@
   <a href="https://github.com/kamod-ch/kamod-ui/blob/main/LICENSE.md"><img src="https://img.shields.io/github/license/kamod-ch/kamod-ui" alt="license" /></a>
 </p>
 
-**[Demo](https://ui.kamod.ch/)** · **[Component docs](https://ui.kamod.ch/docs/button)** · **[npm](https://www.npmjs.com/package/@kamod-ch/ui)** · **[GitHub](https://github.com/kamod-ch/kamod-ui)** · **[Issues](https://github.com/kamod-ch/kamod-ui/issues)**
+**[SaaS team demo](https://ui.kamod.ch/demo/saas-team)** · **[Getting started](https://ui.kamod.ch/docs/getting-started)** · **[Component docs](https://ui.kamod.ch/docs/button)** · **[npm](https://www.npmjs.com/package/@kamod-ch/ui)** · **[GitHub](https://github.com/kamod-ch/kamod-ui)**
 
-> **Kamod UI 2 is the Preact 11 release.** It requires Preact 11, `@preact/signals` 2.11+, Tailwind CSS v4, and Node.js 20+. Preact 10 users should stay on Kamod UI 1.x until they can upgrade.
+Start with the [**live team workspace demo**](https://ui.kamod.ch/demo/saas-team): Application Shell 1, metrics, searchable team table, and invite flow — then [**use the starter template**](https://ui.kamod.ch/) (home → **Use this template**) or follow [**Getting started**](https://ui.kamod.ch/docs/getting-started) to add `@kamod-ch/ui` to your app. If this helps your project, [**star the repository**](https://github.com/kamod-ch/kamod-ui) so others can find it.
 
-> Demo snippets in this repo use local aliases like `@/components/kamod-ui/*`. In your app, install `@kamod-ch/ui` and import from the package.
+![SaaS team management demo built with Kamod UI — overview metrics and application shell](https://raw.githubusercontent.com/kamod-ch/kamod-ui/main/.github/assets/saas-team-demo.png)
 
-> If Kamod UI saves you time, **[star the repo](https://github.com/kamod-ch/kamod-ui)** — it helps others discover the project.
+> **Kamod UI 2 is the Preact 11 release.** It requires **Preact** `^11.1.1`, **`@preact/signals`** `^2.11.4`, **Tailwind CSS v4**, and **Node.js 20+**. Preact 10 users should stay on Kamod UI 1.x until they can upgrade.
 
-![hero](https://raw.githubusercontent.com/kamod-ch/kamod-ui/main/.github/assets/kitchen-sink.png)
+> Documentation copy buttons emit **`@kamod-ch/ui/*`** package imports for your app. The docs app itself may still use local aliases internally.
+
+![Kitchen sink component showcase](https://raw.githubusercontent.com/kamod-ch/kamod-ui/main/.github/assets/kitchen-sink.png)
 
 ## Why Kamod UI?
 

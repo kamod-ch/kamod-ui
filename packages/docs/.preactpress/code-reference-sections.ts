@@ -151,6 +151,7 @@ export function extractCodeReferenceSections(
             value: docUsageImport({
               slug,
               usageImportSnippet: string(config.usageImportSnippet) || undefined,
+              snippetImports: config.snippetImports === "package" ? "package" : undefined,
             }),
             caption: "Usage import",
           },

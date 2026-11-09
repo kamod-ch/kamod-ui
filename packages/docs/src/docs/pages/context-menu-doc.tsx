@@ -1,4 +1,14 @@
 import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  ClipboardPasteIcon,
+  PencilIcon,
+  RotateCwIcon,
+  ScissorsIcon,
+  Share2Icon,
+  Trash2Icon,
+} from "@kamod-ch/icons/lucide";
+import {
   Button,
   ContextMenu,
   ContextMenuCheckboxItem,
@@ -16,16 +26,6 @@ import {
   ContextMenuTrigger,
 } from "@kamod-ch/ui";
 import { CopyButton } from "@kamod-ch/ui/copy-button";
-import {
-  ArrowLeft,
-  ArrowRight,
-  ClipboardPaste,
-  Pencil,
-  RotateCw,
-  Scissors,
-  Share2,
-  Trash2,
-} from "lucide-preact";
 import { cloneElement } from "preact";
 import { useState } from "preact/hooks";
 import { createGenericDocPage } from "./create-generic-doc-page";
@@ -275,18 +275,18 @@ const ContextMenuIconsPreview = () => (
       <ContextMenuGroup>
         <CopyButton value="Context menu example" subject="example" role="menuitem" class="w-full" />
         <ContextMenuItem>
-          <Scissors class="size-4" />
+          <ScissorsIcon class="size-4" />
           Cut
         </ContextMenuItem>
         <ContextMenuItem>
-          <ClipboardPaste class="size-4" />
+          <ClipboardPasteIcon class="size-4" />
           Paste
         </ContextMenuItem>
       </ContextMenuGroup>
       <ContextMenuSeparator />
       <ContextMenuGroup>
         <ContextMenuItem variant="destructive">
-          <Trash2 class="size-4" />
+          <Trash2Icon class="size-4" />
           Delete
         </ContextMenuItem>
       </ContextMenuGroup>
@@ -347,18 +347,18 @@ const ContextMenuDestructivePreview = () => (
     <ContextMenuContent>
       <ContextMenuGroup>
         <ContextMenuItem>
-          <Pencil class="size-4" />
+          <PencilIcon class="size-4" />
           Edit
         </ContextMenuItem>
         <ContextMenuItem>
-          <Share2 class="size-4" />
+          <Share2Icon class="size-4" />
           Share
         </ContextMenuItem>
       </ContextMenuGroup>
       <ContextMenuSeparator />
       <ContextMenuGroup>
         <ContextMenuItem variant="destructive">
-          <Trash2 class="size-4" />
+          <Trash2Icon class="size-4" />
           Delete
         </ContextMenuItem>
       </ContextMenuGroup>
@@ -438,17 +438,17 @@ const ContextMenuRtlPreview = () => {
               <ContextMenuSubContent class="w-44" dir={t.dir}>
                 <ContextMenuGroup>
                   <ContextMenuItem>
-                    <ArrowLeft class="size-4" />
+                    <ArrowLeftIcon class="size-4" />
                     {t.back}
                     <ContextMenuShortcut>⌘[</ContextMenuShortcut>
                   </ContextMenuItem>
                   <ContextMenuItem disabled>
-                    <ArrowRight class="size-4" />
+                    <ArrowRightIcon class="size-4" />
                     {t.forward}
                     <ContextMenuShortcut>⌘]</ContextMenuShortcut>
                   </ContextMenuItem>
                   <ContextMenuItem>
-                    <RotateCw class="size-4" />
+                    <RotateCwIcon class="size-4" />
                     {t.reload}
                     <ContextMenuShortcut>⌘R</ContextMenuShortcut>
                   </ContextMenuItem>

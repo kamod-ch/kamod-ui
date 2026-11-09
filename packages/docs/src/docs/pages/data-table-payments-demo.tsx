@@ -1,3 +1,4 @@
+import { ArrowUpDownIcon, ChevronDownIcon, EllipsisIcon } from "@kamod-ch/icons/lucide";
 import {
   Button,
   Checkbox,
@@ -18,7 +19,6 @@ import {
   TableRow,
 } from "@kamod-ch/ui";
 import { CopyButton } from "@kamod-ch/ui/copy-button";
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-preact";
 import { useEffect, useMemo, useRef, useState } from "preact/hooks";
 
 export type Payment = {
@@ -141,7 +141,7 @@ export const PaymentsDataTableDemo = () => {
           <DropdownTrigger asChild>
             <Button variant="outline" class="sm:ms-auto">
               Columns
-              <ChevronDown class="size-4 opacity-60" />
+              <ChevronDownIcon class="size-4 opacity-60" />
             </Button>
           </DropdownTrigger>
           <DropdownContent align="end" class="min-w-40">
@@ -184,7 +184,7 @@ export const PaymentsDataTableDemo = () => {
               <TableHead>
                 <Button variant="ghost" class="h-8 gap-1 px-2 font-normal" onClick={toggleSort}>
                   Email
-                  <ArrowUpDown class="size-4 opacity-60" />
+                  <ArrowUpDownIcon class="size-4 opacity-60" />
                 </Button>
               </TableHead>
             ) : null}
@@ -241,7 +241,7 @@ export const PaymentsDataTableDemo = () => {
                     <DropdownTrigger asChild>
                       <Button variant="ghost" size="icon-xs" aria-label="Open menu">
                         <span class="sr-only">Open menu</span>
-                        <MoreHorizontal class="size-4" />
+                        <EllipsisIcon class="size-4" />
                       </Button>
                     </DropdownTrigger>
                     <DropdownContent align="end" class="w-40">

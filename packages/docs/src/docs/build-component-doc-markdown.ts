@@ -10,7 +10,7 @@ export function buildComponentDocMarkdown(
   command: string,
   sections: DocSection[],
   slug?: string,
-  snippetImports: "local" | "package" = "local",
+  snippetImports: "local" | "package" = "package",
 ): string {
   const parts: string[] = [
     `# ${title}`,

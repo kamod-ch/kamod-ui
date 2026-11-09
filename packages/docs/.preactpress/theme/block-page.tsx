@@ -13,6 +13,9 @@ import { PageLoadError, PageLoading } from "../../src/layout/PageState";
 type BlockModules = {
   BlockCategoryPage: typeof import("../../src/blocks/BlockCategoryPage");
   BlockOverviewPage: typeof import("../../src/blocks/BlockOverviewPage");
+  BlockRoadmapPage: typeof import("../../src/blocks/BlockRoadmapPage");
+  BlockPlannedCategoryPage: typeof import("../../src/blocks/BlockPlannedCategoryPage");
+  SaasTeamDemoPage: typeof import("../../src/demo/saas-team/SaasTeamDemoPage");
   ComponentPreviewPage: typeof import("../../src/docs/components/component-detail/ComponentPreviewPage");
   DocsComponentContent: typeof import("../../src/docs/DocsComponentContent");
   DocsFormsOverviewContent: typeof import("../../src/docs/DocsFormsOverviewContent");
@@ -48,6 +51,9 @@ export function blockPage<
     EcosystemContent: "/src/docs/EcosystemContent.tsx",
     BlockCategoryPage: "/src/blocks/BlockCategoryPage.tsx",
     BlockOverviewPage: "/src/blocks/BlockOverviewPage.tsx",
+    BlockRoadmapPage: "/src/blocks/BlockRoadmapPage.tsx",
+    BlockPlannedCategoryPage: "/src/blocks/BlockPlannedCategoryPage.tsx",
+    SaasTeamDemoPage: "/src/demo/saas-team/SaasTeamDemoPage.tsx",
     ComponentPreviewPage: "/src/docs/components/component-detail/ComponentPreviewPage.tsx",
     DocsComponentContent: "/src/docs/DocsComponentContent.tsx",
     DocsFormsOverviewContent: "/src/docs/DocsFormsOverviewContent.tsx",

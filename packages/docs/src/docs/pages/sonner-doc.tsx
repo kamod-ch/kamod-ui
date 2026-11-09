@@ -32,9 +32,8 @@ export const Example = () => (
       id: "dismissible-toast",
       title: "Dismissible Toast",
       text: "**Track the Notification that Belongs to the Workflow.** Retain the notification identifier when a later workflow change needs to dismiss the toast programmatically. This ties the message's lifetime to the operation it describes rather than leaving outdated feedback visible after the context changes.\n\nKeep the returned identifier with the relevant task and avoid dismissing unrelated messages; a notification disappearing should not be mistaken for proof that the operation succeeded.",
-      code: `import { dismissSonner } from "lucide-preact"
-import { Button } from "@/components/kamod-ui/button"
-import { Sonner, sonner } from "@/components/kamod-ui/sonner";
+      code: `import { Button } from "@/components/kamod-ui/button"
+import { Sonner, dismissSonner, sonner } from "@/components/kamod-ui/sonner";
 
 export const Example = () => (
   <>

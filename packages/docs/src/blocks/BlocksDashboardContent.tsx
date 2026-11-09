@@ -1,6 +1,6 @@
 import { type DashboardBlockId, dashboardBlocks } from "@kamod-ch/blocks";
+import { ExternalLinkIcon, RefreshCwIcon } from "@kamod-ch/icons/lucide";
 import { Button, CopyButton, Tabs, TabsContent, TabsList, TabsTrigger } from "@kamod-ch/ui";
-import { ExternalLink, RefreshCw } from "lucide-preact";
 import { useMemo, useState } from "preact/hooks";
 import { withBasePath } from "../base-path";
 import { BrandText } from "../docs/components/brand/BrandText";
@@ -81,10 +81,10 @@ const BlockCard = ({ block }: { block: DashboardBlock }) => {
         </div>
         <div class="blocks-card-actions">
           <Button size="sm" variant="outline" onClick={() => setPreviewKey((value) => value + 1)}>
-            <RefreshCw size={14} /> Refresh Preview
+            <RefreshCwIcon size={14} /> Refresh Preview
           </Button>
           <Button size="sm" variant="outline" href={previewUrl} target="_blank" rel="noreferrer">
-            <ExternalLink size={14} /> Open in New Tab
+            <ExternalLinkIcon size={14} /> Open in New Tab
           </Button>
         </div>
       </div>

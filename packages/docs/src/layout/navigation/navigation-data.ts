@@ -1,10 +1,7 @@
 import { withBasePath } from "../../base-path";
 import { type BlockCategory, blockCategories } from "../../blocks/block-categories";
-import {
-  blockCategoryStatuses,
-  PLACEHOLDER_BLOCK_CATEGORIES,
-  visibleBlockNavItems,
-} from "../../blocks/block-nav-config";
+import { blockLibraryCounts } from "../../blocks/block-library-metadata";
+import { blockCategoryStatuses, visibleBlockNavItems } from "../../blocks/block-nav-config";
 import { blockGuides } from "../../blocks/guides/guide-catalog";
 import { docsAddedComponentSlugs, docsUpdatedComponentSlugs } from "../../docs/component-status";
 import { docsShowMotion, isMotionDocSlug } from "../../docs/docs-feature-flags";
@@ -18,6 +15,8 @@ export type NavigationLink = {
   updated?: boolean;
   added?: boolean;
   variantCount?: number;
+  /** Secondary destination for planned-only categories (not shown as a planned collection). */
+  roadmap?: boolean;
   /** Decorative trailing icon for introductory destinations; regular entries retain their counts. */
   icon?:
     | "components"
@@ -102,12 +101,12 @@ const groups: NavigationGroup[] = [
           updated: blockCategoryStatuses[item.key] === "updated",
           variantCount: blockCategories[item.key as BlockCategory].blocks.length,
         })),
-      ...PLACEHOLDER_BLOCK_CATEGORIES.map(({ key, label }) => ({
-        label,
-        href: withBasePath(`/blocks/${key}`),
-        planned: true,
-        variantCount: 0,
-      })),
+      {
+        label: "Roadmap",
+        href: withBasePath("/blocks/roadmap"),
+        roadmap: true,
+        variantCount: blockLibraryCounts().plannedCategories,
+      },
     ],
   },
 ];

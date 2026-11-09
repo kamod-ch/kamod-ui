@@ -93,7 +93,15 @@ function DirectoryLink({
   const description =
     variantCount === undefined
       ? statusDescription
-      : `${variantCount} ${variantCount === 1 ? "variant" : "variants"}${link.planned ? " · Planned collection — page not available yet" : statusDescription ? ` · ${statusDescription}` : ""}`;
+      : link.roadmap
+        ? `${variantCount} planned ${variantCount === 1 ? "category" : "categories"} · Roadmap status overview`
+        : `${variantCount} ${variantCount === 1 ? "variant" : "variants"}${
+            link.planned
+              ? " · Planned collection — open status page"
+              : statusDescription
+                ? ` · ${statusDescription}`
+                : ""
+          }`;
   const anchor = (
     <a
       href={link.href}

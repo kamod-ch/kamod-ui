@@ -110,10 +110,13 @@ export function parseGuide(source: string, renderTable?: GuideTableRenderer): Gu
       // Explicit opt-in keeps ordinary shell examples unchanged and installs copyable in Markdown.
       if (language === "bash" && filePath === "package-manager") {
         const packages = token.text.match(
-          /^pnpm add ((?:@[\w.-]+\/)?[\w.-]+(?: (?:@[\w.-]+\/)?[\w.-]+)*)$/,
+          /^pnpm add ((?:(?:@[\w.-]+\/)?[\w.-]+(?:@[\^~<>=.\d\w-]+)?)(?: (?:(?:@[\w.-]+\/)?[\w.-]+(?:@[\^~<>=.\d\w-]+)?))*)$/,
         )?.[1];
         if (!packages) throw new Error("Package-manager fences require a plain pnpm add command");
-        current.parts.push({ kind: "dependencies", dependencies: packages.split(" ") });
+        const dependencies = [
+          ...packages.matchAll(/(?:@[\w.-]+\/)?[\w.-]+(?:@[\^~<>=.\d\w-]+)?/g),
+        ].map((match) => match[0]);
+        current.parts.push({ kind: "dependencies", dependencies });
         continue;
       }
       current.parts.push({

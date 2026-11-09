@@ -1,3 +1,4 @@
+import { CalendarIcon, ChevronDownIcon } from "@kamod-ch/icons/lucide";
 import type { DateRange } from "@kamod-ch/ui";
 import {
   Button,
@@ -17,7 +18,6 @@ import {
   PopoverTrigger,
 } from "@kamod-ch/ui";
 import { parseDate } from "chrono-node";
-import { Calendar as CalendarIcon, ChevronDown } from "lucide-preact";
 import { useState } from "preact/hooks";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
@@ -65,7 +65,7 @@ const DatePickerRtlPreview = () => {
             class="data-[empty=true]:text-muted-foreground w-[min(100%,212px)] justify-between text-start font-normal"
           >
             {date ? formatDatePickerDisplay(date, locale) : <span>{t.placeholder}</span>}
-            <ChevronDown class="size-4 opacity-60" />
+            <ChevronDownIcon class="size-4 opacity-60" />
           </Button>
         </PopoverTrigger>
         <PopoverContent class="w-auto overflow-hidden p-0" align="start" dir={t.dir}>
@@ -93,7 +93,7 @@ const DatePickerDemoComposedPreview = () => {
           class="data-[empty=true]:text-muted-foreground w-[min(100%,212px)] justify-between text-start font-normal"
         >
           {date ? formatDatePickerDisplay(date) : <span>Pick a date</span>}
-          <ChevronDown class="size-4 opacity-60" />
+          <ChevronDownIcon class="size-4 opacity-60" />
         </Button>
       </PopoverTrigger>
       <PopoverContent class="w-auto overflow-hidden p-0" align="start">
@@ -326,7 +326,7 @@ const TimePickerPreview = () => {
               data-empty={date ? undefined : "true"}
             >
               {date ? formatDatePickerDisplay(date) : "Select date"}
-              <ChevronDown class="size-4 opacity-60" />
+              <ChevronDownIcon class="size-4 opacity-60" />
             </Button>
           </PopoverTrigger>
           <PopoverContent class="w-auto overflow-hidden p-0" align="start">
@@ -428,7 +428,7 @@ export const Example = () => <DatePicker placeholder="Pick a date" />;`,
   usageLabel:
     "Date picker combines Popover + trigger + Calendar. Use the `DatePicker` shortcut or compose `Popover`, `Button`, and `Calendar` like shadcn/ui.",
   installationText:
-    "Requires `@kamod-ch/ui` (includes Popover and Calendar). Optional: `lucide-preact` for icons in demos, `chrono-node` for natural-language parsing in the demo below.",
+    "Requires `@kamod-ch/ui` (includes Popover and Calendar). Optional: `@kamod-ch/icons` for icons in demos, `chrono-node` for natural-language parsing in the demo below.",
   usageText:
     '`DatePicker` wraps a styled outline `Button`, `Popover`, and single-mode `Calendar` with `closeOnSelect`. For range, dropdown month/year captions, input-adjacent pickers, or RTL, compose primitives — see Examples. `Popover` supports `open` / `onOpenChange` for closing after select. `Calendar` supports `mode="single" | "range"`, `numberOfMonths={2}`, and `captionLayout="dropdown"`.',
   exampleSections: [

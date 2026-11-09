@@ -1,3 +1,4 @@
+import { CheckIcon, ChevronDownIcon } from "@kamod-ch/icons/lucide";
 import {
   Button,
   Combobox,
@@ -17,7 +18,6 @@ import {
   ItemDescription,
   ItemTitle,
 } from "@kamod-ch/ui";
-import { Check, ChevronDown } from "lucide-preact";
 import { Fragment } from "preact";
 import { useState } from "preact/hooks";
 import { createGenericDocPage } from "./create-generic-doc-page";
@@ -89,7 +89,7 @@ const ComboboxBasicPreview = () => (
   <Combobox items={[...frameworks]} defaultValue={frameworks[0]} placeholder="Select framework">
     <ComboboxTrigger>
       <ComboboxValue placeholder="Select framework" />
-      <ChevronDown class="size-4 shrink-0 opacity-50" aria-hidden />
+      <ChevronDownIcon class="size-4 shrink-0 opacity-50" aria-hidden />
     </ComboboxTrigger>
     <ComboboxContent>
       <ComboboxCommand>
@@ -125,7 +125,7 @@ const ComboboxAutoHighlightPreview = () => (
   >
     <ComboboxTrigger>
       <ComboboxValue placeholder="Select framework" />
-      <ChevronDown class="size-4 shrink-0 opacity-50" aria-hidden />
+      <ChevronDownIcon class="size-4 shrink-0 opacity-50" aria-hidden />
     </ComboboxTrigger>
     <ComboboxContent>
       <ComboboxCommand>
@@ -202,7 +202,7 @@ const ComboboxControlledPreview = () => {
       >
         <ComboboxTrigger>
           <ComboboxValue placeholder="Language" />
-          <ChevronDown class="size-4 shrink-0 opacity-50" aria-hidden />
+          <ChevronDownIcon class="size-4 shrink-0 opacity-50" aria-hidden />
         </ComboboxTrigger>
         <ComboboxContent>
           <ComboboxCommand autoHighlight>
@@ -213,7 +213,7 @@ const ComboboxControlledPreview = () => {
                 const o = opt as (typeof langs)[number];
                 return (
                   <ComboboxItem key={o.value} item={o}>
-                    <Check
+                    <CheckIcon
                       class={value === o.value ? "size-4 opacity-100" : "size-4 opacity-0"}
                       aria-hidden
                     />
@@ -241,7 +241,7 @@ const ComboboxPopupPreview = () => (
     <ComboboxTrigger asChild>
       <Button variant="outline" class="h-9 w-64 justify-between font-normal">
         <ComboboxValue placeholder="Select country" />
-        <ChevronDown class="size-4 shrink-0 opacity-50" aria-hidden />
+        <ChevronDownIcon class="size-4 shrink-0 opacity-50" aria-hidden />
       </Button>
     </ComboboxTrigger>
     <ComboboxContent>
@@ -273,7 +273,7 @@ const ComboboxCustomItemsPreview = () => (
   >
     <ComboboxTrigger>
       <ComboboxValue placeholder="Select country" />
-      <ChevronDown class="size-4 shrink-0 opacity-50" aria-hidden />
+      <ChevronDownIcon class="size-4 shrink-0 opacity-50" aria-hidden />
     </ComboboxTrigger>
     <ComboboxContent>
       <ComboboxCommand>
@@ -315,7 +315,7 @@ const ComboboxGroupsPreview = () => (
   >
     <ComboboxTrigger>
       <ComboboxValue placeholder="Select timezone" />
-      <ChevronDown class="size-4 shrink-0 opacity-50" aria-hidden />
+      <ChevronDownIcon class="size-4 shrink-0 opacity-50" aria-hidden />
     </ComboboxTrigger>
     <ComboboxContent>
       <ComboboxCommand>
@@ -347,7 +347,7 @@ const ComboboxInvalidPreview = () => (
   <Combobox items={[...frameworks]} defaultValue={frameworks[0]} placeholder="Framework">
     <ComboboxTrigger aria-invalid={true}>
       <ComboboxValue placeholder="Framework" />
-      <ChevronDown class="size-4 shrink-0 opacity-50" aria-hidden />
+      <ChevronDownIcon class="size-4 shrink-0 opacity-50" aria-hidden />
     </ComboboxTrigger>
     <ComboboxContent>
       <ComboboxCommand>
@@ -369,7 +369,7 @@ const ComboboxDisabledPreview = () => (
   <Combobox items={[...frameworks]} defaultValue={frameworks[0]} disabled placeholder="Framework">
     <ComboboxTrigger>
       <ComboboxValue />
-      <ChevronDown class="size-4 shrink-0 opacity-50" aria-hidden />
+      <ChevronDownIcon class="size-4 shrink-0 opacity-50" aria-hidden />
     </ComboboxTrigger>
     <ComboboxContent>
       <ComboboxCommand>
@@ -450,7 +450,7 @@ const ComboboxRtlPreview = () => {
       >
         <ComboboxTrigger>
           <ComboboxValue placeholder={t.placeholder} />
-          <ChevronDown class="size-4 shrink-0 opacity-50" aria-hidden />
+          <ChevronDownIcon class="size-4 shrink-0 opacity-50" aria-hidden />
         </ComboboxTrigger>
         <ComboboxContent>
           <ComboboxCommand>
@@ -594,7 +594,7 @@ export const Example = () => (
     {
       id: "rtl",
       title: "RTL",
-      text: "**Check the Whole Pattern in Its Reading Direction.** Set `dir` on the combobox and its input to match translated labels and search text. Review the trigger, results and selected-value presentation together rather than changing only the closed control's alignment.\n\nKeep values and keyboard behavior meaningful in the translated interface, and follow [Direction](/docs/direction/installation) when the page and its portaled controls need a shared direction.",
+      text: "**CheckIcon the Whole Pattern in Its Reading Direction.** Set `dir` on the combobox and its input to match translated labels and search text. Review the trigger, results and selected-value presentation together rather than changing only the closed control's alignment.\n\nKeep values and keyboard behavior meaningful in the translated interface, and follow [Direction](/docs/direction/installation) when the page and its portaled controls need a shared direction.",
       code: "// ComboboxRtlPreview",
       renderPreview: () => <ComboboxRtlPreview />,
     },

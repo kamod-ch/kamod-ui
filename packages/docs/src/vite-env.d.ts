@@ -3,6 +3,8 @@
 interface ImportMetaEnv {
   /** URL zum externen Feedback-Formular (z.B. Tally, Google Forms). */
   readonly VITE_PRO_FEEDBACK_FORM_URL?: string;
+  /** `matomo` sends growth funnel events; `noop` disables them (default in dev / Vitest). */
+  readonly VITE_GROWTH_ANALYTICS?: string;
 }
 
 interface ImportMeta {

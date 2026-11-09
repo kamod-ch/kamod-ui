@@ -1,4 +1,18 @@
 import {
+  CheckIcon,
+  ChevronDownIcon,
+  CornerDownLeftIcon,
+  CreditCardIcon,
+  EllipsisIcon,
+  EyeOffIcon,
+  FileCodeIcon,
+  InfoIcon,
+  LoaderCircleIcon,
+  MailIcon,
+  SearchIcon,
+  StarIcon,
+} from "@kamod-ch/icons/lucide";
+import {
   CopyButton,
   Dropdown,
   DropdownContent,
@@ -14,29 +28,15 @@ import {
   Label,
   Spinner,
 } from "@kamod-ch/ui";
-import {
-  Check,
-  ChevronDown,
-  CornerDownLeft,
-  CreditCard,
-  EyeOff,
-  FileCode,
-  Info,
-  Loader2,
-  Mail,
-  MoreHorizontal,
-  Search,
-  Star,
-} from "lucide-preact";
 import { useState } from "preact/hooks";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 function InputGroupDemo() {
   return (
     <InputGroup class="max-w-xs">
-      <InputGroupInput placeholder="Search..." />
+      <InputGroupInput placeholder="SearchIcon..." />
       <InputGroupAddon>
-        <Search class="text-muted-foreground" />
+        <SearchIcon class="text-muted-foreground" />
       </InputGroupAddon>
       <InputGroupAddon align="inline-end">
         <InputGroupText>12 results</InputGroupText>
@@ -69,7 +69,7 @@ function InputGroupScriptRow() {
           class="font-mono text-sm"
         />
         <InputGroupAddon align="block-start">
-          <FileCode class="text-muted-foreground" />
+          <FileCodeIcon class="text-muted-foreground" />
           <InputGroupText class="font-mono">script.js</InputGroupText>
           <CopyButton value={script} subject="script" iconOnly class="ms-auto" />
         </InputGroupAddon>
@@ -89,7 +89,7 @@ function InputGroupFavoriteRow() {
           type="button"
           aria-label="Security info"
         >
-          <Info class="size-4" />
+          <InfoIcon class="size-4" />
         </InputGroupButton>
       </InputGroupAddon>
       <InputGroupAddon class="text-muted-foreground">https://</InputGroupAddon>
@@ -101,7 +101,7 @@ function InputGroupFavoriteRow() {
           aria-label="Favorite"
           onClick={() => setFav(!fav)}
         >
-          <Star class={`size-4 ${fav ? "fill-blue-600 stroke-blue-600" : ""}`} />
+          <StarIcon class={`size-4 ${fav ? "fill-blue-600 stroke-blue-600" : ""}`} />
         </InputGroupButton>
       </InputGroupAddon>
     </InputGroup>
@@ -121,7 +121,7 @@ function InputGroupDropdownRow() {
         <Dropdown>
           <DropdownTrigger asChild>
             <InputGroupButton variant="ghost" size="icon-xs" aria-label="More">
-              <MoreHorizontal class="size-4" />
+              <EllipsisIcon class="size-4" />
             </InputGroupButton>
           </DropdownTrigger>
           <DropdownContent class="min-w-40">
@@ -154,15 +154,15 @@ export const inputGroupDocPage = createGenericDocPage({
     {
       id: "ig-demo",
       title: "Demo",
-      text: "**Keep Search Context Close to the Query.** Compose a search field with a trailing icon and result count inside `InputGroup`. The input holds the query, while the addon reports context about the current result set without becoming part of the typed value.\n\nDerive the count from the actual results, keep the input labeled and distinguish no matches from a request that is still loading.",
+      text: "**Keep SearchIcon Context Close to the Query.** Compose a search field with a trailing icon and result count inside `InputGroup`. The input holds the query, while the addon reports context about the current result set without becoming part of the typed value.\n\nDerive the count from the actual results, keep the input labeled and distinguish no matches from a request that is still loading.",
       code: `import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "@/components/kamod-ui/input-group";
-import { Search } from "lucide-preact";
+import { SearchIcon } from "@kamod-ch/icons/lucide";
 
 export const Example = () => (
   <InputGroup class="max-w-xs">
-    <InputGroupInput placeholder="Search..." />
+    <InputGroupInput placeholder="SearchIcon..." />
     <InputGroupAddon>
-      <Search class="text-muted-foreground" />
+      <SearchIcon class="text-muted-foreground" />
     </InputGroupAddon>
     <InputGroupAddon align="inline-end">
       <InputGroupText>12 results</InputGroupText>
@@ -180,21 +180,21 @@ export const Example = () => (
       title: "Usage",
       text: "**Start with One Useful Addon.** Start with an input and one icon addon to understand the group's shared border and spacing. The icon suggests the field's purpose, while a persistent label or accessible name supplies its actual meaning.\n\nKeep it decorative unless it performs an action, retain an accessible name for the input, and avoid assuming that the icon makes placeholder-only labeling sufficient.",
       code: `import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/kamod-ui/input-group";
-import { Search } from "lucide-preact";
+import { SearchIcon } from "@kamod-ch/icons/lucide";
 
 export const Example = () => (
   <InputGroup>
-    <InputGroupInput placeholder="Search..." />
+    <InputGroupInput placeholder="SearchIcon..." />
     <InputGroupAddon>
-      <Search />
+      <SearchIcon />
     </InputGroupAddon>
   </InputGroup>
 );`,
       renderPreview: () => (
         <InputGroup class="max-w-xs">
-          <InputGroupInput placeholder="Search..." />
+          <InputGroupInput placeholder="SearchIcon..." />
           <InputGroupAddon>
-            <Search class="size-4 text-muted-foreground" />
+            <SearchIcon class="size-4 text-muted-foreground" />
           </InputGroupAddon>
         </InputGroup>
       ),
@@ -256,15 +256,15 @@ export const Example = () => (
       title: "Align: Inline-Start",
       text: "**Add Context before the Value.** Use the inline-start addon position to show an icon before the field visually. The control can remain first in the markup, so presentation does not require restructuring the input's association with its label and help text.\n\nKeep meaningful text associated with the input and decorative symbols hidden from assistive technology; logical placement should continue to work when direction changes.",
       code: `import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/kamod-ui/input-group";
-import { Search } from "lucide-preact";
+import { SearchIcon } from "@kamod-ch/icons/lucide";
 
 export const Example = () => (
   <div class="grid max-w-sm gap-2">
-    <Label htmlFor="inline-start-ig">Search</Label>
+    <Label htmlFor="inline-start-ig">SearchIcon</Label>
     <InputGroup>
-      <InputGroupInput id="inline-start-ig" placeholder="Search..." />
+      <InputGroupInput id="inline-start-ig" placeholder="SearchIcon..." />
       <InputGroupAddon align="inline-start">
-        <Search class="text-muted-foreground" />
+        <SearchIcon class="text-muted-foreground" />
       </InputGroupAddon>
     </InputGroup>
     <p class="text-muted-foreground text-sm">Icon at the start (visual).</p>
@@ -272,11 +272,11 @@ export const Example = () => (
 );`,
       renderPreview: () => (
         <div class="grid max-w-sm gap-2">
-          <Label htmlFor="inline-start-ig-doc">Search</Label>
+          <Label htmlFor="inline-start-ig-doc">SearchIcon</Label>
           <InputGroup>
-            <InputGroupInput id="inline-start-ig-doc" placeholder="Search..." />
+            <InputGroupInput id="inline-start-ig-doc" placeholder="SearchIcon..." />
             <InputGroupAddon align="inline-start">
-              <Search class="text-muted-foreground" />
+              <SearchIcon class="text-muted-foreground" />
             </InputGroupAddon>
           </InputGroup>
           <p class="text-muted-foreground text-sm">Icon at the start (visual).</p>
@@ -288,7 +288,7 @@ export const Example = () => (
       title: "Align: Inline-End",
       text: "**Reserve the Trailing Edge for Relevant Assistance.** Place a supporting symbol or action in an inline-end addon when it belongs after the value. If the symbol changes something, such as password visibility, use a named button rather than treating the graphic as decoration.\n\nGive interactive addons a clear name and appropriate button type, and keep them distinct from decorative symbols that should not receive focus.",
       code: `import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/kamod-ui/input-group";
-import { EyeOff } from "lucide-preact";
+import { EyeOffIcon } from "@kamod-ch/icons/lucide";
 
 export const Example = () => (
   <div class="grid max-w-sm gap-2">
@@ -296,7 +296,7 @@ export const Example = () => (
     <InputGroup>
       <InputGroupInput id="inline-end-ig" type="password" placeholder="Enter password" />
       <InputGroupAddon align="inline-end">
-        <EyeOff class="text-muted-foreground" />
+        <EyeOffIcon class="text-muted-foreground" />
       </InputGroupAddon>
     </InputGroup>
   </div>
@@ -307,7 +307,7 @@ export const Example = () => (
           <InputGroup>
             <InputGroupInput id="inline-end-ig-doc" type="password" placeholder="Enter password" />
             <InputGroupAddon align="inline-end">
-              <EyeOff class="text-muted-foreground" />
+              <EyeOffIcon class="text-muted-foreground" />
             </InputGroupAddon>
           </InputGroup>
         </div>
@@ -318,7 +318,7 @@ export const Example = () => (
       title: "Align: Block-Start",
       text: "**Introduce a Larger Editing Area.** Use a block-start addon for context or tools that belong above an input or textarea. This creates a separate row inside the shared field boundary, leaving the editable content below it with room to expand.\n\nKeep the field's accessible name explicit and ensure the addon does not become a second unrelated toolbar competing with the surrounding form.",
       code: `import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput, InputGroupText, InputGroupTextarea } from "@/components/kamod-ui/input-group";
-import { FileCode } from "lucide-preact";
+import { FileCodeIcon } from "@kamod-ch/icons/lucide";
 import { CopyButton } from "@kamod-ch/ui/copy-button";
 import { useState } from "preact/hooks";
 
@@ -340,7 +340,7 @@ export const Example = () => {
       <InputGroup>
         <InputGroupTextarea id="bs-ta" value={script} onInput={(event) => setScript(event.currentTarget.value)} class="font-mono text-sm" />
         <InputGroupAddon align="block-start">
-          <FileCode class="text-muted-foreground" />
+          <FileCodeIcon class="text-muted-foreground" />
           <InputGroupText class="font-mono">script.js</InputGroupText>
           <CopyButton value={script} subject="script" iconOnly class="ms-auto" />
         </InputGroupAddon>
@@ -413,35 +413,35 @@ export const Example = () => (
       id: "ig-icons",
       title: "Icons",
       text: "**Use Symbols Consistently Across Fields.** Compare leading and trailing icons with the same field structure to decide which symbols add useful context. Keep decorative icons separate from interactive addon buttons so their visual placement does not imply identical behavior.\n\nKeep decorative graphics out of the accessible name and add descriptive labels to real icon actions; the same visual slot should not unpredictably alternate between clickable and static content.",
-      code: `// Search, Mail, Card + Check, trailing icon cluster — see preview`,
+      code: `// SearchIcon, MailIcon, Card + CheckIcon, trailing icon cluster — see preview`,
       renderPreview: () => (
         <div class="grid max-w-sm gap-4">
           <InputGroup>
-            <InputGroupInput placeholder="Search..." />
+            <InputGroupInput placeholder="SearchIcon..." />
             <InputGroupAddon>
-              <Search class="text-muted-foreground" />
+              <SearchIcon class="text-muted-foreground" />
             </InputGroupAddon>
           </InputGroup>
           <InputGroup>
             <InputGroupInput type="email" placeholder="Enter your email" />
             <InputGroupAddon>
-              <Mail class="text-muted-foreground" />
+              <MailIcon class="text-muted-foreground" />
             </InputGroupAddon>
           </InputGroup>
           <InputGroup>
             <InputGroupInput placeholder="Card number" />
             <InputGroupAddon>
-              <CreditCard class="text-muted-foreground" />
+              <CreditCardIcon class="text-muted-foreground" />
             </InputGroupAddon>
             <InputGroupAddon align="inline-end">
-              <Check class="text-muted-foreground" />
+              <CheckIcon class="text-muted-foreground" />
             </InputGroupAddon>
           </InputGroup>
           <InputGroup>
             <InputGroupInput placeholder="Card number" />
             <InputGroupAddon align="inline-end">
-              <Star class="text-muted-foreground" />
-              <Info class="text-muted-foreground" />
+              <StarIcon class="text-muted-foreground" />
+              <InfoIcon class="text-muted-foreground" />
             </InputGroupAddon>
           </InputGroup>
         </div>
@@ -528,7 +528,7 @@ export const Example = () => (
       id: "ig-button",
       title: "Buttons",
       text: "**Keep Field Actions Local and Explicit.** Use `InputGroupButton` for an action directly related to the field, such as copying its value or running a search. The compact button shares the surrounding boundary while retaining its own label and activation behavior.\n\nSet button types intentionally, give icon-only actions accessible names, and provide brief feedback when an operation such as copying succeeds or fails.",
-      code: `// Copy URL, pill chrome, Search button — see preview`,
+      code: `// Copy URL, pill chrome, SearchIcon button — see preview`,
       renderPreview: () => (
         <div class="grid max-w-sm gap-4">
           <InputGroupCopyRow />
@@ -536,7 +536,7 @@ export const Example = () => (
           <InputGroup>
             <InputGroupInput placeholder="Type to search..." />
             <InputGroupAddon align="inline-end">
-              <InputGroupButton variant="secondary">Search</InputGroupButton>
+              <InputGroupButton variant="secondary">SearchIcon</InputGroupButton>
             </InputGroupAddon>
           </InputGroup>
         </div>
@@ -548,13 +548,13 @@ export const Example = () => (
       text: "**Advertise a Working Shortcut.** Place a [Kbd](/docs/kbd/installation) hint in the inline-end addon when a real keyboard shortcut can focus or activate the field. The hint makes that existing behavior discoverable without registering the shortcut itself.\n\nRegister the behavior in application code, avoid browser conflicts, and keep ordinary tab navigation available regardless of the hinted combination.",
       code: `import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/kamod-ui/input-group"
 import { Kbd } from "@/components/kamod-ui/kbd";
-import { Search } from "lucide-preact";
+import { SearchIcon } from "@kamod-ch/icons/lucide";
 
 export const Example = () => (
   <InputGroup class="max-w-sm">
-    <InputGroupInput placeholder="Search..." />
+    <InputGroupInput placeholder="SearchIcon..." />
     <InputGroupAddon>
-      <Search class="text-muted-foreground" />
+      <SearchIcon class="text-muted-foreground" />
     </InputGroupAddon>
     <InputGroupAddon align="inline-end">
       <Kbd size="sm">⌘</Kbd>
@@ -564,9 +564,9 @@ export const Example = () => (
 );`,
       renderPreview: () => (
         <InputGroup class="max-w-sm">
-          <InputGroupInput placeholder="Search..." />
+          <InputGroupInput placeholder="SearchIcon..." />
           <InputGroupAddon>
-            <Search class="text-muted-foreground" />
+            <SearchIcon class="text-muted-foreground" />
           </InputGroupAddon>
           <InputGroupAddon align="inline-end">
             <Kbd size="sm">⌘</Kbd>
@@ -589,7 +589,7 @@ export const Example = () => (
               <Dropdown>
                 <DropdownTrigger>
                   <InputGroupButton variant="ghost" class="pr-1.5 text-xs">
-                    Search in… <ChevronDown class="size-3" />
+                    SearchIcon in… <ChevronDownIcon class="size-3" />
                   </InputGroupButton>
                 </DropdownTrigger>
                 <DropdownContent class="min-w-44">
@@ -609,7 +609,7 @@ export const Example = () => (
       text: "**Show Pending Work without Replacing the Field's Meaning.** Put `Spinner` in an addon to show work associated with the field, such as searching for suggestions. Drive it from the real pending state and keep the input value visible while the operation completes.\n\nKeep an understandable text status where needed, cancel stale application requests, and ensure an old response cannot overwrite the latest value's result.",
       code: `import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "@/components/kamod-ui/input-group"
 import { Spinner } from "@/components/kamod-ui/spinner";
-import { Loader2 } from "lucide-preact";
+import { LoaderCircleIcon } from "@kamod-ch/icons/lucide";
 
 export const Example = () => (
   <div class="grid max-w-sm gap-4">
@@ -635,7 +635,7 @@ export const Example = () => (
     <InputGroup>
       <InputGroupInput placeholder="Refreshing data..." />
       <InputGroupAddon>
-        <Loader2 class="size-4 animate-spin" />
+        <LoaderCircleIcon class="size-4 animate-spin" />
       </InputGroupAddon>
       <InputGroupAddon align="inline-end">
         <InputGroupText class="text-muted-foreground">Please wait…</InputGroupText>
@@ -667,7 +667,7 @@ export const Example = () => (
           <InputGroup>
             <InputGroupInput placeholder="Refreshing data..." />
             <InputGroupAddon>
-              <Loader2 class="size-4 animate-spin" />
+              <LoaderCircleIcon class="size-4 animate-spin" />
             </InputGroupAddon>
             <InputGroupAddon align="inline-end">
               <InputGroupText class="text-muted-foreground">Please wait…</InputGroupText>
@@ -681,7 +681,7 @@ export const Example = () => (
       title: "Textarea (Code)",
       text: "**Separate Editing from Supporting Tools.** Arrange block-start and block-end toolbars around a monospace textarea for code-like content. The field remains an editable text area; the surrounding actions and metadata give it context without implying a full code editor.\n\nKeep toolbar buttons out of the value, preserve ordinary text editing and label the textarea explicitly; this composition is not a full code editor by itself.",
       code: `import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupText, InputGroupTextarea } from "@/components/kamod-ui/input-group";
-import { CornerDownLeft } from "lucide-preact";
+import { CornerDownLeftIcon } from "@kamod-ch/icons/lucide";
 
 export const Example = () => (
   <InputGroup class="max-w-md">
@@ -693,7 +693,7 @@ export const Example = () => (
     <InputGroupAddon align="block-end" class="border-t">
       <InputGroupText>Line 1, Column 1</InputGroupText>
       <InputGroupButton size="sm" class="ms-auto" variant="default" type="button">
-        Run <CornerDownLeft class="size-4" />
+        Run <CornerDownLeftIcon class="size-4" />
       </InputGroupButton>
     </InputGroupAddon>
     <InputGroupAddon align="block-start" class="border-b">
@@ -711,7 +711,7 @@ export const Example = () => (
           <InputGroupAddon align="block-end" class="border-t">
             <InputGroupText>Line 1, Column 1</InputGroupText>
             <InputGroupButton size="sm" class="ms-auto" variant="default" type="button">
-              Run <CornerDownLeft class="size-4" />
+              Run <CornerDownLeftIcon class="size-4" />
             </InputGroupButton>
           </InputGroupAddon>
           <InputGroupAddon align="block-start" class="border-b">
@@ -723,7 +723,7 @@ export const Example = () => (
     {
       id: "ig-rtl",
       title: "RTL",
-      text: '**Check the Whole Pattern in Its Reading Direction.** Set `dir="rtl"` on the surrounding composition and use logical addon alignment. Inline-start and inline-end then describe the same relationship to the text without hard-coding the icon or action to a physical side.\n\nKeep values and keyboard behavior meaningful in the translated interface, and follow [Direction](/docs/direction/installation) when the page and its portaled controls need a shared direction.',
+      text: '**CheckIcon the Whole Pattern in Its Reading Direction.** Set `dir="rtl"` on the surrounding composition and use logical addon alignment. Inline-start and inline-end then describe the same relationship to the text without hard-coding the icon or action to a physical side.\n\nKeep values and keyboard behavior meaningful in the translated interface, and follow [Direction](/docs/direction/installation) when the page and its portaled controls need a shared direction.',
       code: `import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "@/components/kamod-ui/input-group";
 
 export const Example = () => (

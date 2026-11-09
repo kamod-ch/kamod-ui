@@ -10,7 +10,7 @@ import {
 import { docsRouteManifest } from "./generated-manifest.ts";
 
 // Importing the runtime registry here pulled every example into each preview frame.
-const docsPageSlugsLongestFirst = buildDocsPageSlugsLongestFirst(
+export const docsPageSlugsLongestFirst = buildDocsPageSlugsLongestFirst(
   docsRouteManifest.map(({ slug }) => slug),
 );
 

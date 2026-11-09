@@ -8,9 +8,9 @@ import {
   RouteIcon,
 } from "@kamod-ch/icons/lucide";
 import type { Tokens } from "marked";
-import { renderToString } from "preact-render-to-string";
 import { withBasePath } from "../../base-path";
 import type { GuideTableRenderer } from "../../blocks/guides/guide-markdown";
+import { renderStaticMarkup } from "../../lib/render-static-markup";
 
 const icons = {
   Installation: PackageCheckIcon,
@@ -34,7 +34,7 @@ export const renderGettingStartedTable: GuideTableRenderer = (table, inline) => 
     description,
   }));
   if (rows.some(({ link }) => !link || !/^(\/[^/]|#)/.test(link.href))) return;
-  return renderToString(
+  return renderStaticMarkup(
     <div class="getting-started-checks">
       <table aria-labelledby="verify-the-whole-journey">
         <colgroup>

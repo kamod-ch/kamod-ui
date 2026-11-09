@@ -11,8 +11,8 @@ import {
   ZapIcon,
 } from "@kamod-ch/icons/lucide";
 import type { Tokens } from "marked";
-import { renderToString } from "preact-render-to-string";
 import type { GuideTableRenderer } from "../../blocks/guides/guide-markdown";
+import { renderStaticMarkup } from "../../lib/render-static-markup";
 
 const icons = {
   ThemeProvider: LayersIcon,
@@ -42,7 +42,7 @@ export const renderThemeRuntimeTable: GuideTableRenderer = (table, inline) => {
   });
   if (rows.some(({ link, name }) => !link?.href.startsWith("#") || !Object.hasOwn(icons, name)))
     return;
-  return renderToString(
+  return renderStaticMarkup(
     <div class="block-guide-table theme-runtime-table">
       <table aria-label="Theme runtime API shortcuts">
         <thead>

@@ -1,6 +1,8 @@
 import { DownloadIcon, LoaderCircleIcon } from "@kamod-ch/icons/lucide";
 import { ChecksIcon } from "@kamod-ch/icons/tabler/outline";
 import { useId } from "preact/hooks";
+import { trackGrowthEvent } from "../../../analytics/growth-track";
+import { notifyTemplateDelivered } from "../../../layout/star-invitation/notify";
 import { useFileDownload } from "./useFileDownload";
 import "./file-download.css";
 
@@ -11,14 +13,30 @@ export function FileDownloadButton({
   mimeType = "text/plain;charset=utf-8",
   subject = "code",
   slot = "code-download",
+  onDelivered,
 }: {
   source: string;
   fileName: string;
   mimeType?: string;
   subject?: string;
   slot?: string;
+  onDelivered?: () => void;
 }) {
-  const { phase, download } = useFileDownload(source, fileName, mimeType);
+  const { phase, download: startDownload } = useFileDownload(source, fileName, mimeType, () => {
+    onDelivered?.();
+    if (slot === "template-download") {
+      trackGrowthEvent("template_download_prepared", {
+        templateId: fileName.replace(/\.zip$/i, ""),
+      });
+      notifyTemplateDelivered();
+    }
+  });
+  const download = () => {
+    if (slot === "template-download") {
+      trackGrowthEvent("template_download_click", { templateId: fileName.replace(/\.zip$/i, "") });
+    }
+    startDownload();
+  };
   // Preserve established Markdown selectors while one generic control owns every state.
   const legacyMarkdown = slot === "markdown-download";
   const statusId = `${useId()}-download-status`;

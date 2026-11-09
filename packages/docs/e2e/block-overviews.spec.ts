@@ -163,7 +163,9 @@ for (const width of [320, 768, 1024, 1440, 1920]) {
   }
 }
 
-test("shared sidebar includes available and planned categories", async ({ page }) => {
+test("shared sidebar prioritizes published collections and links planned work via roadmap", async ({
+  page,
+}) => {
   await page.goto("./blocks/sidebar");
   const sidebar = page.locator("aside.docs-sidebar");
   const navigation = sidebar.getByRole("navigation", { name: "Browse all pages" });
@@ -175,11 +177,12 @@ test("shared sidebar includes available and planned categories", async ({ page }
     "page",
   );
   await expect(navigation.getByRole("button", { name: /Toggle .* variants/ })).toHaveCount(0);
-  await expect(navigation.getByRole("link", { name: "About", exact: true })).toHaveAttribute(
+  await expect(navigation.getByRole("link", { name: "About", exact: true })).toHaveCount(0);
+  await expect(navigation.getByRole("link", { name: "Roadmap", exact: true })).toHaveAttribute(
     "href",
-    /\/blocks\/about$/,
+    /\/blocks\/roadmap$/,
   );
-  await expect(navigation.locator("a[data-block-placeholder]")).toHaveCount(20);
+  await expect(navigation.locator("a[data-block-placeholder]")).toHaveCount(0);
   await navigation.getByRole("link", { name: "Blocks Overview" }).click();
   await expect(
     page.getByRole("navigation", { name: "Planned Block Categories" }).getByRole("link"),

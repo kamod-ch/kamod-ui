@@ -1,4 +1,13 @@
 import {
+  BadgeCheckIcon,
+  ChevronDownIcon,
+  ChevronRightIcon,
+  ExternalLinkIcon,
+  InboxIcon,
+  PlusIcon,
+  ShieldAlertIcon,
+} from "@kamod-ch/icons/lucide";
+import {
   Avatar,
   AvatarFallback,
   AvatarImage,
@@ -18,15 +27,6 @@ import {
   ItemSeparator,
   ItemTitle,
 } from "@kamod-ch/ui";
-import {
-  BadgeCheck,
-  ChevronDown,
-  ChevronRight,
-  ExternalLink,
-  Inbox,
-  Plus,
-  ShieldAlert,
-} from "lucide-preact";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 const music = [
@@ -96,7 +96,7 @@ export const itemDocPage = createGenericDocPage({
       text: "**Choose the Interaction before the Surface.** Compose outlined items with supporting text and actions, then compare a compact item rendered as a link through `asChild`. The examples distinguish a row containing actions from a row whose entire surface is one destination.\n\nKeep those patterns distinct so users know where clicking will lead, and avoid nesting independent buttons inside an anchor that already makes the entire row interactive.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from "@/components/kamod-ui/item";
-import { BadgeCheck, ChevronRight } from "lucide-preact";
+import { BadgeCheckIcon, ChevronRightIcon } from "@kamod-ch/icons/lucide";
 
 export const Example = () => (
   <div class="flex w-full max-w-md flex-col gap-6">
@@ -112,13 +112,13 @@ export const Example = () => (
     <Item variant="outline" size="sm" asChild>
       <a href="#item-demo">
         <ItemMedia>
-          <BadgeCheck class="size-5" />
+          <BadgeCheckIcon class="size-5" />
         </ItemMedia>
         <ItemContent>
           <ItemTitle>Your profile has been verified.</ItemTitle>
         </ItemContent>
         <ItemActions>
-          <ChevronRight class="size-4" />
+          <ChevronRightIcon class="size-4" />
         </ItemActions>
       </a>
     </Item>
@@ -140,13 +140,13 @@ export const Example = () => (
           <Item variant="outline" size="sm" asChild>
             <a href="#item-demo">
               <ItemMedia>
-                <BadgeCheck class="size-5" />
+                <BadgeCheckIcon class="size-5" />
               </ItemMedia>
               <ItemContent>
                 <ItemTitle>Your Profile Has Been Verified.</ItemTitle>
               </ItemContent>
               <ItemActions>
-                <ChevronRight class="size-4" />
+                <ChevronRightIcon class="size-4" />
               </ItemActions>
             </a>
           </Item>
@@ -159,12 +159,12 @@ export const Example = () => (
       text: "**Give Each Region a Clear Role.** Use `ItemMedia`, `ItemTitle`, `ItemDescription` and an action to structure a single list entry. Each region has a clear role, keeping the subject and its explanation readable before the user encounters the associated control.\n\nKeep the primary label readable at narrow widths, and omit regions that add no useful information rather than filling every slot by default.",
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from "@/components/kamod-ui/item";
-import { Inbox } from "lucide-preact";
+import { InboxIcon } from "@kamod-ch/icons/lucide";
 
 export const Example = () => (
   <Item>
     <ItemMedia variant="icon">
-      <Inbox />
+      <InboxIcon />
     </ItemMedia>
     <ItemContent>
       <ItemTitle>Title</ItemTitle>
@@ -178,7 +178,7 @@ export const Example = () => (
       renderPreview: () => (
         <Item variant="outline" class="max-w-md">
           <ItemMedia variant="icon">
-            <Inbox />
+            <InboxIcon />
           </ItemMedia>
           <ItemContent>
             <ItemTitle>Title</ItemTitle>
@@ -195,13 +195,13 @@ export const Example = () => (
       title: "Variants",
       text: "**Use Surface Weight to Establish Hierarchy.** Choose the transparent default, outlined or muted item treatment according to how much separation the list needs. The `variant` changes the surface while the title, description and actions retain the same structural relationship.\n\nKeep equivalent items styled consistently, and preserve focus and selected-state distinctions when the row is interactive.",
       code: `import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from "@/components/kamod-ui/item";
-import { Inbox } from "lucide-preact";
+import { InboxIcon } from "@kamod-ch/icons/lucide";
 
 export const Example = () => (
   <div class="flex w-full max-w-md flex-col gap-6">
     <Item>
       <ItemMedia variant="icon">
-        <Inbox />
+        <InboxIcon />
       </ItemMedia>
       <ItemContent>
         <ItemTitle>Default Variant</ItemTitle>
@@ -210,7 +210,7 @@ export const Example = () => (
     </Item>
     <Item variant="outline">
       <ItemMedia variant="icon">
-        <Inbox />
+        <InboxIcon />
       </ItemMedia>
       <ItemContent>
         <ItemTitle>Outline Variant</ItemTitle>
@@ -219,7 +219,7 @@ export const Example = () => (
     </Item>
     <Item variant="muted">
       <ItemMedia variant="icon">
-        <Inbox />
+        <InboxIcon />
       </ItemMedia>
       <ItemContent>
         <ItemTitle>Muted Variant</ItemTitle>
@@ -232,7 +232,7 @@ export const Example = () => (
         <div class="flex w-full max-w-md flex-col gap-6">
           <Item>
             <ItemMedia variant="icon">
-              <Inbox />
+              <InboxIcon />
             </ItemMedia>
             <ItemContent>
               <ItemTitle>Default Variant</ItemTitle>
@@ -241,7 +241,7 @@ export const Example = () => (
           </Item>
           <Item variant="outline">
             <ItemMedia variant="icon">
-              <Inbox />
+              <InboxIcon />
             </ItemMedia>
             <ItemContent>
               <ItemTitle>Outline Variant</ItemTitle>
@@ -250,7 +250,7 @@ export const Example = () => (
           </Item>
           <Item variant="muted">
             <ItemMedia variant="icon">
-              <Inbox />
+              <InboxIcon />
             </ItemMedia>
             <ItemContent>
               <ItemTitle>Muted Variant</ItemTitle>
@@ -265,13 +265,13 @@ export const Example = () => (
       title: "Sizes",
       text: '**Increase Density without Losing the Title.** Use `size="sm"` or `size="xs"` for denser item collections where the content remains concise. The size coordinates padding and gaps, letting related rows share one rhythm instead of individually tightened spacing.\n\nCheck the longest realistic label and media combination before reducing size, and avoid using a dense variant for content that needs several explanatory lines.',
       code: `import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from "@/components/kamod-ui/item";
-import { Inbox } from "lucide-preact";
+import { InboxIcon } from "@kamod-ch/icons/lucide";
 
 export const Example = () => (
   <div class="flex w-full max-w-md flex-col gap-6">
     <Item variant="outline">
       <ItemMedia variant="icon">
-        <Inbox />
+        <InboxIcon />
       </ItemMedia>
       <ItemContent>
         <ItemTitle>Default Size</ItemTitle>
@@ -280,7 +280,7 @@ export const Example = () => (
     </Item>
     <Item variant="outline" size="sm">
       <ItemMedia variant="icon">
-        <Inbox />
+        <InboxIcon />
       </ItemMedia>
       <ItemContent>
         <ItemTitle>Small Size</ItemTitle>
@@ -289,7 +289,7 @@ export const Example = () => (
     </Item>
     <Item variant="outline" size="xs">
       <ItemMedia variant="icon">
-        <Inbox />
+        <InboxIcon />
       </ItemMedia>
       <ItemContent>
         <ItemTitle>Extra Small</ItemTitle>
@@ -302,7 +302,7 @@ export const Example = () => (
         <div class="flex w-full max-w-md flex-col gap-6">
           <Item variant="outline">
             <ItemMedia variant="icon">
-              <Inbox />
+              <InboxIcon />
             </ItemMedia>
             <ItemContent>
               <ItemTitle>Default Size</ItemTitle>
@@ -311,7 +311,7 @@ export const Example = () => (
           </Item>
           <Item variant="outline" size="sm">
             <ItemMedia variant="icon">
-              <Inbox />
+              <InboxIcon />
             </ItemMedia>
             <ItemContent>
               <ItemTitle>Small Size</ItemTitle>
@@ -320,7 +320,7 @@ export const Example = () => (
           </Item>
           <Item variant="outline" size="xs">
             <ItemMedia variant="icon">
-              <Inbox />
+              <InboxIcon />
             </ItemMedia>
             <ItemContent>
               <ItemTitle>Extra Small</ItemTitle>
@@ -336,12 +336,12 @@ export const Example = () => (
       text: '**Use the Media Tile as a Recognition Cue.** Set `variant="icon"` on `ItemMedia` to place a symbol in a consistent muted tile. This gives neighboring items a common visual anchor even when their individual icon shapes have different proportions.\n\nKeep decorative symbols hidden from assistive technology and avoid choosing different icons merely for variety when the items represent the same kind of record.',
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from "@/components/kamod-ui/item";
-import { ShieldAlert } from "lucide-preact";
+import { ShieldAlertIcon } from "@kamod-ch/icons/lucide";
 
 export const Example = () => (
   <Item variant="outline" class="max-w-lg">
     <ItemMedia variant="icon">
-      <ShieldAlert />
+      <ShieldAlertIcon />
     </ItemMedia>
     <ItemContent>
       <ItemTitle>Security Alert</ItemTitle>
@@ -355,7 +355,7 @@ export const Example = () => (
       renderPreview: () => (
         <Item variant="outline" class="max-w-lg">
           <ItemMedia variant="icon">
-            <ShieldAlert />
+            <ShieldAlertIcon />
           </ItemMedia>
           <ItemContent>
             <ItemTitle>Security Alert</ItemTitle>
@@ -376,7 +376,7 @@ export const Example = () => (
       code: `import { Avatar, AvatarFallback, AvatarImage } from "@/components/kamod-ui/avatar"
 import { Button } from "@/components/kamod-ui/button"
 import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from "@/components/kamod-ui/item";
-import { Plus } from "lucide-preact";
+import { PlusIcon } from "@kamod-ch/icons/lucide";
 
 export const Example = () => (
   <div class="flex w-full max-w-lg flex-col gap-6">
@@ -393,7 +393,7 @@ export const Example = () => (
       </ItemContent>
       <ItemActions>
         <Button size="icon-sm" variant="outline" class="rounded-full" aria-label="Invite">
-          <Plus />
+          <PlusIcon />
         </Button>
       </ItemActions>
     </Item>
@@ -414,7 +414,7 @@ export const Example = () => (
             </ItemContent>
             <ItemActions>
               <Button size="icon-sm" variant="outline" class="rounded-full" aria-label="Invite">
-                <Plus />
+                <PlusIcon />
               </Button>
             </ItemActions>
           </Item>
@@ -542,7 +542,7 @@ export const Example = () => (
               </ItemContent>
               <ItemActions>
                 <Button variant="ghost" size="icon" class="rounded-full">
-                  <Plus />
+                  <PlusIcon />
                 </Button>
               </ItemActions>
             </Item>
@@ -603,7 +603,7 @@ export const Example = () => (
       title: "Link (asChild)",
       text: "**Make the Destination the Real Interactive Element.** Set `asChild` on `Item` with an anchor when the entire row should navigate. The link receives the row's hover and focus treatment, creating one coherent target instead of a decorative container around a small text link.\n\nUse a meaningful `href`, keep the link's label clear and avoid nesting other interactive controls inside it; separate actions belong in a non-link item composition.",
       code: `import { Item, ItemActions, ItemContent, ItemDescription, ItemTitle } from "@/components/kamod-ui/item";
-import { ChevronRight, ExternalLink } from "lucide-preact";
+import { ChevronRightIcon, ExternalLinkIcon } from "@kamod-ch/icons/lucide";
 
 export const Example = () => (
   <div class="flex w-full max-w-md flex-col gap-4">
@@ -614,7 +614,7 @@ export const Example = () => (
           <ItemDescription>Learn how to get started with our components.</ItemDescription>
         </ItemContent>
         <ItemActions>
-          <ChevronRight class="size-4" />
+          <ChevronRightIcon class="size-4" />
         </ItemActions>
       </a>
     </Item>
@@ -625,7 +625,7 @@ export const Example = () => (
           <ItemDescription>Opens in a new tab with security attributes.</ItemDescription>
         </ItemContent>
         <ItemActions>
-          <ExternalLink class="size-4" />
+          <ExternalLinkIcon class="size-4" />
         </ItemActions>
       </a>
     </Item>
@@ -640,7 +640,7 @@ export const Example = () => (
                 <ItemDescription>Learn how to get started with our components.</ItemDescription>
               </ItemContent>
               <ItemActions>
-                <ChevronRight class="size-4" />
+                <ChevronRightIcon class="size-4" />
               </ItemActions>
             </a>
           </Item>
@@ -651,7 +651,7 @@ export const Example = () => (
                 <ItemDescription>Opens in a new tab with security attributes.</ItemDescription>
               </ItemContent>
               <ItemActions>
-                <ExternalLink class="size-4" />
+                <ExternalLinkIcon class="size-4" />
               </ItemActions>
             </a>
           </Item>
@@ -703,13 +703,13 @@ export const Example = () => (
 import { Button } from "@/components/kamod-ui/button"
 import { Dropdown, DropdownContent, DropdownItem, DropdownTrigger } from "@/components/kamod-ui/dropdown"
 import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from "@/components/kamod-ui/item";
-import { ChevronDown } from "lucide-preact";
+import { ChevronDownIcon } from "@kamod-ch/icons/lucide";
 
 export const Example = () => (
   <Dropdown>
     <DropdownTrigger>
       <Button variant="outline" class="gap-2">
-        Select <ChevronDown class="size-4" />
+        Select <ChevronDownIcon class="size-4" />
       </Button>
     </DropdownTrigger>
     <DropdownContent class="min-w-48 p-1">
@@ -721,7 +721,7 @@ export const Example = () => (
         <Dropdown>
           <DropdownTrigger>
             <Button variant="outline" class="gap-2">
-              Select <ChevronDown class="size-4" />
+              Select <ChevronDownIcon class="size-4" />
             </Button>
           </DropdownTrigger>
           <DropdownContent class="min-w-48 p-1">
@@ -750,13 +750,13 @@ export const Example = () => (
       title: "RTL",
       text: '**Check the Whole Pattern in Its Reading Direction.** Set `dir="rtl"` on the surrounding item collection and preserve logical spacing. Media, text and trailing actions then follow the reading direction while any `asChild` link continues to represent the same destination.\n\nKeep values and keyboard behavior meaningful in the translated interface, and follow [Direction](/docs/direction/installation) when the page and its portaled controls need a shared direction.',
       code: `import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from "@/components/kamod-ui/item";
-import { Inbox } from "lucide-preact";
+import { InboxIcon } from "@kamod-ch/icons/lucide";
 
 export const Example = () => (
   <div dir="rtl" class="max-w-md">
     <Item variant="outline">
       <ItemMedia variant="icon">
-        <Inbox />
+        <InboxIcon />
       </ItemMedia>
       <ItemContent>
         <ItemTitle>عنصر القائمة</ItemTitle>
@@ -769,7 +769,7 @@ export const Example = () => (
         <div dir="rtl" class="max-w-md">
           <Item variant="outline">
             <ItemMedia variant="icon">
-              <Inbox />
+              <InboxIcon />
             </ItemMedia>
             <ItemContent>
               <ItemTitle>عنصر القائمة</ItemTitle>

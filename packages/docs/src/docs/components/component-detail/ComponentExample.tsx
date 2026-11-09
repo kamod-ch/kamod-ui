@@ -34,11 +34,14 @@ export function ComponentExample({
   doc,
   index,
   codeSnippet,
+  localCodeSnippet,
   filePath,
 }: {
   doc: DocPageModule;
   index: number;
   codeSnippet: string;
+  /** Full docs-repo paths for optional “Copy source” when consumer snippets use package exports. */
+  localCodeSnippet?: string;
   filePath: string;
 }) {
   const { stage, canConstrain, appearance, setAppearance } = useComponentPreview();
@@ -160,6 +163,7 @@ export function ComponentExample({
             <ComponentExampleCode
               appearance={appearance}
               code={codeSnippet}
+              localSourceCode={localCodeSnippet}
               filePath={filePath}
               fallback={<ShowcaseLoading appearance={appearance} view="code" detail={filePath} />}
             />

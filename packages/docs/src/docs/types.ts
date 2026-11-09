@@ -45,7 +45,7 @@ export type DocPageModule = {
   navLabel?: string;
   /** Overrides the title-row package path (e.g. @kamod-ch/openui). */
   packagePath?: string;
-  /** Preserve package imports for package-oriented guides; local-source examples are the default. */
+  /** Override snippet import style; component guides default to published package exports. */
   snippetImports?: "local" | "package";
   /** Overrides auto-generated usage import snippet. */
   usageImportSnippet?: string;

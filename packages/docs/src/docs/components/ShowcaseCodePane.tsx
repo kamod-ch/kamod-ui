@@ -1,6 +1,7 @@
 import { CodeFileHeader } from "@kamod-ch/ui/code";
 import type { ComponentChildren } from "preact";
 import { useLayoutEffect, useRef } from "preact/hooks";
+import type { GrowthEventMeta } from "../../analytics/growth-types";
 import type { PreviewAppearance } from "../../blocks/preview-appearance";
 import { CodeBlock } from "./CodeBlock";
 import { PathDisplay } from "./PathDisplay";
@@ -15,10 +16,12 @@ export function ShowcaseCodePane({
   children,
   loading = false,
   appearance,
+  growthMeta,
 }: {
   filename: string;
   filePath: string;
   code?: string;
+  growthMeta?: GrowthEventMeta;
   /** Omit when the surrounding file browser provides a shared footer row. */
   footer?: ComponentChildren;
   /** Loading/error content supplied by asynchronous source browsers. */
@@ -59,6 +62,7 @@ export function ShowcaseCodePane({
           key={filename}
           code={code}
           filePath={filePath}
+          growthMeta={growthMeta}
           renderToolbar={renderToolbar}
           className="docs-tab-code"
           loadingContent={<ShowcaseLoading appearance={appearance} view="code" detail={filePath} />}

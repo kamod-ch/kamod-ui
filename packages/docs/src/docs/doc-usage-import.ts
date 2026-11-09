@@ -1,5 +1,11 @@
 /** The article and lazy reference previews share the exact default usage import. */
-import { rewriteKamodCoreImportsInDocString } from "./doc-snippet-imports.ts";
+import { docConsumerSnippet } from "./doc-consumer-snippet.ts";
+import {
+  docsPageSlugsLongestFirst,
+  rewriteKamodCoreImportsInDocString,
+} from "./doc-snippet-imports.ts";
+import { docPackageImportPath, resolveSnippetImports } from "./doc-snippet-mode.ts";
+import type { DocPageModule } from "./types.ts";
 
 const imports: Record<string, string> = {
   button: "Button, Spinner",
@@ -17,18 +23,19 @@ export const docComponentName = (slug: string) =>
     .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
     .join("");
 
-/** Preserve authored overrides; otherwise follow the same local-source rewrite as the guide. */
-export function docUsageImport({
-  slug,
-  usageImportSnippet,
-}: {
-  slug: string;
-  usageImportSnippet?: string;
-}) {
-  if (usageImportSnippet) return usageImportSnippet;
-  const componentName = docComponentName(slug);
-  return rewriteKamodCoreImportsInDocString(
-    `import { ${imports[slug] ?? componentName} } from "@kamod-ch/ui";`,
-    slug,
-  );
+/** Preserve authored overrides; otherwise emit package subpaths or local aliases for the active mode. */
+export function docUsageImport(
+  doc: Pick<DocPageModule, "slug" | "usageImportSnippet" | "snippetImports">,
+) {
+  const { slug, usageImportSnippet } = doc;
+  if (usageImportSnippet) {
+    return resolveSnippetImports(doc as DocPageModule) === "package"
+      ? docConsumerSnippet(usageImportSnippet, doc, docsPageSlugsLongestFirst)
+      : usageImportSnippet;
+  }
+  const names = imports[slug] ?? docComponentName(slug);
+  if (resolveSnippetImports(doc as DocPageModule) === "package") {
+    return `import { ${names} } from "${docPackageImportPath(slug)}";`;
+  }
+  return rewriteKamodCoreImportsInDocString(`import { ${names} } from "@kamod-ch/ui";`, slug);
 }

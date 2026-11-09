@@ -64,6 +64,13 @@ describe("block guide documents", () => {
     expect(() =>
       parseGuide("## Install\n\n```bash package-manager\npnpm add preact && pnpm build\n```"),
     ).toThrow("Package-manager fences require a plain pnpm add command");
+    const [{ parts: versioned }] = parseGuide(
+      "## Install\n\n```bash package-manager\npnpm add @kamod-ch/ui preact@^11.1.1 @preact/signals@^2.11.4\n```",
+    );
+    expect(versioned).toContainEqual({
+      kind: "dependencies",
+      dependencies: ["@kamod-ch/ui", "preact@^11.1.1", "@preact/signals@^2.11.4"],
+    });
   });
 
   it("escapes literal HTML and does not activate executable links", () => {

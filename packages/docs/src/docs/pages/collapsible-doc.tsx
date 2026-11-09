@@ -1,4 +1,13 @@
 import {
+  ChevronDownIcon,
+  ChevronRightIcon,
+  ChevronsUpDownIcon,
+  FileIcon,
+  FolderIcon,
+  Maximize2Icon,
+  Minimize2Icon,
+} from "@kamod-ch/icons/lucide";
+import {
   Button,
   Card,
   CardContent,
@@ -17,15 +26,6 @@ import {
   TabsList,
   TabsTrigger,
 } from "@kamod-ch/ui";
-import {
-  ChevronDown,
-  ChevronRight,
-  ChevronsUpDown,
-  File,
-  Folder,
-  Maximize2,
-  Minimize2,
-} from "lucide-preact";
 import type { ComponentChildren } from "preact";
 import { useState } from "preact/hooks";
 import { StateIcon } from "../components/StateIcon";
@@ -48,7 +48,7 @@ const CollapsibleDemoPreview = () => {
         <h4 class="text-sm font-semibold">Order #4189</h4>
         <CollapsibleTrigger asChild>
           <Button variant="ghost" size="icon" class="size-8 shrink-0">
-            <ChevronsUpDown class="size-4" />
+            <ChevronsUpDownIcon class="size-4" />
             <span class="sr-only">Toggle details</span>
           </Button>
         </CollapsibleTrigger>
@@ -81,7 +81,7 @@ const CollapsibleBasicPreview = () => (
             class="group h-auto w-full justify-between gap-2 py-2 font-normal"
           >
             <span>Product details</span>
-            <ChevronDown class="size-4 shrink-0 transition-transform group-data-[state=open]:rotate-180" />
+            <ChevronDownIcon class="size-4 shrink-0 transition-transform group-data-[state=open]:rotate-180" />
           </Button>
         </CollapsibleTrigger>
         <CollapsibleContent class="flex flex-col items-start gap-2 p-2.5 pt-0 text-sm">
@@ -139,7 +139,7 @@ const CollapsibleSettingsPreview = () => {
               aria-label={isOpen ? "Collapse" : "Expand"}
             >
               <StateIcon active={isOpen ? 1 : 0}>
-                {[<Maximize2 class="size-4" />, <Minimize2 class="size-4" />]}
+                {[<Maximize2Icon class="size-4" />, <Minimize2Icon class="size-4" />]}
               </StateIcon>
             </Button>
           </CollapsibleTrigger>
@@ -197,8 +197,8 @@ const CollapsibleFileTreePreview = () => {
               size="sm"
               class="group h-auto w-full justify-start gap-2 transition-none hover:bg-accent hover:text-accent-foreground"
             >
-              <ChevronRight class="size-4 shrink-0 transition-transform group-data-[state=open]:rotate-90" />
-              <Folder class="size-4 shrink-0" />
+              <ChevronRightIcon class="size-4 shrink-0 transition-transform group-data-[state=open]:rotate-90" />
+              <FolderIcon class="size-4 shrink-0" />
               {fileItem.name}
             </Button>
           </CollapsibleTrigger>
@@ -215,7 +215,7 @@ const CollapsibleFileTreePreview = () => {
         size="sm"
         class="h-auto w-full justify-start gap-2 text-foreground"
       >
-        <File class="size-4 shrink-0" />
+        <FileIcon class="size-4 shrink-0" />
         <span>{fileItem.name}</span>
       </Button>
     );
@@ -319,7 +319,7 @@ const CollapsibleRtlPreview = () => {
             <h4 class="text-sm font-semibold">{t.orderNumber}</h4>
             <CollapsibleTrigger asChild>
               <Button variant="ghost" size="icon" class="size-8 shrink-0">
-                <ChevronsUpDown class="size-4" />
+                <ChevronsUpDownIcon class="size-4" />
                 <span class="sr-only">Toggle</span>
               </Button>
             </CollapsibleTrigger>
@@ -360,7 +360,7 @@ export const collapsibleDocPage = createGenericDocPage({
   previewCode: `import { useState } from "preact/hooks";
 import { Button } from "@/components/kamod-ui/button"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/kamod-ui/collapsible";
-import { ChevronsUpDown } from "lucide-preact";
+import { ChevronsUpDownIcon } from "@kamod-ch/icons/lucide";
 
 export const Example = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -370,7 +370,7 @@ export const Example = () => {
         <h4 class="text-sm font-semibold">Order #4189</h4>
         <CollapsibleTrigger asChild>
           <Button variant="ghost" size="icon" class="size-8">
-            <ChevronsUpDown class="size-4" />
+            <ChevronsUpDownIcon class="size-4" />
             <span class="sr-only">Toggle details</span>
           </Button>
         </CollapsibleTrigger>
@@ -393,7 +393,7 @@ export const Example = () => {
       id: "collapsible-demo",
       title: "Demo",
       text: "**Reveal Supporting Detail on Demand.** Control a `Collapsible` within an order card to reveal supporting details only when needed. A ghost icon trigger keeps the summary compact, while the expanded area provides context without replacing the main order information.\n\nThe order-card composition suits optional detail rather than required instructions; important next steps should remain visible without asking users to discover the disclosure.",
-      code: `// See previewCode hero — open + onOpenChange, asChild Button, ChevronsUpDown.`,
+      code: `// See previewCode hero — open + onOpenChange, asChild Button, ChevronsUpDownIcon.`,
       renderPreview: () => <CollapsibleDemoPreview />,
     },
     {
@@ -444,7 +444,7 @@ export const Example = () => {
       code: `import { Button } from "@/components/kamod-ui/button"
 import { Card, CardContent } from "@/components/kamod-ui/card"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/kamod-ui/collapsible";
-import { ChevronDown } from "lucide-preact";`,
+import { ChevronDownIcon } from "@kamod-ch/icons/lucide";`,
       renderPreview: () => <CollapsibleBasicPreview />,
     },
     {
@@ -456,9 +456,9 @@ import { ChevronDown } from "lucide-preact";`,
     },
     {
       id: "collapsible-file-tree",
-      title: "File Tree",
-      text: "**Keep Folder Disclosure Distinct from File Actions.** Nest collapsibles to represent folder branches, with a separate trigger for each expandable level. The tree example combines these disclosures with a tabbed header, illustrating how local expansion can coexist with another navigation choice.\n\nUse stable keys and test deep nesting; choose [Tree](/docs/tree/installation) when you need dedicated tree selection and keyboard navigation.",
-      code: `// Recursive Collapsible per folder; ChevronRight rotates when open.`,
+      title: "FileIcon Tree",
+      text: "**Keep FolderIcon Disclosure Distinct from FileIcon Actions.** Nest collapsibles to represent folder branches, with a separate trigger for each expandable level. The tree example combines these disclosures with a tabbed header, illustrating how local expansion can coexist with another navigation choice.\n\nUse stable keys and test deep nesting; choose [Tree](/docs/tree/installation) when you need dedicated tree selection and keyboard navigation.",
+      code: `// Recursive Collapsible per folder; ChevronRightIcon rotates when open.`,
       renderPreview: () => <CollapsibleFileTreePreview />,
     },
     {

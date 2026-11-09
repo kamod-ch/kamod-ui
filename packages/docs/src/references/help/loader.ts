@@ -234,7 +234,7 @@ export function describeCodeReference(
       ? packageApiReferences[name]
       : undefined;
   const isSymbol = Boolean(name && name !== "*");
-  const isIcon = isSymbol && ["@kamod-ch/icons", "lucide-preact"].includes(root);
+  const isIcon = isSymbol && root === "@kamod-ch/icons";
   const kind =
     declaration?.kind ||
     (request.module.startsWith(".")

@@ -56,6 +56,51 @@ function fixDevClientModule(html: string): string {
   return html.replaceAll(doubled, fixed);
 }
 
+/** PreactPress legacy boot uses `data-theme` for light/dark; Kamod themes use it for presets. */
+function stripPreactpressThemeBoot(html: string): string {
+  return html.replace(/\s*<script\s+src="[^"]*preactpress-theme\.js"\s*>\s*<\/script>/gi, "");
+}
+
+/**
+ * Vite HMR can keep appending stylesheets, so the stock page-ready gate may never stabilize.
+ * Only runs when the Vite client is present (local `preactpress dev`).
+ */
+const VITE_DEV_PAGE_READY_FALLBACK = `<script>
+(function () {
+  if (!document.querySelector('script[src*="/@vite/client"]')) return;
+  var done = false;
+  function settle() {
+    if (done) return;
+    var root = document.documentElement;
+    if (root.classList.contains("pp-ready")) {
+      done = true;
+      return;
+    }
+    if (!root.hasAttribute("data-preactpress-app-ready")) return;
+    var links = document.querySelectorAll('link[rel="stylesheet"][href]');
+    for (var i = 0; i < links.length; i++) {
+      try {
+        if (!links[i].sheet) return;
+      } catch (e) {
+        return;
+      }
+    }
+    done = true;
+    root.classList.add("pp-ready");
+    root.removeAttribute("aria-busy");
+  }
+  document.addEventListener("preactpress:app-ready", settle);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(settle);
+  window.addEventListener("load", function () {
+    requestAnimationFrame(function () {
+      requestAnimationFrame(settle);
+    });
+  });
+  if (document.documentElement.hasAttribute("data-preactpress-app-ready")) settle();
+  setTimeout(settle, 8000);
+})();
+</script>`;
+
 export default defineConfig({
   // Wait for loaded stylesheets without forcing computed styles every frame.
   pageReady: { preloader: createPagePreloader(base), probe: false },
@@ -94,7 +139,6 @@ export default defineConfig({
         "@kamod-ch/icons/tabler/outline",
         "@kamod-ch/brand",
         "@kamod-ch/hooks",
-        "lucide-preact",
         "marked",
         "preact-render-to-string",
         "@blobatar/preact",
@@ -161,6 +205,15 @@ export default defineConfig({
           } else {
             server.middlewares.use(serveKamodFavicon);
           }
+        },
+      },
+      {
+        name: "kamod-docs-disable-preactpress-theme-boot",
+        transformIndexHtml: {
+          order: "post",
+          handler(html) {
+            return stripPreactpressThemeBoot(html);
+          },
         },
       },
       tailwindcss(),
@@ -262,7 +315,6 @@ export default defineConfig({
           find: "@kamod-ch/ui",
           replacement: resolve(coreSrc, "index.ts"),
         },
-        { find: "lucide-preact", replacement: resolve(configDir, "../node_modules/lucide-preact") },
         {
           find: /^react$/,
           replacement: resolve(preactRoot, "compat/dist/compat.mjs"),
@@ -319,6 +371,9 @@ export default defineConfig({
         "preact/devtools",
         "react",
         "react-dom",
+        "@preact/signals",
+        "@preact/signals-core",
+        "@kamod-ch/themes",
         "motion",
         "motion/mini",
       ],
@@ -334,6 +389,7 @@ export default defineConfig({
         "@kamod-ch/hooks",
         "@formisch/methods",
         "@preact/signals",
+        "@kamod-ch/themes",
         "@kamod-ch/openui",
         "@kamod-ch/ui-motion",
         "@blobatar/preact",
@@ -357,8 +413,11 @@ export default defineConfig({
     // the small preview entry import the main documentation application again.
   },
   transformHtml(html) {
-    const withAssets = prefixSubpathAssetUrls(fixDevClientModule(html));
-    return withAssets.replace("</body>", `  ${matomoImageTracker}\n  </body>`);
+    const withAssets = stripPreactpressThemeBoot(prefixSubpathAssetUrls(fixDevClientModule(html)));
+    return withAssets.replace(
+      "</body>",
+      `  ${VITE_DEV_PAGE_READY_FALLBACK}\n  ${matomoImageTracker}\n  </body>`,
+    );
   },
   transformHead(ctx) {
     return kamodUiStructuredDataHead(ctx);

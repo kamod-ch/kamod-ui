@@ -1,5 +1,12 @@
+import {
+  BoldIcon,
+  ItalicIcon,
+  TextAlignCenterIcon,
+  TextAlignEndIcon,
+  TextAlignStartIcon,
+  UnderlineIcon,
+} from "@kamod-ch/icons/lucide";
 import { ToggleGroup, ToggleGroupItem } from "@kamod-ch/ui";
-import { AlignCenter, AlignLeft, AlignRight, Bold, Italic, Underline } from "lucide-preact";
 import { useState } from "preact/hooks";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
@@ -38,18 +45,18 @@ export const toggleGroupDocPage = createGenericDocPage({
       title: "Single Selection",
       text: "**Use One Value to Describe the Current Mode.** Use single selection when the options represent alternative views or settings within one question. Each `ToggleGroupItem` value identifies a choice, and the selected presentation lets the reader see which one is currently active.\n\nDecide whether an empty selection is acceptable and handle it deliberately, keep item values stable, and use radios when the surrounding form's question is better expressed as a standard exclusive choice.",
       code: `import { ToggleGroup, ToggleGroupItem } from "@/components/kamod-ui/toggle-group";
-import { AlignCenter, AlignLeft, AlignRight } from "lucide-preact";
+import { TextAlignCenterIcon, TextAlignStartIcon, TextAlignEndIcon } from "@kamod-ch/icons/lucide";
 
 export const Example = () => (
   <ToggleGroup type="single" defaultValue="left" variant="outline">
     <ToggleGroupItem value="left" aria-label="Align left">
-      <AlignLeft class="size-4" />
+      <TextAlignStartIcon class="size-4" />
     </ToggleGroupItem>
     <ToggleGroupItem value="center" aria-label="Align center">
-      <AlignCenter class="size-4" />
+      <TextAlignCenterIcon class="size-4" />
     </ToggleGroupItem>
     <ToggleGroupItem value="right" aria-label="Align right">
-      <AlignRight class="size-4" />
+      <TextAlignEndIcon class="size-4" />
     </ToggleGroupItem>
   </ToggleGroup>
 );`,
@@ -57,13 +64,13 @@ export const Example = () => (
         <div class="docs-toggle-toolbar-demo">
           <ToggleGroup type="single" defaultValue="left" variant="outline">
             <ToggleGroupItem value="left" aria-label="Align left">
-              <AlignLeft class="size-4" />
+              <TextAlignStartIcon class="size-4" />
             </ToggleGroupItem>
             <ToggleGroupItem value="center" aria-label="Align center">
-              <AlignCenter class="size-4" />
+              <TextAlignCenterIcon class="size-4" />
             </ToggleGroupItem>
             <ToggleGroupItem value="right" aria-label="Align right">
-              <AlignRight class="size-4" />
+              <TextAlignEndIcon class="size-4" />
             </ToggleGroupItem>
           </ToggleGroup>
         </div>
@@ -196,7 +203,7 @@ export const Example = () => (
     <ToggleGroupItem value="light" class="font-light">Aa Light</ToggleGroupItem>
     <ToggleGroupItem value="normal" class="font-normal">Aa Normal</ToggleGroupItem>
     <ToggleGroupItem value="medium" class="font-medium">Aa Medium</ToggleGroupItem>
-    <ToggleGroupItem value="bold" class="font-bold">Aa Bold</ToggleGroupItem>
+    <ToggleGroupItem value="bold" class="font-bold">Aa BoldIcon</ToggleGroupItem>
   </ToggleGroup>
 );`,
       renderPreview: () => (
@@ -211,7 +218,7 @@ export const Example = () => (
             Aa Medium
           </ToggleGroupItem>
           <ToggleGroupItem value="bold" class="font-bold">
-            Aa Bold
+            Aa BoldIcon
           </ToggleGroupItem>
         </ToggleGroup>
       ),
@@ -221,31 +228,31 @@ export const Example = () => (
       title: "Icon Only",
       text: "**Name Every Mode Explicitly.** Use icon-only items for a compact editor-style toolbar when the symbols are recognizable. Provide an accessible name for every choice and consider a [Tooltip](/docs/tooltip/installation) when the icon's meaning benefits from a short explanation.\n\nChoose symbols that distinguish the options, preserve pressed and focus states, and avoid relying on subtle icon differences that become ambiguous at compact sizes.",
       code: `import { ToggleGroup, ToggleGroupItem } from "@/components/kamod-ui/toggle-group";
-import { Bold, Italic, Underline } from "lucide-preact";
+import { BoldIcon, ItalicIcon, UnderlineIcon } from "@kamod-ch/icons/lucide";
 
 export const Example = () => (
   <ToggleGroup type="multiple" defaultValue={["bold"]} variant="outline" size="sm">
     <ToggleGroupItem value="bold" aria-label="Toggle bold">
-      <Bold class="size-4" />
+      <BoldIcon class="size-4" />
     </ToggleGroupItem>
     <ToggleGroupItem value="italic" aria-label="Toggle italic">
-      <Italic class="size-4" />
+      <ItalicIcon class="size-4" />
     </ToggleGroupItem>
     <ToggleGroupItem value="underline" aria-label="Toggle underline">
-      <Underline class="size-4" />
+      <UnderlineIcon class="size-4" />
     </ToggleGroupItem>
   </ToggleGroup>
 );`,
       renderPreview: () => (
         <ToggleGroup type="multiple" defaultValue={["bold"]} variant="outline" size="sm">
           <ToggleGroupItem value="bold" aria-label="Toggle bold">
-            <Bold class="size-4" />
+            <BoldIcon class="size-4" />
           </ToggleGroupItem>
           <ToggleGroupItem value="italic" aria-label="Toggle italic">
-            <Italic class="size-4" />
+            <ItalicIcon class="size-4" />
           </ToggleGroupItem>
           <ToggleGroupItem value="underline" aria-label="Toggle underline">
-            <Underline class="size-4" />
+            <UnderlineIcon class="size-4" />
           </ToggleGroupItem>
         </ToggleGroup>
       ),
@@ -255,18 +262,18 @@ export const Example = () => (
       title: "Multiple Selection",
       text: "**Allow a Combination Only When It Has Meaning.** Use multiple selection when several formatting options can be active together. Treat the selected values as one collection so external controls and the content being formatted reflect the same combination of choices.\n\nKeep the selected collection synchronized with the application, handle clearing deliberately and make it clear that activating one item does not automatically replace the others.",
       code: `import { ToggleGroup, ToggleGroupItem } from "@/components/kamod-ui/toggle-group";
-import { Bold, Italic, Underline } from "lucide-preact";
+import { BoldIcon, ItalicIcon, UnderlineIcon } from "@kamod-ch/icons/lucide";
 
 export const Example = () => (
   <ToggleGroup type="multiple" defaultValue={["bold"]} variant="default">
     <ToggleGroupItem value="bold" aria-label="Toggle bold">
-      <Bold class="size-4" />
+      <BoldIcon class="size-4" />
     </ToggleGroupItem>
     <ToggleGroupItem value="italic" aria-label="Toggle italic">
-      <Italic class="size-4" />
+      <ItalicIcon class="size-4" />
     </ToggleGroupItem>
     <ToggleGroupItem value="underline" aria-label="Toggle underline">
-      <Underline class="size-4" />
+      <UnderlineIcon class="size-4" />
     </ToggleGroupItem>
   </ToggleGroup>
 );`,
@@ -274,13 +281,13 @@ export const Example = () => (
         <div class="docs-toggle-toolbar-demo">
           <ToggleGroup type="multiple" defaultValue={["bold"]}>
             <ToggleGroupItem value="bold" aria-label="Toggle bold">
-              <Bold class="size-4" />
+              <BoldIcon class="size-4" />
             </ToggleGroupItem>
             <ToggleGroupItem value="italic" aria-label="Toggle italic">
-              <Italic class="size-4" />
+              <ItalicIcon class="size-4" />
             </ToggleGroupItem>
             <ToggleGroupItem value="underline" aria-label="Toggle underline">
-              <Underline class="size-4" />
+              <UnderlineIcon class="size-4" />
             </ToggleGroupItem>
           </ToggleGroup>
         </div>

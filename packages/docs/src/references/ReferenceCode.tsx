@@ -6,21 +6,29 @@ import {
 } from "@kamod-ch/ui/code";
 import type { ComponentChildren } from "preact";
 import { useMemo } from "preact/hooks";
+import { trackGrowthEvent } from "../analytics/growth-track";
+import type { GrowthEventMeta } from "../analytics/growth-types";
 import { docsCodeHighlighter } from "../docs/components/code-highlighter";
 import { FileDownloadButton } from "../docs/components/file-download/FileDownloadButton";
 import { MarkdownDownloadButton } from "../docs/components/markdown-download/MarkdownDownloadButton";
+import { notifyCodeCopySuccess } from "../layout/star-invitation/notify";
 import { codeDownloadFile } from "./code-download-file";
 import { resolveCodeReference } from "./destinations";
 
 export type ReferenceCodeProps = CodeProps & {
   /** Download name independent of the reading format, for example a plain-text Markdown prompt. */
   downloadFileName?: string;
+  /** Optional funnel metadata for successful copy events (no code content). */
+  growthMeta?: GrowthEventMeta;
 };
 
 /** Share source links and exact-source downloads without changing the core reader's public API. */
 export function ReferenceCode({
   downloadFileName,
+  growthMeta,
   renderCopyAction,
+  onCopy,
+  onCopyError,
   ...props
 }: ReferenceCodeProps) {
   const file = useMemo(
@@ -47,6 +55,15 @@ export function ReferenceCode({
       {...props}
       highlighter={props.highlighter ?? docsCodeHighlighter}
       renderCopyAction={copyAction}
+      onCopy={(code) => {
+        onCopy?.(code);
+        notifyCodeCopySuccess();
+        trackGrowthEvent("code_copy_success", {
+          ...growthMeta,
+          exampleId: growthMeta?.exampleId ?? props.filePath,
+        });
+      }}
+      onCopyError={onCopyError}
       readingControls={props.readingControls ?? "imports"}
       resolveReference={
         props.resolveReference === undefined ? resolveCodeReference : props.resolveReference

@@ -242,10 +242,10 @@ it("distinguishes package, submodule, icon and helper cards using verified packa
         repository: "https://github.com/preactjs/preact",
         license: "MIT",
       },
-      "lucide-preact": {
-        name: "lucide-preact",
+      "@kamod-ch/icons": {
+        name: "@kamod-ch/icons",
         description: "SVG icon components.",
-        repository: "https://github.com/lucide-icons/lucide",
+        repository: "https://github.com/kamod-ch/kamod-icons",
       },
     },
   };
@@ -256,7 +256,7 @@ it("distinguishes package, submodule, icon and helper cards using verified packa
     );
   expect(help("preact").kind).toBe("package");
   expect(help("preact/hooks").kind).toBe("module");
-  expect(help("lucide-preact", "ChevronUp").kind).toBe("icon");
+  expect(help("@kamod-ch/icons/lucide", "ChevronUpIcon").kind).toBe("icon");
   expect(help("@kamod-ch/hooks", "useCounter").description).toContain(
     "increment, decrement, set and reset",
   );

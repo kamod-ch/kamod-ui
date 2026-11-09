@@ -99,12 +99,11 @@ test("desktop sidebars share the mobile directory and current destination", asyn
     if (group === "Blocks") {
       for (const directory of [desktop, mobile]) {
         const planned = directory.locator("a[data-block-placeholder]");
-        await expect(planned.locator(".site-navigation-variant-count")).toHaveCount(0);
-        await expect(planned.locator(".site-navigation-status")).toHaveText(
-          PLACEHOLDER_BLOCK_CATEGORIES.map(() => "Planned"),
-        );
-        await expect(planned.locator(".site-navigation-status > svg")).toHaveCount(
-          PLACEHOLDER_BLOCK_CATEGORIES.length,
+        await expect(planned).toHaveCount(0);
+        const roadmap = directory.getByRole("link", { name: "Roadmap", exact: true });
+        await expect(roadmap).toHaveAttribute("href", /\/blocks\/roadmap$/);
+        await expect(roadmap).toHaveAccessibleDescription(
+          `${PLACEHOLDER_BLOCK_CATEGORIES.length} planned categories · Roadmap status overview`,
         );
         for (const [name, status] of [
           ["Sidebar", "Updated"],
@@ -125,13 +124,11 @@ test("desktop sidebars share the mobile directory and current destination", asyn
           );
         }
       }
-      const planned = mobile.locator("a[data-block-placeholder]");
-      await expect(planned).toHaveCount(PLACEHOLDER_BLOCK_CATEGORIES.length);
-      const contact = mobile.getByRole("link", { name: "Contact", exact: true });
-      await contact.scrollIntoViewIfNeeded();
-      await expect(contact).toBeInViewport();
-      await expect(contact).toHaveAccessibleDescription(
-        "0 variants · Planned collection — page not available yet",
+      const roadmap = mobile.getByRole("link", { name: "Roadmap", exact: true });
+      await roadmap.scrollIntoViewIfNeeded();
+      await expect(roadmap).toBeInViewport();
+      await expect(roadmap).toHaveAccessibleDescription(
+        `${PLACEHOLDER_BLOCK_CATEGORIES.length} planned categories · Roadmap status overview`,
       );
     }
     if (group === "Components") {

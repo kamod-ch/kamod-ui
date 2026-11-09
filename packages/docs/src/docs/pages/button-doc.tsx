@@ -1,5 +1,11 @@
+import {
+  ArrowRightIcon,
+  ArrowUpIcon,
+  ArrowUpRightIcon,
+  GitBranchIcon,
+  PlusIcon,
+} from "@kamod-ch/icons/lucide";
 import { Button, ButtonGroup, DirectionProvider, Spinner } from "@kamod-ch/ui";
-import { ArrowRight, ArrowUp, ArrowUpRight, GitBranch, Plus } from "lucide-preact";
 import type { ComponentChildren } from "preact";
 import { useState } from "preact/hooks";
 import { ApiReference } from "../components/ApiReference";
@@ -71,10 +77,10 @@ function ButtonRtlDemo() {
           <Button variant="destructive">{t.delete}</Button>
           <Button variant="outline">
             {t.submit}{" "}
-            <ArrowRight class={t.dir === "rtl" ? "rotate-180" : ""} data-icon="inline-end" />
+            <ArrowRightIcon class={t.dir === "rtl" ? "rotate-180" : ""} data-icon="inline-end" />
           </Button>
           <Button variant="outline" size="icon" aria-label="Add">
-            <Plus />
+            <PlusIcon />
           </Button>
           <Button variant="secondary" disabled>
             <Spinner data-icon="inline-start" size="sm" tone="muted" />
@@ -93,14 +99,14 @@ const cursorCssSnippet = `@layer base {
   }
 }`;
 
-const heroCode = `import { ArrowUp } from "lucide-preact";
+const heroCode = `import { ArrowUpIcon } from "@kamod-ch/icons/lucide";
 import { Button } from "@/components/kamod-ui/button";
 
 export const Example = () => (
   <div class="flex flex-wrap items-center gap-2 md:flex-row">
     <Button variant="outline">Button</Button>
     <Button variant="outline" size="icon" aria-label="Submit">
-      <ArrowUp />
+      <ArrowUpIcon />
     </Button>
   </div>
 );`;
@@ -114,7 +120,7 @@ const sectionBlocks: Record<string, { preview: () => ComponentChildren; code: st
             Extra Small
           </Button>
           <Button size="icon-xs" aria-label="Submit" variant="outline">
-            <ArrowUpRight />
+            <ArrowUpRightIcon />
           </Button>
         </div>
         <div class="flex items-start gap-2">
@@ -122,13 +128,13 @@ const sectionBlocks: Record<string, { preview: () => ComponentChildren; code: st
             Small
           </Button>
           <Button size="icon-sm" aria-label="Submit" variant="outline">
-            <ArrowUpRight />
+            <ArrowUpRightIcon />
           </Button>
         </div>
         <div class="flex items-start gap-2">
           <Button variant="outline">Default</Button>
           <Button size="icon" aria-label="Submit" variant="outline">
-            <ArrowUpRight />
+            <ArrowUpRightIcon />
           </Button>
         </div>
         <div class="flex items-start gap-2">
@@ -136,31 +142,31 @@ const sectionBlocks: Record<string, { preview: () => ComponentChildren; code: st
             Large
           </Button>
           <Button size="icon-lg" aria-label="Submit" variant="outline">
-            <ArrowUpRight />
+            <ArrowUpRightIcon />
           </Button>
         </div>
       </div>
     ),
-    code: `import { ArrowUpRight } from "lucide-preact";
+    code: `import { ArrowUpRightIcon } from "@kamod-ch/icons/lucide";
 import { Button } from "@/components/kamod-ui/button";
 
 export const Example = () => (
   <div class="flex flex-col items-start gap-8 sm:flex-row">
     <div class="flex items-start gap-2">
       <Button size="xs" variant="outline">Extra Small</Button>
-      <Button size="icon-xs" aria-label="Submit" variant="outline"><ArrowUpRight /></Button>
+      <Button size="icon-xs" aria-label="Submit" variant="outline"><ArrowUpRightIcon /></Button>
     </div>
     <div class="flex items-start gap-2">
       <Button size="sm" variant="outline">Small</Button>
-      <Button size="icon-sm" aria-label="Submit" variant="outline"><ArrowUpRight /></Button>
+      <Button size="icon-sm" aria-label="Submit" variant="outline"><ArrowUpRightIcon /></Button>
     </div>
     <div class="flex items-start gap-2">
       <Button variant="outline">Default</Button>
-      <Button size="icon" aria-label="Submit" variant="outline"><ArrowUpRight /></Button>
+      <Button size="icon" aria-label="Submit" variant="outline"><ArrowUpRightIcon /></Button>
     </div>
     <div class="flex items-start gap-2">
       <Button variant="outline" size="lg">Large</Button>
-      <Button size="icon-lg" aria-label="Submit" variant="outline"><ArrowUpRight /></Button>
+      <Button size="icon-lg" aria-label="Submit" variant="outline"><ArrowUpRightIcon /></Button>
     </div>
   </div>
 );`,
@@ -210,31 +216,31 @@ export const Example = () => <Button variant="link">Link</Button>;`,
   icon: {
     preview: () => (
       <Button variant="outline" size="icon" aria-label="Submit">
-        <ArrowUp />
+        <ArrowUpIcon />
       </Button>
     ),
-    code: `import { ArrowUp } from "lucide-preact";
+    code: `import { ArrowUpIcon } from "@kamod-ch/icons/lucide";
 import { Button } from "@/components/kamod-ui/button";
 
 export const Example = () => (
   <Button variant="outline" size="icon" aria-label="Submit">
-    <ArrowUp />
+    <ArrowUpIcon />
   </Button>
 );`,
   },
   "with-icon": {
     preview: () => (
       <Button variant="outline" size="sm">
-        <GitBranch data-icon="inline-start" />
+        <GitBranchIcon data-icon="inline-start" />
         New branch
       </Button>
     ),
-    code: `import { GitBranch } from "lucide-preact";
+    code: `import { GitBranchIcon } from "@kamod-ch/icons/lucide";
 import { Button } from "@/components/kamod-ui/button";
 
 export const Example = () => (
   <Button variant="outline" size="sm">
-    <GitBranch data-icon="inline-start" />
+    <GitBranchIcon data-icon="inline-start" />
     New branch
   </Button>
 );`,
@@ -243,16 +249,16 @@ export const Example = () => (
     preview: () => (
       <div class="flex flex-col gap-8">
         <Button variant="outline" size="icon" class="rounded-full" aria-label="Submit">
-          <ArrowUp />
+          <ArrowUpIcon />
         </Button>
       </div>
     ),
-    code: `import { ArrowUp } from "lucide-preact";
+    code: `import { ArrowUpIcon } from "@kamod-ch/icons/lucide";
 import { Button } from "@/components/kamod-ui/button";
 
 export const Example = () => (
   <Button variant="outline" size="icon" class="rounded-full" aria-label="Submit">
-    <ArrowUp />
+    <ArrowUpIcon />
   </Button>
 );`,
   },
@@ -320,7 +326,7 @@ export const Example = () => (
   },
   rtl: {
     preview: () => <ButtonRtlDemo />,
-    code: `import { ArrowRight, Plus } from "lucide-preact";
+    code: `import { ArrowRightIcon, PlusIcon } from "@kamod-ch/icons/lucide";
 import { Button } from "@/components/kamod-ui/button";
 import { DirectionProvider } from "@/components/kamod-ui/direction";
 import { Spinner } from "@/components/kamod-ui/spinner";
@@ -488,7 +494,7 @@ export const buttonDocPage: DocPageModule = {
             <div class="flex flex-wrap items-center gap-2 md:flex-row">
               <Button variant="outline">Button</Button>
               <Button variant="outline" size="icon" aria-label="Submit">
-                <ArrowUp />
+                <ArrowUpIcon />
               </Button>
             </div>
           ),

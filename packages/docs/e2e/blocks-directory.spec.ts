@@ -88,7 +88,7 @@ test("the Blocks directory lists published collections and links through the sit
       .evaluateAll((links) => links.map((link) => link.getAttribute("href")).sort()),
   ).toEqual(placeholderPaths);
   await expect(planned.getByRole("link").first()).toHaveAccessibleName(
-    /0 variants; page not available yet/,
+    /0 variants; Planned status page/,
   );
   await expect(page.locator("iframe, article.blocks-card")).toHaveCount(0);
   expect(

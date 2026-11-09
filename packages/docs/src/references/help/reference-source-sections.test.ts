@@ -30,7 +30,13 @@ it("extracts exact local guide rows, defaults and installation literals without 
         description: "Use the source module.",
         code: { value: "pnpm add widget-dependency" },
       },
-      { title: "Usage", code: { value: 'import { Widget } from "@/components/kamod-ui/widget";' } },
+      {
+        title: "Usage",
+        code: {
+          value:
+            'import { Widget } from "@kamod-ch/ui/widget" // verify export in your installed version;',
+        },
+      },
     ],
   });
   expect(sections[1]).toMatchObject({
@@ -82,7 +88,7 @@ it("preserves the real Dialog composition table, source ownership and both actua
   expect(setup.excerpts![1]).toMatchObject({
     title: "Usage",
     description: expect.stringContaining("two backdrops"),
-    code: { value: 'import { Dialog } from "@/components/kamod-ui/dialog";', language: "tsx" },
+    code: { value: 'import { Dialog } from "@kamod-ch/ui/dialog";', language: "tsx" },
     source: { href: "/docs/dialog/installation#usage" },
   });
   const props = help.sections!.find((section) => section.fields)!;
@@ -159,7 +165,9 @@ it("reads explicit usage-import overrides outside a generic page configuration w
     `export const page = { ...createGenericDocPage({slug: "dialog", title: "Dialog", installationText: "Install it.", usageText: "Use it.", apiRows: []}), usageImportSnippet: 'import { Dialog } from "@kamod-ch/ui";' };`,
     "dialog",
   );
-  expect(sections[0].excerpts![1].code?.value).toBe('import { Dialog } from "@kamod-ch/ui";');
+  expect(sections[0].excerpts![1].code?.value).toBe(
+    'import { Dialog } from "@kamod-ch/ui/dialog";',
+  );
 });
 
 it("keeps the real Pagination table's rich guidance and resolves its authored section links", async () => {

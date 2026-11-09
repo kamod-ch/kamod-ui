@@ -44,8 +44,10 @@ import { flattenContents } from "./components/PageContentsList";
 import { PageEyebrow } from "./components/PageEyebrow";
 import { PageTitle } from "./components/PageTitle";
 import { PathDisplay } from "./components/PathDisplay";
+import { docSnippetForDisplay } from "./doc-consumer-snippet";
 import { getDocSections } from "./doc-sections";
-import { docImportFrom, rewriteKamodCoreImportsInDocString } from "./doc-snippet-imports";
+import { docImportFrom } from "./doc-snippet-imports";
+import { docPackageImportPath, resolveSnippetImports } from "./doc-snippet-mode";
 import { docUsageImport, docComponentName as toPascalCase } from "./doc-usage-import";
 import { docsShowMotion, isMotionDocSlug } from "./docs-feature-flags";
 import { scheduleSectionScroll } from "./scroll-to-section";
@@ -255,7 +257,7 @@ const ComponentContent = ({
         {isComponentDetail && (
           <p class="docs-copy">
             <BrandText>
-              {activeDoc.snippetImports === "package" ? (
+              {resolveSnippetImports(activeDoc) === "package" ? (
                 <>
                   These examples use the published exports from <PathDisplay path="@kamod-ch/ui" />.
                   Install the package once, then import the component directly.{" "}
@@ -362,15 +364,13 @@ const ComponentContent = ({
         );
       return null;
     }
+    const snippets = docSnippetForDisplay(codeSnippet, activeDoc);
     return isComponentDetail ? (
       <ComponentExample
         doc={activeDoc}
         index={index}
-        codeSnippet={
-          activeDoc.snippetImports === "package"
-            ? codeSnippet
-            : rewriteKamodCoreImportsInDocString(codeSnippet, activeDoc.slug)
-        }
+        codeSnippet={snippets.consumer}
+        localCodeSnippet={snippets.mode === "package" ? snippets.local : undefined}
         filePath={filePath ?? `src/components/${toPascalCase(activeDoc.slug)}Example.tsx`}
       />
     ) : (
@@ -396,13 +396,21 @@ const ComponentContent = ({
           </div>
         </TabsContent>
         <TabsContent value="code">
-          <CodeBlock code={codeSnippet} language="tsx" className="docs-tab-code" />
+          <CodeBlock
+            code={docSnippetForDisplay(codeSnippet, activeDoc).consumer}
+            language="tsx"
+            className="docs-tab-code"
+          />
         </TabsContent>
       </Tabs>
     );
   };
 
-  const componentSourcePath = activeDoc.packagePath ?? docImportFrom(activeDoc.slug);
+  const componentSourcePath =
+    activeDoc.packagePath ??
+    (resolveSnippetImports(activeDoc) === "package"
+      ? docPackageImportPath(activeDoc.slug)
+      : docImportFrom(activeDoc.slug));
 
   // Only legacy pages with an export control need this document; isolated previews do not.
   const renderMarkdownAction = () => (
@@ -425,7 +433,7 @@ const ComponentContent = ({
                 activeDoc.command,
                 docSections,
                 activeDoc.slug,
-                activeDoc.snippetImports,
+                resolveSnippetImports(activeDoc),
               )}
               language="markdown"
               className="docs-tab-code !max-h-none"

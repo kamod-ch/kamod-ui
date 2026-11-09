@@ -1,14 +1,14 @@
+import { ChevronRightIcon, FileIcon, FolderIcon } from "@kamod-ch/icons/lucide";
 import { Button } from "@kamod-ch/ui/button";
 import { Collapsible, CollapsibleTrigger } from "@kamod-ch/ui/collapsible";
 import { MotionCollapsibleContent } from "@kamod-ch/ui-motion/collapsible";
-import { ChevronRight, File, Folder } from "lucide-preact";
 import { useState } from "preact/hooks";
 import type { UiMotionDocExample } from "./types.js";
 
 export const MOTION_COLLAPSIBLE_EXAMPLE_CODE = `import { Button } from "@kamod-ch/ui/button";
 import { Collapsible, CollapsibleTrigger } from "@kamod-ch/ui/collapsible";
 import { MotionCollapsibleContent } from "@kamod-ch/ui-motion/collapsible";
-import { ChevronRight, File, Folder } from "lucide-preact";
+import { ChevronRightIcon, FileIcon, FolderIcon } from "@kamod-ch/icons/lucide";
 import { useState } from "preact/hooks";
 
 function TreeFolder({ name, files }: { name: string; files: string[] }) {
@@ -22,8 +22,8 @@ function TreeFolder({ name, files }: { name: string; files: string[] }) {
           class="group h-8 w-full justify-start gap-2 px-2 font-normal"
           aria-expanded={open}
         >
-          <ChevronRight class="size-4 shrink-0 transition-transform group-data-[state=open]:rotate-90" />
-          <Folder class="size-4 shrink-0 text-muted-foreground" />
+          <ChevronRightIcon class="size-4 shrink-0 transition-transform group-data-[state=open]:rotate-90" />
+          <FolderIcon class="size-4 shrink-0 text-muted-foreground" />
           <span>{name}</span>
           <span class="ms-auto text-xs text-muted-foreground" data-state={open ? "open" : "closed"}>
             {open ? "Expanded" : "Collapsed"}
@@ -33,7 +33,7 @@ function TreeFolder({ name, files }: { name: string; files: string[] }) {
       <MotionCollapsibleContent class="flex flex-col gap-1 border-s border-border ps-6">
         {files.map((file) => (
           <div key={file} class="flex h-8 items-center gap-2 px-2 text-sm">
-            <File class="size-4 shrink-0 text-muted-foreground" />
+            <FileIcon class="size-4 shrink-0 text-muted-foreground" />
             {file}
           </div>
         ))}
@@ -67,8 +67,8 @@ function TreeFolder({ name, files, testId }: { name: string; files: string[]; te
           class="group h-8 w-full justify-start gap-2 px-2 font-normal"
           data-testid={`ui-motion-collapsible-trigger-${testId}`}
         >
-          <ChevronRight class="size-4 shrink-0 transition-transform group-data-[state=open]:rotate-90" />
-          <Folder class="size-4 shrink-0 text-muted-foreground" />
+          <ChevronRightIcon class="size-4 shrink-0 transition-transform group-data-[state=open]:rotate-90" />
+          <FolderIcon class="size-4 shrink-0 text-muted-foreground" />
           <span>{name}</span>
           <span
             class="ms-auto text-xs text-muted-foreground"
@@ -90,7 +90,7 @@ function TreeFolder({ name, files, testId }: { name: string; files: string[]; te
             class="flex h-8 items-center gap-2 rounded-md px-2 text-start text-sm hover:bg-muted/60"
             data-testid={`ui-motion-collapsible-file-${testId}-${file}`}
           >
-            <File class="size-4 shrink-0 text-muted-foreground" />
+            <FileIcon class="size-4 shrink-0 text-muted-foreground" />
             {file}
           </button>
         ))}
@@ -114,7 +114,7 @@ export function MotionCollapsibleFileTreePreview() {
 export const collapsibleExample: UiMotionDocExample = {
   id: "collapsible",
   title: "Collapsible",
-  text: "File-tree folders with aria-expanded on the trigger, explicit Expanded/Collapsed status text, and MotionCollapsibleContent for height + opacity reveal. Closed panels are inert so nested controls are not tab-reachable; rapid toggles cancel in-flight motion without leaving stale inline heights.",
+  text: "FileIcon-tree folders with aria-expanded on the trigger, explicit Expanded/Collapsed status text, and MotionCollapsibleContent for height + opacity reveal. Closed panels are inert so nested controls are not tab-reachable; rapid toggles cancel in-flight motion without leaving stale inline heights.",
   code: MOTION_COLLAPSIBLE_EXAMPLE_CODE,
   renderPreview: () => <MotionCollapsibleFileTreePreview />,
   previewClass: "data-[chromeless=true]:overflow-visible",

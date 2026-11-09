@@ -35,7 +35,8 @@ describe("doc-snippet-rewrite", () => {
     const src = 'import { Button, Menu } from "@kamod-ch/ui"';
     const out = rewriteKamodCoreImportsInDocString(src, "button", docsPageSlugsLongestFirst);
     expect(out).toContain("@/components/kamod-ui/button");
-    expect(out).toContain("lucide-preact");
+    expect(out).toContain("@kamod-ch/icons/lucide");
+    expect(out).toContain("MenuIcon");
   });
 
   it("registry slug list matches docsPages", () => {

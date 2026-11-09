@@ -1,3 +1,4 @@
+import { SearchIcon } from "@kamod-ch/icons/lucide";
 import {
   Button,
   ButtonGroup,
@@ -10,7 +11,6 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@kamod-ch/ui";
-import { Search } from "lucide-preact";
 import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const kbdDocPage = createGenericDocPage({
@@ -185,13 +185,13 @@ export const Example = () => (
       text: "**Show How to Reach the Field Quickly.** Use a keyboard hint in an inline-end `InputGroupAddon` to advertise a shortcut that focuses or opens search. Keep it secondary to the field's label and ensure the documented shortcut is actually handled by the application.\n\nRegister the handler separately, prevent conflicts thoughtfully, and avoid activating it while users are typing in another editable field unless that is intentional.",
       code: `import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/kamod-ui/input-group"
 import { Kbd } from "@/components/kamod-ui/kbd";
-import { Search } from "lucide-preact";
+import { SearchIcon } from "@kamod-ch/icons/lucide";
 
 export const Example = () => (
   <InputGroup class="max-w-xs">
-    <InputGroupInput placeholder="Search..." />
+    <InputGroupInput placeholder="SearchIcon..." />
     <InputGroupAddon>
-      <Search />
+      <SearchIcon />
     </InputGroupAddon>
     <InputGroupAddon align="inline-end">
       <Kbd size="sm">⌘</Kbd>
@@ -202,9 +202,9 @@ export const Example = () => (
       renderPreview: () => (
         <div class="flex w-full max-w-xs flex-col gap-6">
           <InputGroup>
-            <InputGroupInput placeholder="Search..." />
+            <InputGroupInput placeholder="SearchIcon..." />
             <InputGroupAddon>
-              <Search />
+              <SearchIcon />
             </InputGroupAddon>
             <InputGroupAddon align="inline-end">
               <Kbd size="sm">⌘</Kbd>

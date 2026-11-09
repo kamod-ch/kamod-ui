@@ -108,7 +108,7 @@ it("accounts for every direct external technology dependency in the workspace ma
     "@vitest/coverage-v8": "Vitest",
     blobatar: "Blobatar",
     "embla-carousel": "Embla Carousel",
-    "lucide-preact": "Lucide",
+    "@kamod-ch/icons/lucide": "Lucide",
     motion: "Motion",
     preact: "Preact",
     prismjs: "Prism.js",

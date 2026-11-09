@@ -1,3 +1,4 @@
+import { BluetoothIcon, CircleFadingPlusIcon, Trash2Icon } from "@kamod-ch/icons/lucide";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -12,7 +13,6 @@ import {
   Button,
   DirectionProvider,
 } from "@kamod-ch/ui";
-import { Bluetooth, CircleFadingPlus, Trash2 } from "lucide-preact";
 import type { ComponentChildren } from "preact";
 import { useState } from "preact/hooks";
 import { ApiReference } from "../components/ApiReference";
@@ -126,7 +126,7 @@ export const Example = () => (
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogMedia>
-              <CircleFadingPlus />
+              <CircleFadingPlusIcon />
             </AlertDialogMedia>
             <AlertDialogTitle>Share This Project?</AlertDialogTitle>
             <AlertDialogDescription>
@@ -142,7 +142,7 @@ export const Example = () => (
     ),
     code: `import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogMedia, AlertDialogTitle, AlertDialogTrigger } from "@/components/kamod-ui/alert-dialog"
 import { Button } from "@/components/kamod-ui/button";
-import { CircleFadingPlus } from "lucide-preact";
+import { CircleFadingPlusIcon } from "@kamod-ch/icons/lucide";
 
 export const Example = () => (
   <AlertDialog>
@@ -152,7 +152,7 @@ export const Example = () => (
     <AlertDialogContent>
       <AlertDialogHeader>
         <AlertDialogMedia>
-          <CircleFadingPlus />
+          <CircleFadingPlusIcon />
         </AlertDialogMedia>
         <AlertDialogTitle>Share this project?</AlertDialogTitle>
         <AlertDialogDescription>…</AlertDialogDescription>
@@ -174,7 +174,7 @@ export const Example = () => (
         <AlertDialogContent size="sm">
           <AlertDialogHeader>
             <AlertDialogMedia>
-              <Bluetooth />
+              <BluetoothIcon />
             </AlertDialogMedia>
             <AlertDialogTitle>Allow Accessory to Connect?</AlertDialogTitle>
             <AlertDialogDescription>
@@ -189,12 +189,12 @@ export const Example = () => (
       </AlertDialog>
     ),
     code: `import { AlertDialog, …, AlertDialogMedia, … } from "@/components/kamod-ui/alert-dialog";
-import { Bluetooth } from "lucide-preact";
+import { BluetoothIcon } from "@kamod-ch/icons/lucide";
 
 <AlertDialogContent size="sm">
   <AlertDialogHeader>
     <AlertDialogMedia>
-      <Bluetooth />
+      <BluetoothIcon />
     </AlertDialogMedia>
     …
   </AlertDialogHeader>
@@ -209,7 +209,7 @@ import { Bluetooth } from "lucide-preact";
         <AlertDialogContent size="sm">
           <AlertDialogHeader>
             <AlertDialogMedia class="bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive">
-              <Trash2 />
+              <Trash2Icon />
             </AlertDialogMedia>
             <AlertDialogTitle>Delete Chat?</AlertDialogTitle>
             <AlertDialogDescription>
@@ -232,12 +232,12 @@ import { Bluetooth } from "lucide-preact";
     ),
     code: `import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogMedia, AlertDialogTitle, AlertDialogTrigger } from "@/components/kamod-ui/alert-dialog"
 import { Button } from "@/components/kamod-ui/button";
-import { Trash2 } from "lucide-preact";
+import { Trash2Icon } from "@kamod-ch/icons/lucide";
 
 <AlertDialogContent size="sm">
   <AlertDialogHeader>
     <AlertDialogMedia class="bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive">
-      <Trash2 />
+      <Trash2Icon />
     </AlertDialogMedia>
     <AlertDialogTitle>Delete chat?</AlertDialogTitle>
     <AlertDialogDescription>… <a href="#" class="text-primary underline …">Settings</a> …</AlertDialogDescription>
@@ -251,7 +251,7 @@ import { Trash2 } from "lucide-preact";
   rtl: {
     preview: () => <AlertDialogRtlDemo />,
     code: `import { AlertDialog, …, DirectionProvider, Button } from "@/components/kamod-ui/alert-dialog";
-import { Bluetooth } from "lucide-preact";
+import { BluetoothIcon } from "@kamod-ch/icons/lucide";
 
 // Toggle dir; pass dir + data-lang on AlertDialogContent for RTL overlays.`,
   },
@@ -372,7 +372,7 @@ function AlertDialogRtlDemo() {
             >
               <AlertDialogHeader>
                 <AlertDialogMedia>
-                  <Bluetooth />
+                  <BluetoothIcon />
                 </AlertDialogMedia>
                 <AlertDialogTitle>{t.smallTitle}</AlertDialogTitle>
                 <AlertDialogDescription>{t.smallDescription}</AlertDialogDescription>

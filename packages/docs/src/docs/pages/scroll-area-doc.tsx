@@ -15,8 +15,7 @@ export const scrollAreaDocPage = createGenericDocPage({
       id: "vertical-feed",
       title: "Vertical Feed",
       text: "**Bound the Feed without Losing Its Context.** Place a release feed inside a constrained `ScrollArea` so the surrounding screen can retain a compact layout. The vertical scrollbar makes the additional entries discoverable while each release remains part of one continuous list.\n\nMake the area reachable and understandable for keyboard users, preserve sensible wheel and touch behavior, and avoid placing another vertical scroller inside each feed item.",
-      code: `import { ScrollBar } from "lucide-preact"
-import { ScrollArea } from "@/components/kamod-ui/scroll-area";
+      code: `import { ScrollArea, ScrollBar } from "@/components/kamod-ui/scroll-area";
 
 export const Example = () => (
   <ScrollArea class="h-56 rounded-xl border bg-card p-4">
@@ -53,8 +52,7 @@ export const Example = () => (
       id: "horizontal-gallery",
       title: "Horizontal Gallery",
       text: "**Make Overflow Discoverable without Requiring a Drag Gesture.** Use a horizontal `ScrollArea` for a sequence of visual cards that should stay in one row. An explicit horizontal scrollbar communicates that more items extend beyond the current view without depending on a swipe gesture alone.\n\nKeep card labels readable, provide usable link targets, and test trackpad, keyboard and touch movement before relying on this pattern for important navigation.",
-      code: `import { ScrollBar } from "lucide-preact"
-import { ScrollArea } from "@/components/kamod-ui/scroll-area";
+      code: `import { ScrollArea, ScrollBar } from "@/components/kamod-ui/scroll-area";
 
 const items = [
   { title: "Aurora", accent: "from-cyan-500/25 to-sky-500/10" },
@@ -110,8 +108,7 @@ export const Example = () => (
       id: "reading-container",
       title: "Reading Container",
       text: "**Use a Scroll Region for a Deliberate Content Boundary.** Constrain a documentation excerpt inside `ScrollArea` when it must share limited space with other content. Preserve readable text and an accessible scrolling region so the compact presentation does not make the explanation unreachable.\n\nChoose a practical height, retain keyboard access and consider whether a full-height section would be simpler for the amount of content shown.",
-      code: `import { ScrollBar } from "lucide-preact"
-import { ScrollArea } from "@/components/kamod-ui/scroll-area";
+      code: `import { ScrollArea, ScrollBar } from "@/components/kamod-ui/scroll-area";
 
 export const Example = () => (
   <ScrollArea class="h-44 rounded-xl border bg-muted/30 p-4">
@@ -143,8 +140,7 @@ export const Example = () => (
       id: "compact-chips",
       title: "Compact Chips",
       text: "**Keep a Long Tag Collection in One Compact Strip.** Place a chip collection in a horizontal scroll region when keeping one row is useful. The bottom scrollbar indicates additional values, while the individual chips should remain readable and reachable through the intended input methods.\n\nKeep chip targets usable and make selected or focused items visible; do not hide essential filtering options beyond an undiscoverable edge.",
-      code: `import { ScrollBar } from "lucide-preact"
-import { ScrollArea } from "@/components/kamod-ui/scroll-area";
+      code: `import { ScrollArea, ScrollBar } from "@/components/kamod-ui/scroll-area";
 
 const tags = [
   "Design System",

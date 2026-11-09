@@ -132,7 +132,7 @@ describe("site navigation", () => {
     }
   });
 
-  it("includes every available and planned collection exactly once", () => {
+  it("lists only published collections in the sidebar and links planned work to the roadmap", () => {
     const links = navigationGroups
       .filter((group) => group.kind === "blocks")
       .flatMap((group) => group.links);
@@ -140,14 +140,15 @@ describe("site navigation", () => {
       (key) => !HIDDEN_BLOCK_NAV_KEYS.has(key),
     );
     const expected = [
-      ...publishedCategories,
-      ...PLACEHOLDER_BLOCK_CATEGORIES.map(({ key }) => key),
-    ].map((category) => `/blocks/${category}`);
-    expect(
-      links.filter((link) => link.planned).map(({ label, href }) => ({ label, href })),
-    ).toEqual(
-      PLACEHOLDER_BLOCK_CATEGORIES.map(({ key, label }) => ({ label, href: `/blocks/${key}` })),
-    );
+      ...publishedCategories.map((category) => `/blocks/${category}`),
+      "/blocks/roadmap",
+    ];
+    expect(links.filter((link) => link.planned)).toEqual([]);
+    expect(links.find((link) => link.roadmap)).toMatchObject({
+      label: "Roadmap",
+      href: "/blocks/roadmap",
+      variantCount: PLACEHOLDER_BLOCK_CATEGORIES.length,
+    });
     expect(links.map((link) => link.href).sort()).toEqual(expected.sort());
     expect(new Set(links.map((link) => link.href)).size).toBe(links.length);
     for (const [category, { blocks }] of Object.entries(blockCategories)) {
@@ -156,18 +157,13 @@ describe("site navigation", () => {
         blocks.length,
       );
     }
-    expect(links.filter((link) => link.planned).every((link) => link.variantCount === 0)).toBe(
-      true,
-    );
   });
 
-  it("distinguishes available routes from explicitly planned destinations", () => {
+  it("keeps every sidebar blocks link backed by a route module", () => {
     for (const group of navigationGroups) {
       for (const link of [group.overview, ...(group.guides ?? []), ...group.links]) {
         const route = resolve(import.meta.dirname, "../../..", link.href.slice(1));
-        expect(existsSync(`${route}.md`) || existsSync(`${route}/index.md`), link.href).toBe(
-          !link.planned,
-        );
+        expect(existsSync(`${route}.md`) || existsSync(`${route}/index.md`), link.href).toBe(true);
       }
     }
   });
@@ -182,17 +178,22 @@ describe("site navigation", () => {
     const blocks = navigationGroups.find((group) => group.id === "blocks")!;
     expect(blocks.overview.href).toBe("/blocks");
     expect(blocks.links).toHaveLength(
-      visibleBlockNavItems.length + PLACEHOLDER_BLOCK_CATEGORIES.length,
+      visibleBlockNavItems.filter((item) => item.key in blockCategories).length + 1,
     );
     expect(
-      blocks.links.filter((link) => !link.planned).every((link) => link.matchDescendants),
+      blocks.links
+        .filter((link) => !link.planned && !link.roadmap)
+        .every((link) => link.matchDescendants),
     ).toBe(true);
   });
 
   it("keeps the three introductory guides separate from collection counts", () => {
     for (const group of navigationGroups) {
       for (const link of [group.overview, ...(group.guides ?? [])]) {
-        expect([link.added, link.updated, link.planned].some(Boolean), link.href).toBe(false);
+        expect(
+          [link.added, link.updated, link.planned, link.roadmap].some(Boolean),
+          link.href,
+        ).toBe(false);
         expect(link.variantCount, link.href).toBeUndefined();
       }
     }

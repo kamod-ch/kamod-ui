@@ -58,7 +58,7 @@ const groups = {
     explore: "Compare layouts and inspect the source file by file.",
     next: "Follow the setup guide, then connect your own data and routes.",
     href: "/blocks",
-    unit: "collections · includes planned",
+    unit: "published collections",
     links: [
       ["Application Shell", "/blocks/application-shell"],
       ["Sidebar", "/blocks/sidebar"],

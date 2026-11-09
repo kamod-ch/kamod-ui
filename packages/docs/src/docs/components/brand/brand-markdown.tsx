@@ -1,5 +1,5 @@
 import { Renderer, type RendererObject } from "marked";
-import render from "preact-render-to-string";
+import { renderStaticMarkup } from "../../../lib/render-static-markup";
 import { InlineCodeReference } from "../../../references/InlineCodeReference";
 import { inlineSourceReference, referenceAttributes } from "../../../references/inline-references";
 import { InlineCodeLink, InlineReferenceCode } from "../InlineCodeLink";
@@ -19,13 +19,13 @@ export function brandMarkdownRenderer(renderer: RendererObject): RendererObject 
       return linkDepth || ("tokens" in token && token.tokens)
         ? html
         : html.replace(brandPattern, (label: string) =>
-            render(<ReferenceLink>{label}</ReferenceLink>),
+            renderStaticMarkup(<ReferenceLink>{label}</ReferenceLink>),
           );
     },
     codespan(token) {
       const source = inlineSourceReference(token.text);
       if (source)
-        return render(
+        return renderStaticMarkup(
           linkDepth ? (
             <code>{token.text}</code>
           ) : (
@@ -34,7 +34,7 @@ export function brandMarkdownRenderer(renderer: RendererObject): RendererObject 
         );
       const reference = inlineReference(token.text);
       if (reference)
-        return render(
+        return renderStaticMarkup(
           linkDepth ? (
             <InlineReferenceCode>{token.text}</InlineReferenceCode>
           ) : (
@@ -42,9 +42,9 @@ export function brandMarkdownRenderer(renderer: RendererObject): RendererObject 
           ),
         );
       if (kamodReferenceHref(token.text))
-        return render(<PathDisplay path={token.text} link={!linkDepth} />);
+        return renderStaticMarkup(<PathDisplay path={token.text} link={!linkDepth} />);
       if (isBrandLabel(token.text))
-        return `<code>${render(<BrandLink link={!linkDepth}>{token.text}</BrandLink>)}</code>`;
+        return `<code>${renderStaticMarkup(<BrandLink link={!linkDepth}>{token.text}</BrandLink>)}</code>`;
       return (renderer.codespan ?? Renderer.prototype.codespan).call(this, token);
     },
     link(token) {
@@ -66,7 +66,7 @@ export function brandMarkdownRenderer(renderer: RendererObject): RendererObject 
         const html = (renderer.link ?? Renderer.prototype.link).call(this, token);
         if (source) {
           // Serialize attributes with Preact so authored paths and labels stay escaped.
-          const opening = render(
+          const opening = renderStaticMarkup(
             <a
               class="kamod-code-reference docs-inline-source-reference"
               {...referenceAttributes(source)}

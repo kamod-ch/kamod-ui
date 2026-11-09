@@ -422,7 +422,7 @@ import { Calendar } from "@/components/kamod-ui/calendar"
 import { Card, CardContent, CardFooter } from "@/components/kamod-ui/card"
 import { Field, FieldGroup, FieldLabel } from "@/components/kamod-ui/field"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/kamod-ui/input-group"
-import { Clock } from "lucide-preact"
+import { ClockIcon } from "@kamod-ch/icons/lucide";
 import { useState } from "preact/hooks"
 
 export function CalendarWithTime() {
@@ -442,7 +442,7 @@ export function CalendarWithTime() {
             <InputGroup>
               <InputGroupInput id="time-from" type="time" step="1" defaultValue="10:30:00" />
               <InputGroupAddon>
-                <Clock class="text-muted-foreground size-4" />
+                <ClockIcon class="text-muted-foreground size-4" />
               </InputGroupAddon>
             </InputGroup>
           </Field>
@@ -451,7 +451,7 @@ export function CalendarWithTime() {
             <InputGroup>
               <InputGroupInput id="time-to" type="time" step="1" defaultValue="12:30:00" />
               <InputGroupAddon>
-                <Clock class="text-muted-foreground size-4" />
+                <ClockIcon class="text-muted-foreground size-4" />
               </InputGroupAddon>
             </InputGroup>
           </Field>

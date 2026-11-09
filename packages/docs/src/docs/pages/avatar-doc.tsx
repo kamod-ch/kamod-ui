@@ -1,3 +1,4 @@
+import { PlusIcon } from "@kamod-ch/icons/lucide";
 import {
   Avatar,
   AvatarBadge,
@@ -14,7 +15,6 @@ import {
   DropdownSeparator,
   DropdownTrigger,
 } from "@kamod-ch/ui";
-import { Plus } from "lucide-preact";
 import type { ComponentChildren } from "preact";
 import { useState } from "preact/hooks";
 import { ApiReference } from "../components/ApiReference";
@@ -177,19 +177,19 @@ export const Example = () => (
         <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
         <AvatarFallback>CN</AvatarFallback>
         <AvatarBadge>
-          <Plus />
+          <PlusIcon />
         </AvatarBadge>
       </Avatar>
     ),
     code: `import { Avatar, AvatarBadge, AvatarFallback, AvatarImage } from "@/components/kamod-ui/avatar";
-import { Plus } from "lucide-preact";
+import { PlusIcon } from "@kamod-ch/icons/lucide";
 
 export const Example = () => (
   <Avatar class="grayscale">
     <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
     <AvatarFallback>CN</AvatarFallback>
     <AvatarBadge>
-      <Plus />
+      <PlusIcon />
     </AvatarBadge>
   </Avatar>
 );`,
@@ -264,18 +264,18 @@ export const Example = () => (
           <AvatarFallback>ER</AvatarFallback>
         </Avatar>
         <AvatarGroupCount>
-          <Plus />
+          <PlusIcon />
         </AvatarGroupCount>
       </AvatarGroup>
     ),
     code: `import { Avatar, AvatarFallback, AvatarGroup, AvatarGroupCount, AvatarImage } from "@/components/kamod-ui/avatar";
-import { Plus } from "lucide-preact";
+import { PlusIcon } from "@kamod-ch/icons/lucide";
 
 export const Example = () => (
   <AvatarGroup class="grayscale">
     …
     <AvatarGroupCount>
-      <Plus />
+      <PlusIcon />
     </AvatarGroupCount>
   </AvatarGroup>
 );`,

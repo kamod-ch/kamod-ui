@@ -1,3 +1,5 @@
+import { lucideImportNames } from "./doc-lucide-icon-map";
+
 /**
  * Pure rewrite of `from "@kamod-ch/ui"` into shadcn-style `@/components/kamod-ui/<slug>` paths.
  * Package install commands (`pnpm add @kamod-ch/ui`) stay unchanged.
@@ -121,7 +123,9 @@ function rewriteImportStatements(
 
     const lines: string[] = [];
     if (lucideParts.length) {
-      lines.push(`import { ${lucideParts.join(", ")} } from "lucide-preact"`);
+      lines.push(
+        `import { ${lucideImportNames(lucideParts).join(", ")} } from "@kamod-ch/icons/lucide"`,
+      );
     }
     lines.push(...emitKamodImports(bySlug));
     replacements.push({ start, end, text: lines.join("\n") });

@@ -16,7 +16,7 @@ export const iconsDocPage = createPackageTeaserDoc({
   command: "pnpm add @kamod-ch/icons preact",
   eyebrow: "kamod-icons · Typed SVG · Multiple icon sets",
   headline: "Find, copy, and ship production-ready icons faster",
-  lead: "Lightweight, tree-shakeable Preact icon components across shadcn, Lucide, Heroicons, Tabler, Iconoir, and Reicon — preferred by Kamod UI blocks over lucide-preact.",
+  lead: "Lightweight, tree-shakeable Preact icon components across shadcn, Lucide, Heroicons, Tabler, Iconoir, and Reicon — used by Kamod UI blocks and documentation examples.",
   stats: [
     { value: "16k+", label: "typed icons" },
     { value: "6", label: "icon families" },

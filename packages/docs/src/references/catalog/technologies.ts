@@ -100,7 +100,7 @@ export const technologies: Technology[] = [
   },
   {
     name: "Lucide",
-    aliases: ["lucide-preact"],
+    aliases: ["@kamod-ch/icons/lucide"],
     href: "https://lucide.dev/",
     category: "Icon collection",
     description: "An open SVG icon collection with consistent stroke-based shapes.",

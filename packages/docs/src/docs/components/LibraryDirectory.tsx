@@ -187,7 +187,7 @@ export function LibraryGrid({
             class={`docs-component-item library-directory-item${item.planned ? " is-planned" : ""}`}
             aria-label={
               count
-                ? `${item.label} ${count}${item.planned ? "; page not available yet" : ""}`
+                ? `${item.label} ${count}${item.planned ? "; Planned status page" : ""}`
                 : undefined
             }
           >

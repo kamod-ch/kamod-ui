@@ -7,7 +7,7 @@ import {
   findCodeReferences,
   linkCodeMarkup,
 } from "@kamod-ch/ui/code";
-import render from "preact-render-to-string";
+import { renderStaticMarkup } from "../../lib/render-static-markup";
 import { resolveCodeReference } from "../../references/destinations";
 import { CodeLanguageLink } from "./CodeLanguageLink";
 import { PathDisplay } from "./PathDisplay";
@@ -24,7 +24,7 @@ export function codeFenceMarkup(
     highlightedHtml ?? escapeCodeHtml(source),
     findCodeReferences(source, language, resolveCodeReference, filePath),
   );
-  return render(
+  return renderStaticMarkup(
     <div class="kamod-code docs-code-wrap docs-code-file" data-syntax-theme="default">
       <div class="docs-code-toolbar">
         {filePath ? (
