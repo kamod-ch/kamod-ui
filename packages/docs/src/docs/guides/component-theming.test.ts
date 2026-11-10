@@ -16,7 +16,7 @@ describe("component theming guide", () => {
     );
     expect(installation?.parts).toContainEqual({
       kind: "dependencies",
-      dependencies: ["@kamod-ch/ui", "@kamod-ch/themes", "@preact/signals"],
+      dependencies: ["@kamod-ch/ui", "preact", "@preact/signals", "@kamod-ch/themes"],
     });
   });
 
