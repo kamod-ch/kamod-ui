@@ -55,10 +55,13 @@ describe("block guide documents", () => {
 
   it("opts explicit install fences into package-manager tabs while preserving ordinary shell code", () => {
     const [{ parts }] = parseGuide(
-      "## Install\n\n```bash package-manager\npnpm add @kamod-ch/ui @preact/signals\n```\n\n```bash\npnpm add preact\n```",
+      "## Install\n\n```bash package-manager\npnpm add @kamod-ch/ui preact@^11.1.1 @preact/signals@^2.11.4\n```\n\n```bash\npnpm add preact\n```",
     );
     expect(parts.filter((part) => part.kind !== "html")).toEqual([
-      { kind: "dependencies", dependencies: ["@kamod-ch/ui", "@preact/signals"] },
+      {
+        kind: "dependencies",
+        dependencies: ["@kamod-ch/ui", "preact@^11.1.1", "@preact/signals@^2.11.4"],
+      },
       { kind: "code", code: "pnpm add preact", language: "bash", filePath: undefined },
     ]);
     expect(() =>
