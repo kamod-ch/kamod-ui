@@ -80,7 +80,9 @@ export const RadioGroupItem = ({
           name={group.name}
           value={value}
           checked={checked}
+          defaultChecked={group.resetValue === value}
           disabled={disabled}
+          required={group.required || undefined}
           onChange={(event) => {
             group.setValue(value);
             onChange?.(event);

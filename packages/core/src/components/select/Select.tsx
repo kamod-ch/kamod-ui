@@ -2,6 +2,7 @@ import { effect, signal, useComputed } from "@preact/signals";
 import type { ComponentChildren, HTMLAttributes } from "preact";
 import { createContext } from "preact";
 import { useContext, useEffect, useId, useMemo, useRef } from "preact/hooks";
+import { FormMirrorInput } from "../../lib/form-control";
 import { createDismissableLayer } from "../../lib/interactive";
 import { cn } from "../../lib/utils";
 
@@ -44,6 +45,9 @@ export const useSelect = () => {
 export type SelectProps = HTMLAttributes<HTMLDivElement> & {
   defaultValue?: string;
   value?: string;
+  name?: string;
+  required?: boolean;
+  disabled?: boolean;
   onValueChange?: (value: string) => void;
   children?: ComponentChildren;
 };
@@ -51,6 +55,9 @@ export type SelectProps = HTMLAttributes<HTMLDivElement> & {
 export const Select = ({
   defaultValue,
   value,
+  name,
+  required,
+  disabled,
   onValueChange,
   children,
   class: className,
@@ -70,7 +77,11 @@ export const Select = ({
 
   const open = useMemo(() => signal(false), []);
   const isControlled = typeof value === "string";
-  const selectedValue = useMemo(() => signal<string | null>(value ?? defaultValue ?? null), []);
+  const resetValueRef = useRef(value ?? defaultValue ?? "");
+  const selectedValue = useMemo(
+    () => signal<string | null>(resetValueRef.current === "" ? null : resetValueRef.current),
+    [],
+  );
   const activeItemId = useMemo(() => signal<string | null>(null), []);
   const dataState = useComputed(() => (open.value ? "open" : "closed"));
 
@@ -305,6 +316,23 @@ export const Select = ({
         data-state={dataState}
         {...rest}
       >
+        <FormMirrorInput
+          slot="select-input"
+          name={name}
+          value={selectedValue.value ?? ""}
+          defaultValue={resetValueRef.current}
+          disabled={disabled}
+          required={required}
+          onReset={() => {
+            const next = resetValueRef.current;
+            const normalized = next === "" ? null : next;
+            if (!isControlled) {
+              if (selectedValue.value !== normalized) selectedValue.value = normalized;
+              return;
+            }
+            if (value !== next) onValueChange?.(next);
+          }}
+        />
         {children}
       </div>
     </SelectContext.Provider>

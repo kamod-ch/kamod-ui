@@ -1,6 +1,7 @@
 import { signal } from "@preact/signals";
 import type { InputHTMLAttributes, TargetedEvent, TargetedInputEvent } from "preact";
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "preact/hooks";
+import { useFormReset } from "../../lib/form-control";
 import { cn } from "../../lib/utils";
 
 export type SliderPrimitiveValue = number | number[];
@@ -186,6 +187,7 @@ export const Slider = ({
       ),
     [],
   );
+  const initialValuesRef = useRef(localValues.value);
 
   const isControlled = controlledValue !== undefined;
   const values = isControlled
@@ -252,6 +254,22 @@ export const Slider = ({
   const [topIndex, setTopIndex] = useState(0);
   /** Multi-thumb: stacked full-width inputs would always hit the same layer; route pointer to the thumb nearest the cursor. */
   const sliderRootRef = useRef<HTMLSpanElement>(null);
+  useFormReset(sliderRootRef, () => {
+    const next = initialValuesRef.current;
+    if (isControlledRef.current) {
+      onValueChangeRef.current?.(next);
+      return;
+    }
+    localValuesRef.current.value = [...next];
+  });
+  useFormReset(singleThumbInputRef, () => {
+    const next = initialValuesRef.current;
+    if (isControlledRef.current) {
+      onValueChangeRef.current?.(next);
+      return;
+    }
+    localValuesRef.current.value = [...next];
+  });
 
   const updateClosestThumbFromPointer = useCallback(
     (clientX: number, clientY: number) => {
@@ -335,6 +353,7 @@ export const Slider = ({
             max={maxValue}
             step={stepValue}
             disabled={disabled}
+            defaultValue={initialValuesRef.current[0]}
             {...(!isControlled ? { value: displayValue } : {})}
             class={overlayInputVertical}
             style={inputStyleProp}
@@ -407,6 +426,7 @@ export const Slider = ({
           max={maxValue}
           step={stepValue}
           disabled={disabled}
+          defaultValue={initialValuesRef.current[0]}
           {...(!isControlled ? { value: displayValue } : {})}
           class={overlayInputHorizontal}
           style={inputStyleProp}
@@ -564,6 +584,7 @@ export const Slider = ({
             max={maxValue}
             step={stepValue}
             disabled={disabled}
+            defaultValue={initialValuesRef.current[i]}
             value={v}
             style={{
               ...(typeof inputStyleProp === "object" &&

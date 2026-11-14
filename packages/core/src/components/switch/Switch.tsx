@@ -1,6 +1,7 @@
 import type { ButtonHTMLAttributes, ComponentChildren } from "preact";
-import { useId, useState } from "preact/hooks";
+import { useId, useRef, useState } from "preact/hooks";
 import { tv, type VariantProps } from "tailwind-variants";
+import { FormMirrorInput } from "../../lib/form-control";
 import { cn } from "../../lib/utils";
 
 const switchRoot = tv({
@@ -47,6 +48,7 @@ export type SwitchProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "class">
     class?: string;
     defaultChecked?: boolean;
     checked?: boolean;
+    required?: boolean;
     onCheckedChange?: (next: boolean) => void;
     children?: ComponentChildren;
   };
@@ -60,13 +62,25 @@ export const Switch = ({
   children,
   onClick,
   id,
+  name,
+  value,
+  required,
   "aria-labelledby": ariaLabelledBy,
   disabled,
   ...rest
 }: SwitchProps) => {
+  const defaultCheckedRef = useRef(defaultChecked);
   const [localChecked, setLocalChecked] = useState(defaultChecked);
   const isControlled = typeof checked === "boolean";
   const nextChecked = isControlled ? checked : localChecked;
+  const restoreChecked = () => {
+    const next = defaultCheckedRef.current;
+    if (!isControlled) {
+      setLocalChecked(next);
+      return;
+    }
+    if (checked !== next) onCheckedChange?.(next);
+  };
   const generatedId = useId();
   const labelId = useId();
   const switchId = id ?? generatedId;
@@ -103,6 +117,17 @@ export const Switch = ({
           class={cn(switchThumb({ size }))}
         />
       </button>
+      <FormMirrorInput
+        type="checkbox"
+        slot="switch-input"
+        name={name}
+        value={value == null ? "on" : String(value)}
+        checked={nextChecked}
+        defaultChecked={defaultCheckedRef.current}
+        disabled={disabled}
+        required={required}
+        onReset={restoreChecked}
+      />
       {hasLabel ? (
         <label
           id={labelId}

@@ -1,6 +1,7 @@
 import type { ButtonHTMLAttributes, ComponentChildren } from "preact";
-import { useState } from "preact/hooks";
+import { useRef, useState } from "preact/hooks";
 import { tv, type VariantProps } from "tailwind-variants";
+import { FormMirrorInput } from "../../lib/form-control";
 import { cn } from "../../lib/utils";
 
 const toggle = tv({
@@ -40,6 +41,7 @@ export type ToggleProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "class">
     class?: string;
     defaultPressed?: boolean;
     pressed?: boolean;
+    required?: boolean;
     onPressedChange?: (next: boolean) => void;
     children?: ComponentChildren;
   };
@@ -54,34 +56,59 @@ export const Toggle = ({
   children,
   onClick,
   disabled,
+  name,
+  value,
+  required,
   ...rest
 }: ToggleProps) => {
+  const defaultPressedRef = useRef(defaultPressed);
   const [localPressed, setLocalPressed] = useState(defaultPressed);
   const isControlled = typeof pressed === "boolean";
   const nextPressed = isControlled ? pressed : localPressed;
+  const restorePressed = () => {
+    const next = defaultPressedRef.current;
+    if (!isControlled) {
+      setLocalPressed(next);
+      return;
+    }
+    if (pressed !== next) onPressedChange?.(next);
+  };
 
   return (
-    <button
-      type="button"
-      aria-pressed={nextPressed}
-      data-slot="toggle"
-      data-variant={variant ?? "default"}
-      data-size={size ?? "default"}
-      data-state={nextPressed ? "on" : "off"}
-      data-disabled={disabled ? "true" : undefined}
-      disabled={disabled}
-      class={cn(toggle({ variant, size }), className)}
-      onClick={(event) => {
-        const updated = !nextPressed;
-        if (!isControlled) {
-          setLocalPressed(updated);
-        }
-        onPressedChange?.(updated);
-        onClick?.(event);
-      }}
-      {...rest}
-    >
-      {children}
-    </button>
+    <>
+      <button
+        type="button"
+        aria-pressed={nextPressed}
+        data-slot="toggle"
+        data-variant={variant ?? "default"}
+        data-size={size ?? "default"}
+        data-state={nextPressed ? "on" : "off"}
+        data-disabled={disabled ? "true" : undefined}
+        disabled={disabled}
+        class={cn(toggle({ variant, size }), className)}
+        onClick={(event) => {
+          const updated = !nextPressed;
+          if (!isControlled) {
+            setLocalPressed(updated);
+          }
+          onPressedChange?.(updated);
+          onClick?.(event);
+        }}
+        {...rest}
+      >
+        {children}
+      </button>
+      <FormMirrorInput
+        type="checkbox"
+        slot="toggle-input"
+        name={name}
+        value={value == null ? "on" : String(value)}
+        checked={nextPressed}
+        defaultChecked={defaultPressedRef.current}
+        disabled={disabled}
+        required={required}
+        onReset={restorePressed}
+      />
+    </>
   );
 };

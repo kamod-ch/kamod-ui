@@ -1,7 +1,8 @@
 import type { ComponentChildren, HTMLAttributes } from "preact";
 import { createContext } from "preact";
-import { useContext, useMemo, useState } from "preact/hooks";
+import { useContext, useMemo, useRef, useState } from "preact/hooks";
 import { tv, type VariantProps } from "tailwind-variants";
+import { useFormReset } from "../../lib/form-control";
 import { cn } from "../../lib/utils";
 
 type ToggleGroupType = "single" | "multiple";
@@ -9,8 +10,11 @@ type ToggleGroupType = "single" | "multiple";
 type ToggleGroupContextValue = {
   type: ToggleGroupType;
   values: string[];
+  resetValues: string[];
   toggle: (value: string) => void;
   disabled: boolean;
+  name?: string;
+  required: boolean;
   itemVariant?: ToggleGroupItemVariants["variant"];
   itemSize?: ToggleGroupItemVariants["size"];
 };
@@ -75,6 +79,8 @@ type ToggleGroupBaseProps = Omit<HTMLAttributes<HTMLDivElement>, "class"> &
     value?: string | string[];
     onValueChange?: (value: string | string[]) => void;
     disabled?: boolean;
+    name?: string;
+    required?: boolean;
     children?: ComponentChildren;
   };
 
@@ -103,6 +109,8 @@ export const ToggleGroup = ({
   value,
   onValueChange,
   disabled = false,
+  name,
+  required = false,
   orientation,
   spacing,
   variant,
@@ -116,8 +124,27 @@ export const ToggleGroup = ({
     return [];
   }, [defaultValue]);
   const [internalValues, setInternalValues] = useState<string[]>(initial);
+  const resetValuesRef = useRef(initial);
+  const rootRef = useRef<HTMLDivElement>(null);
   const isControlled = value !== undefined;
   const values = isControlled ? toValueArray(value) : internalValues;
+
+  useFormReset(rootRef, () => {
+    const next = resetValuesRef.current;
+    if (!isControlled) {
+      setInternalValues(next);
+      return;
+    }
+    const current = toValueArray(value);
+    const same =
+      current.length === next.length && current.every((entry, index) => entry === next[index]);
+    if (same || !onValueChange) return;
+    if (type === "multiple") {
+      (onValueChange as (value: string[]) => void)(next);
+    } else {
+      (onValueChange as (value: string) => void)(next[0] ?? "");
+    }
+  });
 
   const toggle = (value: string) => {
     const exists = values.includes(value);
@@ -151,13 +178,17 @@ export const ToggleGroup = ({
       value={{
         type,
         values,
+        resetValues: resetValuesRef.current,
         toggle,
         disabled,
+        name,
+        required,
         itemVariant: resolvedVariant,
         itemSize: resolvedSize,
       }}
     >
       <div
+        ref={rootRef}
         data-slot="toggle-group"
         data-orientation={orientation ?? "horizontal"}
         data-variant={resolvedVariant}

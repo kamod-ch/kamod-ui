@@ -1,5 +1,6 @@
 import type { ButtonHTMLAttributes, ComponentChildren } from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
+import { FormMirrorInput } from "../../lib/form-control";
 import { cn } from "../../lib/utils";
 import { useToggleGroup } from "./ToggleGroup";
 
@@ -52,31 +53,53 @@ export const ToggleGroupItem = ({
   onClick,
   ...rest
 }: ToggleGroupItemProps) => {
-  const { values, toggle, disabled: groupDisabled, itemVariant, itemSize } = useToggleGroup();
+  const {
+    type,
+    values,
+    resetValues,
+    toggle,
+    disabled: groupDisabled,
+    name,
+    required,
+    itemVariant,
+    itemSize,
+  } = useToggleGroup();
   const pressed = values.includes(value);
   const isDisabled = groupDisabled || disabled;
   const resolvedVariant = variant ?? itemVariant ?? "default";
   const resolvedSize = size ?? itemSize ?? "default";
 
   return (
-    <button
-      type="button"
-      data-slot="toggle-group-item"
-      data-state={pressed ? "on" : "off"}
-      data-variant={resolvedVariant}
-      data-size={resolvedSize}
-      aria-pressed={pressed}
-      data-disabled={isDisabled ? "true" : undefined}
-      disabled={isDisabled}
-      class={cn(toggleGroupItem({ variant: resolvedVariant, size: resolvedSize }), className)}
-      onClick={(event) => {
-        if (isDisabled) return;
-        toggle(value);
-        onClick?.(event);
-      }}
-      {...rest}
-    >
-      {children}
-    </button>
+    <>
+      <button
+        type="button"
+        data-slot="toggle-group-item"
+        data-state={pressed ? "on" : "off"}
+        data-variant={resolvedVariant}
+        data-size={resolvedSize}
+        aria-pressed={pressed}
+        data-disabled={isDisabled ? "true" : undefined}
+        disabled={isDisabled}
+        class={cn(toggleGroupItem({ variant: resolvedVariant, size: resolvedSize }), className)}
+        onClick={(event) => {
+          if (isDisabled) return;
+          toggle(value);
+          onClick?.(event);
+        }}
+        {...rest}
+      >
+        {children}
+      </button>
+      <FormMirrorInput
+        type={type === "multiple" ? "checkbox" : "radio"}
+        slot="toggle-group-input"
+        name={name}
+        value={value}
+        checked={pressed}
+        defaultChecked={resetValues.includes(value)}
+        disabled={isDisabled}
+        required={type === "single" ? required : undefined}
+      />
+    </>
   );
 };

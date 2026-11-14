@@ -1,5 +1,6 @@
 import type { InputHTMLAttributes, TargetedEvent } from "preact";
 import { useLayoutEffect, useRef, useState } from "preact/hooks";
+import { useFormReset } from "../../lib/form-control";
 import { cn } from "../../lib/utils";
 
 export type CheckboxCheckedState = boolean | "indeterminate";
@@ -54,9 +55,19 @@ export const Checkbox = ({
   ...rest
 }: CheckboxProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
+  const defaultCheckedRef = useRef(defaultChecked);
   const isControlled = checkedProp !== undefined;
   const [inner, setInner] = useState<CheckboxCheckedState>(() => defaultChecked);
   const state: CheckboxCheckedState = isControlled ? checkedProp! : inner;
+
+  useFormReset(inputRef, () => {
+    const next = defaultCheckedRef.current;
+    if (!isControlled) {
+      setInner(next);
+      return;
+    }
+    if (checkedProp !== next) onCheckedChange?.(next);
+  });
 
   useLayoutEffect(() => {
     const el = inputRef.current;
@@ -91,6 +102,7 @@ export const Checkbox = ({
         type="checkbox"
         disabled={disabled}
         checked={state === true}
+        defaultChecked={defaultCheckedRef.current === true}
         aria-checked={state === "indeterminate" ? "mixed" : state}
         class={peerInputClass}
         onChange={(event) => {

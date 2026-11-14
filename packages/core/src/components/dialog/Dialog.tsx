@@ -1,4 +1,4 @@
-import { effect, signal, untracked, useComputed } from "@preact/signals";
+import { effect, signal, useComputed } from "@preact/signals";
 import type { ComponentChildren, HTMLAttributes } from "preact";
 import { createContext } from "preact";
 import { useContext, useEffect, useId, useMemo, useRef } from "preact/hooks";
@@ -140,9 +140,9 @@ export const Dialog = ({
   // Controlled mode: keep the internal signal in sync before paint. If we only
   // sync in useEffect, the first commit can render DialogContent with open=false
   // while openProp is already true (portal stays unmounted / dismiss layer races).
-  // untracked avoids subscribing this root to `open`, so the subtree does not re-render.
-  if (openProp !== undefined && untracked(() => open.value) !== openProp) {
-    open.value = openProp;
+  // sync() reads the signal without subscribing this root to `open`.
+  if (openProp !== undefined) {
+    controllable.sync(openProp);
   }
 
   const setOpen = (next: boolean) => {
