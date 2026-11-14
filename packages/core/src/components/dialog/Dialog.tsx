@@ -1,4 +1,4 @@
-import { signal } from "@preact/signals";
+import { effect, signal, untracked, useComputed } from "@preact/signals";
 import type { ComponentChildren, HTMLAttributes } from "preact";
 import { createContext } from "preact";
 import { useContext, useEffect, useId, useMemo, useRef } from "preact/hooks";
@@ -132,11 +132,13 @@ export const Dialog = ({
     [],
   );
   const open = controllable.state;
+  const dataState = useComputed(() => (open.value ? "open" : "closed"));
 
   // Controlled mode: keep the internal signal in sync before paint. If we only
   // sync in useEffect, the first commit can render DialogContent with open=false
   // while openProp is already true (portal stays unmounted / dismiss layer races).
-  if (openProp !== undefined && open.value !== openProp) {
+  // untracked avoids subscribing this root to `open`, so the subtree does not re-render.
+  if (openProp !== undefined && untracked(() => open.value) !== openProp) {
     open.value = openProp;
   }
 
@@ -166,15 +168,17 @@ export const Dialog = ({
 
   useEffect(() => {
     if (!lockBodyScroll || typeof document === "undefined") return;
-    if (!open.value) return;
-    return lockDocumentScroll();
-  }, [lockBodyScroll, open.value]);
+    return effect(() => {
+      if (!open.value) return;
+      return lockDocumentScroll();
+    });
+  }, [lockBodyScroll, open]);
 
   return (
     <DialogContext.Provider
       value={{ open, setOpen, triggerRef, defaultTitleId, defaultDescriptionId }}
     >
-      <div ref={rootRef} data-slot="dialog" data-state={open.value ? "open" : "closed"} {...rest}>
+      <div ref={rootRef} data-slot="dialog" data-state={dataState} {...rest}>
         {children}
       </div>
     </DialogContext.Provider>

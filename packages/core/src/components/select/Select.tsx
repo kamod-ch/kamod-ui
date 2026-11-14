@@ -1,4 +1,4 @@
-import { signal } from "@preact/signals";
+import { effect, signal, useComputed } from "@preact/signals";
 import type { ComponentChildren, HTMLAttributes } from "preact";
 import { createContext } from "preact";
 import { useContext, useEffect, useId, useMemo, useRef } from "preact/hooks";
@@ -72,6 +72,7 @@ export const Select = ({
   const isControlled = typeof value === "string";
   const selectedValue = useMemo(() => signal<string | null>(value ?? defaultValue ?? null), []);
   const activeItemId = useMemo(() => signal<string | null>(null), []);
+  const dataState = useComputed(() => (open.value ? "open" : "closed"));
 
   useEffect(() => {
     if (isControlled) {
@@ -212,10 +213,16 @@ export const Select = ({
     activeItemId.value = null;
   };
 
+  const setActiveFromTargetRef = useRef(setActiveFromTarget);
+  setActiveFromTargetRef.current = setActiveFromTarget;
+
   useEffect(() => {
-    if (!open.value) return;
-    setActiveFromTarget("selected");
-  }, [open.value, selectedValue.value]);
+    return effect(() => {
+      if (!open.value) return;
+      void selectedValue.value;
+      setActiveFromTargetRef.current("selected");
+    });
+  }, [open, selectedValue]);
 
   const openAndFocus = (target: "selected" | "first" | "last") => {
     open.value = true;
@@ -295,7 +302,7 @@ export const Select = ({
         ref={rootRef}
         class={cn("relative", className)}
         data-slot="select"
-        data-state={open.value ? "open" : "closed"}
+        data-state={dataState}
         {...rest}
       >
         {children}

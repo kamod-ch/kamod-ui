@@ -1,3 +1,4 @@
+import { useComputed } from "@preact/signals";
 import type { ComponentChildren, HTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 import { useTabs } from "./Tabs";
@@ -17,7 +18,7 @@ export const TabsContent = ({
   ...rest
 }: TabsContentProps) => {
   const tabs = useTabs();
-  const active = tabs.value === value;
+  const active = useComputed(() => tabs.value.value === value).value;
   const id = idProp ?? tabs.contentId(value);
   const labelledBy = tabs.triggerId(value);
 

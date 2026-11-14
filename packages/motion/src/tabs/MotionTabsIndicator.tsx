@@ -39,7 +39,7 @@ export function MotionTabsIndicator({ class: className }: MotionTabsIndicatorPro
       width: tabRect.width,
       height: tabRect.height,
     });
-  }, [tabs.value, tabs.orientation]);
+  }, [tabs.value.value, tabs.orientation]);
 
   if (!box) {
     return null;

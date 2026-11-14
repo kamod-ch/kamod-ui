@@ -47,6 +47,19 @@ function listComponentNames(dir) {
     .sort();
 }
 
+/** @param {string} name */
+function componentImportsSignals(name) {
+  const dir = join(srcComponents, name);
+  if (!existsSync(dir)) return false;
+  const files = readdirSync(dir, { recursive: true }).filter(
+    (file) => String(file).endsWith(".ts") || String(file).endsWith(".tsx"),
+  );
+  return files.some((file) => {
+    const content = readFileSync(join(dir, file), "utf8");
+    return SIGNAL_MARKERS.some((marker) => content.includes(marker));
+  });
+}
+
 /** @param {string} componentDir */
 function detectSignals(name) {
   const dir = join(srcComponents, name);
@@ -78,12 +91,9 @@ function detectSignals(name) {
   }
 
   for (const imp of wrapperImports) {
-    if (INDIRECT_VIA[imp] || listComponentNames(srcComponents).includes(imp)) {
-      const via = INDIRECT_VIA[imp] ?? imp;
-      if (["dialog", "popover", "sheet", "dropdown", "select", "command"].includes(via)) {
-        return `Indirect (${via})`;
-      }
-    }
+    if (imp === "." || imp === "..") continue;
+    if (!componentImportsSignals(imp)) continue;
+    return `Indirect (${INDIRECT_VIA[imp] ?? imp})`;
   }
 
   return "No";
@@ -168,7 +178,7 @@ function generateMarkdown(rows) {
     "",
     `- **Exports:** ${rows.length} component subpaths`,
     `- **Gzip range:** ${formatKb(minGzip)}–${formatKb(maxGzip)} KB (median ${formatKb(median)} KB)`,
-    `- **Signals:** ${directCount} direct · ${indirectCount} indirect · ${noCount} none (peer dep still required for all)`,
+    `- **Signals:** ${directCount} direct · ${indirectCount} indirect · ${noCount} none (\`@preact/signals\` is an optional peer)`,
     "",
     "## Signals legend",
     "",
@@ -178,7 +188,7 @@ function generateMarkdown(rows) {
     "| **Indirect (…)** | Wraps another component that uses signals (e.g. Sheet → Dialog) |",
     "| **No** | Presentational only — no internal signal usage |",
     "",
-    "Install `@preact/signals` in every app regardless of the **Signals** column; it is a required peer dependency of `@kamod-ch/ui`.",
+    "Install `@preact/signals` for entries marked **Direct** or **Indirect**. Entries marked **No** do not load the signals runtime.",
     "",
     "## Per-component table",
     "",

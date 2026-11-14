@@ -18,7 +18,7 @@ export function PackageReferenceDocument({
   filePath: string;
 }) {
   const { value } = useTabs();
-  const display = value as DocumentDisplay;
+  const display = value.value as DocumentDisplay;
   // Initial plain text stays complete during SSR; retain only the latest prepared view.
   const [prepared, setPrepared] = useState({ document, display });
   const pending = prepared.document !== document || prepared.display !== display;

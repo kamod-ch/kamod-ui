@@ -384,7 +384,7 @@
       "optional": true
     },
     "@preact/signals": {
-      "optional": false
+      "optional": true
     }
   },
   "engines": {

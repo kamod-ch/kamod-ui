@@ -1,3 +1,4 @@
+import { useComputed } from "@preact/signals";
 import {
   type ButtonHTMLAttributes,
   type ComponentChildren,
@@ -33,6 +34,7 @@ export const DialogTrigger = ({
   ...rest
 }: DialogTriggerProps) => {
   const dialog = useDialog();
+  const expanded = useComputed(() => dialog.open.value);
 
   const openDialog = () => {
     dialog.setOpen(true);
@@ -66,7 +68,7 @@ export const DialogTrigger = ({
     return cloneElement(children, {
       ...(childProps as Record<string, unknown>),
       ...(rest as Record<string, unknown>),
-      "aria-expanded": dialog.open.value,
+      "aria-expanded": expanded,
       "data-slot": dataSlot,
       onPointerDown: (event: TargetedPointerEvent<HTMLElement>) => {
         childProps.onPointerDown?.(event);
@@ -93,7 +95,7 @@ export const DialogTrigger = ({
       {...rest}
       type="button"
       data-slot={dataSlot}
-      aria-expanded={dialog.open.value}
+      aria-expanded={expanded}
       onPointerDown={(event) => {
         if (event.button === 0) {
           openDialog();

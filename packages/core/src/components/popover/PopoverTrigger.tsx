@@ -1,3 +1,4 @@
+import { useComputed } from "@preact/signals";
 import {
   type ButtonHTMLAttributes,
   type ComponentChildren,
@@ -40,6 +41,8 @@ export const PopoverTrigger = ({
   ...rest
 }: PopoverTriggerProps) => {
   const popover = usePopover();
+  const expanded = useComputed(() => popover.open.value);
+  const dataState = useComputed(() => (popover.open.value ? "open" : "closed"));
 
   const handleClick = (event: TargetedMouseEvent<HTMLElement>) => {
     onClick?.(event as TargetedMouseEvent<HTMLButtonElement>);
@@ -63,9 +66,9 @@ export const PopoverTrigger = ({
       id: popover.triggerId,
       "aria-controls": popover.contentId,
       "aria-haspopup": "dialog",
-      "aria-expanded": popover.open.value,
+      "aria-expanded": expanded,
       "data-slot": "popover-trigger",
-      "data-state": popover.open.value ? "open" : "closed",
+      "data-state": dataState,
       onClick: (event: TargetedMouseEvent<HTMLElement>) => {
         childProps.onClick?.(event);
         handleClick(event);
@@ -88,10 +91,10 @@ export const PopoverTrigger = ({
       type="button"
       class={cn(popoverTrigger(), className)}
       data-slot="popover-trigger"
-      data-state={popover.open.value ? "open" : "closed"}
+      data-state={dataState}
       aria-controls={popover.contentId}
       aria-haspopup="dialog"
-      aria-expanded={popover.open.value}
+      aria-expanded={expanded}
       onClick={(event) => handleClick(event as unknown as TargetedMouseEvent<HTMLElement>)}
       {...rest}
     >
