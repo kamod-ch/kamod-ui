@@ -38,10 +38,19 @@ type CreateDismissableLayerOptions = {
 };
 
 type DismissableLayerEntry = {
+  root: () => HTMLElement | null;
   onDismiss: () => void;
+  onEscapeDismiss?: () => void;
 };
 
-const escapeDismissStack: DismissableLayerEntry[] = [];
+const dismissableLayerStack: DismissableLayerEntry[] = [];
+
+/** True when `root` is the most recently opened dismissable layer. */
+export const isTopDismissableLayer = (root: HTMLElement | null): boolean => {
+  if (!root) return false;
+  const top = dismissableLayerStack[dismissableLayerStack.length - 1];
+  return top?.root() === root;
+};
 
 export const createDismissableLayer = ({
   root,
@@ -61,10 +70,11 @@ export const createDismissableLayer = ({
   const stop = effect(() => {
     if (!enabled.value || !open()) return;
 
-    const entry: DismissableLayerEntry = { onDismiss };
-    escapeDismissStack.push(entry);
+    const entry: DismissableLayerEntry = { root, onDismiss, onEscapeDismiss };
+    dismissableLayerStack.push(entry);
 
     const onPointerDown = (event: PointerEvent) => {
+      if (dismissableLayerStack[dismissableLayerStack.length - 1] !== entry) return;
       const node = root();
       if (!node) return;
       const target = event.target as Node | null;
@@ -105,7 +115,7 @@ export const createDismissableLayer = ({
 
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key !== "Escape") return;
-      const top = escapeDismissStack[escapeDismissStack.length - 1];
+      const top = dismissableLayerStack[dismissableLayerStack.length - 1];
       if (top !== entry) return;
       event.preventDefault();
       event.stopPropagation();
@@ -116,8 +126,8 @@ export const createDismissableLayer = ({
     document.addEventListener("keydown", onKeyDown, true);
 
     return () => {
-      const index = escapeDismissStack.indexOf(entry);
-      if (index >= 0) escapeDismissStack.splice(index, 1);
+      const index = dismissableLayerStack.indexOf(entry);
+      if (index >= 0) dismissableLayerStack.splice(index, 1);
       document.removeEventListener("pointerdown", onPointerDown);
       document.removeEventListener("keydown", onKeyDown, true);
     };

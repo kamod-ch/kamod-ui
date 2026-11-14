@@ -120,14 +120,17 @@ export const TooltipContent = ({
       // Compute the intended position before clamping, not the previous rendered
       // position. Offsets are relative to the trigger; viewport edges are not.
       const horizontal = nextSide === "top" || nextSide === "bottom";
+      const rtl = getComputedStyle(contentEl).direction === "rtl";
+      const logicalAlign =
+        rtl && horizontal ? (align === "start" ? "end" : align === "end" ? "start" : align) : align;
       const triggerStart = horizontal ? triggerRect.left : triggerRect.top;
       const triggerSize = horizontal ? triggerRect.width : triggerRect.height;
       const contentSize = horizontal ? contentRect.width : contentRect.height;
       const viewportSize = horizontal ? viewportWidth : viewportHeight;
       const offset =
-        align === "start"
+        logicalAlign === "start"
           ? alignOffset
-          : align === "end"
+          : logicalAlign === "end"
             ? triggerSize - contentSize - alignOffset
             : (triggerSize - contentSize) / 2 + alignOffset;
       const position = Math.max(
@@ -138,6 +141,8 @@ export const TooltipContent = ({
         [horizontal ? "left" : "top"]: `${position - triggerStart}px`,
         [horizontal ? "right" : "bottom"]: "auto",
         transform: "none",
+        maxWidth: `min(22rem, ${Math.max(0, viewportWidth - collisionPadding * 2)}px)`,
+        maxHeight: `${Math.max(0, viewportHeight - collisionPadding * 2)}px`,
       };
       setDynamicClamp((previous) => stableStyle(previous, nextClamp));
 

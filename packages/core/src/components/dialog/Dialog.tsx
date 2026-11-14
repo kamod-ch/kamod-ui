@@ -38,7 +38,9 @@ const lockDocumentScroll = () => {
       html.style.setProperty("--kamod-scroll-lock-gutter", `${scrollbarWidth}px`);
 
       if (scrollbarWidth > 0) {
-        body.style.paddingRight = `${scrollbarWidth}px`;
+        const existingPadding = Number.parseFloat(getComputedStyle(body).paddingRight);
+        const basePadding = Number.isFinite(existingPadding) ? existingPadding : 0;
+        body.style.paddingRight = `${basePadding + scrollbarWidth}px`;
       }
     }
 
@@ -86,6 +88,7 @@ export type DialogContextValue = {
   open: ReturnType<typeof signal<boolean>>;
   setOpen: (next: boolean) => void;
   triggerRef: { current: HTMLElement | null };
+  layerRootRef: { current: HTMLElement | null };
   defaultTitleId: string;
   defaultDescriptionId: string;
 };
@@ -176,7 +179,14 @@ export const Dialog = ({
 
   return (
     <DialogContext.Provider
-      value={{ open, setOpen, triggerRef, defaultTitleId, defaultDescriptionId }}
+      value={{
+        open,
+        setOpen,
+        triggerRef,
+        layerRootRef: rootRef,
+        defaultTitleId,
+        defaultDescriptionId,
+      }}
     >
       <div ref={rootRef} data-slot="dialog" data-state={dataState} {...rest}>
         {children}

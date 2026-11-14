@@ -460,6 +460,7 @@ export {
   createRovingFocus,
   getFocusableElements,
   isPointerWithinModalDialogPanelSlop,
+  isTopDismissableLayer,
   MODAL_DIALOG_PANEL_OUTSIDE_SLOP_PX,
   trapFocus,
 } from "./lib/interactive";

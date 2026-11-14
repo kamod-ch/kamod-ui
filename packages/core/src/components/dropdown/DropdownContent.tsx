@@ -138,8 +138,11 @@ export const DropdownContent = ({
               margin: 0,
               // Reposition instantly; state duration utilities must not animate left/top.
               transitionProperty: "none",
-              maxWidth: "calc(100vw - 16px)",
-              maxHeight: "min(24rem, calc(100dvh - 16px))",
+              maxWidth: placement.maxWidth > 0 ? `${placement.maxWidth}px` : "calc(100vw - 16px)",
+              maxHeight:
+                placement.maxHeight > 0
+                  ? `min(24rem, ${placement.maxHeight}px)`
+                  : "min(24rem, calc(100dvh - 16px))",
             }
           : inlineStyle
             ? { ...offsetStyle, ...inlineStyle }

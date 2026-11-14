@@ -60,9 +60,13 @@ export const Popover = ({
   }, [openProp, isControlled, open]);
 
   const setOpen = (next: boolean) => {
+    const wasOpen = open.value;
     onOpenChange?.(next);
     if (!isControlled) {
       open.value = next;
+    }
+    if (wasOpen && !next) {
+      triggerRef.current?.focus();
     }
   };
 
