@@ -214,7 +214,7 @@ export const SidebarMenuBadge = ({
   </div>
 );
 
-export type SidebarMenuSkeletonProps = HTMLAttributes<HTMLDivElement> & {
+export type SidebarMenuSkeletonProps = HTMLAttributes<HTMLLIElement> & {
   showIcon?: boolean;
 };
 
@@ -234,7 +234,7 @@ export const SidebarMenuSkeleton = ({
 }: SidebarMenuSkeletonProps) => {
   const width = skeletonTextWidthFromId(useId());
   return (
-    <div
+    <li
       data-slot="sidebar-menu-skeleton"
       data-sidebar="menu-skeleton"
       class={cn("flex h-8 items-center gap-2 rounded-md px-2", className)}
@@ -246,7 +246,7 @@ export const SidebarMenuSkeleton = ({
         data-sidebar="menu-skeleton-text"
         style={{ ["--skeleton-width" as string]: width }}
       />
-    </div>
+    </li>
   );
 };
 

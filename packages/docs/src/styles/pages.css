@@ -816,14 +816,14 @@
   border-bottom: 0;
 }
 
-/* Keep the documentation's familiar default palette; opt-in syntax themes supply their own. */
+/* Match the core Code default token colors. Opt-in syntax themes supply their own. */
 .kamod-code:where([data-syntax-theme="default"]) {
-  --kamod-code-keyword: color-mix(in srgb, #3b82f6, #93c5fd var(--kamod-code-dark-weight, 0%));
-  --kamod-code-property: color-mix(in srgb, #ef4444, #fda4af var(--kamod-code-dark-weight, 0%));
-  --kamod-code-number: color-mix(in srgb, #f59e0b, #fcd34d var(--kamod-code-dark-weight, 0%));
-  --kamod-code-string: color-mix(in srgb, #22c55e, #86efac var(--kamod-code-dark-weight, 0%));
-  --kamod-code-function: color-mix(in srgb, #a78bfa, #c4b5fd var(--kamod-code-dark-weight, 0%));
-  --kamod-code-variable: color-mix(in srgb, #f97316, #fdba74 var(--kamod-code-dark-weight, 0%));
+  --kamod-code-keyword: color-mix(in srgb, #1d4ed8, #93c5fd var(--kamod-code-dark-weight, 0%));
+  --kamod-code-property: color-mix(in srgb, #b91c1c, #fda4af var(--kamod-code-dark-weight, 0%));
+  --kamod-code-number: color-mix(in srgb, #92400e, #fcd34d var(--kamod-code-dark-weight, 0%));
+  --kamod-code-string: color-mix(in srgb, #15803d, #86efac var(--kamod-code-dark-weight, 0%));
+  --kamod-code-function: color-mix(in srgb, #6d28d9, #c4b5fd var(--kamod-code-dark-weight, 0%));
+  --kamod-code-variable: color-mix(in srgb, #9a3412, #fdba74 var(--kamod-code-dark-weight, 0%));
 }
 
 .docs-code {

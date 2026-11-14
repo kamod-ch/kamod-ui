@@ -27,7 +27,7 @@ describe("Menubar keyboard", () => {
         </MenubarMenu>
       </Menubar>,
     );
-    const trigger = screen.getByRole("button", { name: "File" });
+    const trigger = screen.getByRole("menuitem", { name: "File" });
     trigger.focus();
     fireEvent.keyDown(trigger, { key: "ArrowDown" });
     const menu = screen.getByRole("menu");
@@ -48,7 +48,7 @@ describe("Menubar keyboard", () => {
         </MenubarMenu>
       </Menubar>,
     );
-    const trigger = screen.getByRole("button", { name: "File" });
+    const trigger = screen.getByRole("menuitem", { name: "File" });
     fireEvent.click(trigger);
     fireEvent.keyDown(document, { key: "Escape" });
     expect(screen.queryByRole("menu")).toBeNull();
@@ -67,7 +67,7 @@ describe("Menubar keyboard", () => {
         </MenubarMenu>
       </Menubar>,
     );
-    fireEvent.click(screen.getByRole("button", { name: "File" }));
+    fireEvent.click(screen.getByRole("menuitem", { name: "File" }));
     fireEvent.keyDown(screen.getByRole("menu"), { key: " " });
     expect(onSelect).toHaveBeenCalledOnce();
     expect(screen.queryByRole("menu")).toBeNull();
@@ -90,7 +90,7 @@ describe("Menubar keyboard", () => {
         </MenubarMenu>
       </Menubar>,
     );
-    fireEvent.click(screen.getByRole("button", { name: "File" }));
+    fireEvent.click(screen.getByRole("menuitem", { name: "File" }));
     const subTrigger = screen.getByRole("menuitem", { name: "Share" });
     subTrigger.focus();
     fireEvent.keyDown(subTrigger, { key: "ArrowRight" });

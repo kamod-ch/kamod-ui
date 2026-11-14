@@ -30,6 +30,7 @@ export const MenubarTrigger = ({
         }
       }}
       type="button"
+      role="menuitem"
       data-slot="menubar-trigger"
       data-state={open ? "open" : "closed"}
       aria-expanded={open}

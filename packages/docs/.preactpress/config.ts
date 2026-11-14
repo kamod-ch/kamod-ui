@@ -20,6 +20,7 @@ const configDir = import.meta.dirname;
 const docsRoot = resolve(configDir, "..");
 const repoRoot = resolve(configDir, "../../../");
 const preactRoot = resolve(docsRoot, "node_modules/preact");
+const signalsRoot = resolve(docsRoot, "node_modules/@preact/signals");
 const openuiSrc = resolve(configDir, "../../openui/src");
 const motionSrc = resolve(configDir, "../../motion/src");
 const blocksSrc = resolve(configDir, "../../blocks/src");
@@ -311,12 +312,24 @@ export default defineConfig({
           find: /^preact$/,
           replacement: resolve(preactRoot, "dist/preact.mjs"),
         },
+        // Workspace sources resolve this peer from their own node_modules. A second
+        // copy patches Preact again and SSR then throws "Cycle detected".
+        {
+          find: /^@preact\/signals\/utils$/,
+          replacement: resolve(signalsRoot, "utils/dist/utils.mjs"),
+        },
+        {
+          find: /^@preact\/signals$/,
+          replacement: resolve(signalsRoot, "dist/signals.mjs"),
+        },
       ],
       dedupe: [
         "preact",
         "preact/hooks",
         "preact/compat",
         "preact/devtools",
+        "@preact/signals",
+        "@preact/signals-core",
         "react",
         "react-dom",
         "motion",

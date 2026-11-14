@@ -59,6 +59,7 @@ export const Dropzone = ({
         type="file"
         accept={accept}
         multiple={multiple}
+        aria-label="Choose files"
         class="absolute inset-0 cursor-pointer opacity-0"
         onChange={(event) => readFiles((event.currentTarget as HTMLInputElement).files)}
       />

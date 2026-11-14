@@ -1,5 +1,5 @@
 import AxeBuilder from "@axe-core/playwright";
-import { expect, type Frame, type Page } from "@playwright/test";
+import { expect, type Frame, type Locator, type Page } from "@playwright/test";
 import type { AxeResults, Result } from "axe-core";
 
 export const BLOCKING_A11Y_IMPACTS = ["critical", "serious"] as const;
@@ -57,6 +57,39 @@ export async function assertNoBlockingA11yViolations(
   expect(blocking, formatBlockingViolations(context, blocking)).toEqual([]);
   return results;
 }
+
+/**
+ * Audit one component preview iframe.
+ * `@axe-core/playwright` only accepts a Page (`page.mainFrame()`), so the iframe
+ * is marked and included from the parent page. Axe then analyzes that frame document.
+ */
+export async function assertNoBlockingA11yViolationsInFrame(
+  page: Page,
+  iframe: Locator,
+  context: string,
+): Promise<AxeResults> {
+  await iframe.evaluate((element) => {
+    element.setAttribute("data-a11y-audit", "true");
+  });
+  return assertNoBlockingA11yViolations(page, context, {
+    include: "iframe[data-a11y-audit='true']",
+  });
+}
+
+/**
+ * Shared docs chrome that failed every route on 2026-11-05 (import-keyword contrast,
+ * label-in-name on type disclosures and reference buttons, scrollable API tables).
+ * Package teasers have no component preview, so the page scan skips that chrome.
+ */
+export const DOCS_CHROME_SELECTORS = [
+  ".docs-code-wrap",
+  ".kamod-code",
+  ".docs-api-table-wrap",
+  ".component-api-default",
+  ".component-references",
+  "[data-slot='type-definition']",
+  ".docs-inline-source-reference",
+];
 
 /** Docs app shell is interactive once `pp-ready` is on `<html>`. */
 export async function waitForDocsAppReady(page: Page) {

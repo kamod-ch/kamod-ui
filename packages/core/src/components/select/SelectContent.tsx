@@ -134,6 +134,7 @@ export const SelectContent = ({
       {...rest}
     >
       <div
+        role="none"
         data-slot="select-viewport"
         class={cn(
           "flex min-h-0 min-w-0 flex-1 flex-col items-stretch overflow-x-hidden overflow-y-auto",

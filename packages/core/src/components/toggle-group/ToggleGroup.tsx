@@ -157,14 +157,12 @@ export const ToggleGroup = ({
         itemSize: resolvedSize,
       }}
     >
-      {/* oxlint-disable-next-line jsx-a11y/role-supports-aria-props */}
       <div
         data-slot="toggle-group"
         data-orientation={orientation ?? "horizontal"}
         data-variant={resolvedVariant}
         data-size={resolvedSize}
         role="group"
-        aria-orientation={orientation ?? "horizontal"}
         class={cn(toggleGroup({ orientation, spacing }), className)}
         {...rest}
       >

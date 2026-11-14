@@ -7,6 +7,7 @@ export type SelectLabelProps = HTMLAttributes<HTMLDivElement> & {
 
 export const SelectLabel = ({ children, class: className, ...rest }: SelectLabelProps) => (
   <div
+    role="presentation"
     data-slot="select-label"
     class={cn("text-muted-foreground px-2 py-1.5 text-xs font-semibold", className)}
     {...rest}

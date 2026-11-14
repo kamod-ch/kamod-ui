@@ -68,6 +68,17 @@ const enforceOrder = (vals: number[], min: number, max: number, step: number): n
 const SLIDER_THUMB_HALF = "0.375rem";
 const SLIDER_THUMB_FULL = "0.75rem";
 
+/** Range inputs have no visible text, so an unnamed slider fails the label rule. */
+function sliderName(rest: object, index?: number): { "aria-label"?: string } {
+  const named = rest as { "aria-label"?: unknown; "aria-labelledby"?: unknown };
+  if (index === undefined && (named["aria-label"] != null || named["aria-labelledby"] != null)) {
+    return {};
+  }
+  if (index !== undefined && index > 0) return { "aria-label": `Value ${index + 1}` };
+  if (named["aria-label"] != null || named["aria-labelledby"] != null) return {};
+  return { "aria-label": index === undefined ? "Value" : "Value 1" };
+}
+
 /**
  * Radix/shadcn-style thumb: border-ring, ring-3, no shadow. `group-data-[dragging]` avoids transition lag while dragging.
  */
@@ -313,6 +324,7 @@ export const Slider = ({
           />
           <input
             {...(rest as Record<string, unknown>)}
+            {...sliderName(rest)}
             ref={singleThumbInputRef}
             type="range"
             data-slot="slider-thumb"
@@ -386,6 +398,7 @@ export const Slider = ({
         />
         <input
           {...(rest as Record<string, unknown>)}
+          {...sliderName(rest)}
           ref={singleThumbInputRef}
           type="range"
           data-slot="slider-thumb"
@@ -542,6 +555,7 @@ export const Slider = ({
           <input
             key={i}
             {...(i === 0 ? rest : {})}
+            {...sliderName(i === 0 ? rest : {}, i)}
             type="range"
             data-slot="slider-thumb"
             // @ts-expect-error Firefox-only; improves vertical range behavior
