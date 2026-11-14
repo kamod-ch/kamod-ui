@@ -2,7 +2,7 @@
 @import "./components/code/code.css";
 @import "./components/tabs/tabs.css";
 
-@source "./**/*.{js,mjs}";
+@source "../dist/**/*.js";
 
 @custom-variant dark (&:where(.dark, .dark *));
 

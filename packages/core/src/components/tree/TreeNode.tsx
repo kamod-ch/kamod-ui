@@ -185,7 +185,7 @@ export const TreeNodeTrigger = ({
       data-slot="tree-node-trigger"
       data-state={node.hasChildren ? (isExpanded ? "open" : "closed") : "leaf"}
       data-selected={isSelected ? "true" : undefined}
-      data-disabled={node.disabled ? "" : undefined}
+      data-disabled={node.disabled ? "true" : undefined}
       data-level={node.level}
       aria-level={node.level}
       aria-expanded={node.hasChildren ? isExpanded : undefined}
@@ -243,7 +243,7 @@ export const TreeExpander = ({ class: className, ...rest }: TreeExpanderProps) =
     <span
       data-slot="tree-expander"
       data-expanded={isExpanded ? "true" : "false"}
-      data-disabled={node.disabled ? "" : undefined}
+      data-disabled={node.disabled ? "true" : undefined}
       class={cn(
         "relative z-[1] inline-flex size-4 shrink-0 cursor-pointer items-center justify-center",
         className,
@@ -326,7 +326,7 @@ export const TreeIcon = ({
       data-slot="tree-icon"
       data-expanded={isExpanded ? "true" : "false"}
       data-selected={isSelected ? "true" : undefined}
-      data-disabled={node.disabled ? "" : undefined}
+      data-disabled={node.disabled ? "true" : undefined}
       class={cn(
         "relative z-[1] inline-flex size-4 shrink-0 items-center justify-center [&_svg]:size-4",
         className,

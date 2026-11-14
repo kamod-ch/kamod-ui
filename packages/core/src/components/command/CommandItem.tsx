@@ -27,6 +27,7 @@ export const CommandItem = ({
       type="button"
       data-slot="command-item"
       data-match={textMatch ? "true" : "false"}
+      data-disabled={disabled ? "true" : undefined}
       disabled={disabled}
       class={cn(
         "flex w-full cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-start text-sm outline-none",

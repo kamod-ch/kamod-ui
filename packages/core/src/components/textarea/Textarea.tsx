@@ -26,6 +26,12 @@ export const textarea = tv({
 export type TextareaProps = Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "size"> &
   VariantProps<typeof textarea>;
 
-export const Textarea = ({ size, class: className, ...rest }: TextareaProps) => (
-  <textarea class={cn(textarea({ size }), className)} data-slot="textarea" {...rest} />
+export const Textarea = ({ size, class: className, disabled, ...rest }: TextareaProps) => (
+  <textarea
+    class={cn(textarea({ size }), className)}
+    data-slot="textarea"
+    data-disabled={disabled ? "true" : undefined}
+    disabled={disabled}
+    {...rest}
+  />
 );

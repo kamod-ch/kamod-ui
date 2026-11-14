@@ -57,7 +57,7 @@ export function CodeFileHeader({
   const extension = filename.match(/\.([^.]*)$/)?.[1];
   const type = `${fileTypes[codeLanguageForFile(path)]}${extension ? ` (.${extension})` : " file"}`;
   return (
-    <span class={`docs-code-file-meta ${className ?? ""}`}>
+    <span data-slot="code-file-header" class={`docs-code-file-meta ${className ?? ""}`}>
       {children === undefined ? (
         <code class="path-display docs-code-file-path" dir="ltr" data-path-icon="true" title={path}>
           <span class="kamod-code-file-icon" tabIndex={0} role="img" aria-label={type} title={type}>

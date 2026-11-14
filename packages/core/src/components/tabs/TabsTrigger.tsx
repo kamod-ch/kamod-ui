@@ -15,6 +15,7 @@ export const TabsTrigger = ({
   onClick,
   onKeyDown,
   id: idProp,
+  disabled,
   ...rest
 }: TabsTriggerProps) => {
   const tabs = useTabs();
@@ -56,6 +57,8 @@ export const TabsTrigger = ({
       data-active={active ? "true" : undefined}
       data-value={value}
       data-orientation={tabs.orientation}
+      data-disabled={disabled ? "true" : undefined}
+      disabled={disabled}
       aria-selected={active}
       tabIndex={active ? 0 : -1}
       onClick={(event) => {

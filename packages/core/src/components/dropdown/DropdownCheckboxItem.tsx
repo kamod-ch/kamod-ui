@@ -20,6 +20,7 @@ export const DropdownCheckboxItem = ({
   class: className,
   children,
   onClick,
+  disabled,
   ...rest
 }: DropdownCheckboxItemProps) => {
   const internal = useMemo(() => signal(defaultChecked), []);
@@ -38,6 +39,8 @@ export const DropdownCheckboxItem = ({
       type="button"
       role="menuitemcheckbox"
       data-slot="dropdown-checkbox-item"
+      data-disabled={disabled ? "true" : undefined}
+      disabled={disabled}
       aria-checked={checked}
       class={cn(
         "relative flex w-full cursor-default select-none items-center gap-1 rounded-sm py-0.5 ps-7 pe-1.5 text-sm outline-none transition-colors duration-100",

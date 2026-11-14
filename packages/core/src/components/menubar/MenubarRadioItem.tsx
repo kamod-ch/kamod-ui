@@ -43,6 +43,7 @@ export const MenubarRadioItem = ({
       role="menuitemradio"
       data-slot="menubar-radio-item"
       aria-checked={checked}
+      data-disabled={disabled ? "true" : undefined}
       disabled={disabled}
       class={cn(
         "relative flex w-full cursor-default select-none items-center gap-2 rounded-sm py-1.5 ps-8 pe-2 text-start text-sm outline-none",

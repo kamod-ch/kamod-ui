@@ -75,6 +75,7 @@ export const Button = ({
   const resolvedSize = size ?? "default";
   const variantClasses = button({ variant: resolvedVariant, size: resolvedSize });
   const resolvedClassName = cn(variantClasses, className);
+  const disabledState = (rest as { disabled?: boolean }).disabled ? "true" : undefined;
 
   if (asChild) {
     return (
@@ -84,6 +85,7 @@ export const Button = ({
         data-slot="button"
         data-variant={resolvedVariant}
         data-size={resolvedSize}
+        data-disabled={disabledState}
       >
         {children}
       </Slot>
@@ -98,6 +100,7 @@ export const Button = ({
         data-variant={resolvedVariant}
         data-size={resolvedSize}
         {...(rest as Record<string, unknown>)}
+        data-disabled={disabledState}
       >
         {children}
       </a>
@@ -112,6 +115,7 @@ export const Button = ({
       data-slot="button"
       data-variant={resolvedVariant}
       data-size={resolvedSize}
+      data-disabled={disabledState}
       {...(buttonRest as Record<string, unknown>)}
       type={buttonRest.type ?? "button"}
     >

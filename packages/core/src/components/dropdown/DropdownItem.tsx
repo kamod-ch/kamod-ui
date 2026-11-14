@@ -54,6 +54,7 @@ export const DropdownItem = ({
 }: DropdownItemProps) => {
   const dropdown = useDropdown();
   const resolvedClass = cn(dropdownItem({ inset, variant }), className);
+  const disabledState = (rest as { disabled?: boolean }).disabled ? "true" : undefined;
 
   const handleActivate = (event: TargetedMouseEvent<HTMLElement>) => {
     (onClick as ((event: TargetedMouseEvent<HTMLElement>) => void) | undefined)?.(event);
@@ -69,6 +70,7 @@ export const DropdownItem = ({
         data-slot="dropdown-item"
         data-inset={inset ? "true" : undefined}
         data-variant={variant}
+        data-disabled={disabledState}
         class={resolvedClass}
         onClick={handleActivate}
         {...(rest as Record<string, unknown>)}
@@ -85,6 +87,7 @@ export const DropdownItem = ({
       data-slot="dropdown-item"
       data-inset={inset ? "true" : undefined}
       data-variant={variant}
+      data-disabled={disabledState}
       class={resolvedClass}
       onClick={handleActivate as MouseEventHandler<HTMLButtonElement>}
       {...(rest as Record<string, unknown>)}

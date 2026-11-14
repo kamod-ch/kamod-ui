@@ -298,7 +298,7 @@ export const Slider = ({
           dir="ltr"
           data-orientation="vertical"
           aria-disabled={disabled}
-          data-disabled={disabled ? "" : undefined}
+          data-disabled={disabled ? "true" : undefined}
           data-dragging={dragging ? "" : undefined}
           class={cn(
             "group relative inline-flex min-h-40 w-6 shrink-0 touch-none select-none justify-center data-[disabled]:opacity-50 data-[orientation=vertical]:min-h-40 data-[orientation=vertical]:w-auto data-[orientation=vertical]:flex-col",
@@ -372,7 +372,7 @@ export const Slider = ({
         dir="ltr"
         data-orientation="horizontal"
         aria-disabled={disabled}
-        data-disabled={disabled ? "" : undefined}
+        data-disabled={disabled ? "true" : undefined}
         data-dragging={dragging ? "" : undefined}
         class={cn(
           "group relative flex h-6 w-full shrink-0 touch-none select-none items-center data-[disabled]:opacity-50",
@@ -542,7 +542,7 @@ export const Slider = ({
       dir="ltr"
       data-orientation={isVertical ? "vertical" : "horizontal"}
       aria-disabled={disabled}
-      data-disabled={disabled ? "" : undefined}
+      data-disabled={disabled ? "true" : undefined}
       data-dragging={dragging ? "" : undefined}
       class={rootClass}
       role="group"

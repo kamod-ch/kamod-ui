@@ -44,6 +44,7 @@ export const AccordionTrigger = ({
       aria-expanded={isOpen}
       aria-controls={controlsId}
       disabled={disabled}
+      data-disabled={disabled ? "true" : undefined}
       data-state={isOpen ? "open" : "closed"}
       class={cn(
         "flex w-full items-center justify-between gap-2 rounded-md py-4 text-left text-sm font-medium outline-none transition-colors focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50",

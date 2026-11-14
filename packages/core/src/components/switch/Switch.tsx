@@ -61,6 +61,7 @@ export const Switch = ({
   onClick,
   id,
   "aria-labelledby": ariaLabelledBy,
+  disabled,
   ...rest
 }: SwitchProps) => {
   const [localChecked, setLocalChecked] = useState(defaultChecked);
@@ -79,6 +80,8 @@ export const Switch = ({
         data-slot="switch"
         data-state={nextChecked ? "checked" : "unchecked"}
         data-size={size ?? "default"}
+        data-disabled={disabled ? "true" : undefined}
+        disabled={disabled}
         class={cn(switchRoot({ size }), className)}
         onClick={(event) => {
           const updated = !nextChecked;

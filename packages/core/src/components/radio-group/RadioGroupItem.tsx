@@ -68,6 +68,7 @@ export const RadioGroupItem = ({
     <label
       data-slot="radio-group-item"
       data-state={checked ? "checked" : "unchecked"}
+      data-disabled={disabled ? "true" : undefined}
       data-size={size ?? "default"}
       class={cn(itemRoot({ size }), className)}
     >

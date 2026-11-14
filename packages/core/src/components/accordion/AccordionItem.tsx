@@ -39,7 +39,7 @@ export const AccordionItem = ({
       <div
         data-slot="accordion-item"
         data-state={isOpen ? "open" : "closed"}
-        data-disabled={disabled ? "" : undefined}
+        data-disabled={disabled ? "true" : undefined}
         {...rest}
       >
         {children}

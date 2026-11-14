@@ -71,6 +71,7 @@ export const Checkbox = ({
     <span
       data-slot="checkbox"
       data-state={dataState}
+      data-disabled={disabled ? "true" : undefined}
       class={cn(
         "group relative inline-grid size-4 shrink-0 place-content-center align-middle",
         className,

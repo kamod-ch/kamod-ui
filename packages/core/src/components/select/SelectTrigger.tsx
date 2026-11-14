@@ -13,6 +13,7 @@ export const SelectTrigger = ({
   onKeyDown,
   ref,
   class: className,
+  disabled,
   ...rest
 }: SelectTriggerProps) => {
   const select = useSelect();
@@ -40,6 +41,8 @@ export const SelectTrigger = ({
       aria-controls={select.contentId}
       aria-expanded={expanded}
       data-state={dataState}
+      data-disabled={disabled ? "true" : undefined}
+      disabled={disabled}
       class={cn(
         "border-input bg-background dark:bg-input/30 placeholder:text-muted-foreground flex h-8 w-full items-center justify-between gap-2 rounded-md border px-3 py-1 text-sm shadow-xs outline-none transition-[color,box-shadow]",
         "hover:border-foreground/15",
