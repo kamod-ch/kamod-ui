@@ -1,12 +1,10 @@
 import {
   type AnchorHTMLAttributes,
   type ComponentChildren,
-  cloneElement,
-  type HTMLAttributes,
-  isValidElement,
   type JSX,
   type TargetedMouseEvent,
 } from "preact";
+import { assignRef, Slot } from "../../lib/slot";
 import { cn } from "../../lib/utils";
 import { useNavigationMenuItemCtx, useNavigationMenuRoot } from "./navigation-menu-context";
 
@@ -14,14 +12,6 @@ export type NavigationMenuLinkProps = AnchorHTMLAttributes<HTMLAnchorElement> & 
   active?: boolean;
   children?: ComponentChildren;
   asChild?: boolean;
-};
-
-const callRef = <T extends HTMLElement>(ref: unknown, node: T | null) => {
-  if (typeof ref === "function") {
-    ref(node);
-  } else if (ref && typeof ref === "object" && "current" in ref) {
-    (ref as { current: T | null }).current = node;
-  }
 };
 
 export const NavigationMenuLink = ({
@@ -51,36 +41,29 @@ export const NavigationMenuLink = ({
     root.openValue.value = null;
   };
 
+  const linkRef = (node: HTMLElement | null) => {
+    assignRef(outerRef, node);
+  };
+
   if (asChild) {
-    if (!isValidElement(children)) return null;
-    const childProps = (children.props ?? {}) as HTMLAttributes<HTMLElement> & {
-      ref?: unknown;
-      onClick?: (event: TargetedMouseEvent<HTMLElement>) => void;
-      class?: string;
-      className?: string;
-    };
-    const mergedClass = cn(linkClass, childProps.class, childProps.className);
-    return cloneElement(children, {
-      ...(childProps as Record<string, unknown>),
-      ...(rest as Record<string, unknown>),
-      "data-slot": "navigation-menu-link",
-      "data-active": active ? "" : undefined,
-      "data-state": open ? "open" : "closed",
-      class: mergedClass,
-      onClick: (event: TargetedMouseEvent<HTMLElement>) => {
-        childProps.onClick?.(event);
-        handleClick(event);
-      },
-      ref: (node: HTMLElement | null) => {
-        callRef(childProps.ref, node);
-        callRef(outerRef, node);
-      },
-    } as never);
+    return (
+      <Slot
+        {...rest}
+        data-slot="navigation-menu-link"
+        data-active={active ? "" : undefined}
+        data-state={open ? "open" : "closed"}
+        class={linkClass}
+        onClick={handleClick}
+        ref={linkRef}
+      >
+        {children}
+      </Slot>
+    );
   }
 
   return (
     <a
-      ref={(node) => callRef(outerRef, node)}
+      ref={linkRef}
       data-slot="navigation-menu-link"
       data-active={active ? "" : undefined}
       data-state={open ? "open" : "closed"}

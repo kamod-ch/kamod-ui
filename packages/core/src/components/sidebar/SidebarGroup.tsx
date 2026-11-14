@@ -1,8 +1,8 @@
 import type { ButtonHTMLAttributes, ComponentChildren, HTMLAttributes } from "preact";
+import { Slot } from "../../lib/slot";
 import { cn } from "../../lib/utils";
 import { Input, type InputProps } from "../input/Input";
 import { Separator, type SeparatorProps } from "../separator/Separator";
-import { Slot } from "./slot";
 
 export type SidebarInputProps = InputProps;
 
@@ -59,12 +59,7 @@ export const SidebarGroupLabel = ({
   );
   if (asChild) {
     return (
-      <Slot
-        data-slot="sidebar-group-label"
-        data-sidebar="group-label"
-        class={classes}
-        {...(rest as Record<string, unknown>)}
-      >
+      <Slot data-slot="sidebar-group-label" data-sidebar="group-label" class={classes} {...rest}>
         {children}
       </Slot>
     );
@@ -95,12 +90,7 @@ export const SidebarGroupAction = ({
   );
   if (asChild) {
     return (
-      <Slot
-        data-slot="sidebar-group-action"
-        data-sidebar="group-action"
-        class={classes}
-        {...(rest as Record<string, unknown>)}
-      >
+      <Slot data-slot="sidebar-group-action" data-sidebar="group-action" class={classes} {...rest}>
         {children}
       </Slot>
     );

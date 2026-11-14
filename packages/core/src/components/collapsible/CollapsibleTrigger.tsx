@@ -1,25 +1,11 @@
-import {
-  type ButtonHTMLAttributes,
-  type ComponentChildren,
-  cloneElement,
-  type HTMLAttributes,
-  isValidElement,
-  type TargetedMouseEvent,
-} from "preact";
+import { type ButtonHTMLAttributes, type ComponentChildren, type TargetedMouseEvent } from "preact";
+import { assignRef, Slot } from "../../lib/slot";
 import { useCollapsible } from "./Collapsible";
 
 export type CollapsibleTriggerProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   asChild?: boolean;
   children?: ComponentChildren;
   "data-slot"?: string;
-};
-
-const callRef = <T extends HTMLElement>(ref: unknown, node: T | null) => {
-  if (typeof ref === "function") {
-    ref(node);
-  } else if (ref && typeof ref === "object" && "current" in ref) {
-    (ref as { current: T | null }).current = node;
-  }
 };
 
 export const CollapsibleTrigger = ({
@@ -40,31 +26,23 @@ export const CollapsibleTrigger = ({
     toggle();
   };
 
+  const triggerRef = (node: HTMLElement | null) => {
+    assignRef(outerRef, node);
+  };
+
   if (asChild) {
-    if (!isValidElement(children)) {
-      return null;
-    }
-
-    const childProps = (children.props ?? {}) as HTMLAttributes<HTMLElement> & {
-      ref?: unknown;
-      onClick?: (event: TargetedMouseEvent<HTMLElement>) => void;
-    };
-
-    return cloneElement(children, {
-      ...(childProps as Record<string, unknown>),
-      ...(rest as Record<string, unknown>),
-      "aria-expanded": open,
-      "data-state": open ? "open" : "closed",
-      "data-slot": dataSlot,
-      onClick: (event: TargetedMouseEvent<HTMLElement>) => {
-        childProps.onClick?.(event);
-        handleClick(event);
-      },
-      ref: (node: HTMLElement | null) => {
-        callRef(childProps.ref, node);
-        callRef(outerRef, node);
-      },
-    } as never);
+    return (
+      <Slot
+        {...rest}
+        aria-expanded={open}
+        data-state={open ? "open" : "closed"}
+        data-slot={dataSlot}
+        onClick={handleClick}
+        ref={triggerRef}
+      >
+        {children}
+      </Slot>
+    );
   }
 
   return (
@@ -76,9 +54,7 @@ export const CollapsibleTrigger = ({
       onClick={(event) => {
         handleClick(event);
       }}
-      ref={(node) => {
-        callRef(outerRef, node);
-      }}
+      ref={triggerRef}
       {...rest}
     >
       {children}

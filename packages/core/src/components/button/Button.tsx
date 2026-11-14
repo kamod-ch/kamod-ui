@@ -2,11 +2,9 @@ import {
   type AnchorHTMLAttributes,
   type ButtonHTMLAttributes,
   type ComponentChildren,
-  cloneElement,
-  type HTMLAttributes,
-  isValidElement,
 } from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
+import { Slot } from "../../lib/slot";
 import { cn } from "../../lib/utils";
 
 export const button = tv({
@@ -79,33 +77,17 @@ export const Button = ({
   const resolvedClassName = cn(variantClasses, className);
 
   if (asChild) {
-    if (!isValidElement(children)) {
-      const env = (globalThis as { process?: { env?: { NODE_ENV?: string } } }).process?.env
-        ?.NODE_ENV;
-      if (env !== "production") {
-        console.warn(
-          "[kamod-ui] <Button asChild> expects a single valid element child. " +
-            "Received: " +
-            typeof children +
-            ". Falling back to rendering nothing.",
-        );
-      }
-      return null;
-    }
-
-    const childProps = (children.props ?? {}) as HTMLAttributes<HTMLElement> & {
-      class?: string;
-      className?: string;
-    };
-
-    return cloneElement(children, {
-      ...childProps,
-      ...(rest as HTMLAttributes<HTMLElement>),
-      class: cn(variantClasses, childProps.class, childProps.className, className),
-      "data-slot": "button",
-      "data-variant": resolvedVariant,
-      "data-size": resolvedSize,
-    });
+    return (
+      <Slot
+        {...rest}
+        class={cn(variantClasses, className)}
+        data-slot="button"
+        data-variant={resolvedVariant}
+        data-size={resolvedSize}
+      >
+        {children}
+      </Slot>
+    );
   }
 
   if ("href" in rest && typeof rest.href === "string") {

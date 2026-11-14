@@ -1,4 +1,5 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/preact";
+import { Button } from "../button/Button";
 import {
   Dialog,
   DialogClose,
@@ -131,5 +132,16 @@ describe("Dialog", () => {
     expect(document.documentElement).not.toHaveAttribute("data-kamod-scroll-lock");
     expect(document.documentElement.style.overflow).toBe("");
     expect(document.body.style.overflow).toBe("");
+  });
+
+  it("renders one button when the trigger delegates to Button", () => {
+    render(
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button>Open</Button>
+        </DialogTrigger>
+      </Dialog>,
+    );
+    expect(screen.getAllByRole("button", { name: "Open" })).toHaveLength(1);
   });
 });

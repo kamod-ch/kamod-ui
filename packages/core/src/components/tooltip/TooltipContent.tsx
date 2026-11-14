@@ -4,9 +4,9 @@ import {
   cloneElement,
   type HTMLAttributes,
   isValidElement,
-  type TargetedMouseEvent,
 } from "preact";
 import { useEffect, useId, useLayoutEffect, useRef, useState } from "preact/hooks";
+import { assignRef, mergeSlotProps } from "../../lib/slot";
 import { useTooltip } from "./Tooltip";
 
 export type TooltipContentProps = HTMLAttributes<HTMLDivElement> & {
@@ -224,54 +224,26 @@ export const TooltipContent = ({
       return null;
     }
 
-    const childProps = (children.props ?? {}) as HTMLAttributes<HTMLElement> & {
-      ref?: unknown;
-    };
-    const nextChildren = (
-      <>
-        {childProps.children}
-        <span aria-hidden="true" data-slot="tooltip-arrow" />
-      </>
-    );
-
+    const { ref: outerRef, ...domProps } = remainingProps;
     return cloneElement(children, {
-      ...(childProps as Record<string, unknown>),
-      ...(remainingProps as Record<string, unknown>),
-      id: contentId,
-      role: "tooltip",
-      "data-slot": "tooltip-content",
-      "data-state": tooltip.open.value ? "open" : "closed",
-      "data-side": resolvedSide,
-      "data-align": align,
-      "data-flip-animating": isFlipAnimating ? "true" : "false",
-      style: mergedStyle,
-      onMouseEnter: (event: TargetedMouseEvent<HTMLDivElement>) => {
-        childProps.onMouseEnter?.(event);
-        if (!tooltip.disableHoverableContent) {
-          tooltip.cancelTimers();
-          tooltip.setOpen(true);
-        }
-        onMouseEnter?.(event);
-      },
-      onMouseLeave: (event: TargetedMouseEvent<HTMLDivElement>) => {
-        childProps.onMouseLeave?.(event);
-        tooltip.closeWithDelay();
-        onMouseLeave?.(event);
-      },
-      ref: (node: HTMLElement | null) => {
-        contentRef.current = node;
-        if (typeof childProps.ref === "function") {
-          childProps.ref(node);
-        } else if (
-          childProps.ref &&
-          typeof childProps.ref === "object" &&
-          "current" in childProps.ref
-        ) {
-          (childProps.ref as { current: HTMLElement | null }).current = node;
-        }
-      },
-      children: nextChildren,
-    } as never);
+      ...mergeSlotProps(
+        {
+          ...domProps,
+          ...commonProps,
+          ref: (node: HTMLElement | null) => {
+            contentRef.current = node;
+            assignRef(outerRef, node);
+          },
+        },
+        children,
+      ),
+      children: (
+        <>
+          {(children.props as { children?: ComponentChildren }).children}
+          <span aria-hidden="true" data-slot="tooltip-arrow" />
+        </>
+      ),
+    });
   }
 
   return (

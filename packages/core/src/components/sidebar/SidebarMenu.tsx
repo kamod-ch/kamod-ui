@@ -6,11 +6,11 @@ import type {
 } from "preact";
 import { useId } from "preact/hooks";
 import { tv, type VariantProps } from "tailwind-variants";
+import { Slot } from "../../lib/slot";
 import { cn } from "../../lib/utils";
 import { Skeleton } from "../skeleton";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../tooltip";
 import { useSidebar } from "./SidebarProvider";
-import { Slot } from "./slot";
 
 export type SidebarMenuProps = HTMLAttributes<HTMLUListElement> & {
   children?: ComponentChildren;
@@ -100,7 +100,7 @@ export const SidebarMenuButton = ({
       data-size={size}
       data-active={isActive}
       class={classes}
-      {...(rest as Record<string, unknown>)}
+      {...rest}
     >
       {children}
     </Slot>
@@ -164,12 +164,7 @@ export const SidebarMenuAction = ({
   );
   if (asChild) {
     return (
-      <Slot
-        data-slot="sidebar-menu-action"
-        data-sidebar="menu-action"
-        class={classes}
-        {...(rest as Record<string, unknown>)}
-      >
+      <Slot data-slot="sidebar-menu-action" data-sidebar="menu-action" class={classes} {...rest}>
         {children}
       </Slot>
     );
@@ -319,7 +314,7 @@ export const SidebarMenuSubButton = ({
         data-size={size}
         data-active={isActive}
         class={classes}
-        {...(rest as Record<string, unknown>)}
+        {...rest}
       >
         {children}
       </Slot>

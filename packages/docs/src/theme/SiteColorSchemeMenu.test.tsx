@@ -26,8 +26,11 @@ beforeEach(() => {
   setColorScheme("light");
   setThemePreset("ocean");
 });
-afterEach(() => {
+afterEach(async () => {
   cleanup();
+  // Preact 11 schedules effect work with RAF plus a 35 ms fallback. Let it
+  // settle before jsdom removes cancelAnimationFrame during environment teardown.
+  await new Promise<void>((resolve) => setTimeout(resolve, 40));
   localStorage.clear();
   vi.unstubAllGlobals();
 });

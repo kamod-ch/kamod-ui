@@ -48,6 +48,23 @@ describe("Button cn migration", () => {
     expect(el.className).toContain("h-12");
     expect(el.className).not.toMatch(/\bh-8\b/);
     expect(el).toHaveAttribute("data-slot", "button");
+    expect(screen.queryByRole("button")).toBeNull();
+  });
+
+  it("chains the child click and the button click for asChild", () => {
+    const childClick = vi.fn();
+    const buttonClick = vi.fn();
+    render(
+      <Button asChild onClick={buttonClick}>
+        <a href="/docs" onClick={childClick}>
+          Docs
+        </a>
+      </Button>,
+    );
+    fireEvent.click(screen.getByRole("link", { name: "Docs" }));
+    expect(childClick).toHaveBeenCalledOnce();
+    expect(buttonClick).toHaveBeenCalledOnce();
+    expect(screen.queryByRole("button")).toBeNull();
   });
 
   it("defaults to type button so it does not submit a parent form", () => {

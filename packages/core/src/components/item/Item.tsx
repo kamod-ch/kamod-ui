@@ -1,5 +1,6 @@
-import { type ComponentChildren, cloneElement, type HTMLAttributes, isValidElement } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
+import { Slot } from "../../lib/slot";
 import { cn } from "../../lib/utils";
 
 export const item = tv({
@@ -46,23 +47,17 @@ export const Item = ({
   const resolvedClassName = cn(variantClasses, className);
 
   if (asChild) {
-    if (!isValidElement(children)) {
-      return null;
-    }
-
-    const childProps = (children.props ?? {}) as HTMLAttributes<HTMLElement> & {
-      class?: string;
-      className?: string;
-    };
-
-    return cloneElement(children, {
-      ...childProps,
-      ...(rest as HTMLAttributes<HTMLElement>),
-      class: cn(variantClasses, childProps.class, childProps.className, className),
-      "data-slot": "item",
-      "data-variant": resolvedVariant,
-      "data-size": resolvedSize,
-    });
+    return (
+      <Slot
+        {...rest}
+        class={cn(variantClasses, className)}
+        data-slot="item"
+        data-variant={resolvedVariant}
+        data-size={resolvedSize}
+      >
+        {children}
+      </Slot>
+    );
   }
 
   return (

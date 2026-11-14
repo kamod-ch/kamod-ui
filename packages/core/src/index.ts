@@ -464,4 +464,5 @@ export {
   trapFocus,
 } from "./lib/interactive";
 export { createControllableSignal } from "./lib/signals";
+export { assignRef, composeRefs, Slot, type SlotProps } from "./lib/slot";
 export { type ClassValue, cn } from "./lib/utils";

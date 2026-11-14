@@ -1,13 +1,7 @@
 import { useComputed } from "@preact/signals";
-import {
-  type ButtonHTMLAttributes,
-  type ComponentChildren,
-  cloneElement,
-  type HTMLAttributes,
-  isValidElement,
-  type TargetedMouseEvent,
-} from "preact";
+import { type ButtonHTMLAttributes, type ComponentChildren, type TargetedMouseEvent } from "preact";
 import { tv } from "tailwind-variants";
+import { assignRef, Slot } from "../../lib/slot";
 import { cn } from "../../lib/utils";
 import { usePopover } from "./Popover";
 
@@ -22,14 +16,6 @@ export const popoverTrigger = tv({
 export type PopoverTriggerProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   asChild?: boolean;
   children?: ComponentChildren;
-};
-
-const callRef = <T extends HTMLElement>(ref: unknown, node: T | null) => {
-  if (typeof ref === "function") {
-    ref(node);
-  } else if (ref && typeof ref === "object" && "current" in ref) {
-    (ref as { current: T | null }).current = node;
-  }
 };
 
 export const PopoverTrigger = ({
@@ -50,43 +36,32 @@ export const PopoverTrigger = ({
     popover.setOpen(!popover.open.value);
   };
 
+  const triggerRef = (node: HTMLElement | null) => {
+    popover.triggerRef.current = node;
+    assignRef(outerRef, node);
+  };
+
   if (asChild) {
-    if (!isValidElement(children)) {
-      return null;
-    }
-
-    const childProps = (children.props ?? {}) as HTMLAttributes<HTMLElement> & {
-      ref?: unknown;
-      onClick?: (event: TargetedMouseEvent<HTMLElement>) => void;
-    };
-
-    return cloneElement(children, {
-      ...(childProps as Record<string, unknown>),
-      ...(rest as Record<string, unknown>),
-      id: popover.triggerId,
-      "aria-controls": popover.contentId,
-      "aria-haspopup": "dialog",
-      "aria-expanded": expanded,
-      "data-slot": "popover-trigger",
-      "data-state": dataState,
-      onClick: (event: TargetedMouseEvent<HTMLElement>) => {
-        childProps.onClick?.(event);
-        handleClick(event);
-      },
-      ref: (node: HTMLElement | null) => {
-        popover.triggerRef.current = node;
-        callRef(childProps.ref, node);
-        callRef(outerRef, node);
-      },
-    } as never);
+    return (
+      <Slot
+        {...rest}
+        id={popover.triggerId}
+        aria-controls={popover.contentId}
+        aria-haspopup="dialog"
+        aria-expanded={expanded}
+        data-slot="popover-trigger"
+        data-state={dataState}
+        onClick={handleClick}
+        ref={triggerRef}
+      >
+        {children}
+      </Slot>
+    );
   }
 
   return (
     <button
-      ref={(node) => {
-        popover.triggerRef.current = node;
-        callRef(outerRef, node);
-      }}
+      ref={triggerRef}
       id={popover.triggerId}
       type="button"
       class={cn(popoverTrigger(), className)}
