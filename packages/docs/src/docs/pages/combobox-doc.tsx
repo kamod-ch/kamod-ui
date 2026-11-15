@@ -475,6 +475,7 @@ const ComboboxRtlPreview = () => {
 
 export const comboboxDocPage = createGenericDocPage({
   slug: "combobox",
+  generatedApi: true,
   title: "Combobox",
   previewCode: `import { Combobox, ComboboxCommand, ComboboxContent, ComboboxEmpty, ComboboxInput, ComboboxItem, ComboboxList, ComboboxTrigger, ComboboxValue } from "@/components/kamod-ui/combobox";
 

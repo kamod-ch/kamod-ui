@@ -15,6 +15,7 @@ import { kamodUiStructuredDataHead } from "./kamod-ui-seo.ts";
 import { pageMetadataPlugin } from "./page-metadata-plugin.ts";
 import { createPagePreloader } from "./page-preloader.ts";
 import { runtimePerformancePlugin } from "./runtime-performance-plugin.ts";
+import { kamodUiViteAliases } from "./ui-source-aliases.ts";
 
 const configDir = import.meta.dirname;
 const docsRoot = resolve(configDir, "..");
@@ -24,7 +25,6 @@ const signalsRoot = resolve(docsRoot, "node_modules/@preact/signals");
 const openuiSrc = resolve(configDir, "../../openui/src");
 const motionSrc = resolve(configDir, "../../motion/src");
 const blocksSrc = resolve(configDir, "../../blocks/src");
-const coreSrc = resolve(configDir, "../../core/src");
 const base = (process.env.VITE_BASE_PATH?.trim() || "/").replace(/\/?$/, "/");
 const faviconFiles = new Map([
   ["/favicon.svg", { file: "favicon.svg", type: "image/svg+xml" }],
@@ -239,30 +239,7 @@ export default defineConfig({
           find: "@kamod-ch/ui-motion",
           replacement: resolve(motionSrc, "index.ts"),
         },
-        {
-          find: "@kamod-ch/ui/utils",
-          replacement: resolve(coreSrc, "utils.ts"),
-        },
-        {
-          find: "@kamod-ch/ui/lib/utils",
-          replacement: resolve(coreSrc, "lib/utils.ts"),
-        },
-        {
-          find: "@kamod-ch/ui/lib/interactive",
-          replacement: resolve(coreSrc, "lib/interactive/index.ts"),
-        },
-        {
-          find: "@kamod-ch/ui/code/highlight",
-          replacement: resolve(coreSrc, "components/code/highlight-code.ts"),
-        },
-        {
-          find: /^@kamod-ch\/ui\/(.+)$/,
-          replacement: `${resolve(coreSrc, "components")}/$1/index.ts`,
-        },
-        {
-          find: "@kamod-ch/ui",
-          replacement: resolve(coreSrc, "index.ts"),
-        },
+        ...kamodUiViteAliases(),
         { find: "lucide-preact", replacement: resolve(configDir, "../node_modules/lucide-preact") },
         {
           find: /^react$/,

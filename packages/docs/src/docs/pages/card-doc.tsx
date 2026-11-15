@@ -327,6 +327,7 @@ const InstallationUsagePreview = () => (
 
 export const cardDocPage = createGenericDocPage({
   slug: "card",
+  generatedApi: true,
   title: "Card",
   previewCode: LOGIN_DEMO_CODE,
   usageLabel:

@@ -1,5 +1,5 @@
 import { ArrowUpRightIcon } from "@kamod-ch/icons/lucide";
-import { SheetClose } from "@kamod-ch/ui";
+import { SheetClose } from "@kamod-ch/ui/sheet";
 import type { ComponentChildren } from "preact";
 import { withBasePath } from "../../base-path";
 import { isNavigationCurrent } from "./navigation-data";

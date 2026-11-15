@@ -162,6 +162,13 @@ export const docsNavigation = [
     motionVariantCount: 0,
   },
   {
+    slug: "copy-button",
+    label: "Copy Button",
+    group: "components",
+    variantCount: 1,
+    motionVariantCount: 0,
+  },
+  {
     slug: "data-table",
     label: "Data Table",
     group: "components",

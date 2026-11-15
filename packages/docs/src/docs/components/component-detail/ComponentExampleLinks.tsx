@@ -1,6 +1,6 @@
 import { BugIcon } from "@kamod-ch/icons/lucide";
 import { BrandGithubIcon } from "@kamod-ch/icons/tabler/filled";
-import { Button } from "@kamod-ch/ui";
+import { Button } from "@kamod-ch/ui/button";
 import { repositoryUrl } from "../../../blocks/block-links";
 import { componentSourceUrl } from "./component-guidance";
 

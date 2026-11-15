@@ -124,6 +124,7 @@ export const applyColorScheme = (
   const resolvedScheme = scheme === "system" ? readSystemScheme() : scheme;
   if (!target || target.classList.contains("dark") === (resolvedScheme === "dark"))
     return resolvedScheme;
+  target.style.colorScheme = resolvedScheme;
   target.classList.add("theme-switching");
   target.classList.toggle("dark", resolvedScheme === "dark");
   clearThemeSwitching(target);

@@ -3,6 +3,7 @@ import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const dropzoneDocPage = createGenericDocPage({
   slug: "dropzone",
+  generatedApi: true,
   title: "Dropzone",
   usageLabel: "Dropzone enables drag-and-drop file upload interactions.",
   installationText:

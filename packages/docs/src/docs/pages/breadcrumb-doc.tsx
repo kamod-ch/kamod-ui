@@ -566,7 +566,7 @@ export const breadcrumbDocPage: DocPageModule = {
   renderMain: (context) => {
     const renderSectionBody = (sectionId: string) => {
       if (sectionId === "api-reference") {
-        return <ApiReference sections={apiSections} />;
+        return <ApiReference component="breadcrumb" sections={apiSections} />;
       }
       if (sectionId === "installation") {
         return (

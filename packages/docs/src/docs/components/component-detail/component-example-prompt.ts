@@ -34,7 +34,7 @@ ${
 ## Inspect the project first
 1. Read the project instructions, package.json, existing components, routes and global styles. Preserve unrelated work and use the project's package manager.
 2. This example uses TypeScript and Preact. Verify installed component APIs and imports; do not add React-only replacements or invent unsupported props.
-3. Reuse existing Kamod components. The documented installation command is \`${command}\`; inspect existing dependencies and install only what is missing. Local \`@/components/kamod-ui/*\` imports require matching files or adaptation to the installed package exports.
+3. Reuse existing Kamod components. The documented installation command is \`${command}\`; inspect existing dependencies and install only what is missing. The snippet imports from \`@kamod-ch/ui\` or \`@kamod-ch/ui/<component>\`; keep that style consistent with the app.
 
 ## ${mode === "setup" ? "Set up the example" : "Make the focused change"}
 1. ${mode === "setup" ? `Use ${filePath} as a suggested destination, adapting it to the app's conventions. Mount the example in an appropriate existing screen.` : "Locate the existing implementation and preserve its state, callbacks and public API unless the requested change requires otherwise."}

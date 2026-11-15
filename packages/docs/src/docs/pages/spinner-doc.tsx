@@ -3,6 +3,7 @@ import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const spinnerDocPage = createGenericDocPage({
   slug: "spinner",
+  generatedApi: true,
   title: "Spinner",
   usageLabel: "Spinner communicates async progress without blocking context.",
   installationText: "Import Spinner from `@/components/kamod-ui/spinner`.",

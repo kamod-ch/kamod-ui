@@ -82,6 +82,7 @@ const models = [
 
 export const itemDocPage = createGenericDocPage({
   slug: "item",
+  generatedApi: true,
   title: "Item",
   usageLabel:
     "Item composes media, title, description, and actions in a flexible row — aligned with shadcn/ui item patterns.",

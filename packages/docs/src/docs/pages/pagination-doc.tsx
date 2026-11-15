@@ -19,6 +19,7 @@ import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const paginationDocPage = createGenericDocPage({
   slug: "pagination",
+  generatedApi: true,
   title: "Pagination",
   usageLabel:
     "Pagination surfaces page navigation with optional chevrons, ellipsis, and compact table-style layouts — aligned with shadcn/ui patterns.",

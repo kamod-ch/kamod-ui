@@ -3,6 +3,7 @@ import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const scrollAreaDocPage = createGenericDocPage({
   slug: "scroll-area",
+  generatedApi: true,
   title: "Scroll Area",
   usageLabel:
     "Scroll Area adds a modern, subtle scrollbar track with a dynamic thumb for long content regions.",

@@ -150,6 +150,7 @@ const CardRtlPreview = () => {
 
 export const directionDocPage = createGenericDocPage({
   slug: "direction",
+  generatedApi: true,
   title: "Direction",
   previewCode: `import { DirectionProvider } from "@/components/kamod-ui/direction";
 

@@ -6,7 +6,7 @@ import {
   syncThemeFromStorage,
   themePresetSignal,
 } from "@kamod-ch/themes";
-import { Dropdown, DropdownContent, DropdownTrigger, useDropdown } from "@kamod-ch/ui";
+import { Dropdown, DropdownContent, DropdownTrigger, useDropdown } from "@kamod-ch/ui/dropdown";
 import { useEffect, useState } from "preact/hooks";
 import { StateIcon } from "../docs/components/StateIcon";
 import {

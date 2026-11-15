@@ -31,6 +31,7 @@ const ControlledProgressPreview = () => {
 
 export const progressDocPage = createGenericDocPage({
   slug: "progress",
+  generatedApi: true,
   title: "Progress",
   usageLabel:
     "Progress shows how far a task has advanced — aligned with Radix-style bars and shadcn/ui patterns.",

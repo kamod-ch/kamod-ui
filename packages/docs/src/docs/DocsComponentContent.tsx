@@ -1,18 +1,15 @@
 import { docs, loaders } from "virtual:kamod-doc-pages";
+import { Button } from "@kamod-ch/ui/button";
+import { ButtonGroup } from "@kamod-ch/ui/button-group";
 import {
-  Button,
-  ButtonGroup,
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  Spinner,
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@kamod-ch/ui";
+} from "@kamod-ch/ui/dialog";
+import { Spinner } from "@kamod-ch/ui/spinner";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@kamod-ch/ui/tabs";
 import type { ComponentChildren, ComponentType } from "preact";
 import { lazy, Suspense } from "preact/compat";
 import { useEffect, useMemo, useState } from "preact/hooks";
@@ -45,7 +42,7 @@ import { PageEyebrow } from "./components/PageEyebrow";
 import { PageTitle } from "./components/PageTitle";
 import { PathDisplay } from "./components/PathDisplay";
 import { getDocSections } from "./doc-sections";
-import { docImportFrom, rewriteKamodCoreImportsInDocString } from "./doc-snippet-imports";
+import { docImportFrom } from "./doc-snippet-imports";
 import { docUsageImport, docComponentName as toPascalCase } from "./doc-usage-import";
 import { docsShowMotion, isMotionDocSlug } from "./docs-feature-flags";
 import { scheduleSectionScroll } from "./scroll-to-section";
@@ -262,10 +259,9 @@ const ComponentContent = ({
                 </>
               ) : (
                 <>
-                  The <PathDisplay path={"@/components/kamod-ui/…"} /> imports in these examples
-                  refer to local source files. Configure that alias when copying source, or use the
-                  corresponding exports from <PathDisplay path={"@kamod-ch/ui"} /> when installing
-                  the package.{" "}
+                  Copy an example with <PathDisplay path="@kamod-ch/ui" /> or the matching{" "}
+                  <PathDisplay path="@kamod-ch/ui/…" /> subpath. The code block switches between
+                  those two installs.{" "}
                 </>
               )}
               Connect{" "}
@@ -298,7 +294,7 @@ const ComponentContent = ({
 
       return (
         <div class="grid gap-3">
-          <CodeBlock code={importSnippet} language="tsx" />
+          <CodeBlock code={importSnippet} language="tsx" consumerImports />
           {usageSnippet ? (
             <CodeBlock code={usageSnippet} language="tsx" />
           ) : (
@@ -366,11 +362,7 @@ const ComponentContent = ({
       <ComponentExample
         doc={activeDoc}
         index={index}
-        codeSnippet={
-          activeDoc.snippetImports === "package"
-            ? codeSnippet
-            : rewriteKamodCoreImportsInDocString(codeSnippet, activeDoc.slug)
-        }
+        codeSnippet={codeSnippet}
         filePath={filePath ?? `src/components/${toPascalCase(activeDoc.slug)}Example.tsx`}
       />
     ) : (

@@ -31,6 +31,37 @@ describe("Dropdown trigger composition", () => {
     expect(screen.queryByRole("menu")).toBeNull();
   });
 
+  it("stays open when the click fallback runs before the trigger handler", () => {
+    const jobs: VoidFunction[] = [];
+    const original = queueMicrotask;
+    vi.stubGlobal("queueMicrotask", (job: VoidFunction) => {
+      jobs.push(job);
+    });
+    render(
+      <Dropdown>
+        <DropdownTrigger>Actions</DropdownTrigger>
+        <DropdownContent>
+          <DropdownItem>Item</DropdownItem>
+        </DropdownContent>
+      </Dropdown>,
+    );
+    const trigger = screen.getByRole("button", { name: "Actions" });
+    trigger.addEventListener(
+      "click",
+      () => {
+        while (jobs.length) jobs.shift()?.();
+      },
+      true,
+    );
+
+    fireEvent.click(trigger);
+    expect(screen.getByRole("menu")).toBeVisible();
+
+    fireEvent.click(trigger);
+    expect(screen.queryByRole("menu")).toBeNull();
+    vi.stubGlobal("queueMicrotask", original);
+  });
+
   it("calls asChild and trigger onClick once per click", () => {
     const childClick = vi.fn();
     const triggerClick = vi.fn();

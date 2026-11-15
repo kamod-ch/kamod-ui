@@ -9,6 +9,7 @@ export function useComponentPreview() {
   const [appearance, setAppearance] = useState<PreviewAppearance>({
     preset: "kamod",
     scheme: "light",
+    dir: "ltr",
   });
   useLayoutEffect(() => {
     const root = document.documentElement;
@@ -16,6 +17,7 @@ export function useComponentPreview() {
     setAppearance({
       preset: isThemePresetId(preset) ? preset : "kamod",
       scheme: root.classList.contains("dark") ? "dark" : "light",
+      dir: "ltr",
     });
   }, []);
   useLayoutEffect(() => {

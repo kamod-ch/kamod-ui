@@ -405,6 +405,10 @@ export const docsRouteManifest = [
     ],
   },
   {
+    slug: "copy-button",
+    sections: ["installation", "usage", "copy-command", "api-reference", "accessibility"],
+  },
+  {
     slug: "data-table",
     sections: [
       "installation",

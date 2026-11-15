@@ -241,6 +241,7 @@ const CarouselRtlPreview = () => {
 
 export const carouselDocPage = createGenericDocPage({
   slug: "carousel",
+  generatedApi: true,
   title: "Carousel",
   usageLabel: "Carousel displays swipeable or button-driven slide content (Embla Carousel).",
   installationText:

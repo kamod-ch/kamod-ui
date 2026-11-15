@@ -29,13 +29,13 @@ describe("component detail documentation", () => {
   it.each(["kbd", "type-definition"])(
     "%s distinguishes usage requirements from fallback values",
     (slug) => {
-      const text = render(<DocsComponentContent slug={slug} section="installation" />).replace(
-        /<[^>]+>/g,
-        " ",
-      );
-      expect(text).toMatch(/Usage requirement\s+Required/);
+      const text = render(<DocsComponentContent slug={slug} section="installation" />)
+        .replace(/<[^>]+>/g, " ")
+        .replaceAll("&quot;", '"');
+      expect(text).not.toMatch(/Usage requirement/);
       expect(text).not.toMatch(/Default\s+required/i);
-      if (slug === "type-definition") expect(text).toMatch(/Default\s+false/);
+      if (slug === "kbd") expect(text).toMatch(/Default\s+"md"/);
+      if (slug === "type-definition") expect(text).toMatch(/Default\s+"View Definition"/);
     },
   );
 

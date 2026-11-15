@@ -358,6 +358,7 @@ export const badgeDocPage: DocPageModule = {
       if (sectionId === "api-reference") {
         return (
           <ApiReference
+            component="badge"
             sections={[
               {
                 title: "Badge",

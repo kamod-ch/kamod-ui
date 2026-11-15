@@ -1,13 +1,7 @@
 import { CodeIcon, EyeIcon, SparklesIcon } from "@kamod-ch/icons/lucide";
 import { ArrowsMaximizeIcon, ArrowsMinimizeIcon } from "@kamod-ch/icons/tabler/outline";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-  ToggleGroup,
-  ToggleGroupItem,
-} from "@kamod-ch/ui";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@kamod-ch/ui/tabs";
+import { ToggleGroup, ToggleGroupItem } from "@kamod-ch/ui/toggle-group";
 import { useState } from "preact/hooks";
 import { PreviewAppearanceControls } from "../../../blocks/PreviewAppearanceControls";
 import { PreviewRefreshControl } from "../../../blocks/PreviewRefreshControl";
@@ -15,6 +9,7 @@ import { ShowcaseHeading } from "../../../blocks/ShowcaseHeading";
 import { usePreviewRefresh } from "../../../blocks/usePreviewRefresh";
 import type { DocPageModule } from "../../types";
 import { BrandText } from "../brand/BrandText";
+import { useConsumerImportCode } from "../consumer-import-code";
 import { lazyShowcase } from "../lazy-showcase";
 import { ShowcaseLoading } from "../ShowcaseLoading";
 import { ComponentExampleLinks } from "./ComponentExampleLinks";
@@ -42,6 +37,7 @@ export function ComponentExample({
   filePath: string;
 }) {
   const { stage, canConstrain, appearance, setAppearance } = useComponentPreview();
+  const imports = useConsumerImportCode(codeSnippet);
   const showcaseId = `${doc.slug}-example-${index + 1}-showcase`;
   const [narrow, setNarrow] = useState(false);
   const isNarrow = narrow && canConstrain;
@@ -122,6 +118,23 @@ export function ComponentExample({
                     <ArrowsMaximizeIcon aria-hidden="true" />
                   </ToggleGroupItem>
                 </ToggleGroup>
+                <button
+                  type="button"
+                  class="docs-icon-button"
+                  aria-pressed={(appearance.dir ?? "ltr") === "rtl"}
+                  aria-label="Right to left"
+                  title="Switch the example between left-to-right and right-to-left"
+                  onClick={() =>
+                    setAppearance({
+                      ...appearance,
+                      dir: appearance.dir === "rtl" ? "ltr" : "rtl",
+                    })
+                  }
+                >
+                  <span class="blocks-showcase-control-label">
+                    {appearance.dir === "rtl" ? "RTL" : "LTR"}
+                  </span>
+                </button>
                 <PreviewRefreshControl action="reset" phase={phase} onRefresh={refresh} />
               </div>
               <PreviewAppearanceControls value={appearance} onChange={setAppearance} />
@@ -159,8 +172,11 @@ export function ComponentExample({
           <TabsContent value="code" class="blocks-showcase-source component-example-source">
             <ComponentExampleCode
               appearance={appearance}
-              code={codeSnippet}
+              code={imports.code}
               filePath={filePath}
+              importStyle={imports.style}
+              onImportStyle={imports.setStyle}
+              showImportStyle={imports.applicable}
               fallback={<ShowcaseLoading appearance={appearance} view="code" detail={filePath} />}
             />
           </TabsContent>
@@ -174,7 +190,7 @@ export function ComponentExample({
                 documentationUrl: `https://ui.kamod.ch/docs/${doc.slug}/installation`,
                 sourceUrl: componentSourceUrl(doc.slug),
                 filePath,
-                codeSnippet,
+                codeSnippet: imports.code,
               }}
               fallback={<ShowcaseLoading appearance={appearance} view="prompt" />}
             />

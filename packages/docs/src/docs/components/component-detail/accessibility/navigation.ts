@@ -16,6 +16,21 @@ export const navigationAccessibility: AccessibilityProfiles = {
       "Check that links have real destinations and that custom children preserve one interactive element.",
     ],
   },
+  "copy-button": {
+    foundation:
+      "CopyButton is a native button that copies the exact `value` string and reports success or a retry beside the control. The copied text stays visible, and the status is separate from the source.",
+    naming:
+      "Name the subject being copied, such as Copy command or Copy identifier. Keep the original text available so the name and the value agree. An icon-only button still needs that name.",
+    interaction:
+      "Activate it with Enter or Space. After a successful copy, the status text tells people the value is on the clipboard and that they can retry. Focus stays on the button.",
+    pitfalls:
+      "Do not replace the source text with only an icon, and do not announce success when the clipboard write failed. A generic Copy label is ambiguous when several values sit next to each other.",
+    checks: [
+      "Copy a visible value and confirm the status names success or a retry.",
+      "Activate the button from the keyboard and check focus stays on the control.",
+      "Place two copy actions together and verify each name identifies its own value.",
+    ],
+  },
   "button-group": {
     foundation:
       'ButtonGroup is a grouping wrapper with `role="group"`; it does not turn its children into a toolbar with managed arrow-key focus. Each button or link retains its own behavior and tab stop.',

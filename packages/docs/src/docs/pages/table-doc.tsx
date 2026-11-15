@@ -18,6 +18,7 @@ import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const tableDocPage = createGenericDocPage({
   slug: "table",
+  generatedApi: true,
   title: "Table",
   usageLabel: "A responsive, modern table primitive for structured data with semantic markup.",
   installationText: "Import Table primitives from `@/components/kamod-ui/table`.",

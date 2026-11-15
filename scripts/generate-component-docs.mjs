@@ -1,146 +1,148 @@
 #!/usr/bin/env node
 /**
- * Builds @kamod-ch/ui and writes .docs/COMPONENTS.md with per-export
- * bundle size (min + gzip, Kamod code only) and @preact/signals usage.
+ * Builds @kamod-ch/ui and writes the component API manifest plus
+ * .docs/COMPONENTS.md.
+ *
+ *   pnpm docs:components
+ *   pnpm docs:components --check
+ *   pnpm docs:components --check --no-build
+ *   pnpm docs:components --if-stale
  */
 import { execSync } from "node:child_process";
-import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
-import { join, relative, resolve } from "node:path";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { gzipSync } from "node:zlib";
+import { buildComponentApiManifest, outputsAreCurrent } from "./component-api-manifest.mjs";
 
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
 const root = resolve(__dirname, "..");
 const coreRoot = join(root, "packages/core");
-const distRoot = join(coreRoot, "dist");
-const srcComponents = join(coreRoot, "src/components");
-const outFile = join(root, ".docs/COMPONENTS.md");
+const manifestFile = join(root, "packages/docs/src/docs/generated/component-api.json");
+const markdownFile = join(root, ".docs/COMPONENTS.md");
 
-const EXTERNAL_PREFIXES = ["preact", "@preact/signals"];
-
-const INDIRECT_VIA = {
-  "alert-dialog": "dialog",
-  drawer: "sheet",
-  sheet: "dialog",
-  "date-picker": "popover",
-};
-
-const SIGNAL_MARKERS = [
-  "@preact/signals",
-  "lib/signals",
-  "lib/interactive",
-  "createControllableSignal",
-  "createDismissableLayer",
-  "createRovingFocus",
-];
-
-/** @param {string} dir */
-function listComponentNames(dir) {
-  return readdirSync(dir)
-    .filter((name) => {
-      try {
-        return statSync(join(dir, name)).isDirectory();
-      } catch {
-        return false;
-      }
-    })
-    .sort();
-}
-
-/** @param {string} name */
-function componentImportsSignals(name) {
-  const dir = join(srcComponents, name);
-  if (!existsSync(dir)) return false;
-  const files = readdirSync(dir, { recursive: true }).filter(
-    (file) => String(file).endsWith(".ts") || String(file).endsWith(".tsx"),
-  );
-  return files.some((file) => {
-    const content = readFileSync(join(dir, file), "utf8");
-    return SIGNAL_MARKERS.some((marker) => content.includes(marker));
-  });
-}
-
-/** @param {string} componentDir */
-function detectSignals(name) {
-  const dir = join(srcComponents, name);
-  if (!existsSync(dir)) return "—";
-
-  const files = readdirSync(dir, { recursive: true }).filter(
-    (f) => String(f).endsWith(".ts") || String(f).endsWith(".tsx"),
-  );
-
-  let direct = false;
-  const wrapperImports = new Set();
-
-  for (const file of files) {
-    const content = readFileSync(join(dir, file), "utf8");
-    if (SIGNAL_MARKERS.some((m) => content.includes(m))) {
-      direct = true;
-    }
-    const importRe = /from\s+["']\.\.\/([^/"']+)/g;
-    let match;
-    while ((match = importRe.exec(content)) !== null) {
-      wrapperImports.add(match[1]);
-    }
-  }
-
-  if (direct) return "Direct";
-
-  if (INDIRECT_VIA[name]) {
-    return `Indirect (${INDIRECT_VIA[name]})`;
-  }
-
-  for (const imp of wrapperImports) {
-    if (imp === "." || imp === "..") continue;
-    if (!componentImportsSignals(imp)) continue;
-    return `Indirect (${INDIRECT_VIA[imp] ?? imp})`;
-  }
-
-  return "No";
-}
-
-/** @param {string} filePath */
-function collectDistFiles(filePath, seen = new Set()) {
-  const abs = resolve(filePath);
-  if (seen.has(abs)) return seen;
-  if (!existsSync(abs)) return seen;
-
-  const rel = relative(distRoot, abs);
-  if (EXTERNAL_PREFIXES.some((p) => rel.startsWith(p))) return seen;
-
-  seen.add(abs);
-  const code = readFileSync(abs, "utf8");
-  const importRe = /from\s+["'](\.\.?\/[^"']+)["']/g;
-  let match;
-  while ((match = importRe.exec(code)) !== null) {
-    collectDistFiles(resolve(abs, "..", match[1]), seen);
-  }
-  return seen;
-}
-
-/** @param {string} componentName */
-function measureComponentSize(componentName) {
-  const entry = join(distRoot, "components", componentName, "index.js");
-  if (!existsSync(entry)) {
-    return { min: 0, gzip: 0 };
-  }
-  const files = collectDistFiles(entry);
-  let total = 0;
-  for (const file of files) {
-    total += readFileSync(file).length;
-  }
-  const pseudoBundle = Buffer.alloc(total);
-  let offset = 0;
-  for (const file of files) {
-    const buf = readFileSync(file);
-    buf.copy(pseudoBundle, offset);
-    offset += buf.length;
-  }
-  return { min: total, gzip: gzipSync(pseudoBundle).length };
-}
+const args = new Set(process.argv.slice(2));
+const check = args.has("--check");
+const noBuild = args.has("--no-build");
+const ifStale = args.has("--if-stale");
 
 function formatKb(bytes) {
   return (bytes / 1024).toFixed(1);
+}
+
+function signalLabel(entry) {
+  if (entry.signals === "direct") return "Direct";
+  if (entry.signals === "indirect") return `Indirect (${entry.signalsVia})`;
+  return "No";
+}
+
+function markdownTable(headers, rows) {
+  const widths = headers.map((header, index) =>
+    Math.max(header.length, ...rows.map((row) => row[index].length)),
+  );
+  const cell = (value, index) => ` ${value.padEnd(widths[index])} `;
+  const line = (values) => `|${values.map(cell).join("|")}|`;
+  return [
+    line(headers),
+    `|${widths.map((width) => ` ${"-".repeat(width)} `).join("|")}|`,
+    ...rows.map(line),
+  ].join("\n");
+}
+
+function generateMarkdown(manifest) {
+  const rows = manifest.exports.filter((entry) => entry.export !== ".");
+  const gzipValues = rows
+    .map((row) => row.size.gzip)
+    .filter((size) => size > 0)
+    .sort((a, b) => a - b);
+  const median =
+    gzipValues.length === 0
+      ? 0
+      : gzipValues.length % 2 === 0
+        ? (gzipValues[gzipValues.length / 2 - 1] + gzipValues[gzipValues.length / 2]) / 2
+        : gzipValues[Math.floor(gzipValues.length / 2)];
+  const directCount = rows.filter((row) => row.signals === "direct").length;
+  const indirectCount = rows.filter((row) => row.signals === "indirect").length;
+  const noneCount = rows.filter((row) => row.signals === "none").length;
+
+  const tableRows = rows.map((row) => {
+    const peers = row.peers.length > 0 ? row.peers.map((peer) => `\`${peer}\``).join(", ") : "—";
+    return [
+      `\`${row.slug}\``,
+      formatKb(row.size.min),
+      formatKb(row.size.gzip),
+      signalLabel(row),
+      peers,
+    ];
+  });
+  const lines = [
+    "# Component sizes & signals",
+    "",
+    "> Auto-generated by `pnpm docs:components`. Do not edit by hand.",
+    "",
+    "Sizes measure the **Kamod-only JavaScript** pulled in by each `@kamod-ch/ui/<name>` subpath export (dist entry + shared chunks). **Excludes** peer dependencies (`preact`, `@preact/signals`) and CSS (`theme.css`). Prop tables, peers, and signal edges live in `packages/docs/src/docs/generated/component-api.json`.",
+    "",
+    "## Summary",
+    "",
+    `- **Exports:** ${rows.length} subpaths`,
+    `- **Gzip range:** ${formatKb(gzipValues[0] ?? 0)}–${formatKb(gzipValues.at(-1) ?? 0)} KB (median ${formatKb(median)} KB)`,
+    `- **Signals:** ${directCount} direct · ${indirectCount} indirect · ${noneCount} none (\`@preact/signals\` is an optional peer)`,
+    "",
+    "## Signals legend",
+    "",
+    markdownTable(
+      ["Value", "Meaning"],
+      [
+        ["**Direct**", "The export's own source imports `@preact/signals` or `lib/signals`"],
+        ["**Indirect (…)**", "A relative import reaches a module that uses signals"],
+        ["**No**", "The export never reaches `@preact/signals`"],
+      ],
+    ),
+    "",
+    "Install `@preact/signals` for entries marked **Direct** or **Indirect**. Entries marked **No** do not load the signals runtime.",
+    "",
+    "## Per-export table",
+    "",
+    markdownTable(["Export", "Min (KB)", "Gzip (KB)", "Signals", "Peers"], tableRows),
+  ];
+
+  return `${lines.join("\n")}\n`;
+}
+
+function renderOutputs() {
+  const manifest = buildComponentApiManifest(coreRoot);
+  return {
+    manifest: `${JSON.stringify(manifest, null, 2)}\n`,
+    markdown: generateMarkdown(manifest),
+    count: manifest.exports.length,
+  };
+}
+
+function writeOutputs(outputs) {
+  mkdirSync(dirname(manifestFile), { recursive: true });
+  mkdirSync(dirname(markdownFile), { recursive: true });
+  writeFileSync(manifestFile, outputs.manifest);
+  writeFileSync(markdownFile, outputs.markdown);
+  console.log(
+    `Wrote ${relative(root, manifestFile)} and ${relative(root, markdownFile)} (${outputs.count} exports)`,
+  );
+}
+
+function assertCurrent(outputs) {
+  const failures = [];
+  for (const [file, next] of [
+    [manifestFile, outputs.manifest],
+    [markdownFile, outputs.markdown],
+  ]) {
+    const current = existsSync(file) ? readFileSync(file, "utf8") : "";
+    if (current !== next) failures.push(relative(root, file));
+  }
+  if (failures.length === 0) {
+    console.log(`Docs metadata matches ${outputs.count} core exports.`);
+    return;
+  }
+  console.error(`Docs metadata is stale: ${failures.join(", ")}`);
+  console.error("Run pnpm docs:components and commit the generated files.");
+  process.exitCode = 1;
 }
 
 function buildCore() {
@@ -151,78 +153,18 @@ function buildCore() {
   });
 }
 
-function generateMarkdown(rows) {
-  const gzipValues = rows.map((r) => r.gzip).filter((n) => n > 0);
-  const sorted = [...gzipValues].sort((a, b) => a - b);
-  const median =
-    sorted.length === 0
-      ? 0
-      : sorted.length % 2 === 0
-        ? (sorted[sorted.length / 2 - 1] + sorted[sorted.length / 2]) / 2
-        : sorted[Math.floor(sorted.length / 2)];
-  const minGzip = sorted[0] ?? 0;
-  const maxGzip = sorted[sorted.length - 1] ?? 0;
-
-  const directCount = rows.filter((r) => r.signals === "Direct").length;
-  const indirectCount = rows.filter((r) => r.signals.startsWith("Indirect")).length;
-  const noCount = rows.filter((r) => r.signals === "No").length;
-
-  const lines = [
-    "# Component sizes & signals",
-    "",
-    "> Auto-generated by `pnpm docs:components`. Do not edit by hand.",
-    "",
-    "Sizes measure the **Kamod-only JavaScript** pulled in by each `@kamod-ch/ui/<name>` subpath export (dist entry + shared chunks). **Excludes** peer dependencies (`preact`, `@preact/signals`) and CSS (`theme.css`).",
-    "",
-    "## Summary",
-    "",
-    `- **Exports:** ${rows.length} component subpaths`,
-    `- **Gzip range:** ${formatKb(minGzip)}–${formatKb(maxGzip)} KB (median ${formatKb(median)} KB)`,
-    `- **Signals:** ${directCount} direct · ${indirectCount} indirect · ${noCount} none (\`@preact/signals\` is an optional peer)`,
-    "",
-    "## Signals legend",
-    "",
-    "| Value | Meaning |",
-    "| ----- | ------- |",
-    "| **Direct** | Component source imports `@preact/signals` or `lib/signals` / `lib/interactive` |",
-    "| **Indirect (…)** | Wraps another component that uses signals (e.g. Sheet → Dialog) |",
-    "| **No** | Presentational only — no internal signal usage |",
-    "",
-    "Install `@preact/signals` for entries marked **Direct** or **Indirect**. Entries marked **No** do not load the signals runtime.",
-    "",
-    "## Per-component table",
-    "",
-    "| Component | Min (KB) | Gzip (KB) | Signals |",
-    "| --------- | -------- | --------- | ------- |",
-  ];
-
-  for (const row of rows) {
-    lines.push(
-      `| \`${row.name}\` | ${formatKb(row.min)} | ${formatKb(row.gzip)} | ${row.signals} |`,
-    );
-  }
-
-  lines.push("");
-  return lines.join("\n");
-}
-
 function main() {
-  buildCore();
-
-  if (!existsSync(distRoot)) {
-    throw new Error(`Build output missing: ${distRoot}`);
+  if (ifStale && !check && outputsAreCurrent(coreRoot, manifestFile, markdownFile)) {
+    console.log("Docs metadata is up to date.");
+    return;
   }
-
-  const names = listComponentNames(join(distRoot, "components"));
-  const rows = names.map((name) => {
-    const { min, gzip } = measureComponentSize(name);
-    return { name, min, gzip, signals: detectSignals(name) };
-  });
-
-  rows.sort((a, b) => a.name.localeCompare(b.name));
-
-  writeFileSync(outFile, generateMarkdown(rows), "utf8");
-  console.log(`Wrote ${relative(root, outFile)} (${rows.length} components)`);
+  if (!noBuild) buildCore();
+  if (!existsSync(join(coreRoot, "dist"))) {
+    throw new Error(`Build output missing: ${join(coreRoot, "dist")}`);
+  }
+  const outputs = renderOutputs();
+  if (check) assertCurrent(outputs);
+  else writeOutputs(outputs);
 }
 
 main();

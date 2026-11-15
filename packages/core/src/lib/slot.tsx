@@ -80,7 +80,7 @@ export const composeRefs = (...refs: AnyRef[]): Ref<HTMLElement> | undefined => 
   };
 };
 
-export const composeEventHandlers = <E,>(
+const composeEventHandlers = <E,>(
   childHandler: ((event: E) => void) | undefined,
   slotHandler: ((event: E) => void) | undefined,
 ): ((event: E) => void) | undefined => {

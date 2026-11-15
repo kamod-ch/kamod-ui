@@ -23,9 +23,11 @@ describe("buildComponentDocMarkdown", () => {
     ]);
 
     expect(markdown).toContain(
-      "> Demo snippets in this app use the local `@/components/kamod-ui/*` alias. For real app code, install `@kamod-ch/ui` and import from that package.",
+      '> Copyable examples switch between `import { … } from "@kamod-ch/ui"` and the matching `@kamod-ch/ui/<component>` subpath. Install the package and connect its theme stylesheet before rendering.',
     );
-    expect(markdown.indexOf("alias")).toBeLessThan(markdown.indexOf("## Installation"));
+    expect(markdown.indexOf("@kamod-ch/ui/<component>")).toBeLessThan(
+      markdown.indexOf("## Installation"),
+    );
     expect(markdown.indexOf("## Installation")).toBeLessThan(
       markdown.indexOf("pnpm add @kamod-ch/ui"),
     );

@@ -1316,6 +1316,21 @@ html.dark .docs-copy-feedback.is-error {
   gap: 1.25rem;
 }
 
+.docs-api-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.docs-api-meta code,
+.docs-api-meta span {
+  border: 1px solid rgb(255 255 255 / 12%);
+  border-radius: 999px;
+  padding: 0.15rem 0.55rem;
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
 .docs-api-table-wrap {
   margin: 0;
   overflow-x: auto;
@@ -3199,4 +3214,27 @@ html.dark .landing-shadcn-brand-logo--dark-theme {
   vertical-align: top;
   white-space: pre;
   text-indent: 0;
+}
+.component-import-style {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  max-width: 100%;
+  margin-bottom: 0.75rem;
+}
+.component-import-style button {
+  max-width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--foreground);
+  padding: 0.25rem 0.625rem;
+  font-size: 0.75rem;
+  line-height: 1.25rem;
+  text-align: start;
+  white-space: normal;
+}
+.component-import-style button[aria-pressed="true"] {
+  background: var(--foreground);
+  color: var(--background);
 }

@@ -14,6 +14,7 @@ import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const popoverDocPage = createGenericDocPage({
   slug: "popover",
+  generatedApi: true,
   title: "Popover",
   usageLabel:
     "A modern popup that floats next to a trigger for lightweight actions, forms, and contextual content.",

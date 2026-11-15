@@ -511,7 +511,7 @@ export const alertDialogDocPage: DocPageModule = {
   renderMain: (context) => {
     const renderSectionBody = (sectionId: string) => {
       if (sectionId === "api-reference") {
-        return <ApiReference sections={apiSections} />;
+        return <ApiReference component="alert-dialog" sections={apiSections} />;
       }
       if (sectionId === "installation") {
         return (

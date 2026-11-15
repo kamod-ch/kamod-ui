@@ -179,6 +179,7 @@ const ToastPreviewPosition = () => {
 
 export const toastDocPage = createGenericDocPage({
   slug: "toast",
+  generatedApi: true,
   title: "Toast",
   usageLabel: "Toast displays transient notifications with Sonner-inspired variants and placement.",
   installationText:

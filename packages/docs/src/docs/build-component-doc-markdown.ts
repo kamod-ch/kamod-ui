@@ -17,7 +17,7 @@ export function buildComponentDocMarkdown(
     "",
     snippetImports === "package"
       ? "> These examples use the public `@kamod-ch/ui` package exports. Install the package and connect its theme stylesheet before rendering."
-      : "> Demo snippets in this app use the local `@/components/kamod-ui/*` alias. For real app code, install `@kamod-ch/ui` and import from that package.",
+      : '> Copyable examples switch between `import { … } from "@kamod-ch/ui"` and the matching `@kamod-ch/ui/<component>` subpath. Install the package and connect its theme stylesheet before rendering.',
     "",
   ];
 

@@ -307,6 +307,7 @@ const tabsApiRows = {
 const tabsSectionOutroById: Record<string, () => ComponentChildren> = {
   [TabsSectionType.API_REFERENCE]: () => (
     <ApiReference
+      component="tabs"
       sections={[
         { title: "Tabs", rows: tabsApiRows.Tabs },
         { title: "Tabs List", rows: tabsApiRows.TabsList },

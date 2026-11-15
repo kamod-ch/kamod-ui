@@ -3,6 +3,7 @@ import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const themeToggleDocPage = createGenericDocPage({
   slug: "theme-toggle",
+  generatedApi: true,
   title: "Theme Toggle",
   usageLabel: "Theme Toggle switches between light and dark appearance.",
   installationText: "Import ThemeToggle from `@/components/kamod-ui/theme-toggle`.",

@@ -19,6 +19,7 @@ import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const emptyDocPage = createGenericDocPage({
   slug: "empty",
+  generatedApi: true,
   title: "Empty",
   previewCode: `import { Button } from "@/components/kamod-ui/button"
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/kamod-ui/empty";

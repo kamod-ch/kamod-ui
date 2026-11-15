@@ -325,6 +325,7 @@ const CheckboxIndeterminatePreview = () => {
 
 export const checkboxDocPage = createGenericDocPage({
   slug: "checkbox",
+  generatedApi: true,
   title: "Checkbox",
   previewCode: `import { Checkbox } from "@/components/kamod-ui/checkbox"
 import { Field, FieldContent, FieldDescription, FieldGroup, FieldLabel, FieldTitle } from "@/components/kamod-ui/field";

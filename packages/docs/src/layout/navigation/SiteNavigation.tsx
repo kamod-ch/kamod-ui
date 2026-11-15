@@ -1,5 +1,5 @@
 import { MenuIcon } from "@kamod-ch/icons/lucide";
-import { Sheet, SheetContent, SheetTrigger } from "@kamod-ch/ui";
+import { Sheet, SheetContent, SheetTrigger } from "@kamod-ch/ui/sheet";
 import { useEffect, useId, useRef, useState } from "preact/hooks";
 import { DocsSidebarNavigation } from "./DocsSidebarNavigation";
 import { NavigationMenuFooter } from "./NavigationMenuFooter";

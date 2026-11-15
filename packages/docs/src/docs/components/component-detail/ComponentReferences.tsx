@@ -1,6 +1,6 @@
 import { ArrowUpRightIcon, CodeIcon, PaletteIcon } from "@kamod-ch/icons/lucide";
 import { BrandGithubIcon } from "@kamod-ch/icons/tabler/filled";
-import { Button } from "@kamod-ch/ui";
+import { Button } from "@kamod-ch/ui/button";
 import type { ComponentChildren } from "preact";
 import { withBasePath } from "../../../base-path";
 import { BlockHeadingLink } from "../../../blocks/BlockHeadingLink";

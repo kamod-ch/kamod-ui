@@ -3,6 +3,7 @@ import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const separatorDocPage = createGenericDocPage({
   slug: "separator",
+  generatedApi: true,
   title: "Separator",
   usageLabel: "Separator trennt Inhalte visuell oder semantisch in modernen Layouts.",
   installationText: "Import Separator from `@/components/kamod-ui/separator`.",

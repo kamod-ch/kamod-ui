@@ -29,6 +29,8 @@ type GenericDocPageConfig = {
     renderPreview: () => ComponentChildren;
   }>;
   apiRows: ApiReferenceRow[];
+  /** Render prop tables from the generated core manifest. `apiRows` stays in source for the help extractor. */
+  generatedApi?: boolean;
   accessibilityText: string;
 };
 
@@ -80,6 +82,7 @@ export const createGenericDocPage = (config: GenericDocPageConfig): DocPageModul
     }
 
     if (sectionId === "api-reference") {
+      if (config.generatedApi) return <ApiReference component={config.slug} />;
       return (
         <ApiReference
           sections={[

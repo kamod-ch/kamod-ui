@@ -3,6 +3,7 @@ import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const videoDocPage = createGenericDocPage({
   slug: "video",
+  generatedApi: true,
   title: "Video",
   usageLabel: "Video displays embedded media with browser-native controls.",
   installationText: "Import Video from `@/components/kamod-ui/video`.",

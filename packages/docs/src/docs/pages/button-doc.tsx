@@ -5,6 +5,8 @@ import { useState } from "preact/hooks";
 import { ApiReference } from "../components/ApiReference";
 import { CodeBlock } from "../components/CodeBlock";
 import { ComponentDocSection } from "../components/component-detail/ComponentDocSection";
+import { ButtonHeroExample } from "../examples/button-hero";
+import buttonHeroSource from "../examples/button-hero.tsx?raw";
 import type { DocPageModule } from "../types";
 
 type Lang = "en" | "ar" | "he";
@@ -92,18 +94,6 @@ const cursorCssSnippet = `@layer base {
     cursor: pointer;
   }
 }`;
-
-const heroCode = `import { ArrowUp } from "lucide-preact";
-import { Button } from "@/components/kamod-ui/button";
-
-export const Example = () => (
-  <div class="flex flex-wrap items-center gap-2 md:flex-row">
-    <Button variant="outline">Button</Button>
-    <Button variant="outline" size="icon" aria-label="Submit">
-      <ArrowUp />
-    </Button>
-  </div>
-);`;
 
 const sectionBlocks: Record<string, { preview: () => ComponentChildren; code: string }> = {
   size: {
@@ -328,24 +318,6 @@ import { Spinner } from "@/components/kamod-ui/spinner";
   },
 };
 
-const buttonApiRows: Array<{ prop: string; type: string; defaultValue: string }> = [
-  {
-    prop: "variant",
-    type: '"default" | "outline" | "ghost" | "destructive" | "secondary" | "inverse" | "link"',
-    defaultValue: '"default"',
-  },
-  {
-    prop: "size",
-    type: '"default" | "xxs" | "xs" | "sm" | "lg" | "icon" | "icon-xs" | "icon-sm" | "icon-lg"',
-    defaultValue: '"default"',
-  },
-  {
-    prop: "asChild",
-    type: "boolean",
-    defaultValue: "false",
-  },
-];
-
 export const buttonDocPage: DocPageModule = {
   slug: "button",
   title: "Button",
@@ -443,18 +415,7 @@ export const buttonDocPage: DocPageModule = {
   renderMain: (context) => {
     const renderSectionBody = (sectionId: string) => {
       if (sectionId === "api-reference") {
-        return (
-          <ApiReference
-            sections={[
-              {
-                title: "Button",
-                description:
-                  "Wrapper around button (or anchor with href) that applies variant and size tokens.",
-                rows: buttonApiRows,
-              },
-            ]}
-          />
-        );
+        return <ApiReference component="button" />;
       }
       if (sectionId === "cursor") {
         return <CodeBlock code={cursorCssSnippet} language="css" />;
@@ -484,15 +445,9 @@ export const buttonDocPage: DocPageModule = {
       <>
         {context.renderTitleRow()}
         {context.renderPreviewAndCodeTabs({
-          preview: (
-            <div class="flex flex-wrap items-center gap-2 md:flex-row">
-              <Button variant="outline">Button</Button>
-              <Button variant="outline" size="icon" aria-label="Submit">
-                <ArrowUp />
-              </Button>
-            </div>
-          ),
-          codeSnippet: heroCode,
+          preview: <ButtonHeroExample />,
+          codeSnippet: buttonHeroSource,
+          filePath: "src/docs/examples/button-hero.tsx",
         })}
         {context.sections.map((docSection) => (
           <ComponentDocSection key={docSection.id} section={docSection}>

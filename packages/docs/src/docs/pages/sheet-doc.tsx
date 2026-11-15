@@ -19,6 +19,7 @@ import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const sheetDocPage = createGenericDocPage({
   slug: "sheet",
+  generatedApi: true,
   title: "Sheet",
   usageLabel: "Sheet extends Dialog to render content from a viewport edge.",
   installationText:

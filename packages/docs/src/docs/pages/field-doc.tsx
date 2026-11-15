@@ -50,6 +50,7 @@ const FieldSliderPreview = () => {
 
 export const fieldDocPage = createGenericDocPage({
   slug: "field",
+  generatedApi: true,
   title: "Field",
   previewCode: `import { Field, FieldDescription, FieldGroup, FieldLabel, FieldSet } from "@/components/kamod-ui/field";
 import { Input } from "@/components/kamod-ui/input";

@@ -51,6 +51,7 @@ const SettingsIcon = () => (
 
 export const dropdownDocPage = createGenericDocPage({
   slug: "dropdown",
+  generatedApi: true,
   title: "Dropdown",
   usageLabel:
     "Context menu from a trigger — dismiss layer, positioning, asChild trigger, submenus, shortcuts, checkbox and radio items (shadcn Dropdown Menu pattern).",

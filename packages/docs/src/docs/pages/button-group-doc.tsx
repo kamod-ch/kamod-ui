@@ -882,6 +882,7 @@ export const buttonGroupDocPage: DocPageModule = {
       if (sectionId === "api-reference") {
         return (
           <ApiReference
+            component="button-group"
             sections={[
               { title: "Button Group", rows: apiRows },
               { title: "Button Group Separator", rows: separatorApiRows },

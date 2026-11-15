@@ -31,10 +31,14 @@ export const DropdownTrigger = ({
   const dropdown = useDropdown();
 
   const handleClick = (event: TargetedMouseEvent<HTMLElement>) => {
-    dropdown.triggerClickHandledRef.current = true;
     onClick?.(event as TargetedMouseEvent<HTMLButtonElement>);
-    if (event.defaultPrevented) return;
-    dropdown.setOpen(!dropdown.open.value);
+    const intent = dropdown.clickIntentRef.current;
+    dropdown.triggerClickHandledRef.current = true;
+    if (event.defaultPrevented) {
+      if (intent !== null && dropdown.open.value === intent) dropdown.setOpen(!intent);
+      return;
+    }
+    dropdown.setOpen(intent === null ? !dropdown.open.value : intent);
   };
 
   const handleKeyDown: NonNullable<ButtonHTMLAttributes<HTMLButtonElement>["onKeyDown"]> = (

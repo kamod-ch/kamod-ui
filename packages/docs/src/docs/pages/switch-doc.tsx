@@ -3,6 +3,7 @@ import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const switchDocPage = createGenericDocPage({
   slug: "switch",
+  generatedApi: true,
   title: "Switch",
   usageLabel: "A compact control for on/off settings.",
   installationText: "Import Switch from `@/components/kamod-ui/switch`.",

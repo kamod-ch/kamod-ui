@@ -82,7 +82,7 @@ it("preserves the real Dialog composition table, source ownership and both actua
   expect(setup.excerpts![1]).toMatchObject({
     title: "Usage",
     description: expect.stringContaining("two backdrops"),
-    code: { value: 'import { Dialog } from "@/components/kamod-ui/dialog";', language: "tsx" },
+    code: { value: 'import { Dialog } from "@kamod-ch/ui";', language: "tsx" },
     source: { href: "/docs/dialog/installation#usage" },
   });
   const props = help.sections!.find((section) => section.fields)!;

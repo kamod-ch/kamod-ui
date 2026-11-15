@@ -3,6 +3,7 @@ import { useContext, useId } from "preact/hooks";
 import { BlockHeadingLink } from "../../blocks/BlockHeadingLink";
 import { BlockPropsTable } from "../../blocks/detail/BlockPropsTable";
 import { linkTitle, utilityName } from "../../link-title";
+import { type ComponentApiExport, componentApiExport } from "../generated-component-api";
 import { ComponentTypeRevealContext } from "./component-detail/ComponentApiSection";
 import { componentApiRowOwners, componentTypeId } from "./component-detail/component-api";
 import { componentPropsId } from "./component-detail/component-api-id";
@@ -22,7 +23,10 @@ type ApiReferenceSection = {
 };
 
 type ApiReferenceProps = {
-  sections: readonly ApiReferenceSection[];
+  /** Core subpath slug. When set, tables come from the generated manifest. */
+  component?: string;
+  /** Authored rows. Rendered when `component` is omitted; kept for the help extractor when both are set. */
+  sections?: readonly ApiReferenceSection[];
 };
 
 function ApiReferenceTable({ section }: { section: ApiReferenceSection }) {
@@ -134,12 +138,71 @@ function ApiReferenceTable({ section }: { section: ApiReferenceSection }) {
   );
 }
 
-export const ApiReference = ({ sections }: ApiReferenceProps) => (
-  <div class="docs-api-reference-group">
-    {sections.map((section) => (
-      <ApiReferenceTable key={section.title} section={section} />
-    ))}
-  </div>
-);
+function formatKb(bytes: number) {
+  return `${(bytes / 1024).toFixed(1)} KB`;
+}
+
+function signalLabel(entry: ComponentApiExport) {
+  if (entry.signals === "direct") return "Signals: direct";
+  if (entry.signals === "indirect") return `Signals: via ${entry.signalsVia}`;
+  return "Signals: none";
+}
+
+function ApiExportMeta({ entry }: { entry: ComponentApiExport }) {
+  return (
+    <div class="docs-api-meta">
+      <code aria-label="Subpath import">{entry.specifier}</code>
+      <span aria-label="Bundle size">
+        {formatKb(entry.size.min)} min · {formatKb(entry.size.gzip)} gzip
+      </span>
+      <span aria-label="Signal status">{signalLabel(entry)}</span>
+      {entry.peers.map((peer) => (
+        <span key={peer}>{peer}</span>
+      ))}
+    </div>
+  );
+}
+
+function GeneratedApiReference({ slug }: { slug: string }) {
+  const entry = componentApiExport(slug);
+  if (!entry) {
+    return (
+      <p class="docs-copy">
+        No generated API entry for <code>{slug}</code>.
+      </p>
+    );
+  }
+  const sections: ApiReferenceSection[] = entry.components
+    .filter((component) => component.props.length > 0)
+    .map((component) => ({
+      title: component.name,
+      description: component.propsType,
+      rows: component.props.map((prop) => ({
+        prop: prop.name,
+        type: prop.type,
+        defaultValue: prop.default ?? "—",
+        description: prop.description || undefined,
+      })),
+    }));
+  return (
+    <div class="docs-api-reference-group">
+      <ApiExportMeta entry={entry} />
+      {sections.map((section) => (
+        <ApiReferenceTable key={section.title} section={section} />
+      ))}
+    </div>
+  );
+}
+
+export const ApiReference = (props: ApiReferenceProps) => {
+  if (props.component) return <GeneratedApiReference slug={props.component} />;
+  return (
+    <div class="docs-api-reference-group">
+      {(props.sections ?? []).map((section) => (
+        <ApiReferenceTable key={section.title} section={section} />
+      ))}
+    </div>
+  );
+};
 
 export type { ApiReferenceRow, ApiReferenceSection };

@@ -197,6 +197,7 @@ const ResponsiveProfilePreview = () => {
 
 export const drawerDocPage = createGenericDocPage({
   slug: "drawer",
+  generatedApi: true,
   title: "Drawer",
   previewCode: `import { Button } from "@/components/kamod-ui/button"
 import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/kamod-ui/drawer";

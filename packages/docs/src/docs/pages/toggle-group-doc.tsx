@@ -25,6 +25,7 @@ const ControlledToggleGroupPreview = () => {
 
 export const toggleGroupDocPage = createGenericDocPage({
   slug: "toggle-group",
+  generatedApi: true,
   title: "Toggle Group",
   usageLabel:
     "Toggle Group manages modern single- or multi-select controls with a segmented, toolbar-friendly style.",

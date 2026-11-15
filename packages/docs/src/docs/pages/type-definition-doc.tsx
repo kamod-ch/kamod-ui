@@ -37,6 +37,7 @@ const ControlledDefinition = () => {
 
 export const typeDefinitionDocPage = createGenericDocPage({
   slug: "type-definition",
+  generatedApi: true,
   title: "Type Definition",
   usageLabel:
     "Keep the purpose of a contract visible while its implementation stays one click away. Type Definition brings a readable heading, exact identifier, contextual metadata and an accessible disclosure into one compact reference card. Use it for component props, configuration shapes and event payloads without coupling your interface to a syntax highlighter or documentation router.",

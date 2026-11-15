@@ -3,6 +3,7 @@ import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const chartDocPage = createGenericDocPage({
   slug: "chart",
+  generatedApi: true,
   title: "Chart",
   usageLabel: "Chart wraps charting primitives with Kamod design tokens.",
   installationText: "Import Chart from `@/components/kamod-ui/chart` and pass series plus config.",

@@ -3,6 +3,7 @@ import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const selectableCardDocPage = createGenericDocPage({
   slug: "selectable-card",
+  generatedApi: true,
   title: "Selectable Card",
   usageLabel:
     "Card-style radio options for plan pickers, delivery choices, and other single-select layouts.",

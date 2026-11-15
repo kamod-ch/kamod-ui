@@ -1,5 +1,4 @@
 /** The article and lazy reference previews share the exact default usage import. */
-import { rewriteKamodCoreImportsInDocString } from "./doc-snippet-imports.ts";
 
 const imports: Record<string, string> = {
   button: "Button, Spinner",
@@ -27,8 +26,5 @@ export function docUsageImport({
 }) {
   if (usageImportSnippet) return usageImportSnippet;
   const componentName = docComponentName(slug);
-  return rewriteKamodCoreImportsInDocString(
-    `import { ${imports[slug] ?? componentName} } from "@kamod-ch/ui";`,
-    slug,
-  );
+  return `import { ${imports[slug] ?? componentName} } from "@kamod-ch/ui";`;
 }
