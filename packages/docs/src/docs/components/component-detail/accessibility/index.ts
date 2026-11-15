@@ -24,6 +24,46 @@ export function componentAccessibility(slug: string): AccessibilityProfile | und
   return profiles[slug];
 }
 
+/** Overlays, menus and form controls keep the full accessibility article. */
+const detailedAccessibilitySlugs = new Set([
+  "alert-dialog",
+  "calendar",
+  "checkbox",
+  "combobox",
+  "command",
+  "context-menu",
+  "date-picker",
+  "dialog",
+  "drawer",
+  "dropdown",
+  "dropzone",
+  "field",
+  "formisch",
+  "hover-card",
+  "input",
+  "input-group",
+  "input-otp",
+  "label",
+  "menubar",
+  "native-select",
+  "navigation-menu",
+  "popover",
+  "radio-group",
+  "select",
+  "selectable-card",
+  "sheet",
+  "slider",
+  "sonner",
+  "switch",
+  "textarea",
+  "toast",
+  "tooltip",
+]);
+
+export function usesDetailedAccessibility(slug: string): boolean {
+  return detailedAccessibilitySlugs.has(slug);
+}
+
 export const accessibilityContents = [
   { id: "accessibility-foundation", label: "Built-in Behavior and Defaults" },
   { id: "accessibility-naming", label: "Labels and Relationships" },

@@ -128,8 +128,8 @@ it.each([
 it("validates page/section destinations against real routes, preserving the authored anchor", async () => {
   for (const path of [
     "/docs/components#library-items",
-    "/docs/code/installation#code-prism-pipeline",
-    "/docs/code/code-prism-pipeline",
+    "/docs/code-internals/code-prism-pipeline",
+    "/docs/code-internals/code-prism-pipeline",
     "/blocks/signup/signup-01#signup-01-copy",
   ]) {
     const request = inlineSourceReference(path)!;

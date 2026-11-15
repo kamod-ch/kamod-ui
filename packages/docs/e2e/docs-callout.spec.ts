@@ -19,11 +19,6 @@ const examples = [
   },
   { name: "library", path: "blocks", selector: 'nav[aria-label="Library guides"] .docs-callout' },
   { name: "exercise", path: "blocks/styles", selector: ".guide-next-exercises .docs-callout" },
-  {
-    name: "component",
-    path: "docs/accordion/installation",
-    selector: ".component-references .docs-callout",
-  },
 ];
 
 for (const example of examples) {

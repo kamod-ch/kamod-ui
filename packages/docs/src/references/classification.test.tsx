@@ -33,7 +33,7 @@ it.each([
   [
     "@kamod-ch/ui/code/styles.css",
     "blob/main/packages/core/src/components/code/code-styles.css",
-    "/docs/code/installation#code-css-ownership",
+    "/docs/code-internals/installation#code-css-ownership",
   ],
 ])(
   "%s keeps its inline destination while opening the saved root package",

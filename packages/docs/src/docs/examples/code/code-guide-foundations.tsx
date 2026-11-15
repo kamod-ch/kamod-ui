@@ -111,8 +111,8 @@ export function CodeUsageGuide() {
           <code>{"showToolbar={false}"}</code> removes the optional top bar, and{" "}
           <code>{"showWrapControl={false}"}</code> keeps long lines in the native horizontal scroll
           area. The later <a href="#source-file">Optional File Header</a> and{" "}
-          <a href="#reading-behavior">Reading Preferences</a> sections explain when extra context
-          and interactive tools become useful.
+          <a href="/docs/code-internals/reading-behavior">Reading Preferences</a> sections explain
+          when extra context and interactive tools become useful.
         </p>
         <DocsCallout title="A code surface that fits your interface" icon={<InfoIcon />}>
           <p>

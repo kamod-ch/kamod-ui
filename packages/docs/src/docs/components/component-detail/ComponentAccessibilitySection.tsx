@@ -27,12 +27,32 @@ function AccessibilityText({ text }: { text: string }) {
 export function ComponentAccessibilitySection({
   doc,
   profile,
+  summary = false,
   children,
 }: {
   doc: DocPageModule;
   profile: AccessibilityProfile;
+  /** One component-specific note. Overlays, menus and forms keep the full article. */
+  summary?: boolean;
   children?: ComponentChildren;
 }) {
+  if (summary) {
+    return (
+      <section
+        id="accessibility"
+        class="docs-section blocks-doc-section component-doc-section"
+        aria-labelledby="accessibility-title"
+      >
+        <h2 id="accessibility-title" tabIndex={-1}>
+          <BlockHeadingLink id="accessibility">Accessibility</BlockHeadingLink>
+        </h2>
+        <p class="docs-copy">
+          <AccessibilityText text={profile.foundation} />
+        </p>
+        {children}
+      </section>
+    );
+  }
   return (
     <section
       id="accessibility"

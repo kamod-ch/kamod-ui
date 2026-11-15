@@ -2184,7 +2184,7 @@ html.dark .landing-shadcn-brand-logo--dark-theme {
   border-radius: var(--radius-lg);
   border: 1px solid color-mix(in oklab, var(--border) 85%, transparent);
   background: var(--background);
-  /* allow mode dropdown (opens upward) to paint outside the box */
+  /* allow mode dropdown to paint outside the box */
   overflow: visible;
 }
 

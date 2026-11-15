@@ -209,7 +209,7 @@ export function CompareSources({ before, after }: Sources) {
             The example uses TypeScript highlighting, Forest token colors and an outlined panel. Its
             header and controls continue to belong to your app. For broader changes, follow{" "}
             <a href={withBasePath("/docs/theming/installation")}>Theming</a>; for only the frame,
-            compare <a href="#appearance">Surface Variants</a>.
+            compare <a href="/docs/code/appearance">Surface Variants</a>.
           </p>
         </DocsCallout>
         <p>
@@ -217,8 +217,8 @@ export function CompareSources({ before, after }: Sources) {
           source canvas and foreground. Likewise, <code>{"highlight={false}"}</code> skips token
           markup, and <code>renderedContent</code> supplies its own presentation. A palette cannot
           add missing grammar support. Start with{" "}
-          <a href="#language-detection">Language Selection</a> if recognized source is the part that
-          needs changing.
+          <a href="/docs/code/language-detection">Language Selection</a> if recognized source is the
+          part that needs changing.
         </p>
       </Topic>
       <Topic id="code-syntax-overrides" title="Tune a few tokens before designing a whole palette">
@@ -287,7 +287,8 @@ export function CompareSources({ before, after }: Sources) {
           For a custom surface, the same root accepts <code>--kamod-code-surface</code> and{" "}
           <code>--kamod-code-header</code>. Review text and controls together when changing their
           backgrounds. Continue with <a href="#customization">Composition and Theming</a> for
-          layout, or <a href="#accessibility">Accessibility</a> for keyboard and reading checks.
+          layout, or <a href="/docs/code/accessibility">Accessibility</a> for keyboard and reading
+          checks.
         </p>
       </Topic>
     </>

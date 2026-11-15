@@ -10,8 +10,8 @@ export function CodeCustomizationGuide() {
           Use <code>variant="default"</code> for the familiar framed code surface,{" "}
           <code>subtle</code> when the snippet sits inside another quiet reading area, and{" "}
           <code>outline</code> when the surrounding background should remain visible. The{" "}
-          <a href="#appearance">Surface Comparison</a> lets you inspect the same source in each
-          variant.
+          <a href="/docs/code/appearance">Surface Comparison</a> lets you inspect the same source in
+          each variant.
         </p>
         <p>
           Set <code>class</code> on the root for width, placement and layout. Use{" "}
@@ -40,10 +40,10 @@ export function CodeCustomizationGuide() {
         </p>
         <p>
           The actions value can contain both wrapping and Copy, depending on the source and controls
-          you enabled. It is not always only a copy button. The <a href="#toolbar">Custom Header</a>{" "}
-          example hides the wrap switch deliberately, then places the remaining action opposite a
-          small contextual label. The separate import row, when present, continues to use the shared
-          layout.
+          you enabled. It is not always only a copy button. The{" "}
+          <a href="/docs/code/toolbar">Custom Header</a> example hides the wrap switch deliberately,
+          then places the remaining action opposite a small contextual label. The separate import
+          row, when present, continues to use the shared layout.
         </p>
         <p>
           <code>CodeFileHeader</code> and <code>CodeSnippetLabel</code> are available for more

@@ -8,8 +8,8 @@
       "signals": "direct",
       "signalsVia": null,
       "size": {
-        "min": 572995,
-        "gzip": 117070
+        "min": 573252,
+        "gzip": 117102
       },
       "peers": [
         "@kamod-ch/themes",
@@ -11253,8 +11253,8 @@
       "signals": "indirect",
       "signalsVia": "dialog",
       "size": {
-        "min": 43725,
-        "gzip": 10530
+        "min": 43982,
+        "gzip": 10578
       },
       "peers": [
         "@preact/signals"
@@ -12021,8 +12021,8 @@
       "signals": "none",
       "signalsVia": null,
       "size": {
-        "min": 9615,
-        "gzip": 2905
+        "min": 9872,
+        "gzip": 2943
       },
       "peers": [],
       "components": [
@@ -12171,8 +12171,8 @@
       "signals": "none",
       "signalsVia": null,
       "size": {
-        "min": 55289,
-        "gzip": 12176
+        "min": 55546,
+        "gzip": 12225
       },
       "peers": [],
       "components": [
@@ -12652,8 +12652,8 @@
       "signals": "direct",
       "signalsVia": null,
       "size": {
-        "min": 20050,
-        "gzip": 5103
+        "min": 20307,
+        "gzip": 5147
       },
       "peers": [
         "@preact/signals"
@@ -15159,8 +15159,8 @@
       "signals": "indirect",
       "signalsVia": "popover",
       "size": {
-        "min": 57438,
-        "gzip": 13965
+        "min": 57695,
+        "gzip": 14014
       },
       "peers": [
         "@preact/signals"
@@ -17197,8 +17197,8 @@
       "signals": "none",
       "signalsVia": null,
       "size": {
-        "min": 17329,
-        "gzip": 4368
+        "min": 17586,
+        "gzip": 4413
       },
       "peers": [],
       "components": [
@@ -18752,8 +18752,8 @@
       "signals": "none",
       "signalsVia": null,
       "size": {
-        "min": 13694,
-        "gzip": 3745
+        "min": 13951,
+        "gzip": 3792
       },
       "peers": [],
       "components": [
@@ -20223,8 +20223,8 @@
       "signals": "indirect",
       "signalsVia": "tooltip",
       "size": {
-        "min": 83481,
-        "gzip": 17982
+        "min": 83738,
+        "gzip": 18034
       },
       "peers": [
         "@preact/signals"
@@ -21555,8 +21555,8 @@
       "signals": "none",
       "signalsVia": null,
       "size": {
-        "min": 15188,
-        "gzip": 4466
+        "min": 15445,
+        "gzip": 4506
       },
       "peers": [
         "@kamod-ch/themes"

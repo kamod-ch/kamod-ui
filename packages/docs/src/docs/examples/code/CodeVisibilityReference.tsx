@@ -24,7 +24,7 @@ const options = [
   {
     option: "showCopy={false}",
     purpose: "Remove the clipboard action",
-    href: "#copy-and-content",
+    href: "/docs/code/copy-and-content",
     description: (
       <>
         <strong>The header and reading controls stay.</strong> Readers can still select the source

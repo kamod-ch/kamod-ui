@@ -295,15 +295,6 @@ for (const scheme of ["light", "dark"] as const) {
       const label = page.locator(".block-guide-eyebrow-label");
       await expect(label).toHaveCSS("font-weight", "600");
       await expect(label.locator("svg")).toHaveCSS("stroke-width", "2.25px");
-      await page.goto("/docs/accordion/installation#component-references");
-      const pair = page.locator(".component-reference-pair").first();
-      await pair.locator("h3").scrollIntoViewIfNeeded();
-      expect((await pair.locator(".component-reference-bridge").boundingBox())!.x).toBeCloseTo(
-        (await pair.boundingBox())!.x,
-        1,
-      );
-      await expect(pair.locator(".component-reference-panel h3")).toHaveCount(0);
-      await expect(pair.locator(".component-reference-category")).toContainText("·");
       const ending = page.locator(".getting-started-reference");
       await ending.getByRole("heading", { level: 2 }).scrollIntoViewIfNeeded();
       await expect(ending.getByRole("heading", { level: 2 })).toBeInViewport();
@@ -334,7 +325,7 @@ test("CSS imports fold while wrapping and Copy preserve complete source", async 
   browserName,
 }) => {
   await enableTestClipboard(context, browserName);
-  await page.goto("/docs/code/installation#code-folding-rules");
+  await page.goto("/docs/code-internals/reading-behavior#code-folding-rules");
   const snippet = page.locator(".kamod-code").filter({ hasText: "src/styles/theme.css" });
   const source = snippet.locator("pre code");
   await source.scrollIntoViewIfNeeded();

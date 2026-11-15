@@ -83,7 +83,7 @@ export const codeDocPage: DocPageModule = {
     {
       id: "appearance",
       title: "Surface Variants",
-      text: "**Fit the Snippet into Its Surroundings.** Choose `default`, `subtle` or `outline` to adjust the code surface without changing its source or syntax highlighting. The examples share one short string and keep their labels outside Code, so the difference in the surfaces is easy to compare.\n\nUse the default for a distinct reading area, subtle for a quiet inset, or outline when an existing parent already provides the surrounding surface. All three follow the application theme. More detailed token and font choices appear later in [Syntax Themes and Typography](#syntax-themes).",
+      text: "**Fit the Snippet into Its Surroundings.** Choose `default`, `subtle` or `outline` to adjust the code surface without changing its source or syntax highlighting. The examples share one short string and keep their labels outside Code, so the difference in the surfaces is easy to compare.\n\nUse the default for a distinct reading area, subtle for a quiet inset, or outline when an existing parent already provides the surrounding surface. Syntax colors, Prism palettes and reader extensions are on the [Code internals](/docs/code-internals/syntax-themes) page.",
     },
     {
       id: "source-file",
@@ -94,26 +94,6 @@ export const codeDocPage: DocPageModule = {
       id: "toolbar",
       title: "Custom Header",
       text: "**Use the Header to Explain Why This Source Matters.** A destination path is not always the most useful label. `renderToolbar` lets you introduce a short purpose, state or piece of context while retaining the component’s own actions. The example places workspace defaults on the left and the supplied Copy action on the right.\n\nThis composition disables the wrap switch because the source is short. In a general source viewer, the supplied `actions` may include wrapping too, so render that value rather than rebuilding its buttons. Use `toolbarContent` for a smaller addition and reserve the full render function for an actual layout change.",
-    },
-    {
-      id: "syntax-themes",
-      title: "Syntax Themes and Typography",
-      text: "**Give the Source Its Own Reading Style.** Keep the familiar default, try a bundled palette or derive syntax colors from your application's semantic tokens. Learn how Prism recognizes source, how CSS paints its token groups, and how to adapt an upstream stylesheet or build a product palette. The live studies preserve the same source while you compare colors; your application theme and code presentation keep their own responsibilities.",
-      children: [
-        { id: "code-syntax-presets", label: "Explore the presets" },
-        { id: "code-prism-palettes", label: "Compare the Prism palettes" },
-        { id: "code-prism-pipeline", label: "How Prism and CSS work together" },
-        { id: "code-syntax-token-groups", label: "Understand syntax token groups" },
-        { id: "code-css-ownership", label: "Scope styles to the reader" },
-        { id: "code-prism-stylesheet-ports", label: "Include another Prism theme" },
-        { id: "code-palette-verification", label: "Verify a syntax palette" },
-        { id: "code-theme-tokens", label: "Try all eight application palettes" },
-        { id: "code-product-palette", label: "Create a product syntax palette" },
-        { id: "code-shared-syntax-choice", label: "Share a reader preference" },
-        { id: "code-theme-boundaries", label: "Syntax, surfaces and app themes" },
-        { id: "code-syntax-overrides", label: "Customize token colors" },
-        { id: "code-code-typography", label: "Fonts, spacing and emphasis" },
-      ],
     },
     {
       id: "document",
@@ -133,63 +113,12 @@ export const codeDocPage: DocPageModule = {
     {
       id: "imports",
       title: "Collapsible Imports",
-      text: "**Add Folding to a Larger Source Example.** After choosing the source, its language and any useful header, consider hiding familiar setup declarations with `defaultImportsCollapsed`. The control counts complete import statements: the multiline Card import below is one statement even though it imports several parts. Introductory comments remain visible.\n\nExpand the imports to inspect the dependencies, then collapse them to compare the implementation. Hidden declarations leave no blank stack of lines, and Copy includes every declaration. These are optional reading tools for a fuller source viewer; see [Folding Rules](#code-folding-rules) for eligibility and syntax that intentionally stays visible.",
+      text: "**Add Folding to a Larger Source Example.** After choosing the source, its language and any useful header, consider hiding familiar setup declarations with `defaultImportsCollapsed`. The control counts complete import statements: the multiline Card import below is one statement even though it imports several parts. Introductory comments remain visible.\n\nExpand the imports to inspect the dependencies, then collapse them to compare the implementation. Hidden declarations leave no blank stack of lines, and Copy includes every declaration. Folding rules are on the [Code internals](/docs/code-internals/reading-behavior) page.",
     },
     {
       id: "wrapping",
       title: "Readable Wrapping",
-      text: "**Offer a Reading Choice for Long Lines.** Once a source viewer needs more than the plain snippets above, use `defaultWrapped` to start long attributes or messages inside the reading area. The wrap switch changes their visual layout while preserving useful indentation.\n\nCompare the example at a narrow preview width, then turn wrapping off to use native horizontal scrolling. A visual continuation never adds a newline to the original source or copied text. The control appears only when complete source would otherwise overflow; see [Wrapping Behavior](#code-wrapping-rules) for its pairing with eligible import folding.",
-    },
-    {
-      id: "reading-behavior",
-      title: "Reading Preferences",
-      text: "**Separate the Source from the Way It Is Read.** Import folding and line wrapping solve different problems, so the component keeps their controls and behavior independent. Choose useful defaults, preserve the complete source, and decide whether preferences should carry across file selections.",
-      children: [
-        { id: "code-folding-rules", label: "Import folding" },
-        { id: "code-wrapping-rules", label: "Line wrapping" },
-        { id: "code-reading-state", label: "State and file changes" },
-      ],
-    },
-    {
-      id: "modularity",
-      title: "Build Your Own Reader",
-      text: "**Compose Only the Tools Your Reader Needs.** The earlier examples cover simple source, optional headers and built-in reading tools. Now choose which parts remain visible, connect shared preferences or replace an individual action. Source stays in one place while your surrounding interface supplies its context.",
-      children: [
-        { id: "code-visible-parts", label: "Choose visible parts" },
-        { id: "code-controlled-preferences", label: "Own the reading state" },
-        { id: "code-control-slots", label: "Replace a control" },
-        { id: "code-content-slots", label: "Compose surrounding content" },
-      ],
-    },
-    {
-      id: "customization",
-      title: "Composition and Theming",
-      text: "**Change the Context without Rebuilding the Viewer.** Use surface variants, root layout classes and header composition before reaching for custom control markup. The component keeps clipboard, highlighting and reading behavior together, while your page remains free to explain, arrange and label the example.",
-      children: [
-        { id: "code-surfaces", label: "Surfaces and sizing" },
-        { id: "code-toolbar-composition", label: "Header composition" },
-        { id: "code-theme-integration", label: "Shared theme tokens" },
-      ],
-    },
-    {
-      id: "source-links",
-      title: "Source Reference Links",
-      text: "**Follow the Parts That Make an Example Work.** Open an imported component, inspect the package it comes from, and follow the same name where the example uses it. Subtle navigation preserves the source's syntax colors and spacing while connecting code to useful local references and verified repositories.",
-      children: [
-        { id: "code-reference-navigation", label: "Navigate imported names" },
-        { id: "code-reference-destinations", label: "How destinations are chosen" },
-        { id: "code-reference-resolver", label: "Share your own resolver" },
-      ],
-    },
-    {
-      id: "performance",
-      title: "Performance and Delivery",
-      text: "**Keep the Page Light as the Examples Grow.** Syntax highlighting is optional work layered onto readable source. Good integration still matters: load only the file a reader opens, avoid repeatedly replacing stable strings, and keep very large generated documents out of an ordinary example panel.",
-      children: [
-        { id: "code-lazy-highlighting", label: "Lazy highlighting" },
-        { id: "code-large-files", label: "Large files" },
-        { id: "code-server-rendering", label: "Server rendering" },
-      ],
+      text: "**Offer a Reading Choice for Long Lines.** Once a source viewer needs more than the plain snippets above, use `defaultWrapped` to start long attributes or messages inside the reading area. The wrap switch changes their visual layout while preserving useful indentation.\n\nCompare the example at a narrow preview width, then turn wrapping off to use native horizontal scrolling. A visual continuation never adds a newline to the original source or copied text. Wrapping rules are on the [Code internals](/docs/code-internals/reading-behavior) page.",
     },
     {
       id: "api-reference",
@@ -204,7 +133,7 @@ export const codeDocPage: DocPageModule = {
     {
       id: "troubleshooting",
       title: "Troubleshooting and Next Steps",
-      text: "**Check the Smallest Missing Piece First.** A missing stylesheet, ambiguous language or intentionally omitted control usually explains an unexpected result. Use the questions below to distinguish setup from presentation, then return to the smallest example that demonstrates the behavior you need.",
+      text: "**Check the Smallest Missing Piece First.** A missing stylesheet, ambiguous language or intentionally omitted control usually explains an unexpected result. Use the questions below to distinguish setup from presentation, then return to the smallest example that demonstrates the behavior you need. Prism themes, folding rules and performance notes are on the [Code internals](/docs/code-internals/syntax-themes) page.",
       children: [
         { id: "code-missing-colors", label: "Missing syntax colors" },
         { id: "code-missing-controls", label: "Missing controls" },

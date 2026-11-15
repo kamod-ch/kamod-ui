@@ -103,7 +103,7 @@ After changing shared typography or radius, check long navigation labels, collap
 
 ### Connect application tokens to source colors
 
-If your block includes source readers, use [Code's Theme Token Palette](/docs/code/installation#code-theme-tokens) to derive their syntax colors from the same application roles. This is a reader option, not another saved theme preference or a change to the block's appearance controls.
+If your block includes source readers, use [Code's Theme Token Palette](/docs/code-internals/code-theme-tokens) to derive their syntax colors from the same application roles. This is a reader option, not another saved theme preference or a change to the block's appearance controls.
 
 ## Manage appearance preferences
 

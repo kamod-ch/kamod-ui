@@ -32,10 +32,10 @@ export function ProjectSummary() {
 
 `bg-card` supplies the surface; `text-card-foreground` supplies its ink. Components choose their own combinations: the default Button uses `text-background`, so changing `--primary-foreground` alone will not change that label.
 
-| Change                       | Where it belongs                                       |
-| ---------------------------- | ------------------------------------------------------ |
-| Spacing and arrangement      | Parent layout, such as `grid gap-4`                    |
-| Supported control treatment  | Component props, such as `variant="outline"`           |
-| App-wide color or shape      | [Shared tokens](#token-overrides)                      |
-| Copied navigation and shells | [Block theming](/blocks/theming)                       |
-| Syntax colors in a reader    | [Code palettes](/docs/code/installation#syntax-themes) |
+| Change                       | Where it belongs                                    |
+| ---------------------------- | --------------------------------------------------- |
+| Spacing and arrangement      | Parent layout, such as `grid gap-4`                 |
+| Supported control treatment  | Component props, such as `variant="outline"`        |
+| App-wide color or shape      | [Shared tokens](#token-overrides)                   |
+| Copied navigation and shells | [Block theming](/blocks/theming)                    |
+| Syntax colors in a reader    | [Code palettes](/docs/code-internals/syntax-themes) |

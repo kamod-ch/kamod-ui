@@ -1024,7 +1024,7 @@
           "description": "A grammar identifies tokens such as strings, keywords and comments. CSS gives those token classes their colors; grammar loading and theme styling are separate steps.",
           "source": {
             "label": "Tokenize then style",
-            "href": "/docs/code/installation#code-prism-pipeline"
+            "href": "/docs/code-internals/installation#code-prism-pipeline"
           },
           "rows": [
             {
@@ -1046,7 +1046,7 @@
           "description": "Load optional grammars when a reader needs them and preserve the literal source while loading or after a failed request. Syntax color must never be a prerequisite for copying the code.",
           "source": {
             "label": "Keep failure readable",
-            "href": "/docs/code/installation#code-prism-pipeline"
+            "href": "/docs/code-internals/installation#code-prism-pipeline"
           },
           "rows": [
             {

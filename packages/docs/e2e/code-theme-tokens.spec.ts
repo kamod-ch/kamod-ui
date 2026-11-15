@@ -6,7 +6,7 @@ for (const width of [320, 768, 1440]) {
       page,
     }) => {
       await page.setViewportSize({ width, height: 1000 });
-      await page.goto("./docs/code/installation#code-theme-tokens");
+      await page.goto("./docs/code-internals/code-theme-tokens");
       await page.waitForSelector("html.pp-ready");
       await page.evaluate((scheme) => {
         document.documentElement.classList.toggle("dark", scheme === "dark");

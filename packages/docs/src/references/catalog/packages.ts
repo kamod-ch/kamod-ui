@@ -62,7 +62,7 @@ const integrationGuides: Record<string, string> = {
   "@formisch/preact": "/docs/formisch/installation",
   clsx: "/docs/cn/installation#api-reference",
   "tailwind-merge": "/docs/cn/installation#api-reference",
-  prismjs: "/docs/code/installation#code-prism-pipeline",
+  prismjs: "/docs/code-internals/installation#code-prism-pipeline",
   tailwindcss: "/docs/theming/installation#css-setup",
   "@tailwindcss/vite": "/docs/theming/installation#css-setup",
   motion: "/docs/ui-motion/installation",
@@ -78,7 +78,7 @@ export function packageGuide(module: string): string | undefined {
     return "/docs/cn/installation#api-reference";
   if (root === "@kamod-ch/ui" && module.endsWith(".css"))
     return module === "@kamod-ch/ui/code/styles.css"
-      ? "/docs/code/installation#code-css-ownership"
+      ? "/docs/code-internals/installation#code-css-ownership"
       : "/docs/theming/installation#css-setup";
   if (root === "@kamod-ch/themes" && module.endsWith(".css")) {
     const preset = module.match(/\/brands\/([\w-]+)\.css$/)?.[1];

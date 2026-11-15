@@ -17,6 +17,7 @@ import { chartDocPage } from "./pages/chart-doc";
 import { checkboxDocPage } from "./pages/checkbox-doc";
 import { cnDocPage } from "./pages/cn-doc";
 import { codeDocPage } from "./pages/code-doc";
+import { codeInternalsDocPage } from "./pages/code-internals-doc";
 import { collapsibleDocPage } from "./pages/collapsible-doc";
 import { comboboxDocPage } from "./pages/combobox-doc";
 import { commandDocPage } from "./pages/command-doc";
@@ -103,6 +104,7 @@ export const allDocsPages: DocPageModule[] = [
   checkboxDocPage,
   cnDocPage,
   codeDocPage,
+  codeInternalsDocPage,
   collapsibleDocPage,
   comboboxDocPage,
   commandDocPage,

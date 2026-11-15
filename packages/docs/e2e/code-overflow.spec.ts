@@ -98,7 +98,7 @@ test("both documentation reading controls stay reachable for fitting and folded 
 
 test("remeasuring wrapped syntax keeps the source pane's scroll position", async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 900 });
-  await page.goto("./docs/code/installation#code-syntax-presets");
+  await page.goto("./docs/code-internals/code-syntax-presets");
   const demo = page.locator('[data-code-demo="theme"]');
   await demo.scrollIntoViewIfNeeded();
   await expect(demo.locator("pre .token.keyword").first()).toBeVisible();

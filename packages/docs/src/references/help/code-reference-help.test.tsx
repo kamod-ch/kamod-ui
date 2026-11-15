@@ -85,7 +85,7 @@ it.each([
   { module: "/docs/components", href: "/docs/components#library-items", section: true, prefix: "" },
   {
     module: "/docs/code/installation",
-    href: "/docs/code/code-prism-pipeline",
+    href: "/docs/code-internals/code-prism-pipeline",
     section: true,
     prefix: "",
   },

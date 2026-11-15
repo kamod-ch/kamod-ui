@@ -3,7 +3,7 @@ import { expect, type Locator, test } from "@playwright/test";
 test("import links preserve syntax/source, follow aliases and navigate to local source references", async ({
   page,
 }) => {
-  await page.goto("./docs/code/installation#source-links");
+  await page.goto("./docs/code-internals/source-links");
   await expect(page.locator("html")).toHaveClass(/pp-ready/);
   const topic = page.locator('section[aria-labelledby="code-reference-navigation"]');
   const panel = topic.locator(".kamod-code").first();

@@ -261,7 +261,7 @@ export function PrismThemeStudy({ theme, index }: { theme: PrismThemeDefinition;
             <CodeIcon size={13} aria-hidden="true" />
             <BlockHeadingLink id={recipeId}>Use {theme.label}</BlockHeadingLink>
           </h5>
-          <a href={withBasePath("/docs/code/code-syntax-presets#code-syntax-presets")}>
+          <a href={withBasePath("/docs/code-internals/code-syntax-presets#code-syntax-presets")}>
             Code guide <ArrowUpRightIcon size={11} aria-hidden="true" />
           </a>
         </div>

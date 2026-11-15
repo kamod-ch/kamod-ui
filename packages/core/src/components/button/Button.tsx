@@ -74,15 +74,21 @@ export const Button = ({
   const resolvedVariant = variant ?? "default";
   const resolvedSize = size ?? "default";
   const variantClasses = button({ variant: resolvedVariant, size: resolvedSize });
-  const resolvedClassName = cn(variantClasses, className);
-  const disabledState = (rest as { disabled?: boolean }).disabled ? "true" : undefined;
+  const domRest = { ...(rest as Record<string, unknown>) };
+  // Slot forwards the same tokens as `class` and `className`. Preact applies
+  // `className` after `class` and would otherwise drop the variant classes.
+  const classNameAlias = typeof domRest.className === "string" ? domRest.className : undefined;
+  if (classNameAlias !== undefined) delete domRest.className;
+  const resolvedClassName = cn(variantClasses, className, classNameAlias);
+  const disabledState = domRest.disabled ? "true" : undefined;
+  const slot = typeof domRest["data-slot"] === "string" ? domRest["data-slot"] : "button";
 
   if (asChild) {
     return (
       <Slot
-        {...rest}
-        class={cn(variantClasses, className)}
-        data-slot="button"
+        {...domRest}
+        class={resolvedClassName}
+        data-slot={slot}
         data-variant={resolvedVariant}
         data-size={resolvedSize}
         data-disabled={disabledState}
@@ -92,14 +98,14 @@ export const Button = ({
     );
   }
 
-  if ("href" in rest && typeof rest.href === "string") {
+  if (typeof domRest.href === "string") {
     return (
       <a
+        {...domRest}
         class={resolvedClassName}
-        data-slot="button"
+        data-slot={slot}
         data-variant={resolvedVariant}
         data-size={resolvedSize}
-        {...(rest as Record<string, unknown>)}
         data-disabled={disabledState}
       >
         {children}
@@ -111,12 +117,12 @@ export const Button = ({
 
   return (
     <button
+      {...domRest}
       class={resolvedClassName}
-      data-slot="button"
+      data-slot={slot}
       data-variant={resolvedVariant}
       data-size={resolvedSize}
       data-disabled={disabledState}
-      {...(buttonRest as Record<string, unknown>)}
       type={buttonRest.type ?? "button"}
     >
       {children}

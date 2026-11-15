@@ -22,6 +22,7 @@ import { CodeBlock } from "./components/CodeBlock";
 import {
   accessibilityContents,
   componentAccessibility,
+  usesDetailedAccessibility,
 } from "./components/component-detail/accessibility";
 import { ComponentDetailHeader } from "./components/component-detail/ComponentDetailHeader";
 import { ComponentExample } from "./components/component-detail/ComponentExample";
@@ -165,7 +166,7 @@ const ComponentContent = ({
                               { id: "component-data-types", label: "Data Type Reference" },
                             ],
                           }
-                        : id === "accessibility" && componentAccessibility(activeDoc.slug)
+                        : id === "accessibility" && usesDetailedAccessibility(activeDoc.slug)
                           ? { children: accessibilityContents }
                           : {}),
                     },

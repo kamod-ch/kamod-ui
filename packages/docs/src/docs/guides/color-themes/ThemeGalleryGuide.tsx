@@ -119,7 +119,7 @@ export function ThemeGalleryGuide() {
           </p>
         </div>
         <div>
-          <a href={withBasePath("/docs/code/installation#code-theme-tokens")}>
+          <a href={withBasePath("/docs/code-internals/code-theme-tokens")}>
             Explore syntax colors ↗
           </a>
           <a href="#prism-color-themes">Compare the Prism collection ↗</a>

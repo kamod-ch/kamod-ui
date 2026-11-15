@@ -21,6 +21,7 @@ const PREVIEW_LESS_SLUGS = new Set([
   "icons-package", // external package teaser — no in-repo live preview demos
   "signals-package", // external package teaser — no in-repo live preview demos
   "state-package", // external package teaser — no in-repo live preview demos
+  "code-internals", // reader guide — installation is prose; live examples stay on Code
 ]);
 
 /**

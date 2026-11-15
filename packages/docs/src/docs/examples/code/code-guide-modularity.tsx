@@ -156,7 +156,7 @@ export function CodeModularityGuide() {
           the source or prepared document. Both accept Preact content and are excluded from Copy.
           Use them for a concise note or related link. To replace the entire source presentation
           with a document, use{" "}
-          <a href="#document">
+          <a href="/docs/code/document">
             <code>renderedContent</code>
           </a>
           . That mode omits code reading controls and highlighting while retaining the original

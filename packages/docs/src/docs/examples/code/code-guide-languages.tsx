@@ -117,8 +117,8 @@ export function CodeLanguageGuide() {
           Keep the source string stable while changing the preference. Code updates highlighting
           when <code>language</code> changes and ignores results from an older highlighting request.
           A selector can change presentation immediately without fetching or rebuilding the source.
-          The later <a href="#reading-behavior">Reading Preferences</a> section covers optional
-          tools for larger source viewers.
+          The later <a href="/docs/code-internals/reading-behavior">Reading Preferences</a> section
+          covers optional tools for larger source viewers.
         </p>
       </Topic>
       <Topic id="code-language-list" title="Supported languages, aliases and file hints">

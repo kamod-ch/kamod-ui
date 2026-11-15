@@ -38,6 +38,20 @@ describe("Button cn migration", () => {
     expect(el).toHaveAttribute("data-size", "lg");
   });
 
+  it("keeps variant classes when className repeats the consumer class", () => {
+    render(
+      <Button variant="ghost" size="xs" class="h-4 rounded-full" className="h-4 rounded-full">
+        Auto
+      </Button>,
+    );
+    const el = screen.getByRole("button", { name: "Auto" });
+    expect(el.className).toContain("inline-flex");
+    expect(el.className).toContain("items-center");
+    expect(el.className).toContain("h-4");
+    expect(el.className).not.toMatch(/\bh-6\b/);
+    expect(el).toHaveAttribute("data-size", "xs");
+  });
+
   it("merges consumer class last for asChild", () => {
     render(
       <Button asChild class="h-12">

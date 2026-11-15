@@ -1,6 +1,7 @@
 import { cleanup, fireEvent, render, screen } from "@testing-library/preact";
 import type { ButtonHTMLAttributes } from "preact";
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { Button } from "../button/Button";
 import { Dropdown } from "./Dropdown";
 import { DropdownContent } from "./DropdownContent";
 import { DropdownItem } from "./DropdownItem";
@@ -104,5 +105,31 @@ describe("Dropdown trigger composition", () => {
     expect(onItemClick).toHaveBeenCalledOnce();
     expect(onTriggerClick).not.toHaveBeenCalled();
     expect(screen.queryByRole("menu")).toBeNull();
+  });
+
+  it("keeps button variant classes on an asChild trigger", () => {
+    render(
+      <Dropdown>
+        <DropdownTrigger asChild>
+          <Button
+            type="button"
+            variant="ghost"
+            size="xs"
+            class="h-4 rounded-full border-0 bg-muted/50 px-1.5 text-[10px]"
+          >
+            Auto
+          </Button>
+        </DropdownTrigger>
+      </Dropdown>,
+    );
+    const trigger = screen.getByRole("button", { name: "Auto" });
+    expect(trigger.className).toContain("inline-flex");
+    expect(trigger.className).toContain("items-center");
+    expect(trigger.className).toContain("h-4");
+    expect(trigger.className).toContain("rounded-full");
+    expect(trigger.className).not.toMatch(/\bh-6\b/);
+    expect(trigger).toHaveAttribute("data-slot", "dropdown-trigger");
+    expect(trigger).toHaveAttribute("data-size", "xs");
+    expect(trigger).toHaveAttribute("data-variant", "ghost");
   });
 });
