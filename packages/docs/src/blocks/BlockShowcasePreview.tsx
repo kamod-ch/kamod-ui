@@ -4,6 +4,25 @@ import type { BlockPreviewViewport } from "./BlockViewportSwitcher";
 import { usePreviewActivity } from "./preview-activity";
 import { applyPreviewAppearance, type PreviewAppearance } from "./preview-appearance";
 
+/** Hosts often redirect `/preview` to `/preview/`. The frame attribute keeps the requested URL. */
+function loadedPreview(frame: HTMLIFrameElement): Document | null {
+  const doc = frame.contentDocument;
+  if (!doc || doc.readyState !== "complete" || !frame.src) return null;
+  let loaded: URL;
+  let requested: URL;
+  try {
+    loaded = new URL(doc.URL);
+    requested = new URL(frame.src, loaded.href);
+  } catch {
+    return null;
+  }
+  const path = (value: string) => value.replace(/\/+$/, "") || "/";
+  if (loaded.origin !== requested.origin || path(loaded.pathname) !== path(requested.pathname)) {
+    return null;
+  }
+  return doc;
+}
+
 /** An isolated document gives every viewport accurate media queries and locally themed portals. */
 export function BlockShowcasePreview({
   url,
@@ -35,9 +54,9 @@ export function BlockShowcasePreview({
   };
   const complete = () => {
     const frame = iframe.current;
-    const doc = frame?.contentDocument;
     // Ignore about:blank and the previous document while a replacement is navigating.
-    if (!frame || doc?.readyState !== "complete" || doc.URL !== frame.src) return;
+    const doc = frame ? loadedPreview(frame) : null;
+    if (!doc) return;
     applyAppearance();
     applyActivity();
     setSettled({ key: previewKey, url });

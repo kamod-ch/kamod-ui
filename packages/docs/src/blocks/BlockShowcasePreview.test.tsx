@@ -48,6 +48,14 @@ it("settles an SSR frame that finished before hydration attached its load handle
   expect(onLoad).toHaveBeenCalledWith(0);
 });
 
+it("settles when the host redirects the preview onto a trailing slash", () => {
+  previewDocument(`${url}/`);
+  const { container, onLoad } = mount();
+  expect(container.querySelector(".showcase-loading")).toBeNull();
+  expect(container.querySelector(".blocks-showcase-preview")).toHaveAttribute("aria-busy", "false");
+  expect(onLoad).toHaveBeenCalledWith(0);
+});
+
 it.each(["about:blank", "/blocks/sidebar/previous/preview"])(
   "ignores the completed %s document while the requested preview navigates",
   (address) => {
