@@ -1,6 +1,17 @@
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { defineConfig } from "vitest/config";
 
+const themesEntry = resolve(dirname(fileURLToPath(import.meta.url)), "../themes/src/index.tsx");
+
 export default defineConfig({
+  resolve: {
+    // Vite's native resolver turns this optional peer into a throwing stub
+    // unless a resolve alias points at the workspace source.
+    alias: {
+      "@kamod-ch/themes": themesEntry,
+    },
+  },
   test: {
     environment: "jsdom",
     globals: true,

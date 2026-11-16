@@ -42,6 +42,14 @@ export const SidebarMenuItem = ({ class: className, children, ...rest }: Sidebar
   </li>
 );
 
+/** Slot copies `class` onto `className`. Preact then replaces `class`, so merge the alias first. */
+const slotClassName = (rest: object) => {
+  const domRest = { ...(rest as Record<string, unknown>) };
+  const classNameAlias = typeof domRest.className === "string" ? domRest.className : undefined;
+  if (classNameAlias !== undefined) delete domRest.className;
+  return { domRest, classNameAlias };
+};
+
 export const sidebarMenuButton = tv({
   base: [
     "peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm ring-sidebar-ring outline-hidden transition-[width,height,padding]",
@@ -91,28 +99,31 @@ export const SidebarMenuButton = ({
   ...rest
 }: SidebarMenuButtonProps) => {
   const { isMobile, state } = useSidebar();
-  const classes = cn(sidebarMenuButton({ variant, size }), className);
+  const { domRest, classNameAlias } = slotClassName(rest);
+  const classes = cn(sidebarMenuButton({ variant, size }), className, classNameAlias);
+  const slot =
+    typeof domRest["data-slot"] === "string" ? domRest["data-slot"] : "sidebar-menu-button";
 
   const button = asChild ? (
     <Slot
-      data-slot="sidebar-menu-button"
+      {...domRest}
+      data-slot={slot}
       data-sidebar="menu-button"
       data-size={size}
       data-active={isActive}
       class={classes}
-      {...rest}
     >
       {children}
     </Slot>
   ) : (
     <button
       type="button"
-      data-slot="sidebar-menu-button"
+      {...domRest}
+      data-slot={slot}
       data-sidebar="menu-button"
       data-size={size}
       data-active={isActive}
       class={classes}
-      {...rest}
     >
       {children}
     </button>
@@ -151,6 +162,9 @@ export const SidebarMenuAction = ({
   children,
   ...rest
 }: SidebarMenuActionProps) => {
+  const { domRest, classNameAlias } = slotClassName(rest);
+  const actionSlot =
+    typeof domRest["data-slot"] === "string" ? domRest["data-slot"] : "sidebar-menu-action";
   const classes = cn(
     "absolute top-1.5 right-1 flex aspect-square w-5 items-center justify-center rounded-md p-0 text-sidebar-foreground ring-sidebar-ring outline-hidden transition-transform peer-hover/menu-button:text-sidebar-accent-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
     "after:absolute after:-inset-2 md:after:hidden",
@@ -161,10 +175,11 @@ export const SidebarMenuAction = ({
     showOnHover &&
       "group-focus-within/menu-item:opacity-100 group-hover/menu-item:opacity-100 peer-data-[active=true]/menu-button:text-sidebar-accent-foreground data-[state=open]:opacity-100 md:opacity-0",
     className as string | undefined,
+    classNameAlias,
   );
   if (asChild) {
     return (
-      <Slot data-slot="sidebar-menu-action" data-sidebar="menu-action" class={classes} {...rest}>
+      <Slot {...domRest} data-slot={actionSlot} data-sidebar="menu-action" class={classes}>
         {children}
       </Slot>
     );
@@ -172,10 +187,10 @@ export const SidebarMenuAction = ({
   return (
     <button
       type="button"
-      data-slot="sidebar-menu-action"
+      {...domRest}
+      data-slot={actionSlot}
       data-sidebar="menu-action"
       class={classes}
-      {...rest}
     >
       {children}
     </button>
@@ -298,6 +313,9 @@ export const SidebarMenuSubButton = ({
   children,
   ...rest
 }: SidebarMenuSubButtonProps) => {
+  const { domRest, classNameAlias } = slotClassName(rest);
+  const subSlot =
+    typeof domRest["data-slot"] === "string" ? domRest["data-slot"] : "sidebar-menu-sub-button";
   const classes = cn(
     "flex h-7 min-w-0 -translate-x-px items-center gap-2 overflow-hidden rounded-md px-2 text-sidebar-foreground ring-sidebar-ring outline-hidden hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:text-sidebar-accent-foreground",
     "data-[active=true]:bg-sidebar-accent data-[active=true]:text-sidebar-accent-foreground",
@@ -305,16 +323,17 @@ export const SidebarMenuSubButton = ({
     size === "md" && "text-sm",
     "group-data-[collapsible=icon]:hidden",
     className as string | undefined,
+    classNameAlias,
   );
   if (asChild) {
     return (
       <Slot
-        data-slot="sidebar-menu-sub-button"
+        {...domRest}
+        data-slot={subSlot}
         data-sidebar="menu-sub-button"
         data-size={size}
         data-active={isActive}
         class={classes}
-        {...rest}
       >
         {children}
       </Slot>
@@ -322,12 +341,12 @@ export const SidebarMenuSubButton = ({
   }
   return (
     <a
-      data-slot="sidebar-menu-sub-button"
+      {...domRest}
+      data-slot={subSlot}
       data-sidebar="menu-sub-button"
       data-size={size}
       data-active={isActive}
       class={classes}
-      {...(rest as Record<string, unknown>)}
     >
       {children}
     </a>
