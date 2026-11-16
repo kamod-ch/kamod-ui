@@ -53,6 +53,21 @@ export function ExportDetails() {
       "Test cancellation, Escape and a rejected request while keeping a safe way to recover.",
     ],
   },
+  "consent-manager": {
+    foundation:
+      "ConsentManager opens a modal dialog until a valid decision for the current version is stored, then stays closed until ConsentManagerTrigger or useConsent().open() shows the settings level. Escape, the overlay and a close button do not dismiss it. Dialog is used with dismissible={false} so other dialogs still close on Escape.",
+    naming:
+      "The summary and settings levels each provide a title and description. Every switch uses the category title as its accessible name. Required categories stay on and disabled, so the state is not conveyed by color alone.",
+    interaction:
+      "Initial focus is the first action, Accept all. Necessary only is the same size and the next control in order. Settings replaces the summary inside the same dialog and moves focus to the new heading. Back returns focus to the summary heading. After a decision, focus returns to the trigger that reopened the dialog.",
+    pitfalls:
+      "Do not load optional scripts before hasConsent returns true. A stored decision from another version is ignored. A throwing or unreadable storage adapter is treated as no decision and must not crash the page.",
+    checks: [
+      "Open with the keyboard, accept only necessary categories, reload, and confirm optional scripts stay unloaded.",
+      "Try Escape and the overlay, then each action. Only a decision may close the dialog.",
+      "Reopen from the trigger and confirm the switches match the saved decision, including a required category that stays on.",
+    ],
+  },
   sheet: {
     foundation:
       "SheetContent renders a modal dialog surface with title/description relationships and a named Close sheet control. Its side placement changes presentation, not the need for a meaningful dialog name and a complete keyboard flow.",

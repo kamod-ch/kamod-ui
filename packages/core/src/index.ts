@@ -149,6 +149,24 @@ export {
   CommandSeparator,
   CommandShortcut,
 } from "./components/command";
+export type {
+  ConsentApi,
+  ConsentCategory,
+  ConsentManagerLabels,
+  ConsentManagerProps,
+  ConsentState,
+  ConsentStorage,
+} from "./components/consent-manager";
+export {
+  ConsentManager,
+  ConsentManagerCategory,
+  ConsentManagerContent,
+  ConsentManagerSettings,
+  ConsentManagerSummary,
+  ConsentManagerTrigger,
+  defaultConsentManagerLabels,
+  useConsent,
+} from "./components/consent-manager";
 export type { ContextMenuPoint } from "./components/context-menu";
 export {
   ContextMenu,

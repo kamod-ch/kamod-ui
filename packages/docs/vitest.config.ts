@@ -2,10 +2,15 @@ import { defineConfig } from "vitest/config";
 import { blockPagesPlugin } from "./.preactpress/block-pages-plugin";
 import { codeReferencePlugin } from "./.preactpress/code-reference-plugin";
 import { componentApiPlugin } from "./.preactpress/component-api-plugin";
-import { kamodUiViteAliases } from "./.preactpress/ui-source-aliases.ts";
+import { kamodUiSourceAliasPlugin, kamodUiViteAliases } from "./.preactpress/ui-source-aliases.ts";
 
 export default defineConfig({
-  plugins: [blockPagesPlugin(), componentApiPlugin(), codeReferencePlugin()],
+  plugins: [
+    kamodUiSourceAliasPlugin(),
+    blockPagesPlugin(),
+    componentApiPlugin(),
+    codeReferencePlugin(),
+  ],
   resolve: {
     alias: kamodUiViteAliases(),
   },

@@ -375,6 +375,22 @@ export const docsRouteManifest = [
     ],
   },
   {
+    slug: "consent-manager",
+    sections: [
+      "installation",
+      "usage",
+      "necessary",
+      "statistics",
+      "marketing",
+      "standard",
+      "german",
+      "script",
+      "footer",
+      "accessibility",
+      "api-reference",
+    ],
+  },
+  {
     slug: "context-menu",
     sections: [
       "installation",

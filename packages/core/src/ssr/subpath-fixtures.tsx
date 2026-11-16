@@ -211,6 +211,39 @@ const compositions: Record<string, (mod: ModuleNamespace) => VNode<any>> = {
       ]),
       el(m, "CommandDialog", { key: "dialog", defaultOpen: true }, "Search"),
     ]),
+  "consent-manager": (m) =>
+    el(
+      m,
+      "ConsentManager",
+      {
+        version: "1",
+        storageKey: "consent-fixture",
+        categories: [
+          {
+            id: "necessary",
+            title: "Necessary",
+            description: "Required for the site.",
+            required: true,
+          },
+          {
+            id: "statistics",
+            title: "Statistics",
+            description: "Anonymous usage.",
+            details: "Page views.",
+          },
+        ],
+        storage: {
+          get: () =>
+            JSON.stringify({
+              version: "1",
+              decidedAt: "2026-11-16T00:00:00.000Z",
+              categories: { necessary: true, statistics: false },
+            }),
+          set: () => {},
+        },
+      },
+      el(m, "ConsentManagerTrigger", null, "Cookie settings"),
+    ),
   "context-menu": (m) =>
     el(m, "ContextMenu", { defaultOpen: true }, [
       el(m, "ContextMenuTrigger", null, "Right click"),

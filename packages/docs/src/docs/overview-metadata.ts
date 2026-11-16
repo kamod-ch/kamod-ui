@@ -23,6 +23,7 @@ export const componentOverviewItems: ComponentOverviewItem[] = [
   { label: "cn Utility", slug: "cn" },
   { label: "Combobox", slug: "combobox" },
   { label: "Command", slug: "command" },
+  { label: "Consent Manager", slug: "consent-manager" },
   { label: "Context Menu", slug: "context-menu" },
   { label: "Copy Button", slug: "copy-button" },
   { label: "Data Table", slug: "data-table" },

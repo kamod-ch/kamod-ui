@@ -22,6 +22,7 @@
       "@kamod-ch/ui/lib/signals": ["../core/src/lib/signals/index.ts"],
       "@kamod-ch/ui/copy-button": ["../core/src/components/copy-button/index.ts"],
       "@kamod-ch/ui/collapsible": ["../core/src/components/collapsible/index.ts"],
+      "@kamod-ch/ui/consent-manager": ["../core/src/components/consent-manager/index.ts"],
       "@kamod-ch/ui/date-picker": ["../core/src/components/date-picker/index.ts"],
       "@kamod-ch/ui/input-group": ["../core/src/components/input-group/index.ts"],
       "@kamod-ch/ui/radio-group": ["../core/src/components/radio-group/index.ts"],

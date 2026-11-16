@@ -160,6 +160,13 @@ export const docsNavigation = [
     motionVariantCount: 0,
   },
   {
+    slug: "consent-manager",
+    label: "Consent Manager",
+    group: "components",
+    variantCount: 4,
+    motionVariantCount: 0,
+  },
+  {
     slug: "context-menu",
     label: "Context Menu",
     group: "components",

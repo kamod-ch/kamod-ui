@@ -1,5 +1,6 @@
 import { existsSync, readFileSync } from "node:fs";
 import { relative, resolve } from "node:path";
+import type { Plugin } from "vite";
 
 const coreRoot = resolve(import.meta.dirname, "../../core");
 const docsRoot = resolve(import.meta.dirname, "..");
@@ -47,22 +48,30 @@ export function kamodUiSourceEntries(): UiSourceEntry[] {
   return entries.sort((a, b) => b.specifier.length - a.specifier.length);
 }
 
-function escapeRegExp(value: string): string {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
-
-/** Vite aliases. Exact package exports plus the docs-local `@/components/kamod-ui/*` redirect. */
+/**
+ * Docs-local `@/components/kamod-ui/*` redirect.
+ * `@kamod-ch/ui` exports are resolved by {@link kamodUiSourceAliasPlugin}. One alias per export
+ * makes Vite's native resolver drop optional peers such as `@kamod-ch/themes`.
+ */
 export function kamodUiViteAliases(): { find: RegExp; replacement: string }[] {
   return [
     {
       find: /^@\/components\/kamod-ui\/(.+)$/,
       replacement: `${resolve(coreRoot, "src/components")}/$1/index.ts`,
     },
-    ...kamodUiSourceEntries().map((entry) => ({
-      find: new RegExp(`^${escapeRegExp(entry.specifier)}$`),
-      replacement: entry.file,
-    })),
   ];
+}
+
+/** Resolve every `@kamod-ch/ui` export to the current core source file. */
+export function kamodUiSourceAliasPlugin(): Plugin {
+  const entries = new Map(kamodUiSourceEntries().map((entry) => [entry.specifier, entry.file]));
+  return {
+    name: "kamod-ui-source-alias",
+    enforce: "pre",
+    resolveId(id) {
+      return entries.get(id);
+    },
+  };
 }
 
 /** `packages/docs/tsconfig.json` paths for the same source files. */

@@ -110,6 +110,7 @@ const families: { slugs: string[]; guide: ComponentGuidance }[] = [
     slugs: [
       "dialog",
       "alert-dialog",
+      "consent-manager",
       "drawer",
       "sheet",
       "popover",

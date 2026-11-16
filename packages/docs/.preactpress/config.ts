@@ -15,7 +15,7 @@ import { kamodUiStructuredDataHead } from "./kamod-ui-seo.ts";
 import { pageMetadataPlugin } from "./page-metadata-plugin.ts";
 import { createPagePreloader } from "./page-preloader.ts";
 import { runtimePerformancePlugin } from "./runtime-performance-plugin.ts";
-import { kamodUiViteAliases } from "./ui-source-aliases.ts";
+import { kamodUiSourceAliasPlugin, kamodUiViteAliases } from "./ui-source-aliases.ts";
 
 const configDir = import.meta.dirname;
 const docsRoot = resolve(configDir, "..");
@@ -125,6 +125,7 @@ export default defineConfig({
       ],
     },
     plugins: [
+      kamodUiSourceAliasPlugin(),
       runtimePerformancePlugin(),
       pageMetadataPlugin(),
       blockPagesPlugin(),
