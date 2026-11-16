@@ -7,8 +7,8 @@
   "scripts": {
     "brand:sync": "node ./scripts/sync-brand-assets.mjs",
     "docs:routes": "node ./scripts/generate-docs-route-manifest.mjs",
-    "dev": "pnpm brand:sync && pnpm docs:routes && preactpress dev",
-    "build": "pnpm brand:sync && pnpm docs:routes && preactpress build",
+    "dev": "pnpm brand:sync && pnpm docs:routes && node ../../scripts/generate-component-docs.mjs --if-stale && preactpress dev",
+    "build": "pnpm brand:sync && pnpm docs:routes && node ../../scripts/generate-component-docs.mjs --no-build && preactpress build",
     "preview": "pnpm brand:sync && pnpm docs:routes && preactpress preview",
     "preview:pages": "node ./scripts/preview-github-pages.mjs",
     "check": "pnpm docs:routes && preactpress check",

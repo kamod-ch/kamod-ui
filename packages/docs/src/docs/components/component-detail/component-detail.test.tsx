@@ -4,8 +4,11 @@ import render from "preact-render-to-string";
 import { describe, expect, it } from "vitest";
 import { DocsComponentContent } from "../../DocsComponentContent";
 import { docsPages } from "../../registry";
-import { accessibilityContents, componentAccessibility } from "./accessibility";
-import { ComponentReferences } from "./ComponentReferences";
+import {
+  accessibilityContents,
+  componentAccessibility,
+  usesDetailedAccessibility,
+} from "./accessibility";
 import { componentApiTypes, componentTypeId } from "./component-api";
 import { getComponentExamples } from "./component-examples";
 import { componentDesignReference, componentSourceUrl } from "./component-guidance";
@@ -29,13 +32,13 @@ describe("component detail documentation", () => {
   it.each(["kbd", "type-definition"])(
     "%s distinguishes usage requirements from fallback values",
     (slug) => {
-      const text = render(<DocsComponentContent slug={slug} section="installation" />).replace(
-        /<[^>]+>/g,
-        " ",
-      );
-      expect(text).toMatch(/Usage requirement\s+Required/);
+      const text = render(<DocsComponentContent slug={slug} section="installation" />)
+        .replace(/<[^>]+>/g, " ")
+        .replaceAll("&quot;", '"');
+      expect(text).not.toMatch(/Usage requirement/);
       expect(text).not.toMatch(/Default\s+required/i);
-      if (slug === "type-definition") expect(text).toMatch(/Default\s+false/);
+      if (slug === "kbd") expect(text).toMatch(/Default\s+"md"/);
+      if (slug === "type-definition") expect(text).toMatch(/Default\s+"View Definition"/);
     },
   );
 
@@ -64,35 +67,29 @@ describe("component detail documentation", () => {
         expect(preview).not.toContain("component-example-frame");
       }
       expect(html.includes('class="blocks-doc-toc"')).toBe(true);
-      expect(html).toContain('id="integration-guide"');
-      expect(html).toContain('id="component-references"');
-      const references = render(<ComponentReferences doc={doc} />);
-      for (const [, path] of references.matchAll(
-        /href="https:\/\/github.com\/kamod-ch\/kamod-ui\/(?:blob|tree)\/main\/([^"#?]+)"/g,
-      ))
-        expect(existsSync(resolve(import.meta.dirname, "../../../../../..", path)), path).toBe(
-          true,
-        );
-      // Shared reference copy must never send readers to a missing page section.
-      for (const [, anchor] of references.matchAll(/href="#([^"]+)"/g)) {
-        expect(html, `${doc.slug}: #${anchor}`).toContain(`id="${anchor}"`);
+      expect(html, doc.slug).toContain(componentSourceUrl(doc.slug));
+      const designReference = componentDesignReference(doc.slug);
+      if (designReference) expect(html, doc.slug).toContain(designReference);
+      if (doc.slug === "progress" || doc.slug === "formisch") {
+        expect(html).toContain('id="integration-guide"');
+      } else {
+        expect(html, doc.slug).not.toContain('id="integration-guide"');
       }
-      for (const [link] of references.matchAll(
-        /<a class="docs-inline-code-link"[^>]*>[\s\S]*?<\/a>/g,
-      )) {
-        expect((link.match(/<svg\b/g) ?? []).length, doc.slug).toBe(2);
-        expect((link.match(/<a\b/g) ?? []).length, doc.slug).toBe(1);
-      }
-      expect(html).toContain('id="integration-compose"');
+      expect(html, doc.slug).not.toContain('id="component-references"');
+      expect(html, doc.slug).not.toContain('id="integration-compose"');
       expect(html).toContain('id="component-props"');
       expect(html).toContain('id="component-data-types"');
-      // Every component needs its own verified guidance, with reachable nested contents.
       const accessibility = componentAccessibility(doc.slug);
       expect(accessibility, `${doc.slug} accessibility profile`).toBeDefined();
       expect(accessibility?.checks).toHaveLength(3);
-      for (const { id } of accessibilityContents) {
-        expect(html).toContain(`id="${id}"`);
-        expect(html).toContain(`href="#${id}"`);
+      if (usesDetailedAccessibility(doc.slug)) {
+        for (const { id } of accessibilityContents) {
+          expect(html).toContain(`id="${id}"`);
+          expect(html).toContain(`href="#${id}"`);
+        }
+      } else {
+        expect(html).toContain('id="accessibility"');
+        expect(html, doc.slug).not.toContain('id="accessibility-foundation"');
       }
       const definitions = componentApiTypes(doc.slug);
       expect(new Set(definitions.map(componentTypeId)).size, doc.slug).toBe(definitions.length);

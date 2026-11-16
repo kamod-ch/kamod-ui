@@ -8,7 +8,7 @@ import {
   SparklesIcon,
 } from "@kamod-ch/icons/lucide";
 import { BlocksIcon } from "@kamod-ch/icons/tabler/outline";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@kamod-ch/ui";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@kamod-ch/ui/tabs";
 import { useCallback, useEffect, useRef, useState } from "preact/hooks";
 import { withBasePath } from "../base-path";
 import { PreviewAppearanceControls } from "../blocks/PreviewAppearanceControls";

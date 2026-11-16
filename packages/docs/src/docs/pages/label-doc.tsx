@@ -3,6 +3,7 @@ import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const labelDocPage = createGenericDocPage({
   slug: "label",
+  generatedApi: true,
   title: "Label",
   usageLabel:
     "Accessible captions for form controls — Radix/shadcn-aligned typography and disabled-state pairing.",

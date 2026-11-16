@@ -1,6 +1,7 @@
 import { signal } from "@preact/signals";
 import type { InputHTMLAttributes, TargetedEvent, TargetedInputEvent } from "preact";
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "preact/hooks";
+import { useFormReset } from "../../lib/form-control";
 import { cn } from "../../lib/utils";
 
 export type SliderPrimitiveValue = number | number[];
@@ -67,6 +68,17 @@ const enforceOrder = (vals: number[], min: number, max: number, step: number): n
 /** Matches `size-3` thumbs: centers fill/track on native thumb positions (inset at min/max). */
 const SLIDER_THUMB_HALF = "0.375rem";
 const SLIDER_THUMB_FULL = "0.75rem";
+
+/** Range inputs have no visible text, so an unnamed slider fails the label rule. */
+function sliderName(rest: object, index?: number): { "aria-label"?: string } {
+  const named = rest as { "aria-label"?: unknown; "aria-labelledby"?: unknown };
+  if (index === undefined && (named["aria-label"] != null || named["aria-labelledby"] != null)) {
+    return {};
+  }
+  if (index !== undefined && index > 0) return { "aria-label": `Value ${index + 1}` };
+  if (named["aria-label"] != null || named["aria-labelledby"] != null) return {};
+  return { "aria-label": index === undefined ? "Value" : "Value 1" };
+}
 
 /**
  * Radix/shadcn-style thumb: border-ring, ring-3, no shadow. `group-data-[dragging]` avoids transition lag while dragging.
@@ -175,6 +187,7 @@ export const Slider = ({
       ),
     [],
   );
+  const initialValuesRef = useRef(localValues.value);
 
   const isControlled = controlledValue !== undefined;
   const values = isControlled
@@ -241,6 +254,22 @@ export const Slider = ({
   const [topIndex, setTopIndex] = useState(0);
   /** Multi-thumb: stacked full-width inputs would always hit the same layer; route pointer to the thumb nearest the cursor. */
   const sliderRootRef = useRef<HTMLSpanElement>(null);
+  useFormReset(sliderRootRef, () => {
+    const next = initialValuesRef.current;
+    if (isControlledRef.current) {
+      onValueChangeRef.current?.(next);
+      return;
+    }
+    localValuesRef.current.value = [...next];
+  });
+  useFormReset(singleThumbInputRef, () => {
+    const next = initialValuesRef.current;
+    if (isControlledRef.current) {
+      onValueChangeRef.current?.(next);
+      return;
+    }
+    localValuesRef.current.value = [...next];
+  });
 
   const updateClosestThumbFromPointer = useCallback(
     (clientX: number, clientY: number) => {
@@ -287,7 +316,7 @@ export const Slider = ({
           dir="ltr"
           data-orientation="vertical"
           aria-disabled={disabled}
-          data-disabled={disabled ? "" : undefined}
+          data-disabled={disabled ? "true" : undefined}
           data-dragging={dragging ? "" : undefined}
           class={cn(
             "group relative inline-flex min-h-40 w-6 shrink-0 touch-none select-none justify-center data-[disabled]:opacity-50 data-[orientation=vertical]:min-h-40 data-[orientation=vertical]:w-auto data-[orientation=vertical]:flex-col",
@@ -313,6 +342,7 @@ export const Slider = ({
           />
           <input
             {...(rest as Record<string, unknown>)}
+            {...sliderName(rest)}
             ref={singleThumbInputRef}
             type="range"
             data-slot="slider-thumb"
@@ -323,6 +353,7 @@ export const Slider = ({
             max={maxValue}
             step={stepValue}
             disabled={disabled}
+            defaultValue={initialValuesRef.current[0]}
             {...(!isControlled ? { value: displayValue } : {})}
             class={overlayInputVertical}
             style={inputStyleProp}
@@ -360,7 +391,7 @@ export const Slider = ({
         dir="ltr"
         data-orientation="horizontal"
         aria-disabled={disabled}
-        data-disabled={disabled ? "" : undefined}
+        data-disabled={disabled ? "true" : undefined}
         data-dragging={dragging ? "" : undefined}
         class={cn(
           "group relative flex h-6 w-full shrink-0 touch-none select-none items-center data-[disabled]:opacity-50",
@@ -386,6 +417,7 @@ export const Slider = ({
         />
         <input
           {...(rest as Record<string, unknown>)}
+          {...sliderName(rest)}
           ref={singleThumbInputRef}
           type="range"
           data-slot="slider-thumb"
@@ -394,6 +426,7 @@ export const Slider = ({
           max={maxValue}
           step={stepValue}
           disabled={disabled}
+          defaultValue={initialValuesRef.current[0]}
           {...(!isControlled ? { value: displayValue } : {})}
           class={overlayInputHorizontal}
           style={inputStyleProp}
@@ -529,7 +562,7 @@ export const Slider = ({
       dir="ltr"
       data-orientation={isVertical ? "vertical" : "horizontal"}
       aria-disabled={disabled}
-      data-disabled={disabled ? "" : undefined}
+      data-disabled={disabled ? "true" : undefined}
       data-dragging={dragging ? "" : undefined}
       class={rootClass}
       role="group"
@@ -542,6 +575,7 @@ export const Slider = ({
           <input
             key={i}
             {...(i === 0 ? rest : {})}
+            {...sliderName(i === 0 ? rest : {}, i)}
             type="range"
             data-slot="slider-thumb"
             // @ts-expect-error Firefox-only; improves vertical range behavior
@@ -550,6 +584,7 @@ export const Slider = ({
             max={maxValue}
             step={stepValue}
             disabled={disabled}
+            defaultValue={initialValuesRef.current[i]}
             value={v}
             style={{
               ...(typeof inputStyleProp === "object" &&

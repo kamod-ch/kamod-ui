@@ -133,7 +133,7 @@ export function CodeCopyGuide() {
           <strong>Save the same source as a file.</strong> Download beside Copy preserves the full
           source, including folded imports and original whitespace. These documentation panels
           compose that action through{" "}
-          <a href="#code-control-slots">
+          <a href="/docs/code-internals/modularity#code-control-slots">
             <code>renderCopyAction</code>
           </a>
           ; the public component retains its existing API.
@@ -187,7 +187,7 @@ export function CodeCopyGuide() {
           For content from an untrusted source, keep it as the source string or use your
           application’s reviewed Markdown and sanitization pipeline before rendering. For a
           hand-authored guide, normal JSX elements are a straightforward way to build the document
-          view shown in <a href="#document">Rendered Document</a>.
+          view shown in <a href="/docs/code/document">Rendered Document</a>.
         </p>
       </Topic>
     </>

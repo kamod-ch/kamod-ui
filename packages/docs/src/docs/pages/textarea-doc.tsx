@@ -86,6 +86,7 @@ const TextareaProductionFieldPreview = () => {
 
 export const textareaDocPage = createGenericDocPage({
   slug: "textarea",
+  generatedApi: true,
   title: "Textarea",
   usageLabel: "Textarea captures longer multi-line user input.",
   installationText: "Import Textarea from `@/components/kamod-ui/textarea`.",

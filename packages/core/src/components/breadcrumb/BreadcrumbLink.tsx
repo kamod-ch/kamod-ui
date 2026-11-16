@@ -1,11 +1,5 @@
-import {
-  type AnchorHTMLAttributes,
-  type ComponentChildren,
-  cloneElement,
-  type HTMLAttributes,
-  isValidElement,
-  type JSX,
-} from "preact";
+import { type AnchorHTMLAttributes, type ComponentChildren, type JSX } from "preact";
+import { Slot } from "../../lib/slot";
 import { cn } from "../../lib/utils";
 
 export type BreadcrumbLinkProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
@@ -24,21 +18,11 @@ export const BreadcrumbLink = ({
   const mergedClass = cn(linkClass, className);
 
   if (asChild) {
-    if (!isValidElement(children)) {
-      return null;
-    }
-
-    const childProps = (children.props ?? {}) as HTMLAttributes<HTMLElement> & {
-      class?: string;
-      className?: string;
-    };
-
-    return cloneElement(children, {
-      ...(rest as HTMLAttributes<HTMLElement>),
-      ...childProps,
-      class: cn(mergedClass, childProps.class, childProps.className),
-      "data-slot": "breadcrumb-link",
-    });
+    return (
+      <Slot {...rest} class={mergedClass} data-slot="breadcrumb-link">
+        {children}
+      </Slot>
+    );
   }
 
   return (

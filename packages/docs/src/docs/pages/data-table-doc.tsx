@@ -48,6 +48,7 @@ const EmptyTablePreview = () => (
 
 export const dataTableDocPage = createGenericDocPage({
   slug: "data-table",
+  generatedApi: true,
   title: "Data Table",
   previewCode: `import { PaymentsDataTableDemo } from "./data-table-payments-demo";
 

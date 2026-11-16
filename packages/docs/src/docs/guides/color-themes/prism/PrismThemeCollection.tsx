@@ -200,7 +200,7 @@ function PrismThemeResources() {
             <strong>Another palette?</strong> Copy its scoped CSS and the matching TSX example. Its{" "}
             <code>data-prism-theme</code> wrapper keeps the colors around the intended reader.
             Community names are not additional built-in IDs. The{" "}
-            <a href={withBasePath("/docs/code/installation#code-prism-stylesheet-ports")}>
+            <a href={withBasePath("/docs/code-internals/code-prism-stylesheet-ports")}>
               stylesheet port guide
             </a>{" "}
             explains token exceptions, source ownership and the cascade.
@@ -247,7 +247,7 @@ function PrismThemeResources() {
             </li>
           </ul>
           <div class="prism-theme-resource-links">
-            <a href={withBasePath("/docs/code/installation#code-palette-verification")}>
+            <a href={withBasePath("/docs/code-internals/code-palette-verification")}>
               Run the palette review ↗
             </a>
             <a href={withBasePath("/docs/theming/accessibility#finish-with-a-theme-review")}>
@@ -258,7 +258,7 @@ function PrismThemeResources() {
       </div>
       <nav class="prism-theme-resource-paths" aria-label="Continue from the Prism theme collection">
         <a href="#prism-theme-index">Compare another palette</a>
-        <a href={withBasePath("/docs/code/installation#code-theme-tokens")}>
+        <a href={withBasePath("/docs/code-internals/code-theme-tokens")}>
           Derive syntax from your app
         </a>
         <a href={withBasePath("/docs/theming/token-overrides#work-with-semantic-token-pairs")}>

@@ -4,6 +4,7 @@ import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const toggleDocPage = createGenericDocPage({
   slug: "toggle",
+  generatedApi: true,
   title: "Toggle",
   usageLabel:
     "Toggle controls a binary pressed/unpressed state with modern Radix-style variants and sizes.",

@@ -16,6 +16,12 @@ export type DropdownContextValue = {
   contentRef: { current: HTMLDivElement | null };
   /** Set when DropdownTrigger handled a trigger click in the same turn. */
   triggerClickHandledRef: { current: boolean };
+  /**
+   * Open state decided for the current trigger click.
+   * The capture fallback and the trigger handler both apply this value, so a
+   * microtask checkpoint between them cannot toggle the menu twice.
+   */
+  clickIntentRef: { current: boolean | null };
 };
 
 const DropdownContext = createContext<DropdownContextValue | null>(null);
@@ -46,6 +52,7 @@ export const Dropdown = ({
   const triggerRef = useRef<HTMLElement | null>(null);
   const contentRef = useRef<HTMLDivElement | null>(null);
   const triggerClickHandledRef = useRef(false);
+  const clickIntentRef = useRef<boolean | null>(null);
   const instanceId = useId();
   const triggerId = `kamod-dropdown-${instanceId}-trigger`;
   const contentId = `kamod-dropdown-${instanceId}-content`;
@@ -82,9 +89,12 @@ export const Dropdown = ({
       if (target.closest('[data-slot="dropdown-item"]')) return;
 
       triggerClickHandledRef.current = false;
+      // Decide once. Chrome can run this microtask before the trigger's own click
+      // handler; toggling in both places closed the menu before paint.
+      clickIntentRef.current = !open.value;
       queueMicrotask(() => {
-        if (!triggerClickHandledRef.current) {
-          open.value = !open.value;
+        if (!triggerClickHandledRef.current && clickIntentRef.current !== null) {
+          open.value = clickIntentRef.current;
         }
         triggerClickHandledRef.current = false;
       });
@@ -105,6 +115,7 @@ export const Dropdown = ({
         triggerRef,
         contentRef,
         triggerClickHandledRef,
+        clickIntentRef,
       }}
     >
       <div

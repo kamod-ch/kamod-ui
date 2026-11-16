@@ -1,5 +1,9 @@
 import { CheckIcon, LayersIcon } from "@kamod-ch/icons/lucide";
-import { Badge, Button, Input, Label, Switch } from "@kamod-ch/ui";
+import { Badge } from "@kamod-ch/ui/badge";
+import { Button } from "@kamod-ch/ui/button";
+import { Input } from "@kamod-ch/ui/input";
+import { Label } from "@kamod-ch/ui/label";
+import { Switch } from "@kamod-ch/ui/switch";
 import { useId, useState } from "preact/hooks";
 
 /** A self-contained composition: preferences stay local to this demo. */

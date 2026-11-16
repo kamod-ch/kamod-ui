@@ -21,10 +21,12 @@ export const input = tv({
 export type InputProps = Omit<InputHTMLAttributes<HTMLInputElement>, "size"> &
   VariantProps<typeof input>;
 
-export const Input = ({ size, class: className, ...rest }: InputProps) => (
+export const Input = ({ size, class: className, disabled, ...rest }: InputProps) => (
   <input
     class={cn(input({ size }), className)}
     data-slot="input"
+    data-disabled={disabled ? "true" : undefined}
+    disabled={disabled}
     {...(rest as JSX.IntrinsicElements["input"])}
   />
 );

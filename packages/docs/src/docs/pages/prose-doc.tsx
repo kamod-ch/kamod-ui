@@ -3,6 +3,7 @@ import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const proseDocPage = createGenericDocPage({
   slug: "prose",
+  generatedApi: true,
   title: "Prose",
   usageLabel: "Prose applies typographic defaults for rich text content.",
   installationText: "Import Prose from `@/components/kamod-ui/prose`.",

@@ -1,4 +1,4 @@
-import { signal } from "@preact/signals";
+import { signal, useComputed } from "@preact/signals";
 import type { ComponentChildren, HTMLAttributes } from "preact";
 import { createContext } from "preact";
 import { useContext, useEffect, useId, useMemo, useRef } from "preact/hooks";
@@ -45,6 +45,7 @@ export const Popover = ({
 }: PopoverProps) => {
   const isControlled = openProp !== undefined;
   const open = useMemo(() => signal(isControlled ? openProp : defaultOpen), []);
+  const dataState = useComputed(() => (open.value ? "open" : "closed"));
   const rootRef = useRef<HTMLDivElement | null>(null);
   const triggerRef = useRef<HTMLElement | null>(null);
   const contentRef = useRef<HTMLDivElement | null>(null);
@@ -59,9 +60,13 @@ export const Popover = ({
   }, [openProp, isControlled, open]);
 
   const setOpen = (next: boolean) => {
+    const wasOpen = open.value;
     onOpenChange?.(next);
     if (!isControlled) {
       open.value = next;
+    }
+    if (wasOpen && !next) {
+      triggerRef.current?.focus();
     }
   };
 
@@ -95,7 +100,7 @@ export const Popover = ({
         ref={rootRef}
         class={cn(popover(), className)}
         data-slot="popover"
-        data-state={open.value ? "open" : "closed"}
+        data-state={dataState}
         {...rest}
       >
         {children}

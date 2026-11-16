@@ -3,7 +3,7 @@ import { useContext } from "preact/hooks";
 import { BlockHeadingLink } from "../../../blocks/BlockHeadingLink";
 import type { DocSection } from "../../types";
 import { BrandText } from "../brand/BrandText";
-import { componentAccessibility } from "./accessibility";
+import { componentAccessibility, usesDetailedAccessibility } from "./accessibility";
 import { ComponentAccessibilitySection } from "./ComponentAccessibilitySection";
 import { ComponentApiSection } from "./ComponentApiSection";
 import { ComponentExamplesSection } from "./ComponentExamplesSection";
@@ -25,7 +25,11 @@ export function ComponentDocSection({
       : undefined;
   if (collection && accessibility) {
     return (
-      <ComponentAccessibilitySection doc={collection.doc} profile={accessibility}>
+      <ComponentAccessibilitySection
+        doc={collection.doc}
+        profile={accessibility}
+        summary={!usesDetailedAccessibility(collection.doc.slug)}
+      >
         <BrandText>{children}</BrandText>
       </ComponentAccessibilitySection>
     );

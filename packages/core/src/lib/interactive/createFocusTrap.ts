@@ -46,6 +46,13 @@ export const trapFocus = (container: HTMLElement, options: TrapFocusOptions = {}
       preferred.focus();
       return;
     }
+    const autofocus = getFocusableElements(container).find(
+      (element) => element.hasAttribute("autofocus") || element.hasAttribute("data-autofocus"),
+    );
+    if (autofocus) {
+      autofocus.focus();
+      return;
+    }
     if (focusContainer) {
       container.focus();
       if (container.ownerDocument.activeElement === container) return;

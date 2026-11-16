@@ -21,6 +21,7 @@ import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const sidebarDocPage = createGenericDocPage({
   slug: "sidebar",
+  generatedApi: true,
   title: "Sidebar",
   usageLabel: "Sidebar provides a collapsible application navigation rail.",
   installationText:

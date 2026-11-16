@@ -1,3 +1,4 @@
+import { useComputed } from "@preact/signals";
 import type { ComponentChildren, HTMLAttributes } from "preact";
 import { createContext } from "preact";
 import { useContext } from "preact/hooks";
@@ -30,14 +31,15 @@ export const AccordionItem = ({
   ...rest
 }: AccordionItemProps) => {
   const { openValues } = useAccordion();
-  const isOpen = openValues.value.has(value);
+  // Subscribe to this item's boolean, not the shared set, so other items stay mounted.
+  const isOpen = useComputed(() => openValues.value.has(value)).value;
 
   return (
     <AccordionItemContext.Provider value={{ value, isOpen, disabled }}>
       <div
         data-slot="accordion-item"
         data-state={isOpen ? "open" : "closed"}
-        data-disabled={disabled ? "" : undefined}
+        data-disabled={disabled ? "true" : undefined}
         {...rest}
       >
         {children}

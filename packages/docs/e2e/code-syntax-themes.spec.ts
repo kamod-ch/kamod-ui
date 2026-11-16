@@ -14,7 +14,7 @@ test("all nine palettes reuse highlighted nodes and preserve the source and cont
   browserName,
 }) => {
   await enableTestClipboard(context, browserName);
-  await page.goto("./docs/code/installation#syntax-themes");
+  await page.goto("./docs/code-internals/syntax-themes");
   const demo = page.locator('[data-code-demo="theme"]');
   const reader = demo.locator(".kamod-code");
   const source = reader.locator("pre code");
@@ -69,7 +69,7 @@ for (const width of [320, 768, 1440]) {
       page,
     }) => {
       await page.setViewportSize({ width, height: 1000 });
-      await page.goto("./docs/code/installation#code-prism-palettes");
+      await page.goto("./docs/code-internals/code-prism-palettes");
       await page.waitForSelector("html.pp-ready");
       await page.evaluate(
         (dark) => document.documentElement.classList.toggle("dark", dark),
@@ -135,7 +135,7 @@ for (const width of [320, 768, 1440]) {
 }
 
 test("adaptive syntax ink follows the nearest appearance boundary", async ({ page }) => {
-  await page.goto("./docs/code/installation#syntax-themes");
+  await page.goto("./docs/code-internals/syntax-themes");
   const reader = page.locator('[data-code-demo="theme"] .kamod-code');
   await reader.scrollIntoViewIfNeeded();
   await expect(reader.locator(".token.keyword").first()).toBeAttached();

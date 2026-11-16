@@ -6,7 +6,11 @@ import {
   type ThemePresetId,
 } from "@kamod-ch/themes";
 
-export type PreviewAppearance = { preset: ThemePresetId; scheme: "light" | "dark" };
+export type PreviewAppearance = {
+  preset: ThemePresetId;
+  scheme: "light" | "dark";
+  dir?: "ltr" | "rtl";
+};
 
 export function previewAppearanceFromSearch(search: string): PreviewAppearance | undefined {
   const params = new URLSearchParams(search);
@@ -26,7 +30,12 @@ export function previewAppearanceUrl(path: string, appearance: PreviewAppearance
 }
 
 export function applyPreviewAppearance(target: HTMLElement, appearance: PreviewAppearance) {
+  // Nested demos need their own token root. The iframe document already uses :root.
+  if (target !== target.ownerDocument.documentElement) {
+    target.setAttribute("data-theme-scope", "");
+  }
   applyThemePreset(appearance.preset, target);
   applyColorScheme(appearance.scheme, target);
   target.style.colorScheme = appearance.scheme;
+  target.dir = appearance.dir ?? "ltr";
 }

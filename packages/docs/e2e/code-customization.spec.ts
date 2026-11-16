@@ -26,7 +26,7 @@ test("visible parts and externally owned preferences stay independent", async ({
   browserName,
 }) => {
   await enableTestClipboard(context, browserName);
-  await page.goto("./docs/code/installation#code-visible-parts");
+  await page.goto("./docs/code-internals/code-visible-parts");
   const parts = page.locator('[data-code-demo="parts"]');
   await parts.scrollIntoViewIfNeeded();
   const header = parts.getByRole("switch", { name: "Header", exact: true });
@@ -76,7 +76,7 @@ test("replacement controls retain complete copying and accessible feedback", asy
   browserName,
 }) => {
   await enableTestClipboard(context, browserName);
-  await page.goto("./docs/code/installation#code-control-slots");
+  await page.goto("./docs/code-internals/code-control-slots");
   const demo = page.locator('[data-code-demo="controls"]');
   await demo.scrollIntoViewIfNeeded();
   const source = await demo.locator("pre code").textContent();
@@ -89,7 +89,7 @@ test("replacement controls retain complete copying and accessible feedback", asy
 
 for (const scheme of ["light", "dark"] as const) {
   test(`syntax themes and typography apply locally in ${scheme} mode`, async ({ page }) => {
-    await page.goto("./docs/code/installation#code-syntax-presets");
+    await page.goto("./docs/code-internals/code-syntax-presets");
     await page.evaluate((mode) => {
       document.documentElement.classList.toggle("dark", mode === "dark");
       document.documentElement.classList.toggle("light", mode === "light");

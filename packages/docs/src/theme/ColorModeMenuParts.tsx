@@ -17,9 +17,9 @@ import {
   DropdownItem,
   DropdownRadioGroup,
   DropdownRadioItem,
-  Separator,
   useDropdown,
-} from "@kamod-ch/ui";
+} from "@kamod-ch/ui/dropdown";
+import { Separator } from "@kamod-ch/ui/separator";
 import { withBasePath } from "../base-path";
 
 export const colorModeOptions = [

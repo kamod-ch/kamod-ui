@@ -47,13 +47,14 @@ describe("site navigation", () => {
   it("promotes component foundations to the introductory links without duplicates", () => {
     const components = navigationGroups.find((group) => group.id === "components")!;
     expect(components.guides).toEqual([
+      { label: "Code internals", href: "/docs/code-internals/installation" },
       { label: "Theming", href: "/docs/theming/installation", icon: "theming" },
       { label: "cn Utility", href: "/docs/cn/installation", icon: "utility" },
     ]);
     expect(components.links.some(({ href }) => href.includes("/docs/cn/"))).toBe(false);
-    expect(isNavigationCurrent("/docs/cn/usage", components.guides![1].href)).toBe(true);
+    expect(isNavigationCurrent("/docs/cn/usage", components.guides![2].href)).toBe(true);
     expect(components.links.some(({ href }) => href.includes("/docs/theming/"))).toBe(false);
-    expect(isNavigationCurrent("/docs/theming/css-setup", components.guides![0].href)).toBe(true);
+    expect(isNavigationCurrent("/docs/theming/css-setup", components.guides![1].href)).toBe(true);
     expect(components.links.some(({ href }) => href === "/docs/theme-toggle/installation")).toBe(
       true,
     );

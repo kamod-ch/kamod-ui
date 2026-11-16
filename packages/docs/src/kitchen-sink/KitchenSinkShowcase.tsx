@@ -143,7 +143,7 @@ const AiPromptSourcesMenu = () => {
         </Button>
       </DropdownTrigger>
       <DropdownContent
-        side="top"
+        side="bottom"
         align="center"
         sideOffset={4}
         class="landing-ai-sources-menu !max-h-none min-w-[15rem] w-[15rem] overflow-visible rounded-lg border border-border/55 bg-popover p-0 py-1 text-xs shadow-md"
@@ -450,7 +450,7 @@ const KitchenSinkAiPromptComposer = () => {
   );
 };
 
-/** Mode selector in the landing chat composer toolbar (opens above the trigger). */
+/** Mode selector in the landing chat composer toolbar (opens below the trigger). */
 const ChatComposerModeDropdown = ({ compact }: { compact?: boolean } = {}) => {
   const [mode, setMode] = useState<ChatComposerMode>("Auto");
   return (
@@ -471,7 +471,7 @@ const ChatComposerModeDropdown = ({ compact }: { compact?: boolean } = {}) => {
         </Button>
       </DropdownTrigger>
       <DropdownContent
-        side="top"
+        side="bottom"
         align="start"
         sideOffset={compact ? 2 : 3}
         class={

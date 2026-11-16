@@ -68,6 +68,7 @@ export const RadioGroupItem = ({
     <label
       data-slot="radio-group-item"
       data-state={checked ? "checked" : "unchecked"}
+      data-disabled={disabled ? "true" : undefined}
       data-size={size ?? "default"}
       class={cn(itemRoot({ size }), className)}
     >
@@ -79,7 +80,9 @@ export const RadioGroupItem = ({
           name={group.name}
           value={value}
           checked={checked}
+          defaultChecked={group.resetValue === value}
           disabled={disabled}
+          required={group.required || undefined}
           onChange={(event) => {
             group.setValue(value);
             onChange?.(event);

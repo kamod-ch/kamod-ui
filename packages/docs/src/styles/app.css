@@ -362,8 +362,8 @@ html {
   margin-bottom: 0.6rem;
 }
 
-/* Icon actions own their chrome, including native menu buttons without a core size attribute. */
-[data-slot="dropdown-trigger"]:not([data-size^="icon"], .docs-icon-button) {
+/* Unsized menu buttons use the docs control chrome. A trigger with data-size keeps its own button styles. */
+[data-slot="dropdown-trigger"]:not([data-size], .docs-icon-button) {
   padding: 0.55rem 0.8rem;
   border-radius: var(--radius-md);
   border: 1px solid var(--border);

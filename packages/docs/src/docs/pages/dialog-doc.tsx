@@ -187,6 +187,7 @@ const DialogInstallationFullscreenPreview = () => (
 
 export const dialogDocPage = createGenericDocPage({
   slug: "dialog",
+  generatedApi: true,
   title: "Dialog",
   previewCode: `import { Button } from "@/components/kamod-ui/button"
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/kamod-ui/dialog";

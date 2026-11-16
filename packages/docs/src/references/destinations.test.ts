@@ -23,7 +23,7 @@ it("prefers API destinations for symbols and source owners for package/module pa
 it("uses checkout files and installed repository metadata without guessing unknown packages", () => {
   expect(catalog.components.Button.file).toBe("packages/core/src/components/button/Button.tsx");
   expect(resolveCodeReference({ module: "@kamod-ch/ui/copy-button", imported: "CopyButton" })).toBe(
-    "https://github.com/kamod-ch/kamod-ui/blob/main/packages/core/src/components/copy-button/CopyButton.tsx",
+    "/docs/copy-button/installation#api-reference",
   );
   expect(resolveCodeReference({ module: "preact/hooks", imported: "useState" })).toBe(
     "https://github.com/preactjs/preact",

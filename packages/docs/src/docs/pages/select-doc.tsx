@@ -13,6 +13,7 @@ import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const selectDocPage = createGenericDocPage({
   slug: "select",
+  generatedApi: true,
   title: "Select",
   usageLabel: "Select provides a modern Radix-style single-choice picker.",
   installationText: "Import Select primitives from `@/components/kamod-ui/select`.",

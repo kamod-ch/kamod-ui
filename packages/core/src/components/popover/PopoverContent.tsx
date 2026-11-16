@@ -1,27 +1,8 @@
-import type { ComponentChildren, CSSProperties, HTMLAttributes } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
 import { cn } from "../../lib/utils";
+import { useDropdownPlacement } from "../dropdown/useDropdownPlacement";
 import { usePopover } from "./Popover";
-
-const positionBySide = {
-  top: "bottom-full",
-  bottom: "top-full",
-  left: "right-full",
-  right: "left-full",
-} as const;
-
-const alignByAxis = {
-  vertical: {
-    start: "left-0",
-    center: "left-1/2 -translate-x-1/2",
-    end: "right-0",
-  },
-  horizontal: {
-    start: "top-0",
-    center: "top-1/2 -translate-y-1/2",
-    end: "bottom-0",
-  },
-} as const;
 
 export const popoverContent = tv({
   base: [
@@ -64,19 +45,18 @@ export const PopoverContent = ({
   ...rest
 }: PopoverContentProps) => {
   const popover = usePopover();
+  const open = popover.open.value || forceMount;
+  const placement = useDropdownPlacement({
+    enabled: open,
+    triggerRef: popover.triggerRef,
+    contentRef: popover.contentRef,
+    side,
+    align,
+    sideOffset,
+  });
   if (!popover.open.value && !forceMount) return null;
 
-  const isVertical = side === "top" || side === "bottom";
-  const alignClass = isVertical ? alignByAxis.vertical[align] : alignByAxis.horizontal[align];
   const inlineStyle = typeof style === "object" && style !== null ? style : undefined;
-  const offsetStyle: CSSProperties =
-    side === "bottom"
-      ? { marginTop: `${sideOffset}px` }
-      : side === "top"
-        ? { marginBottom: `${sideOffset}px` }
-        : side === "right"
-          ? { marginLeft: `${sideOffset}px` }
-          : { marginRight: `${sideOffset}px` };
 
   return (
     <div
@@ -88,11 +68,21 @@ export const PopoverContent = ({
       tabIndex={-1}
       aria-labelledby={popover.triggerId}
       data-slot="popover-content"
-      data-side={side}
+      data-side={placement.side}
       data-align={align}
       data-state={popover.open.value ? "open" : "closed"}
-      class={cn(popoverContent({ side }), positionBySide[side], alignClass, className)}
-      style={inlineStyle ? { ...offsetStyle, ...inlineStyle } : offsetStyle}
+      class={cn(popoverContent({ side: placement.side }), className)}
+      style={{
+        position: "fixed",
+        left: placement.left,
+        top: placement.top,
+        right: "auto",
+        bottom: "auto",
+        margin: 0,
+        maxWidth: placement.maxWidth > 0 ? `${placement.maxWidth}px` : "calc(100vw - 16px)",
+        maxHeight: placement.maxHeight > 0 ? `${placement.maxHeight}px` : "calc(100dvh - 16px)",
+        ...inlineStyle,
+      }}
       onKeyDown={(event) => {
         if (event.key === "Escape") {
           event.preventDefault();

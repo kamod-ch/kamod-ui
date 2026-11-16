@@ -36,6 +36,7 @@ const CustomOptionsPreview = () => {
 
 export const localeSegmentGroupDocPage = createGenericDocPage({
   slug: "locale-segment-group",
+  generatedApi: true,
   title: "Locale Segment Group",
   usageLabel:
     "Locale Segment Group is a compact two-or-more-option control for switching UI language or similar string codes.",

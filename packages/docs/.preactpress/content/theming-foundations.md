@@ -107,7 +107,7 @@ These values are a starting point, not an audited palette. Check foregrounds, fo
 
 `--radius` affects derived radius utilities; fixed local CSS stays fixed. `--font-sans` selects a font stack, but your app must load its font assets. Check small controls, long labels and form errors after changing either.
 
-Motion comes from component styles and any animation utilities your app uses, rather than the color palette. Preserve reduced-motion behavior. For source-only color changes, use [Code's theme-token palette](/docs/code/installation#code-theme-tokens) without changing application roles.
+Motion comes from component styles and any animation utilities your app uses, rather than the color palette. Preserve reduced-motion behavior. For source-only color changes, use [Code's theme-token palette](/docs/code-internals/code-theme-tokens) without changing application roles.
 
 ## Manage appearance preferences
 

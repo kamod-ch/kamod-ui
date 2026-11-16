@@ -3,6 +3,7 @@ import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const sonnerDocPage = createGenericDocPage({
   slug: "sonner",
+  generatedApi: true,
   title: "Sonner",
   usageLabel: "Sonner provides toast-like notifications with imperative helpers.",
   installationText: "Import Sonner and helper functions from `@/components/kamod-ui/sonner`.",

@@ -335,6 +335,7 @@ describe("Application Shell 1", () => {
     fireEvent.keyDown(trigger, { key: "ArrowDown" });
     const first = await screen.findByRole("menuitem", { name: "Account" });
     const last = screen.getByRole("menuitem", { name: "Log out" });
+    expect(screen.getByRole("menu").parentElement).toBe(document.body);
     expect(document.activeElement).toBe(first);
     fireEvent.keyDown(first, { key: "ArrowUp" });
     expect(document.activeElement).toBe(last);

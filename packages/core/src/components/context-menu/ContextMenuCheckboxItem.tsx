@@ -20,6 +20,7 @@ export const ContextMenuCheckboxItem = ({
   class: className,
   children,
   onClick,
+  disabled,
   ...rest
 }: ContextMenuCheckboxItemProps) => {
   const internal = useMemo(() => signal(defaultChecked), []);
@@ -38,6 +39,8 @@ export const ContextMenuCheckboxItem = ({
       type="button"
       role="menuitemcheckbox"
       data-slot="context-menu-checkbox-item"
+      data-disabled={disabled ? "true" : undefined}
+      disabled={disabled}
       aria-checked={checked}
       class={cn(
         "relative flex w-full cursor-default select-none items-center gap-2 rounded-sm py-1.5 ps-8 pe-2 text-sm outline-none",

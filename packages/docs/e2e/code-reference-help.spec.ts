@@ -55,7 +55,7 @@ test("lazy help shows a reading placeholder and dismissed requests cannot reopen
   });
   try {
     // The intentionally held optional chunk may keep the load event pending.
-    await page.goto("./docs/code/installation#source-links", { waitUntil: "domcontentloaded" });
+    await page.goto("./docs/code-internals/source-links", { waitUntil: "domcontentloaded" });
     await expect(page.locator("html")).toHaveClass(/pp-ready/);
     const sample = page
       .locator('section[aria-labelledby="code-reference-navigation"] pre code')
@@ -102,7 +102,7 @@ test("lazy help shows a reading placeholder and dismissed requests cannot reopen
 
 test("failed optional details retain the source destination", async ({ page }) => {
   await page.route(/\/assets\/code-reference-help-[\w-]+\.js(?:\?|$)/, (route) => route.abort());
-  await page.goto("./docs/code/installation#source-links");
+  await page.goto("./docs/code-internals/source-links");
   await expect(page.locator("html")).toHaveClass(/pp-ready/);
   const sample = page
     .locator('section[aria-labelledby="code-reference-navigation"] pre code')
@@ -135,7 +135,7 @@ for (const motion of ["no-preference", "reduce"] as const) {
       await route.continue();
     });
     try {
-      await page.goto("./docs/code/installation#source-links", { waitUntil: "domcontentloaded" });
+      await page.goto("./docs/code-internals/source-links", { waitUntil: "domcontentloaded" });
       await expect(page.locator("html")).toHaveClass(/pp-ready/);
       const sample = page
         .locator('section[aria-labelledby="code-reference-navigation"] pre code')
@@ -203,7 +203,7 @@ for (const motion of ["no-preference", "reduce"] as const) {
 test("source references reveal verified context after deliberate hover and keep native navigation", async ({
   page,
 }) => {
-  await page.goto("./docs/code/installation#source-links");
+  await page.goto("./docs/code-internals/source-links");
   await expect(page.locator("html")).toHaveClass(/pp-ready/);
   const sample = page
     .locator('section[aria-labelledby="code-reference-navigation"] pre code')
@@ -249,7 +249,7 @@ for (const scheme of ["light", "dark"] as const) {
     page,
   }) => {
     await page.addInitScript((scheme) => localStorage.setItem("theme", scheme), scheme);
-    await page.goto("./docs/code/installation#source-links");
+    await page.goto("./docs/code-internals/source-links");
     await expect(page.locator("html")).toHaveClass(/pp-ready/);
     const sample = page
       .locator('section[aria-labelledby="code-reference-navigation"] pre code')
@@ -281,7 +281,7 @@ for (const scheme of ["light", "dark"] as const) {
     );
     await expect(page.locator("#component-type-Direction-DirectionProviderProps")).toBeInViewport();
 
-    await page.goto("./docs/code/installation#source-links");
+    await page.goto("./docs/code-internals/source-links");
     await expect(page.locator("html")).toHaveClass(/pp-ready/);
     await sample.scrollIntoViewIfNeeded();
     await expect(sample.locator(".token")).not.toHaveCount(0);

@@ -198,4 +198,55 @@ outline: false
 const manifestSlugs = new Set(manifest.map((doc) => doc.slug));
 await removeStaleComponentRoutes(docsDir, manifestSlugs);
 
-await writeIfChanged(llmsPublic, await fs.readFile(llmsSource, "utf8"));
+const corePackage = JSON.parse(
+  await fs.readFile(path.join(repoRoot, "packages/core/package.json"), "utf8"),
+);
+const componentApi = JSON.parse(
+  await fs.readFile(path.resolve(__dirname, "../src/docs/generated/component-api.json"), "utf8"),
+);
+const componentSlugs = Object.keys(corePackage.exports)
+  .filter(
+    (key) =>
+      key.startsWith("./") &&
+      !key.endsWith(".css") &&
+      !key.startsWith("./lib/") &&
+      key !== "./utils",
+  )
+  .map((key) => key.slice(2))
+  .sort();
+const navBySlug = new Map(navigation.map((item) => [item.slug, item.label]));
+const missingPages = componentSlugs.filter((slug) => !navBySlug.has(slug));
+if (missingPages.length > 0) {
+  throw new Error(
+    `Docs navigation is missing core components: ${missingPages.join(", ")}. Add a docs page so the sidebar, search, and llms.txt stay complete.`,
+  );
+}
+const apiSlugs = new Set(componentApi.exports.map((entry) => entry.slug));
+const missingApi = componentSlugs.filter((slug) => !apiSlugs.has(slug));
+if (missingApi.length > 0) {
+  throw new Error(
+    `Component API manifest is missing ${missingApi.join(", ")}. Run pnpm docs:components.`,
+  );
+}
+const llmsText = await fs.readFile(llmsSource, "utf8");
+const notes = new Map();
+for (const line of llmsText.split("\n")) {
+  const match = line.match(/^- \[[^\]]+\]\(https:\/\/ui\.kamod\.ch\/docs\/([^)/]+)\)(.*)$/);
+  if (match) notes.set(match[1], match[2]);
+}
+const componentLines = componentSlugs
+  .map((slug) => ({ slug, label: navBySlug.get(slug) }))
+  .sort((a, b) => a.label.localeCompare(b.label))
+  .map(
+    ({ slug, label }) => `- [${label}](https://ui.kamod.ch/docs/${slug})${notes.get(slug) ?? ""}`,
+  );
+const sectionMatch = llmsText.match(/## Components\n\n([\s\S]*?)\n## /);
+if (!sectionMatch) throw new Error("llms.txt is missing a Components section");
+const preserved = sectionMatch[1].split("\n").filter((line) => {
+  const match = line.match(/\/docs\/([^)/]+)\)/);
+  return match && !componentSlugs.includes(match[1]);
+});
+const nextSection = `## Components\n\n${[...componentLines, ...preserved].filter(Boolean).join("\n")}\n\n## `;
+const nextLlms = llmsText.replace(/## Components\n\n[\s\S]*?\n## /, nextSection);
+await writeIfChanged(llmsSource, nextLlms);
+await writeIfChanged(llmsPublic, nextLlms);

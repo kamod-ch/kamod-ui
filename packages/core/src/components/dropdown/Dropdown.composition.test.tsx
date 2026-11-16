@@ -1,6 +1,7 @@
 import { cleanup, fireEvent, render, screen } from "@testing-library/preact";
 import type { ButtonHTMLAttributes } from "preact";
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { Button } from "../button/Button";
 import { Dropdown } from "./Dropdown";
 import { DropdownContent } from "./DropdownContent";
 import { DropdownItem } from "./DropdownItem";
@@ -29,6 +30,37 @@ describe("Dropdown trigger composition", () => {
     fireEvent.click(trigger);
     expect(onClick).toHaveBeenCalledTimes(2);
     expect(screen.queryByRole("menu")).toBeNull();
+  });
+
+  it("stays open when the click fallback runs before the trigger handler", () => {
+    const jobs: VoidFunction[] = [];
+    const original = queueMicrotask;
+    vi.stubGlobal("queueMicrotask", (job: VoidFunction) => {
+      jobs.push(job);
+    });
+    render(
+      <Dropdown>
+        <DropdownTrigger>Actions</DropdownTrigger>
+        <DropdownContent>
+          <DropdownItem>Item</DropdownItem>
+        </DropdownContent>
+      </Dropdown>,
+    );
+    const trigger = screen.getByRole("button", { name: "Actions" });
+    trigger.addEventListener(
+      "click",
+      () => {
+        while (jobs.length) jobs.shift()?.();
+      },
+      true,
+    );
+
+    fireEvent.click(trigger);
+    expect(screen.getByRole("menu")).toBeVisible();
+
+    fireEvent.click(trigger);
+    expect(screen.queryByRole("menu")).toBeNull();
+    vi.stubGlobal("queueMicrotask", original);
   });
 
   it("calls asChild and trigger onClick once per click", () => {
@@ -73,5 +105,31 @@ describe("Dropdown trigger composition", () => {
     expect(onItemClick).toHaveBeenCalledOnce();
     expect(onTriggerClick).not.toHaveBeenCalled();
     expect(screen.queryByRole("menu")).toBeNull();
+  });
+
+  it("keeps button variant classes on an asChild trigger", () => {
+    render(
+      <Dropdown>
+        <DropdownTrigger asChild>
+          <Button
+            type="button"
+            variant="ghost"
+            size="xs"
+            class="h-4 rounded-full border-0 bg-muted/50 px-1.5 text-[10px]"
+          >
+            Auto
+          </Button>
+        </DropdownTrigger>
+      </Dropdown>,
+    );
+    const trigger = screen.getByRole("button", { name: "Auto" });
+    expect(trigger.className).toContain("inline-flex");
+    expect(trigger.className).toContain("items-center");
+    expect(trigger.className).toContain("h-4");
+    expect(trigger.className).toContain("rounded-full");
+    expect(trigger.className).not.toMatch(/\bh-6\b/);
+    expect(trigger).toHaveAttribute("data-slot", "dropdown-trigger");
+    expect(trigger).toHaveAttribute("data-size", "xs");
+    expect(trigger).toHaveAttribute("data-variant", "ghost");
   });
 });

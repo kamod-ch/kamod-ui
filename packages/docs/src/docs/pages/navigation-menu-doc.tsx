@@ -103,6 +103,7 @@ function NavigationMenuDemo() {
 
 export const navigationMenuDocPage = createGenericDocPage({
   slug: "navigation-menu",
+  generatedApi: true,
   title: "Navigation Menu",
   usageLabel:
     "Hierarchical top-level navigation with hover and click, aligned with shadcn/ui patterns.",

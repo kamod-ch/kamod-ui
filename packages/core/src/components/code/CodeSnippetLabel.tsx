@@ -55,7 +55,7 @@ export function CodeSnippetLabel({
       : purposes[language];
   const Icon = command ? TerminalIcon : document ? FileIcon : SourceIcon;
   return (
-    <span class="docs-code-label">
+    <span data-slot="code-snippet-label" class="docs-code-label">
       <Icon size={14} strokeWidth={2.25} aria-hidden="true" />
       <strong>{label}</strong>
       {(renderLanguage || label !== languages[language]) && (

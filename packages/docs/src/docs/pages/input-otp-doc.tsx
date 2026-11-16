@@ -52,6 +52,7 @@ function ControlledOtpPreview() {
 
 export const inputOtpDocPage = createGenericDocPage({
   slug: "input-otp",
+  generatedApi: true,
   title: "Input OTP",
   usageLabel:
     "One-time passcodes with per-character slots, overlay input, patterns (digits / alphanumeric), and shadcn-parity examples.",

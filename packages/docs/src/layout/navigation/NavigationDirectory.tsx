@@ -16,13 +16,9 @@ import {
   RocketIcon,
   WandIcon,
 } from "@kamod-ch/icons/tabler/outline";
-import {
-  Badge,
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-  SheetClose,
-} from "@kamod-ch/ui";
+import { Badge } from "@kamod-ch/ui/badge";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@kamod-ch/ui/collapsible";
+import { SheetClose } from "@kamod-ch/ui/sheet";
 import { useId } from "preact/hooks";
 import { linkTitle, linkTitleChildren } from "../../link-title";
 import { useNavigationGroup } from "./NavigationScrollArea";

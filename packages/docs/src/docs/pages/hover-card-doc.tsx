@@ -7,6 +7,7 @@ const SIDES = ["left", "top", "bottom", "right"] as const;
 
 export const hoverCardDocPage = createGenericDocPage({
   slug: "hover-card",
+  generatedApi: true,
   title: "Hover Card",
   previewCode: `import { Button } from "@/components/kamod-ui/button"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/kamod-ui/hover-card";

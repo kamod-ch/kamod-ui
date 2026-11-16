@@ -6,7 +6,7 @@ export type SelectGroupProps = HTMLAttributes<HTMLDivElement> & {
 };
 
 export const SelectGroup = ({ children, class: className, ...rest }: SelectGroupProps) => (
-  <div data-slot="select-group" class={cn("p-1", className)} {...rest}>
+  <div role="group" data-slot="select-group" class={cn("p-1", className)} {...rest}>
     {children}
   </div>
 );

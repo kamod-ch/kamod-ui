@@ -57,8 +57,9 @@
       "linter": { "enabled": true, "rules": { "preset": "recommended" } }
     },
     {
-      "includes": ["knip.json"],
-      "formatter": { "enabled": false }
+      "includes": ["knip.json", "packages/docs/src/docs/generated/component-api.json"],
+      "formatter": { "enabled": false },
+      "linter": { "enabled": false }
     }
   ]
 }

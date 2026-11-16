@@ -247,7 +247,7 @@ export const aspectRatioDocPage: DocPageModule = {
   renderMain: (context) => {
     const renderSectionBody = (sectionId: string) => {
       if (sectionId === "api-reference") {
-        return <ApiReference sections={apiSections} />;
+        return <ApiReference component="aspect-ratio" sections={apiSections} />;
       }
       if (sectionId === "installation") {
         return (

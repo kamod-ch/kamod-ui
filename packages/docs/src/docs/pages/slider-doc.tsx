@@ -71,6 +71,7 @@ export const Example = () => (
 
 export const sliderDocPage = createGenericDocPage({
   slug: "slider",
+  generatedApi: true,
   title: "Slider",
   usageLabel: "Slider lets users pick numeric values from a range with modern visual feedback.",
   installationText:

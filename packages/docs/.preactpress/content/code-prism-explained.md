@@ -40,7 +40,7 @@ Prism's [manual highlighting API](https://prismjs.com/docs/prism#highlight) desc
 
 Neither choosing a grammar nor a palette runs the sample. Syntax highlighting is not validation, formatting, typechecking or a security review. A string containing a broken import can still receive sensible colors. A grammar can also classify an unfamiliar construct differently from what you expected.
 
-For a language mismatch, use [Language Selection](#language-detection). For unsafe external HTML, follow [Safe Content Boundaries](#code-safe-content). Changing a keyword color cannot solve either problem.
+For a language mismatch, use [Language Selection](/docs/code/language-detection). For unsafe external HTML, follow [Safe Content Boundaries](/docs/code/copy-and-content#code-safe-content). Changing a keyword color cannot solve either problem.
 
 ## Code syntax token groups
 
@@ -241,4 +241,4 @@ If no token spans exist, check the language, `highlight` setting and highlighter
 
 For a palette change, keep an existing highlighted node reference in a browser test and verify it is reused. Also check original text and Copy. For theme-derived colors, switch app presets and schemes, including a nested theme scope, and inspect the computed colors without expecting another grammar request.
 
-Color is a reading aid. Users must still be able to select source, read it without syntax colors, discover links with a keyboard and copy the complete example. Keep those capabilities in the [accessibility review](#accessibility) when making the palette more expressive.
+Color is a reading aid. Users must still be able to select source, read it without syntax colors, discover links with a keyboard and copy the complete example. Keep those capabilities in the [accessibility review](/docs/code/accessibility) when making the palette more expressive.

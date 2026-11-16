@@ -23,11 +23,6 @@ test("component prop links open the source definition, including after it was cl
   await page.reload();
   await expect(toggle).toHaveAttribute("aria-expanded", "true");
   await expect(page.locator("#integration-guide")).toContainText("TaskProgress");
-  await expect(
-    page
-      .locator(".component-composition")
-      .getByRole("heading", { name: "Keep the Explanation Beside the Recovery", exact: true }),
-  ).toBeAttached();
 });
 
 test("Formisch distinguishes local required props from library integration contracts", async ({

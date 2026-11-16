@@ -213,3 +213,31 @@ it("uses the block refresh phases and only completes after the replacement frame
   fireEvent.error(container.querySelector("iframe")!);
   expect(control).toHaveAttribute("data-refresh-state", "resetting");
 });
+
+it("copies the live example as a barrel or subpath package import", async () => {
+  const { container } = render(
+    <ComponentExample
+      doc={doc}
+      index={0}
+      codeSnippet={`import { Button } from "@/components/kamod-ui/button";\nexport const Example = () => <Button />;`}
+      filePath="src/docs/examples/button-hero.tsx"
+    />,
+  );
+  fireEvent.click(screen.getByRole("tab", { name: "Code" }));
+  const barrel = await screen.findByRole("button", { name: "Barrel Import (@kamod-ch/ui)" });
+  expect(barrel).toHaveAttribute("aria-pressed", "true");
+  await waitFor(() =>
+    expect(container.querySelector("pre code")?.textContent).toContain(
+      'import { Button } from "@kamod-ch/ui";',
+    ),
+  );
+  expect(container.querySelector("pre code")?.textContent).not.toContain("@/components/kamod-ui");
+  fireEvent.click(
+    screen.getByRole("button", { name: "Subpath Import (@kamod-ch/ui/<component>)" }),
+  );
+  await waitFor(() =>
+    expect(container.querySelector("pre code")?.textContent).toContain(
+      'import { Button } from "@kamod-ch/ui/button";',
+    ),
+  );
+});

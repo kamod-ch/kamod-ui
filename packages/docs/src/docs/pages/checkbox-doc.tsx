@@ -1,7 +1,5 @@
 import {
-  Button,
   Checkbox,
-  DirectionProvider,
   Field,
   FieldContent,
   FieldDescription,
@@ -46,38 +44,6 @@ const CheckboxDemoPreview = () => (
         </FieldContent>
       </Field>
     </FieldLabel>
-  </FieldGroup>
-);
-
-const CheckboxBasicPreview = () => (
-  <FieldGroup class="mx-auto w-56">
-    <Field orientation="horizontal">
-      <Checkbox id="terms-checkbox-basic-doc" name="terms-checkbox-basic-doc" />
-      <FieldLabel htmlFor="terms-checkbox-basic-doc">Accept terms and conditions</FieldLabel>
-    </Field>
-  </FieldGroup>
-);
-
-const CheckboxDescriptionPreview = () => (
-  <FieldGroup class="mx-auto w-72">
-    <Field orientation="horizontal">
-      <Checkbox id="terms-checkbox-desc-doc" name="terms-checkbox-desc-doc" defaultChecked />
-      <FieldContent>
-        <FieldLabel htmlFor="terms-checkbox-desc-doc">Accept terms and conditions</FieldLabel>
-        <FieldDescription>
-          By clicking this checkbox, you agree to the terms and conditions.
-        </FieldDescription>
-      </FieldContent>
-    </Field>
-  </FieldGroup>
-);
-
-const CheckboxDisabledPreview = () => (
-  <FieldGroup class="mx-auto w-56">
-    <Field orientation="horizontal" data-disabled="">
-      <Checkbox id="toggle-checkbox-disabled-doc" name="toggle-checkbox-disabled-doc" disabled />
-      <FieldLabel htmlFor="toggle-checkbox-disabled-doc">Enable notifications</FieldLabel>
-    </Field>
   </FieldGroup>
 );
 
@@ -194,99 +160,6 @@ const CheckboxTablePreview = () => {
   );
 };
 
-type Lang = "en" | "ar" | "he";
-
-const rtlCopy: Record<
-  Lang,
-  {
-    dir: "ltr" | "rtl";
-    label: string;
-    acceptTerms: string;
-    acceptTermsDescription: string;
-    enableNotifications: string;
-    enableNotificationsDescription: string;
-  }
-> = {
-  en: {
-    dir: "ltr",
-    label: "English (LTR)",
-    acceptTerms: "Accept terms and conditions",
-    acceptTermsDescription: "By clicking this checkbox, you agree to the terms.",
-    enableNotifications: "Enable notifications",
-    enableNotificationsDescription: "You can enable or disable notifications at any time.",
-  },
-  ar: {
-    dir: "rtl",
-    label: "العربية (RTL)",
-    acceptTerms: "قبول الشروط والأحكام",
-    acceptTermsDescription: "بالنقر على هذا المربع، فإنك توافق على الشروط.",
-    enableNotifications: "تفعيل الإشعارات",
-    enableNotificationsDescription: "يمكنك تفعيل أو إلغاء تفعيل الإشعارات في أي وقت.",
-  },
-  he: {
-    dir: "rtl",
-    label: "עברית (RTL)",
-    acceptTerms: "קבל תנאים והגבלות",
-    acceptTermsDescription: "על ידי לחיצה על תיבת הסימון הזו, אתה מסכים לתנאים.",
-    enableNotifications: "הפעל התראות",
-    enableNotificationsDescription: "אתה יכול להפעיל או להשבית התראות בכל עת.",
-  },
-};
-
-const CheckboxRtlPreview = () => {
-  const [lang, setLang] = useState<Lang>("ar");
-  const t = rtlCopy[lang];
-
-  return (
-    <div class="flex w-full max-w-md flex-col gap-3">
-      <div class="flex flex-wrap gap-2">
-        {(["en", "ar", "he"] as const).map((key) => (
-          <Button
-            key={key}
-            variant={lang === key ? "default" : "outline"}
-            size="sm"
-            onClick={() => setLang(key)}
-          >
-            {rtlCopy[key].label}
-          </Button>
-        ))}
-      </div>
-      <DirectionProvider direction={t.dir} class="w-full">
-        <FieldGroup class="w-full max-w-sm" dir={t.dir}>
-          <Field orientation="horizontal">
-            <Checkbox id="terms-checkbox-rtl-doc" name="terms-checkbox-rtl-doc" />
-            <FieldLabel htmlFor="terms-checkbox-rtl-doc">{t.acceptTerms}</FieldLabel>
-          </Field>
-          <Field orientation="horizontal">
-            <Checkbox
-              id="terms-checkbox-2-rtl-doc"
-              name="terms-checkbox-2-rtl-doc"
-              defaultChecked
-            />
-            <FieldContent>
-              <FieldLabel htmlFor="terms-checkbox-2-rtl-doc">{t.acceptTerms}</FieldLabel>
-              <FieldDescription>{t.acceptTermsDescription}</FieldDescription>
-            </FieldContent>
-          </Field>
-          <Field orientation="horizontal" data-disabled="">
-            <Checkbox id="toggle-checkbox-rtl-doc" name="toggle-checkbox-rtl-doc" disabled />
-            <FieldLabel htmlFor="toggle-checkbox-rtl-doc">{t.enableNotifications}</FieldLabel>
-          </Field>
-          <FieldLabel class="grid w-full gap-2">
-            <Field orientation="horizontal" class="w-full min-w-0">
-              <Checkbox id="toggle-checkbox-2-rtl-doc" name="toggle-checkbox-2-rtl-doc" />
-              <FieldContent>
-                <FieldTitle>{t.enableNotifications}</FieldTitle>
-                <FieldDescription>{t.enableNotificationsDescription}</FieldDescription>
-              </FieldContent>
-            </Field>
-          </FieldLabel>
-        </FieldGroup>
-      </DirectionProvider>
-    </div>
-  );
-};
-
 const CheckboxControlledPreview = () => {
   const [checked, setChecked] = useState(false);
   return (
@@ -325,6 +198,7 @@ const CheckboxIndeterminatePreview = () => {
 
 export const checkboxDocPage = createGenericDocPage({
   slug: "checkbox",
+  generatedApi: true,
   title: "Checkbox",
   previewCode: `import { Checkbox } from "@/components/kamod-ui/checkbox"
 import { Field, FieldContent, FieldDescription, FieldGroup, FieldLabel, FieldTitle } from "@/components/kamod-ui/field";
@@ -342,28 +216,19 @@ export const Example = () => (
     "Native checkbox with custom indicator, checked / indeterminate, onCheckedChange, Field integration — shadcn-aligned examples.",
   installationText: "Import Checkbox from `@/components/kamod-ui/checkbox`.",
   usageText:
-    'Use defaultChecked or checked with onCheckedChange. Pair with Field, FieldLabel, and data-disabled / data-invalid on Field for states. checked may be true, false, or "indeterminate" (minus icon, aria-checked=mixed).',
+    'Use `defaultChecked` or `checked` with `onCheckedChange`. `checked` may be `true`, `false`, or `"indeterminate"`.',
   exampleSections: [
     {
       id: "checkbox-demo",
       title: "Demo",
-      text: "**Compare Independent Choices in a Realistic Field Layout.** Compose checkboxes with `FieldGroup`, `FieldLabel` and supporting descriptions to show several independent preferences. The example includes disabled and nested label treatments, demonstrating how the same boolean control fits different amounts of explanatory content.\n\nKeep the input association intact when copying the composition, and use [Field](/docs/field/installation) to group supporting text and validation consistently.",
+      text: "Compose several independent choices with [Field](/docs/field/installation), including a description and a disabled option.",
       code: `// See hero previewCode — Field + Checkbox + FieldContent / FieldTitle.`,
       renderPreview: () => <CheckboxDemoPreview />,
     },
     {
-      id: "checkbox-usage",
-      title: "Usage",
-      text: "**Start with the Smallest Selectable Option.** Start with one `Checkbox` to see the control without a surrounding form layout. In a finished interface, pair it with an associated [Label](/docs/label/installation) so its checked state answers a clearly named question.\n\nAdd a visible label for ordinary forms and decide how the selected value will be stored or submitted before integrating it into a larger workflow.",
-      code: `import { Checkbox } from "@/components/kamod-ui/checkbox";
-
-export const Example = () => <Checkbox aria-label="Accept" />;`,
-      renderPreview: () => <Checkbox aria-label="Accept" />,
-    },
-    {
       id: "checkbox-controlled",
       title: "Checked State",
-      text: "**Keep One Source of Truth for Selection.** Pass `checked` and update it through `onCheckedChange` when another part of the application needs the same boolean state. The parent then supplies the value rendered by the checkbox instead of maintaining a separate visual selection.\n\nThis makes summaries and submit payloads agree with the visible control, including changes made by another part of the interface.",
+      text: "Pass `checked` and `onCheckedChange` when another part of the screen needs the same boolean.",
       code: `import { useState } from "preact/hooks";
 import { Checkbox } from "@/components/kamod-ui/checkbox";
 
@@ -376,7 +241,7 @@ export const Example = () => {
     {
       id: "checkbox-indeterminate",
       title: "Indeterminate",
-      text: '**Represent a Mixed Collection Honestly.** Use `checked="indeterminate"` for a mixed selection, such as a group where only some items are checked. This communicates a summary state; define how activating that summary changes the underlying individual values.\n\nDerive that state from the collection and decide what activating the parent should do; the mixed visual state should never be stored as if it were a separate child choice.',
+      text: 'Use `checked="indeterminate"` for a mixed group, and decide what activating it does to the children.',
       code: `import { useState } from "preact/hooks";
 import { Checkbox } from "@/components/kamod-ui/checkbox";
 
@@ -389,7 +254,7 @@ export const Example = () => {
     {
       id: "checkbox-invalid",
       title: "Invalid",
-      text: "**Connect the Error to the Option.** Combine `data-invalid` on `Field` with `aria-invalid` on `Checkbox` to present an invalid choice coherently. The field supplies surrounding feedback, while the actual control exposes its validation state to assistive technology.\n\nAssociate that message with the checkbox and choose when validation appears, so an untouched field is not presented as a failure without context.",
+      text: "Set `data-invalid` on Field and `aria-invalid` on Checkbox so the error reaches the control.",
       code: `import { Checkbox } from "@/components/kamod-ui/checkbox"
 import { Field, FieldGroup, FieldLabel } from "@/components/kamod-ui/field";
 
@@ -404,46 +269,18 @@ export const Example = () => (
       renderPreview: () => <CheckboxInvalidPreview />,
     },
     {
-      id: "checkbox-basic",
-      title: "Basic",
-      text: "**Make the Label Part of the Interaction.** Place `Checkbox` and its `FieldLabel` in a horizontal field for a short independent option. Their association gives the label an interaction role as well as explaining what the boolean value means.\n\nUse a stable identifier to connect the label, and check that clicking the words toggles the intended checkbox rather than another repeated field.",
-      code: `// Field orientation="horizontal", Checkbox + FieldLabel htmlFor`,
-      renderPreview: () => <CheckboxBasicPreview />,
-    },
-    {
-      id: "checkbox-description",
-      title: "Description",
-      text: "**Explain the Consequence before Selection.** Use `FieldContent` to keep a checkbox's label and `FieldDescription` together beside the control. This leaves room for an explanation of the consequence without turning the main option label into a long paragraph.\n\nKeep it readable and associated with the checkbox, and avoid hiding essential consent information in a tooltip or another disclosure.",
-      code: `// FieldContent, FieldLabel, FieldDescription`,
-      renderPreview: () => <CheckboxDescriptionPreview />,
-    },
-    {
-      id: "checkbox-disabled",
-      title: "Disabled",
-      text: "**Explain Why a Choice Is Unavailable.** Set `disabled` on the checkbox and `data-disabled` on its field wrapper to coordinate behavior and presentation. The control becomes unavailable while the surrounding layout still communicates the option's identity and existing state.\n\nIf another action unlocks it, place that instruction nearby; disabled controls should not be the only route to discovering their own prerequisite.",
-      code: `// Field data-disabled="" + Checkbox disabled`,
-      renderPreview: () => <CheckboxDisabledPreview />,
-    },
-    {
       id: "checkbox-group",
       title: "Group",
-      text: "**Name the Collection as Well as Its Choices.** Use `FieldSet` and `FieldLegend` to name the shared question, then list independent choices in `FieldGroup`. Each checkbox answers one part of that question and retains its own associated label.\n\nUse stable values for submission, keep the order predictable, and distinguish multi-selection from the mutually exclusive behavior of [Radio Group](/docs/radio-group/installation).",
+      text: "Name the set with FieldSet and FieldLegend. Each choice keeps its own label, unlike [Radio Group](/docs/radio-group/installation).",
       code: `// FieldSet + FieldLegend variant="label" + FieldDescription`,
       renderPreview: () => <CheckboxGroupPreview />,
     },
     {
       id: "checkbox-table",
       title: "Table",
-      text: "**Define the Scope of Select-All.** Derive the header checkbox from the selected table rows and use row `data-state` styling to reflect selection. The select-all control should summarize the same records that the row checkboxes update.\n\nUse **Stable Record IDs** so sorting or pagination cannot transfer selection to a different record. Decide whether select-all applies to the current page, filtered results or the whole dataset, and make that scope clear beside any bulk action.",
+      text: "Derive the header checkbox from selected row ids, and decide whether select-all covers this page or the whole set.",
       code: `// Checkbox in header + rows; Set<string> for selected ids`,
       renderPreview: () => <CheckboxTablePreview />,
-    },
-    {
-      id: "checkbox-rtl",
-      title: "RTL",
-      text: "**Check the Whole Pattern in Its Reading Direction.** Use `DirectionProvider` and `dir` on the field collection to compare translated checkbox layouts. Keep each input associated with its own label while the control, description and spacing follow the selected reading direction.\n\nKeep values and keyboard behavior meaningful in the translated interface, and follow [Direction](/docs/direction/installation) when the page and its portaled controls need a shared direction.",
-      code: `import { Checkbox, DirectionProvider, FieldGroup, … } from "@/components/kamod-ui/checkbox";`,
-      renderPreview: () => <CheckboxRtlPreview />,
     },
   ],
   apiRows: [

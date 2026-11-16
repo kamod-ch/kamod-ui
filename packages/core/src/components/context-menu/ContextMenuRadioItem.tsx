@@ -12,6 +12,7 @@ export const ContextMenuRadioItem = ({
   class: className,
   children,
   onClick,
+  disabled,
   ...rest
 }: ContextMenuRadioItemProps) => {
   const radio = useContextMenuRadio();
@@ -22,6 +23,8 @@ export const ContextMenuRadioItem = ({
       type="button"
       role="menuitemradio"
       data-slot="context-menu-radio-item"
+      data-disabled={disabled ? "true" : undefined}
+      disabled={disabled}
       aria-checked={selected}
       class={cn(
         "relative flex w-full cursor-default select-none items-center gap-2 rounded-sm py-1.5 ps-8 pe-2 text-sm outline-none",

@@ -53,7 +53,7 @@ export const docsNavigation = [
     slug: "badge",
     label: "Badge",
     group: "components",
-    variantCount: 6,
+    variantCount: 4,
     motionVariantCount: 0,
   },
   {
@@ -67,7 +67,7 @@ export const docsNavigation = [
     slug: "button",
     label: "Button",
     group: "components",
-    variantCount: 15,
+    variantCount: 4,
     motionVariantCount: 0,
   },
   {
@@ -109,7 +109,7 @@ export const docsNavigation = [
     slug: "checkbox",
     label: "Checkbox",
     group: "components",
-    variantCount: 10,
+    variantCount: 6,
     motionVariantCount: 0,
   },
   {
@@ -125,6 +125,11 @@ export const docsNavigation = [
     group: "components",
     variantCount: 10,
     motionVariantCount: 0,
+  },
+  {
+    slug: "code-internals",
+    label: "Code internals",
+    group: "components",
   },
   {
     slug: "collapsible",
@@ -159,6 +164,13 @@ export const docsNavigation = [
     label: "Context Menu",
     group: "components",
     variantCount: 9,
+    motionVariantCount: 0,
+  },
+  {
+    slug: "copy-button",
+    label: "Copy Button",
+    group: "components",
+    variantCount: 1,
     motionVariantCount: 0,
   },
   {

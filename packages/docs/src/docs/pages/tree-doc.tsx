@@ -662,7 +662,8 @@ export const treeDocPage: DocPageModule = {
   ],
   renderMain: (context) => {
     const renderSectionBody = (sectionId: string) => {
-      if (sectionId === "api-reference") return <ApiReference sections={apiSections} />;
+      if (sectionId === "api-reference")
+        return <ApiReference component="tree" sections={apiSections} />;
       if (sectionId === "installation") {
         return (
           <CodeBlock

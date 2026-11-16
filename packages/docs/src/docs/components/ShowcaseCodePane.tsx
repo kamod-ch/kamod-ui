@@ -15,6 +15,7 @@ export function ShowcaseCodePane({
   children,
   loading = false,
   appearance,
+  consumerImports,
 }: {
   filename: string;
   filePath: string;
@@ -26,6 +27,8 @@ export function ShowcaseCodePane({
   loading?: boolean;
   /** The owning showcase's appearance for pending syntax formatting. */
   appearance?: PreviewAppearance;
+  /** False when the caller already rewrote Kamod imports. */
+  consumerImports?: boolean;
 }) {
   const pane = useRef<HTMLDivElement>(null);
   const lastHeight = useRef<number | undefined>(undefined);
@@ -61,6 +64,7 @@ export function ShowcaseCodePane({
           filePath={filePath}
           renderToolbar={renderToolbar}
           className="docs-tab-code"
+          consumerImports={consumerImports}
           loadingContent={<ShowcaseLoading appearance={appearance} view="code" detail={filePath} />}
         />
       ) : (

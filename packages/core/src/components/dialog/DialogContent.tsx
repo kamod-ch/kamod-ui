@@ -1,7 +1,7 @@
 import type { ComponentChildren, HTMLAttributes, TargetedKeyboardEvent } from "preact";
 import { useMemo } from "preact/hooks";
 import { createPortal } from "../../lib/createPortal";
-import { isPointerWithinModalDialogPanelSlop } from "../../lib/interactive";
+import { isPointerWithinModalDialogPanelSlop, isTopDismissableLayer } from "../../lib/interactive";
 import { cn } from "../../lib/utils";
 import { useDialog } from "./Dialog";
 import { DialogClose } from "./DialogClose";
@@ -85,6 +85,7 @@ export const DialogContent = ({
 
   const handleKeyDown = (event: TargetedKeyboardEvent<HTMLDivElement>) => {
     if (event.key === "Escape") {
+      if (!isTopDismissableLayer(dialog.layerRootRef.current)) return;
       event.preventDefault();
       dialog.setOpen(false);
     }
@@ -124,6 +125,7 @@ export const DialogContent = ({
         onPointerDown={(event) => {
           if (event.target !== event.currentTarget) return;
           if (isPointerWithinModalDialogPanelSlop(event)) return;
+          if (!isTopDismissableLayer(dialog.layerRootRef.current)) return;
           dialog.setOpen(false);
         }}
       />

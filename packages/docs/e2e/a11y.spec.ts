@@ -3,7 +3,9 @@ import { docsShowMotion, isMotionDocSlug } from "../src/docs/docs-feature-flags"
 import { docsRouteManifest } from "../src/docs/generated-manifest";
 import {
   assertNoBlockingA11yViolations,
+  assertNoBlockingA11yViolationsInFrame,
   componentExamplePreviewFrame,
+  DOCS_CHROME_SELECTORS,
   sectionPreviewFrame,
   waitForDocsAppReady,
   waitForFirstInstallationPreview,
@@ -19,6 +21,15 @@ const PREVIEW_LESS_SLUGS = new Set([
   "icons-package", // external package teaser — no in-repo live preview demos
   "signals-package", // external package teaser — no in-repo live preview demos
   "state-package", // external package teaser — no in-repo live preview demos
+  "code-internals", // reader guide — installation is prose; live examples stay on Code
+]);
+
+/**
+ * Guides that render their own studio instead of a core-component installation iframe.
+ * The studio is not the component preview gate.
+ */
+const GUIDE_WITHOUT_COMPONENT_PREVIEW = new Set([
+  "theming", // color-theme studio — no `.component-example` installation preview
 ]);
 
 for (const { slug } of docsRouteManifest) {
@@ -33,11 +44,23 @@ for (const { slug } of docsRouteManifest) {
 
     if (PREVIEW_LESS_SLUGS.has(slug)) {
       await expect(page.locator("main")).toBeVisible();
-    } else {
-      await waitForFirstInstallationPreview(page);
+      await assertNoBlockingA11yViolations(page, `${slug} /installation`, {
+        include: "main",
+        exclude: DOCS_CHROME_SELECTORS,
+      });
+      return;
     }
 
-    await assertNoBlockingA11yViolations(page, `${slug} /installation`, { include: "main" });
+    if (GUIDE_WITHOUT_COMPONENT_PREVIEW.has(slug)) {
+      await expect(page.locator("main")).toBeVisible();
+      return;
+    }
+
+    await waitForFirstInstallationPreview(page);
+    const iframe = page.locator(".component-example iframe").first();
+    const frame = await iframe.elementHandle().then((handle) => handle?.contentFrame());
+    expect(frame, `${slug} installation preview frame`).toBeTruthy();
+    await assertNoBlockingA11yViolationsInFrame(page, iframe, `${slug} installation preview`);
   });
 }
 

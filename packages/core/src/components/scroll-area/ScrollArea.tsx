@@ -122,6 +122,7 @@ export const ScrollArea = ({ class: className, children, ...rest }: ScrollAreaPr
       >
         <div
           ref={viewportRef}
+          tabIndex={0}
           data-slot="scroll-area-viewport"
           class={cn("size-full overflow-auto", hideNativeScrollbar)}
         >

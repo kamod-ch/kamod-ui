@@ -1,4 +1,7 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/preact";
+import { Button } from "../button/Button";
+import { Popover, PopoverContent, PopoverTrigger } from "../popover";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../select";
 import {
   Dialog,
   DialogClose,
@@ -131,5 +134,127 @@ describe("Dialog", () => {
     expect(document.documentElement).not.toHaveAttribute("data-kamod-scroll-lock");
     expect(document.documentElement.style.overflow).toBe("");
     expect(document.body.style.overflow).toBe("");
+  });
+
+  it("renders one button when the trigger delegates to Button", () => {
+    render(
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button>Open</Button>
+        </DialogTrigger>
+      </Dialog>,
+    );
+    expect(screen.getAllByRole("button", { name: "Open" })).toHaveLength(1);
+  });
+
+  it("focuses an autofocus control instead of the panel", async () => {
+    render(
+      <Dialog defaultOpen>
+        <DialogTrigger>Open settings</DialogTrigger>
+        <DialogContent>
+          <DialogTitle>Settings</DialogTitle>
+          <input aria-label="Display name" data-autofocus />
+          <DialogClose>Done</DialogClose>
+        </DialogContent>
+      </Dialog>,
+    );
+
+    await waitFor(() =>
+      expect(screen.getByRole("textbox", { name: "Display name" })).toHaveFocus(),
+    );
+  });
+
+  it("adds the scrollbar width to the existing body padding", async () => {
+    const stylesheet = document.createElement("style");
+    stylesheet.textContent = "body { padding-right: 8px; }";
+    document.head.append(stylesheet);
+    vi.stubGlobal("innerWidth", 115);
+    const descriptor = Object.getOwnPropertyDescriptor(document.documentElement, "clientWidth");
+    Object.defineProperty(document.documentElement, "clientWidth", {
+      configurable: true,
+      get: () => 100,
+    });
+
+    renderDialog({ defaultOpen: true });
+    await waitFor(() => expect(document.body.style.paddingRight).toBe("23px"));
+
+    fireEvent.click(screen.getByRole("button", { name: "Done" }));
+    expect(document.body.style.paddingRight).toBe("");
+    stylesheet.remove();
+
+    if (descriptor) {
+      Object.defineProperty(document.documentElement, "clientWidth", descriptor);
+    }
+    vi.unstubAllGlobals();
+  });
+
+  it("closes only the nested popover on Escape and outside click, then restores the dialog trigger", async () => {
+    render(
+      <Dialog>
+        <DialogTrigger>Open settings</DialogTrigger>
+        <DialogContent>
+          <DialogTitle>Settings</DialogTitle>
+          <Popover>
+            <PopoverTrigger>Open popover</PopoverTrigger>
+            <PopoverContent>Popover body</PopoverContent>
+          </Popover>
+          <DialogClose>Done</DialogClose>
+        </DialogContent>
+      </Dialog>,
+    );
+
+    const dialogTrigger = screen.getByRole("button", { name: "Open settings" });
+    fireEvent.click(dialogTrigger);
+    const dialog = screen.getByRole("dialog", { name: "Settings" });
+    fireEvent.click(screen.getByRole("button", { name: "Open popover" }));
+    expect(screen.getByText("Popover body")).toBeInTheDocument();
+
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(screen.queryByText("Popover body")).not.toBeInTheDocument();
+    expect(dialog).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Open popover" })).toHaveFocus();
+
+    fireEvent.click(screen.getByRole("button", { name: "Open popover" }));
+    fireEvent.pointerDown(document.body);
+    expect(screen.queryByText("Popover body")).not.toBeInTheDocument();
+    expect(dialog).toBeInTheDocument();
+
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(screen.queryByRole("dialog", { name: "Settings" })).not.toBeInTheDocument();
+    expect(dialogTrigger).toHaveFocus();
+  });
+
+  it("closes a nested select before the dialog and returns focus to each trigger", () => {
+    render(
+      <Dialog>
+        <DialogTrigger>Open settings</DialogTrigger>
+        <DialogContent>
+          <DialogTitle>Settings</DialogTitle>
+          <Select>
+            <SelectTrigger aria-label="Framework">
+              <SelectValue placeholder="Pick a framework" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="preact">Preact</SelectItem>
+            </SelectContent>
+          </Select>
+        </DialogContent>
+      </Dialog>,
+    );
+
+    const dialogTrigger = screen.getByRole("button", { name: "Open settings" });
+    fireEvent.click(dialogTrigger);
+    const selectTrigger = screen.getByRole("button", { name: "Framework" });
+    fireEvent.click(selectTrigger);
+    expect(screen.getByRole("listbox")).toBeInTheDocument();
+
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
+    expect(screen.getByRole("dialog", { name: "Settings" })).toBeInTheDocument();
+    expect(selectTrigger).toHaveFocus();
+
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(screen.queryByRole("dialog", { name: "Settings" })).not.toBeInTheDocument();
+    expect(dialogTrigger).toHaveFocus();
   });
 });

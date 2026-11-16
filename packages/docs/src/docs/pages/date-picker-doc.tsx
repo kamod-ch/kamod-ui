@@ -421,6 +421,7 @@ const NaturalLanguagePreview = () => {
 
 export const datePickerDocPage = createGenericDocPage({
   slug: "date-picker",
+  generatedApi: true,
   title: "Date Picker",
   previewCode: `import { DatePicker } from "@/components/kamod-ui/date-picker";
 

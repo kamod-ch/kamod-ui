@@ -816,14 +816,14 @@
   border-bottom: 0;
 }
 
-/* Keep the documentation's familiar default palette; opt-in syntax themes supply their own. */
+/* Match the core Code default token colors. Opt-in syntax themes supply their own. */
 .kamod-code:where([data-syntax-theme="default"]) {
-  --kamod-code-keyword: color-mix(in srgb, #3b82f6, #93c5fd var(--kamod-code-dark-weight, 0%));
-  --kamod-code-property: color-mix(in srgb, #ef4444, #fda4af var(--kamod-code-dark-weight, 0%));
-  --kamod-code-number: color-mix(in srgb, #f59e0b, #fcd34d var(--kamod-code-dark-weight, 0%));
-  --kamod-code-string: color-mix(in srgb, #22c55e, #86efac var(--kamod-code-dark-weight, 0%));
-  --kamod-code-function: color-mix(in srgb, #a78bfa, #c4b5fd var(--kamod-code-dark-weight, 0%));
-  --kamod-code-variable: color-mix(in srgb, #f97316, #fdba74 var(--kamod-code-dark-weight, 0%));
+  --kamod-code-keyword: color-mix(in srgb, #1d4ed8, #93c5fd var(--kamod-code-dark-weight, 0%));
+  --kamod-code-property: color-mix(in srgb, #b91c1c, #fda4af var(--kamod-code-dark-weight, 0%));
+  --kamod-code-number: color-mix(in srgb, #92400e, #fcd34d var(--kamod-code-dark-weight, 0%));
+  --kamod-code-string: color-mix(in srgb, #15803d, #86efac var(--kamod-code-dark-weight, 0%));
+  --kamod-code-function: color-mix(in srgb, #6d28d9, #c4b5fd var(--kamod-code-dark-weight, 0%));
+  --kamod-code-variable: color-mix(in srgb, #9a3412, #fdba74 var(--kamod-code-dark-weight, 0%));
 }
 
 .docs-code {
@@ -1314,6 +1314,21 @@ html.dark .docs-copy-feedback.is-error {
 .docs-api-reference-group {
   display: grid;
   gap: 1.25rem;
+}
+
+.docs-api-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.docs-api-meta code,
+.docs-api-meta span {
+  border: 1px solid rgb(255 255 255 / 12%);
+  border-radius: 999px;
+  padding: 0.15rem 0.55rem;
+  font-size: 0.75rem;
+  line-height: 1.4;
 }
 
 .docs-api-table-wrap {
@@ -2169,7 +2184,7 @@ html.dark .landing-shadcn-brand-logo--dark-theme {
   border-radius: var(--radius-lg);
   border: 1px solid color-mix(in oklab, var(--border) 85%, transparent);
   background: var(--background);
-  /* allow mode dropdown (opens upward) to paint outside the box */
+  /* allow mode dropdown to paint outside the box */
   overflow: visible;
 }
 
@@ -3199,4 +3214,27 @@ html.dark .landing-shadcn-brand-logo--dark-theme {
   vertical-align: top;
   white-space: pre;
   text-indent: 0;
+}
+.component-import-style {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  max-width: 100%;
+  margin-bottom: 0.75rem;
+}
+.component-import-style button {
+  max-width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--foreground);
+  padding: 0.25rem 0.625rem;
+  font-size: 0.75rem;
+  line-height: 1.25rem;
+  text-align: start;
+  white-space: normal;
+}
+.component-import-style button[aria-pressed="true"] {
+  background: var(--foreground);
+  color: var(--background);
 }

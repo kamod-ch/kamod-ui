@@ -5,7 +5,7 @@ export type SelectSeparatorProps = HTMLAttributes<HTMLDivElement>;
 
 export const SelectSeparator = ({ class: className, ...rest }: SelectSeparatorProps) => (
   <div
-    role="separator"
+    role="none"
     data-slot="select-separator"
     class={cn("bg-border my-1 h-px w-full shrink-0", className)}
     {...rest}

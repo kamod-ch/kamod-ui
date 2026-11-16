@@ -328,6 +328,7 @@ function MenubarRtlExample() {
 
 export const menubarDocPage = createGenericDocPage({
   slug: "menubar",
+  generatedApi: true,
   title: "Menubar",
   usageLabel:
     "Desktop-style menu bar: one open root menu at a time, submenus, shortcuts, checkboxes, and radio groups.",

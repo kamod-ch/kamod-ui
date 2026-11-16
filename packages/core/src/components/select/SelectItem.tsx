@@ -1,3 +1,4 @@
+import { useComputed } from "@preact/signals";
 import type { ComponentChildren, HTMLAttributes, TargetedMouseEvent } from "preact";
 import { useId, useLayoutEffect, useRef } from "preact/hooks";
 import { cn } from "../../lib/utils";
@@ -26,8 +27,8 @@ export const SelectItem = ({
   const generatedId = useId();
   const explicitId = typeof id === "string" ? id : undefined;
   const itemId = explicitId ?? `select-item-${generatedId}`;
-  const selected = select.selectedValue.value === value;
-  const active = select.activeItemId.value === itemId;
+  const selected = useComputed(() => select.selectedValue.value === value).value;
+  const active = useComputed(() => select.activeItemId.value === itemId).value;
 
   useLayoutEffect(() => {
     select.registerItem({

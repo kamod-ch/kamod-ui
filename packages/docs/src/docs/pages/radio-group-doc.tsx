@@ -3,6 +3,7 @@ import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const radioGroupDocPage = createGenericDocPage({
   slug: "radio-group",
+  generatedApi: true,
   title: "Radio Group",
   usageLabel: "A set of mutually exclusive options styled like modern radio controls.",
   installationText:

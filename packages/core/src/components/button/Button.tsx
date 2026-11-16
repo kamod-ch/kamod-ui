@@ -2,11 +2,9 @@ import {
   type AnchorHTMLAttributes,
   type ButtonHTMLAttributes,
   type ComponentChildren,
-  cloneElement,
-  type HTMLAttributes,
-  isValidElement,
 } from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
+import { Slot } from "../../lib/slot";
 import { cn } from "../../lib/utils";
 
 export const button = tv({
@@ -76,46 +74,39 @@ export const Button = ({
   const resolvedVariant = variant ?? "default";
   const resolvedSize = size ?? "default";
   const variantClasses = button({ variant: resolvedVariant, size: resolvedSize });
-  const resolvedClassName = cn(variantClasses, className);
+  const domRest = { ...(rest as Record<string, unknown>) };
+  // Slot forwards the same tokens as `class` and `className`. Preact applies
+  // `className` after `class` and would otherwise drop the variant classes.
+  const classNameAlias = typeof domRest.className === "string" ? domRest.className : undefined;
+  if (classNameAlias !== undefined) delete domRest.className;
+  const resolvedClassName = cn(variantClasses, className, classNameAlias);
+  const disabledState = domRest.disabled ? "true" : undefined;
+  const slot = typeof domRest["data-slot"] === "string" ? domRest["data-slot"] : "button";
 
   if (asChild) {
-    if (!isValidElement(children)) {
-      const env = (globalThis as { process?: { env?: { NODE_ENV?: string } } }).process?.env
-        ?.NODE_ENV;
-      if (env !== "production") {
-        console.warn(
-          "[kamod-ui] <Button asChild> expects a single valid element child. " +
-            "Received: " +
-            typeof children +
-            ". Falling back to rendering nothing.",
-        );
-      }
-      return null;
-    }
-
-    const childProps = (children.props ?? {}) as HTMLAttributes<HTMLElement> & {
-      class?: string;
-      className?: string;
-    };
-
-    return cloneElement(children, {
-      ...childProps,
-      ...(rest as HTMLAttributes<HTMLElement>),
-      class: cn(variantClasses, childProps.class, childProps.className, className),
-      "data-slot": "button",
-      "data-variant": resolvedVariant,
-      "data-size": resolvedSize,
-    });
-  }
-
-  if ("href" in rest && typeof rest.href === "string") {
     return (
-      <a
+      <Slot
+        {...domRest}
         class={resolvedClassName}
-        data-slot="button"
+        data-slot={slot}
         data-variant={resolvedVariant}
         data-size={resolvedSize}
-        {...(rest as Record<string, unknown>)}
+        data-disabled={disabledState}
+      >
+        {children}
+      </Slot>
+    );
+  }
+
+  if (typeof domRest.href === "string") {
+    return (
+      <a
+        {...domRest}
+        class={resolvedClassName}
+        data-slot={slot}
+        data-variant={resolvedVariant}
+        data-size={resolvedSize}
+        data-disabled={disabledState}
       >
         {children}
       </a>
@@ -126,11 +117,12 @@ export const Button = ({
 
   return (
     <button
+      {...domRest}
       class={resolvedClassName}
-      data-slot="button"
+      data-slot={slot}
       data-variant={resolvedVariant}
       data-size={resolvedSize}
-      {...(buttonRest as Record<string, unknown>)}
+      data-disabled={disabledState}
       type={buttonRest.type ?? "button"}
     >
       {children}

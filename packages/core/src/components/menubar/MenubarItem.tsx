@@ -26,6 +26,7 @@ export const MenubarItem = ({
       data-slot="menubar-item"
       data-inset={inset ? "true" : undefined}
       data-variant={variant}
+      data-disabled={disabled ? "true" : undefined}
       disabled={disabled}
       class={cn(
         "relative flex w-full cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-start text-sm outline-none",

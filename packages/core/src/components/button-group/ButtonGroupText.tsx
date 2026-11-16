@@ -1,4 +1,5 @@
-import { type ComponentChildren, cloneElement, type HTMLAttributes, isValidElement } from "preact";
+import type { ComponentChildren, HTMLAttributes } from "preact";
+import { Slot } from "../../lib/slot";
 import { cn } from "../../lib/utils";
 
 export type ButtonGroupTextProps = Omit<HTMLAttributes<HTMLDivElement>, "size"> & {
@@ -16,21 +17,11 @@ export const ButtonGroupText = ({
   ...rest
 }: ButtonGroupTextProps) => {
   if (asChild) {
-    if (!isValidElement(children)) {
-      return null;
-    }
-
-    const childProps = (children.props ?? {}) as HTMLAttributes<HTMLElement> & {
-      class?: string;
-      className?: string;
-    };
-
-    return cloneElement(children, {
-      ...childProps,
-      ...(rest as HTMLAttributes<HTMLElement>),
-      class: cn(childProps.class, childProps.className, textClass, className),
-      "data-slot": "button-group-text",
-    });
+    return (
+      <Slot {...rest} class={cn(textClass, className)} data-slot="button-group-text">
+        {children}
+      </Slot>
+    );
   }
 
   return (

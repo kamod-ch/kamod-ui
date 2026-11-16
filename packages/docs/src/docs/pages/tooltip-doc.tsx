@@ -3,6 +3,7 @@ import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const tooltipDocPage = createGenericDocPage({
   slug: "tooltip",
+  generatedApi: true,
   title: "Tooltip",
   usageLabel: "A modern popup label that appears on hover or keyboard focus.",
   installationText:

@@ -486,7 +486,7 @@ export const accordionDocPage: DocPageModule = {
   renderMain: (context) => {
     const renderSectionBody = (sectionId: string) => {
       if (sectionId === "api-reference") {
-        return <ApiReference sections={apiSections} />;
+        return <ApiReference component="accordion" sections={apiSections} />;
       }
       if (sectionId === "installation") {
         return (

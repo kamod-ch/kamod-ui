@@ -1,3 +1,4 @@
+import { useComputed } from "@preact/signals";
 import type { ComponentChildren, HTMLAttributes } from "preact";
 import { cn } from "../../lib/utils";
 import { useSelect } from "./Select";
@@ -14,9 +15,10 @@ export const SelectValue = ({
   ...rest
 }: SelectValueProps) => {
   const select = useSelect();
+  const selectedLabel = useComputed(() => select.selectedValue.value ?? placeholder);
   return (
     <span data-slot="select-value" class={cn("line-clamp-1 text-left", className)} {...rest}>
-      {children ?? select.selectedValue.value ?? placeholder}
+      {children ?? selectedLabel}
     </span>
   );
 };

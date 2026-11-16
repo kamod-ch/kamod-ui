@@ -3,8 +3,14 @@ import { useLayoutEffect, useRef, useState } from "preact/hooks";
 
 type Side = "top" | "bottom" | "left" | "right";
 type Align = "start" | "center" | "end";
-type Placement = { left: number; top: number; side: Side };
-type PlacementOptions = { side: Side; align: Align; sideOffset: number };
+type Placement = {
+  left: number;
+  top: number;
+  side: Side;
+  maxWidth: number;
+  maxHeight: number;
+};
+type PlacementOptions = { side: Side; align: Align; sideOffset: number; dir?: "ltr" | "rtl" };
 
 const VIEWPORT_PADDING = 8;
 const oppositeSide: Record<Side, Side> = {
@@ -20,15 +26,24 @@ const alignedOffset = (start: number, end: number, size: number, align: Align) =
   return (start + end - size) / 2;
 };
 
+const logicalAlign = (align: Align, side: Side, dir: "ltr" | "rtl"): Align => {
+  if (dir !== "rtl" || side === "left" || side === "right") return align;
+  if (align === "start") return "end";
+  if (align === "end") return "start";
+  return align;
+};
+
 /** Prefer the requested side, flip when the opposite has more room, then clamp both axes. */
-const getPlacement = (
+export const resolveFloatingPlacement = (
   rect: DOMRect,
   width: number,
   height: number,
   viewportWidth: number,
   viewportHeight: number,
-  { side, align, sideOffset }: PlacementOptions,
+  options: PlacementOptions,
 ): Placement => {
+  const { side, sideOffset, dir = "ltr" } = options;
+  const align = logicalAlign(options.align, side, dir);
   const space = {
     top: rect.top - sideOffset - VIEWPORT_PADDING,
     bottom: viewportHeight - rect.bottom - sideOffset - VIEWPORT_PADDING,
@@ -56,6 +71,8 @@ const getPlacement = (
     left: clamp(left, viewportWidth - width),
     top: clamp(top, viewportHeight - height),
     side: resolvedSide,
+    maxWidth: Math.max(0, viewportWidth - VIEWPORT_PADDING * 2),
+    maxHeight: Math.max(0, viewportHeight - VIEWPORT_PADDING * 2),
   };
 };
 
@@ -72,7 +89,13 @@ export const useDropdownPlacement = ({
   triggerRef: RefObject<HTMLElement | null>;
   contentRef: RefObject<HTMLDivElement | null>;
 }): Placement => {
-  const [placement, setPlacement] = useState<Placement>({ left: 0, top: 0, side });
+  const [placement, setPlacement] = useState<Placement>({
+    left: 0,
+    top: 0,
+    side,
+    maxWidth: 0,
+    maxHeight: 0,
+  });
   const [mountRevision, setMountRevision] = useState(0);
   const retriedMount = useRef(false);
 
@@ -103,22 +126,33 @@ export const useDropdownPlacement = ({
 
     const update = () => {
       // Layout dimensions avoid the opening animation's temporary scale affecting placement.
-      const next = getPlacement(
+      const next = resolveFloatingPlacement(
         trigger.getBoundingClientRect(),
         content.offsetWidth,
         content.offsetHeight,
         trigger.ownerDocument.documentElement.clientWidth || view.innerWidth,
         view.innerHeight,
-        { side, align, sideOffset },
+        {
+          side,
+          align,
+          sideOffset,
+          dir: view.getComputedStyle(trigger).direction === "rtl" ? "rtl" : "ltr",
+        },
       );
       // Preact 11 portals are separate render roots. A state update made while the
       // portal's parent is committing is not guaranteed to patch that root, so keep
       // the layout-critical DOM values in sync directly as well as in component state.
       content.style.left = `${next.left}px`;
       content.style.top = `${next.top}px`;
+      content.style.maxWidth = `${next.maxWidth}px`;
+      content.style.maxHeight = `${next.maxHeight}px`;
       content.dataset.side = next.side;
       setPlacement((previous) =>
-        previous.left === next.left && previous.top === next.top && previous.side === next.side
+        previous.left === next.left &&
+        previous.top === next.top &&
+        previous.side === next.side &&
+        previous.maxWidth === next.maxWidth &&
+        previous.maxHeight === next.maxHeight
           ? previous
           : next,
       );

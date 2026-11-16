@@ -1,3 +1,4 @@
+import { useComputed } from "@preact/signals";
 import type { ComponentChildren, HTMLAttributes } from "preact";
 import { createPortal } from "../../lib/createPortal";
 import { cn } from "../../lib/utils";
@@ -30,7 +31,9 @@ export const SelectContent = ({
   ...rest
 }: SelectContentProps) => {
   const select = useSelect();
-  const isOpen = select.open.value;
+  const isOpen = useComputed(() => select.open.value).value;
+  const dataState = useComputed(() => (select.open.value ? "open" : "closed"));
+  const activeDescendant = useComputed(() => select.activeItemId.value ?? undefined);
 
   const placement = useDropdownPlacement({
     enabled: portal && (isOpen || forceMount),
@@ -105,10 +108,10 @@ export const SelectContent = ({
       aria-labelledby={select.triggerId}
       tabIndex={-1}
       data-slot="select-content"
-      data-state={select.open.value ? "open" : "closed"}
+      data-state={dataState}
       data-side={portal ? placement.side : side}
       data-align={align}
-      aria-activedescendant={select.activeItemId.value ?? undefined}
+      aria-activedescendant={activeDescendant}
       class={cn(
         "bg-popover text-popover-foreground z-50 flex max-h-72 flex-col overflow-hidden rounded-md border border-border p-1 shadow-md",
         !portal && "absolute left-0 right-0 top-full mt-1",
@@ -125,8 +128,11 @@ export const SelectContent = ({
               bottom: "auto",
               margin: 0,
               transitionProperty: "none",
-              maxWidth: "calc(100vw - 16px)",
-              maxHeight: "min(24rem, calc(100dvh - 16px))",
+              maxWidth: placement.maxWidth > 0 ? `${placement.maxWidth}px` : "calc(100vw - 16px)",
+              maxHeight:
+                placement.maxHeight > 0
+                  ? `min(24rem, ${placement.maxHeight}px)`
+                  : "min(24rem, calc(100dvh - 16px))",
             }
           : inlineStyle
       }
@@ -134,6 +140,7 @@ export const SelectContent = ({
       {...rest}
     >
       <div
+        role="none"
         data-slot="select-viewport"
         class={cn(
           "flex min-h-0 min-w-0 flex-1 flex-col items-stretch overflow-x-hidden overflow-y-auto",

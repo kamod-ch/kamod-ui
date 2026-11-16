@@ -4,7 +4,7 @@ pre-commit:
   commands:
     fmt:
       glob: "*.{ts,tsx,js,mjs,cjs,json,jsonc}"
-      run: pnpm exec oxfmt --write {staged_files} && pnpm exec biome check --write --files-ignore-unknown=true {staged_files}
+      run: pnpm exec oxfmt --write --no-error-on-unmatched-pattern {staged_files} && pnpm exec biome check --write --files-ignore-unknown=true {staged_files}
       stage_fixed: true
     lint-fast:
       glob: "*.{ts,tsx,js,mjs,cjs}"

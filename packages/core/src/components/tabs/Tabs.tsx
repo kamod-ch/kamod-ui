@@ -1,10 +1,11 @@
+import { type Signal, signal } from "@preact/signals";
 import type { ComponentChildren, HTMLAttributes } from "preact";
 import { createContext } from "preact";
-import { useCallback, useContext, useEffect, useId, useState } from "preact/hooks";
+import { useCallback, useContext, useEffect, useId, useMemo } from "preact/hooks";
 import { cn } from "../../lib/utils";
 
 type TabsContextValue = {
-  value: string;
+  value: Signal<string>;
   setValue: (next: string) => void;
   orientation: "horizontal" | "vertical";
   baseId: string;
@@ -59,41 +60,52 @@ export const Tabs = ({
   children,
   ...rest
 }: TabsProps) => {
-  const [value, setLocalValue] = useState(defaultValue);
+  const value = useMemo(() => signal(defaultValue), []);
   // Preact preserves this ID across server rendering and hydration.
   const baseId = `tabs-${useId()}`;
   const triggerId = useCallback((tabValue: string) => `${baseId}-trigger-${tabValue}`, [baseId]);
   const contentId = useCallback((tabValue: string) => `${baseId}-content-${tabValue}`, [baseId]);
-  const setValue = (next: string) => {
-    if (!syncKey) {
-      setLocalValue(next);
-      return;
-    }
+  const setValue = useCallback(
+    (next: string) => {
+      if (!syncKey) {
+        value.value = next;
+        return;
+      }
 
-    const syncEntry = getOrCreateSyncEntry(syncKey, value);
-    if (syncEntry.value === next) return;
+      const syncEntry = getOrCreateSyncEntry(syncKey, value.value);
+      if (syncEntry.value === next) return;
 
-    syncEntry.value = next;
-    setLocalValue(next);
-    syncEntry.subscribers.forEach((subscriber) => subscriber(next));
-  };
+      syncEntry.value = next;
+      value.value = next;
+      syncEntry.subscribers.forEach((subscriber) => subscriber(next));
+    },
+    [syncKey, value],
+  );
 
   useEffect(() => {
     if (!syncKey) return;
 
     const syncEntry = getOrCreateSyncEntry(syncKey, defaultValue);
-    setLocalValue(syncEntry.value);
+    value.value = syncEntry.value;
 
-    syncEntry.subscribers.add(setLocalValue);
+    const subscriber = (next: string) => {
+      value.value = next;
+    };
+    syncEntry.subscribers.add(subscriber);
 
     return () => {
-      syncEntry.subscribers.delete(setLocalValue);
+      syncEntry.subscribers.delete(subscriber);
       if (syncEntry.subscribers.size === 0) syncRegistry.delete(syncKey);
     };
-  }, [defaultValue, syncKey]);
+  }, [defaultValue, syncKey, value]);
+
+  const context = useMemo(
+    () => ({ value, setValue, orientation, baseId, triggerId, contentId }),
+    [value, setValue, orientation, baseId, triggerId, contentId],
+  );
 
   return (
-    <TabsContext.Provider value={{ value, setValue, orientation, baseId, triggerId, contentId }}>
+    <TabsContext.Provider value={context}>
       <div
         class={cn("group/tabs", className)}
         data-slot="tabs"

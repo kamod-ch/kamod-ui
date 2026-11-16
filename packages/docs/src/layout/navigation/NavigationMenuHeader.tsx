@@ -1,5 +1,5 @@
 import { XIcon } from "@kamod-ch/icons/lucide";
-import { SheetClose, SheetTitle } from "@kamod-ch/ui";
+import { SheetClose, SheetTitle } from "@kamod-ch/ui/sheet";
 import { KamodUiBrandLogo } from "../KamodUiBrandLogo";
 
 /** Quiet mobile masthead; the close action stays first in the keyboard focus order. */

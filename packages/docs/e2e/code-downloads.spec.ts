@@ -97,7 +97,7 @@ test("live public-Code examples retain custom Copy composition beside exact-sour
   browserName,
 }) => {
   await enableTestClipboard(context, browserName);
-  await page.goto("./docs/code/installation#code-control-slots", { waitUntil: "domcontentloaded" });
+  await page.goto("./docs/code-internals/code-control-slots", { waitUntil: "domcontentloaded" });
   await expect(page.locator("html")).toHaveClass(/pp-ready/);
   const panel = page.locator('[data-code-demo="controls"] .kamod-code');
   const source = await completeSource(panel);
@@ -119,7 +119,7 @@ test("live public-Code examples retain custom Copy composition beside exact-sour
 test("hiding Copy or the header also removes Download from a live component example", async ({
   page,
 }) => {
-  await page.goto("./docs/code/installation#code-visible-parts", { waitUntil: "domcontentloaded" });
+  await page.goto("./docs/code-internals/code-visible-parts", { waitUntil: "domcontentloaded" });
   await expect(page.locator("html")).toHaveClass(/pp-ready/);
   const playground = page.locator('[data-code-demo="parts"]');
   const panel = playground.locator(".code-parts-preview .kamod-code");

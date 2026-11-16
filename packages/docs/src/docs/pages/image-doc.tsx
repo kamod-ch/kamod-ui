@@ -3,6 +3,7 @@ import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const imageDocPage = createGenericDocPage({
   slug: "image",
+  generatedApi: true,
   title: "Image",
   usageLabel: "Image renders responsive media with consistent styling.",
   installationText: "Import Image from `@/components/kamod-ui/image`.",

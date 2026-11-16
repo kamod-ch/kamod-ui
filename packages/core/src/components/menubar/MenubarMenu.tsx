@@ -21,7 +21,7 @@ export const MenubarMenu = ({
 
   return (
     <MenubarMenuContext.Provider value={{ menuId, triggerRef }}>
-      <div data-slot="menubar-menu" class={cn("relative flex", className)} {...rest}>
+      <div role="none" data-slot="menubar-menu" class={cn("relative flex", className)} {...rest}>
         {children}
       </div>
     </MenubarMenuContext.Provider>

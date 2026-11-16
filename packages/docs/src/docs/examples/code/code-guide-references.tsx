@@ -66,14 +66,19 @@ export function LocaleBoundary({ children }: DirectionProviderProps) {
           This is navigation for recognized <code>import</code> syntax in JavaScript, JSX,
           TypeScript and TSX, not a compiler or an execution environment. Plain text, other
           languages and rendered documents retain their own presentation. Code is never evaluated,
-          and <a href="#code-copy-fidelity">Copy always uses the original string</a>.
+          and{" "}
+          <a href="/docs/code/copy-and-content#code-copy-fidelity">
+            Copy always uses the original string
+          </a>
+          .
         </p>
       </Topic>
       <Topic id="code-reference-resolver" title="Use the Same Navigation in Your Application">
         <p>
           The published component does not assume this documentation's routes. Give
-          <InlineCodeLink href="#api-reference">CodeReferenceProvider</InlineCodeLink> one stable
-          resolver to share your own verified destinations, or supply <code>resolveReference</code>
+          <InlineCodeLink href="/docs/code/api-reference">CodeReferenceProvider</InlineCodeLink> one
+          stable resolver to share your own verified destinations, or supply{" "}
+          <code>resolveReference</code>
           to a single Code panel. The resolver receives the module, original export, local name and
           optional file path. Return a local or HTTP(S) URL for a known reference, and
           <code>undefined</code> otherwise; <code>resolveReference={null}</code> disables navigation

@@ -469,6 +469,7 @@ const ContextMenuRtlPreview = () => {
 
 export const contextMenuDocPage = createGenericDocPage({
   slug: "context-menu",
+  generatedApi: true,
   title: "Context Menu",
   previewCode: `import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from "@/components/kamod-ui/context-menu";
 

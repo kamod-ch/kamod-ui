@@ -82,7 +82,7 @@ export const technologies: Technology[] = [
     category: "Syntax highlighting",
     description:
       "Tokenizes source with language grammars. CSS assigns colors to the resulting token classes.",
-    guide: "/docs/code/installation#code-prism-pipeline",
+    guide: "/docs/code-internals/installation#code-prism-pipeline",
   },
   {
     name: "Formisch",

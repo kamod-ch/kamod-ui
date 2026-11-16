@@ -3,6 +3,7 @@ import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const typographyDocPage = createGenericDocPage({
   slug: "typography",
+  generatedApi: true,
   title: "Typography",
   usageLabel: "Typography centralizes modern text styles with semantic variants.",
   installationText: "Import Typography from `@/components/kamod-ui/typography`.",

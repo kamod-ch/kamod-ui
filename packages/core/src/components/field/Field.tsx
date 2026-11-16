@@ -83,7 +83,7 @@ export const Field = ({
         {...rest}
         data-slot="field"
         data-orientation={orientation}
-        data-disabled={disabled ? "" : undefined}
+        data-disabled={disabled ? "true" : undefined}
         class={cn(
           "group/field",
           !isHorizontal && "grid gap-2",
@@ -138,7 +138,7 @@ export const Field = ({
       {...rest}
       data-slot="field"
       data-orientation={orientation}
-      data-disabled={disabled ? "" : undefined}
+      data-disabled={disabled ? "true" : undefined}
       class={cn(fieldRoot({ orientation: orient }), disabled ? "opacity-80" : null, className)}
       {...(invalid ? { "data-invalid": "" } : {})}
     >

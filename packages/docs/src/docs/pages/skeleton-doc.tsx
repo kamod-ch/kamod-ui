@@ -3,6 +3,7 @@ import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const skeletonDocPage = createGenericDocPage({
   slug: "skeleton",
+  generatedApi: true,
   title: "Skeleton",
   usageLabel: "Skeleton placeholders indicate loading content structure.",
   installationText: "Import Skeleton from `@/components/kamod-ui/skeleton`.",

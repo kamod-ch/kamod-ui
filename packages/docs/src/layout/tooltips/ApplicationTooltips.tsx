@@ -1,4 +1,4 @@
-import { Tooltip, TooltipContent } from "@kamod-ch/ui";
+import { Tooltip, TooltipContent } from "@kamod-ch/ui/tooltip";
 import { createPortal } from "preact/compat";
 import { useId, useLayoutEffect, useState } from "preact/hooks";
 import { connectInlineCode } from "../../references/connect-inline-references";

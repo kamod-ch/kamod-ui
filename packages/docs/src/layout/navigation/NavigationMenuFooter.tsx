@@ -1,5 +1,5 @@
 import { HouseIcon } from "@kamod-ch/icons/lucide";
-import { SheetClose } from "@kamod-ch/ui";
+import { SheetClose } from "@kamod-ch/ui/sheet";
 import { withBasePath } from "../../base-path";
 import { SiteColorSchemeMenu } from "../../theme/SiteColorSchemeMenu";
 import { ThemePresetPicker } from "../../theme/ThemePresetPicker";

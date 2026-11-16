@@ -22,6 +22,7 @@ const p = "input-doc";
 
 export const inputDocPage = createGenericDocPage({
   slug: "input",
+  generatedApi: true,
   title: "Input",
   previewCode: `import { Field } from "@/components/kamod-ui/field"
 import { Input } from "@/components/kamod-ui/input";

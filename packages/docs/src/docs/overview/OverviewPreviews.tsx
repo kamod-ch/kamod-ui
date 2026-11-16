@@ -1,5 +1,7 @@
 import { useToggle } from "@kamod-ch/hooks";
-import { Button, Input, Label } from "@kamod-ch/ui";
+import { Button } from "@kamod-ch/ui/button";
+import { Input } from "@kamod-ch/ui/input";
+import { Label } from "@kamod-ch/ui/label";
 import { useState } from "preact/hooks";
 
 /** Local-only form exercise: native validity gates submission and nothing is transmitted. */

@@ -143,6 +143,7 @@ function InputGroupDropdownRow() {
 
 export const inputGroupDocPage = createGenericDocPage({
   slug: "input-group",
+  generatedApi: true,
   title: "Input Group",
   usageLabel:
     "Compose inputs with addons, icons, text, buttons, dropdowns, spinners — aligned with shadcn input-group docs.",

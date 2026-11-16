@@ -1,12 +1,12 @@
 import {
   type AnchorHTMLAttributes,
   type ComponentChildren,
-  cloneElement,
   type HTMLAttributes,
   isValidElement,
   type JSX,
 } from "preact";
 import { tv, type VariantProps } from "tailwind-variants";
+import { Slot } from "../../lib/slot";
 import { cn } from "../../lib/utils";
 
 export const badge = tv({
@@ -98,29 +98,24 @@ export const Badge = ({
   const resolvedClass = cn(variantClasses, className);
 
   if (asChild) {
-    if (!isValidElement(children)) {
-      return null;
-    }
-
-    const childIsAnchor = children.type === "a";
-    const childProps = (children.props ?? {}) as HTMLAttributes<HTMLElement> & {
-      class?: string;
-      className?: string;
-    };
-
-    const asChildVariantClasses = badge({
-      variant: resolvedVariant,
-      size: resolvedSize,
-      isLink: childIsAnchor,
-    });
-
-    return cloneElement(children, {
-      ...(rest as HTMLAttributes<HTMLElement>),
-      ...childProps,
-      class: cn(asChildVariantClasses, childProps.class, childProps.className, className),
-      "data-slot": "badge",
-      "data-variant": resolvedVariant,
-    });
+    const childIsAnchor = isValidElement(children) && children.type === "a";
+    return (
+      <Slot
+        {...(rest as HTMLAttributes<HTMLElement>)}
+        class={cn(
+          badge({
+            variant: resolvedVariant,
+            size: resolvedSize,
+            isLink: childIsAnchor,
+          }),
+          className,
+        )}
+        data-slot="badge"
+        data-variant={resolvedVariant}
+      >
+        {children}
+      </Slot>
+    );
   }
 
   if (isHref) {

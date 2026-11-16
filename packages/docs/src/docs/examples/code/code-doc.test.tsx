@@ -9,6 +9,7 @@ import { ComponentExample } from "../../components/component-detail/ComponentExa
 import { ComponentExampleCode } from "../../components/component-detail/ComponentExampleCode";
 import { DocsComponentContent } from "../../DocsComponentContent";
 import { codeDocPage } from "../../pages/code-doc";
+import { codeInternalsDocPage } from "../../pages/code-internals-doc";
 import { CodeHero, codeExamples, codeHeroSnippet } from "./code-examples";
 import { languageSelectorSnippet } from "./code-guide-languages";
 import { controlledCodeSnippet, customControlsSnippet } from "./code-guide-modularity";
@@ -34,10 +35,11 @@ it("preserves package imports in the actual page's rendered showcase source", ()
   } finally {
     options.vnode = originalHook;
   }
+  const internals = render(<DocsComponentContent slug="code-internals" section="installation" />);
   expect(page).not.toContain("**Readable Home for Source Code**");
   for (const prop of ["inferLanguage", "showImportControl", "showWrapControl"]) {
-    expect(page).toContain(`<code>${prop}={false}</code>`);
-    expect(page).not.toContain(`<code>${prop}=</code>`);
+    expect(page + internals).toContain(`<code>${prop}={false}</code>`);
+    expect(page + internals).not.toContain(`<code>${prop}=</code>`);
   }
   expect(snippets).toHaveLength(11);
   for (const code of snippets) {
@@ -56,8 +58,11 @@ it("introduces plain code before optional file headers and reading tools", () =>
   const ids = codeDocPage.sections.map((section) => section.id);
   for (const id of [...plainExamples, "language-detection"])
     expect(ids.indexOf(id)).toBeLessThan(ids.indexOf("source-file"));
-  for (const id of ["imports", "wrapping", "reading-behavior", "modularity"])
+  for (const id of ["imports", "wrapping"])
     expect(ids.indexOf(id)).toBeGreaterThan(ids.indexOf("document"));
+  expect(ids).not.toContain("syntax-themes");
+  expect(ids).not.toContain("reading-behavior");
+  expect(ids).not.toContain("modularity");
   for (const preview of [<CodeHero />, ...plainExamples.map((id) => codeExamples[id].preview())]) {
     const html = render(<>{preview}</>);
     expect(html).toContain('data-slot="code-content"');
@@ -99,6 +104,29 @@ it("keeps the nested reading guide and every example reference reachable", () =>
     // The shared component wrapper owns this example-directory heading.
     if (target === "component-examples") continue;
     expect(html, `Rendered guide link #${target}`).toContain(`id="${target}"`);
+  }
+  const internals = render(
+    <>
+      {codeInternalsDocPage.renderMain({
+        title: codeInternalsDocPage.title,
+        sections: codeInternalsDocPage.sections,
+        activeSectionId: "installation",
+        getSectionHref: (id) => `#${id}`,
+        renderTitleRow: () => null,
+        renderMarkdownAction: () => null,
+        renderSectionExtraContent: () => null,
+        renderPreviewAndCodeTabs: () => null,
+      })}
+    </>,
+  );
+  for (const section of codeInternalsDocPage.sections) {
+    expect(internals, section.id).toContain(`id="${section.id}"`);
+    for (const child of section.children ?? []) {
+      expect(internals, child.id).toContain(`id="${child.id}"`);
+    }
+  }
+  for (const [, target] of internals.matchAll(/href="#([^"]+)"/g)) {
+    expect(internals, `Internals link #${target}`).toContain(`id="${target}"`);
   }
 });
 

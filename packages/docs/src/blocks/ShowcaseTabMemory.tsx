@@ -19,12 +19,13 @@ export function ShowcaseTabMemory({
   onChange: (view: ShowcasePreferences["view"]) => void;
 }) {
   const { value, setValue } = useTabs();
+  const selected = value.value;
   const [restored, setRestored] = useState(false);
   const selectedEarly = useRef(false);
   // A user's first selection wins over saved controls that arrive after hydration.
   useLayoutEffect(() => {
-    if (!restored && value !== "preview") selectedEarly.current = true;
-  }, [value, restored]);
+    if (!restored && selected !== "preview") selectedEarly.current = true;
+  }, [selected, restored]);
   useEffect(() => {
     if (!ready || restored) return;
     if (!selectedEarly.current)
@@ -34,11 +35,11 @@ export function ShowcaseTabMemory({
   useEffect(() => {
     if (
       restored &&
-      value !== view &&
-      (value === "preview" || value === "code" || value === "prompt")
+      selected !== view &&
+      (selected === "preview" || selected === "code" || selected === "prompt")
     ) {
-      onChange(value);
+      onChange(selected);
     }
-  }, [restored, value, view, onChange]);
+  }, [restored, selected, view, onChange]);
   return null;
 }

@@ -51,6 +51,7 @@ export const Progress = ({
   return (
     <div
       role="progressbar"
+      aria-label="Progress"
       data-slot="progress"
       data-state={isIndeterminate ? "indeterminate" : "determinate"}
       {...(!isIndeterminate

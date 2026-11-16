@@ -611,6 +611,7 @@ export function CalendarRtl() {
 
 export const calendarDocPage = createGenericDocPage({
   slug: "calendar",
+  generatedApi: true,
   title: "Calendar",
   previewCode: DEMO_CODE,
   usageLabel:

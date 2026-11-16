@@ -11,6 +11,13 @@ export function getDocSections(doc: DocPageModule, isComponentDetail = true): Do
     /rtl/i.test(section.id) || /rtl/i.test(section.title);
   let sections = doc.sections;
 
+  // Guide pages own their outline. Component pages still receive the shared sections.
+  if (doc.guideContents) {
+    return sections.filter(
+      (item) => !isRtlSection(item) && (docsShowMotion || !isMotionDocSection(item.id)),
+    );
+  }
+
   if (!sections.some((item) => item.id === usageSectionId)) {
     const usageSection: DocSection = {
       id: usageSectionId,

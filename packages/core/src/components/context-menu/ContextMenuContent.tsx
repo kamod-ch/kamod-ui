@@ -84,7 +84,7 @@ export const ContextMenuContent = ({
           zIndex: 50,
         } as const);
 
-  return createPortal(
+  const menu = (
     <div
       ref={assignRef}
       data-slot="context-menu-content"
@@ -110,7 +110,9 @@ export const ContextMenuContent = ({
       >
         {children}
       </div>
-    </div>,
-    document.body,
+    </div>
   );
+
+  if (typeof document === "undefined") return menu;
+  return createPortal(menu, document.body);
 };

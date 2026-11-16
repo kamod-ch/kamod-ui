@@ -1,4 +1,4 @@
-import { signal } from "@preact/signals";
+import { effect, signal, useComputed } from "@preact/signals";
 import type { ComponentChildren, HTMLAttributes } from "preact";
 import { createContext } from "preact";
 import { useContext, useEffect, useId, useMemo, useRef } from "preact/hooks";
@@ -38,7 +38,9 @@ const lockDocumentScroll = () => {
       html.style.setProperty("--kamod-scroll-lock-gutter", `${scrollbarWidth}px`);
 
       if (scrollbarWidth > 0) {
-        body.style.paddingRight = `${scrollbarWidth}px`;
+        const existingPadding = Number.parseFloat(getComputedStyle(body).paddingRight);
+        const basePadding = Number.isFinite(existingPadding) ? existingPadding : 0;
+        body.style.paddingRight = `${basePadding + scrollbarWidth}px`;
       }
     }
 
@@ -86,6 +88,7 @@ export type DialogContextValue = {
   open: ReturnType<typeof signal<boolean>>;
   setOpen: (next: boolean) => void;
   triggerRef: { current: HTMLElement | null };
+  layerRootRef: { current: HTMLElement | null };
   defaultTitleId: string;
   defaultDescriptionId: string;
 };
@@ -132,12 +135,14 @@ export const Dialog = ({
     [],
   );
   const open = controllable.state;
+  const dataState = useComputed(() => (open.value ? "open" : "closed"));
 
   // Controlled mode: keep the internal signal in sync before paint. If we only
   // sync in useEffect, the first commit can render DialogContent with open=false
   // while openProp is already true (portal stays unmounted / dismiss layer races).
-  if (openProp !== undefined && open.value !== openProp) {
-    open.value = openProp;
+  // sync() reads the signal without subscribing this root to `open`.
+  if (openProp !== undefined) {
+    controllable.sync(openProp);
   }
 
   const setOpen = (next: boolean) => {
@@ -166,15 +171,24 @@ export const Dialog = ({
 
   useEffect(() => {
     if (!lockBodyScroll || typeof document === "undefined") return;
-    if (!open.value) return;
-    return lockDocumentScroll();
-  }, [lockBodyScroll, open.value]);
+    return effect(() => {
+      if (!open.value) return;
+      return lockDocumentScroll();
+    });
+  }, [lockBodyScroll, open]);
 
   return (
     <DialogContext.Provider
-      value={{ open, setOpen, triggerRef, defaultTitleId, defaultDescriptionId }}
+      value={{
+        open,
+        setOpen,
+        triggerRef,
+        layerRootRef: rootRef,
+        defaultTitleId,
+        defaultDescriptionId,
+      }}
     >
-      <div ref={rootRef} data-slot="dialog" data-state={open.value ? "open" : "closed"} {...rest}>
+      <div ref={rootRef} data-slot="dialog" data-state={dataState} {...rest}>
         {children}
       </div>
     </DialogContext.Provider>

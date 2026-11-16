@@ -37,6 +37,7 @@ export const ContextMenuItem = ({
   class: className,
   children,
   onClick,
+  disabled,
   ...rest
 }: ContextMenuItemProps) => {
   const { setOpen } = useContextMenu();
@@ -47,6 +48,8 @@ export const ContextMenuItem = ({
       data-slot="context-menu-item"
       data-inset={inset ? "true" : undefined}
       data-variant={variant}
+      data-disabled={disabled ? "true" : undefined}
+      disabled={disabled}
       class={cn(contextMenuItem({ inset, variant }), className)}
       onClick={(event) => {
         onClick?.(event);

@@ -356,6 +356,7 @@ const CollapsibleControlledPreview = () => {
 
 export const collapsibleDocPage = createGenericDocPage({
   slug: "collapsible",
+  generatedApi: true,
   title: "Collapsible",
   previewCode: `import { useState } from "preact/hooks";
 import { Button } from "@/components/kamod-ui/button"

@@ -1,3 +1,4 @@
+import { useComputed } from "@preact/signals";
 import type { ButtonHTMLAttributes, ComponentChildren } from "preact";
 import { cn } from "../../lib/utils";
 import { useTabs } from "./Tabs";
@@ -14,10 +15,11 @@ export const TabsTrigger = ({
   onClick,
   onKeyDown,
   id: idProp,
+  disabled,
   ...rest
 }: TabsTriggerProps) => {
   const tabs = useTabs();
-  const active = tabs.value === value;
+  const active = useComputed(() => tabs.value.value === value).value;
   const id = idProp ?? tabs.triggerId(value);
   const controlsId = tabs.contentId(value);
 
@@ -55,6 +57,8 @@ export const TabsTrigger = ({
       data-active={active ? "true" : undefined}
       data-value={value}
       data-orientation={tabs.orientation}
+      data-disabled={disabled ? "true" : undefined}
+      disabled={disabled}
       aria-selected={active}
       tabIndex={active ? 0 : -1}
       onClick={(event) => {

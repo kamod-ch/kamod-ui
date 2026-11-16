@@ -3,6 +3,7 @@ import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const nativeSelectDocPage = createGenericDocPage({
   slug: "native-select",
+  generatedApi: true,
   title: "Native Select",
   previewChromeClass: "min-w-0 overflow-x-auto py-4 sm:py-6",
   usageLabel:

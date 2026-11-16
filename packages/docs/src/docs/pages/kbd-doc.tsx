@@ -15,6 +15,7 @@ import { createGenericDocPage } from "./create-generic-doc-page";
 
 export const kbdDocPage = createGenericDocPage({
   slug: "kbd",
+  generatedApi: true,
   title: "Kbd",
   usageLabel:
     "Keyboard keys and shortcuts — shadcn-style grouping, button hints, tooltips, and input addons.",

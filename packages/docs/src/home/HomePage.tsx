@@ -13,7 +13,8 @@ import {
 } from "@kamod-ch/icons/lucide";
 import { BrandGithubIcon } from "@kamod-ch/icons/tabler/filled";
 import { ApiBookIcon } from "@kamod-ch/icons/tabler/outline";
-import { Button, ThemeToggle } from "@kamod-ch/ui";
+import { Button } from "@kamod-ch/ui/button";
+import { ThemeToggle } from "@kamod-ch/ui/theme-toggle";
 import type { ComponentChildren } from "preact";
 import { withBasePath } from "../base-path";
 import { BrandLink, BrandText } from "../docs/components/brand/BrandText";

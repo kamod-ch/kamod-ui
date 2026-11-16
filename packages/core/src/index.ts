@@ -460,8 +460,10 @@ export {
   createRovingFocus,
   getFocusableElements,
   isPointerWithinModalDialogPanelSlop,
+  isTopDismissableLayer,
   MODAL_DIALOG_PANEL_OUTSIDE_SLOP_PX,
   trapFocus,
 } from "./lib/interactive";
 export { createControllableSignal } from "./lib/signals";
+export { assignRef, composeRefs, Slot, type SlotProps } from "./lib/slot";
 export { type ClassValue, cn } from "./lib/utils";

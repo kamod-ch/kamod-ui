@@ -1,3 +1,4 @@
+import { useComputed } from "@preact/signals";
 import type { ButtonHTMLAttributes, ComponentChildren } from "preact";
 import { cn } from "../../lib/utils";
 import { useSelect } from "./Select";
@@ -12,9 +13,12 @@ export const SelectTrigger = ({
   onKeyDown,
   ref,
   class: className,
+  disabled,
   ...rest
 }: SelectTriggerProps) => {
   const select = useSelect();
+  const expanded = useComputed(() => select.open.value);
+  const dataState = useComputed(() => (select.open.value ? "open" : "closed"));
 
   const setRefs = (node: HTMLButtonElement | null) => {
     select.setTriggerNode(node);
@@ -35,8 +39,10 @@ export const SelectTrigger = ({
       id={select.triggerId}
       aria-haspopup="listbox"
       aria-controls={select.contentId}
-      aria-expanded={select.open.value}
-      data-state={select.open.value ? "open" : "closed"}
+      aria-expanded={expanded}
+      data-state={dataState}
+      data-disabled={disabled ? "true" : undefined}
+      disabled={disabled}
       class={cn(
         "border-input bg-background dark:bg-input/30 placeholder:text-muted-foreground flex h-8 w-full items-center justify-between gap-2 rounded-md border px-3 py-1 text-sm shadow-xs outline-none transition-[color,box-shadow]",
         "hover:border-foreground/15",

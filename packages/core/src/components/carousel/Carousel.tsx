@@ -155,6 +155,7 @@ export const Carousel = ({
         aria-roledescription="carousel"
         aria-label={label ?? ariaLabel}
         data-slot="carousel"
+        data-orientation={orientation}
         data-carousel-orientation={orientation}
         class={cn("relative", className)}
         dir={dir}
