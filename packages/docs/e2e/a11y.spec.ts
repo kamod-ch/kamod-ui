@@ -86,7 +86,11 @@ test.describe("interactive accessibility states", () => {
   });
 
   test("open sheet has no blocking violations and returns focus on Escape", async ({ page }) => {
-    await page.goto("./docs/sheet/basic-sheet", { waitUntil: "domcontentloaded" });
+    // The live preview is the page hero. A section URL scrolls to the code heading and
+    // leaves that hero offscreen, so the deferred frame never starts.
+    await page.goto("./docs/sheet/basic-sheet#component-preview", {
+      waitUntil: "domcontentloaded",
+    });
     await waitForDocsAppReady(page);
     const preview = await componentExamplePreviewFrame(page);
     const trigger = preview.getByRole("button", { name: "Open" });
