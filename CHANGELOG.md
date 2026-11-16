@@ -2,7 +2,15 @@
 
 All notable changes to this project will be documented in this file. Update manually before running `pnpm release`.
 
-The published npm package is **`@kamod-ch/ui`** (currently **2.1.0** in `packages/core/package.json`). Tags `v2.0.0`, `v2.0.1`, and `v2.1.0` mark releases on the 2.x line; see `git log` between those tags for commit-level history. This file does not enumerate every 2.x change — only what is recorded below and in git.
+The published npm package is **`@kamod-ch/ui`** (currently **2.2.0** in `packages/core/package.json`). Tags `v2.0.0`, `v2.0.1`, `v2.1.0`, and `v2.2.0` mark releases on the 2.x line; see `git log` between those tags for commit-level history. This file does not enumerate every 2.x change — only what is recorded below and in git.
+
+## [2.2.0] - 2026-11-16
+
+Released as `@kamod-ch/ui@2.2.0` (tag `v2.2.0`).
+
+- Sidebar menu buttons keep their layout classes when a collapsible trigger forwards `className`.
+- Dropdowns stay open on the real click path, and the account menu portals out of the sidebar so the page footer cannot cover it.
+- Menubar, submenu keyboard and hit area, select typeahead, and overlay placement fixes from the hardening line.
 
 ## [2.1.0] - 2026-11-04
 
