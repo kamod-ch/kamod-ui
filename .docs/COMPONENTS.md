@@ -7,7 +7,7 @@ Sizes measure the **Kamod-only JavaScript** pulled in by each `@kamod-ch/ui/<nam
 ## Summary
 
 - **Exports:** 75 subpaths
-- **Gzip range:** 0.1–17.6 KB (median 2.2 KB)
+- **Gzip range:** 0.1–17.8 KB (median 2.2 KB)
 - **Signals:** 23 direct · 6 indirect · 46 none (`@preact/signals` is an optional peer)
 
 ## Signals legend
@@ -79,7 +79,7 @@ Install `@preact/signals` for entries marked **Direct** or **Indirect**. Entries
 | `selectable-card`      | 7.1      | 2.1       | No                     | —                  |
 | `separator`            | 1.6      | 0.6       | No                     | —                  |
 | `sheet`                | 38.5     | 9.2       | Indirect (dialog)      | `@preact/signals`  |
-| `sidebar`              | 81.8     | 17.6      | Indirect (tooltip)     | `@preact/signals`  |
+| `sidebar`              | 82.5     | 17.8      | Indirect (tooltip)     | `@preact/signals`  |
 | `skeleton`             | 1.5      | 0.6       | No                     | —                  |
 | `slider`               | 23.9     | 5.2       | Direct                 | `@preact/signals`  |
 | `sonner`               | 1.6      | 0.7       | Direct                 | `@preact/signals`  |

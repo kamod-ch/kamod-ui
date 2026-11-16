@@ -8,8 +8,8 @@
       "signals": "direct",
       "signalsVia": null,
       "size": {
-        "min": 573252,
-        "gzip": 117102
+        "min": 573992,
+        "gzip": 117293
       },
       "peers": [
         "@kamod-ch/themes",
@@ -20223,8 +20223,8 @@
       "signals": "indirect",
       "signalsVia": "tooltip",
       "size": {
-        "min": 83738,
-        "gzip": 18034
+        "min": 84478,
+        "gzip": 18207
       },
       "peers": [
         "@preact/signals"
