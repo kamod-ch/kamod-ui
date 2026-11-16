@@ -70,7 +70,8 @@ const UserInfo = ({ user }: { user: ApplicationShellUser }) => {
 
 /**
  * Renders the footer's keyboard-operable account menu within SidebarProvider.
- * Opens above the trigger on mobile and to its right on desktop. Selecting an action
+ * Opens above the trigger on mobile and to its right on desktop, portaled so the
+ * page footer cannot cover it. Selecting an action
  * reports its identifier and dismisses the menu; it does not change authentication state.
  *
  * @param props - User display data and an optional handler for the four account actions.
@@ -106,6 +107,7 @@ export const NavUser = ({
             </MenuTrigger>
           </SidebarMenuButton>
           <MenuContent
+            portal
             side={isMobile ? "top" : "right"}
             align="end"
             class="w-56 max-w-[calc(100vw-2rem)] bg-popover motion-reduce:animate-none"
