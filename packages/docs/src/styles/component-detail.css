@@ -723,6 +723,12 @@
 #component-preview-root > .component-example-canvas {
   min-height: 19rem;
 }
+/* A fixed dialog does not grow the preview document, so the frame stays at the
+   trigger height and the open panel has to scroll. Dialog examples need a
+   canvas tall enough for the settings view. */
+#component-preview-root > .component-example-canvas.component-example-canvas-dialog {
+  min-height: 42rem;
+}
 /* Keep width availability accurate while Preview is unmounted in Code or Prompt. */
 .component-example-size-probe {
   height: 1px;

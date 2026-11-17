@@ -129,6 +129,9 @@ function MarketingGate() {
   );
 }
 
+/** Tall enough for the open settings panel; the preview frame sizes from this canvas. */
+const previewClass = "component-example-canvas-dialog";
+
 const heroCode = `import { ConsentManager, ConsentManagerTrigger } from "@/components/kamod-ui/consent-manager";
 
 const categories = [
@@ -267,7 +270,7 @@ export const consentManagerDocPage: DocPageModule = {
             </SettledExample>
           ),
           codeSnippet: heroCode,
-          previewClass: "overflow-x-auto",
+          previewClass,
         });
       }
       if (sectionId === "german") {
@@ -278,7 +281,7 @@ export const consentManagerDocPage: DocPageModule = {
             </SettledExample>
           ),
           codeSnippet: germanCode,
-          previewClass: "overflow-x-auto",
+          previewClass,
         });
       }
       if (sectionId === "script") {
@@ -294,7 +297,7 @@ export const consentManagerDocPage: DocPageModule = {
             </SettledExample>
           ),
           codeSnippet: scriptCode,
-          previewClass: "overflow-x-auto",
+          previewClass,
         });
       }
       if (sectionId === "footer") {
@@ -310,7 +313,7 @@ export const consentManagerDocPage: DocPageModule = {
             </SettledExample>
           ),
           codeSnippet: footerCode,
-          previewClass: "overflow-x-auto",
+          previewClass,
         });
       }
       return null;
@@ -322,7 +325,7 @@ export const consentManagerDocPage: DocPageModule = {
         {context.renderPreviewAndCodeTabs({
           preview: <StandardExample />,
           codeSnippet: heroCode,
-          previewClass: "overflow-x-auto",
+          previewClass,
         })}
         {context.sections.map((docSection) => (
           <ComponentDocSection key={docSection.id} section={docSection}>

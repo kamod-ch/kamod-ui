@@ -9,7 +9,7 @@
       "signalsVia": null,
       "size": {
         "min": 589511,
-        "gzip": 121042
+        "gzip": 121037
       },
       "peers": [
         "@kamod-ch/themes",
