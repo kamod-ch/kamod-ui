@@ -91,6 +91,8 @@ export type DialogContextValue = {
   layerRootRef: { current: HTMLElement | null };
   defaultTitleId: string;
   defaultDescriptionId: string;
+  /** When false, Escape and overlay clicks do not close the dialog. */
+  dismissible: boolean;
 };
 
 const DialogContext = createContext<DialogContextValue | null>(null);
@@ -107,6 +109,11 @@ export type DialogProps = HTMLAttributes<HTMLDivElement> & {
   onOpenChange?: (open: boolean) => void;
   /** When true, locks document scroll while open (shadcn default). */
   lockBodyScroll?: boolean;
+  /**
+   * When false, Escape and an overlay click leave the dialog open.
+   * An explicit close control still closes it. Default true.
+   */
+  dismissible?: boolean;
   children?: ComponentChildren;
 };
 
@@ -115,11 +122,14 @@ export const Dialog = ({
   open: openProp,
   onOpenChange,
   lockBodyScroll = true,
+  dismissible = true,
   children,
   ...rest
 }: DialogProps) => {
   const onOpenChangeRef = useRef(onOpenChange);
   onOpenChangeRef.current = onOpenChange;
+  const dismissibleRef = useRef(dismissible);
+  dismissibleRef.current = dismissible;
   const triggerRef = useRef<HTMLElement | null>(null);
   const instanceId = useId();
   const defaultTitleId = `dialog-title-${instanceId}`;
@@ -163,6 +173,11 @@ export const Dialog = ({
       root: () => rootRef.current,
       open: () => open.value,
       onDismiss: () => {
+        if (!dismissibleRef.current) return;
+        setOpen(false);
+      },
+      onEscapeDismiss: () => {
+        if (!dismissibleRef.current) return;
         setOpen(false);
       },
     });
@@ -186,6 +201,7 @@ export const Dialog = ({
         layerRootRef: rootRef,
         defaultTitleId,
         defaultDescriptionId,
+        dismissible,
       }}
     >
       <div ref={rootRef} data-slot="dialog" data-state={dataState} {...rest}>

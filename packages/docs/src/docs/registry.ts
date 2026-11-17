@@ -21,6 +21,7 @@ import { codeInternalsDocPage } from "./pages/code-internals-doc";
 import { collapsibleDocPage } from "./pages/collapsible-doc";
 import { comboboxDocPage } from "./pages/combobox-doc";
 import { commandDocPage } from "./pages/command-doc";
+import { consentManagerDocPage } from "./pages/consent-manager-doc";
 import { contextMenuDocPage } from "./pages/context-menu-doc";
 import { copyButtonDocPage } from "./pages/copy-button-doc";
 import { dataTableDocPage } from "./pages/data-table-doc";
@@ -108,6 +109,7 @@ export const allDocsPages: DocPageModule[] = [
   collapsibleDocPage,
   comboboxDocPage,
   commandDocPage,
+  consentManagerDocPage,
   contextMenuDocPage,
   copyButtonDocPage,
   dataTableDocPage,

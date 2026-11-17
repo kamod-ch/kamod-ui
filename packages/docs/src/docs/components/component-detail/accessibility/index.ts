@@ -31,6 +31,7 @@ const detailedAccessibilitySlugs = new Set([
   "checkbox",
   "combobox",
   "command",
+  "consent-manager",
   "context-menu",
   "date-picker",
   "dialog",

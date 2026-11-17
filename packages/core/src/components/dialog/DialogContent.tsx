@@ -87,7 +87,7 @@ export const DialogContent = ({
     if (event.key === "Escape") {
       if (!isTopDismissableLayer(dialog.layerRootRef.current)) return;
       event.preventDefault();
-      dialog.setOpen(false);
+      if (dialog.dismissible) dialog.setOpen(false);
     }
     onKeyDown?.(event);
   };
@@ -123,6 +123,7 @@ export const DialogContent = ({
         data-state={state}
         class={modalOverlayClass}
         onPointerDown={(event) => {
+          if (!dialog.dismissible) return;
           if (event.target !== event.currentTarget) return;
           if (isPointerWithinModalDialogPanelSlop(event)) return;
           if (!isTopDismissableLayer(dialog.layerRootRef.current)) return;

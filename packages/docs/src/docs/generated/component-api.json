@@ -8,8 +8,8 @@
       "signals": "direct",
       "signalsVia": null,
       "size": {
-        "min": 573992,
-        "gzip": 117293
+        "min": 589511,
+        "gzip": 121037
       },
       "peers": [
         "@kamod-ch/themes",
@@ -347,6 +347,13 @@
               "type": "boolean",
               "default": null,
               "description": ""
+            },
+            {
+              "name": "dismissible",
+              "optional": true,
+              "type": "boolean",
+              "default": null,
+              "description": "When false, Escape and an overlay click leave the dialog open. An explicit close control still closes it. Default true."
             },
             {
               "name": "lockBodyScroll",
@@ -3359,6 +3366,168 @@
           ]
         },
         {
+          "name": "ConsentManager",
+          "propsType": "ConsentManagerProps",
+          "props": [
+            {
+              "name": "categories",
+              "optional": false,
+              "type": "readonly ConsentCategory[]",
+              "default": null,
+              "description": "Categories the person can accept. Required categories stay on."
+            },
+            {
+              "name": "children",
+              "optional": true,
+              "type": "ComponentChild[] | ComponentChild",
+              "default": null,
+              "description": ""
+            },
+            {
+              "name": "labels",
+              "optional": true,
+              "type": "Partial<ConsentManagerLabels>",
+              "default": null,
+              "description": "Replaces any of the default English labels."
+            },
+            {
+              "name": "onConsentChange",
+              "optional": true,
+              "type": "((state: ConsentState) => void)",
+              "default": null,
+              "description": "Called once after a decision is saved."
+            },
+            {
+              "name": "onOpenChange",
+              "optional": true,
+              "type": "((open: boolean) => void)",
+              "default": null,
+              "description": ""
+            },
+            {
+              "name": "open",
+              "optional": true,
+              "type": "boolean",
+              "default": null,
+              "description": "Controlled open state. When omitted, the dialog opens until a valid decision exists."
+            },
+            {
+              "name": "storage",
+              "optional": true,
+              "type": "ConsentStorage",
+              "default": null,
+              "description": "Persists the decision. Defaults to localStorage and ignores storage failures."
+            },
+            {
+              "name": "storageKey",
+              "optional": true,
+              "type": "string",
+              "default": "\"kamod-consent\"",
+              "description": "Storage key. Default `kamod-consent`."
+            },
+            {
+              "name": "version",
+              "optional": false,
+              "type": "string",
+              "default": null,
+              "description": "A new version invalidates a stored decision and shows the dialog again."
+            }
+          ]
+        },
+        {
+          "name": "ConsentManagerCategory",
+          "propsType": "ConsentManagerCategoryProps",
+          "props": [
+            {
+              "name": "category",
+              "optional": false,
+              "type": "{ id: string; title: string; description: string; required?: boolean; defaultEnabled?: boolean; details?: ComponentChildren; }",
+              "default": null,
+              "description": ""
+            },
+            {
+              "name": "class",
+              "optional": true,
+              "type": "string",
+              "default": null,
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "ConsentManagerContent",
+          "propsType": "ConsentManagerContentProps",
+          "props": [
+            {
+              "name": "class",
+              "optional": true,
+              "type": "string",
+              "default": null,
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "ConsentManagerSettings",
+          "propsType": "ConsentManagerSettingsProps",
+          "props": [
+            {
+              "name": "class",
+              "optional": true,
+              "type": "string",
+              "default": null,
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "ConsentManagerSummary",
+          "propsType": "ConsentManagerSummaryProps",
+          "props": [
+            {
+              "name": "class",
+              "optional": true,
+              "type": "string",
+              "default": null,
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "ConsentManagerTrigger",
+          "propsType": "ConsentManagerTriggerProps",
+          "props": [
+            {
+              "name": "asChild",
+              "optional": true,
+              "type": "boolean",
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "children",
+              "optional": true,
+              "type": "ComponentChild[] | ComponentChild",
+              "default": null,
+              "description": ""
+            },
+            {
+              "name": "onClick",
+              "optional": true,
+              "type": "MouseEventHandler<HTMLButtonElement>",
+              "default": null,
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "Ref<HTMLButtonElement>",
+              "default": null,
+              "description": ""
+            }
+          ]
+        },
+        {
           "name": "ContextMenu",
           "propsType": "ContextMenuProps",
           "props": [
@@ -4060,6 +4229,13 @@
               "description": ""
             },
             {
+              "name": "dismissible",
+              "optional": true,
+              "type": "boolean",
+              "default": "true",
+              "description": "When false, Escape and an overlay click leave the dialog open. An explicit close control still closes it. Default true."
+            },
+            {
               "name": "lockBodyScroll",
               "optional": true,
               "type": "boolean",
@@ -4419,6 +4595,13 @@
               "type": "DrawerDirection",
               "default": "\"bottom\"",
               "description": "Edge the drawer opens from (shadcn/Vaul `direction`). Default `bottom`."
+            },
+            {
+              "name": "dismissible",
+              "optional": true,
+              "type": "boolean",
+              "default": null,
+              "description": "When false, Escape and an overlay click leave the dialog open. An explicit close control still closes it. Default true."
             },
             {
               "name": "lockBodyScroll",
@@ -8281,6 +8464,13 @@
               "type": "boolean",
               "default": null,
               "description": ""
+            },
+            {
+              "name": "dismissible",
+              "optional": true,
+              "type": "boolean",
+              "default": null,
+              "description": "When false, Escape and an overlay click leave the dialog open. An explicit close control still closes it. Default true."
             },
             {
               "name": "lockBodyScroll",
@@ -11253,8 +11443,8 @@
       "signals": "indirect",
       "signalsVia": "dialog",
       "size": {
-        "min": 43982,
-        "gzip": 10578
+        "min": 44695,
+        "gzip": 10665
       },
       "peers": [
         "@preact/signals"
@@ -11277,6 +11467,13 @@
               "type": "boolean",
               "default": null,
               "description": ""
+            },
+            {
+              "name": "dismissible",
+              "optional": true,
+              "type": "boolean",
+              "default": null,
+              "description": "When false, Escape and an overlay click leave the dialog open. An explicit close control still closes it. Default true."
             },
             {
               "name": "lockBodyScroll",
@@ -12990,7 +13187,7 @@
       "signalsVia": null,
       "size": {
         "min": 65306,
-        "gzip": 17544
+        "gzip": 17520
       },
       "peers": [],
       "components": [
@@ -14228,8 +14425,8 @@
       "signals": "direct",
       "signalsVia": null,
       "size": {
-        "min": 43680,
-        "gzip": 10451
+        "min": 42630,
+        "gzip": 10327
       },
       "peers": [
         "@preact/signals"
@@ -14494,6 +14691,184 @@
               "name": "class",
               "optional": true,
               "type": "string | SignalLike<string | undefined>",
+              "default": null,
+              "description": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "export": "./consent-manager",
+      "specifier": "@kamod-ch/ui/consent-manager",
+      "slug": "consent-manager",
+      "signals": "direct",
+      "signalsVia": null,
+      "size": {
+        "min": 71735,
+        "gzip": 16227
+      },
+      "peers": [
+        "@preact/signals"
+      ],
+      "components": [
+        {
+          "name": "ConsentManager",
+          "propsType": "ConsentManagerProps",
+          "props": [
+            {
+              "name": "categories",
+              "optional": false,
+              "type": "readonly ConsentCategory[]",
+              "default": null,
+              "description": "Categories the person can accept. Required categories stay on."
+            },
+            {
+              "name": "children",
+              "optional": true,
+              "type": "ComponentChild[] | ComponentChild",
+              "default": null,
+              "description": ""
+            },
+            {
+              "name": "labels",
+              "optional": true,
+              "type": "Partial<ConsentManagerLabels>",
+              "default": null,
+              "description": "Replaces any of the default English labels."
+            },
+            {
+              "name": "onConsentChange",
+              "optional": true,
+              "type": "((state: ConsentState) => void)",
+              "default": null,
+              "description": "Called once after a decision is saved."
+            },
+            {
+              "name": "onOpenChange",
+              "optional": true,
+              "type": "((open: boolean) => void)",
+              "default": null,
+              "description": ""
+            },
+            {
+              "name": "open",
+              "optional": true,
+              "type": "boolean",
+              "default": null,
+              "description": "Controlled open state. When omitted, the dialog opens until a valid decision exists."
+            },
+            {
+              "name": "storage",
+              "optional": true,
+              "type": "ConsentStorage",
+              "default": null,
+              "description": "Persists the decision. Defaults to localStorage and ignores storage failures."
+            },
+            {
+              "name": "storageKey",
+              "optional": true,
+              "type": "string",
+              "default": "\"kamod-consent\"",
+              "description": "Storage key. Default `kamod-consent`."
+            },
+            {
+              "name": "version",
+              "optional": false,
+              "type": "string",
+              "default": null,
+              "description": "A new version invalidates a stored decision and shows the dialog again."
+            }
+          ]
+        },
+        {
+          "name": "ConsentManagerCategory",
+          "propsType": "ConsentManagerCategoryProps",
+          "props": [
+            {
+              "name": "category",
+              "optional": false,
+              "type": "{ id: string; title: string; description: string; required?: boolean; defaultEnabled?: boolean; details?: ComponentChildren; }",
+              "default": null,
+              "description": ""
+            },
+            {
+              "name": "class",
+              "optional": true,
+              "type": "string",
+              "default": null,
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "ConsentManagerContent",
+          "propsType": "ConsentManagerContentProps",
+          "props": [
+            {
+              "name": "class",
+              "optional": true,
+              "type": "string",
+              "default": null,
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "ConsentManagerSettings",
+          "propsType": "ConsentManagerSettingsProps",
+          "props": [
+            {
+              "name": "class",
+              "optional": true,
+              "type": "string",
+              "default": null,
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "ConsentManagerSummary",
+          "propsType": "ConsentManagerSummaryProps",
+          "props": [
+            {
+              "name": "class",
+              "optional": true,
+              "type": "string",
+              "default": null,
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "ConsentManagerTrigger",
+          "propsType": "ConsentManagerTriggerProps",
+          "props": [
+            {
+              "name": "asChild",
+              "optional": true,
+              "type": "boolean",
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "children",
+              "optional": true,
+              "type": "ComponentChild[] | ComponentChild",
+              "default": null,
+              "description": ""
+            },
+            {
+              "name": "onClick",
+              "optional": true,
+              "type": "MouseEventHandler<HTMLButtonElement>",
+              "default": null,
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "Ref<HTMLButtonElement>",
               "default": null,
               "description": ""
             }
@@ -15251,8 +15626,8 @@
       "signals": "direct",
       "signalsVia": null,
       "size": {
-        "min": 36353,
-        "gzip": 8934
+        "min": 37074,
+        "gzip": 8997
       },
       "peers": [
         "@preact/signals"
@@ -15275,6 +15650,13 @@
               "type": "boolean",
               "default": "false",
               "description": ""
+            },
+            {
+              "name": "dismissible",
+              "optional": true,
+              "type": "boolean",
+              "default": "true",
+              "description": "When false, Escape and an overlay click leave the dialog open. An explicit close control still closes it. Default true."
             },
             {
               "name": "lockBodyScroll",
@@ -15655,8 +16037,8 @@
       "signals": "indirect",
       "signalsVia": "dialog",
       "size": {
-        "min": 41798,
-        "gzip": 9816
+        "min": 42511,
+        "gzip": 9959
       },
       "peers": [
         "@preact/signals"
@@ -15686,6 +16068,13 @@
               "type": "DrawerDirection",
               "default": "\"bottom\"",
               "description": "Edge the drawer opens from (shadcn/Vaul `direction`). Default `bottom`."
+            },
+            {
+              "name": "dismissible",
+              "optional": true,
+              "type": "boolean",
+              "default": null,
+              "description": "When false, Escape and an overlay click leave the dialog open. An explicit close control still closes it. Default true."
             },
             {
               "name": "lockBodyScroll",
@@ -16686,7 +17075,7 @@
       "signalsVia": null,
       "size": {
         "min": 10563,
-        "gzip": 2651
+        "gzip": 2647
       },
       "peers": [],
       "components": [
@@ -19497,7 +19886,7 @@
       "signalsVia": null,
       "size": {
         "min": 39071,
-        "gzip": 9441
+        "gzip": 9442
       },
       "peers": [
         "@preact/signals"
@@ -19949,8 +20338,8 @@
       "signals": "indirect",
       "signalsVia": "dialog",
       "size": {
-        "min": 39404,
-        "gzip": 9381
+        "min": 40125,
+        "gzip": 9516
       },
       "peers": [
         "@preact/signals"
@@ -19973,6 +20362,13 @@
               "type": "boolean",
               "default": null,
               "description": ""
+            },
+            {
+              "name": "dismissible",
+              "optional": true,
+              "type": "boolean",
+              "default": null,
+              "description": "When false, Escape and an overlay click leave the dialog open. An explicit close control still closes it. Default true."
             },
             {
               "name": "lockBodyScroll",
@@ -20223,8 +20619,8 @@
       "signals": "indirect",
       "signalsVia": "tooltip",
       "size": {
-        "min": 84478,
-        "gzip": 18207
+        "min": 83428,
+        "gzip": 18074
       },
       "peers": [
         "@preact/signals"

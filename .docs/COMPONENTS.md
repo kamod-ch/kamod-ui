@@ -6,9 +6,9 @@ Sizes measure the **Kamod-only JavaScript** pulled in by each `@kamod-ch/ui/<nam
 
 ## Summary
 
-- **Exports:** 75 subpaths
-- **Gzip range:** 0.1–17.8 KB (median 2.2 KB)
-- **Signals:** 23 direct · 6 indirect · 46 none (`@preact/signals` is an optional peer)
+- **Exports:** 76 subpaths
+- **Gzip range:** 0.1–17.7 KB (median 2.3 KB)
+- **Signals:** 24 direct · 6 indirect · 46 none (`@preact/signals` is an optional peer)
 
 ## Signals legend
 
@@ -26,7 +26,7 @@ Install `@preact/signals` for entries marked **Direct** or **Indirect**. Entries
 | ---------------------- | -------- | --------- | ---------------------- | ------------------ |
 | `accordion`            | 14.0     | 3.4       | Direct                 | `@preact/signals`  |
 | `alert`                | 7.1      | 2.1       | No                     | —                  |
-| `alert-dialog`         | 43.0     | 10.3      | Indirect (dialog)      | `@preact/signals`  |
+| `alert-dialog`         | 43.6     | 10.4      | Indirect (dialog)      | `@preact/signals`  |
 | `aspect-ratio`         | 1.0      | 0.5       | No                     | —                  |
 | `avatar`               | 7.1      | 2.1       | No                     | —                  |
 | `badge`                | 10.0     | 2.9       | No                     | —                  |
@@ -42,14 +42,15 @@ Install `@preact/signals` for entries marked **Direct** or **Indirect**. Entries
 | `code/styles.css`      | 0.2      | 0.1       | No                     | —                  |
 | `collapsible`          | 16.5     | 4.1       | Direct                 | `@preact/signals`  |
 | `combobox`             | 59.2     | 13.1      | Direct                 | `@preact/signals`  |
-| `command`              | 42.7     | 10.2      | Direct                 | `@preact/signals`  |
+| `command`              | 41.6     | 10.1      | Direct                 | `@preact/signals`  |
+| `consent-manager`      | 70.1     | 15.8      | Direct                 | `@preact/signals`  |
 | `context-menu`         | 30.3     | 7.0       | Direct                 | `@preact/signals`  |
 | `copy-button`          | 6.3      | 2.1       | No                     | —                  |
 | `data-table`           | 1.7      | 0.6       | No                     | —                  |
 | `date-picker`          | 56.3     | 13.7      | Indirect (popover)     | `@preact/signals`  |
-| `dialog`               | 35.5     | 8.7       | Direct                 | `@preact/signals`  |
+| `dialog`               | 36.2     | 8.8       | Direct                 | `@preact/signals`  |
 | `direction`            | 1.4      | 0.5       | No                     | —                  |
-| `drawer`               | 40.8     | 9.6       | Indirect (dialog)      | `@preact/signals`  |
+| `drawer`               | 41.5     | 9.7       | Indirect (dialog)      | `@preact/signals`  |
 | `dropdown`             | 44.8     | 10.7      | Direct                 | `@preact/signals`  |
 | `dropzone`             | 4.8      | 1.5       | Direct                 | `@preact/signals`  |
 | `empty`                | 3.3      | 1.0       | No                     | —                  |
@@ -78,8 +79,8 @@ Install `@preact/signals` for entries marked **Direct** or **Indirect**. Entries
 | `select`               | 38.2     | 9.2       | Direct                 | `@preact/signals`  |
 | `selectable-card`      | 7.1      | 2.1       | No                     | —                  |
 | `separator`            | 1.6      | 0.6       | No                     | —                  |
-| `sheet`                | 38.5     | 9.2       | Indirect (dialog)      | `@preact/signals`  |
-| `sidebar`              | 82.5     | 17.8      | Indirect (tooltip)     | `@preact/signals`  |
+| `sheet`                | 39.2     | 9.3       | Indirect (dialog)      | `@preact/signals`  |
+| `sidebar`              | 81.5     | 17.7      | Indirect (tooltip)     | `@preact/signals`  |
 | `skeleton`             | 1.5      | 0.6       | No                     | —                  |
 | `slider`               | 23.9     | 5.2       | Direct                 | `@preact/signals`  |
 | `sonner`               | 1.6      | 0.7       | Direct                 | `@preact/signals`  |

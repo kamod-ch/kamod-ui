@@ -86,6 +86,30 @@ describe("Dialog", () => {
     expect(trigger).toHaveFocus();
   });
 
+  it("does not dismiss on Escape or overlay click when dismissible is false", () => {
+    render(
+      <Dialog defaultOpen dismissible={false}>
+        <DialogTrigger>Open settings</DialogTrigger>
+        <DialogContent>
+          <DialogTitle>Settings</DialogTitle>
+          <DialogDescription>Manage your preferences.</DialogDescription>
+          <DialogClose>Done</DialogClose>
+        </DialogContent>
+      </Dialog>,
+    );
+
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(screen.getByRole("dialog", { name: "Settings" })).toBeInTheDocument();
+
+    const overlay = document.querySelector('[data-slot="dialog-overlay"]');
+    expect(overlay).toBeInTheDocument();
+    fireEvent.pointerDown(overlay as Element);
+    expect(screen.getByRole("dialog", { name: "Settings" })).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: "Done" }));
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+
   it("dismisses on Escape", () => {
     renderDialog();
     const trigger = screen.getByRole("button", { name: "Open settings" });

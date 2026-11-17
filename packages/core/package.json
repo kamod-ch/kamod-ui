@@ -135,6 +135,10 @@
       "types": "./dist/components/command/index.d.ts",
       "import": "./dist/components/command/index.js"
     },
+    "./consent-manager": {
+      "types": "./dist/components/consent-manager/index.d.ts",
+      "import": "./dist/components/consent-manager/index.js"
+    },
     "./context-menu": {
       "types": "./dist/components/context-menu/index.d.ts",
       "import": "./dist/components/context-menu/index.js"
