@@ -27,7 +27,7 @@
     },
     "packages/themes": {
       "entry": ["src/**/*.test.{ts,tsx}", "src/test/setup.ts"],
-      "project": ["src/**/*.{ts,tsx}"]
+      "project": ["src/**/*.{ts,tsx,css}"]
     },
     "packages/docs": {
       "entry": [
@@ -47,15 +47,15 @@
         "e2e/**/*.ts",
         "scripts/**/*.{js,mjs}"
       ],
-      "project": ["src/**/*.{ts,tsx}", "e2e/**/*.ts", ".preactpress/**/*.{ts,tsx}"],
-      "ignore": ["src/theme/theme-presets.ts"],
-      "ignoreDependencies": [
-        "@preact/preset-vite",
-        "tailwindcss",
-        "tw-animate-css",
-        "@tailwindcss/forms",
-        "@kamod-ch/signals"
-      ]
+      "project": ["src/**/*.{ts,tsx,css}", "e2e/**/*.ts", ".preactpress/**/*.{ts,tsx}"],
+      "ignore": [
+        "src/theme/theme-presets.ts",
+        "src/styles/foundation.css",
+        "src/styles/tailwind.css",
+        "src/styles/themes.css",
+        "src/styles/themes/*.css"
+      ],
+      "ignoreDependencies": ["@preact/preset-vite", "@kamod-ch/signals"]
     },
     "packages/blocks": {
       "entry": [
