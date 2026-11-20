@@ -1,6 +1,7 @@
 /* Documentation favors stable, immediately available glyphs across all palettes.
    Keep this after theme CSS: neither navigation nor CSS replacement should select
-   a downloadable face. Consumers remain free to use the public preset stacks. */
+   a downloadable face. Consumers remain free to use the public preset stacks.
+   Exception: watson shows its brand fonts (Nunito Sans, Onest) from watson-fonts.css. */
 :root {
   --docs-font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --docs-font-serif: ui-serif, Georgia, Cambria, "Times New Roman", serif;
@@ -9,9 +10,9 @@
     monospace;
 }
 
-:root,
-:root[data-theme],
-[data-theme-scope][data-theme] {
+:root:not([data-theme="watson"]),
+:root[data-theme]:not([data-theme="watson"]),
+[data-theme-scope][data-theme]:not([data-theme="watson"]) {
   --font-sans: var(--docs-font-sans);
   --default-font-family: var(--docs-font-sans);
   --font-primary: var(--docs-font-sans);

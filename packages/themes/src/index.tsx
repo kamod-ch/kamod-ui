@@ -16,6 +16,7 @@ export const THEME_PRESETS = [
   { id: "voltage", label: "Voltage" },
   { id: "watson", label: "Watson" },
   { id: "professional", label: "Professional (Electronics)" },
+  { id: "20min", label: "20 Minuten" },
 ] as const;
 
 export type ThemePresetId = (typeof THEME_PRESETS)[number]["id"];

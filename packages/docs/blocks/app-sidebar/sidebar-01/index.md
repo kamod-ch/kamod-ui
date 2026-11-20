@@ -1,5 +1,5 @@
 ---
-title: "sidebar-01"
+title: "Sidebar 1"
 description: "Collapsible icon-rail app sidebar with brand, grouped nav, and a user footer."
 pageKind: blocks-detail
 blockCategory: app-sidebar

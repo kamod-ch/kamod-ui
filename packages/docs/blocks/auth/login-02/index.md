@@ -1,5 +1,5 @@
 ---
-title: "login-02"
+title: "Login 2"
 description: "Split login with a configurable brand panel that collapses on small screens."
 pageKind: blocks-detail
 blockCategory: auth

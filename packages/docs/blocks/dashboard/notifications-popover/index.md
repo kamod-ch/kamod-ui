@@ -1,5 +1,5 @@
 ---
-title: "notifications-popover"
+title: "Notifications Popover"
 description: "Bell trigger with All/Unread filters, dismiss, and mark-all-read. Items stay owned by the consumer."
 pageKind: blocks-detail
 blockCategory: dashboard

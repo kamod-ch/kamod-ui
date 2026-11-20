@@ -66,8 +66,8 @@ jobs:
             exit 1
           fi
 
-      - name: SPA fallback (deep links on GitHub Pages)
-        run: cp packages/docs/dist/index.html packages/docs/dist/404.html
+      - name: Keep the generated not-found page
+        run: test -f packages/docs/dist/404.html
 
       - name: Add .nojekyll
         run: touch packages/docs/dist/.nojekyll

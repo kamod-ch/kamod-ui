@@ -1,7 +1,9 @@
 /**
- * Watson design tokens (Tailwind v4 @theme + preset)
- * Reference palette aligned with Terra Nova / uison-style tokens.
- * Font stacks retain system fallbacks; consumers own optional font loading.
+ * watson preset for Kamod UI (Tailwind v4 @theme + preset + component skin).
+ * Source: CH Media Design connector, brand data watson@2026-11-10
+ * (via the «Kamod UI» design system, themes watson-light / watson-dark).
+ * Fonts: import "@kamod-ch/themes/brands/watson-fonts.css" to load Nunito Sans and Onest;
+ * without it the stacks fall back to system fonts.
  */
 
 @theme {
@@ -20,6 +22,8 @@
   --color-watson_base_hover: #8e0456;
   --color-watson_black: #1d1e20;
   --color-watson_red: #ff0f00;
+  --color-watson_divider-dark: #474747;
+  --color-watson_divider-menu-dark: #595d74;
 
   /* Default scale (Watson naming) */
   --color-black-100: #000000;
@@ -114,10 +118,11 @@
   --line-height-xxxs: 1.25;
   --line-height-extra-tight: 1.125;
 
-  --font-family-NunitoSans: "Nunito Sans", "Adjusted Verdana Fallback", sans-serif;
-  --font-family-Onest: Onest, "Adjusted Verdana Fallback", sans-serif;
-  --font-NunitoSans: "Nunito Sans", "Adjusted Verdana Fallback", sans-serif;
-  --font-Onest: Onest, "Adjusted Verdana Fallback", sans-serif;
+  --font-family-NunitoSans:
+    "Nunito Sans Variable", "Nunito Sans", "Adjusted Verdana Fallback", sans-serif;
+  --font-family-Onest: "Onest Variable", Onest, "Adjusted Verdana Fallback", sans-serif;
+  --font-NunitoSans: "Nunito Sans Variable", "Nunito Sans", "Adjusted Verdana Fallback", sans-serif;
+  --font-Onest: "Onest Variable", Onest, "Adjusted Verdana Fallback", sans-serif;
 
   /* 7-column widths */
   --width-1-7: 14.2857143%;
@@ -258,115 +263,614 @@
   font-family: var(--font-Onest);
 }
 
-/* Demo preset: semantic tokens → Kamod UI variables */
+/* ==========================================================================
+   Semantic roles → Kamod UI variables
+   ========================================================================== */
 :root[data-theme="watson"],
 [data-theme-scope][data-theme="watson"] {
   --font-sans:
-    "Nunito Sans", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-    "Segoe UI Symbol", "Noto Color Emoji";
+    "Nunito Sans Variable", "Nunito Sans", ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --default-font-family: var(--font-sans);
+  --font-primary: var(--font-sans);
+  --font-display: "Onest Variable", Onest, ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-display);
   --font-mono:
     "Fira Code Variable", "Fira Code", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
     "Liberation Mono", "Courier New", monospace;
-  --default-font-family:
-    "Nunito Sans", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-    "Segoe UI Symbol", "Noto Color Emoji";
-  --font-primary:
-    "Nunito Sans", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-    "Segoe UI Symbol", "Noto Color Emoji";
-  --font-display:
-    Onest, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-    "Segoe UI Symbol", "Noto Color Emoji";
-  --font-mono-custom:
-    "Fira Code Variable", "Fira Code", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-    "Liberation Mono", "Courier New", monospace;
+  --font-mono-custom: var(--font-mono);
+
+  /* 6px base: radius-md = 4px (fields), radius-xl = 10px (cards); components below pin the rest */
+  --radius: 6px;
 
   --background: var(--color-white-100);
-  --foreground: var(--color-watson_black);
-  --card: var(--color-white-100);
-  --card-foreground: var(--color-watson_black);
-  --popover: var(--color-white-100);
-  --popover-foreground: var(--color-watson_black);
-  --primary: var(--color-watson_base);
+  --foreground: var(--color-black-100);
+  --card: var(--color-grey-10);
+  --card-foreground: var(--color-black-100);
+  --popover: var(--color-grey-10);
+  --popover-foreground: var(--color-black-100);
+  --primary: var(--color-watson_pink-100);
+  /* White on pink is 3.9:1: only for 16px bold labels (watson button) */
   --primary-foreground: var(--color-white-100);
-  --primary-accent: var(--color-watson_base_hover);
-  --secondary: color-mix(in srgb, var(--primary) 8%, var(--color-watson_blue-100));
-  --secondary-foreground: var(--color-watson_black);
-  --secondary-accent: var(--color-watson_blue-70);
-  /* Pink-tinted bases so hover:bg-muted/* and hover:bg-accent/* read on-brand */
-  --muted: color-mix(in srgb, var(--primary) 11%, var(--color-grey-10));
+  --primary-accent: var(--color-aubergine-100);
+  --secondary: var(--color-graphite-100);
+  --secondary-foreground: var(--color-white-100);
+  --secondary-accent: var(--color-graphite-80);
+  --muted: var(--color-grey-10);
   --muted-foreground: var(--color-grey-100);
-  --accent: color-mix(in srgb, var(--primary) 20%, var(--color-grey-10));
-  --accent-foreground: var(--color-watson_black);
-  --info: var(--color-watson_blue-50);
-  --info-foreground: var(--color-watson_black);
-  --success: var(--color-mint-70);
-  --success-foreground: var(--color-watson_black);
-  --warning: var(--color-lemon-70);
-  --warning-foreground: var(--color-watson_black);
+  --accent: var(--color-grey-20);
+  --accent-foreground: var(--color-black-100);
+  --info: var(--color-watson_blue-20);
+  --info-foreground: var(--color-black-100);
+  --success: var(--color-mint-20);
+  --success-foreground: var(--color-black-100);
+  --warning: var(--color-lemon-20);
+  --warning-foreground: var(--color-black-100);
   --error: var(--color-watson_red);
-  --error-foreground: var(--color-white-100);
+  /* Black on red 5.3:1; white would be 3.9:1 */
+  --error-foreground: var(--color-black-100);
   --destructive: var(--color-watson_red);
-  --destructive-foreground: var(--color-white-100);
+  --destructive-foreground: var(--color-black-100);
   --border: var(--color-grey-20);
   --input: var(--color-grey-20);
-  --ring: var(--color-watson_pink-100);
-  --outline: var(--color-watson_pink-70);
+  --ring: var(--color-black-100);
+  --outline: var(--color-black-100);
 
   --sidebar-background: var(--color-grey-10);
-  --sidebar-foreground: var(--color-watson_black);
-  --sidebar-primary: var(--color-watson_base);
+  --sidebar-foreground: var(--color-black-100);
+  --sidebar-primary: var(--color-watson_pink-100);
   --sidebar-primary-foreground: var(--color-white-100);
-  --sidebar-accent: color-mix(in srgb, var(--primary) 16%, var(--color-grey-10));
-  --sidebar-accent-foreground: var(--color-watson_black);
+  --sidebar-accent: var(--color-grey-20);
+  --sidebar-accent-foreground: var(--color-black-100);
   --sidebar-border: var(--color-grey-20);
-  --sidebar-outline: var(--color-watson_pink-70);
+  --sidebar-outline: var(--color-black-100);
+
+  --chart-1: var(--color-watson_pink-100);
+  --chart-2: var(--color-lapis-100);
+  --chart-3: var(--color-tangerine-100);
+  --chart-4: var(--color-jade-100);
+  --chart-5: var(--color-lavender-100);
+
+  /* watson roles used by the component skin below */
+  --watson-accent-text: var(--color-aubergine-100);
+  --watson-surface: var(--color-grey-10);
+  --watson-surface-active: var(--color-grey-20);
+  --watson-surface-control: var(--color-graphite-100);
+  --watson-on-control: var(--color-white-100);
+  --watson-divider: var(--color-grey-20);
+  --watson-divider-menu: var(--color-grey-20);
+  --watson-text-label: var(--color-grey-100);
+  --watson-text-placeholder: var(--color-grey-100);
+  --watson-focus-ring: var(--color-black-100);
+  --watson-overlay: #000000cc;
 }
 
 .dark[data-theme="watson"] {
   --font-sans:
-    "Nunito Sans", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-    "Segoe UI Symbol", "Noto Color Emoji";
+    "Nunito Sans Variable", "Nunito Sans", ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --font-mono:
     "Fira Code Variable", "Fira Code", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
     "Liberation Mono", "Courier New", monospace;
 
   --background: var(--color-watson_black);
-  --foreground: var(--color-grey-10);
-  --card: var(--color-black-90);
-  --card-foreground: var(--color-grey-10);
-  --popover: var(--color-black-90);
-  --popover-foreground: var(--color-grey-10);
-  --primary: var(--color-watson_pink-70);
-  --primary-foreground: var(--color-watson_black);
-  --primary-accent: var(--color-watson_pink-50);
-  --secondary: color-mix(in srgb, var(--primary) 12%, var(--color-watson_blue-70));
-  --secondary-foreground: var(--color-watson_black);
-  --secondary-accent: var(--color-watson_blue-50);
-  --muted: color-mix(in srgb, var(--primary) 14%, var(--color-black-80));
-  --muted-foreground: var(--color-grey-50);
-  --accent: color-mix(in srgb, var(--primary) 24%, var(--color-black-90));
-  --accent-foreground: var(--color-grey-10);
-  --info: var(--color-watson_blue-50);
-  --info-foreground: var(--color-watson_black);
-  --success: var(--color-mint-70);
-  --success-foreground: var(--color-watson_black);
-  --warning: var(--color-lemon-70);
-  --warning-foreground: var(--color-watson_black);
+  --foreground: var(--color-white-100);
+  --card: var(--color-black-80);
+  --card-foreground: var(--color-white-100);
+  --popover: var(--color-black-80);
+  --popover-foreground: var(--color-white-100);
+  --primary: var(--color-watson_pink-100);
+  --primary-foreground: var(--color-white-100);
+  --primary-accent: var(--color-aubergine-100);
+  --secondary: var(--color-graphite-100);
+  --secondary-foreground: var(--color-white-100);
+  --secondary-accent: var(--color-graphite-80);
+  --muted: var(--color-black-80);
+  --muted-foreground: var(--color-grey-20);
+  --accent: var(--color-black-70);
+  --accent-foreground: var(--color-white-100);
+  --info: var(--color-watson_blue-20);
+  --info-foreground: var(--color-black-100);
+  --success: var(--color-mint-20);
+  --success-foreground: var(--color-black-100);
+  --warning: var(--color-lemon-20);
+  --warning-foreground: var(--color-black-100);
   --error: var(--color-watson_red);
-  --error-foreground: var(--color-white-100);
+  --error-foreground: var(--color-black-100);
   --destructive: var(--color-watson_red);
-  --destructive-foreground: var(--color-white-100);
-  --border: --alpha(var(--color-grey-10) / 12%);
-  --input: --alpha(var(--color-grey-10) / 15%);
-  --ring: var(--color-watson_pink-50);
-  --outline: var(--color-watson_pink-70);
+  --destructive-foreground: var(--color-black-100);
+  --border: var(--color-watson_divider-dark);
+  --input: var(--color-watson_divider-dark);
+  --ring: var(--color-watson_blue-100);
+  --outline: var(--color-watson_blue-100);
 
   --sidebar-background: var(--color-black-90);
-  --sidebar-foreground: var(--color-grey-10);
-  --sidebar-primary: var(--color-watson_pink-70);
-  --sidebar-primary-foreground: var(--color-watson_black);
-  --sidebar-accent: color-mix(in srgb, var(--primary) 18%, var(--color-black-80));
-  --sidebar-accent-foreground: var(--color-grey-10);
-  --sidebar-border: var(--color-black-80);
-  --sidebar-outline: var(--color-watson_pink-50);
+  --sidebar-foreground: var(--color-white-100);
+  --sidebar-primary: var(--color-watson_pink-100);
+  --sidebar-primary-foreground: var(--color-white-100);
+  --sidebar-accent: var(--color-black-70);
+  --sidebar-accent-foreground: var(--color-white-100);
+  --sidebar-border: var(--color-watson_divider-dark);
+  --sidebar-outline: var(--color-watson_blue-100);
+
+  --watson-accent-text: var(--color-watson_pink-100);
+  --watson-surface: var(--color-black-80);
+  --watson-surface-active: var(--color-black-70);
+  --watson-divider: var(--color-watson_divider-dark);
+  --watson-divider-menu: var(--color-watson_divider-menu-dark);
+  --watson-text-label: var(--color-grey-20);
+  --watson-text-placeholder: var(--color-grey-80);
+  --watson-focus-ring: var(--color-watson_blue-100);
+}
+
+/* ==========================================================================
+   Component skin. Kamod structure stays; watson look via data-slot.
+   Unlayered on purpose so it wins over component utilities.
+   ========================================================================== */
+
+[data-theme="watson"],
+[data-theme="watson"] body {
+  font-family: var(--font-sans);
+  font-weight: 500;
+}
+
+/* No shadows in watson */
+[data-theme="watson"] * {
+  --tw-shadow: 0 0 #0000 !important;
+  --tw-inset-shadow: 0 0 #0000 !important;
+  --tw-drop-shadow: none !important;
+}
+
+/* Titles: Onest Black */
+[data-theme="watson"]
+  :is(
+    h1,
+    h2,
+    h3,
+    h4,
+    [data-slot="card-title"],
+    [data-slot="dialog-title"],
+    [data-slot="alert-dialog-title"],
+    [data-slot="sheet-title"],
+    [data-slot="drawer-title"],
+    [data-slot="popover-title"],
+    [data-slot="empty-title"],
+    [data-slot="item-title"]
+  ) {
+  font-family: var(--font-display);
+  font-weight: 900;
+  letter-spacing: 0;
+}
+
+[data-theme="watson"]
+  :is(
+    [data-slot="dialog-title"],
+    [data-slot="alert-dialog-title"],
+    [data-slot="sheet-title"],
+    [data-slot="drawer-title"]
+  ) {
+  font-size: 18px;
+  line-height: 24px;
+}
+
+[data-theme="watson"]
+  :is(
+    [data-slot="dialog-description"],
+    [data-slot="alert-dialog-description"],
+    [data-slot="card-description"]
+  ) {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+}
+
+/* Focus: solid 2px ring, 2px offset (black on light, blue on dark) */
+[data-theme="watson"] :focus-visible {
+  outline: 2px solid var(--watson-focus-ring) !important;
+  outline-offset: 2px;
+  --tw-ring-shadow: 0 0 #0000;
+  --tw-ring-color: transparent;
+}
+
+/* Button: radius 4, Nunito Sans Bold 16, 46px; hover and pressed aubergine */
+[data-theme="watson"] [data-slot="button"] {
+  border-radius: 4px;
+  font-weight: 700;
+}
+
+[data-theme="watson"] [data-slot="button"]:is([data-size="default"], [data-size="lg"]) {
+  height: 46px;
+  padding-inline: 32px;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+[data-theme="watson"] [data-slot="button"]:is([data-variant="default"], [data-variant="inverse"]) {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+[data-theme="watson"] [data-slot="button"][data-variant="outline"] {
+  background: transparent;
+  border: 2px solid var(--primary);
+  color: var(--watson-accent-text);
+}
+
+[data-theme="watson"] [data-slot="button"][data-variant="secondary"] {
+  background: var(--watson-surface-control);
+  color: var(--watson-on-control);
+}
+
+[data-theme="watson"] [data-slot="button"][data-variant="link"] {
+  height: auto;
+  padding: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--watson-accent-text);
+  text-decoration: underline;
+  text-decoration-color: var(--primary);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+[data-theme="watson"]
+  [data-slot="button"]:is([data-variant="default"], [data-variant="inverse"]):is(
+    :active,
+    [aria-expanded="true"]
+  ),
+[data-theme="watson"]
+  [data-slot="button"][data-variant="outline"]:is(:active, [aria-expanded="true"]) {
+  background: var(--primary-accent);
+  border-color: var(--primary-accent);
+  color: var(--primary-foreground);
+  opacity: 1;
+}
+
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  [data-theme="watson"]
+    [data-slot="button"]:is(
+      [data-variant="default"],
+      [data-variant="inverse"],
+      [data-variant="outline"]
+    ):hover {
+    background: var(--primary-accent);
+    border-color: var(--primary-accent);
+    color: var(--primary-foreground);
+    opacity: 1;
+  }
+
+  [data-theme="watson"] [data-slot="button"][data-variant="ghost"]:hover {
+    background: var(--watson-surface-active);
+  }
+
+  [data-theme="watson"] :is([data-slot="breadcrumb-link"], [data-slot="pagination-link"]):hover {
+    color: var(--watson-accent-text);
+  }
+
+  [data-theme="watson"] [data-slot="button"][data-variant="link"]:hover {
+    color: var(--primary-accent);
+    text-decoration-color: var(--primary-accent);
+  }
+}
+
+/* Badge as watson tag: graphite, radius 4, ExtraBold 12 capitals */
+[data-theme="watson"] [data-slot="badge"] {
+  border-radius: 4px;
+  font-weight: 800;
+  font-size: 12px;
+  line-height: 13px;
+  letter-spacing: -0.2px;
+  text-transform: uppercase;
+  padding: 6px 8px;
+}
+
+[data-theme="watson"] [data-slot="badge"][data-variant="default"] {
+  background: var(--watson-surface-control);
+  color: var(--watson-on-control);
+}
+
+[data-theme="watson"] [data-slot="badge"][data-variant="secondary"] {
+  background: #000;
+  color: #fff;
+}
+
+/* Fields: 50px, surface fill, radius 4; focus darkens the fill; error = 3px red bar */
+[data-theme="watson"]
+  :is(
+    [data-slot="input"],
+    [data-slot="textarea"],
+    [data-slot="select-trigger"],
+    [data-slot="native-select"],
+    [data-slot="input-group"],
+    [data-slot="input-otp-slot"]
+  ) {
+  border-radius: 4px;
+  background: var(--watson-surface);
+  border-color: transparent;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+[data-theme="watson"]
+  :is(
+    [data-slot="input"],
+    [data-slot="select-trigger"],
+    [data-slot="native-select"],
+    [data-slot="input-group"]
+  ) {
+  min-height: 50px;
+  padding-inline: 16px;
+}
+
+[data-theme="watson"] [data-slot="input-group"] [data-slot="input-group-control"] {
+  background: transparent;
+  min-height: 0;
+}
+
+[data-theme="watson"] [data-slot="textarea"] {
+  min-height: 250px;
+  padding: 16px;
+}
+
+[data-theme="watson"]
+  :is(
+    [data-slot="input"],
+    [data-slot="textarea"],
+    [data-slot="select-trigger"],
+    [data-slot="native-select"],
+    [data-slot="input-group"]
+  ):is(:focus, :focus-within, [data-state="open"]) {
+  background: var(--watson-surface-active);
+}
+
+[data-theme="watson"]
+  :is(
+    [data-slot="input"],
+    [data-slot="textarea"],
+    [data-slot="select-trigger"],
+    [data-slot="native-select"]
+  )::placeholder {
+  color: var(--watson-text-placeholder);
+}
+
+[data-theme="watson"]
+  :is(
+    [data-slot="input"],
+    [data-slot="textarea"],
+    [data-slot="select-trigger"],
+    [data-slot="native-select"],
+    [data-slot="input-group"]
+  )[aria-invalid="true"] {
+  border-color: transparent;
+  border-left: 3px solid var(--error);
+}
+
+[data-theme="watson"] :is([data-slot="label"], [data-slot="field-label"]) {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  color: var(--watson-text-label);
+}
+
+[data-theme="watson"] [data-slot="field-error"] {
+  color: var(--foreground);
+  font-weight: 600;
+}
+
+/* Fields on a surface (card, accordion, popover) use the page ground so they stay visible */
+[data-theme="watson"]
+  :is([data-slot="card"], [data-slot="accordion-item"], [data-slot="popover-content"])
+  :is(
+    [data-slot="input"],
+    [data-slot="textarea"],
+    [data-slot="select-trigger"],
+    [data-slot="native-select"],
+    [data-slot="input-group"]
+  ) {
+  background: var(--background);
+}
+
+/* Checkbox, radio, switch: control borders need 3:1, so grey 80 / grey 100 instead of the divider */
+[data-theme="watson"]
+  :is(
+    [data-slot="checkbox"]:not([data-state="checked"], [data-state="indeterminate"]),
+    [data-slot="radio-group-item"]:not([data-state="checked"])
+  )
+  [class*="border-input"] {
+  border-color: var(--watson-text-placeholder);
+}
+
+[data-theme="watson"] [data-slot="switch"] {
+  filter: none;
+}
+
+[data-theme="watson"] [data-slot="switch"][data-state="unchecked"] {
+  background: var(--watson-surface-control);
+}
+
+[data-theme="watson"] [data-slot="switch-thumb"] {
+  background: var(--watson-on-control);
+}
+
+/* Tabs: 32px bar, 1px divider baseline, 56x3 pink indicator, inactive 70% */
+[data-theme="watson"] [data-slot="tabs"][data-orientation="horizontal"] [data-slot="tabs-list"] {
+  background: transparent;
+  border-radius: 0;
+  padding: 0;
+  height: 32px;
+  gap: 24px;
+  border-bottom: 1px solid var(--watson-divider);
+}
+
+[data-theme="watson"] [data-slot="tabs"][data-orientation="horizontal"] [data-slot="tabs-trigger"] {
+  flex: none;
+  position: relative;
+  border-radius: 0;
+  border-color: transparent;
+  padding: 0 2px 6px;
+  background: transparent !important;
+  --tw-ring-shadow: 0 0 #0000;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--foreground);
+  opacity: 0.7;
+}
+
+[data-theme="watson"]
+  [data-slot="tabs"][data-orientation="horizontal"]
+  [data-slot="tabs-trigger"][data-state="active"] {
+  opacity: 1;
+  font-weight: 700;
+}
+
+[data-theme="watson"]
+  [data-slot="tabs"][data-orientation="horizontal"]
+  [data-slot="tabs-trigger"][data-state="active"]::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 56px;
+  max-width: 100%;
+  height: 3px;
+  transform: translateX(-50%);
+  background: var(--primary);
+}
+
+[data-theme="watson"]
+  [data-slot="tabs"][data-orientation="horizontal"]
+  [data-slot="tabs-indicator"] {
+  display: none;
+}
+
+/* Card: surface, radius 10, no ring or shadow */
+[data-theme="watson"] [data-slot="card"] {
+  background: var(--watson-surface);
+  --tw-ring-shadow: 0 0 #0000;
+}
+
+[data-theme="watson"] [data-slot="card-footer"] {
+  background: transparent;
+  border-top-color: var(--watson-divider);
+}
+
+/* Dialogs: black overlay 80%, panel on page ground, radius 10, no shadow */
+[data-theme="watson"]
+  :is(
+    [data-slot="dialog-overlay"],
+    [data-slot="sheet-overlay"],
+    [data-slot="drawer-overlay"],
+    [data-slot="alert-dialog-overlay"],
+    [data-slot="alert-dialog-content"]
+  ) {
+  background: var(--watson-overlay);
+  backdrop-filter: none;
+}
+
+[data-theme="watson"]
+  :is(
+    [data-slot="dialog-content"],
+    [data-slot="alert-dialog-panel"],
+    [data-slot="sheet-content"],
+    [data-slot="drawer-content"]
+  ) {
+  background: var(--background);
+  border-radius: 10px;
+  border-color: transparent;
+}
+
+/* Menus: surface, radius 10, rows 32px with 16px padding, divider-menu between */
+[data-theme="watson"]
+  :is(
+    [data-slot="dropdown-content"],
+    [data-slot="popover-content"],
+    [data-slot="select-content"],
+    [data-slot="menubar-content"],
+    [data-slot="hover-card-content"],
+    [data-slot="command"]
+  ) {
+  background: var(--watson-surface);
+  border-radius: 10px;
+  border-color: transparent;
+}
+
+[data-theme="watson"]
+  :is(
+    [data-slot="dropdown-item"],
+    [data-slot="select-item"],
+    [data-slot="menubar-item"],
+    [data-slot="command-item"]
+  ) {
+  min-height: 32px;
+  padding-inline: 16px;
+  border-radius: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+[data-theme="watson"]
+  :is(
+    [data-slot="dropdown-item"],
+    [data-slot="select-item"],
+    [data-slot="menubar-item"],
+    [data-slot="command-item"]
+  )
+  + :is(
+    [data-slot="dropdown-item"],
+    [data-slot="select-item"],
+    [data-slot="menubar-item"],
+    [data-slot="command-item"]
+  ) {
+  border-top: 1px solid var(--watson-divider-menu);
+}
+
+[data-theme="watson"]
+  :is(
+    [data-slot="dropdown-item"],
+    [data-slot="select-item"],
+    [data-slot="menubar-item"],
+    [data-slot="command-item"]
+  ):is([data-highlighted], [aria-selected="true"], :focus-visible) {
+  background: var(--watson-surface-active);
+  color: var(--foreground);
+}
+
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  [data-theme="watson"]
+    :is(
+      [data-slot="dropdown-item"],
+      [data-slot="select-item"],
+      [data-slot="menubar-item"],
+      [data-slot="command-item"]
+    ):hover {
+    background: var(--watson-surface-active);
+    color: var(--foreground);
+  }
+}
+
+/* Accordion: surface fill, header 84px+, Onest Black 16, body Nunito Medium 16 */
+[data-theme="watson"] [data-slot="accordion-item"] {
+  background: var(--watson-surface);
+}
+
+[data-theme="watson"] [data-slot="accordion-trigger"] {
+  min-height: 84px;
+  padding-inline: 16px;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 16px;
+  line-height: 23px;
+}
+
+[data-theme="watson"] [data-slot="accordion-content"] {
+  padding-inline: 16px;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+}
+
+/* Tables and list rows: 1px divider */
+[data-theme="watson"] :is([data-slot="table-row"], [data-slot="separator"]) {
+  border-color: var(--watson-divider);
 }

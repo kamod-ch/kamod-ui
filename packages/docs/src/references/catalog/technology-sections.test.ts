@@ -95,6 +95,8 @@ it("accounts for every direct external technology dependency in the workspace ma
     "@axe-core/playwright": "axe-core",
     "@biomejs/biome": "Biome",
     "@blobatar/preact": "Blobatar",
+    "@fontsource-variable/nunito-sans": "CSS",
+    "@fontsource-variable/onest": "CSS",
     "@formisch/preact": "Formisch",
     "@openuidev/react-lang": "OpenUI",
     "@playwright/test": "Playwright",

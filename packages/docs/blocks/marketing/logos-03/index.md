@@ -1,5 +1,5 @@
 ---
-title: "logos-03"
+title: "Logos 3"
 description: "Three alternating marquee rows with reduced-motion and pause-on-focus behavior."
 pageKind: blocks-detail
 blockCategory: marketing

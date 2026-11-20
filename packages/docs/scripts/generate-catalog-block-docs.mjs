@@ -2,6 +2,7 @@
 import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { humanizeRouteId } from "./seo-titles.mjs";
 
 const docsPkg = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const blocksPkg = resolve(docsPkg, "../blocks");
@@ -33,7 +34,7 @@ for (const { key, metadata, export: exportName } of categories) {
     mkdirSync(dir, { recursive: true });
     const path = resolve(dir, "index.md");
     const body = `---
-title: "${block.id}"
+title: ${JSON.stringify(humanizeRouteId(block.id))}
 description: "${block.description.replace(/"/g, '\\"')}"
 pageKind: blocks-detail
 blockCategory: ${key}

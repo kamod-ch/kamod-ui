@@ -1,9 +1,9 @@
 ---
-title: "switch"
-description: "switch"
+title: "Switch"
+description: "A compact control for on/off settings."
 pageKind: component-doc
 slug: "switch"
-section: installation
+section: "installation"
 sidebar: false
 outline: false
 ---

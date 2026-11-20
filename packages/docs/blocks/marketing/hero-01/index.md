@@ -1,5 +1,5 @@
 ---
-title: "hero-01"
+title: "Hero 1"
 description: "Two-column hero with KPI cards and an onboarding queue collage."
 pageKind: blocks-detail
 blockCategory: marketing

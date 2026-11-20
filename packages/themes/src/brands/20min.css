@@ -1,0 +1,349 @@
+/**
+ * 20 Minuten preset for Kamod UI (Tailwind v4 @theme + preset + component skin).
+ * Values read from www.20min.ch on 2026-11-20 (light and dark site themes):
+ * electric blue actions, cyan in dark mode, navy accents, neutral greys,
+ * 4px buttons, 8px cards and images, no shadows.
+ * Font: 20min uses Matter (commercial licence, not bundled). With a licence, load it
+ * under the family name "Matter"; otherwise the stack falls back to system fonts.
+ */
+
+@theme {
+  --color-20min-electricity: #2659ff;
+  --color-20min-cyan: #00d5ff;
+  --color-20min-cyan-ui: #00d0ff;
+  --color-20min-malibu: #79b7ff;
+  --color-20min-accent: #0d2880;
+  --color-20min-regal: #2e4487;
+  --color-20min-night: #07184d;
+  --color-20min-deep: #030c28;
+  --color-20min-alice: #edf4ff;
+  --color-20min-lavender: #dce4ff;
+  --color-20min-solitude: #dfe6f0;
+  --color-20min-catskill: #f5f7fa;
+  --color-20min-purple: #c929ff;
+  --color-20min-violet: #9630ff;
+  --color-20min-green: #51c057;
+  --color-20min-orange: #ef7b12;
+  --color-20min-red: #ca0016;
+  --color-20min-red-bright: #f92519;
+
+  --color-20min-ink: #1a1a1a;
+  --color-20min-grey-700: #4c4c4c;
+  --color-20min-grey-500: #7a7a7a;
+  --color-20min-grey-400: #a3a3a3;
+  --color-20min-grey-300: #d5d5d5;
+  --color-20min-grey-200: #e8e8e8;
+  --color-20min-grey-100: #f1f1f1;
+  --color-20min-paper: #fffefc;
+
+  --color-20min-dark-bg: #232c32;
+  --color-20min-dark-surface: #1d242a;
+  --color-20min-dark-raised: #323d41;
+}
+
+/* ==========================================================================
+   Semantic roles → Kamod UI variables
+   ========================================================================== */
+:root[data-theme="20min"],
+[data-theme-scope][data-theme="20min"] {
+  --font-sans:
+    Matter, "Matter-Regular", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --default-font-family: var(--font-sans);
+  --font-primary: var(--font-sans);
+  --font-display: var(--font-sans);
+  --font-heading: var(--font-sans);
+  --font-mono:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+    monospace;
+  --font-mono-custom: var(--font-mono);
+
+  /* 8px base: radius-sm = 4px (buttons, fields, tags), radius-lg = 8px (cards, images) */
+  --radius: 8px;
+
+  --background: var(--color-white);
+  --foreground: var(--color-20min-ink);
+  --card: var(--color-white);
+  --card-foreground: var(--color-20min-ink);
+  --popover: var(--color-white);
+  --popover-foreground: var(--color-20min-ink);
+  --primary: var(--color-20min-electricity);
+  --primary-foreground: var(--color-white);
+  --primary-accent: var(--color-20min-accent);
+  --secondary: var(--color-20min-night);
+  --secondary-foreground: var(--color-white);
+  --secondary-accent: var(--color-20min-regal);
+  --muted: var(--color-20min-grey-100);
+  --muted-foreground: var(--color-20min-grey-700);
+  --accent: var(--color-20min-alice);
+  --accent-foreground: var(--color-20min-accent);
+  --info: var(--color-20min-cyan);
+  --info-foreground: var(--color-black);
+  --success: var(--color-20min-green);
+  --success-foreground: var(--color-black);
+  --warning: var(--color-20min-orange);
+  --warning-foreground: var(--color-black);
+  --error: var(--color-20min-red);
+  --error-foreground: var(--color-white);
+  --destructive: var(--color-20min-red);
+  --destructive-foreground: var(--color-white);
+  --border: var(--color-20min-grey-200);
+  --input: var(--color-20min-grey-300);
+  --ring: var(--color-20min-electricity);
+  --outline: var(--color-20min-electricity);
+
+  --sidebar-background: var(--color-20min-catskill);
+  --sidebar-foreground: var(--color-20min-ink);
+  --sidebar-primary: var(--color-20min-electricity);
+  --sidebar-primary-foreground: var(--color-white);
+  --sidebar-accent: var(--color-20min-alice);
+  --sidebar-accent-foreground: var(--color-20min-accent);
+  --sidebar-border: var(--color-20min-grey-200);
+  --sidebar-outline: var(--color-20min-electricity);
+
+  --chart-1: var(--color-20min-electricity);
+  --chart-2: var(--color-20min-cyan);
+  --chart-3: var(--color-20min-purple);
+  --chart-4: var(--color-20min-orange);
+  --chart-5: var(--color-20min-green);
+}
+
+.dark[data-theme="20min"] {
+  --font-sans:
+    Matter, "Matter-Regular", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-mono:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+    monospace;
+
+  --background: var(--color-20min-dark-bg);
+  --foreground: var(--color-white);
+  --card: var(--color-20min-dark-surface);
+  --card-foreground: var(--color-white);
+  --popover: var(--color-20min-dark-raised);
+  --popover-foreground: var(--color-white);
+  /* The site switches its action colour to cyan with black text in dark mode */
+  --primary: var(--color-20min-cyan-ui);
+  --primary-foreground: var(--color-black);
+  --primary-accent: var(--color-20min-malibu);
+  --secondary: var(--color-20min-grey-100);
+  --secondary-foreground: var(--color-20min-ink);
+  --secondary-accent: var(--color-white);
+  --muted: var(--color-20min-dark-surface);
+  --muted-foreground: var(--color-20min-grey-400);
+  --accent: var(--color-20min-dark-raised);
+  --accent-foreground: var(--color-white);
+  --info: var(--color-20min-cyan);
+  --info-foreground: var(--color-black);
+  --success: var(--color-20min-green);
+  --success-foreground: var(--color-black);
+  --warning: var(--color-20min-orange);
+  --warning-foreground: var(--color-black);
+  --error: var(--color-20min-red-bright);
+  --error-foreground: var(--color-black);
+  --destructive: var(--color-20min-red-bright);
+  --destructive-foreground: var(--color-black);
+  --border: var(--color-20min-grey-700);
+  --input: var(--color-20min-grey-700);
+  --ring: var(--color-20min-cyan-ui);
+  --outline: var(--color-20min-cyan-ui);
+
+  --sidebar-background: var(--color-20min-dark-surface);
+  --sidebar-foreground: var(--color-white);
+  --sidebar-primary: var(--color-20min-cyan-ui);
+  --sidebar-primary-foreground: var(--color-black);
+  --sidebar-accent: var(--color-20min-dark-raised);
+  --sidebar-accent-foreground: var(--color-white);
+  --sidebar-border: var(--color-20min-grey-700);
+  --sidebar-outline: var(--color-20min-cyan-ui);
+
+  --chart-1: var(--color-20min-cyan-ui);
+  --chart-2: var(--color-20min-malibu);
+  --chart-3: var(--color-20min-purple);
+  --chart-4: var(--color-20min-orange);
+  --chart-5: var(--color-20min-green);
+}
+
+/* ==========================================================================
+   Component skin. Kamod structure stays; 20min look via data-slot.
+   Unlayered on purpose so it wins over component utilities.
+   ========================================================================== */
+
+[data-theme="20min"],
+[data-theme="20min"] body {
+  font-family: var(--font-sans);
+}
+
+/* No shadows on 20min.ch */
+[data-theme="20min"] * {
+  --tw-shadow: 0 0 #0000 !important;
+  --tw-inset-shadow: 0 0 #0000 !important;
+  --tw-drop-shadow: none !important;
+}
+
+/* Titles: Matter Bold (600) */
+[data-theme="20min"]
+  :is(
+    h1,
+    h2,
+    h3,
+    h4,
+    [data-slot="card-title"],
+    [data-slot="dialog-title"],
+    [data-slot="alert-dialog-title"],
+    [data-slot="sheet-title"],
+    [data-slot="drawer-title"]
+  ) {
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+/* Button: radius 4, Matter Medium 16, 40px, 16px side padding */
+[data-theme="20min"] [data-slot="button"] {
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+[data-theme="20min"] [data-slot="button"]:is([data-size="default"], [data-size="lg"]) {
+  height: 40px;
+  padding-inline: 16px;
+  font-size: 16px;
+  line-height: 16px;
+}
+
+[data-theme="20min"] [data-slot="button"]:is([data-variant="default"], [data-variant="inverse"]) {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+/* Outline: 1px border at 40% of the action colour, label in the action colour */
+[data-theme="20min"] [data-slot="button"][data-variant="outline"] {
+  background: transparent;
+  border: 1px solid color-mix(in srgb, var(--primary) 40%, transparent);
+  color: var(--primary);
+}
+
+[data-theme="20min"] [data-slot="button"][data-variant="secondary"] {
+  background: var(--secondary);
+  color: var(--secondary-foreground);
+}
+
+[data-theme="20min"] [data-slot="button"][data-variant="link"] {
+  height: auto;
+  padding: 0;
+  color: var(--primary);
+}
+
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  [data-theme="20min"]
+    [data-slot="button"]:is([data-variant="default"], [data-variant="inverse"]):hover {
+    background: var(--primary-accent);
+    opacity: 1;
+  }
+
+  [data-theme="20min"] [data-slot="button"][data-variant="outline"]:hover {
+    border-color: var(--primary);
+    background: transparent;
+    color: var(--primary);
+  }
+
+  [data-theme="20min"] [data-slot="button"][data-variant="secondary"]:hover {
+    background: var(--secondary-accent);
+  }
+
+  [data-theme="20min"] [data-slot="button"][data-variant="link"]:hover {
+    color: var(--primary-accent);
+  }
+}
+
+/* Badge: small label, radius 4 */
+[data-theme="20min"] [data-slot="badge"] {
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 2px 6px;
+}
+
+/* Fields: radius 4 */
+[data-theme="20min"]
+  :is(
+    [data-slot="input"],
+    [data-slot="textarea"],
+    [data-slot="select-trigger"],
+    [data-slot="native-select"],
+    [data-slot="input-group"],
+    [data-slot="input-otp-slot"]
+  ) {
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+/* Tabs: section navigation, 44px items, 1px baseline, active blue with a 3px bar */
+[data-theme="20min"] [data-slot="tabs"][data-orientation="horizontal"] [data-slot="tabs-list"] {
+  background: transparent;
+  border-radius: 0;
+  padding: 0;
+  height: 44px;
+  gap: 0;
+  border-width: 0 0 1px;
+  border-style: solid;
+  border-color: var(--border);
+}
+
+[data-theme="20min"] [data-slot="tabs"][data-orientation="horizontal"] [data-slot="tabs-trigger"] {
+  flex: none;
+  position: relative;
+  height: 44px;
+  border-radius: 0;
+  border-color: transparent;
+  padding: 0 12px;
+  background: transparent !important;
+  --tw-ring-shadow: 0 0 #0000;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--muted-foreground);
+}
+
+[data-theme="20min"]
+  [data-slot="tabs"][data-orientation="horizontal"]
+  [data-slot="tabs-trigger"][data-state="active"] {
+  color: var(--primary);
+  font-weight: 500;
+}
+
+[data-theme="20min"]
+  [data-slot="tabs"][data-orientation="horizontal"]
+  [data-slot="tabs-trigger"][data-state="active"]::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: -1px;
+  height: 3px;
+  background: var(--primary);
+}
+
+[data-theme="20min"]
+  [data-slot="tabs"][data-orientation="horizontal"]
+  [data-slot="tabs-indicator"] {
+  display: none;
+}
+
+/* Segmented choice (Meistgelesen / Neueste): active item filled with the action colour */
+[data-theme="20min"] [data-slot="toggle-group-item"][data-state="on"] {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  border-color: var(--primary);
+  font-weight: 600;
+}
+
+/* Cards and teaser images: radius 8, no ring */
+[data-theme="20min"] [data-slot="card"] {
+  border-radius: 8px;
+  --tw-ring-shadow: 0 0 #0000;
+  border: 1px solid var(--border);
+}
+
+[data-theme="20min"] :is([data-slot="image"], [data-slot="aspect-ratio"]) {
+  border-radius: 8px;
+  overflow: hidden;
+}

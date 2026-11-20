@@ -1,5 +1,5 @@
 ---
-title: "cta-01"
+title: "CTA 1"
 description: "Centered call-to-action with primary and secondary actions."
 pageKind: blocks-detail
 blockCategory: marketing

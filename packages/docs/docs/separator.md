@@ -1,9 +1,9 @@
 ---
-title: "separator"
-description: "separator"
+title: "Separator"
+description: "Separator trennt Inhalte visuell oder semantisch in modernen Layouts."
 pageKind: component-doc
 slug: "separator"
-section: installation
+section: "installation"
 sidebar: false
 outline: false
 ---

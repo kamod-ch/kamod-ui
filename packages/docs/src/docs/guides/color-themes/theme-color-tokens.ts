@@ -1,4 +1,4 @@
-import type { ThemePresetId } from "@kamod-ch/themes";
+import { THEME_PRESETS, type ThemePresetId } from "@kamod-ch/themes";
 import foundation from "../../../../../themes/src/tokens.css?raw";
 
 type Scheme = "light" | "dark";
@@ -336,6 +336,9 @@ export const semanticColorNames = Object.keys(foundationLight).filter((name) => 
 
 const title = (name: string) => name.replace(/^color-/, "").replace(/[_-]/g, " ");
 
+const presetLabel = (preset: ThemePresetId) =>
+  THEME_PRESETS.find(({ id }) => id === preset)?.label ?? preset;
+
 /** Declarations come from shipped CSS, including its real cascade and inherited roles. */
 export function themeColorTokens(preset: ThemePresetId): ThemeColorToken[] {
   const file = `brands/${preset}.css`;
@@ -370,8 +373,7 @@ export function themeColorTokens(preset: ThemePresetId): ThemeColorToken[] {
       name,
       label: title(name),
       group: "extended",
-      description:
-        "An optional source color from Watson's extended palette. It is the same in light and dark mode. Prefer semantic roles for reusable components; choose this named shade only when your design needs its specific hue.",
+      description: `An optional source color from ${presetLabel(preset)}'s extended palette. It is the same in light and dark mode. Prefer semantic roles for reusable components; choose this named shade only when your design needs its specific hue.`,
       pair: undefined,
       light: { declaration: value, source: file },
       dark: { declaration: value, source: file },
@@ -386,16 +388,18 @@ export function themeColorTokens(preset: ThemePresetId): ThemeColorToken[] {
       !/^(?:#|rgba?\(|hsla?\(|oklch\(|color-mix\(|var\(--color-)/.test(value)
     )
       continue;
-    const purpose = name.startsWith("cursor-surface-")
-      ? "An extra surface level for Cursor Warm previews. The numbered scale changes with the appearance; use a semantic card or background role for ordinary reusable component surfaces."
-      : name.startsWith("cursor-ai-")
-        ? `A Cursor Warm preview color for the ${name.slice("cursor-ai-".length)} activity. Keep its activity label alongside the tint; these optional shades do not replace semantic feedback states.`
-        : name.startsWith("cursor-text-")
-          ? "An additional low-emphasis text color from Cursor Warm's preview palette. It includes transparency, so check the final reading contrast on the actual surface at the intended font size."
-          : "An additional boundary color from Cursor Warm's preview palette. Its alpha blends with the actual background; use the semantic border role unless this stronger preview treatment is intentional.";
+    const purpose = name.startsWith("watson-")
+      ? "A watson role used by the preset's component skin, such as field surfaces, dividers, label text or the focus ring. It changes with the appearance; reusable components should keep using the semantic roles."
+      : name.startsWith("cursor-surface-")
+        ? "An extra surface level for Cursor Warm previews. The numbered scale changes with the appearance; use a semantic card or background role for ordinary reusable component surfaces."
+        : name.startsWith("cursor-ai-")
+          ? `A Cursor Warm preview color for the ${name.slice("cursor-ai-".length)} activity. Keep its activity label alongside the tint; these optional shades do not replace semantic feedback states.`
+          : name.startsWith("cursor-text-")
+            ? "An additional low-emphasis text color from Cursor Warm's preview palette. It includes transparency, so check the final reading contrast on the actual surface at the intended font size."
+            : "An additional boundary color from Cursor Warm's preview palette. Its alpha blends with the actual background; use the semantic border role unless this stronger preview treatment is intentional.";
     tokens.push({
       name,
-      label: title(name).replace(/^cursor /, ""),
+      label: title(name).replace(/^(?:cursor|watson) /, ""),
       group: "extended",
       description: purpose,
       light: declaration(name, "light"),

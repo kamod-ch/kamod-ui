@@ -1,5 +1,5 @@
 ---
-title: "saved-cards-list"
+title: "Saved Cards List"
 description: "Masked, tokenized card summaries only. Controlled add/remove/setDefault with a confirm dialog and empty state."
 pageKind: blocks-detail
 blockCategory: commerce

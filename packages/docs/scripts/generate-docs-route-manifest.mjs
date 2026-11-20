@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import ts from "@typescript/typescript6";
 import { ROUTE_SKIP_SLUGS } from "./docs-hidden-slugs.mjs";
 import { removeStaleComponentRoutes } from "./docs-route-cleanup.mjs";
+import { clipPlainText, humanizeRouteId } from "./seo-titles.mjs";
 import { writeFormattedIfChanged, writeIfChanged } from "./write-generated.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -16,6 +17,7 @@ const llmsPublic = path.resolve(__dirname, "../public/llms.txt");
 
 const files = (await fs.readdir(pagesDir)).filter((file) => file.endsWith("-doc.tsx"));
 const manifest = [];
+const docSeo = new Map();
 const navigation = [];
 const navigationFile = path.resolve(__dirname, "../src/docs/generated-navigation.ts");
 
@@ -78,6 +80,67 @@ const countVariants = (source, file) => {
   return counts ?? {};
 };
 
+const literalProp = (ast, node, name) => {
+  if (!ts.isObjectLiteralExpression(node)) return;
+  for (const prop of node.properties) {
+    if (!ts.isPropertyAssignment(prop) || prop.name.getText(ast) !== name) continue;
+    const { initializer } = prop;
+    if (ts.isStringLiteral(initializer) || ts.isNoSubstitutionTemplateLiteral(initializer)) {
+      return initializer.text;
+    }
+  }
+  return undefined;
+};
+
+/** Page title, summary, and section copy from the doc object — not ids inside examples. */
+const readDocSeo = (source, file) => {
+  const ast = ts.createSourceFile(file, source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
+  let page;
+  const sections = new Map();
+  const visit = (node) => {
+    if (ts.isObjectLiteralExpression(node)) {
+      const slug = literalProp(ast, node, "slug");
+      const title = literalProp(ast, node, "title");
+      const usageLabel = literalProp(ast, node, "usageLabel");
+      if (slug && title && (usageLabel || literalProp(ast, node, "command"))) {
+        page = {
+          slug,
+          title: literalProp(ast, node, "headline") || title,
+          usageLabel: usageLabel || literalProp(ast, node, "lead"),
+        };
+      }
+      const id = literalProp(ast, node, "id");
+      const text = literalProp(ast, node, "text");
+      if (id && title && text) sections.set(id, { title, text });
+    }
+    ts.forEachChild(node, visit);
+  };
+  visit(ast);
+  return { page, sections };
+};
+
+/** Match oxfmt: a value that contains `"` is written as a single-quoted YAML string. */
+const yamlString = (value) => {
+  if (!value.includes("\n") && value.includes('"')) return `'${value.replaceAll("'", "''")}'`;
+  return JSON.stringify(value);
+};
+
+const componentFrontmatter = ({ title, description, slug, section, indexable }) => `---
+title: ${yamlString(title)}
+description: ${yamlString(description)}
+pageKind: component-doc
+slug: ${JSON.stringify(slug)}
+section: ${JSON.stringify(section)}
+sidebar: false
+outline: false
+${
+  indexable
+    ? ""
+    : `head:
+  - ["meta", { "name": "robots", "content": "noindex, follow" }]
+`
+}---`;
+
 for (const file of files) {
   const source = await fs.readFile(path.join(pagesDir, file), "utf8");
   const slugMatch = source.match(/slug:\s*"([^"]+)"/);
@@ -111,7 +174,9 @@ for (const file of files) {
     sections.push(id);
   }
 
-  manifest.push({ slug: slugMatch[1], sections });
+  const slug = slugMatch[1];
+  docSeo.set(slug, readDocSeo(source, file));
+  manifest.push({ slug, sections });
 }
 
 manifest.sort((a, b) => a.slug.localeCompare(b.slug));
@@ -166,31 +231,38 @@ outline: false
 );
 
 for (const doc of manifest) {
+  const seo = docSeo.get(doc.slug);
+  const pageTitle = seo?.page?.title ?? humanizeRouteId(doc.slug);
+  const summary =
+    (seo?.page?.usageLabel && clipPlainText(seo.page.usageLabel)) ||
+    (pageTitle.includes(" ") ? clipPlainText(pageTitle) : "") ||
+    `${pageTitle} for Preact and Tailwind CSS, from Kamod UI.`;
   await writePage(
     path.join(docsDir, `${doc.slug}.md`),
-    `---
-title: "${doc.slug}"
-description: "${doc.slug}"
-pageKind: component-doc
-slug: "${doc.slug}"
-section: installation
-sidebar: false
-outline: false
----`,
+    componentFrontmatter({
+      title: pageTitle,
+      description: summary,
+      slug: doc.slug,
+      section: "installation",
+      indexable: true,
+    }),
   );
 
   for (const section of doc.sections) {
+    const copy = seo?.sections.get(section);
+    const sectionTitle = copy?.title ?? humanizeRouteId(section);
+    const description =
+      (copy?.text && clipPlainText(copy.text)) ||
+      `${sectionTitle} for ${pageTitle}. Part of the Kamod UI docs.`;
     await writePage(
       path.join(docsDir, doc.slug, `${section}.md`),
-      `---
-title: "${doc.slug}"
-description: "${doc.slug} / ${section}"
-pageKind: component-doc
-slug: "${doc.slug}"
-section: "${section}"
-sidebar: false
-outline: false
----`,
+      componentFrontmatter({
+        title: `${pageTitle} — ${sectionTitle}`,
+        description,
+        slug: doc.slug,
+        section,
+        indexable: false,
+      }),
     );
   }
 }
@@ -250,3 +322,27 @@ const nextSection = `## Components\n\n${[...componentLines, ...preserved].filter
 const nextLlms = llmsText.replace(/## Components\n\n[\s\S]*?\n## /, nextSection);
 await writeIfChanged(llmsSource, nextLlms);
 await writeIfChanged(llmsPublic, nextLlms);
+
+const blocksDir = path.resolve(__dirname, "../blocks");
+
+/** Detail pages keep their prose; only slug titles become readable document titles. */
+const humanizeBlockDetailTitles = async (dir) => {
+  const entries = await fs.readdir(dir, { withFileTypes: true });
+  for (const entry of entries) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      await humanizeBlockDetailTitles(full);
+      continue;
+    }
+    if (entry.name !== "index.md") continue;
+    const source = await fs.readFile(full, "utf8");
+    if (!/^pageKind: \S*detail\s*$/m.test(source)) continue;
+    const next = source.replace(
+      /^(title:\s*)"([a-z0-9]+(?:-[a-z0-9]+)*)"\s*$/m,
+      (_match, prefix, id) => `${prefix}${JSON.stringify(humanizeRouteId(id))}`,
+    );
+    await writeIfChanged(full, next);
+  }
+};
+
+await humanizeBlockDetailTitles(blocksDir);

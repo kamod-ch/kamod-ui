@@ -1,5 +1,5 @@
 ---
-title: "inbox"
+title: "Inbox"
 description: "Communication block inbox"
 pageKind: blocks-detail
 blockCategory: communication

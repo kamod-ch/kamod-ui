@@ -1,5 +1,5 @@
 ---
-title: "chat-two-pane"
+title: "Chat Two Pane"
 description: "Communication block chat-two-pane"
 pageKind: blocks-detail
 blockCategory: communication

@@ -49,7 +49,9 @@
     "./brands/cursor-warm.css": "./dist/brands/cursor-warm.css",
     "./brands/voltage.css": "./dist/brands/voltage.css",
     "./brands/watson.css": "./dist/brands/watson.css",
-    "./brands/professional.css": "./dist/brands/professional.css"
+    "./brands/watson-fonts.css": "./dist/brands/watson-fonts.css",
+    "./brands/professional.css": "./dist/brands/professional.css",
+    "./brands/20min.css": "./dist/brands/20min.css"
   },
   "publishConfig": {
     "access": "public"
@@ -65,19 +67,31 @@
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.5",
+    "@fontsource-variable/nunito-sans": "^5.3.0",
+    "@fontsource-variable/onest": "^5.3.1",
     "@preact/signals": "^2.11.4",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/preact": "^3.2.6",
     "@types/node": "^26.6.6",
-    "jsdom": "^30.1.3",
+    "jsdom": "^31.0.1",
     "publint": "^0.3.25",
-    "tailwindcss": "^4.3.3",
+    "tailwindcss": "^4.3.5",
     "tsup": "^9.0.0",
-    "vitest": "^5.0.5"
+    "vitest": "^5.1.0"
   },
   "peerDependencies": {
+    "@fontsource-variable/nunito-sans": "^5.3.0",
+    "@fontsource-variable/onest": "^5.3.1",
     "@preact/signals": "^2.11.4",
-    "preact": "^11.1.1"
+    "preact": "^11.2.0"
+  },
+  "peerDependenciesMeta": {
+    "@fontsource-variable/nunito-sans": {
+      "optional": true
+    },
+    "@fontsource-variable/onest": {
+      "optional": true
+    }
   },
   "engines": {
     "node": ">=20"

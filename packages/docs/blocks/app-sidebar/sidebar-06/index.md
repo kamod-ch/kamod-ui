@@ -1,5 +1,5 @@
 ---
-title: "sidebar-06"
+title: "Sidebar 6"
 description: "Colorful project tiles, controlled favorites, team status, and a Cmd/Ctrl+F search shortcut."
 pageKind: blocks-detail
 blockCategory: app-sidebar

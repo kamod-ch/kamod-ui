@@ -1,5 +1,5 @@
 ---
-title: "login-02"
+title: "Login 2"
 description: "Login block login-02"
 pageKind: blocks-auth-detail
 blockCategory: login

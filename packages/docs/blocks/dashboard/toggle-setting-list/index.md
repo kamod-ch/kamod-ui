@@ -1,5 +1,5 @@
 ---
-title: "toggle-setting-list"
+title: "Toggle Setting List"
 description: "Boolean settings with unique labels, descriptions, and a Record value contract."
 pageKind: blocks-detail
 blockCategory: dashboard

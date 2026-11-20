@@ -1,5 +1,5 @@
 ---
-title: "pricing-01"
+title: "Pricing 1"
 description: "Three-tier pricing with controlled or uncontrolled billing cycle and localizable labels."
 pageKind: blocks-detail
 blockCategory: marketing

@@ -1,5 +1,5 @@
 ---
-title: "auth-sign-up"
+title: "Auth Sign Up"
 description: "Registration card with password confirmation, terms gate, and OAuth."
 pageKind: blocks-detail
 blockCategory: auth

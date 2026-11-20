@@ -1,5 +1,5 @@
 ---
-title: "login-01"
+title: "Login 1"
 description: "Compact muted-background login card with SSO. Distinct from the existing Login01 block."
 pageKind: blocks-detail
 blockCategory: auth

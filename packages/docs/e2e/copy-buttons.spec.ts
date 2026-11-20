@@ -10,6 +10,7 @@ const themes = [
   "voltage",
   "watson",
   "professional",
+  "20min",
 ];
 
 for (const dark of [false, true]) {

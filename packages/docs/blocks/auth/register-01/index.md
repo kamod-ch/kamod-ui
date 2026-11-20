@@ -1,5 +1,5 @@
 ---
-title: "register-01"
+title: "Register 1"
 description: "Compact muted-background registration card with terms gate and SSO."
 pageKind: blocks-detail
 blockCategory: auth

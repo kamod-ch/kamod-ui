@@ -1,9 +1,11 @@
 ---
-title: "navigation-menu"
-description: "navigation-menu / api-reference"
+title: "Navigation Menu — API Reference"
+description: "API Reference for Navigation Menu. Part of the Kamod UI docs."
 pageKind: component-doc
 slug: "navigation-menu"
 section: "api-reference"
 sidebar: false
 outline: false
+head:
+  - ["meta", { "name": "robots", "content": "noindex, follow" }]
 ---

@@ -1,5 +1,5 @@
 ---
-title: "auth-mfa"
+title: "Auth MFA"
 description: "Authenticator OTP with configurable length, optional auto-submit, async verify, and a resend cooldown."
 pageKind: blocks-detail
 blockCategory: auth

@@ -1,5 +1,5 @@
 ---
-title: "testimonials-01"
+title: "Testimonials 1"
 description: "Manual testimonial slider with live status, keyboard controls, and reduced motion."
 pageKind: blocks-detail
 blockCategory: marketing

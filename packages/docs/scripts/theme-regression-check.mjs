@@ -11,8 +11,9 @@ const themeFiles = [
   "themes/sunset.css",
   "themes/cursor-warm.css",
   "themes/voltage.css",
-  "themes/watson.css",
+  "../../../themes/src/brands/watson.css",
   "themes/professional.css",
+  "../../../themes/src/brands/20min.css",
 ];
 
 const foundationCss =
@@ -29,6 +30,7 @@ const presetChecks = {
   voltage: "full",
   watson: "full",
   professional: "full",
+  "20min": "full",
 };
 
 const requiredColorTokens = [
@@ -45,7 +47,7 @@ const requiredFontTokens = ["--font-sans", "--font-mono"];
 
 const extractBlock = (selector) => {
   const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const match = foundationCss.match(new RegExp(`${escaped}\\s*\\{([\\s\\S]*?)\\n\\}`, "m"));
+  const match = foundationCss.match(new RegExp(`${escaped}[^{]*\\{([\\s\\S]*?)\\n\\}`, "m"));
   return match?.[1] ?? "";
 };
 

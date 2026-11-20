@@ -52,7 +52,7 @@ it("covers every shipped semantic color and every optional Watson source shade",
   );
   expect(
     themeColorTokens("watson")
-      .filter((token) => token.optional)
+      .filter((token) => token.optional && token.name.startsWith("color-"))
       .map((token) => token.name),
   ).toEqual(extra);
 });
