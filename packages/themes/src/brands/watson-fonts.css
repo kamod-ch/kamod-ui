@@ -1,0 +1,9 @@
+/**
+ * watson fonts: Nunito Sans (text) and Onest (titles), self-hosted via Fontsource.
+ * Optional: install the two packages, then import this file next to the theme:
+ *   pnpm add @fontsource-variable/nunito-sans @fontsource-variable/onest
+ *   @import "@kamod-ch/themes/brands/watson-fonts.css";
+ * Families: "Nunito Sans Variable", "Onest Variable" (used first in the watson preset).
+ */
+@import "@fontsource-variable/nunito-sans";
+@import "@fontsource-variable/onest";

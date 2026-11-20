@@ -1,5 +1,5 @@
 ---
-title: "auth-password-reset"
+title: "Auth Password Reset"
 description: "Request, sent, reset, and done stages for a password-reset flow."
 pageKind: blocks-detail
 blockCategory: auth

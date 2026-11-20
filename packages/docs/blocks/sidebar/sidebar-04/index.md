@@ -1,5 +1,5 @@
 ---
-title: "sidebar-04"
+title: "Sidebar 4"
 description: "Sidebar block sidebar-04"
 pageKind: blocks-sidebar-detail
 blockId: "sidebar-04"

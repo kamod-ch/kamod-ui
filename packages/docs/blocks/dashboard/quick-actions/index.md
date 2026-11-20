@@ -1,5 +1,5 @@
 ---
-title: "quick-actions"
+title: "Quick Actions"
 description: "Vertical shortcuts with router-neutral links, buttons, and disabled states."
 pageKind: blocks-detail
 blockCategory: dashboard

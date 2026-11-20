@@ -1,5 +1,5 @@
 ---
-title: "application-shell-01"
+title: "Application Shell 1"
 description: "A Preact application shell with a collapsible sidebar, nested navigation, breadcrumbs and a user dropdown."
 pageKind: blocks-application-shell-detail
 blockId: "application-shell-1"

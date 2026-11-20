@@ -1,5 +1,5 @@
 ---
-title: "chat-thread"
+title: "Chat Thread"
 description: "Communication block chat-thread"
 pageKind: blocks-detail
 blockCategory: communication

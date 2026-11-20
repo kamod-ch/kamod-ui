@@ -1,9 +1,9 @@
 ---
-title: "prose"
-description: "prose"
+title: "Prose"
+description: "Prose applies typographic defaults for rich text content."
 pageKind: component-doc
 slug: "prose"
-section: installation
+section: "installation"
 sidebar: false
 outline: false
 ---

@@ -1,5 +1,5 @@
 ---
-title: "logos-02"
+title: "Logos 2"
 description: "Single-row logo marquee that pauses on hover and focus and respects reduced motion."
 pageKind: blocks-detail
 blockCategory: marketing

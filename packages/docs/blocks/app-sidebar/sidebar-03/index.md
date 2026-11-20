@@ -1,5 +1,5 @@
 ---
-title: "sidebar-03"
+title: "Sidebar 3"
 description: "Docs sidebar with version switcher, search, and collapsible groups."
 pageKind: blocks-detail
 blockCategory: app-sidebar

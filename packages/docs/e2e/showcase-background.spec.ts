@@ -22,6 +22,7 @@ test("preview canvases share the page-owned pattern across routes and themes", a
         "voltage",
         "watson",
         "professional",
+        "20min",
       ]) {
         await page.evaluate(
           ({ scheme, preset }) => {

@@ -1,5 +1,5 @@
 ---
-title: "profile-menu"
+title: "Profile Menu"
 description: "Account dropdown with typed item keys. Logout is a callback, never executed internally."
 pageKind: blocks-detail
 blockCategory: dashboard

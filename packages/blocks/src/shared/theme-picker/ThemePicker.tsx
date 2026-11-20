@@ -29,8 +29,9 @@ const paletteSamples: Record<ThemePresetId, readonly [string, string, string, st
   ],
   "cursor-warm": ["#f54e00", "#ebeae5", "#cf2d56", "#f2f1ed"],
   voltage: ["#00a06c", "#818cf8", "#6366f1", "#e8e6e1"],
-  watson: ["#f40f97", "#00c6ff", "#4cd7ff", "color-mix(in srgb, #f40f97 11%, #ececec)"],
+  watson: ["#f40f97", "#524b5d", "#8e0456", "#ececec"],
   professional: ["#fece14", "#000000", "#1f2937", "#f3f4f6"],
+  "20min": ["#2659ff", "#07184d", "#00d5ff", "#f1f1f1"],
 };
 
 const paletteDescriptions: Record<ThemePresetId, string> = {
@@ -40,8 +41,9 @@ const paletteDescriptions: Record<ThemePresetId, string> = {
   sunset: "Rose and orange accents with warm surfaces: welcoming, bright and energetic.",
   "cursor-warm": "Cream neutrals, orange accents and soft Lato type: warm, relaxed and editorial.",
   voltage: "Emerald green and indigo accents with deep charcoal darks: sharp and technical.",
-  watson: "Vivid pink and cyan accents: bold, expressive and full of playful contrast.",
+  watson: "Vivid pink actions with graphite controls and Onest titles: bold and expressive.",
   professional: "Yellow and black accents with geometric Poppins type: confident and purposeful.",
+  "20min": "Electric blue actions, navy depth and cyan in the dark: fast, clear and newsy.",
 };
 
 export type ThemePickerProps = {

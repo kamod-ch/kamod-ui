@@ -1,9 +1,9 @@
 ---
-title: "skeleton"
-description: "skeleton"
+title: "Skeleton"
+description: "Skeleton placeholders indicate loading content structure."
 pageKind: component-doc
 slug: "skeleton"
-section: installation
+section: "installation"
 sidebar: false
 outline: false
 ---

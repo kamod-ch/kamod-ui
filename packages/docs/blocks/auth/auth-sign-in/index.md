@@ -1,5 +1,5 @@
 ---
-title: "auth-sign-in"
+title: "Auth Sign In"
 description: "Full-page sign-in with remember-me, OAuth buttons, and forgot/signup links."
 pageKind: blocks-detail
 blockCategory: auth

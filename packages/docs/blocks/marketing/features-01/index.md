@@ -1,5 +1,5 @@
 ---
-title: "features-01"
+title: "Features 1"
 description: "Six feature cards with Kamod Icons and semantic tokens."
 pageKind: blocks-detail
 blockCategory: marketing

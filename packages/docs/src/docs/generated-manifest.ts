@@ -1133,6 +1133,7 @@ export const docsRouteManifest = [
       "color-theme-voltage",
       "color-theme-watson",
       "color-theme-professional",
+      "color-theme-20min",
       "prism-color-themes",
       "prism-theme-default",
       "prism-theme-coy",

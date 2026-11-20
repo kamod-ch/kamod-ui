@@ -1,9 +1,11 @@
 ---
-title: "input-group"
-description: "input-group / api-reference"
+title: "Input Group — API Reference"
+description: "API Reference for Input Group. Part of the Kamod UI docs."
 pageKind: component-doc
 slug: "input-group"
 section: "api-reference"
 sidebar: false
 outline: false
+head:
+  - ["meta", { "name": "robots", "content": "noindex, follow" }]
 ---

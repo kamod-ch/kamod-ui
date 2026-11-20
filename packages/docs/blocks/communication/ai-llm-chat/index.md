@@ -1,5 +1,5 @@
 ---
-title: "ai-llm-chat"
+title: "AI LLM Chat"
 description: "Communication block ai-llm-chat"
 pageKind: blocks-detail
 blockCategory: communication

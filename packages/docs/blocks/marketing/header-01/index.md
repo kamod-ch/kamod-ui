@@ -1,5 +1,5 @@
 ---
-title: "header-01"
+title: "Header 1"
 description: "Sticky header with desktop navigation and an accessible mobile sheet."
 pageKind: blocks-detail
 blockCategory: marketing

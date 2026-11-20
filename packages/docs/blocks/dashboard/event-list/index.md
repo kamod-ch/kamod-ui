@@ -1,5 +1,5 @@
 ---
-title: "event-list"
+title: "Event List"
 description: "Compact upcoming events with status badges and locale-aware times."
 pageKind: blocks-detail
 blockCategory: dashboard

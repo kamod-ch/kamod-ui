@@ -41,7 +41,7 @@ export const themingDocPage: DocPageModule = {
     {
       id: "color-theme-presets",
       title: "Color Theme Presets",
-      text: "Explore eight application palettes through complete color references and local playgrounds, then compare 24 source-backed Prism syntax themes with scoped reader recipes.",
+      text: "Explore nine application palettes through complete color references and local playgrounds, then compare 24 source-backed Prism syntax themes with scoped reader recipes.",
       children: [
         { id: "color-theme-kamod", label: "Kamod" },
         { id: "color-theme-shadcn", label: "shadcn (Geist)" },
@@ -51,6 +51,7 @@ export const themingDocPage: DocPageModule = {
         { id: "color-theme-voltage", label: "Voltage" },
         { id: "color-theme-watson", label: "Watson" },
         { id: "color-theme-professional", label: "Professional (Electronics)" },
+        { id: "color-theme-20min", label: "20 Minuten" },
         {
           id: "prism-color-themes",
           label: "Prism syntax themes",

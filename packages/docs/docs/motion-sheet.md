@@ -1,9 +1,9 @@
 ---
-title: "motion-sheet"
-description: "motion-sheet"
+title: "Motion Sheet"
+description: "Animated sheet panel and overlay."
 pageKind: component-doc
 slug: "motion-sheet"
-section: installation
+section: "installation"
 sidebar: false
 outline: false
 ---

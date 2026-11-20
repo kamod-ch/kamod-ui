@@ -77,15 +77,15 @@ const studies: Record<ThemePresetId, PresetStudy> = {
       "The primary hue and success feedback are both green. A successful result needs a readable status label, and the brand action should not imply that an operation has already succeeded.",
   },
   watson: {
-    character: "Expressive pink · Cyan contrast",
+    character: "Pink action · Graphite control",
     palette:
-      "Watson pairs a saturated pink primary action with a cyan-based secondary surface, using pink-tinted muted and selected backgrounds. Its extended palette offers additional brand shades, but the components still consume the same semantic roles.",
+      "watson pairs a saturated pink primary action with a graphite secondary, light grey field and card surfaces and black text. Hover and pressed states turn aubergine. The extended palette offers further brand shades, but the components still consume the same semantic roles.",
     schemes:
-      "Dark mode uses near-black surfaces, a lighter pink primary action with dark text and a brighter cyan secondary treatment. Mint success and lemon warning colors give feedback its own vocabulary.",
+      "Dark mode uses near-black and charcoal surfaces, keeps the pink action with white text and switches the focus ring to cyan. Mint, lemon and light blue fills carry feedback, always with black text; error red also takes black text.",
     application:
-      "Use it for expressive product interfaces and collaborative tools. Keep the pink-tinted surfaces low in the hierarchy and use full-strength accents where they identify an action or selection.",
+      "Use it for news, community and editorial products. Let the pink action lead, keep tags and switches graphite, and give titles the Onest display face.",
     review:
-      "A tinted muted surface is not a disabled state by itself. Review disabled, selected, focused and warning states together, and load the named fonts only when your app intends to use them.",
+      "White on pink only reaches 3.9:1, so the button label stays 16px bold and pink text on white turns aubergine. Check focus, error bars and placeholders in both appearances, and load the watson fonts only when the app uses them.",
   },
   professional: {
     character: "Yellow landmark · Black structure",
@@ -97,6 +97,17 @@ const studies: Record<ThemePresetId, PresetStudy> = {
       "Use it for commerce, catalogs and administrative tools that need a strong confirmation or purchase action. Keep supporting controls neutral so a single yellow action can lead the flow.",
     review:
       "Do not reuse yellow as small text on white just because it works as a filled button. Check the primary foreground pairing and distinguish warning feedback with words and icons.",
+  },
+  "20min": {
+    character: "Electric blue · News clarity",
+    palette:
+      "20 Minuten pairs an electric blue primary action with a deep navy secondary, white reading surfaces and light grey groupings. Cyan, purple, orange and green stay in the chart and feedback roles instead of decorating the page.",
+    schemes:
+      "Dark mode moves to blue-grey surfaces and switches the action colour to cyan with black text, following the live site. Cards sit one step darker than the page, popovers one step lighter.",
+    application:
+      "Use it for news, feeds and content apps where headlines lead and a single blue action marks the next step. Keep section navigation as tabs with a clear active bar.",
+    review:
+      "Blue is both the action colour and the active tab colour. Make sure links, active tabs and buttons stay distinguishable by shape, not only by hue, and load Matter only with a valid licence.",
   },
 };
 

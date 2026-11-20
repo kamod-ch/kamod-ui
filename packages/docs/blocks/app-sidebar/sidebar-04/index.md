@@ -1,5 +1,5 @@
 ---
-title: "sidebar-04"
+title: "Sidebar 4"
 description: "Floating sidebar with rounded corners and nested SidebarMenuSub routes."
 pageKind: blocks-detail
 blockCategory: app-sidebar

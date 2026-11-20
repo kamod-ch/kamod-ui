@@ -1,0 +1,2 @@
+/* The 20min preset lives in the themes package; this file only forwards to it. */
+@import "../../../../themes/src/brands/20min.css";

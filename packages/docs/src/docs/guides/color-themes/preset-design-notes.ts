@@ -172,30 +172,30 @@ export const presetDesignNotes: Record<ThemePresetId, PresetDesignNotes> = {
     example: "A clear signal for your next move.",
   },
   watson: {
-    direction: "Let personality live in the right places.",
+    direction: "Loud where it acts, calm where it reads.",
     principles: [
       {
-        title: "Balance pink with a cool counterpart",
-        text: "Let the pink action lead, use cyan for a distinct supporting role and keep the larger text areas calm. The relationship matters more than making every surface equally colorful.",
+        title: "Pink acts, graphite supports",
+        text: "The pink fill marks the action and turns aubergine on hover. Tags, switch tracks and secondary actions use graphite with white text so they never compete with the action.",
         roles: ["--primary", "--secondary"],
       },
       {
-        title: "Do not mistake a tint for a state",
-        text: "Muted and selected surfaces both borrow pink. A disabled control still needs the component's disabled treatment, while an active item needs a persistent selection cue and visible focus.",
+        title: "Fields and cards sit on light grey",
+        text: "Inputs, cards and menus share the grey surface; the focused field darkens one step. Selection and errors still need their own cue: a pink bar, a red edge or a word.",
         roles: ["--muted", "--accent"],
       },
     ],
     type: {
       body: "Nunito Sans",
-      family: '"Nunito Sans"',
+      family: '"Nunito Sans Variable"',
       display: "Onest",
       mono: "Fira Code / Fira Code Variable",
       advice:
-        "Use the display face for deliberate heading moments and the body face for reading. Keep the number of weight changes small so the expressive palette retains a clear hierarchy.",
+        "Running text in Nunito Sans Medium, labels SemiBold, buttons Bold 16. Titles in Onest Black. Load both faces with @kamod-ch/themes/brands/watson-fonts.css.",
     },
-    radius: "0.625rem",
+    radius: "6px",
     shape:
-      "Inherits the foundation radius. A product can feel expressive through color and typography without needing a separate corner system for every component.",
+      "4px corners on buttons, fields and tags, 10px on cards, menus and dialogs, fully round icon buttons and avatars. No shadows: surfaces and dividers separate the layers.",
     example: "A shared space with a little personality.",
   },
   professional: {
@@ -224,5 +224,32 @@ export const presetDesignNotes: Record<ThemePresetId, PresetDesignNotes> = {
     shape:
       "Compact corners suit catalogs, purchase flows and administration. Prefer clear section boundaries and aligned rows to decorative frames around each specification.",
     example: "One clear choice. Everything else in its place.",
+  },
+  "20min": {
+    direction: "Let the headline lead and the blue decide.",
+    principles: [
+      {
+        title: "One blue action per view",
+        text: "Electric blue marks the action and the active section. Use the navy secondary or an outline for supporting choices so the next step stays obvious.",
+        roles: ["--primary", "--secondary"],
+      },
+      {
+        title: "Group with grey, not with shadows",
+        text: "The site separates content with light grey surfaces, thin borders and whitespace. Keep cards flat and let spacing carry the structure.",
+        roles: ["--muted", "--border"],
+      },
+    ],
+    type: {
+      body: "Matter",
+      family: "Matter",
+      display: "Matter",
+      mono: "System mono",
+      advice:
+        "One family in several weights: regular for reading, medium for labels and buttons, bold for headlines. Matter is a commercial font; without a licence the preset falls back to system fonts.",
+    },
+    radius: "8px",
+    shape:
+      "Small 4px corners on buttons, fields and tags; 8px on cards and images. The contrast between the two keeps controls compact and content soft.",
+    example: "Know what matters, in 20 minutes.",
   },
 };

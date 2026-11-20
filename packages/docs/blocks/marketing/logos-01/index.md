@@ -1,5 +1,5 @@
 ---
-title: "logos-01"
+title: "Logos 1"
 description: "Static logo grid. Logos are data or slots; placeholders are labeled as such."
 pageKind: blocks-detail
 blockCategory: marketing

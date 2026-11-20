@@ -309,6 +309,7 @@ test("loaders use every local palette in both schemes independently of the page"
       "voltage",
       "watson",
       "professional",
+      "20min",
     ]) {
       await choosePreviewTheme(picker, preset);
       for (const scheme of ["light", "dark"]) {

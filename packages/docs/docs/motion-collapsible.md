@@ -1,9 +1,9 @@
 ---
-title: "motion-collapsible"
-description: "motion-collapsible"
+title: "Motion Collapsible"
+description: "Drop-in replacement for CollapsibleContent."
 pageKind: component-doc
 slug: "motion-collapsible"
-section: installation
+section: "installation"
 sidebar: false
 outline: false
 ---

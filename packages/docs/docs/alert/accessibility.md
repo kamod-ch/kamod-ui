@@ -1,9 +1,11 @@
 ---
-title: "alert"
-description: "alert / accessibility"
+title: "Alert — Accessibility"
+description: "Accessibility for Alert. Part of the Kamod UI docs."
 pageKind: component-doc
 slug: "alert"
 section: "accessibility"
 sidebar: false
 outline: false
+head:
+  - ["meta", { "name": "robots", "content": "noindex, follow" }]
 ---

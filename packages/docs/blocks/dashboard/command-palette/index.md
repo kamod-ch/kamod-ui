@@ -1,5 +1,5 @@
 ---
-title: "command-palette"
+title: "Command Palette"
 description: "Searchable command dialog with groups, optional trigger, and a Cmd/Ctrl+K shortcut."
 pageKind: blocks-detail
 blockCategory: dashboard

@@ -93,6 +93,7 @@ export function packageGuide(module: string): string | undefined {
         "voltage",
         "watson",
         "professional",
+        "20min",
       ].includes(preset)
     )
       return `/docs/theming/installation#color-theme-${preset}`;

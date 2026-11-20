@@ -1,5 +1,5 @@
 ---
-title: "signup-04"
+title: "Signup 4"
 description: "Signup block signup-04"
 pageKind: blocks-auth-detail
 blockCategory: signup

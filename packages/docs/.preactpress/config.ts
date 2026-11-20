@@ -11,7 +11,13 @@ import { codeReferencePlugin } from "./code-reference-plugin.ts";
 import { componentApiPlugin } from "./component-api-plugin.ts";
 import { componentPreviewPlugin } from "./component-preview-plugin.ts";
 import { compactGuidePageData } from "./guide-page-data.ts";
-import { kamodUiStructuredDataHead } from "./kamod-ui-seo.ts";
+import {
+  applySeoPageData,
+  filterSitemap,
+  isIndexablePage,
+  kamodUiStructuredDataHead,
+  routeFromSitemapLoc,
+} from "./kamod-ui-seo.ts";
 import { pageMetadataPlugin } from "./page-metadata-plugin.ts";
 import { createPagePreloader } from "./page-preloader.ts";
 import { runtimePerformancePlugin } from "./runtime-performance-plugin.ts";
@@ -61,12 +67,21 @@ export default defineConfig({
   // Wait for loaded stylesheets without forcing computed styles every frame.
   pageReady: { preloader: createPagePreloader(base), probe: false },
   theme: "./theme/Layout.tsx",
-  transformPageData: compactGuidePageData,
-  srcExclude: ["dist/**", "playwright-report/**", "test-results/**", "README.md"],
+  transformPageData(page, ctx) {
+    return applySeoPageData(compactGuidePageData(page), ctx.route);
+  },
+  srcExclude: [
+    "dist/**",
+    "playwright-report/**",
+    "test-results/**",
+    "README.md",
+    "BLOCK-OVERVIEWS-ISSUES-AND-PR.md",
+  ],
   site: {
     title: "Kamod UI",
     description:
       "Preact UI components and blocks for Tailwind: Kamod UI is a lightweight library of composable primitives you can customize, extend, and ship without a heavy runtime.",
+    // ui.kamod.ch 301s here. Canonicals stay on the host that returns 200.
     // PreactPress appends base to this origin when generating canonical and social URLs.
     url: "https://kamod-ch.github.io",
     base,
@@ -353,6 +368,18 @@ export default defineConfig({
   },
   transformHead(ctx) {
     return kamodUiStructuredDataHead(ctx);
+  },
+  async buildEnd({ site, pages }) {
+    const sitemapPath = path.join(site.outDir, "sitemap.xml");
+    const xml = await fs.readFile(sitemapPath, "utf8").catch(() => "");
+    if (!xml) return;
+    const hidden = new Set(
+      pages
+        .filter(({ route, page }) => !isIndexablePage(route, page))
+        .map(({ route }) => routeFromSitemapLoc(`https://example.com${route}`, "/")),
+    );
+    const next = filterSitemap(xml, hidden, site.site.base);
+    if (next !== xml) await fs.writeFile(sitemapPath, next);
   },
   head: [
     ["link", { rel: "icon", href: publicUrl("favicon.svg"), type: "image/svg+xml" }],

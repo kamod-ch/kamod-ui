@@ -1,5 +1,5 @@
 ---
-title: "faq-01"
+title: "FAQ 1"
 description: "Single-collapsible FAQ accordion with heading structure and a contact link."
 pageKind: blocks-detail
 blockCategory: marketing

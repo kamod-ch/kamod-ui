@@ -1,5 +1,5 @@
 ---
-title: "contact-us"
+title: "Contact Us"
 description: "Contact layout with an optional map adapter. No Mapbox dependency or token required."
 pageKind: blocks-detail
 blockCategory: marketing

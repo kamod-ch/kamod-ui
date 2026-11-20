@@ -1,5 +1,5 @@
 ---
-title: "sidebar-02"
+title: "Sidebar 2"
 description: "Team switcher, primary nav, projects, secondary nav, and user footer as sibling files."
 pageKind: blocks-detail
 blockCategory: app-sidebar

@@ -1,9 +1,9 @@
 ---
-title: "image"
-description: "image"
+title: "Image"
+description: "Image renders responsive media with consistent styling."
 pageKind: component-doc
 slug: "image"
-section: installation
+section: "installation"
 sidebar: false
 outline: false
 ---

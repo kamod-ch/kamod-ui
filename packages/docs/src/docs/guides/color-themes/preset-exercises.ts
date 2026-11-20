@@ -46,15 +46,23 @@ export const presetExercises: Record<ThemePresetId, PresetExercise> = {
     check: "The green brand action never implies that a task has already succeeded.",
   },
   watson: {
-    fits: ["Collaboration", "Social products", "Expressive tools"],
-    title: "Invite someone into a shared space",
-    task: "Let a pink Invite action lead. Use cyan for a supporting destination, and compare the selected and disabled invitation states.",
-    check: "A pink-tinted surface alone does not communicate selection or a disabled state.",
+    fits: ["News", "Community", "Editorial tools"],
+    title: "Invite readers into the conversation",
+    task: "Build a comment form with a grey field, a pink Send action and a graphite tag. Show the focused, invalid and disabled states side by side.",
+    check:
+      "The pink action keeps a 16px bold label, and the invalid field shows its red edge and a message.",
   },
   professional: {
     fits: ["Commerce", "Product catalogs", "Administration"],
     title: "Make a purchase decision unmistakable",
     task: "Build a product summary with one yellow confirmation action and its dark foreground. Keep comparison and cancellation neutral.",
     check: "The confirmation and any warning have separate wording and visual roles.",
+  },
+  "20min": {
+    fits: ["News", "Content feeds", "Media apps"],
+    title: "Build a news section with one clear next step",
+    task: "Combine section tabs, a teaser card with an 8px image and a blue Discover action. Add a navy secondary action and an outline Load more.",
+    check:
+      "The active tab and the primary action are both blue but remain clearly different elements.",
   },
 };
