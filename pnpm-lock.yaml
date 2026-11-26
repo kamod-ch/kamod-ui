@@ -544,15 +544,6 @@ importers:
 
   packages/themes:
     dependencies:
-      '@fontsource-variable/red-hat-display':
-        specifier: ^5.3.0
-        version: 5.3.0
-      '@fontsource-variable/red-hat-mono':
-        specifier: ^5.3.0
-        version: 5.3.0
-      '@fontsource-variable/red-hat-text':
-        specifier: ^5.3.0
-        version: 5.3.0
       preact:
         specifier: ^11.2.0
         version: 11.2.0(preact-render-to-string@6.8.3)
@@ -566,6 +557,15 @@ importers:
       '@fontsource-variable/onest':
         specifier: ^5.3.1
         version: 5.3.1
+      '@fontsource-variable/red-hat-display':
+        specifier: ^5.3.0
+        version: 5.3.0
+      '@fontsource-variable/red-hat-mono':
+        specifier: ^5.3.0
+        version: 5.3.0
+      '@fontsource-variable/red-hat-text':
+        specifier: ^5.3.0
+        version: 5.3.0
       '@preact/signals':
         specifier: ^2.11.4
         version: 2.11.4(preact@11.2.0)
