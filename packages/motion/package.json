@@ -75,7 +75,7 @@
     "@kamod-ch/motion": "^0.1.0",
     "@kamod-ch/ui": "workspace:*",
     "@preact/signals": "^2.11.4",
-    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/jest-dom": "^8.0.0",
     "@testing-library/preact": "^3.2.6",
     "@types/node": "^26.6.6",
     "jsdom": "^31.0.1",
