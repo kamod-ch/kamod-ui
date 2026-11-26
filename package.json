@@ -60,6 +60,8 @@
     "qa:attw": "pnpm --filter @kamod-ch/themes attw && pnpm --filter @kamod-ch/ui attw && pnpm --filter @kamod-ch/openui attw && pnpm --filter @kamod-ch/ui-motion attw",
     "qa:package": "pnpm --filter @kamod-ch/ui build && pnpm --filter @kamod-ch/openui build && pnpm qa:publint && pnpm qa:attw",
     "qa:openui": "pnpm --filter @kamod-ch/openui test && pnpm --filter @kamod-ch/openui build && pnpm --filter @kamod-ch/openui publint && pnpm --filter @kamod-ch/openui attw",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
     "release:check": "pnpm test:ci && pnpm build && pnpm qa:publint && pnpm qa:attw",
     "release:check:package": "pnpm qa:package",
     "release:auth": "npm whoami --registry=https://registry.npmjs.org || (echo 'Authenticate with: npm login (or set NODE_AUTH_TOKEN)' >&2; exit 1)",
@@ -74,6 +76,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.6.8",
+    "@changesets/cli": "^3.0.3",
     "@kamod-ch/brand": "^0.4.0",
     "@types/node": "^26.6.6",
     "@typescript/typescript6": "^6.0.2",

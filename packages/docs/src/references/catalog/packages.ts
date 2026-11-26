@@ -94,6 +94,7 @@ export function packageGuide(module: string): string | undefined {
         "watson",
         "professional",
         "20min",
+        "redhat",
       ].includes(preset)
     )
       return `/docs/theming/installation#color-theme-${preset}`;

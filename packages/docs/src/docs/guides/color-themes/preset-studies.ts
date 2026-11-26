@@ -109,6 +109,17 @@ const studies: Record<ThemePresetId, PresetStudy> = {
     review:
       "Blue is both the action colour and the active tab colour. Make sure links, active tabs and buttons stay distinguishable by shape, not only by hue, and load Matter only with a valid licence.",
   },
+  redhat: {
+    character: "Brand red accent · Interactive blue",
+    palette:
+      "Red Hat follows the Red Hat Design System: interactive blue for actions, links and focus, near-black text on white, and light grey groupings. Brand red is reserved for identity moments such as the active tab and the first chart series.",
+    schemes:
+      "Dark mode uses the system's near-black canvas with slightly lighter cards. Actions turn light blue with dark text, and status colors switch to their brighter on-dark variants with dark text.",
+    application:
+      "Use it for enterprise consoles, documentation and product sites. Keep one blue primary action per view, use outlined secondary and tertiary actions for the rest, and let red mark where you are rather than what to click.",
+    review:
+      "Red is not an action color here, so do not use it for primary buttons in product UI. Check that outlined buttons stay distinguishable from links, and load the Red Hat fonts when the app should match the brand.",
+  },
 };
 
 export const presetStudies = THEME_PRESETS.map((preset) => ({ ...preset, ...studies[preset.id] }));

@@ -14,6 +14,7 @@ const themeFiles = [
   "../../../themes/src/brands/watson.css",
   "themes/professional.css",
   "../../../themes/src/brands/20min.css",
+  "../../../themes/src/brands/redhat.css",
 ];
 
 const foundationCss =
@@ -31,6 +32,7 @@ const presetChecks = {
   watson: "full",
   professional: "full",
   "20min": "full",
+  redhat: "full",
 };
 
 const requiredColorTokens = [

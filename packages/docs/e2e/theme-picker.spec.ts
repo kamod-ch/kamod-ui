@@ -87,7 +87,7 @@ for (const width of [320, 768, 1440]) {
       await trigger.click();
       const picker = page.locator(".site-theme-picker-content:visible");
       await expect(picker.getByText("Find your Palette", { exact: true })).toBeVisible();
-      await expect(picker.locator(".site-theme-picker-count")).toContainText("9 presets");
+      await expect(picker.locator(".site-theme-picker-count")).toContainText("10 presets");
       await expect(picker.locator(".site-theme-picker-header")).toHaveCSS(
         "background-image",
         "none",

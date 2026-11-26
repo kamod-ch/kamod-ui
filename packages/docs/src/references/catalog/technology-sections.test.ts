@@ -94,6 +94,7 @@ it("accounts for every direct external technology dependency in the workspace ma
     "@arethetypeswrong/cli": "Are the Types Wrong",
     "@axe-core/playwright": "axe-core",
     "@biomejs/biome": "Biome",
+    "@changesets/cli": "Changesets",
     "@blobatar/preact": "Blobatar",
     "@fontsource-variable/nunito-sans": "CSS",
     "@fontsource-variable/onest": "CSS",

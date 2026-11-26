@@ -1,0 +1,10 @@
+/**
+ * Red Hat fonts: Red Hat Text (body), Red Hat Display (headings), Red Hat Mono (code).
+ * SIL Open Font License, self-hosted via Fontsource. Optional: install the packages,
+ * then import this file next to the theme:
+ *   pnpm add @fontsource-variable/red-hat-text @fontsource-variable/red-hat-display @fontsource-variable/red-hat-mono
+ *   @import "@kamod-ch/themes/brands/redhat-fonts.css";
+ */
+@import "@fontsource-variable/red-hat-text";
+@import "@fontsource-variable/red-hat-display";
+@import "@fontsource-variable/red-hat-mono";

@@ -65,4 +65,11 @@ export const presetExercises: Record<ThemePresetId, PresetExercise> = {
     check:
       "The active tab and the primary action are both blue but remain clearly different elements.",
   },
+  redhat: {
+    fits: ["Enterprise consoles", "Documentation", "Product sites"],
+    title: "Configure a cluster without losing your place",
+    task: "Combine tabs with a red active bar, a form with outlined and filled blue actions, and status tags for running, degraded and failed nodes.",
+    check:
+      "Red only marks location and brand; every clickable action is blue and errors use red-orange with a label.",
+  },
 };

@@ -136,6 +136,7 @@ test("every preset route includes its complete copyable app recipe without openi
     "watson",
     "professional",
     "20min",
+    "redhat",
   ];
   for (const id of ids) {
     await page.goto(`/docs/theming/color-theme-${id}`);

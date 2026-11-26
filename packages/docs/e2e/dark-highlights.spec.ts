@@ -37,6 +37,7 @@ test("dark highlights strengthen every preset and restore the original light app
     "watson",
     "professional",
     "20min",
+    "redhat",
   ]) {
     await page.evaluate((preset) => {
       const root = document.documentElement;

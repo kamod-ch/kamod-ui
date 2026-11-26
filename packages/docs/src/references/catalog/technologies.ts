@@ -524,6 +524,13 @@ export const technologies: Technology[] = [
       "Finds candidates for unused files, exports and dependencies using the configured project entry points.",
   },
   {
+    name: "Changesets",
+    href: "https://github.com/changesets/changesets",
+    category: "Release tooling",
+    description:
+      "Records package version bumps and changelogs, then publishes the packages that those bumps select.",
+  },
+  {
     name: "Syncpack",
     href: "https://jamiemason.github.io/syncpack/",
     category: "Workspace dependencies",

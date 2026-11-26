@@ -1,0 +1,2 @@
+/* The redhat preset lives in the themes package; this file only forwards to it. */
+@import "../../../../themes/src/brands/redhat.css";

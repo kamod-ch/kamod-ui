@@ -11,6 +11,7 @@ const themes = [
   "watson",
   "professional",
   "20min",
+  "redhat",
 ];
 
 for (const dark of [false, true]) {

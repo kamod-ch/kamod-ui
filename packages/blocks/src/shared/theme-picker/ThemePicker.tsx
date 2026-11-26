@@ -32,6 +32,7 @@ const paletteSamples: Record<ThemePresetId, readonly [string, string, string, st
   watson: ["#f40f97", "#524b5d", "#8e0456", "#ececec"],
   professional: ["#fece14", "#000000", "#1f2937", "#f3f4f6"],
   "20min": ["#2659ff", "#07184d", "#00d5ff", "#f1f1f1"],
+  redhat: ["#ee0000", "#0066cc", "#151515", "#f2f2f2"],
 };
 
 const paletteDescriptions: Record<ThemePresetId, string> = {
@@ -44,6 +45,8 @@ const paletteDescriptions: Record<ThemePresetId, string> = {
   watson: "Vivid pink actions with graphite controls and Onest titles: bold and expressive.",
   professional: "Yellow and black accents with geometric Poppins type: confident and purposeful.",
   "20min": "Electric blue actions, navy depth and cyan in the dark: fast, clear and newsy.",
+  redhat:
+    "Red Hat red as accent, interactive blue actions and Red Hat type: open and enterprise-ready.",
 };
 
 export type ThemePickerProps = {

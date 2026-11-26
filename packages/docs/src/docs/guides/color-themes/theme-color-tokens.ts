@@ -388,8 +388,8 @@ export function themeColorTokens(preset: ThemePresetId): ThemeColorToken[] {
       !/^(?:#|rgba?\(|hsla?\(|oklch\(|color-mix\(|var\(--color-)/.test(value)
     )
       continue;
-    const purpose = name.startsWith("watson-")
-      ? "A watson role used by the preset's component skin, such as field surfaces, dividers, label text or the focus ring. It changes with the appearance; reusable components should keep using the semantic roles."
+    const purpose = /^(?:watson|redhat)-/.test(name)
+      ? `A ${presetLabel(preset)} role used by the preset's component skin, such as surfaces, dividers, borders or hover states. It can change with the appearance; reusable components should keep using the semantic roles.`
       : name.startsWith("cursor-surface-")
         ? "An extra surface level for Cursor Warm previews. The numbered scale changes with the appearance; use a semantic card or background role for ordinary reusable component surfaces."
         : name.startsWith("cursor-ai-")
@@ -399,7 +399,7 @@ export function themeColorTokens(preset: ThemePresetId): ThemeColorToken[] {
             : "An additional boundary color from Cursor Warm's preview palette. Its alpha blends with the actual background; use the semantic border role unless this stronger preview treatment is intentional.";
     tokens.push({
       name,
-      label: title(name).replace(/^(?:cursor|watson) /, ""),
+      label: title(name).replace(/^(?:cursor|watson|redhat) /, ""),
       group: "extended",
       description: purpose,
       light: declaration(name, "light"),

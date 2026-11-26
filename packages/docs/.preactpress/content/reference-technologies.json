@@ -4309,6 +4309,56 @@
         }
       ],
       "resources": []
+    },
+    "Changesets": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Record a version bump",
+          "description": "A changeset file names the packages to bump and the changelog note. The release workflow reads those files on main and opens a version pull request instead of publishing immediately.",
+          "source": {
+            "label": "Changesets: Record a version bump",
+            "href": "https://github.com/changesets/changesets"
+          },
+          "code": {
+            "language": "bash",
+            "value": "corepack pnpm changeset"
+          },
+          "rows": [
+            {
+              "label": "Pending bumps",
+              "value": ".changeset/*.md"
+            },
+            {
+              "label": "Version command",
+              "value": "pnpm changeset version"
+            }
+          ]
+        },
+        {
+          "title": "Publish when the queue is empty",
+          "description": "With no pending changeset files, the release workflow runs changeset publish for public packages whose version is not yet on the registry. Private docs and fixture packages stay ignored.",
+          "source": {
+            "label": "Changesets: Publish when the queue is empty",
+            "href": "https://github.com/changesets/changesets"
+          },
+          "rows": [
+            {
+              "label": "Publish command",
+              "value": "pnpm changeset publish"
+            },
+            {
+              "label": "Access",
+              "value": "public"
+            },
+            {
+              "label": "Base branch",
+              "value": "main"
+            }
+          ]
+        }
+      ],
+      "resources": []
     }
   },
   "savedAt": "2026-10-19"

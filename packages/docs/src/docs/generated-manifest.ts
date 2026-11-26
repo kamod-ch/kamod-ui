@@ -1134,6 +1134,7 @@ export const docsRouteManifest = [
       "color-theme-watson",
       "color-theme-professional",
       "color-theme-20min",
+      "color-theme-redhat",
       "prism-color-themes",
       "prism-theme-default",
       "prism-theme-coy",

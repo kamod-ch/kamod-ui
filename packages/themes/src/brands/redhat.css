@@ -1,0 +1,430 @@
+/**
+ * Red Hat preset for Kamod UI (Tailwind v4 @theme + preset + component skin).
+ * Source: Red Hat Design System (ux.redhat.com), @rhds/tokens 3.2.0 and
+ * @rhds/elements 5.0.0 (MIT). Interactive blue for actions, links and focus;
+ * brand red as accent (active tab, first chart series); 3px corners, pill tags.
+ * Fonts: import "@kamod-ch/themes/brands/redhat-fonts.css" to load Red Hat Text,
+ * Display and Mono; without it the stacks fall back to Helvetica / Arial.
+ */
+
+@theme {
+  --color-redhat-red-10: #fce3e3;
+  --color-redhat-red-40: #f56e6e;
+  --color-redhat-red-50: #ee0000;
+  --color-redhat-red-60: #a60000;
+
+  --color-redhat-blue-10: #e0f0ff;
+  --color-redhat-blue-20: #b9dafc;
+  --color-redhat-blue-30: #92c5f9;
+  --color-redhat-blue-50: #0066cc;
+  --color-redhat-blue-70: #003366;
+
+  --color-redhat-gray-10: #f2f2f2;
+  --color-redhat-gray-20: #e0e0e0;
+  --color-redhat-gray-30: #c7c7c7;
+  --color-redhat-gray-40: #a3a3a3;
+  --color-redhat-gray-45: #8c8c8c;
+  --color-redhat-gray-50: #707070;
+  --color-redhat-gray-60: #4d4d4d;
+  --color-redhat-gray-70: #383838;
+  --color-redhat-gray-80: #292929;
+  --color-redhat-gray-90: #1f1f1f;
+  --color-redhat-gray-95: #151515;
+
+  --color-redhat-teal-40: #63bdbd;
+  --color-redhat-teal-50: #37a3a3;
+  --color-redhat-purple-30: #b6a6e9;
+  --color-redhat-purple-50: #5e40be;
+  --color-redhat-green-40: #87bb62;
+  --color-redhat-green-60: #3d7317;
+  --color-redhat-yellow-30: #ffcc17;
+  --color-redhat-yellow-40: #dca614;
+  --color-redhat-orange-30: #f8ae54;
+  --color-redhat-orange-40: #f5921b;
+  --color-redhat-red-orange-50: #f0561d;
+  --color-redhat-red-orange-60: #b1380b;
+}
+
+/* ==========================================================================
+   Semantic roles → Kamod UI variables
+   ========================================================================== */
+:root[data-theme="redhat"],
+[data-theme-scope][data-theme="redhat"] {
+  --font-sans:
+    "Red Hat Text Variable", RedHatText, "Red Hat Text", Helvetica, Arial, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --default-font-family: var(--font-sans);
+  --font-primary: var(--font-sans);
+  --font-display:
+    "Red Hat Display Variable", RedHatDisplay, "Red Hat Display", Helvetica, Arial, sans-serif;
+  --font-heading: var(--font-display);
+  --font-mono:
+    "Red Hat Mono Variable", RedHatMono, "Red Hat Mono", "Courier New", Courier, monospace;
+  --font-mono-custom: var(--font-mono);
+
+  /* --rh-border-radius-default */
+  --radius: 3px;
+
+  --background: var(--color-white);
+  --foreground: var(--color-redhat-gray-95);
+  --card: var(--color-white);
+  --card-foreground: var(--color-redhat-gray-95);
+  --popover: var(--color-white);
+  --popover-foreground: var(--color-redhat-gray-95);
+  --primary: var(--color-redhat-blue-50);
+  --primary-foreground: var(--color-white);
+  --primary-accent: var(--color-redhat-blue-70);
+  --secondary: var(--color-redhat-gray-95);
+  --secondary-foreground: var(--color-white);
+  --secondary-accent: var(--color-redhat-gray-70);
+  --muted: var(--color-redhat-gray-10);
+  --muted-foreground: var(--color-redhat-gray-60);
+  --accent: var(--color-redhat-gray-10);
+  --accent-foreground: var(--color-redhat-gray-95);
+  --info: var(--color-redhat-purple-50);
+  --info-foreground: var(--color-white);
+  --success: var(--color-redhat-green-60);
+  --success-foreground: var(--color-white);
+  --warning: var(--color-redhat-yellow-40);
+  --warning-foreground: var(--color-redhat-gray-95);
+  --error: var(--color-redhat-red-orange-60);
+  --error-foreground: var(--color-white);
+  --destructive: var(--color-redhat-red-orange-60);
+  --destructive-foreground: var(--color-white);
+  --border: var(--color-redhat-gray-30);
+  /* Form controls need 3:1 against the page */
+  --input: var(--color-redhat-gray-45);
+  --ring: var(--color-redhat-blue-50);
+  --outline: var(--color-redhat-blue-50);
+
+  --sidebar-background: var(--color-redhat-gray-10);
+  --sidebar-foreground: var(--color-redhat-gray-95);
+  --sidebar-primary: var(--color-redhat-blue-50);
+  --sidebar-primary-foreground: var(--color-white);
+  --sidebar-accent: var(--color-redhat-gray-20);
+  --sidebar-accent-foreground: var(--color-redhat-gray-95);
+  --sidebar-border: var(--color-redhat-gray-30);
+  --sidebar-outline: var(--color-redhat-blue-50);
+
+  --chart-1: var(--color-redhat-red-50);
+  --chart-2: var(--color-redhat-blue-50);
+  --chart-3: var(--color-redhat-teal-50);
+  --chart-4: var(--color-redhat-purple-50);
+  --chart-5: var(--color-redhat-orange-40);
+
+  /* Red Hat roles used by the component skin below */
+  --redhat-brand: var(--color-redhat-red-50);
+  --redhat-border-strong: var(--color-redhat-gray-95);
+  --redhat-danger-hover: #a30000;
+  --redhat-switch-off: var(--color-redhat-gray-60);
+}
+
+.dark[data-theme="redhat"] {
+  --font-sans:
+    "Red Hat Text Variable", RedHatText, "Red Hat Text", Helvetica, Arial, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-mono:
+    "Red Hat Mono Variable", RedHatMono, "Red Hat Mono", "Courier New", Courier, monospace;
+
+  --background: var(--color-redhat-gray-95);
+  --foreground: var(--color-white);
+  --card: var(--color-redhat-gray-90);
+  --card-foreground: var(--color-white);
+  --popover: var(--color-redhat-gray-90);
+  --popover-foreground: var(--color-white);
+  /* Light blue on dark takes dark text (rh-button primary) */
+  --primary: var(--color-redhat-blue-30);
+  --primary-foreground: var(--color-redhat-gray-95);
+  --primary-accent: var(--color-redhat-blue-20);
+  --secondary: var(--color-white);
+  --secondary-foreground: var(--color-redhat-gray-95);
+  --secondary-accent: var(--color-redhat-gray-20);
+  --muted: var(--color-redhat-gray-90);
+  --muted-foreground: var(--color-redhat-gray-30);
+  --accent: var(--color-redhat-gray-70);
+  --accent-foreground: var(--color-white);
+  --info: var(--color-redhat-purple-30);
+  --info-foreground: var(--color-redhat-gray-95);
+  --success: var(--color-redhat-green-40);
+  --success-foreground: var(--color-redhat-gray-95);
+  --warning: var(--color-redhat-yellow-30);
+  --warning-foreground: var(--color-redhat-gray-95);
+  --error: var(--color-redhat-red-orange-50);
+  --error-foreground: var(--color-redhat-gray-95);
+  --destructive: var(--color-redhat-red-orange-50);
+  --destructive-foreground: var(--color-redhat-gray-95);
+  --border: var(--color-redhat-gray-50);
+  --input: var(--color-redhat-gray-40);
+  --ring: var(--color-redhat-blue-30);
+  --outline: var(--color-redhat-blue-30);
+
+  --sidebar-background: var(--color-redhat-gray-90);
+  --sidebar-foreground: var(--color-white);
+  --sidebar-primary: var(--color-redhat-blue-30);
+  --sidebar-primary-foreground: var(--color-redhat-gray-95);
+  --sidebar-accent: var(--color-redhat-gray-70);
+  --sidebar-accent-foreground: var(--color-white);
+  --sidebar-border: var(--color-redhat-gray-70);
+  --sidebar-outline: var(--color-redhat-blue-30);
+
+  --chart-1: var(--color-redhat-red-40);
+  --chart-2: var(--color-redhat-blue-30);
+  --chart-3: var(--color-redhat-teal-40);
+  --chart-4: var(--color-redhat-purple-30);
+  --chart-5: var(--color-redhat-orange-30);
+
+  --redhat-border-strong: var(--color-white);
+  --redhat-danger-hover: #ff7468;
+  --redhat-switch-off: var(--color-redhat-gray-40);
+}
+
+/* ==========================================================================
+   Component skin. Kamod structure stays; Red Hat look via data-slot.
+   Unlayered on purpose so it wins over component utilities.
+   ========================================================================== */
+
+[data-theme="redhat"],
+[data-theme="redhat"] body {
+  font-family: var(--font-sans);
+}
+
+/* Headings: Red Hat Display, medium weight, line height 1.3 */
+[data-theme="redhat"]
+  :is(
+    h1,
+    h2,
+    h3,
+    h4,
+    [data-slot="card-title"],
+    [data-slot="dialog-title"],
+    [data-slot="alert-dialog-title"],
+    [data-slot="sheet-title"],
+    [data-slot="drawer-title"]
+  ) {
+  font-family: var(--font-display);
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: 0;
+}
+
+/* Focus: 2px solid interactive blue */
+[data-theme="redhat"] :focus-visible {
+  outline: 2px solid var(--ring) !important;
+  outline-offset: 2px;
+  --tw-ring-shadow: 0 0 #0000;
+  --tw-ring-color: transparent;
+}
+
+/* Button (rh-button): radius 3, Red Hat Text 16 regular, 6px / 16px padding */
+[data-theme="redhat"] [data-slot="button"] {
+  border-radius: 3px;
+  font-weight: 400;
+}
+
+[data-theme="redhat"] [data-slot="button"]:is([data-size="default"], [data-size="lg"]) {
+  height: auto;
+  min-height: 36px;
+  padding: 6px 16px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* primary */
+[data-theme="redhat"] [data-slot="button"]:is([data-variant="default"], [data-variant="inverse"]) {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  border: 1px solid transparent;
+}
+
+/* outline = rh-button secondary: blue border and label */
+[data-theme="redhat"] [data-slot="button"][data-variant="outline"] {
+  background: transparent;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+}
+
+/* secondary = rh-button tertiary: strong neutral border */
+[data-theme="redhat"] [data-slot="button"][data-variant="secondary"] {
+  background: transparent;
+  border: 1px solid var(--redhat-border-strong);
+  color: var(--foreground);
+}
+
+/* danger */
+[data-theme="redhat"] [data-slot="button"][data-variant="destructive"] {
+  background: var(--destructive);
+  color: var(--destructive-foreground);
+  border: 1px solid transparent;
+}
+
+/* link: underlined interactive blue */
+[data-theme="redhat"] [data-slot="button"][data-variant="link"] {
+  height: auto;
+  min-height: 0;
+  padding: 0;
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+[data-theme="redhat"]
+  [data-slot="button"]:is([data-variant="default"], [data-variant="inverse"]):active {
+  background: var(--primary-accent);
+}
+
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  [data-theme="redhat"]
+    [data-slot="button"]:is([data-variant="default"], [data-variant="inverse"]):hover {
+    background: var(--primary-accent);
+    opacity: 1;
+  }
+
+  /* outlined buttons thicken their border to 2px on hover */
+  [data-theme="redhat"] [data-slot="button"][data-variant="outline"]:hover {
+    background: transparent;
+    color: var(--primary);
+    box-shadow: inset 0 0 0 1px var(--primary);
+  }
+
+  [data-theme="redhat"] [data-slot="button"][data-variant="secondary"]:hover {
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--redhat-border-strong);
+  }
+
+  [data-theme="redhat"] [data-slot="button"][data-variant="destructive"]:hover {
+    background: var(--redhat-danger-hover);
+    opacity: 1;
+  }
+
+  [data-theme="redhat"] [data-slot="button"][data-variant="link"]:hover {
+    color: var(--primary-accent);
+    text-decoration: none;
+  }
+}
+
+/* Badge as rh-tag: pill, 14px regular, gray fill with subtle border */
+[data-theme="redhat"] [data-slot="badge"] {
+  border-radius: 64px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  padding: 0 8px;
+}
+
+[data-theme="redhat"] [data-slot="badge"][data-variant="default"] {
+  background: var(--muted);
+  color: var(--foreground);
+  border: 1px solid var(--border);
+}
+
+/* Fields: radius 3 */
+[data-theme="redhat"]
+  :is(
+    [data-slot="input"],
+    [data-slot="textarea"],
+    [data-slot="select-trigger"],
+    [data-slot="native-select"],
+    [data-slot="input-group"],
+    [data-slot="input-otp-slot"]
+  ) {
+  border-radius: 3px;
+}
+
+/* Checkbox checked: interactive blue */
+[data-theme="redhat"]
+  [data-slot="checkbox"]:is([data-state="checked"], [data-state="indeterminate"])
+  > span {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+/* Switch (rh-switch): dark gray track when off, blue when on, white handle */
+[data-theme="redhat"] [data-slot="switch"][data-state="unchecked"] {
+  background: var(--redhat-switch-off);
+}
+
+[data-theme="redhat"] [data-slot="switch"] {
+  filter: none;
+}
+
+[data-theme="redhat"] [data-slot="switch-thumb"] {
+  background: var(--color-white);
+}
+
+/* Tabs (rh-tabs): 1px subtle baseline, secondary text, 3px brand-red bar on the active tab */
+[data-theme="redhat"] [data-slot="tabs"][data-orientation="horizontal"] [data-slot="tabs-list"] {
+  background: transparent;
+  border-radius: 0;
+  padding: 0;
+  height: auto;
+  gap: 0;
+  box-shadow: none;
+  border-width: 0 0 1px;
+  border-style: solid;
+  border-color: var(--border);
+}
+
+[data-theme="redhat"] [data-slot="tabs"][data-orientation="horizontal"] [data-slot="tabs-trigger"] {
+  flex: none;
+  position: relative;
+  height: auto;
+  border-radius: 0;
+  border-color: transparent;
+  padding: 12px 24px;
+  background: transparent !important;
+  --tw-ring-shadow: 0 0 #0000;
+  box-shadow: none;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--muted-foreground);
+}
+
+[data-theme="redhat"]
+  [data-slot="tabs"][data-orientation="horizontal"]
+  [data-slot="tabs-trigger"][data-state="active"] {
+  color: var(--foreground);
+  font-weight: 400;
+}
+
+[data-theme="redhat"]
+  [data-slot="tabs"][data-orientation="horizontal"]
+  [data-slot="tabs-trigger"][data-state="active"]::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: -1px;
+  height: 3px;
+  background: var(--redhat-brand);
+}
+
+[data-theme="redhat"]
+  [data-slot="tabs"][data-orientation="horizontal"]
+  [data-slot="tabs-indicator"] {
+  display: none;
+}
+
+/* Card (rh-card): radius 3, 1px subtle border, flat */
+[data-theme="redhat"] [data-slot="card"] {
+  border-radius: 3px;
+  border: 1px solid var(--border);
+  --tw-ring-shadow: 0 0 #0000;
+  --tw-shadow: 0 0 #0000;
+}
+
+/* Menus, popovers and dialogs: radius 3 */
+[data-theme="redhat"]
+  :is(
+    [data-slot="dropdown-content"],
+    [data-slot="popover-content"],
+    [data-slot="select-content"],
+    [data-slot="menubar-content"],
+    [data-slot="hover-card-content"],
+    [data-slot="command"],
+    [data-slot="dialog-content"],
+    [data-slot="alert-dialog-panel"],
+    [data-slot="alert"]
+  ) {
+  border-radius: 3px;
+}

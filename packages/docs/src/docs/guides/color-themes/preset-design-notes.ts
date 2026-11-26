@@ -252,4 +252,31 @@ export const presetDesignNotes: Record<ThemePresetId, PresetDesignNotes> = {
       "Small 4px corners on buttons, fields and tags; 8px on cards and images. The contrast between the two keeps controls compact and content soft.",
     example: "Know what matters, in 20 minutes.",
   },
+  redhat: {
+    direction: "Red marks the brand, blue does the work.",
+    principles: [
+      {
+        title: "Blue for every interaction",
+        text: "Buttons, links, focus rings and selected controls use interactive blue. A single filled blue action leads; outlined blue and neutral actions support it.",
+        roles: ["--primary", "--ring"],
+      },
+      {
+        title: "Red as a signature, not a signal",
+        text: "Brand red appears in the active tab bar and the first chart series. Errors use the system's red-orange so they never read as brand moments.",
+        roles: ["--chart-1", "--destructive"],
+      },
+    ],
+    type: {
+      body: "Red Hat Text",
+      family: '"Red Hat Text Variable"',
+      display: "Red Hat Display",
+      mono: "Red Hat Mono",
+      advice:
+        "Red Hat Text for running text and controls, Red Hat Display in medium weight for headings, Red Hat Mono for code. All three are open source; load them with @kamod-ch/themes/brands/redhat-fonts.css.",
+    },
+    radius: "3px",
+    shape:
+      "A 3px default radius on buttons, fields, cards and menus; tags, badges and switches are pills. Cards are separated by a 1px subtle border rather than a shadow.",
+    example: "Open source, open interfaces.",
+  },
 };
