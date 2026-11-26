@@ -63,7 +63,7 @@
     "@playwright/test": "^1.65.1",
     "@preact/preset-vite": "^2.10.6",
     "@tailwindcss/vite": "^4.3.5",
-    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/jest-dom": "^8.0.0",
     "@testing-library/preact": "^3.2.6",
     "@types/prismjs": "^1.26.6",
     "axe-core": "^4.14.0",

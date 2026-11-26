@@ -368,7 +368,7 @@
     "@arethetypeswrong/cli": "^0.18.5",
     "@kamod-ch/themes": "workspace:*",
     "@preact/signals": "^2.11.4",
-    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/jest-dom": "^8.0.0",
     "@testing-library/preact": "^3.2.6",
     "@vitest/coverage-v8": "^5.1.0",
     "axe-core": "^4.14.0",

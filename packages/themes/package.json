@@ -75,7 +75,7 @@
     "@fontsource-variable/red-hat-mono": "^5.3.0",
     "@fontsource-variable/red-hat-text": "^5.3.0",
     "@preact/signals": "^2.11.4",
-    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/jest-dom": "^8.0.0",
     "@testing-library/preact": "^3.2.6",
     "@types/node": "^26.6.6",
     "jsdom": "^31.0.1",
