@@ -3,7 +3,7 @@ import { tv } from "tailwind-variants";
 import { cn } from "../../lib/utils";
 
 export const cardDescription = tv({
-  base: "min-w-0 break-words text-muted-foreground text-sm group-data-[size=sm]/card:text-xs",
+  base: "min-w-0 break-words text-muted-foreground text-(length:--card-description-size) leading-[var(--card-description-line-height,1.25rem)] group-data-[size=sm]/card:text-xs",
 });
 
 export type CardDescriptionProps = HTMLAttributes<HTMLDivElement>;

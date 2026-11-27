@@ -7,7 +7,7 @@ Sizes measure the **Kamod-only JavaScript** pulled in by each `@kamod-ch/ui/<nam
 ## Summary
 
 - **Exports:** 76 subpaths
-- **Gzip range:** 0.1–17.7 KB (median 2.3 KB)
+- **Gzip range:** 0.1–17.8 KB (median 2.3 KB)
 - **Signals:** 24 direct · 6 indirect · 46 none (`@preact/signals` is an optional peer)
 
 ## Signals legend
@@ -26,16 +26,16 @@ Install `@preact/signals` for entries marked **Direct** or **Indirect**. Entries
 | ---------------------- | -------- | --------- | ---------------------- | ------------------ |
 | `accordion`            | 14.0     | 3.4       | Direct                 | `@preact/signals`  |
 | `alert`                | 7.1      | 2.1       | No                     | —                  |
-| `alert-dialog`         | 43.6     | 10.4      | Indirect (dialog)      | `@preact/signals`  |
+| `alert-dialog`         | 44.0     | 10.5      | Indirect (dialog)      | `@preact/signals`  |
 | `aspect-ratio`         | 1.0      | 0.5       | No                     | —                  |
 | `avatar`               | 7.1      | 2.1       | No                     | —                  |
-| `badge`                | 10.0     | 2.9       | No                     | —                  |
+| `badge`                | 10.2     | 3.0       | No                     | —                  |
 | `breadcrumb`           | 8.5      | 2.5       | No                     | —                  |
-| `button`               | 9.6      | 2.9       | No                     | —                  |
+| `button`               | 10.0     | 3.0       | No                     | —                  |
 | `button-group`         | 7.5      | 2.4       | No                     | —                  |
-| `calendar`             | 54.2     | 11.9      | No                     | —                  |
-| `card`                 | 3.7      | 1.2       | No                     | —                  |
-| `carousel`             | 19.8     | 5.0       | Direct                 | `@preact/signals`  |
+| `calendar`             | 54.7     | 12.1      | No                     | —                  |
+| `card`                 | 4.0      | 1.3       | No                     | —                  |
+| `carousel`             | 20.2     | 5.1       | Direct                 | `@preact/signals`  |
 | `chart`                | 1.1      | 0.5       | No                     | —                  |
 | `checkbox`             | 7.2      | 2.0       | No                     | —                  |
 | `code`                 | 63.8     | 17.1      | No                     | —                  |
@@ -43,11 +43,11 @@ Install `@preact/signals` for entries marked **Direct** or **Indirect**. Entries
 | `collapsible`          | 16.5     | 4.1       | Direct                 | `@preact/signals`  |
 | `combobox`             | 59.2     | 13.1      | Direct                 | `@preact/signals`  |
 | `command`              | 41.6     | 10.1      | Direct                 | `@preact/signals`  |
-| `consent-manager`      | 70.1     | 15.8      | Direct                 | `@preact/signals`  |
+| `consent-manager`      | 70.4     | 16.0      | Direct                 | `@preact/signals`  |
 | `context-menu`         | 30.3     | 7.0       | Direct                 | `@preact/signals`  |
 | `copy-button`          | 6.3      | 2.1       | No                     | —                  |
 | `data-table`           | 1.7      | 0.6       | No                     | —                  |
-| `date-picker`          | 56.3     | 13.7      | Indirect (popover)     | `@preact/signals`  |
+| `date-picker`          | 56.7     | 13.8      | Indirect (popover)     | `@preact/signals`  |
 | `dialog`               | 36.2     | 8.8       | Direct                 | `@preact/signals`  |
 | `direction`            | 1.4      | 0.5       | No                     | —                  |
 | `drawer`               | 41.5     | 9.7       | Indirect (dialog)      | `@preact/signals`  |
@@ -57,8 +57,8 @@ Install `@preact/signals` for entries marked **Direct** or **Indirect**. Entries
 | `field`                | 10.3     | 2.6       | No                     | —                  |
 | `hover-card`           | 12.4     | 3.5       | Direct                 | `@preact/signals`  |
 | `image`                | 0.8      | 0.4       | No                     | —                  |
-| `input`                | 2.0      | 0.8       | No                     | —                  |
-| `input-group`          | 17.2     | 4.3       | No                     | —                  |
+| `input`                | 2.1      | 0.8       | No                     | —                  |
+| `input-group`          | 17.6     | 4.4       | No                     | —                  |
 | `input-otp`            | 6.0      | 2.0       | Direct                 | `@preact/signals`  |
 | `item`                 | 11.0     | 3.0       | No                     | —                  |
 | `kbd`                  | 1.5      | 0.6       | No                     | —                  |
@@ -70,7 +70,7 @@ Install `@preact/signals` for entries marked **Direct** or **Indirect**. Entries
 | `menubar`              | 28.6     | 6.4       | Direct                 | `@preact/signals`  |
 | `native-select`        | 3.5      | 1.3       | No                     | —                  |
 | `navigation-menu`      | 26.1     | 6.7       | Direct                 | `@preact/signals`  |
-| `pagination`           | 13.6     | 3.7       | No                     | —                  |
+| `pagination`           | 14.0     | 3.8       | No                     | —                  |
 | `popover`              | 30.5     | 8.0       | Direct                 | `@preact/signals`  |
 | `progress`             | 3.7      | 1.3       | No                     | —                  |
 | `prose`                | 0.8      | 0.4       | No                     | —                  |
@@ -80,7 +80,7 @@ Install `@preact/signals` for entries marked **Direct** or **Indirect**. Entries
 | `selectable-card`      | 7.1      | 2.1       | No                     | —                  |
 | `separator`            | 1.6      | 0.6       | No                     | —                  |
 | `sheet`                | 39.2     | 9.3       | Indirect (dialog)      | `@preact/signals`  |
-| `sidebar`              | 81.5     | 17.7      | Indirect (tooltip)     | `@preact/signals`  |
+| `sidebar`              | 81.9     | 17.8      | Indirect (tooltip)     | `@preact/signals`  |
 | `skeleton`             | 1.5      | 0.6       | No                     | —                  |
 | `slider`               | 23.9     | 5.2       | Direct                 | `@preact/signals`  |
 | `sonner`               | 1.6      | 0.7       | Direct                 | `@preact/signals`  |
@@ -89,7 +89,7 @@ Install `@preact/signals` for entries marked **Direct** or **Indirect**. Entries
 | `table`                | 3.0      | 0.8       | No                     | —                  |
 | `tabs`                 | 11.0     | 2.9       | Direct                 | `@preact/signals`  |
 | `textarea`             | 2.1      | 0.8       | No                     | —                  |
-| `theme-toggle`         | 15.1     | 4.4       | No                     | `@kamod-ch/themes` |
+| `theme-toggle`         | 15.4     | 4.5       | No                     | `@kamod-ch/themes` |
 | `theme.css`            | 4.1      | 0.8       | No                     | —                  |
 | `toast`                | 7.1      | 1.9       | Direct                 | `@preact/signals`  |
 | `toggle`               | 5.3      | 1.7       | No                     | —                  |

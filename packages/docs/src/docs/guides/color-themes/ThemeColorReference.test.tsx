@@ -10,6 +10,8 @@ import {
   colorFromBytes,
   colorGroups,
   coreColorNames,
+  expandThemeImports,
+  isSemanticThemeColor,
   semanticColorNames,
   themeColorTokens,
 } from "./theme-color-tokens";
@@ -21,14 +23,13 @@ afterEach(() => {
 });
 
 it("covers every shipped semantic color and every optional Watson source shade", () => {
-  const foundation = readFileSync(
-    resolve(import.meta.dirname, "../../../../../themes/src/tokens.css"),
-    "utf8",
+  const foundation = expandThemeImports(
+    readFileSync(resolve(import.meta.dirname, "../../../../../themes/src/tokens.css"), "utf8"),
   );
-  const body = foundation.match(/\[data-theme-scope\]\s*\{([^}]+)/)![1];
-  const names = [...body.matchAll(/--([\w-]+):/g)]
-    .map((match) => match[1])
-    .filter((name) => name !== "radius");
+  const scope = [...foundation.replace(/\/\*[\s\S]*?\*\//g, "").matchAll(/([^{}]+)\{([^{}]*)\}/g)]
+    .filter(([, selector]) => selector.includes("[data-theme-scope]"))
+    .flatMap(([, , body]) => [...body.matchAll(/--([\w-]+)\s*:/g)].map((match) => match[1]));
+  const names = [...new Set(scope)].filter(isSemanticThemeColor);
   expect(semanticColorNames).toEqual(names);
   for (const { id } of THEME_PRESETS) {
     const tokens = themeColorTokens(id);
@@ -83,7 +84,7 @@ it("follows the actual foundation and brand cascade instead of inventing missing
     source: "brands/shadcn.css",
   });
   expect(shadcn.find((token) => token.name === "primary-accent")!.dark).toEqual({
-    declaration: "var(--color-neutral-300)",
+    declaration: "oklch(0.87 0 0)",
     source: "tokens.css",
   });
   const ocean = themeColorTokens("ocean");

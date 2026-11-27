@@ -1,0 +1,45 @@
+{
+  "$description": "Kamod dark roles. Same token paths as light, read in a separate run.",
+  "color": {
+    "background": { "$type": "color", "$value": "{color.neutral.950}" },
+    "foreground": { "$type": "color", "$value": "{color.neutral.50}" },
+    "card": {
+      "fill": { "$type": "color", "$value": "{color.neutral.900}" },
+      "foreground": { "$type": "color", "$value": "{color.neutral.50}" }
+    },
+    "action": {
+      "primary": { "$type": "color", "$value": "{color.neutral.50}" },
+      "on-primary": { "$type": "color", "$value": "{color.neutral.950}" },
+      "primary-accent": { "$type": "color", "$value": "{color.neutral.300}" }
+    },
+    "muted": {
+      "fill": { "$type": "color", "$value": "{color.neutral.800}" },
+      "foreground": { "$type": "color", "$value": "{color.neutral.400}" }
+    },
+    "border": {
+      "$type": "color",
+      "$description": "Resolves the previous --alpha(var(--color-neutral-50) / 10%).",
+      "$value": "{color.neutral.50}",
+      "$extensions": { "com.kamod.color-alpha": 0.1 }
+    },
+    "input": {
+      "$type": "color",
+      "$description": "Resolves the previous --alpha(var(--color-neutral-50) / 15%).",
+      "$value": "{color.neutral.50}",
+      "$extensions": { "com.kamod.color-alpha": 0.15 }
+    },
+    "outline": { "$type": "color", "$value": "{color.neutral.500}" },
+    "ring": { "$type": "color", "$value": "{color.outline}" },
+    "error": {
+      "fill": { "$type": "color", "$value": "{color.red.800}" },
+      "foreground": { "$type": "color", "$value": "{color.neutral.50}" }
+    },
+    "destructive": {
+      "fill": { "$type": "color", "$value": "{color.error.fill}" },
+      "foreground": { "$type": "color", "$value": "{color.error.foreground}" }
+    }
+  },
+  "radius": {
+    "base": { "$type": "dimension", "$value": { "value": 0.625, "unit": "rem" } }
+  }
+}

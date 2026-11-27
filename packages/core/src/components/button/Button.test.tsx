@@ -7,8 +7,9 @@ describe("Button cn migration", () => {
     render(<Button>Save</Button>);
     const el = screen.getByRole("button", { name: "Save" });
     expect(el).toHaveAttribute("data-slot", "button");
-    expect(el.className).toContain("h-8");
+    expect(el.className).toContain("h-(--button-height)");
     expect(el.className).toContain("bg-primary");
+    expect(el.className).toContain("text-[var(--button-foreground,var(--background))]");
   });
 
   it("merges additional consumer classes", () => {
@@ -22,7 +23,7 @@ describe("Button cn migration", () => {
     render(<Button class="h-12">Save</Button>);
     const el = screen.getByRole("button", { name: "Save" });
     expect(el.className).toContain("h-12");
-    expect(el.className).not.toMatch(/\bh-8\b/);
+    expect(el.className).not.toContain("h-(--button-height)");
   });
 
   it("applies conditional variant classes", () => {
@@ -60,7 +61,7 @@ describe("Button cn migration", () => {
     );
     const el = screen.getByRole("link", { name: "Docs" });
     expect(el.className).toContain("h-12");
-    expect(el.className).not.toMatch(/\bh-8\b/);
+    expect(el.className).not.toContain("h-(--button-height)");
     expect(el).toHaveAttribute("data-slot", "button");
     expect(screen.queryByRole("button")).toBeNull();
   });

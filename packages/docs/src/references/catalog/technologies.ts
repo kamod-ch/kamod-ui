@@ -442,6 +442,14 @@ export const technologies: Technology[] = [
     description: "Organizes Tailwind class strings into reusable component variants.",
   },
   {
+    name: "Style Dictionary",
+    aliases: ["style-dictionary"],
+    href: "https://styledictionary.com/",
+    category: "Design tokens",
+    description:
+      "Builds the Kamod and Watson pilot tokens from DTCG JSON into the CSS variables the theme already publishes.",
+  },
+  {
     name: "TanStack",
     href: "https://tanstack.com/",
     category: "Library collection",

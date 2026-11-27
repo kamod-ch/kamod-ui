@@ -1,0 +1,47 @@
+{
+  "$description": "Component tokens for the Kamod button, field, badge, and card. Shared by the light and dark runs; mode-specific color comes from the semantic aliases.",
+  "button": {
+    "foreground": { "$type": "color", "$value": "{color.background}" },
+    "hover-background": {
+      "$type": "color",
+      "$description": "Matches hover:bg-foreground/90.",
+      "$value": "{color.foreground}",
+      "$extensions": { "com.kamod.color-alpha": 0.9 }
+    },
+    "height": { "$type": "dimension", "$value": "{space.button.height}" },
+    "padding-inline": { "$type": "dimension", "$value": "{space.button.padding-inline}" },
+    "gap": { "$type": "dimension", "$value": "{space.button.gap}" },
+    "radius": { "$type": "dimension", "$value": "{radius.base}" },
+    "font-size": { "$type": "dimension", "$value": "{font.size.sm}" },
+    "line-height": { "$type": "dimension", "$value": "{font.line-height.sm}" },
+    "font-weight": { "$type": "fontWeight", "$value": "{font.weight.medium}" },
+    "disabled-opacity": { "$type": "number", "$value": "{opacity.disabled}" }
+  },
+  "field": {
+    "height": { "$type": "dimension", "$value": "{space.field.height}" },
+    "padding-inline": { "$type": "dimension", "$value": "{space.field.padding-inline}" },
+    "font-size": { "$type": "dimension", "$value": "{font.size.sm}" },
+    "font-weight": { "$type": "fontWeight", "$value": "{font.weight.medium}" },
+    "radius": { "$type": "dimension", "$value": "{measure.field-kamod}" }
+  },
+  "badge": {
+    "padding-inline": { "$type": "dimension", "$value": "{space.badge.padding-inline}" },
+    "padding-block": { "$type": "dimension", "$value": "{space.badge.padding-block}" },
+    "font-size": { "$type": "dimension", "$value": "{font.size.sm}" },
+    "font-weight": { "$type": "fontWeight", "$value": "{font.weight.medium}" }
+  },
+  "card": {
+    "padding": { "$type": "dimension", "$value": "{space.card.padding}" },
+    "gap": { "$type": "dimension", "$value": "{space.card.gap}" },
+    "title-size": { "$type": "dimension", "$value": "{font.size.xl}" },
+    "title-weight": { "$type": "fontWeight", "$value": "{font.weight.semibold}" },
+    "title-line-height": { "$type": "number", "$value": "{font.line-height.title}" },
+    "description-size": { "$type": "dimension", "$value": "{font.size.sm}" },
+    "footer-background": {
+      "$type": "color",
+      "$description": "Matches bg-muted/50.",
+      "$value": "{color.muted.fill}",
+      "$extensions": { "com.kamod.color-alpha": 0.5 }
+    }
+  }
+}

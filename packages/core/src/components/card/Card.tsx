@@ -10,7 +10,7 @@ export const card = tv({
   ],
   variants: {
     size: {
-      default: "gap-6 py-6",
+      default: "gap-(--card-gap) py-(--card-padding)",
       sm: "gap-4 py-4 text-sm",
     },
   },

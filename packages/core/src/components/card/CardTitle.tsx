@@ -3,7 +3,7 @@ import { tv } from "tailwind-variants";
 import { cn } from "../../lib/utils";
 
 export const cardTitle = tv({
-  base: "font-heading min-w-0 break-words text-xl leading-snug font-semibold group-data-[size=sm]/card:text-base",
+  base: "font-heading min-w-0 break-words text-(length:--card-title-size) leading-(--card-title-line-height) font-(weight:--card-title-weight) group-data-[size=sm]/card:text-base",
 });
 
 export type CardTitleProps = HTMLAttributes<HTMLDivElement>;

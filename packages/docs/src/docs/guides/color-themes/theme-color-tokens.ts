@@ -1,5 +1,22 @@
 import { THEME_PRESETS, type ThemePresetId } from "@kamod-ch/themes";
+import defaultDark from "../../../../../themes/src/generated/default-dark.css?raw";
+import defaultLight from "../../../../../themes/src/generated/default-light.css?raw";
+import watsonGenerated from "../../../../../themes/src/generated/watson.css?raw";
 import foundation from "../../../../../themes/src/tokens.css?raw";
+
+const generatedByImport: Record<string, string> = {
+  "./generated/default-light.css": defaultLight,
+  "./generated/default-dark.css": defaultDark,
+  "../generated/watson.css": watsonGenerated,
+};
+
+/** Inline the token build's relative imports so the shipped cascade stays readable as text. */
+export function expandThemeImports(css: string): string {
+  return css.replace(
+    /@import\s+["']([^"']+)["'];/g,
+    (match, spec: string) => generatedByImport[spec] ?? match,
+  );
+}
 
 type Scheme = "light" | "dark";
 export type ColorGroup =
@@ -40,7 +57,31 @@ function blocks(css: string) {
     }),
   );
 }
-const foundationBlocks = blocks(foundation);
+
+function mergedBlocks(css: string) {
+  const merged = new Map<string, Record<string, string>>();
+  const order: string[] = [];
+  for (const block of blocks(expandThemeImports(css))) {
+    const current = merged.get(block.selector);
+    if (!current) {
+      merged.set(block.selector, { ...block.values });
+      order.push(block.selector);
+      continue;
+    }
+    Object.assign(current, block.values);
+  }
+  return order.map((selector) => ({ selector, values: merged.get(selector)! }));
+}
+
+export function isSemanticThemeColor(name: string) {
+  return (
+    name !== "radius" &&
+    !/^(?:button|field|badge)-/.test(name) &&
+    !/^card-(?:padding|gap|title|description|footer)/.test(name)
+  );
+}
+
+const foundationBlocks = mergedBlocks(foundation);
 const foundationLight = foundationBlocks.find(({ selector }) =>
   selector.includes("[data-theme-scope]"),
 )!.values;
@@ -332,7 +373,7 @@ export const coreColorNames = [
   "destructive",
   "sidebar-background",
 ] as const;
-export const semanticColorNames = Object.keys(foundationLight).filter((name) => name !== "radius");
+export const semanticColorNames = Object.keys(foundationLight).filter(isSemanticThemeColor);
 
 const title = (name: string) => name.replace(/^color-/, "").replace(/[_-]/g, " ");
 
@@ -343,7 +384,7 @@ const presetLabel = (preset: ThemePresetId) =>
 export function themeColorTokens(preset: ThemePresetId): ThemeColorToken[] {
   const file = `brands/${preset}.css`;
   const css = brands[`../../../../../themes/src/${file}`] ?? "";
-  const presetBlocks = blocks(css);
+  const presetBlocks = mergedBlocks(css);
   const light =
     presetBlocks.find(({ selector }) => selector.includes("[data-theme-scope]"))?.values ?? {};
   const dark =

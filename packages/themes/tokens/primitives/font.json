@@ -1,0 +1,28 @@
+{
+  "$description": "Type sizes, line heights, and weights used by Button, Input, Badge, and Card.",
+  "font": {
+    "weight": {
+      "medium": { "$type": "fontWeight", "$value": 500 },
+      "semibold": { "$type": "fontWeight", "$value": 600 },
+      "bold": { "$type": "fontWeight", "$value": 700 },
+      "extrabold": { "$type": "fontWeight", "$value": 800 },
+      "black": { "$type": "fontWeight", "$value": 900 }
+    },
+    "size": {
+      "sm": { "$type": "dimension", "$value": { "value": 0.875, "unit": "rem" } },
+      "xl": { "$type": "dimension", "$value": { "value": 1.25, "unit": "rem" } },
+      "control-watson": { "$type": "dimension", "$value": { "value": 16, "unit": "px" } },
+      "badge-watson": { "$type": "dimension", "$value": { "value": 12, "unit": "px" } }
+    },
+    "line-height": {
+      "sm": { "$type": "dimension", "$value": { "value": 1.25, "unit": "rem" } },
+      "button-watson": { "$type": "dimension", "$value": { "value": 24, "unit": "px" } },
+      "badge-watson": { "$type": "dimension", "$value": { "value": 13, "unit": "px" } },
+      "card-description-watson": { "$type": "dimension", "$value": { "value": 24, "unit": "px" } },
+      "title": { "$type": "number", "$value": 1.375 }
+    }
+  },
+  "opacity": {
+    "disabled": { "$type": "number", "$value": 0.5 }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "$description": "Watson dark roles. Values that light left to inheritance are repeated here so this run stands alone.",
+  "color": {
+    "background": { "$type": "color", "$value": "{color.watson.black}" },
+    "foreground": { "$type": "color", "$value": "{color.white}" },
+    "card": {
+      "fill": { "$type": "color", "$value": "{color.watson.ink.80}" },
+      "foreground": { "$type": "color", "$value": "{color.white}" }
+    },
+    "action": {
+      "primary": { "$type": "color", "$value": "{color.watson.pink.100}" },
+      "on-primary": { "$type": "color", "$value": "{color.white}" },
+      "primary-accent": { "$type": "color", "$value": "{color.watson.aubergine.100}" }
+    },
+    "muted": {
+      "fill": { "$type": "color", "$value": "{color.watson.ink.80}" },
+      "foreground": { "$type": "color", "$value": "{color.watson.grey.20}" }
+    },
+    "border": { "$type": "color", "$value": "{color.watson.divider-dark}" },
+    "input": { "$type": "color", "$value": "{color.watson.divider-dark}" },
+    "outline": { "$type": "color", "$value": "{color.watson.blue.100}" },
+    "ring": { "$type": "color", "$value": "{color.outline}" },
+    "error": {
+      "fill": { "$type": "color", "$value": "{color.watson.red}" },
+      "foreground": { "$type": "color", "$value": "{color.black}" }
+    },
+    "destructive": {
+      "fill": { "$type": "color", "$value": "{color.error.fill}" },
+      "foreground": { "$type": "color", "$value": "{color.error.foreground}" }
+    },
+    "watson": {
+      "surface": { "$type": "color", "$value": "{color.watson.ink.80}" },
+      "surface-active": { "$type": "color", "$value": "{color.watson.ink.70}" },
+      "surface-control": { "$type": "color", "$value": "{color.watson.graphite.100}" },
+      "on-control": { "$type": "color", "$value": "{color.white}" },
+      "divider": { "$type": "color", "$value": "{color.watson.divider-dark}" },
+      "text-label": { "$type": "color", "$value": "{color.watson.grey.20}" },
+      "text-placeholder": { "$type": "color", "$value": "{color.watson.grey.80}" },
+      "focus-ring": { "$type": "color", "$value": "{color.watson.blue.100}" },
+      "accent-text": { "$type": "color", "$value": "{color.watson.pink.100}" }
+    }
+  },
+  "radius": {
+    "base": { "$type": "dimension", "$value": { "value": 6, "unit": "px" } }
+  }
+}

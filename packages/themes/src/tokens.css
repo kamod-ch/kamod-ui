@@ -1,3 +1,6 @@
+@import "./generated/default-light.css";
+@import "./generated/default-dark.css";
+
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
@@ -60,20 +63,11 @@
 /* Explicit scopes reset inherited tokens before applying a local preset/scheme. */
 :root,
 [data-theme-scope] {
-  --background: var(--color-white);
-  --foreground: var(--color-neutral-950);
-  --card: var(--color-white);
-  --card-foreground: var(--color-neutral-950);
   --popover: var(--color-white);
   --popover-foreground: var(--color-neutral-950);
-  --primary: var(--color-neutral-950);
-  --primary-foreground: var(--color-neutral-50);
-  --primary-accent: var(--color-neutral-800);
   --secondary: var(--color-fuchsia-700);
   --secondary-foreground: var(--color-neutral-50);
   --secondary-accent: var(--color-fuchsia-700);
-  --muted: var(--color-neutral-100);
-  --muted-foreground: var(--color-neutral-600);
   --accent: var(--color-neutral-100);
   --accent-foreground: var(--color-neutral-900);
   --info: var(--color-sky-300);
@@ -82,15 +76,6 @@
   --success-foreground: var(--color-green-950);
   --warning: var(--color-amber-300);
   --warning-foreground: var(--color-amber-950);
-  --error: var(--color-red-700);
-  --error-foreground: var(--color-neutral-50);
-  --destructive: var(--error);
-  --destructive-foreground: var(--error-foreground);
-  --border: var(--color-neutral-200);
-  --input: var(--color-neutral-200);
-  --ring: var(--outline);
-  --outline: var(--color-neutral-400);
-  --radius: 0.625rem;
   --sidebar-background: var(--color-neutral-50);
   --sidebar-foreground: var(--color-neutral-950);
   --sidebar-primary: var(--color-neutral-950);
@@ -107,20 +92,11 @@
 }
 
 .dark {
-  --background: var(--color-neutral-950);
-  --foreground: var(--color-neutral-50);
-  --card: var(--color-neutral-900);
-  --card-foreground: var(--color-neutral-50);
   --popover: var(--color-neutral-800);
   --popover-foreground: var(--color-neutral-50);
-  --primary: var(--color-neutral-50);
-  --primary-foreground: var(--color-neutral-950);
-  --primary-accent: var(--color-neutral-300);
   --secondary: var(--color-fuchsia-700);
   --secondary-foreground: var(--color-neutral-50);
   --secondary-accent: var(--color-fuchsia-400);
-  --muted: var(--color-neutral-800);
-  --muted-foreground: var(--color-neutral-400);
   --accent: var(--color-neutral-700);
   --accent-foreground: var(--color-neutral-100);
   --info: var(--color-sky-300);
@@ -129,14 +105,6 @@
   --success-foreground: var(--color-green-950);
   --warning: var(--color-amber-300);
   --warning-foreground: var(--color-amber-950);
-  --error: var(--color-red-800);
-  --error-foreground: var(--color-neutral-50);
-  --destructive: var(--error);
-  --destructive-foreground: var(--error-foreground);
-  --border: --alpha(var(--color-neutral-50) / 10%);
-  --input: --alpha(var(--color-neutral-50) / 15%);
-  --ring: var(--outline);
-  --outline: var(--color-neutral-500);
   --sidebar-background: var(--color-neutral-900);
   --sidebar-foreground: var(--color-neutral-50);
   --sidebar-primary: var(--color-neutral-50);

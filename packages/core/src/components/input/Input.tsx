@@ -13,7 +13,11 @@ export const input = tv({
     "peer placeholder:text-muted-foreground",
   ],
   variants: {
-    size: { sm: "h-7 px-2.5 text-sm", md: "h-8 px-3 text-sm", lg: "h-9 px-3.5 text-base" },
+    size: {
+      sm: "h-7 px-2.5 text-sm",
+      md: "h-(--field-height) px-(--field-padding-inline) text-(length:--field-font-size)",
+      lg: "h-9 px-3.5 text-base",
+    },
   },
   defaultVariants: { size: "md" },
 });

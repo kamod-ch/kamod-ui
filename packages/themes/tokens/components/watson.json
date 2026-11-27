@@ -1,0 +1,48 @@
+{
+  "$description": "Component tokens for the Watson button, field, badge, and card. Literal skin values now alias these tokens.",
+  "button": {
+    "foreground": { "$type": "color", "$value": "{color.action.on-primary}" },
+    "hover-background": { "$type": "color", "$value": "{color.action.primary-accent}" },
+    "height": { "$type": "dimension", "$value": "{space.button.height-watson}" },
+    "padding-inline": { "$type": "dimension", "$value": "{space.button.padding-inline-watson}" },
+    "radius": { "$type": "dimension", "$value": "{measure.control-watson}" },
+    "font-size": { "$type": "dimension", "$value": "{font.size.control-watson}" },
+    "line-height": { "$type": "dimension", "$value": "{font.line-height.button-watson}" },
+    "font-weight": { "$type": "fontWeight", "$value": "{font.weight.bold}" },
+    "disabled-opacity": { "$type": "number", "$value": "{opacity.disabled}" }
+  },
+  "field": {
+    "height": { "$type": "dimension", "$value": "{space.field.height-watson}" },
+    "padding-inline": { "$type": "dimension", "$value": "{space.field.padding-inline-watson}" },
+    "font-size": { "$type": "dimension", "$value": "{font.size.control-watson}" },
+    "font-weight": { "$type": "fontWeight", "$value": "{font.weight.medium}" },
+    "radius": { "$type": "dimension", "$value": "{measure.control-watson}" },
+    "invalid-bar": { "$type": "dimension", "$value": "{space.field.invalid-bar}" }
+  },
+  "badge": {
+    "padding-inline": { "$type": "dimension", "$value": "{space.badge.padding-inline-watson}" },
+    "padding-block": { "$type": "dimension", "$value": "{space.badge.padding-block-watson}" },
+    "font-size": { "$type": "dimension", "$value": "{font.size.badge-watson}" },
+    "font-weight": { "$type": "fontWeight", "$value": "{font.weight.extrabold}" },
+    "radius": { "$type": "dimension", "$value": "{measure.control-watson}" },
+    "line-height": { "$type": "dimension", "$value": "{font.line-height.badge-watson}" },
+    "tracking": { "$type": "dimension", "$value": "{space.badge.tracking-watson}" },
+    "secondary-background": { "$type": "color", "$value": "{color.black}" },
+    "secondary-foreground": { "$type": "color", "$value": "{color.white}" }
+  },
+  "card": {
+    "padding": { "$type": "dimension", "$value": "{space.card.padding}" },
+    "gap": { "$type": "dimension", "$value": "{space.card.gap}" },
+    "title-size": { "$type": "dimension", "$value": "{font.size.xl}" },
+    "title-weight": { "$type": "fontWeight", "$value": "{font.weight.black}" },
+    "description-size": { "$type": "dimension", "$value": "{font.size.control-watson}" },
+    "description-line-height": {
+      "$type": "dimension",
+      "$value": "{font.line-height.card-description-watson}"
+    },
+    "footer-background": {
+      "$type": "color",
+      "$value": { "colorSpace": "srgb", "components": [0, 0, 0], "alpha": 0, "hex": "#000000" }
+    }
+  }
+}

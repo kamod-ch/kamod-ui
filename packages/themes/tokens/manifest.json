@@ -1,0 +1,83 @@
+{
+  "$description": "Each brand and mode is a separate Style Dictionary run. A run lists every file it combines. Light and dark files are never in the same run, so identical token paths cannot overwrite each other.",
+  "combinations": {
+    "kamod": {
+      "light": [
+        "primitives/color.json",
+        "primitives/dimension.json",
+        "primitives/font.json",
+        "semantic/kamod/light.json",
+        "components/kamod.json"
+      ],
+      "dark": [
+        "primitives/color.json",
+        "primitives/dimension.json",
+        "primitives/font.json",
+        "semantic/kamod/dark.json",
+        "components/kamod.json"
+      ]
+    },
+    "watson": {
+      "light": [
+        "primitives/color.json",
+        "primitives/dimension.json",
+        "primitives/font.json",
+        "semantic/watson/light.json",
+        "components/watson.json"
+      ],
+      "dark": [
+        "primitives/color.json",
+        "primitives/dimension.json",
+        "primitives/font.json",
+        "semantic/watson/dark.json",
+        "components/watson.json"
+      ]
+    }
+  },
+  "outputs": [
+    {
+      "file": "src/generated/default-light.css",
+      "brand": "kamod",
+      "mode": "light",
+      "selector": [":root", "[data-theme-scope]"]
+    },
+    {
+      "file": "src/generated/default-dark.css",
+      "brand": "kamod",
+      "mode": "dark",
+      "selector": [".dark"]
+    },
+    {
+      "file": "src/brands/kamod.css",
+      "parts": [
+        {
+          "brand": "kamod",
+          "mode": "light",
+          "selector": [":root[data-theme=\"kamod\"]", "[data-theme-scope][data-theme=\"kamod\"]"],
+          "paths": ["radius.base"]
+        },
+        {
+          "brand": "kamod",
+          "mode": "dark",
+          "selector": [".dark[data-theme=\"kamod\"]"],
+          "paths": ["radius.base"]
+        }
+      ]
+    },
+    {
+      "file": "src/generated/watson.css",
+      "parts": [
+        {
+          "brand": "watson",
+          "mode": "light",
+          "selector": [":root[data-theme=\"watson\"]", "[data-theme-scope][data-theme=\"watson\"]"]
+        },
+        {
+          "brand": "watson",
+          "mode": "dark",
+          "selector": [".dark[data-theme=\"watson\"]"]
+        }
+      ]
+    }
+  ]
+}

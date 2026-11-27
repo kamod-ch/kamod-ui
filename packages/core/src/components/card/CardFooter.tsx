@@ -3,7 +3,7 @@ import { tv } from "tailwind-variants";
 import { cn } from "../../lib/utils";
 
 export const cardFooter = tv({
-  base: "bg-muted/50 flex items-center rounded-b-xl border-t p-6 group-data-[size=sm]/card:p-4",
+  base: "bg-[var(--card-footer-background,color-mix(in_oklab,var(--muted)_50%,transparent))] flex items-center rounded-b-xl border-t p-(--card-padding) group-data-[size=sm]/card:p-4",
 });
 
 export type CardFooterProps = HTMLAttributes<HTMLDivElement>;

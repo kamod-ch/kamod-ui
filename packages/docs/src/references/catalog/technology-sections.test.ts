@@ -119,6 +119,7 @@ it("accounts for every direct external technology dependency in the workspace ma
     preact: "Preact",
     prismjs: "Prism.js",
     tailwindcss: "Tailwind",
+    "style-dictionary": "Style Dictionary",
     "tailwind-variants": "Tailwind Variants",
     typescript: "TypeScript",
     valibot: "Valibot",

@@ -8,8 +8,8 @@
       "signals": "direct",
       "signalsVia": null,
       "size": {
-        "min": 589511,
-        "gzip": 121037
+        "min": 590435,
+        "gzip": 121355
       },
       "peers": [
         "@kamod-ch/themes",
@@ -11443,8 +11443,8 @@
       "signals": "indirect",
       "signalsVia": "dialog",
       "size": {
-        "min": 44695,
-        "gzip": 10665
+        "min": 45031,
+        "gzip": 10784
       },
       "peers": [
         "@preact/signals"
@@ -12002,8 +12002,8 @@
       "signals": "none",
       "signalsVia": null,
       "size": {
-        "min": 10220,
-        "gzip": 3007
+        "min": 10431,
+        "gzip": 3086
       },
       "peers": [],
       "components": [
@@ -12218,8 +12218,8 @@
       "signals": "none",
       "signalsVia": null,
       "size": {
-        "min": 9872,
-        "gzip": 2943
+        "min": 10208,
+        "gzip": 3062
       },
       "peers": [],
       "components": [
@@ -12368,8 +12368,8 @@
       "signals": "none",
       "signalsVia": null,
       "size": {
-        "min": 55546,
-        "gzip": 12225
+        "min": 55966,
+        "gzip": 12361
       },
       "peers": [],
       "components": [
@@ -12730,8 +12730,8 @@
       "signals": "none",
       "signalsVia": null,
       "size": {
-        "min": 3763,
-        "gzip": 1192
+        "min": 4056,
+        "gzip": 1291
       },
       "peers": [],
       "components": [
@@ -12849,8 +12849,8 @@
       "signals": "direct",
       "signalsVia": null,
       "size": {
-        "min": 20307,
-        "gzip": 5147
+        "min": 20643,
+        "gzip": 5268
       },
       "peers": [
         "@preact/signals"
@@ -14705,8 +14705,8 @@
       "signals": "direct",
       "signalsVia": null,
       "size": {
-        "min": 71735,
-        "gzip": 16227
+        "min": 72071,
+        "gzip": 16349
       },
       "peers": [
         "@preact/signals"
@@ -15534,8 +15534,8 @@
       "signals": "indirect",
       "signalsVia": "popover",
       "size": {
-        "min": 57695,
-        "gzip": 14014
+        "min": 58031,
+        "gzip": 14135
       },
       "peers": [
         "@preact/signals"
@@ -17545,8 +17545,8 @@
       "signals": "none",
       "signalsVia": null,
       "size": {
-        "min": 2021,
-        "gzip": 827
+        "min": 2105,
+        "gzip": 869
       },
       "peers": [],
       "components": [
@@ -17586,8 +17586,8 @@
       "signals": "none",
       "signalsVia": null,
       "size": {
-        "min": 17586,
-        "gzip": 4413
+        "min": 18006,
+        "gzip": 4555
       },
       "peers": [],
       "components": [
@@ -19141,8 +19141,8 @@
       "signals": "none",
       "signalsVia": null,
       "size": {
-        "min": 13951,
-        "gzip": 3792
+        "min": 14287,
+        "gzip": 3909
       },
       "peers": [],
       "components": [
@@ -20619,8 +20619,8 @@
       "signals": "indirect",
       "signalsVia": "tooltip",
       "size": {
-        "min": 83428,
-        "gzip": 18074
+        "min": 83848,
+        "gzip": 18210
       },
       "peers": [
         "@preact/signals"
@@ -21951,8 +21951,8 @@
       "signals": "none",
       "signalsVia": null,
       "size": {
-        "min": 15445,
-        "gzip": 4506
+        "min": 15781,
+        "gzip": 4622
       },
       "peers": [
         "@kamod-ch/themes"

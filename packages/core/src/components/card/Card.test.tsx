@@ -8,7 +8,8 @@ describe("Card cn migration", () => {
     const el = screen.getByText("Content").closest("[data-slot='card']");
     expect(el).not.toBeNull();
     expect(el).toHaveAttribute("data-size", "default");
-    expect((el as HTMLElement).className).toContain("gap-6");
+    expect((el as HTMLElement).className).toContain("gap-(--card-gap)");
+    expect((el as HTMLElement).className).toContain("bg-card");
     expect((el as HTMLElement).className).toContain("rounded-xl");
   });
 
@@ -23,7 +24,7 @@ describe("Card cn migration", () => {
     render(<Card class="gap-2">Content</Card>);
     const el = screen.getByText("Content").closest("[data-slot='card']");
     expect((el as HTMLElement).className).toContain("gap-2");
-    expect((el as HTMLElement).className).not.toMatch(/\bgap-6\b/);
+    expect((el as HTMLElement).className).not.toContain("gap-(--card-gap)");
   });
 
   it("applies conditional size variant classes", () => {

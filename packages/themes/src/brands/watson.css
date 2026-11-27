@@ -1,3 +1,5 @@
+@import "../generated/watson.css";
+
 /**
  * watson preset for Kamod UI (Tailwind v4 @theme + preset + component skin).
  * Source: CH Media Design connector, brand data watson@2026-11-10
@@ -280,24 +282,11 @@
     "Liberation Mono", "Courier New", monospace;
   --font-mono-custom: var(--font-mono);
 
-  /* 6px base: radius-md = 4px (fields), radius-xl = 10px (cards); components below pin the rest */
-  --radius: 6px;
-
-  --background: var(--color-white-100);
-  --foreground: var(--color-black-100);
-  --card: var(--color-grey-10);
-  --card-foreground: var(--color-black-100);
   --popover: var(--color-grey-10);
   --popover-foreground: var(--color-black-100);
-  --primary: var(--color-watson_pink-100);
-  /* White on pink is 3.9:1: only for 16px bold labels (watson button) */
-  --primary-foreground: var(--color-white-100);
-  --primary-accent: var(--color-aubergine-100);
   --secondary: var(--color-graphite-100);
   --secondary-foreground: var(--color-white-100);
   --secondary-accent: var(--color-graphite-80);
-  --muted: var(--color-grey-10);
-  --muted-foreground: var(--color-grey-100);
   --accent: var(--color-grey-20);
   --accent-foreground: var(--color-black-100);
   --info: var(--color-watson_blue-20);
@@ -306,15 +295,6 @@
   --success-foreground: var(--color-black-100);
   --warning: var(--color-lemon-20);
   --warning-foreground: var(--color-black-100);
-  --error: var(--color-watson_red);
-  /* Black on red 5.3:1; white would be 3.9:1 */
-  --error-foreground: var(--color-black-100);
-  --destructive: var(--color-watson_red);
-  --destructive-foreground: var(--color-black-100);
-  --border: var(--color-grey-20);
-  --input: var(--color-grey-20);
-  --ring: var(--color-black-100);
-  --outline: var(--color-black-100);
 
   --sidebar-background: var(--color-grey-10);
   --sidebar-foreground: var(--color-black-100);
@@ -331,17 +311,7 @@
   --chart-4: var(--color-jade-100);
   --chart-5: var(--color-lavender-100);
 
-  /* watson roles used by the component skin below */
-  --watson-accent-text: var(--color-aubergine-100);
-  --watson-surface: var(--color-grey-10);
-  --watson-surface-active: var(--color-grey-20);
-  --watson-surface-control: var(--color-graphite-100);
-  --watson-on-control: var(--color-white-100);
-  --watson-divider: var(--color-grey-20);
   --watson-divider-menu: var(--color-grey-20);
-  --watson-text-label: var(--color-grey-100);
-  --watson-text-placeholder: var(--color-grey-100);
-  --watson-focus-ring: var(--color-black-100);
   --watson-overlay: #000000cc;
 }
 
@@ -353,20 +323,11 @@
     "Fira Code Variable", "Fira Code", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
     "Liberation Mono", "Courier New", monospace;
 
-  --background: var(--color-watson_black);
-  --foreground: var(--color-white-100);
-  --card: var(--color-black-80);
-  --card-foreground: var(--color-white-100);
   --popover: var(--color-black-80);
   --popover-foreground: var(--color-white-100);
-  --primary: var(--color-watson_pink-100);
-  --primary-foreground: var(--color-white-100);
-  --primary-accent: var(--color-aubergine-100);
   --secondary: var(--color-graphite-100);
   --secondary-foreground: var(--color-white-100);
   --secondary-accent: var(--color-graphite-80);
-  --muted: var(--color-black-80);
-  --muted-foreground: var(--color-grey-20);
   --accent: var(--color-black-70);
   --accent-foreground: var(--color-white-100);
   --info: var(--color-watson_blue-20);
@@ -375,14 +336,6 @@
   --success-foreground: var(--color-black-100);
   --warning: var(--color-lemon-20);
   --warning-foreground: var(--color-black-100);
-  --error: var(--color-watson_red);
-  --error-foreground: var(--color-black-100);
-  --destructive: var(--color-watson_red);
-  --destructive-foreground: var(--color-black-100);
-  --border: var(--color-watson_divider-dark);
-  --input: var(--color-watson_divider-dark);
-  --ring: var(--color-watson_blue-100);
-  --outline: var(--color-watson_blue-100);
 
   --sidebar-background: var(--color-black-90);
   --sidebar-foreground: var(--color-white-100);
@@ -393,14 +346,7 @@
   --sidebar-border: var(--color-watson_divider-dark);
   --sidebar-outline: var(--color-watson_blue-100);
 
-  --watson-accent-text: var(--color-watson_pink-100);
-  --watson-surface: var(--color-black-80);
-  --watson-surface-active: var(--color-black-70);
-  --watson-divider: var(--color-watson_divider-dark);
   --watson-divider-menu: var(--color-watson_divider-menu-dark);
-  --watson-text-label: var(--color-grey-20);
-  --watson-text-placeholder: var(--color-grey-80);
-  --watson-focus-ring: var(--color-watson_blue-100);
 }
 
 /* ==========================================================================
@@ -442,6 +388,10 @@
   letter-spacing: 0;
 }
 
+[data-theme="watson"] [data-slot="card-title"] {
+  font-weight: var(--card-title-weight);
+}
+
 [data-theme="watson"]
   :is(
     [data-slot="dialog-title"],
@@ -464,6 +414,11 @@
   font-weight: 500;
 }
 
+[data-theme="watson"] [data-slot="card-description"] {
+  font-size: var(--card-description-size);
+  line-height: var(--card-description-line-height);
+}
+
 /* Focus: solid 2px ring, 2px offset (black on light, blue on dark) */
 [data-theme="watson"] :focus-visible {
   outline: 2px solid var(--watson-focus-ring) !important;
@@ -474,20 +429,20 @@
 
 /* Button: radius 4, Nunito Sans Bold 16, 46px; hover and pressed aubergine */
 [data-theme="watson"] [data-slot="button"] {
-  border-radius: 4px;
-  font-weight: 700;
+  border-radius: var(--button-radius);
+  font-weight: var(--button-font-weight);
 }
 
 [data-theme="watson"] [data-slot="button"]:is([data-size="default"], [data-size="lg"]) {
-  height: 46px;
-  padding-inline: 32px;
-  font-size: 16px;
-  line-height: 24px;
+  height: var(--button-height);
+  padding-inline: var(--button-padding-inline);
+  font-size: var(--button-font-size);
+  line-height: var(--button-line-height);
 }
 
 [data-theme="watson"] [data-slot="button"]:is([data-variant="default"], [data-variant="inverse"]) {
   background: var(--primary);
-  color: var(--primary-foreground);
+  color: var(--button-foreground, var(--primary-foreground));
 }
 
 [data-theme="watson"] [data-slot="button"][data-variant="outline"] {
@@ -520,9 +475,9 @@
   ),
 [data-theme="watson"]
   [data-slot="button"][data-variant="outline"]:is(:active, [aria-expanded="true"]) {
-  background: var(--primary-accent);
+  background: var(--button-hover-background, var(--primary-accent));
   border-color: var(--primary-accent);
-  color: var(--primary-foreground);
+  color: var(--button-foreground, var(--primary-foreground));
   opacity: 1;
 }
 
@@ -533,9 +488,9 @@
       [data-variant="inverse"],
       [data-variant="outline"]
     ):hover {
-    background: var(--primary-accent);
+    background: var(--button-hover-background, var(--primary-accent));
     border-color: var(--primary-accent);
-    color: var(--primary-foreground);
+    color: var(--button-foreground, var(--primary-foreground));
     opacity: 1;
   }
 
@@ -555,13 +510,13 @@
 
 /* Badge as watson tag: graphite, radius 4, ExtraBold 12 capitals */
 [data-theme="watson"] [data-slot="badge"] {
-  border-radius: 4px;
-  font-weight: 800;
-  font-size: 12px;
-  line-height: 13px;
-  letter-spacing: -0.2px;
+  border-radius: var(--badge-radius);
+  font-weight: var(--badge-font-weight);
+  font-size: var(--badge-font-size);
+  line-height: var(--badge-line-height);
+  letter-spacing: var(--badge-tracking);
   text-transform: uppercase;
-  padding: 6px 8px;
+  padding: var(--badge-padding-block) var(--badge-padding-inline);
 }
 
 [data-theme="watson"] [data-slot="badge"][data-variant="default"] {
@@ -570,8 +525,8 @@
 }
 
 [data-theme="watson"] [data-slot="badge"][data-variant="secondary"] {
-  background: #000;
-  color: #fff;
+  background: var(--badge-secondary-background);
+  color: var(--badge-secondary-foreground);
 }
 
 /* Fields: 50px, surface fill, radius 4; focus darkens the fill; error = 3px red bar */
@@ -584,11 +539,11 @@
     [data-slot="input-group"],
     [data-slot="input-otp-slot"]
   ) {
-  border-radius: 4px;
+  border-radius: var(--field-radius);
   background: var(--watson-surface);
   border-color: transparent;
-  font-size: 16px;
-  font-weight: 500;
+  font-size: var(--field-font-size);
+  font-weight: var(--field-font-weight);
   color: var(--foreground);
 }
 
@@ -599,8 +554,8 @@
     [data-slot="native-select"],
     [data-slot="input-group"]
   ) {
-  min-height: 50px;
-  padding-inline: 16px;
+  min-height: var(--field-height);
+  padding-inline: var(--field-padding-inline);
 }
 
 [data-theme="watson"] [data-slot="input-group"] [data-slot="input-group-control"] {
@@ -643,7 +598,7 @@
     [data-slot="input-group"]
   )[aria-invalid="true"] {
   border-color: transparent;
-  border-left: 3px solid var(--error);
+  border-left: var(--field-invalid-bar) solid var(--error);
 }
 
 [data-theme="watson"] :is([data-slot="label"], [data-slot="field-label"]) {
@@ -751,7 +706,7 @@
 }
 
 [data-theme="watson"] [data-slot="card-footer"] {
-  background: transparent;
+  background: var(--card-footer-background);
   border-top-color: var(--watson-divider);
 }
 

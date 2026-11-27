@@ -3386,6 +3386,52 @@
       ],
       "resources": []
     },
+    "Style Dictionary": {
+      "sourceKind": "project-authored",
+      "sections": [
+        {
+          "title": "Keep one source for a design value",
+          "description": "Kamod and Watson pilot tokens live as DTCG JSON. Light and dark are separate inputs, and Style Dictionary emits the public CSS variables from those files.",
+          "source": {
+            "label": "Style Dictionary: Keep one source for a design value",
+            "href": "https://styledictionary.com/"
+          },
+          "rows": [
+            {
+              "label": "Primitives",
+              "value": "OKLCH and hex values that other tokens alias"
+            },
+            {
+              "label": "Semantic roles",
+              "value": "UI colors such as the primary action"
+            },
+            {
+              "label": "Components",
+              "value": "Button, field, badge and card measures"
+            }
+          ]
+        },
+        {
+          "title": "Check the generated CSS before release",
+          "description": "build:tokens writes the checked-in CSS. check:tokens compares that output and reports a missing alias, a cycle, or two token paths that claim the same CSS variable.",
+          "source": {
+            "label": "Style Dictionary: Check the generated CSS before release",
+            "href": "https://styledictionary.com/reference/logging/"
+          },
+          "rows": [
+            {
+              "label": "build:tokens",
+              "value": "Regenerate the CSS from the JSON"
+            },
+            {
+              "label": "check:tokens",
+              "value": "Fail when the checked-in CSS drifted"
+            }
+          ]
+        }
+      ],
+      "resources": []
+    },
     "Tailwind Variants": {
       "sourceKind": "project-authored",
       "sections": [

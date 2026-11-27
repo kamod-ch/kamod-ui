@@ -14,6 +14,7 @@ import { ColorThemeGallery } from "./ColorThemeGallery";
 import { presetDesignNotes } from "./preset-design-notes";
 import { presetStudyId } from "./preset-studies";
 import { prismThemes } from "./prism/prism-theme-catalog";
+import { expandThemeImports } from "./theme-color-tokens";
 
 const source = readFileSync(
   resolve(import.meta.dirname, "../../../../.preactpress/content/theming-foundations.md"),
@@ -110,18 +111,19 @@ it("renders the complete scoped app recipe without a disclosure or additional ac
 });
 
 it("keeps documented radius and primary font families aligned with the shipped preset CSS", () => {
-  const tokens = readFileSync(
-    resolve(import.meta.dirname, "../../../../../themes/src/tokens.css"),
-    "utf8",
+  const tokens = expandThemeImports(
+    readFileSync(resolve(import.meta.dirname, "../../../../../themes/src/tokens.css"), "utf8"),
   );
   const baseRadius = tokens.match(/--radius:\s*([^;]+);/)![1];
   for (const { id } of THEME_PRESETS) {
     const css =
       id === "kamod"
         ? tokens
-        : readFileSync(
-            resolve(import.meta.dirname, `../../../../../themes/src/brands/${id}.css`),
-            "utf8",
+        : expandThemeImports(
+            readFileSync(
+              resolve(import.meta.dirname, `../../../../../themes/src/brands/${id}.css`),
+              "utf8",
+            ),
           );
     expect(presetDesignNotes[id].radius, id).toBe(
       css.match(/--radius:\s*([^;]+);/)?.[1] ?? baseRadius,

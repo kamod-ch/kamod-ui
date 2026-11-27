@@ -7,7 +7,8 @@ describe("Input cn migration", () => {
     render(<Input aria-label="Email" />);
     const el = screen.getByLabelText("Email");
     expect(el).toHaveAttribute("data-slot", "input");
-    expect(el.className).toContain("h-8");
+    expect(el.className).toContain("h-(--field-height)");
+    expect(el.className).toContain("border-input");
     expect(el.className).toContain("rounded-md");
   });
 
@@ -22,7 +23,7 @@ describe("Input cn migration", () => {
     render(<Input aria-label="Email" class="h-12" />);
     const el = screen.getByLabelText("Email");
     expect(el.className).toContain("h-12");
-    expect(el.className).not.toMatch(/\bh-8\b/);
+    expect(el.className).not.toContain("h-(--field-height)");
   });
 
   it("applies conditional size variant classes", () => {
@@ -35,6 +36,6 @@ describe("Input cn migration", () => {
   it("accepts an empty consumer class", () => {
     render(<Input aria-label="Notes" class="" />);
     const el = screen.getByLabelText("Notes");
-    expect(el.className).toContain("h-8");
+    expect(el.className).toContain("h-(--field-height)");
   });
 });

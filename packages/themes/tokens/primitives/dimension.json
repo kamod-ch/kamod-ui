@@ -1,0 +1,34 @@
+{
+  "$description": "Spacing, type sizes, and component radii that are not the semantic --radius. Units match the utilities and Watson skin.",
+  "space": {
+    "button": {
+      "height": { "$type": "dimension", "$value": { "value": 2, "unit": "rem" } },
+      "padding-inline": { "$type": "dimension", "$value": { "value": 0.625, "unit": "rem" } },
+      "gap": { "$type": "dimension", "$value": { "value": 0.375, "unit": "rem" } },
+      "height-watson": { "$type": "dimension", "$value": { "value": 46, "unit": "px" } },
+      "padding-inline-watson": { "$type": "dimension", "$value": { "value": 32, "unit": "px" } }
+    },
+    "field": {
+      "height": { "$type": "dimension", "$value": { "value": 2, "unit": "rem" } },
+      "padding-inline": { "$type": "dimension", "$value": { "value": 0.75, "unit": "rem" } },
+      "height-watson": { "$type": "dimension", "$value": { "value": 50, "unit": "px" } },
+      "padding-inline-watson": { "$type": "dimension", "$value": { "value": 16, "unit": "px" } },
+      "invalid-bar": { "$type": "dimension", "$value": { "value": 3, "unit": "px" } }
+    },
+    "badge": {
+      "padding-inline": { "$type": "dimension", "$value": { "value": 0.75, "unit": "rem" } },
+      "padding-block": { "$type": "dimension", "$value": { "value": 0.125, "unit": "rem" } },
+      "padding-inline-watson": { "$type": "dimension", "$value": { "value": 8, "unit": "px" } },
+      "padding-block-watson": { "$type": "dimension", "$value": { "value": 6, "unit": "px" } },
+      "tracking-watson": { "$type": "dimension", "$value": { "value": -0.2, "unit": "px" } }
+    },
+    "card": {
+      "padding": { "$type": "dimension", "$value": { "value": 1.5, "unit": "rem" } },
+      "gap": { "$type": "dimension", "$value": { "value": 1.5, "unit": "rem" } }
+    }
+  },
+  "measure": {
+    "field-kamod": { "$type": "dimension", "$value": { "value": 0.5, "unit": "rem" } },
+    "control-watson": { "$type": "dimension", "$value": { "value": 4, "unit": "px" } }
+  }
+}

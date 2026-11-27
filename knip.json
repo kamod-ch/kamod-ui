@@ -26,8 +26,12 @@
       "project": ["src/**/*.{ts,tsx}"]
     },
     "packages/themes": {
-      "entry": ["src/**/*.test.{ts,tsx}", "src/test/setup.ts"],
-      "project": ["src/**/*.{ts,tsx,css}"]
+      "entry": [
+        "src/**/*.test.{ts,tsx}",
+        "src/test/setup.ts",
+        "scripts/tokens/build-tokens.test.mjs"
+      ],
+      "project": ["src/**/*.{ts,tsx,css}", "scripts/tokens/**/*.mjs"]
     },
     "packages/docs": {
       "entry": [

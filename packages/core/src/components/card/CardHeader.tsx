@@ -4,7 +4,7 @@ import { cn } from "../../lib/utils";
 
 export const cardHeader = tv({
   base: [
-    "@container/card-header grid w-full min-w-0 auto-rows-min items-start gap-1.5 px-6 group-data-[size=sm]/card:px-4",
+    "@container/card-header grid w-full min-w-0 auto-rows-min items-start gap-1.5 px-(--card-padding) group-data-[size=sm]/card:px-4",
     // minmax(0,1fr) + min-w-0 on title/description keeps CardAction in the second column inside the card (flex preview children)
     "has-data-[slot=card-action]:grid-cols-[minmax(0,1fr)_auto] has-data-[slot=card-description]:grid-rows-[auto_auto]",
   ],

@@ -11,7 +11,7 @@ import { cn } from "../../lib/utils";
 
 export const badge = tv({
   base: [
-    "group/badge inline-flex w-fit shrink-0 items-center justify-center gap-1.5 overflow-hidden rounded-full font-medium whitespace-nowrap",
+    "group/badge inline-flex w-fit shrink-0 items-center justify-center gap-1.5 overflow-hidden rounded-[var(--badge-radius,calc(infinity*1px))] font-(weight:--badge-font-weight) whitespace-nowrap",
     "[&+&]:ms-1.5",
     "[&_svg]:pointer-events-none [&_svg]:shrink-0",
     "transition-all outline-none focus-visible:ring-3",
@@ -23,7 +23,8 @@ export const badge = tv({
     variant: {
       default: "bg-foreground text-background focus-visible:ring-outline/50",
       primary: "bg-primary text-primary-foreground focus-visible:ring-primary/50",
-      secondary: "bg-secondary text-secondary-foreground focus-visible:ring-secondary/50",
+      secondary:
+        "bg-[var(--badge-secondary-background,var(--secondary))] text-[var(--badge-secondary-foreground,var(--secondary-foreground))] focus-visible:ring-secondary/50",
       destructive: "bg-destructive text-destructive-foreground focus-visible:ring-outline/50",
       outline:
         "border-border bg-background focus-visible:border-outline focus-visible:ring-outline/50 dark:bg-input/30 border",
@@ -38,7 +39,7 @@ export const badge = tv({
       xxs: "px-2 py-0 text-[10px] leading-4 [&_svg:not([class*='size-'])]:size-2.5",
       xs: "px-2.5 py-0 text-xs leading-4 [&_svg:not([class*='size-'])]:size-3",
       sm: "px-2.5 py-0.5 text-xs [&_svg:not([class*='size-'])]:size-3",
-      md: "px-3 py-0.5 text-sm [&_svg:not([class*='size-'])]:size-4",
+      md: "px-(--badge-padding-inline) py-(--badge-padding-block) text-(length:--badge-font-size) [&_svg:not([class*='size-'])]:size-4",
       lg: "px-4 py-1 text-base [&_svg:not([class*='size-'])]:size-4.5",
     },
     isLink: { true: "cursor-pointer", false: "" },

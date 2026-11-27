@@ -1,0 +1,39 @@
+{
+  "$description": "Kamod light roles. These are also the unscoped :root defaults.",
+  "color": {
+    "background": { "$type": "color", "$value": "{color.white}" },
+    "foreground": { "$type": "color", "$value": "{color.neutral.950}" },
+    "card": {
+      "fill": { "$type": "color", "$value": "{color.white}" },
+      "foreground": { "$type": "color", "$value": "{color.neutral.950}" }
+    },
+    "action": {
+      "primary": {
+        "$type": "color",
+        "$description": "Primary action fill. The public CSS name is --primary, not the token path.",
+        "$value": "{color.neutral.950}"
+      },
+      "on-primary": { "$type": "color", "$value": "{color.neutral.50}" },
+      "primary-accent": { "$type": "color", "$value": "{color.neutral.800}" }
+    },
+    "muted": {
+      "fill": { "$type": "color", "$value": "{color.neutral.100}" },
+      "foreground": { "$type": "color", "$value": "{color.neutral.600}" }
+    },
+    "border": { "$type": "color", "$value": "{color.neutral.200}" },
+    "input": { "$type": "color", "$value": "{color.neutral.200}" },
+    "outline": { "$type": "color", "$value": "{color.neutral.400}" },
+    "ring": { "$type": "color", "$value": "{color.outline}" },
+    "error": {
+      "fill": { "$type": "color", "$value": "{color.red.700}" },
+      "foreground": { "$type": "color", "$value": "{color.neutral.50}" }
+    },
+    "destructive": {
+      "fill": { "$type": "color", "$value": "{color.error.fill}" },
+      "foreground": { "$type": "color", "$value": "{color.error.foreground}" }
+    }
+  },
+  "radius": {
+    "base": { "$type": "dimension", "$value": { "value": 0.625, "unit": "rem" } }
+  }
+}
