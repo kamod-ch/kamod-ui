@@ -105,6 +105,18 @@ After changing shared typography or radius, check long navigation labels, collap
 
 If your block includes source readers, use [Code's Theme Token Palette](/docs/code-internals/code-theme-tokens) to derive their syntax colors from the same application roles. This is a reader option, not another saved theme preference or a change to the block's appearance controls.
 
+### Follow one primary value
+
+The application guide traces `color.action.primary` from its DTCG file through `--primary` and `bg-primary` to the Save button. See [Follow one primary value](/docs/theming/token-overrides#follow-one-primary-value).
+
+### Zuordnung
+
+Selected token paths and their design-tool names live in the application guide. See [Zuordnung](/docs/theming/token-overrides#zuordnung).
+
+### Pilot components
+
+Button, Input, Badge, and Card share one local Kamod and Watson preview. See [Pilot components](/docs/theming/token-overrides#pilot-components).
+
 ## Manage appearance preferences
 
 Reuse your app’s existing appearance controls and provider. Copying another layout should not introduce a competing storage key, system-preference listener or app-wide theme controller.

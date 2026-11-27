@@ -109,6 +109,39 @@ These values are a starting point, not an audited palette. Check foregrounds, fo
 
 Motion comes from component styles and any animation utilities your app uses, rather than the color palette. Preserve reduced-motion behavior. For source-only color changes, use [Code's theme-token palette](/docs/code-internals/code-theme-tokens) without changing application roles.
 
+### Follow one primary value
+
+`color.action.primary` is the primary action color. Light and Dark are separate files, so the same DTCG path keeps its own alias in each mode.
+
+- Kamod Light, `packages/themes/tokens/semantic/kamod/light.json`: `{color.neutral.950}` resolves to `oklch(0.145 0 0)`.
+- Kamod Dark, `packages/themes/tokens/semantic/kamod/dark.json`: `{color.neutral.50}` resolves to `oklch(0.985 0 0)`.
+- Watson Light, `packages/themes/tokens/semantic/watson/light.json`, and Watson Dark, `packages/themes/tokens/semantic/watson/dark.json`: `{color.watson.pink.100}` resolves to `#f40f97`.
+
+`packages/themes/tokens/css-names.json` maps `color.action.primary` to the public custom property `--primary`. The `@theme inline` block in `tokens.css` publishes `--color-primary: var(--primary)`. The `bg-primary` utility then paints `background-color: var(--primary)` on the element. In the preview below, that element is the default `Button` labeled Save.
+
+### Zuordnung
+
+This table is the handoff for Figma or Penpot. The design variable is the public CSS variable, and that is the name to create in the design tool. The repository can generate and check the CSS; it does not contain a Figma plugin, a Tokens Studio sync, or a Penpot import.
+
+1. Edit the DTCG JSON under `packages/themes/tokens`.
+2. Write the CSS with `pnpm --filter @kamod-ch/themes build:tokens`.
+3. Compare it with the checked-in CSS using `pnpm --filter @kamod-ch/themes check:tokens`.
+
+| Repository path                                                            | Design variable   | Type      | Brand  | Mode        |
+| -------------------------------------------------------------------------- | ----------------- | --------- | ------ | ----------- |
+| `packages/themes/tokens/semantic/kamod/light.json` `color.action.primary`  | `--primary`       | color     | Kamod  | Light       |
+| `packages/themes/tokens/semantic/kamod/dark.json` `color.action.primary`   | `--primary`       | color     | Kamod  | Dark        |
+| `packages/themes/tokens/semantic/watson/light.json` `color.action.primary` | `--primary`       | color     | Watson | Light       |
+| `packages/themes/tokens/semantic/watson/dark.json` `color.action.primary`  | `--primary`       | color     | Watson | Dark        |
+| `packages/themes/tokens/semantic/kamod/light.json` `color.card.fill`       | `--card`          | color     | Kamod  | Light       |
+| `packages/themes/tokens/components/kamod.json` `button.height`             | `--button-height` | dimension | Kamod  | Light, Dark |
+
+`button.height` lives in one component file that both Kamod modes combine, so the same path feeds Light and Dark.
+
+### Pilot components
+
+The preview uses the production `Button`, `Input`, `Badge`, and `Card`. Kamod and Watson each have a local Light and Dark scope, using the page's existing theme CSS and preset ids. The scope does not change the page theme. The title field is invalid through `aria-invalid`. Tab to that field to see its focus ring.
+
 ## Manage appearance preferences
 
 Static CSS works without a provider. Add runtime controls when people need a saved preset or Light, Dark and System choices.

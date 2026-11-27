@@ -4,6 +4,7 @@ import { presetStudies, presetStudyId } from "./color-themes/preset-studies";
 import { prismThemeId, prismThemes } from "./color-themes/prism/prism-theme-catalog";
 import { themeRuntimeReference } from "./theme-runtime-reference";
 import { renderThemeRuntimeTable } from "./theme-runtime-table";
+import { renderTokenMappingTable } from "./token-mapping-table";
 
 const reference = `
 ## Optional Tailwind preset
@@ -22,7 +23,7 @@ This does not replace theme CSS or source scanning.
 
 /** Assemble the canonical theme reference while retaining established section routes. */
 export function createComponentThemingSections(foundationSource: string): GuideSection[] {
-  const shared = parseGuide(foundationSource);
+  const shared = parseGuide(foundationSource, renderTokenMappingTable);
   const select = (sourceId: string, id: string): GuideSection => {
     const section = shared.find((entry) => entry.id === sourceId);
     if (!section) throw new Error(`Missing shared theming section: ${sourceId}`);

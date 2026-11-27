@@ -54,6 +54,9 @@ jobs:
       - name: Dependency hygiene
         run: pnpm qa:deps
 
+      - name: Check theme tokens
+        run: pnpm --filter @kamod-ch/themes check:tokens
+
       - name: Run tests
         run: pnpm test:ci
 

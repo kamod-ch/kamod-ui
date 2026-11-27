@@ -33,7 +33,7 @@ Install `@preact/signals` for entries marked **Direct** or **Indirect**. Entries
 | `breadcrumb`           | 8.5      | 2.5       | No                     | —                  |
 | `button`               | 10.0     | 3.0       | No                     | —                  |
 | `button-group`         | 7.5      | 2.4       | No                     | —                  |
-| `calendar`             | 54.7     | 12.1      | No                     | —                  |
+| `calendar`             | 54.9     | 12.1      | No                     | —                  |
 | `card`                 | 4.0      | 1.3       | No                     | —                  |
 | `carousel`             | 20.2     | 5.1       | Direct                 | `@preact/signals`  |
 | `chart`                | 1.1      | 0.5       | No                     | —                  |
@@ -58,7 +58,7 @@ Install `@preact/signals` for entries marked **Direct** or **Indirect**. Entries
 | `hover-card`           | 12.4     | 3.5       | Direct                 | `@preact/signals`  |
 | `image`                | 0.8      | 0.4       | No                     | —                  |
 | `input`                | 2.1      | 0.8       | No                     | —                  |
-| `input-group`          | 17.6     | 4.4       | No                     | —                  |
+| `input-group`          | 17.8     | 4.5       | No                     | —                  |
 | `input-otp`            | 6.0      | 2.0       | Direct                 | `@preact/signals`  |
 | `item`                 | 11.0     | 3.0       | No                     | —                  |
 | `kbd`                  | 1.5      | 0.6       | No                     | —                  |

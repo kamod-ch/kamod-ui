@@ -264,6 +264,10 @@ Override semantic tokens after importing the default theme:
 
 For full control, copy from [`packages/core/src/theme.css`](https://github.com/kamod-ch/kamod-ui/blob/main/packages/core/src/theme.css) or see the demo's [`foundation.css`](https://github.com/kamod-ch/kamod-ui/blob/main/packages/docs/src/styles/foundation.css) and [`themes.css`](https://github.com/kamod-ch/kamod-ui/blob/main/packages/docs/src/styles/themes.css).
 
+### Token migration
+
+The inventory of every public component against the theme tokens is [`.docs/token-migration.md`](https://github.com/kamod-ch/kamod-ui/blob/main/.docs/token-migration.md). It records 43 components already bound, 25 that still need a migration, and 10 intentional exceptions. Blocks are listed there separately, so a Button reused across blocks is not counted again.
+
 ## Documentation
 
 **Live demo:** [ui.kamod.ch](https://ui.kamod.ch/) (custom domain; same deploy as [GitHub Pages](https://kamod-ch.github.io/kamod-ui/))

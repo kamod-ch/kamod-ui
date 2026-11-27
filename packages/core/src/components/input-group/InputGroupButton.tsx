@@ -30,13 +30,21 @@ export const InputGroupButton = ({
   class: className,
   children,
   ...rest
-}: InputGroupButtonProps) => (
-  <button
-    type={type}
-    class={cn(button({ variant, size }), inputGroupButton({ size }), className)}
-    data-slot="input-group-button"
-    {...rest}
-  >
-    {children}
-  </button>
-);
+}: InputGroupButtonProps) => {
+  const domRest = { ...(rest as Record<string, unknown>) };
+  // Slot forwards the same tokens as `class` and `className`. Preact applies
+  // `className` after `class` and would otherwise drop the variant classes.
+  const classNameAlias = typeof domRest.className === "string" ? domRest.className : undefined;
+  if (classNameAlias !== undefined) delete domRest.className;
+
+  return (
+    <button
+      type={type}
+      class={cn(button({ variant, size }), inputGroupButton({ size }), className, classNameAlias)}
+      data-slot="input-group-button"
+      {...domRest}
+    >
+      {children}
+    </button>
+  );
+};

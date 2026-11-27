@@ -8,8 +8,8 @@
       "signals": "direct",
       "signalsVia": null,
       "size": {
-        "min": 590435,
-        "gzip": 121355
+        "min": 590669,
+        "gzip": 121426
       },
       "peers": [
         "@kamod-ch/themes",
@@ -12368,8 +12368,8 @@
       "signals": "none",
       "signalsVia": null,
       "size": {
-        "min": 55966,
-        "gzip": 12361
+        "min": 56200,
+        "gzip": 12374
       },
       "peers": [],
       "components": [
@@ -17586,8 +17586,8 @@
       "signals": "none",
       "signalsVia": null,
       "size": {
-        "min": 18006,
-        "gzip": 4555
+        "min": 18240,
+        "gzip": 4573
       },
       "peers": [],
       "components": [

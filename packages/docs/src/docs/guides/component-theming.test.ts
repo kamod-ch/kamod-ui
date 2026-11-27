@@ -3,6 +3,7 @@ import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { parseGuide } from "../../blocks/guides/guide-markdown";
 import { createComponentThemingSections } from "./component-theming";
+import { renderTokenMappingTable } from "./token-mapping-table";
 
 const source = readFileSync(
   resolve(import.meta.dirname, "../../../.preactpress/content/theming-foundations.md"),
@@ -47,7 +48,7 @@ describe("component theming guide", () => {
 
   it("includes the canonical foundation sections and links to the Theme Toggle reference", () => {
     const sections = createComponentThemingSections(source);
-    const shared = parseGuide(source);
+    const shared = parseGuide(source, renderTokenMappingTable);
     for (const [target, original] of [
       ["css-setup", "set-up-tailwind-and-theme-css"],
       ["token-overrides", "shape-your-design-with-tokens"],
@@ -59,6 +60,12 @@ describe("component theming guide", () => {
         sections.find((section) => section.id === target)?.parts.slice(0, originalParts.length),
       ).toEqual(originalParts);
     }
+    const tokens = sections.find((section) => section.id === "token-overrides")!;
+    expect(
+      tokens.parts.some(
+        (part) => part.kind === "html" && part.html.includes("<caption>Zuordnung</caption>"),
+      ),
+    ).toBe(true);
     const appearance = sections.find((section) => section.id === "provider-controls")!;
     expect(
       appearance.parts.some(

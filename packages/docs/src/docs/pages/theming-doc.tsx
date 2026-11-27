@@ -6,6 +6,7 @@ import { PathDisplay } from "../components/PathDisplay";
 import { ColorThemeGallery } from "../guides/color-themes/ColorThemeGallery";
 import { createComponentThemingSections } from "../guides/component-theming";
 import { ThemingOutro } from "../guides/ThemingOutro";
+import { TokenPilotPreview } from "../guides/token-pilot/TokenPilotPreview";
 import type { DocPageModule } from "../types";
 
 const title = "Theming & Tailwind for your entire app";
@@ -121,6 +122,7 @@ export const themingDocPage: DocPageModule = {
       sections={sections}
       sectionContent={{
         "color-theme-presets": <ColorThemeGallery />,
+        "token-overrides": <TokenPilotPreview />,
         "finish-with-a-theme-review": <ThemingOutro />,
       }}
       header={
